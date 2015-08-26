@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JS Integration testing</title>
+<link rel="stylesheet" href="../static/lib/qunit/qunit-1.17.1.css">
+<script src="../static/js/jquery-1.11.3.min.js" charset="UTF-8"></script>
+<script>
+    var URL = {
+        lexicon:  {
+            fr: "../data/lex-fr.min.json",
+            en: "../data/lex-en.min.json"
+        },
+        rule: {
+            fr: "../data/rule-fr.min.json",
+            en: "../data/rule-en.min.json"
+        },
+        test: {
+            fr: "data/test-fr.min.json",
+            en: "data/test-en.min.json"
+        },
+        feature: "../data/feature.min.json"
+    };
+    
+    // Setup HTTP request data type
+    $.ajaxSetup({
+        beforeSend: function(xhr){
+         if (xhr.overrideMimeType)
+         {
+           xhr.overrideMimeType("application/json");
+         }
+        }
+    });
+</script>
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script src="../static/js/util.js" charset="UTF-8"></script>
+<script src="../static/js/JSrealB.js" charset="UTF-8"></script>
+
+<script src="../static/lib/qunit/qunit-1.17.1.js" charset="UTF-8"></script>
+<script src="static/js/utils.js" charset="UTF-8"></script>
+
+<script src="integration_test/jsreal-initialization.js" charset="UTF-8"></script>
+<script src="integration_test/facade-declension.js" charset="UTF-8"></script>
+<script src="integration_test/facade-conjugation.js" charset="UTF-8"></script>
+<script src="integration_test/facade-punctuation.js" charset="UTF-8"></script>
+<script src="integration_test/facade-regular-rule.js" charset="UTF-8"></script>
+<script src="integration_test/facade-verbatim.js" charset="UTF-8"></script>
+<script src="integration_test/facade-noun-phrase.js" charset="UTF-8"></script>
+<script src="integration_test/facade-phrase.js" charset="UTF-8"></script>
+<script src="integration_test/facade-date.js" charset="UTF-8"></script>
+<script src="integration_test/facade-number.js" charset="UTF-8"></script>
+<script src="integration_test/facade-html.js" charset="UTF-8"></script>
+</body>
+</html>

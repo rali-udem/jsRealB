@@ -1,0 +1,22 @@
+{
+    "et/ou": {"C": {"n": "p", "nc": 1}},
+    "Nicolas": {"N": {"g": "m", "i": 1, "prp": 1}},
+    "puisque": {"C": {"ve": 1}},
+    "parce que": {"C": {"ve": 1}},
+    "suspect": {"N": {"g": "m"}},
+    "moto": {"N": {"g": "f"}},
+    "sauce": {"N": {"g": "f"}},
+    "rangée": {"N": {"g": "f"}},
+    "un": {"N": {"nel": 1}},
+    "onze": {"N": {"nel": 1}},
+    "neuf": {"A": {"fs": "neuve", "fp": "neuves"}},
+    "promotion": {"N": {"g": "f"}},
+    "métis": {"A": {"fs": "métisse", "fp": "métisses"}},
+    "concession": {"N": {"g": "f"}},
+    "hibou": {"N": {"g": "m", "i": 1, "h": 1}},
+    "parenthèse": {"N": {"g": "f"}},
+    "génération": {"N": {"g": "f"}},
+    "tuque": {"N": {"g": "f"}},
+    "maximum": {"N": {"g": "m"}},
+    "copain": {"N": {"g": "m"}}
+}

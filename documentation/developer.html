@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Documentation de JSrealB</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    </head>
+    <body>
+        <header><h1>Documentation pour le développement de JSrealB</h1></header>
+              
+        <section>
+            <h2>Introduction</h2>
+            <article>
+                <p>
+                    Au 17 juillet 2015, l'état du développement de JSrealB permet de réaliser des phrases simples.
+                    Le but de cette première phase de développement a été de créer une architecture évolutive 
+                    et générique permettant la réalisation multilingue de textes tout en limitant les développements spécifiques.
+                </p>
+                <p>Pour atteindre cet objectif, nous avons mis en place des mécanismes de propagation des propriétés
+                    pour les accords permettant de personnaliser le comportement de la propagation
+                    en fonction de la langue (ou de ne pas le faire).<br />
+                    Les transformations sur les éléments terminaux ont été définis dans des tables de règles, et des
+                    modules génériques les appliquent sans se soucier de la langue de réalisation.
+                </p>
+                <p>
+                    Maintenant que l'architecture, les principaux mécanismes et les règles générales ont été développés,
+                    nous pouvons développer le support de davantage de règles
+                    et travailler plus finement sur chaque langue pour améliorer la réalisation.
+                </p>
+            </article>
+        </section>
+        
+        <section>
+            <h2>Représentation syntaxique</h2>
+            <article>
+                <h3>Structure sous forme d'arbre</h3>
+                <div style="text-align: center;">
+                    <img src="image/syntactic_representation.png" alt="Représentation syntaxique" style="width: 50%;" />
+                </div>
+            </article>
+            <article>
+                <h3>Documentation de la représentation syntaxique</h3>
+                <p>Vous trouverez davantage d'informations à ce sujet dans la <a href="user.html">documentation des utilisateurs</a></p>
+            </article>
+        </section>
+        
+        <section>
+            <h2>Architecture</h2>
+            <article>
+                <h3>Schéma</h3>
+                <div style="text-align: center;">
+                    <img src="image/architecture_de_jsrealb.png" alt="Architecture" style="width: 50%;" />
+                </div>
+            </article>
+            <article>
+                <h3>Façade</h3>
+                <p>
+                    La façade est une interface que l'utilisateur va manipuler pour créer
+                    une représentation syntaxique qui permettra la réalisation d'un texte en français ou en anglais.
+                </p>
+                <p>
+                    Cette façade est composée de syntagmes et d'éléments terminaux (des catégories grammaticales). 
+                    Tous ces éléments sont organisés par un système d'héritage.
+                    Tous héritent de JSrealE, de ses propriétés et de ses fonctions.<br />
+                    Les éléments terminaux sont regroupés selon leur type de transformation (voir JSrealE.ruleType),
+                    et se transforment selon ce type (p. ex. conjugaison, déclinaison...).<br />
+                    Les syntagmes gèrent la propagation des propriétés entre les unités lexicales.
+                    Cette propagation peut suivre un schéma classique, dans ce cas, ce sera celle définie pour JSrealE,
+                    elle peut aussi être spécifique à un syntagme, dans ce cas, il faudra redéfinir 
+                    les fonctions nécessaires (voir plus bas toutes les fonctions qui agissent sur les accords) 
+                    pour ce syntagme ou spécifique à une langue, dans
+                    ce dernier cas, il faudra définir un syntagme enfant comme <i>NP_EN</i> pour le syntagme nominal en anglais
+                    et lui définir une fonction de propagation spécique.
+                </p>
+                <p>
+                    Les règles d'accord sont définies au niveau de la façade.
+                </p>
+                <ul>
+                    <li>L'identification des fonctions grammaticales se fait dans les fonctions <i>sortWord()</i> 
+                        (Note : améliorer cette identification en identifiant plus finement les différentes fonctions 
+                        grammaticales permettrait de gérer des cas particuliers en propageant les bonnes propriétés aux bons éléments.)
+                    </li>
+                    <li>La propagation du parent vers l'enfant est fait par la fonction <i>phraseToElementPropagation()</i>,
+                        elle permet notamment de propager les propriétés fixées par l'utilisateur.
+                    </li>
+                    <li>
+                        La propagation entre les éléments d'un même niveau est fait par <i>elementToElementPropagation()</i>,
+                        c'est le cas de l'accord de l'adjectif en fonction du nom qu'il qualifie.
+                    </li>
+                    <li>
+                        Enfin, <i>elementToPhrasePropagation()</i> permet de faire remonter les informations 
+                        des éléments enfant au parent. Ce mécanisme est utile pour remonter le genre et le nombre 
+                        du nom au syntagme nominal pour ensuite accorder le verbe en fonction du sujet.
+                    </li>
+                </ul>
+            </article>
+            <article>
+                <h3>Ressources</h3>
+                <p>
+                    Les ressources (<i>lexicon</i>, <i>rule</i> et <i>feature</i>) sont chargées avant la réalisation. 
+                </p>
+                <ul>
+                    <li>Le lexique correspond au vocabulaire.</li>
+                    <li>Les tables de règles sont les transformations à appliquer 
+                        sur les unités lexicales (les accords sont définies dans la façade de JSrealB).
+                    </li>
+                    <li>Les constantes utilisées dans le lexique et les tables de règles (noms des propriétés notamment) 
+                        sont définies dans la ressource <i>feature</i>, ressource qui est utilisé pour la génération
+                        des ressources (côté serveur) et pour la réalisation (côté client).
+                    </li>
+                </ul>
+            </article>
+            <article>
+                <h3>Les Modules</h3>
+                <p>
+                    Chaque transformation à son module, que ce soit la ponctuation pour gérer l'espacement selon la langue notamment,
+                    la réalisation d'une date ou la conjugaison d'un verbe.
+                </p>
+                <p>
+                    Les modules sont génériques, ils devraient fonctionner quelque soit la langue (pour les langues flexionnelles).
+                    Les règles et les propriétés du mot font que la transformation sera spécifique.
+                </p>
+            </article>
+            <article>
+                <h3>Coeur de JSrealB</h3>
+                <p>
+                    Le coeur de JSrealB est une série de fonctions de base utilisées par les modules, 
+                    et la façade. Des tests unitaires permettent de s'assurer de son bon fonctionnement.
+                </p>
+            </article>
+        </section>
+        
+        <section>
+            <h2>Tests</h2>
+            <article>
+                <p>
+                    Le développement de JSrealB a été piloté par des tests.
+                </p>
+                <p>
+                    <a href="../test/unitTest.html">Les tests unitaires</a> sont nombreux et en parties automatisés,
+                    ils testent les modules, <a href="../test/integrationTest.html">les tests d'intégration</a>
+                    vérifient le fonctionnement de la façade (fixation de propriété, accords locaux, etc.),
+                    <a href="../test/functionTest.html">les tests fonctionnels</a> contrôlent l'utilisation
+                    complète de la façade en réalisant des phrases complexes, en provoquant des erreurs.
+                    Ces tests ne sont pas très fournis, il faudra les renforcer. Enfin, vous pouvez 
+                    lancer manuellement une <a href="../test/manualTest.html">série de tests fonctionnels variés</a>.
+                </p>
+            </article>
+        </section>
+        
+        <section>
+            <h2>Travail futur</h2>
+            <article>
+                <h3>Fonctionnalités</h3>
+                <p>
+                    De nombreuses fonctionnalités sont manquantes pour obtenir 
+                    des phrases dans un français ou un anglais correct.
+                </p>
+                <h4>Temps composés</h4>
+                <p>
+                    L'auxiliaire sera à indiquer dans le lexique (voir Dictionnaire Morphologique).<br />
+                    De nouvelles propagations sont à prévoir. Elles doivent être faites à l'aide de 
+                    l'identification des fonctions grammaticales dans les sortWord().
+                </p>
+                <h4></h4>
+                <p>
+                    Dans le lexique, il faudra ajouter les propriétés sur les mots 
+                    (voir Dictionnaire Morphologique) (quels sont les mots "élideurs" et ceux "élidés").<br />
+                    L'élision est une transformation qui nécessite de connaitre le mot précédent ou suivant,
+                    c'est donc une opération à faire après la réalisation, lors de la préparation de l'affichage.
+                </p>
+                <h4>Types de conjonctions</h4>
+                <p>
+                    Actuellement, toutes les conjonctions (syntagme CP) sont considérées comme inclusives,
+                    c'est à dire que s'il y a plusieurs éléments, le syntagme sera au pluriel.
+                    C'est un comportement normal pour la conjonction "et" mais généralement un "ou" est 
+                    exclusif, le nombre d'un syntagme coordonné (CP) avec la conjonction "ou" devrait
+                    être le singuler ce qui donnerait "John ou Marie ira au parc ce soir". 
+                    Pour prendre en compte ces cas, il faut indiquer le type de la conjonction dans le
+                    lexique et la prendre en compte lors de la réalisation du syntagme.
+                </p>
+                <h4>Indication de la voie</h4>
+                <p>Négation, forme interrogative, forme passive...</p>
+            </article>
+            <article>
+                <h3>Lexique &amp; tables de règles</h3>
+                <p>Toutes ces informations sont issues de 2 dictionnaires morphologiques 
+                    (en particulier pour les tables de règles) et des 2 lexiques de SimpleNLG-EnFr.</p>
+                <p>Le vocabulaire est relativement complet (pour atteindre le niveau de 
+                    l'échelle orthographique Dubois-Buyse), néanmoins, il manque les quantificateurs 
+                    qui doivent être intégrés dans le lexique de JSrealB comme des adverbes.
+                </p>
+                <p>Le principal travail sur le lexique est l'ajout de propriétés par défaut à chaque mot du vocabulaire.
+                    Actuellement, il n'y a que le genre et la personne qui sont pris en compte.
+                    Il faudra également donner un genre aux mots qui en ont un en anglais comme "man" ou "woman".
+                </p>
+                <p>Quant aux tables de règles, elles sont relativement complètes, peu d'ajouts à prévoir.</p>
+            </article>
+        </section>
+        
+        <section>
+            <h2>Autres ressources</h2>
+            <article>
+                <h3>Présentation</h3>
+                <p>
+                    <a href="document/presentation.pdf">Présentation (PDF)</a> du 8 juillet 2015 au RALI/OLST.
+                    Elle n'est pas tout à fait à jour puisque certaines fonctionnalités ont été développées par la suite...
+                </p>
+            </article>
+        </section>
+        
+        <footer>Documentation de JSrealB, laboratoire du RALI, Université de Montréal, CANADA. 2015.</footer>
+    </body>
+</html>

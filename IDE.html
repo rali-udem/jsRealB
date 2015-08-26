@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <script type="text/javascript" charset="utf-8" src="static/js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="static/js/JSrealB.js"></script>
+        <!-- chargement de ACE l'éditeur javascript -->
+        <script type="text/javascript" src="static/lib/jsrealb-ide/ace-src-noconflict/ace.js" charset="utf-8"></script>
+        <!-- chargement du script spécifique -->
+        <script type="text/javascript" charset="utf-8" src="static/lib/jsrealb-ide/js/jsTokenizer.js"></script>
+        <script type="text/javascript" charset="utf-8" src="static/lib/jsrealb-ide/js/jsNode.js"></script>
+        <script type="text/javascript" charset="utf-8" src="static/lib/jsrealb-ide/js/JSrealB-IDE.js"></script>
+        <link rel="stylesheet" href="static/lib/jsrealb-ide/css/JSrealIDE.css" type="text/css" media="screen" charset="utf-8" />
+        <title>Environnement de programmation JSrealB</title> 
+    </head>
+    <body>
+        <h1>Environnement de programmation JSrealB</h1>
+        <div id="container">
+            <div id="gauche">
+                <a href="documentation/user.html" target="_blank">Documentation de JSrealB</a>
+            </div>
+            <div id="centre">
+                <input type="button" id="french-realization" value="Réaliser en français" style="width: 200px;" />
+                <input type="button" id="english-realization" value="Réaliser en anglais" style="width: 200px;" />
+            </div>
+            <div id="droite">
+                Cliquer sur un noeud pour voir l'état de la réalisation
+            </div>
+        </div>
+        <div id="entree"></div>
+        <div id="sepH"></div>
+        <div id="sortie">
+            <div id="canvasContainer">
+                <canvas id="canvas" height="300" width="2000"></canvas>
+            </div>
+            <div id="sepV"></div>
+            <div id="info">
+                <h2>Interrogation des ressources</h2>
+                <p>
+                    <select name="langue" id="langue" size="1">
+                        <option value="fr">français</option>
+                        <option value="en">anglais</option>
+                    </select>
+                    <select name="typeInterrogation" id="typeInterrogation" size="1">
+                        <option value="dico">dictionnaire</option>
+                        <option value="conjugation-no">conjugaison-no</option>
+                        <option value="conjugation-term">conjugaison-terminaison</option>
+                        <option value="declension-no">déclinaison-no</option>
+                        <option value="declension-term">déclinaison-terminaison</option>
+                    </select>
+                    <input type="text" name="interrogation" size="30" value="" placeholder="expression régulière" id="interrogation">
+                    <div id="resultatInterrogation"></div>
+                </p>
+            </div>
+            <div id="realisation"></div>
+        </div>
+    </body>
+</html>
