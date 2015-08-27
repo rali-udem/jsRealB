@@ -83,3 +83,7 @@ table tbody tr td {
 table caption {
     font-size: 70%;
 }
+
+.infoSup {
+    cursor: pointer;
+}
