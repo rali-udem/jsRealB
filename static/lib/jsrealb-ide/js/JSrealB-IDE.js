@@ -418,7 +418,7 @@ $(document).ready(function() {
             "//      NP(N('orage'))).n('p'),\n"+
             "//   VP(V('cesser').t('pr'),\n"+
             "//      (PP(P('vers'),\n"+
-            "//          DT().dOpt({year: false, month: false, date: false, day: true,\n"+
+            "//          DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"+
             "//                 minute: false, second: false, det:false, nat: true}))))\n"+
             "// ).a('!')\n"+
             "\n"+
@@ -428,7 +428,7 @@ $(document).ready(function() {
             "     NP(N('storm'))).n('p'),\n"+
             "  VP(V('end').t('pr'),\n"+
             "     P('on'),\n"+
-            "     DT().dOpt({year: false, month: false, date: false, day: true,\n"+
+            "     DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"+
             "                minute: false, second: false, det:false, nat: true}))\n"+
             ").a('!')"
         );
