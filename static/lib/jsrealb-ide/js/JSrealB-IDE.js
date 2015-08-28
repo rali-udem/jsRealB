@@ -411,26 +411,38 @@ $(document).ready(function() {
         language = "en";
         // exemple de génération "bilingue", il suffit de (dé)commenter (CMD-/ sur mac)
         // pour avoir la version dans la bonne langue...
-        editor.setValue(
-            "// S(\n"+
-            "//   CP(C('ou'),\n"+
-            "//      NP(AP(A('fort')), N('averse')),\n"+
-            "//      NP(N('orage'))).n('p'),\n"+
-            "//   VP(V('cesser').t('pr'),\n"+
-            "//      (PP(P('vers'),\n"+
-            "//          DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"+
-            "//                 minute: false, second: false, det:false, nat: true}))))\n"+
-            "// ).a('!')\n"+
-            "\n"+
-            "S(\n"+
-            "  CP(C('or'),\n"+
-            "     NP(AP(A('heavy')), N('shower')),\n"+
-            "     NP(N('storm'))).n('p'),\n"+
-            "  VP(V('end').t('pr'),\n"+
-            "     P('on'),\n"+
-            "     DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"+
-            "                minute: false, second: false, det:false, nat: true}))\n"+
-            ").a('!')"
+        editor.setValue(""
+
+          + "/*\n"
+          + "\n"
+          + "// Décommenter ce bloc et commenter le suivant puis cliquer 'Réaliser en français'\n"
+          + "// Uncomment this block and comment the next one then click 'Réaliser en français'\n"
+          + "\n"
+          + "S(\n"
+          + "   CP(C('ou'),\n"
+          + "      NP(AP(A('fort')), N('averse')),\n"
+          + "      NP(N('orage'))).n('p'),\n"
+          + "   VP(V('cesser').t('pr'),\n"
+          + "      (PP(P('vers'),\n"
+          + "          DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"
+          + "                 minute: false, second: false, det:false, nat: true}))))\n"
+          + ").a('!')\n"
+          + "\n"
+          + "*/\n"
+
+          + "\n\n\n"
+
+          + "S(\n"
+          + "    NP(Pro('I').pe(1).n('p')),\n"
+          + "    VP(V('expect')),\n"
+          + "    CP(C('or'),\n"
+          + "        NP(AP(A('heavy')), N('shower')),\n"
+          + "        NP(N('storm'))).n('p'),\n"
+          + "        VP(V('end').t('pr'),\n"
+          + "        DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"
+          + "                      minute: false, second: false, det:true, nat: true}))\n"
+          + ").a('!')\n"
+
         );
         dessiner(editor.getValue(), language);
     }
