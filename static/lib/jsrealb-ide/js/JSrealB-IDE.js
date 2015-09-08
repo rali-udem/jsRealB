@@ -45,25 +45,29 @@ function dessiner(expr, language){
         "data/",
         language,
         function() {
-        realisation.style.display="none";
-        clearCanvas();
-        // tree=parse(expr);
-        // console.log(pprint(tree));
-        jsTree=null;
-        try {
-            jsTree=eval(expr);
-            var result = jsTree.toString();
-            if(jsTree){
-                tree=jsReal2Node(jsTree);
-                layout(tree);
-                Node.ctx.fillStyle="black"; // dessiner le texte de la réalisation complète
-                Node.ctx.fillText(strip(result),10,20);
+            $realisation.hide();
+            clearCanvas();
+            $("#outtexte").text("");
+            // tree=parse(expr);
+            // console.log(pprint(tree));
+            jsTree=null;
+            try {
+                jsTree=eval(expr);
+                var result = jsTree.toString();
+                if(jsTree){
+                    tree=jsReal2Node(jsTree);
+                    layout(tree);
+                    // Node.ctx.fillStyle="black"; // dessiner le texte de la réalisation complète
+                    // Node.ctx.fillText(strip(result),10,20);
+                    $("#outtexte").text(strip(result));
+                }
+            } catch (e) {
+                // Node.ctx.fillStyle="#000000";
+                // Node.ctx.fillText(e.toString(),10,30);
+                $("#outtexte").text(e);
             }
-        } catch (e) {
-            Node.ctx.fillStyle="#000000";
-            Node.ctx.fillText(e.toString(),10,30);
         }
-    });
+    );
 }
 
 // distance au carré entre deux points
@@ -89,7 +93,8 @@ function jsObjectToHtmlTable(obj,title){
     var l = Object.keys(obj).length;
     if (l==0)return null;
     var $caption=$("<caption/>").text(title);
-    var $thead=$("<thead><tr><th>Prop</th><th>Valeur</th></tr></thead>");
+    var $thead=$("<thead><tr><th>Prop</th><th>"+
+                              (lang=="fr"?"Valeur":"Value")+"</th></tr></thead>");
     var $tbody=$("<tbody/>");
     for (var key in obj){
         $tbody.append("<tr><td>" + key + "</td><td>" + obj[key] + "</td></tr>")
@@ -99,17 +104,20 @@ function jsObjectToHtmlTable(obj,title){
 
 // fonctions associées au clic de souris
 function afficherRealisation(e){
-    var xC=e.clientX-$sortie.offset().left+$sortie.scrollLeft();
-    var yC=e.clientY-$sortie.offset().top+$sortie.scrollTop();
+    var offset=$canvasContainer.offset()
+    var xScroll=$canvasContainer.scrollLeft();
+    var yScroll=$canvasContainer.scrollTop()
+    var xC=e.clientX-offset.left+xScroll;
+    var yC=e.clientY-offset.top+yScroll;
     var n=noeudProche(tree,xC,yC);
     $realisation.empty();
     if(n!=null && n.realisation){
         $realisation.append("<b>" + n.realisation + "</b>")
-                .append(jsObjectToHtmlTable(n.prop, "Propriétés de l'élément"))
-                .append(jsObjectToHtmlTable(n.defaultProp, "Propriétés par défaut"))
-                .append(jsObjectToHtmlTable(n.childrenProp, "Propriétés transmises par les enfants"));
-        $realisation.css("left",xC+"px");
-        $realisation.css("top",(yC-25)+"px");
+                .append(jsObjectToHtmlTable(n.prop, lang=="fr"?"Propriétés de l'élément":"Element properties"))
+                .append(jsObjectToHtmlTable(n.defaultProp, lang=="fr"?"Propriétés par défaut":"Default properties"))
+                .append(jsObjectToHtmlTable(n.childrenProp, lang=="fr"?"Propriétés transmises par les enfants":"Properties from children"));
+        $realisation.css("left",(xC-xScroll)+"px");
+        $realisation.css("top",(yC-25-yScroll)+"px");
         $realisation.show();
     }
 }
@@ -372,6 +380,20 @@ function addInfoDic(e){
     }
 }
 
+// localisation de l'interface...
+
+var lang;  // langue courante
+var interrogationMenuFr=["dictionnaire","no de conjugaison","terminaison de conjugaison","numéro de déclinaison","terminaison de déclinaison"];
+var interrogationMenuEn=["dictionary","conjugation number","conjugation ending","declination number","declination ending"];
+function setLang(newLang){
+    $("[lang="+lang+"]").hide();
+    lang=newLang;
+    $("[lang="+lang+"]").show();
+    // patcher le menu d'interrogation des ressources
+    $("#typeInterrogation option").each(function (i){
+        $(this).text((lang=="fr"?interrogationMenuFr:interrogationMenuEn)[i])
+    });
+}
 
     
 ////
@@ -397,6 +419,7 @@ $(document).ready(function() {
     // editor.getSession().setMode("ace/mode/JSreal");
     editor.getSession().setMode("ace/mode/javascript");
     editor.setShowPrintMargin(false);
+    editor.setFontSize("16px"); // grandeur de police de défaut
 
     if(localStorage.getItem("jsrealb_source") !== undefined
             && localStorage.getItem("jsrealb_source") !== null
@@ -447,11 +470,11 @@ $(document).ready(function() {
         dessiner(editor.getValue(), language);
     }
 
-    $("#french-realization").click(function(){
+    $("#french-realization-en,#french-realization-fr").click(function(){
         language = "fr";
         dessiner(editor.getValue(), language);
     });
-    $("#english-realization").click(function(){
+    $("#english-realization-en,#english-realization-fr").click(function(){
         language = "en";
         dessiner(editor.getValue(), language);
     });
@@ -464,4 +487,7 @@ $(document).ready(function() {
     $(window).unload(storeCurrentData);
     
     $("#interrogation").keypress(chercherInfos);
+    $("#toEn").click(function(){setLang("en")});
+    $("#toFr").click(function(){setLang("fr")});
+    lang="fr";setLang("en"); // mettre la langue de départ en anglais
 });

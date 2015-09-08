@@ -7,19 +7,19 @@
     position:absolute;
     width:150px;
 }
-#container {width:100%;text-align:center}
+#container {width:100%;text-align:center;margin:10px 0;}
 #gauche {float:left}
 #droite {float:right}
 #centre {display:inline-block;margin:0 auto;}
 #titre {background: #fff; top: 0; height: 100px; left:0; right:0;}
 #entree {
     width: 50%; background: #fff; 
-    top: 100px; bottom:0; left:0;position:absolute;
+    top:20%; bottom:0; left:0;position:absolute;
     border:  1px solid black;
 }
 #sepH{
     width:0px; 
-    top: 100px; bottom:0; left:50%;position:absolute; 
+    top:20%; bottom:0; left:50%;position:absolute; 
     border:  2px solid black;
     cursor: move;
     z-index:1;
@@ -38,13 +38,23 @@
 
 #sortie { 
     width: 50%; background: #fff; 
-    top: 100px; bottom:0; right:0; position:absolute;
+    top: 20%; bottom:0; right:0; position:absolute;
     border:  1px solid black;
     overflow:scroll;
+}
+#outtexte {
+    height: 30px;
+    font-size: 20px;
+    border: 1px solid #999;
+    padding: 5px;
 }
 
 #info {
     padding-left:10px;
+}
+
+h1 input {
+    float:right;
 }
 
 table.info tbody td, table.info thead th{

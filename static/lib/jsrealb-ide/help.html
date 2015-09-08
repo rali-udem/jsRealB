@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <style>
+        dl {padding-top:0;margin-top:0;}
+        dt {font-weight: bold; display: block; position:relative}
+        dd {display: inline-block; position:relative}
+        </style>
+        <title>JSrealB-IDE - Help </title>
+    </head>
+    <body>
+        <h1>JSrealB-IDE - Help</h1>
+        <p>The goal of this page is to help creating a JSrealB expression and perform some demos. It facilitates entering a Javascript
+           expression corresponding to a JSrealB expression and it displays the corresponding realisation and syntactic tree. It is also
+           possible to consult dictionaries and conjugation tables.
+       </p>
+        <p>The screen is divided vertically in two parts. It is possible to change the proportion of the screen 
+           allotted to each by dragging the vertical line that separates them.
+        </p>
+        <dl>
+            <dt>left</dt>
+            <dd>Window embedding the Javascript 
+                <a href="http://ace.c9.io/" title="Ace - The High Performance Code Editor for the Web">ACE</a> editor which allows entering 
+                a JSrealB expression. If the browser implements local storage, the last expression and language generated is saved between sessions.
+                <br/>
+                <strong>Beware</strong>:
+                the tree and realisation displayed on the right is the result of the last Javascript expression. 
+                The Javascript code is evaluated with <code>eval</code>
+                and can make use of variables and function defined before in the same code.
+                Use <code>ctrl-/</code> 
+                (<code>CMD-/</code> on Mac) to toggle comments on the selection or comment
+                using <code>/*</code> and <code>*/</code>.
+                <br/> 
+                <a href="https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts">Keyboard shortcuts for ACE</a>.
+            </dd>
+            <dt>right</dt>
+            <dd>This part is itself horizontally separated in two parts by dragging the bar between them.
+                <dl>
+                    <dt>top</dt>
+                    <dd>Syntactic tree corresponding to the expression of the left part of the screen.
+                        Clicking on a node of the tree shows the realisation of the subtree having this node as root and values of properties
+                        coming from the children (this is quite useful for debugging). The realisation of the whole tree is shown in the
+                        text field above the tree.
+                    </dd>
+                    <dt>bottom</dt>
+                    <dd>Resource query by typing a regular expression in the text field and selecting the language and the type
+                        of resource in the menus.
+                        <dl>
+                            <dt>dictionary</dt> 
+                            <dd>Shows all dictionary entries corresponding to the regular expression. The resulting table displays
+                                the category and the conjugation or declination table number. Clicking on the entry of the table, we can get
+                                the JSON code corresponding to the entry. This is useful to create new dictionary entries similar to existing
+                                ones. Clicking on a table number, the content of the table is displayed.</dd>
+                            <dt>conjugation number</dt>
+                            <dd>shows the conjugation table corresponding to the number</dd>
+                            <dt>conjugation ending</dt>
+                            <dd>shows the conjugation tables whose ending matches what is given in the text field</dd>
+                            <dt>declination number</dt>
+                            <dd>shows the declination table corresponding to the number</dd>
+                            <dt>declination ending</dt>
+                            <dd>shows the declination tables whose  ending matches what is given in the text field</dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </dd>
+        </dl>
+        <p>Have fun realising! - <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></p>
+    </body>
+</html>

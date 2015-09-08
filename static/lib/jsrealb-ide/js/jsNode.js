@@ -134,7 +134,7 @@ function clearCanvas(){
 
 function layout(tree){
     if(tree==null)return;
-    tree.setXY(20,0);
+    tree.setXY(20,-2*Node.spaceBetweenWords); // pour que la racine apparaisse en haut de la section.
     // console.log(pprint(tree));
     tree.setLeafY(tree.maxHeight());
     tree.drawNode();    
