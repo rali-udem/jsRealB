@@ -215,7 +215,7 @@ JSrealE.prototype.addConstituent = function(element, grammaticalFunction) {
         break;
         case JSrealE.grammaticalFunction.head:
             if(this.constituents.head === undefined
-                    || this.constituents.head === null)
+                    || this.constituents.head === null)
             {
                 element.fct = JSrealE.grammaticalFunction.head;
                 this.constituents.head = element;
@@ -875,8 +875,8 @@ var phraseFormatting = function(str, upperCaseFirstLetter, addFullStop) {
 
 //// "module cheap" d'élision en français
 // appelé dans phraseFormatting
-var voyellesAccentuées="àäéèêëïîöôùû";
-var voyelles="aeiou"+voyellesAccentuées;
+var voyellesAccentuees="àäéèêëïîöôùû";
+var voyelles="aeiou"+voyellesAccentuees;
 
 var elidables = ["la","ma","ta","sa",
                  "le","me","te","se","ce","de","ne","je",
@@ -2635,7 +2635,7 @@ var getValueByFeature = function(featureList, featureRequested) {
             if(featureList[i].hasOwnProperty(currentFeatureList[j])
                     && (featureList[i][currentFeatureList[j]]
                             === featureRequested[currentFeatureList[j]]
-                        || featureList[i][currentFeatureList[j]] === "x" // x accepts all values
+                        || featureList[i][currentFeatureList[j]] === "x" // x accepts all values
                         )
                     && featureRequested[currentFeatureList[j]] !== null
                 )
@@ -3032,7 +3032,7 @@ JSrealB.Logger = (function() {
  * 
  * Initialization
  */
-var JSrealBResource = {en: {}, fr: {}, common: {}};
+var JSrealBResource = {en: {}, fr: {}, common: {}};
 
 var JSrealLoader = function(resource, done, fail) {
     
