@@ -16,7 +16,7 @@ live demos.
 * [Random English text generation](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/randomGeneration/english.html) [[JavaScript code](test/manual_test/randomGeneration/english.js)]
 * [Random French text generation](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/randomGeneration/french.html) [[JavaScript code](test/manual_test/randomGeneration/french.js)]
 * [Conjugation and declension](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/inflection/index.html) [[JavaScript code](test/manual_test/inflection/inflection.js)] 
-* [99 bottles of beer: a repetitive text in English](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/99BottlesOfBeer/index.html)
+* [99 bottles of beer: a repetitive text in English](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/99BottlesOfBeer/index.html) [The JavaScript code is inline in the HTML]
 * [1 km à pied: a repetitive text in French](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/KilometresAPied/index.html)
 * [Date generation](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/date/index.html)
 * [Exercises in style à la Raymond Queneau](http://rawgit.com/rali-udem/JSrealB/master/test/manual_test/ExercicesDeStyle/ExerciceDeStyle.html) [[JavaScript code](test/manual_test/ExercicesDeStyle/ExercicesDeStyle.js)] [[The Exercices on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
