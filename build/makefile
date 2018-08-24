@@ -1,5 +1,8 @@
 ## create different version of jsRealB by concatenating basic modules
 
+info:
+	echo "make ALL to create all dist files."
+
 jsRealB-dme.js   : core.js rule-en.js lexicon-dme.js addLexicon-dme.js 
 	cat $^ > $@
 jsRealB-enfr.js  : core.js rule-en.js lexicon-en.js  rule-fr.js lexicon-fr.js addLexicon-en.js   addLexicon-fr.js
@@ -34,7 +37,7 @@ test-server: server-dme.js testServer.py
 	node server-dme.js & \
 	PID=$$! ;\
 	sleep 3 ; \
-	./testServer.py ;\
+	python testServer.py ;\
 	kill $$PID
 
 test-filter: filter-dme.js
