@@ -11,6 +11,16 @@ Most of the documentation is in French and can be accessed [here](https://rawgit
 However, there are a number of resources written in English available [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including
 live demos.
 
+## Directories
+* build: build system to create the JavaScript library
+* dist: pre-built JavaScript files ready for use.
+* documentation : new version of the documentation (up to date and in both English and French). The examples are generated on the fly by embedding jsRealB in the page.
+    * style-new.css: style sheet
+    * user-infos.js: definitions of variables containing the examples
+    * user-new.html: HTML of the core of the page (div[id] correspond to variables in user-infos.js)
+    * user-new.js  : Javascript
+* IDE : Development Environment that embeds jsRealB. It is slightly modified from previous version to take into account the new way of loading lexicons.
+
 ## Demos
 
 * [Random English text generation](https://rawgit.com/rali-udem/JSrealB/master/test/manual_test/randomGeneration/english.html) [[JavaScript code](test/manual_test/randomGeneration/english.js)]
