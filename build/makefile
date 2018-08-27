@@ -45,3 +45,4 @@ test-filter: filter-dme.js
 
 ALL: jsRealB-dme.js jsRealB-dmefr.js jsRealB-dme-node.js jsRealB-en.js jsRealB-en-node.js
 
+MIN: jsRealB-dme.min.js jsRealB-dmefr.min.js jsRealB-dme-node.min.js jsRealB-en.min.js jsRealB-en-node.min.js
