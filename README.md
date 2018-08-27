@@ -19,7 +19,7 @@ live demos.
     * ``user-infos.js``: definitions of variables containing the examples
     * ``user-new.html``: HTML of the core of the page (div[id] correspond to variables in user-infos.js)
     * ``user-new.js``  : JavaScript helper script.
-* ``IDE`` : Development Environment that embeds jsRealB. It is slightly modified from previous versions to take into account the new way of loading lexicons.
+* ``IDE`` : An Integrated Development Environment that embeds jsRealB. [Try it here](https://rawgit.com/rali-udem/JSrealB/master/IDE/IDE.html). It is slightly modified from previous versions to take into account the new way of loading lexicons.
 
 ## Demos
 
