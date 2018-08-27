@@ -6,9 +6,9 @@ The web is constantly growing and its content, getting progressively more dynami
 
 **JSrealB is a text realizer designed specifically for the web**, easy to learn and use. This realizer allows its user to build a variety of French and English expressions and sentences, to add HTML tags to them and to easily integrate them into web pages.
 
-Most of the documentation is in French and can be accessed [here](https://rawgit.com/rali-udem/JSrealB/master/documentation/user-new.html).
+The documentation can be accessed [here](https://rawgit.com/rali-udem/JSrealB/master/documentation/user-new.html). You can switch language in the upper right of the page.
 
-However, there are a number of resources written in English available [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including
+Additional information can be found [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including
 live demos.
 
 ## Directories
@@ -18,8 +18,8 @@ live demos.
     * ``style-new.css``: style sheet
     * ``user-infos.js``: definitions of variables containing the examples
     * ``user-new.html``: HTML of the core of the page (div[id] correspond to variables in user-infos.js)
-    * ``user-new.js``  : Javascript
-* ``IDE`` : Development Environment that embeds jsRealB. It is slightly modified from previous version to take into account the new way of loading lexicons.
+    * ``user-new.js``  : JavaScript helper script.
+* ``IDE`` : Development Environment that embeds jsRealB. It is slightly modified from previous versions to take into account the new way of loading lexicons.
 
 ## Demos
 
