@@ -33,7 +33,7 @@ live demos.
 
 ## IDE
 
-[An IDE](https://rawgit.com/rali-udem/JSrealB/master/IDE.html) is available to test and develop with JSrealB.
+[An IDE](https://rawgit.com/rali-udem/JSrealB/master/IDE/IDE.html) is available to test and develop with JSrealB.
 
 ## Credits
 
