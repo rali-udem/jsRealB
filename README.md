@@ -27,7 +27,7 @@ live demos.
 
 ## Credits
 
-JSrealB was developed in 2015 by [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal. He built on the
-JSreal realizer created by [Nicolas Daoust](mailto:n@daou.st).
+JSrealB was developed at the University of Montreal, in 2015, by [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal. He built on the
+JSreal realizer created by [Nicolas Daoust](mailto:n@daou.st). In 2016, Francis Gauthier improved the library. In 2017, Guy Lapalme reworked the code and patched a few bugs.
 
 For more information, contact [Guy Lapalme](http://rali.iro.umontreal.ca/lapalme).      
