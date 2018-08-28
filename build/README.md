@@ -1,28 +1,41 @@
-# File organisation for building jsRealB
+#FILE ORGANIZATION OF THE jsRealB system
 
 A basic jsRealB instance (for use in a web page) is the concatenation of
 
-* `core.js`
-*  `rule-(en|fr).js`,  themselves concatenations of `rule-var-(en|fr).js` and `rule-(en|fr).json`
-* `lexicon-(dme|en|fr).js`,  themselves concatenations of `lexicon-var-(en|fr).js` and `lexicon-(dme|en|fr).json`
+1. `core.js`
+2. `rule-(en|fr).js`  themselves concatenation of 
+    * `rule-var-(en|fr).js`
+    * `rule-(en|fr).json`
+3. `lexicon-(dme|en|fr).js`  themselves concatenation of 
+    * `lexicon-var-(en|fr).js`
+    * `lexicon-(dme|en|fr).json`
+  
+`makefile`: commands for creating different instances and for performing simple tests
 
-`*.json` files are created by the "ressource generation" process in the master.
+`*.json` are created by the *ressource generation* process in the master.
 
 `node-module.js` : added to create a node module
 
-`makefile`: commands for creating different instances 
+### Lexicons
+* `lexicon-fr.js`  : French lexicon (the same as for SimpleNLG-EnFr)
+* `lexicon-en.js`  : English lexicon (the same as for SimpleNLG-EnFr)
+* `lexicon-dme.js` : English lexicon containing all the words in the DME (English morphological lexicon developed at RALI) created by `dm2lexicon.py`
 
-``lexicon-fr.js``  : French lexicon (the same as for SimpleNLG-EnFr)
-``lexicon-en.js``  : English lexicon (the same as for SimpleNLG-EnFr)
-``lexicon-dme.js`` : English lexicon containing all the words in the DME (English morphological lexicon developed at RALI) created by ``dm2lexicon.py``
+`addLexicon-(dme|en|fr).js`: additions and corrections to these lexicons
 
-Additions and corrections to these lexicons are in ``addLexicon-(dme|en|fr).js``
+## Products 
+### For use in a web page
+`jsRealB-(dme|en|fr).js`: concatenation of the appropriate files and additions
 
-`jsRealB-(dme|en|fr).js`  : concatenation of the appropriate files and additions
-`jsRealB-(dme|en|fr)-node.js`  : concatenation of the appropriate files and additions as a node module
-`jsRealB-(dme|en|fr).min.js ` : minified concatenation of the appropriate files and additions
+`jsRealB-(dme|en|fr).min.js`      : minified concatenation of the appropriate files and additions (needs `uglify` from `node.js` for minifying)
+
+### For use as a node module
+`jsRealB-(dme|en|fr)-node.js`     : concatenation of the appropriate files and additions as a node module
+
 `jsRealB-(dme|en|fr)-node.min.js` : minified concatenation of the appropriate files and additions as a node module
 
-`filter-(dme|en).js` : node module useful as a "filter", takes a jsReal expression on a single line and produces the English realisation
+`filter-(dme|en).js` : node module useful as a *filter*. It takes a jsRealB expression on a single single and produces the English realisation
 
-`server-(dme|en).js` : node module that creates a webserver ([http://127.0.0.1:8081/](http://127.0.0.1:8081/)). Accepts URLs of the form `http://127.0.0.1:8081/?lang=en&exp=S(NP(D("the"),N("man")),VP(V("love")))`.
+`server-(dme|en).js` : node module that creates a local webserver (`http://127.0.0.1:8081/`) that accepts an url of the form  
+    `http://127.0.0.1:8081/?lang=en&exp=S(NP(D("the"),N("man")),VP(V("love")))`
+
