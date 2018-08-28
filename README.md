@@ -8,35 +8,26 @@ The web is constantly growing and its content, getting progressively more dynami
 
 **jsRealB can also be used in Javascript application** by means of a `node.js` module.
 
-The documentation can be accessed [here](https://rawgit.com/rali-udem/JSrealB/master/documentation/user.html). You can switch language in the upper right of the page.
+The documentation can be accessed [here](https://rawgit.com/rali-udem/JSrealB/master/documentation/user.html). You can switch language in the upper right corner of the page.
 
 There are a number of resources written in English available [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including
 live demos.
 
 **Caution**
 
-* Although `jsRealB` can be used in a web page using only one of the generated javascript files in the [`dist`](dist/) directory, [`node.js`](https://nodejs.org/en/) is necessary for the Javascript applications and for minifying the javascript using the `uglifyjs`.
-* The current build process rely on the availability of some unix tools such as `makefile`, `cat` and output redirection.
-* Windows users will want to use the pre-built files in the `dist` directory.
+* Although `jsRealB` can be used in a web page using only one of the generated javascript files in the [`dist`](dist/) directory, [`node.js`](https://nodejs.org/en/) is necessary for the Javascript applications and for minifying the javascript using `uglifyjs`.
+* The current build process relies on the availability of some unix tools such as `makefile`, `cat` and output redirection (`>`).
+* Windows users (and others) will therefore want to use the pre-built files in the [`dist`](dist/) directory.
 
 ## Directories
-* ``build``: build system to create the JavaScript library
-* ``dist``: pre-built JavaScript files ready for use.
-* ``documentation``: new version of the documentation (up to date and in both English and French). The examples are generated on the fly by embedding jsRealB in the page.
+* [`build`](build/): build system to create the JavaScript library. Additional README in this directory.
+* [`dist`](dist/): pre-built JavaScript files ready for production use.
+* [`documentation`](documentation/)`: new version of the documentation (up to date and in both English and French). The examples are generated on the fly by embedding jsRealB in the page.
+    * [`user.html`](https://rawgit.com/rali-udem/JSrealB/master/documentation/user.html): HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * ``style-new.css``: style sheet
     * ``user-infos.js``: definitions of variables containing the examples
-    * ``user-new.html``: HTML of the core of the page (div[id] correspond to variables in user-infos.js)
     * ``user-new.js``  : JavaScript helper script.
-* ``IDE`` : An Integrated Development Environment that embeds jsRealB. [Try it here](https://rawgit.com/rali-udem/JSrealB/master/IDE/IDE.html). It is slightly modified from previous versions to take into account the new way of loading lexicons.
-
-##Documentation
-
-In both English and French for their respective language: the examples are generated on the fly by embedding jsRealB in the page. It uses the following files in the `documentation` directory:
-
-* `style.css`: style sheet
-* `user-infos.js`: definitions of variables containing the examples
-* `user.html`: HTML of the core of the page (each `div[id]` corresponds to a variable in `user-infos.js`)
-* `user.js`  : Javascript
+* [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB. [Try it here](https://rawgit.com/rali-udem/JSrealB/master/IDE/IDE.html). It is slightly modified from previous versions to take into account the new way of loading lexicons.
 
 ## Demos
 
@@ -49,11 +40,7 @@ In both English and French for their respective language: the examples are gener
 * [Elision: tests for the French elision module](https://rawgit.com/rali-udem/JSrealB/master/demos/elision/index.html)
 * [Exercises in style à la Raymond Queneau](http://rawgit.com/rali-udem/JSrealB/master/demos/exercicesDeStyle/index.html) [[JavaScript code](demos/ExercicesDeStyle/exercicesDeStyle.js)] [[The Exercises on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
 
-## IDE
-
-[An IDE](https://rawgit.com/rali-udem/JSrealB/master/IDE.html) (Integrated Development Environment) is available. It embeds jsRealB. It allows rapid testing of expressions and the retrieval of information from the lexicons. 
-
-## Credits
+## Authors
 jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the works of:
 
 1. [Francis Gauthier](http://www-etud.iro.umontreal.ca/~gauthif) as part of his summer internship at RALI in 2016; 
