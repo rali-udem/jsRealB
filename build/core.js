@@ -836,9 +836,8 @@ var getGroup = function(sObject,groupAlias){
 
 JSrealE.prototype.modifyStructure = function() {
     var qpc=[JSrealB.Config.get("feature.category.quoted"),
-        JSrealB.Config.get("feature.category.word.preposition"),
-        JSrealB.Config.get("feature.category.word.conjunction")]
-
+             JSrealB.Config.get("feature.category.word.preposition"),
+             JSrealB.Config.get("feature.category.word.conjunction")]
     var elemList = this.elements;
     var change = false;
     var imax = elemList.length;
@@ -1507,18 +1506,21 @@ var phraseFormatting = function(str, upperCaseFirstLetter, addFullStop, lastPunc
     return newString;
 };
 
+
+// *** the elision module can be tested separately in the file elision.js
+
 //// English elision rule only for changing "a" to "an"
 // according to https://owl.english.purdue.edu/owl/resource/591/1/
-var hAnRE=/heir|herb|honest|honou?r|hour/y;
+var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
-uLikeYouRE=/uni.*|ub.*|use.*|usu.*|uv.*/y;
-acronymRE=/[A-Z]+$/y
+uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
+acronymRE=/^[A-Z]+$/
 punctuationRE=/[,:\."'\[\]\(\)\?]/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
 //     4-following word  
-var sepWordREen=/(([^<\w'-]*(<[^>]+>)?)*)([\w'-]+)?/g
+var sepWordREen=/(([^<\w'-]*(<[^>]+>)?)*)([\w'-]+)?/yi
 
 function elisionEn(content){
     sepWordREen.lastIndex=0; // make sure to restart matching
@@ -1536,7 +1538,7 @@ function elisionEn(content){
         // console.log("%s:%s:%s",previous,sep,current)
         if (previous=="a" || previous=="A"){
             if (!punctuationRE.exec(sep)){   // do not elide over punctuation
-                if (/[aeio]/iy.exec(current) ||   // start with a vowel
+                if (/^[aeio]/i.exec(current) ||   // start with a vowel
                     (current.charAt(0)=="u" && !uLikeYouRE.exec(current)) || // u does not sound like you
                     hAnRE.exec(current) ||       // silent h
                     acronymRE.exec(current)) {   // is an acronym
@@ -1555,14 +1557,19 @@ function elisionEn(content){
 //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&t1=&id=1737
 // but does not always taking into account the actual part of speech
 // only takes the first case from the lexicon
+// CAUTION:
+// As this algorithm is greedy, it only goes forward in a sentence by considering pairs of words 
+//  it cannot handle cases like:
+//       "à le homme"   => "au homme"  should be "à l'homme"
+//       "de le exercice" => "du exercice" instead of "de l'exercice"
 
 // for Euphonie, rules taken from Antidote V9
 
 // same as sepWordREen but the [\w] class extended with French Accented letters and cedilla
-var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/gi
+var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
 
-var elidableWordFrRE=/(la|le|je|te|se|ce|de|ne|que|jusque)$/iy
-var euphonieFrRE=/(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/iy
+var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|jusque|quoique)$/i
+var euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
 var euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
     "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
 
@@ -1590,6 +1597,7 @@ function elisionFr(content){
     if (current===undefined) return content; // only a separator found
     var res=(sep===undefined)?"":sep;
     while ((sepWord=sepWordREfr.exec(content))!==null){
+        // console.log("res:"+res);
         previous=current; sep=sepWord[1]; current=sepWord[4];
         if (sep===undefined)sep="";
         if (current===undefined){// at the end of the string with only a separator
@@ -1605,7 +1613,11 @@ function elisionFr(content){
             }
             if (euphonieFrRE.exec(previous)){ // euphonie
                 if (isElidableFr(current)){
-                    res=res+lookUp(previous,euphonieFrTable)+sep;
+                    if (/ce/i.exec(previous) && /(^est$)|(^étai)/.exec(current)){
+                        // very special case but very frequent
+                        res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                    } else
+                        res=res+lookUp(previous,euphonieFrTable)+sep;
                     continue;
                 }
             }
@@ -1623,14 +1635,15 @@ function elisionFr(content){
 }
 
 function isElidableFr(word){
-    if (/[aeiouàâéèêëîïôöùü]/iy.exec(word)) return true;
-    if (/h/iy.exec(word) && !hAspire(word)) return true;
+    if (/^[aeiouàâéèêëîïôöùü]/i.exec(word)) return true;
+    if (/^h/i.exec(word) && !hAspire(word)) return true;
     return false;
 }
+// ******* end of elision.js
 
 function hAspire(word){
     var w=JSrealB.Config.get("lexicon")[word];
-    if (w && w[Object.keys[0]].h==1) return true;
+    if (w && w.h==1) return true;
     return false;
 }
 
@@ -4754,6 +4767,10 @@ var loadFr = function(trace){
 //// add to lexicon and return the updated object
 ///    to remove from lexicon (pass undefined as newInfos)
 var addToLexicon = function(lemma,newInfos){
+    if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
+        newInfos=Object.values(lemma)[0];
+        lemma=Object.keys(lemma)[0];
+    }
     var infos=JSrealB.Config.get("lexicon")[lemma]
     if (infos!==undefined && newInfos!==undefined){ // update with newInfos
         for (ni in newInfos) {
