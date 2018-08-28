@@ -1,7 +1,11 @@
+js   := jsRealB-dme.js jsRealB-dmefr.js jsRealB-en.js jsRealB-enfr.js jsRealB-fr.js
+node  = $(js:.js=-node.js)
+minjs = $(patsubst %.js,dist/%.min.js,$(js))
+
 ## create different version of jsRealB by concatenating basic modules
 
 info:
-	echo "make ALL to create all dist files."
+	echo "make dist to create all dist files."
 
 jsRealB-dme.js   : core.js rule-en.js lexicon-dme.js addLexicon-dme.js 
 	cat $^ > $@
@@ -27,11 +31,14 @@ jsRealB-%.js : core.js rule-%.js lexicon-%.js addLexicon-%.js
 jsRealB-%-node.js : jsRealB-%.js node-module.js
 	cat $^ > $@
 
-%.min.js : %.js
+dist/%.min.js : %.js
+	mkdir -p dist
 	uglifyjs $^ -c >$@
 
 clean:
 	rm -f jsRealB-*.js
+
+dist: $(minjs)
 
 test-server: server-dme.js testServer.py
 	node server-dme.js & \
@@ -43,6 +50,6 @@ test-server: server-dme.js testServer.py
 test-filter: filter-dme.js
 	echo 'S(NP(D("the"),N("man")),VP(V("love")))' | node filter-dme.js
 
-ALL: jsRealB-dme.js jsRealB-dmefr.js jsRealB-dme-node.js jsRealB-en.js jsRealB-en-node.js
+JS:   $(js)
 
-MIN: jsRealB-dme.min.js jsRealB-dmefr.min.js jsRealB-dme-node.min.js jsRealB-en.min.js jsRealB-en-node.min.js
+NODE: $(node)
