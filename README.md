@@ -35,10 +35,10 @@ live demos.
 * [Random French text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/french.html) [[JavaScript code](demos/randomGeneration/french.js)]
 * [Conjugation and declension](https://rawgit.com/rali-udem/JSrealB/master/demos/inflection/index.html) [[JavaScript code](demos/inflection/inflection.js)] 
 * [99 bottles of beer: a repetitive text in English](https://rawgit.com/rali-udem/JSrealB/master/demos/99BottlesOfBeer/index.html)
-* [1 km à pied: a repetitive text in French](https://rawgit.com/rali-udem/JSrealB/master/demos/kilometresAPied/index.html)
+* [1 km à pied: a repetitive text in French](https://rawgit.com/rali-udem/JSrealB/master/demos/KilometresAPied/index.html)
 * [Date generation](https://rawgit.com/rali-udem/JSrealB/master/demos/date/index.html)
 * [Elision: tests for the French elision module](https://rawgit.com/rali-udem/JSrealB/master/demos/elision/index.html)
-* [Exercises in style à la Raymond Queneau](http://rawgit.com/rali-udem/JSrealB/master/demos/exercicesDeStyle/index.html) [[JavaScript code](demos/ExercicesDeStyle/exercicesDeStyle.js)] [[The Exercises on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
+* [Exercises in style à la Raymond Queneau](http://rawgit.com/rali-udem/JSrealB/master/demos/ExercicesDeStyle/index.html) [[JavaScript code](demos/ExercicesDeStyle/exercicesDeStyle.js)] [[The Exercises on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
 
 ## Authors
 jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the works of:
