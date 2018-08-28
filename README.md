@@ -27,7 +27,7 @@ live demos.
     * ``style-new.css``: style sheet
     * ``user-infos.js``: definitions of variables containing the examples
     * ``user-new.js``  : JavaScript helper script.
-* [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB. [Try it here](https://rawgit.com/rali-udem/JSrealB/master/IDE/IDE.html). It is slightly modified from previous versions to take into account the new way of loading lexicons.
+* [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB. [Try it here](https://rawgit.com/rali-udem/JSrealB/master/IDE/index.html). It is slightly modified from previous versions to take into account the new way of loading lexicons.
 
 ## Demos
 
