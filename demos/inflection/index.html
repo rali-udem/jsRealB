@@ -5,16 +5,18 @@
         <title>JSrealB: conjugaison - conjugation</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="../../dist/jsRealB-dmefr.min.js" charset="UTF-8"></script>
-        <script src="inflection.js" type="text/javascript" charset="UTF-8"></script><style type="text/css"></style>
+        <script src="inflection.js" type="text/javascript" charset="UTF-8"></script><style type="text/css">
+           input { margin-right: 30px; }
+        </style>
     </head>
     <body id="conjugue">
         <h1>JSrealB</h1>
         <fieldset>
             <legend>Conjugaison - Conjugation</legend>
-            <label for="lang-fr">Français</label>
             <input type="radio" name="language" value="fr" id="lang-fr" checked="checked" />
-            <label for="lang-en">English</label>
+            <label for="lang-fr">Français</label>
             <input type="radio" name="language" value="en" id="lang-en" /><br>
+            <label for="lang-en">English</label>
             <label><input type="checkbox" name="negation" value="neg" id="negationButton">Négation</label>
             <label><input type="checkbox" name="passive" value="pas" id="passiveButton">Passif</label>
             <label><input type="checkbox" name="progressive" value="prog" id="progressiveButton">Progressif</label>
