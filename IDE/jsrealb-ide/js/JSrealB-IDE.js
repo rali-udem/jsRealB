@@ -409,8 +409,8 @@ $(document).ready(function() {
         // pour avoir la version dans la bonne langue...
         editor.setValue(""
 
-          + "/*\n"
-          + "\n"
+          //+ "/*\n"
+          //+ "\n"
           + "// Décommenter ce bloc et commenter le suivant puis cliquer 'Réaliser en français'\n"
           + "// Uncomment this block and comment the next one then click 'Réaliser en français'\n"
           + "\n"
