@@ -1,0 +1,87 @@
+.jsr {font: normal small-caps bold 1em Arial, sans-serif;}
+
+h2 {color:blue; margin-bottom:0;}
+h3 {color:green;margin-bottom:0;}
+
+table {
+    width:100%;
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+    border-collapse:collapse;
+}
+
+table.links td {
+    width:15%;
+}
+
+td,th{
+    padding:2px;
+    vertical-align:top;
+    border-bottom:thin solid lightgrey;
+}
+
+tr.groupe td {
+    border-top:thin solid black;
+    background-color:#F1F1CC;
+}
+
+th {background-color:#FEFEFE;}
+
+td:nth-child(1),th:nth-child(1){width:20%;}
+td:nth-child(2),th:nth-child(2){width:15%;}
+td:nth-child(3),th:nth-child(3){width:45%;}
+td:nth-child(4),th:nth-child(4){width:20%;}
+
+.description {}
+.pattern {font: 80% "Courier", sans-serif;}
+.example-en,.example-fr{font: 80% "Courier", sans-serif;}
+.realisation {font: normal normal normal 1em Arial, sans-serif;}
+
+footer {
+    border-top:thin solid lightgrey;
+    padding-top:5px;
+}
+
+#langSelect{cursor:pointer; color: green; position:fixed; top:5px; right:10px;}
+
+/* Adapted from https://www.w3schools.com/howto/howto_css_dropdown_navbar.asp */
+/* The dropdown container */
+.dropdown {
+  position:fixed; top:5px; right:250px;
+  color: green;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Add a red background color to navbar links on hover */
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: #ddd;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  float: none;
+  color: blue;
+  text-decoration: none;
+  min-width:250px;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
