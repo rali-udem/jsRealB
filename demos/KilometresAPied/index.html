@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title id="titre"></title>
+        <meta charset="UTF-8"/>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../../jsRealB-fr.js" charset="UTF-8"></script>
+        <script>
+        var max=4;
+
+        function kmsAPied(n){
+            return NP(NO(n).nat().cap(),N('kilomètre'),
+                      PP(P("à"),NP(N("pied"))));
+        }
+
+        function ligne(l){
+            return $("<div/>").css("text-align","center").text(l.toString());
+        }
+
+        function refrain(){
+            var s1=S(CP(NP(D("le"),N("peinture"),
+                        PP(P("à"),D("le"),N("huile"))), 
+                        S(Pro("ce"), VP(V("être").t("p"),Adv("bien"),A("difficile"))),C(",")));
+            var s2=S('mais',
+                     Pro("ce"),
+                     VP(V("être").t("p"),
+                        AP("bien plus",A("beau"),
+                        SP(Pro("que"), 
+                           NP(D("le"),N("peinture"), 
+                           PP(P("à"),D("le"),N("eau")) ) ) )
+                       )
+                   );
+            return $("<p/>").append(ligne(s1)).append(ligne(s2));
+        }
+
+        function generer() {
+            var $body=$("body");
+            var m1=kmsAPied(1);
+            $("#titre").text(m1);
+            var h1=$("<h1/>").css("text-align","center").text(m1)
+            $body.append(h1);
+            var use=V("user").t("p");
+            var s1=S(Pro("ça"),use);
+            var s2=S(s1,NP(D("le"),N("soulier")).n("p"));
+            for(var i=1;i<=max;i++){
+                map=kmsAPied(i);
+                var $lignes=$("<b/>").append("<p/>");
+                $lignes.append(ligne(S(CP(map,s1,s1,C(","))))).append(ligne(S(CP(map,s2,C(",")))));
+                $body.append($lignes);
+                $body.append(refrain());
+            };
+            $body.append(ligne("..."));
+        };
+        
+       $(document).ready(function() {
+           generer();
+       });
+    </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Génération de dates en jsRealB</title>
+    <style type="text/css" media="screen">
+        table {
+            border: 1px solid #999;
+            border-collapse:collapse;
+        }
+        td {
+            border: 1px solid #999;
+            padding:2px;
+            margin:0;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../jsRealB-dmefr.js" charset="UTF-8"></script>
+    <script>
+        function meteo(voc, nombre, temps, heure) {
+            var date = DT(new Date(heure)).dOpt({year: false, month: false, date: false, day: false, minute: false, second: false, nat: true});
+            // console.log(date);
+            return S(
+                    CP(C(voc.alt),
+                        NP(D(voc.det), AP(A(voc.magn)), N(voc.averse)),
+                        NP(D(voc.det), N(voc.orage))).n(nombre),
+                    VP(V(voc.arret).t(temps),
+                            date)
+                    );
+        }
+        var frVoc = {alt: "ou", det: "un", magn: "fort", averse: "averse", orage: "orage", arret: "cesser"};
+        var enVoc = {alt: "or", det: "a", magn: "heavy", averse: "shower", orage: "storm", arret: "end"};
+        var nombres = ["s", "p"];
+        var tempsFr = ["p", "pr", "c", "s", "i", "f"];
+        var tempsEn = ["p", "pr", "ps", "f"]
+
+        function generate(language) {
+            voc = language == "fr" ? frVoc : enVoc;
+            temps = (language == "fr")? tempsFr : tempsEn;
+            for (var i = 0; i < nombres.length; i++) {
+                for (var j = 0; j < temps.length; j++) {
+                    var $tr = $("<tr/>");
+                    $tr.append($("<td/>").text(language));
+                    $tr.append($("<td/>").text(nombres[i]));
+                    $tr.append($("<td/>").text(temps[j]));
+                    $tr.append($("<td/>").text(j));
+                    $tr.append($("<td/>").text(meteo(voc, nombres[i], temps[j], "2015/07/17 0" + j + ":00")));
+                    $viewer.append($tr);
+                }
+            }
+            return;
+        };
+        var $viewer;
+        $(document).ready(function () {
+            $viewer = $("#JSrealB-viewer");
+            loadFr();
+            generate("fr");
+            loadEn();
+            generate("en");
+        });
+    </script>
+    </head>
+    <body>
+        <table id="JSrealB-viewer">
+            <tbody>
+                <tr>
+                    <th>Langue</th>
+                    <th>Nombre</th>
+                    <th>Temps</th>
+                    <th>Heure</th>
+                    <th>Réalisation</th>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

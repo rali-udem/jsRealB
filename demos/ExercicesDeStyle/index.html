@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../jsRealB-dmefr.js"></script>
+    <!-- chargement du script spécifique -->
+    <script type="text/javascript" charset="utf-8" src="ExerciceDeStyle.js"></script>
+    <style type="text/css" media="screen">
+    .high-light{text-decoration: underline;}
+    .emphase {color: #FC6405; }
+    </style>
+    <title id="titre">Exercice de style</title>
+</head>
+<body id="body">
+    <h1>Un <em>exercice de style</em> à la <a href="http://fr.wikipedia.org/wiki/Exercices_de_style" title="Exercices de style - Wikipédia" target="_blank">Queneau</a></h1>
+    
+    <fieldset>
+        <legend>Choisir le temps, le genre et le nombre du récit <!-- ainsi que les éléments à mettre en évidence --></legend>
+        <select name="temps" id="temps" size="1" autocomplete="off">
+            <option value="p" selected="selected">présent</option>
+            <option value="i">imparfait</option>
+            <option value="ps">passé simple</option>
+            <!-- <option value="pc">passe composé</option> -->
+        </select>
+        <select name="genre" id="genre" size="1" autocomplete="off">
+            <option value="m" selected="selected">masculin</option>
+            <option value="f">féminin</option>
+        </select>
+        <select name="nombre" id="nombre" size="1" autocomplete="off">
+            <option value="s" selected="selected">singulier</option>
+            <option value="p">pluriel</option>
+        </select>
+        <select name="emphase" id="emphase" size="1" autocomplete="off">
+            <option value=" "></option>
+            <option value="narrateur">narrateur</option>
+            <option value="jeune-homme">jeune homme</option>
+            <option value="ami">ami</option>
+            <option value="voyageur">voyageur</option>
+        </select> 
+    <div style="font-size:small">
+        Les mots <u>soulignés</u> indiquent les changements par rapport au texte précédent.<br/>
+        Les mots qui correspondent au choix dans le menu de droite sont <span class="fixed emphase">colorés</span>.
+    </div> 
+    </fieldset>
+    <div id="texte"></div>
+    <hr/>
+    <div id="text"></div>
+</body>
+</html>
+
