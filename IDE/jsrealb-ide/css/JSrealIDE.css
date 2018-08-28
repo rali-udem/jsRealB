@@ -68,7 +68,8 @@ table.info caption {
 }
 
 table {
-    margin: 15px 0;
+	display:inline-table;
+    margin: 15px 5px;
     border-spacing: 0;
     border-collapse: collapse;
 }

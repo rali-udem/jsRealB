@@ -5,32 +5,23 @@
 
 // transformer une structure d'élements JSrealB en Node
 function jsReal2Node(jsNode){
-    if(typeof jsNode === "string")
-    {
+    if(typeof jsNode === "string"){
         return new Node(jsNode);
-    }
-    else
-    {
+    } else {
         var n=new Node(jsNode.category);
         n.realisation=jsNode.realization;
         n.prop = jsNode.prop;
         n.defaultProp = jsNode.defaultProp;
         n.childrenProp = jsNode.childrenProp;
-        
         var length = jsNode.elements.length;
-        if(length > 0)
-        {
-            for(var i = 0; i < length; i++)
-            {
+        if(length > 0){
+            for(var i = 0; i < length; i++){
                 n.addChild(jsReal2Node(jsNode.elements[i]));
             }
-        }
-        else
-        {
+        } else{
             n.addChild(new Node(jsNode.unit));
         }
     }
-    
     return n;
 }
 
@@ -38,36 +29,30 @@ function jsReal2Node(jsNode){
 //   affichage de l'arbre dans le canvas
 //
 var tree,$realisation,$entree,$sepH,$sortie,$canvas,$sepV,$info,$resultats;
-var language;
+var language="en"; // de la génération
 
-function dessiner(expr, language){
-    loadLanguage(
-        "data/",
-        language,
-        function() {
-            $realisation.hide();
-            clearCanvas();
-            $("#outtexte").text("");
-            // tree=parse(expr);
-            // console.log(pprint(tree));
-            jsTree=null;
-            try {
-                jsTree=eval(expr);
-                var result = jsTree.toString();
-                if(jsTree){
-                    tree=jsReal2Node(jsTree);
-                    layout(tree);
-                    // Node.ctx.fillStyle="black"; // dessiner le texte de la réalisation complète
-                    // Node.ctx.fillText(strip(result),10,20);
-                    $("#outtexte").text(strip(result));
-                }
-            } catch (e) {
-                // Node.ctx.fillStyle="#000000";
-                // Node.ctx.fillText(e.toString(),10,30);
-                $("#outtexte").text(e);
-            }
+function dessiner(expr){
+    $realisation.hide();
+    clearCanvas();
+    $("#outtexte").text("");
+    // tree=parse(expr);
+    // console.log(pprint(tree));
+    jsTree=null;
+    try {
+        jsTree=eval(expr);
+        var result = jsTree.toString();
+        if(jsTree){
+            tree=jsReal2Node(jsTree);
+            layout(tree);
+            // Node.ctx.fillStyle="black"; // dessiner le texte de la réalisation complète
+            // Node.ctx.fillText(strip(result),10,20);
+            $("#outtexte").text(strip(result));
         }
-    );
+    } catch (e) {
+        // Node.ctx.fillStyle="#000000";
+        // Node.ctx.fillText(e.toString(),10,30);
+        $("#outtexte").text(e);
+    }
 }
 
 // distance au carré entre deux points
@@ -177,41 +162,6 @@ function storeCurrentData() {
     }
 }
 
-
-/////////
-//   recherche dans les ressources
-function showQ(s){
-    if (s.indexOf("\\")>=0)s=s.replace("\\","\\\\");
-    if (s.indexOf('"')>=0)s=s.replace('"','\\\"');
-    return '"'+s+'"';
-}
-// afficher la chaine JSON représentant un objet
-function showJson(obj){
-    if (typeof obj === "string")
-        return showQ(obj);
-    if (typeof obj === "object"){
-        if (obj==null)return "null";
-        if (obj instanceof Array){
-            var res="[";
-            var l=obj.length;
-            for(var i=0;i<l;i++)
-                res+=showJson(obj[i])+",";
-            if(l>0)res=res.slice(0,-1);
-            return res+"]";
-        }
-        var res="{";
-        for (key in obj){
-            res+=showQ(key)+":"+showJson(obj[key])+",";
-        }
-        if(res.length>1)res=res.slice(0,-1); //enlever la dernière virgule 
-        return res+"}";
-    }
-    if (typeof obj == "boolean")
-        return showQ(obj);
-    if (typeof obj == "number")
-        return obj;
-}
-
 function showDictEntries(lexique,query){
     var regexp=new RegExp("^"+query+"$");
     var $caption=$("<caption/>").text(query);
@@ -232,7 +182,8 @@ function showDictEntries(lexique,query){
     validKeys.sort(function(a,b){return a.localeCompare(b)});
     var nbFields=allFields.length;
     // créer le tableau des entrées
-    var $thead=$("<thead><tr><th>entrée</th><th>cat</th><th>"+(allFields.join("</th><th>"))+"</th></tr></thead>");
+    var $thead=$("<thead><tr><th>entrée</th><th>cat</th><th>"+
+                (allFields.join("</th><th>"))+"</th></tr></thead>");
     var $tbody=$("<tbody>")
     var nbValidKeys=validKeys.length;
     for (var i=0;i<nbValidKeys;i++){
@@ -248,7 +199,7 @@ function showDictEntries(lexique,query){
                 if(nbCats>1)rowspan=" rowspan='"+nbCats+"'";
                 var $validKey=$("<td"+rowspan+">"+validKey+"</td>");
                 $validKey.addClass("infoSup");
-                $validKey.attr("title","JSON de l'entrée "+validKey);
+                $validKey.attr("title",(lang=="fr"?"JSON de l'entrée: ":"JSON entry of: ")+validKey);
                 $tr.append($validKey); 
             }
             $tr.append("<td>"+cat+"</td>");
@@ -258,8 +209,13 @@ function showDictEntries(lexique,query){
                 var $valCat=$("<td>"+valCat+"</td>");
                 if(k==0){
                     $valCat.addClass("infoSup");
-                    $valCat.attr("title","Contenu de la table "+valCat);
-                }
+					if (lang=="fr"){
+						mess=valCat.length>1?"Contenu des tables ":"Contenu de la table ";
+					} else {
+						mess=valCat.length>1?"Content of tables ":"Content of table ";
+					}
+                    $valCat.attr("title",mess+valCat);
+                }                            
                 $tr.append($valCat);
             }
             $tbody.append($tr);
@@ -272,7 +228,7 @@ function showDictEntries(lexique,query){
 
 function showConjugation(conjugations,mot,query,terminaison){
     var regexp=new RegExp("^"+query+"$");
-    var $div=$("<div/>")
+    var $div=$("<span/>")
     for(no in conjugations){
         if (regexp.test(terminaison?conjugations[no]["ending"]:no)){
             var conjugation=conjugations[no];
@@ -294,7 +250,7 @@ function showConjugation(conjugations,mot,query,terminaison){
 
 function showDeclension(declensions,mot,query,terminaison){
     var regexp=new RegExp("^"+query+"$");
-    var $div=$("<div/>")
+    var $div=$("<span/>")
     for(no in declensions){
         if (regexp.test(terminaison?declensions[no]["ending"]:no)){
             var declension=declensions[no];
@@ -361,7 +317,9 @@ function addInfoDic(e){
         // afficher le JSON
         var jsonMot=JSrealB.Config.get("lexicon")[val];
         if (jsonMot){
-            $("#resultatInterrogation").append("<div>"+showQ(val)+":"+showJson(jsonMot)+"</div>");
+            var o={};
+            o[val]=jsonMot;
+            $("#resultatInterrogation").append("<div>"+JSON.stringify(o)+"</div>");
         }
     } else if( (isFirstLine && index==2) || (nbSibs==nbCols-2 && index==1)){
         // on vérifie si on est dans le colonne no 2 ou 1 si la première est absente
@@ -370,19 +328,34 @@ function addInfoDic(e){
             mot=$tgt.siblings().first().text();
         }
         var c=val.charAt(0);
-        var $result;
-        if (c=="v"){ // chercher la congugaison
-            $result=showConjugation(JSrealB.Config.get("rule")["conjugation"],mot,val,false);
-        } else { // chercher la déclinaison
-            $result=showDeclension(JSrealB.Config.get("rule")["declension"],mot,val,false);
-        }
-        $("#resultatInterrogation").append($result);
+        var vals=val.split(","); // il peut y avoir plus d'une table à afficher
+		for (var i = 0; i < vals.length; i++) {
+			var val=vals[i]
+	        if (c=="v"){ // chercher la congugaison
+	            $("#resultatInterrogation").append(
+					showConjugation(JSrealB.Config.get("rule")["conjugation"],mot,val,false));
+	        } else { // chercher la déclinaison
+	            $("#resultatInterrogation").append(
+					showDeclension(JSrealB.Config.get("rule")["declension"],mot,val,false));
+	        }
+		}
     }
 }
 
-// localisation de l'interface...
 
-var lang;  // langue courante
+// localisation de l'interface...
+// taken from https://www.sitepoint.com/url-parameters-jquery/
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return results[1] || 0;
+    }
+}
+
+var lang;  // langue courante de l'interface
 var interrogationMenuFr=["dictionnaire","no de conjugaison","terminaison de conjugaison","numéro de déclinaison","terminaison de déclinaison"];
 var interrogationMenuEn=["dictionary","conjugation number","conjugation ending","declination number","declination ending"];
 function setLang(newLang){
@@ -441,17 +414,17 @@ $(document).ready(function() {
           + "// Décommenter ce bloc et commenter le suivant puis cliquer 'Réaliser en français'\n"
           + "// Uncomment this block and comment the next one then click 'Réaliser en français'\n"
           + "\n"
-          + "S(\n"
-          + "   CP(C('ou'),\n"
-          + "      NP(AP(A('fort')), N('averse')),\n"
-          + "      NP(N('orage'))).n('p'),\n"
-          + "   VP(V('cesser').t('pr'),\n"
-          + "      (PP(P('vers'),\n"
-          + "          DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"
-          + "                 minute: false, second: false, det:false, nat: true}))))\n"
-          + ").a('!')\n"
+          + "//S(\n"
+          + "//   CP(C('ou'),\n"
+          + "//      NP(AP(A('fort')), N('averse')),\n"
+          + "//      NP(N('orage'))).n('p'),\n"
+          + "//   VP(V('cesser').t('pr'),\n"
+          + "//      (PP(P('vers'),\n"
+          + "//          DT('2015/09/15 09:00').dOpt({year: false, month: false, date: false, day: true,\n"
+          + "//                 minute: false, second: false, det:false, nat: true}))))\n"
+          + "//).a('!')\n"
           + "\n"
-          + "*/\n"
+          + "\n"
 
           + "\n\n\n"
 
@@ -471,12 +444,12 @@ $(document).ready(function() {
     }
 
     $("#french-realization-en,#french-realization-fr").click(function(){
-        language = "fr";
-        dessiner(editor.getValue(), language);
+        loadFr();language="fr";
+        dessiner(editor.getValue());
     });
     $("#english-realization-en,#english-realization-fr").click(function(){
-        language = "en";
-        dessiner(editor.getValue(), language);
+        loadEn();language="en";
+        dessiner(editor.getValue());
     });
     $canvas.mousedown(afficherRealisation);
     $canvas.mouseup(cacherRealisation);
@@ -489,5 +462,13 @@ $(document).ready(function() {
     $("#interrogation").keypress(chercherInfos);
     $("#toEn").click(function(){setLang("en")});
     $("#toFr").click(function(){setLang("fr")});
-    lang="fr";setLang("en"); // mettre la langue de départ en anglais
+	
+    lang=$.urlParam("lang");
+    console.log("lang="+lang);
+    if (lang=="en" || lang=="fr")
+        setLang(lang);
+    else {// mettre la langue de départ en anglais
+		lang="fr"; // langue à effacer
+        setLang("en");
+	}
 });
