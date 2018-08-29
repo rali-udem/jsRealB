@@ -31,8 +31,8 @@ jsRealB-%.js : core.js rule-%.js lexicon-%.js addLexicon-%.js
 jsRealB-%-node.js : jsRealB-%.js node-module.js
 	cat $^ > $@
 
-dist/%.min.js : %.js
-	mkdir -p dist
+../dist/%.min.js : %.js
+	mkdir -p ../dist
 	uglifyjs $^ -c >$@
 
 clean:
