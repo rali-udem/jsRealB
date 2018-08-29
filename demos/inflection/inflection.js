@@ -76,8 +76,12 @@ function conjuguer(verbe){
                 //Ajout imperative
                 $("#tableau").append($("<tr/>").append("<th style='padding-top:10px'>Imperative</th>"));
                 var negation = $("#negationButton").is(':checked');
-                var v=V(verbe).t('b').typ({neg:negation});
-                $("#tableau").append($("<tr/>").append("<td style='padding-right:10px'>"+S(v).a(" ")+"</td>"));
+                $("#tableau")
+                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("s").typ({neg:negation}).a("!")+"</td></tr>");
+                $("#tableau")
+                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(1).n("p").typ({neg:negation}).a("!")+"</td></tr>");
+                $("#tableau")
+                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("p").typ({neg:negation}).a("!")+"</td></tr>");
             }
         }
     }

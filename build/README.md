@@ -1,4 +1,4 @@
-#FILE ORGANIZATION OF THE jsRealB system
+# FILE ORGANIZATION OF THE jsRealB system
 
 A basic jsRealB instance (for use in a web page) is the concatenation of
 
