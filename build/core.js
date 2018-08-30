@@ -2981,8 +2981,11 @@ JSrealB.Module.Conjugation = (function(){
         }
         else if (tense == "ip"){
             var verb=unit;
-            if (person==4)
-                verb =(verbOptions.neg == true?"don't ":"let's ")+verb;
+            if (verbOptions.neg == true){
+                verb = (person==4?"let's not ":"do not ")+verb;
+            } else{
+                if (person==4) verb = "let's "+verb;
+            } 
             return verb;
         }
         else if(tense == "f"){
