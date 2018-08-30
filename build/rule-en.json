@@ -2969,7 +2969,7 @@
     "date": {
         "format": {
             "non_natural": {
-                "year-month-date-day": "[m]\/[d]\/[Y]",
+                "year-month-date-day": "[l] [m]\/[d]\/[Y]",
                 "year-month-date": "[m]\/[d]\/[Y]",
                 "year-month": "[m]\/[Y]",
                 "month-date": "[m]\/[d]",
@@ -2977,30 +2977,30 @@
                 "year": "[Y]",
                 "month": "[m]",
                 "date": "[d]",
-                "day": "[d]",
-                "hour:minute:second": "[h]:[i]:[s] [A]",
-                "hour:minute": "[h]:[i] [A]",
-                "minute:second": "[i]:[s]",
+                "day": "[l]",
+                "hour:minute:second": "[H0]:[m0]:[s0] [A]",
+                "hour:minute": "[h]:[m0] [A]",
+                "minute:second": "[m0]:[s0]",
                 "hour": "[h] [A]",
-                "minute": "[i]",
+                "minute": "[m]",
                 "second": "[s]"
             },
             "natural": {
-                "year-month-date-day": "on [l], [F] [j], [Y]",
-                "year-month-date": "on [F] [j], [Y]",
+                "year-month-date-day": "on [l], [F] [d], [Y]",
+                "year-month-date": "on [F] [d], [Y]",
                 "year-month": "on [F] [Y]",
-                "month-date": "on [F] [j]",
-                "month-date-day": "on [l], [F] [j]",
-                "year": "on [Y]",
-                "month": "on [F]",
-                "date": "on [j]",
+                "month-date": "on [F] [d]",
+                "month-date-day": "on [l], [F] [d]",
+                "year": "in [Y]",
+                "month": "in [F]",
+                "date": "on the [d]",
                 "day": "on [l]",
-                "hour:minute:second": "at [h]:[i]:[s] [A]",
-                "hour:minute": "at [h]:[i] [A]",
-                "minute:second": "at [i]:[s] [A]",
+                "hour:minute:second": "at [h]:[m0]:[s0] [A]",
+                "hour:minute": "at [h]:[m0] [A]",
+                "minute:second": "at [m]:[s0] [A]",
                 "hour": "at [h] [A]",
-                "minute": "at [i]min",
-                "second": "at [s]s"
+                "minute": "at [m] min",
+                "second": "at [s] s"
             },
             "relative_time": {
                 "-": "[x] days ago",
@@ -3036,7 +3036,7 @@
                 "11": "November",
                 "12": "December"
             },
-            "meridiem": ["AM","PM"]
+            "meridiem": ["a.m.","p.m."]
         }
     },
     "number": {

@@ -2980,7 +2980,10 @@ JSrealB.Module.Conjugation = (function(){
             }
         }
         else if (tense == "ip"){
-            return unit;
+            var verb=unit;
+            if (person==4) verb ="let's "+verb;
+            if(verbOptions.neg == true) verb = "don't "+verb;
+            return verb;
         }
         else if(tense == "f"){
             var aux = JSrealB.Config.get('rule.compound.future.aux');
@@ -3020,7 +3023,7 @@ JSrealB.Module.Conjugation = (function(){
             var aux = conjugate(JSrealB.Config.get("rule.compound.perfect.aux"), tense, person, "", verbOptions);
         }
         else if(verbOptions.neg == true){
-            if(tense == "f"){
+            if(tense == "f"  || tense =="ip"){
                 return conjugSimpleEN(unit,tense, person, conjugationTable, verbOptions);
             }
             else{
@@ -3261,7 +3264,7 @@ JSrealB.Module.Date = (function() {
     var numberTo12hour = function(n) {
         if(isNumeric(n))
         {
-            return numberWithLeadingZero(getInt(n) >= 12 ? (getInt(n) - 12) : n);
+            return numberWithoutLeadingZero(getInt(n) >= 12 ? (getInt(n) - 12) : n);
         }
         
         return "[[" + n + "]]";
@@ -3273,54 +3276,22 @@ JSrealB.Module.Date = (function() {
     
     //// Based on format of strftime [linux]
     var format = {
-        Y: {
-            param: getYear,
-            func: numberWithoutLeadingZero
-        },
-        F: {
-            param: getMonth,
-            func: numberToMonth
-        },
-        m: {
-            param: getMonth,
-            func: numberWithLeadingZero
-        },
-        d: {
-            param: getDate,
-            func: numberWithLeadingZero
-        },
-        j: {
-            param: getDate,
-            func: numberWithoutLeadingZero
-        },
-        l: {
-            param: getDay,
-            func: numberToDay
-        },
-        A: {
-            param: getHour,
-            func: numberToMeridiem
-        },
-        h: {
-            param: getHour,
-            func: numberTo12hour
-        },
-        H: {
-            param: getHour,
-            func: numberWithLeadingZero
-        },
-        i: {
-            param: getMinute,
-            func: numberWithLeadingZero
-        },
-        s: {
-            param: getSecond,
-            func: numberWithLeadingZero
-        },
-        x: {
-            param: getCustomValue,
-            func: doNothing
-        }
+        Y: { param: getYear,    func: numberWithoutLeadingZero },
+        F: { param: getMonth,   func: numberToMonth },
+        M0: { param: getMonth,  func: numberWithLeadingZero },
+        M: { param: getMonth,   func: numberWithoutLeadingZero },
+        d0: { param: getDate,   func: numberWithLeadingZero },
+        d: { param: getDate,    func: numberWithoutLeadingZero },
+        l: { param: getDay,     func: numberToDay },
+        A: { param: getHour,    func: numberToMeridiem },
+        h: { param: getHour,    func: numberTo12hour },
+        H0: { param: getHour,   func: numberWithLeadingZero },
+        H: { param: getHour,    func: numberWithoutLeadingZero },
+        m0: { param: getMinute, func: numberWithLeadingZero },
+        m: { param: getMinute,  func: numberWithoutLeadingZero },
+        s0: { param: getSecond, func: numberWithLeadingZero },
+        s: { param: getSecond,  func: numberWithoutLeadingZero },
+        x: { param: getCustomValue, func: doNothing }
     };
     
     var getPatternKey = function(elementDisplayed, allElementList, separator) {
