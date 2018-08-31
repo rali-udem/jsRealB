@@ -77,11 +77,11 @@ function conjuguer(verbe){
                 $("#tableau").append($("<tr/>").append("<th style='padding-top:10px'>Imperative</th>"));
                 var negation = $("#negationButton").is(':checked');
                 $("#tableau")
-                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("s").typ({neg:negation}).a("!")+"</td></tr>");
+                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("s").typ({neg:negation}).a(" ")+"</td></tr>");
                 $("#tableau")
-                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(1).n("p").typ({neg:negation}).a("!")+"</td></tr>");
+                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(1).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
                 $("#tableau")
-                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("p").typ({neg:negation}).a("!")+"</td></tr>");
+                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
             }
         }
     }
