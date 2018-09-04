@@ -1,6 +1,6 @@
 js   := jsRealB-dme.js jsRealB-dmefr.js jsRealB-en.js jsRealB-enfr.js jsRealB-fr.js
 node  = $(js:.js=-node.js)
-minjs = $(patsubst %.js,../dist/%.min.js,$(js))
+minjs = $(patsubst %.js,../dist/%.min.js,$(js) $(node))
 
 ## create different version of jsRealB by concatenating basic modules
 
