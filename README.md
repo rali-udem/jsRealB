@@ -38,7 +38,10 @@ live demos.
 * [1 km à pied: a repetitive text in French](https://rawgit.com/rali-udem/JSrealB/master/demos/KilometresAPied/index.html)
 * [Date generation](https://rawgit.com/rali-udem/JSrealB/master/demos/date/index.html)
 * [Elision: tests for the French elision module](https://rawgit.com/rali-udem/JSrealB/master/demos/elision/index.html)
+* [French text generation of a list of events fiound in a json file](https://rawgit.com/rali-udem/JSrealB/master/demos/Evenements/index.html)
+* [Sentence variants by try all types](https://rawgit.com/rali-udem/JSrealB/master/demos/VariantesDePhrases/index.html)
 * [Exercises in style à la Raymond Queneau](http://rawgit.com/rali-udem/JSrealB/master/demos/ExercicesDeStyle/index.html) [[JavaScript code](demos/ExercicesDeStyle/ExerciceDeStyle.js)] [[The Exercises on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
+
 
 ## Authors
 jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the works of:

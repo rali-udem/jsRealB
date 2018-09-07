@@ -1,5 +1,5 @@
 "use strict";
-var jsRealBdir='../jsRealB2/';
+var jsRealBdir='https://rawgit.com/rali-udem/JSrealB/master/dist/';
 var currentLang;
 
 // taken from https://www.sitepoint.com/url-parameters-jquery/
