@@ -269,7 +269,7 @@ var nPmods={"fr":'',"en":'',
         {"pattern":"", "fr":["de l'objet direct",'S(Pro("je"),VP(V("aimer"),NP(D("le"),N("pomme")).pro()))'],
                        "en":["of the direct object",'S(Pro("I"),VP(V("love"),NP(D("a"),N("apple").g("n")).pro()))']},
         {"pattern":"", 
-         "fr":["de l'objet indirect",'S(Pro("je"),VP(V("aller"),PP(P("à"),NP(D("le"),N("maison")).pro())))'],
+         "fr":["de l'objet indirect",'S(Pro("je"),VP(V("aller"),PP(P("vers"),NP(D("le"),N("maison")).pro())))'],
          "en":["of the indirect object",'S(Pro("I"),VP(V("go"),PP(P("to"),NP(D("a"),N("house").g("n")).pro())))']},
 ]};
 

@@ -9,6 +9,25 @@ var evList = [
 { date:'2013-10-03', ville:'Longueuil',cat:'at', h:'13:00', tit:'Planification et réalisation', part:'n' } 
 ];
 
+// Définit les informations comme des chaines pour pouvoir les afficher dans la page avant l'évaluation des N
+// catégories d'événements
+catWordString="{\n\
+  cs: N('consultation').n('p'),\n\
+  at: N('atelier'),\n\
+  cf: N('conférence'),\n\
+  sj: N('séjour')\n\
+}";
+// parenthèses ajouter pour que eval sache que { } n'englobe pas un bloc mais bien une expression
+catWord = eval("("+catWordString+")"); 
+
+// participants
+partInfoString="{\n\
+  a: { name: N('Alice'), tel: 5552543, email: false },\n\
+  r: { name: N('Robert'), tel: false, email: 'rob@JSreal.js' },\n\
+  n: { name: N('Nicolas'), tel: 5556426, email: 'nic@JSreal.js' }\n\
+}";
+partInfo = eval("("+partInfoString+")"); 
+
 // texte à produire
 //   attention il ne correspond pas tout à fait aux données !!!
 
@@ -33,22 +52,27 @@ var evList = [
 // <p>Pour réserver, contactez-moi
 // au 555-6426 ou au <a href="mailto:nic@JSreal.js">nic@JSreal.js</a>.</p>
 
-function showObj(obj){
-    var res="";
-    for (i in obj) {
-        o=obj[i];
-        if (typeof(o)=="string")o='"'+o+'"';
-        res+=i+":"+o+", ";
-    }
-    return " {"+res.replace(/, $/,"")+"}";
-}
+// function showObj(obj){
+//     var res="";
+//     for (i in obj) {
+//         o=obj[i];
+//         if (typeof(o)=="string")o='"'+o+'"';
+//         res+=i+":"+o+", ";
+//     }
+//     return " {"+res.replace(/, $/,"")+"}";
+// }
 
-function showList(xs){
+function showList(titre,xs){
     var res="";
-    for (var i = 0; i < xs.length; i++) {
-        res+=showObj(xs[i])+",\n";
+    if (Array.isArray(xs)){
+        for (var i = 0; i < xs.length; i++) {
+            res+=" "+JSON.stringify(xs[i])+",\n";
+        }
+        res="[\n"+res.replace(/,\n$/,"\n")+"]"
+    } else {
+        res=xs;
     }
-    return "[\n"+res.replace(/,\n$/,"\n")+"]"
+    return $("<div/>").append("<h3>"+titre+"</h3>").append("<pre>"+res+"</pre>");
 }
 
 function fmtTel(s){
@@ -100,10 +124,10 @@ function showMotif(ev){
 
 function showContact(ev,pronominalise){
     var part=partInfo[ev.part]
-    var nomParticipant=NP(part.word)
+    var nomParticipant=NP(part.name)
     if (pronominalise) nomParticipant=nomParticipant.pro()
     return S(PP(P("pour"),V("réserver").t("b")).a(","),
-             S(VP(V("contacter").t("b"),nomParticipant),part.contact));
+             S(VP(V("contacter").t("ip").pe(2).n("p"),nomParticipant),part.contact));
 }
 
 function showGroupe(evs,$elem){
@@ -115,14 +139,15 @@ function showGroupe(evs,$elem){
         $elem.append(titre.toString());
         quand=makeDate(ev.date,ev.h).a(",")
         // participant
-        participant=partInfo[ev.part].word
+        participant=partInfo[ev.part].name
         // ville et adresse
         if (ev.adr)
             place=S(ev.adr,P('à'),ev.ville);
         else
             place = S(P('à'),ev.ville);
-        contact=S(PP(P("pour"),V("réserver").t("b")).a(","),
-                  S(VP(V("contacter").t("b"),NP(participant).pro())),partInfo[ev.part].contact).b(" ");
+        showContact(ev,true)
+        // contact=S(PP(P("pour"),V("réserver").t("b")).a(","),
+        //           S(VP(V("contacter").t("b"),NP(getLemma(participant)).pro())),partInfo[ev.part].contact).b(" ");
         // titre
         $p=$("<p/>");
         constituants=S(quand,participant,V("être").t("f"),place,PP(P("pour"),showMotif(ev)));
@@ -153,9 +178,9 @@ function showGroupe(evs,$elem){
         }
         // console.log("ps=%o",ps);
         if (ps.length>1)
-            participants=CP.apply(this,[C("et")].concat(ps.map(function(p){return p.word})));
+            participants=CP.apply(this,[C("et")].concat(ps.map(function(p){return p.name})));
         else
-            participants=ps[0].word;
+            participants=ps[0].name;
         // console.log("participants:%o",participants);
         // ville et adresse
         if (ev.adr)
@@ -182,7 +207,7 @@ function showGroupe(evs,$elem){
             if (ev.tit) // ajouter le titre si nécessaire
                 constituants.add(S(ev.tit).tag("i"));
             if (ps.length>1) // préciser le participants s'il y en a plus qu'un
-                constituants.add(PP(P("avec"),partInfo[ev.part].word))
+                constituants.add(PP(P("avec"),partInfo[ev.part].name))
             $ul.append(""+constituants.tag("li"))
         }
         $elem.append($ul);
@@ -193,37 +218,22 @@ function showGroupe(evs,$elem){
 function generer(){
     var $sortie=$("#sortie");
     // // ajouts au lexique
-    var lex = JSrealB.Config.get("lexicon");
-    lex["Alice"]={ "N": { "g": "f", "pe": 3, "tab": ["nI"] } };
-    lex["Robert"]={ "N": { "g": "m", "pe": 3, "tab": ["nI"] } };
-    lex["Nicolas"]={ "N": { "g": "m", "pe": 3, "tab": ["nI"] } };
-    lex["consultation"]={"N":{"g":"f","tab":["n17"]}};
-    lex["courriel"]={"N":{"g":"m","tab":["n3"]}};
-    lex["contacter"]={"V":{"tab":"v36","aux":["av"]}};
-    lex["privé"]={"A":{"tab":["n28"]}}
+    addToLexicon({"Alice":{ "N": { "g": "f", "pe": 3, "tab": ["nI"] } }});
+    addToLexicon({"Robert":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
+    addToLexicon({"Nicolas":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
+    addToLexicon({"consultation":{"N":{"g":"f","tab":["n17"]}}});
+    addToLexicon({"courriel":{"N":{"g":"m","tab":["n3"]}}});
+    addToLexicon({"contacter":{"V":{"tab":"v36","aux":["av"]}}});
+    addToLexicon({"privé":{"A":{"tab":["n28"]}}});
 
     // ajout des structures JSrealB pour compléter les informations sur les participants et les catégories d'événements
 
-    partInfo = {
-      a: { word: N('Alice'), tel: 5552543, email: false },
-      r: { word: N('Robert'), tel: false, email: 'rob@JSreal.js' },
-      n: { word: N('Nicolas'), tel: 5556426, email: 'nic@JSreal.js' }
-    }
-
-    catWord = {
-      cs: N('consultation').n('p'),
-      at: N('atelier'),
-      cf: N('conférence'),
-      sj: N('séjour')
-    }
-    
     // ajouter les informations de contact
     for (p in partInfo) {
         var contact = CP(C("ou"));
         var tel = partInfo[p].tel;
         if (tel)
             contact.add(S(D('au'), fmtTel(tel)));
-        // console.log(tel, cdet)
         var em = partInfo[p].email;
         if (em)
             contact.add(S(P('à'),fmtEmail(em)));
@@ -238,8 +248,8 @@ function generer(){
 
 $(document).ready(function() {
     // montrer les données
-    $("#donnees").append(showList(evList));
-    // loadLanguage("./","fr",generer);
-    // loadFr();
+    $("#donnees").append(showList("Liste des événements",evList));
+    $("#donnees").append(showList("Information sur les participants",partInfoString));
+    $("#donnees").append(showList("Catégories d'activités",catWordString));
     generer();
 });
