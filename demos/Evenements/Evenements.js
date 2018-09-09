@@ -1,3 +1,12 @@
+// // ajouts au lexique
+addToLexicon({"Alice":{ "N": { "g": "f", "pe": 3, "tab": ["nI"] } }});
+addToLexicon({"Robert":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
+addToLexicon({"Nicolas":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
+addToLexicon({"consultation":{"N":{"g":"f","tab":["n17"]}}});
+addToLexicon({"courriel":{"N":{"g":"m","tab":["n3"]}}});
+addToLexicon({"contacter":{"V":{"tab":"v36","aux":["av"]}}});
+addToLexicon({"privé":{"A":{"tab":["n28"]}}});
+
 // événements à présenter
 var evList = [
 { date:'2013-09-25', ville:'Laval',cat:'at', h:'19:00', attr:'nouveau', tit:'Exercices de réalisation', part:'a', res:'a' } ,
@@ -217,14 +226,6 @@ function showGroupe(evs,$elem){
 
 function generer(){
     var $sortie=$("#sortie");
-    // // ajouts au lexique
-    addToLexicon({"Alice":{ "N": { "g": "f", "pe": 3, "tab": ["nI"] } }});
-    addToLexicon({"Robert":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
-    addToLexicon({"Nicolas":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
-    addToLexicon({"consultation":{"N":{"g":"f","tab":["n17"]}}});
-    addToLexicon({"courriel":{"N":{"g":"m","tab":["n3"]}}});
-    addToLexicon({"contacter":{"V":{"tab":"v36","aux":["av"]}}});
-    addToLexicon({"privé":{"A":{"tab":["n28"]}}});
 
     // ajout des structures JSrealB pour compléter les informations sur les participants et les catégories d'événements
 

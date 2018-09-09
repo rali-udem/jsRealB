@@ -948,16 +948,22 @@ JSrealE.prototype.modifyStructure = function() {
                     parent.resetProp(true);
                 break;
                 case JSrealB.Config.get("feature.category.phrase.verb"):
-                    //Objet direct
+                    //Objet direct : on l'ajoute en anglais 
                     if(JSrealB.Config.get("language")==JSrealE.language.english){
                         parent.addNewElement(np,pronoun);
                         parent.resetProp(true);
                     }
-                    else{
+                    else{ // en français
                         var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
-                        parent.addNewElement(vp,pronoun);
+                        if (parent.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+                            == JSrealB.Config.get("feature.tense.imperative.present")){
+                                // à l'impératif, on l'ajoute après le verbe lié avec un -
+                                parent.constituents.head.setCtx(JSrealB.Config.get("feature.liaison.alias"),true);
+                                parent.addNewElement(np,pronoun);
+                        } else {
+                            parent.addNewElement(vp,pronoun);
+                        }
                         parent.resetProp(true);
-                        var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
                         parent.elements[vp].setProp(JSrealB.Config.get("feature.cdInfo.alias"),cdInfo);
                     }                    
                 break;
@@ -969,7 +975,8 @@ JSrealE.prototype.modifyStructure = function() {
         }
     }
     //Impératif (retrait du Sujet)
-    if(this.getChildrenProp(JSrealB.Config.get("feature.tense.alias")) == JSrealB.Config.get("feature.tense.imperative.present")){
+    var tense=this.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+    if( tense == JSrealB.Config.get("feature.tense.imperative.present")){
         if(this.category == JSrealB.Config.get("feature.category.phrase.sentence")){
             var NPpos = getSubject(this);
             if(NPpos != -1){
@@ -1261,7 +1268,7 @@ JSrealE.prototype.realizeConjugation = function() {
     }
     if(number === JSrealB.Config.get("feature.number.plural"))
     {
-        person += 3;
+        person = parseInt(person)+3;
     }
     return JSrealB.Module.Conjugation.conjugate(this.unit, tense, person, gender, verbOptions, cdProp, auxF);
 };
