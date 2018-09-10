@@ -660,7 +660,7 @@ JSrealE.prototype.real = function() {
             this.realization = this.printElements();
             // console.log("real:realization",this.realization);
           
-            return this.typography(this.html(this.phonetic(this.realization)));
+            return this.html(this.typography(this.phonetic(this.realization)));
         }
         else
         {
@@ -4708,7 +4708,6 @@ var loadEn = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconEn, ruleEn, feature);
         }
         if(trace)
@@ -4732,7 +4731,6 @@ var loadFr = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconFr, ruleFr, feature);
         }
         if(trace)
