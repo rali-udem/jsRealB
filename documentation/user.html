@@ -143,6 +143,17 @@ The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon i
 To remove an entry a call of the form
 <code>addToLexicon(<em>entry</em>,undefined)</code> should be used.</p>
 
+<h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
+<p lang="fr">
+La fonction <code>variant(es)</code> (où <code>es</code> est une liste) choisit un élément de <code>es</code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. 
+Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>transformer</em> l'expression en une fonction en la préfixant par <code>()=></code>. Une fois l'élément choisi, <code>variant</code> vérifie si la valeur est une fonction et si c'est le cas, il l'appelle sans paramètres. Par exemple,
+<code>variant[()=>N("amour"),()=>N("amitié")]</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(variant(["amour","amitié"]))</code>.
+</p>
+<p lang="en">
+The function <code>variant(es)</code> (where <code>es</code> is a list) selects a random element of <code>es</code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. To avoid the evaluation of all elements before the selection, it is possible to <em>transform</em> the expression in a function by prefixing it with <code>()=></code>. Once the element is selected, <code>variant</code> checks if the value is a function and if it is so, it calls it without any parameter. For exemple,
+<code>variant[()=>V("love"),()=>V("like")]</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(variant(["love","like"]))</code>.
+</p>
+
 <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>
     <li><a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" lang="fr">Historique des versions et démonstrations</a><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" lang="en">Previous versions and demos</a></li>

@@ -386,31 +386,32 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
     return true;
 };
 
-//ajout clone pour réutiliser un objet facilement sans la référence
+//  "clone" pour réutiliser un objet facilement sans la référence
+// comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
+//    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
 JSrealE.prototype.toObject = function() {
-
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
-        nativeString += "\(\""+this.unit+"\"\)";
-        for(prop in this.initProp){
-            nativeString += "."+prop+"\(\""+this.initProp[prop]+"\"\)";
-        }
+        nativeString += "(\""+this.unit+"\")";
     }
     else{
-        nativeString += "\(";
+        var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
-            nativeString += this.elements[i].toObject()
-            if(i < imax-1) nativeString += ",";
+            subElems.push(this.elements[i].toObject())
         }
-        nativeString += "\)";
+        nativeString += "("+subElems.join(",")+")";
     }
-    return nativeString;
+    var subProps=[];
+    for(prop in this.initProp){
+        subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    }
+    return nativeString+subProps.join("");
 }
 JSrealE.prototype.clone = function(){
     var native = this.toObject();
-    var native2 = eval(native);
-    return native2;
+    // console.log("native:"+native)
+    return eval(native);
 }
 
 //// Word Features / Properties
@@ -1187,7 +1188,9 @@ JSrealE.prototype.realizeTerminalElement = function() {
                     || this.getTreeRoot(false).getCtx("firstAux")!=null)){ //GL juillet 2017 (true=>false)
                     conjugation = this.putAuxInFront(conjugation);
                 }
-            }catch(e){console.warn("Error while moving aux:"+e)}
+            }catch(e){
+                // console.warn("Error while moving aux:"+e) //GL spurious message when generating only single NP or VP
+            }
             return conjugation;
         }
         else if(this.transformation === JSrealE.ruleType.regular)
@@ -1522,7 +1525,7 @@ var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
 uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
 acronymRE=/^[A-Z]+$/
-punctuationRE=/[,:\."'\[\]\(\)\?]/
+punctuationRE=/[,:\.\[\]\(\)\?]/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
@@ -1575,8 +1578,8 @@ function elisionEn(content){
 // same as sepWordREen but the [\w] class extended with French Accented letters and cedilla
 var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
 
-var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|jusque|quoique)$/i
-var euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
+var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
+var euphonieFrRE=/^(ma|ta|sa|ça|ce|beau|fou|mou|nouveau|vieux)$/i
 var euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
     "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
 
@@ -1614,7 +1617,7 @@ function elisionFr(content){
         if (!punctuationRE.exec(sep)){   // do not elide over punctuation
             if (elidableWordFrRE.exec(previous)){
                 if (isElidableFr(current)){
-                    res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                    res=res+previous.slice(0,-1)+"'"+sep.trim();
                     continue;
                 }
             }
@@ -1622,7 +1625,7 @@ function elisionFr(content){
                 if (isElidableFr(current)){
                     if (/ce/i.exec(previous) && /(^est$)|(^étai)/.exec(current)){
                         // very special case but very frequent
-                        res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                        res=res+previous.slice(0,-1)+"'"+sep.trim();
                     } else
                         res=res+lookUp(previous,euphonieFrTable)+sep;
                     continue;
@@ -1630,7 +1633,7 @@ function elisionFr(content){
             }
             var contr=lookUp(previous+"+"+current,contractionFrTable);
             if (contr!=null){
-                res=res+contr+sep.replace(/ /g,"");
+                res=res+contr+sep.trim();
                 // to force the loop to ignore current
                 previous="";sep="";current="";
                 continue;
@@ -2832,6 +2835,7 @@ JSrealB.Module.Conjugation = (function(){
                     verbOptions.native == true){
                     //special case: be native and negative
                     if(unit == 'be'){
+                        if (tense=="b") return "to be";
                         return applySimpleEnding(unit, tense, person, conjugationTable)+
                                ((verbOptions.neg == true)?" "+JSrealB.Config.get("rule.verb_option.neg.prep1"):"");
                     }
@@ -4766,4 +4770,12 @@ var addToLexicon = function(lemma,newInfos){
 //// get lemma from lexicon (useful for debugging )
 var getLemma = function(lemma){
     return JSrealB.Config.get("lexicon")[lemma]
+}
+
+//// select a random element in a list 
+//     (if the element is a function, evaluate it without parameter)
+//   useful to have some variety in the generated text
+var variant = function(elems){
+    var e=elems[Math.floor(Math.random()*elems.length)];
+    return typeof e=='function'?e():e;
 }

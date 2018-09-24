@@ -179,6 +179,9 @@ function showDictEntries(lexique,query){
             }
         }
     }
+    if (validKeys.length==0){
+        return $("<p>"+query+":"+(lang=="fr"?"non trouvé au dictionnaire ":"not found in dictionary")+"</p>");
+    }
     validKeys.sort(function(a,b){return a.localeCompare(b)});
     var nbFields=allFields.length;
     // créer le tableau des entrées
@@ -228,9 +231,11 @@ function showDictEntries(lexique,query){
 
 function showConjugation(conjugations,mot,query,terminaison){
     var regexp=new RegExp("^"+query+"$");
-    var $div=$("<span/>")
+    var $div=$("<span/>");
+    var found=false;
     for(no in conjugations){
         if (regexp.test(terminaison?conjugations[no]["ending"]:no)){
+            found=true;
             var conjugation=conjugations[no];
             var $caption=$("<caption/>").html(mot+" <b>"+no+"</b> :: "+conjugation["ending"]);
             var $tbody=$("<tbody/>");
@@ -245,14 +250,17 @@ function showConjugation(conjugations,mot,query,terminaison){
             $div.append($("<table class='info'/>").append($caption,$thead,$tbody))
         }
     }
-    return $div;
+    if (found) return $div;
+    return $("<p>"+query+":"+(lang=="fr"?"conjugaison non trouvée":"conjugation not found")+"</p>");
 }
 
 function showDeclension(declensions,mot,query,terminaison){
     var regexp=new RegExp("^"+query+"$");
     var $div=$("<span/>")
+    var found=false;
     for(no in declensions){
         if (regexp.test(terminaison?declensions[no]["ending"]:no)){
+            found=true;
             var declension=declensions[no];
             var $caption=$("<caption/>").html(mot+" <b>"+no+"</b> :: "+declension["ending"]);
             var lines=declension["declension"];
@@ -277,7 +285,8 @@ function showDeclension(declensions,mot,query,terminaison){
             $div.append($("<table class='info'/>").append($caption,$thead,$tbody))
         }
     }
-    return $div;
+    if (found) return $div;
+    return $("<p>"+query+":"+(lang=="fr"?"déclinaison non trouvée":"declension not found")+"</p>");
 }
 
 // n'est appelé que lorsqu'on tape return
@@ -357,7 +366,7 @@ $.urlParam = function(name){
 
 var lang;  // langue courante de l'interface
 var interrogationMenuFr=["dictionnaire","no de conjugaison","terminaison de conjugaison","numéro de déclinaison","terminaison de déclinaison"];
-var interrogationMenuEn=["dictionary","conjugation number","conjugation ending","declination number","declination ending"];
+var interrogationMenuEn=["dictionary","conjugation number","conjugation ending","declension number","declension ending"];
 function setLang(newLang){
     $("[lang="+lang+"]").hide();
     lang=newLang;
@@ -464,7 +473,6 @@ $(document).ready(function() {
     $("#toFr").click(function(){setLang("fr")});
 	
     lang=$.urlParam("lang");
-    console.log("lang="+lang);
     if (lang=="en" || lang=="fr")
         setLang(lang);
     else {// mettre la langue de départ en anglais

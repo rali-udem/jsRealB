@@ -3152,8 +3152,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "vieux","g": "m","n": "p"
             },{
                 "val": "vieilles","g": "f","n": "p"
-            },{
-                "val": "vieil","g": "m","n": "s"
             }]
         },
         "n74": {
@@ -3486,8 +3484,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "eaux","g": "m","n": "p"
             },{
                 "val": "elles","g": "f","n": "p"
-            },{
-                "val": "el","g": "m","n": "s"
             }]
         },
         "n109": {
@@ -3500,8 +3496,12 @@ var ruleFr = //========== rule-fr.js
                 "val": "ous","g": "m","n": "p"
             },{
                 "val": "olles","g": "f","n": "p"
-            },{
-                "val": "ol","g": "m","n": "s"
+            }]
+        },
+        "pn0":{
+            "ending":"on",
+            "declension":[{
+                "val": "on","g": "x","n": "s","pe": 3
             }]
         },
         "pn1": {
@@ -3522,10 +3522,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "ils","g": "m","n": "p","pe": 3
             },{
                 "val": "elles","g": "f","n": "p","pe": 3
-            },{
-                "val": "on","g": "m","n": "s","pe": 3
-            },{
-                "val": "j'","g": "x","n": "s","pe": 1
             }]
         },
         "pn2": {
@@ -3544,18 +3540,10 @@ var ruleFr = //========== rule-fr.js
                 "val": "la","g": "f","n": "s","pe": 3
             },{
                 "val": "les","g": "x","n": "p","pe": 3
-            },{
-                "val": "m'","g": "x","n": "s","pe": 1
-            },{
-                "val": "t'","g": "x","n": "s","pe": 2
-            },{
-                "val": "l'","g": "m","n": "s","pe": 3
-            },{
-                "val": "l'","g": "f","n": "s","pe": 3
             }]
         },
         "pn3": {
-            "ending": "me",
+            "ending": "me*coi",
             "declension": [{
                 "val": "me","g": "x","n": "s","pe": 1
             },{
@@ -3568,10 +3556,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "lui","g": "x","n": "s","pe": 3
             },{
                 "val": "leur","g": "x","n": "p","pe": 3
-            },{
-                "val": "m'","g": "x","n": "s","pe": 1
-            },{
-                "val": "t'","g": "x","n": "s","pe": 2
             }]
         },
         "pn4": {
@@ -3611,7 +3595,7 @@ var ruleFr = //========== rule-fr.js
             }]
         },
         "pn6": {
-            "ending": "me",
+            "ending": "me*refl",
             "declension": [{
                 "val": "me","g": "x","n": "s","pe": 1
             },{
@@ -3622,16 +3606,10 @@ var ruleFr = //========== rule-fr.js
                 "val": "vous","g": "x","n": "p","pe": 2
             },{
                 "val": "se","g": "x","n": "x","pe": 3
-            },{
-                "val": "m'","g": "x","n": "s","pe": 1
-            },{
-                "val": "t'","g": "x","n": "s","pe": 2
-            },{
-                "val": "s'","g": "x","n": "x","pe": 3
             }]
         },
         "pn7": {
-            "ending": "moi",
+            "ending": "moi*refl",
             "declension": [{
                 "val": "moi","g": "x","n": "s","pe": 1
             },{
@@ -3742,10 +3720,6 @@ var ruleFr = //========== rule-fr.js
             "ending": "ce",
             "declension": [{
                 "val": "ce","g": "n","n": "s","pe": 3
-            },{
-                "val": "c'","g": "n","n": "s","pe": 3
-            },{
-                "val": "ç'","g": "n","n": "s","pe": 3
             }]
         },
         "pn15": {
@@ -3824,14 +3798,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "que","g": "m","n": "p"
             },{
                 "val": "que","g": "f","n": "p"
-            },{
-                "val": "qu'","g": "m","n": "s"
-            },{
-                "val": "qu'","g": "f","n": "s"
-            },{
-                "val": "qu'","g": "m","n": "p"
-            },{
-                "val": "qu'","g": "f","n": "p"
             }]
         },
         "pn23": {
@@ -3910,8 +3876,6 @@ var ruleFr = //========== rule-fr.js
             "ending": "que",
             "declension": [{
                 "val": "que"
-            },{
-                "val": "qu'"
             }]
         },
         "pn32": {
@@ -3954,10 +3918,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "les","g": "m","n": "p"
             },{
                 "val": "les","g": "f","n": "p"
-            },{
-                "val": "l'","g": "m","n": "s"
-            },{
-                "val": "l'","g": "f","n": "s"
             }]
         },
         "d2": {

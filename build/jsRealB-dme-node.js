@@ -386,31 +386,32 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
     return true;
 };
 
-//ajout clone pour réutiliser un objet facilement sans la référence
+//  "clone" pour réutiliser un objet facilement sans la référence
+// comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
+//    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
 JSrealE.prototype.toObject = function() {
-
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
-        nativeString += "\(\""+this.unit+"\"\)";
-        for(prop in this.initProp){
-            nativeString += "."+prop+"\(\""+this.initProp[prop]+"\"\)";
-        }
+        nativeString += "(\""+this.unit+"\")";
     }
     else{
-        nativeString += "\(";
+        var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
-            nativeString += this.elements[i].toObject()
-            if(i < imax-1) nativeString += ",";
+            subElems.push(this.elements[i].toObject())
         }
-        nativeString += "\)";
+        nativeString += "("+subElems.join(",")+")";
     }
-    return nativeString;
+    var subProps=[];
+    for(prop in this.initProp){
+        subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    }
+    return nativeString+subProps.join("");
 }
 JSrealE.prototype.clone = function(){
     var native = this.toObject();
-    var native2 = eval(native);
-    return native2;
+    // console.log("native:"+native)
+    return eval(native);
 }
 
 //// Word Features / Properties
@@ -660,7 +661,7 @@ JSrealE.prototype.real = function() {
             this.realization = this.printElements();
             // console.log("real:realization",this.realization);
           
-            return this.typography(this.html(this.phonetic(this.realization)));
+            return this.html(this.typography(this.phonetic(this.realization)));
         }
         else
         {
@@ -948,16 +949,22 @@ JSrealE.prototype.modifyStructure = function() {
                     parent.resetProp(true);
                 break;
                 case JSrealB.Config.get("feature.category.phrase.verb"):
-                    //Objet direct
+                    //Objet direct : on l'ajoute en anglais 
                     if(JSrealB.Config.get("language")==JSrealE.language.english){
                         parent.addNewElement(np,pronoun);
                         parent.resetProp(true);
                     }
-                    else{
+                    else{ // en français
                         var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
-                        parent.addNewElement(vp,pronoun);
+                        if (parent.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+                            == JSrealB.Config.get("feature.tense.imperative.present")){
+                                // à l'impératif, on l'ajoute après le verbe lié avec un -
+                                parent.constituents.head.setCtx(JSrealB.Config.get("feature.liaison.alias"),true);
+                                parent.addNewElement(np,pronoun);
+                        } else {
+                            parent.addNewElement(vp,pronoun);
+                        }
                         parent.resetProp(true);
-                        var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
                         parent.elements[vp].setProp(JSrealB.Config.get("feature.cdInfo.alias"),cdInfo);
                     }                    
                 break;
@@ -969,7 +976,8 @@ JSrealE.prototype.modifyStructure = function() {
         }
     }
     //Impératif (retrait du Sujet)
-    if(this.getChildrenProp(JSrealB.Config.get("feature.tense.alias")) == JSrealB.Config.get("feature.tense.imperative.present")){
+    var tense=this.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+    if( tense == JSrealB.Config.get("feature.tense.imperative.present")){
         if(this.category == JSrealB.Config.get("feature.category.phrase.sentence")){
             var NPpos = getSubject(this);
             if(NPpos != -1){
@@ -1180,7 +1188,9 @@ JSrealE.prototype.realizeTerminalElement = function() {
                     || this.getTreeRoot(false).getCtx("firstAux")!=null)){ //GL juillet 2017 (true=>false)
                     conjugation = this.putAuxInFront(conjugation);
                 }
-            }catch(e){console.warn("Error while moving aux:"+e)}
+            }catch(e){
+                // console.warn("Error while moving aux:"+e) //GL spurious message when generating only single NP or VP
+            }
             return conjugation;
         }
         else if(this.transformation === JSrealE.ruleType.regular)
@@ -1261,7 +1271,7 @@ JSrealE.prototype.realizeConjugation = function() {
     }
     if(number === JSrealB.Config.get("feature.number.plural"))
     {
-        person += 3;
+        person = parseInt(person)+3;
     }
     return JSrealB.Module.Conjugation.conjugate(this.unit, tense, person, gender, verbOptions, cdProp, auxF);
 };
@@ -1515,7 +1525,7 @@ var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
 uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
 acronymRE=/^[A-Z]+$/
-punctuationRE=/[,:\."'\[\]\(\)\?]/
+punctuationRE=/[,:\.\[\]\(\)\?]/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
@@ -1568,8 +1578,8 @@ function elisionEn(content){
 // same as sepWordREen but the [\w] class extended with French Accented letters and cedilla
 var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
 
-var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|jusque|quoique)$/i
-var euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
+var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
+var euphonieFrRE=/^(ma|ta|sa|ça|ce|beau|fou|mou|nouveau|vieux)$/i
 var euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
     "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
 
@@ -1607,7 +1617,7 @@ function elisionFr(content){
         if (!punctuationRE.exec(sep)){   // do not elide over punctuation
             if (elidableWordFrRE.exec(previous)){
                 if (isElidableFr(current)){
-                    res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                    res=res+previous.slice(0,-1)+"'"+sep.trim();
                     continue;
                 }
             }
@@ -1615,7 +1625,7 @@ function elisionFr(content){
                 if (isElidableFr(current)){
                     if (/ce/i.exec(previous) && /(^est$)|(^étai)/.exec(current)){
                         // very special case but very frequent
-                        res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                        res=res+previous.slice(0,-1)+"'"+sep.trim();
                     } else
                         res=res+lookUp(previous,euphonieFrTable)+sep;
                     continue;
@@ -1623,7 +1633,7 @@ function elisionFr(content){
             }
             var contr=lookUp(previous+"+"+current,contractionFrTable);
             if (contr!=null){
-                res=res+contr+sep.replace(/ /g,"");
+                res=res+contr+sep.trim();
                 // to force the loop to ignore current
                 previous="";sep="";current="";
                 continue;
@@ -2825,6 +2835,7 @@ JSrealB.Module.Conjugation = (function(){
                     verbOptions.native == true){
                     //special case: be native and negative
                     if(unit == 'be'){
+                        if (tense=="b") return "to be";
                         return applySimpleEnding(unit, tense, person, conjugationTable)+
                                ((verbOptions.neg == true)?" "+JSrealB.Config.get("rule.verb_option.neg.prep1"):"");
                     }
@@ -4701,7 +4712,6 @@ var loadEn = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconEn, ruleEn, feature);
         }
         if(trace)
@@ -4725,7 +4735,6 @@ var loadFr = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconFr, ruleFr, feature);
         }
         if(trace)
@@ -4761,6 +4770,14 @@ var addToLexicon = function(lemma,newInfos){
 //// get lemma from lexicon (useful for debugging )
 var getLemma = function(lemma){
     return JSrealB.Config.get("lexicon")[lemma]
+}
+
+//// select a random element in a list 
+//     (if the element is a function, evaluate it without parameter)
+//   useful to have some variety in the generated text
+var variant = function(elems){
+    var e=elems[Math.floor(Math.random()*elems.length)];
+    return typeof e=='function'?e():e;
 }
 var ruleEn = //========== rule-en.js
 {
@@ -6505,7 +6522,7 @@ var ruleEn = //========== rule-en.js
         "v181": {
             "ending": "ll",
             "t": {
-                "b": "l",
+                "b": "ll",
                 "ps": "lled",
                 "pr": "lling",
                 "pp": "lled",
@@ -7391,11 +7408,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "older","f": "co"
             },{
-                "val": "elder","f": "co"
-            },{
                 "val": "oldest","f": "su"
-            },{
-                "val": "eldest","f": "su"
             }]
         },
         "a17": {
@@ -7405,11 +7418,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "farther","f": "co"
             },{
-                "val": "further","f": "co"
-            },{
                 "val": "farthest","f": "su"
-            },{
-                "val": "furthest","f": "su"
             }]
         },
         "a18": {
@@ -7443,8 +7452,6 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "she","pe": 3,"n": "s","g": "f"
             },{
-                "val": "one","pe": 3,"n": "s","g": "n"
-            },{
                 "val": "we","pe": 1,"n": "p","g": "x"
             },{
                 "val": "they","pe": 3,"n": "p","g": "x"
@@ -7471,27 +7478,25 @@ var ruleEn = //========== rule-en.js
         "pn3": {
             "ending": "mine",
             "declension": [{
-                "val": "mine","pe": 1,"n": "x","g": "x","own": "s"
+                "val": "mine","pe": 1,"n": "s","g": "x","own": "s"
             },{
                 "val": "yours","pe": 2,"n": "x","g": "x","own": "x"
             },{
-                "val": "hers","pe": 3,"n": "x","g": "f","own": "s"
+                "val": "hers","pe": 3,"n": "s","g": "f","own": "s"
             },{
-                "val": "his","pe": 3,"n": "x","g": "m","own": "s"
+                "val": "his","pe": 3,"n": "s","g": "m","own": "s"
             },{
-                "val": "its","pe": 3,"n": "x","g": "n","own": "s"
+                "val": "its","pe": 3,"n": "s","g": "n","own": "s"
             },{
-                "val": "ours","pe": 1,"n": "x","g": "x","own": "p"
+                "val": "ours","pe": 1,"n": "p","g": "x","own": "p"
             },{
-                "val": "theirs","pe": 3,"n": "x","g": "x","own": "p"
+                "val": "theirs","pe": 3,"n": "p","g": "x","own": "p"
             }]
         },
         "pn4": {
             "ending": "myself",
             "declension": [{
                 "val": "myself","pe": 1,"n": "s","g": "x"
-            },{
-                "val": "ourself","pe": 1,"n": "s","g": "x"
             },{
                 "val": "yourself","pe": 2,"n": "s","g": "x"
             },{
@@ -7500,8 +7505,6 @@ var ruleEn = //========== rule-en.js
                 "val": "himself","pe": 3,"n": "s","g": "m"
             },{
                 "val": "itself","pe": 3,"n": "s","g": "n"
-            },{
-                "val": "oneself","pe": 3,"n": "s","g": "n"
             },{
                 "val": "ourselves","pe": 1,"n": "p","g": "x"
             },{
@@ -7545,17 +7548,13 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "a","n": "s"
             },{
-                "val": "an","n": "s"
-            },{
-                "val": "","n": "x"
+                "val": "","n": "p"
             }]
         },
         "d2": {
             "ending": "my",
             "declension": [{
                 "val": "my","pe": 1,"n": "s","g": "x","own": "s"
-            },{
-                "val": "thy","pe": 2,"n": "s"
             },{
                 "val": "your","pe": 2,"n": "x","g": "x","own": "x"
             },{
@@ -7575,11 +7574,7 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "that","n": "s"
             },{
-                "val": "this","n": "s"
-            },{
                 "val": "those","n": "p"
-            },{
-                "val": "these","n": "p"
             }]
         },
         "d4": {
@@ -7588,6 +7583,14 @@ var ruleEn = //========== rule-en.js
                 "val": "","n": "x"
             }]
         },
+        "d5": {
+            "ending": "this",
+            "declension": [{
+                "val": "this","n": "s"
+            },{
+                "val": "these","n": "p"
+            }]
+        },        
         "b1": {
             "ending": "",
             "declension": [{
@@ -7621,11 +7624,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "farther","f": "co"
             },{
-                "val": "further","f": "co"
-            },{
                 "val": "farthest","f": "su"
-            },{
-                "val": "furthest","f": "su"
             }]
         },
         "b5": {
@@ -7841,6 +7840,8 @@ var lexiconEn = //========== lexicon-dme.js
  "!":{"Pc":{"tab":["pc4"]}},
  "\"":{"Pc":{"compl":"\"",
             "tab":["pc5","pc6"]}},
+ "'":{"Pc":{"compl":"'",
+            "tab":["pc5","pc6"]}},
  "(":{"Pc":{"compl":")",
             "tab":["pc5"]}},
  ")":{"Pc":{"compl":"(",
@@ -7944,7 +7945,7 @@ var lexiconEn = //========== lexicon-dme.js
  "Bangladeshi":{"A":{"tab":["a1"]},
                 "N":{"tab":["n1"]}},
  "Bantu":{"A":{"tab":["a1"]},
-          "N":{"tab":["n1","n4"]}},
+          "N":{"tab":["n1"]}},
  "Baptist":{"A":{"tab":["a1"]},
             "N":{"tab":["n1"]}},
  "Barbadian":{"A":{"tab":["a1"]},
@@ -8370,9 +8371,9 @@ var lexiconEn = //========== lexicon-dme.js
                "N":{"tab":["n1"]}},
  "Madagascan":{"A":{"tab":["a1"]},
                "N":{"tab":["n1"]}},
- "Madame":{"N":{"tab":["n52","n1"]}},
+ "Madame":{"N":{"tab":["n52"]}},
  "Madeira":{"N":{"tab":["n1"]}},
- "Mademoiselle":{"N":{"tab":["n53","n1"]}},
+ "Mademoiselle":{"N":{"tab":["n53"]}},
  "Madonna":{"N":{"tab":["n1"]}},
  "Mafia":{"N":{"tab":["n1"]}},
  "Magnificat":{"N":{"tab":["n1"]}},
@@ -9040,7 +9041,7 @@ var lexiconEn = //========== lexicon-dme.js
  "acceptably":{"Adv":{"tab":["b1"]}},
  "acceptance":{"N":{"tab":["n5"]}},
  "acceptation":{"N":{"tab":["n1"]}},
- "access":{"N":{"tab":["n5"]}},
+ "access":{"N":{"tab":["n5"]},"V":{"tab":"v2"}},
  "accessary":{"N":{"tab":["n3"]}},
  "accessibility":{"N":{"tab":["n5"]}},
  "accessible":{"A":{"tab":["a1"]}},
@@ -9243,7 +9244,7 @@ var lexiconEn = //========== lexicon-dme.js
  "adhesion":{"N":{"tab":["n1"]}},
  "adhesive":{"A":{"tab":["a1"]},
              "N":{"tab":["n1"]}},
- "adieu":{"N":{"tab":["n14","n1","n5"]}},
+ "adieu":{"N":{"tab":["n14"]}},
  "adipose":{"A":{"tab":["a1"]}},
  "adjacent":{"A":{"tab":["a1"]}},
  "adjectival":{"A":{"tab":["a1"]}},
@@ -9669,7 +9670,8 @@ var lexiconEn = //========== lexicon-dme.js
  "alive":{"A":{"tab":["a1"]}},
  "alkali":{"N":{"tab":["n1"]}},
  "alkaline":{"A":{"tab":["a1"]}},
- "all":{"Adv":{"tab":["b1"]}},
+ "all":{"Adv":{"tab":["b1"]},
+        "Pro":{"tab":["b1"]}},
  "all-mains":{"A":{"tab":["a1"]}},
  "all-party":{"A":{"tab":["a1"]}},
  "all-round":{"A":{"tab":["a1"]}},
@@ -9706,6 +9708,7 @@ var lexiconEn = //========== lexicon-dme.js
  "allot":{"V":{"tab":"v14"}},
  "allotment":{"N":{"tab":["n1"]}},
  "allow":{"V":{"tab":"v1"}},
+ "allowed":{"A":{"tab":["a1"]}},
  "allowable":{"A":{"tab":["a1"]}},
  "allowance":{"N":{"tab":["n1"]}},
  "alloy":{"N":{"tab":["n1"]},
@@ -9860,7 +9863,7 @@ var lexiconEn = //========== lexicon-dme.js
  "ammunition":{"N":{"tab":["n5"]}},
  "amnesia":{"N":{"tab":["n5"]}},
  "amnesty":{"N":{"tab":["n3"]}},
- "amoeba":{"N":{"tab":["n13","n1"]}},
+ "amoeba":{"N":{"tab":["n1"]}},
  "amoebic":{"A":{"tab":["a1"]}},
  "amok":{"Adv":{"tab":["b1"]}},
  "among":{"P":{"tab":["pp"]}},
@@ -9881,7 +9884,7 @@ var lexiconEn = //========== lexicon-dme.js
  "amphibian":{"N":{"tab":["n1"]}},
  "amphibious":{"A":{"tab":["a1"]}},
  "amphitheatre":{"N":{"tab":["n1"]}},
- "amphora":{"N":{"tab":["n13","n1"]}},
+ "amphora":{"N":{"tab":["n1"]}},
  "ample":{"A":{"tab":["a2"]}},
  "amplification":{"N":{"tab":["n1"]}},
  "amplifier":{"N":{"tab":["n1"]}},
@@ -10172,7 +10175,7 @@ var lexiconEn = //========== lexicon-dme.js
              "N":{"tab":["n1"]}},
  "aperitif":{"N":{"tab":["n1"]}},
  "aperture":{"N":{"tab":["n1"]}},
- "apex":{"N":{"tab":["n22","n2"]}},
+ "apex":{"N":{"tab":["n2"]}},
  "aphasia":{"N":{"tab":["n5"]}},
  "aphid":{"N":{"tab":["n1"]}},
  "aphis":{"N":{"tab":["n44"]}},
@@ -10307,7 +10310,7 @@ var lexiconEn = //========== lexicon-dme.js
  "aquanaut":{"N":{"tab":["n1"]}},
  "aquaplane":{"N":{"tab":["n1"]},
               "V":{"tab":"v3"}},
- "aquarium":{"N":{"tab":["n11","n1"]}},
+ "aquarium":{"N":{"tab":["n1"]}},
  "aquatic":{"A":{"tab":["a1"]}},
  "aquatint":{"N":{"tab":["n1"]}},
  "aquavit":{"N":{"tab":["n5"]}},
@@ -10352,7 +10355,7 @@ var lexiconEn = //========== lexicon-dme.js
  "archetypal":{"A":{"tab":["a1"]}},
  "archetype":{"N":{"tab":["n1"]}},
  "archimandrite":{"N":{"tab":["n1"]}},
- "archipelago":{"N":{"tab":["n2","n1"]}},
+ "archipelago":{"N":{"tab":["n1"]}},
  "architect":{"N":{"tab":["n1"]}},
  "architectural":{"A":{"tab":["a1"]}},
  "architecturally":{"Adv":{"tab":["b1"]}},
@@ -10497,6 +10500,7 @@ var lexiconEn = //========== lexicon-dme.js
  "arum":{"N":{"tab":["n1"]}},
  "arête":{"N":{"tab":["n1"]}},
  "as":{"Adv":{"tab":["b1"]},
+       "P":{"tab":["pp"]},
        "C":{"tab":["cs"]}},
  "asbestos":{"N":{"tab":["n5"]}},
  "ascend":{"V":{"tab":"v1"}},
@@ -10835,7 +10839,7 @@ var lexiconEn = //========== lexicon-dme.js
               "N":{"tab":["n1"]}},
  "automatically":{"Adv":{"tab":["b1"]}},
  "automation":{"N":{"tab":["n5"]}},
- "automaton":{"N":{"tab":["n26","n1"]}},
+ "automaton":{"N":{"tab":["n1"]}},
  "automobile":{"N":{"tab":["n1"]}},
  "autonomous":{"A":{"tab":["a1"]}},
  "autonomously":{"Adv":{"tab":["b1"]}},
@@ -10924,10 +10928,10 @@ var lexiconEn = //========== lexicon-dme.js
  "axis":{"N":{"tab":["n8"]}},
  "axle":{"N":{"tab":["n1"]}},
  "ay":{"Adv":{"tab":["b1"]},
-       "N":{"tab":["n2","n5"]}},
+       "N":{"tab":["n2"]}},
  "ayah":{"N":{"tab":["n1"]}},
  "aye":{"Adv":{"tab":["b1"]},
-        "N":{"tab":["n1","n5"]}},
+        "N":{"tab":["n1"]}},
  "azalea":{"N":{"tab":["n1"]}},
  "azimuth":{"N":{"tab":["n1"]}},
  "azure":{"A":{"tab":["a1"]},
@@ -11088,7 +11092,7 @@ var lexiconEn = //========== lexicon-dme.js
  "balefully":{"Adv":{"tab":["b1"]}},
  "balk":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
- "ball":{"N":{"tab":["n1","n5"]},
+ "ball":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "ball-bearing":{"N":{"tab":["n1"]}},
  "ball-cartridge":{"N":{"tab":["n1"]}},
@@ -11157,7 +11161,7 @@ var lexiconEn = //========== lexicon-dme.js
  "baneful":{"A":{"tab":["a1"]}},
  "banefully":{"Adv":{"tab":["b1"]}},
  "bang":{"Adv":{"tab":["b1"]},
-         "N":{"tab":["n1","n5"]},
+         "N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "banger":{"N":{"tab":["n1"]}},
  "bangle":{"N":{"tab":["n1"]}},
@@ -11166,7 +11170,7 @@ var lexiconEn = //========== lexicon-dme.js
  "banish":{"V":{"tab":"v2"}},
  "banishment":{"N":{"tab":["n5"]}},
  "banister":{"N":{"tab":["n1"]}},
- "banjo":{"N":{"tab":["n2","n1"]}},
+ "banjo":{"N":{"tab":["n1"]}},
  "bank":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "bank-bill":{"N":{"tab":["n1"]}},
@@ -11325,7 +11329,7 @@ var lexiconEn = //========== lexicon-dme.js
  "basket":{"N":{"tab":["n1"]}},
  "basketball":{"N":{"tab":["n1"]}},
  "bass":{"A":{"tab":["a1"]},
-         "N":{"tab":["n4","n2"]}},
+         "N":{"tab":["n2"]}},
  "bassinet":{"N":{"tab":["n1"]}},
  "bassoon":{"N":{"tab":["n1"]}},
  "bast":{"N":{"tab":["n5"]}},
@@ -12453,7 +12457,7 @@ var lexiconEn = //========== lexicon-dme.js
  "bovril":{"N":{"tab":["n5"]}},
  "bow":{"N":{"tab":["n1"]},
         "V":{"tab":"v1"}},
- "bow-wow":{"N":{"tab":["n1","n5"]}},
+ "bow-wow":{"N":{"tab":["n1"]}},
  "bowdlerize":{"V":{"tab":"v3"}},
  "bowel":{"N":{"tab":["n1"]}},
  "bower":{"N":{"tab":["n1"]}},
@@ -12547,7 +12551,7 @@ var lexiconEn = //========== lexicon-dme.js
           "V":{"tab":"v3"}},
  "bravely":{"Adv":{"tab":["b1"]}},
  "bravery":{"N":{"tab":["n5"]}},
- "bravo":{"N":{"tab":["n2","n1","n5"]}},
+ "bravo":{"N":{"tab":["n1"]}},
  "brawl":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
  "brawler":{"N":{"tab":["n1"]}},
@@ -12565,7 +12569,7 @@ var lexiconEn = //========== lexicon-dme.js
  "bread":{"N":{"tab":["n5"]}},
  "bread-winner":{"N":{"tab":["n1"]}},
  "breadcrumb":{"N":{"tab":["n1"]}},
- "breadfruit":{"N":{"tab":["n4","n1"]}},
+ "breadfruit":{"N":{"tab":["n1"]}},
  "breadline":{"N":{"tab":["n1"]}},
  "breadth":{"N":{"tab":["n1"]}},
  "breadthways":{"Adv":{"tab":["b1"]}},
@@ -12749,7 +12753,7 @@ var lexiconEn = //========== lexicon-dme.js
  "broth":{"N":{"tab":["n5"]}},
  "brothel":{"N":{"tab":["n1"]}},
  "brother":{"N":{"g":"m",
-                 "tab":["n62","n1"]}},
+                 "tab":["n1"]}},
  "brother-in-law":{"N":{"tab":["n17"]}},
  "brotherhood":{"N":{"tab":["n1"]}},
  "brotherly":{"A":{"tab":["a1"]}},
@@ -12822,7 +12826,7 @@ var lexiconEn = //========== lexicon-dme.js
  "budgie":{"N":{"tab":["n1"]}},
  "buff":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
- "buffalo":{"N":{"tab":["n4","n1"]}},
+ "buffalo":{"N":{"tab":["n1"]}},
  "buffer":{"N":{"tab":["n1"]}},
  "buffet":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
@@ -13000,7 +13004,7 @@ var lexiconEn = //========== lexicon-dme.js
          "V":{"tab":"v4"}},
  "busybody":{"N":{"tab":["n3"]}},
  "but":{"Adv":{"tab":["b1"]},
-        "C":{"tab":["cs","cc"]}},
+        "C":{"tab":["cs"]}},
  "butane":{"N":{"tab":["n5"]}},
  "butch":{"A":{"tab":["a1"]}},
  "butcher":{"N":{"tab":["n1"]},
@@ -13046,7 +13050,7 @@ var lexiconEn = //========== lexicon-dme.js
  "by-road":{"N":{"tab":["n1"]}},
  "by-way":{"N":{"tab":["n1"]}},
  "bye":{"N":{"tab":["n1"]}},
- "bye-bye":{"N":{"tab":["n1","n5"]}},
+ "bye-bye":{"N":{"tab":["n1"]}},
  "bye-law":{"N":{"tab":["n1"]}},
  "bygone":{"A":{"tab":["a1"]}},
  "bygones":{"N":{"tab":["n6"]}},
@@ -13087,7 +13091,7 @@ var lexiconEn = //========== lexicon-dme.js
  "cackler":{"N":{"tab":["n1"]}},
  "cacophonous":{"A":{"tab":["a1"]}},
  "cacophony":{"N":{"tab":["n3"]}},
- "cactus":{"N":{"tab":["n12","n2"]}},
+ "cactus":{"N":{"tab":["n2"]}},
  "cad":{"N":{"tab":["n1"]}},
  "cadaver":{"N":{"tab":["n1"]}},
  "cadaverous":{"A":{"tab":["a1"]}},
@@ -13134,7 +13138,7 @@ var lexiconEn = //========== lexicon-dme.js
  "calculating":{"A":{"tab":["a1"]}},
  "calculation":{"N":{"tab":["n1"]}},
  "calculator":{"N":{"tab":["n1"]}},
- "calculus":{"N":{"tab":["n12","n2"]}},
+ "calculus":{"N":{"tab":["n2"]}},
  "caldron":{"N":{"tab":["n1"]}},
  "calendar":{"N":{"tab":["n1"]}},
  "calender":{"N":{"tab":["n1"]},
@@ -13184,7 +13188,7 @@ var lexiconEn = //========== lexicon-dme.js
  "calumny":{"N":{"tab":["n3"]}},
  "calve":{"V":{"tab":"v3"}},
  "calypso":{"N":{"tab":["n1"]}},
- "calyx":{"N":{"tab":["n45","n2"]}},
+ "calyx":{"N":{"tab":["n2"]}},
  "cam":{"N":{"tab":["n1"]}},
  "camaraderie":{"N":{"tab":["n5"]}},
  "camber":{"N":{"tab":["n1"]},
@@ -13408,7 +13412,7 @@ var lexiconEn = //========== lexicon-dme.js
  "caretaker":{"N":{"tab":["n1"]}},
  "careworn":{"A":{"tab":["a1"]}},
  "cargo":{"N":{"tab":["n2"]}},
- "caribou":{"N":{"tab":["n1","n4"]}},
+ "caribou":{"N":{"tab":["n1"]}},
  "caricature":{"N":{"tab":["n1"]},
                "V":{"tab":"v3"}},
  "caricaturist":{"N":{"tab":["n1"]}},
@@ -13587,7 +13591,7 @@ var lexiconEn = //========== lexicon-dme.js
  "caterpillar":{"N":{"tab":["n1"]}},
  "caterwaul":{"N":{"tab":["n1"]},
               "V":{"tab":"v1"}},
- "catfish":{"N":{"tab":["n4","n2"]}},
+ "catfish":{"N":{"tab":["n2"]}},
  "catgut":{"N":{"tab":["n5"]}},
  "catharsis":{"N":{"tab":["n8"]}},
  "cathartic":{"N":{"tab":["n1"]}},
@@ -13745,7 +13749,7 @@ var lexiconEn = //========== lexicon-dme.js
  "certitude":{"N":{"tab":["n5"]}},
  "cerulean":{"A":{"tab":["a1"]}},
  "cervical":{"A":{"tab":["a1"]}},
- "cervix":{"N":{"tab":["n45","n2"]}},
+ "cervix":{"N":{"tab":["n2"]}},
  "cessation":{"N":{"tab":["n5"]}},
  "cession":{"N":{"tab":["n1"]}},
  "cesspit":{"N":{"tab":["n1"]}},
@@ -14659,7 +14663,7 @@ var lexiconEn = //========== lexicon-dme.js
          "V":{"tab":"v3"}},
  "codeine":{"N":{"tab":["n5"]}},
  "codex":{"N":{"tab":["n22"]}},
- "codfish":{"N":{"tab":["n4","n2"]}},
+ "codfish":{"N":{"tab":["n2"]}},
  "codger":{"N":{"tab":["n1"]}},
  "codicil":{"N":{"tab":["n1"]}},
  "codification":{"N":{"tab":["n1"]}},
@@ -14865,7 +14869,7 @@ var lexiconEn = //========== lexicon-dme.js
  "commander":{"N":{"tab":["n1"]}},
  "commanding":{"A":{"tab":["a1"]}},
  "commandment":{"N":{"tab":["n1"]}},
- "commando":{"N":{"tab":["n2","n1"]}},
+ "commando":{"N":{"tab":["n1"]}},
  "commemorate":{"V":{"tab":"v3"}},
  "commemoration":{"N":{"tab":["n1"]}},
  "commemorative":{"A":{"tab":["a1"]}},
@@ -15464,7 +15468,7 @@ var lexiconEn = //========== lexicon-dme.js
  "contend":{"V":{"tab":"v1"}},
  "contender":{"N":{"tab":["n1"]}},
  "content":{"A":{"tab":["a1"]},
-            "N":{"tab":["n1","n5"]},
+            "N":{"tab":["n1"]},
             "V":{"tab":"v1"}},
  "contented":{"A":{"tab":["a1"]}},
  "contentedly":{"Adv":{"tab":["b1"]}},
@@ -15655,6 +15659,7 @@ var lexiconEn = //========== lexicon-dme.js
  "coop":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "cooper":{"N":{"tab":["n1"]}},
+ "cooperate":{"V":{"tab":"v3"}},
  "cooperation":{"N":{"tab":["n1"]}},
  "coot":{"N":{"tab":["n1"]}},
  "cop":{"N":{"tab":["n1"]},
@@ -16152,7 +16157,7 @@ var lexiconEn = //========== lexicon-dme.js
  "creepy":{"A":{"tab":["a4"]}},
  "cremate":{"V":{"tab":"v3"}},
  "cremation":{"N":{"tab":["n1"]}},
- "crematorium":{"N":{"tab":["n11","n1"]}},
+ "crematorium":{"N":{"tab":["n1"]}},
  "crematory":{"N":{"tab":["n3"]}},
  "crenellated":{"A":{"tab":["a1"]}},
  "creosote":{"N":{"tab":["n5"]}},
@@ -16215,7 +16220,7 @@ var lexiconEn = //========== lexicon-dme.js
  "crisscross":{"A":{"tab":["a1"]},
                "Adv":{"tab":["b1"]},
                "V":{"tab":"v2"}},
- "criterion":{"N":{"tab":["n26","n1"]}},
+ "criterion":{"N":{"tab":["n1"]}},
  "critic":{"N":{"tab":["n1"]}},
  "critical":{"A":{"tab":["a1"]}},
  "critically":{"Adv":{"tab":["b1"]}},
@@ -16495,7 +16500,7 @@ var lexiconEn = //========== lexicon-dme.js
  "current":{"A":{"tab":["a1"]},
             "N":{"tab":["n1"]}},
  "currently":{"Adv":{"tab":["b1"]}},
- "curriculum":{"N":{"tab":["n11","n1"]}},
+ "curriculum":{"N":{"tab":["n1"]}},
  "currish":{"A":{"tab":["a1"]}},
  "currishly":{"Adv":{"tab":["b1"]}},
  "curry":{"N":{"tab":["n3"]},
@@ -16574,7 +16579,7 @@ var lexiconEn = //========== lexicon-dme.js
  "cyber":{"A":{"tab":["a1"]}},
  "cybernetic":{"A":{"tab":["a1"]}},
  "cybernetics":{"N":{"tab":["n5"]}},
- "cyclamen":{"N":{"tab":["n1","n5"]}},
+ "cyclamen":{"N":{"tab":["n1"]}},
  "cycle":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
  "cyclic":{"A":{"tab":["a1"]}},
@@ -16812,7 +16817,7 @@ var lexiconEn = //========== lexicon-dme.js
  "dear":{"A":{"tab":["a3"]},
          "Adv":{"tab":["b1"]},
          "N":{"g":"m",
-              "tab":["n1","n5"]}},
+              "tab":["n1"]}},
  "dearest":{"N":{"tab":["n5"]}},
  "dearie":{"N":{"tab":["n1"]}},
  "dearly":{"Adv":{"tab":["b1"]}},
@@ -17013,6 +17018,7 @@ var lexiconEn = //========== lexicon-dme.js
  "defend":{"V":{"tab":"v1"}},
  "defendant":{"N":{"tab":["n1"]}},
  "defender":{"N":{"tab":["n1"]}},
+ "defense":{"N":{"tab":["n1"]}},
  "defensible":{"A":{"tab":["a1"]}},
  "defensive":{"A":{"tab":["a1"]},
               "N":{"tab":["n5"]}},
@@ -17609,7 +17615,7 @@ var lexiconEn = //========== lexicon-dme.js
  "dictatorship":{"N":{"tab":["n1"]}},
  "diction":{"N":{"tab":["n5"]}},
  "dictionary":{"N":{"tab":["n3"]}},
- "dictum":{"N":{"tab":["n11","n1"]}},
+ "dictum":{"N":{"tab":["n1"]}},
  "didactic":{"A":{"tab":["a1"]}},
  "didactically":{"Adv":{"tab":["b1"]}},
  "diddle":{"V":{"tab":"v3"}},
@@ -17673,7 +17679,7 @@ var lexiconEn = //========== lexicon-dme.js
  "dilation":{"N":{"tab":["n5"]}},
  "dilatory":{"A":{"tab":["a1"]}},
  "dilemma":{"N":{"tab":["n1"]}},
- "dilettante":{"N":{"tab":["n36","n1"]}},
+ "dilettante":{"N":{"tab":["n1"]}},
  "diligence":{"N":{"tab":["n5"]}},
  "diligent":{"A":{"tab":["a1"]}},
  "diligently":{"Adv":{"tab":["b1"]}},
@@ -18266,8 +18272,7 @@ var lexiconEn = //========== lexicon-dme.js
  "dizzy":{"A":{"tab":["a4"]},
           "V":{"tab":"v4"}},
  "djinn":{"N":{"tab":["n1"]}},
- "do":{"N":{"tab":["n18","n1"]},
-       "V":{"tab":"v95"}},
+ "do":{"V":{"tab":"v96"}},
  "do-gooder":{"N":{"tab":["n1"]}},
  "dobbin":{"N":{"tab":["n1"]}},
  "docile":{"A":{"tab":["a1"]}},
@@ -18299,7 +18304,7 @@ var lexiconEn = //========== lexicon-dme.js
  "dodgem":{"N":{"tab":["n1"]}},
  "dodger":{"N":{"tab":["n1"]}},
  "dodgy":{"A":{"tab":["a1"]}},
- "dodo":{"N":{"tab":["n2","n1"]}},
+ "dodo":{"N":{"tab":["n1"]}},
  "doe":{"N":{"tab":["n1"]}},
  "doer":{"N":{"tab":["n1"]}},
  "doff":{"V":{"tab":"v1"}},
@@ -18312,7 +18317,7 @@ var lexiconEn = //========== lexicon-dme.js
  "dog-eared":{"A":{"tab":["a1"]}},
  "dog-like":{"A":{"tab":["a1"]}},
  "doge":{"N":{"tab":["n1"]}},
- "dogfish":{"N":{"tab":["n2","n4"]}},
+ "dogfish":{"N":{"tab":["n2"]}},
  "dogged":{"A":{"tab":["a1"]}},
  "doggedly":{"Adv":{"tab":["b1"]}},
  "doggedness":{"N":{"tab":["n5"]}},
@@ -18369,7 +18374,7 @@ var lexiconEn = //========== lexicon-dme.js
  "domineeringly":{"Adv":{"tab":["b1"]}},
  "dominie":{"N":{"tab":["n1"]}},
  "dominion":{"N":{"tab":["n1"]}},
- "domino":{"N":{"tab":["n2","n1"]}},
+ "domino":{"N":{"tab":["n1"]}},
  "don":{"N":{"tab":["n1"]},
         "V":{"tab":"v11"}},
  "donate":{"V":{"tab":"v3"}},
@@ -18484,7 +18489,8 @@ var lexiconEn = //========== lexicon-dme.js
           "V":{"tab":"v1"}},
  "down":{"N":{"tab":["n1"]},
          "P":{"tab":["pp"]},
-         "V":{"tab":"v1"}},
+         "V":{"tab":"v1"},
+         "Adv":{"tab":["b1"]}},
  "down-and-out":{"N":{"tab":["n1"]}},
  "down-market":{"A":{"tab":["a1"]}},
  "down-to-earth":{"A":{"tab":["a1"]}},
@@ -18737,7 +18743,7 @@ var lexiconEn = //========== lexicon-dme.js
  "duchess":{"N":{"g":"f",
                  "tab":["n2"]}},
  "duchy":{"N":{"tab":["n3"]}},
- "duck":{"N":{"tab":["n4","n1"]},
+ "duck":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "duckbilled":{"A":{"tab":["a1"]}},
  "duckboards":{"N":{"tab":["n6"]}},
@@ -19391,7 +19397,7 @@ var lexiconEn = //========== lexicon-dme.js
  "encode":{"V":{"tab":"v3"}},
  "encomium":{"N":{"tab":["n1"]}},
  "encompass":{"V":{"tab":"v2"}},
- "encore":{"N":{"tab":["n1","n5"]},
+ "encore":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
  "encounter":{"N":{"tab":["n1"]},
               "V":{"tab":"v1"}},
@@ -20434,7 +20440,7 @@ var lexiconEn = //========== lexicon-dme.js
  "fare":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
  "fare-stage":{"N":{"tab":["n1"]}},
- "farewell":{"N":{"tab":["n1","n5"]}},
+ "farewell":{"N":{"tab":["n1"]}},
  "farinaceous":{"A":{"tab":["a1"]}},
  "farm":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
@@ -20444,7 +20450,7 @@ var lexiconEn = //========== lexicon-dme.js
  "farmhouse":{"N":{"tab":["n1"]}},
  "farmstead":{"N":{"tab":["n1"]}},
  "farmyard":{"N":{"tab":["n1"]}},
- "farrago":{"N":{"tab":["n2","n1"]}},
+ "farrago":{"N":{"tab":["n1"]}},
  "farrier":{"N":{"tab":["n1"]}},
  "farrow":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
@@ -20603,7 +20609,7 @@ var lexiconEn = //========== lexicon-dme.js
  "feline":{"A":{"tab":["a1"]}},
  "fell":{"A":{"tab":["a1"]},
          "V":{"tab":"v1"}},
- "fellah":{"N":{"tab":["n47","n46"]}},
+ "fellah":{"N":{"tab":["n46"]}},
  "fellow":{"N":{"tab":["n1"]}},
  "fellow-feeling":{"N":{"tab":["n5"]}},
  "fellow-traveller":{"N":{"tab":["n1"]}},
@@ -20911,7 +20917,7 @@ var lexiconEn = //========== lexicon-dme.js
  "firstly":{"Adv":{"tab":["b1"]}},
  "firth":{"N":{"tab":["n1"]}},
  "fiscal":{"A":{"tab":["a1"]}},
- "fish":{"N":{"tab":["n4","n2"]},
+ "fish":{"N":{"tab":["n2"]},
          "V":{"tab":"v2"}},
  "fish-hook":{"N":{"tab":["n1"]}},
  "fish-knife":{"N":{"tab":["n10"]}},
@@ -20999,7 +21005,7 @@ var lexiconEn = //========== lexicon-dme.js
           "V":{"tab":"v3"}},
  "flakiness":{"N":{"tab":["n5"]}},
  "flaky":{"A":{"tab":["a4"]}},
- "flambeau":{"N":{"tab":["n14","n1"]}},
+ "flambeau":{"N":{"tab":["n1"]}},
  "flamboyance":{"N":{"tab":["n5"]}},
  "flamboyant":{"A":{"tab":["a1"]}},
  "flamboyantly":{"Adv":{"tab":["b1"]}},
@@ -21007,7 +21013,7 @@ var lexiconEn = //========== lexicon-dme.js
           "V":{"tab":"v3"}},
  "flamethrower":{"N":{"tab":["n1"]}},
  "flaming":{"A":{"tab":["a1"]}},
- "flamingo":{"N":{"tab":["n2","n1"]}},
+ "flamingo":{"N":{"tab":["n1"]}},
  "flammable":{"A":{"tab":["a1"]}},
  "flan":{"N":{"tab":["n1"]}},
  "flange":{"N":{"tab":["n1"]}},
@@ -21040,7 +21046,7 @@ var lexiconEn = //========== lexicon-dme.js
  "flat-car":{"N":{"tab":["n1"]}},
  "flat-footed":{"A":{"tab":["a1"]}},
  "flat-iron":{"N":{"tab":["n1"]}},
- "flatfish":{"N":{"tab":["n2","n4"]}},
+ "flatfish":{"N":{"tab":["n2"]}},
  "flatlet":{"N":{"tab":["n1"]}},
  "flatly":{"Adv":{"tab":["b1"]}},
  "flatness":{"N":{"tab":["n5"]}},
@@ -21241,7 +21247,7 @@ var lexiconEn = //========== lexicon-dme.js
  "flyer":{"N":{"tab":["n1"]}},
  "flying":{"A":{"tab":["a1"]}},
  "flying-bomb":{"N":{"tab":["n1"]}},
- "flying-fish":{"N":{"tab":["n2","n4"]}},
+ "flying-fish":{"N":{"tab":["n2"]}},
  "flying-fox":{"N":{"tab":["n2"]}},
  "flying-squad":{"N":{"tab":["n1"]}},
  "flyleaf":{"N":{"tab":["n9"]}},
@@ -21257,7 +21263,7 @@ var lexiconEn = //========== lexicon-dme.js
  "foamy":{"A":{"tab":["a4"]}},
  "fob":{"V":{"tab":"v5"}},
  "focal":{"A":{"tab":["a1"]}},
- "focus":{"N":{"tab":["n12","n2"]},
+ "focus":{"N":{"tab":["n2"]},
           "V":{"tab":"v172"}},
  "fodder":{"N":{"tab":["n5"]}},
  "foe":{"N":{"tab":["n1"]}},
@@ -21489,7 +21495,7 @@ var lexiconEn = //========== lexicon-dme.js
  "formidably":{"Adv":{"tab":["b1"]}},
  "formless":{"A":{"tab":["a1"]}},
  "formlessly":{"Adv":{"tab":["b1"]}},
- "formula":{"N":{"tab":["n13","n1"]}},
+ "formula":{"N":{"tab":["n1"]}},
  "formulate":{"V":{"tab":"v3"}},
  "formulation":{"N":{"tab":["n1"]}},
  "fornicate":{"V":{"tab":"v3"}},
@@ -21702,7 +21708,7 @@ var lexiconEn = //========== lexicon-dme.js
  "frequent":{"A":{"tab":["a1"]},
              "V":{"tab":"v1"}},
  "frequently":{"Adv":{"tab":["b1"]}},
- "fresco":{"N":{"tab":["n2","n1"]},
+ "fresco":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
  "fresh":{"A":{"tab":["a3"]},
           "Adv":{"tab":["b1"]}},
@@ -21831,7 +21837,7 @@ var lexiconEn = //========== lexicon-dme.js
  "frumpy":{"A":{"tab":["a4"]}},
  "frustrate":{"V":{"tab":"v3"}},
  "frustration":{"N":{"tab":["n1"]}},
- "fry":{"N":{"tab":["n3","n4"]},
+ "fry":{"N":{"tab":["n3"]},
         "V":{"tab":"v4"}},
  "fry-pan":{"N":{"tab":["n1"]}},
  "fryer":{"N":{"tab":["n1"]}},
@@ -21843,7 +21849,7 @@ var lexiconEn = //========== lexicon-dme.js
  "fucking":{"A":{"tab":["a1"]}},
  "fuddle":{"V":{"tab":"v3"}},
  "fuddy-duddy":{"N":{"tab":["n3"]}},
- "fudge":{"N":{"tab":["n1","n5"]}},
+ "fudge":{"N":{"tab":["n1"]}},
  "fuel":{"N":{"tab":["n1"]},
          "V":{"tab":"v9"}},
  "fug":{"N":{"tab":["n1"]}},
@@ -21851,7 +21857,7 @@ var lexiconEn = //========== lexicon-dme.js
  "fugitive":{"A":{"tab":["a1"]},
              "N":{"tab":["n1"]}},
  "fugue":{"N":{"tab":["n1"]}},
- "fulcrum":{"N":{"tab":["n11","n1"]}},
+ "fulcrum":{"N":{"tab":["n1"]}},
  "fulfill":{"V":{"tab":"v181"}},
  "fulfilment":{"N":{"tab":["n1"]}},
  "full":{"A":{"tab":["a3"]}},
@@ -21907,7 +21913,7 @@ var lexiconEn = //========== lexicon-dme.js
  "fungicide":{"N":{"tab":["n1"]}},
  "fungoid":{"A":{"tab":["a1"]}},
  "fungous":{"A":{"tab":["a1"]}},
- "fungus":{"N":{"tab":["n12","n2"]}},
+ "fungus":{"N":{"tab":["n2"]}},
  "funicular":{"N":{"tab":["n1"]}},
  "funk":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
@@ -22072,13 +22078,13 @@ var lexiconEn = //========== lexicon-dme.js
          "V":{"tab":"v1"}},
  "ganger":{"N":{"tab":["n1"]}},
  "gangling":{"A":{"tab":["a1"]}},
- "ganglion":{"N":{"tab":["n26","n1"]}},
+ "ganglion":{"N":{"tab":["n1"]}},
  "gangplank":{"N":{"tab":["n1"]}},
  "gangrene":{"N":{"tab":["n5"]},
              "V":{"tab":"v3"}},
  "gangrenous":{"A":{"tab":["a1"]}},
  "gangster":{"N":{"tab":["n1"]}},
- "gangway":{"N":{"tab":["n1","n5"]}},
+ "gangway":{"N":{"tab":["n1"]}},
  "gannet":{"N":{"tab":["n1"]}},
  "gantry":{"N":{"tab":["n3"]}},
  "gaol":{"N":{"tab":["n1"]},
@@ -22210,7 +22216,7 @@ var lexiconEn = //========== lexicon-dme.js
  "gear-box":{"N":{"tab":["n2"]}},
  "gear-case":{"N":{"tab":["n1"]}},
  "gear-shift":{"N":{"tab":["n1"]}},
- "gecko":{"N":{"tab":["n2","n1"]}},
+ "gecko":{"N":{"tab":["n1"]}},
  "gee":{"N":{"tab":["n5"]}},
  "gee-gee":{"N":{"tab":["n1"]}},
  "gee-up":{"N":{"tab":["n5"]}},
@@ -22264,7 +22270,7 @@ var lexiconEn = //========== lexicon-dme.js
  "genital":{"A":{"tab":["a1"]}},
  "genitals":{"N":{"tab":["n6"]}},
  "genitive":{"A":{"tab":["a1"]}},
- "genius":{"N":{"tab":["n12","n2"]}},
+ "genius":{"N":{"tab":["n2"]}},
  "genocide":{"N":{"tab":["n5"]}},
  "genre":{"N":{"tab":["n1"]}},
  "genre-painting":{"N":{"tab":["n1"]}},
@@ -22394,7 +22400,7 @@ var lexiconEn = //========== lexicon-dme.js
  "gingerly":{"A":{"tab":["a1"]},
              "Adv":{"tab":["b1"]}},
  "gingham":{"N":{"tab":["n5"]}},
- "gingko":{"N":{"tab":["n2","n1"]}},
+ "gingko":{"N":{"tab":["n1"]}},
  "ginseng":{"N":{"tab":["n5"]}},
  "gipsy":{"N":{"tab":["n3"]}},
  "giraffe":{"N":{"tab":["n1"]}},
@@ -22426,7 +22432,7 @@ var lexiconEn = //========== lexicon-dme.js
  "glade":{"N":{"tab":["n1"]}},
  "gladiator":{"N":{"tab":["n1"]}},
  "gladiatorial":{"A":{"tab":["a1"]}},
- "gladiolus":{"N":{"tab":["n12","n2"]}},
+ "gladiolus":{"N":{"tab":["n2"]}},
  "gladly":{"Adv":{"tab":["b1"]}},
  "gladness":{"N":{"tab":["n5"]}},
  "gladsome":{"A":{"tab":["a1"]}},
@@ -22625,7 +22631,7 @@ var lexiconEn = //========== lexicon-dme.js
  "golden":{"A":{"tab":["a1"]}},
  "goldfield":{"N":{"tab":["n1"]}},
  "goldfinch":{"N":{"tab":["n2"]}},
- "goldfish":{"N":{"tab":["n2","n4"]}},
+ "goldfish":{"N":{"tab":["n2"]}},
  "goldmine":{"N":{"tab":["n1"]}},
  "goldsmith":{"N":{"tab":["n1"]}},
  "golf":{"N":{"tab":["n5"]},
@@ -22660,7 +22666,7 @@ var lexiconEn = //========== lexicon-dme.js
  "good-neighbourliness":{"N":{"tab":["n5"]}},
  "good-tempered":{"A":{"tab":["a1"]}},
  "good-time":{"A":{"tab":["a1"]}},
- "goodbye":{"N":{"tab":["n1","n5"]}},
+ "goodbye":{"N":{"tab":["n1"]}},
  "goodish":{"A":{"tab":["a1"]}},
  "goodly":{"A":{"tab":["a4"]}},
  "goodness":{"N":{"tab":["n5"]}},
@@ -22793,7 +22799,7 @@ var lexiconEn = //========== lexicon-dme.js
  "grape-shot":{"N":{"tab":["n5"]}},
  "grape-sugar":{"N":{"tab":["n5"]}},
  "grape-vine":{"N":{"tab":["n1"]}},
- "grapefruit":{"N":{"tab":["n1","n4"]}},
+ "grapefruit":{"N":{"tab":["n1"]}},
  "graph":{"N":{"tab":["n1"]}},
  "graphic":{"A":{"tab":["a1"]}},
  "graphically":{"Adv":{"tab":["b1"]}},
@@ -22973,7 +22979,7 @@ var lexiconEn = //========== lexicon-dme.js
               "N":{"tab":["n1"]}},
  "grotesquely":{"Adv":{"tab":["b1"]}},
  "grotesqueness":{"N":{"tab":["n5"]}},
- "grotto":{"N":{"tab":["n2","n1"]}},
+ "grotto":{"N":{"tab":["n1"]}},
  "grotty":{"A":{"tab":["a4"]}},
  "grouch":{"N":{"tab":["n2"]},
            "V":{"tab":"v2"}},
@@ -22981,7 +22987,7 @@ var lexiconEn = //========== lexicon-dme.js
  "ground":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
  "ground-bait":{"N":{"tab":["n5"]}},
- "ground-fish":{"N":{"tab":["n2","n4"]}},
+ "ground-fish":{"N":{"tab":["n2"]}},
  "ground-plan":{"N":{"tab":["n1"]}},
  "ground-rent":{"N":{"tab":["n1"]}},
  "grounding":{"N":{"tab":["n1"]}},
@@ -22993,7 +22999,7 @@ var lexiconEn = //========== lexicon-dme.js
  "groundwork":{"N":{"tab":["n5"]}},
  "group":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
- "grouse":{"N":{"tab":["n1","n4"]},
+ "grouse":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
  "grove":{"N":{"tab":["n1"]}},
  "grovel":{"V":{"tab":"v9"}},
@@ -23296,11 +23302,11 @@ var lexiconEn = //========== lexicon-dme.js
  "halitosis":{"N":{"tab":["n5"]}},
  "hall":{"N":{"tab":["n1"]}},
  "hall-stand":{"N":{"tab":["n1"]}},
- "hallelujah":{"N":{"tab":["n1","n5"]}},
+ "hallelujah":{"N":{"tab":["n1"]}},
  "halliard":{"N":{"tab":["n1"]}},
  "hallmark":{"N":{"tab":["n1"]}},
  "hallo":{"N":{"tab":["n5"]}},
- "halloo":{"N":{"tab":["n1","n5"]},
+ "halloo":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
  "hallow":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
@@ -23308,7 +23314,7 @@ var lexiconEn = //========== lexicon-dme.js
  "hallucinatory":{"A":{"tab":["a1"]}},
  "hallucinogenic":{"A":{"tab":["a1"]}},
  "halma":{"N":{"tab":["n5"]}},
- "halo":{"N":{"tab":["n2","n1"]}},
+ "halo":{"N":{"tab":["n1"]}},
  "halt":{"A":{"tab":["a1"]},
          "N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
@@ -23538,7 +23544,7 @@ var lexiconEn = //========== lexicon-dme.js
  "havoc":{"N":{"tab":["n5"]}},
  "haw":{"N":{"tab":["n1"]},
         "V":{"tab":"v1"}},
- "haw-haw":{"N":{"tab":["n1","n5"]}},
+ "haw-haw":{"N":{"tab":["n1"]}},
  "hawk":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "hawk-eyed":{"A":{"tab":["a1"]}},
@@ -23748,7 +23754,7 @@ var lexiconEn = //========== lexicon-dme.js
  "helter-skelter":{"Adv":{"tab":["b1"]},
                    "N":{"tab":["n1"]}},
  "helve":{"N":{"tab":["n1"]}},
- "hem":{"N":{"tab":["n1","n5"]},
+ "hem":{"N":{"tab":["n1"]},
         "V":{"tab":"v10"}},
  "hem-line":{"N":{"tab":["n1"]}},
  "hematite":{"N":{"tab":["n1"]}},
@@ -23830,7 +23836,7 @@ var lexiconEn = //========== lexicon-dme.js
  "heroism":{"N":{"tab":["n5"]}},
  "heron":{"N":{"tab":["n1"]}},
  "heronry":{"N":{"tab":["n3"]}},
- "herring":{"N":{"tab":["n1","n4"]}},
+ "herring":{"N":{"tab":["n1"]}},
  "herringbone":{"N":{"tab":["n5"]}},
  "hertz":{"N":{"tab":["n4"]}},
  "hesitance":{"N":{"tab":["n1"]}},
@@ -23968,14 +23974,14 @@ var lexiconEn = //========== lexicon-dme.js
          "V":{"tab":"v1"}},
  "hinterland":{"N":{"tab":["n1"]}},
  "hip":{"A":{"tab":["a1"]},
-        "N":{"tab":["n1","n5"]}},
+        "N":{"tab":["n1"]}},
  "hip-bath":{"N":{"tab":["n1"]}},
  "hip-flask":{"N":{"tab":["n1"]}},
  "hip-pocket":{"N":{"tab":["n1"]}},
  "hippie":{"N":{"tab":["n1"]}},
  "hippo":{"N":{"tab":["n1"]}},
  "hippodrome":{"N":{"tab":["n1"]}},
- "hippopotamus":{"N":{"tab":["n12","n2"]}},
+ "hippopotamus":{"N":{"tab":["n2"]}},
  "hippy":{"N":{"tab":["n3"]}},
  "hire":{"N":{"tab":["n5"]},
          "V":{"tab":"v3"}},
@@ -24029,7 +24035,7 @@ var lexiconEn = //========== lexicon-dme.js
  "hobnail":{"N":{"tab":["n1"]}},
  "hobnailed":{"A":{"tab":["a1"]}},
  "hobnob":{"V":{"tab":"v5"}},
- "hobo":{"N":{"tab":["n2","n1"]}},
+ "hobo":{"N":{"tab":["n1"]}},
  "hock":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "hockey":{"N":{"tab":["n5"]}},
@@ -24061,7 +24067,7 @@ var lexiconEn = //========== lexicon-dme.js
  "holiday-maker":{"N":{"tab":["n1"]}},
  "holiness":{"N":{"tab":["n5"]}},
  "holler":{"V":{"tab":"v1"}},
- "holloa":{"N":{"tab":["n1","n5"]}},
+ "holloa":{"N":{"tab":["n1"]}},
  "hollow":{"A":{"tab":["a1"]},
            "N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
@@ -24153,7 +24159,7 @@ var lexiconEn = //========== lexicon-dme.js
            "V":{"tab":"v1"}},
  "hoodwink":{"V":{"tab":"v1"}},
  "hooey":{"N":{"tab":["n5"]}},
- "hoof":{"N":{"tab":["n9","n1"]}},
+ "hoof":{"N":{"tab":["n1"]}},
  "hook":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "hook-nosed":{"A":{"tab":["a1"]}},
@@ -24244,7 +24250,7 @@ var lexiconEn = //========== lexicon-dme.js
  "horticultural":{"A":{"tab":["a1"]}},
  "horticulture":{"N":{"tab":["n5"]}},
  "horticulturist":{"N":{"tab":["n1"]}},
- "hosanna":{"N":{"tab":["n1","n5"]}},
+ "hosanna":{"N":{"tab":["n1"]}},
  "hose":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
  "hosepipe":{"N":{"tab":["n1"]}},
@@ -24327,7 +24333,8 @@ var lexiconEn = //========== lexicon-dme.js
  "hovel":{"N":{"tab":["n1"]}},
  "hover":{"V":{"tab":"v1"}},
  "hovercraft":{"N":{"tab":["n4"]}},
- "how":{"Pro":{"tab":["pn6"]}},
+ "how":{"Pro":{"tab":["pn6"]},
+        "Adv":{"tab":["b1"]}},
  "howbeit":{"C":{"tab":["cs"]}},
  "howdah":{"N":{"tab":["n1"]}},
  "however":{"Adv":{"tab":["b1"]},
@@ -24388,7 +24395,7 @@ var lexiconEn = //========== lexicon-dme.js
  "humble":{"A":{"tab":["a2"]},
            "V":{"tab":"v3"}},
  "humbly":{"Adv":{"tab":["b1"]}},
- "humbug":{"N":{"tab":["n1","n5"]},
+ "humbug":{"N":{"tab":["n1"]},
            "V":{"tab":"v7"}},
  "humdinger":{"N":{"tab":["n1"]}},
  "humdrum":{"A":{"tab":["a1"]}},
@@ -24547,7 +24554,7 @@ var lexiconEn = //========== lexicon-dme.js
  "hysterical":{"A":{"tab":["a1"]}},
  "hysterically":{"Adv":{"tab":["b1"]}},
  "hysterics":{"N":{"tab":["n5"]}},
- "iamb":{"N":{"tab":["n30","n1"]}},
+ "iamb":{"N":{"tab":["n1"]}},
  "iambic":{"A":{"tab":["a1"]}},
  "iambics":{"N":{"tab":["n5"]}},
  "iambus":{"N":{"tab":["n2"]}},
@@ -25180,7 +25187,7 @@ var lexiconEn = //========== lexicon-dme.js
  "incubate":{"V":{"tab":"v3"}},
  "incubation":{"N":{"tab":["n1"]}},
  "incubator":{"N":{"tab":["n1"]}},
- "incubus":{"N":{"tab":["n12","n2"]}},
+ "incubus":{"N":{"tab":["n2"]}},
  "inculcate":{"V":{"tab":"v3"}},
  "inculpate":{"V":{"tab":"v3"}},
  "incumbency":{"N":{"tab":["n3"]}},
@@ -25857,7 +25864,7 @@ var lexiconEn = //========== lexicon-dme.js
                  "N":{"tab":["n1"]}},
  "intermediately":{"Adv":{"tab":["b1"]}},
  "interment":{"N":{"tab":["n1"]}},
- "intermezzo":{"N":{"tab":["n37","n1"]}},
+ "intermezzo":{"N":{"tab":["n1"]}},
  "interminable":{"A":{"tab":["a1"]}},
  "interminably":{"Adv":{"tab":["b1"]}},
  "intermingle":{"V":{"tab":"v3"}},
@@ -25897,7 +25904,7 @@ var lexiconEn = //========== lexicon-dme.js
  "interpretation":{"N":{"tab":["n1"]}},
  "interpreter":{"N":{"tab":["n1"]}},
  "interracial":{"A":{"tab":["a1"]}},
- "interregnum":{"N":{"tab":["n11","n1"]}},
+ "interregnum":{"N":{"tab":["n1"]}},
  "interrelate":{"V":{"tab":"v3"}},
  "interrelation":{"N":{"tab":["n1"]}},
  "interrelationship":{"N":{"tab":["n1"]}},
@@ -26273,7 +26280,7 @@ var lexiconEn = //========== lexicon-dme.js
  "jellied":{"A":{"tab":["a1"]}},
  "jelly":{"N":{"tab":["n3"]},
           "V":{"tab":"v4"}},
- "jelly-fish":{"N":{"tab":["n2","n4"]}},
+ "jelly-fish":{"N":{"tab":["n2"]}},
  "jemmy":{"N":{"tab":["n3"]}},
  "jenny":{"N":{"tab":["n3"]}},
  "jeopardize":{"V":{"tab":"v3"}},
@@ -26795,7 +26802,7 @@ var lexiconEn = //========== lexicon-dme.js
             "V":{"tab":"v1"}},
  "lacrosse":{"N":{"tab":["n5"]}},
  "lactic":{"A":{"tab":["a1"]}},
- "lacuna":{"N":{"tab":["n13","n1"]}},
+ "lacuna":{"N":{"tab":["n1"]}},
  "lacy":{"A":{"tab":["a4"]}},
  "lad":{"N":{"g":"m",
              "tab":["n1"]}},
@@ -26961,7 +26968,7 @@ var lexiconEn = //========== lexicon-dme.js
               "tab":["n2"]}},
  "lassie":{"N":{"tab":["n1"]}},
  "lassitude":{"N":{"tab":["n5"]}},
- "lasso":{"N":{"tab":["n2","n1"]},
+ "lasso":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
  "last":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
@@ -26980,7 +26987,7 @@ var lexiconEn = //========== lexicon-dme.js
  "laterally":{"Adv":{"tab":["b1"]}},
  "laterite":{"N":{"tab":["n5"]}},
  "latex":{"N":{"tab":["n5"]}},
- "lath":{"N":{"tab":["n1","n4"]}},
+ "lath":{"N":{"tab":["n1"]}},
  "lathe":{"N":{"tab":["n1"]}},
  "lather":{"N":{"tab":["n5"]},
            "V":{"tab":"v1"}},
@@ -27248,7 +27255,8 @@ var lexiconEn = //========== lexicon-dme.js
  "lesbianism":{"N":{"tab":["n5"]}},
  "lesion":{"N":{"tab":["n1"]}},
  "less":{"N":{"tab":["n5"]},
-         "P":{"tab":["pp"]}},
+         "P":{"tab":["pp"]},
+         "Adv":{"tab":["b1"]}},
  "lessee":{"N":{"tab":["n1"]}},
  "lessen":{"V":{"tab":"v1"}},
  "lesser":{"A":{"tab":["a1"]}},
@@ -27334,7 +27342,7 @@ var lexiconEn = //========== lexicon-dme.js
  "librarianship":{"N":{"tab":["n5"]}},
  "library":{"N":{"tab":["n3"]}},
  "librettist":{"N":{"tab":["n1"]}},
- "libretto":{"N":{"tab":["n37","n1"]}},
+ "libretto":{"N":{"tab":["n1"]}},
  "licence":{"N":{"tab":["n1"]},
             "V":{"tab":"v3"}},
  "license":{"V":{"tab":"v3"}},
@@ -28093,7 +28101,7 @@ var lexiconEn = //========== lexicon-dme.js
  "madwoman":{"N":{"tab":["n7"]}},
  "maelstrom":{"N":{"tab":["n1"]}},
  "maenad":{"N":{"tab":["n1"]}},
- "maestro":{"N":{"tab":["n37","n1"]}},
+ "maestro":{"N":{"tab":["n1"]}},
  "maffick":{"V":{"tab":"v1"}},
  "mag":{"N":{"tab":["n1"]}},
  "magazine":{"N":{"tab":["n1"]}},
@@ -28297,7 +28305,7 @@ var lexiconEn = //========== lexicon-dme.js
  "mangily":{"Adv":{"tab":["b1"]}},
  "mangle":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
- "mango":{"N":{"tab":["n2","n1"]}},
+ "mango":{"N":{"tab":["n1"]}},
  "mangosteen":{"N":{"tab":["n1"]}},
  "mangrove":{"N":{"tab":["n1"]}},
  "mangy":{"A":{"tab":["a4"]}},
@@ -28319,7 +28327,7 @@ var lexiconEn = //========== lexicon-dme.js
              "V":{"tab":"v1"}},
  "manifestation":{"N":{"tab":["n1"]}},
  "manifestly":{"Adv":{"tab":["b1"]}},
- "manifesto":{"N":{"tab":["n2","n1"]}},
+ "manifesto":{"N":{"tab":["n1"]}},
  "manifold":{"A":{"tab":["a1"]},
              "N":{"tab":["n1"]},
              "V":{"tab":"v1"}},
@@ -28370,7 +28378,8 @@ var lexiconEn = //========== lexicon-dme.js
  "manure":{"N":{"tab":["n5"]},
            "V":{"tab":"v3"}},
  "manuscript":{"N":{"tab":["n1"]}},
- "many":{"N":{"tab":["n6"]}},
+ "many":{"N":{"tab":["n6"]},
+         "Adv":{"tab":["b1"]}},
  "many-sided":{"A":{"tab":["a1"]}},
  "map":{"N":{"tab":["n1"]},
         "V":{"tab":"v12"}},
@@ -28625,7 +28634,7 @@ var lexiconEn = //========== lexicon-dme.js
  "maximization":{"N":{"tab":["n1"]}},
  "maximize":{"V":{"tab":"v3"}},
  "maximum":{"A":{"tab":["a1"]},
-            "N":{"tab":["n11","n1"]}},
+            "N":{"tab":["n1"]}},
  "may":{"V":{"tab":"v153"}},
  "may-beetle":{"N":{"tab":["n1"]}},
  "may-bug":{"N":{"tab":["n1"]}},
@@ -28733,7 +28742,7 @@ var lexiconEn = //========== lexicon-dme.js
  "meditative":{"A":{"tab":["a1"]}},
  "meditatively":{"Adv":{"tab":["b1"]}},
  "medium":{"A":{"tab":["a1"]},
-           "N":{"tab":["n11","n1"]}},
+           "N":{"tab":["n1"]}},
  "medium-sized":{"A":{"tab":["a1"]}},
  "medivally":{"Adv":{"tab":["b1"]}},
  "medlar":{"N":{"tab":["n1"]}},
@@ -28789,12 +28798,12 @@ var lexiconEn = //========== lexicon-dme.js
  "membership":{"N":{"tab":["n5"]}},
  "membrane":{"N":{"tab":["n1"]}},
  "membranous":{"A":{"tab":["a1"]}},
- "memento":{"N":{"tab":["n2","n1"]}},
+ "memento":{"N":{"tab":["n1"]}},
  "memo":{"N":{"tab":["n1"]}},
  "memoir":{"N":{"tab":["n1"]}},
  "memorable":{"A":{"tab":["a1"]}},
  "memorably":{"Adv":{"tab":["b1"]}},
- "memorandum":{"N":{"tab":["n11","n1"]}},
+ "memorandum":{"N":{"tab":["n1"]}},
  "memorial":{"N":{"tab":["n1"]}},
  "memorialize":{"V":{"tab":"v3"}},
  "memorize":{"V":{"tab":"v3"}},
@@ -29165,7 +29174,7 @@ var lexiconEn = //========== lexicon-dme.js
  "minimal":{"A":{"tab":["a1"]}},
  "minimize":{"V":{"tab":"v3"}},
  "minimum":{"A":{"tab":["a1"]},
-            "N":{"tab":["n11","n1"]}},
+            "N":{"tab":["n1"]}},
  "mining":{"N":{"tab":["n5"]}},
  "minion":{"N":{"tab":["n1"]}},
  "minister":{"N":{"g":"m",
@@ -29597,12 +29606,13 @@ var lexiconEn = //========== lexicon-dme.js
  "moralize":{"V":{"tab":"v3"}},
  "morally":{"Adv":{"tab":["b1"]}},
  "morass":{"N":{"tab":["n2"]}},
- "moratorium":{"N":{"tab":["n11","n1"]}},
+ "moratorium":{"N":{"tab":["n1"]}},
  "morbid":{"A":{"tab":["a1"]}},
  "morbidity":{"N":{"tab":["n3"]}},
  "morbidly":{"Adv":{"tab":["b1"]}},
  "morbidness":{"N":{"tab":["n5"]}},
  "mordant":{"A":{"tab":["a1"]}},
+ "more":{"Adv":{ "tab": ["b1"]}},
  "morello":{"N":{"tab":["n1"]}},
  "moreover":{"Adv":{"tab":["b1"]}},
  "mores":{"N":{"tab":["n6"]}},
@@ -29656,6 +29666,7 @@ var lexiconEn = //========== lexicon-dme.js
  "moss":{"N":{"tab":["n2"]}},
  "moss-grown":{"A":{"tab":["a1"]}},
  "mossy":{"A":{"tab":["a4"]}},
+ "most":{"Adv":{"tab":["b1"]}},
  "mostly":{"Adv":{"tab":["b1"]}},
  "mote":{"N":{"tab":["n1"]}},
  "motel":{"N":{"tab":["n1"]}},
@@ -29702,7 +29713,7 @@ var lexiconEn = //========== lexicon-dme.js
  "motorman":{"N":{"tab":["n7"]}},
  "motorway":{"N":{"tab":["n1"]}},
  "mottle":{"V":{"tab":"v3"}},
- "motto":{"N":{"tab":["n2","n1"]}},
+ "motto":{"N":{"tab":["n1"]}},
  "moujik":{"N":{"tab":["n1"]}},
  "mould":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
@@ -29787,7 +29798,7 @@ var lexiconEn = //========== lexicon-dme.js
  "muggins":{"N":{"tab":["n2"]}},
  "muggy":{"A":{"tab":["a4"]}},
  "mugwump":{"N":{"tab":["n1"]}},
- "mulatto":{"N":{"tab":["n2","n1"]}},
+ "mulatto":{"N":{"tab":["n1"]}},
  "mulberry":{"N":{"tab":["n3"]}},
  "mulch":{"N":{"tab":["n2"]},
           "V":{"tab":"v2"}},
@@ -29823,7 +29834,7 @@ var lexiconEn = //========== lexicon-dme.js
  "multitudinous":{"A":{"tab":["a1"]}},
  "mum":{"A":{"tab":["a1"]},
         "N":{"g":"f",
-             "tab":["n1","n5"]}},
+             "tab":["n1"]}},
  "mumble":{"V":{"tab":"v3"}},
  "mumbo-jumbo":{"N":{"tab":["n5"]}},
  "mummer":{"N":{"tab":["n1"]}},
@@ -30021,7 +30032,7 @@ var lexiconEn = //========== lexicon-dme.js
  "napkin-ring":{"N":{"tab":["n1"]}},
  "nappy":{"N":{"tab":["n3"]}},
  "narcissism":{"N":{"tab":["n5"]}},
- "narcissus":{"N":{"tab":["n12","n2"]}},
+ "narcissus":{"N":{"tab":["n2"]}},
  "narcotic":{"A":{"tab":["a1"]},
              "N":{"tab":["n1"]}},
  "nark":{"N":{"tab":["n1"]},
@@ -30116,7 +30127,7 @@ var lexiconEn = //========== lexicon-dme.js
  "neat":{"A":{"tab":["a3"]}},
  "neatly":{"Adv":{"tab":["b1"]}},
  "neatness":{"N":{"tab":["n5"]}},
- "nebula":{"N":{"tab":["n13","n1"]}},
+ "nebula":{"N":{"tab":["n1"]}},
  "nebular":{"A":{"tab":["a1"]}},
  "nebulous":{"A":{"tab":["a1"]}},
  "necessarily":{"Adv":{"tab":["b1"]}},
@@ -30141,7 +30152,7 @@ var lexiconEn = //========== lexicon-dme.js
  "nectar":{"N":{"tab":["n5"]}},
  "nectarine":{"N":{"tab":["n1"]}},
  "need":{"N":{"tab":["n1"]},
-         "V":{"tab":"v167"}},
+         "V":{"tab":"v1"}},
  "needful":{"A":{"tab":["a1"]}},
  "needfully":{"Adv":{"tab":["b1"]}},
  "needle":{"N":{"tab":["n1"]},
@@ -30396,7 +30407,7 @@ var lexiconEn = //========== lexicon-dme.js
  "nitwitted":{"A":{"tab":["a1"]}},
  "nix":{"N":{"tab":["n5"]}},
  "no":{"Adv":{"tab":["b1"]},
-       "N":{"tab":["n1","n5"]}},
+       "N":{"tab":["n1"]}},
  "no-ball":{"N":{"tab":["n1"]}},
  "no-go":{"A":{"tab":["a1"]}},
  "no-one":{"Pro":{"tab":["pn5"]}},
@@ -30600,7 +30611,7 @@ var lexiconEn = //========== lexicon-dme.js
  "nourish":{"V":{"tab":"v2"}},
  "nourishment":{"N":{"tab":["n5"]}},
  "nous":{"N":{"tab":["n5"]}},
- "nova":{"N":{"tab":["n13","n1"]}},
+ "nova":{"N":{"tab":["n1"]}},
  "novel":{"A":{"tab":["a1"]},
           "N":{"tab":["n1"]}},
  "novelette":{"N":{"tab":["n1"]}},
@@ -30884,7 +30895,8 @@ var lexiconEn = //========== lexicon-dme.js
  "oesophagus":{"N":{"tab":["n2"]}},
  "of":{"P":{"tab":["pp"]}},
  "off":{"A":{"tab":["a1"]},
-        "P":{"tab":["pp"]}},
+        "P":{"tab":["pp"]},
+        "Adv":{"tab":["b1"]}},
  "off-beat":{"A":{"tab":["a1"]}},
  "off-day":{"N":{"tab":["n1"]}},
  "off-hand":{"A":{"tab":["a1"]},
@@ -31013,12 +31025,14 @@ var lexiconEn = //========== lexicon-dme.js
  "omniscience":{"N":{"tab":["n5"]}},
  "omniscient":{"A":{"tab":["a1"]}},
  "omnivorous":{"A":{"tab":["a1"]}},
- "on":{"P":{"tab":["pp"]}},
+ "on":{"P":{"tab":["pp"]},
+       "Adv":{"tab":["b1"]}},
  "on-going":{"A":{"tab":["a1"]}},
  "on-licence":{"N":{"tab":["n1"]}},
  "once":{"Adv":{"tab":["b1"]}},
  "oncoming":{"A":{"tab":["a1"]},
              "N":{"tab":["n5"]}},
+ "one":{"Pro":{"tab":["pn5"]}},
  "one-armed":{"A":{"tab":["a1"]}},
  "one-eyed":{"A":{"tab":["a1"]}},
  "one-horse":{"A":{"tab":["a1"]}},
@@ -31294,7 +31308,8 @@ var lexiconEn = //========== lexicon-dme.js
  "oust":{"V":{"tab":"v1"}},
  "out":{"Adv":{"tab":["b1"]},
         "P":{"tab":["pp"]},
-        "V":{"tab":"v1"}},
+        "V":{"tab":"v1"},
+        "A":{"tab":["a1"]}},
  "out-herod":{"V":{"tab":"v1"}},
  "out-of-date":{"A":{"tab":["a1"]}},
  "out-of-door":{"A":{"tab":["a1"]}},
@@ -31791,7 +31806,7 @@ var lexiconEn = //========== lexicon-dme.js
          "V":{"tab":"v1"}},
  "palm-oil":{"N":{"tab":["n5"]}},
  "palmer":{"N":{"tab":["n1"]}},
- "palmetto":{"N":{"tab":["n2","n1"]}},
+ "palmetto":{"N":{"tab":["n1"]}},
  "palmist":{"N":{"tab":["n1"]}},
  "palmistry":{"N":{"tab":["n5"]}},
  "palmy":{"A":{"tab":["a4"]}},
@@ -31890,7 +31905,7 @@ var lexiconEn = //========== lexicon-dme.js
            "N":{"tab":["n1"]}},
  "papoose":{"N":{"tab":["n1"]}},
  "paprika":{"N":{"tab":["n5"]}},
- "papyrus":{"N":{"tab":["n12","n2"]}},
+ "papyrus":{"N":{"tab":["n2"]}},
  "par":{"N":{"tab":["n1"]}},
  "parable":{"N":{"tab":["n1"]}},
  "parabola":{"N":{"tab":["n1"]}},
@@ -32292,7 +32307,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pebbly":{"A":{"tab":["a4"]}},
  "pecan":{"N":{"tab":["n1"]}},
  "peccable":{"A":{"tab":["a1"]}},
- "peccadillo":{"N":{"tab":["n2","n1"]}},
+ "peccadillo":{"N":{"tab":["n1"]}},
  "peccary":{"N":{"tab":["n3"]}},
  "peck":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
@@ -32381,7 +32396,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pelt":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "pelvic":{"A":{"tab":["a1"]}},
- "pelvis":{"N":{"tab":["n8","n2"]}},
+ "pelvis":{"N":{"tab":["n2"]}},
  "pemmican":{"N":{"tab":["n5"]}},
  "pen":{"N":{"tab":["n1"]},
         "V":{"tab":"v11"}},
@@ -32428,7 +32443,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pennant":{"N":{"tab":["n1"]}},
  "penniless":{"A":{"tab":["a1"]}},
  "pennon":{"N":{"tab":["n1"]}},
- "penny":{"N":{"tab":["n79","n3"]}},
+ "penny":{"N":{"tab":["n3"]}},
  "pennyweight":{"N":{"tab":["n1"]}},
  "pennyworth":{"N":{"tab":["n1"]}},
  "penology":{"N":{"tab":["n5"]}},
@@ -32485,7 +32500,7 @@ var lexiconEn = //========== lexicon-dme.js
  "perception":{"N":{"tab":["n1"]}},
  "perceptive":{"A":{"tab":["a1"]}},
  "perceptively":{"Adv":{"tab":["b1"]}},
- "perch":{"N":{"tab":["n2","n4"]},
+ "perch":{"N":{"tab":["n2"]},
           "V":{"tab":"v2"}},
  "perchance":{"Adv":{"tab":["b1"]}},
  "percipient":{"A":{"tab":["a1"]}},
@@ -32633,7 +32648,7 @@ var lexiconEn = //========== lexicon-dme.js
  "personation":{"N":{"tab":["n1"]}},
  "personification":{"N":{"tab":["n1"]}},
  "personify":{"V":{"tab":"v4"}},
- "personnel":{"N":{"tab":["n1","n4"]}},
+ "personnel":{"N":{"tab":["n1"]}},
  "perspective":{"N":{"tab":["n1"]}},
  "perspex":{"N":{"tab":["n5"]}},
  "perspicacious":{"A":{"tab":["a1"]}},
@@ -32732,7 +32747,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pfennig":{"N":{"tab":["n1"]}},
  "phaeton":{"N":{"tab":["n1"]}},
  "phagocyte":{"N":{"tab":["n1"]}},
- "phalanx":{"N":{"tab":["n48","n2"]}},
+ "phalanx":{"N":{"tab":["n2"]}},
  "phallic":{"A":{"tab":["a1"]}},
  "phallus":{"N":{"tab":["n2"]}},
  "phantasm":{"N":{"tab":["n1"]}},
@@ -32963,7 +32978,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pigswill":{"N":{"tab":["n5"]}},
  "pigtail":{"N":{"tab":["n1"]}},
  "pigwash":{"N":{"tab":["n5"]}},
- "pike":{"N":{"tab":["n1","n4"]}},
+ "pike":{"N":{"tab":["n1"]}},
  "pikestaff":{"N":{"tab":["n1"]}},
  "pilaf":{"N":{"tab":["n5"]}},
  "pilaff":{"N":{"tab":["n5"]}},
@@ -33002,7 +33017,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pilot-burner":{"N":{"tab":["n1"]}},
  "pilot-cloth":{"N":{"tab":["n5"]}},
  "pilot-engine":{"N":{"tab":["n1"]}},
- "pilot-fish":{"N":{"tab":["n2","n4"]}},
+ "pilot-fish":{"N":{"tab":["n2"]}},
  "pilot-light":{"N":{"tab":["n1"]}},
  "pimento":{"N":{"tab":["n1"]}},
  "pimp":{"N":{"tab":["n1"]},
@@ -33224,7 +33239,7 @@ var lexiconEn = //========== lexicon-dme.js
  "plate-glass":{"N":{"tab":["n5"]}},
  "plate-powder":{"N":{"tab":["n5"]}},
  "plate-rack":{"N":{"tab":["n1"]}},
- "plateau":{"N":{"tab":["n14","n1"]}},
+ "plateau":{"N":{"tab":["n1"]}},
  "plateful":{"N":{"tab":["n1"]}},
  "platelayer":{"N":{"tab":["n1"]}},
  "platform":{"N":{"tab":["n1"]}},
@@ -33315,7 +33330,7 @@ var lexiconEn = //========== lexicon-dme.js
  "pleonasm":{"N":{"tab":["n1"]}},
  "plethora":{"N":{"tab":["n1"]}},
  "pleurisy":{"N":{"tab":["n5"]}},
- "plexus":{"N":{"tab":["n2","n4"]}},
+ "plexus":{"N":{"tab":["n2"]}},
  "pliability":{"N":{"tab":["n5"]}},
  "pliable":{"A":{"tab":["a1"]}},
  "pliancy":{"N":{"tab":["n5"]}},
@@ -33397,7 +33412,7 @@ var lexiconEn = //========== lexicon-dme.js
  "plutocrat":{"N":{"tab":["n1"]}},
  "plutocratic":{"A":{"tab":["a1"]}},
  "plutonium":{"N":{"tab":["n5"]}},
- "ply":{"N":{"tab":["n3","n4"]},
+ "ply":{"N":{"tab":["n3"]},
         "V":{"tab":"v4"}},
  "plywood":{"N":{"tab":["n5"]}},
  "pneumatic":{"A":{"tab":["a1"]}},
@@ -33544,7 +33559,7 @@ var lexiconEn = //========== lexicon-dme.js
  "polyp":{"N":{"tab":["n1"]}},
  "polyphonic":{"A":{"tab":["a1"]}},
  "polyphony":{"N":{"tab":["n5"]}},
- "polypus":{"N":{"tab":["n12","n2"]}},
+ "polypus":{"N":{"tab":["n2"]}},
  "polysyllabic":{"A":{"tab":["a1"]}},
  "polysyllable":{"N":{"tab":["n1"]}},
  "polytechnic":{"N":{"tab":["n1"]}},
@@ -33667,12 +33682,12 @@ var lexiconEn = //========== lexicon-dme.js
  "porterhouse":{"N":{"tab":["n1"]}},
  "portfolio":{"N":{"tab":["n1"]}},
  "porthole":{"N":{"tab":["n1"]}},
- "portico":{"N":{"tab":["n2","n1"]}},
+ "portico":{"N":{"tab":["n1"]}},
  "portion":{"N":{"tab":["n1"]},
             "V":{"tab":"v1"}},
  "portière":{"N":{"tab":["n1"]}},
  "portly":{"A":{"tab":["a1"]}},
- "portmanteau":{"N":{"tab":["n14","n1"]}},
+ "portmanteau":{"N":{"tab":["n1"]}},
  "portrait":{"N":{"tab":["n1"]}},
  "portraitist":{"N":{"tab":["n1"]}},
  "portraiture":{"N":{"tab":["n5"]}},
@@ -33806,7 +33821,7 @@ var lexiconEn = //========== lexicon-dme.js
  "poulterer":{"N":{"tab":["n1"]}},
  "poultice":{"N":{"tab":["n1"]},
              "V":{"tab":"v3"}},
- "poultry":{"N":{"tab":["n6","n5"]}},
+ "poultry":{"N":{"tab":["n3"]}},
  "pounce":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
  "pound":{"N":{"tab":["n1"]},
@@ -34871,7 +34886,7 @@ var lexiconEn = //========== lexicon-dme.js
  "punter":{"N":{"tab":["n1"]}},
  "puny":{"A":{"tab":["a4"]}},
  "pup":{"N":{"tab":["n1"]}},
- "pupa":{"N":{"tab":["n13","n1"]}},
+ "pupa":{"N":{"tab":["n1"]}},
  "pupil":{"N":{"g":"m",
                "tab":["n1"]}},
  "puppet":{"N":{"tab":["n1"]}},
@@ -35692,6 +35707,7 @@ var lexiconEn = //========== lexicon-dme.js
  "recollection":{"N":{"tab":["n1"]}},
  "recommend":{"V":{"tab":"v1"}},
  "recommendation":{"N":{"tab":["n1"]}},
+ "recommended":{"A":{"tab":["a1"]}},
  "recompense":{"N":{"tab":["n1"]},
                "V":{"tab":"v3"}},
  "reconcilable":{"A":{"tab":["a1"]}},
@@ -35812,7 +35828,7 @@ var lexiconEn = //========== lexicon-dme.js
                  "tab":["n1"]},
             "V":{"tab":"v16"}},
  "reference":{"N":{"tab":["n1"]}},
- "referendum":{"N":{"tab":["n11","n1"]}},
+ "referendum":{"N":{"tab":["n1"]}},
  "referential":{"A":{"tab":["a1"]}},
  "refill":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
@@ -36429,7 +36445,7 @@ var lexiconEn = //========== lexicon-dme.js
                "V":{"tab":"v3"}},
  "reticulation":{"N":{"tab":["n1"]}},
  "reticule":{"N":{"tab":["n1"]}},
- "retina":{"N":{"tab":["n13","n1"]}},
+ "retina":{"N":{"tab":["n1"]}},
  "retinue":{"N":{"tab":["n1"]}},
  "retire":{"N":{"tab":["n5"]},
            "V":{"tab":"v3"}},
@@ -36574,7 +36590,7 @@ var lexiconEn = //========== lexicon-dme.js
  "rheumatoid":{"A":{"tab":["a1"]}},
  "rhinal":{"A":{"tab":["a1"]}},
  "rhino":{"N":{"tab":["n1"]}},
- "rhinoceros":{"N":{"tab":["n2","n4"]}},
+ "rhinoceros":{"N":{"tab":["n2"]}},
  "rhizome":{"N":{"tab":["n1"]}},
  "rhododendron":{"N":{"tab":["n1"]}},
  "rhomb":{"N":{"tab":["n1"]}},
@@ -36755,7 +36771,7 @@ var lexiconEn = //========== lexicon-dme.js
  "rivet":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
  "rivulet":{"N":{"tab":["n1"]}},
- "roach":{"N":{"tab":["n2","n4"]}},
+ "roach":{"N":{"tab":["n2"]}},
  "road":{"N":{"tab":["n1"]}},
  "road-bed":{"N":{"tab":["n1"]}},
  "road-block":{"N":{"tab":["n1"]}},
@@ -36821,7 +36837,7 @@ var lexiconEn = //========== lexicon-dme.js
  "rodent":{"N":{"tab":["n1"]}},
  "rodeo":{"N":{"tab":["n1"]}},
  "rodomontade":{"N":{"tab":["n5"]}},
- "roe":{"N":{"tab":["n4","n1"]}},
+ "roe":{"N":{"tab":["n1"]}},
  "roebuck":{"N":{"tab":["n1"]}},
  "rogation":{"N":{"tab":["n1"]}},
  "roger":{"N":{"tab":["n5"]}},
@@ -36910,7 +36926,7 @@ var lexiconEn = //========== lexicon-dme.js
  "rosin":{"N":{"tab":["n5"]},
           "V":{"tab":"v11"}},
  "roster":{"N":{"tab":["n1"]}},
- "rostrum":{"N":{"tab":["n11","n1"]}},
+ "rostrum":{"N":{"tab":["n1"]}},
  "rosy":{"A":{"tab":["a4"]}},
  "rot":{"N":{"tab":["n5"]},
         "V":{"tab":"v14"}},
@@ -37327,8 +37343,9 @@ var lexiconEn = //========== lexicon-dme.js
           "V":{"tab":"v3"}},
  "salver":{"N":{"tab":["n1"]}},
  "salvia":{"N":{"tab":["n1"]}},
- "salvo":{"N":{"tab":["n2","n1"]}},
+ "salvo":{"N":{"tab":["n1"]}},
  "samba":{"N":{"tab":["n1"]}},
+ "same":{"A":{"tab":["a1"]}},
  "sameness":{"N":{"tab":["n5"]}},
  "samovar":{"N":{"tab":["n1"]}},
  "sampan":{"N":{"tab":["n1"]}},
@@ -37336,7 +37353,7 @@ var lexiconEn = //========== lexicon-dme.js
            "V":{"tab":"v3"}},
  "sampler":{"N":{"tab":["n1"]}},
  "samurai":{"N":{"tab":["n4"]}},
- "sanatorium":{"N":{"tab":["n11","n1"]}},
+ "sanatorium":{"N":{"tab":["n1"]}},
  "sanctification":{"N":{"tab":["n1"]}},
  "sanctify":{"V":{"tab":"v4"}},
  "sanctimonious":{"A":{"tab":["a1"]}},
@@ -37499,7 +37516,7 @@ var lexiconEn = //========== lexicon-dme.js
  "saxophone":{"N":{"tab":["n1"]}},
  "saxophonist":{"N":{"tab":["n1"]}},
  "say":{"N":{"tab":["n1"]},
-        "V":{"tab":"v79"}},
+        "V":{"tab":"v19"}},
  "saying":{"N":{"tab":["n1"]}},
  "scab":{"N":{"tab":["n1"]}},
  "scabbard":{"N":{"tab":["n1"]}},
@@ -37555,7 +37572,7 @@ var lexiconEn = //========== lexicon-dme.js
           "V":{"tab":"v3"}},
  "scarecrow":{"N":{"tab":["n1"]}},
  "scaremonger":{"N":{"tab":["n1"]}},
- "scarf":{"N":{"tab":["n9","n1"]}},
+ "scarf":{"N":{"tab":["n1"]}},
  "scarf-pin":{"N":{"tab":["n1"]}},
  "scarify":{"V":{"tab":"v4"}},
  "scarlet":{"A":{"tab":["a1"]},
@@ -37834,7 +37851,7 @@ var lexiconEn = //========== lexicon-dme.js
  "sea-coal":{"N":{"tab":["n5"]}},
  "sea-cow":{"N":{"tab":["n1"]}},
  "sea-dog":{"N":{"tab":["n1"]}},
- "sea-fish":{"N":{"tab":["n2","n4"]}},
+ "sea-fish":{"N":{"tab":["n2"]}},
  "sea-girt":{"A":{"tab":["a1"]}},
  "sea-god":{"N":{"tab":["n1"]}},
  "sea-going":{"A":{"tab":["a1"]}},
@@ -37992,7 +38009,7 @@ var lexiconEn = //========== lexicon-dme.js
  "see":{"N":{"tab":["n1"]},
         "V":{"tab":"v50"}},
  "see-through":{"A":{"tab":["a1"]}},
- "seed":{"N":{"tab":["n4","n1"]},
+ "seed":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "seed-bed":{"N":{"tab":["n1"]}},
  "seed-cake":{"N":{"tab":["n1"]}},
@@ -38920,7 +38937,7 @@ var lexiconEn = //========== lexicon-dme.js
  "silvan":{"A":{"tab":["a1"]}},
  "silver":{"N":{"tab":["n5"]},
            "V":{"tab":"v1"}},
- "silver-fish":{"N":{"tab":["n2","n4"]}},
+ "silver-fish":{"N":{"tab":["n2"]}},
  "silverfish":{"N":{"tab":["n2"]}},
  "silvern":{"A":{"tab":["a1"]}},
  "silverside":{"N":{"tab":["n5"]}},
@@ -39693,7 +39710,7 @@ var lexiconEn = //========== lexicon-dme.js
  "sociologist":{"N":{"tab":["n1"]}},
  "sociology":{"N":{"tab":["n5"]}},
  "sock":{"Adv":{"tab":["b1"]},
-         "N":{"tab":["n82","n1"]},
+         "N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "socket":{"N":{"tab":["n1"]}},
  "sod":{"N":{"tab":["n1"]},
@@ -40415,7 +40432,7 @@ var lexiconEn = //========== lexicon-dme.js
  "square-toed":{"A":{"tab":["a1"]}},
  "squarely":{"Adv":{"tab":["b1"]}},
  "squareness":{"N":{"tab":["n5"]}},
- "squash":{"N":{"tab":["n4","n2"]},
+ "squash":{"N":{"tab":["n2"]},
            "V":{"tab":"v2"}},
  "squashy":{"A":{"tab":["a4"]}},
  "squat":{"A":{"tab":["a1"]},
@@ -40587,7 +40604,7 @@ var lexiconEn = //========== lexicon-dme.js
  "stardom":{"N":{"tab":["n5"]}},
  "stare":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
- "starfish":{"N":{"tab":["n4","n2"]}},
+ "starfish":{"N":{"tab":["n2"]}},
  "staring":{"A":{"tab":["a1"]},
             "Adv":{"tab":["b1"]}},
  "stark":{"A":{"tab":["a1"]},
@@ -40638,7 +40655,7 @@ var lexiconEn = //========== lexicon-dme.js
  "statistical":{"A":{"tab":["a1"]}},
  "statistically":{"Adv":{"tab":["b1"]}},
  "statistician":{"N":{"tab":["n1"]}},
- "statistics":{"N":{"tab":["n6","n5"]}},
+ "statistics":{"N":{"tab":["n4"]}},
  "statuary":{"A":{"tab":["a1"]},
              "N":{"tab":["n5"]}},
  "statue":{"N":{"tab":["n1"]}},
@@ -40796,7 +40813,7 @@ var lexiconEn = //========== lexicon-dme.js
  "stigma":{"N":{"tab":["n1"]}},
  "stigmatize":{"V":{"tab":"v3"}},
  "stile":{"N":{"tab":["n1"]}},
- "stiletto":{"N":{"tab":["n2","n1"]}},
+ "stiletto":{"N":{"tab":["n1"]}},
  "still":{"A":{"tab":["a3"]},
           "Adv":{"tab":["b1"]},
           "N":{"tab":["n1"]},
@@ -41129,7 +41146,7 @@ var lexiconEn = //========== lexicon-dme.js
  "stubbornly":{"Adv":{"tab":["b1"]}},
  "stubbornness":{"N":{"tab":["n5"]}},
  "stubby":{"A":{"tab":["a4"]}},
- "stucco":{"N":{"tab":["n2","n1"]},
+ "stucco":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
  "stuck-up":{"A":{"tab":["a1"]}},
  "stud":{"N":{"tab":["n1"]},
@@ -41499,7 +41516,7 @@ var lexiconEn = //========== lexicon-dme.js
  "sundowner":{"N":{"tab":["n1"]}},
  "sundries":{"N":{"tab":["n6"]}},
  "sundry":{"A":{"tab":["a1"]}},
- "sunfish":{"N":{"tab":["n4","n2"]}},
+ "sunfish":{"N":{"tab":["n2"]}},
  "sunflower":{"N":{"tab":["n1"]}},
  "sunless":{"A":{"tab":["a1"]}},
  "sunlight":{"N":{"tab":["n5"]}},
@@ -41843,7 +41860,7 @@ var lexiconEn = //========== lexicon-dme.js
  "sword-dance":{"N":{"tab":["n1"]}},
  "sword-play":{"N":{"tab":["n5"]}},
  "sword-stick":{"N":{"tab":["n1"]}},
- "swordfish":{"N":{"tab":["n2","n4"]}},
+ "swordfish":{"N":{"tab":["n2"]}},
  "swordsman":{"N":{"tab":["n7"]}},
  "swordsmanship":{"N":{"tab":["n5"]}},
  "sworn":{"A":{"tab":["a1"]}},
@@ -41863,7 +41880,7 @@ var lexiconEn = //========== lexicon-dme.js
  "syllabize":{"V":{"tab":"v3"}},
  "syllable":{"N":{"tab":["n1"]}},
  "syllabled":{"A":{"tab":["a1"]}},
- "syllabus":{"N":{"tab":["n12","n2"]}},
+ "syllabus":{"N":{"tab":["n2"]}},
  "syllogism":{"N":{"tab":["n1"]}},
  "syllogistic":{"A":{"tab":["a1"]}},
  "sylph":{"N":{"tab":["n1"]}},
@@ -41888,7 +41905,7 @@ var lexiconEn = //========== lexicon-dme.js
  "sympathy":{"N":{"tab":["n3"]}},
  "symphonic":{"A":{"tab":["a1"]}},
  "symphony":{"N":{"tab":["n3"]}},
- "symposium":{"N":{"tab":["n11","n1"]}},
+ "symposium":{"N":{"tab":["n1"]}},
  "symptom":{"N":{"tab":["n1"]}},
  "symptomatic":{"A":{"tab":["a1"]}},
  "symptomatically":{"Adv":{"tab":["b1"]}},
@@ -42371,7 +42388,7 @@ var lexiconEn = //========== lexicon-dme.js
  "template":{"N":{"tab":["n1"]}},
  "temple":{"N":{"tab":["n1"]}},
  "templet":{"N":{"tab":["n1"]}},
- "tempo":{"N":{"tab":["n37","n1"]}},
+ "tempo":{"N":{"tab":["n1"]}},
  "temporal":{"A":{"tab":["a1"]}},
  "temporality":{"N":{"tab":["n5"]}},
  "temporally":{"Adv":{"tab":["b1"]}},
@@ -42530,7 +42547,7 @@ var lexiconEn = //========== lexicon-dme.js
  "texture":{"N":{"tab":["n1"]}},
  "textured":{"A":{"tab":["a1"]}},
  "thalidomide":{"N":{"tab":["n5"]}},
- "than":{"C":{"tab":["cs"]}},
+ "than":{"C":{"tab":["cs"]},"P":{"tab":["pp"]}},
  "thane":{"N":{"tab":["n1"]}},
  "thank":{"V":{"tab":"v1"}},
  "thank-offering":{"N":{"tab":["n1"]}},
@@ -42543,7 +42560,7 @@ var lexiconEn = //========== lexicon-dme.js
  "that":{"Adv":{"tab":["b1"]},
          "C":{"tab":["cs"]},
          "D":{"tab":["d3"]},
-         "Pro":{"tab":["pn8","pn7"]}},
+         "Pro":{"tab":["pn6"]}},
  "thatch":{"N":{"tab":["n5"]},
            "V":{"tab":"v2"}},
  "thaw":{"N":{"tab":["n1"]},
@@ -42616,7 +42633,7 @@ var lexiconEn = //========== lexicon-dme.js
  "thermostatic":{"A":{"tab":["a1"]}},
  "thermostatically":{"Adv":{"tab":["b1"]}},
  "thesaurus":{"N":{"tab":["n2"]}},
- "these":{"Pro":{"tab":["pn9","pn8"]}},
+ "these":{"Pro":{"tab":["pn8"]}},
  "thesis":{"N":{"tab":["n8"]}},
  "thew":{"N":{"tab":["n1"]}},
  "thick":{"A":{"tab":["a3"]},
@@ -42671,9 +42688,7 @@ var lexiconEn = //========== lexicon-dme.js
  "thirteenth":{"N":{"tab":["n1"]}},
  "thirtieth":{"N":{"tab":["n1"]}},
  "thirty":{"N":{"tab":["n3"]}},
- "this":{"Adv":{"tab":["b1"]},
-         "Pro":{"tab":["pn8"]},
-         "D":{"tab":["d5"]}},
+ "this": { "Adv": {"tab":["b1"] },"Pro":{"tab":["pn8"]},"D":{"tab":["d5"]}},
  "thistle":{"N":{"tab":["n1"]}},
  "thistle-down":{"N":{"tab":["n5"]}},
  "thither":{"Adv":{"tab":["b1"]}},
@@ -43107,6 +43122,7 @@ var lexiconEn = //========== lexicon-dme.js
  "tonsure":{"N":{"tab":["n1"]},
             "V":{"tab":"v3"}},
  "tontine":{"N":{"tab":["n1"]}},
+ "too":{"Adv":{"tab":["b1"]}},
  "tool":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "toot":{"N":{"tab":["n1"]},
@@ -43705,7 +43721,7 @@ var lexiconEn = //========== lexicon-dme.js
  "troupe":{"N":{"tab":["n1"]}},
  "trouper":{"N":{"tab":["n1"]}},
  "trouser":{"N":{"tab":["n1"]}},
- "trousseau":{"N":{"tab":["n14","n1"]}},
+ "trousseau":{"N":{"tab":["n1"]}},
  "trout":{"N":{"tab":["n4"]}},
  "trove":{"N":{"tab":["n1"]}},
  "trowel":{"N":{"tab":["n1"]}},
@@ -43819,7 +43835,7 @@ var lexiconEn = //========== lexicon-dme.js
  "tumultuously":{"Adv":{"tab":["b1"]}},
  "tumulus":{"N":{"tab":["n12"]}},
  "tun":{"N":{"tab":["n1"]}},
- "tuna":{"N":{"tab":["n4","n1"]}},
+ "tuna":{"N":{"tab":["n1"]}},
  "tundra":{"N":{"tab":["n1"]}},
  "tune":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
@@ -43833,7 +43849,7 @@ var lexiconEn = //========== lexicon-dme.js
  "tuning-fork":{"N":{"tab":["n1"]}},
  "tunnel":{"N":{"tab":["n1"]},
            "V":{"tab":"v9"}},
- "tunny":{"N":{"tab":["n3","n4"]}},
+ "tunny":{"N":{"tab":["n3"]}},
  "tup":{"N":{"tab":["n1"]}},
  "tuppence":{"N":{"tab":["n1"]}},
  "tuppenny":{"A":{"tab":["a1"]}},
@@ -43851,7 +43867,7 @@ var lexiconEn = //========== lexicon-dme.js
  "turbulently":{"Adv":{"tab":["b1"]}},
  "turd":{"N":{"tab":["n1"]}},
  "tureen":{"N":{"tab":["n1"]}},
- "turf":{"N":{"tab":["n9","n1"]},
+ "turf":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "turgid":{"A":{"tab":["a1"]}},
  "turgidity":{"N":{"tab":["n5"]}},
@@ -43975,7 +43991,7 @@ var lexiconEn = //========== lexicon-dme.js
  "twopenny-halfpenny":{"A":{"tab":["a1"]}},
  "tycoon":{"N":{"tab":["n1"]}},
  "tyke":{"N":{"tab":["n1"]}},
- "tympanum":{"N":{"tab":["n11","n1"]}},
+ "tympanum":{"N":{"tab":["n1"]}},
  "type":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
  "typecast":{"V":{"tab":"v18"}},
@@ -44026,7 +44042,7 @@ var lexiconEn = //========== lexicon-dme.js
  "ulterior":{"A":{"tab":["a1"]}},
  "ultimate":{"A":{"tab":["a1"]}},
  "ultimately":{"Adv":{"tab":["b1"]}},
- "ultimatum":{"N":{"tab":["n11","n1"]}},
+ "ultimatum":{"N":{"tab":["n1"]}},
  "ultimo":{"A":{"tab":["a1"]}},
  "ultramarine":{"A":{"tab":["a1"]},
                 "N":{"tab":["n1"]}},
@@ -44766,7 +44782,7 @@ var lexiconEn = //========== lexicon-dme.js
  "vacuity":{"N":{"tab":["n3"]}},
  "vacuous":{"A":{"tab":["a1"]}},
  "vacuously":{"Adv":{"tab":["b1"]}},
- "vacuum":{"N":{"tab":["n11","n1"]}},
+ "vacuum":{"N":{"tab":["n1"]}},
  "vade-mecum":{"N":{"tab":["n1"]}},
  "vagabond":{"A":{"tab":["a1"]},
              "N":{"tab":["n1"]}},
@@ -45138,7 +45154,7 @@ var lexiconEn = //========== lexicon-dme.js
  "violin":{"N":{"tab":["n1"]}},
  "violinist":{"N":{"tab":["n1"]}},
  "viper":{"N":{"tab":["n1"]}},
- "virago":{"N":{"tab":["n2","n1"]}},
+ "virago":{"N":{"tab":["n1"]}},
  "virgin":{"A":{"tab":["a1"]},
            "N":{"tab":["n1"]}},
  "virginal":{"A":{"tab":["a1"]},
@@ -45153,7 +45169,7 @@ var lexiconEn = //========== lexicon-dme.js
  "virtually":{"Adv":{"tab":["b1"]}},
  "virtue":{"N":{"tab":["n1"]}},
  "virtuosity":{"N":{"tab":["n5"]}},
- "virtuoso":{"N":{"tab":["n37","n1"]}},
+ "virtuoso":{"N":{"tab":["n1"]}},
  "virtuous":{"A":{"tab":["a1"]}},
  "virtuously":{"Adv":{"tab":["b1"]}},
  "virulence":{"N":{"tab":["n5"]}},
@@ -45250,7 +45266,7 @@ var lexiconEn = //========== lexicon-dme.js
  "volatile":{"A":{"tab":["a1"]}},
  "volatility":{"N":{"tab":["n3"]}},
  "volcanic":{"A":{"tab":["a1"]}},
- "volcano":{"N":{"tab":["n2","n1"]}},
+ "volcano":{"N":{"tab":["n1"]}},
  "vole":{"N":{"tab":["n1"]}},
  "volition":{"N":{"tab":["n5"]}},
  "volitional":{"A":{"tab":["a1"]}},
@@ -45284,7 +45300,7 @@ var lexiconEn = //========== lexicon-dme.js
  "voracious":{"A":{"tab":["a1"]}},
  "voraciously":{"Adv":{"tab":["b1"]}},
  "voracity":{"N":{"tab":["n5"]}},
- "vortex":{"N":{"tab":["n22","n2"]}},
+ "vortex":{"N":{"tab":["n2"]}},
  "votary":{"N":{"tab":["n3"]}},
  "vote":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
@@ -45743,7 +45759,7 @@ var lexiconEn = //========== lexicon-dme.js
  "welkin":{"N":{"tab":["n1"]}},
  "well":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b3"]},
-         "N":{"tab":["n1","n5"]},
+         "N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "well-adjusted":{"A":{"tab":["a1"]}},
  "well-advised":{"A":{"tab":["a1"]}},
@@ -45838,7 +45854,7 @@ var lexiconEn = //========== lexicon-dme.js
  "whang":{"Adv":{"tab":["b1"]},
           "N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
- "wharf":{"N":{"tab":["n9","n1"]}},
+ "wharf":{"N":{"tab":["n1"]}},
  "wharfage":{"N":{"tab":["n5"]}},
  "what":{"D":{"tab":["d4"]},
          "Pro":{"tab":["pn6"]}},
@@ -45866,14 +45882,14 @@ var lexiconEn = //========== lexicon-dme.js
  "whelk":{"N":{"tab":["n1"]}},
  "whelp":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
- "when":{"Pro":{"tab":["pn7","pn6"]}},
+ "when":{"C":{"tab":["cs"]}},
  "whence":{"Pro":{"tab":["pn6"]}},
  "whencesoever":{"C":{"tab":["cs"]}},
  "whenever":{"Adv":{"tab":["b1"]},
              "C":{"tab":["cs"]}},
  "whensoever":{"Adv":{"tab":["b1"]},
                "C":{"tab":["cs"]}},
- "where":{"Pro":{"tab":["pn7","pn6"]}},
+ "where":{"Pro":{"tab":["pn6"]}},
  "whereabouts":{"Adv":{"tab":["b1"]},
                 "N":{"tab":["n4"]}},
  "whereas":{"C":{"tab":["cs"]}},
@@ -45898,7 +45914,7 @@ var lexiconEn = //========== lexicon-dme.js
  "whew":{"N":{"tab":["n5"]}},
  "whey":{"N":{"tab":["n5"]}},
  "which":{"D":{"tab":["d4"]},
-          "Pro":{"tab":["pn7","pn6"]}},
+          "Pro":{"tab":["pn6"]}},
  "whichever":{"D":{"tab":["d4"]},
               "Pro":{"tab":["pn6"]}},
  "whichsoever":{"D":{"tab":["d4"]},
@@ -45981,7 +45997,7 @@ var lexiconEn = //========== lexicon-dme.js
  "whiz":{"N":{"tab":["n5"]},
          "V":{"tab":"v82"}},
  "whizz-kid":{"N":{"tab":["n1"]}},
- "who":{"Pro":{"tab":["pn7","pn6"]}},
+ "who":{"Pro":{"tab":["pn6"]}},
  "whoa":{"N":{"tab":["n5"]}},
  "whodunit":{"N":{"tab":["n1"]}},
  "whoever":{"Pro":{"tab":["pn6"]}},
@@ -45999,7 +46015,7 @@ var lexiconEn = //========== lexicon-dme.js
  "wholesome":{"A":{"tab":["a1"]}},
  "wholesomely":{"Adv":{"tab":["b1"]}},
  "wholly":{"Adv":{"tab":["b1"]}},
- "whom":{"Pro":{"tab":["pn7","pn6"]}},
+ "whom":{"Pro":{"tab":["pn6"]}},
  "whomever":{"Pro":{"tab":["pn6"]}},
  "whomsoever":{"Pro":{"tab":["pn6"]}},
  "whoop":{"N":{"tab":["n1"]},
@@ -46015,13 +46031,13 @@ var lexiconEn = //========== lexicon-dme.js
  "whorl":{"N":{"tab":["n1"]}},
  "whorled":{"A":{"tab":["a1"]}},
  "whose":{"D":{"tab":["d4"]},
-          "Pro":{"tab":["pn7","pn6"]}},
+          "Pro":{"tab":["pn6"]}},
  "whosesoever":{"Pro":{"tab":["pn6"]}},
  "whosever":{"Pro":{"tab":["pn6"]}},
  "whoso":{"Pro":{"tab":["pn6"]}},
  "whosoever":{"Pro":{"tab":["pn6"]}},
- "why":{"N":{"tab":["n1","n5"]},
-        "Pro":{"tab":["pn7","pn6"]}},
+ "why":{"N":{"tab":["n1"]},
+        "Pro":{"tab":["pn6"]}},
  "whyever":{"C":{"tab":["cs"]}},
  "wick":{"N":{"tab":["n1"]}},
  "wicked":{"A":{"tab":["a1"]}},
@@ -46397,7 +46413,7 @@ var lexiconEn = //========== lexicon-dme.js
  "would-be":{"A":{"tab":["a1"]}},
  "wound":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
- "wow":{"N":{"tab":["n1","n5"]}},
+ "wow":{"N":{"tab":["n1"]}},
  "wrack":{"N":{"tab":["n5"]}},
  "wraith":{"N":{"tab":["n1"]}},
  "wrangle":{"N":{"tab":["n1"]},
@@ -46500,7 +46516,7 @@ var lexiconEn = //========== lexicon-dme.js
          "V":{"tab":"v1"}},
  "yaws":{"N":{"tab":["n4"]}},
  "yea":{"Adv":{"tab":["b1"]},
-        "N":{"tab":["n1","n5"]}},
+        "N":{"tab":["n1"]}},
  "yeah":{"Adv":{"tab":["b1"]}},
  "year":{"N":{"tab":["n1"]}},
  "year-book":{"N":{"tab":["n1"]}},
@@ -46527,7 +46543,7 @@ var lexiconEn = //========== lexicon-dme.js
         "V":{"tab":"v11"}},
  "yeoman":{"N":{"tab":["n7"]}},
  "yeomanry":{"N":{"tab":["n3"]}},
- "yes":{"N":{"tab":["n2","n5"]}},
+ "yes":{"N":{"tab":["n2"]}},
  "yesterday":{"Adv":{"tab":["b1"]},
               "N":{"tab":["n1"]}},
  "yet":{"Adv":{"tab":["b1"]},
@@ -46617,11 +46633,15 @@ var lexiconEn = //========== lexicon-dme.js
  "zoom":{"N":{"tab":["n5"]},
          "V":{"tab":"v1"}},
  "zoophyte":{"N":{"tab":["n1"]}},
- "zucchini":{"N":{"tab":["n1","n4"]}},
+ "zucchini":{"N":{"tab":["n1"]}},
  "{":{"Pc":{"compl":"}",
             "tab":["pc5"]}},
  "}":{"Pc":{"compl":"{",
             "tab":["pc6"]}},
+ "«":{"Pc":{"compl":"»",
+            "tab":["pc7"]}},
+ "»":{"Pc":{"compl":"«",
+            "tab":["pc8"]}},
  "éclair":{"N":{"tab":["n1"]}},
  "éclat":{"N":{"tab":["n5"]}},
  "élan":{"N":{"tab":["n5"]}},
@@ -46632,47 +46652,6 @@ var lexiconEn = //========== lexicon-dme.js
 loadEn(); // make sure additions are to the English lexicon
 // ajouts au lexique de JSrealB (version dme)
 addToLexicon("tsunami",{"N":{"tab":["n1"]}});
-
-// corrections au lexique
-addToLexicon("need",{"N":{"tab":["n1"]},"V":{"tab":"v22"}}); // comme pour feed, était 167!!
-addToLexicon("cooperate",{"V":{"tab":"v3"}});                // comme co-operate
-addToLexicon("say",{"N":{"tab":["n1"]},"V":{"tab":"v19"}});  // était v79
-addToLexicon("do",{"V":{"tab":"v96"}}); // enlever do comme nom...
-addToLexicon("defense",{"N":{"tab":["n1"]}}); //idem que defence
-// ajouts à des mots existants
-addToLexicon("access",{"N":{"tab":["n5"]},"V":{"tab":"v2"}});   // ajout comme verbe
-// adjectifs pour les modaux
-addToLexicon("allowed",{"A":{"tab":["a1"]}})
-addToLexicon("recommended",{"A":{"tab":["a1"]}})
-
-addToLexicon("same",{"A":{"tab":["a1"]}})
-
-// étrangement this est comme Adv et Pro mais non D dans le lexique...
-// addToLexicon("this",{"D":{ "tab": ["d4"] }, "Pro": { "tab": ["pn8"]}}); // mais problème avec la table d3
-addToLexicon("that",{"Pro":{"tab":["pn6"]},"Adv":{"tab":["b1"]},"D":{"tab":["d3"]}}); 
-addToLexicon("one",{"Pro":{"tab":["pn5"]}}); // comme another
-// ajout de prépositions
-addToLexicon("than",{"P":{"tab":["pp"]}});
-addToLexicon("as",{"P":{"tab":["pp"]}}); // as est déjà là comme adverbe
-addToLexicon("on",{"Adv":{"tab":["b1"]}}); // on est déjà là comme prep
-addToLexicon("off",{"Adv":{"tab":["b1"]}}); // off est déjà là comme prep
-addToLexicon("down",{"Adv":{"tab":["b1"]}}); // down est déjà là comme prep
-addToLexicon("up",{"P":{"tab":["pp"]},"Adv":{"tab":["b1"]}}); // up est déjà là comme prep
-// ajouts d'adverbes
-addToLexicon("more",{"Adv":{ "tab": ["b1"] }}); 
-addToLexicon("many",{"Adv":{ "tab": ["b1"] }}); 
-addToLexicon("too",{"Adv":{"tab":["b1"]}});
-addToLexicon("how",{"Adv":{"tab":["b1"]}});
-addToLexicon("most",{"Adv":{"tab":["b1"]}});
-addToLexicon("less",{"Adv":{"tab":["b1"]}});
-// modifications d'adverbes
-addToLexicon("out",{"A":{"tab":["a1"]}}); // ajout comme adjectif
-addToLexicon("all",{"Pro":{"tab":["b1"]}});// ajout comme pronom
-
-// modifications de ponctuations
-addToLexicon("'",{ "Pc": { "compl": "'", "tab": ["pc5","pc6"] }});
-addToLexicon("«",{ "Pc": { "compl": "»", "tab": ["pc7"] }});
-addToLexicon("»",{ "Pc": { "compl": "«", "tab": ["pc8"] }});
 
 // ajouts pour les textes de biologie (fréquence plus de 50 dans amr-ISI/amr-release-{dev|test|training}.txt)
 addToLexicon("mutate",{"V":{"tab":"v3"}});        // 1408
@@ -46712,6 +46691,7 @@ exports.NO=NO; // nombres
 
 exports.addToLexicon=addToLexicon;
 exports.getLemma=getLemma;
+exports.variant=variant;
 
 if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
 if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;
