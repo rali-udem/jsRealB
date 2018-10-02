@@ -233,6 +233,16 @@ var lexiconFr = //========== lexicon-fr.js
             "tab": ["pn8"]
         }
     },
+    "mien": {
+        "Pro": {
+            "tab": ["pn12"]
+        }
+    },
+    "nôtre": {
+        "Pro": {
+            "tab": ["pn13"]
+        }
+    },
     "y": {
         "Pro": {
             "tab": ["pn11"]

@@ -389,16 +389,19 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
 //  "clone" pour réutiliser un objet facilement sans la référence
 // comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
 //    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
-JSrealE.prototype.toObject = function() {
+JSrealE.prototype.stringify = function() {
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
         nativeString += "(\""+this.unit+"\")";
-    }
-    else{
+    } else{
         var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
-            subElems.push(this.elements[i].toObject())
+            var e=this.elements[i];
+            if (e instanceof JSrealE) // should always be true for correct expressions
+                subElems.push(e.stringify());
+            else
+                subElems.push(e.toString())
         }
         nativeString += "("+subElems.join(",")+")";
     }
@@ -409,7 +412,7 @@ JSrealE.prototype.toObject = function() {
     return nativeString+subProps.join("");
 }
 JSrealE.prototype.clone = function(){
-    var native = this.toObject();
+    var native = this.stringify();
     // console.log("native:"+native)
     return eval(native);
 }
@@ -665,7 +668,7 @@ JSrealE.prototype.real = function() {
         }
         else
         {
-            throw JSrealB.Exception.headWordNotFound(this.category);
+            throw JSrealB.Exception.headWordNotFound(this.category,this);
         }
     }
     else // terminal element
@@ -4349,8 +4352,8 @@ JSrealB.Exception = (function() {
         invalidInput: function(u, i) {
             return exception(4513, u, i);
         },
-        headWordNotFound: function(u) {
-            return exception(4514, u);
+        headWordNotFound: function(u,exp) {
+            return exception(4514, u,exp.stringify());
         }
     };
 })();
@@ -4772,11 +4775,14 @@ var getLemma = function(lemma){
     return JSrealB.Config.get("lexicon")[lemma]
 }
 
-//// select a random element in a list 
-//     (if the element is a function, evaluate it without parameter)
-//   useful to have some variety in the generated text
-var variant = function(elems){
-    var e=elems[Math.floor(Math.random()*elems.length)];
+//// select a random element in a list useful to have some variety in the generated text
+//  if the first argument is a list, selection is done within the list
+//  otherwise the selection is among the arguements 
+//   (if the selected element is a function, evaluate it without parameter)
+var oneOf = function(elems){
+    if (!Array.isArray(elems))
+        elems=Array.from(arguments);
+    e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
 var ruleFr = //========== rule-fr.js
@@ -9263,6 +9269,16 @@ var lexiconFr = //========== lexicon-fr.js
     "moi-même": {
         "Pro": {
             "tab": ["pn8"]
+        }
+    },
+    "mien": {
+        "Pro": {
+            "tab": ["pn12"]
+        }
+    },
+    "nôtre": {
+        "Pro": {
+            "tab": ["pn13"]
         }
     },
     "y": {
@@ -30613,7 +30629,16 @@ exports.NO=NO; // nombres
 
 exports.addToLexicon=addToLexicon;
 exports.getLemma=getLemma;
-exports.variant=variant;
+exports.oneOf=oneOf;
+
+//// useful trick to import node.js exports within the current global space
+function evalExports(file){
+    var f=require(file);
+    for (var v in f){
+        eval(v+"= f."+v);
+    }
+}
+exports.evalExports=evalExports;
 
 if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
 if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;

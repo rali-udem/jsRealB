@@ -24,7 +24,16 @@ exports.NO=NO; // nombres
 
 exports.addToLexicon=addToLexicon;
 exports.getLemma=getLemma;
-exports.variant=variant;
+exports.oneOf=oneOf;
+
+//// useful trick to import node.js exports within the current global space
+function evalExports(file){
+    var f=require(file);
+    for (var v in f){
+        eval(v+"= f."+v);
+    }
+}
+exports.evalExports=evalExports;
 
 if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
 if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;
