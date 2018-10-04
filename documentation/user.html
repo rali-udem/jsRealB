@@ -121,14 +121,12 @@
         </ul>
     <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../filter-en.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
     <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../filter-en.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realisation.</p>
-    <p lang="fr"><strong>Truc pratique</strong>: l'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux; il est donc plus pratique de définir les constructeurs dans le contexte global (même si ceci pourrait être considéré comme une mauvaise pratique en génie logiciel) en exécutant le code suivant:</p>
-    <p lang="en"><strong>Useful trick</strong>: phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious; it is thus more convenient (although it could be seen as bad software engineering practice) to define these constructors in the global namespace by executing the following code:</p>
+    <p lang="fr"><strong>Truc pratique</strong>: l'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux. Il est donc plus pratique de définir les constructeurs dans le contexte global (même si ceci pourrait être considéré comme une mauvaise pratique en génie logiciel) en exécutant le code suivant:</p>
+    <p lang="en"><strong>Useful trick</strong>: phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious. It is thus more convenient (although it could be seen as bad software engineering practice) to define these constructors in the global namespace by executing the following code:</p>
 <pre>
     for (var v in jsRealB)
         eval(v+"=jsRealB."+v);
 </pre>
-<p lang="fr">La fonction <code>evalExports(nomFichier)</code> combine le <code>require()</code> et exécute ce dernier code pour ajouter les constructeurs de <span class="jsr">jsRealB</span> au contexte global.</p>
-<p lang="en">Function <code>evalExports(fileName)</code> combines <code>require()</code> and executes this code to add all <span class="jsr">jsRealB</span> constructors to the global scope.</p>
 
 <h2 lang="fr" id="extensionVoc">Extension du vocabulaire</h2><h2 lang="en" id="vocExtension">Vocabulary extension</h2>
 <p lang="fr">
@@ -152,13 +150,13 @@ To remove an entry a call of the form
 <p lang="fr">
 La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> (où <code>e<sub>i</sub></code> est est une valeur) choisit un <code>e<sub>i</sub></code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
 </p>
-<p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>transformer</em> l'expression en une fonction en la préfixant par <code>()=></code>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il l'appelle sans paramètres. Par exemple,
+<p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il retourne le résultat de l'appel. Par exemple,
 <code>ofOne(()=>N("amour"),()=>N("amitié"))</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(ofOf("amour","amitié"))</code>.
 </p>
 <p lang="en">
 The function <code>oneOf((e<sub>1</sub>,e<sub>2</sub>,...)</code> (where <code>e<sub>i</sub></code> is a list) selects a random element of <code>e<sub>i</sub></code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed in this list, ignoring other parameters.
 </p>
-<p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>transform</em> a expression into a function by prefixing it with <code>()=></code>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it calls the function without any parameter. For exemple,
+<p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
 
 
