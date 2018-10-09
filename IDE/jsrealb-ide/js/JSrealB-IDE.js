@@ -30,10 +30,13 @@ function jsReal2Node(jsNode){
 //
 var tree,$realisation,$entree,$sepH,$sortie,$canvas,$sepV,$info,$resultats;
 var language="en"; // de la génération
+var ideWarning=""; // warnings générées par la dernière réalisation
 
 function dessiner(expr){
     $realisation.hide();
     clearCanvas();
+    ideWarning="";
+    $("#resultatInterrogation").text("");
     $("#outtexte").text("");
     // tree=parse(expr);
     // console.log(pprint(tree));
@@ -47,6 +50,13 @@ function dessiner(expr){
             // Node.ctx.fillStyle="black"; // dessiner le texte de la réalisation complète
             // Node.ctx.fillText(strip(result),10,20);
             $("#outtexte").text(strip(result));
+            if (ideWarning!=""){
+                $("#resultatInterrogation").html(
+                    "<h2>"+(language=="en"?"Realization warnings"
+                                          :"Avertissements lors de la réalisation")+"</h2>"+
+                    "<p>"+ideWarning+"</p>"
+                );
+            }
         }
     } catch (e) {
         // Node.ctx.fillStyle="#000000";
@@ -96,6 +106,7 @@ function afficherRealisation(e){
     var yC=e.clientY-offset.top+yScroll;
     var n=noeudProche(tree,xC,yC);
     $realisation.empty();
+    
     if(n!=null && n.realisation){
         $realisation.append("<b>" + n.realisation + "</b>")
                 .append(jsObjectToHtmlTable(n.prop, lang=="fr"?"Propriétés de l'élément":"Element properties"))
@@ -289,29 +300,48 @@ function showDeclension(declensions,mot,query,terminaison){
     return $("<p>"+query+":"+(lang=="fr"?"déclinaison non trouvée":"declension not found")+"</p>");
 }
 
+var lemmataEn,lemmataFr;
 // n'est appelé que lorsqu'on tape return
 function chercherInfos(e){
     if(e.which!=13)return;
     var query=$("#interrogation").val();
     if(query=="")return;
-    loadLanguage("data/",$("#langue").val(),function(){
-        $("#resultatInterrogation").empty();
-        $("#resultatJson").empty()
-        var type=$("#typeInterrogation").val();
-        var $result;
-        if (type=="dico"){
-            $result=showDictEntries(JSrealB.Config.get("lexicon"),query)
-        } else if (type=="conjugation-no"){
+    let interrogationLang=$("#langue").val()
+    if (interrogationLang=="en") loadEn(); else loadFr();
+    $("#resultatInterrogation").empty();
+    $("#resultatJson").empty()
+    var type=$("#typeInterrogation").val();
+    var $result;
+    switch (type) {
+        case "dico":
+            $result=showDictEntries(JSrealB.Config.get("lexicon"),query);
+            break;
+        case "conjugation-no":
             $result=showConjugation(JSrealB.Config.get("rule")["conjugation"],"",query,false);
-        } else if (type=="conjugation-term"){
-           $result=showConjugation(JSrealB.Config.get("rule")["conjugation"],"",query,true); 
-        } else if (type=="declension-no"){
+            break;
+        case "conjugation-term":
+            $result=showConjugation(JSrealB.Config.get("rule")["conjugation"],"",query,true);
+            break;
+        case "declension-no":
             $result=showDeclension(JSrealB.Config.get("rule")["declension"],"",query,false);
-        } else if (type=="declension-term"){
-           $result=showDeclension(JSrealB.Config.get("rule")["declension"],"",query,true); 
-        }
-        $("#resultatInterrogation").append($result);
-    });
+            break;
+        case "declension-term":
+            $result=showDeclension(JSrealB.Config.get("rule")["declension"],"",query,true);
+            break;
+        case "lemmatization":
+            let lemmata=interrogationLang=="en"?lemmataEn:lemmataFr;
+            if (lemmata.has(query))
+                $result="<p><code><pre>"+lemmata.get(query).join("\n")+"</pre></code></p>"
+            else
+                $result="<p>"+query+" : "+
+                            (lang=="en"?"cannot be lemmatized":"ne peut être lemmatisé")+"</p>";
+            break;
+        default:
+            $result="<p>"+type+" : "
+                         +(lang=="en"?"unknown interrogation type":"type d'interrogation inconnu")
+                         +"</p>";
+    }
+    $("#resultatInterrogation").append($result);
 }
 
 function addInfoDic(e){
@@ -365,8 +395,10 @@ $.urlParam = function(name){
 }
 
 var lang;  // langue courante de l'interface
-var interrogationMenuFr=["dictionnaire","no de conjugaison","terminaison de conjugaison","numéro de déclinaison","terminaison de déclinaison"];
-var interrogationMenuEn=["dictionary","conjugation number","conjugation ending","declension number","declension ending"];
+var interrogationMenuFr=["dictionnaire","no de conjugaison","terminaison de conjugaison",
+                         "numéro de déclinaison","terminaison de déclinaison","lemmatiser"];
+var interrogationMenuEn=["dictionary","conjugation number","conjugation ending",
+                         "declension number","declension ending","lemmatize"];
 function setLang(newLang){
     $("[lang="+lang+"]").hide();
     lang=newLang;
@@ -471,7 +503,10 @@ $(document).ready(function() {
     $("#interrogation").keypress(chercherInfos);
     $("#toEn").click(function(){setLang("en")});
     $("#toFr").click(function(){setLang("fr")});
-	
+
+    lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+	lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+    
     lang=$.urlParam("lang");
     if (lang=="en" || lang=="fr")
         setLang(lang);

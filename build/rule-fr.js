@@ -3982,12 +3982,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "ses","g": "m","n": "p","pe": 3
             },{
                 "val": "ses","g": "f","n": "p","pe": 3
-            },{
-                "val": "mon","g": "f","n": "s","pe": 1
-            },{
-                "val": "ton","g": "f","n": "s","pe": 2
-            },{
-                "val": "son","g": "f","n": "s","pe": 3
             }]
         },
         "d6": {
@@ -4028,8 +4022,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "s","g": "m","n": "p"
             },{
                 "val": "s","g": "f","n": "p"
-            },{
-                "val": "t","g": "m","n": "s"
             }]
         },
         "d8": {

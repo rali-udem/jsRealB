@@ -80,9 +80,12 @@
         <p lang="fr">Ajout d'un nouveau syntagme <code>element</code> comme enfant à un syntagme existant. Le paramètre entier <code>position</code> est facultatif et spécifie la position (à partir de 0) dans le syntagme. Par défaut, l'élément est ajouté à la fin.</p>
         <p lang="en">Add a new phrase <code>element</code> as a child of an existing phrase. The second optional parameter <code>position</code> is an integer that specifies its position (counting from 0). By default, the element is added as the last child.</p>
 <div id="addUse"></div>
-    <h3><code>.stringify()</code></h3>
+    <h3><code>.toSource()</code></h3>
     <p lang="fr">Cette fonction retourne une version <em>chaîne</em> d'une expression <span class="jsr">jsRealB</span>, ceci peut être utile pour la mise au point d'une expression complexe. </p>
     <p lang="en">This function returns a <em>string</em> version of a  <span class="jsr">jsRealB</span> expression, this can be useful for debugging complex expressions. </p>
+    <h3><code>getLanguage()</code></h3>
+    <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
+    <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
 
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
     <p lang="fr">Une des trois versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues. Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencer depuis l'élément <code>script</code>, mais vous pouvez aussi télécharger une version déjà <em>compilée</em> à partir du <a href="http://rawgit.com/rali-udem/JSrealB/master/dist/">répertoire <code>dist</code> du GitHub</a>.</p>

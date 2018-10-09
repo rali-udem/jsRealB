@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="../../dist/jsRealB-dmefr.min.js/jsRealB-dme.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="pert.js"></script>
+    <script src="tasks-data.js"></script>
+    <script src="tasks-en.js"></script>
+    <script src="textGen-en.js"></script>
+    <script src="graphique.js"></script>
+    <script src="batiment.js"></script>
+    <style>
+        table {
+            border-collapse:collapse;
+            margin:0 15px;
+            display:inline-table;
+            vertical-align:bottom;
+        }
+        td,th,#graphique svg {
+            border: 1px solid #999;
+            padding: 2px;
+        }
+        #graphique {
+            margin:5px;
+            vertical-align:bottom;
+        }
+        td:nth-child(1){text-align:center;}
+        td:nth-child(3){text-align:right;}
+        .current {font-weight: bold; color:blue;}
+    </style>
+    <title>Construction of a building</title>
+</head>
+<body>
+    <h1>Construction of a building</h1>
+    <blockquote>
+        <em>It involves building on an uneven slope an industrial building comprising a metal frame on foundations with well and stringers, paved floor, walls in coated agglomerates, corrugated sheets and corrugated polyester with insulation, heating by suspended air heaters, luminescent lighting.</em><br/> 
+        Adapted from a French example in : A. Gal, G. Lapalme, P. Saint-Dizier, <em>Prolog pour l'analyse automatique du langage naturel</em>, Eyrolles, 1989, pp. 122-129 which explains how to generate a French text using Prolog DCGs.
+    </blockquote>
+    [<a href="batiment.html">Version française</a>]
+    <h2>Input data</h2>
+    <p>The table on the left show the input data: for each task are specified: an id, its length in days and tasks that depend on it. The starting date of the project can be changed here: <input type="date" id="startDate" value="2018-07-22" />. .</p>
+    <span id="etapes"></span>
+    <span id="graphique"></span>
+    <p>The system computes the critical path and the earliest and latest dates to which the tasks can take place so that the final project is not delayed. It produces then a text (realized by <code>jsRealB</code>). Hovering the mouse on a task in the graphic displays a tooltip showing informations about this task, the immediately preceding and following task are displayed with a red border and the corresponding task is displayed in blue in the generated text.</p>
+    <hr/>
+    <h2>Text describing an <em>optimal</em> sequence of tasks starting from <span id="dateDebut"></span></h2>
+    <div id="text"></div>
+</body>
+</html>

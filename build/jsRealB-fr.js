@@ -389,7 +389,7 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
 //  "clone" pour réutiliser un objet facilement sans la référence
 // comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
 //    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
-JSrealE.prototype.stringify = function() {
+JSrealE.prototype.toSource = function() {
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
@@ -399,7 +399,7 @@ JSrealE.prototype.stringify = function() {
         for(var i = 0, imax=this.elements.length; i < imax; i++){
             var e=this.elements[i];
             if (e instanceof JSrealE) // should always be true for correct expressions
-                subElems.push(e.stringify());
+                subElems.push(e.toSource());
             else
                 subElems.push(e.toString())
         }
@@ -412,7 +412,7 @@ JSrealE.prototype.stringify = function() {
     return nativeString+subProps.join("");
 }
 JSrealE.prototype.clone = function(){
-    var native = this.stringify();
+    var native = this.toSource();
     // console.log("native:"+native)
     return eval(native);
 }
@@ -3720,7 +3720,7 @@ JSrealB.Module.Number = (function() {
                      "eight":"eighth","nine":"ninth","twelve":"twelfth"}
     // règles tirées de https://francais.lingolia.com/fr/vocabulaire/nombres-date-et-heure/les-nombres-ordinaux
     ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
-    function ordinal(s,en){
+    function ordinal(s,en,gender){
         s=enToutesLettres(s,en);
         if (s=="zéro" || s=="zero") return s;
         var m=/(.*?)(\w+)$/.exec(s)
@@ -3730,6 +3730,7 @@ JSrealB.Module.Number = (function() {
             if (s.charAt(s.length-1)=="y") return s.substring(0,s.length-1)+"ieth"; // added from the reference
             return s+"th"
         } else {
+            if (s == "un")return gender=="f"?"première":"premier";
             if (s.endsWith("et un")) return s+"ième";
             if (lastWord in ordFrExceptions) return m[1]+ordFrExceptions[lastWord];
             if (s.charAt(s.length-1)=="e" || s.endsWith("quatre-vingts")) return s.substring(0,s.length-1)+"ième";
@@ -4311,7 +4312,9 @@ JSrealB.Exception = (function() {
         if(info2 !== undefined) msg += ", " + info2;
         
         JSrealB.Logger.warning(msg);
-        
+        if (ideWarning!==undefined){// to display warnings in the IDE
+            ideWarning+=msg+"\n"
+        }
         return msg;
     };
 
@@ -4353,7 +4356,7 @@ JSrealB.Exception = (function() {
             return exception(4513, u, i);
         },
         headWordNotFound: function(u,exp) {
-            return exception(4514, u,exp.stringify());
+            return exception(4514, u,exp.toSource());
         }
     };
 })();
@@ -4773,6 +4776,11 @@ var addToLexicon = function(lemma,newInfos){
 //// get lemma from lexicon (useful for debugging )
 var getLemma = function(lemma){
     return JSrealB.Config.get("lexicon")[lemma]
+}
+
+// return the current realization language
+var getLanguage=function(){
+    return JSrealB.Config.get("language");
 }
 
 //// select a random element in a list useful to have some variety in the generated text
@@ -8769,12 +8777,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "ses","g": "m","n": "p","pe": 3
             },{
                 "val": "ses","g": "f","n": "p","pe": 3
-            },{
-                "val": "mon","g": "f","n": "s","pe": 1
-            },{
-                "val": "ton","g": "f","n": "s","pe": 2
-            },{
-                "val": "son","g": "f","n": "s","pe": 3
             }]
         },
         "d6": {
@@ -8815,8 +8817,6 @@ var ruleFr = //========== rule-fr.js
                 "val": "s","g": "m","n": "p"
             },{
                 "val": "s","g": "f","n": "p"
-            },{
-                "val": "t","g": "m","n": "s"
             }]
         },
         "d8": {
