@@ -31,6 +31,10 @@ live demos.
 
 ## Demos
 
+* [jsRealB **tutorial**](https://rawgit.com/rali-udem/JSrealB/master/demos/Tutorial/tutorial.html)
+* [Itinerary description in an *optimistic* Montréal Métro network](https://rawgit.com/rali-udem/JSrealB/master/demos/Tutorial/metro.html)
+* *Data to text* application for describing the building of a house [English](https://rawgit.com/rali-udem/JSrealB/master/demos/Data2Text/building.html) [French](https://rawgit.com/rali-udem/JSrealB/master/demos/Data2Text/batiment.html)
+* [*Lemmatizer*](https://rawgit.com/rali-udem/JSrealB/master/demos/lemmatize/lemmatizer.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
 * [Random English text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/english.html) [[JavaScript code](demos/randomGeneration/english.js)]
 * [Random French text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/french.html) [[JavaScript code](demos/randomGeneration/french.js)]
 * [Conjugation and declension](https://rawgit.com/rali-udem/JSrealB/master/demos/inflection/index.html) [[JavaScript code](demos/inflection/inflection.js)] 
@@ -38,7 +42,10 @@ live demos.
 * [1 km à pied: a repetitive text in French](https://rawgit.com/rali-udem/JSrealB/master/demos/KilometresAPied/index.html)
 * [Date generation](https://rawgit.com/rali-udem/JSrealB/master/demos/date/index.html)
 * [Elision: tests for the French elision module](https://rawgit.com/rali-udem/JSrealB/master/demos/elision/index.html)
+* [Description (in French) of a list of events and associated informations given as a json file](https://rawgit.com/rali-udem/JSrealB/master/demos/Evenements/index.html)
+* [Sentence variants by try all types](https://rawgit.com/rali-udem/JSrealB/master/demos/VariantesDePhrases/index.html)
 * [Exercises in style à la Raymond Queneau](http://rawgit.com/rali-udem/JSrealB/master/demos/ExercicesDeStyle/index.html) [[JavaScript code](demos/ExercicesDeStyle/ExerciceDeStyle.js)] [[The Exercises on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
+
 
 ## Authors
 jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the works of:

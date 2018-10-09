@@ -386,31 +386,35 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
     return true;
 };
 
-//ajout clone pour réutiliser un objet facilement sans la référence
-JSrealE.prototype.toObject = function() {
-
+//  "clone" pour réutiliser un objet facilement sans la référence
+// comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
+//    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
+JSrealE.prototype.toSource = function() {
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
-        nativeString += "\(\""+this.unit+"\"\)";
-        for(prop in this.initProp){
-            nativeString += "."+prop+"\(\""+this.initProp[prop]+"\"\)";
-        }
-    }
-    else{
-        nativeString += "\(";
+        nativeString += "(\""+this.unit+"\")";
+    } else{
+        var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
-            nativeString += this.elements[i].toObject()
-            if(i < imax-1) nativeString += ",";
+            var e=this.elements[i];
+            if (e instanceof JSrealE) // should always be true for correct expressions
+                subElems.push(e.toSource());
+            else
+                subElems.push(e.toString())
         }
-        nativeString += "\)";
+        nativeString += "("+subElems.join(",")+")";
     }
-    return nativeString;
+    var subProps=[];
+    for(prop in this.initProp){
+        subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    }
+    return nativeString+subProps.join("");
 }
 JSrealE.prototype.clone = function(){
-    var native = this.toObject();
-    var native2 = eval(native);
-    return native2;
+    var native = this.toSource();
+    // console.log("native:"+native)
+    return eval(native);
 }
 
 //// Word Features / Properties
@@ -660,11 +664,11 @@ JSrealE.prototype.real = function() {
             this.realization = this.printElements();
             // console.log("real:realization",this.realization);
           
-            return this.typography(this.html(this.phonetic(this.realization)));
+            return this.html(this.typography(this.phonetic(this.realization)));
         }
         else
         {
-            throw JSrealB.Exception.headWordNotFound(this.category);
+            throw JSrealB.Exception.headWordNotFound(this.category,this);
         }
     }
     else // terminal element
@@ -948,16 +952,22 @@ JSrealE.prototype.modifyStructure = function() {
                     parent.resetProp(true);
                 break;
                 case JSrealB.Config.get("feature.category.phrase.verb"):
-                    //Objet direct
+                    //Objet direct : on l'ajoute en anglais 
                     if(JSrealB.Config.get("language")==JSrealE.language.english){
                         parent.addNewElement(np,pronoun);
                         parent.resetProp(true);
                     }
-                    else{
+                    else{ // en français
                         var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
-                        parent.addNewElement(vp,pronoun);
+                        if (parent.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+                            == JSrealB.Config.get("feature.tense.imperative.present")){
+                                // à l'impératif, on l'ajoute après le verbe lié avec un -
+                                parent.constituents.head.setCtx(JSrealB.Config.get("feature.liaison.alias"),true);
+                                parent.addNewElement(np,pronoun);
+                        } else {
+                            parent.addNewElement(vp,pronoun);
+                        }
                         parent.resetProp(true);
-                        var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
                         parent.elements[vp].setProp(JSrealB.Config.get("feature.cdInfo.alias"),cdInfo);
                     }                    
                 break;
@@ -969,7 +979,8 @@ JSrealE.prototype.modifyStructure = function() {
         }
     }
     //Impératif (retrait du Sujet)
-    if(this.getChildrenProp(JSrealB.Config.get("feature.tense.alias")) == JSrealB.Config.get("feature.tense.imperative.present")){
+    var tense=this.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+    if( tense == JSrealB.Config.get("feature.tense.imperative.present")){
         if(this.category == JSrealB.Config.get("feature.category.phrase.sentence")){
             var NPpos = getSubject(this);
             if(NPpos != -1){
@@ -1180,7 +1191,9 @@ JSrealE.prototype.realizeTerminalElement = function() {
                     || this.getTreeRoot(false).getCtx("firstAux")!=null)){ //GL juillet 2017 (true=>false)
                     conjugation = this.putAuxInFront(conjugation);
                 }
-            }catch(e){console.warn("Error while moving aux:"+e)}
+            }catch(e){
+                // console.warn("Error while moving aux:"+e) //GL spurious message when generating only single NP or VP
+            }
             return conjugation;
         }
         else if(this.transformation === JSrealE.ruleType.regular)
@@ -1261,7 +1274,7 @@ JSrealE.prototype.realizeConjugation = function() {
     }
     if(number === JSrealB.Config.get("feature.number.plural"))
     {
-        person += 3;
+        person = parseInt(person)+3;
     }
     return JSrealB.Module.Conjugation.conjugate(this.unit, tense, person, gender, verbOptions, cdProp, auxF);
 };
@@ -1515,7 +1528,7 @@ var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
 uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
 acronymRE=/^[A-Z]+$/
-punctuationRE=/[,:\."'\[\]\(\)\?]/
+punctuationRE=/[,:\.\[\]\(\)\?]/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
@@ -1568,8 +1581,8 @@ function elisionEn(content){
 // same as sepWordREen but the [\w] class extended with French Accented letters and cedilla
 var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
 
-var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|jusque|quoique)$/i
-var euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
+var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
+var euphonieFrRE=/^(ma|ta|sa|ça|ce|beau|fou|mou|nouveau|vieux)$/i
 var euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
     "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
 
@@ -1607,7 +1620,7 @@ function elisionFr(content){
         if (!punctuationRE.exec(sep)){   // do not elide over punctuation
             if (elidableWordFrRE.exec(previous)){
                 if (isElidableFr(current)){
-                    res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                    res=res+previous.slice(0,-1)+"'"+sep.trim();
                     continue;
                 }
             }
@@ -1615,7 +1628,7 @@ function elisionFr(content){
                 if (isElidableFr(current)){
                     if (/ce/i.exec(previous) && /(^est$)|(^étai)/.exec(current)){
                         // very special case but very frequent
-                        res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                        res=res+previous.slice(0,-1)+"'"+sep.trim();
                     } else
                         res=res+lookUp(previous,euphonieFrTable)+sep;
                     continue;
@@ -1623,7 +1636,7 @@ function elisionFr(content){
             }
             var contr=lookUp(previous+"+"+current,contractionFrTable);
             if (contr!=null){
-                res=res+contr+sep.replace(/ /g,"");
+                res=res+contr+sep.trim();
                 // to force the loop to ignore current
                 previous="";sep="";current="";
                 continue;
@@ -2825,6 +2838,7 @@ JSrealB.Module.Conjugation = (function(){
                     verbOptions.native == true){
                     //special case: be native and negative
                     if(unit == 'be'){
+                        if (tense=="b") return "to be";
                         return applySimpleEnding(unit, tense, person, conjugationTable)+
                                ((verbOptions.neg == true)?" "+JSrealB.Config.get("rule.verb_option.neg.prep1"):"");
                     }
@@ -3706,7 +3720,7 @@ JSrealB.Module.Number = (function() {
                      "eight":"eighth","nine":"ninth","twelve":"twelfth"}
     // règles tirées de https://francais.lingolia.com/fr/vocabulaire/nombres-date-et-heure/les-nombres-ordinaux
     ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
-    function ordinal(s,en){
+    function ordinal(s,en,gender){
         s=enToutesLettres(s,en);
         if (s=="zéro" || s=="zero") return s;
         var m=/(.*?)(\w+)$/.exec(s)
@@ -3716,6 +3730,7 @@ JSrealB.Module.Number = (function() {
             if (s.charAt(s.length-1)=="y") return s.substring(0,s.length-1)+"ieth"; // added from the reference
             return s+"th"
         } else {
+            if (s == "un")return gender=="f"?"première":"premier";
             if (s.endsWith("et un")) return s+"ième";
             if (lastWord in ordFrExceptions) return m[1]+ordFrExceptions[lastWord];
             if (s.charAt(s.length-1)=="e" || s.endsWith("quatre-vingts")) return s.substring(0,s.length-1)+"ième";
@@ -4297,7 +4312,9 @@ JSrealB.Exception = (function() {
         if(info2 !== undefined) msg += ", " + info2;
         
         JSrealB.Logger.warning(msg);
-        
+        if (ideWarning!==undefined){// to display warnings in the IDE
+            ideWarning+=msg+"\n"
+        }
         return msg;
     };
 
@@ -4338,8 +4355,8 @@ JSrealB.Exception = (function() {
         invalidInput: function(u, i) {
             return exception(4513, u, i);
         },
-        headWordNotFound: function(u) {
-            return exception(4514, u);
+        headWordNotFound: function(u,exp) {
+            return exception(4514, u,exp.toSource());
         }
     };
 })();
@@ -4701,7 +4718,6 @@ var loadEn = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconEn, ruleEn, feature);
         }
         if(trace)
@@ -4725,7 +4741,6 @@ var loadFr = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconFr, ruleFr, feature);
         }
         if(trace)
@@ -4761,6 +4776,22 @@ var addToLexicon = function(lemma,newInfos){
 //// get lemma from lexicon (useful for debugging )
 var getLemma = function(lemma){
     return JSrealB.Config.get("lexicon")[lemma]
+}
+
+// return the current realization language
+var getLanguage=function(){
+    return JSrealB.Config.get("language");
+}
+
+//// select a random element in a list useful to have some variety in the generated text
+//  if the first argument is a list, selection is done within the list
+//  otherwise the selection is among the arguements 
+//   (if the selected element is a function, evaluate it without parameter)
+var oneOf = function(elems){
+    if (!Array.isArray(elems))
+        elems=Array.from(arguments);
+    e=elems[Math.floor(Math.random()*elems.length)];
+    return typeof e=='function'?e():e;
 }
 var ruleEn = //========== rule-en.js
 {
@@ -6505,7 +6536,7 @@ var ruleEn = //========== rule-en.js
         "v181": {
             "ending": "ll",
             "t": {
-                "b": "l",
+                "b": "ll",
                 "ps": "lled",
                 "pr": "lling",
                 "pp": "lled",
@@ -7391,11 +7422,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "older","f": "co"
             },{
-                "val": "elder","f": "co"
-            },{
                 "val": "oldest","f": "su"
-            },{
-                "val": "eldest","f": "su"
             }]
         },
         "a17": {
@@ -7405,11 +7432,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "farther","f": "co"
             },{
-                "val": "further","f": "co"
-            },{
                 "val": "farthest","f": "su"
-            },{
-                "val": "furthest","f": "su"
             }]
         },
         "a18": {
@@ -7443,8 +7466,6 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "she","pe": 3,"n": "s","g": "f"
             },{
-                "val": "one","pe": 3,"n": "s","g": "n"
-            },{
                 "val": "we","pe": 1,"n": "p","g": "x"
             },{
                 "val": "they","pe": 3,"n": "p","g": "x"
@@ -7471,27 +7492,25 @@ var ruleEn = //========== rule-en.js
         "pn3": {
             "ending": "mine",
             "declension": [{
-                "val": "mine","pe": 1,"n": "x","g": "x","own": "s"
+                "val": "mine","pe": 1,"n": "s","g": "x","own": "s"
             },{
                 "val": "yours","pe": 2,"n": "x","g": "x","own": "x"
             },{
-                "val": "hers","pe": 3,"n": "x","g": "f","own": "s"
+                "val": "hers","pe": 3,"n": "s","g": "f","own": "s"
             },{
-                "val": "his","pe": 3,"n": "x","g": "m","own": "s"
+                "val": "his","pe": 3,"n": "s","g": "m","own": "s"
             },{
-                "val": "its","pe": 3,"n": "x","g": "n","own": "s"
+                "val": "its","pe": 3,"n": "s","g": "n","own": "s"
             },{
-                "val": "ours","pe": 1,"n": "x","g": "x","own": "p"
+                "val": "ours","pe": 1,"n": "p","g": "x","own": "p"
             },{
-                "val": "theirs","pe": 3,"n": "x","g": "x","own": "p"
+                "val": "theirs","pe": 3,"n": "p","g": "x","own": "p"
             }]
         },
         "pn4": {
             "ending": "myself",
             "declension": [{
                 "val": "myself","pe": 1,"n": "s","g": "x"
-            },{
-                "val": "ourself","pe": 1,"n": "s","g": "x"
             },{
                 "val": "yourself","pe": 2,"n": "s","g": "x"
             },{
@@ -7500,8 +7519,6 @@ var ruleEn = //========== rule-en.js
                 "val": "himself","pe": 3,"n": "s","g": "m"
             },{
                 "val": "itself","pe": 3,"n": "s","g": "n"
-            },{
-                "val": "oneself","pe": 3,"n": "s","g": "n"
             },{
                 "val": "ourselves","pe": 1,"n": "p","g": "x"
             },{
@@ -7545,17 +7562,13 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "a","n": "s"
             },{
-                "val": "an","n": "s"
-            },{
-                "val": "","n": "x"
+                "val": "","n": "p"
             }]
         },
         "d2": {
             "ending": "my",
             "declension": [{
                 "val": "my","pe": 1,"n": "s","g": "x","own": "s"
-            },{
-                "val": "thy","pe": 2,"n": "s"
             },{
                 "val": "your","pe": 2,"n": "x","g": "x","own": "x"
             },{
@@ -7575,11 +7588,7 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "that","n": "s"
             },{
-                "val": "this","n": "s"
-            },{
                 "val": "those","n": "p"
-            },{
-                "val": "these","n": "p"
             }]
         },
         "d4": {
@@ -7588,6 +7597,14 @@ var ruleEn = //========== rule-en.js
                 "val": "","n": "x"
             }]
         },
+        "d5": {
+            "ending": "this",
+            "declension": [{
+                "val": "this","n": "s"
+            },{
+                "val": "these","n": "p"
+            }]
+        },        
         "b1": {
             "ending": "",
             "declension": [{
@@ -7621,11 +7638,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "farther","f": "co"
             },{
-                "val": "further","f": "co"
-            },{
                 "val": "farthest","f": "su"
-            },{
-                "val": "furthest","f": "su"
             }]
         },
         "b5": {
@@ -7889,6 +7902,12 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["pc5","pc6"]
         }
     },
+    "'": {
+        "Pc": {
+            "compl": "'",
+            "tab": ["pc5","pc6"]
+        }
+    },
     "*": {
         "Pc": {
             "compl": "*",
@@ -7931,6 +7950,8 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["pc6"]
         }
     },
+    "«":{ "Pc": { "compl": "»", "tab": ["pc7"] }},
+    "»":{ "Pc": { "compl": "«", "tab": ["pc8"] }},
     "a": {
         "D": {
             "tab": ["d1"]
@@ -8091,7 +8112,8 @@ var lexiconEn = //========== lexicon-dme.js
     "access": {
         "N": {
             "tab": ["n5"]
-        }
+        },
+        "V":{"tab":"v2"}
     },
     "accessible": {
         "A": {
@@ -8697,7 +8719,8 @@ var lexiconEn = //========== lexicon-dme.js
     "all": {
         "Adv": {
             "tab": ["b1"]
-        }
+        },
+        "Pro":{"tab":["b1"]}
     },
     "allegation": {
         "N": {
@@ -8739,6 +8762,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "allowed":{"A":{"tab":["a1"]}},
     "ally": {
         "N": {
             "tab": ["n3"]
@@ -9248,7 +9272,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "aquarium": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "arbitrary": {
@@ -9421,6 +9445,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "as": {
+        "P":{"tab":["pp"]},
         "Adv": {
             "tab": ["b1"]
         }
@@ -10067,7 +10092,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "bass": {
         "N": {
-            "tab": ["n4","n2"]
+            "tab": ["n4"]
         }
     },
     "bastard": {
@@ -11016,7 +11041,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "brother": {
         "N": {
-            "tab": ["n62","n85"]
+            "tab": ["n85"]
         }
     },
     "brow": {
@@ -13359,7 +13384,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n1","n5"]
+            "tab": ["n1"]
         }
     },
     "contest": {
@@ -13989,7 +14014,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "criterion": {
         "N": {
-            "tab": ["n26","n1"]
+            "tab": ["n26"]
         }
     },
     "critic": {
@@ -14172,7 +14197,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "curriculum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "curtain": {
@@ -14561,7 +14586,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
-    "defence": {
+    "defense": {
         "N": {
             "tab": ["n1"]
         }
@@ -15794,6 +15819,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "down": {
+        "Adv":{"tab":["b1"]},
         "P": {
             "tab": ["pp"]
         }
@@ -15981,7 +16007,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "duck": {
         "N": {
-            "tab": ["n4","n1"]
+            "tab": ["n1"]
         }
     },
     "due": {
@@ -17997,7 +18023,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "fish": {
         "N": {
-            "tab": ["n4","n2"]
+            "tab": ["n2"]
         },
         "V": {
             "tab": "v2"
@@ -18196,7 +18222,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "focus": {
         "N": {
-            "tab": ["n12","n2"]
+            "tab": ["n2"]
         },
         "V": {
             "tab": "v172"
@@ -18389,7 +18415,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "formula": {
         "N": {
-            "tab": ["n13","n1"]
+            "tab": ["n1"]
         }
     },
     "formulate": {
@@ -18941,7 +18967,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "genius": {
         "N": {
-            "tab": ["n12","n2"]
+            "tab": ["n2"]
         }
     },
     "gentle": {
@@ -20236,6 +20262,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": "v1"
         }
     },
+    "how":{"Adv":{"tab":["b1"]}},
     "however": {
         "Adv": {
             "tab": ["b1"]
@@ -22302,6 +22329,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a4"]
         }
     },
+    "less":{"Adv":{"tab":["b1"]}},
     "lesser": {
         "A": {
             "tab": ["a1"]
@@ -23117,6 +23145,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "many":{"Adv":{ "tab": ["b1"] }},
     "map": {
         "N": {
             "tab": ["n1"]
@@ -23296,7 +23325,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "may": {
@@ -23410,7 +23439,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "meet": {
@@ -23450,7 +23479,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "memorandum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "memorial": {
@@ -23657,7 +23686,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "mining": {
@@ -23964,6 +23993,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n3"]
         }
     },
+    "more":{"Adv":{ "tab": ["b1"] }},
     "moreover": {
         "Adv": {
             "tab": ["b1"]
@@ -23989,6 +24019,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "most":{"Adv":{"tab":["b1"]}},
     "mostly": {
         "Adv": {
             "tab": ["b1"]
@@ -24361,7 +24392,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         },
         "V": {
-            "tab": "v167"
+            "tab": "v1"
         }
     },
     "needle": {
@@ -24905,6 +24936,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "off": {
+        "Adv":{"tab":["b1"]},
         "P": {
             "tab": ["pp"]
         }
@@ -25014,6 +25046,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "on": {
+        "Adv":{"tab":["b1"]},
         "P": {
             "tab": ["pp"]
         }
@@ -25023,6 +25056,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["b1"]
         }
     },
+    "one":{"Pro":{"tab":["pn5"]}},
     "onion": {
         "N": {
             "tab": ["n1"]
@@ -25259,7 +25293,8 @@ var lexiconEn = //========== lexicon-dme.js
     "out": {
         "Adv": {
             "tab": ["b1"]
-        }
+        },
+        "A":{"tab":["a1"]}
     },
     "outbreak": {
         "N": {
@@ -25897,7 +25932,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "penny": {
         "N": {
-            "tab": ["n79","n3"]
+            "tab": ["n3"]
         }
     },
     "pension": {
@@ -26027,7 +26062,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "personnel": {
         "N": {
-            "tab": ["n4","n1"]
+            "tab": ["n1"]
         }
     },
     "perspective": {
@@ -28274,6 +28309,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "recommended":{"A":{"tab":["a1"]}},
     "reconcile": {
         "V": {
             "tab": "v3"
@@ -28380,7 +28416,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "referendum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "reflect": {
@@ -29488,7 +29524,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "row": {
         "N": {
-            "tab": ["n1","n1"]
+            "tab": ["n1"]
         },
         "V": {
             "tab": "v1"
@@ -29698,6 +29734,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n5"]
         }
     },
+    "same":{"A":{"tab":["a1"]}},
     "sample": {
         "N": {
             "tab": ["n1"]
@@ -29767,6 +29804,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "say": {
+        "N":{"tab":["n1"]},
         "V": {
             "tab": "v19"
         }
@@ -30048,7 +30086,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "seed": {
         "N": {
-            "tab": ["n4","n1"]
+            "tab": ["n1"]
         }
     },
     "seek": {
@@ -31103,7 +31141,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "sock": {
         "N": {
-            "tab": ["n82","n1"]
+            "tab": ["n1"]
         }
     },
     "socket": {
@@ -31757,7 +31795,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "statistics": {
         "N": {
-            "tab": ["n6","n5"]
+            "tab": ["n4"]
         }
     },
     "statue": {
@@ -33249,6 +33287,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "than":{"P":{"tab":["pp"]}},
     "thank": {
         "V": {
             "tab": "v1"
@@ -33260,6 +33299,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "that": {
+        "Pro":{"tab":["pn6"]},
         "Adv": {
             "tab": ["b1"]
         },
@@ -33339,7 +33379,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "these": {
         "Pro": {
-            "tab": ["pn9","pn8"]
+            "tab": ["pn8"]
         }
     },
     "thesis": {
@@ -33394,6 +33434,9 @@ var lexiconEn = //========== lexicon-dme.js
         },
         "Pro": {
             "tab": ["pn8"]
+        },
+        "D": {
+            "tab": ["d5"]
         }
     },
     "thorough": {
@@ -33674,6 +33717,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "too":{"Adv":{"tab":["b1"]}},
     "tool": {
         "N": {
             "tab": ["n1"]
@@ -34393,7 +34437,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "undertaking": {
         "N": {
-            "tab": ["n1","n1"]
+            "tab": ["n1"]
         }
     },
     "undoubtedly": {
@@ -34580,7 +34624,8 @@ var lexiconEn = //========== lexicon-dme.js
     "up": {
         "P": {
             "tab": ["pp"]
-        }
+        },
+        "Adv":{"tab":["b1"]}
     },
     "update": {
         "V": {
@@ -34730,7 +34775,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "vacuum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "vague": {
@@ -35514,6 +35559,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "when":{"C":{"tab":["cs"]}},
     "whenever": {
         "Adv": {
             "tab": ["b1"]
@@ -35521,7 +35567,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "where": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "which": {
@@ -35570,7 +35616,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "who": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "whoever": {
@@ -35593,7 +35639,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "whom": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "whose": {
@@ -35603,7 +35649,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "why": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "wicked": {
@@ -35693,7 +35739,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "wind": {
         "N": {
-            "tab": ["n1","n1"]
+            "tab": ["n1"]
         },
         "V": {
             "tab": "v25"
@@ -36078,95 +36124,7 @@ var lexiconEn = //========== lexicon-dme.js
 //========== addLexicon-en.js
 loadEn(); // make sure additions are to the English lexicon
 // ajouts au lexique anglais de JSrealB 
-addToLexicon("acquaint",{"V":{"tab":"v1"}});
-addToLexicon("administrate",{"V":{"tab":"v3"}});
-addToLexicon("asbestos",{"N":{"tab":["n1"]}});
-addToLexicon("boa",{"N":{"tab":["n1"]}});
-addToLexicon("brother-in-law",{"N":{"tab":["n1"]}});
-addToLexicon("center",{"N":{"tab":["n1"]},"V":{"tab":"v3"}}); // idem que centre
-addToLexicon("click",{"N":{"tab":["n1"]},"V":{"tab":"v1"}});
-addToLexicon("conquer",{"V":{"tab":"v1"}});
-addToLexicon("cooperate",{"V":{"tab":"v3"}});
-addToLexicon("constrictor",{"N":{"tab":["n1"]}});
-addToLexicon("correlate",{"V":{"tab":"v3"}});
-addToLexicon("default",{"N":{"tab":["n1"]},"V":{"tab":"v1"}});
-addToLexicon("defense",{"N":{"tab":["n1"]}}); //idem que defence
-addToLexicon("e-mail",{"N":{"tab":["n1"]}});
-addToLexicon('favor',{"N":{"tab":["n1"]},"V":{"tab":"v1"}});//idem que favour
-addToLexicon("infer",{"V":{"tab":"v1"}});
-addToLexicon("insult",{"V":{"tab":"v1"}});
-addToLexicon("internet",{"N":{"tab":"n1"}});
-addToLexicon("earthquake",{"N":{"tab":["n1"]}});
-addToLexicon("globe",{"N":{"tab":["n1"]}});
-addToLexicon("giggle",{"N":{"tab":["n1"]},"V":{"tab":"v3"}});
-addToLexicon("governmental",{"A":{"tab":["a1"]}});
-addToLexicon("lastly",{"Adv":{"tab":["b1"]}});
-addToLexicon("matriarch",{"N":{"g":"f","tab":["n87"]}});
-addToLexicon("media",{"N":{"tab":["n1"]}});
-addToLexicon("obligate",{"V":{"tab":"v3"}});
-addToLexicon("opine",{"V":{"tab":"v1"}});
-addToLexicon("opium",{"N":{"tab":["n1"]}});
-addToLexicon("panda",{"N":{"tab":["n1"]}});
-addToLexicon("proliferation",{"N":{"tab":["n1"]}});
-addToLexicon("semantics",{"N":{"tab":["n5"]}});
-addToLexicon("sadden",{"V":{"tab":"v1"}});
-addToLexicon("scarf",{"N":{"tab":["n1"]}});
-addToLexicon("sift",{"V":{"tab":"v1"}});
-addToLexicon("slay",{"V":{"tab":"v1"}});
-addToLexicon("smuggle",{"V":{"tab":"v3"}});
-addToLexicon("terrorism",{"N":{"tab":["n1"]}});
-addToLexicon("thistle",{"N":{"tab":["n1"]}});
-addToLexicon("traffic",{"N":{"tab":["n1"]}});
-addToLexicon("vice",{"N":{"tab":["n1"]},"A":{"tab":["a1"]}});
-addToLexicon("violate",{"V":{"tab":"v3"}});
 addToLexicon("tsunami",{"N":{"tab":["n1"]}});
-addToLexicon("url",{"N":{"tab":["n1"]}});
-addToLexicon("web",{"N":{"tab":["n1"]}});
-addToLexicon("whistle",{"N":{"tab":["n1"]},"V":{"tab":"v3"}});
-
-weekdays=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-for (var i = 0; i < weekdays.length; i++) {
-    addToLexicon(weekdays[i],{"N":{"tab":["n1"]}});
-}
-// corrections au lexique
-addToLexicon("need",{"N":{"tab":["n1"]},"V":{"tab":"v22"}}); // comme pour feed, était 167!!
-addToLexicon("say",{"N":{"tab":["n1"]},"V":{"tab":"v19"}}); // était v79
-// ajouts à des mots existants
-addToLexicon("access",{"N":{"tab":["n2"]},"V":{"tab":"v2"}});   // ajout comme verbe
-addToLexicon("border",{"N":{"tab":["n1"]},"V":{"tab":"v1"}});   // ajout comme verbe
-addToLexicon("except",{"P":{"tab":["pp"]},"V":{"tab":"v1"}});   // ajout comme verbe
-addToLexicon("evidence",{"N":{"tab":["n5"]},"V":{"tab":"v3"}});
-addToLexicon("key",{"N":{"tab":["n1"]},"A":{"tab":"a1"}});
-addToLexicon("sanction",{"N":{"tab":["n1"]},"V":{"tab":"v1"}});   // ajout comme verbe
-addToLexicon("source",{"N":{"tab":["n1"]},"V":{"tab":"v3"}});   // ajout comme verbe
-addToLexicon("worth",{"N":{"tab":["n5"]},"V":{"tab":"v2"}});
-// adjectifs pour les modaux
-addToLexicon("obligatory",{"A":{"tab":["a1"]}});
-addToLexicon("allowed",{"A":{"tab":["a1"]}});
-addToLexicon("recommended",{"A":{"tab":["a1"]}});
-addToLexicon("preferable",{"A":{"tab":["a1"]}});
-
-addToLexicon("same",{"A":{"tab":["a1"]}});
-
-// étrangement this est comme Adv et Pro mais non D dans le lexique...
-addToLexicon("this",{"D":{ "tab": ["d4"] }, "Pro": { "tab": ["pn8"]}}); // mais problème avec la table d3
-addToLexicon("that",{"Pro":{"tab":["pn6"]},"Adv":{"tab":["b1"]},"D":{"tab":["d3"]}}); 
-// ajout de prépositions
-addToLexicon("than",{"P":{"tab":["pp"]}});
-addToLexicon("as",{"P":{"tab":["pp"]},"Adv":{"tab":["b1"]}}); // as est déjà là comme adverbe
-addToLexicon("on",{"P":{"tab":["pp"]},"Adv":{"tab":["b1"]}}); // on est déjà là comme prep
-addToLexicon("off",{"P":{"tab":["pp"]},"Adv":{"tab":["b1"]}}); // off est déjà là comme prep
-addToLexicon("down",{"P":{"tab":["pp"]},"Adv":{"tab":["b1"]}}); // down est déjà là comme prep
-// ajouts d'adverbes
-addToLexicon("more",{"Adv":{ "tab": ["b1"] }}); 
-addToLexicon("many",{"Adv":{ "tab": ["b1"] }}); 
-addToLexicon("too",{"Adv":{"tab":["b1"]}});
-addToLexicon("how",{"Adv":{"tab":["b1"]}});
-addToLexicon("most",{"Adv":{"tab":["b1"]}});
-addToLexicon("less",{"Adv":{"tab":["b1"]}});
-// modifications d'adverbes
-addToLexicon("out",{"Adv":{"tab":["b1"]},"A":{"tab":["a1"]}}); // ajout comme adjectif
-addToLexicon("all",{"Adv":{"tab":["b1"]},"Pro":{"tab":["b1"]}});// ajout comme pronom
 //// exports pour node.js
 //  Terminaux
 exports.N=N;
@@ -36193,6 +36151,7 @@ exports.NO=NO; // nombres
 
 exports.addToLexicon=addToLexicon;
 exports.getLemma=getLemma;
+exports.oneOf=oneOf;
 
 if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
 if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;

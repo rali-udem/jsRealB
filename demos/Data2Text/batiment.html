@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="../../dist/jsRealB-dmefr.min.js/jsRealB-fr.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="pert.js"></script>
+    <script src="tasks-data.js"></script>
+    <script src="tasks-fr.js"></script>
+    <script src="textGen-fr.js"></script>
+    <script src="graphique.js"></script>
+    <script src="batiment.js"></script>
+    <style>
+        table {
+            border-collapse:collapse;
+            margin:0 15px;
+            display:inline-table;
+            vertical-align:bottom;
+        }
+        td,th,#graphique svg {
+            border: 1px solid #999;
+            padding: 2px;
+        }
+        #graphique {
+            margin:5px;
+            vertical-align:bottom;
+        }
+        td:nth-child(1){text-align:center;}
+        td:nth-child(3){text-align:right;}
+        .current {font-weight: bold; color: blue;}
+    </style>
+    <title>Construction d'un bâtiment</title>
+</head>
+<body>
+    <h1>Construction d'un bâtiment</h1>
+    <blockquote>
+        <em>Il s'agit de construire sur un terrain en pente irrégulière un bâtiment industriel comprenant une ossature métallique sur fondations par puits et longrines, sol dallé, murs en agglomérés enduits, couverture tôle et polyester ondulés avec isolation, chauffage par aérothermes suspendus, éclairage luminescent.</em><br/> 
+        Tiré de : A. Gal, G. Lapalme, P. Saint-Dizier, <em>Prolog pour l'analyse automatique du langage naturel</em>, Eyrolles, 1989, pp. 122-129 qui décrit une solution en utilisant les DCG de Prolog.
+    </blockquote>
+    [<a href="building.html">English version</a>]
+    <h2>Étapes</h2>
+    <p>Le tableau de gauche correspond aux données reçues: à chaque étape sont associés un identificateur, sa durée en nombre de jours ainsi que les identificateurs des tâches qui en dépendent. 
+    On peut modifier la date de début du projet ici: <input type="date" id="startDate" value="2018-07-22" />. 
+    </p>
+    <span id="etapes"></span>
+    <span id="graphique"></span>
+    <p>Le système <a href="https://fr.wikipedia.org/wiki/Chemin_critique" title="Chemin critique — Wikipédia">calcule le chemin critique</a> et ainsi que les dates les plus tôt et le plus tard auxquelles ces étapes peuvent débuter afin de ne pas retarder le projet. Il produit ensuite un texte (réalisé par <code>jsRealB</code>) décrivant ces étapes. En passant la souris sur une tâche dans le graphique, apparait une infobulle donnant des informations sur la tâche, les tâches immédiatement dépendantes et préalables sont indiquées par une bordure rouge. La tâche correspondante est aussi indiquée en bleu dans le texte.</p>
+    <hr/>
+    <h2>Texte décrivant la suite <em>optimale</em> des travaux à partir du <span id="dateDebut"></span></h2>
+    <div id="text"></div>
+</body>
+</html>

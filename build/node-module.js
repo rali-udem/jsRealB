@@ -24,6 +24,7 @@ exports.NO=NO; // nombres
 
 exports.addToLexicon=addToLexicon;
 exports.getLemma=getLemma;
+exports.oneOf=oneOf;
 
 if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
 if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;

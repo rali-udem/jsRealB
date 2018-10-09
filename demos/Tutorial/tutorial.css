@@ -1,0 +1,25 @@
+body {
+    font-family:Arial,sans-serif;
+    padding: 0px 20px;
+}
+u {text-decoration:none; color:blue;}
+.jsr {font: normal small-caps bold 1em Arial, sans-serif;}
+.js,.js1 {font-family: Monaco;}
+pre {
+    padding: 5px 0px;
+    border-top: 1px solid #999; 
+    border-bottom: 1px solid #999;
+}
+code {font-size:larger;}
+table {border-collapse:collapse;}
+td {border: 1px solid #999;
+    padding:2px;}
+#application{
+    margin:20px;
+    padding:5px;
+    border: thick solid black;
+}
+#application iframe {
+    height:750px;
+    width:100%;
+}

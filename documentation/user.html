@@ -27,7 +27,7 @@
     
     <h2 id="optionsFr" lang="fr">Déclinaisons et conjugaisons</h2><h2 id="optionsEn" lang="en">Declension and conjugation</h2>
     <div id="optionsSect"></div>
-    <p lang="en">Continuous tense for verbs can obtained by setting the <a href="#sentType">sentence type</a> to <code>.typ({prog:true})</code>.</p>
+    <p lang="en">Continuous tense for verbs can obtained by setting the <a href="#sentType">sentence type</a> to <code>.typ({prog:true})</code> </p>
     
     <h2 lang="fr" id="pronoms">Pronoms</h2><h2 lang="en" id="pronouns">Pronouns</h2>
     <p lang="fr">Le pronoms qui sont dans le lexique sont à la 1ère personne du singulier. Pour obtenir les autres, il faut
@@ -80,10 +80,16 @@
         <p lang="fr">Ajout d'un nouveau syntagme <code>element</code> comme enfant à un syntagme existant. Le paramètre entier <code>position</code> est facultatif et spécifie la position (à partir de 0) dans le syntagme. Par défaut, l'élément est ajouté à la fin.</p>
         <p lang="en">Add a new phrase <code>element</code> as a child of an existing phrase. The second optional parameter <code>position</code> is an integer that specifies its position (counting from 0). By default, the element is added as the last child.</p>
 <div id="addUse"></div>
+    <h3><code>.toSource()</code></h3>
+    <p lang="fr">Cette fonction retourne une version <em>chaîne</em> d'une expression <span class="jsr">jsRealB</span>, ceci peut être utile pour la mise au point d'une expression complexe. </p>
+    <p lang="en">This function returns a <em>string</em> version of a  <span class="jsr">jsRealB</span> expression, this can be useful for debugging complex expressions. </p>
+    <h3><code>getLanguage()</code></h3>
+    <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
+    <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
 
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
-    <p lang="fr">Une des trois versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues.</p>
-    <p lang="en">One of the three versions <span class="jsr">jsRealB</span> should be loaded with  <code>script</code> depending on the expected type of realisations.</p>
+    <p lang="fr">Une des trois versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues. Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencer depuis l'élément <code>script</code>, mais vous pouvez aussi télécharger une version déjà <em>compilée</em> à partir du <a href="http://rawgit.com/rali-udem/JSrealB/master/dist/">répertoire <code>dist</code> du GitHub</a>.</p>
+    <p lang="en">One of the three versions <span class="jsr">jsRealB</span> should be loaded with  <code>script</code> depending on the expected type of realisations. Ideally, you would install your own version of <span class="jsr">jsRealB</span> starting from the sources of <a href="https://github.com/rali-udem/jsRealB">GitHub</a> and you will refer to it from a <code>script</code> element, but you can also download a <em>compiled</em> version from <a href="http://rawgit.com/rali-udem/JSrealB/master/dist/"><code>dist</code> directory of the GitHub</a>.</p>
         <ul>
             <li><span lang="fr">Anglais</span><span lang="en">English</span>
                         : <code id="jsRealB-en"></code></li>
@@ -118,11 +124,11 @@
         </ul>
     <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../filter-en.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
     <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../filter-en.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realisation.</p>
-    <p lang="fr"><strong>Truc pratique</strong>: l'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux; il est donc plus pratique de définir les constructeurs dans le contexte courant en exécutant le code suivant:</p>
-    <p lang="en"><strong>Useful trick</strong>: phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious; it is thus more convenient to define these constructors in the current namespace by executing the following code:</p>
+    <p lang="fr"><strong>Truc pratique</strong>: l'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux. Il est donc plus pratique de définir les constructeurs dans le contexte global (même si ceci pourrait être considéré comme une mauvaise pratique en génie logiciel) en exécutant le code suivant:</p>
+    <p lang="en"><strong>Useful trick</strong>: phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious. It is thus more convenient (although it could be seen as bad software engineering practice) to define these constructors in the global namespace by executing the following code:</p>
 <pre>
     for (var v in jsRealB)
-        eval("var "+v+"=jsRealB."+v);
+        eval(v+"=jsRealB."+v);
 </pre>
 
 <h2 lang="fr" id="extensionVoc">Extension du vocabulaire</h2><h2 lang="en" id="vocExtension">Vocabulary extension</h2>
@@ -139,9 +145,23 @@ New entries can be added to the current lexicon or new information can be added 
 </p>
 <p lang="en">
 In order to find the informations to add, the simplest way is to copy the lexicon information for a similar word already in the lexicon. 
-The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon information; <code>getLexicon(<em>entry</em>)</code> also returns the lexical information of an entry. 
+The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon information; <code>getLemma(<em>entry</em>)</code> also returns the lexical information of an entry. 
 To remove an entry a call of the form
 <code>addToLexicon(<em>entry</em>,undefined)</code> should be used.</p>
+
+<h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
+<p lang="fr">
+La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> (où <code>e<sub>i</sub></code> est est une valeur) choisit un <code>e<sub>i</sub></code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
+</p>
+<p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il retourne le résultat de l'appel. Par exemple,
+<code>ofOne(()=>N("amour"),()=>N("amitié"))</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(ofOf("amour","amitié"))</code>.
+</p>
+<p lang="en">
+The function <code>oneOf((e<sub>1</sub>,e<sub>2</sub>,...)</code> (where <code>e<sub>i</sub></code> is a list) selects a random element of <code>e<sub>i</sub></code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed in this list, ignoring other parameters.
+</p>
+<p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
+<code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
+
 
 <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>

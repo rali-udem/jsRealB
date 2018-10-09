@@ -51,6 +51,7 @@
 #info {
     padding-left:10px;
     overflow:scroll;
+    height:50%;
 }
 
 h1 input {

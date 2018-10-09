@@ -51,6 +51,12 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["pc5","pc6"]
         }
     },
+    "'": {
+        "Pc": {
+            "compl": "'",
+            "tab": ["pc5","pc6"]
+        }
+    },
     "*": {
         "Pc": {
             "compl": "*",
@@ -93,6 +99,8 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["pc6"]
         }
     },
+    "«":{ "Pc": { "compl": "»", "tab": ["pc7"] }},
+    "»":{ "Pc": { "compl": "«", "tab": ["pc8"] }},
     "a": {
         "D": {
             "tab": ["d1"]
@@ -253,7 +261,8 @@ var lexiconEn = //========== lexicon-dme.js
     "access": {
         "N": {
             "tab": ["n5"]
-        }
+        },
+        "V":{"tab":"v2"}
     },
     "accessible": {
         "A": {
@@ -859,7 +868,8 @@ var lexiconEn = //========== lexicon-dme.js
     "all": {
         "Adv": {
             "tab": ["b1"]
-        }
+        },
+        "Pro":{"tab":["b1"]}
     },
     "allegation": {
         "N": {
@@ -901,6 +911,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "allowed":{"A":{"tab":["a1"]}},
     "ally": {
         "N": {
             "tab": ["n3"]
@@ -1410,7 +1421,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "aquarium": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "arbitrary": {
@@ -1583,6 +1594,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "as": {
+        "P":{"tab":["pp"]},
         "Adv": {
             "tab": ["b1"]
         }
@@ -2229,7 +2241,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "bass": {
         "N": {
-            "tab": ["n4","n2"]
+            "tab": ["n4"]
         }
     },
     "bastard": {
@@ -3178,7 +3190,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "brother": {
         "N": {
-            "tab": ["n62","n85"]
+            "tab": ["n85"]
         }
     },
     "brow": {
@@ -5521,7 +5533,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n1","n5"]
+            "tab": ["n1"]
         }
     },
     "contest": {
@@ -6151,7 +6163,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "criterion": {
         "N": {
-            "tab": ["n26","n1"]
+            "tab": ["n26"]
         }
     },
     "critic": {
@@ -6334,7 +6346,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "curriculum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "curtain": {
@@ -6723,7 +6735,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
-    "defence": {
+    "defense": {
         "N": {
             "tab": ["n1"]
         }
@@ -7956,6 +7968,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "down": {
+        "Adv":{"tab":["b1"]},
         "P": {
             "tab": ["pp"]
         }
@@ -8143,7 +8156,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "duck": {
         "N": {
-            "tab": ["n4","n1"]
+            "tab": ["n1"]
         }
     },
     "due": {
@@ -10159,7 +10172,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "fish": {
         "N": {
-            "tab": ["n4","n2"]
+            "tab": ["n2"]
         },
         "V": {
             "tab": "v2"
@@ -10358,7 +10371,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "focus": {
         "N": {
-            "tab": ["n12","n2"]
+            "tab": ["n2"]
         },
         "V": {
             "tab": "v172"
@@ -10551,7 +10564,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "formula": {
         "N": {
-            "tab": ["n13","n1"]
+            "tab": ["n1"]
         }
     },
     "formulate": {
@@ -11103,7 +11116,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "genius": {
         "N": {
-            "tab": ["n12","n2"]
+            "tab": ["n2"]
         }
     },
     "gentle": {
@@ -12398,6 +12411,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": "v1"
         }
     },
+    "how":{"Adv":{"tab":["b1"]}},
     "however": {
         "Adv": {
             "tab": ["b1"]
@@ -14464,6 +14478,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a4"]
         }
     },
+    "less":{"Adv":{"tab":["b1"]}},
     "lesser": {
         "A": {
             "tab": ["a1"]
@@ -15279,6 +15294,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "many":{"Adv":{ "tab": ["b1"] }},
     "map": {
         "N": {
             "tab": ["n1"]
@@ -15458,7 +15474,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "may": {
@@ -15572,7 +15588,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "meet": {
@@ -15612,7 +15628,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "memorandum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "memorial": {
@@ -15819,7 +15835,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["a1"]
         },
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "mining": {
@@ -16126,6 +16142,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n3"]
         }
     },
+    "more":{"Adv":{ "tab": ["b1"] }},
     "moreover": {
         "Adv": {
             "tab": ["b1"]
@@ -16151,6 +16168,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "most":{"Adv":{"tab":["b1"]}},
     "mostly": {
         "Adv": {
             "tab": ["b1"]
@@ -16523,7 +16541,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         },
         "V": {
-            "tab": "v167"
+            "tab": "v1"
         }
     },
     "needle": {
@@ -17067,6 +17085,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "off": {
+        "Adv":{"tab":["b1"]},
         "P": {
             "tab": ["pp"]
         }
@@ -17176,6 +17195,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "on": {
+        "Adv":{"tab":["b1"]},
         "P": {
             "tab": ["pp"]
         }
@@ -17185,6 +17205,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["b1"]
         }
     },
+    "one":{"Pro":{"tab":["pn5"]}},
     "onion": {
         "N": {
             "tab": ["n1"]
@@ -17421,7 +17442,8 @@ var lexiconEn = //========== lexicon-dme.js
     "out": {
         "Adv": {
             "tab": ["b1"]
-        }
+        },
+        "A":{"tab":["a1"]}
     },
     "outbreak": {
         "N": {
@@ -18059,7 +18081,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "penny": {
         "N": {
-            "tab": ["n79","n3"]
+            "tab": ["n3"]
         }
     },
     "pension": {
@@ -18189,7 +18211,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "personnel": {
         "N": {
-            "tab": ["n4","n1"]
+            "tab": ["n1"]
         }
     },
     "perspective": {
@@ -20436,6 +20458,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "recommended":{"A":{"tab":["a1"]}},
     "reconcile": {
         "V": {
             "tab": "v3"
@@ -20542,7 +20565,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "referendum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "reflect": {
@@ -21650,7 +21673,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "row": {
         "N": {
-            "tab": ["n1","n1"]
+            "tab": ["n1"]
         },
         "V": {
             "tab": "v1"
@@ -21860,6 +21883,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n5"]
         }
     },
+    "same":{"A":{"tab":["a1"]}},
     "sample": {
         "N": {
             "tab": ["n1"]
@@ -21929,6 +21953,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "say": {
+        "N":{"tab":["n1"]},
         "V": {
             "tab": "v19"
         }
@@ -22210,7 +22235,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "seed": {
         "N": {
-            "tab": ["n4","n1"]
+            "tab": ["n1"]
         }
     },
     "seek": {
@@ -23265,7 +23290,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "sock": {
         "N": {
-            "tab": ["n82","n1"]
+            "tab": ["n1"]
         }
     },
     "socket": {
@@ -23919,7 +23944,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "statistics": {
         "N": {
-            "tab": ["n6","n5"]
+            "tab": ["n4"]
         }
     },
     "statue": {
@@ -25411,6 +25436,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "than":{"P":{"tab":["pp"]}},
     "thank": {
         "V": {
             "tab": "v1"
@@ -25422,6 +25448,7 @@ var lexiconEn = //========== lexicon-dme.js
         }
     },
     "that": {
+        "Pro":{"tab":["pn6"]},
         "Adv": {
             "tab": ["b1"]
         },
@@ -25501,7 +25528,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "these": {
         "Pro": {
-            "tab": ["pn9","pn8"]
+            "tab": ["pn8"]
         }
     },
     "thesis": {
@@ -25556,6 +25583,9 @@ var lexiconEn = //========== lexicon-dme.js
         },
         "Pro": {
             "tab": ["pn8"]
+        },
+        "D": {
+            "tab": ["d5"]
         }
     },
     "thorough": {
@@ -25836,6 +25866,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "too":{"Adv":{"tab":["b1"]}},
     "tool": {
         "N": {
             "tab": ["n1"]
@@ -26555,7 +26586,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "undertaking": {
         "N": {
-            "tab": ["n1","n1"]
+            "tab": ["n1"]
         }
     },
     "undoubtedly": {
@@ -26742,7 +26773,8 @@ var lexiconEn = //========== lexicon-dme.js
     "up": {
         "P": {
             "tab": ["pp"]
-        }
+        },
+        "Adv":{"tab":["b1"]}
     },
     "update": {
         "V": {
@@ -26892,7 +26924,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "vacuum": {
         "N": {
-            "tab": ["n11","n1"]
+            "tab": ["n1"]
         }
     },
     "vague": {
@@ -27676,6 +27708,7 @@ var lexiconEn = //========== lexicon-dme.js
             "tab": ["n1"]
         }
     },
+    "when":{"C":{"tab":["cs"]}},
     "whenever": {
         "Adv": {
             "tab": ["b1"]
@@ -27683,7 +27716,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "where": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "which": {
@@ -27732,7 +27765,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "who": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "whoever": {
@@ -27755,7 +27788,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "whom": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "whose": {
@@ -27765,7 +27798,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "why": {
         "Pro": {
-            "tab": ["pn7","pn6"]
+            "tab": ["pn6"]
         }
     },
     "wicked": {
@@ -27855,7 +27888,7 @@ var lexiconEn = //========== lexicon-dme.js
     },
     "wind": {
         "N": {
-            "tab": ["n1","n1"]
+            "tab": ["n1"]
         },
         "V": {
             "tab": "v25"

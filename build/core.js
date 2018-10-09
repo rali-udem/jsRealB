@@ -386,31 +386,35 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
     return true;
 };
 
-//ajout clone pour réutiliser un objet facilement sans la référence
-JSrealE.prototype.toObject = function() {
-
+//  "clone" pour réutiliser un objet facilement sans la référence
+// comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
+//    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
+JSrealE.prototype.toSource = function() {
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
-        nativeString += "\(\""+this.unit+"\"\)";
-        for(prop in this.initProp){
-            nativeString += "."+prop+"\(\""+this.initProp[prop]+"\"\)";
-        }
-    }
-    else{
-        nativeString += "\(";
+        nativeString += "(\""+this.unit+"\")";
+    } else{
+        var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
-            nativeString += this.elements[i].toObject()
-            if(i < imax-1) nativeString += ",";
+            var e=this.elements[i];
+            if (e instanceof JSrealE) // should always be true for correct expressions
+                subElems.push(e.toSource());
+            else
+                subElems.push(e.toString())
         }
-        nativeString += "\)";
+        nativeString += "("+subElems.join(",")+")";
     }
-    return nativeString;
+    var subProps=[];
+    for(prop in this.initProp){
+        subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    }
+    return nativeString+subProps.join("");
 }
 JSrealE.prototype.clone = function(){
-    var native = this.toObject();
-    var native2 = eval(native);
-    return native2;
+    var native = this.toSource();
+    // console.log("native:"+native)
+    return eval(native);
 }
 
 //// Word Features / Properties
@@ -660,11 +664,11 @@ JSrealE.prototype.real = function() {
             this.realization = this.printElements();
             // console.log("real:realization",this.realization);
           
-            return this.typography(this.html(this.phonetic(this.realization)));
+            return this.html(this.typography(this.phonetic(this.realization)));
         }
         else
         {
-            throw JSrealB.Exception.headWordNotFound(this.category);
+            throw JSrealB.Exception.headWordNotFound(this.category,this);
         }
     }
     else // terminal element
@@ -948,16 +952,22 @@ JSrealE.prototype.modifyStructure = function() {
                     parent.resetProp(true);
                 break;
                 case JSrealB.Config.get("feature.category.phrase.verb"):
-                    //Objet direct
+                    //Objet direct : on l'ajoute en anglais 
                     if(JSrealB.Config.get("language")==JSrealE.language.english){
                         parent.addNewElement(np,pronoun);
                         parent.resetProp(true);
                     }
-                    else{
+                    else{ // en français
                         var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
-                        parent.addNewElement(vp,pronoun);
+                        if (parent.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+                            == JSrealB.Config.get("feature.tense.imperative.present")){
+                                // à l'impératif, on l'ajoute après le verbe lié avec un -
+                                parent.constituents.head.setCtx(JSrealB.Config.get("feature.liaison.alias"),true);
+                                parent.addNewElement(np,pronoun);
+                        } else {
+                            parent.addNewElement(vp,pronoun);
+                        }
                         parent.resetProp(true);
-                        var vp = getGroup(parent,JSrealB.Config.get("feature.category.word.verb"));
                         parent.elements[vp].setProp(JSrealB.Config.get("feature.cdInfo.alias"),cdInfo);
                     }                    
                 break;
@@ -969,7 +979,8 @@ JSrealE.prototype.modifyStructure = function() {
         }
     }
     //Impératif (retrait du Sujet)
-    if(this.getChildrenProp(JSrealB.Config.get("feature.tense.alias")) == JSrealB.Config.get("feature.tense.imperative.present")){
+    var tense=this.getChildrenProp(JSrealB.Config.get("feature.tense.alias"))
+    if( tense == JSrealB.Config.get("feature.tense.imperative.present")){
         if(this.category == JSrealB.Config.get("feature.category.phrase.sentence")){
             var NPpos = getSubject(this);
             if(NPpos != -1){
@@ -1180,7 +1191,9 @@ JSrealE.prototype.realizeTerminalElement = function() {
                     || this.getTreeRoot(false).getCtx("firstAux")!=null)){ //GL juillet 2017 (true=>false)
                     conjugation = this.putAuxInFront(conjugation);
                 }
-            }catch(e){console.warn("Error while moving aux:"+e)}
+            }catch(e){
+                // console.warn("Error while moving aux:"+e) //GL spurious message when generating only single NP or VP
+            }
             return conjugation;
         }
         else if(this.transformation === JSrealE.ruleType.regular)
@@ -1261,7 +1274,7 @@ JSrealE.prototype.realizeConjugation = function() {
     }
     if(number === JSrealB.Config.get("feature.number.plural"))
     {
-        person += 3;
+        person = parseInt(person)+3;
     }
     return JSrealB.Module.Conjugation.conjugate(this.unit, tense, person, gender, verbOptions, cdProp, auxF);
 };
@@ -1515,7 +1528,7 @@ var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
 uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
 acronymRE=/^[A-Z]+$/
-punctuationRE=/[,:\."'\[\]\(\)\?]/
+punctuationRE=/[,:\.\[\]\(\)\?]/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
@@ -1568,8 +1581,8 @@ function elisionEn(content){
 // same as sepWordREen but the [\w] class extended with French Accented letters and cedilla
 var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
 
-var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|jusque|quoique)$/i
-var euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
+var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
+var euphonieFrRE=/^(ma|ta|sa|ça|ce|beau|fou|mou|nouveau|vieux)$/i
 var euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
     "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
 
@@ -1607,7 +1620,7 @@ function elisionFr(content){
         if (!punctuationRE.exec(sep)){   // do not elide over punctuation
             if (elidableWordFrRE.exec(previous)){
                 if (isElidableFr(current)){
-                    res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                    res=res+previous.slice(0,-1)+"'"+sep.trim();
                     continue;
                 }
             }
@@ -1615,7 +1628,7 @@ function elisionFr(content){
                 if (isElidableFr(current)){
                     if (/ce/i.exec(previous) && /(^est$)|(^étai)/.exec(current)){
                         // very special case but very frequent
-                        res=res+previous.slice(0,-1)+"'"+sep.replace(/ /g,"");
+                        res=res+previous.slice(0,-1)+"'"+sep.trim();
                     } else
                         res=res+lookUp(previous,euphonieFrTable)+sep;
                     continue;
@@ -1623,7 +1636,7 @@ function elisionFr(content){
             }
             var contr=lookUp(previous+"+"+current,contractionFrTable);
             if (contr!=null){
-                res=res+contr+sep.replace(/ /g,"");
+                res=res+contr+sep.trim();
                 // to force the loop to ignore current
                 previous="";sep="";current="";
                 continue;
@@ -2825,6 +2838,7 @@ JSrealB.Module.Conjugation = (function(){
                     verbOptions.native == true){
                     //special case: be native and negative
                     if(unit == 'be'){
+                        if (tense=="b") return "to be";
                         return applySimpleEnding(unit, tense, person, conjugationTable)+
                                ((verbOptions.neg == true)?" "+JSrealB.Config.get("rule.verb_option.neg.prep1"):"");
                     }
@@ -3706,7 +3720,7 @@ JSrealB.Module.Number = (function() {
                      "eight":"eighth","nine":"ninth","twelve":"twelfth"}
     // règles tirées de https://francais.lingolia.com/fr/vocabulaire/nombres-date-et-heure/les-nombres-ordinaux
     ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
-    function ordinal(s,en){
+    function ordinal(s,en,gender){
         s=enToutesLettres(s,en);
         if (s=="zéro" || s=="zero") return s;
         var m=/(.*?)(\w+)$/.exec(s)
@@ -3716,6 +3730,7 @@ JSrealB.Module.Number = (function() {
             if (s.charAt(s.length-1)=="y") return s.substring(0,s.length-1)+"ieth"; // added from the reference
             return s+"th"
         } else {
+            if (s == "un")return gender=="f"?"première":"premier";
             if (s.endsWith("et un")) return s+"ième";
             if (lastWord in ordFrExceptions) return m[1]+ordFrExceptions[lastWord];
             if (s.charAt(s.length-1)=="e" || s.endsWith("quatre-vingts")) return s.substring(0,s.length-1)+"ième";
@@ -4297,7 +4312,9 @@ JSrealB.Exception = (function() {
         if(info2 !== undefined) msg += ", " + info2;
         
         JSrealB.Logger.warning(msg);
-        
+        if (ideWarning!==undefined){// to display warnings in the IDE
+            ideWarning+=msg+"\n"
+        }
         return msg;
     };
 
@@ -4338,8 +4355,8 @@ JSrealB.Exception = (function() {
         invalidInput: function(u, i) {
             return exception(4513, u, i);
         },
-        headWordNotFound: function(u) {
-            return exception(4514, u);
+        headWordNotFound: function(u,exp) {
+            return exception(4514, u,exp.toSource());
         }
     };
 })();
@@ -4701,7 +4718,6 @@ var loadEn = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconEn, ruleEn, feature);
         }
         if(trace)
@@ -4725,7 +4741,6 @@ var loadFr = function(trace){
         }
         else{
             JSrealBResource.common.feature = feature;
-
             JSrealB.init(language, lexiconFr, ruleFr, feature);
         }
         if(trace)
@@ -4761,4 +4776,20 @@ var addToLexicon = function(lemma,newInfos){
 //// get lemma from lexicon (useful for debugging )
 var getLemma = function(lemma){
     return JSrealB.Config.get("lexicon")[lemma]
+}
+
+// return the current realization language
+var getLanguage=function(){
+    return JSrealB.Config.get("language");
+}
+
+//// select a random element in a list useful to have some variety in the generated text
+//  if the first argument is a list, selection is done within the list
+//  otherwise the selection is among the arguements 
+//   (if the selected element is a function, evaluate it without parameter)
+var oneOf = function(elems){
+    if (!Array.isArray(elems))
+        elems=Array.from(arguments);
+    e=elems[Math.floor(Math.random()*elems.length)];
+    return typeof e=='function'?e():e;
 }

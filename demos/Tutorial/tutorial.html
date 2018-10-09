@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="../../dist/jsRealB-dmefr.min.js"></script>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="randomgen.js"></script>
+        <script src="tutorial.js"></script>
+        <link rel="stylesheet" href="tutorial.css">
+        <title>jsRealB tutorial</title>
+    </head>
+    <body>
+        <!-- <span class="jsr">jsRealB</span> -->
+        <h1><span class="jsr">jsRealB</span> Tutorial</h1>
+        <h2>Overview</h2>
+        <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript to ease its integration in web applications. It can be used either within a web page such as this one whose examples in <span class="js1">this font</span> are dynamically realized or as a <code>Node.js</code> module. The realizer is self-contained and does not need an external server or another Javascript framework, once it is loaded with the web page.</p>
+        <p>The realizer takes care of many language peculiarities such as conjugation, word order, elision, number and person agreements, all <em>small</em> details but that users appreciate or find very annoying or disturbing when they are not properly dealt with. It is also possible to get many variations (e.g. negative, passive or interrogative) of a single sentence structure.</p>
+        <p>In <span class="jsr">jsRealB</span>, Javascript expressions create data structures corresponding to the constituents of the sentence to be produced. When there is a need to get the string output (i.e. its <code>toString()</code> function is called), the data structure (a tree) traversed to produce the tokens of the sentence, taking care of capitalization, elision and appropriate spacing around punctuation. It is also possible to wrap portions of text in HTML tags.</p> 
+            <p>The data structure is built by function calls (Javascript constructors) whose names were chosen to be similar to the symbols usually used for constituent syntax trees: for example, <code>N</code> to create a noun structure, <code>NP</code> for a Noun Phrase, <code>V</code> for a Verb, <code>D</code> for a Determiner, <code>S</code> for a Sentence and so on. Features added to the structures using the dot notation can modify the values according to what is intended.</p>
+
+       <p> The syntactic representation is patterned after the classical constituent grammar notation. For example,</p>
+<code><pre>        S(NP(D("a"),N("woman")).n("p"),
+          VP(V("eat")).t("ps").perf(true))
+</pre></code>
+<p>is the JSrealB specification for <span class="js">S(NP(D("a"),N("woman")).n("p"),VP(V("eat")).t("ps").perf(true))</span> Plural is indicated with feature <code>n("p")</code> where <code>n</code> indicates number and <code>p</code> plural. The verb is conjugated to past tense indicated by the feature tense <code>t</code> and value <code>ps</code>; the verb should also use the perfect form. The agreement between <code>NP</code> and <code>VP</code> is performed automatically.</p>
+    <p>This document illustrates some of the capabilities of <span class="jsr">jsRealB</span> with two examples: a simple <a href="#sentGen">sentence generator</a> and a more complete <a href="#webApp">data-to-text web application</a> that finds a metro route and generates a text describing the itinerary which is also displayed in the page.</p>
+    <ul>
+        <li>This tutorial only gives a few indications on the many capabilities and features of the realiser,  <a href="../documentation/user.html">see this document for a  complete documentation</a>;</li> 
+        <li>An <a href="../IDE/index.html">Interactive Development Environment</a> is a good way to experiment with <span class="jsr">jsRealB</span>.</li>
+    </ul>
+
+    <h2 id="sentGen">Generating sentences</h2>
+    <h3>Variations on a simple sentence</h3>
+    <p>We start with a very simple sentence combining a Noun Phrase that is the subject of a Verb Phrase. <span class="jsr">jsRealB</span> expressions being ordinary Javascript expressions they can saved in variables or data structure like any other Javascript value. In the following</p>
+<code><pre>
+var cat=NP(D("the"),N("cat"));
+var mouse=NP(D("a"),A("grey"),N("mouse"));
+var sent=S(cat,VP(V("eat"),mouse));
+</pre></code>
+<p>We define two noun phrases: <code>cat</code> for <span class="js">cat</span> and <code>mouse</code> for <span class="js">mouse</span>. The whole sentence <span class="js">sent</span> is created by creating a <code>S</code> constituent having the value of variable <code>cat</code> as subject (the first child in a S is considered as such) and a Verb Phrase containing the verb <code>eat</code> and the value of variable <code>mouse</code> as object complement.</p>
+<p>From this single sentence structure, it is possible to get many variations (in <u>blue</u> in this table) by simply adding features:</p>
+<table>
+    <tr><td>plural future </td>
+        <td><code>S(cat,VP(V("eat"),mouse))<br/>&nbsp;<u>.n("p").t("f")</u></code></td>
+        <td><span class="js">S(cat,VP(V("eat"),mouse)).n("p").t("f")</span></td><tr>
+    <tr><td>passive</td>
+        <td><code>S(cat,VP(V("eat"),mouse))<br/>&nbsp;<u>.typ({"pas":true})</u></code></td>
+        <td><span class="js">S(cat,VP(V("eat"),mouse)).typ({"pas":true})</span></td><tr>
+    <tr><td>question on the subject (what direct)</td>
+        <td><code>S(cat,VP(V("eat"),mouse))<br/>&nbsp;<u>.typ({"int":"wad"})</u></code></td>
+        <td><span class="js">S(cat,VP(V("eat"),mouse)).typ({"int":"wad"})</span></td><tr>
+    <tr><td>negative</td>
+        <td><code>S(cat,VP(V("eat"),mouse))<br/>&nbsp;<u>.typ({"neg":true})</u></code></td>
+        <td><span class="js">S(cat,VP(V("eat"),mouse)).typ({"neg":true})</span></td><tr>
+    <tr><td>combination of the above</td>
+        <td><code>S(cat,VP(V("eat"),mouse))<br/>
+                  &nbsp;<u>.typ({"int":"wad","pas":true,"neg":true})</u></code></td>
+        <td><span class="js">S(cat,VP(V("eat"),mouse)).typ({"int":"wad","pas":true,"neg":true})</span></td><tr>
+</table>
+<h3>Caution with modifications</h3>
+<p>The constructors corresponding to constituents create objects and features modify them <strong>permanently</strong>. So some care must be taken when reusing structures saved in variables. For example, with those declarations:</p>
+<code><pre>
+    var cat1=NP(D("the"),N("cat"));
+    var mouse1=NP(D("a"),A("grey"),N("mouse"));
+</pre></code>
+<p><code>S(cat1.n("p"),VP(V("eat"),mouse1.n("p").pro()))</code> is realized as 
+<span class="js">S(cat1.n("p"),VP(V("eat"),mouse1.n("p").pro()))</span> in which <code>cat</code> is plural and <code>mouse</code> replaced by a pronoun. If we reuse those variables in another context such as <code>S(cat1,VP(V("eat"),mouse1))</code>, the realized sentence is still <span class="js">S(cat1,VP(V("eat"),mouse1))</span> which is probably not intended, because the features modified the original structure.</p>
+
+<p>To get around this problem, we can <em>clone</em> any <span class="jsr">jsRealB</span> structure to get a new copy within an expression. So getting back to our original <code>cat</code> and <code>mouse</code>, we can still get 
+<span class=js>S(cat.clone().n("p"),VP(V("eat"),mouse.clone().n("p").pro()))</span> 
+with <code>S(cat<u>.clone()</u>.n("p"),VP(V("eat"),mouse<u>.clone()</u>.n("p").pro()))</code> without modifying the original, as can be seen with  <code>S(cat,VP(V("eat"),mouse))</code> which is still realized as <span class="js">S(cat,VP(V("eat"),mouse))</span></p>
+
+<h3>Generation of random sentences</h3>
+<p>Computer generated texts often suffer from repetitions which can be quite annoying for humans who prefer some variation in the texts they read.  <span class="jsr">jsRealB</span> makes it easy to create different phrase and sentence structures by creating different constituent tree expressions from which the program can choose.</p>
+<p>In many cases, outside constraints, semantic or pragmatic constraints determine the choice, but in some cases it is appropriate to let a random choice between few possibilities.  The <code>oneOf(e<sub>1</sub>,e<sub>2</sub> ...)</code> function lets <span class="jsr">jsRealB</span> choose one of the arguments <code>e<sub>i</sub></code>. As Javascript evaluates all arguments of a function before the call, we can prefix an argument with <code>()=></code> to <em>transform</em> it into a a zero argument function which will only be evaluated after the selection by <code>oneOf</code>.
+</p>
+<p>The following code defines three functions: </p>
+<ul>    
+    <li><code>np()</code> to create a noun phrase with different animal nouns, either singular or plural;</li>
+    <li><code>a()</code> to provide optionally an adjective</li>
+    <li><code>vp() </code> to create a verb phrase with a complement or not</li>
+</ul>
+<code><pre>
+function np(){
+    return NP(D("a"),a(),N(oneOf("cat","mouse","dog","rabbit"))).n(oneOf("s","p"));
+}
+function a(){
+    return oneOf(
+        ()=>A(oneOf("fussy","grey","nervous")),
+        ()=>Q("")
+    );
+}
+function vp(){
+    return oneOf(
+        ()=>VP(V(oneOf("eat","run","love"))),
+        ()=>VP(V(oneOf("eat","love")),np())
+    );
+}
+</pre></code>
+<p>With these definitions, <code>S(np(),vp())</code> will produce a random sentence (containing a noun phrase followed by verb phrase) at each call.</p> 
+<p>Click this button to <input type="button" name="newSent" value="generate a new sentence" id="newSent">
+<span id="genSent" class="js1"></span>
+</p>
+<p>This random sentence example is a Javascript transcription of the Prolog/DCG version described in:
+Michel Boyer and Guy Lapalme, <em>Text Generation</em>, Chapter 12 of <em>Logic and Logic Grammar for Language Processing</em>,  pp. 256-257, Ellis Horwood, 1990.</p>
+
+<h2 id="webApp">Generation of subway/metro directions</h2>
+<p>We now present a complete web application for finding a path in the Montréal Métro (subway) network. We will then explain how to generate the itinerary between two stations clicked by user that is generated to the right of the graphic. The application can be used in either French or English with the text generated in the same language, by clicking on the <code style="color: green">[EN]</code> or <code style="color: green">[FR]</code> in the top right corner. In this tutorial, only the English version is described, as the French version is similarly organized and differs mainly in the choice of words.</p>
+    
+<div id="application">
+    <iframe src="metro.html"></iframe>
+</div>
+<h3>Generation of the itinerary</h3>
+<p>Text generation is <em>classically</em> divided in two main steps: 
+<ul>
+    <li><em>What to say</em> that, in this case, corresponds to the shortest itinerary between two metro stations determined using a classical operations research algorithm; the shortest path is then split in legs along different metro lines taking account transfers;</li>
+    <li><em>How to say it</em> that establishes the overall structure of the text according to the length of the itinerary and the number of stops and transfers. Only then will the text realizer be called to create an appropriate English text.</li>
+</ul>
+<h4>Data</h4>
+<p>The first step in a data-to-text project is to find the appropriate data and to <em>massage</em> it into a usable format. In this case, the data was harvested from a <a href="http://donnees.ville.montreal.qc.ca/dataset/stm-traces-des-lignes-de-bus-et-de-metro" title="STM – Tracés des lignes de bus et de métro - Ensembles de données - Portail données ouvertes">public dataset</a>, although in a proprietary format for which we fortunately found a <a href="https://mygeodata.cloud/converter/shp-to-json" title="SHP to JSON Converter Online - MyGeodata Cloud">web site</a> that allowed us to transform it to <a href="http://geojson.org" title="GeoJSON">geojson</a>. We then used a <a href="https://stedolan.github.io/jq/" title="jq">jq script</a> to extract only the information we needed: metro lines with their stations for which we kept their name and coordinates. The <code>jq</code> output was then feed to a small Python script to get a more useful display. We finally <em>hand sorted</em> the station according to their <em>real</em> ordering on each line. As always, this <em>conceptually simple task</em> took more effort than we had initially expected.</p>
+
+<p>Here is a short excerpt of the <a href="metroLinesSorted.js">data for the 68 stations of the metro</a>. Some transfer stations (e.g. <code>Berri-UQAM</code>) appear in more than one line as indicated in their <code>route</code> field.</p>
+<code style="font-size:small"><pre>
+var routes = [
+  {"route":1, "stations":[
+    {"id": "18", "station": "Honoré-Beaugrand", "route": "1", "coords": [302040.08698887925, 5050741.44628119]},
+    {"id": "19", "station": "Radisson", "route": "1", "coords": [301735.9800496101, 5049947.9922192525]},
+    ...
+    {"id": "43", "station": "Angrignon", "route": "1", "coords": [296733.6694496933, 5034064.601947192]}
+  ]},
+  {"route":2, "stations":[
+    {"id": "68", "station": "Montmorency", "route": "2", "coords": [287432.767743489, 5046526.781216757]},
+    ...
+    {"id": "65", "station": "Côte-Vertu", "route": "2", "coords": [290521.09550694964, 5041607.070800175]}
+  ]},
+  {"route":4, "stations":[
+    {"id": "11", "station": "Berri-UQAM", "route": "1,2,4", "coords": [300055.51811076206, 5041690.301771889]},
+    ...
+    {"id": "44", "station": "Longueuil/Université-de-Sherbrooke", "route": "4", "coords": [303073.79689146805, 5042774.93822535]}
+  ]},
+  {"route":5, "stations":[
+    {"id": "49", "station": "Snowdon", "route": "2,5", "coords": [294829.623185072, 5038412.072364335]},
+    ...
+    {"id": "64", "station": "Saint-Michel", "route": "5", "coords": [296993.06301460037, 5046632.485787434]}
+  ]}
+]
+</pre></code>
+
+<h4>Path computation</h4>
+<p>With this data we build an internal data structure of the underlying network having stations as node and estimated travel time (computed from the distance from the coordinates of the stations) as value on the arcs between two consecutive stations. Transfer stations are <em>duplicated</em> on each line and an internal link with transfer time between each line is added.</p>
+<p>In the application, once the user has chosen the two stations between which she wants to travel, the shortest path between them is computed using the <a href="https://en.wikipedia.org/wiki/Bellman–Ford_algorithm">Bellman-Ford algorithm</a> which is very simple to implement and efficient enough on such a small network.</p>
+<p>The shortest path is a list of nodes that is split into <em>legs</em> between transfer stations. For example, the path to go from <code>Honoré-Beaugrand (id="18")</code> to <code>Université de Montréal (id="57")</code> will be split in three legs corresponding to travels on a line between transfer:</p>
+<code><pre>
+[[["18",0],["19",1.41],...,["11-1",15.91]],
+ [["11-2",20.91],["10",22.23],...,["5-2",29.14]],
+ [["5-5",34.14],["61",35.17],...,["57",40.75]]]
+</pre></code>
+<p>The trip is thus a list of legs which are themselves lists of pairs also lists, the first element being the node id and the second element being the distance in minutes from the starting node.</p>
+<p><a href="computeDist.js">Path computation code</a></p>
+
+<h4>Text generation</h4>
+<p>The generated text is organized as: </p>
+<ul>
+    <li>Title indicating the start and end stations;</li>
+    <li>Itinerary depending on two cases:
+        <ul>
+            <li>No transfer: simple and easy;</li>
+            <li>With transfers: each leg is described, the first and last ones being special.</li>
+        </ul>
+    </li>
+</ul>
+<p>This is implemented in this function, which first creates a title wrapped in an <code>h2</code> tag. That title is added in front of the rest of the text either as a direct trip <code>singleLine</code> or one separated into multiple legs (<code>introduction, body, conclusion</code>).</p>
+<code><pre>
+function generate(trip){
+    var duration=last(last(trip))[1];
+    var title=VP(V("go").t("b"),P("from"),Q(network[trip[0][0][0]].stationName),
+                 P("to"),Q(network[last(last(trip))[0]].stationName)).cap().tag("h2")+"\n";
+    if (trip.length==1){
+        return title+singleLine(trip[0],duration);
+    } else {
+        let text=title;
+        text+=introduction(trip[0],duration).tag("p")+" ";
+        text+="&lt;p>"+body(trip.slice(1,trip.length-1))+"&lt;/p>";
+        text+=conclusion(last(trip)).tag("p");
+        return text;
+    }
+}
+</pre></code>
+<p>We define a few auxiliary functions to realize:</p>
+    <ul>
+        <li><code>genLine(...)</code> to realize the "name" of a leg: its color and the direction given as the name of start/end station depending on the direction of the trip as given by the indices of the first and last station of the leg;</li>
+        <li><code>nbStations(...)</code> to realize the number of <em>stations</em> or <em>stops</em> (chosen arbitrarily): when there is only station, it is written differently.</li>
+        <li><code>destination(...)</code> to realize the station name of the destination</li>
+    </ul>.
+<code><pre>function genLine(leg){
+    var from=network[leg[0][0]];
+    var to=network[last(leg)[0]];
+    var res=NP(D("the"),A(lineColor[from.route]),N("line"));
+    if (from.index&lt;to.index){
+        if (to!=from.end)
+            // do not add direction when the destination is at the last station which will be realized anyway
+            res.add(PP(P("towards"),Q(from.end.stationName)));
+    } else {
+        if (to!=from.start)
+            // do not add direction when the destination is at the first station which will be realized anyway
+            res.add(NP(N("direction"),Q(from.start.stationName)).en('('));
+    }
+    return res;
+}
+
+function nbStations(leg,ord){
+    if (ord===undefined)ord=false;
+    var st=N(oneOf("station","stop"));
+    if (leg.length==2){
+        return NP(Adv("only"),NO(1).dOpt({"nat": true}),st);
+    }
+    return NP(NO(leg.length-1).dOpt({"ord":ord}),st)
+}
+
+function destination(leg){
+    return Q(network[last(leg)[0]].stationName);
+}
+</pre></code>
+
+<h5>A direct trip</h5>
+<p>After testing the boundary case that the trip starts and ends at the same station, the realizer creates two subordinate phrases by choosing randomly between a few formulations. These two subordinate phrases are then wrapped into a single sentence.</p>
+<code><pre>function singleLine(leg,duration){
+    if (duration==0)
+        return S(Pro("I").pe(2),V("be"),Adv("already"),PP(P("at"),D("my").pe(2),N("destination"))).a("!");
+    var sp1 = oneOf(()=>SP(D("this"),V("be"),CP(C("and"),A("simple"),A("fast")),nbStations(leg),
+                           Adv("no"),N("transfer")),
+                    ()=>SP(Pro("I").pe(2),
+                           VP(V("be"),Adv("only"),nbStations(leg),Adv("away"))),
+                    ()=>SP(Pro("this"),VP(V("make").t("f"),nbStations(leg),
+                                          PP(P("for"),NP(D("the"),A("whole"),N("trip")))))
+                    ).a(",");
+    var sp2 = oneOf(()=>SP(V("take").t("ip"),genLine(leg)),
+                    ()=>SP(V("follow").t("ip"),genLine(leg),
+                           PP(P("for"),NP(NO(Math.round(duration)),N("minute")))));
+    return S(sp1,sp2).toString();
+}
+</pre></code>
+<h5>Trip with transfers</h5>
+<p>The <em>introduction</em> starts with global information: the estimated time to destination and then, with different formulations, invite the user to start the trip with the first leg.</p>
+<code><pre>function introduction(leg,duration){
+    var sp1 = S(Pro("I").pe(2),VP(V("be"),NP(NO(Math.round(duration)),N("minute"))),
+                 PP(P("from"),NP(D("my").pe(2),N("destination")))).a(",");
+    var sp2 = oneOf(
+                ()=>SP(V("take").t("ip"),genLine(leg),
+                       PP(P("for"),nbStations(leg))),
+                ()=>SP(V("board").t("ip"),PP(P("on"),genLine(leg)))
+              );
+    var pp = oneOf(()=>PP(P("until"),SP(Pro("I").pe(2),
+                                        VP(V("be"),PP(P("at"),destination(leg))))),
+                   ()=>PP(P("up"),P("to"),destination(leg))
+             );
+    return S(sp1,sp2.add(pp));
+}
+</pre></code>
+<p>The <em>body</em> recursively realizes each leg with different formulations</p>
+<code><pre>function body(legs){
+    if (legs.length==0)return "";
+    // console.log(legs);
+    var leg=legs[0]
+    var out=oneOf(
+        ()=>S(VP(V("take").t("ip"),genLine(leg),PP(P("up"),P("to"),destination(leg)))),
+        ()=>S(VP(V("change").t("ip"),PP(P("on"),genLine(leg),P("until"),destination(leg)))),
+        ()=>S(VP(V("transfer").t("ip"),PP(P("for"),destination(leg),P("on"),genLine(leg)))),
+        ()=>S(VP(V("switch")).t("ip"),
+               PP(P("on"),genLine(leg),P("for"),nbStations(leg)))
+    );
+    return out+" "+body(legs.slice(1));
+}
+</pre></code>
+<p>The <em>conclusion</em> ends by indicating that the trip is finished.</p>
+<code><pre>function conclusion(leg){
+    var out=oneOf(
+        ()=>S(Adv("finally"),Pro("I").pe(2),V("take").t("f"),genLine(leg),
+               V("arrive").t("b"),PP(P("to"),destination(leg))),
+        ()=>S(Q("at last").a(","),Pro("I").pe(2),
+              VP(V("find").t("f"),destination(leg).a(","),
+                 PP(nbStations(leg,true),P("on"),genLine(leg)))),
+        ()=>S(NP(D("my").pe(2),N("destination"),destination(leg)),
+              VP(V("be").t("f"),P("after"),nbStations(leg),
+                             P("on"),genLine(leg)))
+    );
+    return out;
+}
+</pre></code>
+<p>This <a href="describeTrip.js">Javascript realizer using <span class="jsr">jsRealB</span></a> is an adaptation of the Prolog/DCG version shown in
+Michel Boyer and Guy Lapalme, <em>Text Generation</em>, Chapter 12 of <em>Logic and Logic Grammar for Language Processing</em>, pp. 258-260, Ellis Horwood, 1990. 
+</p>
+<h2>Conclusion</h2>
+<p>This document has illustrated how <span class="jsr">jsRealB</span> can be integrated in a web page to create dynamic textual content. More information can be found at the <a href="jsrDir/jsRealB"><span class="jsr">jsRealB</span> web site</a>, with <a href="jsrDir/demos">demos</a>, <a href="jsrDir/documentation">documentation</a>. There is also an <a href="jsrDir/IDE">interactive development environment</a> in which <span class="jsr">jsRealB</span> code can be tested with the corresponding constituent structure displayed. It is also possible to check the lexicon and the rule tables of the language and find how to realize a given word in <span class="jsr">jsRealB</span>.</p>
+    </body>
+</html>

@@ -1741,7 +1741,7 @@ var ruleEn = //========== rule-en.js
         "v181": {
             "ending": "ll",
             "t": {
-                "b": "l",
+                "b": "ll",
                 "ps": "lled",
                 "pr": "lling",
                 "pp": "lled",
@@ -2627,11 +2627,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "older","f": "co"
             },{
-                "val": "elder","f": "co"
-            },{
                 "val": "oldest","f": "su"
-            },{
-                "val": "eldest","f": "su"
             }]
         },
         "a17": {
@@ -2641,11 +2637,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "farther","f": "co"
             },{
-                "val": "further","f": "co"
-            },{
                 "val": "farthest","f": "su"
-            },{
-                "val": "furthest","f": "su"
             }]
         },
         "a18": {
@@ -2679,8 +2671,6 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "she","pe": 3,"n": "s","g": "f"
             },{
-                "val": "one","pe": 3,"n": "s","g": "n"
-            },{
                 "val": "we","pe": 1,"n": "p","g": "x"
             },{
                 "val": "they","pe": 3,"n": "p","g": "x"
@@ -2707,27 +2697,25 @@ var ruleEn = //========== rule-en.js
         "pn3": {
             "ending": "mine",
             "declension": [{
-                "val": "mine","pe": 1,"n": "x","g": "x","own": "s"
+                "val": "mine","pe": 1,"n": "s","g": "x","own": "s"
             },{
                 "val": "yours","pe": 2,"n": "x","g": "x","own": "x"
             },{
-                "val": "hers","pe": 3,"n": "x","g": "f","own": "s"
+                "val": "hers","pe": 3,"n": "s","g": "f","own": "s"
             },{
-                "val": "his","pe": 3,"n": "x","g": "m","own": "s"
+                "val": "his","pe": 3,"n": "s","g": "m","own": "s"
             },{
-                "val": "its","pe": 3,"n": "x","g": "n","own": "s"
+                "val": "its","pe": 3,"n": "s","g": "n","own": "s"
             },{
-                "val": "ours","pe": 1,"n": "x","g": "x","own": "p"
+                "val": "ours","pe": 1,"n": "p","g": "x","own": "p"
             },{
-                "val": "theirs","pe": 3,"n": "x","g": "x","own": "p"
+                "val": "theirs","pe": 3,"n": "p","g": "x","own": "p"
             }]
         },
         "pn4": {
             "ending": "myself",
             "declension": [{
                 "val": "myself","pe": 1,"n": "s","g": "x"
-            },{
-                "val": "ourself","pe": 1,"n": "s","g": "x"
             },{
                 "val": "yourself","pe": 2,"n": "s","g": "x"
             },{
@@ -2736,8 +2724,6 @@ var ruleEn = //========== rule-en.js
                 "val": "himself","pe": 3,"n": "s","g": "m"
             },{
                 "val": "itself","pe": 3,"n": "s","g": "n"
-            },{
-                "val": "oneself","pe": 3,"n": "s","g": "n"
             },{
                 "val": "ourselves","pe": 1,"n": "p","g": "x"
             },{
@@ -2781,17 +2767,13 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "a","n": "s"
             },{
-                "val": "an","n": "s"
-            },{
-                "val": "","n": "x"
+                "val": "","n": "p"
             }]
         },
         "d2": {
             "ending": "my",
             "declension": [{
                 "val": "my","pe": 1,"n": "s","g": "x","own": "s"
-            },{
-                "val": "thy","pe": 2,"n": "s"
             },{
                 "val": "your","pe": 2,"n": "x","g": "x","own": "x"
             },{
@@ -2811,11 +2793,7 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "that","n": "s"
             },{
-                "val": "this","n": "s"
-            },{
                 "val": "those","n": "p"
-            },{
-                "val": "these","n": "p"
             }]
         },
         "d4": {
@@ -2824,6 +2802,14 @@ var ruleEn = //========== rule-en.js
                 "val": "","n": "x"
             }]
         },
+        "d5": {
+            "ending": "this",
+            "declension": [{
+                "val": "this","n": "s"
+            },{
+                "val": "these","n": "p"
+            }]
+        },        
         "b1": {
             "ending": "",
             "declension": [{
@@ -2857,11 +2843,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "farther","f": "co"
             },{
-                "val": "further","f": "co"
-            },{
                 "val": "farthest","f": "su"
-            },{
-                "val": "furthest","f": "su"
             }]
         },
         "b5": {
