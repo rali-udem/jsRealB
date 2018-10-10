@@ -4,33 +4,29 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <title>elision</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="../../dist/jsRealB-fr.min.js" charset="UTF-8"></script>
-        <script type="text/javascript">
-// plusieurs test du module d'élision
-//  il faudrait les intégrer au QUnit
-function test(phrase){
-    $("#elision").append("<p>"+phrase+"<br/>"+elisionFr(phrase));
-}
-
-$(document).ready(function() {
-    test("Le élève aimable écrit sur la ardoise");
-    test("Je te aime pour la éternité");
-    test("Ce ne est pas un test de élision très aisé à réussir de le premier coup");
-    test("Que je aime à faire ce exercice et voir ce chien");
-    test("Que il aime avoir de le exercice");
-    test("La église et la amie et sa amie");
-    test("Quoique il fasse beau");
-    test("La élève me a dit de ne pas la interroger");
-    test("La histoire est une épreuve de examen et le homme ne respecte plus la nature");
-    test("Ma amie et ce honnête père sont entrés avec la armoire");
-    test("Il se adressa à le homme à la porte de ce ancien chateau");
-    test("<b>Les tests suivants ne ont pas fonctionné</b>")
-    test("Ce est de la affection dont cet enfant a besoin");
-    test("La hirondelle me honore mais me amène à le hôpital et à le hibou");
-});
-        </script>
+        <script src="../../dist/jsRealB-dmefr.min.js" charset="UTF-8"></script>
+        <script src="../../build/elisionTests.js"></script>
     </head>
     <body id="elision">
-        <h1>Tests du module d'élision</h1>
+        <h1>Elision Module Test - Tests du module d'élision</h1>
+        <script type="text/javascript">
+            function show(phrases,elisionFn){
+                phrases.forEach(function(phrase){
+                    var $p=$("<p/>")
+                    $p.append($("<span/>").text(phrase));
+                    $p.append("<br/>");
+                    $p.append($("<span/>").text(elisionFn(phrase)));
+                    $elision.append($p);
+                 })
+                
+            }
+            var $elision=$("#elision")
+            loadEn();
+            $elision.append("<h2>English elision tests</h2>");
+            show(elisionTestsEn,elisionEn);
+            $elision.append("<h2>Tests d'élision en français</h2>");
+            loadFr();
+            show(elisionTestsFr,elisionFr);
+        </script>
     </body>
 </html> 
