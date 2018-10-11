@@ -1582,12 +1582,12 @@ function elisionEn(content){
 var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
 
 var elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
-var euphonieFrRE=/^(ma|ta|sa|ça|ce|beau|fou|mou|nouveau|vieux)$/i
+var euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
 var euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
     "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
 
 var contractionFrTable={
-    "à+le":"au","à+les":"aux",
+    "à+le":"au","à+les":"aux","ça+a":"ç'a",
     "de+le":"du","de+les":"des","de+des":"de","de+autres":"d'autres",
     "des+autres":"d'autres",
     "si+il":"s'il","si+ils":"s'ils"};
@@ -2174,7 +2174,7 @@ NP.prototype.elementToElementPropagation = function(element) {
                 {   
                     npInfo[groupPropNameList[j]] = element.getProp(groupPropNameList[j])
                 }
-                //var pronomSub = this.constituents.subordinate[i].getProp(JSrealB.Config.get("feature.propositional.pronoun.alias"));
+                var pronomSub = this.constituents.subordinate[i].getProp(JSrealB.Config.get("feature.propositional.pronoun.alias"));
                 if(JSrealB.Config.get("language") === JSrealE.language.french){
                     var pronomSub = this.constituents.subordinate[i].getFirst("Pro");
                     if(pronomSub.unit == JSrealB.Config.get("rule.propositional.base")){

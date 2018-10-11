@@ -34,7 +34,7 @@ live demos.
 * [jsRealB **tutorial**](https://rawgit.com/rali-udem/JSrealB/master/demos/Tutorial/tutorial.html)
 * [Itinerary description in an *optimistic* Montréal Métro network](https://rawgit.com/rali-udem/JSrealB/master/demos/Tutorial/metro.html)
 * *Data to text* application for describing the building of a house [English](https://rawgit.com/rali-udem/JSrealB/master/demos/Data2Text/building.html) [French](https://rawgit.com/rali-udem/JSrealB/master/demos/Data2Text/batiment.html)
-* [*Lemmatizer*](https://rawgit.com/rali-udem/JSrealB/master/demos/lemmatize/lemmatizer.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
+* [*Lemmatizer*](https://rawgit.com/rali-udem/JSrealB/master/demos/lemmatize/lemmatize.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
 * [Random English text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/english.html) [[JavaScript code](demos/randomGeneration/english.js)]
 * [Random French text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/french.html) [[JavaScript code](demos/randomGeneration/french.js)]
 * [Conjugation and declension](https://rawgit.com/rali-udem/JSrealB/master/demos/inflection/index.html) [[JavaScript code](demos/inflection/inflection.js)] 

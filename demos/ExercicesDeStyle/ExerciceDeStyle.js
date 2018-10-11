@@ -11,8 +11,6 @@ function completerLexique(){
     addToLexicon({"bondé"    :{ "A": { "g": "m", "tab": ["n28"]} }});
     addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab": ["n28"]} }});// car le participe passé ne s'accorde pas!
     addToLexicon({"quelque"  :{ "D": { "g": "m", "tab": ["n28"]} }});
-    // forcer la bonne table pour "me"
-    addToLexicon("me",{"Pro":{"tab":["pn3"]}});
 }
 
 function composer(t,g,n){
@@ -83,7 +81,7 @@ function composer(t,g,n){
   // Celui-ci lui conseille de faire remonter le bouton supérieur de son pardessus.
   ps[5]=
   S(NP(Pro("celui-ci").g(g).n(n).tag("span", {"class": "ami genre nombre"})),
-    Pro("me").g(g).n(n).tag("span", {"class": "genre nombre jeune-homme"}),
+    Pro("me*coi").g(g).n(n).tag("span", {"class": "genre nombre jeune-homme"}),
     VP(V("conseiller").n(n).t(t).tag("span", {"class": "nombre temps"}),
        PP(P("de"),
           VP(V("faire").t("b"),
