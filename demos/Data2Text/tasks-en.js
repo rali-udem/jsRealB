@@ -18,6 +18,7 @@ if (typeof module !== 'undefined' && module.exports) {
             eval("var "+v+"=textGen."+v);
 }
 // add to the dme lexicon
+loadEn();
 var verbs=[];
 for (var i = 0; i < verbs.length; i++)
     addToLexicon(verbs[i],"");
@@ -26,7 +27,6 @@ for (var i = 0; i < nouns.length; i++)
     addToLexicon(nouns[i],{"N":{"g":"m","tab":["n1"]}});
 addToLexicon({"another":{"D":{"tab":["d4"]}}});
 addToLexicon({"other":{"D":{"tab":["d4"]}}});
-addToLexicon({"need":{"N":{"tab":["n1"]},"V":{"tab":"v26"}}}); // error for conjugation table of need
 
 function np(n){
     return (typeof n=="string")?NP(D("the"),N(n)):n;

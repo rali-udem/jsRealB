@@ -301,7 +301,29 @@ function showDeclension(declensions,mot,query,terminaison){
 }
 
 var lemmataEn,lemmataFr;
-// n'est appelé que lorsqu'on tape return
+
+function showLemmatization(lemmata,query){
+    if (lemmata.has(query))
+        $result="<p><code><pre>"+lemmata.get(query).join("\n")+"</pre></code></p>";
+    else { // try to match with a regular expression
+        var re=new RegExp("^"+query+"$");
+        var res=[];
+        for (var key of lemmata.keys()){
+            if (re.test(key))res.push("<b>"+key+"</b>:\n"+lemmata.get(key).join("\n"));
+        }
+        if (res.length==0){
+            $result="<p>"+query+" : "+
+                        (lang=="en"?"cannot be lemmatized":"ne peut être lemmatisé")+"</p>";
+            
+        } else {
+            // sort without accent to get more usual dictionary order
+            res.sort(s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+            $result="<p><code><pre>"+res.join("\n")+"</pre></code></p>";
+        }
+    }
+    return $result;
+}
+
 function chercherInfos(e){
     if(e.which!=13)return;
     var query=$("#interrogation").val();
@@ -329,23 +351,7 @@ function chercherInfos(e){
             $result=showDeclension(JSrealB.Config.get("rule")["declension"],"",query,true);
             break;
         case "lemmatization":
-            let lemmata=interrogationLang=="en"?lemmataEn:lemmataFr;
-            if (lemmata.has(query))
-                $result="<p><code><pre>"+lemmata.get(query).join("\n")+"</pre></code></p>";
-            else { // try to match with a regular expression
-                var re=new RegExp("^"+query+"$");
-                var res=[];
-                for (var key of lemmata.keys()){
-                    if (re.test(key))res.push("<b>"+key+"</b>:\n"+lemmata.get(key).join("\n"));
-                }
-                if (res.length==0){
-                    $result="<p>"+query+" : "+
-                                (lang=="en"?"cannot be lemmatized":"ne peut être lemmatisé")+"</p>";
-                    
-                } else {
-                    $result="<p><code><pre>"+res.join("\n")+"</pre></code></p>";
-                }
-            }
+            $result=showLemmatization(interrogationLang=="en"?lemmataEn:lemmataFr,query);
             break;
         default:
             $result="<p>"+type+" : "
@@ -514,8 +520,10 @@ $(document).ready(function() {
     $("#interrogation").keypress(chercherInfos);
     $("#toEn").click(function(){setLang("en")});
     $("#toFr").click(function(){setLang("fr")});
-
+    
+    loadEn();
     lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+    loadFr();
 	lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
     
     lang=$.urlParam("lang");

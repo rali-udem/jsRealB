@@ -9,6 +9,7 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // add to the lexicon
+loadEn();
 var verbs=[];
 for (var i = 0; i < verbs.length; i++)
     addToLexicon(verbs[i],"");
@@ -19,7 +20,7 @@ addToLexicon({"another":{"D":{"tab":["d4"]}}});
 addToLexicon({"other":{"D":{"tab":["d4"]}}});
 // addToLexicon({"armé":{"A":{"tab":["n28"]}}});
 // addToLexicon({"on":{"N":{"g":"m","tab":["n3"]}}})// hack: on devrait plutôt changer la table pn1...
-addToLexicon({"need":{"N":{"tab":["n1"]},"V":{"tab":"v26"}}}); // error for conjugation table of need
+// addToLexicon({"need":{"N":{"tab":["n1"]},"V":{"tab":"v26"}}}); // error for conjugation table of need
 
 function np(n){
     return (typeof n=="string")?NP(D("the"),N(n)):n;

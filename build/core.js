@@ -1570,13 +1570,8 @@ function elisionEn(content){
 //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&t1=&id=1737
 // but does not always taking into account the actual part of speech
 // only takes the first case from the lexicon
-// CAUTION:
-// As this algorithm is greedy, it only goes forward in a sentence by considering pairs of words 
-//  it cannot handle cases like:
-//       "à le homme"   => "au homme"  should be "à l'homme"
-//       "de le exercice" => "du exercice" instead of "de l'exercice"
 
-// for Euphonie, rules taken from Antidote V9
+// for Euphonie, rules were taken from Antidote V9
 
 // same as sepWordREen but the [\w] class extended with French Accented letters and cedilla
 var sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/yi
@@ -1609,42 +1604,56 @@ function elisionFr(content){
     var previous="",sep=sepWord[1], current=sepWord[4];
     if (current===undefined) return content; // only a separator found
     var res=(sep===undefined)?"":sep;
+    // split content into a list of tokens [content_0, sep_0, content_1, sep_1,...]
+    // to allow an easier look ahead in the case of a contraction followed by an elision
+    var tokens=[current];
     while ((sepWord=sepWordREfr.exec(content))!==null){
-        // console.log("res:"+res);
-        previous=current; sep=sepWord[1]; current=sepWord[4];
+        sep=sepWord[1];
         if (sep===undefined)sep="";
-        if (current===undefined){// at the end of the string with only a separator
-            return res+previous+sep;
-        }
-        // console.log("previous:%s;sep:%s;current:%s",previous,sep,current);
+        tokens.push(sep);
+        current=sepWord[4];
+        if (current==undefined)break;
+        tokens.push(current);
+    }
+    // console.log("tokens:%d:%s",tokens.length,tokens);
+    current=tokens[0];
+    if(tokens.length==1)return current;
+    var i=2;
+    while (i<tokens.length){
+        previous=current; sep=tokens[i-1]; current=tokens[i];
+        // console.log("%d::previous:%s;sep:%s;current:%s",i,previous,sep,current);
         if (!punctuationRE.exec(sep)){   // do not elide over punctuation
-            if (elidableWordFrRE.exec(previous)){
-                if (isElidableFr(current)){
-                    res=res+previous.slice(0,-1)+"'"+sep.trim();
-                    continue;
-                }
-            }
-            if (euphonieFrRE.exec(previous)){ // euphonie
-                if (isElidableFr(current)){
+            if (elidableWordFrRE.exec(previous) && isElidableFr(current)){
+                res=res+previous.slice(0,-1)+"'"+sep.trim();
+            } else if (euphonieFrRE.exec(previous) && isElidableFr(current)){ // euphonie
                     if (/ce/i.exec(previous) && /(^est$)|(^étai)/.exec(current)){
                         // very special case but very frequent
                         res=res+previous.slice(0,-1)+"'"+sep.trim();
-                    } else
+                    } else {
                         res=res+lookUp(previous,euphonieFrTable)+sep;
-                    continue;
+                    }
+            } else if ((contr=lookUp(previous+"+"+current,contractionFrTable))!=null){
+                // check if the next word would be elidable, so instead elide it instead of contracting
+                if (elidableWordFrRE.exec(current) && i+2<tokens.length && isElidableFr(tokens[i+2])){
+                    res=res+previous+sep+current.slice(0,-1)+"'"+tokens[i+1].trim();
+                    current=tokens[i+2];
+                    i+=2;
+                } else {
+                    res=res+contr+sep.trim();
+                    current="";// to force the loop to ignore current
                 }
+            } else {
+                res=res+previous+sep; // copy input
             }
-            var contr=lookUp(previous+"+"+current,contractionFrTable);
-            if (contr!=null){
-                res=res+contr+sep.trim();
-                // to force the loop to ignore current
-                previous="";sep="";current="";
-                continue;
-            }
+        } else {
+            res=res+previous+sep; // copy input
         }
-        res=res+previous+sep; // copy input
+        i+=2;
     }
-    return res+current;
+    res+=current
+    // add last separator
+    if (tokens.length%2==0)res+=tokens[tokens.length-1]
+    return res;
 }
 
 function isElidableFr(word){
@@ -1656,7 +1665,7 @@ function isElidableFr(word){
 
 function hAspire(word){
     var w=JSrealB.Config.get("lexicon")[word];
-    if (w && w.h==1) return true;
+    if (w && Object.values(w)[0].h==1) return true;
     return false;
 }
 
@@ -1678,22 +1687,11 @@ var D = function(unit) {
 };
 
 var V = function(unit) {
-
     return new JSrealE(unit, JSrealB.Config.get("feature.category.word.verb"), JSrealE.ruleType.conjugation);
 };
 
 V.prototype.putAuxInFront = function(conjug) {
     //GL by default does not do anything (useful only for English)
-    // //création de token, comme pour l'élision
-    // var mots=conjug.split(" ");
-    // var htmlTagRegex =/\s*(<[^>]*>)|\s+/ig;
-    // var mots = conjug.split(htmlTagRegex);
-    // for(var i = 0, length1 = mots.length; i < length1; i++) { if(mots[i] === undefined) mots.splice(i, 1); } // fix : remove undefined
-    // var length2=mots.length;
-    // if(length2>=2){
-    //     var tokens=mots.map(function(mot){return new Tokn(mot)});
-    // }
-    // // console.log(mots);
     return conjug;
 };
 
@@ -2175,7 +2173,7 @@ NP.prototype.elementToElementPropagation = function(element) {
                     npInfo[groupPropNameList[j]] = element.getProp(groupPropNameList[j])
                 }
                 var pronomSub = this.constituents.subordinate[i].getProp(JSrealB.Config.get("feature.propositional.pronoun.alias"));
-                if(JSrealB.Config.get("language") === JSrealE.language.french){
+                if(pronomSub!=null && JSrealB.Config.get("language") === JSrealE.language.french){
                     var pronomSub = this.constituents.subordinate[i].getFirst("Pro");
                     if(pronomSub.unit == JSrealB.Config.get("rule.propositional.base")){
                         this.constituents.subordinate[i].setProp(JSrealB.Config.get("feature.cdInfo.alias"),npInfo);

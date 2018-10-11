@@ -28,17 +28,17 @@ live demos.
     * ``user-infos.js``: definitions of variables containing the examples
     * ``user-new.js``  : JavaScript helper script.
 * [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB. [Try it here](https://rawgit.com/rali-udem/JSrealB/master/IDE/index.html). It is slightly modified from previous versions to take into account the new way of loading lexicons.
+* [jsRealB **Tutorial**](https://rawgit.com/rali-udem/JSrealB/master/Tutorial/tutorial.html)
 
 ## Demos
 
-* [jsRealB **tutorial**](https://rawgit.com/rali-udem/JSrealB/master/demos/Tutorial/tutorial.html)
 * [Itinerary description in an *optimistic* Montréal Métro network](https://rawgit.com/rali-udem/JSrealB/master/demos/Tutorial/metro.html)
 * *Data to text* application for describing the building of a house [English](https://rawgit.com/rali-udem/JSrealB/master/demos/Data2Text/building.html) [French](https://rawgit.com/rali-udem/JSrealB/master/demos/Data2Text/batiment.html)
 * [*Lemmatizer*](https://rawgit.com/rali-udem/JSrealB/master/demos/lemmatize/lemmatize.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
 * [Random English text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/english.html) [[JavaScript code](demos/randomGeneration/english.js)]
 * [Random French text generation](https://rawgit.com/rali-udem/JSrealB/master/demos/randomGeneration/french.html) [[JavaScript code](demos/randomGeneration/french.js)]
 * [Conjugation and declension](https://rawgit.com/rali-udem/JSrealB/master/demos/inflection/index.html) [[JavaScript code](demos/inflection/inflection.js)] 
-* [99 bottles of beer: a repetitive text in English](https://rawgit.com/rali-udem/JSrealB/master/demos/99BottlesOfBeer/index.html)
+* [99 bottles of beer: a repetitive text in English](https://cdn.jsdelivr.net/gh/rali-udem/JSrealB@d112159254dd6b79147f1538841a1186b4e54153/demos/99BottlesOfBeer/index.html)
 * [1 km à pied: a repetitive text in French](https://rawgit.com/rali-udem/JSrealB/master/demos/KilometresAPied/index.html)
 * [Date generation](https://rawgit.com/rali-udem/JSrealB/master/demos/date/index.html)
 * [Elision: tests for the French elision module](https://rawgit.com/rali-udem/JSrealB/master/demos/elision/index.html)
