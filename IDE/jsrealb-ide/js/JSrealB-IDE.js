@@ -54,7 +54,7 @@ function dessiner(expr){
                 $("#resultatInterrogation").html(
                     "<h2>"+(language=="en"?"Realization warnings"
                                           :"Avertissements lors de la réalisation")+"</h2>"+
-                    "<p>"+ideWarning+"</p>"
+                    "<p>"+ideWarning.replace(/\n/g,"<br/>")+"</p>"
                 );
             }
         }
