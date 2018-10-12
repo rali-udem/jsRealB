@@ -1,0 +1,20 @@
+table {
+    border-collapse:collapse;
+    margin:0 15px;
+    display:inline-table;
+    vertical-align:bottom;
+}
+td,th,#graphique svg {
+    border: 1px solid #999;
+    padding: 2px;
+}
+#graphique {
+    margin:5px;
+    vertical-align:bottom;
+}
+blockquote {
+    max-width:800px;
+}
+td:nth-child(1){text-align:center;}
+td:nth-child(3){text-align:right;}
+.current {font-weight: bold; color: blue;}

@@ -13,6 +13,13 @@ function Task(id,duration,precedes,np,vp){
     this.level=0;  // level computed after network creation
 }
 
+// get a new date nb days from d0
+function d_nb(d0,nb){
+    var d=new Date(d0);
+    d.setDate(d.getDate() + nb);
+    return d;
+}
+
 // for adding description 
 function addNPVP(tasks,id,np,vp){
     tasks[id].np=np;
@@ -189,7 +196,7 @@ function computeSchedule(tasks){
     return groups
 }
 
-function tempsTotal(tasks){
+function totalTime(tasks){
     return Math.max(... Object.values(tasks).map(function(t){return t.eet}))
 }
 
@@ -203,5 +210,5 @@ if (typeof module !== 'undefined' && module.exports) {
     exports.isCritical=isCritical;
     exports.criticalPath=criticalPath;
     exports.computeSchedule=computeSchedule;
-    exports.tempsTotal=tempsTotal;
+    exports.totalTime=totalTime;
 }

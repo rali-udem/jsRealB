@@ -1,8 +1,3 @@
-if (typeof module !== 'undefined' && module.exports) {
-    var pertjs=require(__dirname+"/pert.js");
-    for (var v in pertjs)
-        eval("var "+v+"=pertjs."+v);
-}
 var data = [
     new Task("a",10,"c,q,t"),
     new Task("b",3, "c,u"),
