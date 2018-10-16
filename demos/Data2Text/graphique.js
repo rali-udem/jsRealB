@@ -9,8 +9,10 @@ function createToolTip(sel,d){
                 .append("tspan")
                       .text(spans[1])
                       .attr("x",0)
-                      .attr("dy",15)
-    var bbox=text.node().getBBox();
+                      .attr("dy",15);
+    // the next line should be : 
+    // bbox=text.node.getBBox(); //but it only work in Chrome and Safari but not in Firefox
+    var bbox= {"x":0,"y":-12,"width":text.node().getComputedTextLength(),"height":30};
     var padding = 2;
     var rect = g.insert("rect","text") // insert rectangle "under" the text
         .attr("x", bbox.x - padding)

@@ -2172,16 +2172,25 @@ NP.prototype.elementToElementPropagation = function(element) {
                 {   
                     npInfo[groupPropNameList[j]] = element.getProp(groupPropNameList[j])
                 }
-                var pronomSub = this.constituents.subordinate[i].getProp(JSrealB.Config.get("feature.propositional.pronoun.alias"));
-                if(pronomSub!=null && JSrealB.Config.get("language") === JSrealE.language.french){
+                // var pronomSub = this.constituents.subordinate[i].getProp(JSrealB.Config.get("feature.propositional.pronoun.alias"));
+                if(JSrealB.Config.get("language") === JSrealE.language.french){
                     var pronomSub = this.constituents.subordinate[i].getFirst("Pro");
-                    if(pronomSub.unit == JSrealB.Config.get("rule.propositional.base")){
-                        this.constituents.subordinate[i].setProp(JSrealB.Config.get("feature.cdInfo.alias"),npInfo);
-                    }
-                    else if(pronomSub.unit == JSrealB.Config.get("rule.propositional.subject")){
-                        for(var key in npInfo){
-                            pronomSub.setProp(key,npInfo[key]);
-                        } 
+                    if (pronomSub!=null){
+                        if(pronomSub.unit == JSrealB.Config.get("rule.propositional.base")){
+                            this.constituents.subordinate[i].setProp(JSrealB.Config.get("feature.cdInfo.alias"),npInfo);
+                        }
+                        else if(pronomSub.unit == JSrealB.Config.get("rule.propositional.subject")){
+                            for(var key in npInfo){
+                                pronomSub.setProp(key,npInfo[key]);
+                            } 
+                        }
+                    } else {
+                        var firstWord = this.constituents.subordinate[i].getFirst("any");
+                        if(firstWord.unit == JSrealB.Config.get("rule.propositional.subject")){
+                            for(var key in npInfo){
+                                firstWord.setProp(key,npInfo[key]);
+                            }
+                        }
                     }
                 }
                 else{

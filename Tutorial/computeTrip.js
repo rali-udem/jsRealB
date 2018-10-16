@@ -118,7 +118,6 @@ function isSameStationTransfer(id1,id2){
 
 function makeId(s,routeNo){
     return (s.route==routeNo)?s.id:(s.id+"-"+routeNo) 
-    return id+"-"+lineNo
 }
 
 // check if id exists in network, if not then try by appending a routeNumber

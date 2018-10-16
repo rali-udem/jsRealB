@@ -151,27 +151,27 @@ function deplacerSep(e){
     }
 }
 
-/// Gestion du storage local pour remettre le dernier état de l'éditeur
-// Feature test
-var hasStorage = (function() {
-    var mod = "jsrealb_storage_feature_test";
-  try {
-    localStorage.setItem(mod, mod);
-    localStorage.removeItem(mod);
-    return true;
-  } catch (exception) {
-    return false;
-  }
-}());
-
-////
-function storeCurrentData() {
-    if(hasStorage && editor !== undefined)
-    {
-        localStorage.setItem("jsrealb_language", language);
-        localStorage.setItem("jsrealb_source", editor.getValue());
-    }
-}
+// /// Gestion du storage local pour remettre le dernier état de l'éditeur
+// // Feature test
+// var hasStorage = (function() {
+//     var mod = "jsrealb_storage_feature_test";
+//   try {
+//     localStorage.setItem(mod, mod);
+//     localStorage.removeItem(mod);
+//     return true;
+//   } catch (exception) {
+//     return false;
+//   }
+// }());
+//
+// ////
+// function storeCurrentData() {
+//     if(hasStorage && editor !== undefined)
+//     {
+//         localStorage.setItem("jsrealb_language", language);
+//         localStorage.setItem("jsrealb_source", editor.getValue());
+//     }
+// }
 
 function showDictEntries(lexique,query){
     var regexp=new RegExp("^"+query+"$");
@@ -452,16 +452,17 @@ $(document).ready(function() {
     editor.setShowPrintMargin(false);
     editor.setFontSize("16px"); // grandeur de police de défaut
 
-    if(localStorage.getItem("jsrealb_source") !== undefined
-            && localStorage.getItem("jsrealb_source") !== null
-            && localStorage.getItem("jsrealb_source") !== "")
-    {
-        language = localStorage.getItem("jsrealb_language");
-        editor.setValue(localStorage.getItem("jsrealb_source"));
-        dessiner(editor.getValue(), language);
-    }
-    else
-    {
+    // if(localStorage.getItem("jsrealb_source") !== undefined
+    //         && localStorage.getItem("jsrealb_source") !== null
+    //         && localStorage.getItem("jsrealb_source") !== "")
+    // {
+    //     language = localStorage.getItem("jsrealb_language");
+    //     editor.setValue(localStorage.getItem("jsrealb_source"));
+    //     if (language=="en")loadEn(); else loadFr();
+    //     dessiner(editor.getValue());
+    // }
+    // else
+    // {
         language = "en";
         // exemple de génération "bilingue", il suffit de (dé)commenter (CMD-/ sur mac)
         // pour avoir la version dans la bonne langue...
@@ -498,8 +499,9 @@ $(document).ready(function() {
           + ").a('!')\n"
 
         );
-        dessiner(editor.getValue(), language);
-    }
+        if (language=="en")loadEn(); else loadFr();
+        dessiner(editor.getValue());
+    // }
 
     $("#french-realization-en,#french-realization-fr").click(function(){
         loadFr();language="fr";
@@ -515,7 +517,7 @@ $(document).ready(function() {
     $sepV.mousedown(debutDeplacerSep);
     $(window).mouseup(finDeplacerSep);
     $(window).mousemove(deplacerSep);
-    $(window).unload(storeCurrentData);
+    // $(window).unload(storeCurrentData);
     
     $("#interrogation").keypress(chercherInfos);
     $("#toEn").click(function(){setLang("en")});

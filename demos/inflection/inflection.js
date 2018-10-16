@@ -73,15 +73,20 @@ function conjuguer(verbe){
                 addTable(verbe,[["Present","p"]]);//,["Present continuous","prc"],["Present perfect","prp"],["Present perfect continuous","prpc"]]);
                 addTable(verbe,[["Simple past","ps"]]);//,["Past continuous","pac"],["Past perfect","pap"],["Past perfect continuous","papc"]]);
                 addTable(verbe,[["Future","f"]]);//,["Future continuous", "fuc"],["Future perfect","fup"],["Future perfect continuous","fupc"]]);
-                //Ajout imperative
+                //Ajout imperative 
+                // TODO:: corriger l'impératif au passif, progressif ou parfait
+                if( (!($("#passiveButton").is(':checked'))) 
+                    && (!($("#progressiveButton").is(':checked'))) 
+                    && (!($("#perfectButton").is(':checked')))){
                 $("#tableau").append($("<tr/>").append("<th style='padding-top:10px'>Imperative</th>"));
-                var negation = $("#negationButton").is(':checked');
-                $("#tableau")
-                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("s").typ({neg:negation}).a(" ")+"</td></tr>");
-                $("#tableau")
-                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(1).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
-                $("#tableau")
-                    .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
+                    var negation = $("#negationButton").is(':checked');
+                    $("#tableau")
+                        .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("s").typ({neg:negation}).a(" ")+"</td></tr>");
+                    $("#tableau")
+                        .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(1).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
+                    $("#tableau")
+                        .append("<tr><td style='padding-right:10px'>"+S(V(verbe).t('ip')).pe(2).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
+                }
             }
         }
     }

@@ -34,7 +34,7 @@ live demos.
 
 * [Itinerary description in an *optimistic* Montréal Métro network](https://lapalme.github.io/Tutorial/metro.html)
 * *Data to text* application for describing the building of a house [English](https://lapalme.github.io/demos/Data2Text/building.html) [French](https://lapalme.github.io/demos/Data2Text/batiment.html)
-* [*Lemmatizer*](https://lapalme.github.io/demos/lemmatize/lemmatize.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
+* [*Lemmatizer*](https://github.com/rali-udem/jsRealB/blob/master/demos/lemmatize/lemmatize.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
 * [Random English text generation](https://lapalme.github.io/demos/randomGeneration/english.html) [[JavaScript code](demos/randomGeneration/english.js)]
 * [Random French text generation](https://lapalme.github.io/demos/randomGeneration/french.html) [[JavaScript code](demos/randomGeneration/french.js)]
 * [Conjugation and declension](https://lapalme.github.io/demos/inflection/index.html) [[JavaScript code](demos/inflection/inflection.js)] 

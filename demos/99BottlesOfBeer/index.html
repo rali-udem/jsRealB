@@ -24,7 +24,7 @@
                          nbb(n),C(","));
             var vers2;
             if (n>0){
-                var tod=VP(V("take").pe(2),"one",P("down")); // ip n'existe pas comme temps de verbe ...
+                var tod=VP(V("take").pe(2).t("ip"),"one",P("down"));
                 var pia=VP(V("pass").pe(2),Pro("I").g("n"),P("around")); 
                 vers2=CP(C(","),CP(C("and"),tod,pia),nbbW(n-1))
             } else {
