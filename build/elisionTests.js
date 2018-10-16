@@ -8,13 +8,13 @@ var elisionTestsEn=[
 ];
 
 var elisionTestsFr=[
+    "&","bonjour","",
     "<p><i>bonjour</i></p>",
     "Le enfant",
     "le chat se élève le Élève le 'avocat' que aujourd'hui claque à ma amie",
     "le Hameçon le héros ma Habitude",
     "De le <b>chapeau</b>, à <i>les amis</i>, mon <b>beau</b> ami, mon <i>vieux étudiant</i>.",
     "Et ceci aussi fonctionne: jusque à les, jusque à des!!!",
-    "&","bonjour",
     "Le élève aimable écrit sur la ardoise",
     "Je te aime pour la éternité",
     "Ce ne est pas un test de élision très aisé à réussir de le premier coup",
@@ -26,7 +26,8 @@ var elisionTestsFr=[
     "La histoire est une épreuve de examen et le homme ne respecte plus la nature",
     "Ma amie et ce honnête père sont entrés avec la armoire",
     "Ce est de la affection dont cet enfant a besoin",
-    "<b>Une possibilite de erreurs lors de élisions en cascade que il faudrait traiter <i>en reculant</i></b>",
+    "Une possibilite de erreur lors de une contraction suivie de une élision où il faut élider à le premier abord",
+    "<b>À ce</b> homme",
     "Il se adressa *à le homme* à la porte de ce ancien chateau",
     "Ça a été très difficile de approcher et *de le approcher*",
     "La hirondelle me honore mais me amène *à le hôpital* et à le hibou"

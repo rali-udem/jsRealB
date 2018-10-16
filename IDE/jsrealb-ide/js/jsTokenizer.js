@@ -1,5 +1,5 @@
 // Token
-
+//  not useful for jsRealIDE
 Token.IDENTIFIER=1;
 Token.NUMBER=2;
 Token.SYM=3;

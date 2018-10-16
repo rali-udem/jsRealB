@@ -1,6 +1,6 @@
 var struct;
 
-var $struct,s,$langue,$generer,$tab;
+var $structEn,$structFr,s,$langue,$generer,$tab;
 
 var types=["exc","neg","pas","prog","int"];
 var pos={"int":["yon","wos","wod","woi","wad","whe","whn","how"]}
@@ -42,34 +42,51 @@ function genererTypes(s,$tab,types,obj){
     }
 }
 
+function genererStruct(struct,lang){
+    $("#sortie,#nombre").empty();
+    var $tab=$("<table/>");
+    $("#sortie").append($tab);
+    // générer le titre du tableau
+    var $tr=$("<tr/>");
+    for (var i = 0; i < types.length; i++) {
+        var type=types[i];
+        $tr.append("<th>"+type+"</th>")
+    }
+    $tr.append(lang=="fr"?"<th>Réalisation</th>":"<th>Realization</th>");
+    $tab.append($tr)
+    // évaluer les phrases
+    try {
+        nb=0;
+        genererTypes(eval(struct),$tab,types,{});
+        $("#nombre").append(nb+(lang=="fr"?" phrases réalisées":" realized sentences"))
+    } catch (err) {
+        $("#nombre").text((lang=="fr"?"Erreur dans la structure jsRealB: ":"Error in jsRealB: ")+err.message);
+    }
+}
+
+function showLangTextArea(){
+    if ($langue.val()=="en")
+        {$structFr.hide();$structEn.show();}
+    else
+        {$structEn.hide();$structFr.show();};
+}
+
 $(document).ready(function() {
-    $struct=$("#struct");
+    $structEn=$("#struct-en");
+    $structFr=$("#struct-fr");
     $langue=$("#langue");
+    $langue.change(showLangTextArea);
+    showLangTextArea();
     $generer=$("#generer");
-    $generer.click(function(){
-        var lang=$langue.val()
-        $("#sortie,#nombre").empty();
-        if (lang=="fr")loadFr();
-        else loadEn();
-        // récupérer la structure
-        struct=$struct.text();
-        var $tab=$("<table/>");
-        $("#sortie").append($tab);
-        // générer le titre du tableau
-        var $tr=$("<tr/>");
-        for (var i = 0; i < types.length; i++) {
-            var type=types[i];
-            $tr.append("<th>"+type+"</th>")
-        }
-        $tr.append(lang=="fr"?"<th>Réalisation</th>":"<th>Realization</th>");
-        $tab.append($tr)
-        // évaluer les phrases
-        try {
-            nb=0;
-            genererTypes(eval($struct.val()),$tab,types,{});
-            $("#nombre").append(nb+(lang=="fr"?" phrases réalisées":" realized sentences"))
-        } catch (err) {
-            $("#nombre").text((lang=="fr"?"Erreur dans la structure jsRealB: ":"Error in jsRealB: ")+err.message);
+    $generer.click(function(e){
+        if ($langue.val()=="en"){
+            $structFr.hide();$structEn.show();
+            loadEn();
+            genererStruct($structEn.val(),"en")
+        } else {
+            $structEn.hide();$structFr.show();
+            loadFr();
+            genererStruct($structFr.val(),"fr")
         }
     });
 });

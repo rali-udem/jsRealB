@@ -1,34 +1,15 @@
-var inNodeJs=typeof module !== 'undefined' && module.exports;
-if (inNodeJs) {
-    var tasksFr=require(__dirname+"/tasks-fr.js");
-    for (var v in tasksFr)
-        eval("var "+v+"=tasksFr."+v);
-}
-
 // variables globales
-jourDebut=new Date();// dates à initialiser plus tard
-jourFin=new Date(); 
-////
+startDate=new Date();// dates à initialiser plus tard
+endDate=new Date();
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function variante(elems){
-    var e=elems[getRandomInt(0,elems.length)];
-    return typeof e=='function'?e():e;
-}
-
-function nvp(){return variante(["np","vp"])}
+function nvp(){return oneOf("np","vp")}
 
 function jour(j){
-    return DT(d_nb(jourDebut,j)).dOpt({"day":false,"hour":false,"minute":false,"second":false});
+    return DT(d_nb(startDate,j)).dOpt({"day":false,"hour":false,"minute":false,"second":false});
 }
 
 function jourMois(j){
-    return DT(d_nb(jourDebut,j)).dOpt({"year":false,"day":false,"hour":false,"minute":false,"second":false});
+    return DT(d_nb(startDate,j)).dOpt({"year":false,"day":false,"hour":false,"minute":false,"second":false});
 }
 
 // ajoute un nombre de jour à une date
@@ -39,11 +20,11 @@ function d_nb(d0,nb){
 }
 
 function jour(j){
-    return DT(d_nb(jourDebut,j)).dOpt({"day":false,"hour":false,"minute":false,"second":false});
+    return DT(d_nb(startDate,j)).dOpt({"day":false,"hour":false,"minute":false,"second":false});
 }
 
 function jourMois(j){
-    return DT(d_nb(jourDebut,j)).dOpt({"year":false,"day":false,"hour":false,"minute":false,"second":false});
+    return DT(d_nb(startDate,j)).dOpt({"year":false,"day":false,"hour":false,"minute":false,"second":false});
 }
 
 /// pour afficher les mois sur les axes en français
@@ -66,31 +47,33 @@ function realiseTaches(tasks,p){
         var t=tasks[i][p];
         // console.log(i,tasks[i].id);
         if (p=='vp')t.t("b"); // mettre verbe à l'infinitif
-        if (!inNodeJs)t.tag("span",{"id":"T"+tasks[i].id});
+        if (!(typeof module !== 'undefined' && module.exports))
+            t.tag("span",{"id":"T"+tasks[i].id});
         res.add(t)
     }
     return res;
 }
 
-function introduction(totalTime,firstTasks){
+function introduction(nbDays,firstTasks){
     // indiquer la durée du projet
-    var duree=NP(NO(totalTime).dOpt({nat: true}),variante([N("jour"),N("journée")]));
+    travail=NP(D("le"),N("construction"),PP(P("de"),NP(D("le"),N("bâtiment"))));
+    var duree=NP(NO(nbDays).dOpt({nat: true}),oneOf(N("jour"),N("journée")));
     var q0=PP(P("pour"),V("compléter").t("b"),travail).a(",");
-    var q1=SP(Pro("je"),V("falloir").t("f"),Q("au moins"),totalTime);
-    var realisation = variante([
+    var q1=SP(Pro("je"),V("falloir").t("f"),Q("au moins"),duree);
+    var realisation = oneOf(
         ()=>S(q0,q1),
         ()=>S(q1,q0),
         ()=>S(duree,VP(V("être").t("f"),A("nécessaire"),q0))
-    ]);
+    );
     // indiquer les tâches du début
-    realisation += "\n"+variante([
+    realisation += "\n"+oneOf(
         ()=>S(Pro("je").pe("3"),
               VP(V("falloir"),V("commencer").t("b"),
                        PP(P("par"),realiseTaches(firstTasks,nvp())))),
         ()=>S(Pro("je").n("p").pe(2),V("devoir").t("c"),
               VP(V("débuter").t("b"),
                        PP(P("par"),realiseTaches(firstTasks,nvp()))))
-    ])+"\n";
+    )+"\n";
     return realisation;
 }
 
@@ -98,18 +81,18 @@ function developpement(middleTasks){
     var realisation = "";
     for (var i = 0; i < middleTasks.length; i++) {
         var t = middleTasks[i];
-        var v=variante([
+        var v=oneOf(
             ()=>S(jour(t[0]),
                   VP(V("marquer").t("f"),
                      NP(D("le"),N("début")),PP(P("de"),realiseTaches(t,'np')))),
-            ()=>S(variante([()=>Adv("puis"),()=>Adv("ensuite"),()=>Q("Après cela,"),()=>Q("Par la suite,")]),
+            ()=>S(oneOf(()=>Adv("puis"),()=>Adv("ensuite"),()=>Q("Après cela,"),()=>Q("Par la suite,")),
                   nvp()=='np'?SP(N("on"),VP(V("passer").t("f"),PP(P("à"),realiseTaches(t,'np'))))
                              :SP(Pro("je"),VP(V("falloir").t("f"),realiseTaches(t,'vp')))),
             ()=>S(jour(t[0]).a(","),
                    NP(N("on")),
                    VP(V("devoir").t("c"),Q("se"),V("occuper").t("b"),
                       PP(P("de"),realiseTaches(t,nvp()))))
-        ]);
+        );
         // console.log(v);
         realisation+=v+"\n";
     }
@@ -117,14 +100,14 @@ function developpement(middleTasks){
 }
 
 function conclusion(lastTasks,duree){
-    var realisation=variante([
-        ()=>S(variante([()=>Q("Finalement,"),()=>Q("En dernier lieu,"),()=>Q("À la fin,")]),
+    var realisation=oneOf(
+        ()=>S(oneOf(()=>Q("Finalement,"),()=>Q("En dernier lieu,"),()=>Q("À la fin,")),
               N("on"),VP(V("faire").t("f")),realiseTaches(lastTasks,'np')
             ),
-        ()=>S(N("on"),VP(V(variante(["terminer","finir","achever"])).t("f"),
+        ()=>S(N("on"),VP(V(oneOf("terminer","finir","achever")).t("f"),
               P("par"),realiseTaches(lastTasks,nvp()))
             )
-    ])+"\n";
+    )+"\n";
     realisation+=S(travail,VP(V("compléter").t("fa").aux("être"),jour(duree)));
     return realisation+"\n";
 }

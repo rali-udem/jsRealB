@@ -1,8 +1,4 @@
-//  affichage des tâches avec D3.js
-
-/// pour afficher les mois sur les axes en français
-var mois=["janvier","février","mars","avril","mai","juin",
-          "juillet","août","septembre","octobre","novembre","décembre"];
+//  tasks display using D3.js
 
 function createToolTip(sel,d){
     var g=sel.append("g").classed("tooltip",true);
@@ -13,10 +9,12 @@ function createToolTip(sel,d){
                 .append("tspan")
                       .text(spans[1])
                       .attr("x",0)
-                      .attr("dy",15)
-    var bbox=text.node().getBBox();
+                      .attr("dy",15);
+    // the next line should be : 
+    // bbox=text.node.getBBox(); //but it only work in Chrome and Safari but not in Firefox
+    var bbox= {"x":0,"y":-12,"width":text.node().getComputedTextLength(),"height":30};
     var padding = 2;
-    var rect = g.insert("rect","text") // insérer le rectangle avant le text
+    var rect = g.insert("rect","text") // insert rectangle "under" the text
         .attr("x", bbox.x - padding)
         .attr("y", bbox.y - padding)
         .attr("rx",3).attr("ry",3)
@@ -27,7 +25,6 @@ function createToolTip(sel,d){
 }
 
 function traceTasks(data,width,height){
-    // trouver les coordonnées de la fin d'une tâche avec id t1 au début de la tâche avec id t2
     var margin=20;
     var rectHeight=Math.floor(height/(1.4*data.length));
     var svg=d3.select("#graphique").append("svg");
@@ -37,17 +34,17 @@ function traceTasks(data,width,height){
           .enter()
           .append("g").classed("task",true);
   
-    var x_extent=[jourDebut,jourFin];
+    var x_extent=[startDate,endDate];
     var y_extent=[0,data.length];
     var x_scale = d3.scaleTime().range([margin,width-margin]).domain(x_extent);
     var y_scale = d3.scaleLinear().range([margin,height-margin]).domain(y_extent);
     var i=0
     d3.selectAll("g.task").each(function(d,i){
         var s=d3.select(this);
-        var est=x_scale(d_nb(jourDebut,d.est));
-        var eet=x_scale(d_nb(jourDebut,d.eet));
-        var lst=x_scale(d_nb(jourDebut,d.lst));
-        var let=x_scale(d_nb(jourDebut,d.let));
+        var est=x_scale(d_nb(startDate,d.est));
+        var eet=x_scale(d_nb(startDate,d.eet));
+        var lst=x_scale(d_nb(startDate,d.lst));
+        var let=x_scale(d_nb(startDate,d.let));
         var y=y_scale(d.index)-rectHeight
         if (isCritical(d)){
             d.rect=s.append("rect")
@@ -64,7 +61,7 @@ function traceTasks(data,width,height){
                   .attr("stroke","black").attr("fill","#CFC");
         }
     });
-    // afficher les tooltip
+    // display tooltips
     d3.selectAll("g.task")
           .on("mouseover",function(d){
               svg.select(".tooltip").remove();
@@ -72,9 +69,9 @@ function traceTasks(data,width,height){
               svg.selectAll("g.task rect").attr("stroke","black");
               var g=createToolTip(svg,d);
               var tooltipLength=parseFloat(g.select("rect").attr("width"));
-              var x = x_scale(d_nb(jourDebut,d.let))+3;
+              var x = x_scale(d_nb(startDate,d.let))+3;
               if (x+tooltipLength > width){
-                  x=Math.max(margin+5,x_scale(d_nb(jourDebut,d.est))-tooltipLength-3)
+                  x=Math.max(margin+5,x_scale(d_nb(startDate,d.est))-tooltipLength-3)
               }
               g.attr("transform","translate("+x+","+Math.max(rectHeight,y_scale(d.index)-rectHeight)+")");
               for (var i = 0; i < d.pred.length; i++) {
@@ -95,6 +92,9 @@ function traceTasks(data,width,height){
                   tasks[d.succ[i]].rect.attr("stroke","black").attr("stroke-width",1)
               }
           });
+    /// to display months in French
+    var mois=["janvier","février","mars","avril","mai","juin",
+              "juillet","août","septembre","octobre","novembre","décembre"];
     // ajouter les axes
     var x_axis=d3.axisBottom().scale(x_scale)
           .tickFormat(function(d){return fmtMois(d.getMonth())});
@@ -111,21 +111,4 @@ function traceTasks(data,width,height){
           .attr("class","y axis")
           .attr("transform","translate("+margin+","+(-rectHeight/2)+")")
           .call(y_axis)
-    // ajouter les flèches pour les successeurs
-    // var svg=d3.select("svg");
-    // for (var i = 0; i < data.length; i++) {
-    //     var s=data[i];
-    //     for (var j = 0; j < s.succ.length; j++) {
-    //         var t=tasks[s.succ[j]];
-    //         svg.append("line")
-    //                  .attr("x1",x_scale(d_nb(jourDebut,s.let)))
-    //                  .attr("y1",y_scale(s.index)-rectHeight/2)
-    //                  .attr("x2",x_scale(d_nb(jourDebut,t.est)))
-    //                  .attr("y2",y_scale(t.index)-rectHeight/2)
-    //                  .attr("stroke","#FAC8FA")
-    //                  .attr("stroke-width",1)
-    //                  .attr("marker-end","url(#arrow)");
-    //
-    //     }
-    // }
 }

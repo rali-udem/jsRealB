@@ -3,7 +3,7 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <title>Démo de JSreal en JSrealB</title>
          <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-         <script src="https://rawgit.com/rali-udem/jsRealB/master/dist/jsRealB-dmefr.min.js"></script>
+         <script src="../../dist/jsRealB-dmefr.min.js"></script>
          <script src="VariantesDePhrases.js" charset="UTF-8"></script>
          <style type="text/css" media="screen">
          table,td,th {border: thin solid black;padding:3px;}
@@ -14,26 +14,24 @@
          </style>
     </head>
     <body>
-        <h1>Différents types de phrases en JSrealB</h1>
-        <p>Réalisation de variantes de phrases en changeant les types - 
-            Realization of sentence variations by changing the types </p>
+        <h1>Types de phrases en - JSrealB - Sentence Types</h1>
+        <p>Entrer une structure de phrase selon la langue du menu - 
+           Enter a sentence structure in the language of the menu</p>
         <div>
-            <textarea id="struct" rows="15" cols="60">
-/* décommenter pour la réalisation en français */
+            <textarea id="struct-fr" rows="10" cols="60">
 S(NP(D('le'),
      N('chat')),
   VP(V('manger'),
      NP(D('le'),
         N('souris'))))
-
-/* uncomment for the English realization
+</textarea>
+            <textarea id="struct-en" rows="10" cols="60">
 S(NP(D('the'),
      N('cat')),
   VP(V('sit').t("ps"),
      PP(P("on")),
         NP(D('the'),
            N('mat'))))
-*/
 </textarea>
         <select name="langue" id="langue" size="1">
             <option value="fr" selected="selected">français</option>
