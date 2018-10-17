@@ -6,7 +6,7 @@
 ///////// 
 //  load JSrealB
 var fs = require('fs');
-var jsrealb=require('./JSrealB-dme-node.js');
+var jsrealb=require('./JSrealB-dme.js');
 // eval exports 
 for (var v in jsrealb){
     eval("var "+v+"=jsrealb."+v);

@@ -212,7 +212,7 @@ if (typeof module !== 'undefined' && module.exports) {
             eval(v+"= f."+v);
         }
     }
-    evalExports("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-dmefr-node.min.js");
+    evalExports("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-dmefr.min.js");
     evalExports(__dirname+"/computeTrip.js");
 }
 // addition to the French dictionary (always done)
