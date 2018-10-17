@@ -1,8 +1,8 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-**Natural language generation**, a part of artificial intelligence, studies the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
+**Natural language generation** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
-The web is constantly growing and its content, getting progressively more dynamic, is well-suited to automation by a realizer. However, existing realizers are not designed with the web in mind and their operation requires much knowledge, complicating their use.
+The web is constantly growing and its content, getting progressively more dynamic, is well-suited to automation by a realizer. However existing realizers are not designed with the web in mind and their operation requires much knowledge, complicating their use.
 
 **jsRealB is a text realizer designed specifically for the web**, easy to learn and to use. This realizer allows its user to build a variety of French and English expressions and sentences, to add HTML tags to them and to easily integrate them into web pages.
 
@@ -10,8 +10,7 @@ The web is constantly growing and its content, getting progressively more dynami
 
 The documentation can be accessed [here](https://lapalme.github.io/documentation/user.html). You can switch language in the upper right corner of the page.
 
-There are a number of resources written in English available [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including
-live demos.
+There are a number of resources written in English available [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including live demos.
 
 **Caution**
 
@@ -48,7 +47,7 @@ live demos.
 
 
 ## Authors
-jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the works of:
+jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the work of:
 
 1. [Francis Gauthier](http://www-etud.iro.umontreal.ca/~gauthif) as part of his summer internship at RALI in 2016; 
 2. [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal in 2015;   
