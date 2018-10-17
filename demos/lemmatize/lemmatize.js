@@ -32,7 +32,7 @@ if (typeof module !== 'undefined' && module.exports) {
     var  lexicon=JSON.parse(fs.readFileSync(buildDir+"lexicon-"+lexiconName+".json"));
 
     // load jsRealB
-    var jsRealB=require(jsRealBDir+"dist/jsRealB-"+lexiconName+"-node.min.js");
+    var jsRealB=require(jsRealBDir+"dist/jsRealB-"+lexiconName+".min.js");
     for (var v in jsRealB)
         eval("var "+v+"=jsRealB."+v);
 }

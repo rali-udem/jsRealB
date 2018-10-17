@@ -4,7 +4,7 @@ var url = require('url');
 var fs = require('fs');
 ///////// 
 //  load JSrealB file
-var jsRealB=require(__dirname+'/jsRealB-dme-node.js');
+var jsRealB=require(__dirname+'/jsRealB-dme.js');
 
 // "evaluate" the exports (Constructors for terminals and non-terminal) in the current context
 // so that they can be used directly

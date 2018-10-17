@@ -2,7 +2,7 @@
 //    Michel Boyer and Guy Lapalme, Text Generation, in Logic and Logic Grammar for Language Processing, 
 //    Ellis Horwood, 1990, Chapter 12, p-256-257 
 if (typeof module !== 'undefined' && module.exports) {
-    var jsRealB=require("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-dme-node.min.js");
+    var jsRealB=require("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-dme.min.js");
     for (var v in jsRealB)
         eval("var "+v+"=jsRealB."+v);
 

@@ -7,7 +7,7 @@
 //             eval(v+"= f."+v);
 //         }
 //     }
-//     evalExports("../dist/jsRealB-dmefr-node.min.js");
+//     evalExports("../dist/jsRealB-dmefr.min.js");
 //     evalExports(__dirname+"/computeTrip.js");
 //     evalExports(__dirname+"/pert.js");
 //     evalExports(__dirname+"/tasks-data.js");

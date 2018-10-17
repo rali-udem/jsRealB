@@ -79,9 +79,6 @@ $(document).ready(function() {
     $("#jsRealB-en").append(jsRealBdir+"jsRealB-en.min.js")
     $("#jsRealB-fr").append(jsRealBdir+"jsRealB-fr.min.js")
     $("#jsRealB-enfr").append(jsRealBdir+"jsRealB-enfr.min.js")
-    $("#jsRealB-en-node").append(jsRealBdir+"jsRealB-en.node.js")
-    $("#jsRealB-fr-node").append(jsRealBdir+"jsRealB-fr.node.js")
-    $("#jsRealB-enfr-node").append(jsRealBdir+"jsRealB-enfr.node.js")
     insertQuickLinks("fr");
     insertQuickLinks("en");
     $("div[id]").each(function(){

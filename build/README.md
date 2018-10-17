@@ -9,12 +9,11 @@ A basic jsRealB instance (for use in a web page) is the concatenation of
 3. `lexicon-(dme|en|fr).js`  themselves concatenation of 
     * `lexicon-var-(en|fr).js`
     * `lexicon-(dme|en|fr).json`
+4. `node-module.js` : added to create a node module (no effect when used in a web page)
   
 `makefile`: commands for creating different instances and for performing simple tests
 
 `*.json` are created by the *ressource generation* process in the master.
-
-`node-module.js` : added to create a node module
 
 ### Lexicons
 * `lexicon-fr.js`  : French lexicon (the same as for SimpleNLG-EnFr)
@@ -24,16 +23,12 @@ A basic jsRealB instance (for use in a web page) is the concatenation of
 `addLexicon-(dme|en|fr).js`: additions and corrections to these lexicons
 
 ## Products 
-### For use in a web page
+### For use in a web page or as a node.js module
 `jsRealB-(dme|en|fr).js`: concatenation of the appropriate files and additions
 
-`jsRealB-(dme|en|fr).min.js`      : minified concatenation of the appropriate files and additions (needs `uglify` from `node.js` for minifying)
+`dist/jsRealB-(dme|en|fr).min.js`: minified concatenation of the appropriate files and additions (needs `uglify` from `node.js` for minifying)
 
-### For use as a node module
-`jsRealB-(dme|en|fr)-node.js`     : concatenation of the appropriate files and additions as a node module
-
-`jsRealB-(dme|en|fr)-node.min.js` : minified concatenation of the appropriate files and additions as a node module
-
+### Examples of use as a node.js module
 `filter-(dme|en).js` : node module useful as a *filter*. It takes a jsRealB expression on a single single and produces the English realisation
 
 `server-(dme|en).js` : node module that creates a local webserver (`http://127.0.0.1:8081/`) that accepts an url of the form  
