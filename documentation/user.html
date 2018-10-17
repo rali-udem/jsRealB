@@ -88,21 +88,33 @@
     <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
 
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
-    <p lang="fr">Une des trois versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues. Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencer depuis l'élément <code>script</code>, mais vous pouvez aussi télécharger une version déjà <em>compilée</em> à partir du <a href="http://rawgit.com/rali-udem/JSrealB/master/dist/">répertoire <code>dist</code> du GitHub</a>.</p>
-    <p lang="en">One of the three versions <span class="jsr">jsRealB</span> should be loaded with  <code>script</code> depending on the expected type of realisations. Ideally, you would install your own version of <span class="jsr">jsRealB</span> starting from the sources of <a href="https://github.com/rali-udem/jsRealB">GitHub</a> and you will refer to it from a <code>script</code> element, but you can also download a <em>compiled</em> version from <a href="http://rawgit.com/rali-udem/JSrealB/master/dist/"><code>dist</code> directory of the GitHub</a>.</p>
-        <ul>
-            <li><span lang="fr">Anglais</span><span lang="en">English</span>
-                        : <code id="jsRealB-en"></code></li>
-            <li><span lang="fr">Français</span><span lang="en">French</span>
-                        : <code id="jsRealB-fr"></code></li>
-            <li><span lang="fr">Anglais-Français</span><span lang="en">English-French</span>
-                        : <code id="jsRealB-enfr"></code>
-                            <ul>
-                                <li><code>loadFr()</code> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
-                                <li><code>loadEn()</code> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
-                            </ul> 
-                        <span lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</span><span lang="en">These functions can be called as often as necessary to change the current language.</span></li>
-        </ul>
+    <p lang="fr">Une des versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues.</p>
+    <p lang="en">One version of <span class="jsr">jsRealB</span> should be loaded with a <code>script</code> element according to the expected type of realization.</p>
+    <dl>
+        <dt><code>jsRealB-en.js</code></dt><dt><code>jsRealB-dme.js</code></dt>
+        <dd lang="fr">pour la réalisation de phrases en anglais. <code>en</code> utilise un lexique réduit d'environ 3000 entrées les plus courantes de l'anglais; <code>dme</code> utilise un lexique beaucoup plus complet d'environ 37&nbsp;000 mots.</dd>
+        <dd lang="en">for English realization. <code>en</code> uses a small lexicon of arount 3&nbsp;000 entries; <code>dme</code> uses a bigger lexicon of arount 37&nbsp;000 words.</dd>
+    </dl>
+    <dl>
+        <dt><code>jsRealB-fr.js</code></dt></dt>
+        <dd lang="fr">pour la réalisation de phrases en français. <code>fr</code> utilise un lexique réduit d'environ 3000 entrées les plus courantes du français.</dd>
+        <dd lang="en">for French realization. <code>fr</code> use a small lexicon of about 3&nbsp;000 most common words of French.</dd>
+    </dl>
+    <dl>
+        <dt><code>jsRealB-enfr.js</code></dt><dt><code>jsRealB-dmefr.js</code></dt>
+        <dd lang="fr">pour la réalisation de phrases en anglais et en français. <code>enfr</code> utilise un lexique réduit d'environ 3&nbsp;000 entrées les plus courantes de l'anglais et un lexique de 3&nbsp;000 mots du français; <code>dmefr</code> utilise un lexique beaucoup plus complet d'environ 37&nbsp;000 mots de l'anglais et un lexique de 3&nbsp;000 mots du français.</dd>
+        <dd>
+        <dd lang="en">for English and French realization. <code>enfr</code> uses two small lexicons for both French and English; <code>dmefr</code> uses a big lexicon for English and a small lexicon for French.</dd>
+        <dd>
+            <ul>
+                <li><code>loadFr()</code> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
+                <li><code>loadEn()</code> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
+            </ul> 
+            <span lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</span><span lang="en">These functions can be called as often as necessary to change the current language.</span></dd>
+    </dl>
+        
+<p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://lapalme.github.io/dist">répertoire</a>.</p>
+<p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element. But you can also get <i>minified</i> versions from <a href="https://lapalme.github.io/dist">this directory</a>.</p>
     <p lang="fr">Des exemples d'intégration dans une page web peuvent être trouvés à la section <em>Démonstrations</em> de <a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" title="JSrealB : un réalisateur de texte pour la programmation web | RALI">cette page</a></p>
     <p lang="en">Examples of web page integration can be found at the <em>Demonstrations</em> section of <a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="JSrealB: demo of a text realiser for the web | RALI">this page</a></p>
 
