@@ -10,8 +10,6 @@ The web is constantly growing and its content, getting progressively more dynami
 
 The documentation can be accessed [here](https://lapalme.github.io/documentation/user.html). You can switch language in the upper right corner of the page.
 
-There are a number of resources written in English available [on our website](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), including live demos.
-
 **Caution**
 
 * Although `jsRealB` can be used in a web page using only one of the generated javascript files in the [`dist`](dist/) directory, [`node.js`](https://nodejs.org/en/) is necessary for the Javascript applications and for minifying the javascript using `uglifyjs`.
@@ -19,38 +17,48 @@ There are a number of resources written in English available [on our website](ht
 * Windows users (and others) will therefore want to use the pre-built files in the [`dist`](dist/) directory.
 
 ## Directories
-* [`build`](build/): build system to create the JavaScript library. Additional README in this directory.
+* [`build`](build/): build system to create the JavaScript library. More details in the [`README`](build/README.md) in this directory.
 * [`dist`](dist/): pre-built JavaScript files ready for production use.
-* [`documentation`](documentation/)`: in both English and French. The examples are generated on the fly by embedding jsRealB in the page.
-    * [`user.html`](https://lapalme.github.io/documentation/user.html): HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
-    * ``style-new.css``: style sheet
-    * ``user-infos.js``: definitions of variables containing the examples
-    * ``user-new.js``  : JavaScript helper script.
-* [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB. [Try it here](https://lapalme.github.io/IDE/index.html).
-* [jsRealB **Tutorial**](https://lapalme.github.io/Tutorial/tutorial.html)
+* [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding jsRealB in the page. [*Consult the documentation*](https://lapalme.github.io/documentation/user.html)
+    * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
+    * `style.css`: style sheet
+    * `user-infos.js`: definitions of variables containing the examples
+    * `user.js`  : JavaScript helper script.
+* [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB to easily get the realization of an expression and to consult the lexicon, the conjugation and declination tables. [*Try the IDE*](https://lapalme.github.io/IDE/index.html).
+* [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](https://lapalme.github.io/Tutorial/tutorial.html)
 
 ## Demos
+### Simple examples on a single sentence
+* Show the use of loops in Javascript to create repetitive texts
+    * English: [99 bottles of beer](demos/99BottlesOfBeer). [*Execute*](https://lapalme.github.io/demos/99BottlesOfBeer/index.html)
+    * French: [1 km à pied](demos/KilometresAPied). [Execute](https://lapalme.github.io/demos/KilometresAPied/index.html)
+* Tests of specific features
+    * French and English sentences modified with time, number and conjugation: [Date generation](demos/date) [*Execute*](https://lapalme.github.io/demos/date/index.html)
+    * Type a French or English sentence that will be realized with all possible sentence modifyers [Sentence variants](demos/VariantesDePhrases) [*Execute*](https://lapalme.github.io/demos/VariantesDePhrases/index.html)
+    * French or English conjugation and declension of a word [Conjugation and declension](demos/inflection) [*Execute*](https://lapalme.github.io/demos/inflection/index.html)
+    * Show elision in contrived French and English sentences even across HTML tags that are displayed on purpose [elision](demos/elision) [*Execute*](https://lapalme.github.io/demos/elision/index.html)
+* `Node.js` module
+    * a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE) [*lemmatize.js*](demos/lemmatize/lemmatize.js)
+* User interface to create a simple sentence with options. The system shows the jsRealB expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
+    * [English](demos/randomGeneration/english.js) [*Execute*](https://lapalme.github.io/demos/randomGeneration/english.html)
+    * [French](demos/randomGeneration/french.js) [*Execute*](https://lapalme.github.io/demos/randomGeneration/french.html)
 
-* [Itinerary description in an *optimistic* Montréal Métro network](https://lapalme.github.io/Tutorial/metro.html)
-* *Data to text* application for describing the building of a house [English](https://lapalme.github.io/demos/Data2Text/building.html) [French](https://lapalme.github.io/demos/Data2Text/batiment.html)
-* [*Lemmatizer*](https://github.com/rali-udem/jsRealB/blob/master/demos/lemmatize/lemmatize.js): a command-line interface written `node.js` program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE)
-* [Random English text generation](https://lapalme.github.io/demos/randomGeneration/english.html) [[JavaScript code](demos/randomGeneration/english.js)]
-* [Random French text generation](https://lapalme.github.io/demos/randomGeneration/french.html) [[JavaScript code](demos/randomGeneration/french.js)]
-* [Conjugation and declension](https://lapalme.github.io/demos/inflection/index.html) [[JavaScript code](demos/inflection/inflection.js)] 
-* [99 bottles of beer: a repetitive text in English](https://lapalme.github.io/demos/99BottlesOfBeer/index.html)
-* [1 km à pied: a repetitive text in French](https://lapalme.github.io/demos/KilometresAPied/index.html)
-* [Date generation](https://lapalme.github.io/demos/date/index.html)
-* [Elision: tests for the French elision module](https://lapalme.github.io/demos/elision/index.html)
-* [Description (in French) of a list of events and associated informations given as a json file](https://lapalme.github.io/demos/Evenements/index.html)
-* [Sentence variants by trying all types of modifiers](https://lapalme.github.io/demos/VariantesDePhrases/index.html)
-* [Exercises in style à la Raymond Queneau](https://lapalme.github.io/demos/ExercicesDeStyle/index.html) [[JavaScript code](demos/ExercicesDeStyle/ExerciceDeStyle.js)] [[The Exercises on Wikipedia](https://en.wikipedia.org/wiki/Exercises_in_Style)]
+### Text realization
+* Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](https://lapalme.github.io/demos/ExercicesDeStyle/index.html)
+
+###  Data to Text applications
+* **Description (in French) of a list of events** and associated informations given as a json file [Événements](demos/Evenements) [Execute](https://lapalme.github.io/demos/Evenements/index.html)
+* **Description of list of steps for the building of a house**, given information about tasks, the duration and the precedence relations between them. The system first computes the critical path to find the start and end times of each task. It then creates a graphic for displaying the PERT diagram and an accompanying text to explain the steps to follow. It is possible to interactively change the start date and to explore the graphic with the mouse which also uses jsRealB to generate the text of the tooltips. 
+    * [English](demos/Data2Text/building.html) [*Execute*](https://lapalme.github.io/demos/Data2Text/building.html)
+    * [French](demos/Data2Text/batiment.html) [*Execute*](https://lapalme.github.io/demos/Data2Text/batiment.html)
+* **Itinerary description in an *optimistic* Montréal Métro network**. The system shows an interactive map of the Montréal Métro station with a new line. When a user clicks two stations, the systems realizes a text describing the itinerary to go from the first station to the second. The langage of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](https://lapalme.github.io/Tutorial/metro.html)
 
 
 ## Authors
 jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the work of:
 
 1. [Francis Gauthier](http://www-etud.iro.umontreal.ca/~gauthif) as part of his summer internship at RALI in 2016; 
-2. [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal in 2015;   
-3. [Nicolas Daoust](mailto:n@daou.st) built the JSreal realizer (French only).
+2. [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal in 2015;
+3. [Nicolas Daoust](mailto:n@daou.st) developed the original concept in the JSreal realizer for French only in 2013.
 
 For more information, contact [Guy Lapalme](http://rali.iro.umontreal.ca/lapalme).      
