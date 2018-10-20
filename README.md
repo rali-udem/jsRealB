@@ -50,7 +50,9 @@ The documentation can be accessed [here](https://lapalme.github.io/documentation
 ###  Data to Text applications
 * **Description (in French) of a list of events** and associated informations given as a json file [Événements](demos/Evenements) [Execute](https://lapalme.github.io/demos/Evenements/index.html)
 * **Description of list of steps for the building of a house**, given information about tasks, the duration and the precedence relations between them. 
+
     ![Screen copy of the application](demos/Data2Text/building-small.jpg "Construction of a building")
+    
   The system first computes the critical path to find the start and end times of each task. It then creates a graphic for displaying the PERT diagram and an accompanying text to explain the steps to follow. It is possible to interactively change the start date and to explore the graphic with the mouse which also uses jsRealB to generate the text of the tooltips. 
     * [English](demos/Data2Text/building.html) [*Execute*](https://lapalme.github.io/demos/Data2Text/building.html)
     * [French](demos/Data2Text/batiment.html) [*Execute*](https://lapalme.github.io/demos/Data2Text/batiment.html)
