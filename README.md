@@ -56,7 +56,11 @@ The documentation can be accessed [here](https://lapalme.github.io/documentation
   The system first computes the critical path to find the start and end times of each task. It then creates a graphic for displaying the PERT diagram and an accompanying text to explain the steps to follow. It is possible to interactively change the start date and to explore the graphic with the mouse which also uses jsRealB to generate the text of the tooltips. 
     * [English](demos/Data2Text/building.html) [*Execute*](https://lapalme.github.io/demos/Data2Text/building.html)
     * [French](demos/Data2Text/batiment.html) [*Execute*](https://lapalme.github.io/demos/Data2Text/batiment.html)
-* **Itinerary description in an *optimistic* Montréal Métro network**. The system shows an interactive map of the Montréal Métro station with a new line. When a user clicks two stations, the systems realizes a text describing the itinerary to go from the first station to the second. The langage of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](https://lapalme.github.io/Tutorial/metro.html)
+* **Itinerary description in an *optimistic* Montréal Métro network**. The system shows an interactive map of the Montréal Métro station with a new line. When a user clicks two stations, the systems realizes a text describing the itinerary to go from the first station to the second. 
+
+    ![Screen copy of the application](Tutorial/metro.jpg "Finding a path in the metro")
+    
+    The langage of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](https://lapalme.github.io/Tutorial/metro.html)
 
 
 ## Authors
