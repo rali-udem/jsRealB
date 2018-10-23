@@ -12,7 +12,7 @@
     <script src="tasks-fr.js"></script>
     <script src="textGen-fr.js"></script>
     <script src="graphique.js"></script>
-    <script src="batiment.js"></script>
+    <script src="building.js"></script>
     <link rel="stylesheet" href="building.css">
     <title>Construction d'un bâtiment</title>
 </head>
@@ -29,7 +29,7 @@
     </p>
     <span id="etapes"></span>
     <span id="graphique"></span>
-    <p>Le système <a href="https://fr.wikipedia.org/wiki/Chemin_critique" title="Chemin critique — Wikipédia">calcule le chemin critique</a> et ainsi que les dates les plus tôt et le plus tard auxquelles ces étapes peuvent débuter afin de ne pas retarder le projet. Il produit ensuite un texte (réalisé par <code>jsRealB</code>) décrivant ces étapes. En passant la souris sur une tâche dans le graphique, apparait une infobulle donnant des informations sur la tâche, les tâches immédiatement dépendantes et préalables sont indiquées par une bordure rouge. La tâche correspondante est aussi indiquée en bleu dans le texte.</p>
+    <p>Le système <a href="https://fr.wikipedia.org/wiki/Chemin_critique" title="Chemin critique — Wikipédia">calcule le chemin critique</a> et ainsi que les dates les plus tôt et le plus tard auxquelles ces étapes peuvent débuter afin de ne pas retarder le projet. Il produit ensuite un texte (réalisé par <code>jsRealB</code>) décrivant ces étapes. En passant la souris sur une tâche dans le graphique, apparait une infobulle donnant des informations sur la tâche surlignée en jaune et indiquée en bleu dans le texte et dans le tableau. Les tâches immédiatement préalables et dépendantes sont indiquées par une bordure rouge.</p>
     <hr/>
     <h2>Texte décrivant la suite <em>optimale</em> des travaux à partir du <span id="dateDebut"></span></h2>
     <div id="text"></div>

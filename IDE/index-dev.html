@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<!-- the real thing 
+        <script src="../dist/jsRealB-dmefr.min.js"></script> -->
+<!-- to ease debugging we load each file separately -->
+        <script src="../build/core.js"></script>
+        <script src="../build/rule-en.js"></script>
+        <script src="../build/lexicon-dme.js"></script>
+        <script src="../build/rule-fr.js"></script>
+        <script src="../build/lexicon-fr.js"></script>
+        <script src="../build/addLexicon-dme.js"></script>
+        <script src="../build/addLexicon-fr.js"></script>
+        <!-- chargement de ACE l'éditeur javascript -->
+        <script src="jsrealb-ide/ace-src-noconflict/ace.js"></script>
+        <!-- chargement spécifique -->
+        <!-- <script src="jsrealb-ide/js/jsTokenizer.js"></script> -->
+        <script src="jsrealb-ide/js/jsNode.js"></script>
+        <script src="jsrealb-ide/js/JSrealB-IDE.js"></script>
+        <script src="jsrealb-ide/js/lemmatize.js"></script>
+        <link rel="stylesheet" href="jsrealb-ide/css/JSrealIDE.css" type="text/css" media="screen"/>
+        <title>Environnement de programmation jsRealB</title> 
+    </head>
+    <body>
+        <h1>jsRealB : <span lang="fr">construction d'une expression</span><span lang="en">building an expression</span>
+            <input type="button" name="toFr" value="français" id="toFr" lang="en"/>
+            <input type="button" name="toEn" value="English" id="toEn" lang="fr"/>
+        </h1>
+        <div id="container">
+            <div id="gauche">
+                <span lang="en"><a href="jsrealb-ide/help.html" target="_blank">Help about this page</a></span>
+                <span lang="fr"><a href="jsrealb-ide/aide.html" target="_blank">Aide sur l'utilisation de cette page</a></span>
+                <br/>
+                
+                    <a href="../documentation/user.html?lang=fr" target="_blank" lang="fr">Documentation de jsRealB</a>
+                    <a href="../documentation/user.html?lang=en" target="_blank" lang="en">jsRealB Documentation</a>
+                </a>
+            </div>
+            <div id="centre">
+                <fieldset>
+                    <legend><span lang="fr">Réalisation</span><span lang="en">realisation</span></legend>
+                    <input type="button" id="french-realization-fr" value="en français" lang="fr"/>
+                    <input type="button" id="english-realization-fr" value="en anglais" lang="fr"/>
+                    <input type="button" id="french-realization-en" value="in French" lang="en"/>
+                    <input type="button" id="english-realization-en" value="in English" lang="en"/>
+                </fieldset>
+            </div>
+            <div id="droite">
+                <span lang="fr">Cliquer sur un noeud pour voir l'état de sa réalisation</span>
+                <span lang="en">Click on a node to see the state of its realisation</span>
+            </div>
+        </div>
+        <div id="entree"></div>
+        <div id="sepH"></div>
+        <div id="sortie">
+            <div id="outtexte"></div>
+            <div id="canvasContainer">
+                <canvas id="canvas" height="300" width="2000"></canvas>
+            </div>
+            <div id="sepV"></div>
+            <div id="info">
+                <h2><span lang="fr">Interrogation des ressources</span>
+                    <span lang="en">Resource query</span>
+                </h2>
+                    <select name="langue" id="langue" size="1">
+                        <option value="fr">français</option>
+                        <option value="en">English</option>
+                    </select>
+                    <select name="typeInterrogation" id="typeInterrogation" size="1">
+                        <option value="dico">dictionnaire</option>
+                        <option value="conjugation-no">conjugaison-no</option>
+                        <option value="conjugation-term">conjugaison-terminaison</option>
+                        <option value="declension-no">déclinaison-no</option>
+                        <option value="declension-term">déclinaison-terminaison</option>
+                        <option value="lemmatization">lemmatisation</option>
+                    </select>
+                    <input type="text" name="interrogation" size="30" value="" placeholder="regex" id="interrogation">
+                    <div id="resultatInterrogation"></div>
+            </div>
+            <div id="realisation"></div>
+        </div>
+    </body>
+</html>

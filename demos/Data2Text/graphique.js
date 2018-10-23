@@ -65,8 +65,9 @@ function traceTasks(data,width,height){
     d3.selectAll("g.task")
           .on("mouseover",function(d){
               svg.select(".tooltip").remove();
-              d3.selectAll("div#text span.current").classed("current",false);
+              d3.selectAll("div#text span.current, td.current").classed("current",false);
               svg.selectAll("g.task rect").attr("stroke","black");
+              d.rect.attr("fill","yellow");
               var g=createToolTip(svg,d);
               var tooltipLength=parseFloat(g.select("rect").attr("width"));
               var x = x_scale(d_nb(startDate,d.let))+3;
@@ -81,10 +82,12 @@ function traceTasks(data,width,height){
                   tasks[d.succ[i]].rect.attr("stroke","red").attr("stroke-width",2)
               }
               d3.select("span#T"+d.id).classed("current",true);
+              d3.select("td#T_"+d.id).classed("current",true);
           })
           .on("mouseout",function(d){
               d3.select("g.tooltip").style("opacity",0);
-              d3.selectAll("div#text span.current").classed("current",false);
+              d3.selectAll("div#text span.current, td.current").classed("current",false);
+              d.rect.attr("fill",isCritical(d)?"#39F":"#CFC");
               for (var i = 0; i < d.pred.length; i++) {
                   tasks[d.pred[i]].rect.attr("stroke","black").attr("stroke-width",1);
               }

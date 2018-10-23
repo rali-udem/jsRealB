@@ -16,7 +16,7 @@
  * Université de Montréal
  * 2016
  * 
- * quelques patchs par Guy Lapalme en juillet 2017 indiquées par //GL
+ * Guy Lapalme à partir de juillet 2017 
  * ajout de l'expression des nombres ordinaux (novembre 2017) en calquant ce qui est fait pour .nat
  * ajout du constructeur Q ("quoted text") pour permettre des options sur des chaines
  * changement complet du module d'élision (français et anglais)

@@ -54,12 +54,12 @@ if (typeof module !== 'undefined' && module.exports) { // as a node module
     $(document).ready(function() {
         $("#startDate").change(traceAndRealize);
         $table=$("<table/>")
-                    .append("<tr><th>Id</th><th>Desription</th><th># days</th><th>Precedes</th></tr>");
+                    .append("<tr><th>Id</th><th style='width:300px'>Description</th><th># days</th><th>Precedes</th></tr>");
         Object.values(tasks).forEach(
             function (t){
                 $tr=$("<tr></tr>")
                         .append($("<td/>").text(t.id))
-                        .append($("<td/>").text(t.np))
+                        .append($("<td id='T_"+t.id+"'/>").text(t.np))
                         .append($("<td/>").text(t.duration))
                         .append($("<td/>").text(t.succ))
                 $table.append($tr);

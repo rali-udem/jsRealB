@@ -12,7 +12,7 @@
     <script src="tasks-en.js"></script>
     <script src="textGen-en.js"></script>
     <script src="graphique.js"></script>
-    <script src="batiment.js"></script>
+    <script src="building.js"></script>
     <link rel="stylesheet" href="building.css">
     <title>Construction of a building</title>
 </head>
@@ -27,7 +27,7 @@
     <p>The table on the left show the input data: for each task are specified: an id, its length in days and tasks that depend on it. The starting date of the project can be changed here: <input type="date" id="startDate" value="2018-07-22" />. .</p>
     <span id="etapes"></span>
     <span id="graphique"></span>
-    <p>The system computes the critical path and the earliest and latest dates to which the tasks can take place so that the final project is not delayed. It produces then a text (realized by <code>jsRealB</code>). Hovering the mouse on a task in the graphic displays a tooltip showing informations about this task, the immediately preceding and following task are displayed with a red border and the corresponding task is displayed in blue in the generated text.</p>
+    <p>The system computes the critical path and the earliest and latest dates to which the tasks can take place so that the final project is not delayed. It produces then a text (realized by <code>jsRealB</code>). Hovering the mouse on a task in the graphic highlights it in yellow and displays a tooltip showing informations about this task which is displayed in blue in the generated text and in the table. The immediately preceding and following task are displayed with a red border.</p>
     <hr/>
     <h2>Text describing an <em>optimal</em> sequence of tasks starting from <span id="dateDebut"></span></h2>
     <div id="text"></div>
