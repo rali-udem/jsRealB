@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>
+            jsRealB in use
+        </title>
+    </head>
+    <body>
+        <h1 id="jsrealb_in_use">
+            jsRealB in use
+        </h1>
+        <p>
+            <a href="LISEZMOI.html"><em>Version française</em></a>
+        </p>
+        <ul>
+            <li>
+                <a href="http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html"><strong>Tutorial</strong></a>
+            </li>
+            <li>
+                <a href="http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html"><strong>Documentation</strong></a> in both English and French.
+            </li>
+            <li>
+                <a href="http://rali.iro.umontreal.ca/JSrealB/current/IDE/index.html"><strong>Integrated Development Environment</strong></a>.
+            </li>
+        </ul>
+        <h2 id="demos">
+            Demos
+        </h2>
+        <h3 id="simple_examples_on_a_single_sentence">
+            Simple examples on a single sentence
+        </h3>
+        <ul>
+            <li>Use of loops in Javascript to create repetitive texts
+                <ul>
+                    <li>English: <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/99BottlesOfBeer/index.html">99 bottles of beer</a>
+                    </li>
+                    <li>French: <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/KilometresAPied/index.html">1 km à pied</a>
+                    </li>
+                </ul>
+            </li>
+            <li>Tests of specific features
+                <ul>
+                    <li>French and English sentences modified with time, number and conjugation: <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/date/index.html">Date generation</a>
+                    </li>
+                    <li>Type a French or English sentence that will be realized with all possible sentence modifyers <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html"><em>Execute</em></a>
+                    </li>
+                    <li>French or English conjugation and declension of a word <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/inflection/index.html">Conjugation and declension</a>
+                    </li>
+                    <li>Show elision in contrived French and English sentences even across HTML tags that are displayed on purpose <a href="demos/elision">elision</a> <a href="build/elisionTests.js">sentences to elide</a> <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/elision/index.html"><em>Execute</em></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <code>Node.js</code> module
+                <ul>
+                    <li>a command-line interface written <code>node.js</code> program that given a word finds a jsRealB expression to realize it (this capability is now included in the IDE) <a href="demos/lemmatize/lemmatize.js"><em>lemmatize.js</em></a>
+                    </li>
+                </ul>
+            </li>
+            <li>User interface to create a simple sentence with options. The system shows the jsRealB expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
+                <ul>
+                    <li>
+                        <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html"><em>Execute in English</em></a> <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html"><em>Execute in French</em></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3 id="text_realization">
+            Text realization
+        </h3>
+        <ul>
+            <li>Create an <a href="https://en.wikipedia.org/wiki/Exercises_in_Style">Exercise in Style</a> which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html">Exercises in style</a>
+            </li>
+        </ul>
+        <h3 id="data_to_text_applications">
+            Data to Text applications
+        </h3>
+        <ul>
+            <li>
+                <strong>Description (in French) of a list of events</strong> and associated informations given as a json file <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Evenements/index.html">Événements</a>
+            </li>
+            <li>
+                <p>
+                    <strong>Description of list of steps for the building of a house</strong>, given information about tasks, the duration and the precedence relations between them.
+                </p>
+                <p>
+                    <img src="demos/Data2Text/building-small.jpg" alt="Screen copy of the application" title="Construction of a building">
+                </p>
+                <p>
+                    The system first computes the critical path to find the start and end times of each task. It then creates a graphic for displaying the PERT diagram and an accompanying text to explain the steps to follow. It is possible to interactively change the start date and to explore the graphic with the mouse which also uses jsRealB to generate the text of the tooltips.
+                </p>
+                <ul>
+                    <li>
+                        <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Data2Text/building.html">English</a>
+                    </li>
+                    <li>
+                        <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Data2Text/batiment.html">French</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p>
+                    <strong>Itinerary description in an <em>optimistic</em> Montréal Métro network</strong>. The system shows an interactive map of the Montréal Métro station with a new line. When a user clicks two stations, the systems realizes a text describing the itinerary to go from the first station to the second.
+                </p>
+                <p>
+                    <img src="Tutorial/metro.jpg" alt="Screen copy of the application" title="Finding a path in the metro">
+                </p>
+                <p>
+                    The langage of the web page and of the realization can be changed interactively by clicking in the top right of the page. <a href="http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/metro.html">Metro</a>
+                </p>
+            </li>
+        </ul>
+    </body>
+</html>
