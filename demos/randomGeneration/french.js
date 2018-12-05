@@ -92,7 +92,7 @@ function changeTemps(){
 }
 
 function evaluer(){
-    $("#realisation").value=eval($("#jsreal").val()+".real()");
+    $("#realisation").val(eval($("#jsreal").val()).toString());
 }
 
 function realiser(){
