@@ -22,9 +22,13 @@ http.createServer(function (request, response) {
    var lang = query.lang
    var exp = query.exp
    if (lang=="en"){
-       jsExp=eval(exp);
-       var resp=jsExp.toString();
-       response.end(resp+"\n");
+       try{
+           jsExp=eval(exp);
+           var resp=jsExp.toString();
+           response.end(resp+"\n");
+       } catch (e){
+           response.end(e+"\n")
+       }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')
    }

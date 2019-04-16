@@ -4319,7 +4319,7 @@ JSrealB.Exception = (function() {
         if(info2 !== undefined) msg += ", " + info2;
         
         JSrealB.Logger.warning(msg);
-        if (ideWarning!==undefined){// to display warnings in the IDE
+        if (typeof ideWarning !== 'undefined'){// to display warnings in the IDE
             ideWarning+=msg+"\n"
         }
         return msg;
