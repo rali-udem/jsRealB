@@ -809,7 +809,8 @@ var getSubject = function(sObject){
         var SubjPos = -1;
         for(var i = 0; i < imax; i++){
             if(elemList[i].category == JSrealB.Config.get("feature.category.phrase.noun")
-                    || (elemList[i].category == JSrealB.Config.get("feature.category.word.pronoun") && elemList[i].unit == JSrealB.Config.get("rule.usePronoun.S"))){
+                    || (elemList[i].category == JSrealB.Config.get("feature.category.word.pronoun") 
+                       && elemList[i].unit == JSrealB.Config.get("rule.usePronoun.S"))){
                 SubjPos = i;
             }
             if(elemList[i].category == JSrealB.Config.get("feature.category.phrase.verb")){
@@ -847,10 +848,13 @@ JSrealE.prototype.modifyStructure = function() {
     var imax = elemList.length;
     //console.log(this)
 
-    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2){
+
+    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2 &&
+       !this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas")){
         // trier les compléments d'un VP en ordre de longueur de réalisation...
-        //  à moins qu'il ne contienne un Q, P ou C qui devraient demeurer au même endroit
-        var shouldSort=false;
+        //  si la phrase n'est pas au passif   
+        //  et qu'elle ne contienne un Q, P ou C qui devraient demeurer au même endroit
+        var shouldSort=true; // activer le tri...
         var realLengths=[];
         for(var i = 0; i < imax; i++){
             var el=elemList[i];
@@ -889,12 +893,19 @@ JSrealE.prototype.modifyStructure = function() {
             
             //get CD
             var CDpos = getGroup(this, JSrealB.Config.get("feature.category.phrase.noun"));
+            if (CDpos == -1) { // try to find a pronoun as CD
+                CDpos = getGroup(this, JSrealB.Config.get("feature.category.word.pronoun"));
+            }
             var VPos = getGroup(this, JSrealB.Config.get("feature.category.word.verb"))
 
             if(subjectPos!= -1 && CDpos != -1){
                 var suj= parent.elements[subjectPos];
-                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) suj.unit = JSrealB.Config.get("rule.usePronoun."+JSrealB.Config.get("feature.category.word.pronoun")); 
+                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
+                    suj.unit = JSrealB.Config.get("rule.usePronoun.Pro"); 
                 var cd = elemList[CDpos];
+                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun"))
+                    cd.unit = JSrealB.Config.get("rule.usePronoun.S"); 
+                
                 //inversion
                 parent.elements[subjectPos] = cd;
                 elemList[CDpos] = suj;
@@ -1528,7 +1539,7 @@ var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
 uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
 acronymRE=/^[A-Z]+$/
-punctuationRE=/[,:\.\[\]\(\)\?]/
+punctuationRE=/[,:\.\[\]\(\)\?"']/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
