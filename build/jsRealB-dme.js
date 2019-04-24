@@ -809,7 +809,8 @@ var getSubject = function(sObject){
         var SubjPos = -1;
         for(var i = 0; i < imax; i++){
             if(elemList[i].category == JSrealB.Config.get("feature.category.phrase.noun")
-                    || (elemList[i].category == JSrealB.Config.get("feature.category.word.pronoun") && elemList[i].unit == JSrealB.Config.get("rule.usePronoun.S"))){
+                    || (elemList[i].category == JSrealB.Config.get("feature.category.word.pronoun") 
+                       && elemList[i].unit == JSrealB.Config.get("rule.usePronoun.S"))){
                 SubjPos = i;
             }
             if(elemList[i].category == JSrealB.Config.get("feature.category.phrase.verb")){
@@ -840,17 +841,26 @@ var getGroup = function(sObject,groupAlias){
 
 JSrealE.prototype.modifyStructure = function() {
     var qpc=[JSrealB.Config.get("feature.category.quoted"),
+             JSrealB.Config.get("feature.category.word.adverb"),
              JSrealB.Config.get("feature.category.word.preposition"),
-             JSrealB.Config.get("feature.category.word.conjunction")]
+             JSrealB.Config.get("feature.category.word.conjunction"),
+             JSrealB.Config.get("feature.category.phrase.adverb"),
+             JSrealB.Config.get("feature.category.phrase.prepositional"),
+             JSrealB.Config.get("feature.category.phrase.propositional"),
+             JSrealB.Config.get("feature.category.phrase.coordinated"),
+             JSrealB.Config.get("feature.category.phrase.sentence")]
     var elemList = this.elements;
     var change = false;
     var imax = elemList.length;
     //console.log(this)
 
-    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2){
+
         // trier les compléments d'un VP en ordre de longueur de réalisation...
-        //  à moins qu'il ne contienne un Q, P ou C qui devraient demeurer au même endroit
-        var shouldSort=false;
+    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2 &&
+        //  si la phrase n'est pas au passif   
+       !this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas")){
+        //  et qu'elle ne contienne un Q, P ou C ou des phrases qui devraient demeurer au même endroit
+        var shouldSort=true; // activer le tri...
         var realLengths=[];
         for(var i = 0; i < imax; i++){
             var el=elemList[i];
@@ -859,8 +869,9 @@ JSrealE.prototype.modifyStructure = function() {
                 break;
             }
             realLengths[i]={ind:i,
-                val:(el.category==JSrealB.Config.get("feature.category.word.verb"))?// keep the verb at the front
-                     0:(typeof(el)=="string"?el.length:el.realization.length)};
+                val:(el.category==JSrealB.Config.get("feature.category.word.verb"))
+                  ? 0 // length set to 0 to keep the verb at the front
+                  :(typeof(el)=="string"?el.length:el.realization.length)};
         };
         if (shouldSort) {
             var newElemList=[];
@@ -889,12 +900,19 @@ JSrealE.prototype.modifyStructure = function() {
             
             //get CD
             var CDpos = getGroup(this, JSrealB.Config.get("feature.category.phrase.noun"));
+            if (CDpos == -1) { // try to find a pronoun as CD
+                CDpos = getGroup(this, JSrealB.Config.get("feature.category.word.pronoun"));
+            }
             var VPos = getGroup(this, JSrealB.Config.get("feature.category.word.verb"))
 
             if(subjectPos!= -1 && CDpos != -1){
                 var suj= parent.elements[subjectPos];
-                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) suj.unit = JSrealB.Config.get("rule.usePronoun."+JSrealB.Config.get("feature.category.word.pronoun")); 
+                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
+                    suj.unit = JSrealB.Config.get("rule.usePronoun.Pro"); 
                 var cd = elemList[CDpos];
+                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun"))
+                    cd.unit = JSrealB.Config.get("rule.usePronoun.S"); 
+                
                 //inversion
                 parent.elements[subjectPos] = cd;
                 elemList[CDpos] = suj;
@@ -907,7 +925,8 @@ JSrealE.prototype.modifyStructure = function() {
             }
             else if(subjectPos != -1){
                 var suj= parent.elements[subjectPos];
-                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) suj.unit = JSrealB.Config.get("rule.usePronoun."+JSrealB.Config.get("feature.category.word.pronoun"));
+                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
+                    suj.unit = JSrealB.Config.get("rule.usePronoun.Pro");
                 this.addNewElement(VPos+1,parent.elements[subjectPos]);
                 parent.deleteElement(subjectPos);
 
@@ -927,6 +946,15 @@ JSrealE.prototype.modifyStructure = function() {
 
                 parent.resetProp(true);
                 change = true;
+            } else { // CDpos==-1 && subjectPos==-1 => add "it" as subject... because the verb will be put in passive
+                // but do this for only top level 
+                if (parent.parent==null){
+                    var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
+                    parent.addNewElement(VPpos,new Pro("I").pe(3).n("s").g("n"));
+                    parent.resetProp(true);                
+                    verbe.setInitProp("vOpt.pas",true);
+                    change = true;
+                }
             }
         }
     }
@@ -1528,7 +1556,7 @@ var hAnRE=/^(heir|herb|honest|honou?r|hour)/i;
 //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
 uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
 acronymRE=/^[A-Z]+$/
-punctuationRE=/[,:\.\[\]\(\)\?]/
+punctuationRE=/[,:\.\[\]\(\)\?"']/
 
 // regex for matching (ouch!!! it is quite subtle...) 
 //     1-possible non-word chars and optional html tags
@@ -2677,7 +2705,7 @@ JSrealB.Module.Declension = (function() {
             //quelques mots français du lexique peuvent s'accorder dans les deux genres.
             feature.g = JSrealB.Config.get("feature.gender.masculine");
         }
-
+        if (typeof feature.pe == "string") feature.pe=+feature.pe; // make sure pe is an integer... to match in declension tables
         var declension = getValueByFeature(declensionTable.declension, feature);
                 
 
@@ -46673,6 +46701,7 @@ var lexiconEn = //========== lexicon-dme.js
 loadEn(); // make sure additions are to the English lexicon
 // ajouts au lexique de JSrealB (version dme)
 addToLexicon("tsunami",{"N":{"tab":["n1"]}});
+addToLexicon({"theater":{"N":{"tab":["n1"]}}}); // same as theatre
 
 // ajouts pour les textes de biologie (fréquence plus de 50 dans amr-ISI/amr-release-{dev|test|training}.txt)
 addToLexicon("mutate",{"V":{"tab":"v3"}});        // 1408
