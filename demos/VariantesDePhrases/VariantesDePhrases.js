@@ -2,22 +2,21 @@ var struct;
 
 var $structEn,$structFr,s,$langue,$generer,$tab;
 
-var types=["exc","neg","pas","prog","int"];
-var pos={"int":["yon","wos","wod","woi","wad","whe","whn","how"]}
+var allTypes=["neg","pas","prog","perf","int","mod"];
+var types; // change selon la langue
+var pos={"int":["yon","wos","wod","wad","woi","whe","why","whn","how","muc"],
+         "mod":["poss","perm","nece","obli","will"]}
 var nb;
 
 function generer(s,$tab,obj){
     // console.log("generer(%o)",obj);
-    $tab.append(
-        "<tr>"+
-            "<td>"+(obj.exc?obj.exc:"")+"</td>"+
-            "<td>"+(obj.neg?obj.neg:"")+"</td>"+
-            "<td>"+(obj.pas?obj.pas:"")+"</td>"+
-            "<td>"+(obj.prog?obj.prog:"")+"</td>"+
-            "<td>"+(obj.int?obj.int:"")+"</td>"+
-            "<td>"+s.clone().typ({exc:obj.exc,neg:obj.neg,pas:obj.pas,prog:obj.prog,int:obj.int})+"</td>"
-        +"</tr>"
-    )
+    var $tr=$("<tr/>");
+    for (var i = 0; i < types.length; i++) {
+        var v=obj[types[i]];
+        $tr.append(v?("<td>"+v+"</td>"):"<td/>");
+    }
+    $tr.append("<td>"+s.clone().typ(obj)+"</td>");
+    $tab.append($tr);
     nb++;
 }
 
@@ -46,6 +45,9 @@ function genererStruct(struct,lang){
     $("#sortie,#nombre").empty();
     var $tab=$("<table/>");
     $("#sortie").append($tab);
+    types=allTypes.slice(); // copier tous les types
+    if (lang=="fr")// pas de "perf" en français, l'enlever de types
+        types.splice(types.indexOf("perf"),1)
     // générer le titre du tableau
     var $tr=$("<tr/>");
     for (var i = 0; i < types.length; i++) {

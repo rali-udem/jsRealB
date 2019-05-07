@@ -424,6 +424,8 @@ function setLang(newLang){
     $("#typeInterrogation option").each(function (i){
         $(this).text((lang=="fr"?interrogationMenuFr:interrogationMenuEn)[i])
     });
+    // mettre la langue par défaut à la langue courante
+    $("#langue option[value="+newLang+"]").prop("selected","selected")
 }
 
     
@@ -512,7 +514,7 @@ $(document).ready(function() {
         dessiner(editor.getValue());
     });
     $canvas.mousedown(afficherRealisation);
-    $canvas.mouseup(cacherRealisation);
+    $canvasContainer.mouseup(cacherRealisation);
     $sepH.mousedown(debutDeplacerSep);
     $sepV.mousedown(debutDeplacerSep);
     $(window).mouseup(finDeplacerSep);
