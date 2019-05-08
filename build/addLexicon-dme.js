@@ -2,6 +2,7 @@
 loadEn(); // make sure additions are to the English lexicon
 // ajouts au lexique de JSrealB (version dme)
 addToLexicon("tsunami",{"N":{"tab":["n1"]}});
+addToLexicon({"theater":{"N":{"tab":["n1"]}}}); // same as theatre
 
 // ajouts pour les textes de biologie (fréquence plus de 50 dans amr-ISI/amr-release-{dev|test|training}.txt)
 addToLexicon("mutate",{"V":{"tab":"v3"}});        // 1408

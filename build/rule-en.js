@@ -805,7 +805,8 @@ var ruleEn = //========== rule-en.js
             "ending": "will",
             "t": {
                 "b": "will",
-                "ps": "'d"
+                "p": "will",
+                "ps": "would"
             }
         },
         "v82": {
@@ -1570,6 +1571,7 @@ var ruleEn = //========== rule-en.js
             "ending": "all",
             "t": {
                 "b": "all",
+                "p": "all",
                 "ps": "ould"
             }
         },
@@ -1604,9 +1606,11 @@ var ruleEn = //========== rule-en.js
             }
         },
         "v166": {
-            "ending": "",
+            "ending": "must",
             "t": {
-                "b": ""
+                "b": "",
+                "ps":"must",
+                "p":"must"
             }
         },
         "v167": {
@@ -1617,10 +1621,11 @@ var ruleEn = //========== rule-en.js
             }
         },
         "v168": {
-            "ending": "",
+            "ending": "ought",
             "t": {
                 "b": "",
-                "p": ["",""," not to","","",""]
+                "p": "ought",
+                "ps":"ought"
             }
         },
         "v169": {
@@ -3051,6 +3056,11 @@ var ruleEn = //========== rule-en.js
         },
         "future": {
             "aux": "will"
-        }
+        },
+        "possibility": {"aux":"can"},
+        "permission":  {"aux":"may"},
+        "necessity":   {"aux":"shall"},
+        "willingness": {"aux":"will"},
+        "obligation":  {"aux":"must"}
     }
 }

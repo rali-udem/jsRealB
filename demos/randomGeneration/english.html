@@ -227,8 +227,8 @@
             <td><fieldset>
                 <legend>Sentence type</legend>
                 <form>
-                    <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative</input>
-                    <input type="checkbox" id="queForm" name="Form" value="int">Interrogative</input>
+                    <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative
+                    <input type="checkbox" id="queForm" name="Form" value="int">Interrogative
                     <select name="intSpec" id="intSpec" onchange="" size="1">
                         <option value="base"></option>
                         <option value="yon">Yes/no</option>
@@ -251,12 +251,14 @@
         <tr>
             <td><label for="realisation">Realization </label></td>
             <td><textarea rows="2" cols="80" id="realisation"></textarea></td>
-            <td><input type="button" name="realiser" value="Realize" id="realiser"><br></td>
+            <td><input type="button" name="realiser" value="Realize" id="realiser"
+                    title="Create a jsReal structure from the choices above and realize it in the box on the left"><br></td>
         </tr> 
         <tr>
             <td><label for="jsreal">jsRealB code</label></td>
             <td><textarea rows="4" cols="80" id="jsreal"></textarea></td>
-            <td><input type="button" name="evaluer" value="Evaluate" id="evaluer"></td>
+            <td><input type="button" name="evaluer" value="Evaluate" id="evaluer"
+                    title="Evaluate the jsRealB structure in the box on the left and show its realisation in the box above"></td>
         </tr>
     </tbody></table>
     <p>This demo is an adaptation of the <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/snlgbil/snlgEnFr_francais.html" title="SimpleNLG-EnFr">SimpleNLG-ENfr</a> demo written by <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/" title="Fiche d'information de Pierre-Luc Vaudry">Pierre-Luc Vaudry</a></p>

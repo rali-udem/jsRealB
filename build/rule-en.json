@@ -804,7 +804,8 @@
             "ending": "will",
             "t": {
                 "b": "will",
-                "ps": "'d"
+                "p": "will",
+                "ps": "would"
             }
         },
         "v82": {
@@ -1569,6 +1570,7 @@
             "ending": "all",
             "t": {
                 "b": "all",
+                "p": "all",
                 "ps": "ould"
             }
         },
@@ -1603,9 +1605,11 @@
             }
         },
         "v166": {
-            "ending": "",
+            "ending": "must",
             "t": {
-                "b": ""
+                "b": "",
+                "p":"must",
+                "ps":"must"
             }
         },
         "v167": {
@@ -1616,10 +1620,11 @@
             }
         },
         "v168": {
-            "ending": "",
+            "ending": "ought",
             "t": {
                 "b": "",
-                "p": ["",""," not to","","",""]
+                "p": "ought",
+                "ps":"ought"
             }
         },
         "v169": {
@@ -3050,6 +3055,11 @@
         },
         "future": {
             "aux": "will"
-        }
+        },
+        "possibility": {"aux":"can"},
+        "permission":  {"aux":"may"},
+        "necessity":   {"aux":"shall"},
+        "willingness": {"aux":"will"},
+        "obligation":  {"aux":"must"}
     }
 }

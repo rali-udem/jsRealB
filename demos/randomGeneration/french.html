@@ -206,8 +206,8 @@
                     <td><fieldset>
                         <legend>Forme de la phrase</legend>
                         <form>
-                            <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative</input>
-                            <input type="checkbox" id="queForm" name="Form" value="int">Interrogative</input>
+                            <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative
+                            <input type="checkbox" id="queForm" name="Form" value="int">Interrogative
                             <select name="intSpec" id="intSpec" onchange="" size="1">
                                 <option value="base"></option>
                                 <option value="yon">Oui/non</option>
@@ -232,12 +232,14 @@
                 <tr>
                     <td><label for="realisation">Réalisation </label></td>
                     <td><textarea rows="2" cols="80" id="realisation"></textarea></td>
-                    <td><input type="button" name="realiser" value="Réaliser" id="realiser"/><br></td>
+                    <td><input type="button" name="realiser" value="Réaliser" id="realiser"
+                            title="Réunir les valeurs des choix ci-haut pour créer un structure jsRealB dans la boîte du bas qui sera réalisée dans la boite à gauche"/><br></td>
                 </tr> 
                 <tr>
                     <td><label for="jsreal">Code JSreal </label></td>
                     <td><textarea rows="4" cols="80" id="jsreal"></textarea></td>
-                    <td><input type="button" name="evaluer" value="Évaluer" id="evaluer"/></td>
+                    <td><input type="button" name="evaluer" value="Évaluer" id="evaluer"
+                            title="Évaluer la structure de la boite de gauche et afficher sa réalisation dans la boite du haut"></td>
                 </tr>
             </tbody>
         </table>

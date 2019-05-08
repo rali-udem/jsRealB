@@ -4152,6 +4152,13 @@ var ruleFr = //========== rule-fr.js
         "prog": {
             "aux": "être",
             "keyword": "en train de"
+        },
+        "modalityVerb":{
+             "possibility":"pouvoir",
+             "permission":"pouvoir",
+             "necessity":"devoir",
+             "willingness":"vouloir",
+             "obligation":"devoir"
         }
     },
     "usePronoun": {

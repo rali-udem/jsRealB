@@ -2,9 +2,22 @@
 var http = require("http");
 var url = require('url');
 var fs = require('fs');
+
+// taken from https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs
+function timestamp(d){
+  function pad(n) {return n<10 ? "0"+n : n}
+  dash="-"
+  colon=":"
+  return d.getFullYear()+dash+
+  pad(d.getMonth()+1)+dash+
+  pad(d.getDate())+" "+
+  pad(d.getHours())+colon+
+  pad(d.getMinutes())
+}
 ///////// 
 //  load JSrealB file
-var jsRealB=require(__dirname+'/jsRealB-dme.js');
+const path=__dirname+'/jsRealB-dme.js'
+var jsRealB=require(path);
 
 // "evaluate" the exports (Constructors for terminals and non-terminal) in the current context
 // so that they can be used directly
@@ -22,16 +35,20 @@ http.createServer(function (request, response) {
    var lang = query.lang
    var exp = query.exp
    if (lang=="en"){
-       jsExp=eval(exp);
-       var resp=jsExp.toString();
-       response.end(resp+"\n");
+       try{
+           jsExp=eval(exp);
+           var resp=jsExp.toString();
+           response.end(resp+"\n");
+       } catch (e){
+           response.end(e+"\n")
+       }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')
    }
 }).listen(8081);
 
 // Console will print the message
-console.log('Server running at http://127.0.0.1:8081/');
+console.log('Server [built on %s] running at http://127.0.0.1:8081/',timestamp(fs.statSync(path).mtime));
 
 /* 
 start server with : node server-en.js
