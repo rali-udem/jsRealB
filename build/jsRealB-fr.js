@@ -2938,10 +2938,13 @@ JSrealB.Module.Conjugation = (function(){
         }
     }
     // negation of modality verbs
+    // HACK: we use the contracted because of the way interrogative form are created
+    //       the first word of the verb is considered as the auxiliary which as to be moved 
+    //       to the start of the sentence. The contracted form is thus a single word and is moved altogether 
     var negMod={"can":"can't","may":"mayn't","shall":"shan't","will":"won't","must":"mustn't",
                 "could":"couldn't","might":"mightn't","should":"shouldn't","would":"wouldn't","ought":"oughtn't"}    
     // English conjugation 
-    // it is loosely adapted from the "affix hopping" rules given in 
+    // it implements the "affix hopping" rules given in 
     //      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
     var conjugateEN = function(unit, tense, person, neg,pas,prog,perf,interro,modality){
         switch (tense) {
@@ -2954,14 +2957,16 @@ JSrealB.Module.Conjugation = (function(){
         default :
             var verbs=[];  // list of Aux followed by V
             var affixes=[];
-            if(tense=="f"){ // HACK: Chomsky does not deal explicitly with "future" tense
+            var isFuture=tense=="f"
+            if( isFuture && !modality){ 
+                // caution: future in English is done with the modal will, so another modal cannot be used
                 verbs.push(JSrealB.Config.get("rule.compound.future.aux"));
                 affixes.push("b");
             }
             if (modality){
                 verbs.push(JSrealB.Config.get("rule.compound")[modality].aux);
                 affixes.push("b");
-            } else if (interro && !pas){
+            } else if (interro && !pas && !isFuture){
                 verbs.push("do");
                 affixes.push("b");
             }
@@ -2978,12 +2983,12 @@ JSrealB.Module.Conjugation = (function(){
                 affixes.push(JSrealB.Config.get("rule.compound.passive.participle"))
             }
             verbs.push(unit);
+            // realise the first verb, modal or auxiliary
             var v=verbs.shift();
             var words=[];
-            if (tense=="f"){
-                words.push(neg?"won't":"will");
-            } else if (neg) {
-                if (modality){
+            if (isFuture)tense="p";
+            if (neg) { // negate the first verb
+                if (modality || isFuture){
                     words.push(negMod[v]);
                 } else if (pas||prog){// verb be
                     words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
@@ -2994,6 +2999,7 @@ JSrealB.Module.Conjugation = (function(){
                 }
             } else 
                 words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
+            // realise the other parts using the corresponding affixes
             while (verbs.length>0) {
                 v=verbs.shift();
                 words.push(applySimpleEnding(v, affixes.shift(),0,getConjugationTable(v)));
