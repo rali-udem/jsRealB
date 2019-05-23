@@ -524,7 +524,6 @@ JSrealE.prototype.typ = function(optionList){
                 this.setInitProp(JSrealB.Config.get("feature.verb_option.alias") 
                         + "." + optionKeyList[i], optionList[optionKeyList[i]]);
             }
-            
         }        
         return this;
     }
@@ -1260,17 +1259,19 @@ JSrealE.prototype.realizeTerminalElement = function() {
 };
 
 JSrealE.prototype.putAuxInFront = function(conjug) {    
-    // Get first token which is the auxiliary
-    sepWordREen.lastIndex=0; // make sure to restart matching
-    var sepWord=sepWordREen.exec(conjug);
-    var sep=sepWord[1], aux=sepWord[4];
+    // Get first token which is the auxiliary possibly followed by not 
+    // HACK: we consider that there is no HMTL tag between the auxiliary and not
+    // variation on sepWordREen used for elision
+    var auxWordsRE=/(([^<\w'-]*(<[^>]+>)?)*)([\w'-]+( +not)?)?/yi
+    var auxWords=auxWordsRE.exec(conjug);
+    var sep=auxWords[1], aux=auxWords[4];
     if (aux===undefined) return conjug; // only a separator found
     var res=(sep===undefined)?"":sep;
     // put aux as root
     var roote = this.getTreeRoot();
     roote.setCtx("firstAux",aux);
     // return first sep (possibly start of html tag and the rest of string )
-    return sep+conjug.substring(sepWordREen.lastIndex);
+    return sep+conjug.substring(auxWordsRE.lastIndex);
 };
 
 JSrealE.prototype.realizeConjugation = function() {
@@ -2842,7 +2843,7 @@ JSrealB.Module.Declension = (function() {
     };
 })();
 
-//// Conjugation Module (Verbs)
+//// Conjugation Module (auxils)
 JSrealB.Module.Conjugation = (function(){
 
     var applySimpleEnding = function(unit, tense, person, conjugationTable){
@@ -2937,12 +2938,9 @@ JSrealB.Module.Conjugation = (function(){
             return applySimpleEnding(unit, tense, person,conjugTable);
         }
     }
-    // negation of modality verbs
-    // HACK: we use the contracted because of the way interrogative form are created
-    //       the first word of the verb is considered as the auxiliary which as to be moved 
-    //       to the start of the sentence. The contracted form is thus a single word and is moved altogether 
-    var negMod={"can":"can't","may":"mayn't","shall":"shan't","will":"won't","must":"mustn't",
-                "could":"couldn't","might":"mightn't","should":"shouldn't","would":"wouldn't","ought":"oughtn't"}    
+    // negation of modal auxiliaries
+    var negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
+                "could":"could not","might":"might not","should":"should not","would":"would not"}    
     // English conjugation 
     // it implements the "affix hopping" rules given in 
     //      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
@@ -2955,53 +2953,55 @@ JSrealB.Module.Conjugation = (function(){
         case "b":
             return (person==0)?unit:"to "+unit;
         default :
-            var verbs=[];  // list of Aux followed by V
+            var auxils=[];  // list of Aux followed by V
             var affixes=[];
             var isFuture=tense=="f"
-            if( isFuture && !modality){ 
-                // caution: future in English is done with the modal will, so another modal cannot be used
-                verbs.push(JSrealB.Config.get("rule.compound.future.aux"));
-                affixes.push("b");
-            }
             if (modality){
-                verbs.push(JSrealB.Config.get("rule.compound")[modality].aux);
+                auxils.push(JSrealB.Config.get("rule.compound")[modality].aux);
                 affixes.push("b");
-            } else if (interro && !pas && !isFuture){
-                verbs.push("do");
+            } else if (isFuture){
+                // caution: future in English is done with the modal will, so another modal cannot be used
+                auxils.push(JSrealB.Config.get("rule.compound.future.aux"));
                 affixes.push("b");
             }
-            if (perf){
-                verbs.push(JSrealB.Config.get("rule.compound.perfect.aux"));
-                affixes.push(JSrealB.Config.get("rule.compound.perfect.participle"));
+            if (perf || prog || pas){
+                if (perf){
+                    auxils.push(JSrealB.Config.get("rule.compound.perfect.aux"));
+                    affixes.push(JSrealB.Config.get("rule.compound.perfect.participle"));
+                }
+                if (prog) {
+                    auxils.push(JSrealB.Config.get("rule.compound.continuous.aux"));
+                    affixes.push(JSrealB.Config.get("rule.compound.continuous.participle"))
+                }
+                if (pas) {
+                    auxils.push(JSrealB.Config.get("rule.compound.passive.aux"));
+                    affixes.push(JSrealB.Config.get("rule.compound.passive.participle"))
+                }
+            } else if (interro && auxils.length==0 && unit!="be" && unit!= "have"){ 
+                // add auxiliary for interrogative if not already there
+                auxils.push("do");
+                affixes.push("b");
             }
-            if (prog) {
-                verbs.push(JSrealB.Config.get("rule.compound.continuous.aux"));
-                affixes.push(JSrealB.Config.get("rule.compound.continuous.participle"))
-            }
-            if (pas) {
-                verbs.push(JSrealB.Config.get("rule.compound.passive.aux"));
-                affixes.push(JSrealB.Config.get("rule.compound.passive.participle"))
-            }
-            verbs.push(unit);
+            auxils.push(unit);
             // realise the first verb, modal or auxiliary
-            var v=verbs.shift();
+            var v=auxils.shift();
             var words=[];
             if (isFuture)tense="p";
             if (neg) { // negate the first verb
-                if (modality || isFuture){
+                if (v in negMod){
                     words.push(negMod[v]);
-                } else if (pas||prog){// verb be
-                    words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
+                } else if (v=="be") {
+                    words.push(applySimpleEnding("be",tense,person,getConjugationTable("be")));
                     words.push("not");
                 } else {
                     words.push(applySimpleEnding("do",tense,person,getConjugationTable("do"))+(neg?"n't":""))
-                    words.push(v);
+                    if (v != "do") words.push(v);
                 }
-            } else 
+            } else // conjugate the first verb
                 words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
             // realise the other parts using the corresponding affixes
-            while (verbs.length>0) {
-                v=verbs.shift();
+            while (auxils.length>0) {
+                v=auxils.shift();
                 words.push(applySimpleEnding(v, affixes.shift(),0,getConjugationTable(v)));
             }
             return words.join(" ");
@@ -4747,6 +4747,9 @@ var oneOf = function(elems){
     e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
+
+var jsRealB_version="1.1";
+var jsRealB_dateCreated=new Date();
 var ruleEn = //========== rule-en.js
 {
     "conjugation": {
@@ -36117,6 +36120,9 @@ if (typeof module !== 'undefined' && module.exports) {
     exports.addToLexicon=addToLexicon;
     exports.getLemma=getLemma;
     exports.oneOf=oneOf;
+    
+    exports.jsRealB_dateCreated=jsRealB_dateCreated;
+    exports.jsRealB_version=jsRealB_version;
 
     if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
     if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;

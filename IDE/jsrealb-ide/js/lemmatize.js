@@ -156,7 +156,7 @@ function expandConjugation(lexicon,lemmata,rules,entry,tab,conjug){
 }
 
 function expandDeclension(lexicon,lemmata,rules,entry,pos,tabs){
-    // console.log("tabs",tabs)
+    // console.log(entry,"tabs",tabs)
     for (var k = 0; k < tabs.length; k++) {
         var tab=tabs[k];
         var rulesDecl=rules["declension"];

@@ -26,6 +26,9 @@ if (typeof module !== 'undefined' && module.exports) {
     exports.addToLexicon=addToLexicon;
     exports.getLemma=getLemma;
     exports.oneOf=oneOf;
+    
+    exports.jsRealB_dateCreated=jsRealB_dateCreated;
+    exports.jsRealB_version=jsRealB_version;
 
     if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
     if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;

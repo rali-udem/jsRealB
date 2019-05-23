@@ -92,7 +92,8 @@ function jsObjectToHtmlTable(obj,title){
                               (lang=="fr"?"Valeur":"Value")+"</th></tr></thead>");
     var $tbody=$("<tbody/>");
     for (var key in obj){
-        $tbody.append("<tr><td>" + key + "</td><td>" + obj[key] + "</td></tr>")
+        var s=typeof obj[key]=="object"?JSON.stringify(obj[key]) : (""+obj[key]);
+        $tbody.append("<tr><td>" + key + "</td><td>" + s + "</td></tr>")
     }
     return $("<table/>").append($caption,$thead,$tbody);
 }
@@ -151,27 +152,27 @@ function deplacerSep(e){
     }
 }
 
-// /// Gestion du storage local pour remettre le dernier état de l'éditeur
-// // Feature test
-// var hasStorage = (function() {
-//     var mod = "jsrealb_storage_feature_test";
-//   try {
-//     localStorage.setItem(mod, mod);
-//     localStorage.removeItem(mod);
-//     return true;
-//   } catch (exception) {
-//     return false;
-//   }
-// }());
-//
-// ////
-// function storeCurrentData() {
-//     if(hasStorage && editor !== undefined)
-//     {
-//         localStorage.setItem("jsrealb_language", language);
-//         localStorage.setItem("jsrealb_source", editor.getValue());
-//     }
-// }
+/// Gestion du storage local pour remettre le dernier état de l'éditeur
+// Feature test
+var hasStorage = (function() {
+    var mod = "jsrealb_storage_feature_test";
+  try {
+    localStorage.setItem(mod, mod);
+    localStorage.removeItem(mod);
+    return true;
+  } catch (exception) {
+    return false;
+  }
+}());
+
+////
+function storeCurrentData() {
+    if(hasStorage && editor !== undefined)
+    {
+        localStorage.setItem("jsrealb_language", language);
+        localStorage.setItem("jsrealb_source", editor.getValue());
+    }
+}
 
 function showDictEntries(lexique,query){
     var regexp=new RegExp("^"+query+"$");
@@ -428,6 +429,17 @@ function setLang(newLang){
     $("#langue option[value="+newLang+"]").prop("selected","selected")
 }
 
+// taken from https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs
+function timestamp(d){
+  function pad(n) {return n<10 ? "0"+n : n}
+  dash="-"
+  colon=":"
+  return d.getFullYear()+dash+
+  pad(d.getMonth()+1)+dash+
+  pad(d.getDate())+" "+
+  pad(d.getHours())+colon+
+  pad(d.getMinutes())
+}
     
 ////
 var editor;
@@ -440,6 +452,10 @@ $(document).ready(function() {
     $sepV       =$("#sepV");
     $info       =$("#info");
     $resultats  =$("#resultatInterrogation");
+    $jsRealBinfo =$("#jsRealBinfo");
+    if ($jsRealBinfo){
+        $jsRealBinfo.append("V"+jsRealB_version+" ["+timestamp(jsRealB_dateCreated)+"]");
+    }
 
     $canvas=$("#canvas")
     var canvas=$canvas[0];
@@ -454,17 +470,15 @@ $(document).ready(function() {
     editor.setShowPrintMargin(false);
     editor.setFontSize("16px"); // grandeur de police de défaut
 
-    // if(localStorage.getItem("jsrealb_source") !== undefined
-    //         && localStorage.getItem("jsrealb_source") !== null
-    //         && localStorage.getItem("jsrealb_source") !== "")
-    // {
-    //     language = localStorage.getItem("jsrealb_language");
-    //     editor.setValue(localStorage.getItem("jsrealb_source"));
-    //     if (language=="en")loadEn(); else loadFr();
-    //     dessiner(editor.getValue());
-    // }
-    // else
-    // {
+    if(jsRealBdev && localStorage.getItem("jsrealb_source") !== undefined
+            && localStorage.getItem("jsrealb_source") !== null
+            && localStorage.getItem("jsrealb_source") !== ""){
+        language = localStorage.getItem("jsrealb_language");
+        editor.setValue(localStorage.getItem("jsrealb_source"),-1);
+        
+        if (language=="en")loadEn(); else loadFr();
+        dessiner(editor.getValue());
+    } else {
         language = "en";
         // exemple de génération "bilingue", il suffit de (dé)commenter (CMD-/ sur mac)
         // pour avoir la version dans la bonne langue...
@@ -503,7 +517,7 @@ $(document).ready(function() {
         );
         if (language=="en")loadEn(); else loadFr();
         dessiner(editor.getValue());
-    // }
+    }
 
     $("#french-realization-en,#french-realization-fr").click(function(){
         loadFr();language="fr";
@@ -519,7 +533,9 @@ $(document).ready(function() {
     $sepV.mousedown(debutDeplacerSep);
     $(window).mouseup(finDeplacerSep);
     $(window).mousemove(deplacerSep);
-    // $(window).unload(storeCurrentData);
+    if(jsRealBdev !== undefined){
+        $(window).unload(storeCurrentData);
+    }
     
     $("#interrogation").keypress(chercherInfos);
     $("#toEn").click(function(){setLang("en")});
