@@ -396,7 +396,7 @@ JSrealE.prototype.toSource = function() {
     //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var nativeString = this.category
     if(this.unit != null){
-        nativeString += "(\""+this.unit+"\")";
+        nativeString += "("+JSON.stringify(this.unit)+")";
     } else{
         var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
@@ -2287,6 +2287,7 @@ NP_EN.prototype.sortWord = function() {
             case JSrealB.Config.get("feature.category.phrase.noun"):
             case JSrealB.Config.get("feature.category.word.pronoun"):
             case JSrealB.Config.get("feature.category.phrase.coordinated"):
+            case JSrealB.Config.get("feature.category.quoted"):
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.head);
             break;
             case JSrealB.Config.get("feature.category.word.determiner"):
