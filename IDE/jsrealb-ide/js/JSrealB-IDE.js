@@ -92,7 +92,7 @@ function jsObjectToHtmlTable(obj,title){
                               (lang=="fr"?"Valeur":"Value")+"</th></tr></thead>");
     var $tbody=$("<tbody/>");
     for (var key in obj){
-        var s=typeof obj[key]=="object"?JSON.stringify(obj[key]) : (""+obj[key]);
+        var s=typeof obj[key]=="string" ? obj[key]:JSON.stringify(obj[key]);
         $tbody.append("<tr><td>" + key + "</td><td>" + s + "</td></tr>")
     }
     return $("<table/>").append($caption,$thead,$tbody);
