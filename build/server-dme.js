@@ -46,7 +46,6 @@ http.createServer(function (request, response) {
        response.end('Language should be "en", but '+lang+' received\n')
    }
 }).listen(8081);
-console.log(jsRealB);
 // Console will print the message
 console.log('Server [built on %s] running at http://127.0.0.1:8081/',timestamp(jsRealB_dateCreated));
 

@@ -44,6 +44,10 @@ var JSrealE = function(elts, category, transformation) {
     this.elements = [];
     this.constituents = {head: undefined, modifier: [], subordinate: [], complement: []};
     this.initProp = {};
+    
+    if (typeof elts == "number"){
+        elts=elts.toString();
+    }
 
     var naturalDisplay = true;
     if(this.transformation === JSrealE.ruleType.date)
@@ -1137,7 +1141,7 @@ JSrealE.prototype.printElements = function() {
           // if(this.getCtx("firstAux")!=null)result= this.getCtx("firstAux")+" "+result;  
         } 
         var exclama = this.getCtx(JSrealB.Config.get("feature.sentence_type.alias"))[JSrealB.Config.get("feature.sentence_type.exclamative")];
-        if(interro == false && exclama == true && lastChar!=JSrealB.Config.get("rule.sentence_type.exc.punctuation")) 
+        if(!interro && exclama == true && lastChar!=JSrealB.Config.get("rule.sentence_type.exc.punctuation")) 
             lastPunctuation += JSrealB.Config.get("rule.sentence_type.exc.punctuation");
         if(lastPunctuation == undefined){
             lastPunctuation += JSrealB.Config.get("rule.sentence_type.dec.punctuation");
