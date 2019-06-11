@@ -659,23 +659,24 @@ JSrealE.prototype.real = function() {
     {
         if (this.constituents.head === undefined)//GL to prevent an infinite loop
             this.sortWord();
-        if(this.constituents.head !== undefined)
-        {
+        // if(this.constituents.head !== undefined)
+        // {
             var eltList = this.createRealizationList();          
             // console.log("real:eltList",eltList);
             this.realizeGroup(eltList);
-
-            this.modifyStructure();
+            // do not try to modify the structure if no head found
+            if(this.constituents.head !== undefined) 
+                this.modifyStructure();
 
             this.realization = this.printElements();
             // console.log("real:realization",this.realization);
           
             return this.html(this.typography(this.phonetic(this.realization)));
-        }
-        else
-        {
-            throw JSrealB.Exception.headWordNotFound(this.category,this);
-        }
+        // }
+        // else
+        // {
+        //     throw JSrealB.Exception.headWordNotFound(this.category,this);
+        // }
     }
     else // terminal element
     {
