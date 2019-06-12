@@ -2205,7 +2205,7 @@ NP_FR.prototype.sortWord = function() {
 NP.prototype.elementToElementPropagation = function(element) {
     if(element.fct === JSrealE.grammaticalFunction.modifier) 
     {
-        if(this.constituents.head !== null)
+        if(this.constituents.head !== undefined && this.constituents.head !== null)
         {
             element.siblingFeaturePropagation(this.constituents.head);
         }
