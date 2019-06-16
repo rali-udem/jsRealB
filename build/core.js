@@ -891,80 +891,82 @@ JSrealE.prototype.modifyStructure = function() {
     }
     
     //Passif (inversion du sujet et de l'objet direct)
-    if(this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas") == true){
-        if(this.category == JSrealB.Config.get("feature.category.phrase.verb")){
-            var parent = this.getTreeRoot();
-            var verbe = this.constituents.head;
-            this.recursion = (this.recursion == null)?1:this.recursion+1; //help to debug infinite recursion
-            if(this.recursion != null && this.recursion > 10){
-                JSrealB.Logger.alert("Could not resolve the passive tense of "+verbe.unit);
-                this.childrenProp[JSrealB.Config.get("feature.verb_option.alias")+".pas"] = false;
-                return ""; // probably infinite recursion 
-            } 
+    try { // just in case getTreeRoot raises an exception, do not try to passivate
+        if(this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas") == true){
+            if(this.category == JSrealB.Config.get("feature.category.phrase.verb")){
+                var parent = this.getTreeRoot(false);
+                var verbe = this.constituents.head;
+                this.recursion = (this.recursion == null)?1:this.recursion+1; //help to debug infinite recursion
+                if(this.recursion != null && this.recursion > 10){
+                    JSrealB.Logger.alert("Could not resolve the passive tense of "+verbe.unit);
+                    this.childrenProp[JSrealB.Config.get("feature.verb_option.alias")+".pas"] = false;
+                    return ""; // probably infinite recursion 
+                } 
 
-            //get subject
-            var subjectPos = getSubject(parent);
+                //get subject
+                var subjectPos = getSubject(parent);
             
-            //get CD
-            var CDpos = getGroup(this, JSrealB.Config.get("feature.category.phrase.noun"));
-            if (CDpos == -1) { // try to find a pronoun as CD
-                CDpos = getGroup(this, JSrealB.Config.get("feature.category.word.pronoun"));
-            }
-            var VPos = getGroup(this, JSrealB.Config.get("feature.category.word.verb"))
+                //get CD
+                var CDpos = getGroup(this, JSrealB.Config.get("feature.category.phrase.noun"));
+                if (CDpos == -1) { // try to find a pronoun as CD
+                    CDpos = getGroup(this, JSrealB.Config.get("feature.category.word.pronoun"));
+                }
+                var VPos = getGroup(this, JSrealB.Config.get("feature.category.word.verb"))
 
-            if(subjectPos!= -1 && CDpos != -1){
-                var suj= parent.elements[subjectPos];
-                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
-                    suj.unit = JSrealB.Config.get("rule.usePronoun.Pro"); 
-                var cd = elemList[CDpos];
-                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun"))
-                    cd.unit = JSrealB.Config.get("rule.usePronoun.S"); 
+                if(subjectPos!= -1 && CDpos != -1){
+                    var suj= parent.elements[subjectPos];
+                    if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
+                        suj.unit = JSrealB.Config.get("rule.usePronoun.Pro"); 
+                    var cd = elemList[CDpos];
+                    if(cd.category == JSrealB.Config.get("feature.category.word.pronoun"))
+                        cd.unit = JSrealB.Config.get("rule.usePronoun.S"); 
                 
-                //inversion
-                parent.elements[subjectPos] = cd;
-                elemList[CDpos] = suj;
+                    //inversion
+                    parent.elements[subjectPos] = cd;
+                    elemList[CDpos] = suj;
 
-                verbe.setInitProp("vOpt.pas",true);
-                verbe.setInitProp("vOpt.hasSubject",true);
-                
-                parent.resetProp(true);
-                change = true;
-            }
-            else if(subjectPos != -1){
-                var suj= parent.elements[subjectPos];
-                if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
-                    suj.unit = JSrealB.Config.get("rule.usePronoun.Pro");
-                this.addNewElement(VPos+1,parent.elements[subjectPos]);
-                parent.deleteElement(subjectPos);
-
-                verbe.setInitProp("vOpt.pas",true);
-                verbe.setInitProp("vOpt.hasSubject",true);
-                
-                parent.resetProp(true);
-                change = true;
-
-            }
-            else if(CDpos != -1){
-                var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
-                parent.addNewElement(VPpos,elemList[CDpos]);//will bump the verb and place the cd just before
-                this.deleteElement(CDpos);
-
-                verbe.setInitProp("vOpt.pas",true);
-
-                parent.resetProp(true);
-                change = true;
-            } else { // CDpos==-1 && subjectPos==-1 => add "it" as subject... because the verb will be put in passive
-                // but do this for only top level 
-                if (parent.parent==null){
-                    var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
-                    parent.addNewElement(VPpos,new Pro("I").pe(3).n("s").g("n"));
-                    parent.resetProp(true);                
                     verbe.setInitProp("vOpt.pas",true);
+                    verbe.setInitProp("vOpt.hasSubject",true);
+                
+                    parent.resetProp(true);
                     change = true;
+                }
+                else if(subjectPos != -1){
+                    var suj= parent.elements[subjectPos];
+                    if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
+                        suj.unit = JSrealB.Config.get("rule.usePronoun.Pro");
+                    this.addNewElement(VPos+1,parent.elements[subjectPos]);
+                    parent.deleteElement(subjectPos);
+
+                    verbe.setInitProp("vOpt.pas",true);
+                    verbe.setInitProp("vOpt.hasSubject",true);
+                
+                    parent.resetProp(true);
+                    change = true;
+
+                }
+                else if(CDpos != -1){
+                    var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
+                    parent.addNewElement(VPpos,elemList[CDpos]);//will bump the verb and place the cd just before
+                    this.deleteElement(CDpos);
+
+                    verbe.setInitProp("vOpt.pas",true);
+
+                    parent.resetProp(true);
+                    change = true;
+                } else { // CDpos==-1 && subjectPos==-1 => add "it" as subject... because the verb will be put in passive
+                    // but do this for only top level 
+                    if (parent.parent==null){
+                        var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
+                        parent.addNewElement(VPpos,new Pro("I").pe(3).n("s").g("n"));
+                        parent.resetProp(true);                
+                        verbe.setInitProp("vOpt.pas",true);
+                        change = true;
+                    }
                 }
             }
         }
-    }
+    } catch (e) {}
     //Pronominalisation d'un groupe du nom
     if(this.getCtx(JSrealB.Config.get("feature.toPronoun.alias")) == true){
         try{
@@ -1300,7 +1302,7 @@ JSrealE.prototype.realizeConjugation = function() {
         verbOptions.interro = this.getTreeRoot(true).getCtx(JSrealB.Config.get("feature.sentence_type.alias")
                                                               +"."+JSrealB.Config.get("feature.sentence_type.interrogative"));
         if(this.getTreeRoot(true).getCtx("firstAux")!=null)verbOptions.interro = "old";
-    }catch(e){}
+    } catch (e) {}
     // get info about modality
     try{
         var allModPrefixes=JSrealB.Config.get("feature.sentence_type.modality_prefix");
@@ -1313,7 +1315,7 @@ JSrealE.prototype.realizeConjugation = function() {
             }
         }
         // if(this.getTreeRoot(true).getCtx("firstAux")!=null)verbOptions.interro = "old";
-    }catch(e){}
+    } catch (e){}
 
     var aux = this.getProp(JSrealB.Config.get("rule.compound.alias"));
     try{
