@@ -2998,8 +2998,8 @@ JSrealB.Module.Conjugation = (function(){
             if (neg) { // negate the first verb
                 if (v in negMod){
                     words.push(negMod[v]);
-                } else if (v=="be") {
-                    words.push(applySimpleEnding("be",tense,person,getConjugationTable("be")));
+                } else if (v=="be" || v=="have") {
+                    words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
                     words.push("not");
                 } else {
                     words.push(applySimpleEnding("do",tense,person,getConjugationTable("do"))+(neg?"n't":""))
