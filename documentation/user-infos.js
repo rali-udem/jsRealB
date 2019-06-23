@@ -255,8 +255,8 @@ var formatSect={"fr":"","en":"",
        {"pattern":'.en("*").en(")")', "fr":["entourer de plusieurs symboles",'N("homme").en("*").en("(")'],
                      "en":["Wrap within many symbols",'N("man").en("*").en("(")']},
 
-       {"group":".lier(…)","fr":'lier',"en":'combine'},
-       {"pattern":'.lier("-")', "fr":["lier par un trait d'union",'VP(V("lier").t("ip").lier(),Pro("le"))'],
+       {"group":"","fr":'',"en":''},
+       {"pattern":'.lier()', "fr":["lier par un trait d'union",'VP(V("lier").t("ip").lier(),Pro("le"))'],
                      "en":["Combine with a dash",'NP(N("mother").lier(),P("in").lier(),N("law"))']},
 
        {"group":"","fr":'',"en":''},

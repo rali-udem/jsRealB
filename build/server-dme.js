@@ -25,7 +25,6 @@ for (var v in jsRealB){
     eval("var "+v+"=jsRealB."+v);
 }
 
-loadEn(true);
 eval(fs.readFileSync(__dirname+'/addLexicon-dme.js').toString());
 
 http.createServer(function (request, response) {

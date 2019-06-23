@@ -301,11 +301,11 @@ function showDeclension(declensions,mot,query,terminaison){
     return $("<p>"+query+":"+(lang=="fr"?"déclinaison non trouvée":"declension not found")+"</p>");
 }
 
-var lemmataEn,lemmataFr;
+// var lemmataEn,lemmataFr;
 
 function showLemmatization(lemmata,query){
     if (lemmata.has(query))
-        $result="<p><code><pre>"+lemmata.get(query).join("\n")+"</pre></code></p>";
+        $result="<p><code><pre>"+lemma2jsRexps(lemmata.get(query)).join("\n")+"</pre></code></p>";
     else { // try to match with a regular expression
         var re=new RegExp("^"+query+"$");
         var res=[];
@@ -330,7 +330,7 @@ function chercherInfos(e){
     var query=$("#interrogation").val();
     if(query=="")return;
     let interrogationLang=$("#langue").val()
-    if (interrogationLang=="en") loadEn(); else loadFr();
+    if (interrogationLang=="en") loadEn(false,true); else loadFr(false,true);
     $("#resultatInterrogation").empty();
     $("#resultatJson").empty()
     var type=$("#typeInterrogation").val();
@@ -476,7 +476,7 @@ $(document).ready(function() {
         language = localStorage.getItem("jsrealb_language");
         editor.setValue(localStorage.getItem("jsrealb_source"),-1);
         
-        if (language=="en")loadEn(); else loadFr();
+        if (language=="en")loadEn(false,true); else loadFr(false,true);
         dessiner(editor.getValue());
     } else {
         language = "en";
@@ -515,16 +515,20 @@ $(document).ready(function() {
           + ").a('!')\n"
 
         );
-        if (language=="en")loadEn(); else loadFr();
+        if (language=="en")loadEn(false,true); else loadFr(false,true);
         dessiner(editor.getValue());
     }
 
     $("#french-realization-en,#french-realization-fr").click(function(){
-        loadFr();language="fr";
+        loadFr(false,true);language="fr";
+        $("#french-realization-en,#french-realization-fr").addClass("active");
+        $("#english-realization-en,#english-realization-fr").removeClass("active")
         dessiner(editor.getValue());
     });
     $("#english-realization-en,#english-realization-fr").click(function(){
-        loadEn();language="en";
+        loadEn(false,true);language="en";
+        $("#french-realization-en,#french-realization-fr").removeClass("active");
+        $("#english-realization-en,#english-realization-fr").addClass("active")
         dessiner(editor.getValue());
     });
     $canvas.mousedown(afficherRealisation);
@@ -541,10 +545,10 @@ $(document).ready(function() {
     $("#toEn").click(function(){setLang("en")});
     $("#toFr").click(function(){setLang("fr")});
     
-    loadEn();
-    lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
-    loadFr();
-	lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+    loadEn(false,true);
+    // lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+    loadFr(false,true);
+    // lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
     
     lang=$.urlParam("lang");
     if (lang=="en" || lang=="fr")

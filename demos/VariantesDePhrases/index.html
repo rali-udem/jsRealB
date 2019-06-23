@@ -4,44 +4,31 @@
         <title>Types de phrases en - JSrealB - Sentence Types</title>
          <script src="https://code.jquery.com/jquery-latest.min.js"></script>
          <script src="../../dist/jsRealB-dmefr.min.js"></script>
+         <script src="examples.js" charset="UTF-8"></script>
          <script src="VariantesDePhrases.js" charset="UTF-8"></script>
-         <style type="text/css" media="screen">
-         table,td,th {border: thin solid black;padding:3px;}
-         table {border-collapse:collapse;}
-         textarea {font: normal normal normal 1.1em Courier, sans-serif;}
-         #sortie {margin:10px 0;}
-         #langue, #generer {vertical-align:top;}
-         </style>
+         <link rel="stylesheet" href="VariantesDePhrases.css">
     </head>
     <body>
         <h1>Types de phrases en - JSrealB - Sentence Types</h1>
-        <p>Entrer une structure de phrase selon la langue du menu - 
-           Enter a sentence structure in the language of the menu</p>
-        <div>
-            <textarea id="struct-fr" rows="10" cols="60">
-S(NP(D('le'),
-     N('chat')),
-  VP(V('manger'),
-     NP(D('le'),
-        N('souris'))))
-</textarea>
-            <textarea id="struct-en" rows="10" cols="60">
-S(NP(D('the'),
-     N('cat')),
-  VP(V('eat'),
-     NP(D('the'),
-        N('mouse'))))
-</textarea>
-        <select name="langue" id="langue" size="1">
-            <option value="fr">français</option>
-            <option value="en" selected="selected">English</option>
-        </select>
-        <input type="button" name="generer" value="OK" id="generer"/>
+        <p>Entrer une structure de phrase selon la langue désirée ou choisir une phrase dans la liste.
+           En décochant des cases des types, on limite le nombre de phrases générées
+        </p>
+        <p><em>Enter a sentence structure in the chosen language or select a sentence from the list.
+           Unchecking checkboxes limits the number of generated sentences.</em></p>
+        <textarea id="struct" rows="10" cols="60"></textarea>
+        <div id="control">
+            <div>
+                <select name="langue" id="langue" size="1">
+                    <option value="fr">français</option>
+                    <option value="en" selected="selected">English</option>
+                </select>
+                <input type="button" name="generer" value="GO" id="generer"/>
+            </div>
+            <select multiple="multiple" size="10" id="sentMenuEn"></select>
+            <select multiple="multiple" size="10" id="sentMenuFr"></select>
+            <div id="infos"></div>
         </div>
-        <div id="sortie">
-            <table id="tab">
-            </table>
-        </div>
-        <p id="nombre"></p>
+        <div style="clear:both"></div>
+        <table id="tab"></table>
     </body>
 </html>

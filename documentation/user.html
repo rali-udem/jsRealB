@@ -86,6 +86,19 @@
     <h3><code>getLanguage()</code></h3>
     <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
     <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
+    <h3 id="loadEnFr"><code>loadEn(trace,lenient), loadFr(trace,lenient)</code></h3>
+    <p lang="fr">Ces fonctions permettent de changer dynamiquement la langue du réalisateur, dans une version bilingue évidemment (voir plus bas). Les paramètres booléens optionnels (<em>false</em> si non spécifiés) indiquent:
+        <ul lang="fr">
+            <li><em>trace</em> : qu'on désire qu'un message apparaisse sur la console à la fin du chargement du langage;</li>
+            <li><em>lenient</em> :si les terminaux acceptent des formes fléchies qui seront lemmatisées avant d'être traitées.</li>
+        </ul>
+    </p>
+    <p lang="en">These functions allows changing the realisation language, in a bilingual version obviously (see below). The optional boolean parameters (<em>false</em> if not given) control that:
+        <ul lang="en">
+            <li><em>trace</em> : whether a message is written on the console after the loading;</li>
+            <li><em>lenient</em> :constructors for terminal accept lemmatized forms instead of only the base form.</li>
+        </ul>
+    </p>
 
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
     <p lang="fr">Une des versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues.</p>
@@ -107,10 +120,10 @@
         <dd lang="en">for English and French realization. <code>enfr</code> uses two small lexicons for both French and English; <code>dmefr</code> uses a big lexicon for English and a small lexicon for French.</dd>
         <dd>
             <ul>
-                <li><code>loadFr()</code> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
-                <li><code>loadEn()</code> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
-            </ul> 
-            <span lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</span><span lang="en">These functions can be called as often as necessary to change the current language.</span></dd>
+                <li><a href="#loadEnFr"><code>loadFr(...)</code></a> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
+                <li><a href="#loadEnFr"><code>loadEn(...)</code></a> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
+            </ul>
+            <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</div><div lang="en">These functions can be called as often as necessary to change the current language.</div></dd>
     </dl>
         
 <p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://lapalme.github.io/dist">répertoire</a>.</p>

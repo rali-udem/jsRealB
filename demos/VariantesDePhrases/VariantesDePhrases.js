@@ -1,6 +1,7 @@
 var struct;
 
-var $structEn,$structFr,s,$langue,$generer,$tab;
+var $langue,$generer,$tab;
+var $struct,$tbody,$infos;
 
 var allTypes=["neg","pas","prog","perf","int","mod"];
 var types; // change selon la langue
@@ -8,6 +9,7 @@ var pos={"int":["yon","wos","wod","wad","woi","whe","why","whn","how","muc"],
          "mod":["poss","perm","nece","obli","will"]}
 var nb;
 
+// génération d'une phrase
 function generer(s,$tab,obj){
     // console.log("generer(%o)",obj);
     var $tr=$("<tr/>");
@@ -20,6 +22,7 @@ function generer(s,$tab,obj){
     nb++;
 }
 
+// génération récursive de toutes les possibilités de types
 function genererTypes(s,$tab,types,obj){
     // console.log("genererTypes(%o,%o)",types,obj);
     if (types.length==0){
@@ -28,67 +31,114 @@ function genererTypes(s,$tab,types,obj){
         var type=types[0]
         obj[type]=false;
         genererTypes(s,$tab,types.slice(1),obj);
-        if (type in pos){ // plusieurs possibilités
-            var poss=pos[type]
-            for (var i = 0; i < poss.length; i++) {
-                obj[type]=poss[i];
+        if ($("#cb-"+type).is(":checked")){
+            if (type in pos){ // plusieurs possibilités
+                var poss=pos[type]
+                for (var i = 0; i < poss.length; i++) {
+                    obj[type]=poss[i];
+                    genererTypes(s,$tab,types.slice(1),obj);
+                }
+            } else { // que vrai et faux comme alternatives
+                obj[type]=true;
                 genererTypes(s,$tab,types.slice(1),obj);
             }
-        } else { // que vrai et faux comme alternatives
-            obj[type]=true;
-            genererTypes(s,$tab,types.slice(1),obj);
         }
     }
 }
 
-function genererStruct(struct,lang){
-    $("#sortie,#nombre").empty();
-    var $tab=$("<table/>");
-    $("#sortie").append($tab);
+function genererHeader(lang){
+    var $tab=$("#tab");
+    $tab.empty();
     types=allTypes.slice(); // copier tous les types
     if (lang=="fr")// pas de "perf" en français, l'enlever de types
         types.splice(types.indexOf("perf"),1)
     // générer le titre du tableau
-    var $tr=$("<tr/>");
+    var $thead=$("<thead></thead>");
+    var $tr=$("<tr></tr>");
+    $thead.append($tr);
     for (var i = 0; i < types.length; i++) {
         var type=types[i];
-        $tr.append("<th>"+type+"</th>")
+        var cb = '<input type="checkbox" checked="checked" id="cb-'+type+'"/> ';
+        $tr.append("<th class='flag'>"+cb+type+"</th>")
     }
-    $tr.append(lang=="fr"?"<th>Réalisation</th>":"<th>Realization</th>");
-    $tab.append($tr)
+    $tr.append(lang=="fr"?"<th>Réalisation (<span id='nbSentences'/> phrases)</th>":
+                          "<th>Realization (<span id='nbSentences'/> sentences)</th>");
+    $tab.append($thead);
+    $tbody=$("<tbody></tbody>");
+    $tab.append($tbody);
+}
+
+function genererStruct(struct,lang){
+    $tbody.empty();
     // évaluer les phrases
     try {
         nb=0;
-        genererTypes(eval(struct),$tab,types,{});
-        $("#nombre").append(nb+(lang=="fr"?" phrases réalisées":" realized sentences"))
+        genererTypes(eval(struct),$tbody,types,{});
+        $("#nbSentences").text(nb);
     } catch (err) {
-        $("#nombre").text((lang=="fr"?"Erreur dans la structure jsRealB: ":"Error in jsRealB: ")+err.message);
+        $("#nombre").text((lang=="fr"?"Erreur dans la structure jsRealB: ":
+                                       "Error in jsRealB: ")+err.message);
     }
 }
 
 function showLangTextArea(){
-    if ($langue.val()=="en")
-        {$structFr.hide();$structEn.show();}
-    else
-        {$structEn.hide();$structFr.show();};
+    var isEn=$langue.val()=="en";
+    var $currentMenu;
+    if (isEn) {
+        $sentMenuEn.show();$sentMenuFr.hide();
+        genererHeader("en");
+        loadSentence($sentMenuEn,examplesEn);
+    } else {
+        $sentMenuEn.hide();$sentMenuFr.show();
+        genererHeader("fr");
+        loadSentence($sentMenuFr,examplesFr);
+    }
+}
+
+function createSentenceMenu(lang,examples,$menu){
+    if (lang=="en")loadEn();else loadFr();
+    for (var i = 0; i < examples.length; i++) {
+        var expr=examples[i].expr;
+        var sent=eval(expr).toString();
+        examples[i].sent=sent;
+        var $option=$(`<option value="${i}">`+sent+"</option>");
+        if (i==0)$option.attr("selected","selected");
+        $menu.append($option);
+    }
+}
+
+function loadSentence($menu,examples){
+    var index=parseInt($menu.val());
+    var ex=examples[index]
+    $struct.val(ex.expr.trim());
+    $infos.empty();
+    if (ex.ref!==undefined){
+        $infos.html('<a href="'+ex.url+'">'+ex.ref+'</a> '+ex.no);
+    }
+        
 }
 
 $(document).ready(function() {
-    $structEn=$("#struct-en");
-    $structFr=$("#struct-fr");
+    $sentMenuEn=$("#sentMenuEn");
+    $sentMenuFr=$("#sentMenuFr");
+    $struct=$("#struct");
     $langue=$("#langue");
+    $infos=$("#infos");
     $langue.change(showLangTextArea);
-    showLangTextArea();
     $generer=$("#generer");
+    createSentenceMenu("en",examplesEn,$sentMenuEn);
+    createSentenceMenu("fr",examplesFr,$sentMenuFr);
+    $sentMenuEn.change(function(){loadSentence($sentMenuEn,examplesEn)});
+    $sentMenuFr.change(function(){loadSentence($sentMenuFr,examplesFr)});
+    showLangTextArea();
     $generer.click(function(e){
         if ($langue.val()=="en"){
-            $structFr.hide();$structEn.show();
             loadEn();
-            genererStruct($structEn.val(),"en")
+            genererStruct($struct.val(),"en")
         } else {
-            $structEn.hide();$structFr.show();
             loadFr();
-            genererStruct($structFr.val(),"fr")
+            genererStruct($struct.val(),"fr")
         }
     });
 });
+
