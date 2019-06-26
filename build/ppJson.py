@@ -5,10 +5,7 @@
 ###  Guy Lapalme (lapalme@iro.umontreal.ca) March 2015
 ########################################################################
 
-# ## truc pour afficher du UTF-8 dans la console TextMate
 import sys
-# reload(sys)
-# sys.setdefaultencoding("utf-8")
 import json
 
 # useful for sorting keys in a dictionary of words
@@ -38,7 +35,7 @@ def ppJson(file,obj,level=0):
         i=1
         for key in sorted(obj,key=lower_strip_accents): # sort in simili "dictionary" order
             if i>1 : out(file,"\n"+(level+1)*" ")
-            outQuoted(file,key)
+            ppJson(file,key,1) # necessary for the proper quoting of the key, level=1 to ignore newline after
             out(file,":")
             ppJson(file,obj[key],level+1+len(key)+3) # width of [{" of the key
             if i<n: out(file,",")

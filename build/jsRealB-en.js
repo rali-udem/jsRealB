@@ -57,8 +57,24 @@ var JSrealE = function(elts, category, transformation) {
     }
     else if(this.transformation === JSrealE.ruleType.number)
     {
+        var lang=getLanguage()
         naturalDisplay = false;
-        this.unit = elts;
+        elts = elts.replace(lang=="en"?/,| /g:/ /g,"");// remove possible , and spaces within a number
+        if (!isNumeric(elts)){
+            var lemma=getLemma(elts);
+            if (lemma !== undefined){
+                if (lemma["D"]!==undefined && lemma["D"]["value"]!==undefined){ // cardinal number
+                    this.unit=lemma["D"]["value"];
+                    naturalDisplay=true;
+                } else if (lemma["A"]!==undefined && lemma["A"]["value"]!==undefined){ // ordinal number
+                    this.unit=lemma["A"]["value"]
+                    this.setCtx(JSrealB.Config.get("feature.display_option.alias")
+                                + "." + JSrealB.Config.get("feature.display_option.ordinal"), 
+                                    true);
+                }
+            }
+        } else 
+            this.unit = elts;
     }
     else if(isString(elts))
     {
@@ -109,8 +125,14 @@ JSrealE.grammaticalFunction = {
 //// Init
 JSrealE.prototype.initUnitProperty = function() {
     if(this.transformation !== JSrealE.ruleType.none)
-    {
-        this.defaultProp[JSrealB.Config.get("feature.number.alias")] = JSrealB.Config.get("feature.number.singular");
+    {   // default number
+        var unitFeature = JSrealB.Module.Common.getWordFeature(this.unit, this.category, true);
+        var unitNumber = (unitFeature !== null) ? unitFeature[JSrealB.Config.get("feature.number.alias")] : undefined;
+        if(unitNumber !== undefined)
+        {
+            this.defaultProp[JSrealB.Config.get("feature.number.alias")] = unitNumber;
+        } else        
+            this.defaultProp[JSrealB.Config.get("feature.number.alias")] = JSrealB.Config.get("feature.number.singular");
         this.defaultProp[JSrealB.Config.get("feature.owner.alias")] = JSrealB.Config.get("feature.owner.singular");
         
         if(this.category === JSrealB.Config.get("feature.category.word.verb")
