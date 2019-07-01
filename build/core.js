@@ -80,7 +80,7 @@ var JSrealE = function(elts, category, transformation) {
     {
         if (JSrealB.Config.get("lenient")){
             var entries=JSrealB.Config.get("lexicon")[elts]
-            if (entries!== undefined && Object.keys(entries).indexOf(elts)>=0) 
+            if (entries!== undefined && Object.keys(entries).indexOf(category)>=0) 
                 // form of the appropriate category already exists
                 this.unit = elts;
             else { // try to find the lemma and take it as the unit otherwise leave it
@@ -1497,7 +1497,7 @@ JSrealE.prototype.realizeNumber = function() {
             }
             else if(this.parent != null){
                 var noyau = this.parent.constituents.head;
-                if(noyau !== null){
+                if(noyau !== undefined){
                     var numGender = noyau.getProp(JSrealB.Config.get("feature.gender.alias"));
                 }else{var numGender = "m"}
             } else {
@@ -2372,6 +2372,12 @@ NP_EN.prototype.sortWord = function() {
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.head);
             break;
             case JSrealB.Config.get("feature.category.word.determiner"):
+                var number=eNP.getProp[JSrealB.Config.get("feature.number.alias")]
+                if (number!==null)
+                    this.addConstituent(eNP, JSrealE.grammaticalFunction.modifier);
+                else
+                    this.addConstituent(eNP, JSrealE.grammaticalFunction.subordinate);
+                break;
             case JSrealB.Config.get("feature.category.phrase.propositional"):
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.subordinate);
             break;
@@ -3530,7 +3536,16 @@ JSrealB.Module.Number = (function() {
         }
 
         var formattedNumber = formatter(rawNumber, maxPrecision, grammaticalNumber);
-
+        var specialFractions=[[0.20, "one-fifth"],[0.25, "one-fourth"],[0.25, "one-quarter"],
+                              [0.333, "one-third"],[0.40, "two-fifths"],
+                              [0.50, "one-half"],[0.666, "two-thirds"],[0.75, "three-quarters"]];
+        if (rawNumber<1.0 && lang == "en"){
+            for (var i = 0; i < specialFractions.length; i++) {
+                var sp=specialFractions[i];
+                if (Math.abs(rawNumber-sp[0])<0.01)
+                    return sp[1];
+            }
+        }
         var numberLettres = enToutesLettres(parseInt(rawNumber),lang == "en", gender)
 
         if( lang == "fr" && numberLettres == "un" && gender == "f"){

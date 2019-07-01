@@ -12,7 +12,7 @@ outfile='lexicon-dme.json'
 # regex for lines of the form ("abacus" n2 NomC yes) 
 #                          or ("billion"	qt Quan def num plur car) ; 1000000000|1000000000000
 # groups: 1=word 2=table number 3=cat 4=other flags until ) 5= part after ) 6=numeric value when cat=ord or nat
-pat=re.compile(r'^\("([-\w]*?)"\s*(\w+)\s*(\w+)(.*\))(\s*; (\d+)(\|.*)?)?$') 
+pat=re.compile(r'^\("([-\w]*?)"\s*(\w+)\s*(\w+)(.*\))(\s*; (\d+(/\d+)?)(\|.*)?)?$') 
 
 ## conversion of POS
 conv={"Verb":"V",
@@ -93,7 +93,10 @@ for line in open(infile,encoding="utf-8"):
             cat="D"
             tab="d4"
             n = "p" if "plur" in m.group(4) else "s"
-            value=m.group(6)  # can be None which is checked in updateNValue
+            if m.group(7)!=None :
+                value=eval(m.group(6)) # evaluate the fraction
+            else:
+                value=m.group(6)  # can be None which is checked in updateNValue
         else:
             n="s"
             value=None 

@@ -80,7 +80,7 @@ var JSrealE = function(elts, category, transformation) {
     {
         if (JSrealB.Config.get("lenient")){
             var entries=JSrealB.Config.get("lexicon")[elts]
-            if (entries!== undefined && Object.keys(entries).indexOf(elts)>=0) 
+            if (entries!== undefined && Object.keys(entries).indexOf(category)>=0) 
                 // form of the appropriate category already exists
                 this.unit = elts;
             else { // try to find the lemma and take it as the unit otherwise leave it
@@ -1497,7 +1497,7 @@ JSrealE.prototype.realizeNumber = function() {
             }
             else if(this.parent != null){
                 var noyau = this.parent.constituents.head;
-                if(noyau !== null){
+                if(noyau !== undefined){
                     var numGender = noyau.getProp(JSrealB.Config.get("feature.gender.alias"));
                 }else{var numGender = "m"}
             } else {
@@ -2372,6 +2372,12 @@ NP_EN.prototype.sortWord = function() {
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.head);
             break;
             case JSrealB.Config.get("feature.category.word.determiner"):
+                var number=eNP.getProp[JSrealB.Config.get("feature.number.alias")]
+                if (number!==null)
+                    this.addConstituent(eNP, JSrealE.grammaticalFunction.modifier);
+                else
+                    this.addConstituent(eNP, JSrealE.grammaticalFunction.subordinate);
+                break;
             case JSrealB.Config.get("feature.category.phrase.propositional"):
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.subordinate);
             break;
@@ -3530,7 +3536,16 @@ JSrealB.Module.Number = (function() {
         }
 
         var formattedNumber = formatter(rawNumber, maxPrecision, grammaticalNumber);
-
+        var specialFractions=[[0.20, "one-fifth"],[0.25, "one-fourth"],[0.25, "one-quarter"],
+                              [0.333, "one-third"],[0.40, "two-fifths"],
+                              [0.50, "one-half"],[0.666, "two-thirds"],[0.75, "three-quarters"]];
+        if (rawNumber<1.0 && lang == "en"){
+            for (var i = 0; i < specialFractions.length; i++) {
+                var sp=specialFractions[i];
+                if (Math.abs(rawNumber-sp[0])<0.01)
+                    return sp[1];
+            }
+        }
         var numberLettres = enToutesLettres(parseInt(rawNumber),lang == "en", gender)
 
         if( lang == "fr" && numberLettres == "un" && gender == "f"){
@@ -23159,6 +23174,8 @@ var lexiconEn = //========== lexicon-dme.js
  "hale":{"A":{"tab":["a1"]}},
  "half":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b1"]},
+         "D":{"tab":["d4"],
+              "value":0.5},
          "N":{"tab":["n9"]}},
  "half-back":{"N":{"tab":["n1"]}},
  "half-baked":{"A":{"tab":["a1"]}},
@@ -31358,12 +31375,23 @@ var lexiconEn = //========== lexicon-dme.js
  "once":{"Adv":{"tab":["b1"]}},
  "oncoming":{"A":{"tab":["a1"]},
              "N":{"tab":["n5"]}},
- "one":{"D":{"tab":["d4"]}},
+ "one":{"D":{"tab":["d4"],
+             "value":"1"}},
  "one-armed":{"A":{"tab":["a1"]}},
  "one-eyed":{"A":{"tab":["a1"]}},
+ "one-fifth":{"D":{"tab":["d4"],
+                   "value":0.2}},
+ "one-fourth":{"D":{"tab":["d4"],
+                    "value":0.25}},
+ "one-half":{"D":{"tab":["d4"],
+                  "value":0.5}},
  "one-horse":{"A":{"tab":["a1"]}},
+ "one-quarter":{"D":{"tab":["d4"],
+                     "value":0.25}},
  "one-sided":{"A":{"tab":["a1"]}},
  "one-step":{"N":{"tab":["n1"]}},
+ "one-third":{"D":{"tab":["d4"],
+                   "value":0.3333333333333333}},
  "one-time":{"A":{"tab":["a1"]}},
  "one-upmanship":{"N":{"tab":["n5"]}},
  "onerous":{"A":{"tab":["a1"]}},
@@ -43539,6 +43567,9 @@ var lexiconEn = //========== lexicon-dme.js
  "three-decker":{"N":{"tab":["n1"]}},
  "three-dimensional":{"A":{"tab":["a1"]}},
  "three-figure":{"A":{"tab":["a1"]}},
+ "three-fourths":{"D":{"n":"p",
+                       "tab":["d4"],
+                       "value":0.75}},
  "three-funnelled":{"A":{"tab":["a1"]}},
  "three-lane":{"A":{"tab":["a1"]}},
  "three-legged":{"A":{"tab":["a1"]}},
@@ -43546,6 +43577,9 @@ var lexiconEn = //========== lexicon-dme.js
  "three-ply":{"A":{"tab":["a1"]}},
  "three-quarter":{"A":{"tab":["a1"]},
                   "N":{"tab":["n1"]}},
+ "three-quarters":{"D":{"n":"p",
+                        "tab":["d4"],
+                        "value":0.75}},
  "three-score":{"A":{"tab":["a1"]},
                 "N":{"tab":["n5"]}},
  "three-storey":{"A":{"tab":["a1"]}},
@@ -44875,12 +44909,18 @@ var lexiconEn = //========== lexicon-dme.js
  "two-a-penny":{"A":{"tab":["a1"]}},
  "two-edged":{"A":{"tab":["a1"]}},
  "two-faced":{"A":{"tab":["a1"]}},
+ "two-fifths":{"D":{"n":"p",
+                    "tab":["d4"],
+                    "value":0.4}},
  "two-funnelled":{"A":{"tab":["a1"]}},
  "two-handed":{"A":{"tab":["a1"]}},
  "two-piece":{"N":{"tab":["n5"]}},
  "two-ply":{"A":{"tab":["a1"]}},
  "two-seater":{"N":{"tab":["n1"]}},
  "two-step":{"N":{"tab":["n1"]}},
+ "two-thirds":{"D":{"n":"p",
+                    "tab":["d4"],
+                    "value":0.6666666666666666}},
  "two-timing":{"A":{"tab":["a1"]}},
  "two-way":{"A":{"tab":["a1"]}},
  "twofold":{"A":{"tab":["a1"]},
