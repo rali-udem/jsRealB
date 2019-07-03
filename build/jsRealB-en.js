@@ -72,7 +72,8 @@ var JSrealE = function(elts, category, transformation) {
                                 + "." + JSrealB.Config.get("feature.display_option.ordinal"), 
                                     true);
                 }
-            }
+            } else
+                this.unit=elts;
         } else 
             this.unit = elts;
     }
@@ -1497,7 +1498,7 @@ JSrealE.prototype.realizeNumber = function() {
             }
             else if(this.parent != null){
                 var noyau = this.parent.constituents.head;
-                if(noyau !== undefined){
+                if(noyau !== undefined && noyau !== null){
                     var numGender = noyau.getProp(JSrealB.Config.get("feature.gender.alias"));
                 }else{var numGender = "m"}
             } else {
