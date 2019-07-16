@@ -22,7 +22,8 @@
  * changement complet du module d'élision (français et anglais)
  * plusieurs corrections pour faciliter le traitement d'expressions générées automatiquement
  * génération aléatoire "oneOf"
- * réorganisation de la conjugaison des verbes suite à l'ajout des modaux
+ * réorganisation de la conjugaison des verbes anglais suite à l'ajout des modaux
+ * ajout du mode "lenient" qui accepte des formes fléchies comme paramètre des constructeurs
  */
 
 /*
@@ -44,6 +45,10 @@ var JSrealE = function(elts, category, transformation) {
     this.elements = [];
     this.constituents = {head: undefined, modifier: [], subordinate: [], complement: []};
     this.initProp = {};
+    
+    if (typeof elts == "number"){
+        elts=elts.toString();
+    }
 
     var naturalDisplay = true;
     if(this.transformation === JSrealE.ruleType.date)
@@ -52,12 +57,40 @@ var JSrealE = function(elts, category, transformation) {
     }
     else if(this.transformation === JSrealE.ruleType.number)
     {
+        var lang=getLanguage()
         naturalDisplay = false;
-        this.unit = elts;
+        elts = elts.replace(lang=="en"?/,| /g:/ /g,"");// remove possible , and spaces within a number
+        if (!isNumeric(elts)){
+            var lemma=getLemma(elts);
+            if (lemma !== undefined){
+                if (lemma["D"]!==undefined && lemma["D"]["value"]!==undefined){ // cardinal number
+                    this.unit=lemma["D"]["value"];
+                    naturalDisplay=true;
+                } else if (lemma["A"]!==undefined && lemma["A"]["value"]!==undefined){ // ordinal number
+                    this.unit=lemma["A"]["value"]
+                    this.setCtx(JSrealB.Config.get("feature.display_option.alias")
+                                + "." + JSrealB.Config.get("feature.display_option.ordinal"), 
+                                    true);
+                }
+            } else
+                this.unit=elts;
+        } else 
+            this.unit = elts;
     }
     else if(isString(elts))
     {
-        this.unit = elts;
+        if (JSrealB.Config.get("lenient")){
+            var entries=JSrealB.Config.get("lexicon")[elts]
+            if (entries!== undefined && Object.keys(entries).indexOf(category)>=0) 
+                // form of the appropriate category already exists
+                this.unit = elts;
+            else { // try to find the lemma and take it as the unit otherwise leave it
+                var unit1=form2lemma(JSrealB.Config.get("lemmata"),elts,category);
+                this.unit= unit1 !== undefined ? unit1 : elts;
+            }
+        } else {
+            this.unit=elts;
+        }
         this.initUnitProperty();
     }
     else if(Array.isArray(elts) || isObject(elts))
@@ -93,8 +126,14 @@ JSrealE.grammaticalFunction = {
 //// Init
 JSrealE.prototype.initUnitProperty = function() {
     if(this.transformation !== JSrealE.ruleType.none)
-    {
-        this.defaultProp[JSrealB.Config.get("feature.number.alias")] = JSrealB.Config.get("feature.number.singular");
+    {   // default number
+        var unitFeature = JSrealB.Module.Common.getWordFeature(this.unit, this.category, true);
+        var unitNumber = (unitFeature !== null) ? unitFeature[JSrealB.Config.get("feature.number.alias")] : undefined;
+        if(unitNumber !== undefined)
+        {
+            this.defaultProp[JSrealB.Config.get("feature.number.alias")] = unitNumber;
+        } else        
+            this.defaultProp[JSrealB.Config.get("feature.number.alias")] = JSrealB.Config.get("feature.number.singular");
         this.defaultProp[JSrealB.Config.get("feature.owner.alias")] = JSrealB.Config.get("feature.owner.singular");
         
         if(this.category === JSrealB.Config.get("feature.category.word.verb")
@@ -393,10 +432,12 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
 // comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
 //    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
 JSrealE.prototype.toSource = function() {
-    //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
+    function mkTyp(key,val){
+        return '.typ({"'+key+'":"'+val+'"})';
+    }
     var nativeString = this.category
     if(this.unit != null){
-        nativeString += "(\""+this.unit+"\")";
+        nativeString += "("+JSON.stringify(this.unit)+")";
     } else{
         var subElems=[];
         for(var i = 0, imax=this.elements.length; i < imax; i++){
@@ -408,9 +449,48 @@ JSrealE.prototype.toSource = function() {
         }
         nativeString += "("+subElems.join(",")+")";
     }
+    //Pour ajouter des features au clone, ajouter les setInitProp dans les features voulus
     var subProps=[];
-    for(prop in this.initProp){
-        subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    for (prop in this.initProp){
+        if (prop.startsWith("vOpt."))
+            subProps.push(mkTyp(prop.substring(5),this.initProp[prop]));
+        else
+            subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    }
+    //// ajouter les éléments du contexte
+    //       types de phrases
+    if (this.ctx.typ !== undefined)
+        for (prop in this.ctx.typ){
+            subProps.push(mkTyp(prop,this.ctx.typ[prop]))
+        }
+    //   HTML tags
+    var htmlElems=this.ctx.html;
+    for (var i = 0; i < htmlElems.length; i++) {
+        var e=htmlElems[i];
+        if (e[1]===undefined)
+            subProps.push('.tag("'+e[0]+'")');
+        else {
+            var keys=Object.keys(e[1]);
+            var attrs=[];
+            for (var j = 0; j < keys.length; j++) {
+                var attrName=keys[j];
+                attrs.push(attrName+':"'+e[1][attrName]+'"')
+            }
+            subProps.push('.tag("'+e[0]+'",{'+attrs.join(',')+'})');
+        }
+    }
+    // formattage
+    if (this.ctx[JSrealB.Config.get("feature.liaison.alias")]==true)
+        subProps.push('.lier()');
+    if (this.ctx[JSrealB.Config.get("feature.typography.before")]!==undefined)
+        subProps.push('.b("'+this.ctx[JSrealB.Config.get("feature.typography.before")]+'")');
+    if (this.ctx[JSrealB.Config.get("feature.typography.after")]!==undefined)
+        subProps.push('.a("'+this.ctx[JSrealB.Config.get("feature.typography.after")]+'")');
+    if (this.ctx[JSrealB.Config.get("feature.typography.ucfirst")]===true)
+        subProps.push('.cap()');
+    var surround=this.ctx[JSrealB.Config.get("feature.typography.surround")];
+    for (var i = 0; i < surround.length; i++){
+        subProps.push('.en("'+surround[i]+'")');
     }
     return nativeString+subProps.join("");
 }
@@ -489,7 +569,7 @@ JSrealE.prototype.cap = function(ucf) {
     {
         throw JSrealB.Exception.invalidInput(ucf, "ucf");
     }
-    return this.setCtx(JSrealB.Config.get("feature.typography.ucfist"), (ucf === undefined || ucf === true));
+    return this.setCtx(JSrealB.Config.get("feature.typography.ucfirst"), (ucf === undefined || ucf === true));
 };
 // punctuation before an element
 JSrealE.prototype.b = function(punctuation) {
@@ -524,7 +604,6 @@ JSrealE.prototype.typ = function(optionList){
                 this.setInitProp(JSrealB.Config.get("feature.verb_option.alias") 
                         + "." + optionKeyList[i], optionList[optionKeyList[i]]);
             }
-            
         }        
         return this;
     }
@@ -656,23 +735,24 @@ JSrealE.prototype.real = function() {
     {
         if (this.constituents.head === undefined)//GL to prevent an infinite loop
             this.sortWord();
-        if(this.constituents.head !== undefined)
-        {
+        // if(this.constituents.head !== undefined)
+        // {
             var eltList = this.createRealizationList();          
             // console.log("real:eltList",eltList);
             this.realizeGroup(eltList);
-
-            this.modifyStructure();
+            // do not try to modify the structure if no head found
+            if(this.constituents.head !== undefined) 
+                this.modifyStructure();
 
             this.realization = this.printElements();
             // console.log("real:realization",this.realization);
           
             return this.html(this.typography(this.phonetic(this.realization)));
-        }
-        else
-        {
-            throw JSrealB.Exception.headWordNotFound(this.category,this);
-        }
+        // }
+        // else
+        // {
+        //     throw JSrealB.Exception.headWordNotFound(this.category,this);
+        // }
     }
     else // terminal element
     {
@@ -931,7 +1011,8 @@ JSrealE.prototype.modifyStructure = function() {
                 if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
                     suj.unit = JSrealB.Config.get("rule.usePronoun.Pro");
                 this.addNewElement(VPos+1,parent.elements[subjectPos]);
-                parent.deleteElement(subjectPos);
+                parent.elements[subjectPos]=
+                    Pro(JSrealB.Config.get("rule.usePronoun.S")).g(getLanguage()=="en"?"n":"m");
 
                 verbe.setInitProp("vOpt.pas",true);
                 verbe.setInitProp("vOpt.hasSubject",true);
@@ -1128,7 +1209,7 @@ JSrealE.prototype.printElements = function() {
         && this.category === JSrealB.Config.get("feature.category.phrase.sentence"))
     {
         addFullStop = (this.getCtx(JSrealB.Config.get("feature.typography.surround")).length == 0);
-        upperCaseFirstLetter = (this.getCtx(JSrealB.Config.get("feature.typography.ucfist")) === null);
+        upperCaseFirstLetter = (this.getCtx(JSrealB.Config.get("feature.typography.ucfirst")) === null);
         var lastChar = result.substring(result.length-1); 
         // in case the last token already has punctuation...
         var lastPunctuation=punctPoints.indexOf(lastChar)>=0?lastChar:"";
@@ -1138,7 +1219,7 @@ JSrealE.prototype.printElements = function() {
           // if(this.getCtx("firstAux")!=null)result= this.getCtx("firstAux")+" "+result;  
         } 
         var exclama = this.getCtx(JSrealB.Config.get("feature.sentence_type.alias"))[JSrealB.Config.get("feature.sentence_type.exclamative")];
-        if(interro == false && exclama == true && lastChar!=JSrealB.Config.get("rule.sentence_type.exc.punctuation")) 
+        if(!interro && exclama == true && lastChar!=JSrealB.Config.get("rule.sentence_type.exc.punctuation")) 
             lastPunctuation += JSrealB.Config.get("rule.sentence_type.exc.punctuation");
         if(lastPunctuation == undefined){
             lastPunctuation += JSrealB.Config.get("rule.sentence_type.dec.punctuation");
@@ -1260,17 +1341,19 @@ JSrealE.prototype.realizeTerminalElement = function() {
 };
 
 JSrealE.prototype.putAuxInFront = function(conjug) {    
-    // Get first token which is the auxiliary
-    sepWordREen.lastIndex=0; // make sure to restart matching
-    var sepWord=sepWordREen.exec(conjug);
-    var sep=sepWord[1], aux=sepWord[4];
+    // Get first token which is the auxiliary possibly followed by not 
+    // HACK: we consider that there is no HMTL tag between the auxiliary and not
+    // variation on sepWordREen used for elision
+    var auxWordsRE=/(([^<\w'-]*(<[^>]+>)?)*)([\w'-]+( +not)?)?/yi
+    var auxWords=auxWordsRE.exec(conjug);
+    var sep=auxWords[1], aux=auxWords[4];
     if (aux===undefined) return conjug; // only a separator found
     var res=(sep===undefined)?"":sep;
     // put aux as root
     var roote = this.getTreeRoot();
     roote.setCtx("firstAux",aux);
     // return first sep (possibly start of html tag and the rest of string )
-    return sep+conjug.substring(sepWordREen.lastIndex);
+    return sep+conjug.substring(auxWordsRE.lastIndex);
 };
 
 JSrealE.prototype.realizeConjugation = function() {
@@ -1415,7 +1498,7 @@ JSrealE.prototype.realizeNumber = function() {
             }
             else if(this.parent != null){
                 var noyau = this.parent.constituents.head;
-                if(noyau !== null){
+                if(noyau !== undefined && noyau !== null){
                     var numGender = noyau.getProp(JSrealB.Config.get("feature.gender.alias"));
                 }else{var numGender = "m"}
             } else {
@@ -1455,7 +1538,7 @@ JSrealE.prototype.realizeNumber = function() {
 
 JSrealE.prototype.typography = function(str) {
     var result = str;
-    if(this.getCtx(JSrealB.Config.get("feature.typography.ucfist")) === true)
+    if(this.getCtx(JSrealB.Config.get("feature.typography.ucfirst")) === true)
     {
         result = result.charAt(0).toUpperCase() + result.slice(1);
     }
@@ -2199,7 +2282,7 @@ NP_FR.prototype.sortWord = function() {
 NP.prototype.elementToElementPropagation = function(element) {
     if(element.fct === JSrealE.grammaticalFunction.modifier) 
     {
-        if(this.constituents.head !== null)
+        if(this.constituents.head !== undefined && this.constituents.head !== null)
         {
             element.siblingFeaturePropagation(this.constituents.head);
         }
@@ -2286,9 +2369,16 @@ NP_EN.prototype.sortWord = function() {
             case JSrealB.Config.get("feature.category.phrase.noun"):
             case JSrealB.Config.get("feature.category.word.pronoun"):
             case JSrealB.Config.get("feature.category.phrase.coordinated"):
+            case JSrealB.Config.get("feature.category.quoted"):
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.head);
             break;
             case JSrealB.Config.get("feature.category.word.determiner"):
+                var number=eNP.getProp[JSrealB.Config.get("feature.number.alias")]
+                if (number!==null)
+                    this.addConstituent(eNP, JSrealE.grammaticalFunction.modifier);
+                else
+                    this.addConstituent(eNP, JSrealE.grammaticalFunction.subordinate);
+                break;
             case JSrealB.Config.get("feature.category.phrase.propositional"):
                 this.addConstituent(eNP, JSrealE.grammaticalFunction.subordinate);
             break;
@@ -2504,7 +2594,7 @@ extend(JSrealE, NO);
  */
 var JSrealB = (function() {
     return {
-        init: function(language, lexicon, rule, feature) {
+        init: function(language, lexicon, rule, feature,lenient,lemmata) {
             this.Config.set({
                 language: language,
                 lexicon: lexicon,
@@ -2512,8 +2602,8 @@ var JSrealB = (function() {
                 feature: feature,
                 isDevEnv: true,
                 printTrace: false,
-                //ajout db
-                db : null
+                lenient: lenient,
+                lemmata: lemmata
             });
         }
     };
@@ -2842,7 +2932,7 @@ JSrealB.Module.Declension = (function() {
     };
 })();
 
-//// Conjugation Module (Verbs)
+//// Conjugation Module (auxils)
 JSrealB.Module.Conjugation = (function(){
 
     var applySimpleEnding = function(unit, tense, person, conjugationTable){
@@ -2937,12 +3027,9 @@ JSrealB.Module.Conjugation = (function(){
             return applySimpleEnding(unit, tense, person,conjugTable);
         }
     }
-    // negation of modality verbs
-    // HACK: we use the contracted because of the way interrogative form are created
-    //       the first word of the verb is considered as the auxiliary which as to be moved 
-    //       to the start of the sentence. The contracted form is thus a single word and is moved altogether 
-    var negMod={"can":"can't","may":"mayn't","shall":"shan't","will":"won't","must":"mustn't",
-                "could":"couldn't","might":"mightn't","should":"shouldn't","would":"wouldn't","ought":"oughtn't"}    
+    // negation of modal auxiliaries
+    var negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
+                "could":"could not","might":"might not","should":"should not","would":"would not"}    
     // English conjugation 
     // it implements the "affix hopping" rules given in 
     //      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
@@ -2955,53 +3042,55 @@ JSrealB.Module.Conjugation = (function(){
         case "b":
             return (person==0)?unit:"to "+unit;
         default :
-            var verbs=[];  // list of Aux followed by V
+            var auxils=[];  // list of Aux followed by V
             var affixes=[];
             var isFuture=tense=="f"
-            if( isFuture && !modality){ 
-                // caution: future in English is done with the modal will, so another modal cannot be used
-                verbs.push(JSrealB.Config.get("rule.compound.future.aux"));
-                affixes.push("b");
-            }
             if (modality){
-                verbs.push(JSrealB.Config.get("rule.compound")[modality].aux);
+                auxils.push(JSrealB.Config.get("rule.compound")[modality].aux);
                 affixes.push("b");
-            } else if (interro && !pas && !isFuture){
-                verbs.push("do");
+            } else if (isFuture){
+                // caution: future in English is done with the modal will, so another modal cannot be used
+                auxils.push(JSrealB.Config.get("rule.compound.future.aux"));
                 affixes.push("b");
             }
-            if (perf){
-                verbs.push(JSrealB.Config.get("rule.compound.perfect.aux"));
-                affixes.push(JSrealB.Config.get("rule.compound.perfect.participle"));
+            if (perf || prog || pas){
+                if (perf){
+                    auxils.push(JSrealB.Config.get("rule.compound.perfect.aux"));
+                    affixes.push(JSrealB.Config.get("rule.compound.perfect.participle"));
+                }
+                if (prog) {
+                    auxils.push(JSrealB.Config.get("rule.compound.continuous.aux"));
+                    affixes.push(JSrealB.Config.get("rule.compound.continuous.participle"))
+                }
+                if (pas) {
+                    auxils.push(JSrealB.Config.get("rule.compound.passive.aux"));
+                    affixes.push(JSrealB.Config.get("rule.compound.passive.participle"))
+                }
+            } else if (interro && auxils.length==0 && unit!="be" && unit!= "have"){ 
+                // add auxiliary for interrogative if not already there
+                auxils.push("do");
+                affixes.push("b");
             }
-            if (prog) {
-                verbs.push(JSrealB.Config.get("rule.compound.continuous.aux"));
-                affixes.push(JSrealB.Config.get("rule.compound.continuous.participle"))
-            }
-            if (pas) {
-                verbs.push(JSrealB.Config.get("rule.compound.passive.aux"));
-                affixes.push(JSrealB.Config.get("rule.compound.passive.participle"))
-            }
-            verbs.push(unit);
+            auxils.push(unit);
             // realise the first verb, modal or auxiliary
-            var v=verbs.shift();
+            var v=auxils.shift();
             var words=[];
             if (isFuture)tense="p";
             if (neg) { // negate the first verb
-                if (modality || isFuture){
+                if (v in negMod){
                     words.push(negMod[v]);
-                } else if (pas||prog){// verb be
+                } else if (v=="be" || v=="have") {
                     words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
                     words.push("not");
                 } else {
                     words.push(applySimpleEnding("do",tense,person,getConjugationTable("do"))+(neg?"n't":""))
-                    words.push(v);
+                    if (v != "do") words.push(v);
                 }
-            } else 
+            } else // conjugate the first verb
                 words.push(applySimpleEnding(v,tense,person,getConjugationTable(v)));
             // realise the other parts using the corresponding affixes
-            while (verbs.length>0) {
-                v=verbs.shift();
+            while (auxils.length>0) {
+                v=auxils.shift();
                 words.push(applySimpleEnding(v, affixes.shift(),0,getConjugationTable(v)));
             }
             return words.join(" ");
@@ -3448,7 +3537,16 @@ JSrealB.Module.Number = (function() {
         }
 
         var formattedNumber = formatter(rawNumber, maxPrecision, grammaticalNumber);
-
+        var specialFractions=[[0.20, "one-fifth"],[0.25, "one-fourth"],[0.25, "one-quarter"],
+                              [0.333, "one-third"],[0.40, "two-fifths"],
+                              [0.50, "one-half"],[0.666, "two-thirds"],[0.75, "three-quarters"]];
+        if (rawNumber<1.0 && lang == "en"){
+            for (var i = 0; i < specialFractions.length; i++) {
+                var sp=specialFractions[i];
+                if (Math.abs(rawNumber-sp[0])<0.01)
+                    return sp[1];
+            }
+        }
         var numberLettres = enToutesLettres(parseInt(rawNumber),lang == "en", gender)
 
         if( lang == "fr" && numberLettres == "un" && gender == "f"){
@@ -4147,6 +4245,8 @@ JSrealB.Config = (function() {
         lexicon: {},
         rule: {},
         feature: {},
+        lenient: false,
+        lemmata: null
     };
     
     return {
@@ -4364,82 +4464,6 @@ JSrealB.Logger = (function() {
  */
 var JSrealBResource = {en: {}, fr: {}, common: {}};
 
-var JSrealLoader = function(resource, done, fail) {
-    
-    var language = resource.language;
-
-    // Checks language
-    if(language === undefined
-            || Object.keys(JSrealBResource).indexOf(language) < 0)
-    {
-        fail("Undefined or wrong language");
-        return;
-    }
-    
-    // Uses cache
-    if(typeof JSrealBResource[language]["lexicon"] !== "undefined"
-            && typeof JSrealBResource[language]["rule"] !== "undefined"
-            && typeof JSrealBResource.common.feature !== "undefined")
-    {
-        JSrealB.init(language, JSrealBResource[language]["lexicon"], 
-            JSrealBResource[language]["rule"], JSrealBResource.common.feature);
-        done();
-        return;
-    }
-    
-    var lexiconUrl = resource.lexiconUrl;
-    var ruleUrl = resource.ruleUrl;
-    var featureUrl = resource.featureUrl;
-    
-    JSrealB.Request.getJson(
-        lexiconUrl,
-        function(lexicon)
-        {
-            JSrealBResource[language]["lexicon"] = lexicon;
-            JSrealB.Request.getJson(
-                ruleUrl,
-                function(rule)
-                {
-                    JSrealBResource[language]["rule"] = rule;
-                    if(typeof JSrealBResource.common.feature !== "undefined")
-                    {
-                        JSrealB.init(language, lexicon, rule, 
-                            JSrealBResource.common.feature);
-                        done();
-                    }
-                    else
-                    {
-                        JSrealB.Request.getJson(
-                            featureUrl,
-                            function(feature)
-                            {
-                                JSrealBResource.common.feature = feature;
-
-                                JSrealB.init(language, lexicon, rule, feature);
-
-                                done();
-                            }, 
-                            function(status, error) {
-                                JSrealB.Logger.alert("Dictionary loading : " 
-                                        + status + " : " + error);
-                                if(fail) fail(error);
-                            }
-                        );
-                    }
-                }, 
-                function(status, error) {
-                    JSrealB.Logger.alert("Rule loading : " + status + " : " + error);
-                    if(fail) fail(error);
-                }
-            );
-        }, 
-        function(status, error) {
-            JSrealB.Logger.alert("Lexicon loading : " + status + " : " + error);
-            if(fail) fail(error);
-        }
-    );
-};
-
 var feature = {
     "category": {
         "alias": "c",
@@ -4551,7 +4575,7 @@ var feature = {
         "either": "x"
     },
     "owner": {
-        "alias": "own",
+        "alias": "ow",
         "singular": "s",
         "plural": "p",
         "either": "x"
@@ -4569,7 +4593,7 @@ var feature = {
     },
     "typography": {
         "alias": "typo",
-        "ucfist": "ucf",
+        "ucfirst": "ucf",
         "before": "b",
         "after": "a",
         "surround": "sur",
@@ -4595,7 +4619,7 @@ var feature = {
             "whoIndirect": "woi",
             "whatDirect": "wad",
             "where": "whe",
-            "when":"whn", //GL ajout de types de questions
+            "when":"whn", //GL ajout de TYPes de questions
             "why":"why",
             "how": "how",
             "howMuch": "muc"
@@ -4658,21 +4682,28 @@ var feature = {
         "determiner": "det",
         "natural_language": "nl"
     }
-}//Equivalent du JSrealLoader:
+}
 
-var loadEn = function(trace){    
+var lemmataEn=null;
+var loadEn = function(trace,lenient){    
     var language = "en";
+    if (lenient===undefined)lenient=false;
     try{
         JSrealBResource[language]["lexicon"] = lexiconEn;
         JSrealBResource[language]["rule"] = ruleEn;
+        if (lenient && lemmataEn==null) {
+            lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+        }
         if(typeof JSrealBResource.common.feature !== "undefined")
         {
             JSrealB.init(language, lexiconEn, ruleEn, 
-                JSrealBResource.common.feature);
+                JSrealBResource.common.feature,
+                lenient,lemmataEn
+            );
         }
         else{
             JSrealBResource.common.feature = feature;
-            JSrealB.init(language, lexiconEn, ruleEn, feature);
+            JSrealB.init(language, lexiconEn, ruleEn, feature,lenient,lemmataEn);
         }
         if(trace)
             console.warn("English language loaded successfully.")
@@ -4682,20 +4713,24 @@ var loadEn = function(trace){
     }
 }
     
-
-var loadFr = function(trace){
+var lemmataFr=null;
+var loadFr = function(trace,lenient){
     var language = "fr";
+    if (lenient===undefined)lenient=false;
     try{
         JSrealBResource[language]["lexicon"] = lexiconFr;
         JSrealBResource[language]["rule"] = ruleFr;
+        if (lenient && lemmataFr==null) {
+            lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+        }
         if(typeof JSrealBResource.common.feature !== "undefined")
         {
             JSrealB.init(language, lexiconFr, ruleFr, 
-                JSrealBResource.common.feature);
+                JSrealBResource.common.feature,lenient,lemmataFr);
         }
         else{
             JSrealBResource.common.feature = feature;
-            JSrealB.init(language, lexiconFr, ruleFr, feature);
+            JSrealB.init(language, lexiconFr, ruleFr, feature,lenient,lemmataFr);
         }
         if(trace)
             console.warn("Langue française chargée.")
@@ -4747,3 +4782,6 @@ var oneOf = function(elems){
     e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
+
+var jsRealB_version="1.1";
+var jsRealB_dateCreated=new Date();

@@ -92,7 +92,8 @@ function jsObjectToHtmlTable(obj,title){
                               (lang=="fr"?"Valeur":"Value")+"</th></tr></thead>");
     var $tbody=$("<tbody/>");
     for (var key in obj){
-        $tbody.append("<tr><td>" + key + "</td><td>" + obj[key] + "</td></tr>")
+        var s=typeof obj[key]=="string" ? obj[key]:JSON.stringify(obj[key]);
+        $tbody.append("<tr><td>" + key + "</td><td>" + s + "</td></tr>")
     }
     return $("<table/>").append($caption,$thead,$tbody);
 }
@@ -151,27 +152,27 @@ function deplacerSep(e){
     }
 }
 
-// /// Gestion du storage local pour remettre le dernier état de l'éditeur
-// // Feature test
-// var hasStorage = (function() {
-//     var mod = "jsrealb_storage_feature_test";
-//   try {
-//     localStorage.setItem(mod, mod);
-//     localStorage.removeItem(mod);
-//     return true;
-//   } catch (exception) {
-//     return false;
-//   }
-// }());
-//
-// ////
-// function storeCurrentData() {
-//     if(hasStorage && editor !== undefined)
-//     {
-//         localStorage.setItem("jsrealb_language", language);
-//         localStorage.setItem("jsrealb_source", editor.getValue());
-//     }
-// }
+/// Gestion du storage local pour remettre le dernier état de l'éditeur
+// Feature test
+var hasStorage = (function() {
+    var mod = "jsrealb_storage_feature_test";
+  try {
+    localStorage.setItem(mod, mod);
+    localStorage.removeItem(mod);
+    return true;
+  } catch (exception) {
+    return false;
+  }
+}());
+
+////
+function storeCurrentData() {
+    if(hasStorage && editor !== undefined)
+    {
+        localStorage.setItem("jsrealb_language", language);
+        localStorage.setItem("jsrealb_source", editor.getValue());
+    }
+}
 
 function showDictEntries(lexique,query){
     var regexp=new RegExp("^"+query+"$");
@@ -300,11 +301,11 @@ function showDeclension(declensions,mot,query,terminaison){
     return $("<p>"+query+":"+(lang=="fr"?"déclinaison non trouvée":"declension not found")+"</p>");
 }
 
-var lemmataEn,lemmataFr;
+// var lemmataEn,lemmataFr;
 
 function showLemmatization(lemmata,query){
     if (lemmata.has(query))
-        $result="<p><code><pre>"+lemmata.get(query).join("\n")+"</pre></code></p>";
+        $result="<p><code><pre>"+lemma2jsRexps(lemmata.get(query)).join("\n")+"</pre></code></p>";
     else { // try to match with a regular expression
         var re=new RegExp("^"+query+"$");
         var res=[];
@@ -329,7 +330,7 @@ function chercherInfos(e){
     var query=$("#interrogation").val();
     if(query=="")return;
     let interrogationLang=$("#langue").val()
-    if (interrogationLang=="en") loadEn(); else loadFr();
+    if (interrogationLang=="en") loadEn(false,true); else loadFr(false,true);
     $("#resultatInterrogation").empty();
     $("#resultatJson").empty()
     var type=$("#typeInterrogation").val();
@@ -428,6 +429,17 @@ function setLang(newLang){
     $("#langue option[value="+newLang+"]").prop("selected","selected")
 }
 
+// taken from https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs
+function timestamp(d){
+  function pad(n) {return n<10 ? "0"+n : n}
+  dash="-"
+  colon=":"
+  return d.getFullYear()+dash+
+  pad(d.getMonth()+1)+dash+
+  pad(d.getDate())+" "+
+  pad(d.getHours())+colon+
+  pad(d.getMinutes())
+}
     
 ////
 var editor;
@@ -440,6 +452,10 @@ $(document).ready(function() {
     $sepV       =$("#sepV");
     $info       =$("#info");
     $resultats  =$("#resultatInterrogation");
+    $jsRealBinfo =$("#jsRealBinfo");
+    if ($jsRealBinfo){
+        $jsRealBinfo.append("V"+jsRealB_version+" ["+timestamp(jsRealB_dateCreated)+"]");
+    }
 
     $canvas=$("#canvas")
     var canvas=$canvas[0];
@@ -454,17 +470,15 @@ $(document).ready(function() {
     editor.setShowPrintMargin(false);
     editor.setFontSize("16px"); // grandeur de police de défaut
 
-    // if(localStorage.getItem("jsrealb_source") !== undefined
-    //         && localStorage.getItem("jsrealb_source") !== null
-    //         && localStorage.getItem("jsrealb_source") !== "")
-    // {
-    //     language = localStorage.getItem("jsrealb_language");
-    //     editor.setValue(localStorage.getItem("jsrealb_source"));
-    //     if (language=="en")loadEn(); else loadFr();
-    //     dessiner(editor.getValue());
-    // }
-    // else
-    // {
+    if(jsRealBdev && localStorage.getItem("jsrealb_source") !== undefined
+            && localStorage.getItem("jsrealb_source") !== null
+            && localStorage.getItem("jsrealb_source") !== ""){
+        language = localStorage.getItem("jsrealb_language");
+        editor.setValue(localStorage.getItem("jsrealb_source"),-1);
+        
+        if (language=="en")loadEn(false,true); else loadFr(false,true);
+        dessiner(editor.getValue());
+    } else {
         language = "en";
         // exemple de génération "bilingue", il suffit de (dé)commenter (CMD-/ sur mac)
         // pour avoir la version dans la bonne langue...
@@ -501,16 +515,20 @@ $(document).ready(function() {
           + ").a('!')\n"
 
         );
-        if (language=="en")loadEn(); else loadFr();
+        if (language=="en")loadEn(false,true); else loadFr(false,true);
         dessiner(editor.getValue());
-    // }
+    }
 
     $("#french-realization-en,#french-realization-fr").click(function(){
-        loadFr();language="fr";
+        loadFr(false,true);language="fr";
+        $("#french-realization-en,#french-realization-fr").addClass("active");
+        $("#english-realization-en,#english-realization-fr").removeClass("active")
         dessiner(editor.getValue());
     });
     $("#english-realization-en,#english-realization-fr").click(function(){
-        loadEn();language="en";
+        loadEn(false,true);language="en";
+        $("#french-realization-en,#french-realization-fr").removeClass("active");
+        $("#english-realization-en,#english-realization-fr").addClass("active")
         dessiner(editor.getValue());
     });
     $canvas.mousedown(afficherRealisation);
@@ -519,16 +537,18 @@ $(document).ready(function() {
     $sepV.mousedown(debutDeplacerSep);
     $(window).mouseup(finDeplacerSep);
     $(window).mousemove(deplacerSep);
-    // $(window).unload(storeCurrentData);
+    if(jsRealBdev !== undefined){
+        $(window).unload(storeCurrentData);
+    }
     
     $("#interrogation").keypress(chercherInfos);
     $("#toEn").click(function(){setLang("en")});
     $("#toFr").click(function(){setLang("fr")});
     
-    loadEn();
-    lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
-    loadFr();
-	lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+    loadEn(false,true);
+    // lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+    loadFr(false,true);
+    // lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
     
     lang=$.urlParam("lang");
     if (lang=="en" || lang=="fr")

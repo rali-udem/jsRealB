@@ -4,10 +4,15 @@
 import re,json,sys
 from ppJson import ppJson
 
-infile='../data/dme-lex.txt'
-genresAnglaisFile='../data/englishGenderWords.txt'
+dataDir='/Users/lapalme/Dropbox/PourOrigene/AMR/lexical-data/'
+infile=dataDir+'dme-lex.txt'
+genresAnglaisFile=dataDir+'englishGenderWords.txt'
+# outfile='lexicon-dme.json'
 outfile='lexicon-dme.json'
-pat=re.compile(r'^\("([-\w]*?)"\s*(\w+)\s*(\w+).*\)$') # regex for lines of the form ("abacus" n2 NomC yes)
+# regex for lines of the form ("abacus" n2 NomC yes) 
+#                          or ("billion"	qt Quan def num plur car) ; 1000000000|1000000000000
+# groups: 1=word 2=table number 3=cat 4=other flags until ) 5= part after ) 6=numeric value when cat=ord or nat
+pat=re.compile(r'^\("([-\w]*?)"\s*(\w+)\s*(\w+)(.*\))(\s*; (\d+(/\d+)?)(\|.*)?)?$') 
 
 ## conversion of POS
 conv={"Verb":"V",
@@ -16,8 +21,8 @@ conv={"Verb":"V",
       "AdjQ":"A",
       "Pron":"Pro",
       "Dete":"D",
-      "Ordi":"x",
-      "Quan":"x",
+      "Ordi":"Ordi",
+      "Quan":"Quan",
       "Prep":"P",
       "Punc":"x",
       "Adve":"Adv",
@@ -54,9 +59,8 @@ words={
     "]": { "Pc": { "compl": "[", "tab": ["pc6"] } },
     "{": { "Pc": { "compl": "}", "tab": ["pc5"] } },
     "}": { "Pc": { "compl": "{", "tab": ["pc6"] } },
-    "the": {"D": {"tab": ["d4"]}}   # strangely "the" is not in dme 
     # add a few "modern" words
-    ,"internet":{"N":{"tab":["n1"]}} 
+    "internet":{"N":{"tab":["n1"]}} 
     ,"hyperlink":{"N":{"tab":["n1"]}} 
     ,"website":{"N":{"tab":["n1"]}}
     ,"e-mail":{"N":{"tab":["n1"]}}
@@ -65,6 +69,11 @@ words={
     ,"cyber":{"A":{"tab":["a1"]}}
 } 
 
+def updateNValue(word,cat,n,value):
+    if n!="s":word[cat]["n"]=n;
+    if value!=None:word[cat]["value"]=value
+
+## process the lines of dme
 for line in open(infile,encoding="utf-8"):
     line=line.rstrip()
     m=pat.match(line)
@@ -75,20 +84,40 @@ for line in open(infile,encoding="utf-8"):
         cat=conv[cat]
         tab=m.group(2)
         if tab=="ij":tab="n5" # consider interjections as nouns
+        elif cat=="Ordi": # consider ordinals as adjectives
+            cat="A"
+            tab="a1"
+            value=m.group(6) # should always have a number
+            n="s"
+        elif cat=="Quan": # consider quantifiers as determiners
+            cat="D"
+            tab="d4"
+            n = "p" if "plur" in m.group(4) else "s"
+            if m.group(7)!=None :
+                value=eval(m.group(6)) # evaluate the fraction
+            else:
+                value=m.group(6)  # can be None which is checked in updateNValue
+        else:
+            n="s"
+            value=None 
         if word in words:
             w=words[word]
             if cat in w:
                 if cat=="V":
                     if "tab" not in w["V"]: # keep only the first conjugation (e.g. "be")
                         w["V"]["tab"]=tab
+                        updateNValue(w,"V",n,value)
                 elif tab not in w[cat]["tab"]:
                     w[cat]["tab"].append(tab)
+                    updateNValue(w,cat,n,value)
             else:
                 if cat!="V":tab=[tab]
                 w[cat]={"tab":tab}
+                updateNValue(w,cat,n,value)
         else:
             if cat!="V":tab=[tab]
             words[word]={cat:{"tab":tab}}
+            updateNValue(words[word],cat,n,value)
         i+=1
         # if i>1000: break
 

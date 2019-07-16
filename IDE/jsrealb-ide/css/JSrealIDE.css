@@ -100,3 +100,12 @@ table caption {
 .infoSup {
     cursor: pointer;
 }
+
+#jsRealBinfo {
+    position:fixed; top:5px; right:5px;
+}
+
+.active {
+    background-color:blue;
+    color:white;
+}

@@ -38,7 +38,7 @@ The documentation can be accessed [here](https://lapalme.github.io/documentation
     * French or English conjugation and declension of a word [Conjugation and declension](demos/inflection) [*Execute*](https://lapalme.github.io/demos/inflection/index.html)
     * Show elision in contrived French and English sentences even across HTML tags that are displayed on purpose [elision](demos/elision) [sentences to elide](build/elisionTests.js) [*Execute*](https://lapalme.github.io/demos/elision/index.html)
 * `Node.js` module
-    * a command-line interface written `node.js` program that, given a word, finds a jsRealB expression to realize it (this capability is now included in the IDE) [*lemmatize.js*](demos/lemmatize/lemmatize.js)
+    * a command-line interface written `node.js` program that, given a word, finds a jsRealB expression to realize it (this capability is now included in the IDE) [*lemmatizer.js*](demos/lemmatize/lemmatizer.js)
 * User interface to create a simple sentence with options. The system shows the jsRealB expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [RandomGeneration](demos/randomGeneration/) 
       [*Execute in English*](https://lapalme.github.io/demos/randomGeneration/english.html) 

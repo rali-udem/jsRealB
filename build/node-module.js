@@ -26,6 +26,17 @@ if (typeof module !== 'undefined' && module.exports) {
     exports.addToLexicon=addToLexicon;
     exports.getLemma=getLemma;
     exports.oneOf=oneOf;
+    
+    exports.jsRealB_dateCreated=jsRealB_dateCreated;
+    exports.jsRealB_version=jsRealB_version;
+    
+    // lemmatization
+    exports.nbForms=nbForms;
+    exports.lemma2jsRexps=lemma2jsRexps;
+    exports.buildLemmata=buildLemmata;
+    exports.showLemmata=showLemmata;
+    exports.form2lemma=form2lemma;
+    exports.checkAmbiguities=checkAmbiguities;
 
     if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
     if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;

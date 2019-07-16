@@ -15,7 +15,7 @@ function timestamp(d){
   pad(d.getMinutes())
 }
 ///////// 
-//  load JSrealB file
+//  load jsRealB file
 const path=__dirname+'/jsRealB-dme.js'
 var jsRealB=require(path);
 
@@ -25,7 +25,6 @@ for (var v in jsRealB){
     eval("var "+v+"=jsRealB."+v);
 }
 
-loadEn(true);
 eval(fs.readFileSync(__dirname+'/addLexicon-dme.js').toString());
 
 http.createServer(function (request, response) {
@@ -46,9 +45,8 @@ http.createServer(function (request, response) {
        response.end('Language should be "en", but '+lang+' received\n')
    }
 }).listen(8081);
-
 // Console will print the message
-console.log('Server [built on %s] running at http://127.0.0.1:8081/',timestamp(fs.statSync(path).mtime));
+console.log('Server [built on %s] running at http://127.0.0.1:8081/',timestamp(jsRealB_dateCreated));
 
 /* 
 start server with : node server-en.js
