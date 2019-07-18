@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-        <title>Types de phrases en - JSrealB - Sentence Types</title>
+        <title>Types de phrases en - jsRealB - Sentence Types</title>
          <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <!-- the real thing 
         <script src="../../dist/jsRealB-dmefr.min.js"></script> -->
@@ -20,7 +20,7 @@
          <link rel="stylesheet" href="VariantesDePhrases.css">
     </head>
     <body>
-        <h1>Types de phrases en - JSrealB - Sentence Types</h1>
+        <h1>Types de phrases en - <a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> - Sentence Types</h1>
         <p>Entrer une structure de phrase selon la langue désirée ou choisir une phrase dans la liste.
            En décochant des cases des types, on limite le nombre de phrases générées
         </p>
@@ -33,13 +33,13 @@
                     <option value="fr">français</option>
                     <option value="en" selected="selected">English</option>
                 </select>
-                <input type="button" name="generer" value="GO" id="generer"/>
             </div>
             <select multiple="multiple" size="10" id="sentMenuEn"></select>
             <select multiple="multiple" size="10" id="sentMenuFr"></select>
-            <div id="infos"></div>
+            <div><input type="button" name="generer" value="GO" id="generer"/><span id="infos"></span></div>
         </div>
         <div style="clear:both"></div>
+        <div id="message"> </div>
         <table id="tab"></table>
     </body>
 </html>

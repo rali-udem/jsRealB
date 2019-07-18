@@ -84,7 +84,7 @@ S(Pro("je").pe(2),
   VP(V("savoir"),
      SP(Pro("que"),
         S(Q("Bill"),
-          VP(V("marier").t("ps"),
+          VP(V("épouser").t("ps"),
              D("mon").g("m"),
              Q("ex").lier("-"),N("femme")))).t("ps")
              ))

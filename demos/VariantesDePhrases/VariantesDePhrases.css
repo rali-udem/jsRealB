@@ -4,7 +4,7 @@ textarea {font: normal normal normal 1.1em Courier, sans-serif;}
 #sortie {margin:10px 0;}
 #langue, #generer {vertical-align:top;}
 
-select,input[type=button],#infos {margin:10px;}
+select,input[type=button],#infos {margin:5px 10px;}
 
 table {
     clear:both;
@@ -26,7 +26,7 @@ td:last-child,th:last-child {
 thead, tbody { display: block; }
 tbody {
     height: 400px;
-    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-y: always;  /* Trigger vertical scroll    */
     overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 
