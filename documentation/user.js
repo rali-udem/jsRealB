@@ -1,5 +1,5 @@
 "use strict";
-var jsRealBdir='https://lapalme.github.io/dist/';
+var jsRealBdir='http://rali.iro.umontreal.ca/JSrealB/current/dist/';
 var currentLang;
 
 // taken from https://www.sitepoint.com/url-parameters-jquery/

@@ -1,13 +1,13 @@
 var struct;
 
 var $langue,$generer,$tab;
-var $struct,$tbody,$infos;
+var $struct,$tbody,$infos,$message;
 
 var allTypes=["neg","pas","prog","perf","int","mod"];
 var types; // change selon la langue
 var pos={"int":["yon","wos","wod","wad","woi","whe","why","whn","how","muc"],
          "mod":["poss","perm","nece","obli","will"]}
-var nb;
+var nb,ex;
 
 // génération d'une phrase
 function generer(s,$tab,obj){
@@ -47,7 +47,6 @@ function genererTypes(s,$tab,types,obj){
 }
 
 function genererHeader(lang){
-    var $tab=$("#tab");
     $tab.empty();
     types=allTypes.slice(); // copier tous les types
     if (lang=="fr")// pas de "perf" en français, l'enlever de types
@@ -76,7 +75,7 @@ function genererStruct(struct,lang){
         genererTypes(eval(struct),$tbody,types,{});
         $("#nbSentences").text(nb);
     } catch (err) {
-        $("#nombre").text((lang=="fr"?"Erreur dans la structure jsRealB: ":
+        $("#message").text((lang=="fr"?"Erreur dans la structure jsRealB: ":
                                        "Error in jsRealB: ")+err.message);
     }
 }
@@ -109,13 +108,14 @@ function createSentenceMenu(lang,examples,$menu){
 
 function loadSentence($menu,examples){
     var index=parseInt($menu.val());
-    var ex=examples[index]
+    ex=examples[index]
     $struct.val(ex.expr.trim());
-    $infos.empty();
     if (ex.ref!==undefined){
-        $infos.html('<a href="'+ex.url+'">'+ex.ref+'</a> '+ex.no);
+        $infos.html('<a target="_blank" href="'+ex.url+'">'+ex.ref+'</a> '+ex.no);
     }
-        
+    $("tbody",$tab).empty();
+    $("#nbSentences").text("-");
+    $message.text(" ");
 }
 
 $(document).ready(function() {
@@ -124,6 +124,8 @@ $(document).ready(function() {
     $struct=$("#struct");
     $langue=$("#langue");
     $infos=$("#infos");
+    $tab=$("#tab");
+    $message=$("#message");
     $langue.change(showLangTextArea);
     $generer=$("#generer");
     createSentenceMenu("en",examplesEn,$sentMenuEn);

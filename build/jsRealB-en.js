@@ -432,8 +432,8 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
 // comme les objets jsRealB possèdent des références circulaires, on ne peut utiliser "simple" clone récursif,
 //    on recrée donc une représentation chaîne de l'objet qu'on fait évaluer
 JSrealE.prototype.toSource = function() {
-    function mkTyp(key,val){
-        return '.typ({"'+key+'":"'+val+'"})';
+    function mkVal(val){
+        return typeof val=="string"?JSON.stringify(val):val;
     }
     var nativeString = this.category
     if(this.unit != null){
@@ -453,16 +453,18 @@ JSrealE.prototype.toSource = function() {
     var subProps=[];
     for (prop in this.initProp){
         if (prop.startsWith("vOpt."))
-            subProps.push(mkTyp(prop.substring(5),this.initProp[prop]));
+            subProps.push(".typ({"+prop.substring(5)+":"+mkVal(this.initProp[prop])+"})");
         else
             subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
     }
     //// ajouter les éléments du contexte
     //       types de phrases
-    if (this.ctx.typ !== undefined)
-        for (prop in this.ctx.typ){
-            subProps.push(mkTyp(prop,this.ctx.typ[prop]))
-        }
+    var typeList=[]
+    for (prop in this.ctx.typ){
+        typeList.push(prop+":"+mkVal(this.ctx.typ[prop]));
+    }
+    if (typeList.length>0)
+        subProps.push(".typ({"+typeList.join(",")+"})");
     //   HTML tags
     var htmlElems=this.ctx.html;
     for (var i = 0; i < htmlElems.length; i++) {
