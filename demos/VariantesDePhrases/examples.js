@@ -35,7 +35,6 @@ S(Pro("I").pe(2),
 S(Pro("I").g("f"),
   VP(V("love"),
      Pro("me"),Adv("still")))
-     .typ({int:"yon"})
 `},
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"Homework 6 (1a)",
  expr:`
