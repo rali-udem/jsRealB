@@ -32652,7 +32652,7 @@ var lexiconEn = //========== lexicon-dme.js
  "spawn":{"N":{"tab":["n5"]},
           "V":{"tab":"v1"}},
  "spay":{"V":{"tab":"v1"}},
- "speak":{"V":{"tab":"v140"}},
+ "speak":{"V":{"tab":"v138"}},
  "speaker":{"N":{"g":"m",
                  "tab":["n1"]}},
  "speakership":{"N":{"tab":["n1"]}},

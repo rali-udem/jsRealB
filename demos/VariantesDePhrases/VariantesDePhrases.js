@@ -73,10 +73,11 @@ function genererStruct(struct,lang){
     try {
         nb=0;
         genererTypes(eval(struct),$tbody,types,{});
+        $message.html("&nbsp;")
         $("#nbSentences").text(nb);
     } catch (err) {
-        $("#message").text((lang=="fr"?"Erreur dans la structure jsRealB: ":
-                                       "Error in jsRealB: ")+err.message);
+        $message.text((lang=="fr"?"Erreur dans la structure jsRealB: ":
+                                  "Error in jsRealB: ")+err.message);
     }
 }
 
@@ -115,7 +116,7 @@ function loadSentence($menu,examples){
     }
     $("tbody",$tab).empty();
     $("#nbSentences").text("-");
-    $message.text(" ");
+    $message.html("&nbsp;")
 }
 
 $(document).ready(function() {

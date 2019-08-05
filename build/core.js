@@ -1104,7 +1104,7 @@ JSrealE.prototype.modifyStructure = function() {
         }
     }
 
-    //Interrogatif (français)
+    //Interrogatif 
     var int = this.getCtx(JSrealB.Config.get("feature.sentence_type.alias"))
                      [JSrealB.Config.get("feature.sentence_type.interrogative")];
     if(int!= undefined){
@@ -1293,28 +1293,30 @@ JSrealE.prototype.printEachElement = function(elementList, separator, lastSepara
 
 JSrealE.prototype.realizeTerminalElement = function() {
     // console.log("realizeTerminalElement:",this);
-    if(this.elements.length === 0)
+    if (this.elements.length === 0)
     {
-        if(this.transformation === JSrealE.ruleType.declension)
+        if (this.transformation === JSrealE.ruleType.declension)
         {
             return this.realizeDeclension();
         }
-        else if(this.transformation === JSrealE.ruleType.conjugation)
-        {
+        else if (this.transformation === JSrealE.ruleType.conjugation){
             var conjugation = this.realizeConjugation();
             //La forme interrogative anglaise met le premier auxiliaire au début
-            try{
-                var intCtx = this.getTreeRoot(false).getCtx( //GL juillet 2017 (true=>false)
-                    JSrealB.Config.get("feature.sentence_type.alias")+"."+
-                    JSrealB.Config.get("feature.sentence_type.interrogative"))
-                if(JSrealB.Config.get("language")=="en" && (intCtx==true 
-                    || contains(JSrealB.Config.get("feature.sentence_type.interro_prefix"),intCtx) 
-                    || this.getTreeRoot(false).getCtx("firstAux")!=null)){ //GL juillet 2017 (true=>false)
-                    conjugation = this.putAuxInFront(conjugation);
+            if (JSrealB.Config.get("language")=="en") {
+                try {
+                    var firstAux=this.getTreeRoot(false).getCtx("firstAux");
+                    if (firstAux!=null)
+                        return this.realization;
+                    var intCtx = this.getTreeRoot(false).getCtx( //GL juillet 2017 (true=>false)
+                        JSrealB.Config.get("feature.sentence_type.alias")+"."+
+                        JSrealB.Config.get("feature.sentence_type.interrogative"))
+                    if (intCtx==true 
+                        || contains(JSrealB.Config.get("feature.sentence_type.interro_prefix"),intCtx))
+                        conjugation = this.putAuxInFront(conjugation);
+                } catch (e){
+                    // console.warn("Error while moving aux:"+e) //GL spurious message when generating only single NP or VP
                 }
-            }catch(e){
-                // console.warn("Error while moving aux:"+e) //GL spurious message when generating only single NP or VP
-            }
+            } 
             return conjugation;
         }
         else if(this.transformation === JSrealE.ruleType.regular)
@@ -1378,7 +1380,7 @@ JSrealE.prototype.realizeConjugation = function() {
     try{
         verbOptions.interro = this.getTreeRoot(true).getCtx(JSrealB.Config.get("feature.sentence_type.alias")
                                                               +"."+JSrealB.Config.get("feature.sentence_type.interrogative"));
-        if(this.getTreeRoot(true).getCtx("firstAux")!=null)verbOptions.interro = "old";
+        //if(this.getTreeRoot(true).getCtx("firstAux")!=null)verbOptions.interro = "old";
     }catch(e){}
     // get info about modality
     try{
@@ -1972,6 +1974,12 @@ S_FR.prototype.interrogationForm = function(int) {
         var sujP = getSubject(this); //subject position
         if(sujP != -1){
             this.deleteElement(sujP);
+            // s'assurer de mettre le verbe à la troisième personne du singulier car le sujet sera
+            //  qui est-ce qui?
+            var verbe = this.constituents.head;
+            verbe.setChildrenProp("n","s");
+            verbe.setChildrenProp("pe",3);
+            this.resetProp(true);
         }
         break;
     case JSrealB.Config.get("feature.sentence_type.interro_prefix.whoDirect"):
@@ -2017,6 +2025,12 @@ S_EN.prototype.interrogationForm = function(int) {
             var sujP = getSubject(this); //subject position
             if(sujP != -1){
                 this.deleteElement(sujP);
+                // ensure that the verb will be at the 3rd person singular because the subject will be 
+                //  who?
+                var verbe = this.constituents.head;
+                verbe.setChildrenProp("n","s");
+                verbe.setChildrenProp("pe",3);
+                // this.resetProp(true);
                 change = true;
             }
             break;
@@ -2024,6 +2038,7 @@ S_EN.prototype.interrogationForm = function(int) {
         case JSrealB.Config.get("feature.sentence_type.interro_prefix.whatDirect"):
             var vP = getGroup(this,JSrealB.Config.get("feature.category.phrase.verb"));
             var cdP = getGroup(this.elements[vP],JSrealB.Config.get("feature.category.phrase.noun"));
+            if (cdP == -1) cdP = getGroup(this.elements[vP],JSrealB.Config.get("feature.category.word.pronoun"));
             if(vP != -1 && cdP != -1){
                 this.elements[vP].deleteElement(cdP);
                 change = true; 
@@ -2048,13 +2063,17 @@ S_EN.prototype.interrogationForm = function(int) {
         case JSrealB.Config.get("feature.sentence_type.interro_prefix.when"):
         case JSrealB.Config.get("feature.sentence_type.interro_prefix.why"):
         case JSrealB.Config.get("feature.sentence_type.interro_prefix.howMuch"):
-        case JSrealB.Config.get("feature.sentence_type.interro_prefix.whoSubject")://N'était pas là avant...
-            var prefix = JSrealB.Config.get("rule.sentence_type.int.prefix")[int]+" "+this.getCtx("firstAux");
+        case JSrealB.Config.get("feature.sentence_type.interro_prefix.whoSubject"):
+            var prefix = JSrealB.Config.get("rule.sentence_type.int.prefix")[int]
+            var aux=this.getCtx("firstAux");
+            if(this.getCtx("firstAux")!=null){
+                prefix+=" "+aux
+            }           
             this.addNewElement(0,prefix);
             break;
         default:
             if(this.getCtx("firstAux")!=null){
-                this.addNewElement(0,this.getCtx("firstAux"));    
+                this.addNewElement(0,this.getCtx("firstAux"));
             }           
     }
 
@@ -3068,10 +3087,12 @@ JSrealB.Module.Conjugation = (function(){
                     auxils.push(JSrealB.Config.get("rule.compound.passive.aux"));
                     affixes.push(JSrealB.Config.get("rule.compound.passive.participle"))
                 }
-            } else if (interro && auxils.length==0 && unit!="be" && unit!= "have"){ 
+            } else if (interro && auxils.length==0 && unit!="be" && unit!="have"){ 
                 // add auxiliary for interrogative if not already there
-                auxils.push("do");
-                affixes.push("b");
+                if (interro!="wos" && interro!="old"){
+                    auxils.push("do");
+                    affixes.push("b");
+                }
             }
             auxils.push(unit);
             // realise the first verb, modal or auxiliary

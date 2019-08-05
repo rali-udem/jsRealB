@@ -67,6 +67,7 @@ words={
     ,"url":{"N":{"tab":["n1"]}}
     ,"google":{"N":{"tab":["n1"]},"V":{"tab":"v3"}}
     ,"cyber":{"A":{"tab":["a1"]}}
+    ,"download":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}
 } 
 
 def updateNValue(word,cat,n,value):
