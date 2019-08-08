@@ -29906,7 +29906,7 @@ var lexiconEn = //========== lexicon-dme.js
  "saxophone":{"N":{"tab":["n1"]}},
  "saxophonist":{"N":{"tab":["n1"]}},
  "say":{"N":{"tab":["n1"]},
-        "V":{"tab":"v79"}},
+        "V":{"tab":"v19"}},
  "saying":{"N":{"tab":["n1"]}},
  "scab":{"N":{"tab":["n1"]}},
  "scabbard":{"N":{"tab":["n1"]}},

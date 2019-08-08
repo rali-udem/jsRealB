@@ -1611,12 +1611,14 @@ JSrealE.prototype.html = function(content) {
 JSrealE.prototype.phonetic = function(content) {
     // console.log("phonetic:%s",content)
     if (JSrealB.Config.get("language")=="fr"){
-        if (content === null) return "* aucune réalisation *";
+        // if (content === null) return "* aucune réalisation *";
+        if (content === null) return "";
         var res=elisionFr(content);
         // console.log("fr:%s",res)
         return res;
     } else {
-        if (content === null) return "* no realisation *";
+        // if (content === null) return "* no realisation *";
+        if (content === null) return "";
         var res=elisionEn(content);
         // console.log("en:%s",res)
         return res;
