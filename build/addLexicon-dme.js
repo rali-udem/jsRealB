@@ -60,7 +60,7 @@ prepositions.forEach(function(prep){
 })
 
 var adverbs=[
-    "how","when","there","why","much","where","up","down","most","more","on","off",
+    "how","when","there","why","much","where","up","down","most","more","less","on","off",
     "too","super","of","further","twice","for"
 ]
 adverbs.forEach(function(adv){
@@ -68,7 +68,7 @@ adverbs.forEach(function(adv){
 })
 
 var adjectives=[
-    "other","many","more","own","much","such","next","most","several","else","enough","less","top",
+    "other","many","more","own","much","such","next","most","several","else","enough","top",
     "another","further","least","more","last","same","own","most","favorite","jewish",
     "terrorist"
 ];
