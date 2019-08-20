@@ -30419,7 +30419,7 @@ var lexiconEn = //========== lexicon-dme.js
  "nectarine":{"N":{"tab":["n1"]}},
  "née":{"A":{"tab":["a1"]}},
  "need":{"N":{"tab":["n1"]},
-         "V":{"tab":"v167"}},
+         "V":{"tab":"v1"}},
  "needful":{"A":{"tab":["a1"]}},
  "needfully":{"Adv":{"tab":["b1"]}},
  "needle":{"N":{"tab":["n1"]},
