@@ -59,7 +59,8 @@ var JSrealE = function(elts, category, transformation) {
     {
         var lang=getLanguage()
         naturalDisplay = false;
-        elts = elts.replace(lang=="en"?/,| /g:/ /g,"");// remove possible , and spaces within a number
+        if (typeof elts == "string")
+            elts = elts.replace(lang=="en"?/,| /g:/ /g,"");// remove possible , and spaces within a number
         if (!isNumeric(elts)){
             var lemma=getLemma(elts);
             if (lemma !== undefined){
@@ -373,7 +374,10 @@ JSrealE.prototype.siblingFeaturePropagation = function(target, propList, valueLi
     
     var groupPropNameList = (propList === undefined) ? Object.keys(this.prop)
             .concat(Object.keys(this.defaultProp)).concat(Object.keys(this.childrenProp)) : propList;
-
+    // do not propagate person of a determiner e.g. D("my") that could change the verb 
+    if (this.category=="D")
+        groupPropNameList=groupPropNameList.filter(function(e){return e != "pe"})
+    
     var j, nbGroupProp;
     for(j = 0, nbGroupProp = groupPropNameList.length; j < nbGroupProp; j++)
     {
@@ -930,8 +934,8 @@ JSrealE.prototype.modifyStructure = function() {
              JSrealB.Config.get("feature.category.word.preposition"),
              JSrealB.Config.get("feature.category.word.conjunction"),
              JSrealB.Config.get("feature.category.phrase.adverb"),
-             JSrealB.Config.get("feature.category.phrase.prepositional"),
-             JSrealB.Config.get("feature.category.phrase.propositional"),
+             // JSrealB.Config.get("feature.category.phrase.prepositional"),
+             // JSrealB.Config.get("feature.category.phrase.propositional"),
              JSrealB.Config.get("feature.category.phrase.coordinated"),
              JSrealB.Config.get("feature.category.phrase.sentence")]
     var elemList = this.elements;
@@ -941,7 +945,7 @@ JSrealE.prototype.modifyStructure = function() {
 
 
         // trier les compléments d'un VP en ordre de longueur de réalisation...
-    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2 &&
+    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>=2 &&
         //  si la phrase n'est pas au passif   
        !this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas")){
         //  et qu'elle ne contienne un Q, P ou C ou des phrases qui devraient demeurer au même endroit
@@ -995,8 +999,10 @@ JSrealE.prototype.modifyStructure = function() {
                 if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
                     suj.unit = JSrealB.Config.get("rule.usePronoun.Pro"); 
                 var cd = elemList[CDpos];
-                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun"))
+                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun")){
                     cd.unit = JSrealB.Config.get("rule.usePronoun.S"); 
+                    if (cd.unit=="me")cd.unit="I" // change accusative pronoun in COD to nominative
+                }
                 
                 //inversion
                 parent.elements[subjectPos] = cd;
@@ -1025,7 +1031,12 @@ JSrealE.prototype.modifyStructure = function() {
             }
             else if(CDpos != -1){
                 var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
-                parent.addNewElement(VPpos,elemList[CDpos]);//will bump the verb and place the cd just before
+                var cd=elemList[CDpos];
+                if (cd.category==JSrealB.Config.get("feature.category.word.pronoun")){
+                    if (cd.unit=="me")cd.unit="I" // change accusative pronoun in COD to nominative
+                }
+                parent.addNewElement(VPpos,cd);//will bump the verb and place the cd just before
+                
                 this.deleteElement(CDpos);
 
                 verbe.setInitProp("vOpt.pas",true);
@@ -1611,12 +1622,14 @@ JSrealE.prototype.html = function(content) {
 JSrealE.prototype.phonetic = function(content) {
     // console.log("phonetic:%s",content)
     if (JSrealB.Config.get("language")=="fr"){
-        if (content === null) return "* aucune réalisation *";
+        // if (content === null) return "* aucune réalisation *";
+        if (content === null) return "";
         var res=elisionFr(content);
         // console.log("fr:%s",res)
         return res;
     } else {
-        if (content === null) return "* no realisation *";
+        // if (content === null) return "* no realisation *";
+        if (content === null) return "";
         var res=elisionEn(content);
         // console.log("en:%s",res)
         return res;
@@ -30406,7 +30419,7 @@ var lexiconEn = //========== lexicon-dme.js
  "nectarine":{"N":{"tab":["n1"]}},
  "née":{"A":{"tab":["a1"]}},
  "need":{"N":{"tab":["n1"]},
-         "V":{"tab":"v167"}},
+         "V":{"tab":"v1"}},
  "needful":{"A":{"tab":["a1"]}},
  "needfully":{"Adv":{"tab":["b1"]}},
  "needle":{"N":{"tab":["n1"]},
@@ -38036,7 +38049,7 @@ var lexiconEn = //========== lexicon-dme.js
  "saxophone":{"N":{"tab":["n1"]}},
  "saxophonist":{"N":{"tab":["n1"]}},
  "say":{"N":{"tab":["n1"]},
-        "V":{"tab":"v79"}},
+        "V":{"tab":"v19"}},
  "saying":{"N":{"tab":["n1"]}},
  "scab":{"N":{"tab":["n1"]}},
  "scabbard":{"N":{"tab":["n1"]}},
@@ -47692,45 +47705,65 @@ var lexiconEn = //========== lexicon-dme.js
 loadEn(false,true); // make sure additions are to the English lexicon
 // ajouts au lexique de JSrealB (version dme)
 addToLexicon("tsunami",{"N":{"tab":["n1"]}});
-addToLexicon({"theater":{"N":{"tab":["n1"]}}}); // same as theatre
-
+addToLexicon("sushi",{"N":{"tab":["n1"]}});
 
 ////////////////// Additions for SRST 2019
-addToLexicon({"download":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}}) // like load
-addToLexicon({"email":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})    // like mail
-addToLexicon({"e-mail":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})   // like mail
-addToLexicon({"ecommerce":{"N":{"tab":["n5"]}}})               // commerce
+
+// modern words 
+addToLexicon({"download":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}}) //  load
+addToLexicon({"upload":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})   //  load
+addToLexicon({"email":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})    //  mail
+addToLexicon({"e-mail":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})   //  mail
+addToLexicon({"ecommerce":{"N":{"tab":["n5"]}}})                 // commerce
 addToLexicon({"e-commerce":{"N":{"tab":["n5"]}}})
-addToLexicon({"database":{"N":{"tab":["n1"]}}})                // like base Noun       
-addToLexicon({"data-base":{"N":{"tab":["n1"]}}})               // like base Noun
-addToLexicon({"browser":{"N":{"tab":["n1"]}}})                 // like dowser
+addToLexicon({"database":{"N":{"tab":["n1"]}}})                // base Noun       
+addToLexicon({"data-base":{"N":{"tab":["n1"]}}})               // base Noun
+addToLexicon({"browser":{"N":{"tab":["n1"]}}})                 // dowser
+addToLexicon({"online":{"N":{"tab":["n1"]}}})                  // airline
+addToLexicon({"fax":{"N":{"tab":["n2"]},"V":{"tab":"v2"}}})    // tax
+addToLexicon({"smartphone":{"N":{"tab":["n1"]}}})              // gramophone
+addToLexicon({"iphone":{"N":{"tab":["n1"]}}})                  // gramophone
+addToLexicon({"spreadsheet":{"N":{"tab":["n1"]}}})             // time-sheet
+addToLexicon({"pixel":{"N":{"tab":["n1"]}}})                   // angel
+addToLexicon({"megapixel":{"N":{"tab":["n1"]}}})               // angel
 
-addToLexicon({"euro":{"N":{"tab":["n1"]}}})                    // like bistro
-addToLexicon({"fax":{"N":{"tab":["n2"]},"V":{"tab":"v2"}}})    // like tax
-addToLexicon({"color":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})  // color
+addToLexicon({"euro":{"N":{"tab":["n1"]}}})                    // bistro
+addToLexicon({"something":{"N":{"tab":["n1"]}}})               // thing, already there as pronoun
+addToLexicon({"cupcake":{"N":{"tab":["n1"]}}})                 // bridecake
+addToLexicon({"burger":{"N":{"tab":["n1"]}}})                  // hamburger
+addToLexicon({"vegan":{"N":{"tab":["n1"]}}})                   // vegetarian
+
+// american English
+addToLexicon({"theater":{"N":{"tab":["n1"]}}});                // theatre
+addToLexicon({"color":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})  // colour
 addToLexicon({"center":{"N":{"tab":["n1"]},"V":{"tab":"v3"}}}) // centre
-addToLexicon({"something":{"N":{"tab":["n1"]}}})               // like thing, already there as pronoun
-addToLexicon({"defense":{"N":{"tab":["n1"]}}})                 //  defence
+addToLexicon({"defense":{"N":{"tab":["n1"]}}})                 // defence
+addToLexicon({"neighborhood":{"N":{"tab":["n1"]}}})            // neighbourhood
+addToLexicon({"favor":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})  // favour
+addToLexicon({"flavor":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}}) // flavour
+addToLexicon({"summarise":{"V":{"tab":"v3"}}})                 // summarize
+addToLexicon({"civilisation":{"N":{"tab":["n1"]}}})            // civilization
 
-//  but I am not always sure that the POS are appropriate
-addToLexicon({"please":{"N":{"tab":["n5"]}}}) // interjections are invariable nouns in dme...
+addToLexicon({"there":{"Pro":{"tab":["pn6"]}}})   // invariable pronoun
+addToLexicon({"all":{"Pro":{"tab":["pn6"]}}})
+addToLexicon({"one":{"Pro":{"tab":["pn6"]},"N":{"tab":"n1"}}})
+addToLexicon({"other":{"Pro":{"tab":["pn6"]}}})
 
-var determiners=[
-    "this","these"
-]
-determiners.forEach(function(det){
-    addToLexicon(det,{"D":{"tab":["d5"]}})
-})
+addToLexicon("this",{"D":{"tab":["d5"]}})
+addToLexicon("these",{"D":{"n":"p","tab":["d4"]}})  // should use lemma this
+
+//  but I am not always sure that the POS are always appropriate
+addToLexicon({"an":{"D":{"tab":["d4"]}}})   // should not have to do that...
 
 var prepositions=[
-    "as","not","than","because"
+    "as","not","than","because","due"
 ];
 prepositions.forEach(function(prep){
     addToLexicon(prep,{"P":{"tab":["pp"]}})
 })
 
 var adverbs=[
-    "how","when","there","why","much","where","up","down","most","more","on","off",
+    "how","when","there","why","much","where","up","down","most","more","less","on","off",
     "too","super","of","further","twice","for"
 ]
 adverbs.forEach(function(adv){
@@ -47738,8 +47771,9 @@ adverbs.forEach(function(adv){
 })
 
 var adjectives=[
-    "other","many","more","own","much","such","next","most","several","else","enough","less","top",
-    "another","further","least","more","last","same","own","most","favorite","jewish"
+    "other","many","more","own","much","such","next","most","several","else","enough","top",
+    "another","further","least","more","last","same","own","most","favorite","jewish",
+    "terrorist"
 ];
 adjectives.forEach(function(adj){
     addToLexicon(adj,{"A":{"tab":["a1"]}})
@@ -47748,11 +47782,11 @@ adjectives.forEach(function(adj){
 // relating to a nation or noun
 // many of these are already there starting with a Capital
 var adjectiveNouns = [
-"african","american","arab","arabian","arabic","argentinian","asian","bosnian","brazilian",
-"british","canadian","chinese","egyptian","english","european","french","indian","iranian",
-"iraqi","irish","islamist","israeli","italian","jamaican","japanese","jew","jordanian","kurdish",
-"lebanese","malaysian","mexican","norwegian","pakistani","palestinian","parisian",
-"russian","scottish","sicilian","spanish","swedish","syrian","vietnamese"
+"african","afghan","american","arab","arabian","arabic","argentinian","armenian","asian","australian","bosnian",
+"brazilian","british","canadian","chinese","egyptian","english","european","french","german","greek","indian","iranian",
+"iraqi","irish","islamic","islamist","israeli","italian","jamaican","japanese","jew","jordanian","kurdish",
+"lebanese","macedonian","malaysian","mexican","muslim","norwegian","pakistani","palestinian","parisian",
+"Republican","russian","scottish","sicilian","spanish","swedish","sunni","syrian","thai","turkish","vietnamese"
 ];
 adjectiveNouns.forEach(function(adjN){
     addToLexicon(adjN,{"A":{"tab":["a1"]},"N":{"tab":["n1"]}});

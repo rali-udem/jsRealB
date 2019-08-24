@@ -59,7 +59,8 @@ var JSrealE = function(elts, category, transformation) {
     {
         var lang=getLanguage()
         naturalDisplay = false;
-        elts = elts.replace(lang=="en"?/,| /g:/ /g,"");// remove possible , and spaces within a number
+        if (typeof elts == "string")
+            elts = elts.replace(lang=="en"?/,| /g:/ /g,"");// remove possible , and spaces within a number
         if (!isNumeric(elts)){
             var lemma=getLemma(elts);
             if (lemma !== undefined){
@@ -373,7 +374,10 @@ JSrealE.prototype.siblingFeaturePropagation = function(target, propList, valueLi
     
     var groupPropNameList = (propList === undefined) ? Object.keys(this.prop)
             .concat(Object.keys(this.defaultProp)).concat(Object.keys(this.childrenProp)) : propList;
-
+    // do not propagate person of a determiner e.g. D("my") that could change the verb 
+    if (this.category=="D")
+        groupPropNameList=groupPropNameList.filter(function(e){return e != "pe"})
+    
     var j, nbGroupProp;
     for(j = 0, nbGroupProp = groupPropNameList.length; j < nbGroupProp; j++)
     {
@@ -930,8 +934,8 @@ JSrealE.prototype.modifyStructure = function() {
              JSrealB.Config.get("feature.category.word.preposition"),
              JSrealB.Config.get("feature.category.word.conjunction"),
              JSrealB.Config.get("feature.category.phrase.adverb"),
-             JSrealB.Config.get("feature.category.phrase.prepositional"),
-             JSrealB.Config.get("feature.category.phrase.propositional"),
+             // JSrealB.Config.get("feature.category.phrase.prepositional"),
+             // JSrealB.Config.get("feature.category.phrase.propositional"),
              JSrealB.Config.get("feature.category.phrase.coordinated"),
              JSrealB.Config.get("feature.category.phrase.sentence")]
     var elemList = this.elements;
@@ -941,7 +945,7 @@ JSrealE.prototype.modifyStructure = function() {
 
 
         // trier les compléments d'un VP en ordre de longueur de réalisation...
-    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2 &&
+    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>=2 &&
         //  si la phrase n'est pas au passif   
        !this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas")){
         //  et qu'elle ne contienne un Q, P ou C ou des phrases qui devraient demeurer au même endroit
@@ -995,8 +999,10 @@ JSrealE.prototype.modifyStructure = function() {
                 if(suj.category == JSrealB.Config.get("feature.category.word.pronoun")) 
                     suj.unit = JSrealB.Config.get("rule.usePronoun.Pro"); 
                 var cd = elemList[CDpos];
-                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun"))
+                if(cd.category == JSrealB.Config.get("feature.category.word.pronoun")){
                     cd.unit = JSrealB.Config.get("rule.usePronoun.S"); 
+                    if (cd.unit=="me")cd.unit="I" // change accusative pronoun in COD to nominative
+                }
                 
                 //inversion
                 parent.elements[subjectPos] = cd;
@@ -1025,7 +1031,12 @@ JSrealE.prototype.modifyStructure = function() {
             }
             else if(CDpos != -1){
                 var VPpos = getGroup(parent,JSrealB.Config.get("feature.category.phrase.verb"));
-                parent.addNewElement(VPpos,elemList[CDpos]);//will bump the verb and place the cd just before
+                var cd=elemList[CDpos];
+                if (cd.category==JSrealB.Config.get("feature.category.word.pronoun")){
+                    if (cd.unit=="me")cd.unit="I" // change accusative pronoun in COD to nominative
+                }
+                parent.addNewElement(VPpos,cd);//will bump the verb and place the cd just before
+                
                 this.deleteElement(CDpos);
 
                 verbe.setInitProp("vOpt.pas",true);
@@ -1611,12 +1622,14 @@ JSrealE.prototype.html = function(content) {
 JSrealE.prototype.phonetic = function(content) {
     // console.log("phonetic:%s",content)
     if (JSrealB.Config.get("language")=="fr"){
-        if (content === null) return "* aucune réalisation *";
+        // if (content === null) return "* aucune réalisation *";
+        if (content === null) return "";
         var res=elisionFr(content);
         // console.log("fr:%s",res)
         return res;
     } else {
-        if (content === null) return "* no realisation *";
+        // if (content === null) return "* no realisation *";
+        if (content === null) return "";
         var res=elisionEn(content);
         // console.log("en:%s",res)
         return res;
