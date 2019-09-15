@@ -25,6 +25,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `user-infos.js`: definitions of variables containing the examples
     * `user.js`  : JavaScript helper script.
 * [`IDE`](IDE/) : An Integrated Development Environment that embeds jsRealB to easily get the realization of an expression and to consult the lexicon, the conjugation and declination tables. [*Try the IDE*](http://rali.iro.umontreal.ca/JSrealB/current/IDE/index.html).
+* [`Tests`](Tests/) : unit tests (using [QUnit](https://qunitjs.com "QUnit")) of jsRealB in both French and English
 * [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html)
 
 ## Demos

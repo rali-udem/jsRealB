@@ -4170,11 +4170,11 @@ var ruleFr = //========== rule-fr.js
     "date": {
         "format": {
             "non_natural": {
-                "year-month-date-day": "[l] [d]\/[m]\/[Y]",
-                "year-month-date": "[d]\/[m]\/[Y]",
-                "year-month": "[m]\/[Y]",
-                "month-date": "[d]\/[m]",
-                "month-date-day": "[l] [d]\/[m]",
+                "year-month-date-day": "[l] [d]\/[M]\/[Y]",
+                "year-month-date": "[d]\/[M]\/[Y]",
+                "year-month": "[M]\/[Y]",
+                "month-date": "[d]\/[M]",
+                "month-date-day": "[l] [d]\/[M]",
                 "year": "[Y]",
                 "month": "[m]",
                 "date": "[d]",

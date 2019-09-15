@@ -1609,8 +1609,8 @@ var ruleEn = //========== rule-en.js
             "ending": "must",
             "t": {
                 "b": "",
-                "ps":"must",
-                "p":"must"
+                "p":"must",
+                "ps":"must"
             }
         },
         "v167": {
@@ -2957,13 +2957,13 @@ var ruleEn = //========== rule-en.js
     "date": {
         "format": {
             "non_natural": {
-                "year-month-date-day": "[l] [m]\/[d]\/[Y]",
-                "year-month-date": "[m]\/[d]\/[Y]",
-                "year-month": "[m]\/[Y]",
-                "month-date": "[m]\/[d]",
-                "month-date-day": "[m]\/[d]",
+                "year-month-date-day": "[l] [M]\/[d]\/[Y]",
+                "year-month-date": "[M]\/[d]\/[Y]",
+                "year-month": "[M]\/[Y]",
+                "month-date": "[M]\/[d]",
+                "month-date-day": "[l] [M]\/[d]",
                 "year": "[Y]",
-                "month": "[m]",
+                "month": "[M]",
                 "date": "[d]",
                 "day": "[l]",
                 "hour:minute:second": "[H0]:[m0]:[s0] [A]",
