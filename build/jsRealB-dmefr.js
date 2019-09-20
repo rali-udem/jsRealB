@@ -2440,6 +2440,14 @@ NP.prototype.elementToElementPropagation = function(element) {
 
 NP.prototype.pro = function() {
     return this.setCtx(JSrealB.Config.get("feature.toPronoun.alias"),true);
+    // var nIdx = getGroup(this,JSrealB.Config.get("feature.category.word.noun"));
+    // var n = this.elements[nIdx];
+    // n.topDownFeaturePropagation(this); // HACK: we use topDownFeature to copy prop but in fact it is bottumUp!
+    // this.unit="I" // to be changed later...
+    // this.category=this.constructor=JSrealB.Config.get("feature.category.word.pronoun");
+    // this.transformation=JSrealE.ruleType.declension;
+    // this.elements=[]
+    // return this;
 }
 
 var NP_EN = function(childrenElt) {
@@ -4796,7 +4804,7 @@ var oneOf = function(elems){
 
 var jsRealB_version="1.2";
 var jsRealB_dateCreated=new Date(); // might be overridden by the makefile for node.js
-jsRealB_dateCreated="2019-09-14 22:24"
+jsRealB_dateCreated="2019-09-20 14:30"
 // Lemmatization module
 //    useful for checking that the tables generate the correct forms
 //    also for creating a jsRealB expression from an inflected form
