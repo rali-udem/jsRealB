@@ -334,7 +334,7 @@ var lexiconFr = //========== lexicon-fr.js
     "auto": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "gars": {
@@ -2200,7 +2200,7 @@ var lexiconFr = //========== lexicon-fr.js
     "barbe": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "barque": {
@@ -3511,7 +3511,7 @@ var lexiconFr = //========== lexicon-fr.js
     "cave": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "caverne": {
@@ -5411,7 +5411,7 @@ var lexiconFr = //========== lexicon-fr.js
     "couvent": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "couver": {
@@ -5507,7 +5507,7 @@ var lexiconFr = //========== lexicon-fr.js
     "crêpe": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "crépuscule": {
@@ -10098,7 +10098,7 @@ var lexiconFr = //========== lexicon-fr.js
     "grêle": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "grelotter": {
@@ -12335,7 +12335,7 @@ var lexiconFr = //========== lexicon-fr.js
     "manche": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "manger": {
@@ -12490,7 +12490,7 @@ var lexiconFr = //========== lexicon-fr.js
     "marine": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "marque": {
@@ -12701,7 +12701,7 @@ var lexiconFr = //========== lexicon-fr.js
     "mémoire": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "menacer": {
@@ -13069,7 +13069,7 @@ var lexiconFr = //========== lexicon-fr.js
     "mode": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "modèle": {
@@ -13347,7 +13347,7 @@ var lexiconFr = //========== lexicon-fr.js
     "mousse": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "moustache": {
@@ -14021,7 +14021,7 @@ var lexiconFr = //========== lexicon-fr.js
     "ombre": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "oncle": {
@@ -14243,7 +14243,7 @@ var lexiconFr = //========== lexicon-fr.js
     "page": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "paille": {
@@ -14939,7 +14939,7 @@ var lexiconFr = //========== lexicon-fr.js
     "période": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "périr": {
@@ -15423,7 +15423,7 @@ var lexiconFr = //========== lexicon-fr.js
     "poêle": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "poésie": {
@@ -15535,7 +15535,7 @@ var lexiconFr = //========== lexicon-fr.js
     "politique": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "pomme": {
@@ -17359,7 +17359,7 @@ var lexiconFr = //========== lexicon-fr.js
     "rencontre": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "rencontrer": {
@@ -18030,7 +18030,7 @@ var lexiconFr = //========== lexicon-fr.js
     "rose": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "roseau": {
@@ -19124,7 +19124,7 @@ var lexiconFr = //========== lexicon-fr.js
     "somme": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "sommeil": {
@@ -20561,7 +20561,7 @@ var lexiconFr = //========== lexicon-fr.js
     "trompette": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "tronc": {
@@ -20752,7 +20752,7 @@ var lexiconFr = //========== lexicon-fr.js
     "vague": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "vaillant": {
@@ -20827,7 +20827,7 @@ var lexiconFr = //========== lexicon-fr.js
     "vapeur": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "varier": {
@@ -21316,7 +21316,7 @@ var lexiconFr = //========== lexicon-fr.js
     "voile": {
         "N": {
             "g": "f",
-            "tab": ["n3"]
+            "tab": ["n17"]
         }
     },
     "voiler": {

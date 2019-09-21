@@ -97,8 +97,8 @@ var optionsSect=
            {"pattern":".perf(true)", "fr":["",''],
                             "en":["future perfect",'V("love").t("f").perf(true)']},
 
-           {"group":".n(…)","fr":'nombre (défaut .n("s")',
-                                  "en":'number (default .n("s"))'},
+           {"group":".n(…)","fr":'nombre (défaut "s")',
+                                  "en":'number (default "s")'},
            {"pattern":'.n("s")', "fr":["verbe au singulier",'V("manger").n("s")'],
                                  "en":["verb singular",'V("eat").n("s")']},
            {"pattern":'.n("p")', "fr":["verbe au pluriel",'V("manger").n("p")'],
@@ -120,8 +120,8 @@ var optionsSect=
            {"pattern":'.n("p")…',"fr":["déterminant possessif (sujet au pluriel)",'D("notre").n("p").pe(2)'],
                                  "en":["possessive determiner (plural owner)",'D("my").n("p").ow("p")']},
 
-           {"group":".g(…)","fr":'Genre (défaut .g("m")',
-                             "en":'Gender (default .g("m")'},
+           {"group":".g(…)","fr":'Genre (défaut "m")',
+                             "en":'Gender (default "m")'},
            {"pattern":'.g("m")', "fr":["nom masculin",'N("joueur").g("m")'],
                                        "en":["",'']},
            {"pattern":'.g("m")', "fr":["nom féminin",'N("joueur").g("f")'],
@@ -136,8 +136,8 @@ var optionsSect=
                                        "en":["",'']},
            
          
-           {"group":".pe(…)","fr":'personne (défaut .pe(3)',
-                                  "en":'person (default .pe(3))'},
+           {"group":".pe(…)","fr":'personne (défaut 3)',
+                                  "en":'person (default 3)'},
            {"pattern":".pe(1)", "fr":["1ère personne du singulier",'V("aimer").pe(1)'],
                            "en":["first person singular",'V("be").pe(1)']},
            {"pattern":".pe(2)", "fr":["2e personne du singulier",'V("aimer").pe(2)'],

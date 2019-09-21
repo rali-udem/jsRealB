@@ -5,6 +5,7 @@ var fs = require('fs');
 
 // taken from https://stackoverflow.com/questions/10645994/how-to-format-a-utc-date-as-a-yyyy-mm-dd-hhmmss-string-using-nodejs
 function timestamp(d){
+  if (typeof d == "string") return d;
   function pad(n) {return n<10 ? "0"+n : n}
   dash="-"
   colon=":"

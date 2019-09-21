@@ -336,6 +336,20 @@ JSrealE.prototype.getInitProp = function(propName){
     return propValue;
 }
 
+// create a array without repetition of property names from a list of properties
+// we use a Set to avoid repetition
+JSrealE.prototype.getPropNameList = function (newProps,propList) {
+    if (propList !== undefined) return propList;
+    var res=new Set([])
+    for (var i = 0; i < newProps.length; i++) {
+        var names=Object.keys(newProps[i]);
+        for (var j = 0; j < names.length; j++) {
+            res.add(names[j])
+        }
+    }
+    return Array.from(res);
+}
+
 /**
  * Propagation from parent to child
  * @param {type} target is a child
@@ -348,7 +362,7 @@ JSrealE.prototype.topDownFeaturePropagation = function(target, propList, valueLi
         return false;
     }
     
-    var groupPropNameList = (propList === undefined) ? Object.keys(this.prop).concat(Object.keys(this.defaultProp)) : propList;
+    var groupPropNameList = this.getPropNameList([this.prop,this.defaultProp],propList);
 
     var j, nbGroupProp;
     for(j = 0, nbGroupProp = groupPropNameList.length; j < nbGroupProp; j++)
@@ -367,16 +381,20 @@ JSrealE.prototype.topDownFeaturePropagation = function(target, propList, valueLi
  * @param {type} valueList to propagate
  */
 JSrealE.prototype.siblingFeaturePropagation = function(target, propList, valueList) {
+    function remove(array,item){// remove an item from an array inplace
+        var index = array.indexOf(item);
+        if (index > -1) array.splice(index, 1);
+    }
     if(propList !== undefined && valueList !== undefined && propList.length !== valueList.length)
     {
         return false;
     }
     
-    var groupPropNameList = (propList === undefined) ? Object.keys(this.prop)
-            .concat(Object.keys(this.defaultProp)).concat(Object.keys(this.childrenProp)) : propList;
+    var groupPropNameList = this.getPropNameList([this.prop,this.defaultProp,this.childrenProp], propList);
     // do not propagate person of a determiner e.g. D("my") that could change the verb 
-    if (this.category=="D")
-        groupPropNameList=groupPropNameList.filter(function(e){return e != "pe"})
+    if (this.category=="D")remove(groupPropNameList,"pe")
+    // do not propagate number the grammatical number (.n(...)) into a number NO
+    else if (target.category=="NO")remove(groupPropNameList,"n");
     
     var j, nbGroupProp;
     for(j = 0, nbGroupProp = groupPropNameList.length; j < nbGroupProp; j++)
@@ -410,7 +428,7 @@ JSrealE.prototype.bottomUpFeaturePropagation = function(target, propList, valueL
         return false;
     }
     
-    var groupPropNameList = (propList === undefined) ? Object.keys(this.prop).concat(Object.keys(this.defaultProp)).concat(Object.keys(this.childrenProp)) : propList;
+    var groupPropNameList = this.getPropNameList([this.prop,this.defaultProp,this.childrenProp],propList);
     
     var j, nbGroupProp;
     for(j = 0, nbGroupProp = groupPropNameList.length; j < nbGroupProp; j++)
@@ -460,6 +478,15 @@ JSrealE.prototype.toSource = function() {
             subProps.push(".typ({"+prop.substring(5)+":"+mkVal(this.initProp[prop])+"})");
         else
             subProps.push("."+prop+"(\""+this.initProp[prop]+"\")");
+    }
+    // ajouter les features de prop qui ne sont pas dans initProp
+    for (prop in this.prop){
+        if (this.initProp[prop]==undefined){
+            if (prop.startsWith("vOpt."))
+                subProps.push(".typ({"+prop.substring(5)+":"+mkVal(this.prop[prop])+"})");
+            else
+                subProps.push("."+prop+"(\""+this.prop[prop]+"\")");
+        }
     }
     //// ajouter les éléments du contexte
     //       types de phrases
@@ -797,7 +824,6 @@ JSrealE.prototype.realizeGroup = function(elementList) {
         e.parent = this;//.category;
         
         this.phraseToElementPropagation(e);
-
         e.realization = (e instanceof JSrealE) ? e.real() : "";
         
         this.elementToElementPropagation(e);
@@ -930,6 +956,7 @@ var getGroup = function(sObject,groupAlias){
 
 JSrealE.prototype.modifyStructure = function() {
     var donotSort=[JSrealB.Config.get("feature.category.quoted"),
+             JSrealB.Config.get("feature.category.word.pronoun"),
              JSrealB.Config.get("feature.category.word.adverb"),
              JSrealB.Config.get("feature.category.word.preposition"),
              JSrealB.Config.get("feature.category.word.conjunction"),
@@ -944,8 +971,8 @@ JSrealE.prototype.modifyStructure = function() {
     //console.log(this)
 
 
-        // trier les compléments d'un VP en ordre de longueur de réalisation...
-    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>=2 &&
+    // trier les compléments d'un VP en ordre de longueur de réalisation... s'il y a au moins un complément
+    if(this.category == JSrealB.Config.get("feature.category.phrase.verb") && imax>2 &&
         //  si la phrase n'est pas au passif   
        !this.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas")){
         //  et qu'elle ne contienne un Q, P ou C ou des phrases qui devraient demeurer au même endroit
@@ -1070,14 +1097,14 @@ JSrealE.prototype.modifyStructure = function() {
             parent.deleteElement(np);
             switch(parent.category){
                 case JSrealB.Config.get("feature.category.phrase.sentence"):
-                case JSrealB.Config.get("feature.category.phrase.prepositional"):    
+                case JSrealB.Config.get("feature.category.phrase.prepositional"):
                     //Sujet ou objet indirect
                     parent.addNewElement(np,pronoun);
                     this.ctx[JSrealB.Config.get("feature.toPronoun.alias")] = false;
                     parent.resetProp(true);
                 break;
                 case JSrealB.Config.get("feature.category.phrase.verb"):
-                    //Objet direct : on l'ajoute en anglais 
+                    //Objet direct : on l'ajoute en anglais
                     if(JSrealB.Config.get("language")==JSrealE.language.english){
                         parent.addNewElement(np,pronoun);
                         parent.resetProp(true);
@@ -1089,15 +1116,19 @@ JSrealE.prototype.modifyStructure = function() {
                                 // à l'impératif, on l'ajoute après le verbe lié avec un -
                                 parent.constituents.head.setCtx(JSrealB.Config.get("feature.liaison.alias"),true);
                                 parent.addNewElement(np,pronoun);
+                        } else if (parent.getChildrenProp(JSrealB.Config.get("feature.verb_option.alias")+".pas")) {
+                            // au passif placer le pronom après le verbe qui sera suivi de par
+                            parent.addNewElement(np,pronoun);
                         } else {
+                            // placer le pronom avant
                             parent.addNewElement(vp,pronoun);
                         }
                         parent.resetProp(true);
                         parent.elements[vp].setProp(JSrealB.Config.get("feature.cdInfo.alias"),cdInfo);
-                    }                    
+                    }
                 break;
             }
-            change =true;
+            change=true;
         }
         catch(e){
             console.log("Cette pronominalisation n'est pas supportée: "+e)
@@ -2223,6 +2254,11 @@ VP.prototype.sortWord = function() {
             case JSrealB.Config.get("feature.category.word.verb"):
                 this.addConstituent(eVP, JSrealE.grammaticalFunction.head);
             break;
+            case JSrealB.Config.get("feature.category.word.pronoun"):
+                this.addConstituent(eVP, 
+                    getLanguage()=="fr"?JSrealE.grammaticalFunction.modifier // put pronoun before verb in French
+                           :JSrealE.grammaticalFunction.complement);
+            break;
             case JSrealB.Config.get("feature.category.phrase.adjective"):
             case JSrealB.Config.get("feature.category.word.adjective"):
             //essai pour les cas "jolie et belle"
@@ -2236,6 +2272,27 @@ VP.prototype.sortWord = function() {
     
     return this;
 };
+
+VP.prototype.elementToPhrasePropagation = function(element) {
+    // do not propagate all values out of a VP (i.e. a number that would propagate to complements)
+    // e.g. S(VP(V("run").n("p")),NP(N("mile"))) produced "run miles"
+    // only propagate verb options
+    var propNames=[];
+    var propValues=[];
+    
+    var groupPropNameList = this.getPropNameList([this.prop,this.defaultProp,this.childrenProp]);
+    for (var i = 0; i < groupPropNameList.length; i++) {
+        var propName=groupPropNameList[i];
+        if (propName.startsWith("vOpt.")){
+            propNames.push(propName);
+            var val=this.getProp(propName);
+            propValues.push(val);
+        }
+    }
+    if(element.fct === JSrealE.grammaticalFunction.head){
+        element.bottomUpFeaturePropagation(this,propNames,propValues);
+    }
+}
 
 var VP_FR = function(childrenElt) {
     VP.call(this, childrenElt);
@@ -2383,6 +2440,14 @@ NP.prototype.elementToElementPropagation = function(element) {
 
 NP.prototype.pro = function() {
     return this.setCtx(JSrealB.Config.get("feature.toPronoun.alias"),true);
+    // var nIdx = getGroup(this,JSrealB.Config.get("feature.category.word.noun"));
+    // var n = this.elements[nIdx];
+    // n.topDownFeaturePropagation(this); // HACK: we use topDownFeature to copy prop but in fact it is bottumUp!
+    // this.unit="I" // to be changed later...
+    // this.category=this.constructor=JSrealB.Config.get("feature.category.word.pronoun");
+    // this.transformation=JSrealE.ruleType.declension;
+    // this.elements=[]
+    // return this;
 }
 
 var NP_EN = function(childrenElt) {
@@ -4187,88 +4252,6 @@ function extend(base, sub) {
     });
 }
 
-// simplification of JSrealB loading
-//   dataDir: relative or absolute path to the data directory
-//   language: "en" | "fr"
-//   fn : function to call once loading is completed
-function loadLanguage(dataDir,language,fn){
-    JSrealLoader({
-        language: language,
-        lexiconUrl: dataDir+"lex-"+language+".json",
-        ruleUrl: dataDir+"rule-"+language+".json",
-        featureUrl: dataDir+"feature.json"
-    }, 
-    fn,
-    function(mess){
-        alert(mess)
-    })
-}
-/**
- * HTTP Request
- */
-JSrealB.Request = (function() {
-    var createCORSRequest = function(method, url) {
-        var xhr = new XMLHttpRequest();
-        if (xhr.overrideMimeType)
-        {
-            xhr.overrideMimeType("application/json");
-        }
-        if ("withCredentials" in xhr) { // XHR for Chrome/Firefox/Opera/Safari.
-            xhr.open(method, url, true);
-        } else if (typeof XDomainRequest !== "undefined") { // XDomainRequest for IE.
-            xhr = new XDomainRequest();
-            xhr.open(method, url);
-        } else {
-            xhr = null; // CORS not supported.
-        }
-        return xhr;
-    };
-    
-    var httpGetRequest = function(url, success, failure) {
-
-        var request = createCORSRequest("GET", url);
-        if (!request) {
-            JSrealB.Logger.alert('HTTP Get Request not supported');
-            return;
-        }
-        request.onreadystatechange = function() {
-        if (request.readyState === 4) {
-            if (request.status === 200 || request.status === 0)
-                success(request.responseText);
-            else if (failure)
-                failure(request.status, request.statusText);
-            }
-        };
-        request.send(null);
-    };
-    
-    return {
-        getJson: function(url, success, failure) {
-            
-            if(typeof url === "undefined")
-            {
-                failure(610, "Incorrect url: " + url);
-                return;
-            }
-            
-            httpGetRequest(
-                url, 
-                function(rawData) {
-                    try
-                    {
-                        var json = JSON.parse(rawData);
-                        success(json);
-                    }
-                    catch(error)
-                    {
-                        failure(611, "JSON parsing error: " + error + " with " + url);
-                    }
-                },
-                failure);
-        }
-    };
-})();
-
 /*
  * Configuration
  */
@@ -4819,8 +4802,8 @@ var oneOf = function(elems){
     return typeof e=='function'?e():e;
 }
 
-var jsRealB_version="1.1";
-var jsRealB_dateCreated=new Date();
+var jsRealB_version="1.2";
+var jsRealB_dateCreated=new Date(); // might be overridden by the makefile for node.js
 // Lemmatization module
 //    useful for checking that the tables generate the correct forms
 //    also for creating a jsRealB expression from an inflected form
@@ -6686,8 +6669,8 @@ var ruleEn = //========== rule-en.js
             "ending": "must",
             "t": {
                 "b": "",
-                "ps":"must",
-                "p":"must"
+                "p":"must",
+                "ps":"must"
             }
         },
         "v167": {
@@ -8034,13 +8017,13 @@ var ruleEn = //========== rule-en.js
     "date": {
         "format": {
             "non_natural": {
-                "year-month-date-day": "[l] [m]\/[d]\/[Y]",
-                "year-month-date": "[m]\/[d]\/[Y]",
-                "year-month": "[m]\/[Y]",
-                "month-date": "[m]\/[d]",
-                "month-date-day": "[m]\/[d]",
+                "year-month-date-day": "[l] [M]\/[d]\/[Y]",
+                "year-month-date": "[M]\/[d]\/[Y]",
+                "year-month": "[M]\/[Y]",
+                "month-date": "[M]\/[d]",
+                "month-date-day": "[l] [M]\/[d]",
                 "year": "[Y]",
-                "month": "[m]",
+                "month": "[M]",
                 "date": "[d]",
                 "day": "[l]",
                 "hour:minute:second": "[H0]:[m0]:[s0] [A]",
