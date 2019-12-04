@@ -58,16 +58,16 @@ function introduction(totalTime,firstTasks){
     // indiquer la durée du projet
     work=NP(D("the"),N("construction"),PP(P("of"),NP(D("the"),N("building"))));
     var duree=NP(NO(totalTime).dOpt({nat: true}),N("day"));
-    var q0=VP(V("end").t("b"),work).a(",");
-    var q1=SP(Q("at least"),duree,V("need").t("f").typ({"pas":true}));
+    var q0=PP(P("for"),work);
+    var q1=SP(Q("at least"),duree,VP(V("need").t("f"))).typ({"pas":true});
     var realisation = oneOf(
-        ()=>S(q0,q1),
-        ()=>S(q1,q0),
+        ()=>S(q0.a(","),q1),
+        ()=>S(q1.a(","),q0),
         ()=>S(duree,VP(V("be").t("f"),A("necessary"),q0))
     );
     // indiquer les tâches du début
     realisation += "\n"+oneOf(
-        ()=>S(Pro("I").pe("2"),
+        ()=>S(Pro("I").pe(2),
               V("shall").t("ps"),Q("start"),realiseTaches(firstTasks,nvp())),
         ()=>S(Pro("I").pe(2),V("need"),
               VP(V("start").t("b"),realiseTaches(firstTasks,nvp())))

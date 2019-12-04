@@ -29,12 +29,12 @@ th {background-color:#FEFEFE;}
 
 td:nth-child(1),th:nth-child(1){width:20%;}
 td:nth-child(2),th:nth-child(2){width:15%;}
-td:nth-child(3),th:nth-child(3){width:45%;}
-td:nth-child(4),th:nth-child(4){width:20%;}
+td:nth-child(3),th:nth-child(3){width:40%;}
+td:nth-child(4),th:nth-child(4){width:25%;}
 
 .description {}
 .pattern {font: 80% "Courier", sans-serif;}
-.example-en,.example-fr{font: 80% "Courier", sans-serif;}
+.example-en,.example-fr{font: 80% "Courier", sans-serif; white-space:pre;}
 .realisation {font: normal normal normal 1em Arial, sans-serif;}
 
 footer {

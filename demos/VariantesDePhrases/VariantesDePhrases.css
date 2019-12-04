@@ -10,10 +10,12 @@ table {
     clear:both;
     border-collapse:collapse;
     margin:10px 5px;
+    border: thin solid black;
 }
 td:not(:last-child),th:not(:last-child) {
     width:60px;
-    border: thin solid black;padding:3px;
+    border: thin solid black;
+    padding:3px;
 }
 
 td:last-child,th:last-child {
@@ -26,7 +28,7 @@ td:last-child,th:last-child {
 thead, tbody { display: block; }
 tbody {
     height: 400px;
-    overflow-y: always;  /* Trigger vertical scroll    */
+    overflow-y: scroll;  /* Trigger vertical scroll    */
     overflow-x: hidden;  /* Hide the horizontal scroll */
 }
 

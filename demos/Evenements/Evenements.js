@@ -3,6 +3,7 @@
 //  les données sont maintenant en "vrai" JSON avec des identificateurs plus évocateurs
 //  Elles ne sont plus triées pour faire ressortir l'aspect Data2Text
 
+loadFr();
 
 // // ajouts au lexique
 addToLexicon({"Alice":{ "N": { "g": "f", "pe": 3, "tab": ["nI"] } }});
@@ -81,8 +82,8 @@ function last(l){
 }
 
 function makeDate(date,time){
-    if (time) return DT(date+"T"+time+"-04:00").dOpt({minute:time.match(/:00$/)==null});
-    return DT(date+"T00:00:00-04:00").dOpt({hour:false,minute:false});
+    if (time) return DT(date+"T"+time+"-04:00").dOpt({minute:time.match(/:00$/)==null,second:false});
+    return DT(date+"T00:00:00-04:00").dOpt({hour:false,minute:false,second:false});
 }
 
 function comparerDateEvenement(e1,e2){
@@ -117,10 +118,14 @@ function showMotif(ev){
 
 function showContact(ev,pronominalise){
     var part=partInfo[ev.part]
-    var nomParticipant=NP(part.name)
-    if (pronominalise) nomParticipant=nomParticipant.pro()
+    var nomParticipant=NP(part.name);
+    var contacter=V("contacter").t("ip").pe(2).n("p");
+    if (pronominalise){
+        nomParticipant=nomParticipant.pro();
+        contacter=contacter.lier();
+    }
     return S(PP(P("pour"),V("réserver").t("b")).a(","),
-             S(VP(V("contacter").t("ip").pe(2).n("p"),nomParticipant),part.contact));
+             S(VP(contacter,nomParticipant)).a(":"),part.contact);
 }
 
 function showGroupe(evs,$elem){
@@ -215,10 +220,10 @@ function generer(){
         var contact = CP(C("ou"));
         var tel = partInfo[p].tel;
         if (tel)
-            contact.add(S(D('au'), fmtTel(tel)));
+            contact.add(S(fmtTel(tel)));
         var em = partInfo[p].email;
         if (em)
-            contact.add(S(P('à'),fmtEmail(em)));
+            contact.add(S(fmtEmail(em)));
         partInfo[p].contact = contact;
     }
     var groupes=evenementsParVille(evList)

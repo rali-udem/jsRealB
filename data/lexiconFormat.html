@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Format of a jsRealB lexicon</title>
+  <style>
+    .jsr {font: normal small-caps bold 1em Arial, sans-serif;}
+  </style>
+</head>
+<body>
+    <h1>Format of a <span class="jsr">jsRealB</span> lexicon</h1>
+    
+    <p>The json format of the lexicons of <span class="jsr">jsRealB</span> is derived from an internal format Lisp inspired format developed at RALI many years ago. These lexicons were originally created by a python script from the original version and then manually <em>patched</em>. </p>
+    <p>The declension or conjugation information is associated with tables that in principle should cover most English and French use cases. They a defined in the files <code>rule-en.js</code> and <code>rule-fr.js</code>.</p>
+    <p>We now give the <a href="https://github.com/rali-udem/json-rnc" title="GitHub - rali-udem/json-rnc: JSON validation with a RELAX-NG compact syntax">json-rnc</a> format used to validate the entries.
+It is an object with whose keys are lemma for which the value is itself an object (of type <code>lexInfo</code>) whose key is a part of speech and the value is the declension or conjugation information. All keys in a <code>lexInfo</code> are optional but there must be at least one present.
+</p>
+    <pre><code>
+## validation of jsRealB dictionary lexical information
+start = {*:lexInfo}
+
+lexInfo={
+    N?:  noun,
+    A?:  adjective,
+    Pro?:pronoun,
+    V?:  verb, 
+    D?:  determiner, 
+    Adv?:other, 
+    P?:  other,
+    C?:  other,
+    Pc?: punct
+}@(minProperties=1)
+
+noun      = {tab:[string], g?:string,     hAn?:one, h?:one }
+adjective = {tab:[string], hAn?:number,   h?:one,   pos?:/pre|post/, value?:number}
+pronoun   = {tab:[string], g?:/m|f|n|x/}
+verb      = {tab:string,   aux?:[string], h?:one}
+determiner= {tab:[string], n?:/s|p/,      value?:number}
+other     = {tab:[string], h?:one}
+punct     = {tab:[string], compl?:string}
+one       = number@(minimum=1, maximum=1)
+    </code></pre>
+<h2>Remarks</h2>
+<ul>
+    <li>The <code>string</code> associated with the <code>tab</code> key must be a declension or conjugation table number in <code>rule-en.js</code> and <code>rule-fr.js</code>. In practice <code>[string]</code> are of length 1 and if not only the first value of the list is taken into account. This is kept for compatibility with previous versions;</li>
+    <li>gender (<code>g</code>) and number (<code>n</code>) can only take a limited set of values;</li>
+    <li>for determiner and adjective, <code>value</code> is the numerical value associated either with a cardinal or an ordinal number respectively;</li>
+    <li><code>h</code> is 1 for the French <em>h aspiré</em> in which case no elision will take place between this word and the preceding one;</li>
+    <li>for English, when <code>hAn</code> is 1, this word changes a preceding <em>a</em> to <em>an</em>;</li>
+    <li>in the case of <code>punct</code>, <code>compl</code> is the complementary punctuation sign, e.g. matching closing parenthesis or bracket.</li>
+</ul>
+
+  
+</body>
+</html>

@@ -6,7 +6,7 @@ if (typeof module !== 'undefined' && module.exports) {
             eval(v+"= f."+v);
         }
     }
-    evalExports("../../dist/jsRealB-dmefr.min.js");
+    evalExports(__dirname+"/../../jsRealB-enfr.js");
     evalExports(__dirname+"/pert.js");
     evalExports(__dirname+"/tasks-data.js");
     evalExports(__dirname+"/tasks-en.js");
@@ -59,7 +59,7 @@ if (typeof module !== 'undefined' && module.exports) { // as a node module
             function (t){
                 $tr=$("<tr></tr>")
                         .append($("<td/>").text(t.id))
-                        .append($("<td id='T_"+t.id+"'/>").text(t.np))
+                        .append($("<td id='T_"+t.id+"'/>").text(S(t.np)))
                         .append($("<td/>").text(t.duration))
                         .append($("<td/>").text(t.succ))
                 $table.append($tr);

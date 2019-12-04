@@ -3,7 +3,11 @@ function np(n){
 }
 
 function tnp(n0,prep,n1){ // task np
-    return NP(np(n0),PP(P(prep),np(n1)));
+    if (typeof n0=="string")
+        return NP(D("le"),N(n0),PP(P(prep),np(n1)));
+    if (n0.isA("N"))
+        return NP(n0).add(PP(P(prep),np(n1)))
+    return n0.add(PP(P(prep),np(n1)));
 }
 
 function tvp(v,n){ //task vp
@@ -12,11 +16,13 @@ function tvp(v,n){ //task vp
 }
 
 function generateTaskDescriptions() {
+    loadFr();
     // ajouts au lexique
     var verbes1erGroupe=["approvisionner","bétonner","débuter","effectuer","planifier","terrasser"];
     for (var i = 0; i < verbes1erGroupe.length; i++) 
         addToLexicon(verbes1erGroupe[i],{"V":{"tab":"v36","aux":["av"]}});
-    var nomsFeminins=["canalisation","charpente","couverture","installation","isolation","longrine","maçonnerie","pose"];
+    var nomsFeminins=["canalisation","charpente","couverture","installation","isolation",
+                      "longrine","maçonnerie","pose"];
     for (var i = 0; i < nomsFeminins.length; i++)
         addToLexicon(nomsFeminins[i],{"N":{"g":"f","tab":["n17"]}});
     var nomsMasculins=["approvisionnement","béton","chantier","dallage","enduit","montage","terrassement"];
@@ -57,7 +63,7 @@ function generateTaskDescriptions() {
     addNPVP(tasks,"v",tnp("installation","de","électricité"),tvp("installer","électricité"));
     addNPVP(tasks,"w",q=NP(D("le"),N("dallage")),tvp("exécuter",q));
     addNPVP(tasks,"x",NP(D("le"),N("enduit")).n("p"),
-                      PP(CP(C("et"),V("remplir"),V("recouvrir")),P("de"),N("enduit").n("p")));
+                      CP(C("et"),VP(V("remplir")),VP(V("recouvrir"),P("de"),N("enduit").n("p"))));
 }
 
 if (typeof module !== 'undefined' && module.exports) {

@@ -4,7 +4,7 @@ addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
 addToLexicon({"Jim": {"N":{"g":"m","tab":["n4"]}}})
 addToLexicon({"Bill":{"N":{"g":"m","tab":["n4"]}}})
 addToLexicon({"Mary":{"N":{"g":"f","tab":["n4"]}}})
-
+addToLexicon({"cheat":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})
 /* 
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
  expr:`
@@ -27,7 +27,7 @@ S(Pro("I").pe(2),
         S(N("Bill"),
           VP(V("marry").t("ps"),
              D("my").g("m").ow("s"),
-             Q("ex").lier("-"),N("wife")))).t("ps")
+             Q("ex").lier("-"),N("wife"))))
              ))
 `},
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35b",
@@ -42,12 +42,18 @@ S(N("Mary"),
   VP(V("talk"),
      PP(P("to"),N("Bill"))))
 `},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"20",
+{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"11",
  expr:`
 S(NP(N("John")),
-  VP(V("cheat"),NP(N("Bill"))))
-  .t("ps")
+  VP(V("cheat"),NP(N("Bill"))).t("ps"))
 `},
+{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"12",
+ expr:`
+S(NP(D("the"),N("teacher")),
+  VP(V("put").t("ps"),
+     NP(D("the"),N("glass")).n("p"),
+     PP(P("in"),NP(D("the"),N("drawer")))))`
+},
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"26b",
  expr:`
 S(NP(N("Bill")),
@@ -77,6 +83,20 @@ S(NP(D('le'),
   VP(V('manger'),
      NP(D('le'),
         N('souris'))))`},
+{ref:"Lingolia",url:"https://francais.lingolia.com/fr/grammaire/les-verbes/passif",no:"2",
+     expr:`
+S(NP(D('le'),
+     N('passant')).n("p"),
+  VP(V('appeler'),
+     NP(D('le'),
+        N('ambulance'))))`},
+{ref:"Lingolia",url:"https://francais.lingolia.com/fr/grammaire/les-verbes/passif",no:"3",
+     expr:`
+S(NP(D('le'),
+     N('police')),
+  VP(V('recueillir'),
+     NP(D('un'),
+        N('témoignage')).n("p")))`},
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
  expr:`
 S(Pro("je").pe(2),
@@ -85,7 +105,7 @@ S(Pro("je").pe(2),
         S(Q("Bill"),
           VP(V("épouser").t("ps"),
              D("mon").g("m"),
-             Q("ex").lier("-"),N("femme")))).t("ps")
+             Q("ex").lier("-"),N("femme"))))
              ))
 `}
 ];

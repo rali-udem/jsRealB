@@ -10,10 +10,11 @@ QUnit.test( "Number EN", function( assert ) {
     assert.equal(NO(15.48).toString(), "15.48", "15.48 => 15.48");
 
     assert.equal(NP(NO(15.48),N("pound")).toString(), "15.48 pounds", "1. Accord avec le nombre");
-    assert.equal(NP(NO(1.45),N("pound")).toString(), "1.45 pound", "2. Accord avec le nombre");
-    assert.equal(NP(NO(0.988),N("pound")).toString(), "0.99 pound", "3. Accord avec le nombre");
+    assert.equal(NP(NO(1.45),N("pound")).toString(), "1.45 pounds", "2. Accord avec le nombre");
+    assert.equal(NP(NO(1),N("pound")).toString(), "1 pound", "3.a Accord avec le nombre");
+    assert.equal(NP(NO(0.988),N("pound")).toString(), "0.99 pounds", "3. Accord avec le nombre");
     assert.equal(NP(NO(-12),N("pound")).toString(), "-12 pounds", "4. Accord avec le nombre");
     assert.equal(NP(NO(2),N("pound")).toString(), "2 pounds", "5. Accord avec le nombre");
-    assert.equal(NP(NO("0.5485894"),N("pound")).toString(), "0.55 pound", "6. Accord avec le nombre");
+    assert.equal(NP(NO("0.5485894"),N("pound")).toString(), "0.55 pounds", "6. Accord avec le nombre");
 
 });

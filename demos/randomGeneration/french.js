@@ -10,9 +10,11 @@ function expressionNP(det,nom,adj,adjAnt,pluriel,pronom){
         var np="NP(";
         if(det!="nil")np+="D('"+det+"'),";
         np+="N(\""+nom+"\")";
-        if(adj!="")np+=",A(\""+adj+"\")";
+        if(adj!=""){
+            np+=",A(\""+adj+"\")";
+            np+=(adjAnt=="")?"":".pos('"+adjAnt+"')";
+        }
         np+=")";// fin du NP
-        if(adj!="")np+=(adjAnt=="")?"":".ant('"+adjAnt+"')";
         if(pluriel)np+=".n('p')";
         if(pronom)np+=".pro()";
         return np;
@@ -39,7 +41,7 @@ function expressionVerbe(){
     //     vopt += "})"
     //   }
     var v="V(\""+verbe+"\").t('"+temps+"')"//+vopt;
-      v += (temps == "ip")?".pe('"+$("#personne").val()+"')"+".n('"+$("#nombre").val()+"')":"";
+      v += (temps == "ip")?".pe("+$("#personne").val()+")"+".n('"+$("#nombre").val()+"')":"";
       return v;
     }
     return null;
@@ -96,17 +98,20 @@ function evaluer(){
 }
 
 function realiser(){
-    var sujet=expressionNP($("#det").val(),
-                           $("#nom").val(),
-                           $("#adj").val(),
-                           $("#adjAnt").val(),
-                           $("#pluriel").is(":checked"),
-                           $("#est-pronom").is(":checked"));
-    if(sujet==null){
-        var personne=$("#personne").val();
-        var nombre=$("#nombre").val();
-        if(personne!="nil" && nombre!="nil")
-            sujet="NP(Pro('je').pe("+personne+").n('"+nombre+"'))";
+    var sujet=null;
+    if ($("#temps").val() !== "ip"){ // ignorer le sujet si à l'impératif
+        sujet=expressionNP($("#det").val(),
+                               $("#nom").val(),
+                               $("#adj").val(),
+                               $("#adjAnt").val(),
+                               $("#pluriel").is(":checked"),
+                               $("#est-pronom").is(":checked"));
+        if(sujet==null){
+            var personne=parseInt($("#personne").val());
+            var nombre=$("#nombre").val();
+            if(personne!="nil" && nombre!="nil")
+                sujet="NP(Pro('je').pe("+personne+").n('"+nombre+"'))";
+        }
     }
     var verbe=expressionVerbe();
     var objDirNominalise=$("#est-pronomOD").is(":checked");
@@ -184,7 +189,7 @@ function realiser(){
         expr += typP;
         
         $("#jsreal").val(expr);
-        $("#realisation").val(eval(expr+".real()"));
+        $("#realisation").val(eval(expr.toString()));
     } else
         $("#jsreal").val("il faut indiquer au moins un sujet ou un verbe");
 }
@@ -260,7 +265,7 @@ function chercher(liste){
 
 // récupérer le vocabulaire pour la génération aléatoire
 function initVocabulaire(){
-    lexique=JSrealB.Config.get("lexicon");
+    lexique=lexiconFr;
     lesNoms=[];
     lesVerbes=[];
     lesAdjectifs=[];
@@ -279,6 +284,7 @@ function initVocabulaire(){
 }
 
 $(document).ready(function() {
+    loadFr();
     $("#realiser").on("click",realiser);
     $("#evaluer").on("click",evaluer);
     $("#aleatoire").on("click",aleatoire);
