@@ -43,11 +43,13 @@ This expression corresponds to the following sentence structure:
 
 which corresponds to the following tree structure:
 
-![Active](images/Active.pdf)
+<!--![Active](images/Active.png)-->
+<img src="images/Active.png" width="500"/> 
 
 The diagrams in this document use the following set of drawing conventions:
 
-![Legend](images/Legend.pdf)
+<!--![Legend](images/Legend.png)-->
+<img src="images/Legend.png" width="500"/> 
 
 * Non-terminals (corresponding to a **Phrase**) are shown as a rectangle containing its name and possible options on the next line.
 
@@ -70,7 +72,8 @@ The `toString()` function of a **Phrase** calls `toString()` on its children and
 
 The `toString()` function of a **Terminal** applies declension or conjugation rules taking into account the gender, number, person and possibly tense information to create the `realization` field of the terminal. The following figure illustrates a few interesting cases. 
  
-![Active-Realization](images/Active-Realization.pdf)
+<!--![Active-Realization](images/Active-Realization.png)-->
+<img src="images/Active-Realization.png" width="400"/> 
 
 * `Pro("I").g("m")` is realized as `he` because the gender is set to masculine, but the person and number take the default third person, singular;
 * `VP("eat")` is realized with a string `eats` because the verb is conjugated to agree with the pronoun at third person, singular;
@@ -112,11 +115,13 @@ We first illustrate the *simple* case of the negation.
 
 The following diagram shows the sentence structure once the `.typ({neg:true})` is added to the top-level `S` constructor. This will modify the structure of the `VP` by adding an auxiliary *do* and the adverb *not* in front of the verb. But now it is the auxiliary `do` that must agree with the subject.
 
-![Negative](images/Negative.pdf)
+<!--![Negative](images/Negative.png)-->
+<img src="images/Negative.png" width="500"/> 
 
 When this structure is realized it gives the following:
 
-![Negative-Realization](images/Negative-Realization.pdf)
+<!--![Negative-Realization](images/Negative-Realization.png)-->
+<img src="images/Negative-Realization.png" width="500"/> 
 
 ### Passivization
 
@@ -129,11 +134,13 @@ We show here the *passive* transformation of our previous example `pas:true` is 
 
 In the *passivation* process, the object becomes the subject, the main verb becomes `be`, the original verb must be changed to past participle and the original subject becomes a prepositional phrase starting with `by`. In our example, the original subject being a nominative pronoun, it must be put to the accusative, that is why the lemma has changed from `"I"` to `"me"`. The agreement link between the original verb and the subject must be modified to link the verb `be` with the new subject; in this case the verb will be plural, but set to the negative mood because the whole sentence is negative.
 
-![Negative-Passive](images/Negative-Passive.pdf)
+<!--![Negative-Passive](images/Negative-Passive.png)-->
+<img src="images/Negative-Passive.png" width="600"/> 
 
 Calling `.toString()` on this modified structure produces the following tokens:
 
-![Negative-Passive-Realization](images/Negative-Passive-Realization.pdf)
+<!--![Negative-Passive-Realization](images/Negative-Passive-Realization.png)-->
+<img src="images/Negative-Passive-Realization.png" width="600"/> 
 
 ### Pronominalization
 
@@ -144,11 +151,13 @@ Another interesting structure transformation is the pronominalization process th
          NP(D("un"),N("pomme"))
      )
 
-![French-Active](images/French-Active.pdf)
+<!--![French-Active](images/French-Active.png)-->
+<img src="images/French-Active.png" width="500"/> 
 
 which is serialized as the following instances of `Terminal`:
 
-![French-Active-Realization](images/French-Active-Realization.pdf)
+<!--![French-Active-Realization](images/French-Active-Realization.png)-->
+<img src="images/French-Active-Realization.png" width="400"/> 
 
 Now, if we pronominalize the `NP` by writing:
 
@@ -162,7 +171,8 @@ The expected sentence is `Il l'a mangée.` (literal English: `*He it has eaten.`
 
 Pronominalization occurs when the object method `pro()` is called which modifies the structure as follows:
 
-![French-Active-Pronoun](images/French-Active-Pronoun.pdf)
+<!--![French-Active-Pronoun](images/French-Active-Pronoun.png)-->
+<img src="images/French-Active-Pronoun.png" width="500"/> 
 
 The noun being used as direct object must be replaced by an accusative pronoun. In this case `Pro("le").pe(3)` agreeing in gender and number with the original noun that will not be realized; this is why it is shown as a dotted rounded rectangle in the picture.
 
@@ -174,7 +184,8 @@ In French, some *interesting* peculiarities must be taken into account:
 
 The modified structure is realized in the same way as in the preceding section to give the following tokens:
 
-![French-Active-Pronoun-Realization](images/French-Active-Pronoun-Realization.pdf)
+<!--![French-Active-Pronoun-Realization](images/French-Active-Pronoun-Realization.png)-->
+<img src="images/French-Active-Pronoun-Realization.png" width="300"/> 
 
 which after the elision process to transform `la a` to `l'a` and the formatting gives: `Il l'a mangée.`
 
@@ -189,11 +200,13 @@ If we negate the previous expression as:
 
 Negation in French negation is indicated by wrapping `ne ... pas` around the verb, so it implies adding the adverb *ne* before the verb.
 
-![French-Negative](images/French-Negative.pdf)
+<!--![French-Negative](images/French-Negative.png)-->
+<img src="images/French-Negative.png" width="500"/> 
 
 This is realized with the following tokens:
 
-![French-Negative-Realization](images/French-Negative-Realization.pdf)
+<!--![French-Negative-Realization](images/French-Negative-Realization.png)-->
+<img src="images/French-Negative-Realization.png" width="500"/> 
 
 When the `NP` in this sentence is pronominalized as:
 
@@ -204,11 +217,13 @@ When the `NP` in this sentence is pronominalized as:
 
 We now have the following structure in which the pronoun appears before the verb but after *ne*, the first part of the negation which gives the following structure:
 
-![French-Negative-Pronoun](images/French-Negative-Pronoun.pdf)
+<!--![French-Negative-Pronoun](images/French-Negative-Pronoun.png)-->
+<img src="images/French-Negative-Pronoun.png" width="500"/> 
 
 realized as the following tokens
 
-![French-Negative-Pronoun-Realization](images/French-Negative-Pronoun-Realization.pdf)
+<!--![French-Negative-Pronoun-Realization](images/French-Negative-Pronoun-Realization.png)-->
+<img src="images/French-Negative-Pronoun-Realization.png" width="500"/> 
 
 resulting in the sentence `Il ne l'a pas mangée.`
 
@@ -320,7 +335,8 @@ Although Javascript is not a class-based object system, the structure of `jsReal
     
 In the figure, each *class* title shows its parameters, the first cell shows in italics the associated properties with their type followed by methods used when creating the object; next are shown the methods for each class.
 
-![JsRealB-classes](images/JsRealB-classes.pdf)
+<!--![JsRealB-classes](images/JsRealB-classes.png)-->
+<img src="images/JsRealB-classes.png" width="800"/> 
 
 All functions validate their input, in the case of errors, they generate a warning message on the console. Realization is not stopped, the resulting string is the original lemma enclosed in double square brackets. 
 

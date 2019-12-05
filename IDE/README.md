@@ -65,7 +65,7 @@ These commands also accept a regular expression in place of a specific value, in
 * `.lx` *lemma* : dictionary information for lemma in a format that can be used as input for `addToLexicon()`; this is useful for adding a new lemma that is conjugated or declensed similarly to a word already in the lexicon.  
     For example, to show the lexicon information for the word `love`
     
-        jsRealB > .lm love
+        jsRealB > .lx love
         { N: { tab: [ 'n1' ] }, V: { tab: 'v3' } }
 
 * `.lm` *form* : find jsRealB expressions that can realize this form.  
