@@ -16,7 +16,8 @@ QUnit.test( "Dates en français", function( assert ) {
     assert.equal(DT(theDate).dOpt({month:false, date:false, day:false, hour:false, minute:false, second:false}).toString(), "en 2015", "Only year");
     assert.equal(DT(theDate).dOpt({date:false, day:false, hour:false, minute:false, second:false}).toString(), "en janvier 2015", "Only month and year");
     assert.equal(DT(theDate).dOpt({year:false, month:false, date:false, hour:false, minute:false, second:false}).toString(), "le jeudi", "Only weekday");
-    assert.equal(DT("2015-01-04T11:00:00-05:00").toString(), "le dimanche 4 janvier 2015 à 11 h 0", "Full info without 0 minutes and 0 seconds");
+    assert.equal(DT("2015-01-04T11:00:00-05:00").dOpt({second:false, minute:false}).toString(), 
+                "le dimanche 4 janvier 2015 à 11 h", "Full info without 0 minutes and 0 seconds");
     // date in digit
     assert.equal(DT(theDate).nat(false).toString(),"jeudi 1/1/2015 11:25:45", "Full info");
     assert.equal(DT(theDate).dOpt({day:false, date:true}).nat(false).toString(), "1/1/2015 11:25:45", "Without week day");
@@ -57,7 +58,7 @@ QUnit.test( "Dates en français", function( assert ) {
     assert.equal(DT(inTwoDays).dOpt({rtime: true}).toString(),
             "après-demain", "2 jours après");
     assert.equal(DT(inThreeDays).dOpt({rtime: true}).toString(),
-            DT(inThreeDays).dOpt(optionDayOnly), "3 jours après");
+            DT(inThreeDays).dOpt(optionDayOnly)+" prochain", "3 jours après");
     assert.equal(DT(inTenDays).dOpt({rtime: true}).toString(), "dans 10 jours", "10 jours après");
     
 })

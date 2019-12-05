@@ -2,10 +2,24 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>jsRealB - Documentation</title>
+    <title>jsRealB (V 2.0) - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="../dist/jsRealB-dmefr.min.js"></script>
+    <script src="../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+        <script src="../data/lexicon-en.js"></script>
+        <script src="../data/rule-en.js"></script>
+        <script src="../data/lexicon-fr.js"></script>
+        <script src="../data/rule-fr.js"></script>
+        <script src="../data/lexicon-fr.js"></script>
+        <script src="../data/rule-fr.js"></script>
+        <script src="../build/Utils.js"></script>
+        <script src="../build/Constituent.js"></script>
+        <script src="../build/Phrase.js"></script>
+        <script src="../build/Terminal.js"></script>
+        <script src="../build/Date.js"></script>
+        <script src="../build/Number.js"></script>
+<!-/- end of separate loading -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="user.js"></script>
     <script src="user-infos.js"></script>
@@ -18,7 +32,7 @@
     </span>
     <span id="langSelect">[<span lang="en">FR</span><span lang="fr">EN</span>]</span>
 <!-- start of page  -->
-    <h1><span class="jsr">jsRealB</span> - Documentation</h1>
+    <h1><span class="jsr">jsRealB (Version 2.0)</span> - Documentation</h1>
     <p lang="fr"><span class="jsr">jsRealB</span> est un réalisateur de texte pour l'anglais et le français écrit en Javascript. Il peut être utilisé soit à l'intérieur d'une page web comme celle-ci dont tous les exemples sont réalisés dynamiquement, ou comme module <code>Node.js</code>.</p>
     <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript. It can be used either within a web page such as this one whose examples are dynamically realized or as a <code>Node.js</code> module.</p>
     <h2 lang="fr" id="constituants">Constituants</h2><h2 lang="en" id="constituents">Constituents</h2>
@@ -27,7 +41,7 @@
     
     <h2 id="optionsFr" lang="fr">Déclinaisons et conjugaisons</h2><h2 id="optionsEn" lang="en">Declension and conjugation</h2>
     <div id="optionsSect"></div>
-    <p lang="en">Continuous tense for verbs can obtained by setting the <a href="#sentType">sentence type</a> to <code>.typ({prog:true})</code> </p>
+    <p lang="en">Perfect and  continuous tenses for verbs can obtained by setting the <a href="#sentType">sentence type</a> to <code>.typ({perf:true})</code> or <code>.typ({prog:true})</code> </p>
     
     <h2 lang="fr" id="pronoms">Pronoms</h2><h2 lang="en" id="pronouns">Pronouns</h2>
     <p lang="fr">Le pronoms qui sont dans le lexique sont à la 1ère personne du singulier. Pour obtenir les autres, il faut
@@ -86,45 +100,29 @@
     <h3><code>getLanguage()</code></h3>
     <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
     <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
-    <h3 id="loadEnFr"><code>loadEn(trace,lenient), loadFr(trace,lenient)</code></h3>
-    <p lang="fr">Ces fonctions permettent de changer dynamiquement la langue du réalisateur, dans une version bilingue évidemment (voir plus bas). Les paramètres booléens optionnels (<em>false</em> si non spécifiés) indiquent:
+    <h3 id="loadEnFr"><code>loadEn(trace), loadFr(trace)</code></h3>
+    <p lang="fr">Ces fonctions indiquent la langue à utiliser pour les prochaines réalisations. Il est important d'en appeler au moins une avant de débuter la réalisation d'une phrase. Le paramètre (<code>false</code> by default) est le suivant:
         <ul lang="fr">
-            <li><em>trace</em> : qu'on désire qu'un message apparaisse sur la console à la fin du chargement du langage;</li>
-            <li><em>lenient</em> :si les terminaux acceptent des formes fléchies qui seront lemmatisées avant d'être traitées.</li>
+            <li><em>trace</em> : si <code>true</code>, un message apparaîtra sur la console à la fin du chargement du lexique et de règles du langage.</li>
         </ul>
     </p>
-    <p lang="en">These functions allows changing the realisation language, in a bilingual version obviously (see below). The optional boolean parameters (<em>false</em> if not given) control that:
+    <p lang="en">These functions sets the current realisation language; one of them should be called before starting the realization process. Its parameter, (<code>false</code> by default) is :
         <ul lang="en">
-            <li><em>trace</em> : whether a message is written on the console after the loading;</li>
-            <li><em>lenient</em> :constructors for terminal accept lemmatized forms instead of only the base form.</li>
+            <li><em>trace</em> : if <code>true</code>, a message is written on the console after the loading of the lexicon and language tables.</li>
         </ul>
     </p>
 
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
-    <p lang="fr">Une des versions de <span class="jsr">jsRealB</span> devrait être chargée avec un élément <code>script</code> selon le type de réalisations prévues.</p>
-    <p lang="en">One version of <span class="jsr">jsRealB</span> should be loaded with a <code>script</code> element according to the expected type of realization.</p>
-    <dl>
-        <dt><code>jsRealB-en.js</code></dt><dt><code>jsRealB-dme.js</code></dt>
-        <dd lang="fr">pour la réalisation de phrases en anglais. <code>en</code> utilise un lexique réduit d'environ 3000 entrées les plus courantes de l'anglais; <code>dme</code> utilise un lexique beaucoup plus complet d'environ 37&nbsp;000 mots.</dd>
-        <dd lang="en">for English realization. <code>en</code> uses a small lexicon of arount 3&nbsp;000 entries; <code>dme</code> uses a bigger lexicon of arount 37&nbsp;000 words.</dd>
-    </dl>
-    <dl>
-        <dt><code>jsRealB-fr.js</code></dt></dt>
-        <dd lang="fr">pour la réalisation de phrases en français. <code>fr</code> utilise un lexique réduit d'environ 3000 entrées les plus courantes du français.</dd>
-        <dd lang="en">for French realization. <code>fr</code> use a small lexicon of about 3&nbsp;000 most common words of French.</dd>
-    </dl>
-    <dl>
-        <dt><code>jsRealB-enfr.js</code></dt><dt><code>jsRealB-dmefr.js</code></dt>
-        <dd lang="fr">pour la réalisation de phrases en anglais et en français. <code>enfr</code> utilise un lexique réduit d'environ 3&nbsp;000 entrées les plus courantes de l'anglais et un lexique de 3&nbsp;000 mots du français; <code>dmefr</code> utilise un lexique beaucoup plus complet d'environ 37&nbsp;000 mots de l'anglais et un lexique de 3&nbsp;000 mots du français.</dd>
-        <dd>
-        <dd lang="en">for English and French realization. <code>enfr</code> uses two small lexicons for both French and English; <code>dmefr</code> uses a big lexicon for English and a small lexicon for French.</dd>
+	
+    <p lang="fr">Il suffit d'ajouter le script <code>jsRealB.js</code> à la liste des scripts de la page. Ceci intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 200 entrées). Comme indiqué à la section <a href="#extensionVoc">Extension du vocabulaire</a>, il est facile d'ajouter de nouvelles entrées ou même de remplacer complètement les dictionnaires par défaut.</p>
+        <p lang="en">It is only a matter of adding the script <code>jsRealB.js</code> to the scripts used by the web page. This includes to basic lexicons: English (5 200 entries) and French (3 700 entries). As shown below in the <a href="#vocExtension">Vocabulary extension section</a>, it is possible to add new entries to the lexicon or to change it completely.</p>
         <dd>
             <ul>
                 <li><a href="#loadEnFr"><code>loadFr(...)</code></a> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
                 <li><a href="#loadEnFr"><code>loadEn(...)</code></a> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
             </ul>
-            <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</div><div lang="en">These functions can be called as often as necessary to change the current language.</div></dd>
-    </dl>
+            <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</div><div lang="en">These functions can be called as often as necessary to change the current language.</div>
+		</dd>
         
 <p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://github.com/rali-udem/jsRealB/tree/master/dist">répertoire</a>.</p>
 <p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element. But you can also get <i>minified</i> versions from <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">this directory</a>.</p>
@@ -134,8 +132,8 @@
 <h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
     <p lang="fr">Les versions de <span class="jsr">jsRealB</span> décrites à la section précédente peuvent aussi être utilisées avec <code>node.js</code> en utilisant une instruction de la forme <code>jsRealB=require("...")</code></p>
     <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>node.js</code> with an instruction like <code>jsRealB=require("...")</code></p>
-    <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../build/filter-dme.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
-    <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../build/filter-dme.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realisation.</p>
+    <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
+    <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realisation.</p>
     <p lang="fr"><strong>Trucs pratiques</strong>:</p> 
     <p lang="en"><strong>Useful tricks</strong>:</p>
     <ul>
@@ -161,6 +159,8 @@ Il est possible d'ajouter de nouveaux entrées ou d'ajouter des informations à 
 Pour trouver les informations à ajouter, le plus simple est de copier les informations d'un mot du lexique qui se conjugue ou se décline de la même façon. L'<a href="../IDE/index.html">IDE de jsRealB</a> permet de consulter les informations du lexique; la fonction javascript <code>getLexicon(<em>entrée</em>)</code> retourne les valeurs courantes d'une entrée. 
 Pour enlever une entrée, il faut faire un appel du genre <code>addToLexicon(<em>entrée</em>,undefined)</code>. 
 </p>
+<p lang="fr">Il est possible de fusionner les entrées d'un nouveau lexique avec les lexiques de base avec la fonction <code>updateLexicon(nouveau)</code> qui ajoutera les nouvelles entrées et remplacera les entrées existantes par celles du nouveau lexique.</p>
+<p lang="fr"><a href="../data/lexiconFormat.html">Plus d'information (en anglais) sur le format des lexiques</a></p>
 <p lang="en">
 New entries can be added to the current lexicon or new information can be added to an existing entry using the  <code>addToLexicon(<em>entry</em>,<em>new informations</em>)</code> function. For each entry, its categories must be given; for each category, their properties and the declension or conjugation tables must be specified. For example,
 <code>addToLexicon("tsunami",{"N":{"tab":["n1"]}})</code> will add the word <code>tsunami</code> as a noun. This function can also be called with a single object argument in which the lemma is the key. The preceding example can also be written as: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.
@@ -170,6 +170,8 @@ In order to find the informations to add, the simplest way is to copy the lexico
 The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon information; <code>getLemma(<em>entry</em>)</code> also returns the lexical information of an entry. 
 To remove an entry a call of the form
 <code>addToLexicon(<em>entry</em>,undefined)</code> should be used.</p>
+<p lang="en">A new lexicon can be merged with the current one by calling <code>updateLexicon(newLexicon)</code> which adds new entries to the lexicon and replaces existing ones.</p>
+<p lang="en"><a href="../data/lexiconFormat.html">More information about the lexicon format</a></p>
 
 <h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
 <p lang="fr">

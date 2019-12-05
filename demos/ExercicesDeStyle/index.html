@@ -4,7 +4,19 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="../../dist/jsRealB-dmefr.min.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-en.js"></script>
+        <script src="../../data/rule-en.js"></script>
+        <script src="../../data/lexicon-fr.js"></script>
+        <script src="../../data/rule-fr.js"></script>
+        <script src="../../build/Utils.js"></script>
+        <script src="../../build/Constituent.js"></script>
+        <script src="../../build/Phrase.js"></script>
+        <script src="../../build/Terminal.js"></script>
+        <script src="../../build/Date.js"></script>
+        <script src="../../build/Number.js"></script>
+<!-/- end of separate loading -->
     <!-- chargement du script spécifique -->
     <script type="text/javascript" charset="utf-8" src="ExerciceDeStyle.js"></script>
     <style type="text/css" media="screen">
@@ -22,6 +34,7 @@
             <option value="p" selected="selected">présent</option>
             <option value="i">imparfait</option>
             <option value="ps">passé simple</option>
+            <option value="f">futur</option>
             <!-- <option value="pc">passe composé</option> -->
         </select>
         <select name="genre" id="genre" size="1" autocomplete="off">

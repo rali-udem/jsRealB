@@ -4,12 +4,23 @@
         <title id="titre"></title>
         <meta charset="UTF-8"/>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="../../dist/jsRealB-fr.min.js" charset="UTF-8"></script>
+    <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-fr.js"></script>
+        <script src="../../data/rule-fr.js"></script>
+        <script src="../../build/Utils.js"></script>
+        <script src="../../build/Constituent.js"></script>
+        <script src="../../build/Phrase.js"></script>
+        <script src="../../build/Terminal.js"></script>
+        <script src="../../build/Date.js"></script>
+        <script src="../../build/Number.js"></script>
+<!-/- end of separate loading -->
+
         <script>
         var max=4;
 
         function kmsAPied(n){
-            return NP(NO(n).nat().cap(),N('kilomètre'),
+            return NP(NO(n).dOpt({nat:true}),N('kilomètre'),
                       PP(P("à"),NP(N("pied"))));
         }
 
@@ -18,9 +29,9 @@
         }
 
         function refrain(){
-            var s1=S(CP(NP(D("le"),N("peinture"),
-                        PP(P("à"),D("le"),N("huile"))), 
-                        S(Pro("ce"), VP(V("être").t("p"),Adv("bien"),A("difficile"))),C(",")));
+            var s1=S(NP(D("le"),N("peinture"),
+                        PP(P("à"),D("le"),N("huile"))).a(","), 
+                     S(Pro("ce"), VP(V("être").t("p"),Adv("bien"),A("difficile"))));
             var s2=S('mais',
                      Pro("ce"),
                      VP(V("être").t("p"),
@@ -34,8 +45,9 @@
         }
 
         function generer() {
+            loadFr();
             var $body=$("body");
-            var m1=kmsAPied(1);
+            var m1=S(kmsAPied(1));
             $("#titre").text(m1);
             var h1=$("<h1/>").css("text-align","center").text(m1)
             $body.append(h1);
@@ -43,9 +55,9 @@
             var s1=S(Pro("ça"),use);
             var s2=S(s1,NP(D("le"),N("soulier")).n("p"));
             for(var i=1;i<=max;i++){
-                map=kmsAPied(i);
+                var kmap=kmsAPied(i).a(",");
                 var $lignes=$("<b/>").append("<p/>");
-                $lignes.append(ligne(S(CP(map,s1,s1,C(","))))).append(ligne(S(CP(map,s2,C(",")))));
+                $lignes.append(ligne(S(kmap,s1,s1))).append(ligne(S(kmap,s2)));
                 $body.append($lignes);
                 $body.append(refrain());
             };

@@ -9,6 +9,13 @@ var pos={"int":["yon","wos","wod","wad","woi","whe","why","whn","how","muc"],
          "mod":["poss","perm","nece","obli","will"]}
 var nb,ex;
 
+// gérer un three state checkbox (i.e. on alterne entre checked )
+// adapté de https://css-tricks.com/indeterminate-checkboxes/
+function threeStatesCB() {
+  if (this.readOnly) this.checked=this.readOnly=false;
+  else if (!this.checked) this.readOnly=this.indeterminate=true;
+}
+
 // génération d'une phrase
 function generer(s,$tab,obj){
     // console.log("generer(%o)",obj);
@@ -31,12 +38,18 @@ function genererTypes(s,$tab,types,obj){
         var type=types[0]
         obj[type]=false;
         genererTypes(s,$tab,types.slice(1),obj);
-        if ($("#cb-"+type).is(":checked")){
+        var $cbType=$("#cb-"+type)
+        if ($cbType.is(":checked") || $cbType.prop("indeterminate")){
             if (type in pos){ // plusieurs possibilités
-                var poss=pos[type]
-                for (var i = 0; i < poss.length; i++) {
-                    obj[type]=poss[i];
+                if ($cbType.prop("indeterminate")){ // ne faire que la première
+                    obj[type]=pos[type][0];
                     genererTypes(s,$tab,types.slice(1),obj);
+                } else {
+                    var poss=pos[type]
+                    for (var i = 0; i < poss.length; i++) {
+                        obj[type]=poss[i];
+                        genererTypes(s,$tab,types.slice(1),obj);
+                    }
                 }
             } else { // que vrai et faux comme alternatives
                 obj[type]=true;
@@ -65,6 +78,10 @@ function genererHeader(lang){
     $tab.append($thead);
     $tbody=$("<tbody></tbody>");
     $tab.append($tbody);
+    // patch for three state checkboxes
+    for (type in pos){
+        $("#cb-"+type).prop("checked",false).prop("indeterminate",true).click(threeStatesCB);
+    }
 }
 
 function genererStruct(struct,lang){

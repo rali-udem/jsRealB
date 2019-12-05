@@ -16,14 +16,14 @@
         }
     </style>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="../../dist/jsRealB-dmefr.min.js" charset="UTF-8"></script>
+    <script src="../../dist/jsRealB.js" charset="UTF-8"></script>
     <script>
         function meteo(voc, nombre, temps, heure) {
             var date = DT(new Date(heure)).dOpt({year: false, month: false, date: false, day: false, minute: false, second: false, nat: true});
             // console.log(date);
             return S(
                     CP(C(voc.alt),
-                        NP(D(voc.det), AP(A(voc.magn)), N(voc.averse)),
+                        NP(D(voc.det), A(voc.magn), N(voc.averse)),
                         NP(D(voc.det), N(voc.orage))).n(nombre),
                     VP(V(voc.arret).t(temps),
                             date)

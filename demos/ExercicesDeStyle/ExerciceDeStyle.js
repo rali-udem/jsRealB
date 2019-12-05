@@ -9,7 +9,7 @@ function completerLexique(){
     addToLexicon({"narrateur":{ "N": { "g": "m", "tab": ["n56"]} }}); 
     addToLexicon({"bus"      :{ "N": { "g": "m", "tab": ["n2"] } }});
     addToLexicon({"bondé"    :{ "A": { "g": "m", "tab": ["n28"]} }});
-    addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab": ["n28"]} }});// car le participe passé ne s'accorde pas!
+    // addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab": ["n28"]} }});// car le participe passé ne s'accorde pas!
     addToLexicon({"quelque"  :{ "D": { "g": "m", "tab": ["n28"]} }});
 }
 
@@ -18,7 +18,8 @@ function composer(t,g,n){
   // personnages
   addToLexicon("narrateur",{"N":{"g":"m","tab":["n56"]}});
   narrateur=NP(D("le"),N("narrateur")).g(g).n(n).tag("span", {"class": "narrateur genre nombre"});
-  jeuneHomme=NP(A("jeune"),N(g=="m"?"homme":"femme")).n(n).tag("span", {"class": "jeune-homme genre nombre"});
+  // unjeuneHomme=NP(D("un"),A("jeune"),N(g=="m"?"homme":"femme")).n(n).tag("span", {"class": "jeune-homme genre nombre"});
+  // cejeuneHomme=NP(D("ce"),A("jeune"),N(g=="m"?"homme":"femme").n(n).tag("span", {"class": "jeune-homme genre nombre"});
   ami=N("ami").n(n).g(g).tag("span", {"class": "ami genre nombre"});
   voyageur=N("voyageur").g(g).n(n).tag("span", {"class": "voyageur genre nombre"});
   
@@ -31,29 +32,31 @@ function composer(t,g,n){
        PP(P("dans"),
           NP(D("un"),N("bus"),A("bondé")).n(n),
              PP(P("de"),NP(D("le"),N("ligne"),"S"))).a(","),
-       NP(D("un"),jeuneHomme,
-          PP(P("à"),NP(D("le"),A("long"),N("cou"))),
-          AP(A("coiffé").g(g).n(n).tag("span", {"class": "genre nombre"}),           
-             PP(P("de"),NP(D("un"),N("chapeau"),A("mou")).n(n)).tag("span", {"class": "nombre"}))))
-       );
+       NP(D("un"),A("jeune"),N(g=="m"?"homme":"femme").n(n).tag("span", {"class": "jeune-homme genre nombre"})),
+          PP(P("à"),NP(D("le"),A("long").pos("pre"),N("cou"))).a(","),
+          VP(V("coiffer").t("pp").g(g).n(n).tag("span", {"class": "genre nombre"}),           
+            PP(P("de"),NP(D("un"),N("chapeau"),A("mou")).n(n)).tag("span", {"class": "nombre"})))
+  );
 
   // Ce jeune homme échange quelques mots assez vifs avec un autre voyageur, 
   // puis va s'asseoir à une place devenue libre.
    addToLexicon("quelque",{"D":{"tab":["n25"]}});
   ps[2]=
-       S(NP(D("ce"),jeuneHomme),
-             VP(V("échanger").tag("span", {"class": "temps"}),
-                   NP(D("quelque"),
-                      N("mot"),
-                      AP(Adv("assez"),A("vif"))).n("p"),
-                   PP(P("avec"),
-                      NP(D("un"),A("autre"), voyageur).tag("span", {"class": "genre nombre"}))).a(","),
-            C("puis"),
-             VP(V("aller").tag("span", {"class": "nombre temps"}),
-                VP("se",V("asseoir"),
-                   PP(P("à"),
-                      NP(D("un"),N("place"),A("libre")))).t("b"))
-       ).t(t);
+       S(NP(D("ce"),A("jeune"),N(g=="m"?"homme":"femme").n(n)
+                           .tag("span", {"class": "jeune-homme genre nombre"})),
+             CP(C("puis"),
+                 VP(V("échanger").t(t).tag("span", {"class": "temps"}),
+                      NP(D("quelque"),N("mot"),
+                         AP(Adv("assez"),A("vif"))).n("p"),
+                      PP(P("avec"),
+                         NP(D("un").g(g).n(n),A("autre").g(g).n(n), voyageur)
+                                       .tag("span", {"class": "genre nombre"}))),
+                 VP(V("aller").t(t).tag("span", {"class": "nombre temps"}),
+                     "se",V("asseoir").t("b"),
+                       PP(P("à"),
+                          NP(D("un"),N("place"),A("libre"))))
+               )
+       );
 
 
   
@@ -62,9 +65,9 @@ function composer(t,g,n){
   ps[3]=
     S(SP(NP(NO(2).dOpt({nat: true}),N("heure")),AdvP(Adv("plus"),Adv("tard"))).a(","),
       narrateur,
-      VP(V("revoir").t(t).tag("span", {"class": "temps"}),
-         NP(D("ce"),jeuneHomme,
-            PP(P("devant"),NP(D("le"),N("gare"),"Saint-Lazare"))))
+      VP(V("revoir").t(t).n(n).tag("span", {"class": "temps nombre"}),
+         NP(D("ce"),A("jeune"),N(g=="m"?"homme":"femme").n(n).tag("span", {"class": "jeune-homme genre nombre"})),
+            PP(P("devant"),NP(D("le"),N("gare"),"Saint-Lazare")))
     );
 
   
@@ -87,7 +90,7 @@ function composer(t,g,n){
           VP(V("faire").t("b"),
              VP(V("remonter").t("b"),
                 NP(D("le"),N("bouton"),A("supérieur"),
-                   PP(P("de"),NP(D("notre"),N("pardessus")).n(n))).n(n))))
+                   PP(P("de"),NP(D(n=='s'?"mon":"notre").tag("span",{"class":"nombre"}),N("pardessus")).n(n))).n(n))))
        )
     );
 
@@ -110,6 +113,7 @@ function composer(t,g,n){
 function updateLexicon(){
     loadEn();
     addToLexicon("every", {"D":{"tab":["d4"]}});
+    addToLexicon({"gal":{"N":{"tab":["n1"]}}});
 }
 
 function compose(t,g,n){
@@ -117,7 +121,7 @@ function compose(t,g,n){
     if(t=="i")t="ps";// imparfait n'existe pas en anglais, remplace par past...
 
     // personnages
-    chap=NP(D("a"),N(g==="m"?"chap":"gal")).n(n).tag("span", {"class": "jeune-homme nombre"})
+    // chap=NP(D("a"),N(g==="m"?"chap":"gal").n(n).tag("span", {"class": "jeune-homme nombre"}))
     chapProSuj=Pro("I").g(g).n(n).tag("span", {"class": "jeune-homme nombre genre"}); // pronominalisation du chap
     chapProObj=Pro("me").g(g).n(n).tag("span", {"class": "jeune-homme nombre genre"}); // pronominalisation du chap
     otherMan=NP(D("a"),N(g=="m"?"man":"woman")).tag("span", {"class": "voyageur genre nombre"});
@@ -131,7 +135,7 @@ function compose(t,g,n){
     ps[1]=
         S(PP(P("on"),D("the"),"S",N("bus")).a(","),
           PP(P("in"),D("the"),N("rush"),N("hour")).a(","),
-             NP(chap,
+             NP(D("a"),N(g==="m"?"chap":"gal").n(n).tag("span", {"class": "jeune-homme nombre"}),
                 PP(P("of"),Adv("about"),NO(26)),
                 PP(P("with"),D("a"),A("soft"),N("hat"))),
            VP(V("get").t(t).tag("span", {"class": "temps"}),V("annoy").t("pp"),
@@ -168,7 +172,7 @@ function compose(t,g,n){
     );
     // Two hours later, I come across him in front of the Gare Saint-Lazare.
     ps[4]=
-    S(NP(NO(2).dOpt({nat: true}),N("hour"),A("late").f("co")).a(","),
+    S(NP(NO(2).dOpt({nat: true}),N("hour"),Adv("late").f("co")).a(","),
       VP(speakerPro,
          V("come").t(t).tag("span", {"class": "temps"}),
          PP(P("across"),chapProObj),
@@ -191,8 +195,8 @@ function compose(t,g,n){
          V("get").t("p").pe(1),
          NP(D("a"),A("extra"),N("button")),
          V("put").t("pp"),
-         PP(P("on"),D("my").pe(2),N("coat")))
-    ).en('"').a(".");
+         PP(P("on"),D("my").pe(2).ow(n),N("coat")))
+    ).en('"');
     return $("<p/>").append(ps.join(" "));
 }
 

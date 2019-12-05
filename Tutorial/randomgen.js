@@ -7,9 +7,11 @@ if (typeof module !== 'undefined' && module.exports) {
         eval("var "+v+"=jsRealB."+v);
 
     function show(exp){
-        console.log(exp.toObject(),":",exp.toString());
+        console.log(exp.toSource(),":",exp.toString());
     }
 }
+loadEn();
+addToLexicon({"fussy":{"A":{"tab":["a4"]}}});
 // a simple sentence
 var cat=NP(D("the"),N("cat"));
 var mouse=NP(D("a"),A("grey"),N("mouse"));
@@ -18,6 +20,10 @@ var sent=S(cat,VP(V("eat"),mouse));
 // modifications are "permanent"
 var cat1=NP(D("the"),N("cat"));
 var mouse1=NP(D("a"),A("grey"),N("mouse"));
+
+// modifications are "permanent"
+var cat2=NP(D("the"),N("cat"));
+var mouse2=NP(D("a"),A("grey"),N("mouse"));
 
 if (typeof module !== 'undefined' && module.exports) {
     // some variations
@@ -44,7 +50,7 @@ function np(){
 // random Adjective
 function a(){
     return oneOf(
-        ()=>A(oneOf("fussy","grey","nervous")),
+        ()=>A(oneOf("hungry","grey","nervous")),
         ()=>Q("")
     );
 }
@@ -52,12 +58,13 @@ function a(){
 // random VP or VP,NP
 function vp(){
     return oneOf(
-        ()=>VP(V(oneOf("eat","run","love"))),
-        ()=>VP(V(oneOf("eat","love")),np())
+        ()=>VP(V(oneOf("eat","run","love")).t(oneOf("p","ps","f"))),
+        ()=>VP(V(oneOf("eat","love")).t(oneOf("p","ps","f")),np())
     );
 }
 
 if (typeof module !== 'undefined' && module.exports) {
+    console.log("== Random sentences ==")
     for (var i = 0; i < 20; i++) {
         show(S(np(),vp()));
     }

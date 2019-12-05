@@ -4,13 +4,23 @@
         <title>99 bottles of beer</title>
         <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="../../dist/jsRealB-dme.min.js" charset="UTF-8"></script>
+    <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-en.js"></script>
+        <script src="../../data/rule-en.js"></script>
+        <script src="../../build/Utils.js"></script>
+        <script src="../../build/Constituent.js"></script>
+        <script src="../../build/Phrase.js"></script>
+        <script src="../../build/Terminal.js"></script>
+        <script src="../../build/Date.js"></script>
+        <script src="../../build/Number.js"></script>
+<!-/- end of separate loading -->
     <script>
         function nbb(n){ // (n|no more) bottle(s) of beer
             var b=N("bottle");
-            var ob=SP(P("of"),N("beer"));
+            var ob=PP(P("of"),N("beer"));
             if (n==0) return NP("no more",b.n("p"),ob);
-            return NP(NO(n).nat(),b,ob);
+            return NP(NO(n).nat(true),b,ob);
         }
         function nbbW(n){ // n bottles of beer on the wall
             return NP(nbb(n),
@@ -20,19 +30,19 @@
         }
         
         function verse(n){
-            var vers1=CP(nbbW(n), 
-                         nbb(n),C(","));
+            var vers1=CP(nbbW(n).a(","), 
+                         nbb(n));
             var vers2;
             if (n>0){
-                var tod=VP(V("take").pe(2).t("ip"),"one",P("down"));
-                var pia=VP(V("pass").pe(2),Pro("I").g("n"),P("around")); 
-                vers2=CP(C(","),CP(C("and"),tod,pia),nbbW(n-1))
+                var tod=VP(V("take").pe(2).t("ip"),NO(1).nat(true),P("down"));
+                var pia=VP(V("pass").pe(2),Pro("I").g("n").pe(3),P("around")); 
+                vers2=CP(CP(C("and"),tod,pia).a(","),nbbW(n-1))
             } else {
                 var gts=VP(V("go").pe(2),PP(P("to"),D("a"),N("store")));
-                var bsm=VP(V("buy").pe(2),"some more");
-                vers2=CP(C(","),CP(C("and"),gts,bsm),nbbW(99))
+                var bsm=VP(V("buy").pe(2),"some more").a(",");
+                vers2=CP(C("and"),gts,bsm)
             }
-            return S(vers1)+"<br/>"+S(vers2);
+            return S(vers1)+"<br/>"+S(vers2,nbbW(99));
         }
         function generate() {
             var $body=$("body");
@@ -41,6 +51,7 @@
         };
         
        $(document).ready(function() {
+		   loadEn();
            generate();
        });
         </script>

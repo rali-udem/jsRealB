@@ -51,6 +51,7 @@ function realiseTaches(tasks,p){
             t.tag("span",{"id":"T"+tasks[i].id});
         res.add(t)
     }
+    // console.log(res.toSource())
     return res;
 }
 
@@ -58,16 +59,16 @@ function introduction(nbDays,firstTasks){
     // indiquer la durée du projet
     travail=NP(D("le"),N("construction"),PP(P("de"),NP(D("le"),N("bâtiment"))));
     var duree=NP(NO(nbDays).dOpt({nat: true}),oneOf(N("jour"),N("journée")));
-    var q0=PP(P("pour"),V("compléter").t("b"),travail).a(",");
-    var q1=SP(Pro("je"),V("falloir").t("f"),Q("au moins"),duree);
+    var q0=PP(P("pour"),V("compléter").t("b"),travail);
+    var q1=SP(Pro("je").pe(3).n("s"),V("falloir").t("f"),Q("au moins"),duree);
     var realisation = oneOf(
-        ()=>S(q0,q1),
-        ()=>S(q1,q0),
+        ()=>S(q0.a(","),q1),
+        ()=>S(q1.a(","),q0),
         ()=>S(duree,VP(V("être").t("f"),A("nécessaire"),q0))
     );
     // indiquer les tâches du début
     realisation += "\n"+oneOf(
-        ()=>S(Pro("je").pe("3"),
+        ()=>S(Pro("je").pe(3),
               VP(V("falloir"),V("commencer").t("b"),
                        PP(P("par"),realiseTaches(firstTasks,nvp())))),
         ()=>S(Pro("je").n("p").pe(2),V("devoir").t("c"),
@@ -91,7 +92,7 @@ function developpement(middleTasks){
             ()=>S(jour(t[0]).a(","),
                    NP(N("on")),
                    VP(V("devoir").t("c"),Q("se"),V("occuper").t("b"),
-                      PP(P("de"),realiseTaches(t,nvp()))))
+                      PP(P("de"),realiseTaches(t,'vp'))))
         );
         // console.log(v);
         realisation+=v+"\n";
@@ -108,7 +109,7 @@ function conclusion(lastTasks,duree){
               P("par"),realiseTaches(lastTasks,nvp()))
             )
     )+"\n";
-    realisation+=S(travail,VP(V("compléter").t("fa").aux("être"),jour(duree)));
+    realisation+=S(travail,VP(V("compléter").t("fa").aux("êt"),jour(duree)));
     return realisation+"\n";
 }
 

@@ -48,7 +48,7 @@ function nbStations(leg,ord){
     var st=N(oneOf("station",currentLang=="en"?"stop":"arrêt"));
     if (leg.length==2){
         return currentLang=="en"?NP(Adv("only"),NO(1).dOpt({"nat": true}),st)
-                                :NP(D("le"),NO(1).dOpt({"ord":true}),st);
+                                :NP(NO(1).dOpt({"nat":true}),st);
     }
     return NP(NO(leg.length-1).dOpt({"ord":ord}),st)
 }
@@ -68,8 +68,8 @@ function singleLine(leg,duration){
                         ()=>SP(Pro("this"),VP(V("make").t("f"),nbStations(leg),
                                               PP(P("for"),NP(D("the"),A("whole"),N("trip")))))
                         ).a(",");
-        var sp2 = oneOf(()=>SP(V("take").t("ip"),genLine(leg)),
-                        ()=>SP(V("follow").t("ip"),genLine(leg),
+        var sp2 = oneOf(()=>SP(V("take").t("ip").pe(2),genLine(leg)),
+                        ()=>SP(V("follow").t("ip").pe(2),genLine(leg),
                                PP(P("for"),NP(NO(Math.round(duration)),N("minute")))));
         return S(sp1,sp2).toString();
     } else {
@@ -80,8 +80,8 @@ function singleLine(leg,duration){
                         ()=>SP(Pro("ceci"),VP(V("faire").t("f"),nbStations(leg),
                                               PP(P("pour"),A("tout"),NP(D("le"),N("trajet")))))
                         ).a(",");
-        var sp2 = oneOf(()=>SP(V("prendre").t("ip").n("p"),genLine(leg)),
-                        ()=>SP(V("suivre").t("ip").n("p"),genLine(leg),
+        var sp2 = oneOf(()=>SP(V("prendre").t("ip").pe(2).n("p"),genLine(leg)),
+                        ()=>SP(V("suivre").t("ip").pe(2).n("p"),genLine(leg),
                                PP(P("pour"),NP(NO(Math.round(duration)),N("minute")))));
         return S(sp1,sp2).toString();
     }
@@ -98,9 +98,9 @@ function introduction(leg,duration){
         var sp1 = S(Pro("I").pe(2),VP(V("be"),NP(NO(Math.round(duration)),N("minute"))),
                      PP(P("from"),NP(D("my").pe(2),N("destination")))).a(",");
         var sp2 = oneOf(
-                    ()=>SP(V("take").t("ip"),genLine(leg),
+                    ()=>SP(V("take").t("ip").pe(2),genLine(leg),
                            PP(P("for"),nbStations(leg))),
-                    ()=>SP(V("board").t("ip"),PP(P("on"),genLine(leg)))
+                    ()=>SP(V("board").t("ip").pe(2),PP(P("on"),genLine(leg)))
                   );
         var pp = oneOf(()=>PP(P("until"),SP(Pro("I").pe(2),
                                             VP(V("be"),PP(P("at"),destination(leg))))),
@@ -112,9 +112,9 @@ function introduction(leg,duration){
                     VP(V("être"),P("à"),NP(NO(Math.round(duration)),N("minute"))),
                         PP(P("de"),NP(D("notre").pe(2),N("destination")))).a(",");
         var sp2 = oneOf(
-                    ()=>SP(V("prendre").t("ip").n("p"),genLine(leg),
+                    ()=>SP(V("prendre").t("ip").pe(2).n("p"),genLine(leg),
                            PP(P("pour"),nbStations(leg))),
-                    ()=>SP(V("embarquer").t("ip").n("p"),PP(P("sur"),genLine(leg)))
+                    ()=>SP(V("embarquer").t("ip").pe(2).n("p"),PP(P("sur"),genLine(leg)))
                   );
         var pp = oneOf(()=>SP(P("jusque"),P("à"),Pro("ce"),Pro("je").pe(2).n("p"),
                               VP(V("être").t("s"),PP(P("à"),destination(leg)))),
@@ -130,10 +130,10 @@ function body(legs){
     var leg=legs[0]
     if (currentLang=="en"){
         var out=oneOf(
-            ()=>S(VP(V("take").t("ip"),genLine(leg),PP(P("up"),P("to"),destination(leg)))),
-            ()=>S(VP(V("change").t("ip"),PP(P("on"),genLine(leg),P("until"),destination(leg)))),
-            ()=>S(VP(V("transfer").t("ip"),PP(P("for"),destination(leg),P("on"),genLine(leg)))),
-            ()=>S(VP(V("switch")).t("ip"),
+            ()=>S(VP(V("take").t("ip").pe(2),genLine(leg),PP(P("up"),P("to"),destination(leg)))),
+            ()=>S(VP(V("change").t("ip").pe(2),PP(P("on"),genLine(leg),P("until"),destination(leg)))),
+            ()=>S(VP(V("transfer").t("ip").pe(2),PP(P("for"),destination(leg),P("on"),genLine(leg)))),
+            ()=>S(VP(V("switch")).t("ip").pe(2),
                    PP(P("on"),genLine(leg),P("for"),nbStations(leg)))
         );
         return out+" "+body(legs.slice(1));
@@ -157,7 +157,7 @@ function conclusion(leg){
     if (currentLang=="en"){
         var out=oneOf(
             ()=>S(Adv("finally"),Pro("I").pe(2),V("take").t("f"),genLine(leg),
-                   V("arrive").t("b"),PP(P("to"),destination(leg))),
+                   V("arrive").t("pr"),PP(P("to"),destination(leg))),
             ()=>S(Q("at last").a(","),Pro("I").pe(2),
                   VP(V("find").t("f"),destination(leg).a(","),
                      PP(nbStations(leg,true),P("on"),genLine(leg)))),
@@ -175,8 +175,8 @@ function conclusion(leg){
                   VP(V("trouver").t("f"),destination(leg).a(","),
                      PP(nbStations(leg,true),P("sur"),genLine(leg)))),
             ()=>S(NP(D("notre").pe(2),N("destination"),destination(leg)),
-                  VP(V("être").t("f"),NP(D("le"),nbStations(leg,true)),
-                                 P("sur"),genLine(leg)))
+                  VP(V("être").t("f"),NP(D("le"),nbStations(leg,true),
+                                         PP(P("sur"),genLine(leg)))))
         );
         return out;
     }
@@ -217,10 +217,15 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 // addition to the French dictionary (always done)
 loadFr();
-addToLexicon({"tout":{"A":{"tab":["n76"]}}});
 addToLexicon({"aucun":{"D":{"tab":["n28"]}}});
+
+addToLexicon({"tout":{"A":{"tab":["n76"]}}});
+addToLexicon({"rose":{"A":{"tab":["n25"]}}});
+
+addToLexicon({"embarquer":{"V":{"tab":"v36","aux":["av"]}}});
+addToLexicon({"prendre":{"V":{"tab":"v90","aux":["av"]}}});
+addToLexicon({"suivre":{"V":{"tab":"v99","aux":["av"]}}});
 addToLexicon({"transférer":{"V":{"tab":"v28","aux":["av"]}}});
-addToLexicon({"rose":{"A":{"tab":["n25"]}}})
 
 if (typeof module !== 'undefined' && module.exports) {    
     if (currentLang=="en") loadEn(); else loadFr();

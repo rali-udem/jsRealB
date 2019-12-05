@@ -1,8 +1,8 @@
 //  tasks display using D3.js
 
 function createToolTip(sel,d){
-    var g=sel.append("g").classed("tooltip",true);
-    var spans=[d.np.toString().replace(/<[^>]+>/g,""),
+    var g=sel.append("g").classed("tooltip",true).attr("pointer-events","none");
+    var spans=[S(d.np).toString().replace(/<[^>]+>/g,""),
                tooltipText(d.duration,d.est,d.let,isCritical(d))]
     var text=g.append("text").attr("fill","black")
                 .text(spans[0])
@@ -20,7 +20,7 @@ function createToolTip(sel,d){
         .attr("rx",3).attr("ry",3)
         .attr("width", bbox.width + (padding*2))
         .attr("height", bbox.height + (padding*2))
-        .attr("fill", "white").attr("stroke","black");
+    .attr("fill", "white").attr("stroke","black");
     return g;
 }
 

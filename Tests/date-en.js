@@ -16,7 +16,7 @@ QUnit.test( "English dates", function( assert ) {
     assert.equal(DT(theDate).dOpt({month:false, date:false, day:false, hour:false, minute:false, second:false}).toString(), "in 2015", "Only year");
     assert.equal(DT(theDate).dOpt({date:false, day:false, hour:false, minute:false, second:false}).toString(), "on January 2015", "Only month and year");
     assert.equal(DT(theDate).dOpt({year:false, month:false, date:false, hour:false, minute:false, second:false}).toString(), "on Thursday", "Only weekday");
-    assert.equal(DT("2015-01-04T11:00:00-05:00").toString(),"on Sunday, January 4, 2015 at 11:00 a.m.", "Full info without 0 minutes and 0 seconds");
+    assert.equal(DT("2015-01-04T11:00:00-05:00").dOpt({minute:false,second:false}).toString(),"on Sunday, January 4, 2015 at 11 a.m.", "Full info without 0 minutes and 0 seconds");
     // date in digit
     assert.equal(DT(theDate).nat(false).toString(),"Thursday 1/1/2015 11:25:45 a.m.", "Full info");
     assert.equal(DT(theDate).dOpt({day:false, date:true}).nat(false).toString(), "1/1/2015 11:25:45 a.m.", "Without week day");

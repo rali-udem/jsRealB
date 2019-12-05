@@ -1,3 +1,4 @@
+loadEn();
 // // when used as a node module
 // if (typeof module !== 'undefined' && module.exports) {
 //     // when called by node.js
@@ -18,7 +19,11 @@ function np(n){
 }
 
 function tnp(n0,prep,n1){ // task np
-    return NP(np(n0),PP(P(prep),np(n1)));
+    if (typeof n0=="string")
+        return NP(D("the"),N(n0),PP(P(prep),np(n1)));
+    if (n0.isA("N"))
+        return NP(n0).add(PP(P(prep),np(n1)))
+    return n0.add(PP(P(prep),np(n1)));
 }
 
 function tvp(v,n){ //task vp
@@ -27,14 +32,15 @@ function tvp(v,n){ //task vp
 }
 
 function generateTaskDescriptions() {
-    // add to the dme lexicon
+    // add to the english lexicon
     loadEn();
-    var verbs=[];
+    var verbs=[{"insulate":{"V":{"tab":"v3"}}},{"concrete":{"V":{"tab":"v3"}}},
+               {"ground":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}}];
     for (var i = 0; i < verbs.length; i++)
-        addToLexicon(verbs[i],"");
-    var nouns=["paving","stringer"];
+        addToLexicon(verbs[i]);
+    var nouns=["paving","coating","stringer","earthwork","canalization","masonry","sealer"];
     for (var i = 0; i < nouns.length; i++)
-        addToLexicon(nouns[i],{"N":{"g":"m","tab":["n1"]}});
+        addToLexicon(nouns[i],{"N":{"g":"n","tab":["n1"]}});
     addToLexicon({"another":{"D":{"tab":["d4"]}}});
     addToLexicon({"other":{"D":{"tab":["d4"]}}});
 
@@ -57,19 +63,22 @@ function generateTaskDescriptions() {
     addNPVP(tasks,"i",tnp("ground","for",stringers),tvp("ground",stringers));
     addNPVP(tasks,"j",q=tnp("concrete","for",stringers),tvp("pour",q));
     addNPVP(tasks,"k",tnp("construction","of",q=tnp("frame","in","factory")),tvp("build",q));
-    addNPVP(tasks,"l",q=NP(NP(D("a"),Adv("first"),N("coat")),PP(P("of"),tnp(N("paint"),"in","factory"))),tvp("apply",q));
+    addNPVP(tasks,"l",q=NP(D("a"),Adv("first"),N("coat"),PP(P("of"),tnp(N("paint"),"in","factory"))),
+                      tvp("apply",q));
     addNPVP(tasks,"m",tnp("move","of","frame"),tvp("move","frame"));
     addNPVP(tasks,"n",tnp("assembly","of","structure"),tvp("assemble","structure"));
     addNPVP(tasks,"o",tnp("earthwork","for",canalizations),tvp("do",canalizations));
     addNPVP(tasks,"p",tnp("masonry","for",canalizations),tvp("concrete",canalizations));
-    addNPVP(tasks,"q",tnp(np("supply").n("p"),"for","heating"),VP(V("supply"),PP(P("for"),NP(D("the"),N("heating")))));
+    addNPVP(tasks,"q",tnp(np("supply").n("p"),"for","heating"),
+                      VP(V("supply"),PP(P("for"),NP(D("the"),N("heating")))));
     addNPVP(tasks,"r",tnp("installation","of","heating"),tvp("install","heating"));
     addNPVP(tasks,"s",NP(D("other"),N("coat"),PP(P("of"),N("paint"))).n("p"),tvp("end","painting"));
     addNPVP(tasks,"t",tnp("study","of","electricity"),tvp("plan",tnp("installation","of","electricity")));
     addNPVP(tasks,"u",tnp("isolation","of","roof"),tvp("insulate","roof"));
     addNPVP(tasks,"v",tnp("installation","of","electricity"),tvp("install","electricity"));
     addNPVP(tasks,"w",q=NP(D("the"),N("paving")),tvp("execute",q));
-    addNPVP(tasks,"x",NP(D("the"),N("sealer")).n("p"),PP(CP(C("and"),V("fill"),V("cover")),P("of"),N("coating").n("p")));
+    addNPVP(tasks,"x",NP(D("the"),N("sealer")).n("p"),
+                         SP(CP(C("and"),VP(V("fill")),VP(V("cover"))),PP(P("of"),N("coating").n("p"))));
 }
 
 if (typeof module !== 'undefined' && module.exports) {

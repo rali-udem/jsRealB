@@ -31,9 +31,9 @@ function expressionVerbe(){
     var temps=$("#temps").val();
     
     if(verbe!=""){
-      var perfect =$("#perfect").is(':checked');
+      // var perfect =$("#perfect").is(':checked');
       var v="V(\""+verbe+"\").t('"+temps+"')"
-      v += (perfect==true)?".perf(true)":"";
+      // v += (perfect==true)?".perf(true)":"";
       return v;
     }
     return null;
@@ -63,18 +63,20 @@ function evaluer(){
 }
 
 function realiser(){
-    var sujet=expressionNP($("#det").val(),
-                           $("#nom").val(),
-                           $("#adj").val(),
-                           $("#adjForm").val(),
-                           $("#pluriel").is(":checked"),
-                           $("#est-pronom").is(":checked"),
-                           $("#neuterSub").is(":checked"));
-    if(sujet==null){
-        var personne=$("#personne").val();
-        var nombre=$("#nombre").val();
-        if(personne!="nil" && nombre!="nil")
-            sujet="Pro('I').pe("+personne+").n('"+nombre+"')";
+    if ($("#temps").val() !== "ip"){ // ignorer le sujet si à l'impératif
+        var sujet=expressionNP($("#det").val(),
+                               $("#nom").val(),
+                               $("#adj").val(),
+                               $("#adjForm").val(),
+                               $("#pluriel").is(":checked"),
+                               $("#est-pronom").is(":checked"),
+                               $("#neuterSub").is(":checked"));
+        if(sujet==null){
+            var personne=$("#personne").val();
+            var nombre=$("#nombre").val();
+            if(personne!="nil" && nombre!="nil")
+                sujet="Pro('I').pe("+personne+").n('"+nombre+"')";
+        }
     }
     var verbe=expressionVerbe();
     var objetDirect=expressionNP($("#detOD").val(),
@@ -119,6 +121,7 @@ function realiser(){
         var passive =$("#passive").is(':checked');
         var progressive =$("#progressive").is(':checked');
         var question =$("#queForm").is(":checked");
+        var perfect =$("#perfect").is(':checked');
         if(question == true){
           for(i in $("#intSpec")[0]){
             if($("#intSpec")[0][i] != null && $("#intSpec")[0][i].selected == true){
@@ -132,6 +135,7 @@ function realiser(){
         typP += (negation)?"neg:true,":"";
         typP +=(passive)?"pas:true,":"";
         typP +=(progressive)?"prog:true,":"";
+        typP += (perfect)?"perf:true,":"";
         typP += (question!=false)?"int:"+question+",":"";
         typP +=(exclamation)?"exc:true,":"";
 
@@ -146,7 +150,7 @@ function realiser(){
         expr += typP;
 
         $("#jsreal").val(expr);
-        $("#realisation").val(eval(expr+".real()"));
+        $("#realisation").val(eval(expr.toString()));
     } else
         $("#jsreal").val("il faut indiquer au moins un sujet ou un verbe");
 }
@@ -217,7 +221,8 @@ function chercher(liste){
 
 // récupérer le vocabulaire pour la génération aléatoire
 function initVocabulaire(){
-    lexique=JSrealB.Config.get("lexicon");
+    loadEn();
+    lexique=lexiconEn;
     lesNoms=[];
     lesVerbes=[];
     lesAdjectifs=[];

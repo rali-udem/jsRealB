@@ -3413,7 +3413,7 @@ testsProDeclinaisonFr = {
     "je":{"ms2":"tu", "mp3":"ils", "fs3":"elle"},
     "moi":{"ms2":"toi", "mp3":"eux", "fs3":"elle"},
     "lequel":{"ms2":"lequel", "mp3":"lesquels", "fs3":"laquelle"},
-    "celui-ci":{"ms2":"celui-ci", "mp3":"ceux-ci", "fs3":"celle-ci"},
+    "celui-ci":{"ms3":"celui-ci", "mp3":"ceux-ci", "fs3":"celle-ci"},
     "qui":{"ms2":"qui", "mp3":"qui", "fs3":"qui"},
     "quoi":{"ms2":"quoi", "mp3":"quoi", "fs3":"quoi"},
     "où":{"ms2":"où", "mp3":"où", "fs3":"où"},
@@ -3460,7 +3460,7 @@ QUnit.test( "Déclinaison française", function( assert ) {
     
     for (let [word,wordInfo] of Object.entries(testsProDeclinaisonFr)){
         for (let [flags,expected] of Object.entries(wordInfo)){
-            exp=Pro(word).g(flags.charAt(0)).n(flags.charAt(1)).pe(flags.charAt(2))
+            exp=Pro(word).g(flags.charAt(0)).n(flags.charAt(1)).pe(+flags.charAt(2))
             var res=exp.toString()
             assert.equal(res,expected,exp.toSource()+"=>"+res)
         }
