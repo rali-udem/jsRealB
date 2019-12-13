@@ -129,7 +129,7 @@ genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", /
                    "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S"]);  // composed tenses
 genOptionFunc("g",["m","f","n","x"],["D","N","NP","A","AP","Pro","V","VP","S"]);
 genOptionFunc("n",["s","p"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("pe",[1,2,3],["D","Pro","N","NP","V","VP","S"]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","V","VP","S"]);
 genOptionFunc("f",["co","su"],["A","AP","Adv"]);
 genOptionFunc("aux",["av","êt","aê"],["V","VP"]);
 
