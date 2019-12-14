@@ -6,6 +6,7 @@
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
+var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
 var defaultProps; // to be filled by loadEn | loadFR
 var currentLanguage, rules, lexicon;
 

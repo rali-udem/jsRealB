@@ -6,6 +6,7 @@
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
+var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
 var defaultProps; // to be filled by loadEn | loadFR
 var currentLanguage, rules, lexicon;
 
@@ -1169,11 +1170,11 @@ Phrase.prototype.typ = function(types){
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
-            this.elements[this.elements.length-1].a(sentenceTypeInt.punctuation);
+            this.a(sentenceTypeInt.punctuation);
         }    
         const exc=types["exc"];
         if (exc !== undefined && exc === true){
-            this.elements[this.elements.length-1].a(rules.sentence_type.exc.punctuation);
+            this.a(rules.sentence_type.exc.punctuation);
         }
     } else {
         this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP");
@@ -1218,6 +1219,36 @@ Phrase.prototype.cpReal = function(res){
     }    
 }
 
+// special case of VP for which the complements are put in increasing order of length
+Phrase.prototype.vpReal = function(res){
+    function realLength(terms){
+        return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)
+    }
+    let vIdx=this.getIndex("V");
+    const last=this.elements.length-1;
+    // copy everything up to the V (included)
+    if (vIdx<0)vIdx=last;
+    else {
+        const t=this.elements[vIdx].getProp("t");
+        if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
+    } 
+    let i=0;
+    while (i<=vIdx){
+        Array.prototype.push.apply(res,this.elements[i].real());
+        i++;
+    }
+    if (i>last) return
+    // save all succeeding realisations
+    let reals=[]
+    while (i<=last){
+        reals.push(this.elements[i].real())
+        i++;
+    }
+    // sort realisations in increasing length
+    reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
+    reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
+}
+
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
@@ -1229,6 +1260,8 @@ Phrase.prototype.real = function() {
             const e = es[i];
             if (e.isA("CP")){
                 e.cpReal(res);
+            } else if (e.isA("VP") && reorderVPcomplements){
+                e.vpReal(res);
             } else {
                 // we must flatten the lists
                 Array.prototype.push.apply(res,e.real())
@@ -2110,4 +2143,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2019-12-13 09:05"
+jsRealB_dateCreated="2019-12-14 15:48"
