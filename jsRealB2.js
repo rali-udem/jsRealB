@@ -130,4 +130,4 @@ console.log(VP(V("love")).typ({int:"yon"})+"")
 console.log(VP(V("love")).typ({prog:true})+"")
 console.log(VP(V("love")).typ({mod:"poss"})+"")
 
-loadFr(true);
+// loadFr(true);

@@ -1222,10 +1222,13 @@ Phrase.prototype.cpReal = function(res){
 // special case of VP for which the complements are put in increasing order of length
 Phrase.prototype.vpReal = function(res){
     function realLength(terms){
-        return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)
+        // sum the length of each realization and add the number of words...
+        return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
     }
-    let vIdx=this.getIndex("V");
+    // get index of last V (to take into account possible auxiliaries)
     const last=this.elements.length-1;
+    vIdx=last;
+    while (vIdx>=0 && !this.elements[vIdx].isA("V"))vIdx--;
     // copy everything up to the V (included)
     if (vIdx<0)vIdx=last;
     else {
@@ -2143,7 +2146,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2019-12-14 15:48"
+jsRealB_dateCreated="2019-12-16 11:44"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
