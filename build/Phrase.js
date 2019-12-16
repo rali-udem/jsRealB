@@ -620,11 +620,11 @@ Phrase.prototype.typ = function(types){
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
-            this.elements[this.elements.length-1].a(sentenceTypeInt.punctuation);
+            this.a(sentenceTypeInt.punctuation);
         }    
         const exc=types["exc"];
         if (exc !== undefined && exc === true){
-            this.elements[this.elements.length-1].a(rules.sentence_type.exc.punctuation);
+            this.a(rules.sentence_type.exc.punctuation);
         }
     } else {
         this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP");
@@ -669,6 +669,39 @@ Phrase.prototype.cpReal = function(res){
     }    
 }
 
+// special case of VP for which the complements are put in increasing order of length
+Phrase.prototype.vpReal = function(res){
+    function realLength(terms){
+        // sum the length of each realization and add the number of words...
+        return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
+    }
+    // get index of last V (to take into account possible auxiliaries)
+    const last=this.elements.length-1;
+    vIdx=last;
+    while (vIdx>=0 && !this.elements[vIdx].isA("V"))vIdx--;
+    // copy everything up to the V (included)
+    if (vIdx<0)vIdx=last;
+    else {
+        const t=this.elements[vIdx].getProp("t");
+        if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
+    } 
+    let i=0;
+    while (i<=vIdx){
+        Array.prototype.push.apply(res,this.elements[i].real());
+        i++;
+    }
+    if (i>last) return
+    // save all succeeding realisations
+    let reals=[]
+    while (i<=last){
+        reals.push(this.elements[i].real())
+        i++;
+    }
+    // sort realisations in increasing length
+    reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
+    reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
+}
+
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
@@ -680,6 +713,8 @@ Phrase.prototype.real = function() {
             const e = es[i];
             if (e.isA("CP")){
                 e.cpReal(res);
+            } else if (e.isA("VP") && reorderVPcomplements){
+                e.vpReal(res);
             } else {
                 // we must flatten the lists
                 Array.prototype.push.apply(res,e.real())

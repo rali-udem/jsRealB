@@ -226,7 +226,7 @@ realized as the following tokens
 <img src="images/French-Negative-Pronoun-Realization.png" width="500"/> 
 
 resulting in the sentence `Il ne l'a pas mangée.`
-
+ 
 ### Remarks on structure modification
 
 So we see that it is possible to get many variations from a single input structure, we think that this feature is one of the most interesting and fruitful use for a text realizer.  We have seen that a single input specification can become quite different once the options have been applied. 
@@ -318,6 +318,10 @@ The punctuation before, after and around constituents is dealt similarly. The ap
 
 **CAVEAT**: This implementation choice implies a *small* limitation: HTML and other formatting cannot appear anywhere within the text, they must match constituent boundaries.
 
+### Ordering of verb complements
+
+In both French and English, short complements of a verb usually appear before the longer ones after the verb. This is intended to make the text easier to read and understand. To cater to this situation during realization of a `VP`, `jsRealB` computes the length of the realization of each complement and sorts them in increasing order unless the verb is at the past participle. This is not a structure modification per se, as it takes place just before the realization of a phrase without changing the order of its children. 
+
 ### Conclusion
 
 We have described some aspects of the `jsRealB` system that define an interesting middle ground between a very abstract input specification and a detailed formatting language. It allows automating the *finishing touch* for well-formed language that can be published or sent to a user.   This section has merely described the challenges that have been dealt with. The next section give more details on the internals of the system.
@@ -401,7 +405,7 @@ The constructor first calls the `Constituent` prototype and then initializes its
         * move the auxiliary in front of the verb;
         * in some cases, remove the subject, the direct or indirect object.
     * *exclamative*: terminate the sentence with an exclamation mark.
-* `real()` : if the current object is a `CP`, generate terminals by realizing each element of the `CP` and inserting a comma between the first elements and the conjunction before the last; for other types of phrases, realize each element and combine their list of Terminals into a single list; apply `doFormat()` on the resulting list. 
+* `real()` : if the current object is a `CP`, generate terminals by realizing each element of the `CP` and inserting a comma between the first elements and the conjunction before the last; if it is a `VP` sort its complements in increasing order of length; for other types of phrases, realize each element and combine their list of Terminals into a single list; apply `doFormat()` on the resulting list. 
 * `toSource()` : create a list of the result of `toSource()` to each element separated by commas and prefixed with the name of the phrase; the options are added by calling `toSource()` of the prototype constituent.
 
 #### `Terminal`

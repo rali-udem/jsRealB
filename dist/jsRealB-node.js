@@ -6,6 +6,7 @@
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
+var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
 var defaultProps; // to be filled by loadEn | loadFR
 var currentLanguage, rules, lexicon;
 
@@ -129,7 +130,7 @@ genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", /
                    "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S"]);  // composed tenses
 genOptionFunc("g",["m","f","n","x"],["D","N","NP","A","AP","Pro","V","VP","S"]);
 genOptionFunc("n",["s","p"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("pe",[1,2,3],["D","Pro","N","NP","V","VP","S"]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","V","VP","S"]);
 genOptionFunc("f",["co","su"],["A","AP","Adv"]);
 genOptionFunc("aux",["av","êt","aê"],["V","VP"]);
 
@@ -257,7 +258,8 @@ Constituent.prototype.verbAgreeWith = function(subject){
     }
 }
 
-// regex for matching (ouch!!! it is quite subtle...) 
+// regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
+//  match index:
 //     1-possible non-word chars and optional html tags
 //     2-the real word
 //     3-the rest after the word  
@@ -279,10 +281,13 @@ function doElisionEn(cList){
         if (m1 === undefined) continue;
         var w1=m1[2]        
         if (w1=="a" && cList[i].isA("D")){
-            if (/^[aeio]/i.exec(w1) ||   // starts with a vowel
-                (w1.charAt(0)=="u" && !uLikeYouRE.exec(w1)) || // u does not sound like you
-                hAnRE.exec(w1) ||       // silent h
-                acronymRE.exec(w1)) {   // is an acronym
+            var m2=sepWordREen.exec(cList[i+1].realization);
+            if (m2 === undefined)continue;
+            var w2=m2[2];
+            if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
+                (w2.charAt(0)=="u" && !uLikeYouRE.exec(w2)) || // u does not sound like you
+                hAnRE.exec(w2) ||       // silent h
+                acronymRE.exec(w2)) {   // is an acronym
                     cList[i].realization=m1[1]+"an"+m1[3];
                     i++;                     // skip next word
                 }
@@ -360,16 +365,6 @@ function doElisionFr(cList){
         }
     }
 }
-
-/// useful function for skipping the possible HTML tag at the start of the string
-function indexOfFirstLetter(lang,s){
-    const sepWordRE=lang=="en"?sepWordREen:sepWordREfr;
-    if (s.length==0) return null;
-    const m=sepWordRE.exec(s);
-    if (m==null||m[4]==undefined)return 0;
-    return m[1].length;
-}
-
 
 // applies to a list of Constituents (can be a single one)
 // adds either to the first or last token (which can be the same)
@@ -482,7 +477,9 @@ Constituent.prototype.detokenize = function(terminals){
         if (this.constType=="S" && s.length>0){ // if it is a top-level S
             // force a capital at the start unless .cap(false)
             if (this.prop["cap"]!== false){
-                const idx=indexOfFirstLetter(this.lang,s);
+                const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
+                const m=sepWordRE.exec(s);
+                const idx=m[1].length; // get index of first letter
                 s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
             }
             // and a full stop at the end unless there is already one
@@ -1173,11 +1170,11 @@ Phrase.prototype.typ = function(types){
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
-            this.elements[this.elements.length-1].a(sentenceTypeInt.punctuation);
+            this.a(sentenceTypeInt.punctuation);
         }    
         const exc=types["exc"];
         if (exc !== undefined && exc === true){
-            this.elements[this.elements.length-1].a(rules.sentence_type.exc.punctuation);
+            this.a(rules.sentence_type.exc.punctuation);
         }
     } else {
         this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP");
@@ -1222,6 +1219,39 @@ Phrase.prototype.cpReal = function(res){
     }    
 }
 
+// special case of VP for which the complements are put in increasing order of length
+Phrase.prototype.vpReal = function(res){
+    function realLength(terms){
+        // sum the length of each realization and add the number of words...
+        return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
+    }
+    // get index of last V (to take into account possible auxiliaries)
+    const last=this.elements.length-1;
+    vIdx=last;
+    while (vIdx>=0 && !this.elements[vIdx].isA("V"))vIdx--;
+    // copy everything up to the V (included)
+    if (vIdx<0)vIdx=last;
+    else {
+        const t=this.elements[vIdx].getProp("t");
+        if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
+    } 
+    let i=0;
+    while (i<=vIdx){
+        Array.prototype.push.apply(res,this.elements[i].real());
+        i++;
+    }
+    if (i>last) return
+    // save all succeeding realisations
+    let reals=[]
+    while (i<=last){
+        reals.push(this.elements[i].real())
+        i++;
+    }
+    // sort realisations in increasing length
+    reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
+    reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
+}
+
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
@@ -1233,6 +1263,8 @@ Phrase.prototype.real = function() {
             const e = es[i];
             if (e.isA("CP")){
                 e.cpReal(res);
+            } else if (e.isA("VP") && reorderVPcomplements){
+                e.vpReal(res);
             } else {
                 // we must flatten the lists
                 Array.prototype.push.apply(res,e.real())
@@ -1427,7 +1459,7 @@ const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
 Terminal.prototype.decline = function(setPerson){
     const g=this.getProp("g");
     const n=this.getProp("n");
-    const pe=setPerson?this.getProp("pe"):3;
+    const pe=setPerson?+this.getProp("pe"):3;
     if (this.tab==null){
         if (this.isA("Adv")) // this happens for some adverbs in French with table in rules.regular...
             return this.lemma; 
@@ -1487,7 +1519,7 @@ Terminal.prototype.decline = function(setPerson){
 
 // French conjugation
 Terminal.prototype.conjugate_fr = function(){
-    let pe = this.getProp("pe");
+    let pe = +this.getProp("pe"); // property can also be a string with a single number 
     let g = this.getProp("g");
     let n = this.getProp("n");
     const t = this.getProp("t");
@@ -1561,7 +1593,7 @@ Terminal.prototype.conjugate_fr = function(){
 }
 
 Terminal.prototype.conjugate_en = function(){
-    let pe = this.getProp("pe");
+    let pe = +this.getProp("pe"); // property can also be a string with a single number 
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
@@ -2114,7 +2146,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2019-12-02 21:49"
+jsRealB_dateCreated="2019-12-16 11:44"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},

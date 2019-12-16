@@ -163,7 +163,7 @@ const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
 Terminal.prototype.decline = function(setPerson){
     const g=this.getProp("g");
     const n=this.getProp("n");
-    const pe=setPerson?this.getProp("pe"):3;
+    const pe=setPerson?+this.getProp("pe"):3;
     if (this.tab==null){
         if (this.isA("Adv")) // this happens for some adverbs in French with table in rules.regular...
             return this.lemma; 
@@ -223,7 +223,7 @@ Terminal.prototype.decline = function(setPerson){
 
 // French conjugation
 Terminal.prototype.conjugate_fr = function(){
-    let pe = this.getProp("pe");
+    let pe = +this.getProp("pe"); // property can also be a string with a single number 
     let g = this.getProp("g");
     let n = this.getProp("n");
     const t = this.getProp("t");
@@ -297,7 +297,7 @@ Terminal.prototype.conjugate_fr = function(){
 }
 
 Terminal.prototype.conjugate_en = function(){
-    let pe = this.getProp("pe");
+    let pe = +this.getProp("pe"); // property can also be a string with a single number 
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
