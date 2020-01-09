@@ -18,7 +18,7 @@ var args=process.argv
 console.log("** jsRealB "+jsRealB_version+" ("+jsRealB_dateCreated+") Development Environment [help() for info]**")
 if (args.length>2){
     if (args[2]=="en")loadEn(true);
-    if (args[2]=="dme"){
+    else if (args[2]=="dme"){
         loadEn(true);
         updateLexicon(require("../data/lexicon-dme.json"));
         console.log("dme lexicon loaded")

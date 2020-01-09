@@ -196,7 +196,7 @@ Phrase.prototype.me = function(){
 }
 
 Phrase.prototype.setLemma = function(lemma,terminalType){
-    this.warning("***: should never happen: setLemma: called on a Phrase");
+    this.error("***: should never happen: setLemma: called on a Phrase");
     return this;
 }
 
@@ -278,7 +278,8 @@ Phrase.prototype.pronominalize = function(){
             this.elements=[pro];
         }
     } else {
-        this.warning(".pro() should be applied only to an NP")
+        this.warning(".pro() should be applied only to an NP, not a"+this.constType,
+                     ".pro() ne devrait être appliqué qu'à un NP, non un "+this.constType)
     }
 }
 
@@ -305,7 +306,8 @@ Phrase.prototype.passivate = function(){
                 n=vp.getProp("n"); // useful for French imperative
             }
         } else {
-            return this.warning("Phrase.passivate: no VP found.")
+            return this.warning("Phrase.passivate: no VP found",
+                                "Phrase.passivate: aucun VP trouvé")
         }
     }
     // remove object (first NP or Pro within VP) from elements
@@ -358,7 +360,8 @@ Phrase.prototype.passivate = function(){
             vp.elements.splice(verbeIdx,0,aux,pp);
         }
     } else {
-        this.warning("passivate: without VP");
+        this.warning("Phrase.passivate: no VP found",
+                     "Phrase.passivate: aucun VP trouvé");
     }
 }
 
@@ -380,7 +383,8 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warning('.typ("'+key+":"+val+'") without VP');
+                this.warning('.typ("'+key+":"+val+'") without VP',
+                             '.typ("'+key+":"+val+'") sans VP');
                 return;
             }
         }
@@ -433,7 +437,8 @@ Phrase.prototype.processTyp_en = function(types){
         const idxVP=this.getIndex(["VP"]);
         if (idxVP !==undefined) {vp=this.elements[idxVP]}
         else {
-            this.warning('.typ("'+key+'") without VP');
+            this.warning('.typ("'+key+'") without VP',
+                         '.typ("'+key+'") sans VP');
             return;
         }
     }
@@ -521,7 +526,8 @@ Phrase.prototype.processTyp_en = function(types){
         words.forEach(function(w){w.parentConst=vp});
         Array.prototype.splice.apply(vp.elements,[idxV,1].concat(words));
     } else {
-        this.warning("no V found in a VP")
+        this.warning("no V found in a VP",
+                     "aucun V trouvé dans un VP")
     }
 }
 
@@ -569,7 +575,8 @@ Phrase.prototype.typ = function(types){
             const allowedVals=allowedTypes[key];
             if (allowedVals===undefined){
                 if (!(key=="neg" && typeof val == "string")){
-                    this.warning(""+key+" is not allowed as key of .typ");
+                    this.warning(key+" is not allowed as key of .typ",
+                                 key+" n'est pas accepté comme clé de .typ");
                     delete types[key]
                 }
             }
@@ -616,7 +623,8 @@ Phrase.prototype.typ = function(types){
                 }
                 break;
             default:
-                this.warning(int+" interrogative type not yet implemented")
+                this.warning(int+" interrogative type not implemented",
+                             int+" type d'interrogative non implanté")
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
@@ -627,7 +635,8 @@ Phrase.prototype.typ = function(types){
             this.a(rules.sentence_type.exc.punctuation);
         }
     } else {
-        this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP");
+        this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
+                     ".typ("+JSON.stringify(types)+") appliqué à un "+this.constType+ " devrait être S, SP or VP");
     }
     return this;
 }

@@ -17,22 +17,26 @@ Terminal.prototype.me = function(){
 }
 
 Terminal.prototype.morphoError = function (lemma,type,fn,vals){
-    this.warning("morphology error:"+fn+"("+vals+")");
+    this.warning("morphology error:"+fn+"("+vals+")",
+                 "erreur de morphologie:"+fn+"("+vals+")");
     return "[["+lemma+"]]"
 }
 
 // Phrase structure modifications (should not be called on Terminal)==> warning
 Terminal.prototype.typ = function(types){
-    this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP")
+    this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
+                 ".typ("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être S, SP or VP")
     return this;
 }
 Terminal.prototype.pro = function(args){
-    this.warning(".typ("+JSON.stringify(args)+") applied to a "+this.constType+ " should be a NP");
+    this.warning(".pro("+JSON.stringify(args)+") applied to a "+this.constType+ " should be a NP",
+                 ".pro("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être NP");
     return this;
 }
 
 Terminal.prototype.add = function(){
-    this.warning(".add should be applied to Phrase, not a "+this.constType);
+    this.warning(".add should be applied to Phrase, not a "+this.constType,
+                 ".add appliqué à une Phrase, non un "+this.constType);
     return this;
 }
 
@@ -91,13 +95,15 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }        
         break;
     default:
-        this.warning("setLemma: unknown terminal type:"+terminalType)
+        this.warning("setLemma: unknown terminal type:"+terminalType,
+                     "setLemma: type de terminal inconnu:"+terminalType)
     }
 }
 
 Terminal.prototype.grammaticalNumber = function(){
     if (!this.isA("NO")){
-        return this.warning("grammaticalNumber must be called on a NO, not a "+this.constType);
+        return this.warning("grammaticalNumber must be called on a NO, not a "+this.constType,
+                            "grammaticalNumber doit être appelé sur un NO, non un "+this.constType);
     }
     
     if (this.noOptions.ord==true)return "s"; // ordinal number are always singular
@@ -343,7 +349,8 @@ Terminal.prototype.numberFormatter = function (rawNumber, maxPrecision) {
 
 Terminal.prototype.numberToWord = function(number, lang, gender) {
     if (parseInt(number) !== number){
-        console.log("cannot show a decimal number in words");
+        this.warning("cannot show a decimal number in words",
+                     "ne peut écrire en mots un nombre avec décimales");
         return number+"";
     }
     if (lang=="fr" && gender=="f"){
@@ -355,10 +362,12 @@ Terminal.prototype.numberToWord = function(number, lang, gender) {
 
 Terminal.prototype.numberToOrdinal = function(number,lang,gender){
     if (parseInt(number) !== number){
-        console.log("cannot show a decimal number as ordinal");
+        this.warning("cannot show a decimal number as ordinal",
+                     "on ne peut réaliser un nombre avec décimales comme un ordinal");
         return number+"";
     } else if (number<=0){
-        console.log("cannot show 0 or a negative number as an ordinal")
+        this.warning("cannot show 0 or a negative number as an ordinal",
+                     "one ne peut réaliser 0 ou un nombre négatif comme un ordinal")
     }
     return ordinal(number,lang, gender);
 };
@@ -403,7 +412,8 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         if (hms != "")return res+" "+hms;
         return res;
     }
-    this.warning("not yet implemented:"+JSON.stringify(dOpts))
+    this.warning("not implemented:"+JSON.stringify(dOpt),
+                 "non implanté:"+JSON.stringify(dOpts))
     return "[["+dateObj+"]]"
 }
 
@@ -431,13 +441,13 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
             } else if (match[3]!==undefined){
                 res+=match[3]      // copy the string
             } else {
-                return this.warning("bad match: should never happen:"+fmt);
+                return this.error("bad match: should never happen:"+fmt);
             }
             match=dateRE.exec(fmt);
         }
         return res;
     } else {
-        this.warning("unimplemented format specification:"+spec);
+        this.error("unimplemented format specification:"+spec);
         return "[["+dateObj+"]]"
     }
 }
@@ -473,7 +483,7 @@ Terminal.prototype.real = function(){
         }
         break;
     default:
-         this.warning("Terminal.real:"+this.constType+": not implemented");
+         this.error("Terminal.real:"+this.constType+": not implemented");
     }
     return this.doFormat([this])
 }
