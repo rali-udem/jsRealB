@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-en.js"></script>
+        <script src="../../data/rule-en.js"></script>
+        <script src="../../data/lexicon-fr.js"></script>
+        <script src="../../data/rule-fr.js"></script>
+        <script src="../../build/Utils.js"></script>
+        <script src="../../build/Constituent.js"></script>
+        <script src="../../build/Phrase.js"></script>
+        <script src="../../build/Terminal.js"></script>
+        <script src="../../build/Date.js"></script>
+        <script src="../../build/Number.js"></script>
+<!-/- end of separate loading -->
+    <!-- chargement du script spécifique -->
+    <script type="text/javascript" charset="utf-8" src="Evaluation.js"></script>
+    <style type="text/css" media="screen">
+    #input {border: 1px solid #999; font-family: courier;}
+    #doc,#ide {padding-left:30px;}
+    .emphase {color: #FC6405; }
+    </style>
+    <title id="titre">Realize a jsRealB expression</title>
+</head>
+<body id="body">
+    <h1>Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression - 
+        Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a></h1>
+    <p>
+        in <label for="english">English</label>
+         <input type="radio" name="language" value="english" id="english" checked="checked">
+        en <label for="français">français</label><input type="radio" name="language" value="francais" id="francais">
+        <a id="doc" href="../../documentation/user.html?lang=en" target="_blank">Documentation</a>
+        <a id="ide" href="https://github.com/rali-udem/jsRealB/tree/master/IDE" title="jsRealB/IDE at master · rali-udem/jsRealB · GitHub" target="_blank">Interactive Development Environnement</a>
+    </p>
+    <textarea name="input" id="input" rows="8" cols="80"></textarea>
+    <div><input type="button" name="realize" value="Realize" id="realize"></div>
+    <h2 id="titreResult">Realization</h2>
+    <div id="result"></div>
+</body>
+</html>
+

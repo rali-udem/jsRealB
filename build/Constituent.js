@@ -21,7 +21,7 @@ function Constituent(constType){
 
 // warning message on the console prefixed with an identification or throws an Exception
 Constituent.prototype.warning = function(messEn,messFr){
-    const mess=this.me()+":: "+(messFr!==undefined && getLang()=="fr"?messFr:messEn);
+    const mess=this.me()+":: "+(messFr!==undefined && getLanguage()=="fr"?messFr:messEn);
     if (exceptionOnWarning) throw mess;
     console.warn(mess);
     return this;
@@ -94,7 +94,8 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
     Constituent.prototype[option]=function(val){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
-                return this.warning("Option "+option+" without value; should be one of ["+validVals+"]")
+                return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
+                                    "Option "+option+" sans valeur; devrait être une parmi ["+validVals+"]")
             }
             val=null;
         }
@@ -109,7 +110,8 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
         }
         if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
-                return this.warning("Option "+option+" with invalid value:"+val+" ignored");
+                return this.warning("Option "+option+" with invalid value:"+val+" ignored",
+                                    "Option "+option+" avec une valeur invalide:"+val+" ignoré");
             }
             // start of the real work...
             if (optionName===undefined)optionName=option;
@@ -121,7 +123,9 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             return this;
         } else {
             return this.warning("Option "+option+" is applied to a "+this.constType+
-                                " but it should be applied only on one of "+allowedConsts)
+                                            " but it should be applied only on one of "+allowedConsts,
+                                "Option "+option+" appliquée à "+this.constType+
+                                            " qui ne peut être appliquée qu'à une de "+allowedConsts)
         }
     }
 }
@@ -178,10 +182,12 @@ Constituent.prototype.dOpt = function(dOptions){
                 if (typeof val == "boolean"){
                     this.dateOpts[key]=val
                 } else {
-                    this.warning("dOpt: the value of "+key+" should be a boolean not "+val);
+                    this.warning("dOpt: the value of "+key+" should be a boolean, not "+val,
+                                 "dOpt: la valeur de "+key+" devrait être booléenne, non "+val);
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt fo DT");
+                this.warning(key+ "is not an allowed key in dOpt of DT",
+                             key+ "n'est pas une clé permise pour dOpt de DT");
             }
         }
     } else if (this.isA("NO")){
@@ -195,19 +201,23 @@ Constituent.prototype.dOpt = function(dOptions){
                     if (typeof val == "number"){
                         this.noOptions["mprecision"]=val
                     } else {
-                        this.warning("mprecision should be a number not "+val)
+                        this.warning("mprecision should be a number, not "+val,
+                                     "mprecision devrait être un nombre, non "+val)
                     }
                 } else if (typeof val =="boolean"){
                     this.noOptions[key]=val
                 } else {
-                    this.warning(".dOpt("+key+") for NO should be boolean not "+val)
+                    this.warning(".dOpt("+key+") for NO should be boolean, not "+val,
+                                 ".dOpt("+key+") pour NO devrait être booléenne, non "+val)
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt for NO");
+                this.warning(key+ "is not an allowed key in dOpt for NO",
+                             key+ "n'est pas une clé valide pour dOpt de NO");
             }
         }
     } else {
-        this.warning(".dOpt should only be applied to a DT or a NO not a "+this.constType);
+        this.warning(".dOpt should only be applied to a DT or a NO, not a "+this.constType,
+                     ".dOpt devrait être appliqué à un DT ou un NO, non à "+this.constType);
     }
     return this;
 }
@@ -221,10 +231,12 @@ Constituent.prototype.nat= function(isNat){
         } else if (typeof isNat == "boolean"){
             options.nat=isNat;
         } else {
-            this.warning("nat: the value of the argument should be a boolean not "+isNat);
+            this.warning("nat: the value of the argument should be a boolean, not "+isNat,
+                         "nat: la valeur du paramètre devrait être booléenne, non "+isNat);
         }
     } else {
-        this.warning(".nat should only be applied to a DT or a NO not a "+this.constType);
+        this.warning(".nat should only be applied to a DT or a NO, not a "+this.constType,
+                     ".nat devrait être appliqué à DT ou à NO, non un "+this.constType);
     }
     return this;
 }
