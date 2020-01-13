@@ -601,7 +601,16 @@ Phrase.prototype.typ = function(types){
             case "wos":// remove subject (first NP,N, Pro or SP)
                 if (this.isOneOf(["S","SP"])){
                     const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                    if (subjIdx!==undefined)this.elements.splice(subjIdx,1)
+                    if (subjIdx!==undefined){
+                        this.elements.splice(subjIdx,1);
+                        // insure that the verb at the third person singular, 
+                        // because now the subject has been removed
+                        const v=this.getFromPath(["VP","V"])
+                        if (v!==undefined){
+                            v.prop["n"]="s";
+                            v.prop["pe"]=3;
+                        }
+                    }
                 }
                 break;
             case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)

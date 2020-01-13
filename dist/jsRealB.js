@@ -1168,7 +1168,16 @@ Phrase.prototype.typ = function(types){
             case "wos":// remove subject (first NP,N, Pro or SP)
                 if (this.isOneOf(["S","SP"])){
                     const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                    if (subjIdx!==undefined)this.elements.splice(subjIdx,1)
+                    if (subjIdx!==undefined){
+                        this.elements.splice(subjIdx,1);
+                        // insure that the verb at the third person singular, 
+                        // because now the subject has been removed
+                        const v=this.getFromPath(["VP","V"])
+                        if (v!==undefined){
+                            v.prop["n"]="s";
+                            v.prop["pe"]=3;
+                        }
+                    }
                 }
                 break;
             case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
@@ -2182,7 +2191,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-09 14:08"
+jsRealB_dateCreated="2020-01-12 22:32"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -8188,6 +8197,25 @@ var lexiconEn = //========== lexicon-en.js
  "zero":{"N":{"tab":["n1"]}},
  "zone":{"N":{"tab":["n1"]}},
  "zoo":{"N":{"tab":["n1"]}},
+ "Sunday":{"N":{"tab":["n1"]}},
+ "Monday":{"N":{"tab":["n1"]}},
+ "Tuesday":{"N":{"tab":["n1"]}},
+ "Wednesday":{"N":{"tab":["n1"]}},
+ "Thursday":{"N":{"tab":["n1"]}},
+ "Friday":{"N":{"tab":["n1"]}},
+ "Saturday":{"N":{"tab":["n1"]}},
+ "January":{"N":{"tab":["n3"]}},
+ "February":{"N":{"tab":["n3"]}},
+ "March":{"N":{"tab":["n2"]}},
+ "May":{"N":{"tab":["n1"]}},
+ "April":{"N":{"tab":["n1"]}},
+ "June":{"N":{"tab":["n1"]}},
+ "July":{"N":{"tab":["n3"]}},
+ "August":{"N":{"tab":["n1"]}},
+ "September":{"N":{"tab":["n1"]}},
+ "October":{"N":{"tab":["n1"]}},
+ "November":{"N":{"tab":["n1"]}},
+ "December":{"N":{"tab":["n1"]}},
  "{":{"Pc":{"compl":"}",
             "tab":["pc5"]}},
  "}":{"Pc":{"compl":"{",
