@@ -16,21 +16,27 @@ S(Pro("I").pe(1),
 function checkLanguage() {
     language = $("#francais")[0].checked?"fr":"en";
     if(language == 'fr'){
-        loadFr();
+        $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
         $("#realize").val("Réaliser");
         $("#titreResult").text("Réalisation");
         $("#doc").attr("href","../../documentation/user.html?lang=fr")
+        var currValen=editor.getValue();  // sauver la valeur courante anglaise pour y revenir
+        if (currValen.length>0)exempleEn=currValen;
+        loadFr();
         editor.setValue(exempleFr)
-        $("#result").html("")
     }
     else{
         loadEn();
+        $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
         $("#realize").val("Realize");
         $("#titreResult").text("Realization")
         $("#doc").attr("href","../../documentation/user.html?lang=en")
-        editor.setValue(exempleEn)
-        $("#result").html("")
+        var currValfr=editor.getValue(); // sauver la valeur courante française pour y revenir
+        if (currValfr.length>0)exempleFr=currValfr;
+        editor.setValue(exempleEn);
     }
+    editor.selection.clearSelection();
+    $("#result").html("")
 };
 
 function realize(){
@@ -51,6 +57,9 @@ $(document).ready(function(){
     // editor.getSession().setMode("ace/mode/JSreal");
     editor.getSession().setMode("ace/mode/javascript");
     editor.setShowPrintMargin(false);
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setOption("minLines", 10);
+    editor.setOption("maxLines", 20);
     editor.setFontSize("16px"); // grandeur de police de défaut
     
     checkLanguage();
