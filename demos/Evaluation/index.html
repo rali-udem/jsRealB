@@ -4,6 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="ace-src-noconflict/ace.js"></script>
     <script src="../../dist/jsRealB.js"></script>
 <!-- to ease debugging we load each file separately -/->
         <script src="../../data/lexicon-en.js"></script>
@@ -20,9 +21,15 @@
     <!-- chargement du script spécifique -->
     <script type="text/javascript" charset="utf-8" src="Evaluation.js"></script>
     <style type="text/css" media="screen">
-    #input {border: 1px solid #999; font-family: courier;}
+    #input {
+        height:3in;
+        background:white;
+        border: 1px solid black; 
+    }
     #doc,#ide {padding-left:30px;}
     .emphase {color: #FC6405; }
+    textarea {font: 14pt courier;}
+    .ace_jsRealConstructor{color: blue;}    
     </style>
     <title id="titre">Realize a jsRealB expression</title>
 </head>
@@ -36,7 +43,7 @@
         <a id="doc" href="../../documentation/user.html?lang=en" target="_blank">Documentation</a>
         <a id="ide" href="https://github.com/rali-udem/jsRealB/tree/master/IDE" title="jsRealB/IDE at master · rali-udem/jsRealB · GitHub" target="_blank">Interactive Development Environnement</a>
     </p>
-    <textarea name="input" id="input" rows="8" cols="80"></textarea>
+    <div id="input"></div>
     <div><input type="button" name="realize" value="Realize" id="realize"></div>
     <h2 id="titreResult">Realization</h2>
     <div id="result"></div>

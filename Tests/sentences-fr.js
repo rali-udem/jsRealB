@@ -41,7 +41,7 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Phrase négative avec accord du verbe"},
         // 7
         {expression:S(NP(Pro("je")).pe(2), VP(V("travailler").t("pc"), AdvP(Adv("bien")))).typ({mod:"nece"}),
-         expected:"Tu as dû bien travailler.",
+         expected:"Tu as dû travailler bien.",
          message:"Phrase au passé avec modalité de nécessité"},
         // 8
         {expression:S(CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))), 

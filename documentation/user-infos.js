@@ -294,15 +294,21 @@ var nPmods={"fr":'',"en":'',
         {"group":".pro()","fr":"Pronominalisation","en":"Pronominalisation"},
         {"pattern":"", "fr":["du sujet",'S(NP(D("le"),N("joueur")).pro(),VP(V("jouer")))'],
                        "en":["of the subject",'S(NP(D("the"),N("player")).pro(),VP(V("play")))']},
-        {"pattern":"", "fr":["de l'objet direct",'S(Pro("je"),VP(V("aimer"),NP(D("le"),N("pomme")).pro()))'],
-                       "en":["of the direct object",'S(Pro("I"),VP(V("love"),NP(D("a"),N("apple").g("n")).pro()))']},
+        {"pattern":"", "fr":["de l'objet direct",
+'S(Pro("je").pe(1),\n\
+   VP(V("aimer"),NP(D("le"),N("pomme")).pro()))'],
+                       "en":["of the direct object",
+'S(Pro("I").pe(1),\n\
+   VP(V("love"),NP(D("a"),N("apple").g("n")).pro()))']},
         {"pattern":"", 
          "fr":["de l'objet indirect",
-'S(Pro("je"),VP(V("aller"),\n\
-               PP(P("vers"),NP(D("le"),N("maison")).pro())))'],
+'S(Pro("je").pe(1),\n\
+   VP(V("aller"),\n\
+       PP(P("vers"),NP(D("le"),N("maison")).pro())))'],
          "en":["of the indirect object",
-'S(Pro("I"),VP(V("go"),\n\
-              PP(P("to"),NP(D("a"),N("house").g("n")).pro())))']},
+'S(Pro("I").pe(1),\n\
+   VP(V("go"),\n\
+      PP(P("to"),NP(D("a"),N("house").g("n")).pro())))']},
 ]};
 
 var sentType={"fr":'',"en":'',
