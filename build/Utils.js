@@ -1,5 +1,5 @@
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 

@@ -1,5 +1,5 @@
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -74,7 +74,7 @@ Phrase.prototype.setAgreementLinks = function(){
         let noNumber,noConst;
         for (let i = 0; i < this.elements.length; i++) {
             const e=this.elements[i]
-            if (e.isA("N") && this.agreesWith===undefined){
+            if (e.isOneOf(["N","NP"]) && this.agreesWith===undefined){
                 this.agreesWith=e;
             } else if (e.isA("NO")){
                 noConst=e;
@@ -684,7 +684,8 @@ Phrase.prototype.cpReal = function(res){
         if(idxC>=0)
             Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
-    }    
+    }
+    this.doFormat(res); // process format for the CP   
 }
 
 // special case of VP for which the complements are put in increasing order of length
@@ -708,7 +709,10 @@ Phrase.prototype.vpReal = function(res){
         Array.prototype.push.apply(res,this.elements[i].real());
         i++;
     }
-    if (i>last) return
+    if (i>last) {
+        this.doFormat(res); // process format for the VP
+        return
+    }
     // save all succeeding realisations
     let reals=[]
     while (i<=last){
@@ -718,6 +722,7 @@ Phrase.prototype.vpReal = function(res){
     // sort realisations in increasing length
     reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
+    this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
