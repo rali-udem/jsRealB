@@ -1,5 +1,5 @@
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -561,7 +561,7 @@ Constituent.prototype.toSource = function(){
     )
     return res+(typs.length==0?"":(".typ({"+typs.join()+"})"));
 }/**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -636,7 +636,7 @@ Phrase.prototype.setAgreementLinks = function(){
         let noNumber,noConst;
         for (let i = 0; i < this.elements.length; i++) {
             const e=this.elements[i]
-            if (e.isA("N") && this.agreesWith===undefined){
+            if (e.isOneOf(["N","NP"]) && this.agreesWith===undefined){
                 this.agreesWith=e;
             } else if (e.isA("NO")){
                 noConst=e;
@@ -1246,7 +1246,8 @@ Phrase.prototype.cpReal = function(res){
         if(idxC>=0)
             Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
-    }    
+    }
+    this.doFormat(res); // process format for the CP   
 }
 
 // special case of VP for which the complements are put in increasing order of length
@@ -1270,7 +1271,10 @@ Phrase.prototype.vpReal = function(res){
         Array.prototype.push.apply(res,this.elements[i].real());
         i++;
     }
-    if (i>last) return
+    if (i>last) {
+        this.doFormat(res); // process format for the VP
+        return
+    }
     // save all succeeding realisations
     let reals=[]
     while (i<=last){
@@ -1280,6 +1284,7 @@ Phrase.prototype.vpReal = function(res){
     // sort realisations in increasing length
     reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
+    this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
@@ -1325,7 +1330,7 @@ function PP  (_){ return new Phrase(Array.from(arguments),"PP"); }
 function CP  (_){ return new Phrase(Array.from(arguments),"CP"); }
 function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -1838,7 +1843,7 @@ function NO (lemma){ return new Terminal("NO",lemma) }
 function Q  (lemma){ return new Terminal("Q",lemma) }
 
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -1874,7 +1879,7 @@ var dateFormats = {
     x:  { param: function(x){return x},      func: function(n){return ""+n} }
 };
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -2075,7 +2080,7 @@ var ordinal = function(s,lang,gender){
 }
 
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -2186,4 +2191,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-12 22:32"
+jsRealB_dateCreated="2020-01-21 17:20"
