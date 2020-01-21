@@ -34,9 +34,11 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `Utils.js` : useful functions that do not belong to the *constituent*s
 * [`data`](data/):
     * `lexicon-dme.json` : a *comprehensive* English lexicon (33926 entries) in json format
+    * `lexicon-dmf.json` : a *comprehensive* French lexicon (52512 entries) in json format
     * `lexicon-en.js` : basic English lexicon (5208 entries)
     * `rule-en.js` : English conjugation and declension tables
     * `lexicon-fr.js` : basic French lexicon (3704 entries)
+    * `lexicon.jsonrnc` : JSON-RNC file for validating a lexicon
     * `rule-fr.js` : French conjugation and declension tables
     * `lexiconFormat.html` : basic description of the format of the lexicon
 * [`demos`] : see next section

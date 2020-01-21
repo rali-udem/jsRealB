@@ -6,7 +6,7 @@
     - history of previous commands is saved on a normal exit (^D) only
 
    example call:
-      node /path/to/jsRealB-IDE/jsRealB-IDE-repl.js [en|dme|fr] (fr is the default...)
+      node /path/to/jsRealB-IDE/jsRealB-IDE-repl.js [en|fr|dme|dmf] (fr is the default...)
 */
 
 // preload jsRealB module
@@ -22,6 +22,10 @@ if (args.length>2){
         loadEn(true);
         updateLexicon(require("../data/lexicon-dme.json"));
         console.log("dme lexicon loaded")
+    } else if (args[2]=="dmf"){
+        loadFr(true);
+        updateLexicon(require("../data/lexicon-dmf.json"));
+        console.log("dmf lexicon loaded")
     } else if (args[2]=="fr")loadFr(true);
     else {
         console.log("Language "+args[2]+" not implemented");
