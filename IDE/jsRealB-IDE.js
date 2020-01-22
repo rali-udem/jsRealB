@@ -434,6 +434,13 @@ Constituent.prototype.doFormat = function(cList){
     else 
         doElisionEn(cList);
     
+    const cap = this.prop["cap"];
+    if (cap !== undefined && cap !== false){
+        const r=cList[0].realization;
+        if (r.length>0){
+            cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
+        }
+    }
     const as = this.prop["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getPunctString(a))})
@@ -448,13 +455,6 @@ Constituent.prototype.doFormat = function(cList){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
         })
-    }
-    const cap = this.prop["cap"];
-    if (cap !== undefined && cap !== false){
-        const r=cList[0].realization;
-        if (r.length>0){
-            cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
-        }
     }
     const tags=this.prop["tag"];
     if (tags !== undefined) {
@@ -498,7 +498,7 @@ Constituent.prototype.detokenize = function(terminals){
             // taking into account any trailing HTML tag
             const m=/ ?(<[^>]+>)*$/.exec(s);
             const idxLastChar=s.length-1-m[0].length;
-            if (!contains("?!./",s.charAt(idxLastChar))){
+            if (!contains("?!.:;/",s.charAt(idxLastChar))){
                 s=s.substring(0,idxLastChar+1)+"."+s.substring(idxLastChar+1)
             }
         }
@@ -812,6 +812,8 @@ Phrase.prototype.pronominalize = function(){
             if (this==npParent.agreesWith){// is subject 
                 proS=this.isFr()?"je":"I";
             } else if (npParent.isA("PP")){ // is indirect complement
+                proS=this.isFr()?"je":"I";
+            } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
                 proS=this.isFr()?"je":"I";
             } else {
                 proS=this.isFr()?"le":"me"; // is direct complement;
@@ -1610,14 +1612,14 @@ Terminal.prototype.conjugate_fr = function(){
                     res=this.stem+term;
                 }
                 neg=this.prop["neg"];
-                if (neg !== undefined){
+                if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
                 neg=this.prop["neg"];
-                if (neg !== undefined){
+                if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
                 }
@@ -2191,7 +2193,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-21 21:42"
+jsRealB_dateCreated="2020-01-22 17:25"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -22645,7 +22647,7 @@ function getLexiconInfo(word,lang){
     for (w in lexicon){
         if (regex.exec(w))res[w]=lexicon[w];
     }
-    if (res.length==0)return undefined
+    if (Object.keys(res).length==0)return undefined
         else return res;
 }
 
