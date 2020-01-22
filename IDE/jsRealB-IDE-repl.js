@@ -17,21 +17,32 @@ for (var v in jsRealB){eval (''+v+"=jsRealB."+v)}
 var args=process.argv
 console.log("** jsRealB "+jsRealB_version+" ("+jsRealB_dateCreated+") Development Environment [help() for info]**")
 if (args.length>2){
-    if (args[2]=="en")loadEn(true);
-    else if (args[2]=="dme"){
-        loadEn(true);
+    var a2=args[2];
+    if (a2=="dme"){
+        loadEn();
         updateLexicon(require("../data/lexicon-dme.json"));
-        console.log("dme lexicon loaded")
-    } else if (args[2]=="dmf"){
+        console.log("dme lexicon loaded");
+        buildLemmataEn();
+    } else if (a2=="dmf") {
         loadFr(true);
         updateLexicon(require("../data/lexicon-dmf.json"));
         console.log("dmf lexicon loaded")
-    } else if (args[2]=="fr")loadFr(true);
-    else {
-        console.log("Language "+args[2]+" not implemented");
+        buildLemmataFr();
+    } else if (a2=="en"){
+        loadEn(true);
+        buildLemmataEn();
+    } else if (a2=="fr"){
         loadFr(true);
+        buildLemmataFr();
+    } else {
+        console.log("Language "+a2+" not implemented");
+        loadFr(true);
+        buildLemmataFr()
     }
-} else loadFr(true);
+} else {
+    loadFr(true);
+    buildLemmataFr();
+}
 
 // customize Read-Eval-Print loop
 var repl = require('repl');

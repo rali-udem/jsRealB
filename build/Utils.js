@@ -43,7 +43,7 @@ function loadEn(trace,lenient){
     rules=ruleEn;
     defaultProps={g:"n",n:"s",pe:3,t:"p"};  // language dependent default properties
     if (trace===true)console.log("English lexicon and rules loaded");
-    if (lenient==true)console.log("Lenient mode not implement");
+    if (lenient==true)console.log("Lenient mode not implemented");
 }
 
 function loadFr(trace,lenient){
@@ -52,7 +52,7 @@ function loadFr(trace,lenient){
     rules=ruleFr;
     defaultProps={g:"m",n:"s",pe:3,t:"p",aux:"av"};  // language dependent default properties 
     if (trace===true)console.log("French lexicon and rules loaded");
-    if (lenient==true)console.log("Lenient mode not implement");
+    if (lenient==true)console.log("Lenient mode not implemented");
 }
 
 //// add to lexicon and return the updated object

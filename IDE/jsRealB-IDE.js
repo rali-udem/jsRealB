@@ -2124,7 +2124,7 @@ function loadEn(trace,lenient){
     rules=ruleEn;
     defaultProps={g:"n",n:"s",pe:3,t:"p"};  // language dependent default properties
     if (trace===true)console.log("English lexicon and rules loaded");
-    if (lenient==true)console.log("Lenient mode not implement");
+    if (lenient==true)console.log("Lenient mode not implemented");
 }
 
 function loadFr(trace,lenient){
@@ -2133,7 +2133,7 @@ function loadFr(trace,lenient){
     rules=ruleFr;
     defaultProps={g:"m",n:"s",pe:3,t:"p",aux:"av"};  // language dependent default properties 
     if (trace===true)console.log("French lexicon and rules loaded");
-    if (lenient==true)console.log("Lenient mode not implement");
+    if (lenient==true)console.log("Lenient mode not implemented");
 }
 
 //// add to lexicon and return the updated object
@@ -2191,7 +2191,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-21 17:20"
+jsRealB_dateCreated="2020-01-21 21:42"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -22314,6 +22314,7 @@ if (typeof loadFr    !== "undefined") exports.loadFr=loadFr;
 // some useful function for the NodeIDE
 // these function access internals of jsRealB
 var checkAmbiguities=false;
+var lemmataEn,lemmataFr;
 
 function isConstituent(obj){
     return obj instanceof Constituent;
@@ -22657,11 +22658,15 @@ function help(){
 `;
 }
 
-loadEn();
-var lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+function buildLemmataEn(){
+    loadEn();
+    lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+}
 
-loadFr();
-var lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+function buildLemmataFr(){
+    loadFr();
+    lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+}
 
 exports.lemmatize=lemmatize;
 exports.isConstituent=isConstituent;
@@ -22670,4 +22675,6 @@ exports.getConjugationEnding=getConjugationEnding;
 exports.getDeclension=getDeclension;
 exports.getDeclensionEnding=getDeclensionEnding;
 exports.getLexiconInfo=getLexiconInfo;
+exports.buildLemmataEn=buildLemmataEn;
+exports.buildLemmataFr=buildLemmataFr;
 exports.help=help
