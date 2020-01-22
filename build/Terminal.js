@@ -279,14 +279,14 @@ Terminal.prototype.conjugate_fr = function(){
                     res=this.stem+term;
                 }
                 neg=this.prop["neg"];
-                if (neg !== undefined){
+                if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
                 neg=this.prop["neg"];
-                if (neg !== undefined){
+                if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
                 }
