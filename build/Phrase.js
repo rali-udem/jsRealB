@@ -251,6 +251,8 @@ Phrase.prototype.pronominalize = function(){
                 proS=this.isFr()?"je":"I";
             } else if (npParent.isA("PP")){ // is indirect complement
                 proS=this.isFr()?"je":"I";
+            } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
+                proS=this.isFr()?"je":"I";
             } else {
                 proS=this.isFr()?"le":"me"; // is direct complement;
                 idxV=npParent.getIndex("V");

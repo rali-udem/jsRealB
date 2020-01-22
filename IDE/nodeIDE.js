@@ -332,7 +332,7 @@ function getLexiconInfo(word,lang){
     for (w in lexicon){
         if (regex.exec(w))res[w]=lexicon[w];
     }
-    if (res.length==0)return undefined
+    if (Object.keys(res).length==0)return undefined
         else return res;
 }
 

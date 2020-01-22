@@ -434,6 +434,13 @@ Constituent.prototype.doFormat = function(cList){
     else 
         doElisionEn(cList);
     
+    const cap = this.prop["cap"];
+    if (cap !== undefined && cap !== false){
+        const r=cList[0].realization;
+        if (r.length>0){
+            cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
+        }
+    }
     const as = this.prop["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getPunctString(a))})
@@ -448,13 +455,6 @@ Constituent.prototype.doFormat = function(cList){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
         })
-    }
-    const cap = this.prop["cap"];
-    if (cap !== undefined && cap !== false){
-        const r=cList[0].realization;
-        if (r.length>0){
-            cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
-        }
     }
     const tags=this.prop["tag"];
     if (tags !== undefined) {
@@ -498,7 +498,7 @@ Constituent.prototype.detokenize = function(terminals){
             // taking into account any trailing HTML tag
             const m=/ ?(<[^>]+>)*$/.exec(s);
             const idxLastChar=s.length-1-m[0].length;
-            if (!contains("?!./",s.charAt(idxLastChar))){
+            if (!contains("?!.:;/",s.charAt(idxLastChar))){
                 s=s.substring(0,idxLastChar+1)+"."+s.substring(idxLastChar+1)
             }
         }
