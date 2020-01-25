@@ -353,10 +353,11 @@ function doElisionFr(cList){
         // for a single word 
         var w1=m1[2];
         var w2=m2[2];
-        if (elidableWordFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){
+        var w3NoWords = ! /^\s*\w/.test(m1[3]); // check that the rest of the first word does not start with a word
+        if (elidableWordFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType) && w3NoWords){
             cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
             i++;
-        } else if (euphonieFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){ // euphonie
+        } else if (euphonieFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)&& w3NoWords){ // euphonie
             if (/ce/i.exec(w1) && /(^est$)|(^étai)/.exec(w2)){
                 // very special case but very frequent
                 cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
@@ -364,7 +365,7 @@ function doElisionFr(cList){
                 cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
             }
             i++;
-        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null){
+        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
             // check if the next word would be elidable, so instead elide it instead of contracting
             if (elidableWordFrRE.exec(w2) && i+2<=last &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
