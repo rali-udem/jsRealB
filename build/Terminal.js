@@ -61,11 +61,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
-            this.tab=null
+            this.tab=null;
+            this.warning("not in lexicon","absent du lexique");
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                this.tab=null
+                this.tab=null;
+                this.warning("not in lexicon","absent du lexique");
             } else {
                 const keys=Object.keys(lexInfo);
                 for (let i = 0; i < keys.length; i++) {

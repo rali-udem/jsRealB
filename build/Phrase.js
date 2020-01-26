@@ -128,7 +128,7 @@ Phrase.prototype.setAgreementLinks = function(){
         // determine subject
         if (iSubj>=0){
             let subject=this.elements[iSubj];
-            if (this.isA("SP") && subject.isA("Pro") && contains(["que","that"],subject.lemma)){
+            if (this.isA("SP") && subject.isA("Pro") && contains(["que","où","that"],subject.lemma)){
                 // HACK: the first pronoun  should not be a subject...
                 //        so we try to find another...
                 const jSubj=this.elements.slice(iSubj+1).findIndex(
@@ -147,9 +147,24 @@ Phrase.prototype.setAgreementLinks = function(){
             if (vpv !== undefined){
                 vpv.verbAgreeWith(subject);
                 if (this.isFr() && vpv.lemma=="être"){// check for a French attribute of "ëtre"
+                    // with an adjective
                     const attribute=vpv.parentConst.getFromPath([["AP",""],"A"]);
                     if (attribute!==undefined){
                         attribute.agreesWith=subject;
+                    } else { // check for a past participle after the verb
+                        var elems=vpv.parentConst.elements;
+                        var vpvIdx=elems.findIndex(e => e==vpv);
+                        if (vpvIdx<0){
+                            this.error("setAgreementLinks: verb not found, but this should never have happened")
+                        } else {
+                            for (var i=vpvIdx+1;i<elems.length;i++){
+                                var pp=elems[i];
+                                if (pp.isA("V") && pp.prop["t"]=="pp"){
+                                    pp.agreesWith=subject;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             } else {
@@ -705,6 +720,9 @@ Phrase.prototype.vpReal = function(res){
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
+        else if (this.elements[vIdx].lemma=="être") { // do not rearrange complements of être
+            vIdx=last 
+        }
     } 
     let i=0;
     while (i<=vIdx){
