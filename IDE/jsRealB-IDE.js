@@ -331,7 +331,7 @@ function doElisionFr(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
@@ -1413,11 +1413,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
-            this.tab=null
+            this.tab=null;
+            this.warning("not in lexicon","absent du lexique");
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                this.tab=null
+                this.tab=null;
+                this.warning("not in lexicon","absent du lexique");
             } else {
                 const keys=Object.keys(lexInfo);
                 for (let i = 0; i < keys.length; i++) {
@@ -2212,7 +2214,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-24 22:42"
+jsRealB_dateCreated="2020-01-27 14:31"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -12285,6 +12287,7 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":["n17"]}},
  "caprice":{"N":{"g":"m",
                  "tab":["n3"]}},
+ "car":{"C":{"tab":["cj"]}},
  "carabine":{"N":{"g":"f",
                   "tab":["n17"]}},
  "caractère":{"N":{"g":"m",
@@ -13816,6 +13819,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n3"]}},
  "estrade":{"N":{"g":"f",
                  "tab":["n17"]}},
+ "et":{"C":{"tab":["cj"]}},
  "étable":{"N":{"g":"f",
                 "tab":["n17"]}},
  "établir":{"V":{"aux":["av"],
@@ -15129,6 +15133,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":"v52"}},
  "maire":{"N":{"g":"m",
                "tab":["n3"]}},
+ "mais":{"C":{"tab":["cj"]}},
  "maison":{"N":{"g":"f",
                 "tab":["n17"]}},
  "maître":{"N":{"g":"m",
@@ -15747,6 +15752,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n3"]}},
  "ôter":{"V":{"aux":["av"],
               "tab":"v36"}},
+ "ou":{"C":{"tab":["cj"]}},
  "où":{"Pro":{"tab":["pn27"]}},
  "ouate":{"N":{"g":"f",
                "tab":["n17"]}},
