@@ -331,7 +331,7 @@ function doElisionFr(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
