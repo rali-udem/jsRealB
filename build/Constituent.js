@@ -544,14 +544,16 @@ Constituent.prototype.toSource = function(){
                 if (val!==true)val=quote(val);
                 typs.push(key+":"+val);
                 break;
-            case "h": case "cod":// option to ignore
+            case "h": case "cod": case "neg2":// option to ignore
                 break;
             case "own": // internal option name differs from external one... 
                 res+=".ow("+quote(val)+")";
                 break;
             default: // standard option but ignoring default values
                 if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (typeof val === "object"){
+                    if (val == null) {
+                        res+="."+key+"()"
+                    } else if (typeof val === "object"){
                         val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
                     } else {
                         res+="."+key+"("+quote(val)+")";

@@ -549,14 +549,16 @@ Constituent.prototype.toSource = function(){
                 if (val!==true)val=quote(val);
                 typs.push(key+":"+val);
                 break;
-            case "h": case "cod":// option to ignore
+            case "h": case "cod": case "neg2":// option to ignore
                 break;
             case "own": // internal option name differs from external one... 
                 res+=".ow("+quote(val)+")";
                 break;
             default: // standard option but ignoring default values
                 if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (typeof val === "object"){
+                    if (val == null) {
+                        res+="."+key+"()"
+                    } else if (typeof val === "object"){
                         val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
                     } else {
                         res+="."+key+"("+quote(val)+")";
@@ -999,7 +1001,7 @@ Phrase.prototype.processTyp_fr = function(types){
     });
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
-        v.prop["neg"]=neg; // HACK: to be used when conjugating at the realization time
+        v.prop["neg2"]=neg; // HACK: to be used when conjugating at the realization time
         // insert "ne" before the verb or before a possible pronoun preceding the verb
         if (idxV>0 && vp.elements[idxV-1].isA("Pro")){
             vp.elements.splice(idxV-1,0,Adv("ne"));
@@ -1336,9 +1338,18 @@ Phrase.prototype.real = function() {
 };
 
 // recreate a jsRealB expression
-Phrase.prototype.toSource = function(){
+// if indent is a number create an indented pretty-print (call it with 0 at the root)
+Phrase.prototype.toSource = function(indent){
+    var sep, newIdent;
+    if (typeof indent == "number"){
+        newIdent=indent+this.constType.length+1;
+        sep=",\n"+Array(newIdent).fill(" ").join("")
+    } else {
+        sep=",";
+        newIdent=undefined
+    }
     // create source of children
-    let res=this.constType+"("+this.elements.map(e => e.toSource()).join()+")";
+    let res=this.constType+"("+this.elements.map(e => e.toSource(newIdent)).join(sep)+")";
     // add the options by calling "super".toSource()
     res+=Constituent.prototype.toSource.call(this);
     return res;
@@ -1599,10 +1610,10 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         const aux=this.prop["aux"];
         const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        neg=this.prop["neg"];
+        neg=this.prop["neg2"];
         if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
-            v.prop["neg"]=neg;
-            delete this.prop["neg"]
+            v.prop["neg2"]=neg;
+            delete this.prop["neg2"]
         }
         if (aux=="êt"){
             v.setLemma("être");
@@ -1637,14 +1648,14 @@ Terminal.prototype.conjugate_fr = function(){
                 } else {
                     res=this.stem+term;
                 }
-                neg=this.prop["neg"];
+                neg=this.prop["neg2"];
                 if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
-                neg=this.prop["neg"];
+                neg=this.prop["neg2"];
                 if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
@@ -2219,7 +2230,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-27 14:31"
+jsRealB_dateCreated="2020-01-28 17:13"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},

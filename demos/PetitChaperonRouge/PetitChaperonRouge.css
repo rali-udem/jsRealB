@@ -1,0 +1,32 @@
+.histoire{
+    font-family: Papyrus, fantasy;
+}
+/* adapte  de http://tint.de/favourites/css-tooltips-for-everybody*/
+.texte {
+    /*text-decoration: none;*/
+    display: inline-block !important;
+    display: inline;
+    vertical-align: bottom;
+    margin-bottom: -1px;
+    position:relative; 
+}
+.texte span.tt {
+    font: normal normal normal 12px courier, sans-serif;
+    visibility: hidden;
+    display:block;
+    position: absolute;
+    text-align: left;
+    white-space:pre;
+    left:0; top: 2em; left: 2em; border: solid 1px;
+    padding:4px; z-index:1;
+    color: black; 
+    background-color: white;
+}
+.texte:hover {
+    border-bottom: 1px solid;
+    color:blue;
+}
+.texte:hover span.tt { 
+    visibility: visible;
+}
+

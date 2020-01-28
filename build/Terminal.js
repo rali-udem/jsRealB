@@ -242,10 +242,10 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         const aux=this.prop["aux"];
         const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        neg=this.prop["neg"];
+        neg=this.prop["neg2"];
         if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
-            v.prop["neg"]=neg;
-            delete this.prop["neg"]
+            v.prop["neg2"]=neg;
+            delete this.prop["neg2"]
         }
         if (aux=="êt"){
             v.setLemma("être");
@@ -280,14 +280,14 @@ Terminal.prototype.conjugate_fr = function(){
                 } else {
                     res=this.stem+term;
                 }
-                neg=this.prop["neg"];
+                neg=this.prop["neg2"];
                 if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
-                neg=this.prop["neg"];
+                neg=this.prop["neg2"];
                 if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
