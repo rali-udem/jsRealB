@@ -1266,6 +1266,11 @@ testsConjugEn = {
 // QUnit.config.hidepassed=true;
 QUnit.test( "English conjugation", function( assert ) {
     loadEn();
+    // // change English lexicon to dme
+    // loadJSON("../data/lexicon-dme.json",function(jsonData){
+    //     updateLexicon(JSON.parse(jsonData));
+    //     console.log("dme loaded:"+Object.keys(lexiconFr).length+" entries");
+    // })
     assert.equal(V("have").n("p").pe(1), "have", "I have");
 
     // Automated Tests

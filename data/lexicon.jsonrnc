@@ -1,0 +1,22 @@
+## validation of dictionary entries
+start = {*:lexInfo}
+
+lexInfo={N?:  noun,
+         A?:  adjective,
+         Pro?:pronoun,
+         V?:  verb, 
+         D?:  determiner, 
+         Adv?:other, 
+         P?:  other,
+         C?:  other,
+         Pc?: punct
+    }@(minProperties=1)
+
+noun      = {tab:[string], g?:string,     hAn?:one, h?:one }
+adjective = {tab:[string], hAn?:number,   h?:one,   pos?:/pre|post/, value?:number}
+pronoun   = {tab:[string], g?:/m|f|n|x/}
+verb      = {tab:string,   aux?:[string], h?:one}
+determiner= {tab:[string], n?:/s|p/,      value?:number}
+other     = {tab:[string], h?:one}
+one       = number@(minimum=1, maximum=1)
+punct     = {tab:[string], compl?:string}

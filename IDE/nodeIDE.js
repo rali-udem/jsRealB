@@ -1,6 +1,7 @@
 // some useful function for the NodeIDE
 // these function access internals of jsRealB
 var checkAmbiguities=false;
+var lemmataEn,lemmataFr;
 
 function isConstituent(obj){
     return obj instanceof Constituent;
@@ -331,7 +332,7 @@ function getLexiconInfo(word,lang){
     for (w in lexicon){
         if (regex.exec(w))res[w]=lexicon[w];
     }
-    if (res.length==0)return undefined
+    if (Object.keys(res).length==0)return undefined
         else return res;
 }
 
@@ -344,11 +345,15 @@ function help(){
 `;
 }
 
-loadEn();
-var lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+function buildLemmataEn(){
+    loadEn();
+    lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
+}
 
-loadFr();
-var lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+function buildLemmataFr(){
+    loadFr();
+    lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
+}
 
 exports.lemmatize=lemmatize;
 exports.isConstituent=isConstituent;
@@ -357,4 +362,6 @@ exports.getConjugationEnding=getConjugationEnding;
 exports.getDeclension=getDeclension;
 exports.getDeclensionEnding=getDeclensionEnding;
 exports.getLexiconInfo=getLexiconInfo;
+exports.buildLemmataEn=buildLemmataEn;
+exports.buildLemmataFr=buildLemmataFr;
 exports.help=help

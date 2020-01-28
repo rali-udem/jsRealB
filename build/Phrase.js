@@ -1,5 +1,5 @@
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -74,7 +74,7 @@ Phrase.prototype.setAgreementLinks = function(){
         let noNumber,noConst;
         for (let i = 0; i < this.elements.length; i++) {
             const e=this.elements[i]
-            if (e.isA("N") && this.agreesWith===undefined){
+            if (e.isOneOf(["N","NP"]) && this.agreesWith===undefined){
                 this.agreesWith=e;
             } else if (e.isA("NO")){
                 noConst=e;
@@ -128,7 +128,7 @@ Phrase.prototype.setAgreementLinks = function(){
         // determine subject
         if (iSubj>=0){
             let subject=this.elements[iSubj];
-            if (this.isA("SP") && subject.isA("Pro") && contains(["que","that"],subject.lemma)){
+            if (this.isA("SP") && subject.isA("Pro") && contains(["que","où","that"],subject.lemma)){
                 // HACK: the first pronoun  should not be a subject...
                 //        so we try to find another...
                 const jSubj=this.elements.slice(iSubj+1).findIndex(
@@ -147,9 +147,24 @@ Phrase.prototype.setAgreementLinks = function(){
             if (vpv !== undefined){
                 vpv.verbAgreeWith(subject);
                 if (this.isFr() && vpv.lemma=="être"){// check for a French attribute of "ëtre"
+                    // with an adjective
                     const attribute=vpv.parentConst.getFromPath([["AP",""],"A"]);
                     if (attribute!==undefined){
                         attribute.agreesWith=subject;
+                    } else { // check for a past participle after the verb
+                        var elems=vpv.parentConst.elements;
+                        var vpvIdx=elems.findIndex(e => e==vpv);
+                        if (vpvIdx<0){
+                            this.error("setAgreementLinks: verb not found, but this should never have happened")
+                        } else {
+                            for (var i=vpvIdx+1;i<elems.length;i++){
+                                var pp=elems[i];
+                                if (pp.isA("V") && pp.prop["t"]=="pp"){
+                                    pp.agreesWith=subject;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
             } else {
@@ -250,6 +265,8 @@ Phrase.prototype.pronominalize = function(){
             if (this==npParent.agreesWith){// is subject 
                 proS=this.isFr()?"je":"I";
             } else if (npParent.isA("PP")){ // is indirect complement
+                proS=this.isFr()?"je":"I";
+            } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
                 proS=this.isFr()?"je":"I";
             } else {
                 proS=this.isFr()?"le":"me"; // is direct complement;
@@ -414,7 +431,7 @@ Phrase.prototype.processTyp_fr = function(types){
     });
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
-        v.prop["neg"]=neg; // HACK: to be used when conjugating at the realization time
+        v.prop["neg2"]=neg; // HACK: to be used when conjugating at the realization time
         // insert "ne" before the verb or before a possible pronoun preceding the verb
         if (idxV>0 && vp.elements[idxV-1].isA("Pro")){
             vp.elements.splice(idxV-1,0,Adv("ne"));
@@ -601,7 +618,16 @@ Phrase.prototype.typ = function(types){
             case "wos":// remove subject (first NP,N, Pro or SP)
                 if (this.isOneOf(["S","SP"])){
                     const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                    if (subjIdx!==undefined)this.elements.splice(subjIdx,1)
+                    if (subjIdx!==undefined){
+                        this.elements.splice(subjIdx,1);
+                        // insure that the verb at the third person singular, 
+                        // because now the subject has been removed
+                        const v=this.getFromPath(["VP","V"])
+                        if (v!==undefined){
+                            v.prop["n"]="s";
+                            v.prop["pe"]=3;
+                        }
+                    }
                 }
                 break;
             case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
@@ -675,7 +701,8 @@ Phrase.prototype.cpReal = function(res){
         if(idxC>=0)
             Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
-    }    
+    }
+    this.doFormat(res); // process format for the CP   
 }
 
 // special case of VP for which the complements are put in increasing order of length
@@ -693,13 +720,19 @@ Phrase.prototype.vpReal = function(res){
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
+        else if (this.elements[vIdx].lemma=="être") { // do not rearrange complements of être
+            vIdx=last 
+        }
     } 
     let i=0;
     while (i<=vIdx){
         Array.prototype.push.apply(res,this.elements[i].real());
         i++;
     }
-    if (i>last) return
+    if (i>last) {
+        this.doFormat(res); // process format for the VP
+        return
+    }
     // save all succeeding realisations
     let reals=[]
     while (i<=last){
@@ -709,6 +742,7 @@ Phrase.prototype.vpReal = function(res){
     // sort realisations in increasing length
     reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
+    this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
@@ -734,9 +768,18 @@ Phrase.prototype.real = function() {
 };
 
 // recreate a jsRealB expression
-Phrase.prototype.toSource = function(){
+// if indent is a number create an indented pretty-print (call it with 0 at the root)
+Phrase.prototype.toSource = function(indent){
+    var sep, newIdent;
+    if (typeof indent == "number"){
+        newIdent=indent+this.constType.length+1;
+        sep=",\n"+Array(newIdent).fill(" ").join("")
+    } else {
+        sep=",";
+        newIdent=undefined
+    }
     // create source of children
-    let res=this.constType+"("+this.elements.map(e => e.toSource()).join()+")";
+    let res=this.constType+"("+this.elements.map(e => e.toSource(newIdent)).join(sep)+")";
     // add the options by calling "super".toSource()
     res+=Constituent.prototype.toSource.call(this);
     return res;

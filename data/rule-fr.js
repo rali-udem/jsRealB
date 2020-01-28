@@ -1334,9 +1334,9 @@ var ruleFr = //========== rule-fr.js
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": [null,null,null,null,null,null],
-                "f": ["oirai","oiras","oira","oirons","oirez","oiront"],
+                "f": ["errai","erras","erra","errons","errez","erront"],
                 "ps": ["us","us","ut","ûmes","ûtes","urent"],
-                "c": ["oirais","oirais","oirait","oirions","oiriez","oiraient"],
+                "c": ["errais","errais","errait","errions","erriez","erraient"],
                 "s": [null,null,null,null,null,null],
                 "si": [null,null,"ût",null,null,null],
                 "ip": [null,null,null,null,null,null],

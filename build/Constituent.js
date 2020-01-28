@@ -1,5 +1,5 @@
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -331,7 +331,7 @@ function doElisionFr(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
@@ -353,10 +353,11 @@ function doElisionFr(cList){
         // for a single word 
         var w1=m1[2];
         var w2=m2[2];
-        if (elidableWordFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){
+        var w3NoWords = ! /^\s*\w/.test(m1[3]); // check that the rest of the first word does not start with a word
+        if (elidableWordFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType) && w3NoWords){
             cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
             i++;
-        } else if (euphonieFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){ // euphonie
+        } else if (euphonieFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)&& w3NoWords){ // euphonie
             if (/ce/i.exec(w1) && /(^est$)|(^étai)/.exec(w2)){
                 // very special case but very frequent
                 cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
@@ -364,7 +365,7 @@ function doElisionFr(cList){
                 cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
             }
             i++;
-        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null){
+        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
             // check if the next word would be elidable, so instead elide it instead of contracting
             if (elidableWordFrRE.exec(w2) && i+2<=last &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
@@ -434,6 +435,13 @@ Constituent.prototype.doFormat = function(cList){
     else 
         doElisionEn(cList);
     
+    const cap = this.prop["cap"];
+    if (cap !== undefined && cap !== false){
+        const r=cList[0].realization;
+        if (r.length>0){
+            cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
+        }
+    }
     const as = this.prop["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getPunctString(a))})
@@ -448,13 +456,6 @@ Constituent.prototype.doFormat = function(cList){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
         })
-    }
-    const cap = this.prop["cap"];
-    if (cap !== undefined && cap !== false){
-        const r=cList[0].realization;
-        if (r.length>0){
-            cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
-        }
     }
     const tags=this.prop["tag"];
     if (tags !== undefined) {
@@ -498,7 +499,7 @@ Constituent.prototype.detokenize = function(terminals){
             // taking into account any trailing HTML tag
             const m=/ ?(<[^>]+>)*$/.exec(s);
             const idxLastChar=s.length-1-m[0].length;
-            if (!contains("?!./",s.charAt(idxLastChar))){
+            if (!contains("?!.:;/",s.charAt(idxLastChar))){
                 s=s.substring(0,idxLastChar+1)+"."+s.substring(idxLastChar+1)
             }
         }
@@ -543,14 +544,16 @@ Constituent.prototype.toSource = function(){
                 if (val!==true)val=quote(val);
                 typs.push(key+":"+val);
                 break;
-            case "h": case "cod":// option to ignore
+            case "h": case "cod": case "neg2":// option to ignore
                 break;
             case "own": // internal option name differs from external one... 
                 res+=".ow("+quote(val)+")";
                 break;
             default: // standard option but ignoring default values
                 if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (typeof val === "object"){
+                    if (val == null) {
+                        res+="."+key+"()"
+                    } else if (typeof val === "object"){
                         val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
                     } else {
                         res+="."+key+"("+quote(val)+")";

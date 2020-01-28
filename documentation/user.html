@@ -86,8 +86,8 @@
     
     <h2 lang="fr" id="javascript-fr">Javascript</h2><h2 lang="en" id="javascript-en">Javascript</h2>
     <h3><code>.clone()</code></h3>
-        <p lang="fr">Comme les options modifient le constituant dans toutes les utilisations subséquentes, il est souvent pratique de pouvoir garder la version originale pour la réutiliser et la modifier indépendamment. L'option <code>clone()</code> permet de copier un syntagme pour utilisation dans des contextes différents.</p>
-        <p lang="en">As options modify the constituent for all following use, it is often useful to keep the original constituent and modify it independently. The <code>clone()</code> option allows reusing a constituent in different contexts.</p>
+        <p lang="fr">Comme les options modifient le constituant dans toutes les utilisations subséquentes, il est souvent pratique de pouvoir garder la version originale pour la réutiliser et la modifier indépendamment. L'option <code>clone()</code> permet de copier un syntagme pour utilisation dans des contextes différents. <strong>ATTENTION</strong>: ne pas utiliser cette fonction sur une expression à laquelle des modifications de structure (p.ex. <code>.typ()</code> ou <code>.pro()</code>) ont été appliquées.</p>
+        <p lang="en">As options modify the constituent for all following use, it is often useful to keep the original constituent and modify it independently. The <code>clone()</code> option allows reusing a constituent in different contexts. <strong>CAUTION</strong>: do not use this function to an expression to which structure modifications (e.g. <code>.typ()</code> or <code>.pro()</code>) have been applied.</p>
 <div id="cloneUse"></div>
     
     <h3><code>.add(<em>element</em>,<em>position</em>)</code></h3>
@@ -95,8 +95,8 @@
         <p lang="en">Add a new phrase <code>element</code> as a child of an existing phrase. The second optional parameter <code>position</code> is an integer that specifies its position (counting from 0). By default, the element is added as the last child.</p>
 <div id="addUse"></div>
     <h3><code>.toSource()</code></h3>
-    <p lang="fr">Cette fonction retourne une version <em>chaîne</em> d'une expression <span class="jsr">jsRealB</span>, ceci peut être utile pour la mise au point d'une expression complexe. </p>
-    <p lang="en">This function returns a <em>string</em> version of a  <span class="jsr">jsRealB</span> expression, this can be useful for debugging complex expressions. </p>
+    <p lang="fr">Cette fonction retourne une version <em>chaîne</em> d'une expression <span class="jsr">jsRealB</span>, ceci peut être utile pour la mise au point d'une expression complexe. En passant 0 comme paramètre à ce fonction, on obtient une expression indentée qui fait ressortir la structure de l'expression.</p>
+    <p lang="en">This function returns a <em>string</em> version of a  <span class="jsr">jsRealB</span> expression, this can be useful for debugging complex expressions. But giving 0 as parameter of this function, the expression is indented to show the underlying structure.</p>
     <h3><code>getLanguage()</code></h3>
     <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
     <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
@@ -115,7 +115,7 @@
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
 	
     <p lang="fr">Il suffit d'ajouter le script <code>jsRealB.js</code> à la liste des scripts de la page. Ceci intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 200 entrées). Comme indiqué à la section <a href="#extensionVoc">Extension du vocabulaire</a>, il est facile d'ajouter de nouvelles entrées ou même de remplacer complètement les dictionnaires par défaut.</p>
-        <p lang="en">It is only a matter of adding the script <code>jsRealB.js</code> to the scripts used by the web page. This includes to basic lexicons: English (5 200 entries) and French (3 700 entries). As shown below in the <a href="#vocExtension">Vocabulary extension section</a>, it is possible to add new entries to the lexicon or to change it completely.</p>
+        <p lang="en">It is only a matter of adding the script <code>jsRealB.js</code> to the scripts used by the web page. This includes two basic lexicons: English (5 200 entries) and French (3 700 entries). As shown below in the <a href="#vocExtension">Vocabulary extension section</a>, it is possible to add new entries to the lexicon or to change it completely.</p>
         <dd>
             <ul>
                 <li><a href="#loadEnFr"><code>loadFr(...)</code></a> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>

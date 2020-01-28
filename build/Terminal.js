@@ -1,5 +1,5 @@
 /**
-    jsRealB 2.0
+    jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
 
@@ -61,11 +61,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
-            this.tab=null
+            this.tab=null;
+            this.warning("not in lexicon","absent du lexique");
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                this.tab=null
+                this.tab=null;
+                this.warning("not in lexicon","absent du lexique");
             } else {
                 const keys=Object.keys(lexInfo);
                 for (let i = 0; i < keys.length; i++) {
@@ -240,10 +242,10 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         const aux=this.prop["aux"];
         const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        neg=this.prop["neg"];
+        neg=this.prop["neg2"];
         if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
-            v.prop["neg"]=neg;
-            delete this.prop["neg"]
+            v.prop["neg2"]=neg;
+            delete this.prop["neg2"]
         }
         if (aux=="êt"){
             v.setLemma("être");
@@ -278,15 +280,15 @@ Terminal.prototype.conjugate_fr = function(){
                 } else {
                     res=this.stem+term;
                 }
-                neg=this.prop["neg"];
-                if (neg !== undefined){
+                neg=this.prop["neg2"];
+                if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
-                neg=this.prop["neg"];
-                if (neg !== undefined){
+                neg=this.prop["neg2"];
+                if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
                 }

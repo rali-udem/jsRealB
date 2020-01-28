@@ -86,17 +86,78 @@ QUnit.test( "Sentence EN", function( assert ) {
          expected:"She plays a musical note named <a href=\"https:en.wikipedia.org/wiki/A_(musical_note)\">A</a> on the piano.",
          message: "Elision with a strange a"
          },
-        // // 17
+        // 17
+        {expression:S(Pro("I").g("m"),
+                      VP(V("love"),
+                         NP(D("a"),N("woman")).pro())
+                     ),
+         expected:"He loves her.",
+         message:"Pronominalization of a noun designating a person"
+         },
+        // 18
+        {expression:S(Pro("I").g("m"),
+                      VP(V("love"),
+                         NP(D("a"),N("woman")).pro())
+                     ).typ({int:"wos",pas:true}),
+         expected:"Who is loved by him? ",
+         message:"Interrogative passive"
+         },
+        // 19
+        {expression:S(CP(C("and"),NP(D("the"),N("cat")))
+                               .add(NP(D("the"),N("dog"))),
+                      VP(V("play"),
+                         PP(P("with"),NP(D("a"),N("elephant")))
+                        )
+                     ),
+         expected:"The cat and the dog play with an elephant.",
+         message:"Coordination built incrementaly "
+         },
+        // 20
+        {expression:S(VP().add(V("love")).add(NP(D("a"),N("boy")))).add(NP(D("the"),N("apple")),0),
+         expected:"The apple loves a boy.",
+         message:"Adding constituents both before and after"
+         },
+        // // 21
         // {expression:,
         //  expected:"",
         //  message:
         //  },
-        // // 18
+        // // 22
         // {expression:,
         //  expected:"",
         //  message:
         //  },
-        // // 19
+        // // 23
+        // {expression:,
+        //  expected:"",
+        //  message:
+        //  },
+        // // 24
+        // {expression:,
+        //  expected:"",
+        //  message:
+        //  },
+        // // 25
+        // {expression:,
+        //  expected:"",
+        //  message:
+        //  },
+        // // 26
+        // {expression:,
+        //  expected:"",
+        //  message:
+        //  },
+        // // 27
+        // {expression:,
+        //  expected:"",
+        //  message:
+        //  },
+        // // 28
+        // {expression:,
+        //  expected:"",
+        //  message:
+        //  },
+        // // 29
         // {expression:,
         //  expected:"",
         //  message:
