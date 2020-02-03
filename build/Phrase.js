@@ -9,6 +9,9 @@
 function Phrase(elements,constType){
     Constituent.call(this,constType); // super constructor
     this.elements=[];
+    // list of elements to create the source of the parameters at the time of the call
+    // this can be different from the elements lists because of structure modifications
+    this.elementsSource=[]
     if (elements.length>0){
         const last=elements.length-1;
         // add all elements except the last to the list of elements
@@ -19,18 +22,24 @@ function Phrase(elements,constType){
             }
             e.parentConst=this;
             this.elements.push(e);
+            this.elementsSource.push(e);
         }
         // terminate the list with add which does other checks on the final list
-        this.add(elements[last],undefined)
+        this.add(elements[last],undefined,true)
     }
 }
 extend(Constituent,Phrase)
 
 // add a new constituent, set agreement links
-Phrase.prototype.add = function(constituent,position){
+Phrase.prototype.add = function(constituent,position,prog){
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
+    }
+    if (prog===undefined){// real call to .add 
+        this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
+    } else {
+        this.elementsSource.push(constituent) // call from the constructor        
     }
     constituent.parentConst=this;
     // add it to the list of elements
@@ -582,7 +591,8 @@ Phrase.prototype.typ = function(types){
       "perf":[false,true],
       "mod": [false,"poss","perm","nece","obli","will"],
       "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
-     }
+    }
+    this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
         // validate types and keep only ones that are valid
         const entries=Object.entries(types);
@@ -654,11 +664,11 @@ Phrase.prototype.typ = function(types){
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
-            this.a(sentenceTypeInt.punctuation);
+            this.a(sentenceTypeInt.punctuation,true);
         }    
         const exc=types["exc"];
         if (exc !== undefined && exc === true){
-            this.a(rules.sentence_type.exc.punctuation);
+            this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
         this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
@@ -779,10 +789,11 @@ Phrase.prototype.toSource = function(indent){
         newIdent=undefined
     }
     // create source of children
-    let res=this.constType+"("+this.elements.map(e => e.toSource(newIdent)).join(sep)+")";
+    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(newIdent)).join(sep)+")";
     // add the options by calling "super".toSource()
-    res+=Constituent.prototype.toSource.call(this);
+    res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
     return res;
+    
 }
 
 /////////////// Constructors for the user

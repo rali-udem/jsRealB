@@ -48,6 +48,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     switch (terminalType) {
     case "DT":
          this.date = lemma==undefined?new Date():new Date(lemma);
+         this.lemma = this.date+""
          this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
@@ -495,9 +496,9 @@ Terminal.prototype.real = function(){
 Terminal.prototype.toSource = function(){
     // create the source of the Terminal
     let res=this.constType+"("+quote(this.lemma)+")";
-    // add the options by calling "super".toSource()
-    res+=Constituent.prototype.toSource.call(this);
-    return res;
+    // add the options by calling super.toSource()
+    res+=Constituent.prototype.toSource.call(this); 
+    return res;    
 }
 
 // functions for creating terminals

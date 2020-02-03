@@ -17,6 +17,7 @@ function Constituent(constType){
     this.prop={};
     this.realization=null;
     this.lang=currentLanguage;
+    this.optSource=""   // string corresponding to the calls to the options
 }
 
 // warning message on the console prefixed with an identification or throws an Exception
@@ -89,9 +90,13 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
+Constituent.prototype.addOptSource = function(optionName,val){
+    this.optSource+="."+optionName+"("+(val===undefined? "" :JSON.stringify(val))+")"
+}
+
 // Creation of "standard" options 
 function genOptionFunc(option,validVals,allowedConsts,optionName){
-    Constituent.prototype[option]=function(val){
+    Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
                 return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
@@ -100,6 +105,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             val=null;
         }
         if (this.isA("CP")){// propagate an option through the children of a CP
+            if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
                 if (allowedConsts.length==0 || e.isOneOf(allowedConsts)){
@@ -120,6 +126,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 while (current.agreesWith!==undefined)current=current.agreesWith;
             }
             current.prop[optionName]=val;
+            if (prog==undefined) this.addOptSource(optionName,val==null?undefined:val)
             return this;
         } else {
             return this.warning("Option "+option+" is applied to a "+this.constType+
@@ -149,9 +156,10 @@ genOptionFunc("lier",undefined,[]);
 
 // creation of option lists
 function genOptionListFunc(option){
-    Constituent.prototype[option]=function(val){
+    Constituent.prototype[option]=function(val,prog){
         if (this.prop[option] === undefined)this.prop[option]=[];
         this.prop[option].push(val);
+        if(prog==undefined)this.addOptSource(option,val)
         return this;
     }
 }
@@ -164,7 +172,12 @@ genOptionListFunc("en");
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined)attrs="";
+    if (attrs === undefined){
+        this.addOptSource("tag",name)
+        attrs="";
+    } else {
+        this.optSource+=".tag('"+name+"',"+JSON.stringify(attrs)+")" // special case of addOptSource...
+    }
     if (this.prop["tag"] === undefined)this.prop["tag"]=[];
     this.prop["tag"].push([name,attrs]);
     return this;
@@ -172,6 +185,7 @@ Constituent.prototype.tag = function(name,attrs){
 
 // date options
 Constituent.prototype.dOpt = function(dOptions){
+    this.addOptSource("dOpt",dOptions)
     if (this.isA("DT")){
         const allowedKeys =["year" , "month" , "date" , "day" , "hour" , "minute" , "second" , "nat", "det", "rtime"];
         const keys=Object.keys(dOptions);
@@ -224,6 +238,7 @@ Constituent.prototype.dOpt = function(dOptions){
 
 // number option
 Constituent.prototype.nat= function(isNat){
+    this.addOptSource("nat",isNat);
     if (this.isOneOf(["DT","NO"])){
         const options=this.isA("DT")?this.dateOpts:this.noOptions;
         if (isNat === undefined){
@@ -520,49 +535,8 @@ Constituent.prototype.clone = function(){
     return eval(this.toSource());
 }
 
-// create the source for the options from the properties
-Constituent.prototype.toSource = function(){
-    let res="";
-    let typs=[];
-    Object.entries(this.prop).forEach(
-        function (e) {
-            const key=e[0];
-            let val=e[1];
-            switch (key){
-            case "tag": // special case of HTML tag
-                val.forEach(
-                    function (tagE){
-                        res+=".tag("+quote(tagE[0])
-                        if(tagE[1]!="")res+=","+JSON.stringify(tagE[1])
-                        res+=")";
-                    }
-                )
-                break;
-            // options to be combined in a single .typ
-            case "neg": case"pas": case "prog": case "perf": case "exc":case "mod": case "int": 
-                if (val===false)break;
-                if (val!==true)val=quote(val);
-                typs.push(key+":"+val);
-                break;
-            case "h": case "cod": case "neg2":// option to ignore
-                break;
-            case "own": // internal option name differs from external one... 
-                res+=".ow("+quote(val)+")";
-                break;
-            default: // standard option but ignoring default values
-                if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (val == null) {
-                        res+="."+key+"()"
-                    } else if (typeof val === "object"){
-                        val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
-                    } else {
-                        res+="."+key+"("+quote(val)+")";
-                    }
-                }
-            }
-        }
-    )
-    return res+(typs.length==0?"":(".typ({"+typs.join()+"})"));
+Constituent.prototype.toSource=function(){
+    return this.optSource;
 }/**
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
@@ -574,6 +548,9 @@ Constituent.prototype.toSource = function(){
 function Phrase(elements,constType){
     Constituent.call(this,constType); // super constructor
     this.elements=[];
+    // list of elements to create the source of the parameters at the time of the call
+    // this can be different from the elements lists because of structure modifications
+    this.elementsSource=[]
     if (elements.length>0){
         const last=elements.length-1;
         // add all elements except the last to the list of elements
@@ -584,18 +561,24 @@ function Phrase(elements,constType){
             }
             e.parentConst=this;
             this.elements.push(e);
+            this.elementsSource.push(e);
         }
         // terminate the list with add which does other checks on the final list
-        this.add(elements[last],undefined)
+        this.add(elements[last],undefined,true)
     }
 }
 extend(Constituent,Phrase)
 
 // add a new constituent, set agreement links
-Phrase.prototype.add = function(constituent,position){
+Phrase.prototype.add = function(constituent,position,prog){
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
+    }
+    if (prog===undefined){// real call to .add 
+        this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
+    } else {
+        this.elementsSource.push(constituent) // call from the constructor        
     }
     constituent.parentConst=this;
     // add it to the list of elements
@@ -1147,7 +1130,8 @@ Phrase.prototype.typ = function(types){
       "perf":[false,true],
       "mod": [false,"poss","perm","nece","obli","will"],
       "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
-     }
+    }
+    this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
         // validate types and keep only ones that are valid
         const entries=Object.entries(types);
@@ -1219,11 +1203,11 @@ Phrase.prototype.typ = function(types){
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
-            this.a(sentenceTypeInt.punctuation);
+            this.a(sentenceTypeInt.punctuation,true);
         }    
         const exc=types["exc"];
         if (exc !== undefined && exc === true){
-            this.a(rules.sentence_type.exc.punctuation);
+            this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
         this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
@@ -1344,10 +1328,11 @@ Phrase.prototype.toSource = function(indent){
         newIdent=undefined
     }
     // create source of children
-    let res=this.constType+"("+this.elements.map(e => e.toSource(newIdent)).join(sep)+")";
+    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(newIdent)).join(sep)+")";
     // add the options by calling "super".toSource()
-    res+=Constituent.prototype.toSource.call(this);
+    res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
     return res;
+    
 }
 
 /////////////// Constructors for the user
@@ -1411,6 +1396,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     switch (terminalType) {
     case "DT":
          this.date = lemma==undefined?new Date():new Date(lemma);
+         this.lemma = this.date+""
          this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
@@ -1858,9 +1844,9 @@ Terminal.prototype.real = function(){
 Terminal.prototype.toSource = function(){
     // create the source of the Terminal
     let res=this.constType+"("+quote(this.lemma)+")";
-    // add the options by calling "super".toSource()
-    res+=Constituent.prototype.toSource.call(this);
-    return res;
+    // add the options by calling super.toSource()
+    res+=Constituent.prototype.toSource.call(this); 
+    return res;    
 }
 
 // functions for creating terminals
@@ -2225,7 +2211,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-28 17:13"
+jsRealB_dateCreated="2020-02-03 15:26"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},

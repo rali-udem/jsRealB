@@ -17,6 +17,7 @@ function Constituent(constType){
     this.prop={};
     this.realization=null;
     this.lang=currentLanguage;
+    this.optSource=""   // string corresponding to the calls to the options
 }
 
 // warning message on the console prefixed with an identification or throws an Exception
@@ -89,9 +90,13 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
+Constituent.prototype.addOptSource = function(optionName,val){
+    this.optSource+="."+optionName+"("+(val===undefined? "" :JSON.stringify(val))+")"
+}
+
 // Creation of "standard" options 
 function genOptionFunc(option,validVals,allowedConsts,optionName){
-    Constituent.prototype[option]=function(val){
+    Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
                 return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
@@ -100,6 +105,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             val=null;
         }
         if (this.isA("CP")){// propagate an option through the children of a CP
+            if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
                 if (allowedConsts.length==0 || e.isOneOf(allowedConsts)){
@@ -120,6 +126,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 while (current.agreesWith!==undefined)current=current.agreesWith;
             }
             current.prop[optionName]=val;
+            if (prog==undefined) this.addOptSource(optionName,val==null?undefined:val)
             return this;
         } else {
             return this.warning("Option "+option+" is applied to a "+this.constType+
@@ -149,9 +156,10 @@ genOptionFunc("lier",undefined,[]);
 
 // creation of option lists
 function genOptionListFunc(option){
-    Constituent.prototype[option]=function(val){
+    Constituent.prototype[option]=function(val,prog){
         if (this.prop[option] === undefined)this.prop[option]=[];
         this.prop[option].push(val);
+        if(prog==undefined)this.addOptSource(option,val)
         return this;
     }
 }
@@ -164,7 +172,12 @@ genOptionListFunc("en");
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined)attrs="";
+    if (attrs === undefined){
+        this.addOptSource("tag",name)
+        attrs="";
+    } else {
+        this.optSource+=".tag('"+name+"',"+JSON.stringify(attrs)+")" // special case of addOptSource...
+    }
     if (this.prop["tag"] === undefined)this.prop["tag"]=[];
     this.prop["tag"].push([name,attrs]);
     return this;
@@ -172,6 +185,7 @@ Constituent.prototype.tag = function(name,attrs){
 
 // date options
 Constituent.prototype.dOpt = function(dOptions){
+    this.addOptSource("dOpt",dOptions)
     if (this.isA("DT")){
         const allowedKeys =["year" , "month" , "date" , "day" , "hour" , "minute" , "second" , "nat", "det", "rtime"];
         const keys=Object.keys(dOptions);
@@ -224,6 +238,7 @@ Constituent.prototype.dOpt = function(dOptions){
 
 // number option
 Constituent.prototype.nat= function(isNat){
+    this.addOptSource("nat",isNat);
     if (this.isOneOf(["DT","NO"])){
         const options=this.isA("DT")?this.dateOpts:this.noOptions;
         if (isNat === undefined){
@@ -520,47 +535,6 @@ Constituent.prototype.clone = function(){
     return eval(this.toSource());
 }
 
-// create the source for the options from the properties
-Constituent.prototype.toSource = function(){
-    let res="";
-    let typs=[];
-    Object.entries(this.prop).forEach(
-        function (e) {
-            const key=e[0];
-            let val=e[1];
-            switch (key){
-            case "tag": // special case of HTML tag
-                val.forEach(
-                    function (tagE){
-                        res+=".tag("+quote(tagE[0])
-                        if(tagE[1]!="")res+=","+JSON.stringify(tagE[1])
-                        res+=")";
-                    }
-                )
-                break;
-            // options to be combined in a single .typ
-            case "neg": case"pas": case "prog": case "perf": case "exc":case "mod": case "int": 
-                if (val===false)break;
-                if (val!==true)val=quote(val);
-                typs.push(key+":"+val);
-                break;
-            case "h": case "cod": case "neg2":// option to ignore
-                break;
-            case "own": // internal option name differs from external one... 
-                res+=".ow("+quote(val)+")";
-                break;
-            default: // standard option but ignoring default values
-                if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (val == null) {
-                        res+="."+key+"()"
-                    } else if (typeof val === "object"){
-                        val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
-                    } else {
-                        res+="."+key+"("+quote(val)+")";
-                    }
-                }
-            }
-        }
-    )
-    return res+(typs.length==0?"":(".typ({"+typs.join()+"})"));
+Constituent.prototype.toSource=function(){
+    return this.optSource;
 }

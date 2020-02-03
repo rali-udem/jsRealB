@@ -8,6 +8,8 @@
   <title>Petit chaperon rouge avec jsRealB</title>
   <link rel="stylesheet" href="PetitChaperonRouge.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- <script src="../../dist/jsRealB.js"></script> -->
+<!-- to ease debugging we load each file separately -->
   <script src="../../data/lexicon-fr.js"></script>
   <script src="../../data/rule-fr.js"></script>
   <script src="../../data/lexicon-en.js"></script>
@@ -18,6 +20,7 @@
   <script src="../../build/Terminal.js"></script>
   <script src="../../build/Date.js"></script>
   <script src="../../build/Number.js"></script>
+<!-- end of separate loading -->
   <script src="PetitChaperonRouge_jsr.js"></script>
 </head>
 <body>
@@ -26,8 +29,8 @@
         On constate que <strong>jsRealB</strong> permet de réaliser des textes relativement complexes. 
         Il suffit de placer la souris sur une phrase pour afficher la structure <strong>jsRealB</strong> permettant 
         de réaliser cette phrase. À noter que cette expression n'est pas nécessairement identique à celle qu'on
-        retrouve dans le code source qui utilise parfois des fonctions auxiliaires pour éviter de recopier du code, 
-        alors qu'ici l'expression est reconstruite à partir de l'expression interne.
+        retrouve dans le code source qui utilise parfois des fonctions auxiliaires pour factoriser des parties de code, 
+        alors qu'ici l'expression est reconstruite à partir des informations sauvées lors des appels de constructeurs et de fonctions.
      </p>
      <p><a href="PetitChaperonRouge_node.js" target="_blank">Version pour utilisation avec node.js</a></p>
      <hr/>
