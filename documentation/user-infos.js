@@ -21,12 +21,12 @@ var terminalsSect =
                             "en":["Date possibly with <a href='#dateEn'>options</a>",'DT()']},
         {"pattern":"NO(…)", "fr":["Nombre avec <a href='#nombres'>options</a> facultatives",'NO(2)'],
                             "en":["Number possibly with <a href='#numbers'>options</a>",'NO(2)']},
-        {"pattern":'"…"',  "fr":["Texte brut",'"verbatim"'],
-                            "en":["Raw text",'"verbatim"']},
+        {"pattern":'"…"',  "fr":["Texte brut",'"Wow"'],
+                            "en":["Raw text",'"Wow"']},
         {"pattern":"Q(…)",  "fr":["Texte brut auquel on peut ajouter des <a href='#optionsFr'>options</a>",
-                                  'Q("verbatim").tag("i")'],
+                                  'Q("Bang !").tag("i")'],
                             "en":["Raw text to which <a href='#optionsEn'>options</a> can be added",
-                                  'Q("verbatim").tag("i")']}
+                                  'Q("Bang !").tag("i")']}
     ]};
 
 var syntagmesSect =
@@ -246,7 +246,7 @@ var formatSect={"fr":"","en":"",
        {"pattern":'.a(";")', "fr":["Ajouter point virgule après",'N("homme").a(";")'],
                      "en":["Add a semi-colon after",'N("man").a(";")']},
        {"pattern":'.a("...")', "fr":["Ajouter des points de suspension après",'N("homme").a("...")'],
-                     "en":["Add an ellipsis after",'N("man").a("...")']},
+                     "en":["Realize a possessive",'N("man").a("\'s")']},
 
        {"group":".en(…)","fr":'entourer',"en":'wrap with'},
        {"pattern":'.en("(")', "fr":["entourer de parenthèses",'N("homme").en("(")'],

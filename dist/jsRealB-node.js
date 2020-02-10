@@ -7,7 +7,8 @@
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
 var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
-var defaultProps; // to be filled by loadEn | loadFR
+var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
+                    fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage, rules, lexicon;
 
 ///////////////  Constructor for a Constituent (superclass of Phrase and Terminal)
@@ -61,8 +62,8 @@ Constituent.prototype.getProp = function(propName){
         current=next;
         next=next.agreesWith;
     }
-    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps["t"]
-    return current.prop[propName] || defaultProps[propName] 
+    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps[this.lang]["t"]
+    return current.prop[propName] || defaultProps[this.lang][propName] 
 }
 
 // get the property in the first surrounding sentence (S or SP)
@@ -2170,7 +2171,6 @@ function loadEn(trace,lenient){
     currentLanguage="en";
     lexicon=lexiconEn;
     rules=ruleEn;
-    defaultProps={g:"n",n:"s",pe:3,t:"p"};  // language dependent default properties
     if (trace===true)console.log("English lexicon and rules loaded");
     if (lenient==true)console.log("Lenient mode not implemented");
 }
@@ -2179,7 +2179,6 @@ function loadFr(trace,lenient){
     currentLanguage="fr";
     lexicon=lexiconFr;
     rules=ruleFr;
-    defaultProps={g:"m",n:"s",pe:3,t:"p",aux:"av"};  // language dependent default properties 
     if (trace===true)console.log("French lexicon and rules loaded");
     if (lenient==true)console.log("Lenient mode not implemented");
 }
@@ -2245,7 +2244,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-09 23:14"
+jsRealB_dateCreated="2020-02-10 16:21"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},

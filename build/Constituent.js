@@ -7,7 +7,8 @@
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
 var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
-var defaultProps; // to be filled by loadEn | loadFR
+var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
+                    fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage, rules, lexicon;
 
 ///////////////  Constructor for a Constituent (superclass of Phrase and Terminal)
@@ -61,8 +62,8 @@ Constituent.prototype.getProp = function(propName){
         current=next;
         next=next.agreesWith;
     }
-    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps["t"]
-    return current.prop[propName] || defaultProps[propName] 
+    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps[this.lang]["t"]
+    return current.prop[propName] || defaultProps[this.lang][propName] 
 }
 
 // get the property in the first surrounding sentence (S or SP)

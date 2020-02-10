@@ -301,7 +301,7 @@ var s14 =
                NP(D("the"),N("wolf"),
                   VP(V("arrive").t("ps"),
                      PP(P("at"),
-                        NP(D("the"),A("old"),Q("woman's"),N("house")),
+                        NP(D("the"),A("old"),N("woman").a("'s"),N("house")),
                            ))))))
       ).typ({neg:true})
 
@@ -398,7 +398,7 @@ var s20 =
               NP(D("the"),N("door")))),
          S(VP(V("get").t("ps"),
               PP(P("into"),
-                 NP(D("the"),Q("grandmother's"),N("bed")))).a(","),
+                 NP(D("the"),N("grandmother").a("'s"),N("bed")))).a(","),
            VP(V("expect").t("pr"),
               LRRH.clone().a(","),
               SP(Pro("who"),

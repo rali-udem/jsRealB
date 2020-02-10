@@ -53,8 +53,8 @@
     <div id="pronomsSect"></div>
     
     <h2 lang="fr" id="formattage">Mise en forme</h2><h2 lang="en" id="formatting">Formatting</h2>
-    <p lang="fr">La ponctuation disponible dépend du contenu des règles qui indiquent l'espacement avant et après chaque signe.</p>
-    <p lang="en">Available punctuation depends on rules that define the spacing to add before and after the punctuation sign.</p>
+    <p lang="fr">Si l'ajout avant et/ou après un constituent correspond à un signe de ponctuation défini dans les règles, l'espacement approprié est ajouté avant et après le signe, sinon la chaîne est ajoutée telle quelle sans espacement.</p>
+    <p lang="en">If the content added before and/or a constituent is defined in the language rules, then the appropriate spacing is added before and after the punctuation sign, otherwise the content is added without spacing.</p>
     <div id="formatSect"></div>
     
     <h2 lang="fr" id="modSN">Modification du syntagme nominal</h2><h2 lang="en" id="npMod">Noun phrase modification</h2>
@@ -106,7 +106,7 @@
             <li><em>trace</em> : si <code>true</code>, un message apparaîtra sur la console à la fin du chargement du lexique et de règles du langage.</li>
         </ul>
     </p>
-    <p lang="en">These functions sets the current realisation language; one of them should be called before starting the realization process. Its parameter, (<code>false</code> by default) is :
+    <p lang="en">These functions sets the current realization language; one of them should be called before starting the realization process. Its parameter, (<code>false</code> by default) is :
         <ul lang="en">
             <li><em>trace</em> : if <code>true</code>, a message is written on the console after the loading of the lexicon and language tables.</li>
         </ul>
@@ -133,7 +133,7 @@
     <p lang="fr">Les versions de <span class="jsr">jsRealB</span> décrites à la section précédente peuvent aussi être utilisées avec <code>node.js</code> en utilisant une instruction de la forme <code>jsRealB=require("...")</code></p>
     <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>node.js</code> with an instruction like <code>jsRealB=require("...")</code></p>
     <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
-    <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realisation.</p>
+    <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realization.</p>
     <p lang="fr"><strong>Trucs pratiques</strong>:</p> 
     <p lang="en"><strong>Useful tricks</strong>:</p>
     <ul>
