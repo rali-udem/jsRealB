@@ -6,9 +6,13 @@
 ////// Creates a Terminal (subclass of Constituent)
 
 // Terminal
-function Terminal(terminalType,lemma){
+function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
-    this.setLemma(lemma,terminalType);
+    this.setLemma(lemma[0],terminalType);
+    if (lemma.length!=1){
+        this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
+                     terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
+    }
 }
 extend(Constituent,Terminal)
 
@@ -43,23 +47,44 @@ Terminal.prototype.add = function(){
 //  set lemma, precompute stem and store conjugation/declension table number 
 Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
-        terminalType=this.constType; 
+        terminalType=this.constType;
     this.lemma=lemma;
+    lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
-         this.date = lemma==undefined?new Date():new Date(lemma);
+         if (lemma==undefined){
+             this.date=new Date()
+         } else {
+             if (lemmaType != "string" && !(lemma instanceof Date)){
+                 this.warning("DT should be called with a string or Date parameter, not "+lemmaType,
+                              "DT devrait être appelé avec un paramètre chaine ou Date, non "+lemmaType)
+             }             
+             this.date = new Date(lemma);
+         }
          this.lemma = this.date+""
          this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
     case "NO":
+        if (lemmaType != "string" && lemmaType != "number"){
+            this.warning("NO should be called with a string or a number parameter, not "+lemmaType,
+                         "NO devrait être appelé avec un paramètre chaine ou nombre, non "+lemmaType)
+        }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
+        if (lemmaType != "string"){
+            this.warning("Q should be called with a string parameter, not "+lemmaType,
+                         "Q devrait être appelé avec un paramètre chaine, non "+lemmaType)
+        }
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
+        if (lemmaType != "string"){
+            this.warning(constType+" should be called with a string parameter, not "+lemmaType,
+                         constType+" devrait être appelé avec un paramètre chaine, non "+lemmaType)
+        }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
             this.tab=null;
@@ -502,15 +527,15 @@ Terminal.prototype.toSource = function(){
 }
 
 // functions for creating terminals
-function N  (lemma){ return new Terminal("N",lemma) }
-function A  (lemma){ return new Terminal("A",lemma) }
-function Pro(lemma){ return new Terminal("Pro",lemma) }
-function D  (lemma){ return new Terminal("D",lemma) }
-function V  (lemma){ return new Terminal("V",lemma) }
-function Adv(lemma){ return new Terminal("Adv",lemma) }
-function C  (lemma){ return new Terminal("C",lemma) }
-function P  (lemma){ return new Terminal("P",lemma) }
-function DT (lemma){ return new Terminal("DT",lemma) }
-function NO (lemma){ return new Terminal("NO",lemma) }
-function Q  (lemma){ return new Terminal("Q",lemma) }
+function N  (_){ return new Terminal(Array.from(arguments),"N") }
+function A  (_){ return new Terminal(Array.from(arguments),"A") }
+function Pro(_){ return new Terminal(Array.from(arguments),"Pro") }
+function D  (_){ return new Terminal(Array.from(arguments),"D") }
+function V  (_){ return new Terminal(Array.from(arguments),"V") }
+function Adv(_){ return new Terminal(Array.from(arguments),"Adv") }
+function C  (_){ return new Terminal(Array.from(arguments),"C") }
+function P  (_){ return new Terminal(Array.from(arguments),"P") }
+function DT (_){ return new Terminal(Array.from(arguments),"DT") }
+function NO (_){ return new Terminal(Array.from(arguments),"NO") }
+function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
 

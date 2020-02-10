@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Little Red Riding Hood using jsRealB</title>
+  <link rel="stylesheet" href="PetitChaperonRouge.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- <script src="../../dist/jsRealB.js"></script> -->
+<!-- to ease debugging we load each file separately -->
+  <script src="../../data/lexicon-fr.js"></script>
+  <script src="../../data/rule-fr.js"></script>
+  <script src="../../data/lexicon-en.js"></script>
+  <script src="../../data/rule-en.js"></script>
+  <script src="../../build/Utils.js"></script>
+  <script src="../../build/Constituent.js"></script>
+  <script src="../../build/Phrase.js"></script>
+  <script src="../../build/Terminal.js"></script>
+  <script src="../../build/Date.js"></script>
+  <script src="../../build/Number.js"></script>
+<!-- end of separate loading -->
+  <script src="LittleRedRidingHood_jsr.js"></script>
+</head>
+<body>
+    <h1>Fairy tale realization</h1>
+    <p>This is a <em>verbatim</em> reproduction of a <a href="http://www.pitt.edu/~dash/perrault02.html">well known fairy tale</a>. 
+        This shows that <strong>jsRealB</strong> allows the realization of relatively complex texts. 
+        Hovering with the mouse on a sentence displays the <strong>jsRealB</strong> structure to realize that sentence.
+        The displayed expression is not necessarily identical to the one found in the source that often uses auxiliary functions to
+        factorize the code, while the expression here is rebuilt from informations saved when the function is called.
+     </p>
+     <p><a href="LittleRedRidingHood_node.js" target="_blank">Source code for use with node.js </a></p>
+     <p><a href="PetitChaperonRouge.html">French version</a></p>
+     <hr/>
+    <div class="histoire">
+       <h1><span class="texte">LRRH<br/></h1>
+       <h2><em>Charles Perrault</em></h2>
+       <p><span class="texte">s1</span><span class="texte">s2</span>
+           <span class="texte">s3</span><span class="texte">s4</span></p>
+       <p><span class="texte">s5</span></p>
+       <p><span class="texte">s6</span></p>
+       <p><span class="texte">s7</span><span class="texte">s8</span><span class="texte">s9</span>
+       </p>
+       <p><span class="texte">s10</span></p>
+       <p><span class="texte">s12</span></p>
+       <p><span class="texte">s13</span>
+          <span class="texte">s14</span>
+          <span class="texte">s15</span>
+       </p>
+       <p><span class="texte">s16</span><br/><span class="texte">s17</span></p>
+       <p><span class="texte">s18</span>
+          <span class="texte">s19</span>
+          <span class="texte">s20</span>
+       </p>
+       <p><span class="texte">s16</span></p>
+       <p><span class="texte">s21</span></p>
+       <p><span class="texte">s22</span></p>
+       <p><span class="texte">s23</span></p>
+       <p><span class="texte">s24</span></p>
+       <p>
+          <span class="texte">s25</span><br/>
+          <span class="texte">s26</span>
+       </p>
+       <p>
+          <span class="texte">allTheBetter(V("hug"))</span><br/>
+          <span class="texte">howBig(N("leg").n("p"))</span><br/>
+          <span class="texte">allTheBetter(V("run"))</span><br/>
+          <span class="texte">howBig(N("ear").n("p"))</span><br/>
+          <span class="texte">allTheBetter(V("hear"))</span><br/>
+          <span class="texte">howBig(N("eye").n("p"))</span><br/>
+          <span class="texte">allTheBetter(V("see"))</span><br/>
+          <span class="texte">howBig(N("tooth").n("p"))</span><br/>
+          <span class="texte">allTheBetter(V("eat"))</span>
+        </p>
+       <p><span class="texte">s26a</span></p>
+       
+       <p>
+       <span class="texte">s27</span>
+       <span class="texte">s28</span>
+       <span class="texte">s29</span>
+       <span class="texte">s30</span>
+        </p>
+   </div>
+</body>
+</html>

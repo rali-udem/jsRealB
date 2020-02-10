@@ -157,7 +157,7 @@ Il est possible d'ajouter de nouveaux entrées ou d'ajouter des informations à 
 </p>
 <p lang="fr">
 Pour trouver les informations à ajouter, le plus simple est de copier les informations d'un mot du lexique qui se conjugue ou se décline de la même façon. L'<a href="../IDE/index.html">IDE de jsRealB</a> permet de consulter les informations du lexique; la fonction javascript <code>getLexicon(<em>entrée</em>)</code> retourne les valeurs courantes d'une entrée. 
-Pour enlever une entrée, il faut faire un appel du genre <code>addToLexicon(<em>entrée</em>,undefined)</code>. 
+Pour enlever une entrée, il faut faire un appel du genre <code>addToLexicon(<em>entrée</em>,null)</code>. 
 </p>
 <p lang="fr">Il est possible de fusionner les entrées d'un nouveau lexique avec les lexiques de base avec la fonction <code>updateLexicon(nouveau)</code> qui ajoutera les nouvelles entrées et remplacera les entrées existantes par celles du nouveau lexique.</p>
 <p lang="fr"><a href="../data/lexiconFormat.html">Plus d'information (en anglais) sur le format des lexiques</a></p>
@@ -168,8 +168,8 @@ New entries can be added to the current lexicon or new information can be added 
 <p lang="en">
 In order to find the informations to add, the simplest way is to copy the lexicon information for a similar word already in the lexicon. 
 The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon information; <code>getLemma(<em>entry</em>)</code> also returns the lexical information of an entry. 
-To remove an entry a call of the form
-<code>addToLexicon(<em>entry</em>,undefined)</code> should be used.</p>
+To remove an entry, a call of the form
+<code>addToLexicon(<em>entry</em>,null)</code> should be used.</p>
 <p lang="en">A new lexicon can be merged with the current one by calling <code>updateLexicon(newLexicon)</code> which adds new entries to the lexicon and replaces existing ones.</p>
 <p lang="en"><a href="../data/lexiconFormat.html">More information about the lexicon format</a></p>
 

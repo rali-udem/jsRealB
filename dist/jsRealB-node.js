@@ -1221,7 +1221,8 @@ Phrase.prototype.typ = function(types){
 //  special case of realisation of a cp for which the gender and number must be computed
 //    at realization time...
 
-Phrase.prototype.cpReal = function(res){
+Phrase.prototype.cpReal = function(){
+    var res=[];
     // realize coordinated Phrase by adding ',' between elements except the last
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
@@ -1251,11 +1252,12 @@ Phrase.prototype.cpReal = function(res){
             Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
     }
-    this.doFormat(res); // process format for the CP   
+    return this.doFormat(res); // process format for the CP
 }
 
 // special case of VP for which the complements are put in increasing order of length
-Phrase.prototype.vpReal = function(res){
+Phrase.prototype.vpReal = function(){
+    var res=[];
     function realLength(terms){
         // sum the length of each realization and add the number of words...
         return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
@@ -1269,7 +1271,7 @@ Phrase.prototype.vpReal = function(res){
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
-        else if (this.elements[vIdx].lemma=="être") { // do not rearrange complements of être
+        else if (contains(["être","be"],this.elements[vIdx].lemma)) { // do not rearrange complements of être/be
             vIdx=last 
         }
     } 
@@ -1279,8 +1281,7 @@ Phrase.prototype.vpReal = function(res){
         i++;
     }
     if (i>last) {
-        this.doFormat(res); // process format for the VP
-        return
+        return this.doFormat(res); // process format for the VP
     }
     // save all succeeding realisations
     let reals=[]
@@ -1291,26 +1292,28 @@ Phrase.prototype.vpReal = function(res){
     // sort realisations in increasing length
     reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
-    this.doFormat(res) // process format for the VP
+    return this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
     if (this.isA("CP")){
-        this.cpReal(res)
+        res=this.cpReal()
     } else {
         const es=this.elements;    
         for (let i = 0; i < es.length; i++) {
             const e = es[i];
+            var r;
             if (e.isA("CP")){
-                e.cpReal(res);
+                r=e.cpReal();
             } else if (e.isA("VP") && reorderVPcomplements){
-                e.vpReal(res);
+                r=e.vpReal();
             } else {
-                // we must flatten the lists
-                Array.prototype.push.apply(res,e.real())
+                r=e.real()
             }
+            // we must flatten the lists
+            Array.prototype.push.apply(res,r)
         }
     }
     return this.doFormat(res);
@@ -1354,9 +1357,13 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 ////// Creates a Terminal (subclass of Constituent)
 
 // Terminal
-function Terminal(terminalType,lemma){
+function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
-    this.setLemma(lemma,terminalType);
+    this.setLemma(lemma[0],terminalType);
+    if (lemma.length!=1){
+        this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
+                     terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
+    }
 }
 extend(Constituent,Terminal)
 
@@ -1391,23 +1398,44 @@ Terminal.prototype.add = function(){
 //  set lemma, precompute stem and store conjugation/declension table number 
 Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
-        terminalType=this.constType; 
+        terminalType=this.constType;
     this.lemma=lemma;
+    lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
-         this.date = lemma==undefined?new Date():new Date(lemma);
+         if (lemma==undefined){
+             this.date=new Date()
+         } else {
+             if (lemmaType != "string" && !(lemma instanceof Date)){
+                 this.warning("DT should be called with a string or Date parameter, not "+lemmaType,
+                              "DT devrait être appelé avec un paramètre chaine ou Date, non "+lemmaType)
+             }             
+             this.date = new Date(lemma);
+         }
          this.lemma = this.date+""
          this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
     case "NO":
+        if (lemmaType != "string" && lemmaType != "number"){
+            this.warning("NO should be called with a string or a number parameter, not "+lemmaType,
+                         "NO devrait être appelé avec un paramètre chaine ou nombre, non "+lemmaType)
+        }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
+        if (lemmaType != "string"){
+            this.warning("Q should be called with a string parameter, not "+lemmaType,
+                         "Q devrait être appelé avec un paramètre chaine, non "+lemmaType)
+        }
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
+        if (lemmaType != "string"){
+            this.warning(constType+" should be called with a string parameter, not "+lemmaType,
+                         constType+" devrait être appelé avec un paramètre chaine, non "+lemmaType)
+        }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
             this.tab=null;
@@ -1850,17 +1878,17 @@ Terminal.prototype.toSource = function(){
 }
 
 // functions for creating terminals
-function N  (lemma){ return new Terminal("N",lemma) }
-function A  (lemma){ return new Terminal("A",lemma) }
-function Pro(lemma){ return new Terminal("Pro",lemma) }
-function D  (lemma){ return new Terminal("D",lemma) }
-function V  (lemma){ return new Terminal("V",lemma) }
-function Adv(lemma){ return new Terminal("Adv",lemma) }
-function C  (lemma){ return new Terminal("C",lemma) }
-function P  (lemma){ return new Terminal("P",lemma) }
-function DT (lemma){ return new Terminal("DT",lemma) }
-function NO (lemma){ return new Terminal("NO",lemma) }
-function Q  (lemma){ return new Terminal("Q",lemma) }
+function N  (_){ return new Terminal(Array.from(arguments),"N") }
+function A  (_){ return new Terminal(Array.from(arguments),"A") }
+function Pro(_){ return new Terminal(Array.from(arguments),"Pro") }
+function D  (_){ return new Terminal(Array.from(arguments),"D") }
+function V  (_){ return new Terminal(Array.from(arguments),"V") }
+function Adv(_){ return new Terminal(Array.from(arguments),"Adv") }
+function C  (_){ return new Terminal(Array.from(arguments),"C") }
+function P  (_){ return new Terminal(Array.from(arguments),"P") }
+function DT (_){ return new Terminal(Array.from(arguments),"DT") }
+function NO (_){ return new Terminal(Array.from(arguments),"NO") }
+function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
 
 /**
     jsRealB 3.0
@@ -2157,8 +2185,14 @@ function loadFr(trace,lenient){
 }
 
 //// add to lexicon and return the updated object
-///    to remove from lexicon (pass undefined as newInfos)
+///    to remove from lexicon (give null as newInfos)
 var addToLexicon = function(lemma,newInfos){
+    if (newInfos === null){ // remove key
+        if (lexicon[lemma] !== undefined){
+            delete lexicon[lemma]
+        }
+        return
+    }
     if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
         newInfos=Object.values(lemma)[0];
         lemma=Object.keys(lemma)[0];
@@ -2211,7 +2245,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-03 15:26"
+jsRealB_dateCreated="2020-02-09 23:14"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -2400,6 +2434,7 @@ var lexiconEn = //========== lexicon-en.js
  "alike":{"Adv":{"tab":["b1"]}},
  "alive":{"A":{"tab":["a1"]}},
  "all":{"Adv":{"tab":["b1"]},
+        "D":{"tab":["d4"]},
         "Pro":{"tab":["b1"]}},
  "allegation":{"N":{"tab":["n1"]}},
  "allege":{"V":{"tab":"v3"}},
@@ -2456,6 +2491,7 @@ var lexiconEn = //========== lexicon-en.js
  "analyst":{"N":{"tab":["n1"]}},
  "ancestor":{"N":{"tab":["n1"]}},
  "ancient":{"A":{"tab":["a1"]}},
+ "and":{"C":{"tab":["cc"]}},
  "angel":{"N":{"tab":["n1"]}},
  "anger":{"N":{"tab":["n5"]},
           "V":{"tab":"v1"}},
@@ -2471,6 +2507,8 @@ var lexiconEn = //========== lexicon-en.js
  "annual":{"A":{"tab":["a1"]}},
  "annually":{"Adv":{"tab":["b1"]}},
  "anonymous":{"A":{"tab":["a1"]}},
+ "another":{"D":{"tab":["d4"]},
+            "Pro":{"tab":["pn5"]}},
  "answer":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
  "ant":{"N":{"tab":["n1"]}},
@@ -2552,6 +2590,8 @@ var lexiconEn = //========== lexicon-en.js
  "artist":{"N":{"tab":["n1"]}},
  "artistic":{"A":{"tab":["a1"]}},
  "as":{"Adv":{"tab":["b1"]},
+       "C":{"tab":["cs"]},
+       "D":{"tab":["d4"]},
        "P":{"tab":["pp"]}},
  "ascertain":{"V":{"tab":"v1"}},
  "ash":{"N":{"tab":["n2"]}},
@@ -2713,6 +2753,7 @@ var lexiconEn = //========== lexicon-en.js
  "beautiful":{"A":{"tab":["a1"]}},
  "beautifully":{"Adv":{"tab":["b1"]}},
  "beauty":{"N":{"tab":["n3"]}},
+ "because":{"C":{"tab":["cs"]}},
  "become":{"V":{"tab":"v41"}},
  "bed":{"N":{"tab":["n1"]}},
  "bedroom":{"N":{"tab":["n1"]}},
@@ -2927,6 +2968,8 @@ var lexiconEn = //========== lexicon-en.js
  "business":{"N":{"tab":["n2"]}},
  "businessman":{"N":{"tab":["n7"]}},
  "busy":{"A":{"tab":["a4"]}},
+ "but":{"Adv":{"tab":["b1"]},
+        "C":{"tab":["cc"]}},
  "butter":{"N":{"tab":["n5"]}},
  "butterfly":{"N":{"tab":["n3"]}},
  "button":{"N":{"tab":["n1"]}},
@@ -3582,7 +3625,7 @@ var lexiconEn = //========== lexicon-en.js
  "dancing":{"N":{"tab":["n5"]}},
  "danger":{"N":{"tab":["n1"]}},
  "dangerous":{"A":{"tab":["a1"]}},
- "dare":{"V":{"tab":"v158"}},
+ "dare":{"V":{"tab":"v3"}},
  "dark":{"A":{"tab":["a3"]},
          "N":{"tab":["n5"]}},
  "darkness":{"N":{"tab":["n5"]}},
@@ -3772,6 +3815,8 @@ var lexiconEn = //========== lexicon-en.js
  "dimension":{"N":{"tab":["n1"]}},
  "diminish":{"V":{"tab":"v2"}},
  "dine":{"V":{"tab":"v3"}},
+ "diner":{"N":{"g":"x",
+               "tab":["n1"]}},
  "dinner":{"N":{"tab":["n1"]}},
  "dioxide":{"N":{"tab":["n1"]}},
  "dip":{"V":{"tab":"v12"}},
@@ -4316,7 +4361,7 @@ var lexiconEn = //========== lexicon-en.js
  "feeling":{"N":{"tab":["n1"]}},
  "fellow":{"N":{"tab":["n1"]}},
  "female":{"A":{"tab":["a1"]},
-           "N":{"tab":["n1"]}},
+           "N":{"g":"f", "tab":["n1"]}},
  "feminine":{"A":{"tab":["a1"]}},
  "feminist":{"N":{"tab":["n1"]}},
  "fence":{"N":{"tab":["n1"]}},
@@ -4424,7 +4469,8 @@ var lexiconEn = //========== lexicon-en.js
  "foot":{"N":{"tab":["n19"]}},
  "football":{"N":{"tab":["n1"]}},
  "footstep":{"N":{"tab":["n1"]}},
- "for":{"P":{"tab":["pp"]}},
+ "for":{"C":{"tab":["cs"]},
+        "P":{"tab":["pp"]}},
  "forbid":{"V":{"tab":"v118"}},
  "force":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
@@ -4564,7 +4610,7 @@ var lexiconEn = //========== lexicon-en.js
  "genetic":{"A":{"tab":["a1"]}},
  "genius":{"N":{"tab":["n2"]}},
  "gentle":{"A":{"tab":["a2"]}},
- "gentleman":{"N":{"tab":["n7"]}},
+ "gentleman":{"N":{"g":"m","tab":["n7"]}},
  "gently":{"Adv":{"tab":["b1"]}},
  "genuine":{"A":{"tab":["a1"]}},
  "genuinely":{"Adv":{"tab":["b1"]}},
@@ -4847,7 +4893,8 @@ var lexiconEn = //========== lexicon-en.js
  "housewife":{"N":{"tab":["n10"]}},
  "housing":{"N":{"tab":["n5"]}},
  "hover":{"V":{"tab":"v1"}},
- "how":{"Adv":{"tab":["b1"]}},
+ "how":{"Pro":{"tab":["pn6"]},
+        "Adv":{"tab":["b1"]}},
  "however":{"Adv":{"tab":["b1"]}},
  "hug":{"V":{"tab":"v7"}},
  "huge":{"A":{"tab":["a1"]}},
@@ -4881,6 +4928,7 @@ var lexiconEn = //========== lexicon-en.js
  "identity":{"N":{"tab":["n3"]}},
  "ideological":{"A":{"tab":["a1"]}},
  "ideology":{"N":{"tab":["n3"]}},
+ "if":{"C":{"tab":["cs"]}},
  "ignorance":{"N":{"tab":["n5"]}},
  "ignore":{"V":{"tab":"v3"}},
  "ill":{"A":{"tab":["a1"]},
@@ -5178,7 +5226,7 @@ var lexiconEn = //========== lexicon-en.js
  "kind":{"A":{"tab":["a3"]},
          "N":{"tab":["n1"]}},
  "kindly":{"Adv":{"tab":["b1"]}},
- "king":{"N":{"tab":["n1"]}},
+ "king":{"N":{"g":"m","tab":["n1"]}},
  "kingdom":{"N":{"tab":["n1"]}},
  "kiss":{"N":{"tab":["n2"]},
          "V":{"tab":"v2"}},
@@ -5205,9 +5253,9 @@ var lexiconEn = //========== lexicon-en.js
  "lace":{"N":{"tab":["n1"]}},
  "lack":{"N":{"tab":["n5"]},
          "V":{"tab":"v1"}},
- "lad":{"N":{"tab":["n1"]}},
+ "lad":{"N":{"g":"m","tab":["n1"]}},
  "ladder":{"N":{"tab":["n1"]}},
- "lady":{"N":{"tab":["n3"]}},
+ "lady":{"N":{"g":"f","tab":["n3"]}},
  "lake":{"N":{"tab":["n1"]}},
  "lamb":{"N":{"tab":["n1"]}},
  "lamp":{"N":{"tab":["n1"]}},
@@ -5226,7 +5274,7 @@ var lexiconEn = //========== lexicon-en.js
  "laser":{"N":{"tab":["n1"]}},
  "last":{"V":{"tab":"v1"}},
  "late":{"A":{"tab":["a2"]},
-         "Adv":{"tab":["a2"]}},
+         "Adv":{"tab":["b1"]}},
  "lately":{"Adv":{"tab":["b1"]}},
  "laugh":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
@@ -5379,7 +5427,7 @@ var lexiconEn = //========== lexicon-en.js
  "look":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "loose":{"A":{"tab":["a2"]}},
- "lord":{"N":{"tab":["n1"]}},
+ "lord":{"N":{"g":"m","tab":["n1"]}},
  "lordship":{"N":{"tab":["n1"]}},
  "lorry":{"N":{"tab":["n3"]}},
  "lose":{"V":{"tab":"v143"}},
@@ -5432,7 +5480,7 @@ var lexiconEn = //========== lexicon-en.js
  "maker":{"N":{"tab":["n1"]}},
  "making":{"N":{"tab":["n1"]}},
  "male":{"A":{"tab":["a1"]},
-         "N":{"tab":["n1"]}},
+         "N":{"g":"m","tab":["n1"]}},
  "mammal":{"N":{"tab":["n1"]}},
  "man":{"N":{"g":"m",
              "tab":["n89"]}},
@@ -5621,7 +5669,7 @@ var lexiconEn = //========== lexicon-en.js
  "money":{"N":{"tab":["n50"]}},
  "monitor":{"N":{"tab":["n1"]},
             "V":{"tab":"v1"}},
- "monk":{"N":{"tab":["n1"]}},
+ "monk":{"N":{"g":"m","tab":["n1"]}},
  "monkey":{"N":{"tab":["n1"]}},
  "monopoly":{"N":{"tab":["n3"]}},
  "monster":{"N":{"tab":["n1"]}},
@@ -5635,7 +5683,8 @@ var lexiconEn = //========== lexicon-en.js
           "N":{"tab":["n1"]}},
  "morale":{"N":{"tab":["n5"]}},
  "morality":{"N":{"tab":["n3"]}},
- "more":{"Adv":{"tab":["b1"]}},
+ "more":{"Adv":{"tab":["b1"]},
+         "D":{"tab":["d4"]}},
  "moreover":{"Adv":{"tab":["b1"]}},
  "morning":{"N":{"tab":["n1"]}},
  "mortality":{"N":{"tab":["n5"]}},
@@ -5662,7 +5711,8 @@ var lexiconEn = //========== lexicon-en.js
          "V":{"tab":"v3"}},
  "movement":{"N":{"tab":["n1"]}},
  "movie":{"N":{"tab":["n1"]}},
- "much":{"Adv":{"tab":["b1"]}},
+ "much":{"Adv":{"tab":["b1"]},
+         "D":{"tab":["d4"]}},
  "mud":{"N":{"tab":["n5"]}},
  "mug":{"N":{"tab":["n1"]}},
  "multiple":{"A":{"tab":["a1"]}},
@@ -5733,7 +5783,7 @@ var lexiconEn = //========== lexicon-en.js
  "neighbour":{"N":{"tab":["n1"]}},
  "neighbourhood":{"N":{"tab":["n1"]}},
  "neither":{"Adv":{"tab":["b1"]}},
- "nephew":{"N":{"tab":["n1"]}},
+ "nephew":{"N":{"g":"m","tab":["n1"]}},
  "nerve":{"N":{"tab":["n1"]}},
  "nervous":{"A":{"tab":["a1"]}},
  "nest":{"N":{"tab":["n1"]}},
@@ -5799,7 +5849,7 @@ var lexiconEn = //========== lexicon-en.js
  "nuisance":{"N":{"tab":["n1"]}},
  "number":{"N":{"tab":["n1"]}},
  "numerous":{"A":{"tab":["a1"]}},
- "nun":{"N":{"tab":["n1"]}},
+ "nun":{"N":{"g":"f","tab":["n1"]}},
  "nurse":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
  "nursery":{"N":{"tab":["n3"]}},
@@ -5862,7 +5912,9 @@ var lexiconEn = //========== lexicon-en.js
  "on":{"Adv":{"tab":["b1"]},
        "P":{"tab":["pp"]}},
  "once":{"Adv":{"tab":["b1"]}},
- "one":{"Pro":{"tab":["pn5"]}},
+ "one":{"D":{"tab":["d4"],
+             "value":1},
+        "Pro":{"tab":["pn5"]}},
  "onion":{"N":{"tab":["n1"]}},
  "only":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b1"]}},
@@ -6170,7 +6222,7 @@ var lexiconEn = //========== lexicon-en.js
            "V":{"tab":"v1"}},
  "pole":{"N":{"tab":["n1"]}},
  "police":{"N":{"tab":["n4"]}},
- "policeman":{"N":{"tab":["n7"]}},
+ "policeman":{"N":{"g":"m","tab":["n7"]}},
  "policy":{"N":{"tab":["n3"]}},
  "polish":{"V":{"tab":"v2"}},
  "polite":{"A":{"tab":["a2"]}},
@@ -6294,7 +6346,7 @@ var lexiconEn = //========== lexicon-en.js
  "price":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
  "pride":{"N":{"tab":["n1"]}},
- "priest":{"N":{"tab":["n1"]}},
+ "priest":{"N":{"g":"m","tab":["n1"]}},
  "primarily":{"Adv":{"tab":["b1"]}},
  "primary":{"A":{"tab":["a1"]},
             "N":{"tab":["n3"]}},
@@ -7086,7 +7138,7 @@ var lexiconEn = //========== lexicon-en.js
  "sink":{"N":{"tab":["n1"]},
          "V":{"tab":"v64"}},
  "sip":{"V":{"tab":"v12"}},
- "sir":{"N":{"tab":["n1"]}},
+ "sir":{"N":{"g":"m","tab":["n1"]}},
  "sister":{"N":{"g":"f",
                 "tab":["n87"]}},
  "sit":{"V":{"tab":"v44"}},
@@ -7176,6 +7228,7 @@ var lexiconEn = //========== lexicon-en.js
  "solution":{"N":{"tab":["n1"]}},
  "solve":{"V":{"tab":"v3"}},
  "solvent":{"N":{"tab":["n1"]}},
+ "some":{"D":{"tab":["d4"]}},
  "somebody":{"Pro":{"tab":["pn5"]}},
  "somehow":{"Adv":{"tab":["b1"]}},
  "someone":{"Pro":{"tab":["pn5"]}},
@@ -7183,7 +7236,7 @@ var lexiconEn = //========== lexicon-en.js
  "sometimes":{"Adv":{"tab":["b1"]}},
  "somewhat":{"Adv":{"tab":["b1"]}},
  "somewhere":{"Adv":{"tab":["b1"]}},
- "son":{"N":{"tab":["n1"]}},
+ "son":{"N":{"g":"m","tab":["n1"]}},
  "song":{"N":{"tab":["n1"]}},
  "soon":{"Adv":{"tab":["b1"]}},
  "sophisticated":{"A":{"tab":["a1"]}},
@@ -7612,10 +7665,12 @@ var lexiconEn = //========== lexicon-en.js
  "textbook":{"N":{"tab":["n1"]}},
  "textile":{"N":{"tab":["n1"]}},
  "texture":{"N":{"tab":["n1"]}},
- "than":{"P":{"tab":["pp"]}},
+ "than":{"C":{"tab":["cs"]},
+         "P":{"tab":["pp"]}},
  "thank":{"V":{"tab":"v1"}},
  "thanks":{"N":{"tab":["n6"]}},
  "that":{"Adv":{"tab":["b1"]},
+         "C":{"tab":["cs"]},
          "D":{"tab":["d3"]},
          "Pro":{"tab":["pn6"]}},
  "the":{"D":{"tab":["d4"]}},
@@ -7629,6 +7684,8 @@ var lexiconEn = //========== lexicon-en.js
  "theory":{"N":{"tab":["n3"]}},
  "therapist":{"N":{"tab":["n1"]}},
  "therapy":{"N":{"tab":["n3"]}},
+ "there":{"Adv":{"tab":["b1"]},
+          "N":{"tab":["n5"]}},
  "thereafter":{"Adv":{"tab":["b1"]}},
  "thereby":{"Adv":{"tab":["b1"]}},
  "therefore":{"Adv":{"tab":["b1"]}},
@@ -7842,7 +7899,7 @@ var lexiconEn = //========== lexicon-en.js
  "unaware":{"A":{"tab":["a1"]}},
  "uncertain":{"A":{"tab":["a1"]}},
  "uncertainty":{"N":{"tab":["n3"]}},
- "uncle":{"N":{"tab":["n1"]}},
+ "uncle":{"N":{"g":"m","tab":["n1"]}},
  "uncomfortable":{"A":{"tab":["a1"]}},
  "unconscious":{"A":{"tab":["a1"]}},
  "uncover":{"V":{"tab":"v1"}},
@@ -8021,7 +8078,7 @@ var lexiconEn = //========== lexicon-en.js
  "wage":{"N":{"tab":["n1"]}},
  "waist":{"N":{"tab":["n1"]}},
  "wait":{"V":{"tab":"v1"}},
- "waiter":{"N":{"tab":["n1"]}},
+ "waiter":{"N":{"g":"m","tab":["n1"]}},
  "wake":{"N":{"tab":["n1"]},
          "V":{"tab":"v164"}},
  "walk":{"N":{"tab":["n1"]},
@@ -8122,7 +8179,7 @@ var lexiconEn = //========== lexicon-en.js
  "widely":{"Adv":{"tab":["b1"]}},
  "widen":{"V":{"tab":"v1"}},
  "widespread":{"A":{"tab":["a1"]}},
- "widow":{"N":{"tab":["n1"]}},
+ "widow":{"N":{"g":"f","tab":["n1"]}},
  "width":{"N":{"tab":["n1"]}},
  "wife":{"N":{"g":"f",
               "tab":["n91"]}},

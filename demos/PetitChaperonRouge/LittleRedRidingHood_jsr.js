@@ -1,17 +1,24 @@
-//////// 
-//  load JSrealB
-var fs = require('fs');
-var jsrealb=require('../../dist/jsRealB-node.js');
-// eval exports 
-for (var v in jsrealb){
-    eval("var "+v+"=jsrealb."+v);
-}
-
 loadEn();
-updateLexicon(require("/Users/lapalme/Documents/GitHub/jsRealB/data/lexicon-dme.json"))
+
 // add unknown English words to the dictionary
+addToLexicon("amaze",{ V: { tab: 'v3' } });
 addToLexicon("bedcloth",{ N: { tab: [ 'n2' ] } })
+addToLexicon("bobbin",{ N: { tab: [ 'n1' ] } });
+addToLexicon("bouquet",{ N: { tab: [ 'n1' ] } });
+addToLexicon("complacent",{ A: { tab: [ 'a1' ] } });
+addToLexicon("counterfeit",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n1' ] }, V: { tab: 'v1' } });
+addToLexicon("dote",{ V: { tab: 'v3' } });
+addToLexicon("excessively",{ Adv: { tab: [ 'b1' ] } });
+addToLexicon("first",{ A: { tab: [ 'a1' ], value: 1 }, Adv: { tab: [ 'b1' ] }, N: { tab: [ 'n1' ] } });
+addToLexicon("grandchild",{ N: { tab: [ 'n15' ] } });
+addToLexicon("hoarse",{ A: { tab: [ 'a2' ] } });
+addToLexicon("hood",{ N: { tab: [ 'n1' ] }, V: { tab: 'v1' } });
+addToLexicon("latch",{ N: { tab: [ 'n2' ] }, V: { tab: 'v2' } });
 addToLexicon("nightcloth",{ N: { tab: [ 'n2' ] } })
+addToLexicon("ones",{ D: { n: 'p', tab: [ 'd4' ] } });
+addToLexicon("roundabout",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n1' ] } });
+addToLexicon("unassuming",{ A: { tab: [ 'a1' ] } });
+addToLexicon("woodcutter",{ N: { tab: [ 'n1' ] } });
 
 // little riding hood
 var lrrh =  NP(A("little"),A("red"),V("ride").t("pr"),N("hood"))
@@ -556,7 +563,7 @@ fmt(howBig(N("tooth").n("p"))+"")
 fmt(allTheBetter(V("eat"))+"")
 
 // And, saying these words, this wicked wolf fell upon Little Red Riding Hood, and ate her all up.
-var s26 =
+var s26a =
     S(C("and"),VP(V("say").t("pr"),
                   NP(D("this"),N("word").n("p"))).a(","),
       NP(D("this"),A("wicked"),N("wolf")),
@@ -566,7 +573,7 @@ var s26 =
          VP(V("eat").t("ps"),
             Pro("me").g("f"),Adv("all"),Adv("up")))
     )
-fmt(s26+"\n")
+fmt(s26a+"\n")
     
 // Moral: Children, especially attractive, well bred young ladies, should never talk to strangers, for if they should do so, they may well provide dinner for a wolf.
 var s27 =
@@ -630,54 +637,14 @@ var s30 =
                VP(V("be"),
                   NP(D("the"),A("dangerous").f("su"),D("ones"),P("of"),D("all"))))))
     )
-fmt([s27,s28,s29,s30].join(" ")+"\n")
-/*  Original...
-Little Red Riding Hood)
-
-Charles Perrault
-
-Once upon a time there lived in a certain village a little country girl, the prettiest creature who was ever seen. Her mother was excessively fond of her; and her grandmother doted on her still more. This good woman had a little red riding hood made for her. It suited the girl so extremely well that everybody called her Little Red Riding Hood.
-One day her mother, having made some cakes, said to her, "Go, my dear, and see how your grandmother is doing, for I hear she has been very ill. Take her a cake, and this little pot of butter."
-
-Little Red Riding Hood set out immediately to go to her grandmother, who lived in another village.
-
-As she was going through the wood, she met with a wolf, who had a very great mind to eat her up, but he dared not, because of some woodcutters working nearby in the forest. He asked her where she was going. The poor child, who did not know that it was dangerous to stay and talk to a wolf, said to him, "I am going to see my grandmother and carry her a cake and a little pot of butter from my mother."
-
-"Does she live far off?" said the wolf
-"Oh I say," answered Little Red Riding Hood; "it is beyond that mill you see there, at the first house in the village."
-"Well," said the wolf, "and I'll go and see her too. I'll go this way and go you that, and we shall see who will be there first."
-
-The wolf ran as fast as he could, taking the shortest path, and the little girl took a roundabout way, entertaining herself by gathering nuts, running after butterflies, and gathering bouquets of little flowers. It was not long before the wolf arrived at the old woman's house. He knocked at the door: tap, tap.
-
-"Who's there?"
-"Your grandchild, Little Red Riding Hood," replied the wolf, counterfeiting her voice; "who has brought you a cake and a little pot of butter sent you by mother."
-
-The good grandmother, who was in bed, because she was somewhat ill, cried out, "Pull the bobbin, and the latch will go up."
-
-The wolf pulled the bobbin, and the door opened, and then he immediately fell upon the good woman and ate her up in a moment, for it been more than three days since he had eaten. He then shut the door and got into the grandmother's bed, expecting Little Red Riding Hood, who came some time afterwards and knocked at the door: tap, tap.
-"Who's there?"
-
-Little Red Riding Hood, hearing the big voice of the wolf, was at first afraid; but believing her grandmother had a cold and was hoarse, answered, "It is your grandchild Little Red Riding Hood, who has brought you a cake and a little pot of butter mother sends you."
-
-The wolf cried out to her, softening his voice as much as he could, "Pull the bobbin, and the latch will go up."
-
-Little Red Riding Hood pulled the bobbin, and the door opened.
-
-The wolf, seeing her come in, said to her, hiding himself under the bedclothes, "Put the cake and the little pot of butter upon the stool, and come get into bed with me."
-
-Little Red Riding Hood took off her clothes and got into bed. She was greatly amazed to see how her grandmother looked in her nightclothes, and said to her, "Grandmother, what big arms you have!"
-
-"All the better to hug you with, my dear."
-"Grandmother, what big legs you have!"
-"All the better to run with, my child."
-"Grandmother, what big ears you have!"
-"All the better to hear with, my child."
-"Grandmother, what big eyes you have!"
-"All the better to see with, my child."
-"Grandmother, what big teeth you have got!"
-"All the better to eat you up with."
-
-And, saying these words, this wicked wolf fell upon Little Red Riding Hood, and ate her all up.
-
-Moral: Children, especially attractive, well bred young ladies, should never talk to strangers, for if they should do so, they may well provide dinner for a wolf. I say "wolf," but there are various kinds of wolves. There are also those who are charming, quiet, polite, unassuming, complacent, and sweet, who pursue young women at home and in the streets. And unfortunately, it is these gentle wolves who are the most dangerous ones of all.
-*/
+fmt(s27+" "+s28+" "+s29+" "+s30)
+    
+$(document).ready(function() {
+    $(".texte").each(function(){
+        var me = $(this)
+        var jsrVal = eval(me.text())
+        me.html(jsrVal.toString());
+        me.append("<span class='tt'>"+jsrVal.toSource(0)+"</span>")
+    })
+})
+    

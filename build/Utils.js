@@ -56,8 +56,14 @@ function loadFr(trace,lenient){
 }
 
 //// add to lexicon and return the updated object
-///    to remove from lexicon (pass undefined as newInfos)
+///    to remove from lexicon (give null as newInfos)
 var addToLexicon = function(lemma,newInfos){
+    if (newInfos === null){ // remove key
+        if (lexicon[lemma] !== undefined){
+            delete lexicon[lemma]
+        }
+        return
+    }
     if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
         newInfos=Object.values(lemma)[0];
         lemma=Object.keys(lemma)[0];

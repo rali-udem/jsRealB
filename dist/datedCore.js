@@ -1221,7 +1221,8 @@ Phrase.prototype.typ = function(types){
 //  special case of realisation of a cp for which the gender and number must be computed
 //    at realization time...
 
-Phrase.prototype.cpReal = function(res){
+Phrase.prototype.cpReal = function(){
+    var res=[];
     // realize coordinated Phrase by adding ',' between elements except the last
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
@@ -1251,11 +1252,12 @@ Phrase.prototype.cpReal = function(res){
             Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
     }
-    this.doFormat(res); // process format for the CP   
+    return this.doFormat(res); // process format for the CP
 }
 
 // special case of VP for which the complements are put in increasing order of length
-Phrase.prototype.vpReal = function(res){
+Phrase.prototype.vpReal = function(){
+    var res=[];
     function realLength(terms){
         // sum the length of each realization and add the number of words...
         return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
@@ -1269,7 +1271,7 @@ Phrase.prototype.vpReal = function(res){
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
-        else if (this.elements[vIdx].lemma=="être") { // do not rearrange complements of être
+        else if (contains(["être","be"],this.elements[vIdx].lemma)) { // do not rearrange complements of être/be
             vIdx=last 
         }
     } 
@@ -1279,8 +1281,7 @@ Phrase.prototype.vpReal = function(res){
         i++;
     }
     if (i>last) {
-        this.doFormat(res); // process format for the VP
-        return
+        return this.doFormat(res); // process format for the VP
     }
     // save all succeeding realisations
     let reals=[]
@@ -1291,26 +1292,28 @@ Phrase.prototype.vpReal = function(res){
     // sort realisations in increasing length
     reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
-    this.doFormat(res) // process format for the VP
+    return this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
     if (this.isA("CP")){
-        this.cpReal(res)
+        res=this.cpReal()
     } else {
         const es=this.elements;    
         for (let i = 0; i < es.length; i++) {
             const e = es[i];
+            var r;
             if (e.isA("CP")){
-                e.cpReal(res);
+                r=e.cpReal();
             } else if (e.isA("VP") && reorderVPcomplements){
-                e.vpReal(res);
+                r=e.vpReal();
             } else {
-                // we must flatten the lists
-                Array.prototype.push.apply(res,e.real())
+                r=e.real()
             }
+            // we must flatten the lists
+            Array.prototype.push.apply(res,r)
         }
     }
     return this.doFormat(res);
@@ -1354,9 +1357,13 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 ////// Creates a Terminal (subclass of Constituent)
 
 // Terminal
-function Terminal(terminalType,lemma){
+function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
-    this.setLemma(lemma,terminalType);
+    this.setLemma(lemma[0],terminalType);
+    if (lemma.length!=1){
+        this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
+                     terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
+    }
 }
 extend(Constituent,Terminal)
 
@@ -1391,23 +1398,44 @@ Terminal.prototype.add = function(){
 //  set lemma, precompute stem and store conjugation/declension table number 
 Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
-        terminalType=this.constType; 
+        terminalType=this.constType;
     this.lemma=lemma;
+    lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
-         this.date = lemma==undefined?new Date():new Date(lemma);
+         if (lemma==undefined){
+             this.date=new Date()
+         } else {
+             if (lemmaType != "string" && !(lemma instanceof Date)){
+                 this.warning("DT should be called with a string or Date parameter, not "+lemmaType,
+                              "DT devrait être appelé avec un paramètre chaine ou Date, non "+lemmaType)
+             }             
+             this.date = new Date(lemma);
+         }
          this.lemma = this.date+""
          this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
     case "NO":
+        if (lemmaType != "string" && lemmaType != "number"){
+            this.warning("NO should be called with a string or a number parameter, not "+lemmaType,
+                         "NO devrait être appelé avec un paramètre chaine ou nombre, non "+lemmaType)
+        }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
+        if (lemmaType != "string"){
+            this.warning("Q should be called with a string parameter, not "+lemmaType,
+                         "Q devrait être appelé avec un paramètre chaine, non "+lemmaType)
+        }
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
+        if (lemmaType != "string"){
+            this.warning(constType+" should be called with a string parameter, not "+lemmaType,
+                         constType+" devrait être appelé avec un paramètre chaine, non "+lemmaType)
+        }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
             this.tab=null;
@@ -1850,17 +1878,17 @@ Terminal.prototype.toSource = function(){
 }
 
 // functions for creating terminals
-function N  (lemma){ return new Terminal("N",lemma) }
-function A  (lemma){ return new Terminal("A",lemma) }
-function Pro(lemma){ return new Terminal("Pro",lemma) }
-function D  (lemma){ return new Terminal("D",lemma) }
-function V  (lemma){ return new Terminal("V",lemma) }
-function Adv(lemma){ return new Terminal("Adv",lemma) }
-function C  (lemma){ return new Terminal("C",lemma) }
-function P  (lemma){ return new Terminal("P",lemma) }
-function DT (lemma){ return new Terminal("DT",lemma) }
-function NO (lemma){ return new Terminal("NO",lemma) }
-function Q  (lemma){ return new Terminal("Q",lemma) }
+function N  (_){ return new Terminal(Array.from(arguments),"N") }
+function A  (_){ return new Terminal(Array.from(arguments),"A") }
+function Pro(_){ return new Terminal(Array.from(arguments),"Pro") }
+function D  (_){ return new Terminal(Array.from(arguments),"D") }
+function V  (_){ return new Terminal(Array.from(arguments),"V") }
+function Adv(_){ return new Terminal(Array.from(arguments),"Adv") }
+function C  (_){ return new Terminal(Array.from(arguments),"C") }
+function P  (_){ return new Terminal(Array.from(arguments),"P") }
+function DT (_){ return new Terminal(Array.from(arguments),"DT") }
+function NO (_){ return new Terminal(Array.from(arguments),"NO") }
+function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
 
 /**
     jsRealB 3.0
@@ -2157,8 +2185,14 @@ function loadFr(trace,lenient){
 }
 
 //// add to lexicon and return the updated object
-///    to remove from lexicon (pass undefined as newInfos)
+///    to remove from lexicon (give null as newInfos)
 var addToLexicon = function(lemma,newInfos){
+    if (newInfos === null){ // remove key
+        if (lexicon[lemma] !== undefined){
+            delete lexicon[lemma]
+        }
+        return
+    }
     if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
         newInfos=Object.values(lemma)[0];
         lemma=Object.keys(lemma)[0];
@@ -2211,4 +2245,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-03 15:26"
+jsRealB_dateCreated="2020-02-09 23:14"

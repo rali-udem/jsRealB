@@ -682,7 +682,8 @@ Phrase.prototype.typ = function(types){
 //  special case of realisation of a cp for which the gender and number must be computed
 //    at realization time...
 
-Phrase.prototype.cpReal = function(res){
+Phrase.prototype.cpReal = function(){
+    var res=[];
     // realize coordinated Phrase by adding ',' between elements except the last
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
@@ -712,11 +713,12 @@ Phrase.prototype.cpReal = function(res){
             Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
     }
-    this.doFormat(res); // process format for the CP   
+    return this.doFormat(res); // process format for the CP
 }
 
 // special case of VP for which the complements are put in increasing order of length
-Phrase.prototype.vpReal = function(res){
+Phrase.prototype.vpReal = function(){
+    var res=[];
     function realLength(terms){
         // sum the length of each realization and add the number of words...
         return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
@@ -730,7 +732,7 @@ Phrase.prototype.vpReal = function(res){
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
-        else if (this.elements[vIdx].lemma=="être") { // do not rearrange complements of être
+        else if (contains(["être","be"],this.elements[vIdx].lemma)) { // do not rearrange complements of être/be
             vIdx=last 
         }
     } 
@@ -740,8 +742,7 @@ Phrase.prototype.vpReal = function(res){
         i++;
     }
     if (i>last) {
-        this.doFormat(res); // process format for the VP
-        return
+        return this.doFormat(res); // process format for the VP
     }
     // save all succeeding realisations
     let reals=[]
@@ -752,26 +753,28 @@ Phrase.prototype.vpReal = function(res){
     // sort realisations in increasing length
     reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
-    this.doFormat(res) // process format for the VP
+    return this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
     if (this.isA("CP")){
-        this.cpReal(res)
+        res=this.cpReal()
     } else {
         const es=this.elements;    
         for (let i = 0; i < es.length; i++) {
             const e = es[i];
+            var r;
             if (e.isA("CP")){
-                e.cpReal(res);
+                r=e.cpReal();
             } else if (e.isA("VP") && reorderVPcomplements){
-                e.vpReal(res);
+                r=e.vpReal();
             } else {
-                // we must flatten the lists
-                Array.prototype.push.apply(res,e.real())
+                r=e.real()
             }
+            // we must flatten the lists
+            Array.prototype.push.apply(res,r)
         }
     }
     return this.doFormat(res);
