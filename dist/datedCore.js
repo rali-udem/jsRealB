@@ -1361,7 +1361,7 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
     this.setLemma(lemma[0],terminalType);
-    if (lemma.length!=1){
+    if (terminalType!="DT" && lemma.length!=1){
         this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
                      terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
     }
@@ -2244,4 +2244,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-10 16:21"
+jsRealB_dateCreated="2020-02-10 23:31"

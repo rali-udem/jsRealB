@@ -332,10 +332,11 @@ This section is quite *technical* and has been designed as a high-level document
 
 ### Class structure
 
-Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of three classes shown below in which shared methods for both `Phrase` et `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor.
+Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of three classes shown below in which shared methods for both `Phrase` et `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor. A Terminal should be called with only one parameter, or none in the case of `DT`, a check for this is done at call
+time.
 
-    function NP  (_){ return new Phrase(Array.from(arguments),"NP"); }
-    function N  (lemma){ return new Terminal("N",lemma) }
+    function NP  (_){ return new Phrase(Array.from(arguments),"NP") }
+    function N   (_){ return new Terminal(Array.from(arguments),"N") }
     
 In the figure, each *class* title shows its parameters, the first cell shows in italics the associated properties with their type followed by methods used when creating the object; next are shown the methods for each class.
 

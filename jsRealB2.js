@@ -76,7 +76,7 @@ var exemplesFR=[
              VP(V('manger').t('pc')))),
       VP(V('être').t('p'),
          AP(A('gris')))),
-    DT(new Date()),
+    DT(),
     DT(new Date()).nat(false),
     DT(new Date()).dOpt({rtime:true}),
     NO(1.847584).dOpt({mprecision: 0}),

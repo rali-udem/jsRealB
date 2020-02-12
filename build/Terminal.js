@@ -9,7 +9,7 @@
 function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
     this.setLemma(lemma[0],terminalType);
-    if (lemma.length!=1){
+    if (terminalType!="DT" && lemma.length!=1){
         this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
                      terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
     }

@@ -1366,7 +1366,7 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
     this.setLemma(lemma[0],terminalType);
-    if (lemma.length!=1){
+    if (terminalType!="DT" && lemma.length!=1){
         this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
                      terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
     }
@@ -2249,7 +2249,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-10 16:21"
+jsRealB_dateCreated="2020-02-10 23:31"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -2401,7 +2401,8 @@ var lexiconEn = //========== lexicon-en.js
  "affinity":{"N":{"tab":["n3"]}},
  "afford":{"V":{"tab":"v1"}},
  "afraid":{"A":{"tab":["a1"]}},
- "after":{"P":{"tab":["pp"]}},
+ "after":{"C":{"tab":["cs"]},
+          "P":{"tab":["pp"]}},
  "afternoon":{"N":{"tab":["n1"]}},
  "afterwards":{"Adv":{"tab":["b1"]}},
  "again":{"Adv":{"tab":["b1"]}},
@@ -2688,6 +2689,7 @@ var lexiconEn = //========== lexicon-en.js
  "baby":{"N":{"tab":["n3"]}},
  "back":{"Adv":{"tab":["b1"]},
          "N":{"tab":["n1"]},
+         "P":{"tab":["pp"]},
          "V":{"tab":"v1"}},
  "background":{"N":{"tab":["n1"]}},
  "backing":{"N":{"tab":["n1"]}},
@@ -2765,6 +2767,7 @@ var lexiconEn = //========== lexicon-en.js
  "beef":{"N":{"tab":["n9"]}},
  "beer":{"N":{"tab":["n1"]}},
  "before":{"Adv":{"tab":["b1"]},
+           "C":{"tab":["cs"]},
            "P":{"tab":["pp"]}},
  "beg":{"V":{"tab":"v7"}},
  "begin":{"V":{"tab":"v106"}},
@@ -2881,6 +2884,9 @@ var lexiconEn = //========== lexicon-en.js
  "borough":{"N":{"tab":["n1"]}},
  "borrow":{"V":{"tab":"v1"}},
  "boss":{"N":{"tab":["n2"]}},
+ "both":{"C":{"tab":["cc"]},
+         "D":{"n":"p",
+              "tab":["d4"]}},
  "bother":{"V":{"tab":"v1"}},
  "bottle":{"N":{"tab":["n1"]}},
  "bottom":{"N":{"tab":["n1"]}},
@@ -5329,7 +5335,8 @@ var lexiconEn = //========== lexicon-en.js
  "lender":{"N":{"tab":["n1"]}},
  "length":{"N":{"tab":["n1"]}},
  "lengthy":{"A":{"tab":["a4"]}},
- "less":{"Adv":{"tab":["b1"]}},
+ "less":{"Adv":{"tab":["b1"]},
+         "P":{"tab":["pp"]}},
  "lesser":{"A":{"tab":["a1"]}},
  "lesson":{"N":{"tab":["n1"]}},
  "let":{"V":{"tab":"v17"}},
@@ -5802,7 +5809,8 @@ var lexiconEn = //========== lexicon-en.js
  "newly":{"Adv":{"tab":["b1"]}},
  "news":{"N":{"tab":["n5"]}},
  "newspaper":{"N":{"tab":["n1"]}},
- "next":{"Adv":{"tab":["b1"]}},
+ "next":{"Adv":{"tab":["b1"]},
+         "P":{"tab":["pp"]}},
  "nice":{"A":{"tab":["a2"]}},
  "nicely":{"Adv":{"tab":["b1"]}},
  "night":{"N":{"tab":["n1"]}},
@@ -5946,6 +5954,7 @@ var lexiconEn = //========== lexicon-en.js
  "optimistic":{"A":{"tab":["a1"]}},
  "option":{"N":{"tab":["n1"]}},
  "optional":{"A":{"tab":["a1"]}},
+ "or":{"C":{"tab":["cc"]}},
  "oral":{"A":{"tab":["a1"]}},
  "orange":{"A":{"tab":["a1"]},
            "N":{"tab":["n1"]}},
@@ -5967,7 +5976,8 @@ var lexiconEn = //========== lexicon-en.js
  "originally":{"Adv":{"tab":["b1"]}},
  "originate":{"V":{"tab":"v3"}},
  "orthodox":{"A":{"tab":["a1"]}},
- "otherwise":{"Adv":{"tab":["b1"]}},
+ "otherwise":{"Adv":{"tab":["b1"]},
+              "C":{"tab":["cs"]}},
  "out":{"A":{"tab":["a1"]},
         "Adv":{"tab":["b1"]}},
  "outbreak":{"N":{"tab":["n1"]}},
@@ -7198,7 +7208,8 @@ var lexiconEn = //========== lexicon-en.js
  "snatch":{"V":{"tab":"v2"}},
  "sniff":{"V":{"tab":"v1"}},
  "snow":{"N":{"tab":["n1"]}},
- "so":{"Adv":{"tab":["b1"]}},
+ "so":{"Adv":{"tab":["b1"]},
+       "C":{"tab":["cs"]}},
  "so-called":{"A":{"tab":["a1"]}},
  "soak":{"V":{"tab":"v1"}},
  "soap":{"N":{"tab":["n1"]}},
@@ -7944,6 +7955,7 @@ var lexiconEn = //========== lexicon-en.js
  "universe":{"N":{"tab":["n1"]}},
  "university":{"N":{"tab":["n3"]}},
  "unknown":{"A":{"tab":["a1"]}},
+ "unless":{"C":{"tab":["cs"]}},
  "unlike":{"A":{"tab":["a1"]},
            "P":{"tab":["pp"]}},
  "unlikely":{"A":{"tab":["a1"]}},
@@ -7953,7 +7965,8 @@ var lexiconEn = //========== lexicon-en.js
  "unreasonable":{"A":{"tab":["a1"]}},
  "unrest":{"N":{"tab":["n5"]}},
  "unsuccessful":{"A":{"tab":["a1"]}},
- "until":{"P":{"tab":["pp"]}},
+ "until":{"C":{"tab":["cs"]},
+          "P":{"tab":["pp"]}},
  "unusual":{"A":{"tab":["a1"]}},
  "unusually":{"Adv":{"tab":["b1"]}},
  "unwilling":{"A":{"tab":["a1"]}},
