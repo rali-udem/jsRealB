@@ -1066,12 +1066,13 @@ Phrase.prototype.processTyp_en = function(types){
         // realise the first verb, modal or auxiliary
         v=auxils.shift();
         let words=[];
+        // conjugate the first verb
         if (neg) { // negate the first verb
             if (v in negMod){
-                if (v=="can"){
+                if (v=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(v).t("b"))
+                    words.push(V(v).pe(1).n(n).t(t))
                     words.push(Adv("not"))
                 }
             } else if (v=="be" || v=="have") {
@@ -1082,7 +1083,7 @@ Phrase.prototype.processTyp_en = function(types){
                 words.push(Adv("not"));
                 if (v != "do") words.push(V(v).t("b")); 
             }
-        } else // conjugate the first verb
+        } else 
             words.push(V(v).pe(v in negMod?1:pe).n(n).t(t));
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
@@ -2246,7 +2247,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-14 16:34"
+jsRealB_dateCreated="2020-02-14 17:22"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},

@@ -526,12 +526,13 @@ Phrase.prototype.processTyp_en = function(types){
         // realise the first verb, modal or auxiliary
         v=auxils.shift();
         let words=[];
+        // conjugate the first verb
         if (neg) { // negate the first verb
             if (v in negMod){
-                if (v=="can"){
+                if (v=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(v).t("b"))
+                    words.push(V(v).pe(1).n(n).t(t))
                     words.push(Adv("not"))
                 }
             } else if (v=="be" || v=="have") {
@@ -542,7 +543,7 @@ Phrase.prototype.processTyp_en = function(types){
                 words.push(Adv("not"));
                 if (v != "do") words.push(V(v).t("b")); 
             }
-        } else // conjugate the first verb
+        } else 
             words.push(V(v).pe(v in negMod?1:pe).n(n).t(t));
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
