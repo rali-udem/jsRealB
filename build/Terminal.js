@@ -2,9 +2,9 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
+"use strict";
 
 ////// Creates a Terminal (subclass of Constituent)
-
 // Terminal
 function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
@@ -49,7 +49,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
         terminalType=this.constType;
     this.lemma=lemma;
-    lemmaType= typeof lemma;
+    var lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
          if (lemma==undefined){
@@ -424,8 +424,8 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         const sign=diffDays<0?"-":"+";
         return relativeDate[sign].replace("[x]",Math.abs(diffDays))
     }
-    dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
-    tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
+    const dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
+    const tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
     if (dOpts["nat"]==true){
         res=this.interpretDateFmt(dateObj,naturalDate,dfs,dOpts["det"]==false);
         const hms=this.interpretDateFmt(dateObj,naturalDate,tfs);

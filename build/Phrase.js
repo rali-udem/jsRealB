@@ -2,7 +2,7 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 ////// Constructor for a Phrase (a subclass of Constituent)
 
 // phrase (non-terminal)
@@ -45,10 +45,11 @@ Phrase.prototype.add = function(constituent,position,prog){
     // add it to the list of elements
     if (position == undefined){
         this.elements.push(constituent);
-    } else if (position<this.elements.length || position>=0){
+    } else if (typeof position == "number" && position<this.elements.length || position>=0){
         this.elements.splice(position,0,constituent)
     } else {
-        warning("Bad position for .add:"+position+"should be less than "+this.elements.length)
+        this.warning("Bad position for .add:"+position+" which should be less than "+this.elements.length,
+                     "Mauvaise position pour .add:"+position+ " qui devrait être inférieure à "+this.elements.length)
     }
     // change content or content position of some children
     this.setAgreementLinks();
@@ -415,7 +416,7 @@ Phrase.prototype.processVP = function(types,key,action){
             }
         }
         const idxV=vp.getIndex("V");
-        if(idxV!==undefined){
+        if (idxV!==undefined){
             const v=vp.elements[idxV];
             action(vp,idxV,v,val);
         }
@@ -430,7 +431,7 @@ Phrase.prototype.processTyp_fr = function(types){
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
         var vUnit=v.lemma;
-        for (key in rules.verb_option.modalityVerb){
+        for (var key in rules.verb_option.modalityVerb){
             if (key.startsWith(mod)){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
                 break;
@@ -725,7 +726,7 @@ Phrase.prototype.vpReal = function(){
     }
     // get index of last V (to take into account possible auxiliaries)
     const last=this.elements.length-1;
-    vIdx=last;
+    var vIdx=last;
     while (vIdx>=0 && !this.elements[vIdx].isA("V"))vIdx--;
     // copy everything up to the V (included)
     if (vIdx<0)vIdx=last;

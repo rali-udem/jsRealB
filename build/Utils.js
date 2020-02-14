@@ -2,7 +2,7 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/4152931/javascript-inheritance-call-super-constructor-or-use-prototype-chain
 function extend(base, sub) {
     // Avoid instantiating the base class just to setup inheritance
@@ -68,7 +68,7 @@ var addToLexicon = function(lemma,newInfos){
     }
     const infos=lexicon[lemma]
     if (infos!==undefined && newInfos!==undefined){ // update with newInfos
-        for (ni in newInfos) {
+        for (var ni in newInfos) {
             infos[ni]=newInfos[ni]
         }
         lexicon[lemma]=infos
@@ -103,7 +103,7 @@ var getLanguage = function(){
 var oneOf = function(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    e=elems[Math.floor(Math.random()*elems.length)];
+    const e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
 

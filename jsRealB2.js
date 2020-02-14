@@ -1,4 +1,5 @@
 // //////// exemples en français
+"use strict";
 loadFr();
 
 addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})

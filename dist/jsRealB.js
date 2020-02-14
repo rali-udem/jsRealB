@@ -547,7 +547,7 @@ Constituent.prototype.toSource=function(){
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 ////// Constructor for a Phrase (a subclass of Constituent)
 
 // phrase (non-terminal)
@@ -590,10 +590,11 @@ Phrase.prototype.add = function(constituent,position,prog){
     // add it to the list of elements
     if (position == undefined){
         this.elements.push(constituent);
-    } else if (position<this.elements.length || position>=0){
+    } else if (typeof position == "number" && position<this.elements.length || position>=0){
         this.elements.splice(position,0,constituent)
     } else {
-        warning("Bad position for .add:"+position+"should be less than "+this.elements.length)
+        this.warning("Bad position for .add:"+position+" which should be less than "+this.elements.length,
+                     "Mauvaise position pour .add:"+position+ " qui devrait être inférieure à "+this.elements.length)
     }
     // change content or content position of some children
     this.setAgreementLinks();
@@ -960,7 +961,7 @@ Phrase.prototype.processVP = function(types,key,action){
             }
         }
         const idxV=vp.getIndex("V");
-        if(idxV!==undefined){
+        if (idxV!==undefined){
             const v=vp.elements[idxV];
             action(vp,idxV,v,val);
         }
@@ -975,7 +976,7 @@ Phrase.prototype.processTyp_fr = function(types){
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
         var vUnit=v.lemma;
-        for (key in rules.verb_option.modalityVerb){
+        for (var key in rules.verb_option.modalityVerb){
             if (key.startsWith(mod)){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
                 break;
@@ -1270,7 +1271,7 @@ Phrase.prototype.vpReal = function(){
     }
     // get index of last V (to take into account possible auxiliaries)
     const last=this.elements.length-1;
-    vIdx=last;
+    var vIdx=last;
     while (vIdx>=0 && !this.elements[vIdx].isA("V"))vIdx--;
     // copy everything up to the V (included)
     if (vIdx<0)vIdx=last;
@@ -1359,9 +1360,9 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
+"use strict";
 
 ////// Creates a Terminal (subclass of Constituent)
-
 // Terminal
 function Terminal(lemma,terminalType){
     Constituent.call(this,terminalType);
@@ -1406,7 +1407,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
         terminalType=this.constType;
     this.lemma=lemma;
-    lemmaType= typeof lemma;
+    var lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
          if (lemma==undefined){
@@ -1781,8 +1782,8 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         const sign=diffDays<0?"-":"+";
         return relativeDate[sign].replace("[x]",Math.abs(diffDays))
     }
-    dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
-    tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
+    const dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
+    const tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
     if (dOpts["nat"]==true){
         res=this.interpretDateFmt(dateObj,naturalDate,dfs,dOpts["det"]==false);
         const hms=this.interpretDateFmt(dateObj,naturalDate,tfs);
@@ -1900,7 +1901,7 @@ function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 ///////// date formatting
 // mainly rule based (should language independent)
 
@@ -1936,7 +1937,7 @@ var dateFormats = {
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number
 // but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
 function nbDecimal(n) {
@@ -2110,11 +2111,12 @@ function rectifiee(s){
 // écriture des nombres ordinaux   //GL
 
 // rules taken from https://www.ego4u.com/en/cram-up/vocabulary/numbers/ordinal
-ordEnExceptions={"one":"first","two":"second","three":"third","five":"fifth",
+var ordEnExceptions={"one":"first","two":"second","three":"third","five":"fifth",
                  "eight":"eighth","nine":"ninth","twelve":"twelfth"}
 // règles tirées de https://francais.lingolia.com/fr/vocabulaire/nombres-date-et-heure/les-nombres-ordinaux
-ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
-var ordinal = function(s,lang,gender){
+var ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
+
+function ordinal(s,lang,gender){
     const en = lang=="en";
     s=enToutesLettres(s,lang);
     if (s=="zéro" || s=="zero") return s;
@@ -2137,7 +2139,7 @@ var ordinal = function(s,lang,gender){
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/4152931/javascript-inheritance-call-super-constructor-or-use-prototype-chain
 function extend(base, sub) {
     // Avoid instantiating the base class just to setup inheritance
@@ -2203,7 +2205,7 @@ var addToLexicon = function(lemma,newInfos){
     }
     const infos=lexicon[lemma]
     if (infos!==undefined && newInfos!==undefined){ // update with newInfos
-        for (ni in newInfos) {
+        for (var ni in newInfos) {
             infos[ni]=newInfos[ni]
         }
         lexicon[lemma]=infos
@@ -2238,7 +2240,7 @@ var getLanguage = function(){
 var oneOf = function(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    e=elems[Math.floor(Math.random()*elems.length)];
+    const e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
 
@@ -2249,7 +2251,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-10 23:31"
+jsRealB_dateCreated="2020-02-14 16:34"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},

@@ -2,7 +2,7 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number
 // but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
 function nbDecimal(n) {
@@ -176,11 +176,12 @@ function rectifiee(s){
 // écriture des nombres ordinaux   //GL
 
 // rules taken from https://www.ego4u.com/en/cram-up/vocabulary/numbers/ordinal
-ordEnExceptions={"one":"first","two":"second","three":"third","five":"fifth",
+var ordEnExceptions={"one":"first","two":"second","three":"third","five":"fifth",
                  "eight":"eighth","nine":"ninth","twelve":"twelfth"}
 // règles tirées de https://francais.lingolia.com/fr/vocabulaire/nombres-date-et-heure/les-nombres-ordinaux
-ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
-var ordinal = function(s,lang,gender){
+var ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
+
+function ordinal(s,lang,gender){
     const en = lang=="en";
     s=enToutesLettres(s,lang);
     if (s=="zéro" || s=="zero") return s;
