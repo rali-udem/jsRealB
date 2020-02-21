@@ -293,7 +293,7 @@ Constituent.prototype.verbAgreeWith = function(subject){
 //     3-the rest after the word  
 const sepWordREen=/((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
 
-function doElisionEn(cList){
+Constituent.prototype.doElisionEn = function(cList){
     //// English elision rule only for changing "a" to "an"
     // according to https://owl.english.purdue.edu/owl/resource/591/1/
     const hAnRE=/^(heir|herb|honest|honou?r(able)?|hour)/i;
@@ -301,17 +301,35 @@ function doElisionEn(cList){
     const uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
     const acronymRE=/^[A-Z]+$/
     const punctuationRE=/^\s*[,:\.\[\]\(\)\?]+\s*$/
-    
+    // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
+    const contractionEnTable={
+        "are+not":"aren’t", "can+not":"can’t", "did+not":"didn’t", "do+not":"don’t", "does+not":"doesn’t", 
+        "had+not":"hadn’t", "has+not":"hasn’t", "have+not":"haven’t", "is+not":"isn’t", "must+not":"mustn’t", 
+        "need+not":"needn’t", "should+not":"shouldn’t", "was+not":"wasn’t", "were+not":"weren’t", 
+        "will+not":"won’t", "would+not":"wouldn’t",
+        "let+us":"let’s",
+        "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
+        "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
+        "he+will":"he’ll", "he+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
+        "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
+        "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
+        "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",
+        "it+is":"it’s", "it+will":"it’ll", "it+had":"it’d", "it+would":"it’d",
+        "there+will":"there’ll", "there+is":"there’s", "there+has":"there’s", "there+have":"there’ve",
+        "that+is":"that’s", "that+had":"that’d", "that+would":"that’d", "that+will":"that’ll"
+    } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
     for (var i = 0; i < last; i++) {
-        var m1=sepWordREen.exec(cList[i].realization)
+        var m1=sepWordREfr.exec(cList[i].realization)
         if (m1 === undefined) continue;
-        var w1=m1[2]        
+        var m2=sepWordREfr.exec(cList[i+1].realization)
+        if (m2 === undefined) continue;
+        // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
+        // for a single word 
+        var w1=m1[2];
+        var w2=m2[2];
         if (w1=="a" && cList[i].isA("D")){
-            var m2=sepWordREen.exec(cList[i+1].realization);
-            if (m2 === undefined)continue;
-            var w2=m2[2];
             if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
                 (w2.charAt(0)=="u" && !uLikeYouRE.exec(w2)) || // u does not sound like you
                 hAnRE.exec(w2) ||       // silent h
@@ -319,6 +337,18 @@ function doElisionEn(cList){
                     cList[i].realization=m1[1]+"an"+m1[3];
                     i++;                     // skip next word
                 }
+        } else if (this.contraction !== undefined && this.contraction === true) {
+            if (w1=="cannot"){ // special case...
+                cList[i].realization=m1[1]+"can't"+m1[3];
+            } else {
+                const contr=contractionEnTable[w1+"+"+w2];   
+                if (contr!=null) {
+                    // do contraction of first word and remove second word (keeping start and end)
+                    cList[i].realization=m1[1]+contr+m1[3];
+                    cList[i+1].realization=m2[1]+m2[3].trim();
+                    i++;
+                }
+            }
         }
     }
 }
@@ -327,7 +357,7 @@ function doElisionEn(cList){
 // const sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/i
 const sepWordREfr=/((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
 
-function doElisionFr(cList){
+Constituent.prototype.doElisionFr = function(cList){
     //// Elision rules for French
     // implements the obligatory elision rules of the "Office de la langue française du Québec"
     //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&t1=&id=1737
@@ -447,9 +477,9 @@ Constituent.prototype.doFormat = function(cList){
     // start of processing
     
     if (this.isFr())
-        doElisionFr(cList);
+        this.doElisionFr(cList);
     else 
-        doElisionEn(cList);
+        this.doElisionEn(cList);
     
     const cap = this.prop["cap"];
     if (cap !== undefined && cap !== false){

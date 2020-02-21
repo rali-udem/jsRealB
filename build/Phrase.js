@@ -492,6 +492,10 @@ Phrase.prototype.processTyp_en = function(types){
         const pas =types["pas"]!==undefined && types["pas"]!==false;
         const interro = types["int"];
         const modality=types["mod"];
+        if (types["contr"]!==undefined && types["contr"]!==false){
+            vp.contraction=true; // necessary because we want the negation to be contracted within the VP before the S or SP
+            this.contraction=true;
+        }
         const compound = rules.compound;
         if (modality !== undefined && modality !== false){
             auxils.push(compound[modality].aux);
@@ -591,6 +595,7 @@ Phrase.prototype.typ = function(types){
       "prog":[false,true],
       "exc": [false,true],
       "perf":[false,true],
+      "contr":[false,true],
       "mod": [false,"poss","perm","nece","obli","will"],
       "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
     }
@@ -614,6 +619,10 @@ Phrase.prototype.typ = function(types){
             this.passivate()
         }
         if (this.isFr()){
+            if (types["contr"]!==undefined && types["contr"]!==false){
+                this.warning("contraction is ignored in French",
+                "la contraction est ignorée en français");
+            }
             this.processTyp_fr(types) 
         } else { 
             this.processTyp_en(types) 

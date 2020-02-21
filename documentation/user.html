@@ -5,8 +5,8 @@
     <title>jsRealB (V 3.0) - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -/->
+    <!-- <script src="../dist/jsRealB.js"></script> -->
+<!-- to ease debugging we load each file separately -->
         <script src="../data/lexicon-en.js"></script>
         <script src="../data/rule-en.js"></script>
         <script src="../data/lexicon-fr.js"></script>
@@ -19,7 +19,7 @@
         <script src="../build/Terminal.js"></script>
         <script src="../build/Date.js"></script>
         <script src="../build/Number.js"></script>
-<!-/- end of separate loading -->
+<!-- end of separate loading -->
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="user.js"></script>
     <script src="user-infos.js"></script>
@@ -61,8 +61,8 @@
     <div id="nPmods"></div>
     
     <h2 lang="fr" id="changeType">Modification du type de phrase</h2><h2 lang="en" id="typeChange">Sentence type modification</h2>
-    <p lang="fr">Les phrases sont construites à la forme active, mais il est possible d'en modifier le type pour obtenir des phrases négatives, progressives, interrogatives ou passives.  Ces modifications sont de la forme <code>S(...).typ({...})</code> Il est possible de combiner plusieurs modifications en spécifiant plusieurs paires clés-valeurs dans l'objet paramètre de <code>type</code>.</p>
-    <p lang="en">Sentences are built at the active voice, but their type can be modified in order to get negative, progressive, interrogative or passive sentences. These modifications are indicated by <code>S(...).typ({...})</code> Modifications can be combined by specifying multiple key value pairs in the object which is the parameter of  <code>type</code>.</p>
+    <p lang="fr">Les phrases sont construites à la forme active, mais il est possible d'en modifier le type pour obtenir des phrases négatives, progressives, interrogatives ou passives.  Ces modifications sont de la forme <code>S(...).typ({...})</code> Il est possible de combiner plusieurs modifications en spécifiant plusieurs paires clés-valeurs dans l'objet paramètre de <code>type</code>. L'utilisation de contractions en anglais telles que <code>I'll</code> pour <code>I will</code> ou <code>can't</code> pour <code>cannot</code> peut aussi être spécifiée de cette manière, mais cet indicateur est ignoré en français.</p>
+    <p lang="en">Sentences are built at the active voice, but their type can be modified in order to get negative, progressive, interrogative or passive sentences. These modifications are indicated by <code>S(...).typ({...})</code>. Modifications can be combined by specifying multiple key value pairs in the object which is the parameter of <code>type</code>. The use of contractions such as <code>I'll</code> for <code>I will</code> or <code>can't</code> for <code>cannot</code> can also be specified in this way. This flag is ignored in French.</p>
     <div id="sentType"></div>
     
     <h2 lang="fr" id="dateFr">Date</h2><h2 lang="en" id="dateEn">Date</h2>
