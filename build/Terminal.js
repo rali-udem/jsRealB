@@ -187,7 +187,7 @@ Terminal.prototype.bestMatch = function(declension,fields){
 
 // constant fields
 const gn=["g","n"];
-const gnpe=gn.concat(["pe"])
+const gnpe=["pe"].concat(gn) // check pe first
 const gnpeown=gnpe.concat(["own"])
 const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
               "en":{"N":["n"],"D":gnpeown,"Pro":gnpeown}};
@@ -214,17 +214,15 @@ Terminal.prototype.decline = function(setPerson){
             res = this.stem+ending;
             const f = this.getProp("f");// comparatif d'adjectif
             if (f !== undefined && f !== false){
-                if (this.isFr()){
-                    const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
-                    if (f == "co"){
-                        const comp = specialFRcomp[this.lemma];
-                        return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
-                    }
-                    if (f == "su"){
-                        const comp = specialFRcomp[this.lemma];
-                        const art = D("le").g(g).n(n)+" ";
-                        return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
-                    }
+                const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
+                if (f == "co"){
+                    const comp = specialFRcomp[this.lemma];
+                    return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
+                }
+                if (f == "su"){
+                    const comp = specialFRcomp[this.lemma];
+                    const art = D("le").g(g).n(n)+" ";
+                    return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
                 }
             }
         } else {
@@ -249,6 +247,16 @@ Terminal.prototype.decline = function(setPerson){
         const ending=this.bestMatch(declension,fields[this.lang][this.constType]);
         if (ending==null){
             return this.morphoError(this.lemma,this.constType,"decline",[g,n,pe]);
+        }
+        if (this.isFr() && this.isA("N")){ 
+            // check is French noun gender specified corresponds to the one given in the lexicon
+            const lexiconG=lexicon[this.lemma]["N"]["g"]
+            if (lexiconG === undefined){
+                return this.morphoError(this.lemma,this.constType,"absent du lexique",[g,n]);
+            } 
+            if (lexiconG != "x" && lexiconG != g) {
+                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",[g,lexiconG])
+            }
         }
         res = this.stem+ending;
     }
