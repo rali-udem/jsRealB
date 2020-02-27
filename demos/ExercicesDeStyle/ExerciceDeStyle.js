@@ -46,8 +46,7 @@ function composer(t,g,n){
                            .tag("span", {"class": "jeune-homme genre nombre"})),
              CP(C("puis"),
                  VP(V("échanger").t(t).tag("span", {"class": "temps"}),
-                      NP(D("quelque"),N("mot"),
-                         AP(Adv("assez"),A("vif"))).n("p"),
+                      NP(D("quelque"),N("mot").n("p"),Adv("assez"),A("vif")),
                       PP(P("avec"),
                          NP(D("un").g(g).n(n),A("autre").g(g).n(n), voyageur)
                                        .tag("span", {"class": "genre nombre"}))),

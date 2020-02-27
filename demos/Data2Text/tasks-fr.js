@@ -10,9 +10,10 @@ function tnp(n0,prep,n1){ // task np
     return n0.add(PP(P(prep),np(n1)));
 }
 
-function tvp(v,n){ //task vp
+//task vp return both the V and VP (useful for setting the verb to infinitive)
+function tvp(v,n){ 
     if (typeof v=="string")v=V(v);
-    return VP(v,np(n));
+    return [v,VP(v,np(n))];
 }
 
 function generateTaskDescriptions() {

@@ -17,8 +17,8 @@ function expressionNP(det,nom,adj,adjForm,pluriel,pronom, genderNeuter){
             np+=",";
         }
         np+="N(\""+nom+"\")";
-        np+=")";// fin du NP
         if(pluriel)np+=".n('p')";
+        np+=")";// fin du NP
         if(pronom)np+=".pro()";
         if(genderNeuter)np+=".g('n')";
         return np;

@@ -20,9 +20,14 @@ function Phrase(elements,constType){
             if (typeof e=="string"){
                 e=Q(e);
             }
-            e.parentConst=this;
-            this.elements.push(e);
-            this.elementsSource.push(e);
+            if (e instanceof Constituent) {
+                e.parentConst=this;
+                this.elements.push(e);
+                this.elementsSource.push(e);
+            } else {
+                this.warning("the "+NO(i+1).dOpt({ord:true})+ " parameter:"+e+" is not a Constituent, it is ignored",
+                             "le "+NO(i+1).dOpt({ord:true})+ " paramètre:"+e+" n'étant pas un Constituent est ignoré")
+            }
         }
         // terminate the list with add which does other checks on the final list
         this.add(elements[last],undefined,true)
@@ -35,6 +40,10 @@ Phrase.prototype.add = function(constituent,position,prog){
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
+    }
+    if (!(constituent instanceof Constituent)){
+        return this.warning("the last parameter is not a Constituent, it is ignored",
+                            "le dernier paramètre n'étant pas un Constituent est ignoré");
     }
     if (prog===undefined){// real call to .add 
         this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
@@ -330,7 +339,6 @@ Phrase.prototype.passivate = function(){
                 }
             } else {
                 subject=null;
-                n=vp.getProp("n"); // useful for French imperative
             }
         } else {
             return this.warning("Phrase.passivate: no VP found",
@@ -380,6 +388,10 @@ Phrase.prototype.passivate = function(){
             const aux=V("être").t(verbe.getProp("t"));
             aux.parentConst=vp;
             aux.prop=verbe.prop;
+            aux.pe(3); // force person to be 3rd (number and tense will come from the new subject)
+            if (vp.getProp("t")=="ip"){
+                aux.t("s") // set subjonctive present tense for an imperative
+            }
             aux.agreesWith=newSubject;
             const pp = V(verbe.lemma).t("pp");
             pp.agreesWith=newSubject;
@@ -563,6 +575,7 @@ Phrase.prototype.processTyp_en = function(types){
     }
 }
 
+// get elements of the constituent cst2 within the constituent cst1
 Phrase.prototype.getIdxCtx = function(cst1,cst2){
     if (this.isA(cst1)){
         var idx=this.getIndex(cst2)
@@ -578,10 +591,17 @@ Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
-            var idxCtx=this.getIdxCtx("VP","V");
+            let idxCtx=this.getIdxCtx("VP","V");
             if (idxCtx!==undefined){
-                var aux=idxCtx[1].splice(0,1)[0]; // remove first V
-                this.elements.splice(0,0,aux);
+                let vpElems=idxCtx[1]
+                const v=vpElems.splice(0,1)[0]; // remove first V
+                // check if V is followed by a negation, if so move it also
+                if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
+                    const not=vpElems.splice(0,1)[0]
+                    this.elements.splice(0,0,v,not)
+                } else {
+                    this.elements.splice(0,0,v);
+                }
             }
         }
     }

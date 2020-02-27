@@ -203,7 +203,7 @@ Terminal.prototype.decline = function(setPerson){
             return this.lemma; 
         return this.morphoError(this.lemma,this.constType,"decline:tab",[g,n,pe]);
     } 
-    const declension=rules.declension[this.tab].declension;
+    let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
@@ -232,7 +232,14 @@ Terminal.prototype.decline = function(setPerson){
             if (f !== undefined && f !== false){
                 if (this.tab=="a1"){
                     res = (f=="co"?"more ":"the most ") + res;
-                } else { // look in the adjective declension table
+                } else {
+                    if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
+                        const adjAdv=lexicon[this.lemma]["A"]
+                        if (adjAdv !== undefined){
+                            declension=rules.declension[adjAdv["tab"][0]].declension;
+                        }
+                    } 
+                    // look in the adjective declension table
                     const ending=this.bestMatch(declension,["f"])
                     if (ending==null){
                         return this.morphoError(this.lemma,this.constType,"decline:adjective",[f]);

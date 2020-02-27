@@ -62,6 +62,7 @@ Constituent.prototype.getProp = function(propName){
         current=next;
         next=next.agreesWith;
     }
+    if (current.isOneOf(["V","VP"]))lastVerb=current;
     if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps[this.lang]["t"]
     return current.prop[propName] || defaultProps[this.lang][propName] 
 }
@@ -123,17 +124,21 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             // start of the real work...
             if (optionName===undefined)optionName=option;
             let current=this; 
-            if (!contains(["pro","cap","lier","ow"],optionName)){// follow the "agreement" links except for some options
-                while (current.agreesWith!==undefined)current=current.agreesWith;
-            }
+            // follow the "agreement" links except for some options 
+            // finally it is not such a good idea as it does not work for all cases (e.g. tense)
+            // it is much simpler to set options to the "headword" and have the rest agree with it
+            // so it is commented out....
+            // if (!contains(["pro","cap","lier","ow"],optionName)){
+            //     while (current.agreesWith!==undefined)current=current.agreesWith;
+            // }
             current.prop[optionName]=val;
             if (prog==undefined) this.addOptSource(optionName,val==null?undefined:val)
             return this;
         } else {
             return this.warning("Option "+option+" is applied to a "+this.constType+
-                                            " but it should be applied only on one of "+allowedConsts,
+                                " but it should be applied only on one of "+allowedConsts,
                                 "Option "+option+" appliquée à "+this.constType+
-                                            " qui ne peut être appliquée qu'à une de "+allowedConsts)
+                                 " qui ne peut être appliquée qu'à une de "+allowedConsts)
         }
     }
 }
@@ -377,7 +382,7 @@ Constituent.prototype.doElisionFr = function(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
@@ -413,7 +418,8 @@ Constituent.prototype.doElisionFr = function(cList){
             i++;
         } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
             // check if the next word would be elidable, so instead elide it instead of contracting
-            if (elidableWordFrRE.exec(w2) && i+2<=last &&
+            // except when the next word is a date which has a "strange" realization
+            if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
             } else { // do contraction of first word and remove second word (keeping start and end)

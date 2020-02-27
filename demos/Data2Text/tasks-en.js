@@ -28,7 +28,7 @@ function tnp(n0,prep,n1){ // task np
 
 function tvp(v,n){ //task vp
     if (typeof v=="string")v=V(v);
-    return VP(v,np(n));
+    return [v,VP(v,np(n))];
 }
 
 function generateTaskDescriptions() {
@@ -70,15 +70,15 @@ function generateTaskDescriptions() {
     addNPVP(tasks,"o",tnp("earthwork","for",canalizations),tvp("do",canalizations));
     addNPVP(tasks,"p",tnp("masonry","for",canalizations),tvp("concrete",canalizations));
     addNPVP(tasks,"q",tnp(np("supply").n("p"),"for","heating"),
-                      VP(V("supply"),PP(P("for"),NP(D("the"),N("heating")))));
+                      tvp("supply",PP(P("for"),NP(D("the"),N("heating")))));
     addNPVP(tasks,"r",tnp("installation","of","heating"),tvp("install","heating"));
     addNPVP(tasks,"s",NP(D("other"),N("coat"),PP(P("of"),N("paint"))).n("p"),tvp("end","painting"));
     addNPVP(tasks,"t",tnp("study","of","electricity"),tvp("plan",tnp("installation","of","electricity")));
     addNPVP(tasks,"u",tnp("isolation","of","roof"),tvp("insulate","roof"));
     addNPVP(tasks,"v",tnp("installation","of","electricity"),tvp("install","electricity"));
     addNPVP(tasks,"w",q=NP(D("the"),N("paving")),tvp("execute",q));
-    addNPVP(tasks,"x",NP(D("the"),N("sealer")).n("p"),
-                         SP(CP(C("and"),VP(V("fill")),VP(V("cover"))),PP(P("of"),N("coating").n("p"))));
+    addNPVP(tasks,"x",q=NP(D("the"),N("sealer")).n("p"),
+                      tvp("apply",q));
 }
 
 if (typeof module !== 'undefined' && module.exports) {

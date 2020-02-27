@@ -32,8 +32,6 @@ var terminalsSect =
 var syntagmesSect =
     {"fr":"Syntagmes","en":"Phrases",
      "ex":[
-         {"pattern":"S(…)", "fr":["Phrase",'S(Pro("je"), VP(V("dormir")))'],
-                            "en":["Sentence",'S(Pro("I"), VP(V("sleep")))']},
          {"pattern":"NP(…)","fr":["Syntagme nominal",'NP(D("le"), N("voiture"))'],
                             "en":["Noun Phrase",'NP(D("the"), N("car"))']},
          {"pattern":"AP(…)","fr":["Syntagme adjectival",'AP(Adv("très"), A("grand"))'],
@@ -46,6 +44,8 @@ var syntagmesSect =
                             "en":["Prepositional Phrase",'PP(P("at"), NP(N("midnight")))']},
          {"pattern":"CP(…)","fr":["Syntagme coordonné",'CP(C("et"), AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
                             "en":["Coordinated Phrase",'CP(C("and"), AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
+         {"pattern":"S(…)", "fr":["Phrase",'S(NP(D("le"),N("homme")), VP(V("dormir")))'],
+                            "en":["Sentence",'S(NP(D("the"),N("man")), VP(V("sleep")))']},
          {"pattern":"SP(…)","fr":["Syntagme subordonné",'SP(Pro("que"), Pro("je"), VP(V("rencontrer").t("pc")))'],
                             "en":["Subordinated Phrase",'SP(Adv("that"), Pro("I"), VP(V("meet").t("ps")))']},
      ]};

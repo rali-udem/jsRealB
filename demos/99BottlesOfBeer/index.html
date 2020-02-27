@@ -35,8 +35,8 @@
             var vers2;
             if (n>0){
                 var tod=VP(V("take").pe(2).t("ip"),NO(1).nat(true),P("down"));
-                var pia=VP(V("pass").pe(2),Pro("I").g("n").pe(3),P("around")); 
-                vers2=CP(CP(C("and"),tod,pia).a(","),nbbW(n-1))
+                var pia=VP(V("pass").pe(2),Pro("I").g("n").pe(3),P("around")).a(","); 
+                vers2=CP(CP(C("and"),tod,pia),nbbW(n-1))
             } else {
                 var gts=VP(V("go").pe(2),PP(P("to"),D("a"),N("store")));
                 var bsm=VP(V("buy").pe(2),"some more").a(",");

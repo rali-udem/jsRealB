@@ -1,7 +1,7 @@
 QUnit.test( "Phrase FR", function( assert ) {
     loadFr();
     var pomme = NP(D("le"),N("pomme"));
-    var  gars = NP(D("le"),N("garçon")).n("p");
+    var  gars = NP(D("le"),N("garçon").n("p"));
     addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
     addToLexicon({"Mary":{"N":{"g":"f","tab":["n16"]}}})
     var phrases = [
@@ -11,7 +11,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                         N('souris'),
                         SP(Pro('que'),
                             NP(D('le'),
-                                N('chat')).n("p"),
+                                N('chat').n("p")),
                             VP(V('manger').t('pc')))),
                     VP( V('être').t('p'),
                         AP(A('gris')))
@@ -23,11 +23,11 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"cadeaux.",
          message:"Phrase sans capitale"},
         // 3
-        {expression:S(NP(A("beau"), N("cadeau")).n("p")),
+        {expression:S(NP(A("beau"), N("cadeau").n("p"))),
          expected:"Beaux cadeaux.",
          message:"Accord adjectif"},
         // 4
-        {expression:NP(D("le"),N("gens"),A("bon").g("f").pos("pre")).n("p"),
+        {expression:NP(D("le"),N("gens").n("p"),A("bon").g("f").pos("pre")),
          expected:"les bonnes gens",
          message:"Adjectif pré-posé"},
         // 5
@@ -59,30 +59,30 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"La boulangère, le vendeur et la cliente parlent.",
          message:"Coordination"},
         // 11
-        {expression:S(NP(D("le"),N("enfant")),VP(V("manger"),NP(D("le"),N("gâteau")))).n("p").typ({pas:true}),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
          expected:"Le gâteau est mangé par les enfants.",
          message:"Passif avec élision"},
         // 12
-        {expression:S(NP(D("le"),N("enfant")).n("p").pro(),VP(V("manger"),NP(D("le"),N("gâteau")))),
+        {expression:S(NP(D("le"),N("enfant").n("p")).pro(),VP(V("manger"),NP(D("le"),N("gâteau")))),
          expected:"Ils mangent le gâteau.",
          message:"Pronominalisation du sujet"},
         // 13
-        {expression:S(NP(D("le"),N("enfant")).n("p"),VP(V("manger"),NP(D("le"),N("gâteau")).pro())),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")).pro())),
          expected:"Les enfants le mangent.",
          message:"Pronominalisation du complément"},
         // 14
-        {expression:S(NP(D("le"),N("enfant")).n("p"),VP(V("manger"),NP(D("le"),N("gâteau")).pro())).typ({pas:true}),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")).pro())).typ({pas:true}),
          expected:"Il est mangé par les enfants.",
          message:"Pronominalisation du complément au passif"},
         // 15
-        {expression:S(NP(D("le"),N("chat").g("f")).n("p"),
+        {expression:S(NP(D("le"),N("chat").g("f").n("p")),
                   VP(V("manger"),
                      NP(D("le"),N("souris")))),
          expected:"Les chattes mangent la souris.",
          message:"Phrase affirmative"},
         // 16
         {expression:S(NP(D('le'),Q("super"),
-                     N('chat').g("f").tag("b").tag("i")).n("p"),
+                     N('chat').g("f").n("p").tag("b").tag("i")),
                   VP(V('dévorer').t('pc'),
                      NP(D('le'),
                         N('souris'),
@@ -92,9 +92,9 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Phrase avec tag HTML"},
         // 17
         {expression:S(NP(D('le'),
-                    N('souris')).n("p"),
-              VP(V('être').t('p'),
-                    AP(A('gris')))).typ({neg:true}),
+                         N('souris').n("p")),
+                      VP(V('être').t('p'),
+                            AP(A('gris')))).typ({neg:true}),
          expected:"Les souris ne sont pas grises.",
          message:"Accord avec être"},
         // 18
@@ -164,7 +164,7 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Elle.",
          message:"Pronominalisation qui couvre toute la phrase..."},
         // 29
-        {expression:S(NP(D("le"),N("enfant")),VP(V("manger"),NP(D("le"),N("gâteau")))).n("p").typ({pas:true}),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
          expected:"Le gâteau est mangé par les enfants.",
          message:"Passive"},
         // 30
@@ -173,7 +173,7 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Nous n'avons pas agi conformément à la loi.",
          message:"avec PP"},
         // 31
-        {expression:S(NP(D("le"),N("chat")).n("p"),
+        {expression:S(NP(D("le"),N("chat").n("p")),
                       CP(C("et"),VP(V("courir")),
                                  VP(V("sauter")),
                                  VP(V("manger"),NP(D("le"),N("souris"))))),
@@ -198,7 +198,7 @@ QUnit.test( "Phrase FR", function( assert ) {
         // 33
         {expression:S(CP(C("et"),
                          NP(D("mon").pe(1),N("ami").g("f")),
-                         NP(D("le"),A("vieux"),N("étudiant")).g("f")),
+                         NP(D("le"),A("vieux"),N("étudiant").g("f"))),
                        SP(Pro("que"),
                           NP(D("ce"),N("homme")),
                           VP(V("recevoir").t("pc")))),

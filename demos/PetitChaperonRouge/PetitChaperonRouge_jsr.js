@@ -473,7 +473,7 @@ function queVousAvez(n){
 function cestPourMieux(v){
     return S(Pro("ce"),
              VP(V("être"),P("pour"),Adv("mieux"),
-                v.t("b").a(","),
+                v.a(","),
                 NP(D("mon").pe(1),N("enfant")))).cap().a("!").b("- ")
 }
 
@@ -485,25 +485,25 @@ var p33a =
     queVousAvez("bras")
 // - C'est pour mieux t'embrasser ma fille !
 var p34=
-    cestPourMieux(VP(Pro("me").pe(2),V("embrasser")))
+    cestPourMieux(VP(Pro("me").pe(2),V("embrasser").t("b")))
 // - Ma mère-grand, que vous avez de grandes jambes ! 
 var p35=
     queVousAvez("jambe")
 // - C'est pour mieux courir mon enfant ! 
 var p36 =
-    cestPourMieux(V("courir"))
+    cestPourMieux(V("courir").t("b"))
 // - Ma mère-grand, que vous avez de grandes oreilles !
 var p37 =
     queVousAvez("oreille")
 // - C'est pour mieux écouter mon enfant ! 
 var p38 =
-    cestPourMieux(V("écouter"))
+    cestPourMieux(V("écouter").t("b"))
 // - Ma mère-grand, que vous avez de grands yeux ! 
 var p39 =
     queVousAvez("oeil")
 // - C'est pour mieux voir, mon enfant !
 var p40 =
-    cestPourMieux(V("voir"))
+    cestPourMieux(V("voir").t("b"))
 // - Ma mère-grand, que vous avez de grandes dents ! 
 var p41 =
     queVousAvez("dent")

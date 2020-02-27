@@ -44,10 +44,12 @@ function realiseTaches(tasks,p,f){
     for (var i = 1; i < tasks.length; i++) {
         var t=tasks[i][p];
         // console.log(i,tasks[i].id);
-        if (p=='vp')t.pe(1); // hack pour avoir la forme de base du verbe
+        if (p=='vp'){ // set verb to infinitive
+            tasks[i].v.t("b");
+        } 
         if (!(typeof module !== 'undefined' && module.exports))
             t.tag("span",{"id":"T"+tasks[i].id});
-        if(f!==undefined)t=f(t)
+        if(f!==undefined)tasks[i].v=f(tasks[i].v)
         res.add(t)
     }
     return res;

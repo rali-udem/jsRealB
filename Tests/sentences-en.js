@@ -2,7 +2,7 @@ QUnit.test( "Sentence EN", function( assert ) {
     loadEn();
     var sentences = [
         // 1
-        {expression:S( NP(D("the"), N("cat")), VP(V("sit"), PP(P("on"), NP(D("the"), N("coach")))).t("ps")),
+        {expression:S( NP(D("the"), N("cat")), VP(V("sit").t("ps"), PP(P("on"), NP(D("the"), N("coach"))))),
          expected:"The cat sat on the coach.",
          message:"Full sentence"},
         // 2
@@ -18,7 +18,7 @@ QUnit.test( "Sentence EN", function( assert ) {
          expected:"A cat will not play piano.",
          message:"Negative sentence"},
         // 5
-        {expression:S(NP(A("nice"), N("dog")).n("p"), VP(V("like").n("p"), NP(N("cat")).n("p")).t("pr")),
+        {expression:S(NP(A("nice"), N("dog").n("p")), VP(V("like").t("pr"), NP(D("a"),N("cat").n("p")))),
          expected:"Nice dogs liking cats.",
          message:"Present participle"},
         // 6
@@ -42,23 +42,23 @@ QUnit.test( "Sentence EN", function( assert ) {
          expected:"The seller and the customer speak.",
          message:"Coordination"},
         // 11
-        {expression:S(NP(D("a"),N("mouse")).n("p"), VP(V("run"), NP(D("a"),N("mile")))),
+        {expression:S(NP(D("a"),N("mouse").n("p")), VP(V("run"), NP(D("a"),N("mile")))),
          expected:"Mice run a mile.",
          message:"Plural subject, but singular complement"},
         // 12
-        {expression:S(NP(D("the"),N("cat")).n("p"),VP(V("eat"),NP(D("a"),A("grey"),N("mouse")))).typ({"pas":true}),
+        {expression:S(NP(D("the"),N("cat").n("p")),VP(V("eat"),NP(D("a"),A("grey"),N("mouse")))).typ({"pas":true}),
          expected:"A grey mouse is eaten by the cats.",
          message:"Subject changes number in passive mode"},
         // 13
-        {expression:S(NP(D("the"),N("cat")),VP(V("eat"),NP(D("a"),A("grey"),N("mouse"))).t("f")).n("p"),
+        {expression:S(NP(D("the"),N("cat").n("p")),VP(V("eat").t("f"),NP(D("a"),A("grey"),N("mouse")))),
          expected:"The cats will eat a grey mouse.",
          message:"Global change of number"},
         // 14
         {expression:S(NP(D("the"),N("cat")),
                       VP(V("eat").t("f"),NP(D("a"),A("grey"),N("mouse"))))
                          .typ({"int":"why","pas":true,"neg":true}),
-         expected:"Why will a grey mouse not be eaten by the cat? ",
-         message:"Global change of number"},
+         expected:"Why will not a grey mouse be eaten by the cat? ",
+         message:"Interrogative, passive and negative"},
         // 15
         {expression:S(CP(C("and"),
                          NP(D("a"),N("apple").tag("a",{href:"https:en.wikipedia.org/wiki/Apple"})),
@@ -69,7 +69,7 @@ QUnit.test( "Sentence EN", function( assert ) {
                       VP(V("be"),
                          NP(D("a"),
                             A("interesting").tag("i"),
-                            N("case")).n("p"))),
+                            N("case").n("p")))),
          expected:"An <a href=\"https:en.wikipedia.org/wiki/Apple\">apple</a>, a university, a humble guy, an honourable mention and an XML exercise are <i>interesting</i> cases.",
          message:"English elision with a coordinated subject"
          },
@@ -113,8 +113,8 @@ QUnit.test( "Sentence EN", function( assert ) {
          message:"Coordination built incrementaly "
          },
         // 20
-        {expression:S(VP().add(V("love")).add(NP(D("a"),N("boy")))).add(NP(D("the"),N("apple")),0),
-         expected:"The apple loves a boy.",
+        {expression:S(VP().add(V("eat")).add(NP(D("the"),N("apple")))).add(NP(D("a"),N("boy").n("p")),0),
+         expected:"Boys eat the apple.",
          message:"Adding constituents both before and after"
          },
         // // 21

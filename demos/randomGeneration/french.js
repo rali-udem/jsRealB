@@ -10,12 +10,12 @@ function expressionNP(det,nom,adj,adjAnt,pluriel,pronom){
         var np="NP(";
         if(det!="nil")np+="D('"+det+"'),";
         np+="N(\""+nom+"\")";
+        if(pluriel)np+=".n('p')";
         if(adj!=""){
             np+=",A(\""+adj+"\")";
             np+=(adjAnt=="")?"":".pos('"+adjAnt+"')";
         }
         np+=")";// fin du NP
-        if(pluriel)np+=".n('p')";
         if(pronom)np+=".pro()";
         return np;
     } 

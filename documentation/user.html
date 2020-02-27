@@ -38,6 +38,29 @@
     <h2 lang="fr" id="constituants">Constituants</h2><h2 lang="en" id="constituents">Constituents</h2>
     <div id="terminalsSect"></div>
     <div id="syntagmesSect"></div>
+    <div lang="fr">
+        <p>Les accords <em>simples</em> sont effectués entre les constituants d'un syntagme. Un constituant est considéré comme la <i>tête</i> avec lequel les autres sont accordés. La <i>tête</i> est déterminée de la façon suivante:</p>
+        <ul>
+            <li><code>NP</code>: le premier <code>N</code> ou <code>NP</code> en tenant compte de la modification possible par un <code>NO</code>, cet accord est propagé à une subordonnée interne au <code>NP</code>;</li>
+            <li><code>AP</code>: le premier <code>A</code>;</li>
+            <li><code>VP</code>: le premier <code>V</code>;</li>
+            <li><code>S</code>, <code>SP</code>: accord avec le <em>sujet</em>, soit le premier <code>NP</code>, <code>N</code>, 
+                <code>Pro</code> ou <code>CP</code>. Si le <code>Pro</code> est un pronom relatif, le <em>sujet</em> de la subordonnée est utilisé. Des tests spécifiques permettent d'accorder le verbe <code>être/be</code> ainsi que pour tenir compte des sujets coordonnés.</li>
+        </ul>
+        <p>Des options (section suivante) spécifiant le genre et le nombre l'emportent sur ces accords automatiques.</p>
+    </div>
+
+    <div lang="en">
+        <p><em>Simple</em> agreements are dealt with between constituents of a phrase. A constituent is taken as the <i>head</i> with which others agree. The <i>head</i> is found as follows:</p>
+        <ul>
+            <li><code>NP</code>: the first <code>N</code> or <code>NP</code> taking into account an eventual <code>NO</code>, this agreement is propagated to an internal subordinate phrase;</li>
+            <li><code>AP</code>: the first <code>A</code>;</li>
+            <li><code>VP</code>: the first <code>V</code>;</li>
+            <li><code>S</code>, <code>SP</code>: agrees with the <em>subject</em>, taken as the first <code>NP</code>, <code>N</code>, 
+                <code>Pro</code> or <code>CP</code>. If the <code>Pro</code> is a relative pronoun, the <em>subject</em> of the subordinate is taken. Specific tests take into account the verbs <code>être/be</code> and the coordinate subjects.</li>
+        </ul>
+        <p>Options (next section) can override these automatic agreements.</p>
+    </div>
     
     <h2 id="optionsFr" lang="fr">Déclinaisons et conjugaisons</h2><h2 id="optionsEn" lang="en">Declension and conjugation</h2>
     <div id="optionsSect"></div>
