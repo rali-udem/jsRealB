@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <script src="../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -/->
+        <!-- <script src="../dist/jsRealB.js"></script> -->
+<!-- to ease debugging we load each file separately -->
         <script src="../data/lexicon-fr.js"></script>
         <script src="../data/rule-fr.js"></script>
         <script src="../data/lexicon-en.js"></script>
@@ -16,7 +16,7 @@
         <script src="../build/Terminal.js"></script>
         <script src="../build/Date.js"></script>
         <script src="../build/Number.js"></script>
-<!-/- end of separate loading -->
+<!-- end of separate loading -->
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="randomgen.js"></script>
         <script src="tutorial.js"></script>
@@ -28,16 +28,16 @@
         <!-- <span class="jsr">jsRealB</span> -->
         <h1><span class="jsr">jsRealB</span> Tutorial</h1>
         <h2>Overview</h2>
-        <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript to ease its integration in web applications. It can be used either within a web page such as this one in which examples in <span class="js1">this font</span> following an arrow (&rarr;) are dynamically realized or as a <code>Node.js</code> module. The realizer is self-contained and does not need an external server or another Javascript framework, once it is loaded with the web page.</p>
+        <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in JavaScript to ease its integration in web applications. It can be used either within a web page such as this one in which examples in <span class="js1">this font</span> following an arrow (&rarr;) are dynamically realized or as a <code>Node.js</code> module. The realizer is self-contained and does not need an external server or another JavaScript framework, once it is loaded with the web page.</p>
         <p>The realizer takes care of many language peculiarities such as conjugation, word order, elision, number and person agreements, all <em>small</em> details but that users appreciate or find very annoying or disturbing when they are not properly dealt with. It is also possible to get many variations (e.g. negative, passive or interrogative) of a single sentence structure.</p>
-        <p>In <span class="jsr">jsRealB</span>, Javascript expressions create data structures corresponding to the constituents of the sentence to be produced. When there is a need to get the string output (i.e. its <code>toString()</code> function is called), the data structure (a tree) traversed to produce the tokens of the sentence, taking care of capitalization, elision and appropriate spacing around punctuation. It is also possible to wrap portions of text within HTML tags.</p> 
-            <p>The data structure is built by function calls (Javascript constructors) whose names were chosen to be similar to the symbols usually used for constituent syntax trees: for example, <code>N</code> to create a noun structure, <code>NP</code> for a Noun Phrase, <code>V</code> for a Verb, <code>D</code> for a Determiner, <code>S</code> for a Sentence and so on. Features added to the structures using the dot notation can modify the values according to what is intended.</p>
+        <p>In <span class="jsr">jsRealB</span>, JavaScript expressions create data structures corresponding to the constituents of the sentence to be produced. When there is a need to get the string output (i.e. its <code>toString()</code> function is called), the data structure (a tree) traversed to produce the tokens of the sentence, taking care of capitalization, elision and appropriate spacing around punctuation. It is also possible to wrap portions of text within HTML tags.</p> 
+            <p>The data structure is built by function calls (JavaScript constructors) whose names were chosen to be similar to the symbols usually used for constituent syntax trees: for example, <code>N</code> to create a noun structure, <code>NP</code> for a Noun Phrase, <code>V</code> for a Verb, <code>D</code> for a Determiner, <code>S</code> for a Sentence and so on. Features added to the structures using the dot notation can modify the values according to what is intended.</p>
 
        <p> The syntactic representation is patterned after the classical constituent grammar notation. For example,</p>
-<code id="ex-1"><pre>        S(NP(D("a"),N("woman")).n("p"),
-          VP(V("eat")).t("ps")).typ({perf:true})
+<code id="ex-1"><pre>        S(NP(D("a"),N("woman").n("p")),
+          VP(V("eat").t("ps"))).typ({perf:true})
 </pre></code>
-<p>is the JSrealB specification for <span class="js" code-id="#ex-1"></span>  Plural is indicated with feature <code>n("p")</code> where <code>n</code> indicates number and <code>p</code> plural. The verb is conjugated to past tense indicated by the feature tense <code>t</code> and value <code>ps</code>; the sentence should also use the perfect form. The agreement between <code>NP</code> and <code>VP</code> is performed automatically.</p>
+<p>is the JSrealB specification for <span class="js" code-id="#ex-1"></span>  Plural is indicated with feature <code>n("p")</code> where <code>n</code> indicates number and <code>p</code> plural. The verb is conjugated to past tense indicated by the feature tense <code>t</code> and value <code>ps</code>; the sentence should also use the perfect form. The agreement between the determiner and the noun within the <code>NP</code> and the verb of the <code>VP</code> is performed automatically.</p>
     <p>This document first gives some general information about the way to create a sentence with <span class="jsr">jsRealB</span>. It then illustrates some of the capabilities of <span class="jsr">jsRealB</span> with two examples: a <a href="#sentGen">random sentence generator</a> and a more complete <a href="#webApp">data-to-text web application</a> that finds a metro route and generates a text (either in French or in English) describing the itinerary which is also displayed in the page.</p>
     <ul>
         <li>This tutorial only gives a few indications on the many capabilities and features of the realiser,  <a href="../documentation/user.html">see this document for a  complete documentation</a>;</li> 
@@ -50,8 +50,8 @@
         <li>Create a first <em>Noun Phrase</em> comprising a <em>determiner</em> and a <em>noun</em>: <code id="np-1">NP(D("the"),N("cat"))</code> &rarr;  <span class="js" code-id="#np-1"></span></li>
         <li>Create a second <em>Noun Phrase</em> with a <em>determiner</em>, an <em>adjective</em> and a <em>noun</em>: <code id="np-2">NP(D("a"),A("grey"),N("mouse"))</code> &rarr; <span class="js" code-id="#np-2"></span></li>
         <li>Create a <em>Verb Phrase</em> with the second noun phrase as complement: <code id="vp-1">VP(V("eat"),NP(D("a"),A("grey"),N("mouse")))</code> &rarr;  <span class="js" code-id="#vp-1"></span></li>
-        <li>Create a <em>Sentence</em> with the first noun phrase as subject but plural:<code id="s-1">
-<pre>S(NP(D("the"),N("cat")).n("p"),
+        <li>Create a <em>Sentence</em> with the first noun phrase as subject but its noun is plural:<code id="s-1">
+<pre>S(NP(D("the"),N("cat").n("p")),
   VP(V("eat"),
      NP(D("a"),A("grey"),N("mouse"))))</pre></code> 
 &rarr;  <span class="js" code-id="#s-1"></span>
@@ -60,20 +60,20 @@
 <h3>Constituents</h3>
 <p><span class="jsr">jsRealB</span> expressions are built using <em>Constituents</em> which can be either <em>Terminals</em> or <em>Phrases</em> shown in the following table. Terminals take a single string as parameter and Phrases can take an indefinite number of parameters, either Terminals or Phrases.</p>
 <table>
-	<tr><th></th>    <th>Terminal</th>           <th>Phrase</th></tr>
-	<tr><td>Determiner</td><td><code>D("..")</code></td><td></td></tr>
-	<tr><td>Pronoun</td><td><code>Pro("..")</code></td><td></td></tr>
-	<tr><td>Noun</td><td><code>N("..")</code></td><td><code>NP(...)</code></td></tr>
-	<tr><td>Adjective</td><td><code>A(("..")</code></td><td><code>AP(...)</code></td></tr>
-	<tr><td>Verb</td><td><code>V("..")</code></td><td><code>VP(...)</code></td></tr>
-	<tr><td>Adverb</td><td><code>Adv("..")</code></td><td><code>AdvP(...)</code></td></tr>
-	<tr><td>Preposition</td><td><code>P("..")</code></td><td><code>PP(...)</td></code></tr>
-	<tr><td>Conjunction</td><td><code>C("..")</code></td><td><code>CP(...)</td></code></tr>
-	<tr><td>Subordination</td><td><code></code></td><td><code>SP(...)</td></code></tr>
-	<tr><td>Sentence</td><td><code></code></td><td><code>S(...)</td></code></tr>
-	<tr><td>Date</td><td><code>DT("..")</code></td><td></td></tr>
-	<tr><td>Number</td><td><code>NO("..")</code></td><td></td></tr>
-	<tr><td>Quoted text</td><td><code>Q("..")</code></td><td></td></tr>
+	<tr><th></th>             <th>Terminal</th>              <th>Phrase</th></tr>
+	<tr><td>Determiner</td>   <td><code>D("..")</code></td>  <td></td></tr>
+	<tr><td>Pronoun</td>      <td><code>Pro("..")</code></td><td></td></tr>
+	<tr><td>Noun</td>         <td><code>N("..")</code></td>  <td><code>NP(...)</code></td></tr>
+	<tr><td>Adjective</td>    <td><code>A(("..")</code></td> <td><code>AP(...)</code></td></tr>
+	<tr><td>Verb</td>         <td><code>V("..")</code></td>  <td><code>VP(...)</code></td></tr>
+	<tr><td>Adverb</td>       <td><code>Adv("..")</code></td><td><code>AdvP(...)</code></td></tr>
+	<tr><td>Preposition</td>  <td><code>P("..")</code></td>  <td><code>PP(...)</td></code></tr>
+	<tr><td>Conjunction</td>  <td><code>C("..")</code></td>  <td><code>CP(...)</td></code></tr>
+	<tr><td>Subordination</td><td><code></code></td>         <td><code>SP(...)</td></code></tr>
+	<tr><td>Sentence</td>     <td><code></code></td>         <td><code>S(...)</td></code></tr>
+	<tr><td>Date</td>         <td><code>DT("..")</code></td> <td></td></tr>
+	<tr><td>Number</td>       <td><code>NO("..")</code></td> <td></td></tr>
+	<tr><td>Quoted text</td>  <td><code>Q("..")</code></td>  <td></td></tr>
 </table> 
 
 <p>The first parameter in a Phrase is usually its head. For example in a Sentence, the first parameter is taken as the subject. The first parameter of a Verb Phrase is its Verb, followed by a direct object unless it is a Prepositional Phrase. These implicit roles are used for setting up the agreement links between constituents. For example, the number of the subject is used as the number of the verb. If these links are not properly set, it is possible to set features explicitly, but most often the default rules are sufficient.
@@ -84,7 +84,7 @@
 <table>
     <tr><td>future </td>
         <td><code id="ex-2">
-            S(NP(D("the"),N("cat")).n("p"),<br/>
+            S(NP(D("the"),N("cat")),<br/>
             &nbsp;&nbsp;VP(V("eat").t("f"),<br/>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NP(D("a"),A("grey"),N("mouse"))))
 		</code>
@@ -131,14 +131,14 @@
 <h3>Formatting</h3>
 <p>Because language generation is not limited to producing list of words, <span class="jsr">jsRealB</span> also provides facilities for adding punctuation, wrapping constituents in symbols and HTML formatting. Formatting is indicated with features added to constituents. To add a string before a constituent, use <code>.b("..")</code> after building the constituent, for example <code id="ex-8">N("man").b("*")</code> &rarr; <span class="js" code-id="#ex-8"></span>, similarly <code>.a("..")</code> to add a string after. If the string is an usual punctuation, appropriate spacing before and after the sign is added. Pairs of symbols can be added with <code>.en("..")</code>, for example <code id="ex-9">N("mouse").en("[")</code> &rarr; <span class="js" code-id="#ex-9"></span>.
 </p>
-<p>It is also possible to add HTML tag arount any constituent with the <code>.tag(<em>name</em>,<em>attributes</em>)</code>. The tag name is a string and the optional attributes are given by an object whose keys are the attribute names with the corresponding value. For exemple, <code id="ex-10">N("mouse").tag("i")</code> &rarr; <span class="js" code-id="#ex-10"></span> displayed as <span class="jsh" code-id="#ex-10"></span> in an HTML page. To create hyperlinks, we can use the <code>a</code> tag, for example <br/><code id="ex-11">N("mouse").tag("a",{href:"https://en.wikipedia.org/wiki/Mouse"})</code> &rarr; <span class="js" code-id="#ex-11"></span> <br/>rendered as <span class="jsh" code-id="#ex-11"></span> in a web page.
+<p>It is also possible to add HTML tag around any constituent with the <code>.tag(<em>name</em>,<em>attributes</em>)</code>. The tag name is a string and the optional attributes are given by an object whose keys are the attribute names with the corresponding value. For exemple, <code id="ex-10">N("mouse").tag("i")</code> &rarr; <span class="js" code-id="#ex-10"></span> displayed as <span class="jsh" code-id="#ex-10"></span> in an HTML page. To create hyperlinks, we can use the <code>a</code> tag, for example <br/><code id="ex-11">N("mouse").tag("a",{href:"https://en.wikipedia.org/wiki/Mouse"})</code> &rarr; <br/><span class="js" code-id="#ex-11"></span> <br/>rendered as <span class="jsh" code-id="#ex-11"></span> in a web page.
 	
 </p>
 <h3>Saving and reusing <span class="jsr">jsRealB</span> expressions</h3>
 
-<span class="jsr">jsRealB</span> constructions can be saved in variables or data structures like any other Javascript value. So our first sentence (<span class="js" code-id="#ex-7"></span>) could have been coded like this.</p>
+<span class="jsr">jsRealB</span> constructions can be saved in variables or data structures like any other JavaScript value. So our first sentence (<span class="js" code-id="#ex-7"></span>) could have been coded like this.</p>
 <code id="ex-7"><pre>
-var cats=NP(D("the"),N("cat")).n("p");
+var cats=NP(D("the"),N("cat").n("p"));
 var mouse=NP(D("a"),A("grey"),N("mouse"));
 S(cats,VP(V("eat"),mouse));
 </pre></code>
@@ -151,8 +151,8 @@ For example, with those declarations:
     var cat1=NP(D("the"),N("cat"));
     var mouse1=NP(D("a"),A("grey"),N("mouse"));
 </pre></code>
-<p><code id="s-2">&nbsp;&nbsp;S(cat1.n("p"),VP(V("eat"),mouse1.n("p").pro()))</code> &rarr;
-<span class="js" code-id="#s-2"></span><br/> in which <code>cat1</code> is plural and <code>mouse1</code> replaced by a pronoun.</p> 
+<p><code id="s-2">&nbsp;&nbsp;S(cat1,VP(V("eat"),mouse1.pro()))</code> &rarr;
+<span class="js" code-id="#s-2"></span><br/> in which <code>mouse1</code> replaced by a pronoun.</p> 
 <p>If we reuse those variables in another context such as <br/>
 	<code id="s-3">&nbsp;&nbsp;S(cat1,VP(V("love"),mouse1))</code> &rarr; <span class="js" code-id="#s-3"></span> <br/>
 in which <code>mouse1</code> is again pronominalized which is probably not intended. 
@@ -164,14 +164,14 @@ in which <code>mouse1</code> is again pronominalized which is probably not inten
     var cat2=NP(D("the"),N("cat"));
     var mouse2=NP(D("a"),A("grey"),N("mouse"));
 </pre></code>
-<code id="s-4">&nbsp;&nbsp;S(cat2.clone().n("p"),VP(V("eat"),mouse2.clone().n("p").pro()))</code> &rarr;
+<code id="s-4">&nbsp;&nbsp;S(cat2,VP(V("eat"),mouse2.clone().n("p").pro()))</code> &rarr;
 <span class="js" code-id="#s-4"></span><br/>	 
  without modifying the original as can be seen with <br/>
 <code id="s-5">&nbsp;&nbsp;S(cat2,VP(V("eat"),mouse2))</code> &rarr; <span class="js" code-id="#s-5"></span></p>
 
 <h2>Generation of random sentences</h2>
 <p>Computer generated texts often suffer from repetitions which can be quite annoying for humans who prefer some variation in the texts they read.  <span class="jsr">jsRealB</span> makes it easy to create different phrase and sentence structures by creating different constituent tree expressions from which the program can choose.</p>
-<p>In many cases, outside constraints, semantic or pragmatic constraints determine the choice, but in some cases it is appropriate to let a random choice between few possibilities.  The <code>oneOf(e<sub>1</sub>,e<sub>2</sub> ...)</code> function lets <span class="jsr">jsRealB</span> choose one of the arguments <code>e<sub>i</sub></code>. As Javascript evaluates all arguments of a function before the call, we can prefix an argument with <code>()=></code> to <em>transform</em> it into a a zero argument function which will only be evaluated after the selection by <code>oneOf</code>.
+<p>In many cases, outside constraints, semantic or pragmatic constraints determine the choice, but in some cases it is appropriate to let a random choice between few possibilities.  The <code>oneOf(e<sub>1</sub>,e<sub>2</sub> ...)</code> function lets <span class="jsr">jsRealB</span> choose one of the arguments <code>e<sub>i</sub></code>. As JavaScript evaluates all arguments of a function before the call, we can prefix an argument with <code>()=></code> to <em>transform</em> it into a a zero argument function which will only be evaluated after the selection by <code>oneOf</code>.
 </p>
 <p>The following code defines three functions: </p>
 <ul>    
@@ -181,7 +181,7 @@ in which <code>mouse1</code> is again pronominalized which is probably not inten
 </ul>
 <code><pre>
 function np(){
-    return NP(D("a"),a(),N(oneOf("cat","mouse","dog","rabbit"))).n(oneOf("s","p"));
+    return NP(D("a"),a(),N(oneOf("cat","mouse","dog","rabbit")).n(oneOf("s","p")));
 }
 function a(){
     return oneOf(
@@ -201,7 +201,7 @@ function vp(){
 <p>Click this button to <input type="button" name="newSent" value="generate a new sentence" id="newSent">
 <span id="genSent" class="js1"></span>
 </p>
-<p>This random sentence example is a Javascript transcription of the Prolog/DCG version described in:
+<p>This random sentence example is a JavaScript transcription of the Prolog/DCG version described in:
 Michel Boyer and Guy Lapalme, <em>Text Generation</em>, Chapter 12 of <em>Logic and Logic Grammar for Language Processing</em>,  pp. 256-257, Ellis Horwood, 1990.</p>
 
 <h2 id="webApp">Generation of subway/metro directions</h2>
@@ -387,7 +387,7 @@ function destination(leg){
     return out;
 }
 </pre></code>
-<p>This <a href="describeTrip.js">Javascript realizer using <span class="jsr">jsRealB</span></a> is an adaptation of the Prolog/DCG version shown in
+<p>This <a href="describeTrip.js">JavaScript realizer using <span class="jsr">jsRealB</span></a> is an adaptation of the Prolog/DCG version shown in
 Michel Boyer and Guy Lapalme, <em>Text Generation</em>, Chapter 12 of <em>Logic and Logic Grammar for Language Processing</em>, pp. 258-260, Ellis Horwood, 1990. 
 </p>
 <h2>Conclusion</h2>

@@ -44,7 +44,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // random NP
 function np(){
-    return NP(D("a"),a(),N(oneOf("cat","mouse","dog","rabbit"))).n(oneOf("s","p"));
+    return NP(D("a"),a(),N(oneOf("cat","mouse","dog","rabbit")).n(oneOf("s","p")));
 }
 
 // random Adjective
