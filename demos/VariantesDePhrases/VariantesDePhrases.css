@@ -1,5 +1,6 @@
 textarea {font: normal normal normal 1.1em Courier, sans-serif;}
 #struct,#control{float:left}
+#control select {width:250px;}
 
 #sortie {margin:10px 0;}
 #langue, #generer {vertical-align:top;}

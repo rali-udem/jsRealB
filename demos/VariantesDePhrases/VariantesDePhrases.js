@@ -3,7 +3,7 @@ var struct;
 var $langue,$generer,$tab;
 var $struct,$tbody,$infos,$message;
 
-var allTypes=["neg","pas","prog","perf","int","mod"];
+var allTypes=["neg","contr","pas","prog","perf","int","mod"];
 var types; // change selon la langue
 var pos={"int":["yon","wos","wod","wad","woi","whe","why","whn","how","muc"],
          "mod":["poss","perm","nece","obli","will"]}
@@ -62,8 +62,10 @@ function genererTypes(s,$tab,types,obj){
 function genererHeader(lang){
     $tab.empty();
     types=allTypes.slice(); // copier tous les types
-    if (lang=="fr")// pas de "perf" en français, l'enlever de types
+    if (lang=="fr"){// pas de "perf", ni "contr" en français, les enlever de types
         types.splice(types.indexOf("perf"),1)
+        types.splice(types.indexOf("contr"),1)
+    }
     // générer le titre du tableau
     var $thead=$("<thead></thead>");
     var $tr=$("<tr></tr>");

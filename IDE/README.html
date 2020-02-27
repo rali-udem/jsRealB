@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>jsRealB Interactive Development Environment</title>
+</head>
+<body>
+<h1 id="jsrealb_interactive_development_environment_ide"><code>jsRealB</code> Interactive Development Environment (IDE)</h1>
+
+<p>One way of testing and developing <code>jsRealB</code> expressions is by using the Javascript console in a browser. But we found it much more convenient to use a command line environment built on top of the <code>node.js</code> <em>Read-Eval-Print Loop</em>.</p>
+
+<p>The system is started by typing</p>
+
+<pre><code>node jsRealB-IDE-repl.js en
+</code></pre>
+
+<p>which displays a prompt indicating the version and the date the system was compiled, it also loads a default language lexicon and rule set. The second parameter is either <code>en</code>, <code>dme</code> or <code>fr</code> (the default) which indicates the initial realization language, <code>dme</code> is a larger English lexicon. </p>
+
+<pre><code> ** jsRealB 2.0 (2019-11-25 21:17) Development Environment [help() for info]**
+ English lexicon and rules loaded
+ jsRealB &gt;
+</code></pre>
+
+<p>The <em>read-eval-print</em> loop allows the evaluation of any Javascript expression. If the result of the evaluation is an <em>object</em> whose prototype chain contains <code>Constituent</code> (i.e. <em>object</em> <code>instanceof Constituent</code> returns <code>true</code>), then it calls <code>toString()</code> on this value in order to show the realized sentence. If the result is a String, it is displayed without enclosing quotes. Otherwise, the value is shown as it would be in the standard <em>read-eval-print loop</em> using <code>util.inspect(...)</code>.</p>
+
+<p>This allows the use of <code>jsRealB</code> functions such as <code>loadEn()</code> or <code>loadFr()</code> for setting the realization language for the following expressions. </p>
+
+<p>The IDE also adds a few commands (i.e. expressions starting with a period) for querying the current lexicon and rule tables. This is useful to find the appropriate information when adding new words with <code>addToLexicon(lemma,information)</code>. </p>
+
+<p>These commands also accept a regular expression in place of a specific value, in which case they will return the result for each form that matches the regular expression.</p>
+
+<ul>
+<li><p><code>.ce</code> <em>ending</em> : conjugation information for tables with a given <em>ending</em>. <br />
+For example, to show the conjugation information for verbs ending with <code>ve</code>:</p>
+
+<pre><code>jsRealB &gt; .ce ve
+v83:
+{ ending: 've',
+  t:
+   { b: 've',
+     ps: 'd',
+     pr: 'ving',
+     pp: 'd',
+     p: [ 've', 've', 's', 've', 've', 've' ] } }
+</code></pre></li>
+<li><p><code>.cn</code> <em>no</em> : conjugation information for table <em>no</em>. <br />
+For example, to show the content of table <code>v2</code>:</p>
+
+<pre><code>jsRealB &gt; .cn v2
+{ ending: '',
+  t:
+   { b: '',
+     ps: 'ed',
+     pr: 'ing',
+     pp: 'ed',
+     p: [ '', '', 'es', '', '', '' ] } }
+</code></pre></li>
+<li><p><code>.de</code> <em>ending</em> : declension information for table with a given <em>ending</em>. <br />
+For example, to show the declension information for words ending by <code>ouse</code></p>
+
+<pre><code>jsRealB &gt; .de ouse
+n16:
+{ ending: 'ouse',
+  declension: [ { val: 'ouse', n: 's' }, { val: 'ice', n: 'p' } ] }
+</code></pre></li>
+<li><p><code>.dn</code> <em>no</em> : declension information for table <em>no</em>. <br />
+For example, to show the declension information for table <code>n1</code></p>
+
+<pre><code>jsRealB &gt; .dn n1
+{ ending: '',
+  declension: [ { val: '', n: 's' }, { val: 's', n: 'p' } ] }
+</code></pre></li>
+<li><p><code>.lx</code> <em>lemma</em> : dictionary information for lemma in a format that can be used as input for <code>addToLexicon()</code>; this is useful for adding a new lemma that is conjugated or declensed similarly to a word already in the lexicon. <br />
+For example, to show the lexicon information for the word <code>love</code></p>
+
+<pre><code>jsRealB &gt; .lx love
+{ N: { tab: [ 'n1' ] }, V: { tab: 'v3' } }
+</code></pre></li>
+<li><p><code>.lm</code> <em>form</em> : find jsRealB expressions that can realize this form. <br />
+For example, to find how to realize <code>his</code></p>
+
+<pre><code>jsRealB &gt; .lm his
+Pro("mine").g("m").ow("s")
+D("my").g("m").ow("s")
+</code></pre>
+
+<p>to find to how to realize all forms matching the pattern <code>l.ve</code></p>
+
+<pre><code>jsRealB &gt; .lm l.ve
+live: A("live"); V("live").t("b"); V("live").pe(1); V("live").pe(2); V("live").pe(1).n("p"); V("live").pe(2).n("p"); V("live").n("p")
+love: N("love"); V("love").t("b"); V("love").pe(1); V("love").pe(2); V("love").pe(1).n("p"); V("love").pe(2).n("p"); V("love").n("p")
+</code></pre></li>
+</ul>
+  
+</body>
+</html>

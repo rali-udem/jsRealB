@@ -198,13 +198,13 @@ To remove an entry, a call of the form
 
 <h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
 <p lang="fr">
-La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> (où <code>e<sub>i</sub></code> est est une valeur) choisit un <code>e<sub>i</sub></code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
+La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> où <code>e<sub>i</sub></code> est est une valeur, choisit un <code>e<sub>i</sub></code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
 </p>
 <p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il retourne le résultat de l'appel. Par exemple,
-<code>ofOne(()=>N("amour"),()=>N("amitié"))</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(ofOf("amour","amitié"))</code>.
+<code>ofOne(()=>N("amour"),()=>N("amitié"))</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(oneOf("amour","amitié"))</code>.
 </p>
 <p lang="en">
-The function <code>oneOf((e<sub>1</sub>,e<sub>2</sub>,...)</code> (where <code>e<sub>i</sub></code> is a list) selects a random element of <code>e<sub>i</sub></code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed in this list, ignoring other parameters.
+The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<sub>i</sub></code> is a value, selects randomly a <code>e<sub>i</sub></code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed within this list, ignoring other parameters.
 </p>
 <p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
@@ -213,9 +213,17 @@ The function <code>oneOf((e<sub>1</sub>,e<sub>2</sub>,...)</code> (where <code>e
 <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>
     <li><a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" lang="fr">Historique des versions et démonstrations</a><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" lang="en">Previous versions and demos</a></li>
-    <li><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/JSrealB-ENGL2015.pdf">Demo paper at ENLG-2015</a></li>
-    <li>Daoust, N., and G. Lapalme, <em>JSreal: A Text Realizer for Web Programming</em>, Language Production, Cognition, and the Lexicon - a Festschrift in honor of Michael Zock, Text, Speech and Language Technology, Vol 48: Springer, pp. 363-378, 2014. [<a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/JSreal.pdf">PDF</a>]</li>
+    <li><a href="https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb" title="Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable" lang="fr">Notebook Observable</a><a href="https://observablehq.com/@lapalme/exprimenting-with-jsrealb" title="Experimenting with jsRealB / Guy Lapalme / Observable" lang="en">Observable Notebook</a></li>
+    <li><a href="../IDE/README.html">Interactive Development Environment</a></li>
+    <li><a href="http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html" title="jsRealB tutorial" lang="fr">Tutoriel (en anglais)</a><a href="http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html" title="jsRealB tutorial" lang="en">Tutorial</a></li>
     <li><a href="https://github.com/rali-udem/JSrealB" lang="fr">Dépot GitHub</a><a href="https://github.com/rali-udem/JSrealB" lang="en">GitHub repository</a></li>
+    <li><a href="../data/lexiconFormat.html" lang="fr">Format des entrées de lexiques (en anglais)</a><a href="../data/lexiconFormat.html" lang="en">Format of the lexicon entries</a></li>
+    <li>Publications:
+        <ul>
+            <li><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/JSrealB-ENGL2015.pdf">Demo paper at ENLG-2015</a></li>
+            <li>Daoust, N., and G. Lapalme, <em>JSreal: A Text Realizer for Web Programming</em>, Language Production, Cognition, and the Lexicon - a Festschrift in honor of Michael Zock, Text, Speech and Language Technology, Vol 48: Springer, pp. 363-378, 2014. [<a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/JSreal.pdf">PDF</a>]</li>
+        </ul>
+    </li>
 </ul>
 
 <footer>Contact: <a href="lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2018.</footer>

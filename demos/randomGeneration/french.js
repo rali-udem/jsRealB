@@ -6,20 +6,33 @@ var lexique;
 
 function expressionNP(det,nom,adj,adjAnt,pluriel,pronom){
 
-    if(nom!=""){
-        var np="NP(";
-        if(det!="nil")np+="D('"+det+"'),";
-        np+="N(\""+nom+"\")";
-        if(pluriel)np+=".n('p')";
-        if(adj!=""){
-            np+=",A(\""+adj+"\")";
-            np+=(adjAnt=="")?"":".pos('"+adjAnt+"')";
-        }
-        np+=")";// fin du NP
-        if(pronom)np+=".pro()";
-        return np;
-    } 
-    return null;
+    // if(nom!=""){
+    //     var np="NP(";
+    //     if(det!="nil")np+="D('"+det+"'),";
+    //     np+="N(\""+nom+"\")";
+    //     if(pluriel)np+=".n('p')";
+    //     if(adj!=""){
+    //         np+=",A(\""+adj+"\")";
+    //         np+=(adjAnt=="")?"":".pos('"+adjAnt+"')";
+    //     }
+    //     np+=")";// fin du NP
+    //     if(pronom)np+=".pro()";
+    //     return np;
+    // }
+    // return null;
+    if (nom=="")return null;
+    let n=N(nom)
+    if (pluriel)n.n("p")
+    let np=NP(n);
+    if (adj != ""){
+        let a=A(adj);
+        if (adjAnt)a.pos(adjAnt);
+        np=det == "nil"? NP(n,a):NP(D(det),n,a);
+    } else {
+        np=det=="nil"?NP(n):NP(D(det),n);
+    }
+    if (pronom)np.pro()
+    return np
 }
 
 function expressionVerbe(){
@@ -40,9 +53,13 @@ function expressionVerbe(){
     //     vopt = vopt.slice(0,-1);
     //     vopt += "})"
     //   }
-    var v="V(\""+verbe+"\").t('"+temps+"')"//+vopt;
-      v += (temps == "ip")?".pe("+$("#personne").val()+")"+".n('"+$("#nombre").val()+"')":"";
-      return v;
+    // var v="V(\""+verbe+"\").t('"+temps+"')"//+vopt;
+    //   v += (temps == "ip")?".pe("+$("#personne").val()+")"+".n('"+$("#nombre").val()+"')":"";
+    //   return v;
+        let v=V(verbe).t(temps);
+        if (temps=="ip")
+            v.pe($("#personne").val()).n($("#nombre").val());
+        return v;
     }
     return null;
 }
@@ -83,7 +100,8 @@ function changeTemps(){
     var perSelect=$("<select>").attr({id:"personne",size:1});
 
     for(var pers in codesPersonne[tempsSel][nombre]){
-      perSelect.append($("<option>"+tagPersonne[codesPersonne[tempsSel][nombre][pers]]+"</option>").attr({value:codesPersonne[tempsSel][nombre][pers]}))
+      perSelect.append($("<option>"+tagPersonne[codesPersonne[tempsSel][nombre][pers]]+
+                        "</option>").attr({value:codesPersonne[tempsSel][nombre][pers]}))
     }       
       
     var oldPerSelect =$("#personne");
@@ -110,7 +128,8 @@ function realiser(){
             var personne=parseInt($("#personne").val());
             var nombre=$("#nombre").val();
             if(personne!="nil" && nombre!="nil")
-                sujet="NP(Pro('je').pe("+personne+").n('"+nombre+"'))";
+                // sujet="NP(Pro('je').pe("+personne+").n('"+nombre+"'))";
+            sujet=NP(Pro("je")).pe(personne).n(nombre)
         }
     }
     var verbe=expressionVerbe();
@@ -136,60 +155,84 @@ function realiser(){
     // }
 
     if(sujet!=null || verbe!=null){
-        var expr="S(";
-        if(sujet!=null)expr+=sujet;
-        if(verbe!=null){
-            //if(objDirNominalise!=null)expr+=",\n  Pro(\""+objDirNominalise+"\").pe(3).n('s')";
-            if(sujet!=null)expr+=",\n  ";
-            expr+="VP("+verbe;
-            if(objetDirect!=null)expr+=",\n     "+objetDirect;
-            if(prepOI!=""||objetIndirect!=null){
-                if(prepOI!="" && objetIndirect!=null){
-                   expr+=",\n     PP(P(\""+prepOI+"\"),"+objetIndirect+")"; 
+        // var expr="S(";
+        // if(sujet!=null)expr+=sujet;
+        // if(verbe!=null){
+        //     //if(objDirNominalise!=null)expr+=",\n  Pro(\""+objDirNominalise+"\").pe(3).n('s')";
+        //     if(sujet!=null)expr+=",\n  ";
+        //     expr+="VP("+verbe;
+        //     if(objetDirect!=null)expr+=",\n     "+objetDirect;
+        //     if(prepOI!=""||objetIndirect!=null){
+        //         if(prepOI!="" && objetIndirect!=null){
+        //            expr+=",\n     PP(P(\""+prepOI+"\"),"+objetIndirect+")";
+        //         } else {
+        //             $("#jsreal").val("objet indirect exige une préposition et un objet");
+        //             return;
+        //         }
+        //     }
+        //     expr+=")"; // fin de VP(
+        // }
+        //
+        // expr+="\n )"
+        let expr=S();
+        if (sujet!=null)expr.add(sujet);
+        if (verbe!=null){
+            let vp=VP(verbe);
+            if (objetDirect!=null){
+                vp.add(objetDirect)
+            }
+            if (prepOI != "" || objetIndirect !=null){
+                if (prepOI != "" && objetIndirect !=null){
+                    vp.add(PP(P(prepOI),objetIndirect))
                 } else {
                     $("#jsreal").val("objet indirect exige une préposition et un objet");
                     return;
                 }
             }
-            expr+=")"; // fin de VP(
+            expr.add(vp)
         }
-
-        expr+="\n )"
         //Ajout type de phrase
-        var typP = ".typ({";
-
-        var negation=$("#negation").is(':checked');
-        var passive =$("#passive").is(':checked');
-        var progressive =$("#progressive").is(':checked');
+        // var typP = ".typ({";
+        var options={}
+        // var negation=$("#negation").is(':checked');
+        // var passive =$("#passive").is(':checked');
+        // var progressive =$("#progressive").is(':checked');
+        if ($("#negation").is(':checked'))options.neg=true;
+        if ($("#passive").is(':checked'))options.pas=true;
+        if ($("#progressive").is(':checked'))options.prog=true;
+        
         var question =$("#queForm").is(":checked");
         if(question == true){
           for(i in $("#intSpec")[0]){
             if($("#intSpec")[0][i] != null && $("#intSpec")[0][i].selected == true){
               //console.log($("#intSpec")[0][i].selected);
-              question = "\""+$("#intSpec")[0][i].value+"\"";
+              // question = "\""+$("#intSpec")[0][i].value+"\"";
+              options.int=$("#intSpec")[0][i].value;
+              break;
             }
           }
         }
         var exclamation =$("#excForm").is(":checked");
-
-        typP += (negation)?"neg:true,":"";
-        typP +=(passive)?"pas:true,":"";
-        typP +=(progressive)?"prog:true,":"";
-        typP += (question!=false)?"int:"+question+",":"";
-        typP +=(exclamation)?"exc:true,":"";
-
-        if(typP == ".typ({"){
-          typP = "";
-        }
-        else{
-          typP = typP.slice(0,-1);
-          typP += "})"
-        }
-
-        expr += typP;
-        
-        $("#jsreal").val(expr);
-        $("#realisation").val(eval(expr.toString()));
+        if ($("#excForm").is(":checked"))options.exc=true;
+        // typP += (negation)?"neg:true,":"";
+        // typP +=(passive)?"pas:true,":"";
+        // typP +=(progressive)?"prog:true,":"";
+        // typP += (question!=false)?"int:"+question+",":"";
+        // typP +=(exclamation)?"exc:true,":"";
+        //
+        // if(typP == ".typ({"){
+        //   typP = "";
+        // }
+        // else{
+        //   typP = typP.slice(0,-1);
+        //   typP += "})"
+        // }
+        //
+        // expr += typP;
+        if (Object.keys(options).length>0)expr.typ(options)
+            
+        $("#jsreal").val(expr.toSource(0));
+        $("#realisation").val(expr.toString());
     } else
         $("#jsreal").val("il faut indiquer au moins un sujet ou un verbe");
 }
