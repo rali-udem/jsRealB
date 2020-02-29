@@ -71,9 +71,9 @@ function introduction(nbDays,firstTasks){
         ()=>S(Pro("je").pe(3),
               VP(V("falloir"),V("commencer").t("b"),
                        PP(P("par"),realiseTaches(firstTasks,nvp())))),
-        ()=>S(Pro("je").n("p").pe(2),V("devoir").t("c"),
-              VP(V("débuter").t("b"),
-                       PP(P("par"),realiseTaches(firstTasks,nvp()))))
+        ()=>S(Pro("je").n("p").pe(2),
+              VP(V("devoir").t("c"),V("débuter").t("b"),
+                 PP(P("par"),realiseTaches(firstTasks,nvp()))))
     )+"\n";
     return realisation;
 }

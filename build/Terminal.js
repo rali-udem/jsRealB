@@ -82,8 +82,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         if (lemmaType != "string"){
-            this.warning(constType+" should be called with a string parameter, not "+lemmaType,
-                         constType+" devrait être appelé avec un paramètre chaine, non "+lemmaType)
+            this.warning(" should be called with a string parameter, not "+lemmaType,
+                         " devrait être appelé avec un paramètre chaine, non "+lemmaType)
         }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
@@ -231,7 +231,7 @@ Terminal.prototype.decline = function(setPerson){
             const f = this.getProp("f");// usual comparative/superlative
             if (f !== undefined && f !== false){
                 if (this.tab=="a1"){
-                    res = (f=="co"?"more ":"the most ") + res;
+                    res = (f=="co"?"more ":"most ") + res;
                 } else {
                     if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
                         const adjAdv=lexicon[this.lemma]["A"]

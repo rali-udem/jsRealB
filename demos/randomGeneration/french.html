@@ -21,7 +21,10 @@
         <script src="../../build/Date.js"></script>
         <script src="../../build/Number.js"></script>
 <!-/- end of separate loading -->
-        <script type="text/javascript" src="french.js"></script>
+        <script>
+            var enFrancais=true;
+        </script>
+        <script type="text/javascript" src="generate.js"></script>
         <title>Génération aléatoire avec jsRealB</title>
     </head>
     <body>
@@ -50,6 +53,7 @@
                                     <tr>
                                         <td><label for="adj">Adjectif</label></td>
                                         <td><input type="text" name="adj" value="" id="adj" class="ui-autocomplete-input" autocomplete="off"></td>
+                                        
                                     </tr>
                                     <tr>
                                         <td><label for="adjAnt"><em>Position de l'adjectif</em></label></td>
@@ -59,6 +63,13 @@
                                             <option value="pre">Avant le nom</option>                                                
                                         </select></td>
                                     </tr>
+                                        <tr><td><label for="adjForm"><em>Degré de l'adjectif</em></label></td>
+                                            <td><select name="adjForm" id="adjForm">
+                                                <option value="nil"></option>
+                                                <option value="co">comparatif</option>
+                                                <option value="su">superlatif</option>                                    
+                                            </select></td>
+                                        </tr>
                                     <tr>
                                         <td><label for="pluriel">Pluriel </label><input type="checkbox" name="pluriel" value="" id="pluriel">
                                         </td>
@@ -112,16 +123,6 @@
                                             <select id="temps" size="1"><option value="p">présent</option><option value="i">imparfait</option><option value="ps">passé simple</option><option value="f">futur</option></select>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td><label>Négation</label></td>
-                                        <td><input type="checkbox" name="negation" id="negation"></td>
-                                        <td><label>Progressif</label></td>
-                                        <td><input type="checkbox" name="progressive" id="progressive"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label>Passif</label></td>
-                                        <td><input type="checkbox" name="passive" id="passive"></td>
-                                    </tr>
                                 </tbody></table>
                         </fieldset>
                     </td>
@@ -151,13 +152,22 @@
                                         <td><input type="text" name="adjOD" value="" id="adjOD" class="ui-autocomplete-input" autocomplete="off"></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="adjAnt"><em>Position de l'adjectif</em></label></td>
+                                        <td><label for="adjAntOD"><em>Position de l'adjectif</em></label></td>
                                         <td><select name="adjAntOD" value="" id="adjAntOD">
                                             <option value="">Par défaut</option>
                                             <option value="a">Après le nom</option>
                                             <option value="b">Avant le nom</option>                                                
                                         </select></td>
                                     </tr>
+                                    </tr>
+                                        <tr><td><label for="adjFormOD"><em>Degré de l'adjectif</em></label></td>
+                                            <td><select name="adjFormOD" id="adjFormOD">
+                                                <option value="nil"></option>
+                                                <option value="co">comparatif</option>
+                                                <option value="su">superlatif</option>                                    
+                                            </select></td>
+                                        </tr>
+                                    <tr>
                                     <tr>
                                         <td><label for="plurielOD">Pluriel </label><input type="checkbox" name="plurielOD" value="" id="plurielOD">
                                         </td>
@@ -195,13 +205,22 @@
                                         <td><input type="text" name="adjOI" value="" id="adjOI" class="ui-autocomplete-input" autocomplete="off"></td>
                                     </tr>
                                     <tr>
-                                        <td><label for="adjAnt"><em>Position de l'adjectif</em></label></td>
+                                        <td><label for="adjAntOI"><em>Position de l'adjectif</em></label></td>
                                         <td><select name="adjAntOI" value="" id="adjAntOI">
                                             <option value="">Par défaut</option>
                                             <option value="a">Après le nom</option>
                                             <option value="b">Avant le nom</option>                                                
                                         </select></td>
                                     </tr>
+                                    </tr>
+                                        <tr><td><label for="adjFormOI"><em>Degré de l'adjectif</em></label></td>
+                                            <td><select name="adjFormOI" id="adjFormOI">
+                                                <option value="nil"></option>
+                                                <option value="co">comparatif</option>
+                                                <option value="su">superlatif</option>                                    
+                                            </select></td>
+                                        </tr>
+                                    <tr>
                                     <tr>
                                         <td><label for="plurielOI">Pluriel </label><input type="checkbox" name="plurielOI" value="" id="plurielOI">
                                         </td>
@@ -213,20 +232,34 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><fieldset>
+                    <td colspan="2"><fieldset>
                         <legend>Forme de la phrase</legend>
                         <form>
-                            <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative
-                            <input type="checkbox" id="queForm" name="Form" value="int">Interrogative
+                            <input type="checkbox" name="negation" id="negation">Négation
+                            <input type="checkbox" name="passive" id="passive">Passif
+                            <!-- <input type="checkbox" name="perfect" id="perfect">Perfect (ignoré) -->
+							<input type="checkbox" name="progressive" id="progressive">Progressif
+						    <input type="checkbox" id="excForm" name="Form" value="exc">Exclamatif
+                            <select name="modSpec" id="modSpec" onchange="" size="1">
+                                <option value="base">* Modalité *</option>
+                                <option value="poss">Possibilité</option>
+                                <option value="perm">Permission</option>
+                                <option value="nece">Nécessité</option>
+                                <option value="obli">Obligation</option>
+                                <option value="will">Volonté</option>
+                            </select>
                             <select name="intSpec" id="intSpec" onchange="" size="1">
-                                <option value="base"></option>
-                                <option value="yon">Oui/non</option>
+                                <option value="base">* Interrogation *</em></option>
+                                <option value="yon">Oui/Non</option>
                                 <option value="wos">Qui(sujet)</option>
                                 <option value="wod">Qui(objet direct)</option>
                                 <option value="wad">Quoi(objet direct)</option>
                                 <option value="woi">Qui(objet indirect)</option>
                                 <option value="whe">Où</option>
+                                <option value="why">Pourquoi</option>
+                                <option value="whn">Quand</option>
                                 <option value="how">Comment</option>
+                                <option value="muc">Combien</option>
                             </select>
                         </form>
                         </fieldset>
@@ -247,7 +280,7 @@
                 </tr> 
                 <tr>
                     <td><label for="jsreal">Code JSreal </label></td>
-                    <td><textarea rows="4" cols="80" id="jsreal"></textarea></td>
+                    <td><textarea rows="10" cols="80" id="jsreal"></textarea></td>
                     <td><input type="button" name="evaluer" value="Évaluer" id="evaluer"
                             title="Évaluer la structure de la boite de gauche et afficher sa réalisation dans la boite du haut"></td>
                 </tr>

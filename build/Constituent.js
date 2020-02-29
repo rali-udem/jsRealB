@@ -132,7 +132,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             //     while (current.agreesWith!==undefined)current=current.agreesWith;
             // }
             current.prop[optionName]=val;
-            if (prog==undefined) this.addOptSource(optionName,val==null?undefined:val)
+            if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
             return this.warning("Option "+option+" is applied to a "+this.constType+
@@ -144,15 +144,15 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 }
 
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S"]);  // composed tenses
-genOptionFunc("g",["m","f","n","x"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("n",["s","p"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","V","VP","S"]);
-genOptionFunc("f",["co","su"],["A","AP","Adv"]);
-genOptionFunc("aux",["av","êt","aê"],["V","VP"]);
+                   "pc", "pq", "cp", "fa", "spa", "spq"],["V"]);  // composed tenses
+genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
+genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
+genOptionFunc("f",["co","su"],["A","Adv"]);
+genOptionFunc("aux",["av","êt","aê"],["V"]);
 
-genOptionFunc("pos",["post","pre"],["A","AP"]);
-genOptionFunc("pro",undefined,["N","NP"]);
+genOptionFunc("pos",["post","pre"],["A"]);
+genOptionFunc("pro",undefined,["NP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 
@@ -294,7 +294,7 @@ Constituent.prototype.verbAgreeWith = function(subject){
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:
 //     1-possible non-word chars and optional html tags
-//     2-the real word
+//     2-the real word 
 //     3-the rest after the word  
 const sepWordREen=/((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
 

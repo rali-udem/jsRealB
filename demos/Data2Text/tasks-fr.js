@@ -1,5 +1,10 @@
-function np(n){
-    return (typeof n=="string")?NP(D("le"),N(n)):n;
+function np(n,nb){
+    if (typeof n == "string"){
+        const nC=N(n);
+        if (typeof nb !="undefined")nC.n(nb);
+        return NP(D("le"),nC)
+    }
+    return n;
 }
 
 function tnp(n0,prep,n1){ // task np
@@ -34,9 +39,9 @@ function generateTaskDescriptions() {
     addToLexicon({"on":{"N":{"g":"m","tab":["n3"]}}})// hack: on devrait plutôt changer la table pn1...
 
     betonArme=np("béton").add(A("armé"));
-    puits=np("puits").n("p");
-    longrines=np("longrine").n("p");
-    canalisations=np("canalisation").n("p");
+    puits=np("puits","p");
+    longrines=np("longrine","p");
+    canalisations=np("canalisation","p");
 
     var q; // variable temporaire utilisée lors de l'initialisation de tasks
     addNPVP(tasks,"a",tnp("étude","de","chauffage"),tvp("planifier","chauffage"));
@@ -55,16 +60,16 @@ function generateTaskDescriptions() {
     addNPVP(tasks,"n",tnp("montage","de","charpente"),tvp("monter","charpente"));
     addNPVP(tasks,"o",tnp("terrassement","pour",canalisations),tvp("terrasser",canalisations));
     addNPVP(tasks,"p",tnp("maçonnerie","pour",canalisations),tvp("bétonner",canalisations));
-    addNPVP(tasks,"q",tnp(np("approvisionnement").n("p"),"pour","chauffage"),
-                      VP(Q("se"),V("approvisionner"),PP(P("pour"),NP(D("le"),N("chauffage")))));
+    addNPVP(tasks,"q",tnp(np("approvisionnement","p"),"pour","chauffage"),
+                      [q=V("approvisionner"),VP(Q("se"),q,PP(P("pour"),NP(D("le"),N("chauffage"))))]);
     addNPVP(tasks,"r",tnp("pose","de","chauffage"),tvp("poser","chauffage"));
-    addNPVP(tasks,"s",NP(D("le"),A("autre"),N("couche"),PP(P("de"),N("peinture"))).n("p"),tvp("terminer","peinture"));
+    addNPVP(tasks,"s",NP(D("le"),A("autre"),N("couche").n("p"),PP(P("de"),N("peinture"))),tvp("terminer","peinture"));
     addNPVP(tasks,"t",tnp("étude","pour","électricité"),tvp("planifier",tnp("installation","de","électricité")));
     addNPVP(tasks,"u",tnp("isolation","de","couverture"),tvp("isoler","couverture"));
     addNPVP(tasks,"v",tnp("installation","de","électricité"),tvp("installer","électricité"));
     addNPVP(tasks,"w",q=NP(D("le"),N("dallage")),tvp("exécuter",q));
-    addNPVP(tasks,"x",NP(D("le"),N("enduit")).n("p"),
-                      CP(C("et"),VP(V("remplir")),VP(V("recouvrir"),P("de"),N("enduit").n("p"))));
+    addNPVP(tasks,"x",NP(D("le"),N("enduit").n("p")),
+                     [q=V("recouvrir"),VP(q,P("de"),N("enduit").n("p"))]);
 }
 
 if (typeof module !== 'undefined' && module.exports) {

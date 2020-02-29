@@ -29,17 +29,17 @@ var lpob = function(det){
     return NP(D(det),A("little"),N("pot"),PP(P("of"),N("butter")))
 }
 function fmt(s){
-    var mots=s.split(" ");
-    var ligne="";
-    for (var i = 0; i < mots.length; i++) {
-        ligne+=mots[i]+" ";
-        if (ligne.length>80){
-            console.log(ligne);
-            ligne=""
-        }
-    }
-    if (ligne.length>0)
-        console.log(ligne)
+    // var mots=s.split(" ");
+    // var ligne="";
+    // for (var i = 0; i < mots.length; i++) {
+    //     ligne+=mots[i]+" ";
+    //     if (ligne.length>80){
+    //         console.log(ligne);
+    //         ligne=""
+    //     }
+    // }
+    // if (ligne.length>0)
+    //     console.log(ligne)
 }
 
 // function fmt(s){
@@ -105,7 +105,7 @@ fmt(s1+" "+s2+" "+s3+" "+s4+"\n")
 var s5 =
     S(SP(NP(D("one"),N("day"),D("my").g("f"),N("mother")).a(","),
          VP(V("make").t("pr"),
-            NP(D("some"),N("cake")).n("p"))).typ({perf:true}).a(","),
+            NP(D("some"),N("cake").n("p")))).typ({perf:true}).a(","),
       SP(CP(C("and"),
             VP(V("go").t("ip").a(","),
                  NP(D("my").pe(1),N("dear")).a(",")).cap(),

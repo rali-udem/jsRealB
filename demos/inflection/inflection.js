@@ -34,7 +34,7 @@ function addTable_fr(verbe,temps){
                     var perfect = false;
                 } 
                 if (temps[t][0].substr(0,10)=="Subjonctif")
-                    $row.append("<td>"+SP(Q("que"),SP(pronom,VP(V(verbe)).t(temps[t][1]))
+                    $row.append("<td>"+SP(Q("que"),SP(pronom,VP(V(verbe).t(temps[t][1])))
                                       .typ({neg:negation,pas:passive,prog:progressive,perf:perfect}))+"</td>");
                 else if(temps[t][1]=='ip'){//temps impératif
                     if(["1s","3s","3p"].indexOf(p+nb)>=0){
@@ -46,7 +46,7 @@ function addTable_fr(verbe,temps){
                     }
                 }
                 else{    
-                    $row.append("<td>"+SP(pronom,VP(V(verbe)).t(temps[t][1]))
+                    $row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[t][1])))
                                        .typ({neg:negation,pas:passive,prog:progressive,perf:perfect})+"</td>");
                 }
                     
@@ -81,13 +81,13 @@ function addTable_en(verbe,temps){
             var pronom=Pro(language=="fr"?"je":"I").pe(p).n(nb).g(p==3?"f":"m");
             var negation = $("#negationButton").is(':checked');
             var passive = $("#passiveButton").is(':checked');
-            $row.append("<td>"+SP(pronom,VP(V(verbe)).t(temps[1]))
+            $row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[1])))
                    .typ({neg:negation,pas:passive})+"</td>");
-            if (progressive)$row.append("<td>"+SP(pronom,VP(V(verbe)).t(temps[1]))
+            if (progressive)$row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[1])))
                    .typ({neg:negation,pas:passive,prog:true})+"</td>");
-            if (perfect)$row.append("<td>"+SP(pronom,VP(V(verbe)).t(temps[1]))
+            if (perfect)$row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[1])))
                    .typ({neg:negation,pas:passive,perf:true})+"</td>");
-            if (progPerf)$row.append("<td>"+SP(pronom,VP(V(verbe)).t(temps[1]))
+            if (progPerf)$row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[1])))
                    .typ({neg:negation,pas:passive,perf:true,prog:true})+"</td>");
             $tableau.append($row);
         }

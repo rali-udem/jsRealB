@@ -10,11 +10,11 @@ QUnit.test( "Sentence EN", function( assert ) {
          expected:"Gifts.",
          message:"Word with a capital"},
         // 3
-        {expression:S(NP(D("a"), N("man")), VP(V("hit"), NP(D("a"), N("ball"))).t("p")).typ({pas:true}),
+        {expression:S(NP(D("a"), N("man")), VP(V("hit").t("p"), NP(D("a"), N("ball")))).typ({pas:true}),
          expected:"A ball is hit by a man.",
          message:"Passive sentence"},
         // 4
-        {expression:S(NP(D("a"), N("cat")), VP(V("play"), NP(N("piano"))).t("f")).typ({neg:true}),
+        {expression:S(NP(D("a"), N("cat")), VP(V("play").t("f"), NP(N("piano")))).typ({neg:true}),
          expected:"A cat will not play piano.",
          message:"Negative sentence"},
         // 5
@@ -34,7 +34,7 @@ QUnit.test( "Sentence EN", function( assert ) {
          expected:"Who may drink water? ",
          message:"Who question with permission"},
         // 9
-        {expression:S(NP(D("a"), N("boy")), VP(V("drink"), NP(N("water"))).pe(3).t("ps")).typ({mod:"perm"}),
+        {expression:S(NP(D("a"), N("boy")), VP(V("drink").t("ps"), NP(N("water")))).typ({mod:"perm"}),
          expected:"A boy might drink water.",
          message:"Modality permission"},
         // 10

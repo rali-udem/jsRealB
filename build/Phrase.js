@@ -438,8 +438,14 @@ Phrase.prototype.processVP = function(types,key,action){
 Phrase.prototype.processTyp_fr = function(types){
     // process types in a particular order
     this.processVP(types,"prog",function(vp,idxV,v){
-        vp.elements.splice(idxV+1,0,Q("en train de"),V(v.lemma).t("b"));
-        v.setLemma("être");
+        if (idxV>0 && vp.elements[idxV-1].isA("Pro") && vp.elements[idxV-1].agreesWith!==undefined){
+            // this is pronoun created by .pro() so move it after "en train","de" (separate so that élision can be done...) 
+            const pro=vp.elements.splice(idxV-1,1)[0]; // remove the pronoun before the verb
+            vp.elements.splice(idxV+1,0,Q("en train"),Q("de"),pro,V(v.lemma).t("b"))
+        } else {
+            vp.elements.splice(idxV+1,0,Q("en train"),Q("de"),V(v.lemma).t("b"));
+        }
+        v.setLemma("être"); // chenge verb, but keep person, number and tense properties of the original...
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
         var vUnit=v.lemma;
@@ -448,6 +454,11 @@ Phrase.prototype.processTyp_fr = function(types){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
                 break;
             }
+        }
+        if (idxV>0 && vp.elements[idxV-1].isA("Pro") && vp.elements[idxV-1].agreesWith!==undefined){
+            // this is pronoun created by .pro() so move it after the modality verb
+            const pro=vp.elements.splice(idxV-1,1)[0]; // remove the pronoun before the verb
+            vp.elements.splice(idxV+1,0,pro);
         }
         vp.elements.splice(idxV+1,0,V(vUnit).t("b"));
     });

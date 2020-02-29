@@ -129,7 +129,7 @@ var p7 =
          VP(V("avoir").t("ps"),
             Adv("bien"),N("envie"),
             P("de"),Pro("le").g("f"),V("manger").t("b"))).a("!"),
-      S(C("mais"),Pro("je"),VP(V("oser")).a(",").t("ps")).typ({neg:""}),
+      S(C("mais"),Pro("je"),VP(V("oser").t("ps")).a(",")).typ({neg:""}),
       SP(P("à"),N("cause"),P("de"),
          NP(D("quelque"),
             N("bûcheron").n("p"),

@@ -36,16 +36,16 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Accord adjectif"},
         // 6
         {expression:S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"), 
-                      PP(P("à"), NP(D("le"), N("loi")))))).t("pc").typ({neg:true}),
+                      PP(P("à"), NP(D("le"), N("loi")))))).typ({neg:true}),
          expected:"Nous n'avons pas agi conformément à la loi.",
          message:"Phrase négative avec accord du verbe"},
         // 7
-        {expression:S(NP(Pro("je")).pe(2), VP(V("travailler").t("pc"), AdvP(Adv("bien")))).typ({mod:"nece"}),
+        {expression:S(Pro("je").pe(2), VP(V("travailler").t("pc"), AdvP(Adv("bien")))).typ({mod:"nece"}),
          expected:"Tu as dû travailler bien.",
          message:"Phrase au passé avec modalité de nécessité"},
         // 8
         {expression:S(CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))), 
-                      VP(V("être"),A("gentil")).t("p")),
+                      VP(V("être").t("p"),A("gentil"))),
          expected:"Le garçon et la fille sont gentils.",
          message: "Coordination"},
         // 9

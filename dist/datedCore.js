@@ -62,6 +62,7 @@ Constituent.prototype.getProp = function(propName){
         current=next;
         next=next.agreesWith;
     }
+    if (current.isOneOf(["V","VP"]))lastVerb=current;
     if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps[this.lang]["t"]
     return current.prop[propName] || defaultProps[this.lang][propName] 
 }
@@ -123,31 +124,35 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             // start of the real work...
             if (optionName===undefined)optionName=option;
             let current=this; 
-            if (!contains(["pro","cap","lier","ow"],optionName)){// follow the "agreement" links except for some options
-                while (current.agreesWith!==undefined)current=current.agreesWith;
-            }
+            // follow the "agreement" links except for some options 
+            // finally it is not such a good idea as it does not work for all cases (e.g. tense)
+            // it is much simpler to set options to the "headword" and have the rest agree with it
+            // so it is commented out....
+            // if (!contains(["pro","cap","lier","ow"],optionName)){
+            //     while (current.agreesWith!==undefined)current=current.agreesWith;
+            // }
             current.prop[optionName]=val;
-            if (prog==undefined) this.addOptSource(optionName,val==null?undefined:val)
+            if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
             return this.warning("Option "+option+" is applied to a "+this.constType+
-                                            " but it should be applied only on one of "+allowedConsts,
+                                " but it should be applied only on one of "+allowedConsts,
                                 "Option "+option+" appliquée à "+this.constType+
-                                            " qui ne peut être appliquée qu'à une de "+allowedConsts)
+                                 " qui ne peut être appliquée qu'à une de "+allowedConsts)
         }
     }
 }
 
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S"]);  // composed tenses
-genOptionFunc("g",["m","f","n","x"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("n",["s","p"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","V","VP","S"]);
-genOptionFunc("f",["co","su"],["A","AP","Adv"]);
-genOptionFunc("aux",["av","êt","aê"],["V","VP"]);
+                   "pc", "pq", "cp", "fa", "spa", "spq"],["V"]);  // composed tenses
+genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
+genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
+genOptionFunc("f",["co","su"],["A","Adv"]);
+genOptionFunc("aux",["av","êt","aê"],["V"]);
 
-genOptionFunc("pos",["post","pre"],["A","AP"]);
-genOptionFunc("pro",undefined,["N","NP"]);
+genOptionFunc("pos",["post","pre"],["A"]);
+genOptionFunc("pro",undefined,["NP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 
@@ -289,7 +294,7 @@ Constituent.prototype.verbAgreeWith = function(subject){
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:
 //     1-possible non-word chars and optional html tags
-//     2-the real word
+//     2-the real word 
 //     3-the rest after the word  
 const sepWordREen=/((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
 
@@ -331,7 +336,7 @@ Constituent.prototype.doElisionEn = function(cList){
         var w2=m2[2];
         if (w1=="a" && cList[i].isA("D")){
             if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
-                (w2.charAt(0)=="u" && !uLikeYouRE.exec(w2)) || // u does not sound like you
+                (/^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
                 hAnRE.exec(w2) ||       // silent h
                 acronymRE.exec(w2)) {   // is an acronym
                     cList[i].realization=m1[1]+"an"+m1[3];
@@ -377,7 +382,7 @@ Constituent.prototype.doElisionFr = function(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
@@ -413,7 +418,8 @@ Constituent.prototype.doElisionFr = function(cList){
             i++;
         } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
             // check if the next word would be elidable, so instead elide it instead of contracting
-            if (elidableWordFrRE.exec(w2) && i+2<=last &&
+            // except when the next word is a date which has a "strange" realization
+            if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
             } else { // do contraction of first word and remove second word (keeping start and end)
@@ -474,8 +480,16 @@ Constituent.prototype.doFormat = function(cList){
         return "<"+tagName+attString+">";
     }
     
-    // start of processing
+    // remove possible empty realisation strings (often generated by D("a").n("p")) which can break elision
+    function removeEmpty(cList){
+        for (let i=0;i<cList.length;){
+            if (cList[i].realization=="")cList.splice(i,1)
+            else i++
+        }
+    }
     
+    // start of processing
+    removeEmpty(cList);
     if (this.isFr())
         this.doElisionFr(cList);
     else 
@@ -590,9 +604,14 @@ function Phrase(elements,constType){
             if (typeof e=="string"){
                 e=Q(e);
             }
-            e.parentConst=this;
-            this.elements.push(e);
-            this.elementsSource.push(e);
+            if (e instanceof Constituent) {
+                e.parentConst=this;
+                this.elements.push(e);
+                this.elementsSource.push(e);
+            } else {
+                this.warning("the "+NO(i+1).dOpt({ord:true})+ " parameter:"+e+" is not a Constituent, it is ignored",
+                             "le "+NO(i+1).dOpt({ord:true})+ " paramètre:"+e+" n'étant pas un Constituent est ignoré")
+            }
         }
         // terminate the list with add which does other checks on the final list
         this.add(elements[last],undefined,true)
@@ -605,6 +624,10 @@ Phrase.prototype.add = function(constituent,position,prog){
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
+    }
+    if (!(constituent instanceof Constituent)){
+        return this.warning("the last parameter is not a Constituent, it is ignored",
+                            "le dernier paramètre n'étant pas un Constituent est ignoré");
     }
     if (prog===undefined){// real call to .add 
         this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
@@ -900,7 +923,6 @@ Phrase.prototype.passivate = function(){
                 }
             } else {
                 subject=null;
-                n=vp.getProp("n"); // useful for French imperative
             }
         } else {
             return this.warning("Phrase.passivate: no VP found",
@@ -950,6 +972,10 @@ Phrase.prototype.passivate = function(){
             const aux=V("être").t(verbe.getProp("t"));
             aux.parentConst=vp;
             aux.prop=verbe.prop;
+            aux.pe(3); // force person to be 3rd (number and tense will come from the new subject)
+            if (vp.getProp("t")=="ip"){
+                aux.t("s") // set subjonctive present tense for an imperative
+            }
             aux.agreesWith=newSubject;
             const pp = V(verbe.lemma).t("pp");
             pp.agreesWith=newSubject;
@@ -996,8 +1022,14 @@ Phrase.prototype.processVP = function(types,key,action){
 Phrase.prototype.processTyp_fr = function(types){
     // process types in a particular order
     this.processVP(types,"prog",function(vp,idxV,v){
-        vp.elements.splice(idxV+1,0,Q("en train de"),V(v.lemma).t("b"));
-        v.setLemma("être");
+        if (idxV>0 && vp.elements[idxV-1].isA("Pro") && vp.elements[idxV-1].agreesWith!==undefined){
+            // this is pronoun created by .pro() so move it after "en train","de" (separate so that élision can be done...) 
+            const pro=vp.elements.splice(idxV-1,1)[0]; // remove the pronoun before the verb
+            vp.elements.splice(idxV+1,0,Q("en train"),Q("de"),pro,V(v.lemma).t("b"))
+        } else {
+            vp.elements.splice(idxV+1,0,Q("en train"),Q("de"),V(v.lemma).t("b"));
+        }
+        v.setLemma("être"); // chenge verb, but keep person, number and tense properties of the original...
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
         var vUnit=v.lemma;
@@ -1006,6 +1038,11 @@ Phrase.prototype.processTyp_fr = function(types){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
                 break;
             }
+        }
+        if (idxV>0 && vp.elements[idxV-1].isA("Pro") && vp.elements[idxV-1].agreesWith!==undefined){
+            // this is pronoun created by .pro() so move it after the modality verb
+            const pro=vp.elements.splice(idxV-1,1)[0]; // remove the pronoun before the verb
+            vp.elements.splice(idxV+1,0,pro);
         }
         vp.elements.splice(idxV+1,0,V(vUnit).t("b"));
     });
@@ -1133,6 +1170,7 @@ Phrase.prototype.processTyp_en = function(types){
     }
 }
 
+// get elements of the constituent cst2 within the constituent cst1
 Phrase.prototype.getIdxCtx = function(cst1,cst2){
     if (this.isA(cst1)){
         var idx=this.getIndex(cst2)
@@ -1148,10 +1186,17 @@ Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
-            var idxCtx=this.getIdxCtx("VP","V");
+            let idxCtx=this.getIdxCtx("VP","V");
             if (idxCtx!==undefined){
-                var aux=idxCtx[1].splice(0,1)[0]; // remove first V
-                this.elements.splice(0,0,aux);
+                let vpElems=idxCtx[1]
+                const v=vpElems.splice(0,1)[0]; // remove first V
+                // check if V is followed by a negation, if so move it also
+                if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
+                    const not=vpElems.splice(0,1)[0]
+                    this.elements.splice(0,0,v,not)
+                } else {
+                    this.elements.splice(0,0,v);
+                }
             }
         }
     }
@@ -1475,8 +1520,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         if (lemmaType != "string"){
-            this.warning(constType+" should be called with a string parameter, not "+lemmaType,
-                         constType+" devrait être appelé avec un paramètre chaine, non "+lemmaType)
+            this.warning(" should be called with a string parameter, not "+lemmaType,
+                         " devrait être appelé avec un paramètre chaine, non "+lemmaType)
         }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
@@ -1580,7 +1625,7 @@ Terminal.prototype.bestMatch = function(declension,fields){
 
 // constant fields
 const gn=["g","n"];
-const gnpe=gn.concat(["pe"])
+const gnpe=["pe"].concat(gn) // check pe first
 const gnpeown=gnpe.concat(["own"])
 const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
               "en":{"N":["n"],"D":gnpeown,"Pro":gnpeown}};
@@ -1596,7 +1641,7 @@ Terminal.prototype.decline = function(setPerson){
             return this.lemma; 
         return this.morphoError(this.lemma,this.constType,"decline:tab",[g,n,pe]);
     } 
-    const declension=rules.declension[this.tab].declension;
+    let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
@@ -1607,17 +1652,15 @@ Terminal.prototype.decline = function(setPerson){
             res = this.stem+ending;
             const f = this.getProp("f");// comparatif d'adjectif
             if (f !== undefined && f !== false){
-                if (this.isFr()){
-                    const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
-                    if (f == "co"){
-                        const comp = specialFRcomp[this.lemma];
-                        return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
-                    }
-                    if (f == "su"){
-                        const comp = specialFRcomp[this.lemma];
-                        const art = D("le").g(g).n(n)+" ";
-                        return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
-                    }
+                const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
+                if (f == "co"){
+                    const comp = specialFRcomp[this.lemma];
+                    return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
+                }
+                if (f == "su"){
+                    const comp = specialFRcomp[this.lemma];
+                    const art = D("le").g(g).n(n)+" ";
+                    return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
                 }
             }
         } else {
@@ -1626,8 +1669,15 @@ Terminal.prototype.decline = function(setPerson){
             const f = this.getProp("f");// usual comparative/superlative
             if (f !== undefined && f !== false){
                 if (this.tab=="a1"){
-                    res = (f=="co"?"more ":"the most ") + res;
-                } else { // look in the adjective declension table
+                    res = (f=="co"?"more ":"most ") + res;
+                } else {
+                    if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
+                        const adjAdv=lexicon[this.lemma]["A"]
+                        if (adjAdv !== undefined){
+                            declension=rules.declension[adjAdv["tab"][0]].declension;
+                        }
+                    } 
+                    // look in the adjective declension table
                     const ending=this.bestMatch(declension,["f"])
                     if (ending==null){
                         return this.morphoError(this.lemma,this.constType,"decline:adjective",[f]);
@@ -1642,6 +1692,16 @@ Terminal.prototype.decline = function(setPerson){
         const ending=this.bestMatch(declension,fields[this.lang][this.constType]);
         if (ending==null){
             return this.morphoError(this.lemma,this.constType,"decline",[g,n,pe]);
+        }
+        if (this.isFr() && this.isA("N")){ 
+            // check is French noun gender specified corresponds to the one given in the lexicon
+            const lexiconG=lexicon[this.lemma]["N"]["g"]
+            if (lexiconG === undefined){
+                return this.morphoError(this.lemma,this.constType,"absent du lexique",[g,n]);
+            } 
+            if (lexiconG != "x" && lexiconG != g) {
+                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",[g,lexiconG])
+            }
         }
         res = this.stem+ending;
     }
@@ -2286,4 +2346,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.0";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-21 09:28"
+jsRealB_dateCreated="2020-02-29 11:57"

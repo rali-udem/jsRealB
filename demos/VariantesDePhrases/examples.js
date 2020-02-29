@@ -26,9 +26,8 @@ S(Pro("I").pe(2),
      SP(Pro("that"),
         S(N("Bill"),
           VP(V("marry").t("ps"),
-             D("my").g("m").ow("s"),
-             Q("ex").lier("-"),N("wife"))))
-             ))
+             NP(D("my").g("m").ow("s"),
+                Q("ex").lier("-"),N("wife")))))))
 `},
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35b",
  expr:`

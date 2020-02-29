@@ -6,18 +6,18 @@ var texte,temps,genre,nombre;
 
 function completerLexique(){
     loadFr();
-    addToLexicon({"narrateur":{ "N": { "g": "m", "tab": ["n56"]} }}); 
+    addToLexicon({"narrateur":{ "N": { "g": "x", "tab": ["n56"]} }}); 
     addToLexicon({"bus"      :{ "N": { "g": "m", "tab": ["n2"] } }});
     addToLexicon({"bondé"    :{ "A": { "g": "m", "tab": ["n28"]} }});
     // addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab": ["n28"]} }});// car le participe passé ne s'accorde pas!
     addToLexicon({"quelque"  :{ "D": { "g": "m", "tab": ["n28"]} }});
+    addToLexicon("puis",getLemma("et")); 
 }
 
 function composer(t,g,n){
   loadFr();
   // personnages
-  addToLexicon("narrateur",{"N":{"g":"m","tab":["n56"]}});
-  narrateur=NP(D("le"),N("narrateur")).g(g).n(n).tag("span", {"class": "narrateur genre nombre"});
+  narrateur=NP(D("le"),N("narrateur").g(g).n(n)).tag("span", {"class": "narrateur genre nombre"});
   // unjeuneHomme=NP(D("un"),A("jeune"),N(g=="m"?"homme":"femme")).n(n).tag("span", {"class": "jeune-homme genre nombre"});
   // cejeuneHomme=NP(D("ce"),A("jeune"),N(g=="m"?"homme":"femme").n(n).tag("span", {"class": "jeune-homme genre nombre"});
   ami=N("ami").n(n).g(g).tag("span", {"class": "ami genre nombre"});
@@ -30,12 +30,12 @@ function composer(t,g,n){
   S(narrateur,
     VP(V("rencontrer").t(t).a(",").tag("span", {"class": "temps"}),
        PP(P("dans"),
-          NP(D("un"),N("bus"),A("bondé")).n(n),
+          NP(D("un"),N("bus").n(n),A("bondé")),
              PP(P("de"),NP(D("le"),N("ligne"),"S"))).a(","),
        NP(D("un"),A("jeune"),N(g=="m"?"homme":"femme").n(n).tag("span", {"class": "jeune-homme genre nombre"})),
           PP(P("à"),NP(D("le"),A("long").pos("pre"),N("cou"))).a(","),
           VP(V("coiffer").t("pp").g(g).n(n).tag("span", {"class": "genre nombre"}),           
-            PP(P("de"),NP(D("un"),N("chapeau"),A("mou")).n(n)).tag("span", {"class": "nombre"})))
+            PP(P("de"),NP(D("un"),N("chapeau").n(n),A("mou"))).tag("span", {"class": "nombre"})))
   );
 
   // Ce jeune homme échange quelques mots assez vifs avec un autre voyageur, 
@@ -72,12 +72,12 @@ function composer(t,g,n){
   
   // Il est alors en train de discuter avec un ami.
   ps[4]=
-  S(NP(Pro("je").g(g).n(n).tag("span", {"class": "jeune-homme genre nombre"})),
-       VP(V("être").t(t).tag("span", {"class": "temps"}),
+  S(Pro("je").g(g).n(n).tag("span", {"class": "jeune-homme genre nombre"}),
+    VP(V("être").t(t).tag("span", {"class": "temps"}),
        Adv("alors"),
        "en train de",
        VP(V("discuter").t("b"),
-          P("avec"),NP(D("un"),ami).tag("span", {"class": "genre nombre"}))).n(n)
+          P("avec"),NP(D("un"),ami.clone().n(n)).tag("span", {"class": "genre nombre"})))
   );
 
   // Celui-ci lui conseille de faire remonter le bouton supérieur de son pardessus.
@@ -88,8 +88,8 @@ function composer(t,g,n){
        PP(P("de"),
           VP(V("faire").t("b"),
              VP(V("remonter").t("b"),
-                NP(D("le"),N("bouton"),A("supérieur"),
-                   PP(P("de"),NP(D(n=='s'?"mon":"notre").tag("span",{"class":"nombre"}),N("pardessus")).n(n))).n(n))))
+                NP(D("le"),N("bouton").n(n),A("supérieur"),
+                   PP(P("de"),NP(D(n=='s'?"mon":"notre").tag("span",{"class":"nombre"}),N("pardessus").n(n)))))))
        )
     );
 
@@ -127,7 +127,7 @@ function compose(t,g,n){
     otherManProSuj=Pro("I").g(g).n(n).tag("span", {"class": "voyageur genre nombre"}); // pronominalisation du otherMan
     otherManProObj=Pro("me").g(g).n(n).tag("span", {"class": "voyageur genre nombre"}); // pronominalisation du otherMan
     speakerPro=Pro("I").pe(1).g(g).n("s").tag("span", {"class": "narrateur genre nombre"});
-    friend=NP(D("a"),N("friend")).n(n).tag("span", {"class": "ami nombre"});
+    friend=NP(D("a"),N("friend").n(n)).tag("span", {"class": "ami nombre"});
     var ps=[];
 
     // On the S bus, in the rush hour, a chap of about 26 with a soft hat gets annoyed by a man standing next to him.
