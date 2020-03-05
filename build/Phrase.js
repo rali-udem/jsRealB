@@ -25,8 +25,7 @@ function Phrase(elements,constType){
                 this.elements.push(e);
                 this.elementsSource.push(e);
             } else {
-                this.warning("the "+NO(i+1).dOpt({ord:true})+ " parameter:"+e+" is not a Constituent, it is ignored",
-                             "le "+NO(i+1).dOpt({ord:true})+ " paramètre:"+e+" n'étant pas un Constituent est ignoré")
+                this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"")
             }
         }
         // terminate the list with add which does other checks on the final list
@@ -42,8 +41,7 @@ Phrase.prototype.add = function(constituent,position,prog){
         constituent=Q(constituent);
     }
     if (!(constituent instanceof Constituent)){
-        return this.warning("the last parameter is not a Constituent, it is ignored",
-                            "le dernier paramètre n'étant pas un Constituent est ignoré");
+        return this.warn("bad Constituent",this.isFr()?"dernier":"last")
     }
     if (prog===undefined){// real call to .add 
         this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
@@ -57,8 +55,7 @@ Phrase.prototype.add = function(constituent,position,prog){
     } else if (typeof position == "number" && position<this.elements.length || position>=0){
         this.elements.splice(position,0,constituent)
     } else {
-        this.warning("Bad position for .add:"+position+" which should be less than "+this.elements.length,
-                     "Mauvaise position pour .add:"+position+ " qui devrait être inférieure à "+this.elements.length)
+        this.warn("bad position",position,this.elements.length)
     }
     // change content or content position of some children
     this.setAgreementLinks();
@@ -314,8 +311,7 @@ Phrase.prototype.pronominalize = function(){
             this.elements=[pro];
         }
     } else {
-        this.warning(".pro() should be applied only to an NP, not a"+this.constType,
-                     ".pro() ne devrait être appliqué qu'à un NP, non un "+this.constType)
+        this.warn("bad application",".pro()","NP",this.constType)
     }
 }
 
@@ -341,8 +337,7 @@ Phrase.prototype.passivate = function(){
                 subject=null;
             }
         } else {
-            return this.warning("Phrase.passivate: no VP found",
-                                "Phrase.passivate: aucun VP trouvé")
+            return this.warn("not found","VP",isFr()?"contexte passif":"passive context")
         }
     }
     // remove object (first NP or Pro within VP) from elements
@@ -399,8 +394,7 @@ Phrase.prototype.passivate = function(){
             vp.elements.splice(verbeIdx,0,aux,pp);
         }
     } else {
-        this.warning("Phrase.passivate: no VP found",
-                     "Phrase.passivate: aucun VP trouvé");
+        return this.warn("not found","VP",isFr()?"contexte passif":"passive context")
     }
 }
 
@@ -422,8 +416,7 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warning('.typ("'+key+":"+val+'") without VP',
-                             '.typ("'+key+":"+val+'") sans VP');
+                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,"VP")
                 return;
             }
         }
@@ -485,15 +478,13 @@ Phrase.prototype.processTyp_en = function(types){
     if (this.isA("VP")){vp=this}
     else {
         const idxVP=this.getIndex(["VP"]);
-        if (idxVP !==undefined) {vp=this.elements[idxVP]}
+        if (idxVP>=0) {vp=this.elements[idxVP]}
         else {
-            this.warning('.typ("'+key+'") without VP',
-                         '.typ("'+key+'") sans VP');
-            return;
+            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,"VP")
         }
     }
     const idxV=vp.getIndex("V");
-    if(idxV!==undefined){
+    if(idxV>=0){
         let v = vp.elements[idxV];
         const pe = this.getProp("pe");
         const g=this.getProp("g");
@@ -581,8 +572,7 @@ Phrase.prototype.processTyp_en = function(types){
         words.forEach(function(w){w.parentConst=vp});
         Array.prototype.splice.apply(vp.elements,[idxV,1].concat(words));
     } else {
-        this.warning("no V found in a VP",
-                     "aucun V trouvé dans un VP")
+        this.warn("not found","V","VP")
     }
 }
 
@@ -638,11 +628,17 @@ Phrase.prototype.typ = function(types){
             const key=entries[i][0];
             const val=entries[i][1];
             const allowedVals=allowedTypes[key];
-            if (allowedVals===undefined){
-                if (!(key=="neg" && typeof val == "string")){
-                    this.warning(key+" is not allowed as key of .typ",
-                                 key+" n'est pas accepté comme clé de .typ");
-                    delete types[key]
+            if (allowedVals !== undefined){
+                if (key == "neg" && this.isFr()){ // also accept string as neg value in French
+                    if (!contains(["string","boolean"],typeof val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
+                } else {
+                    if (!contains(allowedVals,val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
                 }
             }
         }
@@ -651,8 +647,7 @@ Phrase.prototype.typ = function(types){
         }
         if (this.isFr()){
             if (types["contr"]!==undefined && types["contr"]!==false){
-                this.warning("contraction is ignored in French",
-                "la contraction est ignorée en français");
+                this.warn("no French contraction")
             }
             this.processTyp_fr(types) 
         } else { 
@@ -701,8 +696,7 @@ Phrase.prototype.typ = function(types){
                 }
                 break;
             default:
-                this.warning(int+" interrogative type not implemented",
-                             int+" type d'interrogative non implanté")
+                this.warn("not implemented","int:"+int)
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
@@ -713,8 +707,7 @@ Phrase.prototype.typ = function(types){
             this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
-        this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
-                     ".typ("+JSON.stringify(types)+") appliqué à un "+this.constType+ " devrait être S, SP or VP");
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
     }
     return this;
 }
@@ -731,6 +724,9 @@ Phrase.prototype.cpReal = function(){
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})
     var last=elems.length-1;
+    if (elems.length==0){// empty coordinate (ignore)
+        return this.doFormat(res)
+    }
     // compute the combined gender and number of the coordination
     if(idxC >= 0 ){
         // var c=this.elements.splice(idxC,1)[0]
@@ -739,6 +735,8 @@ Phrase.prototype.cpReal = function(){
         var gn=this.findGenderNumber(c.lemma==and)
         this.prop["g"]=gn.g;
         this.prop["n"]=gn.n;
+    } else {
+        this.warn("not found","C","CP")
     }            
     if (last==0){// coordination with only one element, ignore coordinate
         Array.prototype.push.apply(res,elems[0].real());

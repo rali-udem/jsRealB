@@ -6,13 +6,12 @@
 
 ////// Creates a Terminal (subclass of Constituent)
 // Terminal
-function Terminal(lemma,terminalType){
+function Terminal(lemmaArr,terminalType){
     Constituent.call(this,terminalType);
-    if (terminalType!="DT" && lemma.length!=1){
-        this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
-                     terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
+    if (terminalType!="DT" && lemmaArr.length!=1){
+        this.warn("too many parameters",terminalType,lemmaArr.length)
     } else
-        this.setLemma(lemma[0],terminalType);
+        this.setLemma(lemmaArr[0],terminalType);
 }
 extend(Constituent,Terminal)
 
@@ -21,26 +20,22 @@ Terminal.prototype.me = function(){
 }
 
 Terminal.prototype.morphoError = function (lemma,type,fn,vals){
-    this.warning("morphology error:"+fn+"("+vals+")",
-                 "erreur de morphologie:"+fn+"("+vals+")");
+    this.warn("morphology error",fn+"("+vals+")")
     return "[["+lemma+"]]"
 }
 
-// Phrase structure modifications (should not be called on Terminal)==> warning
+// Phrase modifications (should not be called on Terminal)==> warning
 Terminal.prototype.typ = function(types){
-    this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
-                 ".typ("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être S, SP or VP")
+    this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
     return this;
 }
 Terminal.prototype.pro = function(args){
-    this.warning(".pro("+JSON.stringify(args)+") applied to a "+this.constType+ " should be a NP",
-                 ".pro("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être NP");
+    this.warn("bad application",".typ("+JSON.stringify(types)+")","NP",this.constType)
     return this;
 }
 
 Terminal.prototype.add = function(){
-    this.warning(".add should be applied to Phrase, not a "+this.constType,
-                 ".add appliqué à une Phrase, non un "+this.constType);
+    this.warn("bad application",".add","Phrase",this.constType)
     return this;
 }
 
@@ -56,8 +51,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
              this.date=new Date()
          } else {
              if (lemmaType != "string" && !(lemma instanceof Date)){
-                 this.warning("DT should be called with a string or Date parameter, not "+lemmaType,
-                              "DT devrait être appelé avec un paramètre chaine ou Date, non "+lemmaType)
+                 this.warn("bad parameter","string, Date",lemmaType);
              }             
              this.date = new Date(lemma);
          }
@@ -67,33 +61,28 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         break;
     case "NO":
         if (lemmaType != "string" && lemmaType != "number"){
-            this.warning("NO should be called with a string or a number parameter, not "+lemmaType,
-                         "NO devrait être appelé avec un paramètre chaine ou nombre, non "+lemmaType)
+            this.warn("bad parameter","string, number",lemmaType);
         }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
-        if (lemmaType != "string"){
-            this.warning("Q should be called with a string parameter, not "+lemmaType,
-                         "Q devrait être appelé avec un paramètre chaine, non "+lemmaType)
-        }
+        this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         if (lemmaType != "string"){
-            this.warning(" should be called with a string parameter, not "+lemmaType,
-                         " devrait être appelé avec un paramètre chaine, non "+lemmaType)
+            return this.warn("bad parameter","string",lemmaType)
         }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
             this.tab=null;
-            this.warning("not in lexicon","absent du lexique");
+            this.warn("not in lexicon")
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
                 this.tab=null;
-                this.warning("not in lexicon","absent du lexique");
+                this.warn("not in lexicon")
             } else {
                 const keys=Object.keys(lexInfo);
                 for (let i = 0; i < keys.length; i++) {
@@ -123,15 +112,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }        
         break;
     default:
-        this.warning("setLemma: unknown terminal type:"+terminalType,
-                     "setLemma: type de terminal inconnu:"+terminalType)
+        this.warn("not implemented",terminalType);
     }
 }
 
 Terminal.prototype.grammaticalNumber = function(){
     if (!this.isA("NO")){
-        return this.warning("grammaticalNumber must be called on a NO, not a "+this.constType,
-                            "grammaticalNumber doit être appelé sur un NO, non un "+this.constType);
+        return this.warn("bad application","grammaticalNumber","NO",this.constType);
     }
     
     if (this.noOptions.ord==true)return "s"; // ordinal number are always singular
@@ -392,8 +379,7 @@ Terminal.prototype.numberFormatter = function (rawNumber, maxPrecision) {
 
 Terminal.prototype.numberToWord = function(number, lang, gender) {
     if (parseInt(number) !== number){
-        this.warning("cannot show a decimal number in words",
-                     "ne peut écrire en mots un nombre avec décimales");
+        this.warn("bad number in word",number)
         return number+"";
     }
     if (lang=="fr" && gender=="f"){
@@ -405,12 +391,11 @@ Terminal.prototype.numberToWord = function(number, lang, gender) {
 
 Terminal.prototype.numberToOrdinal = function(number,lang,gender){
     if (parseInt(number) !== number){
-        this.warning("cannot show a decimal number as ordinal",
-                     "on ne peut réaliser un nombre avec décimales comme un ordinal");
+        this.warn("bad ordinal",number)
         return number+"";
-    } else if (number<=0){
-        this.warning("cannot show 0 or a negative number as an ordinal",
-                     "one ne peut réaliser 0 ou un nombre négatif comme un ordinal")
+    } 
+    if (number<=0){
+        this.warn("bad ordinal",number)
     }
     return ordinal(number,lang, gender);
 };
@@ -455,8 +440,7 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         if (hms != "")return res+" "+hms;
         return res;
     }
-    this.warning("not implemented:"+JSON.stringify(dOpt),
-                 "non implanté:"+JSON.stringify(dOpts))
+    this.warn("not implemented",JSON.stringify(dOpts));
     return "[["+dateObj+"]]"
 }
 

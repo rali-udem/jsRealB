@@ -5,41 +5,41 @@ loadFr();
 addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
 addToLexicon({"Mary":{"N":{"g":"f","tab":["n16"]}}})
 var pomme = NP(D("le"),N("pomme"));
-var  gars = NP(D("le"),N("garçon")).n("p");
+var  gars = NP(D("le"),N("garçon").n("p"));
 
 var exemplesFR=[
     N("chat"),
     NP(D("le"),N("chat")),
-    S(NP(D('le'),N('chat')).n("p")),
+    S(NP(D('le'),N('chat').n("p"))),
     V("aller").t("ps").pe(2).n("p"),
     V("aller").t("pc").pe(3).n("s"),
-    VP(V("aller")).t("f").pe(1).n("p").typ({neg:true}),
-    VP(V("aller")).t("pq").pe(2).n("s").typ({neg:true}),
-    S(NP(D("le"),N("chat").g("f")).n("p"),
+    VP(V("aller").t("f").pe(1).n("p")).typ({neg:true}),
+    VP(V("aller").t("pq").pe(2).n("s")).typ({neg:true}),
+    S(NP(D("le"),N("chat").g("f").n("p")),
       VP(V("manger"),
          NP(D("le"),N("souris")))),
-    S(NP(D("le"),N("chat").g("f")).n("p"),
+    S(NP(D("le"),N("chat").g("f").n("p")),
       VP(V("manger"),
          NP(D("le"),N("souris")))).typ({pas:true}),
     S(NP(D('le'),Q("super"),
-         N('chat').g("f").tag("b").tag("i")).n("p"),
+         N('chat').g("f").n("p").tag("b").tag("i")),
       VP(V('dévorer').t('pc'),
          NP(D('le'),
             N('souris'),
             A("gris"),"Wow!").tag("a",{href:"http://wikipedia.org/cat",target:"_blank"}))
         ).typ({neg:true}),
     S(NP(D('le'),
-            N('souris')).n("p"),
+            N('souris').n("p")),
       VP(V('être'),
             AP(A('gris')))).typ({neg:true}),
     S(Pro("je").n("p").pe(2),
       VP(V("avoir").t("cp"),
          NP(NO(2),A("beau"),N("ami").g("f")))).typ({neg:"plus"}),
     S(NP(N("John")),
-      VP(V("évanouir")).t("pc"),
+      VP(V("évanouir").t("pc")),
         PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
     S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
-      VP(V("évanouir")).t("pc"),
+      VP(V("évanouir").t("pc")),
          PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
     S(VP().add(V("aimer")).add(pomme)).add(gars,0),
     S(CP(C("et"),NP(D("le"),N("fruit"))).add(pomme).add(gars),
@@ -66,16 +66,16 @@ var exemplesFR=[
                         Pro("je"),
                         VP(V("manger").t("pc")))
     ).pro()),
-    S(NP(D("le"),N("enfant")),VP(V("manger"),NP(D("le"),N("gâteau")))).n("p").typ({pas:true}),
+    S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
     S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"),
-                      PP(P("à"), NP(D("le"), N("loi")))))).t("pc").typ({neg:true}),
+                      PP(P("à"), NP(D("le"), N("loi")))))).typ({neg:true}),
     S(NP(D('le'),
          N('souris'),
          SP(Pro('que'),
              NP(D('le'),
-                 N('chat')).n("p"),
+                 N('chat').n("p")),
              VP(V('manger').t('pc')))),
-      VP(V('être').t('p'),
+      VP(V('être'),
          AP(A('gris')))),
     DT(),
     DT(new Date()).nat(false),
@@ -127,9 +127,9 @@ function testToSource(exemple){
 }
 
 loadFr();
-// testAllEx(testEx,exemplesFR)
-testAllEx(testToSource,exemplesFR)
+testAllEx(testEx,exemplesFR)
+// testAllEx(testToSource,exemplesFR)
 
 loadEn();
-// testAllEx(testEx,exemplesEN)
-testAllEx(testToSource,exemplesEN)
+testAllEx(testEx,exemplesEN)
+// testAllEx(testToSource,exemplesEN)

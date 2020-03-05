@@ -16,6 +16,7 @@
         <script src="../build/Terminal.js"></script>
         <script src="../build/Date.js"></script>
         <script src="../build/Number.js"></script>
+        <script src="../build/Warnings.js"></script>
 <!-- end of separate loading -->
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="randomgen.js"></script>
@@ -164,7 +165,7 @@ in which <code>mouse1</code> is again pronominalized which is probably not inten
     var cat2=NP(D("the"),N("cat"));
     var mouse2=NP(D("a"),A("grey"),N("mouse"));
 </pre></code>
-<code id="s-4">&nbsp;&nbsp;S(cat2,VP(V("eat"),mouse2.clone().n("p").pro()))</code> &rarr;
+<code id="s-4">&nbsp;&nbsp;S(cat2,VP(V("eat"),mouse2.clone().pro()))</code> &rarr;
 <span class="js" code-id="#s-4"></span><br/>	 
  without modifying the original as can be seen with <br/>
 <code id="s-5">&nbsp;&nbsp;S(cat2,VP(V("eat"),mouse2))</code> &rarr; <span class="js" code-id="#s-5"></span></p>
@@ -391,6 +392,6 @@ function destination(leg){
 Michel Boyer and Guy Lapalme, <em>Text Generation</em>, Chapter 12 of <em>Logic and Logic Grammar for Language Processing</em>, pp. 258-260, Ellis Horwood, 1990. 
 </p>
 <h2>Conclusion</h2>
-<p>This document has illustrated how <span class="jsr">jsRealB</span> can be integrated in a web page to create dynamic textual content. More information can be found at the <a href=".."><span class="jsr">jsRealB</span> web site</a>. There is also an <a href="../IDE/index.html">interactive development environment</a> in which <span class="jsr">jsRealB</span> code can be tested with the corresponding constituent structure displayed. It is also possible to check the lexicon and the rule tables of the language and find how to realize a given word in <span class="jsr">jsRealB</span>.</p>
+<p>This document has illustrated how <span class="jsr">jsRealB</span> can be integrated in a web page to create dynamic textual content. More information can be found at the <a href=".."><span class="jsr">jsRealB</span> web site</a>. You can also experiment with an <a href="https://observablehq.com/@lapalme/exprimenting-with-jsrealb" title="Experimenting with jsRealB / Guy Lapalme / Observable">Observable Notebook</a> in which expressions can be modified and see the corresponding realizations. You can also use a <em>Node.js</em> based <a href="../IDE/README.html">Interactive Development Environment</a> in which <span class="jsr">jsRealB</span> code can be tested, it is also possible to check the lexicon and the rule tables of the language and find how to realize a given word in <span class="jsr">jsRealB</span>.</p>
     </body>
 </html>

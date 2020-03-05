@@ -21,14 +21,6 @@ function Constituent(constType){
     this.optSource=""   // string corresponding to the calls to the options
 }
 
-// warning message on the console prefixed with an identification or throws an Exception
-Constituent.prototype.warning = function(messEn,messFr){
-    const mess=this.me()+":: "+(messFr!==undefined && getLanguage()=="fr"?messFr:messEn);
-    if (exceptionOnWarning) throw mess;
-    console.warn(mess);
-    return this;
-}
-
 // error message for internal error that should never happen !!!
 Constituent.prototype.error = function(mess){
     throw "Internal error: this should never have happened, sorry!\n"+this.me()+":: "+mess;
@@ -101,8 +93,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
     Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
-                return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
-                                    "Option "+option+" sans valeur; devrait être une parmi ["+validVals+"]")
+                return this.warn("no value for option",option,validVals);
             }
             val=null;
         }
@@ -118,8 +109,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
         }
         if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
-                return this.warning("Option "+option+" with invalid value:"+val+" ignored",
-                                    "Option "+option+" avec une valeur invalide:"+val+" ignoré");
+                return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
             if (optionName===undefined)optionName=option;
@@ -135,10 +125,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
-            return this.warning("Option "+option+" is applied to a "+this.constType+
-                                " but it should be applied only on one of "+allowedConsts,
-                                "Option "+option+" appliquée à "+this.constType+
-                                 " qui ne peut être appliquée qu'à une de "+allowedConsts)
+            return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
 }
@@ -192,6 +179,9 @@ Constituent.prototype.tag = function(name,attrs){
 // date options
 Constituent.prototype.dOpt = function(dOptions){
     this.addOptSource("dOpt",dOptions)
+    if (typeof dOptions != "object"){
+        return this.warn("bad application",".dOpt","object",typeof dOptions)
+    }
     if (this.isA("DT")){
         const allowedKeys =["year" , "month" , "date" , "day" , "hour" , "minute" , "second" , "nat", "det", "rtime"];
         const keys=Object.keys(dOptions);
@@ -202,12 +192,10 @@ Constituent.prototype.dOpt = function(dOptions){
                 if (typeof val == "boolean"){
                     this.dateOpts[key]=val
                 } else {
-                    this.warning("dOpt: the value of "+key+" should be a boolean, not "+val,
-                                 "dOpt: la valeur de "+key+" devrait être booléenne, non "+val);
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val);
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt of DT",
-                             key+ "n'est pas une clé permise pour dOpt de DT");
+                return this.warn("ignored value for option","NO.dOpt",key)
             }
         }
     } else if (this.isA("NO")){
@@ -221,23 +209,19 @@ Constituent.prototype.dOpt = function(dOptions){
                     if (typeof val == "number"){
                         this.noOptions["mprecision"]=val
                     } else {
-                        this.warning("mprecision should be a number, not "+val,
-                                     "mprecision devrait être un nombre, non "+val)
+                        return this.warn("bad application","precision","number",val)
                     }
                 } else if (typeof val =="boolean"){
                     this.noOptions[key]=val
                 } else {
-                    this.warning(".dOpt("+key+") for NO should be boolean, not "+val,
-                                 ".dOpt("+key+") pour NO devrait être booléenne, non "+val)
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val)
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt for NO",
-                             key+ "n'est pas une clé valide pour dOpt de NO");
+                return this.warn("ignored value for option","NO.dOpt",key);
             }
         }
     } else {
-        this.warning(".dOpt should only be applied to a DT or a NO, not a "+this.constType,
-                     ".dOpt devrait être appliqué à un DT ou un NO, non à "+this.constType);
+        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
     }
     return this;
 }
@@ -252,12 +236,10 @@ Constituent.prototype.nat= function(isNat){
         } else if (typeof isNat == "boolean"){
             options.nat=isNat;
         } else {
-            this.warning("nat: the value of the argument should be a boolean, not "+isNat,
-                         "nat: la valeur du paramètre devrait être booléenne, non "+isNat);
+            return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        this.warning(".nat should only be applied to a DT or a NO, not a "+this.constType,
-                     ".nat devrait être appliqué à DT ou à NO, non un "+this.constType);
+        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
     }
     return this;
 }

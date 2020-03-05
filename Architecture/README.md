@@ -290,7 +290,7 @@ But now, the following expression
     
 is realized as `It is red.` in which the pronominalization of `apple` is still in effect. 
 
-If this is not what was intended, then a new `apple` object should be created before pronominalization. To achieve this, we can call `clone()`which creates a new copy of the `Constituent`. This is implemented by traversing the object and creating a `String` that corresponds to the `jsRealB` expression for building this object. The resulting string is then evaluated in the current context to build a copy of the original expression. So our previous `S` could have been coded as
+If this is not what was intended, then a new `apple` object could have been created before pronominalization. To achieve this, we can call `clone()`which creates a new copy of the `Constituent`. This is implemented by traversing the object and creating a `String` that corresponds to the `jsRealB` expression for building this object. The resulting string is then evaluated in the current context to build a copy of the original expression. So our previous `S` could have been coded as
 
     S(Pro("I").g("m"),
       CP(C("and"),
@@ -299,7 +299,7 @@ If this is not what was intended, then a new `apple` object should be created be
 
 after which
 
-    S(a,VP(V("be"),A("red")))
+    S(apple,VP(V("be"),A("red")))
 
 is realized as `The apple is red.`
 
@@ -316,7 +316,7 @@ is realized as `He eats an <a href="https://en.wikipedia.org/wiki/Apple">apple.<
 
 The punctuation before, after and around constituents is dealt similarly. The appropriate values of the strings to be inserted are saved within the constituent structure and used during the *stringification* process.  
 
-**CAVEAT**: This implementation choice implies a *small* limitation: HTML and other formatting cannot appear anywhere within the text, they must match constituent boundaries.
+**CAVEAT**: This implementation choice implies a *small* limitation: HTML and other formatting can only be done at constituent boundaries.
 
 ### Ordering of verb complements
 

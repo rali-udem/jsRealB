@@ -21,14 +21,6 @@ function Constituent(constType){
     this.optSource=""   // string corresponding to the calls to the options
 }
 
-// warning message on the console prefixed with an identification or throws an Exception
-Constituent.prototype.warning = function(messEn,messFr){
-    const mess=this.me()+":: "+(messFr!==undefined && getLanguage()=="fr"?messFr:messEn);
-    if (exceptionOnWarning) throw mess;
-    console.warn(mess);
-    return this;
-}
-
 // error message for internal error that should never happen !!!
 Constituent.prototype.error = function(mess){
     throw "Internal error: this should never have happened, sorry!\n"+this.me()+":: "+mess;
@@ -101,8 +93,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
     Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
-                return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
-                                    "Option "+option+" sans valeur; devrait être une parmi ["+validVals+"]")
+                return this.warn("no value for option",option,validVals);
             }
             val=null;
         }
@@ -118,8 +109,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
         }
         if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
-                return this.warning("Option "+option+" with invalid value:"+val+" ignored",
-                                    "Option "+option+" avec une valeur invalide:"+val+" ignoré");
+                return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
             if (optionName===undefined)optionName=option;
@@ -135,10 +125,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
-            return this.warning("Option "+option+" is applied to a "+this.constType+
-                                " but it should be applied only on one of "+allowedConsts,
-                                "Option "+option+" appliquée à "+this.constType+
-                                 " qui ne peut être appliquée qu'à une de "+allowedConsts)
+            return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
 }
@@ -192,6 +179,9 @@ Constituent.prototype.tag = function(name,attrs){
 // date options
 Constituent.prototype.dOpt = function(dOptions){
     this.addOptSource("dOpt",dOptions)
+    if (typeof dOptions != "object"){
+        return this.warn("bad application",".dOpt","object",typeof dOptions)
+    }
     if (this.isA("DT")){
         const allowedKeys =["year" , "month" , "date" , "day" , "hour" , "minute" , "second" , "nat", "det", "rtime"];
         const keys=Object.keys(dOptions);
@@ -202,12 +192,10 @@ Constituent.prototype.dOpt = function(dOptions){
                 if (typeof val == "boolean"){
                     this.dateOpts[key]=val
                 } else {
-                    this.warning("dOpt: the value of "+key+" should be a boolean, not "+val,
-                                 "dOpt: la valeur de "+key+" devrait être booléenne, non "+val);
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val);
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt of DT",
-                             key+ "n'est pas une clé permise pour dOpt de DT");
+                return this.warn("ignored value for option","NO.dOpt",key)
             }
         }
     } else if (this.isA("NO")){
@@ -221,23 +209,19 @@ Constituent.prototype.dOpt = function(dOptions){
                     if (typeof val == "number"){
                         this.noOptions["mprecision"]=val
                     } else {
-                        this.warning("mprecision should be a number, not "+val,
-                                     "mprecision devrait être un nombre, non "+val)
+                        return this.warn("bad application","precision","number",val)
                     }
                 } else if (typeof val =="boolean"){
                     this.noOptions[key]=val
                 } else {
-                    this.warning(".dOpt("+key+") for NO should be boolean, not "+val,
-                                 ".dOpt("+key+") pour NO devrait être booléenne, non "+val)
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val)
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt for NO",
-                             key+ "n'est pas une clé valide pour dOpt de NO");
+                return this.warn("ignored value for option","NO.dOpt",key);
             }
         }
     } else {
-        this.warning(".dOpt should only be applied to a DT or a NO, not a "+this.constType,
-                     ".dOpt devrait être appliqué à un DT ou un NO, non à "+this.constType);
+        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
     }
     return this;
 }
@@ -252,12 +236,10 @@ Constituent.prototype.nat= function(isNat){
         } else if (typeof isNat == "boolean"){
             options.nat=isNat;
         } else {
-            this.warning("nat: the value of the argument should be a boolean, not "+isNat,
-                         "nat: la valeur du paramètre devrait être booléenne, non "+isNat);
+            return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        this.warning(".nat should only be applied to a DT or a NO, not a "+this.constType,
-                     ".nat devrait être appliqué à DT ou à NO, non un "+this.constType);
+        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
     }
     return this;
 }
@@ -609,8 +591,7 @@ function Phrase(elements,constType){
                 this.elements.push(e);
                 this.elementsSource.push(e);
             } else {
-                this.warning("the "+NO(i+1).dOpt({ord:true})+ " parameter:"+e+" is not a Constituent, it is ignored",
-                             "le "+NO(i+1).dOpt({ord:true})+ " paramètre:"+e+" n'étant pas un Constituent est ignoré")
+                this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"")
             }
         }
         // terminate the list with add which does other checks on the final list
@@ -626,8 +607,7 @@ Phrase.prototype.add = function(constituent,position,prog){
         constituent=Q(constituent);
     }
     if (!(constituent instanceof Constituent)){
-        return this.warning("the last parameter is not a Constituent, it is ignored",
-                            "le dernier paramètre n'étant pas un Constituent est ignoré");
+        return this.warn("bad Constituent",this.isFr()?"dernier":"last")
     }
     if (prog===undefined){// real call to .add 
         this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
@@ -641,8 +621,7 @@ Phrase.prototype.add = function(constituent,position,prog){
     } else if (typeof position == "number" && position<this.elements.length || position>=0){
         this.elements.splice(position,0,constituent)
     } else {
-        this.warning("Bad position for .add:"+position+" which should be less than "+this.elements.length,
-                     "Mauvaise position pour .add:"+position+ " qui devrait être inférieure à "+this.elements.length)
+        this.warn("bad position",position,this.elements.length)
     }
     // change content or content position of some children
     this.setAgreementLinks();
@@ -898,8 +877,7 @@ Phrase.prototype.pronominalize = function(){
             this.elements=[pro];
         }
     } else {
-        this.warning(".pro() should be applied only to an NP, not a"+this.constType,
-                     ".pro() ne devrait être appliqué qu'à un NP, non un "+this.constType)
+        this.warn("bad application",".pro()","NP",this.constType)
     }
 }
 
@@ -925,8 +903,7 @@ Phrase.prototype.passivate = function(){
                 subject=null;
             }
         } else {
-            return this.warning("Phrase.passivate: no VP found",
-                                "Phrase.passivate: aucun VP trouvé")
+            return this.warn("not found","VP",isFr()?"contexte passif":"passive context")
         }
     }
     // remove object (first NP or Pro within VP) from elements
@@ -983,8 +960,7 @@ Phrase.prototype.passivate = function(){
             vp.elements.splice(verbeIdx,0,aux,pp);
         }
     } else {
-        this.warning("Phrase.passivate: no VP found",
-                     "Phrase.passivate: aucun VP trouvé");
+        return this.warn("not found","VP",isFr()?"contexte passif":"passive context")
     }
 }
 
@@ -1006,8 +982,7 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warning('.typ("'+key+":"+val+'") without VP',
-                             '.typ("'+key+":"+val+'") sans VP');
+                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,"VP")
                 return;
             }
         }
@@ -1069,15 +1044,13 @@ Phrase.prototype.processTyp_en = function(types){
     if (this.isA("VP")){vp=this}
     else {
         const idxVP=this.getIndex(["VP"]);
-        if (idxVP !==undefined) {vp=this.elements[idxVP]}
+        if (idxVP>=0) {vp=this.elements[idxVP]}
         else {
-            this.warning('.typ("'+key+'") without VP',
-                         '.typ("'+key+'") sans VP');
-            return;
+            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,"VP")
         }
     }
     const idxV=vp.getIndex("V");
-    if(idxV!==undefined){
+    if(idxV>=0){
         let v = vp.elements[idxV];
         const pe = this.getProp("pe");
         const g=this.getProp("g");
@@ -1165,8 +1138,7 @@ Phrase.prototype.processTyp_en = function(types){
         words.forEach(function(w){w.parentConst=vp});
         Array.prototype.splice.apply(vp.elements,[idxV,1].concat(words));
     } else {
-        this.warning("no V found in a VP",
-                     "aucun V trouvé dans un VP")
+        this.warn("not found","V","VP")
     }
 }
 
@@ -1222,11 +1194,17 @@ Phrase.prototype.typ = function(types){
             const key=entries[i][0];
             const val=entries[i][1];
             const allowedVals=allowedTypes[key];
-            if (allowedVals===undefined){
-                if (!(key=="neg" && typeof val == "string")){
-                    this.warning(key+" is not allowed as key of .typ",
-                                 key+" n'est pas accepté comme clé de .typ");
-                    delete types[key]
+            if (allowedVals !== undefined){
+                if (key == "neg" && this.isFr()){ // also accept string as neg value in French
+                    if (!contains(["string","boolean"],typeof val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
+                } else {
+                    if (!contains(allowedVals,val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
                 }
             }
         }
@@ -1235,8 +1213,7 @@ Phrase.prototype.typ = function(types){
         }
         if (this.isFr()){
             if (types["contr"]!==undefined && types["contr"]!==false){
-                this.warning("contraction is ignored in French",
-                "la contraction est ignorée en français");
+                this.warn("no French contraction")
             }
             this.processTyp_fr(types) 
         } else { 
@@ -1285,8 +1262,7 @@ Phrase.prototype.typ = function(types){
                 }
                 break;
             default:
-                this.warning(int+" interrogative type not implemented",
-                             int+" type d'interrogative non implanté")
+                this.warn("not implemented","int:"+int)
             }
             if(this.isFr() || int !="yon") // add the interrogative prefix
                 this.elements.splice(0,0,Q(prefix[int]));
@@ -1297,8 +1273,7 @@ Phrase.prototype.typ = function(types){
             this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
-        this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
-                     ".typ("+JSON.stringify(types)+") appliqué à un "+this.constType+ " devrait être S, SP or VP");
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
     }
     return this;
 }
@@ -1315,6 +1290,9 @@ Phrase.prototype.cpReal = function(){
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})
     var last=elems.length-1;
+    if (elems.length==0){// empty coordinate (ignore)
+        return this.doFormat(res)
+    }
     // compute the combined gender and number of the coordination
     if(idxC >= 0 ){
         // var c=this.elements.splice(idxC,1)[0]
@@ -1323,6 +1301,8 @@ Phrase.prototype.cpReal = function(){
         var gn=this.findGenderNumber(c.lemma==and)
         this.prop["g"]=gn.g;
         this.prop["n"]=gn.n;
+    } else {
+        this.warn("not found","C","CP")
     }            
     if (last==0){// coordination with only one element, ignore coordinate
         Array.prototype.push.apply(res,elems[0].real());
@@ -1444,13 +1424,12 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 
 ////// Creates a Terminal (subclass of Constituent)
 // Terminal
-function Terminal(lemma,terminalType){
+function Terminal(lemmaArr,terminalType){
     Constituent.call(this,terminalType);
-    if (terminalType!="DT" && lemma.length!=1){
-        this.warning(terminalType+" deals with only one parameter, but has been called with "+lemma.length,
-                     terminalType+" ne traite qu'un seul paramètre, mais il a été appelé avec "+lemma.length)
+    if (terminalType!="DT" && lemmaArr.length!=1){
+        this.warn("too many parameters",terminalType,lemmaArr.length)
     } else
-        this.setLemma(lemma[0],terminalType);
+        this.setLemma(lemmaArr[0],terminalType);
 }
 extend(Constituent,Terminal)
 
@@ -1459,26 +1438,22 @@ Terminal.prototype.me = function(){
 }
 
 Terminal.prototype.morphoError = function (lemma,type,fn,vals){
-    this.warning("morphology error:"+fn+"("+vals+")",
-                 "erreur de morphologie:"+fn+"("+vals+")");
+    this.warn("morphology error",fn+"("+vals+")")
     return "[["+lemma+"]]"
 }
 
-// Phrase structure modifications (should not be called on Terminal)==> warning
+// Phrase modifications (should not be called on Terminal)==> warning
 Terminal.prototype.typ = function(types){
-    this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
-                 ".typ("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être S, SP or VP")
+    this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
     return this;
 }
 Terminal.prototype.pro = function(args){
-    this.warning(".pro("+JSON.stringify(args)+") applied to a "+this.constType+ " should be a NP",
-                 ".pro("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être NP");
+    this.warn("bad application",".typ("+JSON.stringify(types)+")","NP",this.constType)
     return this;
 }
 
 Terminal.prototype.add = function(){
-    this.warning(".add should be applied to Phrase, not a "+this.constType,
-                 ".add appliqué à une Phrase, non un "+this.constType);
+    this.warn("bad application",".add","Phrase",this.constType)
     return this;
 }
 
@@ -1494,8 +1469,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
              this.date=new Date()
          } else {
              if (lemmaType != "string" && !(lemma instanceof Date)){
-                 this.warning("DT should be called with a string or Date parameter, not "+lemmaType,
-                              "DT devrait être appelé avec un paramètre chaine ou Date, non "+lemmaType)
+                 this.warn("bad parameter","string, Date",lemmaType);
              }             
              this.date = new Date(lemma);
          }
@@ -1505,33 +1479,28 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         break;
     case "NO":
         if (lemmaType != "string" && lemmaType != "number"){
-            this.warning("NO should be called with a string or a number parameter, not "+lemmaType,
-                         "NO devrait être appelé avec un paramètre chaine ou nombre, non "+lemmaType)
+            this.warn("bad parameter","string, number",lemmaType);
         }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
-        if (lemmaType != "string"){
-            this.warning("Q should be called with a string parameter, not "+lemmaType,
-                         "Q devrait être appelé avec un paramètre chaine, non "+lemmaType)
-        }
+        this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         if (lemmaType != "string"){
-            this.warning(" should be called with a string parameter, not "+lemmaType,
-                         " devrait être appelé avec un paramètre chaine, non "+lemmaType)
+            return this.warn("bad parameter","string",lemmaType)
         }
         let lexInfo=lexicon[lemma];
         if (lexInfo==undefined){
             this.tab=null;
-            this.warning("not in lexicon","absent du lexique");
+            this.warn("not in lexicon")
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
                 this.tab=null;
-                this.warning("not in lexicon","absent du lexique");
+                this.warn("not in lexicon")
             } else {
                 const keys=Object.keys(lexInfo);
                 for (let i = 0; i < keys.length; i++) {
@@ -1561,15 +1530,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }        
         break;
     default:
-        this.warning("setLemma: unknown terminal type:"+terminalType,
-                     "setLemma: type de terminal inconnu:"+terminalType)
+        this.warn("not implemented",terminalType);
     }
 }
 
 Terminal.prototype.grammaticalNumber = function(){
     if (!this.isA("NO")){
-        return this.warning("grammaticalNumber must be called on a NO, not a "+this.constType,
-                            "grammaticalNumber doit être appelé sur un NO, non un "+this.constType);
+        return this.warn("bad application","grammaticalNumber","NO",this.constType);
     }
     
     if (this.noOptions.ord==true)return "s"; // ordinal number are always singular
@@ -1830,8 +1797,7 @@ Terminal.prototype.numberFormatter = function (rawNumber, maxPrecision) {
 
 Terminal.prototype.numberToWord = function(number, lang, gender) {
     if (parseInt(number) !== number){
-        this.warning("cannot show a decimal number in words",
-                     "ne peut écrire en mots un nombre avec décimales");
+        this.warn("bad number in word",number)
         return number+"";
     }
     if (lang=="fr" && gender=="f"){
@@ -1843,12 +1809,11 @@ Terminal.prototype.numberToWord = function(number, lang, gender) {
 
 Terminal.prototype.numberToOrdinal = function(number,lang,gender){
     if (parseInt(number) !== number){
-        this.warning("cannot show a decimal number as ordinal",
-                     "on ne peut réaliser un nombre avec décimales comme un ordinal");
+        this.warn("bad ordinal",number)
         return number+"";
-    } else if (number<=0){
-        this.warning("cannot show 0 or a negative number as an ordinal",
-                     "one ne peut réaliser 0 ou un nombre négatif comme un ordinal")
+    } 
+    if (number<=0){
+        this.warn("bad ordinal",number)
     }
     return ordinal(number,lang, gender);
 };
@@ -1893,8 +1858,7 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         if (hms != "")return res+" "+hms;
         return res;
     }
-    this.warning("not implemented:"+JSON.stringify(dOpt),
-                 "non implanté:"+JSON.stringify(dOpts))
+    this.warn("not implemented",JSON.stringify(dOpts));
     return "[["+dateObj+"]]"
 }
 
@@ -2344,6 +2308,6 @@ function setExceptionOnWarning(val){
     exceptionOnWarning=val;
 }
 
-var jsRealB_version="3.0";
+var jsRealB_version="3.1";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-02-29 11:57"
+jsRealB_dateCreated="2020-03-04 21:51"

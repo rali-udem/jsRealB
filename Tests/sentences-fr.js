@@ -168,9 +168,9 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Le gâteau est mangé par les enfants.",
          message:"Passive"},
         // 30
-        {expression:S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"),
-                                  PP(P("à"), NP(D("le"), N("loi")))))).t("pc").typ({neg:true}),
-         expected:"Nous n'avons pas agi conformément à la loi.",
+        {expression:S(Pro("je").pe(1).n("p"), VP(V("agir").t("c"), AdvP(Adv("conformément"),
+                                  PP(P("à"), NP(D("le"), N("loi")))))).typ({mod:"nece"}),
+         expected:"Nous devrions agir conformément à la loi.",
          message:"avec PP"},
         // 31
         {expression:S(NP(D("le"),N("chat").n("p")),

@@ -483,32 +483,34 @@ var numberAgreement={"fr":"Accord du nom selon le nombre","en":"Noun agreement i
     
 ]};
 
-var pomme,pommes,apple,apples,gars,boy;
+var pomme,pommes,la_pomme,apple,the_apple,apples,gars,boy;
 var cloneUse={"fr":"Illustration de l'utilisation de <code>.clone()</code>",
               "en":"Simple example of use of <code>.clone()</code>",
     "ex":[
-          {"pattern":"","fr":["déclaration",'pomme = NP(D("le"),N("pomme"))'],
-                        "en":["declaration",'apple = NP(D("the"),N("apple"))']},
-          {"pattern":"","fr":["déclaration",'gars = NP(D("le"),N("garçon")).n("p")'],
-                        "en":["declaration",'boy = NP(D("a"),N("boy"))']},
+          {"pattern":"","fr":["déclaration",'pomme = N("pomme")'],
+                        "en":["declaration",'apple = N("apple")']},
+          {"pattern":"","fr":["déclaration",'gars = NP(D("le"),N("garçon"))'],
+                        "en":["declaration",'boy = NP(D("the"),N("boy"))']},
           {"pattern":"","fr":["modification",'pomme.n("p")'],
                         "en":["modification",'apple.n("p")']},
           {"pattern":"","fr":["effet de bord visible",'pomme'],
                         "en":["side-effect occurred",'apple']},
-          {"pattern":"","fr":["redéclaration",'pomme = NP(D("le"),N("pomme"))'],
-                        "en":["redeclaration",'apple = NP(D("the"),N("apple"))']},
+          {"pattern":"","fr":["redéclaration",'pomme = N("pomme")'],
+                        "en":["redeclaration",'apple = N("apple")']},
           {"pattern":"","fr":["sauve l'original",'pommes=pomme.clone().n("p")'],
                         "en":["save the original",'apples=apple.clone().n("p")']},
           {"pattern":"","fr":["original a bien été sauvé",'pomme'],
                         "en":["original was saved",'apple']},
+          {"pattern":"","fr":["Autre exemple, plus subtil",'la_pomme = NP(D("le"),pomme)'],
+                        "en":["Another example, more devious",'the_apple = NP(D("the"),apple)']},
           {"pattern":"","fr":["clone est utile pour la réutilisation",
-                             'S(pomme.clone().a(","),gars,VP(V("manger"),pomme.clone().pro()))'],
+                             'S(la_pomme.clone().a(","),gars,VP(V("manger"),la_pomme.clone().pro()))'],
                         "en":["close is useful for reuse",
-                              'S(apple.clone().a(","),boy,VP(V("eat"),apple.clone().pro()))']},
-          {"pattern":"","fr":["exemple précédent sans clone; <b>mauvais résultat</b> car <code>.pro()</code> a modifié <code>pomme</code> avant la réalisation",
-                             'S(pomme.a(","),gars,VP(V("manger"),pomme.pro())).b("*")'],
-                        "en":["previous example without clone; <b>bad result</b> because <code>.pro()</code> modified <code>apple</code> before the realisation",
-                              'S(apple.a(","),boy,VP(V("eat"),apple.pro())).b("*")']},
+                              'S(the_apple.clone().a(","),boy,VP(V("eat"),the_apple.clone().pro()))']},
+          {"pattern":"","fr":["exemple précédent sans clone; <b>mauvais résultat</b> car <code>.pro()</code> a modifié <code>pomme</code> avant sa réalisation",
+                             'S(la_pomme.a(","),gars,VP(V("manger"),la_pomme.pro())).b("*")'],
+                        "en":["previous example without clone; <b>bad result</b> because <code>.pro()</code> modified <code>apple</code> before its realization",
+                              'S(the_apple.a(","),boy,VP(V("eat"),the_apple.pro())).b("*")']},
         
 ]};
 
