@@ -416,7 +416,7 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,"VP")
+                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,["VP"])
                 return;
             }
         }
@@ -480,7 +480,7 @@ Phrase.prototype.processTyp_en = function(types){
         const idxVP=this.getIndex(["VP"]);
         if (idxVP>=0) {vp=this.elements[idxVP]}
         else {
-            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,"VP")
+            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,["VP"])
         }
     }
     const idxV=vp.getIndex("V");
@@ -707,7 +707,7 @@ Phrase.prototype.typ = function(types){
             this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
-        this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
 }

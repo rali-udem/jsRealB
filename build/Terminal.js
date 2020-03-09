@@ -26,7 +26,7 @@ Terminal.prototype.morphoError = function (lemma,type,fn,vals){
 
 // Phrase modifications (should not be called on Terminal)==> warning
 Terminal.prototype.typ = function(types){
-    this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
+    this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     return this;
 }
 Terminal.prototype.pro = function(args){

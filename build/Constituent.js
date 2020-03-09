@@ -221,7 +221,7 @@ Constituent.prototype.dOpt = function(dOptions){
             }
         }
     } else {
-        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
     }
     return this;
 }
@@ -239,7 +239,7 @@ Constituent.prototype.nat= function(isNat){
             return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
     }
     return this;
 }

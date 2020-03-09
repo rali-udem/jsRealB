@@ -32,6 +32,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `Phrase.js` : subclass of *Constituent* for creating complex phrases
     * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
     * `Utils.js` : useful functions that do not belong to the *constituent*s
+    * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
 * [`data`](data/):
     * `lexicon-dme.json` : a *comprehensive* English lexicon (33926 entries) in json format
     * `lexicon-dmf.json` : a *comprehensive* French lexicon (52512 entries) in json format
