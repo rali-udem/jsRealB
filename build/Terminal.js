@@ -175,8 +175,9 @@ Terminal.prototype.bestMatch = function(declension,fields){
 // constant fields
 const gn=["g","n"];
 const gnpe=["pe"].concat(gn) // check pe first
+const gnpetnc=["tn","c"].concat(gnpe)
 const gnpeown=gnpe.concat(["own"])
-const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
+const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
               "en":{"N":["n"],"D":gnpeown,"Pro":gnpeown}};
 
 
@@ -235,7 +236,7 @@ Terminal.prototype.decline = function(setPerson){
                 }
             }
         }
-    } else if (declension.length==1){
+    } else if (declension.length==1){ // no declension
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         const ending=this.bestMatch(declension,fields[this.lang][this.constType]);

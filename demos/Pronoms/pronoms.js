@@ -8,36 +8,28 @@ var options = {
     c:["nom","acc","dat","refl"]
 }
 
+var header="<tr><th>jsRealB</th><th>Réalisation</th></tr>"
+
 function makeOptions(opts){
-    if (opts.length==0)return [];
+    if (opts.length==0)return [""];
     var o1=opts.shift();
     var rest = makeOptions(opts);
     var out=[];
     for (var i = 0; i < options[o1].length; i++) {
         var o=options[o1][i];
         var res=`.${o1}("${o}")`;
-        if (rest.length==0){
-            out.push(res);
-        } else {
-            for (var j = 0; j < rest.length; j++) {
-                out.push(res+rest[j]);
-            }
+        for (var j = 0; j < rest.length; j++) {
+            out.push(res+rest[j]);
         }
     }
     return out;
 }
 
-// makeOptions(["pe","g","n"])
 
-// function $makePeGN(Const,terminal,pe,g,n){
-//     var exp=Const(terminal).pe(pe).g(g).n(n);
-//     return $("<td><code>"+exp.toSource()+"</code></td>"+"<td>"+exp+"</td>")
-// }
-
-function $makeTablePeGN(Const,terminal){
+function $makeTable(Const,terminal,options){
     var t=$("<table/>")
-    t.append($("<tr><th>jsRealB</th><th>Réalisation</th></tr>"))
-    var opts=makeOptions(["pe","g","n"])
+    t.append($(header))
+    var opts=makeOptions(options)
     for (var i = 0; i < opts.length; i++) {
         var exp=`${Const}("${terminal}")`+opts[i];
         console.log(exp);
@@ -46,37 +38,35 @@ function $makeTablePeGN(Const,terminal){
     return t;
 }
 
-// function $makeGN(Const,terminal,g,n){
-//     var exp=Const(terminal).g(g).n(n);
-//     return $("<td><code>"+exp.toSource()+"</code></td>"+"<td>"+exp+"</td>")
-// }
-//
-// function $makeTableGN(Const,terminal){
-//     var t=$("<table/>")
-//     t.append($("<tr><th>jsRealB</th><th>Réalisation</th></tr>"))
-//     for (var j = 0; j < genres.length; j++) {
-//         var g=genres[j];
-//         for (var k = 0; k < nombres.length; k++) {
-//             var n=nombres[k];
-//             t.append($("<tr/>").append($makeGN(Const,terminal,g,n)))
-//         }
-//     }
-//     return t;
-// }
-
-
-
+function $addLignes($table,Const,terminal,options){
+    var opts=makeOptions(options)
+    for (var i = 0; i < opts.length; i++) {
+        var exp=`${Const}("${terminal}")`+opts[i];
+        console.log(exp)
+        $table.append($("<tr><td><code>"+exp+"</code></td>"+"<td>"+eval(exp)+"</td></tr>"))
+    }
+}
 
 $(document).ready(function() {
     Object.assign(lexiconFr,lexiconFrPro);
-    Object.assign(ruleFr,ruleFrPro);
+    Object.assign(ruleFr.declension,ruleFrPro_declension);
     loadFr();
     $tableau=$("#pronoms");
-    for (var i = 0; i < pronoms.length; i++) {
-        $tableau.append($makeTablePeGN("Pro",pronoms[i]))
-    }
-    // $tableau=$("#determinants");
-    // $tableau.append($makeTableGN(Pro,"mien"))
-    // $tableau.append($makeTableGN(D,"mon"))
+    $tableau.append($makeTable("Pro","moi",["g","n","pe"]))
+    $tableau.append($makeTable("Pro","on",[]))
+    $tableau.append($makeTable("Pro","moi-même",["g","n","pe"]))
+    $tableau.append($makeTable("Pro","mien",["g","n","pe"]))
+    $tableau.append($makeTable("Pro","nôtre",["g","n","pe"]))
+    $tableau.append($makeTable("Pro","mien",["g","n","pe"]))
+    $tableau.append($makeTable("D","mon",["g","n"]))
     
+    var nouveauxPronoms=["toi","lui","elle","vous","eux","elles","on"];
+    for (var i = 0; i < nouveauxPronoms.length; i++) {
+        var pro=nouveauxPronoms[i];
+        var $table=$("<table/>");
+        $table.append($(header));
+        $addLignes($table,"Pro",pro,["tn"]);
+        $addLignes($table,"Pro",pro,["c"]);
+        $tableau.append($table)
+    }
 });

@@ -1,8 +1,8 @@
-var ruleFrPro = {
+var ruleFrPro_declension = {
     "pn0":{
         "ending":"on",
         "declension":[{
-            "val": "soi","g": "n","n": "s","pe": 3, "tn":true
+            "val": "soi","g": "n","n": "s","pe": 3, "tn":""
         },{
             "val": "soi-même","g": "n","n": "s","pe": 3, "tn":"refl"
         },{
@@ -18,7 +18,7 @@ var ruleFrPro = {
     "pn4": {
         "ending": "moi",
         "declension": [{
-            "val": "moi","g": "x","n": "s","pe": 1, "tn":true
+            "val": "moi","g": "x","n": "s","pe": 1, "tn":""
         },{
             "val": "moi-même","g": "x","n": "p","pe": 1, "tn":"refl"
         },{
@@ -30,7 +30,7 @@ var ruleFrPro = {
         },{
             "val": "me","g": "x","n": "p","pe": 1, "c":"refl"
         },{
-            "val": "nous","g": "x","n": "p","pe": 1, "tn":true
+            "val": "nous","g": "x","n": "p","pe": 1, "tn":""
         },{
             "val": "nous-mêmes","g": "x","n": "p","pe": 1, "tn":"refl"
         },{
@@ -42,7 +42,7 @@ var ruleFrPro = {
         },{
             "val": "nous","g": "x","n": "p","pe": 1, "c":"refl"
         },{
-            "val": "toi","g": "x","n": "s","pe": 2, "tn":true
+            "val": "toi","g": "x","n": "s","pe": 2, "tn":""
         },{
             "val": "toi-même","g": "x","n": "s","pe": 2, "tn":"refl"
         },{
@@ -54,7 +54,7 @@ var ruleFrPro = {
         },{
             "val": "te","g": "x","n": "s","pe": 2, "c":"refl"
         },{
-            "val": "vous-mêmes","g": "x","n": "p","pe": 2, "tn":true
+            "val": "vous-mêmes","g": "x","n": "p","pe": 2, "tn":""
         },{
             "val": "vous","g": "x","n": "p","pe": 2, "tn":"refl"
         },{
@@ -66,7 +66,7 @@ var ruleFrPro = {
         },{
             "val": "vous","g": "x","n": "p","pe": 2, "c":"refl"
         },{
-            "val": "lui","g": "m","n": "s","pe": 3, "tn":true
+            "val": "lui","g": "m","n": "s","pe": 3, "tn":""
         },{
             "val": "lui-même","g": "m","n": "s","pe": 3, "tn":"refl"
         },{
@@ -78,7 +78,7 @@ var ruleFrPro = {
         },{
             "val": "se","g": "m","n": "s","pe": 3, "c":"refl"
         },{
-            "val": "elle","g": "f","n": "s","pe": 3, "tn":true
+            "val": "elle","g": "f","n": "s","pe": 3, "tn":""
         },{
             "val": "elle-même","g": "f","n": "s","pe": 3, "tn":"refl"
         },{
@@ -90,7 +90,7 @@ var ruleFrPro = {
         },{
             "val": "se","g": "f","n": "s","pe": 3, "c":"refl"
         },{
-            "val": "eux","g": "m","n": "p","pe": 3, "tn":true
+            "val": "eux","g": "m","n": "p","pe": 3, "tn":""
         },{
             "val": "eux-mêmes","g": "m","n": "p","pe": 3, "tn":"refl"
         },{
@@ -102,7 +102,7 @@ var ruleFrPro = {
         },{
             "val": "se","g": "m","n": "p","pe": 3, "c":"refl"
         },{
-            "val": "elles","g": "f","n": "p","pe": 3, "tn":true
+            "val": "elles","g": "f","n": "p","pe": 3, "tn":""
         },{
             "val": "elles-mêmes","g": "f","n": "p","pe": 3, "tn":"refl"
         },{
@@ -118,7 +118,7 @@ var ruleFrPro = {
     "pn4-2s": {
         "ending": "toi",
         "declension": [{
-            "val": "toi", "tn":true
+            "val": "toi", "tn":""
         },{
             "val": "toi-même", "tn":"refl"
         },{
@@ -134,7 +134,7 @@ var ruleFrPro = {
     "pn4-3sm": {
         "ending": "lui",
         "declension": [{
-            "val": "lui", "tn":true
+            "val": "lui", "tn":""
         },{
             "val": "lui-même", "tn":"refl"
         },{
@@ -150,7 +150,7 @@ var ruleFrPro = {
     "pn4-3sf": {
         "ending": "elle",
         "declension": [{
-            "val": "elle", "tn":true
+            "val": "elle", "tn":""
         },{
             "val": "elle-même", "tn":"refl"
         },{
@@ -166,7 +166,7 @@ var ruleFrPro = {
     "pn4-1p": {
         "ending": "nous",
         "declension": [{
-            "val": "nous", "tn":true
+            "val": "nous", "tn":""
         },{
             "val": "nous-mêmes", "tn":"refl"
         },{
@@ -182,7 +182,7 @@ var ruleFrPro = {
     "pn4-2p": {
         "ending": "vous",
         "declension": [{
-            "val": "vous", "tn":true
+            "val": "vous", "tn":""
         },{
             "val": "vous-mêmes", "tn":"refl"
         },{
@@ -198,7 +198,7 @@ var ruleFrPro = {
     "pn4-3pm": {
         "ending": "eux",
         "declension": [{
-            "val": "eux", "tn":true
+            "val": "eux", "tn":""
         },{
             "val": "eux-mêmes", "tn":"refl"
         },{
@@ -214,7 +214,7 @@ var ruleFrPro = {
     "pn4-3pf": {
         "ending": "elles",
         "declension": [{
-            "val": "elles", "tn":true
+            "val": "elles", "tn":""
         },{
             "val": "elles-mêmes", "tn":"refl"
         },{
