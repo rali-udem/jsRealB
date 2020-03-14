@@ -1,3 +1,5 @@
+Object.assign(lexiconFr,lexiconFrPro);
+Object.assign(ruleFr.declension,ruleFrPro_declension);
 // //////// exemples en français
 "use strict";
 loadFr();
@@ -9,6 +11,8 @@ var  gars = NP(D("le"),N("garçon").n("p"));
 
 var exemplesFR=[
     N("chat"),
+    Pro("moi"),
+    Pro("moi").tn(""),
     NP(D("le"),N("chat")),
     S(NP(D('le'),N('chat').n("p"))),
     V("aller").t("ps").pe(2).n("p"),

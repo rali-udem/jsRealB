@@ -9,6 +9,7 @@ addToLexicon("aucun",{ D: { tab: [ 'd4' ] }})
 addToLexicon("comme",{ Adv: { tab: [ 'av' ] }, C: { tab: [ 'cj' ] } })
 addToLexicon("contraction",{ N: { g: 'f', tab: [ 'n17' ] } })
 addToLexicon("français",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
+addToLexicon("illégal",{ A: { tab: [ 'n47' ] } });
 addToLexicon("implémenter",{ V: { aux: [ 'av' ], tab: 'v36' } })
 addToLexicon("lexique",{ N: { g: 'm', tab: [ 'n3' ] } })
 addToLexicon("option",{ N: { g: 'f', tab: [ 'n17' ] } })
@@ -92,8 +93,15 @@ Constituent.prototype.warnings = {
             S(NP(Q(bad).a(":"),
               VP(V("ignorer"),NP(D("ce"),A("mauvais"),N("valeur"),
                                  PP(P("pour"),D("le"),N("option"),Q(option)))).typ({pas:true})))},
+    "unknown type":
+        {en:(key,allowedTypes) => // illegal type: $key, it should be $allowedTypes.
+            S(NP(A("illegal"),N("type").a(":"),Q(key)).a(","),
+              VP(Pro("I"),V("be").t("ps"),makeDisj("or",allowedTypes))).typ({mod:"nece"}),
+         fr:(key,allowedTypes) => // type illégal : $key, il devrait être $allowedTypes.
+            S(NP(N("type"),A("illégal").a(":"),Q(key)).a(","),
+              VP(Pro("je"),V("être").t("c"),makeDisj("ou",allowedTypes))).typ({mod:"nece"})},
     "no value for option":
-        {en:(option,validVals)=> //  no value for option $option should be one of $validVals.
+        {en:(option,validVals)=> // no value for option $option should be one of $validVals.
             S(NP(Adv("no"),N("value"),PP(P("for"),N("option"),Q(option))),
               VP(V("be").t("ps"),Pro("one"),PP(P("of"),Q(validVals)))).typ({mod:"nece"}),
          fr:(option,validVals)=> // aucune valeur pour l'option $option, devrait être une parmi $validVals.
@@ -108,7 +116,8 @@ Constituent.prototype.warnings = {
         {en:(value)=> // cannot realize $value as ordinal.
             S(VP(V("realize"),Q(value),AdvP(Adv("as"),N("ordinal")))).typ({neg:true,mod:"poss"}),
          fr:(value)=> // $value ne peut pas être réalisé comme un ordinal.
-            S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("ordinal"))))).typ({neg:true,mod:"poss",pas:true})},
+            S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("ordinal")))))
+              .typ({neg:true,mod:"poss",pas:true})},
     "bad number in word":
         {en:(value)=> // cannot realize $value in words.
             S(VP(V("realize"),Q(value),PP(P("in"),N("word").n("p")))).typ({neg:true,mod:"poss"}),
@@ -134,6 +143,15 @@ Constituent.prototype.warnings = {
             S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon"))),
          fr:()=> // absent du lexique.
             S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
+    "both tonic and clitic":
+        {en:()=>// tn(..) and c(..) cannot be used together, tn(..) is ignored.
+             S(CP(C("and"),Q("tn(..)"),Q("c(..)")),VP(V("use").n("p"),Adv("together"))
+                  .typ({neg:true,pas:true,mod:"poss"}).a(","),
+               Q("tn(..)"),VP(V("ignore")).typ({pas:true})),
+         fr:()=>// tn(..) et c(..) utilisés ensemble, tn(..) est ignoré.
+             S(CP(C("et"),Q("tn(..)"),Q("c(..)")),VP(V("utiliser").t("pp").n("p"),Adv("ensemble")).a(","),
+               Q("tn(..)"),VP(V("ignorer")).typ({pas:true}))
+        },
     "bad Constituent":
         {en:(rank,type)=> // the $rank parameter is not Constituent.
             S(NP(D("the"),Q(rank),N("parameter")),

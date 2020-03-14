@@ -623,22 +623,20 @@ Phrase.prototype.typ = function(types){
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
         // validate types and keep only ones that are valid
-        const entries=Object.entries(types);
-        for (let i = 0; i < entries.length; i++) {
-            const key=entries[i][0];
-            const val=entries[i][1];
+        for (let key in types) {
+            const val=types[key];
             const allowedVals=allowedTypes[key];
-            if (allowedVals !== undefined){
+            if (allowedVals === undefined){
+                this.warn("unknown type",key,Object.keys(allowedTypes))
+            } else {
                 if (key == "neg" && this.isFr()){ // also accept string as neg value in French
                     if (!contains(["string","boolean"],typeof val)){
                         this.warn("ignored value for option",".typ("+key+")",val)
                         delete types[key]
                     }
-                } else {
-                    if (!contains(allowedVals,val)){
-                        this.warn("ignored value for option",".typ("+key+")",val)
-                        delete types[key]
-                    }
+                } else if (!contains(allowedVals,val)){
+                    this.warn("ignored value for option",".typ("+key+")",val)
+                    delete types[key]
                 }
             }
         }
