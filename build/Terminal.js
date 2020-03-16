@@ -243,10 +243,16 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
-        if (this.isFr() && this.isA("Pro")){// check special combinations of tn and c for French pronouns
+        if (this.prop["ow"]!==undefined)keyVals["ow"]=this.prop["ow"];
+        if (this.isA("Pro")){// check special combinations of tn and c for pronouns
             const c  = this.prop["c"];
             if (c!==undefined){
-                keyVals["c"]=c;
+                if (this.isFr() && c=="gen"){ // genitive cannot be used in French
+                    this.warn("ignored value for option","c",c)
+                } else if (this.isEn() && c=="refl"){ // reflechi cannot be used in English
+                    this.warn("ignored value for option","c",c)
+                } else
+                    keyVals["c"]=c;
             }
             const tn = this.prop["tn"];
             if (tn !== undefined){

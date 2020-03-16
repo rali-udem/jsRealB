@@ -3765,9 +3765,8 @@ var lexiconEn = //========== lexicon-en.js
  "on":{"Adv":{"tab":["b1"]},
        "P":{"tab":["pp"]}},
  "once":{"Adv":{"tab":["b1"]}},
- "one":{"D":{"tab":["d4"],
-             "value":1},
-        "Pro":{"tab":["pn5"]}},
+ "one":{"D":{"tab":["d4"],"value":1},
+        "Pro":{"tab":["pn0"]}},
  "onion":{"N":{"tab":["n1"]}},
  "only":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b1"]}},
@@ -6201,4 +6200,11 @@ var lexiconEn = //========== lexicon-en.js
  "«":{"Pc":{"compl":"»",
             "tab":["pc7"]}},
  "»":{"Pc":{"compl":"«",
-            "tab":["pc8"]}}}
+            "tab":["pc8"]}},
+ "you":{"Pro":{"tab":["pn2-2"]}},
+ "him":{"Pro":{"tab":["pn2-3sm"]}},
+ "her":{"Pro":{"tab":["pn2-3sf"]}},
+ "it":{"Pro":{"tab":["pn2-3sn"]}},
+ "us":{"Pro":{"tab":["pn2-1p"]}},
+ "them":{"Pro":{"tab":["pn2-3p"]}}
+}

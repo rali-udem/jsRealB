@@ -138,7 +138,7 @@ genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
 genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("aux",["av","êt","aê"],["V"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
-genOptionFunc("c",["nom","acc","dat","refl"],["Pro"]);
+genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A"]);
 genOptionFunc("pro",undefined,["NP"]);

@@ -137,6 +137,8 @@ genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
 genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("aux",["av","êt","aê"],["V"]);
+genOptionFunc("tn",["","refl"],["Pro"]);
+genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A"]);
 genOptionFunc("pro",undefined,["NP"]);
@@ -221,7 +223,7 @@ Constituent.prototype.dOpt = function(dOptions){
             }
         }
     } else {
-        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
     }
     return this;
 }
@@ -239,7 +241,7 @@ Constituent.prototype.nat= function(isNat){
             return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
     }
     return this;
 }
@@ -982,7 +984,7 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,"VP")
+                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,["VP"])
                 return;
             }
         }
@@ -1046,7 +1048,7 @@ Phrase.prototype.processTyp_en = function(types){
         const idxVP=this.getIndex(["VP"]);
         if (idxVP>=0) {vp=this.elements[idxVP]}
         else {
-            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,"VP")
+            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,["VP"])
         }
     }
     const idxV=vp.getIndex("V");
@@ -1189,22 +1191,20 @@ Phrase.prototype.typ = function(types){
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
         // validate types and keep only ones that are valid
-        const entries=Object.entries(types);
-        for (let i = 0; i < entries.length; i++) {
-            const key=entries[i][0];
-            const val=entries[i][1];
+        for (let key in types) {
+            const val=types[key];
             const allowedVals=allowedTypes[key];
-            if (allowedVals !== undefined){
+            if (allowedVals === undefined){
+                this.warn("unknown type",key,Object.keys(allowedTypes))
+            } else {
                 if (key == "neg" && this.isFr()){ // also accept string as neg value in French
                     if (!contains(["string","boolean"],typeof val)){
                         this.warn("ignored value for option",".typ("+key+")",val)
                         delete types[key]
                     }
-                } else {
-                    if (!contains(allowedVals,val)){
-                        this.warn("ignored value for option",".typ("+key+")",val)
-                        delete types[key]
-                    }
+                } else if (!contains(allowedVals,val)){
+                    this.warn("ignored value for option",".typ("+key+")",val)
+                    delete types[key]
                 }
             }
         }
@@ -1273,7 +1273,7 @@ Phrase.prototype.typ = function(types){
             this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
-        this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
 }
@@ -1437,14 +1437,14 @@ Terminal.prototype.me = function(){
     return this.constType+"("+quote(this.lemma)+")";
 }
 
-Terminal.prototype.morphoError = function (lemma,type,fn,vals){
-    this.warn("morphology error",fn+"("+vals+")")
+Terminal.prototype.morphoError = function (lemma,constType,errorKind,keyVals){
+    this.warn("morphology error",errorKind+` :${constType}(${lemma}) : `+JSON.stringify(keyVals))
     return "[["+lemma+"]]"
 }
 
 // Phrase modifications (should not be called on Terminal)==> warning
 Terminal.prototype.typ = function(types){
-    this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
+    this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     return this;
 }
 Terminal.prototype.pro = function(args){
@@ -1566,35 +1566,39 @@ Terminal.prototype.getConst = function(constTypes){
 //    equal with x = 1
 //    no match = 0
 //  but if the person does not match set score to 0
-Terminal.prototype.bestMatch = function(declension,fields){
+Terminal.prototype.bestMatch = function(errorKind,declension,keyVals){
     let matches=[];
     for (var i = 0; i < declension.length; i++) {
         const d=declension[i];
         let nbMatches=0;
-        for (let j = 0; j < fields.length; j++) {
-            const f=fields[j];
-            if (d[f]!==undefined){
-                const fVal=this.getProp(f)
-                if (f == "pe" && d[f]!=fVal){
+        for (let key in keyVals){
+            if (d[key]!==undefined){
+                const val=keyVals[key];
+                if (key=="pe" && d[key]!=val){// persons must match exactly
                     nbMatches=0;
                     break;
                 }
-                if (d[f]==fVal)nbMatches+=2;
-                else if (d[f]=="x") nbMatches+=1;
+                if (d[key]==val)nbMatches+=2;
+                else if (d[key]=="x")nbMatches+=1
             }
         }
         matches.push([nbMatches,d["val"]]);
     }
-    matches.sort((a,b)=>b[0]-a[0])
+    matches.sort((a,b)=>b[0]-a[0]); // sort scores in decreasing order
     const best=matches[0];
-    return (best[0]==0)?null:best[1];
+    if (best[0]==0){
+        this.morphoError(this.lemma,this.constType,errorKind,keyVals)
+        return null;
+    } 
+    return best[1];
 }
 
 // constant fields
 const gn=["g","n"];
 const gnpe=["pe"].concat(gn) // check pe first
+const gnpetnc=["tn","c"].concat(gnpe)
 const gnpeown=gnpe.concat(["own"])
-const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
+const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
               "en":{"N":["n"],"D":gnpeown,"Pro":gnpeown}};
 
 
@@ -1606,15 +1610,15 @@ Terminal.prototype.decline = function(setPerson){
     if (this.tab==null){
         if (this.isA("Adv")) // this happens for some adverbs in French with table in rules.regular...
             return this.lemma; 
-        return this.morphoError(this.lemma,this.constType,"decline:tab",[g,n,pe]);
+        return this.morphoError(this.lemma,this.constType,"decline:tab",{g:g,n:n,pe:pe});
     } 
     let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
-            const ending=this.bestMatch(declension,gn);
+            const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
             if (ending==null){
-                return this.morphoError(this.lemma,this.constType,"decline",[g,n]);
+                return `[[${this.lemma}]]`;
             }
             res = this.stem+ending;
             const f = this.getProp("f");// comparatif d'adjectif
@@ -1645,29 +1649,57 @@ Terminal.prototype.decline = function(setPerson){
                         }
                     } 
                     // look in the adjective declension table
-                    const ending=this.bestMatch(declension,["f"])
+                    const ending=this.bestMatch("adjective declension",declension,{f:f})
                     if (ending==null){
-                        return this.morphoError(this.lemma,this.constType,"decline:adjective",[f]);
+                        return `[[${this.lemma}]]`;
                     }
                     res = this.stem + ending;
                 }
             }
         }
-    } else if (declension.length==1){
+    } else if (declension.length==1){ // no declension
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
-        const ending=this.bestMatch(declension,fields[this.lang][this.constType]);
+        let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+        if (this.isA("Pro")){// check special combinations of tn and c for pronouns
+            const c  = this.prop["c"];
+            if (c!==undefined){
+                if (this.isFr() && c=="gen"){ // genitive cannot be used in French
+                    this.warn("ignored value for option","c",c)
+                } else if (this.isEn() && c=="refl"){ // reflechi cannot be used in English
+                    this.warn("ignored value for option","c",c)
+                } else
+                    keyVals["c"]=c;
+            }
+            const tn = this.prop["tn"];
+            if (tn !== undefined){
+                if (c!== undefined){
+                    this.warn("both tonic and clitic");
+                } else {
+                    keyVals["tn"]=tn;
+                }
+            }
+            if (c !== undefined || tn !== undefined){
+                // HACK:remove defaults from pronoun such as "moi"
+                if (this.prop["g"]===undefined)delete keyVals["g"];
+                if (this.prop["n"]===undefined)delete keyVals["n"];
+                if (this.prop["pe"]===undefined)keyVals["pe"]=1; // make sure it matches the first
+            } else { // no c, nor tn set tn to "" except for "on"
+                if(this.lemma!="on")keyVals["tn"]="";
+            }
+        }
+        const ending=this.bestMatch(this.isFr()?"déclinaison":"declension",declension,keyVals);
         if (ending==null){
-            return this.morphoError(this.lemma,this.constType,"decline",[g,n,pe]);
+            return `[[${this.lemma}]]`;
         }
         if (this.isFr() && this.isA("N")){ 
             // check is French noun gender specified corresponds to the one given in the lexicon
             const lexiconG=lexicon[this.lemma]["N"]["g"]
             if (lexiconG === undefined){
-                return this.morphoError(this.lemma,this.constType,"absent du lexique",[g,n]);
+                return this.morphoError(this.lemma,this.constType,"absent du lexique",{g:g,n:n});
             } 
             if (lexiconG != "x" && lexiconG != g) {
-                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",[g,lexiconG])
+                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",{g:g, lexique:lexiconG})
             }
         }
         res = this.stem+ending;
@@ -1682,7 +1714,7 @@ Terminal.prototype.conjugate_fr = function(){
     let n = this.getProp("n");
     const t = this.getProp("t");
     let neg;
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",[pe,n,t]);
+    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",{pe:pe,n:n,t:t});
     switch (t) {
     case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
@@ -1716,13 +1748,13 @@ Terminal.prototype.conjugate_fr = function(){
             case "p": case "i": case "f": case "ps": case "c": case "s": case "si": case "ip":
                 if (t=="ip"){ // French imperative does not exist at all persons and numbers
                     if ((n=="s" && pe!=2)||(n=="p" && pe==3)){
-                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
                     }
                 }
                 if (n=="p"){pe+=3};
                 const term=conjugation[pe-1];
                 if (term==null){
-                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
                 } else {
                     res=this.stem+term;
                 }
@@ -1743,10 +1775,10 @@ Terminal.prototype.conjugate_fr = function(){
                 }
                 return res;
             default:
-                return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
             }
         }
-        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",[pe,n,t]);
+        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",{pe:pe,n:n,t:t});
     }
 }
 
@@ -1755,7 +1787,7 @@ Terminal.prototype.conjugate_en = function(){
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",[pe,n,t]);
+    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t});
     const conjugation=rules.conjugation[this.tab].t[t];
     switch (t) {
     case "p": case "ps":
@@ -1765,7 +1797,7 @@ Terminal.prototype.conjugate_en = function(){
         if (n=="p"){pe+=3};
         const term=conjugation[pe-1];
         if (term==null){
-            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",[pe,n,t])
+            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})
         } else {
             return this.stem+term;
         }
@@ -1776,7 +1808,7 @@ Terminal.prototype.conjugate_en = function(){
     case "b": case "pp": case "pr":
         return this.stem+conjugation;
     default:
-        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",[pe,n,t]);
+        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
     }
     
 }
@@ -1900,13 +1932,13 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
 // Realize (i.e. set the "realization" field) for this Terminal
 Terminal.prototype.real = function(){
     switch (this.constType) {
-    case "N": case "A": case "D": case "Adv": 
+    case "N": case "A": case "Adv": 
         this.realization=this.decline(false);
         break;
     case "C": case "P": case "Q":
         this.realization=this.lemma;
         break;
-    case "Pro":
+    case "D": case "Pro":
         this.realization=this.decline(true);
         break;
     case "V":
@@ -2310,4 +2342,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.1";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-03-04 21:51"
+jsRealB_dateCreated="2020-03-16 14:49"

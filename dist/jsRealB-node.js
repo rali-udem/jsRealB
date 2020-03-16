@@ -137,6 +137,8 @@ genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
 genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("aux",["av","êt","aê"],["V"]);
+genOptionFunc("tn",["","refl"],["Pro"]);
+genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A"]);
 genOptionFunc("pro",undefined,["NP"]);
@@ -221,7 +223,7 @@ Constituent.prototype.dOpt = function(dOptions){
             }
         }
     } else {
-        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
     }
     return this;
 }
@@ -239,7 +241,7 @@ Constituent.prototype.nat= function(isNat){
             return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        return this.warn("bad application",".nat",this.makeDisj(["DT","NO"]),this.constType)
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
     }
     return this;
 }
@@ -982,7 +984,7 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,"VP")
+                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,["VP"])
                 return;
             }
         }
@@ -1046,7 +1048,7 @@ Phrase.prototype.processTyp_en = function(types){
         const idxVP=this.getIndex(["VP"]);
         if (idxVP>=0) {vp=this.elements[idxVP]}
         else {
-            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,"VP")
+            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,["VP"])
         }
     }
     const idxV=vp.getIndex("V");
@@ -1189,22 +1191,20 @@ Phrase.prototype.typ = function(types){
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
         // validate types and keep only ones that are valid
-        const entries=Object.entries(types);
-        for (let i = 0; i < entries.length; i++) {
-            const key=entries[i][0];
-            const val=entries[i][1];
+        for (let key in types) {
+            const val=types[key];
             const allowedVals=allowedTypes[key];
-            if (allowedVals !== undefined){
+            if (allowedVals === undefined){
+                this.warn("unknown type",key,Object.keys(allowedTypes))
+            } else {
                 if (key == "neg" && this.isFr()){ // also accept string as neg value in French
                     if (!contains(["string","boolean"],typeof val)){
                         this.warn("ignored value for option",".typ("+key+")",val)
                         delete types[key]
                     }
-                } else {
-                    if (!contains(allowedVals,val)){
-                        this.warn("ignored value for option",".typ("+key+")",val)
-                        delete types[key]
-                    }
+                } else if (!contains(allowedVals,val)){
+                    this.warn("ignored value for option",".typ("+key+")",val)
+                    delete types[key]
                 }
             }
         }
@@ -1273,7 +1273,7 @@ Phrase.prototype.typ = function(types){
             this.a(rules.sentence_type.exc.punctuation,true);
         }
     } else {
-        this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
 }
@@ -1437,14 +1437,14 @@ Terminal.prototype.me = function(){
     return this.constType+"("+quote(this.lemma)+")";
 }
 
-Terminal.prototype.morphoError = function (lemma,type,fn,vals){
-    this.warn("morphology error",fn+"("+vals+")")
+Terminal.prototype.morphoError = function (lemma,constType,errorKind,keyVals){
+    this.warn("morphology error",errorKind+` :${constType}(${lemma}) : `+JSON.stringify(keyVals))
     return "[["+lemma+"]]"
 }
 
 // Phrase modifications (should not be called on Terminal)==> warning
 Terminal.prototype.typ = function(types){
-    this.warn("bad application",".typ("+JSON.stringify(types)+")",this.makeDisj(["S","SP","VP"]),this.constType);
+    this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     return this;
 }
 Terminal.prototype.pro = function(args){
@@ -1566,35 +1566,39 @@ Terminal.prototype.getConst = function(constTypes){
 //    equal with x = 1
 //    no match = 0
 //  but if the person does not match set score to 0
-Terminal.prototype.bestMatch = function(declension,fields){
+Terminal.prototype.bestMatch = function(errorKind,declension,keyVals){
     let matches=[];
     for (var i = 0; i < declension.length; i++) {
         const d=declension[i];
         let nbMatches=0;
-        for (let j = 0; j < fields.length; j++) {
-            const f=fields[j];
-            if (d[f]!==undefined){
-                const fVal=this.getProp(f)
-                if (f == "pe" && d[f]!=fVal){
+        for (let key in keyVals){
+            if (d[key]!==undefined){
+                const val=keyVals[key];
+                if (key=="pe" && d[key]!=val){// persons must match exactly
                     nbMatches=0;
                     break;
                 }
-                if (d[f]==fVal)nbMatches+=2;
-                else if (d[f]=="x") nbMatches+=1;
+                if (d[key]==val)nbMatches+=2;
+                else if (d[key]=="x")nbMatches+=1
             }
         }
         matches.push([nbMatches,d["val"]]);
     }
-    matches.sort((a,b)=>b[0]-a[0])
+    matches.sort((a,b)=>b[0]-a[0]); // sort scores in decreasing order
     const best=matches[0];
-    return (best[0]==0)?null:best[1];
+    if (best[0]==0){
+        this.morphoError(this.lemma,this.constType,errorKind,keyVals)
+        return null;
+    } 
+    return best[1];
 }
 
 // constant fields
 const gn=["g","n"];
 const gnpe=["pe"].concat(gn) // check pe first
+const gnpetnc=["tn","c"].concat(gnpe)
 const gnpeown=gnpe.concat(["own"])
-const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
+const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
               "en":{"N":["n"],"D":gnpeown,"Pro":gnpeown}};
 
 
@@ -1606,15 +1610,15 @@ Terminal.prototype.decline = function(setPerson){
     if (this.tab==null){
         if (this.isA("Adv")) // this happens for some adverbs in French with table in rules.regular...
             return this.lemma; 
-        return this.morphoError(this.lemma,this.constType,"decline:tab",[g,n,pe]);
+        return this.morphoError(this.lemma,this.constType,"decline:tab",{g:g,n:n,pe:pe});
     } 
     let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
-            const ending=this.bestMatch(declension,gn);
+            const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
             if (ending==null){
-                return this.morphoError(this.lemma,this.constType,"decline",[g,n]);
+                return `[[${this.lemma}]]`;
             }
             res = this.stem+ending;
             const f = this.getProp("f");// comparatif d'adjectif
@@ -1645,29 +1649,57 @@ Terminal.prototype.decline = function(setPerson){
                         }
                     } 
                     // look in the adjective declension table
-                    const ending=this.bestMatch(declension,["f"])
+                    const ending=this.bestMatch("adjective declension",declension,{f:f})
                     if (ending==null){
-                        return this.morphoError(this.lemma,this.constType,"decline:adjective",[f]);
+                        return `[[${this.lemma}]]`;
                     }
                     res = this.stem + ending;
                 }
             }
         }
-    } else if (declension.length==1){
+    } else if (declension.length==1){ // no declension
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
-        const ending=this.bestMatch(declension,fields[this.lang][this.constType]);
+        let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+        if (this.isA("Pro")){// check special combinations of tn and c for pronouns
+            const c  = this.prop["c"];
+            if (c!==undefined){
+                if (this.isFr() && c=="gen"){ // genitive cannot be used in French
+                    this.warn("ignored value for option","c",c)
+                } else if (this.isEn() && c=="refl"){ // reflechi cannot be used in English
+                    this.warn("ignored value for option","c",c)
+                } else
+                    keyVals["c"]=c;
+            }
+            const tn = this.prop["tn"];
+            if (tn !== undefined){
+                if (c!== undefined){
+                    this.warn("both tonic and clitic");
+                } else {
+                    keyVals["tn"]=tn;
+                }
+            }
+            if (c !== undefined || tn !== undefined){
+                // HACK:remove defaults from pronoun such as "moi"
+                if (this.prop["g"]===undefined)delete keyVals["g"];
+                if (this.prop["n"]===undefined)delete keyVals["n"];
+                if (this.prop["pe"]===undefined)keyVals["pe"]=1; // make sure it matches the first
+            } else { // no c, nor tn set tn to "" except for "on"
+                if(this.lemma!="on")keyVals["tn"]="";
+            }
+        }
+        const ending=this.bestMatch(this.isFr()?"déclinaison":"declension",declension,keyVals);
         if (ending==null){
-            return this.morphoError(this.lemma,this.constType,"decline",[g,n,pe]);
+            return `[[${this.lemma}]]`;
         }
         if (this.isFr() && this.isA("N")){ 
             // check is French noun gender specified corresponds to the one given in the lexicon
             const lexiconG=lexicon[this.lemma]["N"]["g"]
             if (lexiconG === undefined){
-                return this.morphoError(this.lemma,this.constType,"absent du lexique",[g,n]);
+                return this.morphoError(this.lemma,this.constType,"absent du lexique",{g:g,n:n});
             } 
             if (lexiconG != "x" && lexiconG != g) {
-                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",[g,lexiconG])
+                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",{g:g, lexique:lexiconG})
             }
         }
         res = this.stem+ending;
@@ -1682,7 +1714,7 @@ Terminal.prototype.conjugate_fr = function(){
     let n = this.getProp("n");
     const t = this.getProp("t");
     let neg;
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",[pe,n,t]);
+    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",{pe:pe,n:n,t:t});
     switch (t) {
     case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
@@ -1716,13 +1748,13 @@ Terminal.prototype.conjugate_fr = function(){
             case "p": case "i": case "f": case "ps": case "c": case "s": case "si": case "ip":
                 if (t=="ip"){ // French imperative does not exist at all persons and numbers
                     if ((n=="s" && pe!=2)||(n=="p" && pe==3)){
-                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
                     }
                 }
                 if (n=="p"){pe+=3};
                 const term=conjugation[pe-1];
                 if (term==null){
-                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
                 } else {
                     res=this.stem+term;
                 }
@@ -1743,10 +1775,10 @@ Terminal.prototype.conjugate_fr = function(){
                 }
                 return res;
             default:
-                return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
             }
         }
-        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",[pe,n,t]);
+        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",{pe:pe,n:n,t:t});
     }
 }
 
@@ -1755,7 +1787,7 @@ Terminal.prototype.conjugate_en = function(){
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",[pe,n,t]);
+    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t});
     const conjugation=rules.conjugation[this.tab].t[t];
     switch (t) {
     case "p": case "ps":
@@ -1765,7 +1797,7 @@ Terminal.prototype.conjugate_en = function(){
         if (n=="p"){pe+=3};
         const term=conjugation[pe-1];
         if (term==null){
-            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",[pe,n,t])
+            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})
         } else {
             return this.stem+term;
         }
@@ -1776,7 +1808,7 @@ Terminal.prototype.conjugate_en = function(){
     case "b": case "pp": case "pr":
         return this.stem+conjugation;
     default:
-        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",[pe,n,t]);
+        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
     }
     
 }
@@ -1900,13 +1932,13 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
 // Realize (i.e. set the "realization" field) for this Terminal
 Terminal.prototype.real = function(){
     switch (this.constType) {
-    case "N": case "A": case "D": case "Adv": 
+    case "N": case "A": case "Adv": 
         this.realization=this.decline(false);
         break;
     case "C": case "P": case "Q":
         this.realization=this.lemma;
         break;
-    case "Pro":
+    case "D": case "Pro":
         this.realization=this.decline(true);
         break;
     case "V":
@@ -2310,7 +2342,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.1";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-03-04 21:51"
+jsRealB_dateCreated="2020-03-16 14:49"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -6078,9 +6110,8 @@ var lexiconEn = //========== lexicon-en.js
  "on":{"Adv":{"tab":["b1"]},
        "P":{"tab":["pp"]}},
  "once":{"Adv":{"tab":["b1"]}},
- "one":{"D":{"tab":["d4"],
-             "value":1},
-        "Pro":{"tab":["pn5"]}},
+ "one":{"D":{"tab":["d4"],"value":1},
+        "Pro":{"tab":["pn0"]}},
  "onion":{"N":{"tab":["n1"]}},
  "only":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b1"]}},
@@ -8514,7 +8545,14 @@ var lexiconEn = //========== lexicon-en.js
  "«":{"Pc":{"compl":"»",
             "tab":["pc7"]}},
  "»":{"Pc":{"compl":"«",
-            "tab":["pc8"]}}}
+            "tab":["pc8"]}},
+ "you":{"Pro":{"tab":["pn2-2"]}},
+ "him":{"Pro":{"tab":["pn2-3sm"]}},
+ "her":{"Pro":{"tab":["pn2-3sf"]}},
+ "it":{"Pro":{"tab":["pn2-3sn"]}},
+ "us":{"Pro":{"tab":["pn2-1p"]}},
+ "them":{"Pro":{"tab":["pn2-3p"]}}
+}
 var ruleEn = //========== rule-en.js
 {
     "conjugation": {
@@ -11180,6 +11218,22 @@ var ruleEn = //========== rule-en.js
                 "val": "best","f": "su"
             }]
         },
+        "pn0": {
+            "ending": "one",
+            "declension": [{
+                "val": "one","n": "x","g": "x", "tn":""
+            },{
+                "val": "oneself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "one","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "one","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "one","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "one","n": "x","g": "x", "c":"gen"
+            }]
+        },
         "pn1": {
             "ending": "I",
             "declension": [{
@@ -11201,19 +11255,185 @@ var ruleEn = //========== rule-en.js
         "pn2": {
             "ending": "me",
             "declension": [{
-                "val": "me","pe": 1,"n": "s","g": "x"
+                "val": "me","pe": 1,"n": "s","g": "x", "tn":""
             },{
-                "val": "you","pe": 2,"n": "x","g": "x"
+                "val": "you","pe": 2,"n": "x","g": "x", "tn":""
             },{
-                "val": "her","pe": 3,"n": "s","g": "f"
+                "val": "her","pe": 3,"n": "s","g": "f", "tn":""
             },{
-                "val": "him","pe": 3,"n": "s","g": "m"
+                "val": "him","pe": 3,"n": "s","g": "m", "tn":""
             },{
-                "val": "it","pe": 3,"n": "s","g": "n"
+                "val": "it","pe": 3,"n": "s","g": "n", "tn":""
             },{
-                "val": "us","pe": 1,"n": "p","g": "x"
+                "val": "us","pe": 1,"n": "p","g": "x", "tn":""
             },{
-                "val": "them","pe": 3,"n": "p","g": "x"
+                "val": "them","pe": 3,"n": "p","g": "x", "tn":""
+            },{
+                "val": "myself","pe": 1,"n": "s","g": "x", "tn":"refl"
+            },{
+                "val": "yourself","pe": 2,"n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "herself","pe": 3,"n": "s","g": "f", "tn":"refl"
+            },{
+                "val": "himself","pe": 3,"n": "s","g": "m", "tn":"refl"
+            },{
+                "val": "itself","pe": 3,"n": "s","g": "n", "tn":"refl"
+            },{
+                "val": "ourself","pe": 1,"n": "p","g": "x", "tn":"refl"
+            },{
+                "val": "themselves","pe": 3,"n": "p","g": "x", "tn":"refl"
+            },{
+                "val": "I","pe": 1,"n": "s","g": "x", "c":"nom"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"nom"
+            },{
+                "val": "she","pe": 3,"n": "s","g": "f", "c":"nom"
+            },{
+                "val": "he","pe": 3,"n": "s","g": "m", "c":"nom"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"nom"
+            },{
+                "val": "we","pe": 1,"n": "p","g": "x", "c":"nom"
+            },{
+                "val": "they","pe": 3,"n": "p","g": "x", "c":"nom"
+            },{
+                "val": "me","pe": 1,"n": "s","g": "x", "c":"acc"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"acc"
+            },{
+                "val": "her","pe": 3,"n": "s","g": "f", "c":"acc"
+            },{
+                "val": "him","pe": 3,"n": "s","g": "m", "c":"acc"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"acc"
+            },{
+                "val": "us","pe": 1,"n": "p","g": "x", "c":"acc"
+            },{
+                "val": "them","pe": 3,"n": "p","g": "x", "c":"acc"
+            },{
+                "val": "me","pe": 1,"n": "s","g": "x", "c":"dat"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"dat"
+            },{
+                "val": "her","pe": 3,"n": "s","g": "f", "c":"dat"
+            },{
+                "val": "him","pe": 3,"n": "s","g": "m", "c":"dat"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"dat"
+            },{
+                "val": "us","pe": 1,"n": "p","g": "x", "c":"dat"
+            },{
+                "val": "them","pe": 3,"n": "p","g": "x", "c":"dat"
+            },{
+                "val": "mine","pe": 1,"n": "s","g": "x", "c":"gen"
+            },{
+                "val": "yours","pe": 2,"n": "x","g": "x", "c":"gen"
+            },{
+                "val": "hers","pe": 3,"n": "s","g": "f", "c":"gen"
+            },{
+                "val": "his","pe": 3,"n": "s","g": "m", "c":"gen"
+            },{
+                "val": "its","pe": 3,"n": "s","g": "n", "c":"gen"
+            },{
+                "val": "ours","pe": 1,"n": "p","g": "x", "c":"gen"
+            },{
+                "val": "theirs","pe": 3,"n": "p","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-2": {
+            "ending": "you",
+            "declension": [{
+                "val": "you","n": "x","g": "x", "tn":""
+            },{
+                "val": "yourself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "you","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "you","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "you","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "yours","n": "x","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-3sm": {
+            "ending": "him",
+            "declension": [{
+                "val": "him","n": "x","g": "x", "tn":""
+            },{
+                "val": "himself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "he","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "him","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "him","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "his","n": "x","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-3sf": {
+            "ending": "her",
+            "declension": [{
+                "val": "her","n": "x","g": "x", "tn":""
+            },{
+                "val": "herself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "she","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "her","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "her","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "hers","n": "x","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-3sn": {
+            "ending": "it",
+            "declension": [{
+                "val": "it","n": "x","g": "x", "tn":""
+            },{
+                "val": "itself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "it","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "it","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "it","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "itself","n": "x","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-1p": {
+            "ending": "us",
+            "declension": [{
+                "val": "us","n": "x","g": "x", "tn":""
+            },{
+                "val": "ourself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "we","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "us","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "us","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "ours","n": "x","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-3p": {
+            "ending": "them",
+            "declension": [{
+                "val": "them","n": "x","g": "x", "tn":""
+            },{
+                "val": "themselves","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "they","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "them","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "them","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "theirs","n": "x","g": "x", "c":"gen"
             }]
         },
         "pn3": {
@@ -17605,8 +17825,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n3"]}},
  "sommet":{"N":{"g":"m",
                 "tab":["n3"]}},
- "son":{"N":{"g":"m",
-             "tab":["n3"]}},
+ "son":{"D":{"tab":["d5-3"]},
+        "N":{"g":"m","tab":["n3"]}},
  "songer":{"V":{"aux":["av"],
                 "tab":"v3"}},
  "sonner":{"V":{"aux":["aê"],
@@ -17929,8 +18149,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n4"]}},
  "tomber":{"V":{"aux":["êt"],
                 "tab":"v36"}},
- "ton":{"N":{"g":"m",
-             "tab":["n3"]}},
+ "ton":{"D":{"tab":["d5-2"]},
+        "N":{"g":"m","tab":["n3"]}},
  "tonneau":{"N":{"g":"m",
                  "tab":["n4"]}},
  "tonnerre":{"N":{"g":"m",
@@ -18344,10 +18564,25 @@ var lexiconFr = //========== lexicon-fr.js
  "y":{"Pro":{"tab":["pn11"]}},
  "zèle":{"N":{"g":"m",
               "tab":["n3"]}},
+ "toi":{"Pro":{"tab":["pn4-2s"]}},
+ "lui":{"Pro":{"tab":["pn4-3sm"]}},
+ "elle":{"Pro":{"tab":["pn4-3sf"]}},
+ "nous":{"Pro":{"tab":["pn4-1p"]}},
+ "vous":{"Pro":{"tab":["pn4-2p"]}},
+ "eux":{"Pro":{"tab":["pn4-3pm"]}},
+ "elles":{"Pro":{"tab":["pn4-3pf"]}},
+ 
+ "tien":{"Pro":{"tab":["pn12-2"]}},
+ "sien":{"Pro":{"tab":["pn12-3"]}},
+ "vôtre":{"Pro":{"tab":["pn13-2"]}},
+ "leur":{"Pro":{"tab":["pn13-3"]},
+         "D":{"tab":["d6-3"]}}, 
+ "votre":{"D":{"tab":["d6-2"]}},
  "{":{"Pc":{"compl":"}",
             "tab":["pc5"]}},
  "}":{"Pc":{"compl":"{",
-            "tab":["pc6"]}}}
+            "tab":["pc6"]}}
+}
 var ruleFr = //========== rule-fr.js
 {
     "conjugation": {
@@ -21851,7 +22086,19 @@ var ruleFr = //========== rule-fr.js
         "pn0":{
             "ending":"on",
             "declension":[{
-                "val": "on","g": "x","n": "s","pe": 3
+                "val":"on", "g":"m", "n":"s"
+            },{
+                "val":"soi", "g":"x", "n":"s", "tn":""
+            },{
+                "val":"soi-même", "g":"x", "n":"s", "tn":"refl"
+            },{
+                "val":"soi", "g":"x", "n":"s", "c":"nom"
+            },{
+                "val":"le", "g":"x", "n":"s", "c":"acc"
+            },{
+                "val":"soi", "g":"x", "n":"s", "c":"dat"
+            },{
+                "val":"se", "g":"x", "n":"s", "c":"refl"
             }]
         },
         "pn1": {
@@ -21908,24 +22155,216 @@ var ruleFr = //========== rule-fr.js
                 "val": "leur","g": "x","n": "p","pe": 3
             }]
         },
-        "pn4": {
-            "ending": "moi",
-            "declension": [{
-                "val": "moi","g": "x","n": "s","pe": 1
+        "pn4":{
+            "ending":"moi",
+            "declension":[{
+                "val":"moi", "g":"x", "n":"s", "pe":1, "tn":""
             },{
-                "val": "nous","g": "x","n": "p","pe": 1
+                "val":"moi-même", "g":"x", "n":"p", "pe":1, "tn":"refl"
             },{
-                "val": "toi","g": "x","n": "s","pe": 2
+                "val":"je", "g":"x", "n":"p", "pe":1, "c":"nom"
             },{
-                "val": "vous","g": "x","n": "p","pe": 2
+                "val":"me", "g":"x", "n":"p", "pe":1, "c":"acc"
             },{
-                "val": "lui","g": "m","n": "s","pe": 3
+                "val":"me", "g":"x", "n":"p", "pe":1, "c":"dat"
             },{
-                "val": "elle","g": "f","n": "s","pe": 3
+                "val":"me", "g":"x", "n":"p", "pe":1, "c":"refl"
             },{
-                "val": "eux","g": "m","n": "p","pe": 3
+                "val":"nous", "g":"x", "n":"p", "pe":1, "tn":""
             },{
-                "val": "elles","g": "f","n": "p","pe": 3
+                "val":"nous-mêmes", "g":"x", "n":"p", "pe":1, "tn":"refl"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"nom"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"acc"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"dat"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"refl"
+            },{
+                "val":"toi", "g":"x", "n":"s", "pe":2, "tn":""
+            },{
+                "val":"toi-même", "g":"x", "n":"s", "pe":2, "tn":"refl"
+            },{
+                "val":"tu", "g":"x", "n":"s", "pe":2, "c":"nom"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"acc"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"dat"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"refl"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "tn":""
+            },{
+                "val":"vous-mêmes", "g":"x", "n":"p", "pe":2, "tn":"refl"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"nom"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"acc"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"dat"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"refl"
+            },{
+                "val":"lui", "g":"m", "n":"s", "pe":3, "tn":""
+            },{
+                "val":"lui-même", "g":"m", "n":"s", "pe":3, "tn":"refl"
+            },{
+                "val":"il", "g":"m", "n":"s", "pe":3, "c":"nom"
+            },{
+                "val":"le", "g":"m", "n":"s", "pe":3, "c":"acc"
+            },{
+                "val":"lui", "g":"m", "n":"s", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"m", "n":"s", "pe":3, "c":"refl"
+            },{
+                "val":"elle", "g":"f", "n":"s", "pe":3, "tn":""
+            },{
+                "val":"elle-même", "g":"f", "n":"s", "pe":3, "tn":"refl"
+            },{
+                "val":"elle", "g":"f", "n":"s", "pe":3, "c":"nom"
+            },{
+                "val":"la", "g":"f", "n":"s", "pe":3, "c":"acc"
+            },{
+                "val":"lui", "g":"f", "n":"s", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"f", "n":"s", "pe":3, "c":"refl"
+            },{
+                "val":"eux", "g":"m", "n":"p", "pe":3, "tn":""
+            },{
+                "val":"eux-mêmes", "g":"m", "n":"p", "pe":3, "tn":"refl"
+            },{
+                "val":"ils", "g":"m", "n":"p", "pe":3, "c":"nom"
+            },{
+                "val":"les", "g":"m", "n":"p", "pe":3, "c":"acc"
+            },{
+                "val":"leur", "g":"m", "n":"p", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"m", "n":"p", "pe":3, "c":"refl"
+            },{
+                "val":"elles", "g":"f", "n":"p", "pe":3, "tn":""
+            },{
+                "val":"elles-mêmes", "g":"f", "n":"p", "pe":3, "tn":"refl"
+            },{
+                "val":"elles", "g":"f", "n":"p", "pe":3, "c":"nom"
+            },{
+                "val":"les", "g":"f", "n":"p", "pe":3, "c":"acc"
+            },{
+                "val":"leur", "g":"f", "n":"p", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"f", "n":"p", "pe":3, "c":"refl"
+            }]
+        },
+        "pn4-2s":{
+            "ending":"toi",
+            "declension":[{
+                "val":"toi", "tn":""
+            },{
+                "val":"toi-même", "tn":"refl"
+            },{
+                "val":"tu", "c":"nom"
+            },{
+                "val":"te", "c":"acc"
+            },{
+                "val":"te", "c":"dat"
+            },{
+                "val":"te", "c":"refl"
+            }]
+        },
+        "pn4-3sm":{
+            "ending":"lui",
+            "declension":[{
+                "val":"lui", "tn":""
+            },{
+                "val":"lui-même", "tn":"refl"
+            },{
+                "val":"il", "c":"nom"
+            },{
+                "val":"le", "c":"acc"
+            },{
+                "val":"lui", "c":"dat"
+            },{
+                "val":"se", "c":"refl"
+            }]
+        },
+        "pn4-3sf":{
+            "ending":"elle",
+            "declension":[{
+                "val":"elle", "tn":""
+            },{
+                "val":"elle-même", "tn":"refl"
+            },{
+                "val":"elle", "c":"nom"
+            },{
+                "val":"la", "c":"acc"
+            },{
+                "val":"lui", "c":"dat"
+            },{
+                "val":"se", "c":"refl"
+            }]
+        },
+        "pn4-1p":{
+            "ending":"nous",
+            "declension":[{
+                "val":"nous", "tn":""
+            },{
+                "val":"nous-mêmes", "tn":"refl"
+            },{
+                "val":"nous", "c":"nom"
+            },{
+                "val":"nous", "c":"acc"
+            },{
+                "val":"nous", "c":"dat"
+            },{
+                "val":"nous", "c":"refl"
+            }]
+        },
+        "pn4-2p":{
+            "ending":"vous",
+            "declension":[{
+                "val":"vous", "tn":""
+            },{
+                "val":"vous-mêmes", "tn":"refl"
+            },{
+                "val":"vous", "c":"nom"
+            },{
+                "val":"vous", "c":"acc"
+            },{
+                "val":"vous", "c":"dat"
+            },{
+                "val":"vous", "c":"refl"
+            }]
+        },
+        "pn4-3pm":{
+            "ending":"eux",
+            "declension":[{
+                "val":"eux", "tn":""
+            },{
+                "val":"eux-mêmes", "tn":"refl"
+            },{
+                "val":"ils", "c":"nom"
+            },{
+                "val":"les", "c":"acc"
+            },{
+                "val":"leur", "c":"dat"
+            },{
+                "val":"se", "c":"refl"
+            }]
+        },
+        "pn4-3pf":{
+            "ending":"elles",
+            "declension":[{
+                "val":"elles", "tn":""
+            },{
+                "val":"elles-mêmes", "tn":"refl"
+            },{
+                "val":"elles", "c":"nom"
+            },{
+                "val":"les", "c":"acc"
+            },{
+                "val":"leur", "c":"dat"
+            },{
+                "val":"se", "c":"refl"
             }]
         },
         "pn5": {
@@ -22010,60 +22449,108 @@ var ruleFr = //========== rule-fr.js
                 "val": "y","g": "x","n": "x"
             }]
         },
-        "pn12": {
-            "ending": "mien",
-            "declension": [{
-                "val": "mien","g": "m","n": "s","pe": 1
+        "pn12":{
+            "ending":"mien",
+            "declension":[{
+                "val":"mien", "g":"m", "n":"s", "pe":1
             },{
-                "val": "mienne","g": "f","n": "s","pe": 1
+                "val":"mienne", "g":"f", "n":"s", "pe":1
             },{
-                "val": "miens","g": "m","n": "p","pe": 1
+                "val":"miens", "g":"m", "n":"p", "pe":1
             },{
-                "val": "miennes","g": "f","n": "p","pe": 1
+                "val":"miennes", "g":"f", "n":"p", "pe":1
             },{
-                "val": "tien","g": "m","n": "s","pe": 2
+                "val":"tien", "g":"m", "n":"s", "pe":2
             },{
-                "val": "tienne","g": "f","n": "s","pe": 2
+                "val":"tienne", "g":"f", "n":"s", "pe":2
             },{
-                "val": "tiens","g": "m","n": "p","pe": 2
+                "val":"tiens", "g":"m", "n":"p", "pe":2
             },{
-                "val": "tiennes","g": "f","n": "p","pe": 2
+                "val":"tiennes", "g":"f", "n":"p", "pe":2
             },{
-                "val": "sien","g": "m","n": "s","pe": 3
+                "val":"sien", "g":"m", "n":"s", "pe":3
             },{
-                "val": "sienne","g": "f","n": "s","pe": 3
+                "val":"sienne", "g":"f", "n":"s", "pe":3
             },{
-                "val": "siens","g": "m","n": "p","pe": 3
+                "val":"siens", "g":"m", "n":"p", "pe":3
             },{
-                "val": "siennes","g": "f","n": "p","pe": 3
+                "val":"siennes", "g":"f", "n":"p", "pe":3
             }]
         },
-        "pn13": {
-            "ending": "nôtre",
-            "declension": [{
-                "val": "nôtre","g": "m","n": "s","pe": 1
+        "pn12-2":{
+            "ending":"tien",
+            "declension":[{
+                "val":"tien", "g":"m", "n":"s"
             },{
-                "val": "nôtre","g": "f","n": "s","pe": 1
+                "val":"tienne", "g":"f", "n":"s"
             },{
-                "val": "nôtres","g": "m","n": "p","pe": 1
+                "val":"tiens", "g":"m", "n":"p"
             },{
-                "val": "nôtres","g": "f","n": "p","pe": 1
+                "val":"tiennes", "g":"f", "n":"p"
+            }]
+        },
+        "pn12-3":{
+            "ending":"sien",
+            "declension":[{
+                "val":"sien", "g":"m", "n":"s"
             },{
-                "val": "vôtre","g": "m","n": "s","pe": 2
+                "val":"sienne", "g":"f", "n":"s"
             },{
-                "val": "vôtre","g": "f","n": "s","pe": 2
+                "val":"siens", "g":"m", "n":"p"
             },{
-                "val": "vôtres","g": "m","n": "p","pe": 2
+                "val":"siennes", "g":"f", "n":"p"
+            }]
+        },
+        "pn13":{
+            "ending":"nôtre",
+            "declension":[{
+                "val":"nôtre", "g":"m", "n":"s", "pe":1
             },{
-                "val": "vôtres","g": "f","n": "p","pe": 2
+                "val":"nôtre", "g":"f", "n":"s", "pe":1
             },{
-                "val": "leur","g": "m","n": "s","pe": 3
+                "val":"nôtres", "g":"m", "n":"p", "pe":1
             },{
-                "val": "leur","g": "f","n": "s","pe": 3
+                "val":"nôtres", "g":"f", "n":"p", "pe":1
             },{
-                "val": "leurs","g": "m","n": "p","pe": 3
+                "val":"vôtre", "g":"m", "n":"s", "pe":2
             },{
-                "val": "leurs","g": "f","n": "p","pe": 3
+                "val":"vôtre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vôtres", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vôtres", "g":"f", "n":"p", "pe":2
+            },{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "pn13-2":{
+            "ending":"vôtre",
+            "declension":[{
+                "val":"vôtre", "g":"m", "n":"s"
+            },{
+                "val":"vôtre", "g":"f", "n":"s"
+            },{
+                "val":"vôtres", "g":"m", "n":"p"
+            },{
+                "val":"vôtres", "g":"f", "n":"p"
+            }]
+        },
+        "pn13-3":{
+            "ending":"leur",
+            "declension":[{
+                "val":"leur", "g":"m", "n":"s"
+            },{
+                "val":"leur", "g":"f", "n":"s"
+            },{
+                "val":"leurs", "g":"m", "n":"p"
+            },{
+                "val":"leurs", "g":"f", "n":"p"
             }]
         },
         "pn14": {
@@ -22306,60 +22793,108 @@ var ruleFr = //========== rule-fr.js
                 "val": "des","g": "f","n": "p"
             }]
         },
-        "d5": {
-            "ending": "mon",
-            "declension": [{
-                "val": "mon","g": "m","n": "s","pe": 1
+        "d5":{
+            "ending":"mon",
+            "declension":[{
+                "val":"mon", "g":"m", "n":"s", "pe":1
             },{
-                "val": "ma","g": "f","n": "s","pe": 1
+                "val":"ma", "g":"f", "n":"s", "pe":1
             },{
-                "val": "mes","g": "m","n": "p","pe": 1
+                "val":"mes", "g":"m", "n":"p", "pe":1
             },{
-                "val": "mes","g": "f","n": "p","pe": 1
+                "val":"mes", "g":"f", "n":"p", "pe":1
             },{
-                "val": "ton","g": "m","n": "s","pe": 2
+                "val":"ton", "g":"m", "n":"s", "pe":2
             },{
-                "val": "ta","g": "f","n": "s","pe": 2
+                "val":"ta", "g":"f", "n":"s", "pe":2
             },{
-                "val": "tes","g": "m","n": "p","pe": 2
+                "val":"tes", "g":"m", "n":"p", "pe":2
             },{
-                "val": "tes","g": "f","n": "p","pe": 2
+                "val":"tes", "g":"f", "n":"p", "pe":2
             },{
-                "val": "son","g": "m","n": "s","pe": 3
+                "val":"son", "g":"m", "n":"s", "pe":3
             },{
-                "val": "sa","g": "f","n": "s","pe": 3
+                "val":"sa", "g":"f", "n":"s", "pe":3
             },{
-                "val": "ses","g": "m","n": "p","pe": 3
+                "val":"ses", "g":"m", "n":"p", "pe":3
             },{
-                "val": "ses","g": "f","n": "p","pe": 3
+                "val":"ses", "g":"f", "n":"p", "pe":3
             }]
         },
-        "d6": {
-            "ending": "notre",
-            "declension": [{
-                "val": "notre","g": "m","n": "s","pe": 1
+        "d5-2":{
+            "ending":"ton",
+            "declension":[{
+                "val":"ton", "g":"m", "n":"s"
             },{
-                "val": "notre","g": "f","n": "s","pe": 1
+                "val":"ta", "g":"f", "n":"s"
             },{
-                "val": "nos","g": "m","n": "p","pe": 1
+                "val":"tes", "g":"m", "n":"p"
             },{
-                "val": "nos","g": "f","n": "p","pe": 1
+                "val":"tes", "g":"f", "n":"p"
+            }]
+        },
+        "d5-3":{
+            "ending":"son",
+            "declension":[{
+                "val":"son", "g":"m", "n":"s"
             },{
-                "val": "votre","g": "m","n": "s","pe": 2
+                "val":"sa", "g":"f", "n":"s"
             },{
-                "val": "votre","g": "f","n": "s","pe": 2
+                "val":"ses", "g":"m", "n":"p"
             },{
-                "val": "vos","g": "m","n": "p","pe": 2
+                "val":"ses", "g":"f", "n":"p"
+            }]
+        },
+        "d6":{
+            "ending":"notre",
+            "declension":[{
+                "val":"notre", "g":"m", "n":"s", "pe":1
             },{
-                "val": "vos","g": "f","n": "p","pe": 2
+                "val":"notre", "g":"f", "n":"s", "pe":1
             },{
-                "val": "leur","g": "m","n": "s","pe": 3
+                "val":"nos", "g":"m", "n":"p", "pe":1
             },{
-                "val": "leur","g": "f","n": "s","pe": 3
+                "val":"nos", "g":"f", "n":"p", "pe":1
             },{
-                "val": "leurs","g": "m","n": "p","pe": 3
+                "val":"votre", "g":"m", "n":"s", "pe":2
             },{
-                "val": "leurs","g": "f","n": "p","pe": 3
+                "val":"votre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vos", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vos", "g":"f", "n":"p", "pe":2
+            },{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "d6-2":{
+            "ending":"votre",
+            "declension":[{
+                "val":"votre", "g":"m", "n":"s"
+            },{
+                "val":"votre", "g":"f", "n":"s"
+            },{
+                "val":"vos", "g":"m", "n":"p"
+            },{
+                "val":"vos", "g":"f", "n":"p"
+            }]
+        },
+        "d6-3":{
+            "ending":"leur",
+            "declension":[{
+                "val":"leur", "g":"m", "n":"s"
+            },{
+                "val":"leur", "g":"f", "n":"s"
+            },{
+                "val":"leurs", "g":"m", "n":"p"
+            },{
+                "val":"leurs", "g":"f", "n":"p"
             }]
         },
         "d7": {

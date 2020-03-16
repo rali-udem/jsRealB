@@ -1,5 +1,3 @@
-Object.assign(lexiconFr,lexiconFrPro);
-Object.assign(ruleFr.declension,ruleFrPro_declension);
 // //////// exemples en français
 "use strict";
 loadFr();

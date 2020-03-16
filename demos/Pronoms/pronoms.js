@@ -4,9 +4,14 @@ var options = {
     pe:[1,2,3],
     g:["m","f"],
     n:["s","p"],
+    ow:["s","p"],
     tn:["","refl"],
     c:["nom","acc","dat","refl"]
 }
+
+let titres=["lemme","tonique","tonique réfléchi",
+              "clitique nominatif","clitique accusatif","clitique datif","clitique réfléchi"];
+const tnC=["",".tn('')",".tn('refl')",".c('nom')",".c('acc')",".c('dat')",".c('refl')"]
 
 var header="<tr><td><code>jsRealB</code><br/>Réalisation</td></tr>"
 
@@ -32,27 +37,24 @@ function $makeCell(Const,terminal,options){
 }
 
 function $makeTable(Const,terminal,options){
-    var t=$("<table/>")
-    t.append($(header))
+    var $t=$("<table/>")
+    $t.append($(header))
     var opts=makeOptions(options)
     for (var i = 0; i < opts.length; i++) {
-        t.append($("<tr/>").append($makeCell(Const,terminal,opts[i])))
+        $t.append($("<tr/>").append($makeCell(Const,terminal,opts[i])))
     }
-    return t;
+    return $t;
 }
 
 function $addLignes($table,Const,terminal,options){
     var opts=makeOptions(options)
     for (var i = 0; i < opts.length; i++) {
-        $table.append($("<tr></tr>").append($makeCell(Const,terminal,opts[i])))
+        $table.append($("<tr/>").append($makeCell(Const,terminal,opts[i])))
     }
 }
 
 function $pronomsPersonnels(pro,opts){
     let $t=$("<table>");
-    const titres=["lemme","tonique","tonique réfléchi",
-                  "clitique nominatif","clitique accusatif","clitique datif","clitique réfléchi"];
-    const tnC=["",".tn('')",".tn('refl')",".c('nom')",".c('acc')",".c('dat')",".c('refl')"]
     let $tr=$("<tr/>")
     for (var i = 0; i < titres.length; i++) {
         $tr.append("<th>"+titres[i]+"</th>")
@@ -75,7 +77,7 @@ function $pronomsPersonnels(pro,opts){
 function $flexionsGenreNombre(Const,singPlur){
     let $t=$("<table>");
     const titres=["lemme","masc sing","fem sing","masc plur","fem plur"];
-    const gn=makeOptions(["n","g"])
+    const gn=makeOptions(["n","g"]);
     gn.unshift("")
     let $tr=$("<tr/>")
     for (var i = 0; i < titres.length; i++) {
@@ -98,13 +100,43 @@ function $flexionsGenreNombre(Const,singPlur){
     return $t;
 }
 
+function $englishPossessiveDeterminers(){
+    let $t=$("<table/>");
+    const genres=options.g.concat(["n"])
+    const ow=["s","p"];
+    for (var i = 0; i < ow.length; i++) {
+        var o= ow[i];
+        for (var pe=1;pe<4;pe++){
+            let opts=`.pe(${pe}).ow("${o}")`;
+            if (pe==3 && o=="s"){
+                for (var k = 0; k < genres.length; k++) {
+                    var g=genres[k];
+                    opts+=`.g("${g}")`
+                    $t.append($("<tr/>").append($makeCell("D","my",opts)))
+                }
+            } else {
+                $t.append($("<tr/>").append($makeCell("D","my",opts)))
+            }
+        }
+    }
+    return $t
+}
+
 $(document).ready(function() {
-    Object.assign(lexiconFr,lexiconFrPro);
-    Object.assign(ruleFr.declension,ruleFrPro_declension);
     loadFr();
-    $tableau=$("#pronoms");
+    $tableau=$("#francais");
     $tableau.append($pronomsPersonnels("moi",makeOptions(["g","n","pe"])))
     $tableau.append($pronomsPersonnels("on",[""]));
     $tableau.append($flexionsGenreNombre("Pro",["mien","nôtre"]))
     $tableau.append($flexionsGenreNombre("D",["mon","notre"]))
+    
+    loadEn();
+    // HACK: change c("refl")=>c("gen")
+    options.c[3]="gen";
+    tnC[6]=".c('gen')"
+    titres=["lemma","tonic","tonic reflexive",
+              "clitic nominative","clitic accusative","clitic dative","clitic genitive"];
+    $table=$("#english");
+    $table.append($pronomsPersonnels("me",makeOptions(["g","n","pe"])))
+    $table.append($englishPossessiveDeterminers())
 });
