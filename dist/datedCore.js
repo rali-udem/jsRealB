@@ -1661,6 +1661,7 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+        if (this.prop["own"]!==undefined)keyVals["own"]=this.prop["own"];
         if (this.isA("Pro")){// check special combinations of tn and c for pronouns
             const c  = this.prop["c"];
             if (c!==undefined){
@@ -2342,4 +2343,4 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.1";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-03-16 14:49"
+jsRealB_dateCreated="2020-03-17 10:45"

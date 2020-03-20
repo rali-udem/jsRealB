@@ -1661,6 +1661,7 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+        if (this.prop["own"]!==undefined)keyVals["own"]=this.prop["own"];
         if (this.isA("Pro")){// check special combinations of tn and c for pronouns
             const c  = this.prop["c"];
             if (c!==undefined){
@@ -2342,7 +2343,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.1";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-03-16 14:49"
+jsRealB_dateCreated="2020-03-17 10:45"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -20962,7 +20963,8 @@ var ruleFr = //========== rule-fr.js
             "aux": ["a","aura","avait","ait","eût","aurait"],
             "pp": ["été","étés","étées"]
         },
-        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je","si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
+        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je",
+                      "si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
         "voyellesAccentuees": "àäéèêëïîöôùû",
         "voyelles": "aeiouàäéèêëïîöôùû"
     },
@@ -22160,15 +22162,15 @@ var ruleFr = //========== rule-fr.js
             "declension":[{
                 "val":"moi", "g":"x", "n":"s", "pe":1, "tn":""
             },{
-                "val":"moi-même", "g":"x", "n":"p", "pe":1, "tn":"refl"
+                "val":"moi-même", "g":"x", "n":"s", "pe":1, "tn":"refl"
             },{
-                "val":"je", "g":"x", "n":"p", "pe":1, "c":"nom"
+                "val":"je", "g":"x", "n":"s", "pe":1, "c":"nom"
             },{
-                "val":"me", "g":"x", "n":"p", "pe":1, "c":"acc"
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"acc"
             },{
-                "val":"me", "g":"x", "n":"p", "pe":1, "c":"dat"
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"dat"
             },{
-                "val":"me", "g":"x", "n":"p", "pe":1, "c":"refl"
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"refl"
             },{
                 "val":"nous", "g":"x", "n":"p", "pe":1, "tn":""
             },{
@@ -22290,17 +22292,17 @@ var ruleFr = //========== rule-fr.js
         "pn4-3sf":{
             "ending":"elle",
             "declension":[{
-                "val":"elle", "tn":""
+                "val":"elle", "g":"f", "tn":""
             },{
-                "val":"elle-même", "tn":"refl"
+                "val":"elle-même", "g":"f", "tn":"refl"
             },{
-                "val":"elle", "c":"nom"
+                "val":"elle", "g":"f", "c":"nom"
             },{
-                "val":"la", "c":"acc"
+                "val":"la", "g":"f", "c":"acc"
             },{
-                "val":"lui", "c":"dat"
+                "val":"lui", "g":"f", "c":"dat"
             },{
-                "val":"se", "c":"refl"
+                "val":"se", "g":"f", "c":"refl"
             }]
         },
         "pn4-1p":{
@@ -22354,17 +22356,17 @@ var ruleFr = //========== rule-fr.js
         "pn4-3pf":{
             "ending":"elles",
             "declension":[{
-                "val":"elles", "tn":""
+                "val":"elles", "g":"f", "tn":""
             },{
-                "val":"elles-mêmes", "tn":"refl"
+                "val":"elles-mêmes", "g":"f", "tn":"refl"
             },{
-                "val":"elles", "c":"nom"
+                "val":"elles", "g":"f", "c":"nom"
             },{
-                "val":"les", "c":"acc"
+                "val":"les", "g":"f", "c":"acc"
             },{
-                "val":"leur", "c":"dat"
+                "val":"leur", "g":"f", "c":"dat"
             },{
-                "val":"se", "c":"refl"
+                "val":"se", "g":"f", "c":"refl"
             }]
         },
         "pn5": {

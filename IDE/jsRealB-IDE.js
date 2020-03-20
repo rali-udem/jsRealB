@@ -1661,6 +1661,7 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+        if (this.prop["own"]!==undefined)keyVals["own"]=this.prop["own"];
         if (this.isA("Pro")){// check special combinations of tn and c for pronouns
             const c  = this.prop["c"];
             if (c!==undefined){
@@ -2342,7 +2343,7 @@ function setExceptionOnWarning(val){
 
 var jsRealB_version="3.1";
 var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-03-16 14:49"
+jsRealB_dateCreated="2020-03-17 10:45"
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -20962,7 +20963,8 @@ var ruleFr = //========== rule-fr.js
             "aux": ["a","aura","avait","ait","eût","aurait"],
             "pp": ["été","étés","étées"]
         },
-        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je","si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
+        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je",
+                      "si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
         "voyellesAccentuees": "àäéèêëïîöôùû",
         "voyelles": "aeiouàäéèêëïîöôùû"
     },
@@ -22160,15 +22162,15 @@ var ruleFr = //========== rule-fr.js
             "declension":[{
                 "val":"moi", "g":"x", "n":"s", "pe":1, "tn":""
             },{
-                "val":"moi-même", "g":"x", "n":"p", "pe":1, "tn":"refl"
+                "val":"moi-même", "g":"x", "n":"s", "pe":1, "tn":"refl"
             },{
-                "val":"je", "g":"x", "n":"p", "pe":1, "c":"nom"
+                "val":"je", "g":"x", "n":"s", "pe":1, "c":"nom"
             },{
-                "val":"me", "g":"x", "n":"p", "pe":1, "c":"acc"
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"acc"
             },{
-                "val":"me", "g":"x", "n":"p", "pe":1, "c":"dat"
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"dat"
             },{
-                "val":"me", "g":"x", "n":"p", "pe":1, "c":"refl"
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"refl"
             },{
                 "val":"nous", "g":"x", "n":"p", "pe":1, "tn":""
             },{
@@ -22290,17 +22292,17 @@ var ruleFr = //========== rule-fr.js
         "pn4-3sf":{
             "ending":"elle",
             "declension":[{
-                "val":"elle", "tn":""
+                "val":"elle", "g":"f", "tn":""
             },{
-                "val":"elle-même", "tn":"refl"
+                "val":"elle-même", "g":"f", "tn":"refl"
             },{
-                "val":"elle", "c":"nom"
+                "val":"elle", "g":"f", "c":"nom"
             },{
-                "val":"la", "c":"acc"
+                "val":"la", "g":"f", "c":"acc"
             },{
-                "val":"lui", "c":"dat"
+                "val":"lui", "g":"f", "c":"dat"
             },{
-                "val":"se", "c":"refl"
+                "val":"se", "g":"f", "c":"refl"
             }]
         },
         "pn4-1p":{
@@ -22354,17 +22356,17 @@ var ruleFr = //========== rule-fr.js
         "pn4-3pf":{
             "ending":"elles",
             "declension":[{
-                "val":"elles", "tn":""
+                "val":"elles", "g":"f", "tn":""
             },{
-                "val":"elles-mêmes", "tn":"refl"
+                "val":"elles-mêmes", "g":"f", "tn":"refl"
             },{
-                "val":"elles", "c":"nom"
+                "val":"elles", "g":"f", "c":"nom"
             },{
-                "val":"les", "c":"acc"
+                "val":"les", "g":"f", "c":"acc"
             },{
-                "val":"leur", "c":"dat"
+                "val":"leur", "g":"f", "c":"dat"
             },{
-                "val":"se", "c":"refl"
+                "val":"se", "g":"f", "c":"refl"
             }]
         },
         "pn5": {
@@ -23269,6 +23271,9 @@ function addLemma(lemmata,word,jsRexp){
     l.push(jsRexp);
 }
 
+// generate a list of jsRealB expressions (only Pro will have more than 1)
+//  from a given form (entry), for a given part-of-speech (pos)
+//  using information from the declension and lexicon information (declension, lexiconEntry)
 function genExp(declension,pos,entry,lexiconEntry){
     var out = pos+'("'+entry+'")';
     // console.log("genExp",declension,pos,entry,lexiconEntry);
@@ -23281,19 +23286,33 @@ function genExp(declension,pos,entry,lexiconEntry){
         }
         break;
     case "Pro":case "D":
-        var defGender=lemmataLang=="fr"?"m":"n";
-        var g=declension["g"];
-        if (g===undefined || g=="x" || g=="n")g=defGender;
-        out+='.g("'+g+'")';
-        var n=declension["n"];
-        if (n===undefined || n=="x")n="s";
-        out+=n!="s"?'.n("'+n+'")':'';
+        // gender
+        let defGender=lemmataLang=="fr"?"m":"n";
+        let dg = declension["g"];
+        if (dg===undefined || dg=="x" || dg=="n")dg=defGender;
+        const outG = '.g("'+dg+'")';
+        // number
+        let dn = declension["n"];
+        if (dn===undefined || dn=="x")dn="s";
+        const outN = '.n("'+dn+'")';
+        // person
+        let outPe=""
         if ("pe" in declension){
             var pe=declension["pe"];
-            out+=(pe!=3?'.pe('+pe+')':'');
+            outPe+='.pe('+pe+')';
         }
+        // ow
+        let outOw="";
         if ("own" in declension){
-            out+='.ow("'+declension["own"]+'")'
+            outOw='.ow("'+declension["own"]+'")'
+        }
+        // combine all
+        if ("tn" in declension){
+            out+=outG + outN + outPe + outOw +`.tn("${declension["tn"]}")`
+        } else if ("c" in declension){
+            out+=outG + outN + outPe + outOw+`.c("${declension["c"]}")`
+        } else {
+            out+=outG + outN + outPe + outOw
         }
         return out;
         break;
@@ -23363,7 +23382,7 @@ function expandConjugation(lexicon,lemmata,rules,entry,tab,conjug){
 
 function expandDeclension(lexicon,lemmata,rules,entry,pos,tabs){
     // console.log(entry,"tabs",tabs)
-    for (var k = 0; k < tabs.length; k++) {
+    for (var k = 0; k < 1; k++) {// consider only first conjugation
         var tab=tabs[k];
         var rulesDecl=rules["declension"];
         var declension=null;

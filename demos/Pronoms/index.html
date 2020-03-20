@@ -23,17 +23,87 @@
                 table {
                     border: 1px solid #999; 
                     border-collapse:collapse;
-                    margin-top:10px;
+                    margin-top:20px;
                 }
-                code {font-size: 80%;}
+                table code {font-size: 80%;}
+                tr.last td {border-bottom: 2px solid black;}
+                th {font-style: italic;font-weight: normal;}
         </style>
         <script src="pronoms.js" type="text/javascript" charset="UTF-8"></script><style type="text/css"></style>
     </head>
     <body>
-        <h1>JSrealB</h1>
-        <h2>Pronoms et déterminants français</h2>
-        <div id="francais"></div>
-        <h2>English pronouns and determiners</h2>
-        <div id="english"></div>
+        <h1>jsRealB</h1>
+        <h2>Français</h2>
+        <h3>Pronoms</h3>
+        <p>Le pronoms personnels en français peuvent être réalisés selon deux modes de spécification</p>
+        <ul>
+            <li>À partir du pronom à la première personne du singulier, par exemple  <em>je</em>,
+                 <em>moi</em>, <em>me</em>, <em>moi-même</em> ou <em>on</em> 
+                 en indiquant en option le genre, nombre et la personne.
+            </li>
+            <li>À partir de la forme tonique du pronom en ajoutant une option qui spécifie soit: 
+                <ul>
+                    <li>la forme tonique <code>.tn(..)</code> avec comme paramètre 
+                        <ul>
+                            <li><code>""</code>: pour la forme tonique elle-même</li>
+                            <li><code>refl</code> pour obtenir la forme réflexive (terminant en
+                         <code>-même</code>)</li>
+                        </ul>
+                     </li>
+                    <li>la forme clitique <code>.c(..)</code> avec comme paramètre 
+                        <ul>
+                            <li><code>nom</code> pour la forme nominative</li>
+                            <li><code>acc</code> pour la forme accusative (complément d'objet direct)</li>
+                            <li><code>dat</code> pour la forme datif (complément d'objet indirect)</li>
+                            <li><code>nom</code> pour la forme réfléchie</li>
+                        </ul>
+                    </li>
+                </ul>
+                Le tableau suivant présente la forme obtenue au-dessus de la spécification jsRealB.
+            </li>
+        </ul>
+        <div id="francaisPro"></div>
+        <h3>Déterminants possessifs</h3>
+        <p>Les déterminants possessifs varient en genre et en nombre à partir de leur 
+            forme de base comme le montre le tableau suivant.</p>
+        <div id="francaisDet"></div>
+        
+        <h2>English</h2>
+        <h3>Pronouns</h3>
+        <p>Personal pronouns in English can be realized using two specification modes:</p>
+        <ul>
+            <li>From the first person pronoun <em>I</em>,
+                 <em>me</em>, <em>myself</em> ou <em>mine</em> 
+                 with options to specify its gender, number and person.
+            </li>
+            <li>Using the tonic form with options to specify: 
+                <ul>
+                    <li>tonic form <code>.tn(..)</code> with parameter
+                        <ul>
+                            <li><code>""</code>: for the tonic form itself</li>
+                            <li><code>refl</code> to get the reflexive form (ending with
+                                 <code>self</code>)</li>
+                        </ul>
+                     </li>
+                    <li>clitic form <code>.c(..)</code> with options:
+                        <ul>
+                            <li><code>nom</code> for the nominative</li>
+                            <li><code>acc</code> for the accusative (direct object)</li>
+                            <li><code>dat</code> for the dative (indirect object)</li>
+                            <li><code>geb</code> for the genitive (noun complement)</li>
+                        </ul>
+                    </li>
+                </ul>
+                The following table shows the realized form above the corresponding jsRealB expression.
+            </li>
+        </ul>
+        <div id="englishPro"></div>
+        <h3>Possessive determiner</h3>
+        <p>Possessive determiners are specified by giving options for the number, the person, 
+            the gender (when at the third person) and also if the owner (<code>.ow(..)</code>) 
+            is singular or plural. The following table shows the realization above its 
+            jsRealB specification.
+         </p>
+        <div id="englishDet"></div>
     </body>
 </html>

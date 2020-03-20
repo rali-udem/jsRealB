@@ -243,7 +243,7 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
-        if (this.prop["ow"]!==undefined)keyVals["ow"]=this.prop["ow"];
+        if (this.prop["own"]!==undefined)keyVals["own"]=this.prop["own"];
         if (this.isA("Pro")){// check special combinations of tn and c for pronouns
             const c  = this.prop["c"];
             if (c!==undefined){

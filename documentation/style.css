@@ -42,6 +42,11 @@ footer {
     padding-top:5px;
 }
 
+#pronomsSect2 .pattern {font: 70% "Courier", sans-serif;}
+#pronomsSect2 td {border: 1px solid #999;}
+#pronomsSect2 tr.last td {border-bottom: 2px solid black;}
+#pronomsSect2 th {font-style: italic;font-weight: normal;}
+
 #langSelect{cursor:pointer; color: green; position:fixed; top:5px; right:10px;}
 
 /* Adapted from https://www.w3schools.com/howto/howto_css_dropdown_navbar.asp */
