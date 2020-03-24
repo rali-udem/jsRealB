@@ -89,12 +89,14 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
-// return a nominative pronoun corresponding to this object 
+// return a pronoun corresponding to this object 
 // taking into account the current gender, number and person
 //  do not change the current pronoun if it is already using the tonic form
+// if case_ is not given, return the tonic form else return the corresponding case
+// HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
 Constituent.prototype.getTonicPro = function(case_){
     if (this.isA("Pro") && (this.prop["tn"] || this.prop["c"])){
-        this.prop["c"]=case_
+        if (case_!==undefined)this.prop["c"]=case_
         return this;
     } else { // generate the string corresponding to the tonic form
         let pro=Pro(this.isFr()?"moi":"me");
@@ -104,6 +106,7 @@ Constituent.prototype.getTonicPro = function(case_){
         if (n!==undefined)pro.n(n);
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
+        if (case_===undefined) return Pro(pro.toString()).tn("");
         return Pro(pro.toString()).c(case_) // set nominative
     }
 }
@@ -982,8 +985,8 @@ Phrase.prototype.passivate = function(){
             if (this.elements.length>0 && this.elements[0].isOneOf(["N","NP","Pro"])){
                 subject=this.elements.shift();
                 if (subject.isA("Pro")){
-                    // as this pronoun will be preceded by "par" or "by", the case is "dative"
-                    subject=subject.getTonicPro("dat");
+                    // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
+                    subject=subject.getTonicPro();
                 }
             } else {
                 subject=null;
@@ -23410,7 +23413,7 @@ Constituent.prototype.warnings = {
 //         N(n).warn(w,"A","B","C")
 //     }
 // }
-jsRealB_dateCreated="2020-03-23 14:05"
+jsRealB_dateCreated="2020-03-24 17:57"
 //  Terminals
 exports.N=N;
 exports.A=A;
