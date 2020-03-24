@@ -118,10 +118,13 @@ QUnit.test( "Sentence EN", function( assert ) {
          message:"Adding constituents both before and after"
          },
         // // 21
-        // {expression:,
-        //  expected:"",
-        //  message:
-        //  },
+        {expression:S(NP(D("the"),N("girl")).pro(),
+                      VP(V("see"),
+                         NP(D("the"),N("man")).pro(),
+                         PP(P("through"),NP(D("the"),N("window")).pro()))),
+         expected:"She sees him through it.",
+         message:"Pronominalization of subject, object and indirect object"
+         },
         // // 22
         // {expression:,
         //  expected:"",

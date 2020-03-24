@@ -27,7 +27,7 @@ function makeOptions(opts){
 
 function $makeCell(Const,terminal,options){
     var exp=`${Const}("${terminal}")`+options;
-    console.log(exp);
+    // console.log(exp);
     return $("<td><b>"+eval(exp)+"</b><br/><code>"+exp+"</code></td>")
 }
 
@@ -131,6 +131,7 @@ function englishTable(){
     let $t=$("<table/>");
     ajouterTitre($t,titres);
     pronomsPersonnels($t,"me",makeOptions(["g","n","pe"]),tnC);
+    pronomsPersonnels($t,"it",[""],tnC);
     $english.append($t);
 
     $english=$("#englishDet")

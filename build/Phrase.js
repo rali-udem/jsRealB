@@ -57,7 +57,7 @@ Phrase.prototype.add = function(constituent,position,prog){
     } else {
         this.warn("bad position",position,this.elements.length)
     }
-    // change content or content position of some children
+    // change content or position of some children
     this.setAgreementLinks();
     for (let i = 0; i < this.elements.length; i++) {
         const e=this.elements[i];
@@ -70,8 +70,16 @@ Phrase.prototype.add = function(constituent,position,prog){
                     this.elements.splice(idx,0,adj);
                 }
             }
-        } else if (e.isA("NP") && e.prop["pro"]!==undefined){
-            e.pronominalize()
+        } else if (e.prop["pro"]!==undefined){
+            if (e.isFr()){
+                e.pronominalize_fr()
+            } else { // in English pronominalize only applies to a NP
+                if (e.isA("NP")){
+                    e.pronominalize_en()
+                } else {
+                    return this.warn("bad application",".pro",["NP"],this.constType)
+                }
+            }
         }
     }
     return this;
@@ -271,55 +279,105 @@ Phrase.prototype.findGenderNumber = function(andCombination){
 // Phrase structure modification but that must be called in the context of the parentConst
 // because the pronoun depends on the role of the NP in the sentence 
 //         and its position can also change relatively to the verb
-Phrase.prototype.pronominalize = function(){
-    if (this.isA("NP")){
-        const npParent=this.parentConst
-        let proS,idxV=-1;
-        if (npParent!==null){
-            const myself=this;
-            const idxNP=npParent.elements.findIndex(e => e==myself,this);
-            if (this==npParent.agreesWith){// is subject 
-                proS=this.isFr()?"je":"I";
-            } else if (npParent.isA("PP")){ // is indirect complement
-                proS=this.isFr()?"je":"I";
+Phrase.prototype.pronominalize_fr = function(){
+    const npParent=this.parentConst;
+    if (npParent!==null){
+        let idxV=-1;
+        let pro;
+        let myself=this;
+        let idx=npParent.elements.findIndex(e => e==myself,this);
+        let moveBeforeVerb=false;
+        idxV=npParent.getIndex("V");
+        if (this.isA("NP")){
+            if (this==npParent.agreesWith){ // is subject 
+                pro=this.getTonicPro("nom");
             } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
-                proS=this.isFr()?"je":"I";
+                pro=this.getTonicPro("nom");
             } else {
-                proS=this.isFr()?"le":"me"; // is direct complement;
-                idxV=npParent.getIndex("V");
+                pro=this.getTonicPro("acc") // is direct complement;
+                moveBeforeVerb=true;
+            }               
+        } else if (this.isA("PP")){ // is indirect complement
+            const np=this.getFromPath(["NP"]);
+            const prep=this.getFromPath(["P"]);
+            if (prep !== undefined && np !== undefined){
+                if (prep.lemma == "à"){
+                    pro=np.getTonicPro("dat");
+                    moveBeforeVerb=true;
+                } else if (prep.lemma == "de") {
+                    pro=Pro("en")
+                    moveBeforeVerb=true;
+                } else if (prep.lemma == "sur"){
+                    pro=Pro("y")
+                    moveBeforeVerb=true;
+                }                         
             }
-            const pro=Pro(proS);
-            pro.agreesWith=this.agreesWith;
-            pro.prop=this.prop;
-            if (this==npParent.agreesWith){
-                npParent.agreesWith=pro
-            }
-            if (this.isFr() && proS=="le" && 
-                // in French a pronominalized NP as direct object is moved before the verb
-                idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
-                npParent.elements.splice(idxNP,1);   // remove NP
-                npParent.elements[idxV].prop["cod"]=this;
-                npParent.elements.splice(idxV,0,pro);// insert pronoun before the V
-            } else {
-                npParent.elements.splice(idxNP,1,pro);// insert pronoun where the NP was
-            }
-            pro.parentConst=npParent;
-        } else {// special case without parentConst so we leave the NP and change its elements
-            var pro=Pro(this.isFr()?"je":"I");
-            prop.prop=this.prop;
-            pro.agreesWith=this.agreesWith;
-            this.elements=[pro];
         }
-    } else {
-        this.warn("bad application",".pro()","NP",this.constType)
+        if (pro === undefined){
+            return npParent.warn("no appropriate pronoun");
+        }
+        pro.agreesWith=this.agreesWith;
+        Object.assign(pro.prop,this.prop);
+        if (this==npParent.agreesWith){
+            npParent.agreesWith=pro
+        }
+        if (moveBeforeVerb && 
+            // in French a pronominalized NP as direct object is moved before the verb
+            idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
+            npParent.elements.splice(idx ,1);   // remove NP
+            if (this.isA("NP")) // indicate that this is a COD
+                npParent.elements[idxV].prop["cod"]=this;
+            npParent.elements.splice(idxV,0,pro);// insert pronoun before the V
+        } else {
+            npParent.elements.splice(idx,1,pro);// insert pronoun where the NP was
+        }
+        pro.parentConst=npParent;
+    } else {// special case without parentConst so we leave the NP and change its elements
+        let pro=Pro(tonicPro).t("");
+        pro.prop=this.prop;
+        pro.agreesWith=this.agreesWith;
+        this.elements=[pro];
     }
 }
+
+// Pronominalization in English only applies to a NP (this is checked before the call)
+//  and does not need reorganisation of the sentence 
+//  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
+Phrase.prototype.pronominalize_en = function(){
+    const npParent=this.parentConst;
+    if (npParent!==null){
+        let idxV=-1;
+        let pro;
+        let myself=this;
+        let idx=npParent.elements.findIndex(e => e==myself,this);
+        let moveBeforeVerb=false;
+        idxV=npParent.getIndex("V");
+        if (this==npParent.agreesWith){ // is subject 
+            pro=this.getTonicPro("nom");
+        } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
+            pro=this.getTonicPro("nom");
+        } else {
+            pro=this.getTonicPro("acc") // is direct complement;
+        }               
+        pro.agreesWith=this.agreesWith;
+        Object.assign(pro.prop,this.prop);
+        if (this==npParent.agreesWith){
+            npParent.agreesWith=pro
+        }
+        npParent.elements.splice(idx,1,pro);// insert pronoun where the NP was
+        pro.parentConst=npParent;
+    } else {// special case without parentConst so we leave the NP and change its elements
+        let pro=this.getNomPro();
+        pro.prop=this.prop;
+        pro.agreesWith=this.agreesWith;
+        this.elements=[pro];
+    }
+}
+
 
 // modify the sentence structure to create a passive sentence
 Phrase.prototype.passivate = function(){
     let subject,vp,newSubject;
-    const nominative=this.isFr()?"je":"I";
-    const accusative=this.isFr()?"moi":"me";
     // find the subject at the start of this.elements
     if (this.isA("VP")){
         subject=null;
@@ -330,14 +388,14 @@ Phrase.prototype.passivate = function(){
             if (this.elements.length>0 && this.elements[0].isOneOf(["N","NP","Pro"])){
                 subject=this.elements.shift();
                 if (subject.isA("Pro")){
-                    if (subject.lemma==nominative)subject.setLemma(accusative);
-                    else if (subject.lemma==accusative)subject.setLemma(nominative); 
+                    // as this pronoun will be preceded by "par" or "by", the case is "dative"
+                    subject=subject.getTonicPro("dat");
                 }
             } else {
                 subject=null;
             }
         } else {
-            return this.warn("not found","VP",isFr()?"contexte passif":"passive context")
+            return this.warn("not found","VP",this.isFr()?"contexte passif":"passive context")
         }
     }
     // remove object (first NP or Pro within VP) from elements
@@ -346,11 +404,10 @@ Phrase.prototype.passivate = function(){
         if (objIdx>=0){
             var obj=vp.elements.splice(objIdx,1)[0]; // splice returns [obj]
             if (obj.isA("Pro")){
+                obj=obj.getTonicPro("nom");
                 if (objIdx==0){// a French pronoun inserted by .pro()
-                    obj.setLemma(nominative);  // make the new subject nominative
                     objIdx=vp.getIndex("V")+1 // ensure that the new object will appear after the verb
-                } else 
-                    if (obj.lemma==accusative)obj.setLemma(nominative);
+                }
             }
             // swap subject and obj
             newSubject=obj;
@@ -365,11 +422,11 @@ Phrase.prototype.passivate = function(){
             newSubject=subject;
             if (subject.isA("Pro")){
                 // the original subject at nominative will be reinserted below!!!
-                subject.setLemma(nominative);
+                subject=subject.getTonicPro("nom");
             } else { 
                 //create a dummy subject with a "il" unless it is at the imperative tense
                 if (vp.getProp("t")!=="ip"){
-                    subject=Pro(nominative).g(this.isFr()?"m":"n").n("s").pe(3);
+                    subject=(this.isFr()?Pro("lui"):Pro("it")).c("nom");
                 }
             }
             this.elements.unshift(subject);
@@ -458,12 +515,9 @@ Phrase.prototype.processTyp_fr = function(types){
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
         v.prop["neg2"]=neg; // HACK: to be used when conjugating at the realization time
-        // insert "ne" before the verb or before a possible pronoun preceding the verb
-        if (idxV>0 && vp.elements[idxV-1].isA("Pro")){
-            vp.elements.splice(idxV-1,0,Adv("ne"));
-        } else {
-            vp.elements.splice(idxV,0,Adv("ne"));
-        }
+        while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
+        // insert "ne" before the verb or before possible pronouns preceding the verb
+        vp.elements.splice(idxV,0,Adv("ne"));
     })
 }
 
@@ -726,15 +780,15 @@ Phrase.prototype.cpReal = function(){
         return this.doFormat(res)
     }
     // compute the combined gender and number of the coordination
+    let c;
     if(idxC >= 0 ){
-        // var c=this.elements.splice(idxC,1)[0]
-        var c=this.elements[idxC]
+        c=this.elements[idxC]
         var and=this.isFr()?"et":"and";
         var gn=this.findGenderNumber(c.lemma==and)
         this.prop["g"]=gn.g;
         this.prop["n"]=gn.n;
     } else {
-        this.warn("not found","C","CP")
+        c=Q("");
     }            
     if (last==0){// coordination with only one element, ignore coordinate
         Array.prototype.push.apply(res,elems[0].real());
@@ -789,7 +843,12 @@ Phrase.prototype.vpReal = function(){
         i++;
     }
     // sort realisations in increasing length
-    reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
+    // HACK: consider two lengths differing by less than 25% (ratio > 0.75) as equal, 
+    //       so that only big differences in length are reordered
+    reals.sort(function(s1,s2){
+        const l1=realLength(s1),l2=realLength(s2);
+        return Math.min(l1,l2)/Math.max(l1,l2)>0.75?0:l1-l2
+    });
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
     return this.doFormat(res) // process format for the VP
 }

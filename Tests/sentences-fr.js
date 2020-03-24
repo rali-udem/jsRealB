@@ -209,6 +209,28 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"<i>Le</i> <b>chat.</b>",
          message:"Top level,capitalization with HTML tags."},
         // 35
+        {expression:S(Pro("je").pe(2),
+                      VP(V("demander").t("pc"),
+                         NP(D("mon"),N("adresse")).pro(),
+                         PP(P("à"),NP(D("mon"),N("parent").n("p"))).pro())),
+         expected:"Tu la leur as demandée.",
+         message:"Pronominalisation de l'objet direct et de l'objet indirect (datif)"},
+        // 36
+        {expression:S(Pro("je"),
+                      VP(V("parler").t("pc"),
+                         PP(P("à"),NP(D("mon"),N("ami").g("f"))).pro(),
+                         PP(P("de"),NP(D("mon"),N("problème"))).pro())),
+         expected:"Il lui en a parlé.",
+         message:"Pronominalisation de deux objets indirects"},
+        // 37
+        // {expression:,
+        //  expected:"",
+        //  message:""},
+        // 38
+        // {expression:,
+        //  expected:"",
+        //  message:""},
+        // 39
         // {expression:,
         //  expected:"",
         //  message:""},

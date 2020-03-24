@@ -16,6 +16,7 @@ addToLexicon("option",{ N: { g: 'f', tab: [ 'n17' ] } })
 addToLexicon("morphologie",{ N: { g: 'f', tab: [ 'n17' ] } })
 addToLexicon("ordinal",{ A: { tab: [ 'n47' ] }, N: { g: 'm', tab: [ 'n5' ] } })
 addToLexicon("paramètre",{ N: { g: 'm', tab: [ 'n3' ] } })
+addToLexicon("pronom",{N: {g: "m", tab: ["n3"]}});
 
 loadEn();
 addToLexicon("as",{ Adv: { tab: [ 'b1' ]}})
@@ -24,6 +25,7 @@ addToLexicon("implement",{ N: { tab: [ 'n1' ] }, V: { tab: 'v1' } })
 addToLexicon("lexicon",{ N: { tab: [ 'n1' ] } })
 addToLexicon("morphology",{ N: { tab: [ 'n5' ] } })
 addToLexicon("ordinal",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n1' ] } })
+addToLexicon("pronoun",{N: {tab: ["n1"]}})
 
 // generate a warning message in the current language
 //   the first argument must correspond to a key in the warnings table
@@ -62,10 +64,12 @@ Constituent.prototype.warnings = {
     "bad application":
         {en:(info,goods,bad)=> // $info should be applied to $good, not to $bad
             S(Q(info),VP(V("apply").t("ps"),
-                         PP(P("to"),makeDisj("or",goods)).a(","),Adv("not"),PP(P("to"),Q(bad)))).typ({mod:"nece",pas:true}),
+                         PP(P("to"),makeDisj("or",goods)).a(","),Adv("not"),PP(P("to"),Q(bad))))
+               .typ({mod:"nece",pas:true}),
          fr:(info,goods,bad)=> // $info devrait être appliqué à $good, non à $bad.
             S(Q(info),VP(V("appliquer").t("c"),
-                         PP(P("à"),makeDisj("ou",goods)).a(','),Adv("non"),PP(P("à"),Q(bad)))).typ({mod:"nece",pas:true})},
+                         PP(P("à"),makeDisj("ou",goods)).a(','),Adv("non"),PP(P("à"),Q(bad))))
+              .typ({mod:"nece",pas:true})},
     "bad position":
         {en:(bad,limit)=> // $bad should be smaller than $limit.
             S(NO(bad),VP(V("be").t("ps"),A("small").f("co"),P("than"),NO(limit))).typ({mod:"nece"}),
@@ -81,7 +85,8 @@ Constituent.prototype.warnings = {
          fr:(option,constType,allowedConsts)=>
               //  l'option $option est appliquée à $constType, mais elle devrait être $allowedConsts
               CP(C("mais"),
-                 VP(V("appliquer"),NP(D("le"),N("option"),Q(option)),PP(P("à"),Q(constType))).typ({pas:true}).a(","),
+                 VP(V("appliquer"),NP(D("le"),N("option"),Q(option)),PP(P("à"),Q(constType)))
+                    .typ({pas:true}).a(","),
                  VP(Pro("je").g("f"),V("être").t("c"),makeDisj("ou",allowedConsts)).typ({mod:"nece"})
               )},
     "ignored value for option":
@@ -143,6 +148,10 @@ Constituent.prototype.warnings = {
             S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon"))),
          fr:()=> // absent du lexique.
             S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
+    "no appropriate pronoun":
+        {en:()=>S(VP(V("find").t("ps"),NP(N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
+         fr:()=>S(VP(V("trouver").t("pc"),NP(N("pronom")))).typ({neg:true,pas:true,mod:"poss"})
+        },
     "both tonic and clitic":
         {en:()=>// tn(..) and c(..) cannot be used together, tn(..) is ignored.
              S(CP(C("and"),Q("tn(..)"),Q("c(..)")),VP(V("use").n("p"),Adv("together"))

@@ -2,16 +2,21 @@ js   := dist/jsRealB.js dist/jsRealB-node.js IDE/jsRealB-IDE.js
 minjs = $(patsubst %.js,%.min.js,$(js)) 
 
 demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Data2Text/building.html \
-        demos/date/index.html demos/Evenements/index.html demos/ExercicesDeStyle/index.html demos/Inflection/index.html \
-		demos/KilometresAPied/index.html demos/randomGeneration/french.html demos/randomGeneration/english.html \
+        demos/date/index.html demos/Evaluation/index.html demos/Evenements/index.html \
+		demos/ExercicesDeStyle/index.html demos/Inflection/index.html \
+		demos/KilometresAPied/index.html \
+		demos/PetitChaperonRouge/LittleRedRidingHood.html demos/PetitChaperonRouge/PetitChaperonRouge.html \
+		demos/Pronoms/index.html \
+		demos/randomGeneration/french.html demos/randomGeneration/english.html \
 		demos/VariantesDePhrases/index.html \
 		documentation/user.html \
 		Tutorial/tutorial.html \
 		Tests/testAll.html
 
-core := build/Constituent.js build/Phrase.js build/Terminal.js build/Date.js build/Number.js build/Utils.js
 en   := data/lexicon-en.js data/rule-en.js 
 fr   := data/lexicon-fr.js data/rule-fr.js 
+core := build/Constituent.js build/Phrase.js build/Terminal.js build/Date.js build/Number.js build/Utils.js \
+        $(en) $(fr) build/Warnings.js
 
 .PHONY: demos clean
 
@@ -24,10 +29,10 @@ dist/datedCore.js : $(core)  ## add date of makefile
 	cat $^ > $@
 	echo "jsRealB_dateCreated=\""`date +"%F %H:%M"`'"' >>$@  
 
-dist/jsRealB.js  : build/module-start.js dist/datedCore.js $(en) $(fr) build/module-exports.js build/module-end.js
+dist/jsRealB.js  : build/module-start.js dist/datedCore.js build/module-exports.js build/module-end.js
 	cat $^ > $@
 
-dist/jsRealB-node.js : dist/datedCore.js $(en) $(fr) build/module-exports.js
+dist/jsRealB-node.js : dist/datedCore.js build/module-exports.js
 	cat $^ > $@
 
 IDE/jsRealB-IDE.js : dist/jsRealB-node.js IDE/nodeIDE.js

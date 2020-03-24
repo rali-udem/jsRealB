@@ -30,7 +30,7 @@ Terminal.prototype.typ = function(types){
     return this;
 }
 Terminal.prototype.pro = function(args){
-    this.warn("bad application",".typ("+JSON.stringify(types)+")","NP",this.constType)
+    this.warn("bad application",".typ("+JSON.stringify(types)+")",["NP"],this.constType)
     return this;
 }
 
@@ -354,7 +354,11 @@ Terminal.prototype.conjugate_fr = function(){
                     else res +=" "+neg;
                 }
                 if (t=="pp"){
-                    res+={"ms":"","mp":"s","fs":"e","fp":"es"}[this.getProp("g")+this.getProp("n")]
+                    let g=this.getProp("g");
+                    if (g=="x")g="m";
+                    let n=this.getProp("n");
+                    if (g=="x")g="s";
+                    res+={"ms":"","mp":"s","fs":"e","fp":"es"}[g+n]
                 }
                 return res;
             default:

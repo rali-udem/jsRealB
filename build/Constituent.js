@@ -84,6 +84,27 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
+// return a nominative pronoun corresponding to this object 
+// taking into account the current gender, number and person
+//  do not change the current pronoun if it is already using the tonic form
+Constituent.prototype.getTonicPro = function(case_){
+    if (this.isA("Pro") && (this.prop["tn"] || this.prop["c"])){
+        this.prop["c"]=case_
+        return this;
+    } else { // generate the string corresponding to the tonic form
+        let pro=Pro(this.isFr()?"moi":"me");
+        const g = this.getProp("g");
+        if (g!==undefined)pro.g(g);
+        const n = this.getProp("n");
+        if (n!==undefined)pro.n(n);
+        const pe = this.getProp("pe");
+        if (pe!==undefined)pro.pe(pe);
+        return Pro(pro.toString()).c(case_) // set nominative
+    }
+}
+
+
+
 Constituent.prototype.addOptSource = function(optionName,val){
     this.optSource+="."+optionName+"("+(val===undefined? "" :JSON.stringify(val))+")"
 }
@@ -141,7 +162,7 @@ genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A"]);
-genOptionFunc("pro",undefined,["NP"]);
+genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 
@@ -270,9 +291,9 @@ Constituent.prototype.verbAgreeWith = function(subject){
         }
     } else if (this.isA("V")){ // this is a V
         this.agreesWith=subject;
-    } else {
-        this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
-    }
+    } // else {
+    //     this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
+    // }
 }
 
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 

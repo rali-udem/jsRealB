@@ -209,6 +209,7 @@ function englishTable(){
     let $t=$("<table/>");
     ajouterTitre($t,titres);
     pronomsPersonnels($t,"me",makeOptions(["g","n","pe"]),tnC);
+    pronomsPersonnels($t,"it",[""],tnC);
     $tonicPro.append($t);
 
     let $possDet=$("#possDet")

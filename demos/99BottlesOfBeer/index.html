@@ -6,6 +6,8 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="../../dist/jsRealB.js"></script>
 <!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-fr.js"></script>
+        <script src="../../data/rule-fr.js"></script>
         <script src="../../data/lexicon-en.js"></script>
         <script src="../../data/rule-en.js"></script>
         <script src="../../build/Utils.js"></script>
@@ -25,7 +27,7 @@
         }
         function nbbW(n){ // n bottles of beer on the wall
             return NP(nbb(n),
-                      SP(P("on"),
+                      PP(P("on"),
                          D("the"),
                          N("wall")));
         }
@@ -37,11 +39,11 @@
             if (n>0){
                 var tod=VP(V("take").pe(2).t("ip"),NO(1).nat(true),P("down"));
                 var pia=VP(V("pass").pe(2),Pro("I").g("n").pe(3),P("around")).a(","); 
-                vers2=CP(CP(C("and"),tod,pia),nbbW(n-1))
+                vers2=CP(C("and"),tod,pia,nbbW(n-1));
             } else {
                 var gts=VP(V("go").pe(2),PP(P("to"),D("a"),N("store")));
                 var bsm=VP(V("buy").pe(2),"some more").a(",");
-                vers2=CP(C("and"),gts,bsm)
+                vers2=CP(CP(C("and"),gts,bsm),nbbW(99));
             }
             return S(vers1)+"<br/>"+S(vers2);
         }
