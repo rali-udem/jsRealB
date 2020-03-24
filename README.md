@@ -82,6 +82,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * French and English sentences modified with time, number and conjugation: [Date generation](demos/date) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/date/index.html)
     * Type a French or English sentence that will be realized with all possible sentence modifiers [Sentence variants](demos/VariantesDePhrases) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html)
     * French or English conjugation and declension of a word [Conjugation and declension](demos/inflection) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/inflection/index.html)
+    * Generate a table (both in English and French) showing the different forms of pronouns in the original specification and also using the tonic and clitic options
 * User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
@@ -109,7 +110,9 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     <img src="Tutorial/metro.jpg" width="800"/>
     
     The langage of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/metro.html)
-    
+
+### Test demos
+* The demos are usually run using the *compiled* version. But after modification of the source files, the version with the separate loading of the file can be obtained by commenting/uncommenting some `<script>...</script>` lines at the start of the html file. The shell script `testDemos.sh` can be used to do this while keeping the original intact. If the script is called with a name of an HTML file, then that file is uncommented and shown in the browser (using the `open` command on the MacOS). With no argument, then all demos are displayed in different tabs. The script wait for 5 seconds between each try.
 ## Design of the system
 
 The current version (3.0) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.

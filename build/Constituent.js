@@ -84,12 +84,14 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
-// return a nominative pronoun corresponding to this object 
+// return a pronoun corresponding to this object 
 // taking into account the current gender, number and person
 //  do not change the current pronoun if it is already using the tonic form
+// if case_ is not given, return the tonic form else return the corresponding case
+// HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
 Constituent.prototype.getTonicPro = function(case_){
     if (this.isA("Pro") && (this.prop["tn"] || this.prop["c"])){
-        this.prop["c"]=case_
+        if (case_!==undefined)this.prop["c"]=case_
         return this;
     } else { // generate the string corresponding to the tonic form
         let pro=Pro(this.isFr()?"moi":"me");
@@ -99,6 +101,7 @@ Constituent.prototype.getTonicPro = function(case_){
         if (n!==undefined)pro.n(n);
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
+        if (case_===undefined) return Pro(pro.toString()).tn("");
         return Pro(pro.toString()).c(case_) // set nominative
     }
 }

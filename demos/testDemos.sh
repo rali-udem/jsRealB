@@ -13,11 +13,17 @@ function testDemo(){
          -e '\%-/-%s//--/' \
          $inFile > $outFile
     open $outFile
-    sleep 5  # leave time for the browser to display the temp file
+    sleep 5  # leave time for the browser to display the temp file and the user to see it
     rm $outFile
 }
 
+## if an argument is given, test only this one
+if [[ $# -eq 1 ]] ; then
+    testDemo $1
+    exit 0
+fi
 
+## test all demos
 allDemos=(  99BottlesOfBeer/index.html \
             Data2Text/batiment.html \
             Data2Text/building.html \

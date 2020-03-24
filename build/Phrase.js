@@ -388,8 +388,8 @@ Phrase.prototype.passivate = function(){
             if (this.elements.length>0 && this.elements[0].isOneOf(["N","NP","Pro"])){
                 subject=this.elements.shift();
                 if (subject.isA("Pro")){
-                    // as this pronoun will be preceded by "par" or "by", the case is "dative"
-                    subject=subject.getTonicPro("dat");
+                    // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
+                    subject=subject.getTonicPro();
                 }
             } else {
                 subject=null;
