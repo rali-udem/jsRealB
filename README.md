@@ -28,7 +28,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `module-end.js` : lines to add at the end when creating a module from js files
     * `module-exports.js` : list of exported identifiers when creating a module from the js files
     * `module-start.js` : line to add at the start when creating a module from js files
-    * `Number.js` : utilisy function for dealing with number formatting
+    * `Number.js` : utility function for dealing with number formatting
     * `Phrase.js` : subclass of *Constituent* for creating complex phrases
     * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
     * `Utils.js` : useful functions that do not belong to the *constituent*s
