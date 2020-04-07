@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
     <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
     <script>
+        // this implies that "local file loading" is allowed which is not by default
         function loadJSON(jsonFile,callback) {
             var xobj = new XMLHttpRequest();
             xobj.overrideMimeType("application/json");

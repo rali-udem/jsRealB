@@ -1,7 +1,9 @@
 // some useful function for the NodeIDE
 // these function access internals of jsRealB
+"use strict";
+
 var checkAmbiguities=false;
-var lemmataEn,lemmataFr;
+var lemmataEn,lemmataFr,lemmataLang;
 
 function isConstituent(obj){
     return obj instanceof Constituent;

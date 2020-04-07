@@ -2,7 +2,8 @@ js   := dist/jsRealB.js dist/jsRealB-node.js IDE/jsRealB-IDE.js
 minjs = $(patsubst %.js,%.min.js,$(js)) 
 
 demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Data2Text/building.html \
-        demos/date/index.html demos/Evaluation/index.html demos/Evenements/index.html \
+        demos/date/index.html demos/e2eChallenge/index.html \
+		demos/Evaluation/index.html demos/Evenements/index.html \
 		demos/ExercicesDeStyle/index.html demos/Inflection/index.html \
 		demos/KilometresAPied/index.html \
 		demos/PetitChaperonRouge/LittleRedRidingHood.html demos/PetitChaperonRouge/PetitChaperonRouge.html \
@@ -15,8 +16,8 @@ demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Da
 
 en   := data/lexicon-en.js data/rule-en.js 
 fr   := data/lexicon-fr.js data/rule-fr.js 
-core := build/Constituent.js build/Phrase.js build/Terminal.js build/Date.js build/Number.js build/Utils.js \
-        $(en) $(fr) build/Warnings.js
+core := build/Constituent.js build/Phrase.js build/Terminal.js build/IO-json.js build/Date.js \
+        build/Number.js build/Utils.js $(en) $(fr) build/Warnings.js
 
 .PHONY: demos clean
 

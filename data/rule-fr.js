@@ -3674,113 +3674,113 @@ var ruleFr = //========== rule-fr.js
         "pn4-2s":{
             "ending":"toi",
             "declension":[{
-                "val":"toi", "tn":""
+                "val":"toi", "tn":"", "n":"s", "pe":2
             },{
-                "val":"toi-même", "tn":"refl"
+                "val":"toi-même", "tn":"refl", "n":"s", "pe":2
             },{
-                "val":"tu", "c":"nom"
+                "val":"tu", "c":"nom", "n":"s", "pe":2
             },{
-                "val":"te", "c":"acc"
+                "val":"te", "c":"acc", "n":"s", "pe":2
             },{
-                "val":"te", "c":"dat"
+                "val":"te", "c":"dat", "n":"s", "pe":2
             },{
-                "val":"te", "c":"refl"
+                "val":"te", "c":"refl", "n":"s", "pe":2
             }]
         },
         "pn4-3sm":{
             "ending":"lui",
             "declension":[{
-                "val":"lui", "tn":""
+                "val":"lui", "tn":"", "g":"m", "n":"s", "pe":3
             },{
-                "val":"lui-même", "tn":"refl"
+                "val":"lui-même", "tn":"refl", "g":"m", "n":"s", "pe":3
             },{
-                "val":"il", "c":"nom"
+                "val":"il", "c":"nom", "g":"m", "n":"s", "pe":3
             },{
-                "val":"le", "c":"acc"
+                "val":"le", "c":"acc", "g":"m", "n":"s", "pe":3
             },{
-                "val":"lui", "c":"dat"
+                "val":"lui", "c":"dat", "g":"m", "n":"s", "pe":3
             },{
-                "val":"se", "c":"refl"
+                "val":"se", "c":"refl", "g":"m", "n":"s", "pe":3
             }]
         },
         "pn4-3sf":{
             "ending":"elle",
             "declension":[{
-                "val":"elle", "g":"f", "tn":""
+                "val":"elle", "g":"f", "tn":"", "n":"s", "pe":3
             },{
-                "val":"elle-même", "g":"f", "tn":"refl"
+                "val":"elle-même", "g":"f", "tn":"refl", "n":"s", "pe":3
             },{
-                "val":"elle", "g":"f", "c":"nom"
+                "val":"elle", "g":"f", "c":"nom", "n":"s", "pe":3
             },{
-                "val":"la", "g":"f", "c":"acc"
+                "val":"la", "g":"f", "c":"acc", "n":"s", "pe":3
             },{
-                "val":"lui", "g":"f", "c":"dat"
+                "val":"lui", "g":"f", "c":"dat", "n":"s", "pe":3
             },{
-                "val":"se", "g":"f", "c":"refl"
+                "val":"se", "g":"f", "c":"refl", "n":"s", "pe":3
             }]
         },
         "pn4-1p":{
             "ending":"nous",
             "declension":[{
-                "val":"nous", "tn":""
+                "val":"nous", "tn":"", "g":"x", "n":"p", "pe":1
             },{
-                "val":"nous-mêmes", "tn":"refl"
+                "val":"nous-mêmes", "tn":"refl", "g":"x", "n":"p", "pe":1
             },{
-                "val":"nous", "c":"nom"
+                "val":"nous", "c":"nom", "g":"x", "n":"p", "pe":1
             },{
-                "val":"nous", "c":"acc"
+                "val":"nous", "c":"acc", "g":"x", "n":"p", "pe":1
             },{
-                "val":"nous", "c":"dat"
+                "val":"nous", "c":"dat", "g":"x", "n":"p", "pe":1
             },{
-                "val":"nous", "c":"refl"
+                "val":"nous", "c":"refl", "g":"x", "n":"p", "pe":1
             }]
         },
         "pn4-2p":{
             "ending":"vous",
             "declension":[{
-                "val":"vous", "tn":""
+                "val":"vous", "tn":"", "g":"x", "n":"p", "pe":2
             },{
-                "val":"vous-mêmes", "tn":"refl"
+                "val":"vous-mêmes", "tn":"refl", "g":"x", "n":"p", "pe":2
             },{
-                "val":"vous", "c":"nom"
+                "val":"vous", "c":"nom", "g":"x", "n":"p", "pe":2
             },{
-                "val":"vous", "c":"acc"
+                "val":"vous", "c":"acc", "g":"x", "n":"p", "pe":2
             },{
-                "val":"vous", "c":"dat"
+                "val":"vous", "c":"dat", "g":"x", "n":"p", "pe":2
             },{
-                "val":"vous", "c":"refl"
+                "val":"vous", "c":"refl", "g":"x", "n":"p", "pe":2
             }]
         },
         "pn4-3pm":{
             "ending":"eux",
             "declension":[{
-                "val":"eux", "tn":""
+                "val":"eux", "tn":"", "g":"m", "n":"p", "pe":3
             },{
-                "val":"eux-mêmes", "tn":"refl"
+                "val":"eux-mêmes", "tn":"refl", "g":"m", "n":"p", "pe":3
             },{
-                "val":"ils", "c":"nom"
+                "val":"ils", "c":"nom", "g":"m", "n":"p", "pe":3
             },{
-                "val":"les", "c":"acc"
+                "val":"les", "c":"acc", "g":"m", "n":"p", "pe":3
             },{
-                "val":"leur", "c":"dat"
+                "val":"leur", "c":"dat", "g":"m", "n":"p", "pe":3
             },{
-                "val":"se", "c":"refl"
+                "val":"se", "c":"refl", "g":"m", "n":"p", "pe":3
             }]
         },
         "pn4-3pf":{
             "ending":"elles",
             "declension":[{
-                "val":"elles", "g":"f", "tn":""
+                "val":"elles", "g":"f", "tn":"", "g":"f", "n":"p", "pe":3
             },{
-                "val":"elles-mêmes", "g":"f", "tn":"refl"
+                "val":"elles-mêmes", "g":"f", "tn":"refl", "g":"f", "n":"p", "pe":3
             },{
-                "val":"elles", "g":"f", "c":"nom"
+                "val":"elles", "g":"f", "c":"nom", "g":"f", "n":"p", "pe":3
             },{
-                "val":"les", "g":"f", "c":"acc"
+                "val":"les", "g":"f", "c":"acc", "g":"f", "n":"p", "pe":3
             },{
-                "val":"leur", "g":"f", "c":"dat"
+                "val":"leur", "g":"f", "c":"dat", "g":"f", "n":"p", "pe":3
             },{
-                "val":"se", "g":"f", "c":"refl"
+                "val":"se", "g":"f", "c":"refl", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn5": {
@@ -3896,25 +3896,25 @@ var ruleFr = //========== rule-fr.js
         "pn12-2":{
             "ending":"tien",
             "declension":[{
-                "val":"tien", "g":"m", "n":"s"
+                "val":"tien", "g":"m", "n":"s", "pe":2
             },{
-                "val":"tienne", "g":"f", "n":"s"
+                "val":"tienne", "g":"f", "n":"s", "pe":2
             },{
-                "val":"tiens", "g":"m", "n":"p"
+                "val":"tiens", "g":"m", "n":"p", "pe":2
             },{
-                "val":"tiennes", "g":"f", "n":"p"
+                "val":"tiennes", "g":"f", "n":"p", "pe":2
             }]
         },
         "pn12-3":{
             "ending":"sien",
             "declension":[{
-                "val":"sien", "g":"m", "n":"s"
+                "val":"sien", "g":"m", "n":"s", "pe":3
             },{
-                "val":"sienne", "g":"f", "n":"s"
+                "val":"sienne", "g":"f", "n":"s", "pe":3
             },{
-                "val":"siens", "g":"m", "n":"p"
+                "val":"siens", "g":"m", "n":"p", "pe":3
             },{
-                "val":"siennes", "g":"f", "n":"p"
+                "val":"siennes", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn13":{
@@ -3948,25 +3948,25 @@ var ruleFr = //========== rule-fr.js
         "pn13-2":{
             "ending":"vôtre",
             "declension":[{
-                "val":"vôtre", "g":"m", "n":"s"
+                "val":"vôtre", "g":"m", "n":"s", "pe":2
             },{
-                "val":"vôtre", "g":"f", "n":"s"
+                "val":"vôtre", "g":"f", "n":"s", "pe":2
             },{
-                "val":"vôtres", "g":"m", "n":"p"
+                "val":"vôtres", "g":"m", "n":"p", "pe":2
             },{
-                "val":"vôtres", "g":"f", "n":"p"
+                "val":"vôtres", "g":"f", "n":"p", "pe":2
             }]
         },
         "pn13-3":{
             "ending":"leur",
             "declension":[{
-                "val":"leur", "g":"m", "n":"s"
+                "val":"leur", "g":"m", "n":"s", "pe":3
             },{
-                "val":"leur", "g":"f", "n":"s"
+                "val":"leur", "g":"f", "n":"s", "pe":3
             },{
-                "val":"leurs", "g":"m", "n":"p"
+                "val":"leurs", "g":"m", "n":"p", "pe":3
             },{
-                "val":"leurs", "g":"f", "n":"p"
+                "val":"leurs", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn14": {

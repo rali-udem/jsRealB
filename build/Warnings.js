@@ -1,6 +1,12 @@
-// design of a new organisation for warnings
+/**
+    jsRealB 3.2
+    Guy Lapalme, lapalme@iro.umontreal.ca, February 2020
+ */
+"use strict";
+
+// Output of warnings:
 // it uses jsRealB for the realization of messages
-// not sure this is simpler, but at least it shows how jsRealB can be used for realizing its own messages
+// not sure this design is simpler, but it shows how jsRealB can be used for realizing its own messages
 
 // add words to the basic lexicon for use in the warnings
 //  the lexical information is taken from dmf and dme
@@ -47,7 +53,7 @@ Constituent.prototype.warn = function(_){
 }
 
 // create a list of elements [a,b,c] => "a, b $conj c" 
-makeDisj = function(conj,elems){
+const makeDisj = function(conj,elems){
     return CP.apply(null,[C(conj)].concat(elems.map(e=>Q(e))))+""
 }
 

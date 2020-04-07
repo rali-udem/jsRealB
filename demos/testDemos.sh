@@ -28,6 +28,7 @@ allDemos=(  99BottlesOfBeer/index.html \
             Data2Text/batiment.html \
             Data2Text/building.html \
             date/index.html \
+            e2eChallenge/index.html \
             Evaluation/index.html \
             Evenements/index.html \
             ExercicesDeStyle/index.html \

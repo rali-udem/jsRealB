@@ -2,22 +2,21 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
 var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
-var currentLanguage, rules, lexicon;
+var currentLanguage;
 
 ///////////////  Constructor for a Constituent (superclass of Phrase and Terminal)
 function Constituent(constType){
     this.parentConst=null;
     this.constType=constType;    
-    this.prop={};
+    this.props={};
     this.realization=null;
-    this.lang=currentLanguage;
     this.optSource=""   // string corresponding to the calls to the options
 }
 
@@ -39,11 +38,16 @@ Constituent.prototype.isOneOf = function(types){
 Constituent.prototype.isFr = function(){return this.lang=="fr"}
 Constituent.prototype.isEn = function(){return this.lang=="en"}
 
+Constituent.prototype.getRules   = function(){return this.isFr()?ruleFr:ruleEn}
+Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
+
+
+
 // get the property by following the "agreesWith" links, but keeping track of last verb 
 // in case of "tense" so that it does not take the "default" tense of the subject...
 Constituent.prototype.getProp = function(propName){
     // check for specific property on this element
-    const val = this.prop[propName];
+    const val = this.props[propName];
     if (val !== undefined) return val ; 
     // follow the agreement list
     let lastVerb;
@@ -55,13 +59,13 @@ Constituent.prototype.getProp = function(propName){
         next=next.agreesWith;
     }
     if (current.isOneOf(["V","VP"]))lastVerb=current;
-    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps[this.lang]["t"]
-    return current.prop[propName] || defaultProps[this.lang][propName] 
+    if (propName=="t" && lastVerb !== undefined)return lastVerb.props["t"] || defaultProps[this.lang]["t"]
+    return current.props[propName] || defaultProps[this.lang][propName] 
 }
 
 // get the property in the first surrounding sentence (S or SP)
 Constituent.prototype.getSentProp = function(propName){
-    const value=this.prop[propName];
+    const value=this.props[propName];
     if (value!==undefined) return value;
     if (this.parentConst==null || this.constType=="S" || this.constType=="SP")
         return undefined;
@@ -86,12 +90,17 @@ Constituent.prototype.getFromPath = function(path){
 
 // return a pronoun corresponding to this object 
 // taking into account the current gender, number and person
-//  do not change the current pronoun if it is already using the tonic form
+//  do not change the current pronoun, if it is already using the tonic form
 // if case_ is not given, return the tonic form else return the corresponding case
 // HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
 Constituent.prototype.getTonicPro = function(case_){
-    if (this.isA("Pro") && (this.prop["tn"] || this.prop["c"])){
-        if (case_!==undefined)this.prop["c"]=case_
+    if (this.isA("Pro") && (this.props["tn"] || this.props["c"])){
+        if (case_!==undefined){
+            this.props["c"]=case_
+        } else { // ensure tonic form
+            this.props["tn"]="";
+            if ("c" in this.props)delete this.props["c"];
+        }
         return this;
     } else { // generate the string corresponding to the tonic form
         let pro=Pro(this.isFr()?"moi":"me");
@@ -106,7 +115,11 @@ Constituent.prototype.getTonicPro = function(case_){
     }
 }
 
-
+Constituent.prototype.getParentLang = function(){
+    if (this.lang !== undefined) return this.lang;
+    if (this.parentConst === null) return currentLanguage;
+    return this.parentConst.getParentLang();
+}
 
 Constituent.prototype.addOptSource = function(optionName,val){
     this.optSource+="."+optionName+"("+(val===undefined? "" :JSON.stringify(val))+")"
@@ -145,7 +158,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             // if (!contains(["pro","cap","lier","ow"],optionName)){
             //     while (current.agreesWith!==undefined)current=current.agreesWith;
             // }
-            current.prop[optionName]=val;
+            current.props[optionName]=val;
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
@@ -176,8 +189,8 @@ genOptionFunc("lier",undefined,[]);
 // creation of option lists
 function genOptionListFunc(option){
     Constituent.prototype[option]=function(val,prog){
-        if (this.prop[option] === undefined)this.prop[option]=[];
-        this.prop[option].push(val);
+        if (this.props[option] === undefined)this.props[option]=[];
+        this.props[option].push(val);
         if(prog==undefined)this.addOptSource(option,val)
         return this;
     }
@@ -191,18 +204,18 @@ genOptionListFunc("en");
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined){
+    if (attrs === undefined || Object.keys(attrs).length==0){
         this.addOptSource("tag",name)
-        attrs="";
+        attrs={};
     } else {
         this.optSource+=".tag('"+name+"',"+JSON.stringify(attrs)+")" // special case of addOptSource...
     }
-    if (this.prop["tag"] === undefined)this.prop["tag"]=[];
-    this.prop["tag"].push([name,attrs]);
+    if (this.props["tag"] === undefined)this.props["tag"]=[];
+    this.props["tag"].push([name,attrs]);
     return this;
 }
 
-// date options
+// date and number options
 Constituent.prototype.dOpt = function(dOptions){
     this.addOptSource("dOpt",dOptions)
     if (typeof dOptions != "object"){
@@ -216,12 +229,12 @@ Constituent.prototype.dOpt = function(dOptions){
             if (allowedKeys.indexOf(key)>=0){
                 const val = dOptions[key];
                 if (typeof val == "boolean"){
-                    this.dateOpts[key]=val
+                        this.props["dOpt"][key]=val
                 } else {
                     return this.warn("bad application",".dOpt("+key+")","boolean",val);
                 }
             } else {
-                return this.warn("ignored value for option","NO.dOpt",key)
+                return this.warn("ignored value for option","DT.dOpt",key)
             }
         }
     } else if (this.isA("NO")){
@@ -233,12 +246,12 @@ Constituent.prototype.dOpt = function(dOptions){
                 const val = dOptions[key]
                 if (key=="mprecision"){
                     if (typeof val == "number"){
-                        this.noOptions["mprecision"]=val
+                        this.props["dOpt"]["mprecision"]=val
                     } else {
                         return this.warn("bad application","precision","number",val)
                     }
                 } else if (typeof val =="boolean"){
-                    this.noOptions[key]=val
+                    this.props["dOpt"][key]=val
                 } else {
                     return this.warn("bad application",".dOpt("+key+")","boolean",val)
                 }
@@ -247,7 +260,7 @@ Constituent.prototype.dOpt = function(dOptions){
             }
         }
     } else {
-        return this.warn("bad application",".nat",["DT","NO"],this.constType)
+        return this.warn("bad application",".dOpt",["DT","NO"],this.constType)
     }
     return this;
 }
@@ -256,7 +269,7 @@ Constituent.prototype.dOpt = function(dOptions){
 Constituent.prototype.nat= function(isNat){
     this.addOptSource("nat",isNat);
     if (this.isOneOf(["DT","NO"])){
-        const options=this.isA("DT")?this.dateOpts:this.noOptions;
+        const options=this.props["dOpt"];
         if (isNat === undefined){
             options.nat=false;
         } else if (typeof isNat == "boolean"){
@@ -266,6 +279,44 @@ Constituent.prototype.nat= function(isNat){
         }
     } else {
         return this.warn("bad application",".nat",["DT","NO"],this.constType)
+    }
+    return this;
+}
+
+Constituent.prototype.typ = function(types){
+    const allowedTypes={
+      "neg": [false,true],
+      "pas": [false,true],
+      "prog":[false,true],
+      "exc": [false,true],
+      "perf":[false,true],
+      "contr":[false,true],
+      "mod": [false,"poss","perm","nece","obli","will"],
+      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
+    }
+    this.addOptSource("typ",types)
+    if (this.isOneOf(["S","SP","VP"])){
+        // validate types and keep only ones that are valid
+        for (let key in types) {
+            const val=types[key];
+            const allowedVals=allowedTypes[key];
+            if (allowedVals === undefined){
+                this.warn("unknown type",key,Object.keys(allowedTypes))
+            } else {
+                if (key == "neg" && this.isFr()){ // also accept string as neg value in French
+                    if (!contains(["string","boolean"],typeof val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
+                } else if (!contains(allowedVals,val)){
+                    this.warn("ignored value for option",".typ("+key+")",val)
+                    delete types[key]
+                }
+            }
+        }
+        this.props["typ"]=types;
+    } else {
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
 }
@@ -442,13 +493,14 @@ Constituent.prototype.doElisionFr = function(cList){
 // applies to a list of Constituents (can be a single one)
 // adds either to the first or last token (which can be the same)
 Constituent.prototype.doFormat = function(cList){
-    const punctuation=rules["punctuation"];    
+    const punctuation=this.getRules()["punctuation"];
+    const lexicon=this.getLexicon()   
     
     function getPunctString(punct){
         const punc=lexicon[punct];
         if (punc !== undefined && punc["Pc"] !== undefined){
             const tab=punc["Pc"]["tab"][0];
-            const puncRule=rules["punctuation"][tab];
+            const puncRule=punctuation[tab];
             return puncRule["b"]+punct+puncRule["a"]
         }
         return punct // default return string as is
@@ -465,8 +517,8 @@ Constituent.prototype.doFormat = function(cList){
                 const tabBefore=tab[0];
                 const tabAfter=tab.length==2?tab[1]:
                                lexicon[compl]["Pc"]["tab"][0]; //get from table of compl 
-                const puncRuleBefore=rules["punctuation"][tabBefore];
-                const puncRuleAfter=rules["punctuation"][tabAfter];
+                const puncRuleBefore=punctuation[tabBefore];
+                const puncRuleAfter=punctuation[tabAfter];
                 return {"b":puncRuleBefore["b"]+before+puncRuleBefore["a"],
                         "a":puncRuleAfter["b"]+after+puncRuleAfter["a"]}
             }
@@ -480,11 +532,8 @@ Constituent.prototype.doFormat = function(cList){
         cList[cList.length-1].realization+=after;
     }
     function startTag(tagName,attrs){
-        let attString="";
-        if (attrs !== "") {
-            attString=Object.entries(attrs).map(
-                function(entry){return " "+entry[0]+'="'+entry[1]+'"'}).join("")
-        }
+        const attString=Object.entries(attrs).map(
+            function(entry){return " "+entry[0]+'="'+entry[1]+'"'}).join("")
         return "<"+tagName+attString+">";
     }
     
@@ -503,29 +552,29 @@ Constituent.prototype.doFormat = function(cList){
     else 
         this.doElisionEn(cList);
     
-    const cap = this.prop["cap"];
+    const cap = this.props["cap"];
     if (cap !== undefined && cap !== false){
         const r=cList[0].realization;
         if (r.length>0){
             cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
         }
     }
-    const as = this.prop["a"];
+    const as = this.props["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getPunctString(a))})
     }
-    const bs = this.prop["b"];
+    const bs = this.props["b"];
     if (bs !== undefined){
         bs.forEach(function(b){wrapWith(getPunctString(b),"")})
     }
-    const ens = this.prop["en"];
+    const ens = this.props["en"];
     if (ens !== undefined){
         ens.forEach(function(en){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
         })
     }
-    const tags=this.prop["tag"];
+    const tags=this.props["tag"];
     if (tags !== undefined) {
         tags.forEach(function(tag){
             const attName=tag[0];
@@ -544,7 +593,7 @@ Constituent.prototype.detokenize = function(terminals){
     if (last<0) return s;
     for (let i = 0; i < last; i++) {
         const terminal=terminals[i];
-        if (terminal.prop["lier"]!== undefined){
+        if (terminal.props["lier"]!== undefined){
             s+=terminal.realization+"-";
         } else if (/[- ']$/.exec(terminal.realization)){
             s+=terminal.realization;
@@ -557,7 +606,7 @@ Constituent.prototype.detokenize = function(terminals){
     if (this.parentConst==null){
         if (this.constType=="S" && s.length>0){ // if it is a top-level S
             // force a capital at the start unless .cap(false)
-            if (this.prop["cap"]!== false){
+            if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
@@ -575,11 +624,12 @@ Constituent.prototype.detokenize = function(terminals){
     return s;
 }
 
+//// ******* this seemingly simple function is in fact the start
+//           of the whole realization process
 // produce a string from a list of realization fields in the list of terminal
 //   created by .real(), applies elision if it is the top element
 Constituent.prototype.toString = function() {
-    // this launches the whole realization process which forces 
-    // the creation of the realization field in each Terminal
+    // sets the realization field in each Terminal
     const terminals=this.real(); 
     return this.detokenize(terminals);
 }

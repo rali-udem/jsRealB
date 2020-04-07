@@ -40,7 +40,8 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Nous n'avons pas agi conformément à la loi.",
          message:"Phrase négative avec accord du verbe"},
         // 7
-        {expression:S(Pro("je").pe(2), VP(V("travailler").t("pc"), AdvP(Adv("bien")))).typ({mod:"nece"}),
+        {expression:S(Pro("je").pe(2), VP(V("travailler").t("pc"),
+                      AdvP(Adv("bien")))).typ({mod:"nece"}),
          expected:"Tu as dû travailler bien.",
          message:"Phrase au passé avec modalité de nécessité"},
         // 8
@@ -105,15 +106,21 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Négation avec adjectif au pluriel"},
         // 19
         {expression:S(NP(N("John")),
-              VP(V("évanouir").t("pc"),
-                 PP(P("à"),DT("1979-05-21T10:05:00")))).typ({neg:true}),
-         expected:"John n'est pas évanoui au lundi 21 mai 1979 à 6 h 5 min 0 s.",
+                      VP(V("évanouir").t("pc"),
+                         PP(P("à"),DT("1979-05-21T12:00:00")
+                                     .dOpt({hour:false,minute:false,second:false}))))
+                     .typ({neg:true}),
+         expected:"John n'est pas évanoui au lundi 21 mai 1979.",
          message:"Phrase avec une date et un ajout au dictionnaire"},
         // 20
-        {expression:S(CP(C("ou"),NP(N("John")),NP(N("Mary"))),
-              VP(V("évanouir").t("pc"),
-                 PP(P("à"),DT("1979-05-21T10:05:00")))).typ({neg:true}),
-         expected:"John ou Mary n'est pas évanoui au lundi 21 mai 1979 à 6 h 5 min 0 s.",
+        {expression:S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
+                      VP(Pro('eux').c("refl"),
+                         V("évanouir").t("pc"),
+                         PP(P("à"),
+                            DT("1979-05-21T12:00:00")
+                             .dOpt({hour:false,minute:false,second:false})))
+                      ).typ({neg:true}),
+         expected:"John et Mary ne se sont pas évanouis au lundi 21 mai 1979.",
          message:"Phrase avec coordination ou et date."},
         // 21
         {expression:S(VP().add(V("aimer")).add(pomme)).add(gars,0),

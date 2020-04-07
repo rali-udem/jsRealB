@@ -1,0 +1,97 @@
+{
+ "name":[
+  "Alimentum",
+  "Aromi",
+  "Bibimbap House",
+  "Blue Spice",
+  "Browns Cambridge",
+  "Clowns",
+  "Cocum",
+  "Cotto",
+  "Fitzbillies",
+  "Giraffe",
+  "Green Man",
+  "Loch Fyne",
+  "Midsummer House",
+  "Strada",
+  "Taste of Cambridge",
+  "The Cambridge Blue",
+  "The Cricketers",
+  "The Dumpling Tree",
+  "The Eagle",
+  "The Golden Curry",
+  "The Golden Palace",
+  "The Mill",
+  "The Olive Grove",
+  "The Phoenix",
+  "The Plough",
+  "The Punter",
+  "The Rice Boat",
+  "The Twenty Two",
+  "The Vaults",
+  "The Waterman",
+  "The Wrestlers",
+  "Travellers Rest Beefeater",
+  "Wildwood",
+  "Zizzi"
+ ],
+ "food":[
+  "Chinese",
+  "English",
+  "Fast food",
+  "French",
+  "Indian",
+  "Italian",
+  "Japanese"
+ ],
+ "priceRange":[
+  "cheap",
+  "high",
+  "less than £20",
+  "moderate",
+  "more than £30",
+  "£20-25"
+ ],
+ "area":[
+  "riverside",
+  "city centre"
+ ],
+ "familyFriendly":[
+  "yes",
+  "no"
+ ],
+ "customer rating":[
+  "5 out of 5",
+  "average",
+  "1 out of 5",
+  "low",
+  "3 out of 5",
+  "high"
+ ],
+ "near":[
+  "Yippee Noodle Bar",
+  "The Rice Boat",
+  "Clare Hall",
+  "Avalon",
+  "Crowne Plaza Hotel",
+  "The Sorrento",
+  "The Portland Arms",
+  "Café Sicilia",
+  "Ranch",
+  "Café Rouge",
+  "All Bar One",
+  "The Six Bells",
+  "Express by Holiday Inn",
+  "Rainbow Vegetarian Café",
+  "The Bakers",
+  "Café Brazil",
+  "Burger King",
+  "Café Adriatic",
+  "Raja Indian Cuisine"
+ ],
+ "eatType":[
+  "coffee shop",
+  "pub",
+  "restaurant"
+ ]
+}

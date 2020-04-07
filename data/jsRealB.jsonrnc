@@ -1,0 +1,88 @@
+###  json-rnc schema for JSON input format to jsRealB
+###      see https://github.com/rali-udem/json-rnc for description of the format of the schema
+###
+###   it closely follows the input format of jsRealB given by the documentation
+###      http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html?lang=fr
+###
+###   note: when a parameter is "empty", "" should be specified in JSON
+###   CAUTION: this schema does not implement all constraints that will be checked when
+###            jsRealB will interpret the input
+
+start = Constituent
+
+Constituent = Phrase | Terminal 
+
+Phrase = { 
+    phrase  : /S|NP|AP|VP|AdvP|PP|CP|SP/,
+    elements: [Constituent],
+    props?  : propsContent,
+    lang?   : /en|fr/    
+}
+
+Terminal = {
+    terminal: /N|A|Pro|D|V|Adv|C|P|DT|NO|Q/
+    lemma   : string,
+    props?  : propsContent,
+    lang?   : /en|fr/    
+}
+
+propsContent = {
+    g?   : /[mfx]/,                      # gender: masculine, feminine or neutral
+    n?   : /[sp]/,                       # number: singular, plural
+    pe?  : (/123/|1|2|3),                # person either as a number or a string containing a number
+    t?   : /p|i|f|ps|c|s|si|ip|pr|pp|b|pc|pq|cp|fa|spa|spq/, # tense
+    f?   : /co|su/,                      # comparative or superlative form
+    aux? : /av|êt|aê/,                   # French auxiliary
+    tn?  : /|refl/,                      # tonic for pronoun
+    c?   : /nom|acc|dat|refl|gen/,       # case for pronoun
+    ow?  : /s|p/,                        # owner for English pronoun: singular, plural
+    pos? : /post|pre/,                   # (post or pre)position of a French adjective
+    pro? : //,                           # NP or PP should be pronominalized
+    nat? : boolean,                      # NO or DT should be in natural form
+                            # formatting options
+    cap? : //,                           # first letter of constituent should be capitalized 
+    lier?: //,                           # an hyphen should be added with the following word
+                            # list options
+    b?   : [string],                     # strings to be added before a constituent
+    a?   : [string],                     # strings to be added after a constituent
+    en?  : [string],                     # strings to be added before and after a constituent
+                            # special cases
+    tag? : tagContent,                    
+    date?: dateContent,
+    no?  : noContent,
+    typ? : typContent
+}
+
+tagContent = [[string|{*:string}]       # list of [tagname,{attributes as key:value pairs}]
+  @(minItems=2,maxItems=2)]
+
+dateContent = {                         # selection of fields when realizing a DT
+    year?  : boolean,
+    month? : boolean,
+    date?  : boolean,
+    day?   : boolean,
+    hour?  : boolean,
+    minute?: boolean,
+    second?: boolean,
+    nat?   : boolean,
+    det?   : boolean,
+    rtime? : boolean
+}
+
+noContent = {                           # format of number
+    mprecision?: integer,               # max precision
+    raw?       : boolean,               # output as originaly entered
+    nat?       : boolean,               # output as "number in letters"
+    ord?       : boolean                # output as an ordinal number
+}
+
+typContent = {                          # modification of the type of sentence
+    neg?  : (boolean|string)            # negation (in French, string is used instead of "pas")
+    pas?  : boolean,                    # passive
+    prog? : boolean,                    # use progressive 
+    exc?  : boolean,                    # exclamative form
+    perf? : boolean,                    # use perfect (English only)
+    contr?: boolean,                    # use contracted form (English only)
+    mod?  : (boolean | /poss|perm|nece|obli|will/), # modals
+    int?  : (boolean | /yon|wos|wod|wad|woi|whe|why|whn|how|muc/) # questions
+}

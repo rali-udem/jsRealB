@@ -8,9 +8,9 @@
 
 function numberWithoutLeadingZero(n){return ""+n}
 function numberWithLeadingZero(n){return (n<10?"0":"")+n}
-function numberToMonth(n){return rules.date.text.month[""+n]}
-function numberToDay(n){return rules.date.text.weekday[n]}
-function numberToMeridiem(n){return rules.date.text.meridiem[n<12?0:1]}
+function numberToMonth(n){return this.getRules().date.text.month[""+n]}
+function numberToDay(n){return this.getRules().date.text.weekday[n]}
+function numberToMeridiem(n){return this.getRules().date.text.meridiem[n<12?0:1]}
 function numberTo12hour(n){return n%12}
 // HACK: add to the standard Date prototype
 Date.prototype.getRealMonth=function (){return this.getMonth()+1}

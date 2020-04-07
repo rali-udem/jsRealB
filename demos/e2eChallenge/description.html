@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+      .jsr {font: normal small-caps bold 1em Arial, sans-serif;}
+  </style>
+  <title><span class="jsr">jsRealB</span> generator for the E2E Challenge</title>
+</head>
+<body>
+  <h1>Description of the <span class="jsr">jsRealB</span> generator for the <em>E2E Challenge</em></h1>
+  <h2><a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a>, RALI-DIRO, Université de Montréal</h2>
+  <p><strong>Note</strong>: this work was done in October 2018, so these results were not part of the <em>E2E Challenge</em> official competition.</p>
+  <h2>Context</h2>
+  <p>The <a href="http://www.macs.hw.ac.uk/InteractionLab/E2E/#" title="E2E NLG Challenge">E2E Challenge dataset</a> was designed to provide data for developing algorithms to generate text from a <em>dialogue act-based meaning representation (MR)</em>. The underlying assumption was that this problem should be dealt with a machine-learning (ML) approach. The organizers even provided an ML <em>baseline</em> system.</p>
+  <p>Although we have great respect for ML, we thought it might be interesting to compare the results of these systems with a much simpler symbolic system, using <a href="http://rali.iro.umontreal.ca/rali/?q=en/jsRealB-bilingual-text-realiser"><span class="jsr">jsRealB</span></a>, a bilingual English/French realizer written in Javascript that we have developed over the last few years. We describe here only the English realization, but we also developed a French version having the similar structure for which we mostly translated the words in French and adapted some formulations. Because of the independent random variation between the English and French realization, these sentences are not literal translations of each other, although they convey the same meaning being generated from the same MR. When used in the <a href="index.html">demonstration page</a>, the realization is performed by the browser, but for the <em>batch</em> tests shown below corresponding to the shared task, we use the same code as a <code>node.js</code> module.</p>
+  <p>After examining a few sentences of the development set (we never looked at the test set during the development), we designed a template-based text structure, filled with the values of the attributes of MR.  In <span class="jsr">jsRealB</span>, we first build a constituency structure for the sentence with constructors corresponding to the conventional constituent symbols (e.g. <code>S</code> for a sentence, <code>NP</code> for a Noun Phrase, <code>N</code> for a noun, etc...). When the string value structure is needed,  most of the details for the final realization (capitalization, gender and number agreement, etc.) are dealt  by <span class="jsr">jsRealB</span>. For more details, see the <a href="http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html" title="jsRealB tutorial">tutorial</a> and the <a href="http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html?lang=en" title="jsRealB - Documentation">documentation</a>.</p>
+  <h2>Text organization</h2>
+      <dl>
+          <dt><strong>The description</strong></dt>
+          <dd>A sentence that starts with the name of the place (given by the attribute <code>name</code>), the verb <code>be</code>, the nearby place (attribute <code>near</code>), the region (attribute <code>area</code>), the type of food served (attribute <code>food</code>) and the range of prices (attribute <code>priceRange</code>). Default values or an empty string are generated for missing attributes. This is written as follows in Javascript:
+<code><pre>
+    var name="name" in fields?Q(fields["name"]):NP(D("the"),N(oneOf("restaurant","establishment")));
+    var allPlaces=["place","arena","venue","establishment","restaurant"];
+    var eatType=NP(D("a"),N("eatType" in fields?fields["eatType"]:oneOf(allPlaces)));
+    var near="near" in fields?PP(P("near"),Q(fields["near"])):"";
+    var area="";
+    if ("area" in fields){
+        area=fields["area"]=="riverside"?oneOf(()=>PP(P("on"),NP(D("the"),N("riverside"))),
+                                               ()=>PP(P("in"),NP(D("the"),N("riverside"),N("area"))),
+                                              )
+                                        :PP(P("in"),NP(D("the"),N("city"),N("centre")))
+    }
+    var advice=S(name,VP(V("be"),eatType,near,area));
+    var food="";
+    if ("food" in fields){
+        var fo=fields["food"];
+        if (fo=="Fast food")fo="fast";
+        food=A(fo)
+        var npFood=NP(food,N("food"));
+        var serve=V(oneOf("serve","provide","have","offer"))
+        advice.add(oneOf(SP(Pro("that"),serve,npFood),
+                         VP(serve.clone().t("pr"),npFood)
+                         )
+                  )
+    };
+    var priceRange="";
+    if ("priceRange" in fields){
+        var pr=fields["priceRange"];
+        priceRange=pr.indexOf("£")>=0?PP(P("with"),N("price").n("p"),Q(pr))
+                                     :PP(P("with"),NP(A(pr),N("price").n("p")));
+        advice.add(priceRange);
+    }
+</pre></code>
+          </dd>
+          <dt><strong>The customer rating</strong> (attribute <code>customerRating</code>) written in Javascript as follows:</dt>
+          <dd>
+<code><pre>
+    var customerRating="";
+    if ("customer rating" in fields){
+        var cr=fields["customer rating"];
+        customerRating=S(Pro("I").g("n"),
+                         VP(V("have"),
+                            oneOf(()=>NP(D("a"),Q(cr),oneOf(N("customer"),Q("")),N("rating")),
+                                  ()=>NP(D("a"),oneOf(N("customer"),Q("")),N("rating"),P("of"),Q(cr))))
+                         );
+    }
+</pre></code>          
+          </dd>
+          <dt><strong>The <em>family friendliness</em></strong> (attribute <code>familyFriendly</code>) written in Javascript as follows. <span class="jsr">jsRealB</span> can realize the negation of a sentence by a simple flag.</dt>
+<code><pre>
+    var familyFriendly=""
+    if ("familyFriendly" in fields){
+        familyFriendly=S(oneOf(()=>Pro("I").g("n"),
+                               ()=>NP(D("the"),N(oneOf(allPlaces))),
+                               ()=>Pro("I").n("p")
+                         ),
+                         VP(V("be"),
+                            NP(oneOf(N("family").lier(),N("kid")),A("friendly"))))
+                       .typ({"neg":fields["familyFriendly"]=="no"})
+    }
+</pre></code>
+      </dl>
+      <p>These three structures are then simply concatenated with a space which forces the English realization.</p>
+<code><pre>
+    return advice+" "+customerRating+" "+familyFriendly;
+</pre></code>
+
+<p>This simple solution was developed in a few hours (50 lines of Javascript), but it gave good enough results with instantaneous response time all in the browser. The <a href="realizer.js">javascript code of the realizer</a> for both French and English.</p>
+
+<h2>Evaluation</h2>
+<p>We then ran the <a href="https://github.com/tuetschek/e2e-metrics" title="GitHub - tuetschek/e2e-metrics: E2E NLG Challenge Evaluation metrics">evaluation scripts of the E2E competition</a> on the test set and we obtained the following results (we could not manage to get the METEOR scoring to work on our machine):</p>
+<table>
+    <tr><th>Score</th><th>Value</th></tr>
+    <tr><td>BLEU</td><td>0.4980</td></tr>
+    <tr><td>NIST</td><td>7.3038</td></tr>
+    <tr><td>ROUGE_L</td><td>0.5878</td></tr>
+    <tr><td>CIDEr</td><td>1.8387</td></tr>
+</table>
+<p>These scores are not the best, but they are competitive. Given the fact, that all sentence are well formed, with good syntax and capitalization, they would probably get good human evaluation scores!</p>
+
+<h2>Conclusion</h2>
+<p>We found this exercise very interesting and we thank the organizers to accept to show an alternative to the <em>usual</em> ML approach for the E2E challenge. It would probably be interesting to see if an ML approach between the attribute values and the constituency structure of <span class="jsr">jsRealB</span> would be feasible and if it would improve the results.</p>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>jsRealB (V 3.0) - Documentation</title>
+    <title>jsRealB (V 3.4) - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <script src="../dist/jsRealB.js"></script> -->
@@ -33,9 +33,11 @@
     </span>
     <span id="langSelect">[<span lang="en">FR</span><span lang="fr">EN</span>]</span>
 <!-- start of page  -->
-    <h1><span class="jsr">jsRealB (Version 3.0)</span> - Documentation</h1>
+    <h1><span class="jsr">jsRealB (Version 3.4)</span> - Documentation</h1>
     <p lang="fr"><span class="jsr">jsRealB</span> est un réalisateur de texte pour l'anglais et le français écrit en Javascript. Il peut être utilisé soit à l'intérieur d'une page web comme celle-ci dont tous les exemples sont réalisés dynamiquement, ou comme module <code>Node.js</code>.</p>
     <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript. It can be used either within a web page such as this one whose examples are dynamically realized or as a <code>Node.js</code> module.</p>
+
+<!-- *** Constituants *** -->
     <h2 lang="fr" id="constituants">Constituants</h2><h2 lang="en" id="constituents">Constituents</h2>
     <div id="terminalsSect"></div>
     <div id="syntagmesSect"></div>
@@ -63,10 +65,14 @@
         <p>Options (next section) can override these automatic agreements.</p>
     </div>
     
+
+<!-- *** Déclinaisons et conjugaisons *** -->
     <h2 id="optionsFr" lang="fr">Déclinaisons et conjugaisons</h2><h2 id="optionsEn" lang="en">Declension and conjugation</h2>
     <div id="optionsSect"></div>
     <p lang="en">Perfect and  continuous tenses for verbs can obtained by setting the <a href="#sentType">sentence type</a> to <code>.typ({perf:true})</code> or <code>.typ({prog:true})</code> </p>
     
+
+<!-- *** Pronoms *** -->
     <h2 lang="fr" id="pronoms">Pronoms</h2><h2 lang="en" id="pronouns">Pronouns</h2>
     <p lang="fr">Le pronoms qui sont dans le lexique sont à la 1ère personne du singulier. Pour obtenir les autres, il faut
     spécifier la personne, le nombre et éventuellement le genre. Ce mécanisme s'applique aussi pour les
@@ -136,19 +142,27 @@
         </div>
     </div>
     
+
+<!-- *** Mise en forme *** -->
     <h2 lang="fr" id="formattage">Mise en forme</h2><h2 lang="en" id="formatting">Formatting</h2>
     <p lang="fr">Si l'ajout avant et/ou après un constituent correspond à un signe de ponctuation défini dans les règles, l'espacement approprié est ajouté avant et après le signe, sinon la chaîne est ajoutée telle quelle sans espacement.</p>
     <p lang="en">If the content added before and/or a constituent is defined in the language rules, then the appropriate spacing is added before and after the punctuation sign, otherwise the content is added without spacing.</p>
     <div id="formatSect"></div>
     
+
+<!-- *** Modification du syntagme nominal *** -->
     <h2 lang="fr" id="modSN">Modification du syntagme nominal</h2><h2 lang="en" id="npMod">Noun phrase modification</h2>
     <div id="nPmods"></div>
     
+
+<!-- *** Modification du type de phrase *** -->
     <h2 lang="fr" id="changeType">Modification du type de phrase</h2><h2 lang="en" id="typeChange">Sentence type modification</h2>
     <p lang="fr">Les phrases sont construites à la forme active, mais il est possible d'en modifier le type pour obtenir des phrases négatives, progressives, interrogatives ou passives.  Ces modifications sont de la forme <code>S(...).typ({...})</code> Il est possible de combiner plusieurs modifications en spécifiant plusieurs paires clés-valeurs dans l'objet paramètre de <code>type</code>. L'utilisation de contractions en anglais telles que <code>I'll</code> pour <code>I will</code> ou <code>can't</code> pour <code>cannot</code> peut aussi être spécifiée de cette manière, mais cet indicateur est ignoré en français.</p>
     <p lang="en">Sentences are built at the active voice, but their type can be modified in order to get negative, progressive, interrogative or passive sentences. These modifications are indicated by <code>S(...).typ({...})</code>. Modifications can be combined by specifying multiple key value pairs in the object which is the parameter of <code>type</code>. The use of contractions such as <code>I'll</code> for <code>I will</code> or <code>can't</code> for <code>cannot</code> can also be specified in this way. This flag is ignored in French.</p>
     <div id="sentType"></div>
     
+
+<!-- *** Date *** -->
     <h2 lang="fr" id="dateFr">Date</h2><h2 lang="en" id="dateEn">Date</h2>
     <div lang="fr">
         <p><code>DT</code> accepte en paramètre soit une date sous forme d'une chaîne de caractères ou un <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date">objet Javascript <code>Date</code></a>.La chaine de caractères en entrée doit être dans un format reconnu par la méthode <code>Date.parse()</code>, donc dans le format <a href="https://tools.ietf.org/html/rfc2822#page-14">IETF-compliant RFC 2822</a> ou <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15">ISO8601</a>.</p>
@@ -162,18 +176,25 @@
     <div id="dateCreation"></div>
     <div id="dateOption"></div>
     
+
+<!-- *** Nombres *** -->
     <h2 lang="fr" id="nombres">Nombres</h2><h2 lang="en" id="numbers">Numbers</h2>
     <p lang="fr">On crée un nombre avec <code>NO(...)</code> dont le paramètre est soit un nombre entier ou réel ou une chaîne qui peut être analysée comme un nombre.</p>
     <p lang="en">A number is created with <code>NO(...)</code> whose parameter is either a number (integer or real) or a string that can be parsed as a number. In English, numbers less than one hundred written in letters can also be used as input.</p>
     <div id="numberFormat"></div>
     <div id="numberAgreement"></div>
     
-    <h2 lang="fr" id="javascript-fr">Javascript</h2><h2 lang="en" id="javascript-en">Javascript</h2>
+
+<!-- *** JavaScript *** -->
+    <h2 lang="fr" id="javascript-fr">JavaScript</h2><h2 lang="en" id="javascript-en">JavaScript</h2>
     <h3><code>.clone()</code></h3>
-        <p lang="fr">Comme les options modifient le constituant dans toutes les utilisations subséquentes, il est souvent pratique de pouvoir garder la version originale pour la réutiliser et la modifier indépendamment. L'option <code>clone()</code> permet de copier un syntagme pour utilisation dans des contextes différents.</p>
-        <p lang="en">As options modify the constituent for all following use, it is often useful to keep the original constituent and modify it independently. The <code>clone()</code> option allows reusing a constituent in different contexts.</p>
+    <p lang="fr">Comme les options modifient le constituant dans toutes les utilisations subséquentes, il est souvent pratique de pouvoir garder la version originale pour la réutiliser et la modifier indépendamment. L'option <code>clone()</code> permet de copier un syntagme pour utilisation dans des contextes différents.</p>
+    <p lang="en">As options modify the constituent for all following use, it is often useful to keep the original constituent and modify it independently. The <code>clone()</code> option allows reusing a constituent in different contexts.</p>
 <div id="cloneUse"></div>
-    
+     <p lang="fr">Une alternative à <code>clone()</code> est d'associer une fonction à une variable, ce qui créera une nouvelle expression à chaque appel. Ceci permet de paramétrer l'expression, comme le nombre dans l'exemple suivant, mais qui sera au singulier par défaut. L'utilisation d'une <em>fonction fléchée</em> (<code>pommeFF</code>) simplifie la notation.</p>
+     <p lang="en">AS an alternative to <code>clone()</code>, a function can be assigned to a variable. Each call to this function creates a new expression. This also allows parameterizing the expression, e.g. the number in the following example that is singular by default. The use of an <em>arrow function</em> (<code>appleAF</code>) simplifies the notation.</p>
+<div id="functionUse"></div>
+        
     <h3><code>.add(<em>element</em>,<em>position</em>)</code></h3>
         <p lang="fr">Ajout d'un nouveau syntagme <code>element</code> comme enfant à un syntagme existant. Le paramètre entier <code>position</code> est facultatif et spécifie la position (à partir de 0) dans le syntagme. Par défaut, l'élément est ajouté à la fin.</p>
         <p lang="en">Add a new phrase <code>element</code> as a child of an existing phrase. The second optional parameter <code>position</code> is an integer that specifies its position (counting from 0). By default, the element is added as the last child.</p>
@@ -196,6 +217,8 @@
         </ul>
     </p>
 
+
+<!-- *** Chargement dans une page web *** -->
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
 	
     <p lang="fr">Il suffit d'ajouter le script <code>jsRealB.js</code> à la liste des scripts de la page. Ceci intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 200 entrées). Comme indiqué à la section <a href="#extensionVoc">Extension du vocabulaire</a>, il est facile d'ajouter de nouvelles entrées ou même de remplacer complètement les dictionnaires par défaut.</p>
@@ -205,7 +228,7 @@
                 <li><a href="#loadEnFr"><code>loadFr(...)</code></a> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
                 <li><a href="#loadEnFr"><code>loadEn(...)</code></a> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
             </ul>
-            <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</div><div lang="en">These functions can be called as often as necessary to change the current language.</div>
+            <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant. Ces fonctions retournent le nouveau dictionnaire chargé.</div><div lang="en">These functions can be called as often as necessary to change the current language. Each call returns the last loaded dictionary.</div>
 		</dd>
         
 <p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">répertoire</a>.</p>
@@ -213,7 +236,9 @@
     <p lang="fr">Des exemples d'intégration dans une page web peuvent être trouvés à la section <em>Démonstrations</em> de <a href="http://rali.iro.umontreal.ca/JSrealB/current/">cette page</a></p>
     <p lang="en">Examples of web page integration can be found at the <em>Demonstrations</em> section of <a href="http://rali.iro.umontreal.ca/JSrealB/current/">this page</a></p>
 
-<h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
+
+<!-- *** Module  *** -->
+    <h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
     <p lang="fr">Les versions de <span class="jsr">jsRealB</span> décrites à la section précédente peuvent aussi être utilisées avec <code>node.js</code> en utilisant une instruction de la forme <code>jsRealB=require("...")</code></p>
     <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>node.js</code> with an instruction like <code>jsRealB=require("...")</code></p>
     <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
@@ -235,43 +260,75 @@
     }
     </pre>
 </ul>
-<h2 lang="fr" id="extensionVoc">Extension du vocabulaire</h2><h2 lang="en" id="vocExtension">Vocabulary extension</h2>
+
+<!-- *** Gestion des lexiques *** -->
+    <h2 lang="fr" id="extensionVoc">Gestion des lexiques</h2><h2 lang="en" id="vocExtension">Lexicon Management</h2>
+<p lang="fr"> <span class="jsr">jsRealB</span> 
+intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 200 entrées) qu'il est possible de consulter et de modifier à l'aide des fonctions suivantes. Lorsque <code>lang</code> (<code>"en"</code> ou <code>"fr"</code>) est spécifié, la fonction s'applique au lexique de cette langue, sinon au lexique courant, celui du dernier appel à <code>loadEn()</code> ou <code>loadFr()</code>.
+</p>
+<p lang="en"> <span class="jsr">jsRealB</span> 
+has already two basic lexicons: French (3 700 entries) and English (5 200 entries) that can be queried and modified with the following functions. When <code>lang</code> (<code>"en"</code> or <code>"fr"</code>) is specified, the function is applied to the lexicon of this language, otherwise it applies to the current lexicon, the one of the last call to <code>loadEn()</code> o <code>loadFr()</code>.
+</p>
+
+<h3><code>addtoLexicon(lemma[,newInfos][,lang])</code></h3>
+<p lang="fr"> 
+     <code>lemma</code> est l'entrée de base et <code>newInfos</code> est l'information morphologique selon le format interne à <span class="jsr">jsRealB</span>: un objet indiquant le ou les catégories possibles et pour chaque catégorie, des propriétés et la table de déclinaison ou conjugaison correspondantes.
+    Par exemple, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
+    Cette fonction peut aussi être appelée avec un seul paramètre qui est un objet dont la clé est le lemme. L'exemple précédent peut donc s'écrire: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>. Si le lemme et la catégorie existent déjà dans le lexique, alors l'entrée pour cette catégorie est remplacée par <code>newInfos</code>.
+</p>
+<p lang="fr"><a href="../data/lexiconFormat.html">Plus d'information (en anglais) sur le format des lexiques</a>   </p> 
 <p lang="fr">
-Il est possible d'ajouter de nouveaux entrées ou d'ajouter des informations à une entrée existante au lexique courant à l'aide de la fonction <code>addToLexicon(<em>entrée</em>,<em>infos</em>)</code>. Pour chaque entrée, il faut indiquer la ou les catégories; pour chaque catégorie, en indiquer les propriétés et la ou les tables de déclinaison ou conjugaison correspondantes. Par exemple, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable. Cette fonction peut aussi être appelée avec un seul paramètre qui est un objet dont la clé est le lemme. L'exemple précédent peut donc s'écrire: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.
+Pour déterminer les informations à ajouter, le plus simple est de copier les informations d'un mot du lexique qui se conjugue ou se décline de la même façon. L'<a href="../IDE/index.html">IDE de jsRealB</a> permet de consulter les informations du lexique.
 </p>
-<p lang="fr">
-Pour trouver les informations à ajouter, le plus simple est de copier les informations d'un mot du lexique qui se conjugue ou se décline de la même façon. L'<a href="../IDE/index.html">IDE de jsRealB</a> permet de consulter les informations du lexique; la fonction javascript <code>getLexicon(<em>entrée</em>)</code> retourne les valeurs courantes d'une entrée. 
-Pour enlever une entrée, il faut faire un appel du genre <code>addToLexicon(<em>entrée</em>,null)</code>. 
+<p lang="fr">Pour enlever une entrée d'un lexique, il de mettre <code>newInfos</code> à <code>null</code>.</p>
+<p lang="en"> 
+     <code>lemma</code> is the basic form and <code>newInfos</code> is the morphologic information according to the internal  <span class="jsr">jsRealB</span> format: an object indicating one or many possible categories. For each category, properties and declension or conjugation are given.
+    For example, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.  If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.
 </p>
-<p lang="fr">Il est possible de fusionner les entrées d'un nouveau lexique avec les lexiques de base avec la fonction <code>updateLexicon(nouveau)</code> qui ajoutera les nouvelles entrées et remplacera les entrées existantes par celles du nouveau lexique.</p>
-<p lang="fr"><a href="../data/lexiconFormat.html">Plus d'information (en anglais) sur le format des lexiques</a></p>
-<p lang="en">
-New entries can be added to the current lexicon or new information can be added to an existing entry using the  <code>addToLexicon(<em>entry</em>,<em>new informations</em>)</code> function. For each entry, its categories must be given; for each category, their properties and the declension or conjugation tables must be specified. For example,
-<code>addToLexicon("tsunami",{"N":{"tab":["n1"]}})</code> will add the word <code>tsunami</code> as a noun. This function can also be called with a single object argument in which the lemma is the key. The preceding example can also be written as: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.
-</p>
+<p lang="en"><a href="../data/lexiconFormat.html">More information about the lexicon format</a></p>
 <p lang="en">
 In order to find the informations to add, the simplest way is to copy the lexicon information for a similar word already in the lexicon. 
-The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon information; <code>getLemma(<em>entry</em>)</code> also returns the lexical information of an entry. 
-To remove an entry, a call of the form
-<code>addToLexicon(<em>entry</em>,null)</code> should be used.</p>
-<p lang="en">A new lexicon can be merged with the current one by calling <code>updateLexicon(newLexicon)</code> which adds new entries to the lexicon and replaces existing ones.</p>
-<p lang="en"><a href="../data/lexiconFormat.html">More information about the lexicon format</a></p>
+The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon information.
+</p>
+<p lang="en">To remove an entry, set <code>newInfos</code> to <code>null</code>.</p>
 
-<h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
+<h3><code>getLemma(lemma[,lang])</code></h3>
+<p lang="fr">Retourner les informations du lexique correspondant à <code>lemma</code>. </p>
+<p lang="en">Return lexicon information to <code>lemma</code>. </p>
+
+<h3><code>updateLexicon(newLexicon[,lang])</code></h3>
+<p lang="fr">Fusionner les entrées de <code>newLexicon</code> avec le lexique spécifié. Ceci ajoutera les nouvelles entrées et remplacera les entrées existantes par celles du nouveau lexique. La fusion est effectuée au niveau des entrées, mais non des catégories.</p>
+<p lang="en">Merge the entries of <code>newLexicon</code> with the specified lexicon. This adds the new entries and replaces the existing entries by the ones of the new lexicon. Merging is done at the entry level, not at the category level.</p>
+
+<h3><code>getLanguage()</code></h3>
+<p lang=fr>Retourne le langage de réalisation courant.</p>
+<p lang=en>Returns the current realization language.</p>
+
+<h3><code>getLexicon()</code></h3>
+<p lang="fr">Retourne le lexique courant.</p>
+<p lang="en">Returns the current lexicon.</p>
+
+<!-- *** Sélection de variantes *** -->
+    <h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
 <p lang="fr">
 La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> où <code>e<sub>i</sub></code> est est une valeur, choisit un <code>e<sub>i</sub></code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
 </p>
-<p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il retourne le résultat de l'appel. Par exemple,
+<p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>, ce qui en fait une <em>fonction fléchée</em>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il retourne le résultat de l'appel. Par exemple,
 <code>ofOne(()=>N("amour"),()=>N("amitié"))</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(oneOf("amour","amitié"))</code>.
 </p>
 <p lang="en">
 The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<sub>i</sub></code> is a value, selects randomly a <code>e<sub>i</sub></code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed within this list, ignoring other parameters.
 </p>
-<p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
+<p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
 
-
-<h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
+<h2 lang="fr" id="entreeJSON">Entrée en JSON</h2><h2 lang="en" id="JSONinput">JSON input</h2>
+<p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealb-jsonInput.html">décrit dans ce document (en anglais)</a>.
+</p>
+<p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealb-jsonInput.html">It is described in this document.</a>.
+</p>
+<!-- *** Informations complémentaires *** -->
+    <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>
     <li><a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" lang="fr">Historique des versions et démonstrations</a><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" lang="en">Previous versions and demos</a></li>
     <li><a href="https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb" title="Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable" lang="fr">Notebook Observable</a><a href="https://observablehq.com/@lapalme/exprimenting-with-jsrealb" title="Experimenting with jsRealB / Guy Lapalme / Observable" lang="en">Observable Notebook</a></li>

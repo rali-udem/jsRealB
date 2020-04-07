@@ -5,7 +5,7 @@
 //     a single JavaScript file is used for both languages
 //
 
-var lexique;
+var lexicon;
 
 // construit la liste des arguments plutôt que .add pour avoir une forme source regénérée plus sympathique
 function expressionNP(det,nom,adj,adjAnt,adjForm,pluriel,pronom){
@@ -255,7 +255,12 @@ function initVocabulaire(){
 }
 
 $(document).ready(function() {
-    if (enFrancais) loadFr(); else loadEn();
+    if (enFrancais){
+        loadFr(); 
+    } else{
+        loadEn();
+    }
+    lexicon=getLexicon(); 
     $("#realiser").on("click",realiser);
     $("#evaluer").on("click",evaluer);
     $("#aleatoire").on("click",aleatoire);

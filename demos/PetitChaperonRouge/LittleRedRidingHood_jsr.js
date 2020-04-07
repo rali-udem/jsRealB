@@ -320,7 +320,7 @@ fmt(s13+" "+s14+" "+s15+"\n")
 var s16 = 
     S(Pro("I").g("m"),
       VP(V("be"),Adv("there"))).typ({int:"wos"})
-fmt(s16+"")
+fmt(s16.clone()+"")
 // "Your grandchild, Little Red Riding Hood," replied the wolf, counterfeiting her voice; "who has brought you a cake and a little pot of butter sent you by mother."
 var s17 =
     S(NP(D("my").pe(2).n("p"),N("grandchild").a(","),LRRH).en("\"").a(","),

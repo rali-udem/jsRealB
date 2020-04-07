@@ -210,12 +210,35 @@ function checkAllEx(exemples){
     }
 }
 
+function checkAllExJSON(exemples){
+    const nb=exemples.length;
+    let nbDiffs=0;
+    for (var i=0;i<nb;i++){
+        const expJS=exemples[i][0].toJSON();
+        const genJS=fromJSON(expJS).toString();
+        const expected=exemples[i][1];
+        if (expected!==null && genJS!=expected){
+            console.log("%s\n ==> %s\n *** %s",ppJSON(expJS),genJS,expected)
+            nbDiffs++;
+        }
+    }
+    if (nbDiffs==0){
+        console.log("JSON:"+getLanguage()=="en"?"*** no differences!":"*** pas de différences!")
+    } else {
+        console.log("JSON:*** %s diff%srence%s",nbDiffs,getLanguage()=="en"?"e":"é",nbDiffs==1?"":"s")
+    }
+}
+
+
+
 loadFr();
 // testAllEx(showEx,exemplesFr)
 // testAllEx(showToSource,exemplesFr)
-checkAllEx(exemplesFr);
+// checkAllEx(exemplesFr);
+checkAllExJSON(exemplesFr);
 
 loadEn();
-// testAllEx(showEx,exemplesEn)
-// testAllEx(showToSource,exemplesEn)
-checkAllEx(exemplesEn);
+// // testAllEx(showEx,exemplesEn)
+// // testAllEx(showToSource,exemplesEn)
+// checkAllEx(exemplesEn);
+checkAllExJSON(exemplesEn);

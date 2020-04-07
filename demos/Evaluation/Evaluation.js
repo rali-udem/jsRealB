@@ -1,40 +1,103 @@
-var language;
+"use strict";
+var lang,format;
 
-exempleFr= `var dest=NP(D("le"),N("monde"));
+const exempleFr= `var dest=NP(D("le"),N("monde"));
 S(Pro("je").pe(1),
   VP(V("dire"),
      "bonjour",
      PP(P("à"),dest.tag("b"))))
-`
-exempleEn=`var dest=NP(D("the"),N("world"));
+`;
+
+const exempleFrJSON = `{"phrase":"S",
+ "elements":[{"terminal":"Pro", "lemma":"je", "props":{"pe":1}},
+             {"phrase":"VP",
+              "elements":[{"terminal":"V", "lemma":"dire", "props":{"aux":"av"}},
+                          {"terminal":"Q", "lemma":"bonjour"},
+                          {"phrase":"PP",
+                           "elements":[{"terminal":"P", "lemma":"à"},
+                                       {"phrase":"NP",
+                                        "elements":[{"terminal":"D", "lemma":"le"},
+                                                    {"terminal":"N", "lemma":"monde", "props":{"g":"m"}}],
+                                        "props":{"tag":[["b", {}]]}}]}]}],
+"lang":"fr"}
+`;
+
+const exempleEn=`var dest=NP(D("the"),N("world"));
 S(Pro("I").pe(1),
   VP(V("say"),
      "hello",
      PP(P("to"),dest.tag("b"))))
-`
+`;
 
-function checkLanguage() {
-    language = $("#francais")[0].checked?"fr":"en";
-    if(language == 'fr'){
+const exempleEnJSON=`{"phrase":"S",
+ "elements":[{"terminal":"Pro", "lemma":"I", "props":{"pe":1}},
+             {"phrase":"VP",
+              "elements":[{"terminal":"V", "lemma":"say"},
+                          {"terminal":"Q", "lemma":"hello"},
+                          {"phrase":"PP",
+                           "elements":[{"terminal":"P", "lemma":"to"},
+                                       {"phrase":"NP",
+                                        "elements":[{"terminal":"D", "lemma":"the"},
+                                                    {"terminal":"N", "lemma":"world"}],
+                                        "props":{"tag":[["b", {}]]}}]}]}],
+"lang":"en"}
+`;
+
+const exempleEnFr=`loadFr();
+var dest=NP(D("le"),N("monde"));
+loadEn();
+S(Pro("I").pe(1),
+  VP(V("say"),
+     "hello",
+     PP(P("to"),dest.tag("b"))))
+`;
+
+const exempleEnFrJSON=`{"phrase":"S",
+ "elements":[{"terminal":"Pro", "lemma":"I", "props":{"pe":1}},
+             {"phrase":"VP",
+              "elements":[{"terminal":"V", "lemma":"say"},
+                          {"terminal":"Q", "lemma":"hello"},
+                          {"phrase":"PP",
+                           "elements":[{"terminal":"P", "lemma":"to"},
+                                       {"phrase":"NP",
+                                        "elements":[{"terminal":"D", "lemma":"le"},
+                                                    {"terminal":"N", "lemma":"monde", "props":{"g":"m"}}],
+                                        "props":{"tag":[["b", {}]]},
+                                        "lang":"fr"}]}]}],
+ "lang":"en"}
+`;
+
+
+const exemples = {
+    "en"   :{"jsRealB":exempleEn,  "JSON":exempleEnJSON},
+    "fr"   :{"jsRealB":exempleFr,  "JSON":exempleFrJSON},
+    "en-fr":{"jsRealB":exempleEnFr,"JSON":exempleEnFrJSON}
+}
+
+
+function changeExemple() {
+    if (lang !== undefined){// sauver la valeur courante
+        const editorVal=editor.getValue();
+        if (editorVal.length==0)return;
+        exemples[lang][format]=editorVal;
+    }
+    lang=$("input[name='language']:checked").val();
+    format=$("input[name='format']:checked").val();
+    if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
         $("#realize").val("Réaliser");
         $("#titreResult").text("Réalisation");
         $("#doc").attr("href","../../documentation/user.html?lang=fr")
-        var currValen=editor.getValue();  // sauver la valeur courante anglaise pour y revenir
-        if (currValen.length>0)exempleEn=currValen;
         loadFr();
-        editor.setValue(exempleFr)
     }
     else{
-        loadEn();
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
         $("#realize").val("Realize");
         $("#titreResult").text("Realization")
         $("#doc").attr("href","../../documentation/user.html?lang=en")
-        var currValfr=editor.getValue(); // sauver la valeur courante française pour y revenir
-        if (currValfr.length>0)exempleFr=currValfr;
-        editor.setValue(exempleEn);
+        loadEn();
     }
+    editor.setValue(exemples[lang][format]);
     editor.selection.clearSelection();
     $("#result").html("")
 };
@@ -42,9 +105,14 @@ function checkLanguage() {
 function realize(){
     var res;
     try {
-        res=eval(editor.getValue()).toString();
+        const content=editor.getValue();
+        if (format=="JSON"){
+            res=fromJSON(JSON.parse(content)).toString();
+        } else {
+            res=eval(content).toString();            
+        }
     } catch (err){
-        res=(language=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
+        res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
     }
     $("#result").html(res);    
 }
@@ -62,8 +130,8 @@ $(document).ready(function(){
     editor.setOption("maxLines", 20);
     editor.setFontSize("16px"); // grandeur de police de défaut
     
-    checkLanguage();
+    changeExemple();
     setExceptionOnWarning(true);
-    $("#francais,#english").click(checkLanguage);
+    $("#francais,#english,#jsrealb,#json").click(changeExemple);
     $("#realize").click(realize);
 });

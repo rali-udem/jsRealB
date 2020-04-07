@@ -44,6 +44,8 @@ var syntagmesSect =
                             "en":["Prepositional Phrase",'PP(P("at"), NP(N("midnight")))']},
          {"pattern":"CP(…)","fr":["Syntagme coordonné",'CP(C("et"), AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
                             "en":["Coordinated Phrase",'CP(C("and"), AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
+         {"pattern":"CP(…)","fr":["&nbsp;&nbsp;<code>CP</code> sans <code>C</code>",'CP(AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
+                            "en":["&nbsp;&nbsp;<code>CP</code> with no <code>C</code>",'CP(AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
          {"pattern":"S(…)", "fr":["Phrase",'S(NP(D("le"),N("homme")), VP(V("dormir")))'],
                             "en":["Sentence",'S(NP(D("the"),N("man")), VP(V("sleep")))']},
          {"pattern":"SP(…)","fr":["Syntagme subordonné",'SP(Pro("que"), Pro("je"), VP(V("rencontrer").t("pc")))'],
@@ -294,17 +296,17 @@ var nPmods={"fr":'',"en":'',
         {"group":".pro()","fr":"Pronominalisation","en":"Pronominalisation"},
         {"pattern":"", "fr":["du sujet",'S(NP(D("le"),N("joueur")).pro(),VP(V("jouer")))'],
                        "en":["of the subject",'S(NP(D("the"),N("player")).pro(),VP(V("play")))']},
-        {"pattern":"", "fr":["de l'objet direct",
+        {"pattern":"", "fr":["de l'objet direct sur",
 'S(Pro("je").pe(1),\n\
    VP(V("aimer"),NP(D("le"),N("pomme")).pro()))'],
                        "en":["of the direct object",
 'S(Pro("I").pe(1),\n\
    VP(V("love"),NP(D("a"),N("apple").g("n")).pro()))']},
         {"pattern":"", 
-         "fr":["de l'objet indirect",
+         "fr":["de l'objet indirect sur <code>PP</code>",
 'S(Pro("je").pe(1),\n\
    VP(V("aller"),\n\
-       PP(P("vers"),NP(D("le"),N("maison")).pro())))'],
+       PP(P("vers"),NP(D("le"),N("maison"))).pro()))'],
          "en":["of the indirect object",
 'S(Pro("I").pe(1),\n\
    VP(V("go"),\n\
@@ -514,8 +516,22 @@ var cloneUse={"fr":"Illustration de l'utilisation de <code>.clone()</code>",
         
 ]};
 
-var addUse={"fr":"Illustration de l'utilisation de <code>.add(..)</code> en utilisant les variables de la section <code>.clone()</code>",
-              "en":"Simple example of use of <code>..add(..)</code> using variables of the <code>.clone()</code> section",
+var pommeF,pommeFF,appleF,appleAF;
+var functionUse={"fr":"Fonctions pour la réutilisation d'expression",
+              "en":"Functions for expression reuse",
+    "ex":[
+          {"pattern":"","fr":["fonction",'pommeF = function(n){return NP(D("un"),N("pomme").n(n||"s"))}'],
+                        "en":["fonction",'appleF = function(n){return NP(D("a"),N("apple").n(n||"s"))}']},
+          {"pattern":"","fr":["fonction fléchée",'pommeFF = (n)=>NP(D("un"),N("pomme").n(n||"s"))'],
+                        "en":["arrow function",'appleAF = (n)=>NP(D("a"),N("apple").n(n||"s"))']},
+        {"pattern":"","fr":["appel de fonction",'pommeFF("p")'],
+                      "en":["function call",'appleAF("p")']},
+        {"pattern":"","fr":["appel de fonction",'pommeFF()'],
+                      "en":["function call",'appleAF()']},
+    ]};
+
+var addUse={"fr":"Illustration de l'utilisation de <code>.add(..)</code> <i>en utilisant les variables de la section <code>.clone()</code></i>",
+            "en":"Simple example of use of <code>.add(..)</code> <i>using variables of the <code>.clone()</code> section</i>",
     "ex":[
           {"pattern":"","fr":["déclaration",'pomme = NP(D("le"),N("pomme"))'],
                         "en":["declaration",'apple = NP(D("the"),N("apple"))']},

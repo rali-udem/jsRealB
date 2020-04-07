@@ -30,16 +30,27 @@
     #doc,#ide {padding-left:30px;}
     .emphase {color: #FC6405; }
     textarea {font: 14pt courier;}
-    .ace_jsRealConstructor{color: blue;}    
+    .ace_jsRealConstructor{color: blue;}
+    fieldset {display: inline;}   
     </style>
     <title id="titre">Realize a jsRealB expression</title>
 </head>
 <body id="body">
     <h1 id="titre1"></h1>
     <p>
-        in <label for="english">English</label>
-         <input type="radio" name="language" value="english" id="english" checked="checked">
-        en <label for="français">français</label><input type="radio" name="language" value="francais" id="francais">
+        <fieldset>
+            <legend>Language - Langue</legend>
+        <label for="english">English</label>
+         <input type="radio" name="language" value="en" id="english" checked="checked">
+        <label for="français">français</label><input type="radio" name="language" value="fr" id="francais">
+        <label for="en-fr">en-fr</label><input type="radio" name="language" value="en-fr" id="francais">
+        </fieldset>        
+        <fieldset>
+            <legend>Format</legend>
+            <label for="jsrealb">jsRealB</label><input type="radio" name="format" value="jsRealB" id="jsrealb" checked="checked">
+            <label for="json">JSON</label><input type="radio" name="format" value="JSON" id="json">
+        </fieldset>
+        
         <a id="doc" href="../../documentation/user.html?lang=en" target="_blank">Documentation</a>
         <a id="ide" href="https://github.com/rali-udem/jsRealB/tree/master/IDE" title="jsRealB/IDE at master · rali-udem/jsRealB · GitHub" target="_blank">Interactive Development Environnement</a>
     </p>

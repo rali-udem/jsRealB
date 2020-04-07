@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-fr.js"></script>
+        <script src="../../data/rule-fr.js"></script>
+        <script src="../../data/lexicon-en.js"></script>
+        <script src="../../data/rule-en.js"></script>
+        <script src="../../build/Utils.js"></script>
+        <script src="../../build/Constituent.js"></script>
+        <script src="../../build/Phrase.js"></script>
+        <script src="../../build/Terminal.js"></script>
+        <script src="../../build/Date.js"></script>
+        <script src="../../build/Number.js"></script>
+        <script src="../../build/Warnings.js"></script>
+<!-/- end of separate loading -->
+        <script src="realizer.js"></script>
+        <script src="calculateBLEU.js"></script>
+        <script src="e2eChallenge.js"></script>
+        <title>E2E Challenge Dataset display</title>
+        <style>
+            body{font-family: Arial, "MS Trebuchet", sans-serif;}
+            #sentences {
+                cursor: pointer;
+                height:300px;
+                overflow: auto;
+                border: 1px solid blue;
+                padding:2px;
+            }
+            .current{background-color: yellow;}
+            #bleu {float:right; color:blue;}
+        </style>
+    </head>
+    <body>
+        <h1><a href="http://www.macs.hw.ac.uk/InteractionLab/E2E/#">E2E Challenge Dataset</a> display
+            <select name="setName" id="setName" size="1">
+                <option value="trainsetSorted">train</option>
+                <option value="devset" selected>dev</option>
+                <option value="testset_w_refs">test</option>
+            </select>
+        </h1>
+        <h2>Fields</h2>
+        <table id="fields"></table>
+        <div id="search"></div>
+        <h2><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> realization</h2>
+        <div><strong>EN</strong>: <span id="jsrOutEn"></span><span id="bleu"></span></div>
+        <div><strong>FR</strong>: <span id="jsrOutFr"></span></div>
+        <h2>Reference sentences: <span id="nbSent"></span></h2>
+        <p style="font-size:small"><i>Click on a sentence to display field values of the MR in the menus.</i></p>
+        <div id="sentences"></div>
+        <h2>More information</h2>
+        <ul>
+            <li>Sentences for the E2E challenge generated with jsRealB:
+                <ul>
+                    <li><a href="testset_w_refsJSRout.txt">Test set</a></li>
+                    <li><a href="devsetJSRout.txt">Development set</a></li>
+                    <li><a href="testset_w_refsJSRout.txt">Training set</a> (grouped by similar field values)</li>
+                </ul>
+            </li>
+            <li><a href="description.html">Short description of the generator</a></li>
+        </ul>
+        <p><strong>Contact</strong>: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></p>
+    </body>
+</html>

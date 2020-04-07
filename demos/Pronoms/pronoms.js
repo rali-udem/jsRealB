@@ -66,7 +66,7 @@ function flexionsGenreNombre($t,Const,singPlur,gn){
             const citation=eval(eval(exp))
             $tr.append($makeCell(Const,mot,`.pe(${j})`))
             for (var k = 1; k < gn.length; k++) {
-                $tr.append($makeCell(Const,citation,(j==1?".pe(1)":"")+gn[k]))
+                $tr.append($makeCell(Const,citation,`.pe(${j})`+gn[k]))
             }
             $t.append($tr)
         }

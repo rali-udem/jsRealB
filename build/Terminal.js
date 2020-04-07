@@ -6,8 +6,9 @@
 
 ////// Creates a Terminal (subclass of Constituent)
 // Terminal
-function Terminal(lemmaArr,terminalType){
+function Terminal(lemmaArr,terminalType,lang){
     Constituent.call(this,terminalType);
+    this.lang=lang || currentLanguage;
     if (terminalType!="DT" && lemmaArr.length!=1){
         this.warn("too many parameters",terminalType,lemmaArr.length)
     } else
@@ -22,16 +23,6 @@ Terminal.prototype.me = function(){
 Terminal.prototype.morphoError = function (lemma,constType,errorKind,keyVals){
     this.warn("morphology error",errorKind+` :${constType}(${lemma}) : `+JSON.stringify(keyVals))
     return "[["+lemma+"]]"
-}
-
-// Phrase modifications (should not be called on Terminal)==> warning
-Terminal.prototype.typ = function(types){
-    this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
-    return this;
-}
-Terminal.prototype.pro = function(args){
-    this.warn("bad application",".typ("+JSON.stringify(types)+")",["NP"],this.constType)
-    return this;
 }
 
 Terminal.prototype.add = function(){
@@ -56,7 +47,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
              this.date = new Date(lemma);
          }
          this.lemma = this.date+""
-         this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
+         this.props["dOpt"]={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
     case "NO":
@@ -65,7 +56,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
-        this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
+        this.props["dOpt"]={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
         this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
@@ -74,17 +65,20 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         if (lemmaType != "string"){
             return this.warn("bad parameter","string",lemmaType)
         }
-        let lexInfo=lexicon[lemma];
+        let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
             this.tab=null;
-            this.warn("not in lexicon")
+            this.realization =`[[${lemma}]]`;
+            this.warn("not in lexicon");
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
                 this.tab=null;
-                this.warn("not in lexicon")
+                this.realization =`[[${lemma}]];`
+                this.warn("not in lexicon");
             } else {
                 const keys=Object.keys(lexInfo);
+                const rules=this.getRules();
                 for (let i = 0; i < keys.length; i++) {
                     const key=keys[i];
                     if (key=="tab"){ // save table number and compute stem
@@ -105,7 +99,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                     } else { // copy other key as property
                         let info=lexInfo[key]
                         if (typeof info === "object" && info.length==1)info=info[0]
-                        this.prop[key]=info
+                        this.props[key]=info
                     }
                 }
             }
@@ -121,7 +115,7 @@ Terminal.prototype.grammaticalNumber = function(){
         return this.warn("bad application","grammaticalNumber","NO",this.constType);
     }
     
-    if (this.noOptions.ord==true)return "s"; // ordinal number are always singular
+    if (this.props["dOpt"].ord==true)return "s"; // ordinal number are always singular
     
     const number=this.value;
     if (this.isFr()){
@@ -189,11 +183,7 @@ Terminal.prototype.decline = function(setPerson){
     const g=this.getProp("g");
     const n=this.getProp("n");
     const pe=setPerson?+this.getProp("pe"):3;
-    if (this.tab==null){
-        if (this.isA("Adv")) // this happens for some adverbs in French with table in rules.regular...
-            return this.lemma; 
-        return this.morphoError(this.lemma,this.constType,"decline:tab",{g:g,n:n,pe:pe});
-    } 
+    const rules=this.getRules();
     let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
@@ -225,7 +215,7 @@ Terminal.prototype.decline = function(setPerson){
                     res = (f=="co"?"more ":"most ") + res;
                 } else {
                     if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
-                        const adjAdv=lexicon[this.lemma]["A"]
+                        const adjAdv=this.getLexicon()[this.lemma]["A"]
                         if (adjAdv !== undefined){
                             declension=rules.declension[adjAdv["tab"][0]].declension;
                         }
@@ -243,9 +233,9 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
-        if (this.prop["own"]!==undefined)keyVals["own"]=this.prop["own"];
+        if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];
         if (this.isA("Pro")){// check special combinations of tn and c for pronouns
-            const c  = this.prop["c"];
+            const c  = this.props["c"];
             if (c!==undefined){
                 if (this.isFr() && c=="gen"){ // genitive cannot be used in French
                     this.warn("ignored value for option","c",c)
@@ -254,7 +244,7 @@ Terminal.prototype.decline = function(setPerson){
                 } else
                     keyVals["c"]=c;
             }
-            const tn = this.prop["tn"];
+            const tn = this.props["tn"];
             if (tn !== undefined){
                 if (c!== undefined){
                     this.warn("both tonic and clitic");
@@ -263,10 +253,20 @@ Terminal.prototype.decline = function(setPerson){
                 }
             }
             if (c !== undefined || tn !== undefined){
-                // HACK:remove defaults from pronoun such as "moi"
-                if (this.prop["g"]===undefined)delete keyVals["g"];
-                if (this.prop["n"]===undefined)delete keyVals["n"];
-                if (this.prop["pe"]===undefined)keyVals["pe"]=1; // make sure it matches the first
+                if ((this.isFr() && this.lemma=="moi") || (this.isEn() && this.lemma=="me")){
+                    // HACK:remove defaults from pronoun such as "moi" in French and "me" in English
+                    //      because their definition is special in order to try to keep some upward compatibility
+                    //      with the original way of specifying the pronouns
+                    if (this.props["g"] ===undefined)delete keyVals["g"];
+                    if (this.props["n"] ===undefined)delete keyVals["n"];
+                    // make sure it matches the first and set the property for verb agreement
+                    if (this.props["pe"]===undefined)keyVals["pe"]=this.props["pe"]=1; 
+                } else { // set person
+                    const d0=declension[0];
+                    this.props["g"] = d0["g"] || g;
+                    this.props["n"] = d0["n"] || n
+                    this.props["pe"]= keyVals["pe"] = d0["pe"] || 3;
+                }
             } else { // no c, nor tn set tn to "" except for "on"
                 if(this.lemma!="on")keyVals["tn"]="";
             }
@@ -277,7 +277,7 @@ Terminal.prototype.decline = function(setPerson){
         }
         if (this.isFr() && this.isA("N")){ 
             // check is French noun gender specified corresponds to the one given in the lexicon
-            const lexiconG=lexicon[this.lemma]["N"]["g"]
+            const lexiconG=this.getLexicon()[this.lemma]["N"]["g"]
             if (lexiconG === undefined){
                 return this.morphoError(this.lemma,this.constType,"absent du lexique",{g:g,n:n});
             } 
@@ -301,12 +301,12 @@ Terminal.prototype.conjugate_fr = function(){
     switch (t) {
     case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
-        const aux=this.prop["aux"];
+        const aux=this.props["aux"];
         const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        neg=this.prop["neg2"];
+        neg=this.neg2;
         if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
-            v.prop["neg2"]=neg;
-            delete this.prop["neg2"]
+            v.neg2=neg;
+            delete this.neg2
         }
         if (aux=="êt"){
             v.setLemma("être");
@@ -316,7 +316,7 @@ Terminal.prototype.conjugate_fr = function(){
             //   of its part participle
             g="m"
             n="s";
-            var cod = this.prop["cod"];
+            var cod = this.cod;
             if (cod !== undefined){
                 g=cod.getProp("g");
                 n=cod.getProp("n");
@@ -324,8 +324,8 @@ Terminal.prototype.conjugate_fr = function(){
         }
         return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
     default:// simple tense
-        var conjugation=rules.conjugation[this.tab].t[t];
-        if (conjugation!==undefined){
+        var conjugation=this.getRules().conjugation[this.tab].t[t];
+        if (conjugation!==undefined && conjugation!==null){
             let res;
             switch (t) {
             case "p": case "i": case "f": case "ps": case "c": case "s": case "si": case "ip":
@@ -341,19 +341,19 @@ Terminal.prototype.conjugate_fr = function(){
                 } else {
                     res=this.stem+term;
                 }
-                neg=this.prop["neg2"];
+                neg=this.neg2;
                 if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
-                neg=this.prop["neg2"];
+                neg=this.neg2;
                 if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
                 }
-                if (t=="pp"){
+                if (t=="pp" && res != "été"){ //HACK: peculiar frequent case of être that does not change
                     let g=this.getProp("g");
                     if (g=="x")g="m";
                     let n=this.getProp("n");
@@ -375,7 +375,7 @@ Terminal.prototype.conjugate_en = function(){
     const n = this.getProp("n");
     const t = this.getProp("t");
     if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t});
-    const conjugation=rules.conjugation[this.tab].t[t];
+    const conjugation=this.getRules().conjugation[this.tab].t[t];
     switch (t) {
     case "p": case "ps":
         if (typeof conjugation == "string"){
@@ -409,7 +409,7 @@ Terminal.prototype.conjugate = function(){
 
 Terminal.prototype.numberFormatter = function (rawNumber, maxPrecision) {
     let precision = (maxPrecision === undefined) ? 2 : maxPrecision;
-    const numberTable = rules.number;
+    const numberTable = this.getRules().number;
     precision = nbDecimal(rawNumber) > precision ? precision : nbDecimal(rawNumber);
     return formatNumber(rawNumber, precision, numberTable.symbol.decimal, numberTable.symbol.group);
 };
@@ -442,7 +442,7 @@ Terminal.prototype.numberToOrdinal = function(number,lang,gender){
 
 Terminal.prototype.dateFormat = function(dateObj,dOpts){
     // useful abbreviations for date format access
-    const dateRule = rules.date
+    const dateRule = this.getRules().date
     const naturalDate = dateRule.format.natural
     const nonNaturalDate =dateRule.format.non_natural
     const relativeDate = dateRule.format.relative_time
@@ -500,7 +500,7 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
                 const pf=dateFormats[match[2]];
                 if (pf!==undefined){
                     const val=pf.param.call(dateObj); // call function to get the value
-                    res+=pf.func(val)               // format the value as a string
+                    res+=pf.func.call(this,val)       // format the value as a string
                 }
             } else if (match[3]!==undefined){
                 res+=match[3]      // copy the string
@@ -519,27 +519,30 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
 // Realize (i.e. set the "realization" field) for this Terminal
 Terminal.prototype.real = function(){
     switch (this.constType) {
-    case "N": case "A": case "Adv": 
-        this.realization=this.decline(false);
+    case "N": case "A": 
+        if (this.tab!==null)this.realization=this.decline(false);
         break;
+    case "Adv":
+        if (this.tab!==null)this.realization=this.decline(false);
+        else this.realization=this.lemma;
     case "C": case "P": case "Q":
-        this.realization=this.lemma;
+        if(this.realization===null)this.realization=this.lemma;
         break;
     case "D": case "Pro":
-        this.realization=this.decline(true);
+        if (this.tab!==null)this.realization=this.decline(true);
         break;
     case "V":
-        this.realization=this.conjugate();
+        if (this.tab!==null)this.realization=this.conjugate();
         break;
     case "DT":
-        this.realization=this.dateFormat(this.date,this.dateOpts);
+        this.realization=this.dateFormat(this.date,this.props["dOpt"]);
         break;
     case "NO":
-        const opts=this.noOptions;
+        const opts=this.props["dOpt"];
         if (opts.nat==true){
-            this.realization=this.numberToWord(this.value,this.lang,this.getProp("g"));
+            this.realization=this.numberToWord(this.value,this.lang,this.g);
         } else if (opts.ord==true){
-            this.realization=this.numberToOrdinal(this.value,this.lang,this.getProp("g"));
+            this.realization=this.numberToOrdinal(this.value,this.lang,this.g);
         } else if (opts.raw==false){
             this.realization=this.numberFormatter(this.value,opts.mprecision);
         } else { //opts.raw==true

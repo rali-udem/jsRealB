@@ -1,0 +1,75 @@
+{
+ "name":[
+  "Blue Spice",
+  "Clowns",
+  "Cocum",
+  "Cotto",
+  "Giraffe",
+  "Green Man",
+  "Loch Fyne",
+  "Strada",
+  "The Cricketers",
+  "The Mill",
+  "The Phoenix",
+  "The Plough",
+  "The Punter",
+  "The Vaults",
+  "The Waterman",
+  "The Wrestlers",
+  "Wildwood",
+  "Zizzi"
+ ],
+ "eatType":[
+  "coffee shop",
+  "pub",
+  "restaurant"
+ ],
+ "area":[
+  "city centre",
+  "riverside"
+ ],
+ "customer rating":[
+  "5 out of 5",
+  "average",
+  "3 out of 5",
+  "high",
+  "low",
+  "1 out of 5"
+ ],
+ "near":[
+  "Crowne Plaza Hotel",
+  "Burger King",
+  "Rainbow Vegetarian Café",
+  "All Bar One",
+  "The Sorrento",
+  "Café Sicilia",
+  "Express by Holiday Inn",
+  "The Rice Boat",
+  "The Bakers",
+  "Raja Indian Cuisine",
+  "Avalon",
+  "Ranch",
+  "Café Rouge"
+ ],
+ "food":[
+  "Chinese",
+  "English",
+  "Fast food",
+  "French",
+  "Italian",
+  "Japanese",
+  "Indian"
+ ],
+ "familyFriendly":[
+  "no",
+  "yes"
+ ],
+ "priceRange":[
+  "£20-25",
+  "cheap",
+  "high",
+  "less than £20",
+  "moderate",
+  "more than £30"
+ ]
+}

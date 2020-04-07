@@ -106,6 +106,26 @@ S(Pro("je").pe(2),
              D("mon").g("m"),
              Q("ex").lier("-"),N("femme"))))
              ))
+`},
+{ref:"Point du FLE",url:"https://www.lepointdufle.net/ressources_fle/cod_coi_3.htm",no:"3",
+ expr:`
+// Essayez en enlevant un ou les .pro()
+S(Pro("lui").c("nom"),
+  VP(V("montrer"),
+     NP(D("le"),N("lettre").n("p"),
+        SP(Pro("que"),
+           Pro("lui").c("nom"),
+           VP(V("recevoir").t("pc")))).pro()),
+     PP(P("à"),
+        NP(D("mon"),N("ami").g("f"))).pro())
+`},
+{ref:"Point du FLE",url:"https://www.lepointdufle.net/ressources_fle/cod_coi_3.htm",no:"8",
+ expr:`
+// Essayez en enlevant un ou les .pro()
+S(Pro("lui").c("nom"),
+  VP(V("parler").t("pc"),
+     PP(P("de"),NP(D("mon"),N("problème"))).pro(),
+     PP(P("à"),NP(D("mon"),N("ami"))).pro()))
 `}
 ];
 

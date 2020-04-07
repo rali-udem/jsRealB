@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.0 - December 2019*
+*Version 3.4 - April 2020*
 
 **Natural language generation** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -8,7 +8,7 @@ The web is constantly growing and its content, getting progressively more dynami
 
 **jsRealB is a text realizer designed specifically for the web**, easy to learn and to use. This realizer allows its user to build a variety of French and English expressions and sentences, to add HTML tags to them and to easily integrate them into web pages.
 
-**jsRealB can also be used in Javascript application** by means of a `node.js` module.
+**jsRealB can also be used in Javascript application** by means of a `node.js` module. It also accepts an input specification in JSON. 
 
 The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html). You can switch language in the upper right corner of the page.
 
@@ -25,6 +25,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 * [`build`](build/): build system to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
     * `Date.js` : utility functions for dealing with date formatting
+    * `IO-json.js` : functions for dealing with the JSON input format
     * `module-end.js` : lines to add at the end when creating a module from js files
     * `module-exports.js` : list of exported identifiers when creating a module from the js files
     * `module-start.js` : line to add at the start when creating a module from js files
@@ -34,14 +35,16 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `Utils.js` : useful functions that do not belong to the *constituent*s
     * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
 * [`data`](data/):
+    * `lexicon-en.js` : basic English lexicon (5238 entries) [preloaded]
+    * `rule-en.js` : English conjugation and declension tables [preloaded]
+    * `lexicon-fr.js` : basic French lexicon (3720 entries) [preloaded]
+    * `rule-fr.js` : French conjugation and declension tables [preloaded]
     * `lexicon-dme.json` : a *comprehensive* English lexicon (33926 entries) in json format
     * `lexicon-dmf.json` : a *comprehensive* French lexicon (52512 entries) in json format
-    * `lexicon-en.js` : basic English lexicon (5238 entries)
-    * `rule-en.js` : English conjugation and declension tables
-    * `lexicon-fr.js` : basic French lexicon (3720 entries)
     * `lexicon.jsonrnc` : JSON-RNC file for validating a lexicon
-    * `rule-fr.js` : French conjugation and declension tables
-    * `lexiconFormat.html` : basic description of the format of the lexicon
+    * `lexiconFormat.html` : documentation of the format of the lexicon
+    * `jsRealB.jsonrnc` : JSON-RNC file for validating the JSON input specification
+    * `jsRealB-jsoninput.html` : documentation of the format of the JSON  input specification
 * [`demos`] : see next section
 * [`dist`](dist/): pre-built JavaScript files ready for production use, they already include the basic English and French lexicons and the English and French rule tables
     * For use in a web page : `<script src="..."></script>`
@@ -82,7 +85,11 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * French and English sentences modified with time, number and conjugation: [Date generation](demos/date) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/date/index.html)
     * Type a French or English sentence that will be realized with all possible sentence modifiers [Sentence variants](demos/VariantesDePhrases) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html)
     * French or English conjugation and declension of a word [Conjugation and declension](demos/inflection) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/inflection/index.html)
-    * Generate a table (both in English and French) showing the different forms of pronouns in the original specification and also using the tonic and clitic options
+    * Generate a table (both in English and French) showing the different forms of pronouns
+         * using the original specification 
+         * using the tonic and clitic options  
+         
+      This table is now part of the documentation
 * User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
@@ -95,6 +102,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)
 
 ###  Data to Text applications
+* **`jsRealB` for the [E2E Challenge](http://www.macs.hw.ac.uk/InteractionLab/E2E/ "E2E NLG Challenge")** : browser for the datasets (training, development and test) used in the *End to End Generation Challenge* (2017-2018). The page also shows the English and French output produced by a "rule-based" generator using `jsRealB` for a selection of feature values. There is also a short description of the implementation of the realiser. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/e2eChallenge/index.html)
 * **Description (in French) of a list of events** and associated informations given as a json file [Événements](demos/Evenements) [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evenements/index.html)
 * **Description of list of steps for the building of a house**, given information about tasks, the duration and the precedence relations between them. 
 
@@ -115,7 +123,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 * The demos are usually run using the *compiled* version. But after modification of the source files, the version with the separate loading of the file can be obtained by commenting/uncommenting some `<script>...</script>` lines at the start of the html file. The shell script `testDemos.sh` can be used to do this while keeping the original intact. If the script is called with a name of an HTML file, then that file is uncommented and shown in the browser (using the `open` command on the MacOS). With no argument, then all demos are displayed in different tabs. The script wait for 5 seconds between each try.
 ## Design of the system
 
-The current version (3.0) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
+The current version (3.4) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
 
 [This document](Designing/README.html) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 
