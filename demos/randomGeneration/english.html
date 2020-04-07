@@ -9,8 +9,10 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="../../dist/jsRealB.js"></script>
+        <script src="../../dist/jsRealB.js"></script>
 <!-- to ease debugging we load each file separately -/->
+        <script src="../../data/lexicon-fr.js"></script>
+        <script src="../../data/rule-fr.js"></script>
         <script src="../../data/lexicon-en.js"></script>
         <script src="../../data/rule-en.js"></script>
         <script src="../../build/Utils.js"></script>
@@ -19,8 +21,12 @@
         <script src="../../build/Terminal.js"></script>
         <script src="../../build/Date.js"></script>
         <script src="../../build/Number.js"></script>
+        <script src="../../build/Warnings.js"></script>
 <!-/- end of separate loading -->
-        <script type="text/javascript" src="english.js"></script>
+        <script>
+            var enFrancais=false;
+        </script>
+        <script type="text/javascript" src="generate.js"></script>
         <title>jsRealB English random generation</title>
     </head>
 <body>
@@ -66,8 +72,6 @@
                             </td>
                             <td><label for="est-pronom">Pronominalized </label><input type="checkbox" name="est-pronom" value="" id="est-pronom">
                             </td>
-                            <td><label for="est-pronom">Neuter gender</label><input type="checkbox" name="neuterSub" value="" id="neuterSub">
-                            </td>
                         </tr>
                         <tr>
                             <td style="border-top:1px solid black; padding-top:10px">
@@ -81,7 +85,6 @@
                                     <option value="3">Third</option>
                                 </select>
                                 <select name="nombre" id="nombre" size="1">
-                                    <option value="nil"></option>
                                     <option value="s">singular</option>
                                     <option value="p">plural</option>
                                 </select>
@@ -118,19 +121,7 @@
                                 <select id="temps" size="1"><option value="p">present</option><option value="ps">simple past</option></select>
                             </td>
                         </tr>
-                        <tr>
-                            <td><label>Negative</label></td>
-                            <td><input type="checkbox" name="negation" id="negation"></td>
-                            <td><label>Continuous</label></td>
-                            <td><input type="checkbox" name="progressive" id="progressive"></td>
-                        </tr>
-                        <tr>
-                            <td><label>Perfect</label></td>
-                            <td><input type="checkbox" name="perfect" id="perfect"></td>
-                            <td><label>Passive</label></td>
-                            <td><input type="checkbox" name="passive" id="passive"></td>
-                        </tr>
-                        </tr>
+					</tr>
                     </tbody></table>
                 </fieldset>
             </td>
@@ -159,8 +150,8 @@
                                                             
                             </td>
                             <td>
-                                <label for="adjODForm">form</label>
-                                <select name="adjODForm" id="adjODForm">
+                                <label for="addFormOD">form</label>
+                                <select name="adjFormOD" id="adjFormOD">
                                     <option value="nil"></option>
                                     <option value="co">comparative</option>
                                     <option value="su">superlative</option>                                    
@@ -176,8 +167,6 @@
                             <td><label for="plurielOD">Plural </label><input type="checkbox" name="plurielOD" value="" id="plurielOD">
                             </td>
                             <td><label for="est-pronomOD">Pronominalized </label><input type="checkbox" name="est-pronomOD" value="" id="est-pronomOD">
-                            </td>
-                            <td><label for="est-pronom">Neuter gender</label><input type="checkbox" name="neuterOD" value="" id="neuterOD">
                             </td>
                         </tr></tbody>
                     </table>
@@ -209,8 +198,8 @@
                                 <input type="text" name="adjOI" value="" id="adjOI" class="ui-autocomplete-input" autocomplete="off">
                             </td>
                             <td>
-                                <label for="adjOIForm">form</label>
-                                <select name="adjOIForm" id="adjOIForm">
+                                <label for="adjFormOI">form</label>
+                                <select name="adjFormOI" id="adjFormOI">
                                     <option value="nil"></option>
                                     <option value="co">comparative</option>
                                     <option value="su">superlative</option>                                    
@@ -226,28 +215,41 @@
                             </td>
                             <td><label for="est-pronomOI">Pronominalized </label><input type="checkbox" name="est-pronomOI" value="" id="est-pronomOI">
                             </td>
-                            <td><label for="est-pronom">Neuter gender</label><input type="checkbox" name="neuterOI" value="" id="neuterOI">
-                            </td>
                         </tr>
                     </tbody></table>
                 </fieldset>
             </td>
         </tr>
         <tr>
-            <td><fieldset>
+            <td colspan="2"><fieldset>
                 <legend>Sentence type</legend>
                 <form>
-                    <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative
-                    <input type="checkbox" id="queForm" name="Form" value="int">Interrogative
+                    <input type="checkbox" name="negation" id="negation">Negation
+                    <input type="checkbox" name="contraction" id="contraction">Contraction
+                    <input type="checkbox" name="passive" id="passive">Passive
+                    <input type="checkbox" name="perfect" id="perfect">Perfect
+					<input type="checkbox" name="progressive" id="progressive">Progressive
+				    <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative
+                    <select name="modSpec" id="modSpec" onchange="" size="1">
+                        <option value="base">* Modality *</option>
+                        <option value="poss">Possibility</option>
+                        <option value="perm">Permission</option>
+                        <option value="nece">Necessity</option>
+                        <option value="obli">Obligation</option>
+                        <option value="will">Willingness</option>
+                    </select>
                     <select name="intSpec" id="intSpec" onchange="" size="1">
-                        <option value="base"></option>
-                        <option value="yon">Yes/no</option>
+                        <option value="base">* Interrogation *</em></option>
+                        <option value="yon">Yes/No</option>
                         <option value="wos">Who(subject)</option>
                         <option value="wod">Who(direct object)</option>
                         <option value="wad">What(direct object)</option>
                         <option value="woi">Who(indirect object)</option>
                         <option value="whe">Where</option>
+                        <option value="why">Why</option>
+                        <option value="whn">When</option>
                         <option value="how">How</option>
+                        <option value="muc">How much</option>
                     </select>
                 </form>
                 </fieldset>
@@ -266,7 +268,7 @@
         </tr> 
         <tr>
             <td><label for="jsreal">jsRealB code</label></td>
-            <td><textarea rows="4" cols="80" id="jsreal"></textarea></td>
+            <td><textarea rows="10" cols="80" id="jsreal"></textarea></td>
             <td><input type="button" name="evaluer" value="Evaluate" id="evaluer"
                     title="Evaluate the jsRealB structure in the box on the left and show its realisation in the box above"></td>
         </tr>

@@ -1,7 +1,7 @@
 QUnit.test( "Phrase FR", function( assert ) {
     loadFr();
     var pomme = NP(D("le"),N("pomme"));
-    var  gars = NP(D("le"),N("garçon")).n("p");
+    var  gars = NP(D("le"),N("garçon").n("p"));
     addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
     addToLexicon({"Mary":{"N":{"g":"f","tab":["n16"]}}})
     var phrases = [
@@ -11,7 +11,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                         N('souris'),
                         SP(Pro('que'),
                             NP(D('le'),
-                                N('chat')).n("p"),
+                                N('chat').n("p")),
                             VP(V('manger').t('pc')))),
                     VP( V('être').t('p'),
                         AP(A('gris')))
@@ -23,11 +23,11 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"cadeaux.",
          message:"Phrase sans capitale"},
         // 3
-        {expression:S(NP(A("beau"), N("cadeau")).n("p")),
+        {expression:S(NP(A("beau"), N("cadeau").n("p"))),
          expected:"Beaux cadeaux.",
          message:"Accord adjectif"},
         // 4
-        {expression:NP(D("le"),N("gens"),A("bon").g("f").pos("pre")).n("p"),
+        {expression:NP(D("le"),N("gens").n("p"),A("bon").g("f").pos("pre")),
          expected:"les bonnes gens",
          message:"Adjectif pré-posé"},
         // 5
@@ -36,16 +36,17 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Accord adjectif"},
         // 6
         {expression:S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"), 
-                      PP(P("à"), NP(D("le"), N("loi")))))).t("pc").typ({neg:true}),
+                      PP(P("à"), NP(D("le"), N("loi")))))).typ({neg:true}),
          expected:"Nous n'avons pas agi conformément à la loi.",
          message:"Phrase négative avec accord du verbe"},
         // 7
-        {expression:S(NP(Pro("je")).pe(2), VP(V("travailler").t("pc"), AdvP(Adv("bien")))).typ({mod:"nece"}),
+        {expression:S(Pro("je").pe(2), VP(V("travailler").t("pc"),
+                      AdvP(Adv("bien")))).typ({mod:"nece"}),
          expected:"Tu as dû travailler bien.",
          message:"Phrase au passé avec modalité de nécessité"},
         // 8
         {expression:S(CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))), 
-                      VP(V("être"),A("gentil")).t("p")),
+                      VP(V("être").t("p"),A("gentil"))),
          expected:"Le garçon et la fille sont gentils.",
          message: "Coordination"},
         // 9
@@ -59,30 +60,30 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"La boulangère, le vendeur et la cliente parlent.",
          message:"Coordination"},
         // 11
-        {expression:S(NP(D("le"),N("enfant")),VP(V("manger"),NP(D("le"),N("gâteau")))).n("p").typ({pas:true}),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
          expected:"Le gâteau est mangé par les enfants.",
          message:"Passif avec élision"},
         // 12
-        {expression:S(NP(D("le"),N("enfant")).n("p").pro(),VP(V("manger"),NP(D("le"),N("gâteau")))),
+        {expression:S(NP(D("le"),N("enfant").n("p")).pro(),VP(V("manger"),NP(D("le"),N("gâteau")))),
          expected:"Ils mangent le gâteau.",
          message:"Pronominalisation du sujet"},
         // 13
-        {expression:S(NP(D("le"),N("enfant")).n("p"),VP(V("manger"),NP(D("le"),N("gâteau")).pro())),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")).pro())),
          expected:"Les enfants le mangent.",
          message:"Pronominalisation du complément"},
         // 14
-        {expression:S(NP(D("le"),N("enfant")).n("p"),VP(V("manger"),NP(D("le"),N("gâteau")).pro())).typ({pas:true}),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")).pro())).typ({pas:true}),
          expected:"Il est mangé par les enfants.",
          message:"Pronominalisation du complément au passif"},
         // 15
-        {expression:S(NP(D("le"),N("chat").g("f")).n("p"),
+        {expression:S(NP(D("le"),N("chat").g("f").n("p")),
                   VP(V("manger"),
                      NP(D("le"),N("souris")))),
          expected:"Les chattes mangent la souris.",
          message:"Phrase affirmative"},
         // 16
         {expression:S(NP(D('le'),Q("super"),
-                     N('chat').g("f").tag("b").tag("i")).n("p"),
+                     N('chat').g("f").n("p").tag("b").tag("i")),
                   VP(V('dévorer').t('pc'),
                      NP(D('le'),
                         N('souris'),
@@ -92,9 +93,9 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Phrase avec tag HTML"},
         // 17
         {expression:S(NP(D('le'),
-                    N('souris')).n("p"),
-              VP(V('être').t('p'),
-                    AP(A('gris')))).typ({neg:true}),
+                         N('souris').n("p")),
+                      VP(V('être').t('p'),
+                            AP(A('gris')))).typ({neg:true}),
          expected:"Les souris ne sont pas grises.",
          message:"Accord avec être"},
         // 18
@@ -105,15 +106,21 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Négation avec adjectif au pluriel"},
         // 19
         {expression:S(NP(N("John")),
-              VP(V("évanouir").t("pc"),
-                 PP(P("à"),DT("1979-05-21T10:05:00")))).typ({neg:true}),
-         expected:"John n'est pas évanoui au lundi 21 mai 1979 à 6 h 5 min 0 s.",
+                      VP(V("évanouir").t("pc"),
+                         PP(P("à"),DT("1979-05-21T12:00:00")
+                                     .dOpt({hour:false,minute:false,second:false}))))
+                     .typ({neg:true}),
+         expected:"John n'est pas évanoui au lundi 21 mai 1979.",
          message:"Phrase avec une date et un ajout au dictionnaire"},
         // 20
-        {expression:S(CP(C("ou"),NP(N("John")),NP(N("Mary"))),
-              VP(V("évanouir").t("pc"),
-                 PP(P("à"),DT("1979-05-21T10:05:00")))).typ({neg:true}),
-         expected:"John ou Mary n'est pas évanoui au lundi 21 mai 1979 à 6 h 5 min 0 s.",
+        {expression:S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
+                      VP(Pro('eux').c("refl"),
+                         V("évanouir").t("pc"),
+                         PP(P("à"),
+                            DT("1979-05-21T12:00:00")
+                             .dOpt({hour:false,minute:false,second:false})))
+                      ).typ({neg:true}),
+         expected:"John et Mary ne se sont pas évanouis au lundi 21 mai 1979.",
          message:"Phrase avec coordination ou et date."},
         // 21
         {expression:S(VP().add(V("aimer")).add(pomme)).add(gars,0),
@@ -164,16 +171,16 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Elle.",
          message:"Pronominalisation qui couvre toute la phrase..."},
         // 29
-        {expression:S(NP(D("le"),N("enfant")),VP(V("manger"),NP(D("le"),N("gâteau")))).n("p").typ({pas:true}),
+        {expression:S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
          expected:"Le gâteau est mangé par les enfants.",
          message:"Passive"},
         // 30
-        {expression:S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"),
-                                  PP(P("à"), NP(D("le"), N("loi")))))).t("pc").typ({neg:true}),
-         expected:"Nous n'avons pas agi conformément à la loi.",
+        {expression:S(Pro("je").pe(1).n("p"), VP(V("agir").t("c"), AdvP(Adv("conformément"),
+                                  PP(P("à"), NP(D("le"), N("loi")))))).typ({mod:"nece"}),
+         expected:"Nous devrions agir conformément à la loi.",
          message:"avec PP"},
         // 31
-        {expression:S(NP(D("le"),N("chat")).n("p"),
+        {expression:S(NP(D("le"),N("chat").n("p")),
                       CP(C("et"),VP(V("courir")),
                                  VP(V("sauter")),
                                  VP(V("manger"),NP(D("le"),N("souris"))))),
@@ -198,7 +205,7 @@ QUnit.test( "Phrase FR", function( assert ) {
         // 33
         {expression:S(CP(C("et"),
                          NP(D("mon").pe(1),N("ami").g("f")),
-                         NP(D("le"),A("vieux"),N("étudiant")).g("f")),
+                         NP(D("le"),A("vieux"),N("étudiant").g("f"))),
                        SP(Pro("que"),
                           NP(D("ce"),N("homme")),
                           VP(V("recevoir").t("pc")))),
@@ -209,6 +216,28 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"<i>Le</i> <b>chat.</b>",
          message:"Top level,capitalization with HTML tags."},
         // 35
+        {expression:S(Pro("je").pe(2),
+                      VP(V("demander").t("pc"),
+                         NP(D("mon"),N("adresse")).pro(),
+                         PP(P("à"),NP(D("mon"),N("parent").n("p"))).pro())),
+         expected:"Tu la leur as demandée.",
+         message:"Pronominalisation de l'objet direct et de l'objet indirect (datif)"},
+        // 36
+        {expression:S(Pro("je"),
+                      VP(V("parler").t("pc"),
+                         PP(P("à"),NP(D("mon"),N("ami").g("f"))).pro(),
+                         PP(P("de"),NP(D("mon"),N("problème"))).pro())),
+         expected:"Il lui en a parlé.",
+         message:"Pronominalisation de deux objets indirects"},
+        // 37
+        // {expression:,
+        //  expected:"",
+        //  message:""},
+        // 38
+        // {expression:,
+        //  expected:"",
+        //  message:""},
+        // 39
         // {expression:,
         //  expected:"",
         //  message:""},

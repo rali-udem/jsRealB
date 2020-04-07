@@ -2,7 +2,7 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/4152931/javascript-inheritance-call-super-constructor-or-use-prototype-chain
 function extend(base, sub) {
     // Avoid instantiating the base class just to setup inheritance
@@ -39,32 +39,33 @@ function contains(arr,elem){
 
 function loadEn(trace,lenient){
     currentLanguage="en";
-    lexicon=lexiconEn;
-    rules=ruleEn;
-    defaultProps={g:"n",n:"s",pe:3,t:"p"};  // language dependent default properties
     if (trace===true)console.log("English lexicon and rules loaded");
     if (lenient==true)console.log("Lenient mode not implemented");
 }
 
 function loadFr(trace,lenient){
     currentLanguage="fr";
-    lexicon=lexiconFr;
-    rules=ruleFr;
-    defaultProps={g:"m",n:"s",pe:3,t:"p",aux:"av"};  // language dependent default properties 
-    if (trace===true)console.log("French lexicon and rules loaded");
-    if (lenient==true)console.log("Lenient mode not implemented");
+    if (trace===true)console.log("Règles et lexique français chargés");
+    if (lenient==true)console.log("Le mode Lenient n'est pas implanté");
 }
 
 //// add to lexicon and return the updated object
-///    to remove from lexicon (pass undefined as newInfos)
-var addToLexicon = function(lemma,newInfos){
+///    to remove from lexicon (give null as newInfos)
+var addToLexicon = function(lemma,newInfos,lang){
+    let lexicon = getLexicon(lang)
+    if (newInfos === null){ // remove key
+        if (lexicon[lemma] !== undefined){
+            delete lexicon[lemma]
+        }
+        return
+    }
     if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
         newInfos=Object.values(lemma)[0];
         lemma=Object.keys(lemma)[0];
     }
     const infos=lexicon[lemma]
     if (infos!==undefined && newInfos!==undefined){ // update with newInfos
-        for (ni in newInfos) {
+        for (var ni in newInfos) {
             infos[ni]=newInfos[ni]
         }
         lexicon[lemma]=infos
@@ -78,18 +79,25 @@ var addToLexicon = function(lemma,newInfos){
 /// update current lexicon by "merging" the new lexicon with the current one
 //     i.e. adding new key-value pairs and replacing existing key-value pairs with the new one
 //     newLexicon is a single object with the "correct" structure
-var updateLexicon = function(newLexicon){
+var updateLexicon = function(newLexicon,lang){
+    let lexicon = getLexicon(lang);
     Object.assign(lexicon,newLexicon)
 }
 
 //// get lemma from lexicon (useful for debugging )
-var getLemma = function(lemma){
-    return lexicon[lemma];
+var getLemma = function(lemma,lang){
+    return getLexicon(lang)[lemma];
 }
 
 // return the current realization language
 var getLanguage = function(){
     return currentLanguage;
+}
+
+// return the current lexicon
+var getLexicon = function(lang){
+    if (lang===undefined)lang=currentLanguage;
+    return lang=="fr"?lexiconFr:lexiconEn;    
 }
 
 //// select a random element in a list useful to have some variety in the generated text
@@ -99,7 +107,7 @@ var getLanguage = function(){
 var oneOf = function(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    e=elems[Math.floor(Math.random()*elems.length)];
+    const e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
 
@@ -108,5 +116,5 @@ function setExceptionOnWarning(val){
     exceptionOnWarning=val;
 }
 
-var jsRealB_version="3.0";
-var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
+var jsRealB_version="3.4";
+var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

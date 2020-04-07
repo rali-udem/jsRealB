@@ -44,10 +44,12 @@ function realiseTaches(tasks,p,f){
     for (var i = 1; i < tasks.length; i++) {
         var t=tasks[i][p];
         // console.log(i,tasks[i].id);
-        if (p=='vp')t.pe(1); // hack pour avoir la forme de base du verbe
+        if (p=='vp'){ // set verb to infinitive
+            tasks[i].v.t("b").b("to ");
+        } 
         if (!(typeof module !== 'undefined' && module.exports))
             t.tag("span",{"id":"T"+tasks[i].id});
-        if(f!==undefined)t=f(t)
+        if(f!==undefined)tasks[i].v=f(tasks[i].v)
         res.add(t)
     }
     return res;
@@ -68,9 +70,9 @@ function introduction(totalTime,firstTasks){
     // indiquer les tâches du début
     realisation += "\n"+oneOf(
         ()=>S(Pro("I").pe(2),
-              V("shall").t("ps"),Q("start"),realiseTaches(firstTasks,nvp())),
-        ()=>S(Pro("I").pe(2),V("need"),
-              VP(V("start").t("b"),realiseTaches(firstTasks,nvp())))
+              VP(V("shall").t("ps"),Q("start"),realiseTaches(firstTasks,nvp()))),
+        ()=>S(Pro("I").pe(2),
+              VP(V("need"),P("to"),V("start").t("b"),realiseTaches(firstTasks,nvp())))
     )+"\n";
     return realisation;
 }
@@ -85,13 +87,13 @@ function developpement(middleTasks){
                   VP(V("be").t("f"),
                      NP(D("the"),N("start")),PP(P("of"),realiseTaches(t,'np')))
                  ),
-            ()=>S(Adv(oneOf("then","after","next","afterwards")),
+            ()=>S(oneOf(Adv("then"),P("after"),Adv("next"),Adv("afterwards")),
                   nvp()=='np'?SP(Pro("I").pe(2),VP(V("do").t("f"),realiseTaches(t,'np')))
                              :SP(Pro("I").pe(2),VP(V("shall").t("ps"),realiseTaches(t,'vp')))
                   ),
             ()=>S(jour(t[0]),
                    Pro("I").pe(2),
-                   VP(V("shall").t("ps"),Q("prepare"),realiseTaches(t,"vp",x=>x.t("b")))
+                   VP(V("shall").t("ps"),Q("prepare"),realiseTaches(t,"vp"))
                   )
         );
         // console.log(v);

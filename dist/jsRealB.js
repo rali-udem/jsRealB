@@ -7,29 +7,22 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
 var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
-var defaultProps; // to be filled by loadEn | loadFR
-var currentLanguage, rules, lexicon;
+var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
+                    fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
+var currentLanguage;
 
 ///////////////  Constructor for a Constituent (superclass of Phrase and Terminal)
 function Constituent(constType){
     this.parentConst=null;
     this.constType=constType;    
-    this.prop={};
+    this.props={};
     this.realization=null;
-    this.lang=currentLanguage;
-}
-
-// warning message on the console prefixed with an identification or throws an Exception
-Constituent.prototype.warning = function(messEn,messFr){
-    const mess=this.me()+":: "+(messFr!==undefined && getLanguage()=="fr"?messFr:messEn);
-    if (exceptionOnWarning) throw mess;
-    console.warn(mess);
-    return this;
+    this.optSource=""   // string corresponding to the calls to the options
 }
 
 // error message for internal error that should never happen !!!
@@ -50,11 +43,16 @@ Constituent.prototype.isOneOf = function(types){
 Constituent.prototype.isFr = function(){return this.lang=="fr"}
 Constituent.prototype.isEn = function(){return this.lang=="en"}
 
+Constituent.prototype.getRules   = function(){return this.isFr()?ruleFr:ruleEn}
+Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
+
+
+
 // get the property by following the "agreesWith" links, but keeping track of last verb 
 // in case of "tense" so that it does not take the "default" tense of the subject...
 Constituent.prototype.getProp = function(propName){
     // check for specific property on this element
-    const val = this.prop[propName];
+    const val = this.props[propName];
     if (val !== undefined) return val ; 
     // follow the agreement list
     let lastVerb;
@@ -65,13 +63,14 @@ Constituent.prototype.getProp = function(propName){
         current=next;
         next=next.agreesWith;
     }
-    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps["t"]
-    return current.prop[propName] || defaultProps[propName] 
+    if (current.isOneOf(["V","VP"]))lastVerb=current;
+    if (propName=="t" && lastVerb !== undefined)return lastVerb.props["t"] || defaultProps[this.lang]["t"]
+    return current.props[propName] || defaultProps[this.lang][propName] 
 }
 
 // get the property in the first surrounding sentence (S or SP)
 Constituent.prototype.getSentProp = function(propName){
-    const value=this.prop[propName];
+    const value=this.props[propName];
     if (value!==undefined) return value;
     if (this.parentConst==null || this.constType=="S" || this.constType=="SP")
         return undefined;
@@ -94,17 +93,54 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
+// return a pronoun corresponding to this object 
+// taking into account the current gender, number and person
+//  do not change the current pronoun, if it is already using the tonic form
+// if case_ is not given, return the tonic form else return the corresponding case
+// HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
+Constituent.prototype.getTonicPro = function(case_){
+    if (this.isA("Pro") && (this.props["tn"] || this.props["c"])){
+        if (case_!==undefined){
+            this.props["c"]=case_
+        } else { // ensure tonic form
+            this.props["tn"]="";
+            if ("c" in this.props)delete this.props["c"];
+        }
+        return this;
+    } else { // generate the string corresponding to the tonic form
+        let pro=Pro(this.isFr()?"moi":"me");
+        const g = this.getProp("g");
+        if (g!==undefined)pro.g(g);
+        const n = this.getProp("n");
+        if (n!==undefined)pro.n(n);
+        const pe = this.getProp("pe");
+        if (pe!==undefined)pro.pe(pe);
+        if (case_===undefined) return Pro(pro.toString()).tn("");
+        return Pro(pro.toString()).c(case_) // set nominative
+    }
+}
+
+Constituent.prototype.getParentLang = function(){
+    if (this.lang !== undefined) return this.lang;
+    if (this.parentConst === null) return currentLanguage;
+    return this.parentConst.getParentLang();
+}
+
+Constituent.prototype.addOptSource = function(optionName,val){
+    this.optSource+="."+optionName+"("+(val===undefined? "" :JSON.stringify(val))+")"
+}
+
 // Creation of "standard" options 
 function genOptionFunc(option,validVals,allowedConsts,optionName){
-    Constituent.prototype[option]=function(val){
+    Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
-                return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
-                                    "Option "+option+" sans valeur; devrait être une parmi ["+validVals+"]")
+                return this.warn("no value for option",option,validVals);
             }
             val=null;
         }
         if (this.isA("CP")){// propagate an option through the children of a CP
+            if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
                 if (allowedConsts.length==0 || e.isOneOf(allowedConsts)){
@@ -115,36 +151,39 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
         }
         if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
-                return this.warning("Option "+option+" with invalid value:"+val+" ignored",
-                                    "Option "+option+" avec une valeur invalide:"+val+" ignoré");
+                return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
             if (optionName===undefined)optionName=option;
             let current=this; 
-            if (!contains(["pro","cap","lier","ow"],optionName)){// follow the "agreement" links except for some options
-                while (current.agreesWith!==undefined)current=current.agreesWith;
-            }
-            current.prop[optionName]=val;
+            // follow the "agreement" links except for some options 
+            // finally it is not such a good idea as it does not work for all cases (e.g. tense)
+            // it is much simpler to set options to the "headword" and have the rest agree with it
+            // so it is commented out....
+            // if (!contains(["pro","cap","lier","ow"],optionName)){
+            //     while (current.agreesWith!==undefined)current=current.agreesWith;
+            // }
+            current.props[optionName]=val;
+            if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
-            return this.warning("Option "+option+" is applied to a "+this.constType+
-                                            " but it should be applied only on one of "+allowedConsts,
-                                "Option "+option+" appliquée à "+this.constType+
-                                            " qui ne peut être appliquée qu'à une de "+allowedConsts)
+            return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
 }
 
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S"]);  // composed tenses
-genOptionFunc("g",["m","f","n","x"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("n",["s","p"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","V","VP","S"]);
-genOptionFunc("f",["co","su"],["A","AP","Adv"]);
-genOptionFunc("aux",["av","êt","aê"],["V","VP"]);
+                   "pc", "pq", "cp", "fa", "spa", "spq"],["V"]);  // composed tenses
+genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
+genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
+genOptionFunc("f",["co","su"],["A","Adv"]);
+genOptionFunc("aux",["av","êt","aê"],["V"]);
+genOptionFunc("tn",["","refl"],["Pro"]);
+genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
-genOptionFunc("pos",["post","pre"],["A","AP"]);
-genOptionFunc("pro",undefined,["N","NP"]);
+genOptionFunc("pos",["post","pre"],["A"]);
+genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 
@@ -154,9 +193,10 @@ genOptionFunc("lier",undefined,[]);
 
 // creation of option lists
 function genOptionListFunc(option){
-    Constituent.prototype[option]=function(val){
-        if (this.prop[option] === undefined)this.prop[option]=[];
-        this.prop[option].push(val);
+    Constituent.prototype[option]=function(val,prog){
+        if (this.props[option] === undefined)this.props[option]=[];
+        this.props[option].push(val);
+        if(prog==undefined)this.addOptSource(option,val)
         return this;
     }
 }
@@ -169,14 +209,23 @@ genOptionListFunc("en");
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined)attrs="";
-    if (this.prop["tag"] === undefined)this.prop["tag"]=[];
-    this.prop["tag"].push([name,attrs]);
+    if (attrs === undefined || Object.keys(attrs).length==0){
+        this.addOptSource("tag",name)
+        attrs={};
+    } else {
+        this.optSource+=".tag('"+name+"',"+JSON.stringify(attrs)+")" // special case of addOptSource...
+    }
+    if (this.props["tag"] === undefined)this.props["tag"]=[];
+    this.props["tag"].push([name,attrs]);
     return this;
 }
 
-// date options
+// date and number options
 Constituent.prototype.dOpt = function(dOptions){
+    this.addOptSource("dOpt",dOptions)
+    if (typeof dOptions != "object"){
+        return this.warn("bad application",".dOpt","object",typeof dOptions)
+    }
     if (this.isA("DT")){
         const allowedKeys =["year" , "month" , "date" , "day" , "hour" , "minute" , "second" , "nat", "det", "rtime"];
         const keys=Object.keys(dOptions);
@@ -185,14 +234,12 @@ Constituent.prototype.dOpt = function(dOptions){
             if (allowedKeys.indexOf(key)>=0){
                 const val = dOptions[key];
                 if (typeof val == "boolean"){
-                    this.dateOpts[key]=val
+                        this.props["dOpt"][key]=val
                 } else {
-                    this.warning("dOpt: the value of "+key+" should be a boolean, not "+val,
-                                 "dOpt: la valeur de "+key+" devrait être booléenne, non "+val);
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val);
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt of DT",
-                             key+ "n'est pas une clé permise pour dOpt de DT");
+                return this.warn("ignored value for option","DT.dOpt",key)
             }
         }
     } else if (this.isA("NO")){
@@ -204,44 +251,77 @@ Constituent.prototype.dOpt = function(dOptions){
                 const val = dOptions[key]
                 if (key=="mprecision"){
                     if (typeof val == "number"){
-                        this.noOptions["mprecision"]=val
+                        this.props["dOpt"]["mprecision"]=val
                     } else {
-                        this.warning("mprecision should be a number, not "+val,
-                                     "mprecision devrait être un nombre, non "+val)
+                        return this.warn("bad application","precision","number",val)
                     }
                 } else if (typeof val =="boolean"){
-                    this.noOptions[key]=val
+                    this.props["dOpt"][key]=val
                 } else {
-                    this.warning(".dOpt("+key+") for NO should be boolean, not "+val,
-                                 ".dOpt("+key+") pour NO devrait être booléenne, non "+val)
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val)
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt for NO",
-                             key+ "n'est pas une clé valide pour dOpt de NO");
+                return this.warn("ignored value for option","NO.dOpt",key);
             }
         }
     } else {
-        this.warning(".dOpt should only be applied to a DT or a NO, not a "+this.constType,
-                     ".dOpt devrait être appliqué à un DT ou un NO, non à "+this.constType);
+        return this.warn("bad application",".dOpt",["DT","NO"],this.constType)
     }
     return this;
 }
 
 // number option
 Constituent.prototype.nat= function(isNat){
+    this.addOptSource("nat",isNat);
     if (this.isOneOf(["DT","NO"])){
-        const options=this.isA("DT")?this.dateOpts:this.noOptions;
+        const options=this.props["dOpt"];
         if (isNat === undefined){
             options.nat=false;
         } else if (typeof isNat == "boolean"){
             options.nat=isNat;
         } else {
-            this.warning("nat: the value of the argument should be a boolean, not "+isNat,
-                         "nat: la valeur du paramètre devrait être booléenne, non "+isNat);
+            return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        this.warning(".nat should only be applied to a DT or a NO, not a "+this.constType,
-                     ".nat devrait être appliqué à DT ou à NO, non un "+this.constType);
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
+    }
+    return this;
+}
+
+Constituent.prototype.typ = function(types){
+    const allowedTypes={
+      "neg": [false,true],
+      "pas": [false,true],
+      "prog":[false,true],
+      "exc": [false,true],
+      "perf":[false,true],
+      "contr":[false,true],
+      "mod": [false,"poss","perm","nece","obli","will"],
+      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
+    }
+    this.addOptSource("typ",types)
+    if (this.isOneOf(["S","SP","VP"])){
+        // validate types and keep only ones that are valid
+        for (let key in types) {
+            const val=types[key];
+            const allowedVals=allowedTypes[key];
+            if (allowedVals === undefined){
+                this.warn("unknown type",key,Object.keys(allowedTypes))
+            } else {
+                if (key == "neg" && this.isFr()){ // also accept string as neg value in French
+                    if (!contains(["string","boolean"],typeof val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
+                } else if (!contains(allowedVals,val)){
+                    this.warn("ignored value for option",".typ("+key+")",val)
+                    delete types[key]
+                }
+            }
+        }
+        this.props["typ"]=types;
+    } else {
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
 }
@@ -270,19 +350,19 @@ Constituent.prototype.verbAgreeWith = function(subject){
         }
     } else if (this.isA("V")){ // this is a V
         this.agreesWith=subject;
-    } else {
-        this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
-    }
+    } // else {
+    //     this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
+    // }
 }
 
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:
 //     1-possible non-word chars and optional html tags
-//     2-the real word
+//     2-the real word 
 //     3-the rest after the word  
 const sepWordREen=/((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
 
-function doElisionEn(cList){
+Constituent.prototype.doElisionEn = function(cList){
     //// English elision rule only for changing "a" to "an"
     // according to https://owl.english.purdue.edu/owl/resource/591/1/
     const hAnRE=/^(heir|herb|honest|honou?r(able)?|hour)/i;
@@ -290,24 +370,54 @@ function doElisionEn(cList){
     const uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
     const acronymRE=/^[A-Z]+$/
     const punctuationRE=/^\s*[,:\.\[\]\(\)\?]+\s*$/
-    
+    // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
+    const contractionEnTable={
+        "are+not":"aren’t", "can+not":"can’t", "did+not":"didn’t", "do+not":"don’t", "does+not":"doesn’t", 
+        "had+not":"hadn’t", "has+not":"hasn’t", "have+not":"haven’t", "is+not":"isn’t", "must+not":"mustn’t", 
+        "need+not":"needn’t", "should+not":"shouldn’t", "was+not":"wasn’t", "were+not":"weren’t", 
+        "will+not":"won’t", "would+not":"wouldn’t",
+        "let+us":"let’s",
+        "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
+        "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
+        "he+will":"he’ll", "he+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
+        "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
+        "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
+        "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",
+        "it+is":"it’s", "it+will":"it’ll", "it+had":"it’d", "it+would":"it’d",
+        "there+will":"there’ll", "there+is":"there’s", "there+has":"there’s", "there+have":"there’ve",
+        "that+is":"that’s", "that+had":"that’d", "that+would":"that’d", "that+will":"that’ll"
+    } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
     for (var i = 0; i < last; i++) {
-        var m1=sepWordREen.exec(cList[i].realization)
+        var m1=sepWordREfr.exec(cList[i].realization)
         if (m1 === undefined) continue;
-        var w1=m1[2]        
+        var m2=sepWordREfr.exec(cList[i+1].realization)
+        if (m2 === undefined) continue;
+        // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
+        // for a single word 
+        var w1=m1[2];
+        var w2=m2[2];
         if (w1=="a" && cList[i].isA("D")){
-            var m2=sepWordREen.exec(cList[i+1].realization);
-            if (m2 === undefined)continue;
-            var w2=m2[2];
             if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
-                (w2.charAt(0)=="u" && !uLikeYouRE.exec(w2)) || // u does not sound like you
+                (/^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
                 hAnRE.exec(w2) ||       // silent h
                 acronymRE.exec(w2)) {   // is an acronym
                     cList[i].realization=m1[1]+"an"+m1[3];
                     i++;                     // skip next word
                 }
+        } else if (this.contraction !== undefined && this.contraction === true) {
+            if (w1=="cannot"){ // special case...
+                cList[i].realization=m1[1]+"can't"+m1[3];
+            } else {
+                const contr=contractionEnTable[w1+"+"+w2];   
+                if (contr!=null) {
+                    // do contraction of first word and remove second word (keeping start and end)
+                    cList[i].realization=m1[1]+contr+m1[3];
+                    cList[i+1].realization=m2[1]+m2[3].trim();
+                    i++;
+                }
+            }
         }
     }
 }
@@ -316,7 +426,7 @@ function doElisionEn(cList){
 // const sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/i
 const sepWordREfr=/((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
 
-function doElisionFr(cList){
+Constituent.prototype.doElisionFr = function(cList){
     //// Elision rules for French
     // implements the obligatory elision rules of the "Office de la langue française du Québec"
     //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&t1=&id=1737
@@ -336,7 +446,7 @@ function doElisionFr(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
@@ -372,7 +482,8 @@ function doElisionFr(cList){
             i++;
         } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
             // check if the next word would be elidable, so instead elide it instead of contracting
-            if (elidableWordFrRE.exec(w2) && i+2<=last &&
+            // except when the next word is a date which has a "strange" realization
+            if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
             } else { // do contraction of first word and remove second word (keeping start and end)
@@ -387,13 +498,14 @@ function doElisionFr(cList){
 // applies to a list of Constituents (can be a single one)
 // adds either to the first or last token (which can be the same)
 Constituent.prototype.doFormat = function(cList){
-    const punctuation=rules["punctuation"];    
+    const punctuation=this.getRules()["punctuation"];
+    const lexicon=this.getLexicon()   
     
     function getPunctString(punct){
         const punc=lexicon[punct];
         if (punc !== undefined && punc["Pc"] !== undefined){
             const tab=punc["Pc"]["tab"][0];
-            const puncRule=rules["punctuation"][tab];
+            const puncRule=punctuation[tab];
             return puncRule["b"]+punct+puncRule["a"]
         }
         return punct // default return string as is
@@ -410,8 +522,8 @@ Constituent.prototype.doFormat = function(cList){
                 const tabBefore=tab[0];
                 const tabAfter=tab.length==2?tab[1]:
                                lexicon[compl]["Pc"]["tab"][0]; //get from table of compl 
-                const puncRuleBefore=rules["punctuation"][tabBefore];
-                const puncRuleAfter=rules["punctuation"][tabAfter];
+                const puncRuleBefore=punctuation[tabBefore];
+                const puncRuleAfter=punctuation[tabAfter];
                 return {"b":puncRuleBefore["b"]+before+puncRuleBefore["a"],
                         "a":puncRuleAfter["b"]+after+puncRuleAfter["a"]}
             }
@@ -425,44 +537,49 @@ Constituent.prototype.doFormat = function(cList){
         cList[cList.length-1].realization+=after;
     }
     function startTag(tagName,attrs){
-        let attString="";
-        if (attrs !== "") {
-            attString=Object.entries(attrs).map(
-                function(entry){return " "+entry[0]+'="'+entry[1]+'"'}).join("")
-        }
+        const attString=Object.entries(attrs).map(
+            function(entry){return " "+entry[0]+'="'+entry[1]+'"'}).join("")
         return "<"+tagName+attString+">";
     }
     
+    // remove possible empty realisation strings (often generated by D("a").n("p")) which can break elision
+    function removeEmpty(cList){
+        for (let i=0;i<cList.length;){
+            if (cList[i].realization=="")cList.splice(i,1)
+            else i++
+        }
+    }
+    
     // start of processing
-    
+    removeEmpty(cList);
     if (this.isFr())
-        doElisionFr(cList);
+        this.doElisionFr(cList);
     else 
-        doElisionEn(cList);
+        this.doElisionEn(cList);
     
-    const cap = this.prop["cap"];
+    const cap = this.props["cap"];
     if (cap !== undefined && cap !== false){
         const r=cList[0].realization;
         if (r.length>0){
             cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
         }
     }
-    const as = this.prop["a"];
+    const as = this.props["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getPunctString(a))})
     }
-    const bs = this.prop["b"];
+    const bs = this.props["b"];
     if (bs !== undefined){
         bs.forEach(function(b){wrapWith(getPunctString(b),"")})
     }
-    const ens = this.prop["en"];
+    const ens = this.props["en"];
     if (ens !== undefined){
         ens.forEach(function(en){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
         })
     }
-    const tags=this.prop["tag"];
+    const tags=this.props["tag"];
     if (tags !== undefined) {
         tags.forEach(function(tag){
             const attName=tag[0];
@@ -481,7 +598,7 @@ Constituent.prototype.detokenize = function(terminals){
     if (last<0) return s;
     for (let i = 0; i < last; i++) {
         const terminal=terminals[i];
-        if (terminal.prop["lier"]!== undefined){
+        if (terminal.props["lier"]!== undefined){
             s+=terminal.realization+"-";
         } else if (/[- ']$/.exec(terminal.realization)){
             s+=terminal.realization;
@@ -494,7 +611,7 @@ Constituent.prototype.detokenize = function(terminals){
     if (this.parentConst==null){
         if (this.constType=="S" && s.length>0){ // if it is a top-level S
             // force a capital at the start unless .cap(false)
-            if (this.prop["cap"]!== false){
+            if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
@@ -512,11 +629,12 @@ Constituent.prototype.detokenize = function(terminals){
     return s;
 }
 
+//// ******* this seemingly simple function is in fact the start
+//           of the whole realization process
 // produce a string from a list of realization fields in the list of terminal
 //   created by .real(), applies elision if it is the top element
 Constituent.prototype.toString = function() {
-    // this launches the whole realization process which forces 
-    // the creation of the realization field in each Terminal
+    // sets the realization field in each Terminal
     const terminals=this.real(); 
     return this.detokenize(terminals);
 }
@@ -525,60 +643,25 @@ Constituent.prototype.clone = function(){
     return eval(this.toSource());
 }
 
-// create the source for the options from the properties
-Constituent.prototype.toSource = function(){
-    let res="";
-    let typs=[];
-    Object.entries(this.prop).forEach(
-        function (e) {
-            const key=e[0];
-            let val=e[1];
-            switch (key){
-            case "tag": // special case of HTML tag
-                val.forEach(
-                    function (tagE){
-                        res+=".tag("+quote(tagE[0])
-                        if(tagE[1]!="")res+=","+JSON.stringify(tagE[1])
-                        res+=")";
-                    }
-                )
-                break;
-            // options to be combined in a single .typ
-            case "neg": case"pas": case "prog": case "perf": case "exc":case "mod": case "int": 
-                if (val===false)break;
-                if (val!==true)val=quote(val);
-                typs.push(key+":"+val);
-                break;
-            case "h": case "cod": case "neg2":// option to ignore
-                break;
-            case "own": // internal option name differs from external one... 
-                res+=".ow("+quote(val)+")";
-                break;
-            default: // standard option but ignoring default values
-                if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (val == null) {
-                        res+="."+key+"()"
-                    } else if (typeof val === "object"){
-                        val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
-                    } else {
-                        res+="."+key+"("+quote(val)+")";
-                    }
-                }
-            }
-        }
-    )
-    return res+(typs.length==0?"":(".typ({"+typs.join()+"})"));
-}/**
+Constituent.prototype.toSource=function(){
+    return this.optSource;
+}
+/**
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
+"use strict";
 
 ////// Constructor for a Phrase (a subclass of Constituent)
 
 // phrase (non-terminal)
-function Phrase(elements,constType){
+function Phrase(elements,constType,lang){
     Constituent.call(this,constType); // super constructor
+    this.lang = lang || currentLanguage;
     this.elements=[];
+    // list of elements to create the source of the parameters at the time of the call
+    // this can be different from the elements lists because of structure modifications
+    this.elementsSource=[]
     if (elements.length>0){
         const last=elements.length-1;
         // add all elements except the last to the list of elements
@@ -587,45 +670,56 @@ function Phrase(elements,constType){
             if (typeof e=="string"){
                 e=Q(e);
             }
-            e.parentConst=this;
-            this.elements.push(e);
+            if (e instanceof Constituent) {
+                e.parentConst=this;
+                this.elements.push(e);
+                this.elementsSource.push(e);
+            } else {
+                this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"")
+            }
         }
         // terminate the list with add which does other checks on the final list
-        this.add(elements[last],undefined)
+        this.add(elements[last],undefined,true)
     }
 }
 extend(Constituent,Phrase)
 
 // add a new constituent, set agreement links
-Phrase.prototype.add = function(constituent,position){
+Phrase.prototype.add = function(constituent,position,prog){
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
+    }
+    if (!(constituent instanceof Constituent)){
+        return this.warn("bad Constituent",this.isFr()?"dernier":"last")
+    }
+    if (prog===undefined){// real call to .add 
+        this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
+    } else {
+        this.elementsSource.push(constituent) // call from the constructor        
     }
     constituent.parentConst=this;
     // add it to the list of elements
     if (position == undefined){
         this.elements.push(constituent);
-    } else if (position<this.elements.length || position>=0){
+    } else if (typeof position == "number" && position<this.elements.length || position>=0){
         this.elements.splice(position,0,constituent)
     } else {
-        warning("Bad position for .add:"+position+"should be less than "+this.elements.length)
+        this.warn("bad position",position,this.elements.length)
     }
-    // change content or content position of some children
+    // change position of some children
     this.setAgreementLinks();
     for (let i = 0; i < this.elements.length; i++) {
         const e=this.elements[i];
         if (e.isA("A")){// check for adjective position
             const idx=this.getIndex("N");
-            const pos=this.isFr()?(e.prop["pos"]||"post"):"pre"; // all English adjective are pre
+            const pos=this.isFr()?(e.props["pos"]||"post"):"pre"; // all English adjective are pre
             if (idx >= 0){
                 if ((pos=="pre" && i>idx)||(pos=="post" && i<idx)){
                     const adj=this.elements.splice(i,1)[0];
                     this.elements.splice(idx,0,adj);
                 }
             }
-        } else if (e.isA("NP") && e.prop["pro"]!==undefined){
-            e.pronominalize()
         }
     }
     return this;
@@ -653,9 +747,9 @@ Phrase.prototype.setAgreementLinks = function(){
             }
         }
         if (noConst !== undefined && this.agreesWith !== undefined){// there was a NO in the S
-            this.agreesWith.prop["n"]=noConst.grammaticalNumber(); 
+            this.agreesWith.props["n"]=noConst.grammaticalNumber(); 
             // gender agreement between a French number and subject
-            noConst.prop["g"]=this.agreesWith.getProp("g"); 
+            noConst.g=this.agreesWith.getProp("g"); 
         }
         //   set agreement between the subject of a subordinate or the object of a subordinate
         const pro=this.getFromPath(["SP","Pro"]);
@@ -666,7 +760,7 @@ Phrase.prototype.setAgreementLinks = function(){
                 // in French past participle can agree with a cod appearing before... keep that info in case
                 const v=pro.parentConst.getFromPath(["VP","V"]);
                 if (v !=undefined){
-                    v.prop["cod"]=this
+                    v.cod=this
                 }
             }
         }
@@ -729,7 +823,7 @@ Phrase.prototype.setAgreementLinks = function(){
                         } else {
                             for (var i=vpvIdx+1;i<elems.length;i++){
                                 var pp=elems[i];
-                                if (pp.isA("V") && pp.prop["t"]=="pp"){
+                                if (pp.isA("V") && pp.props["t"]=="pp"){
                                     pp.agreesWith=subject;
                                     break;
                                 }
@@ -755,7 +849,7 @@ Phrase.prototype.setAgreementLinks = function(){
                         if (sppro !== undefined && sppro.lemma=="que"){
                             var v=sp.getFromPath([["VP",""],"V"]);
                             if (v!==undefined){
-                                v.prop["cod"]=cp;
+                                v.cod=cp;
                             }
                         }
                     }
@@ -825,56 +919,138 @@ Phrase.prototype.findGenderNumber = function(andCombination){
 // Phrase structure modification but that must be called in the context of the parentConst
 // because the pronoun depends on the role of the NP in the sentence 
 //         and its position can also change relatively to the verb
-Phrase.prototype.pronominalize = function(){
-    if (this.isA("NP")){
-        const npParent=this.parentConst
-        let proS,idxV=-1;
-        if (npParent!==null){
-            const myself=this;
-            const idxNP=npParent.elements.findIndex(e => e==myself,this);
-            if (this==npParent.agreesWith){// is subject 
-                proS=this.isFr()?"je":"I";
-            } else if (npParent.isA("PP")){ // is indirect complement
-                proS=this.isFr()?"je":"I";
+Phrase.prototype.pronominalize_fr = function(){
+    let pro;
+    const npParent=this.parentConst;
+    if (npParent!==null){
+        let idxV=-1;
+        let myself=this;
+        let idx=npParent.elements.findIndex(e => e==myself,this);
+        let moveBeforeVerb=false;
+        idxV=npParent.getIndex("V");
+        if (this.isA("NP")){
+            if (this==npParent.agreesWith){ // is subject 
+                pro=this.getTonicPro("nom");
             } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
-                proS=this.isFr()?"je":"I";
+                pro=this.getTonicPro("nom");
             } else {
-                proS=this.isFr()?"le":"me"; // is direct complement;
-                idxV=npParent.getIndex("V");
+                pro=this.getTonicPro("acc") // is direct complement;
+                moveBeforeVerb=true;
+            }               
+        } else if (this.isA("PP")){ // is indirect complement
+            const np=this.getFromPath([["NP","Pro"]]); // either a NP or Pro within the PP
+            const prep=this.getFromPath(["P"]);
+            if (prep !== undefined && np !== undefined){
+                if (prep.lemma == "à"){
+                    pro=np.getTonicPro("dat");
+                    moveBeforeVerb=true;
+                } else if (prep.lemma == "de") {
+                    pro=Pro("en")
+                    moveBeforeVerb=true;
+                } else if (contains(["sur","vers","dans"],prep.lemma)){
+                    pro=Pro("y")
+                    moveBeforeVerb=true;
+                } else { // change only the NP within the PP
+                    let pro=np.getTonicPro();
+                    pro.props=np.props;
+                    pro.agreesWith=np.agreesWith;
+                    np.elements=[pro];
+                    return 
+                }
             }
-            const pro=Pro(proS);
-            pro.agreesWith=this.agreesWith;
-            pro.prop=this.prop;
-            if (this==npParent.agreesWith){
-                npParent.agreesWith=pro
-            }
-            if (this.isFr() && proS=="le" && 
-                // in French a pronominalized NP as direct object is moved before the verb
-                idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
-                npParent.elements.splice(idxNP,1);   // remove NP
-                npParent.elements[idxV].prop["cod"]=this;
-                npParent.elements.splice(idxV,0,pro);// insert pronoun before the V
-            } else {
-                npParent.elements.splice(idxNP,1,pro);// insert pronoun where the NP was
-            }
-            pro.parentConst=npParent;
-        } else {// special case without parentConst so we leave the NP and change its elements
-            var pro=Pro(this.isFr()?"je":"I");
-            prop.prop=this.prop;
-            pro.agreesWith=this.agreesWith;
-            this.elements=[pro];
         }
-    } else {
-        this.warning(".pro() should be applied only to an NP, not a"+this.constType,
-                     ".pro() ne devrait être appliqué qu'à un NP, non un "+this.constType)
+        if (pro === undefined){
+            return npParent.warn("no appropriate pronoun");
+        }
+        // pro.agreesWith=this.agreesWith;
+        pro.agreesWith=this
+        Object.assign(pro.props,this.props);
+        delete pro.props["pro"]; // this property should not be copied into the Pro
+        if (this==npParent.agreesWith){
+            npParent.agreesWith=pro
+        }
+        if (moveBeforeVerb && 
+            // in French a pronominalized NP as direct object is moved before the verb
+            idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
+            npParent.elements.splice(idx ,1);   // remove NP
+            if (this.isA("NP")) // indicate that this is a COD
+                npParent.elements[idxV].cod=this;
+            npParent.elements.splice(idxV,0,pro);// insert pronoun before the V
+        } else {
+            npParent.elements.splice(idx,1,pro);// insert pronoun where the NP was
+        }
+        pro.parentConst=npParent;
+    } else {// special case without parentConst so we leave the NP and change its elements
+        pro=this.getTonicPro();
+        pro.props=this.props;
+        pro.agreesWith=this.agreesWith;
+        this.elements=[pro];
+    }
+    return pro;
+}
+
+// Pronominalization in English only applies to a NP (this is checked before the call)
+//  and does not need reorganisation of the sentence 
+//  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
+Phrase.prototype.pronominalize_en = function(){
+    let pro;
+    const npParent=this.parentConst;
+    if (npParent!==null){
+        let idxV=-1;
+        let myself=this;
+        let idx=npParent.elements.findIndex(e => e==myself,this);
+        let moveBeforeVerb=false;
+        idxV=npParent.getIndex("V");
+        if (this==npParent.agreesWith){ // is subject 
+            pro=this.getTonicPro("nom");
+        } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
+            pro=this.getTonicPro("nom");
+        } else {
+            pro=this.getTonicPro("acc") // is direct complement;
+        }               
+        pro.agreesWith=this.agreesWith;
+        Object.assign(pro.props,this.props);
+        if (this==npParent.agreesWith){
+            npParent.agreesWith=pro
+        }
+        npParent.elements.splice(idx,1,pro);// insert pronoun where the NP was
+        pro.parentConst=npParent;
+    } else {// special case without parentConst so we leave the NP and change its elements
+        pro=this.getNomPro();
+        pro.props=this.props;
+        pro.agreesWith=this.agreesWith;
+        this.elements=[pro];
+    }
+    return pro;
+}
+
+Phrase.prototype.pronominalize = function(e){
+    if (e.props["pro"]!==undefined){
+        if (e.isFr()){
+            return e.pronominalize_fr()
+        } else { // in English pronominalize only applies to a NP
+            if (e.isA("NP")){
+                return  e.pronominalize_en()
+            } else {
+                return this.warn("bad application",".pro",["NP"],this.constType)
+            }
+        }
+    }    
+}
+
+// check if any child should be pronominalized
+// this must be done in the context of the parent, because some elements might be changed
+Phrase.prototype.pronominalizeChildren = function(){
+    let es=this.elements;
+    for (let i = 0; i < es.length; i++) {
+        this.pronominalize(es[i]);
     }
 }
+
 
 // modify the sentence structure to create a passive sentence
 Phrase.prototype.passivate = function(){
     let subject,vp,newSubject;
-    const nominative=this.isFr()?"je":"I";
-    const accusative=this.isFr()?"moi":"me";
     // find the subject at the start of this.elements
     if (this.isA("VP")){
         subject=null;
@@ -885,29 +1061,28 @@ Phrase.prototype.passivate = function(){
             if (this.elements.length>0 && this.elements[0].isOneOf(["N","NP","Pro"])){
                 subject=this.elements.shift();
                 if (subject.isA("Pro")){
-                    if (subject.lemma==nominative)subject.setLemma(accusative);
-                    else if (subject.lemma==accusative)subject.setLemma(nominative); 
+                    // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
+                    subject=subject.getTonicPro();
                 }
             } else {
                 subject=null;
-                n=vp.getProp("n"); // useful for French imperative
             }
         } else {
-            return this.warning("Phrase.passivate: no VP found",
-                                "Phrase.passivate: aucun VP trouvé")
+            return this.warn("not found","VP",this.isFr()?"contexte passif":"passive context")
         }
     }
     // remove object (first NP or Pro within VP) from elements
     if (vp !== undefined) {
         let objIdx=vp.getIndex(["NP","Pro"]);
         if (objIdx>=0){
-            var obj=vp.elements.splice(objIdx,1)[0]; // splice returns [obj]
+            let obj=vp.elements.splice(objIdx,1)[0]; // splice returns [obj]
             if (obj.isA("Pro")){
+                obj=obj.getTonicPro("nom");
                 if (objIdx==0){// a French pronoun inserted by .pro()
-                    obj.setLemma(nominative);  // make the new subject nominative
                     objIdx=vp.getIndex("V")+1 // ensure that the new object will appear after the verb
-                } else 
-                    if (obj.lemma==accusative)obj.setLemma(nominative);
+                }
+            } else if (obj.isA("NP") && obj.props["pro"]!==undefined){
+                obj=obj.getTonicPro("nom");
             }
             // swap subject and obj
             newSubject=obj;
@@ -922,11 +1097,11 @@ Phrase.prototype.passivate = function(){
             newSubject=subject;
             if (subject.isA("Pro")){
                 // the original subject at nominative will be reinserted below!!!
-                subject.setLemma(nominative);
+                subject=subject.getTonicPro("nom");
             } else { 
                 //create a dummy subject with a "il" unless it is at the imperative tense
                 if (vp.getProp("t")!=="ip"){
-                    subject=Pro(nominative).g(this.isFr()?"m":"n").n("s").pe(3);
+                    subject=(this.isFr()?Pro("lui"):Pro("it")).c("nom");
                 }
             }
             this.elements.unshift(subject);
@@ -939,7 +1114,11 @@ Phrase.prototype.passivate = function(){
             const verbe=vp.elements.splice(verbeIdx,1)[0];
             const aux=V("être").t(verbe.getProp("t"));
             aux.parentConst=vp;
-            aux.prop=verbe.prop;
+            aux.props=verbe.props;
+            aux.pe(3); // force person to be 3rd (number and tense will come from the new subject)
+            if (vp.getProp("t")=="ip"){
+                aux.t("s") // set subjonctive present tense for an imperative
+            }
             aux.agreesWith=newSubject;
             const pp = V(verbe.lemma).t("pp");
             pp.agreesWith=newSubject;
@@ -947,8 +1126,7 @@ Phrase.prototype.passivate = function(){
             vp.elements.splice(verbeIdx,0,aux,pp);
         }
     } else {
-        this.warning("Phrase.passivate: no VP found",
-                     "Phrase.passivate: aucun VP trouvé");
+        return this.warn("not found","VP",isFr()?"contexte passif":"passive context")
     }
 }
 
@@ -970,13 +1148,12 @@ Phrase.prototype.processVP = function(types,key,action){
             const idxVP=this.getIndex(["VP"]);
             if (idxVP >=0 ) {vp=this.elements[idxVP]}
             else {
-                this.warning('.typ("'+key+":"+val+'") without VP',
-                             '.typ("'+key+":"+val+'") sans VP');
+                this.warn("bad const for option",'.typ("'+key+":"+val+'")',this.constType,["VP"])
                 return;
             }
         }
         const idxV=vp.getIndex("V");
-        if(idxV!==undefined){
+        if (idxV!==undefined){
             const v=vp.elements[idxV];
             action(vp,idxV,v,val);
         }
@@ -985,29 +1162,41 @@ Phrase.prototype.processVP = function(types,key,action){
 
 Phrase.prototype.processTyp_fr = function(types){
     // process types in a particular order
+    let rules=this.getRules();
     this.processVP(types,"prog",function(vp,idxV,v){
-        vp.elements.splice(idxV+1,0,Q("en train de"),V(v.lemma).t("b"));
-        v.setLemma("être");
+        const verb=vp.elements.splice(idxV,1)[0];
+        const origLemma=verb.lemma;
+        verb.setLemma("être");// change verb, but keep person, number and tense properties of the original...
+        // insert "en train","de" (separate so that élision can be done...) 
+        // but do it BEFORE the pronouns created by .pro()
+        let i=idxV-1;
+        while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].agreesWith!==undefined)i--;
+        vp.elements.splice(i+1,0,verb,Q("en train"),Q("de"));
+        vp.elements.splice(idxV+3,0,V(origLemma).t("b"));
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
         var vUnit=v.lemma;
-        for (key in rules.verb_option.modalityVerb){
+        for (var key in rules.verb_option.modalityVerb){
             if (key.startsWith(mod)){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
                 break;
             }
         }
-        vp.elements.splice(idxV+1,0,V(vUnit).t("b"));
+        let i=idxV-1;
+        // move the modality verb before the pronoun(s) inserted by .pro()
+        while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].agreesWith!==undefined)i--;
+        if (i!=idxV-1){
+            const modVerb=vp.elements.splice(idxV,1)[0]; // remove the modality verb
+            vp.elements.splice(i+1,0,modVerb); // move it before the pronouns
+        }
+        vp.elements.splice(idxV+1,0,V(vUnit).t("b"));// add the original verb at infinitive 
     });
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
-        v.prop["neg2"]=neg; // HACK: to be used when conjugating at the realization time
-        // insert "ne" before the verb or before a possible pronoun preceding the verb
-        if (idxV>0 && vp.elements[idxV-1].isA("Pro")){
-            vp.elements.splice(idxV-1,0,Adv("ne"));
-        } else {
-            vp.elements.splice(idxV,0,Adv("ne"));
-        }
+        v.neg2=neg; // HACK: to be used when conjugating at the realization time
+        while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
+        // insert "ne" before the verb or before possible pronouns preceding the verb
+        vp.elements.splice(idxV,0,Adv("ne"));
     })
 }
 
@@ -1022,15 +1211,13 @@ Phrase.prototype.processTyp_en = function(types){
     if (this.isA("VP")){vp=this}
     else {
         const idxVP=this.getIndex(["VP"]);
-        if (idxVP !==undefined) {vp=this.elements[idxVP]}
+        if (idxVP>=0) {vp=this.elements[idxVP]}
         else {
-            this.warning('.typ("'+key+'") without VP',
-                         '.typ("'+key+'") sans VP');
-            return;
+            return this.warn("bad const for option",'.typ('+JSON.stringify(types)+')',this.constType,["VP"])
         }
     }
     const idxV=vp.getIndex("V");
-    if(idxV!==undefined){
+    if(idxV>=0){
         let v = vp.elements[idxV];
         const pe = this.getProp("pe");
         const g=this.getProp("g");
@@ -1052,7 +1239,11 @@ Phrase.prototype.processTyp_en = function(types){
         const pas =types["pas"]!==undefined && types["pas"]!==false;
         const interro = types["int"];
         const modality=types["mod"];
-        const compound = rules.compound;
+        if (types["contr"]!==undefined && types["contr"]!==false){
+            vp.contraction=true; // necessary because we want the negation to be contracted within the VP before the S or SP
+            this.contraction=true;
+        }
+        const compound = this.getRules().compound;
         if (modality !== undefined && modality !== false){
             auxils.push(compound[modality].aux);
             affixes.push("b");
@@ -1086,12 +1277,13 @@ Phrase.prototype.processTyp_en = function(types){
         // realise the first verb, modal or auxiliary
         v=auxils.shift();
         let words=[];
+        // conjugate the first verb
         if (neg) { // negate the first verb
             if (v in negMod){
-                if (v=="can"){
+                if (v=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(v).t("b"))
+                    words.push(V(v).pe(1).n(n).t(t))
                     words.push(Adv("not"))
                 }
             } else if (v=="be" || v=="have") {
@@ -1102,7 +1294,7 @@ Phrase.prototype.processTyp_en = function(types){
                 words.push(Adv("not"));
                 if (v != "do") words.push(V(v).t("b")); 
             }
-        } else // conjugate the first verb
+        } else 
             words.push(V(v).pe(v in negMod?1:pe).n(n).t(t));
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
@@ -1113,11 +1305,11 @@ Phrase.prototype.processTyp_en = function(types){
         words.forEach(function(w){w.parentConst=vp});
         Array.prototype.splice.apply(vp.elements,[idxV,1].concat(words));
     } else {
-        this.warning("no V found in a VP",
-                     "aucun V trouvé dans un VP")
+        this.warn("not found","V","VP")
     }
 }
 
+// get elements of the constituent cst2 within the constituent cst1
 Phrase.prototype.getIdxCtx = function(cst1,cst2){
     if (this.isA(cst1)){
         var idx=this.getIndex(cst2)
@@ -1133,108 +1325,96 @@ Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
-            var idxCtx=this.getIdxCtx("VP","V");
+            let idxCtx=this.getIdxCtx("VP","V");
             if (idxCtx!==undefined){
-                var aux=idxCtx[1].splice(0,1)[0]; // remove first V
-                this.elements.splice(0,0,aux);
+                let vpElems=idxCtx[1]
+                const v=vpElems.splice(0,1)[0]; // remove first V
+                // check if V is followed by a negation, if so move it also
+                if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
+                    const not=vpElems.splice(0,1)[0]
+                    this.elements.splice(0,0,v,not)
+                } else {
+                    this.elements.splice(0,0,v);
+                }
             }
         }
     }
 }
 
-// modify sentence structure according to the content of the .typ(...) option
-Phrase.prototype.typ = function(types){
-    const allowedTypes={
-      "neg": [false,true],
-      "pas": [false,true],
-      "prog":[false,true],
-      "exc": [false,true],
-      "perf":[false,true],
-      "mod": [false,"poss","perm","nece","obli","will"],
-      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
-     }
-    if (this.isOneOf(["S","SP","VP"])){
-        // validate types and keep only ones that are valid
-        const entries=Object.entries(types);
-        for (let i = 0; i < entries.length; i++) {
-            const key=entries[i][0];
-            const val=entries[i][1];
-            const allowedVals=allowedTypes[key];
-            if (allowedVals===undefined){
-                if (!(key=="neg" && typeof val == "string")){
-                    this.warning(key+" is not allowed as key of .typ",
-                                 key+" n'est pas accepté comme clé de .typ");
-                    delete types[key]
-                }
-            }
-        }
-        if (types["pas"]!==undefined && types["pas"]!== false){
-            this.passivate()
-        }
-        if (this.isFr()){
-            this.processTyp_fr(types) 
-        } else { 
-            this.processTyp_en(types) 
-        }
-        const int=types["int"];
-        if (int !== undefined && int !== false){
-            const sentenceTypeInt=rules.sentence_type.int;
-            const prefix=sentenceTypeInt.prefix;
-            switch (int) {
-            case "yon": case "whe": case "why": case "whn": case "how": case "muc":
-                    this.moveAuxToFront()
-                break;
-            // remove a part of the sentence 
-            case "wos":// remove subject (first NP,N, Pro or SP)
-                if (this.isOneOf(["S","SP"])){
-                    const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                    if (subjIdx!==undefined){
-                        this.elements.splice(subjIdx,1);
-                        // insure that the verb at the third person singular, 
-                        // because now the subject has been removed
-                        const v=this.getFromPath(["VP","V"])
-                        if (v!==undefined){
-                            v.prop["n"]="s";
-                            v.prop["pe"]=3;
-                        }
-                    }
-                }
-                break;
-            case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
-                if (this.isOneOf(["S","SP"])){
-                    this.moveAuxToFront();
-                    const objIdxCtx=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
-                    if (objIdxCtx!==undefined){
-                        objIdxCtx[1].splice(objIdxCtx[0],1);
-                    }
-                }
-                break;
-            case "woi": // remove direct object (first PP in the first VP)
-                if (this.isOneOf(["S","SP"])){
-                    this.moveAuxToFront();
-                    const objIdxCtx=this.getIdxCtx("VP","PP");
-                    if (objIdxCtx!==undefined){
-                        objIdxCtx[1].splice(objIdxCtx[0],1);
-                    }
-                }
-                break;
-            default:
-                this.warning(int+" interrogative type not implemented",
-                             int+" type d'interrogative non implanté")
-            }
-            if(this.isFr() || int !="yon") // add the interrogative prefix
-                this.elements.splice(0,0,Q(prefix[int]));
-            this.a(sentenceTypeInt.punctuation);
-        }    
-        const exc=types["exc"];
-        if (exc !== undefined && exc === true){
-            this.a(rules.sentence_type.exc.punctuation);
-        }
-    } else {
-        this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
-                     ".typ("+JSON.stringify(types)+") appliqué à un "+this.constType+ " devrait être S, SP or VP");
+// modify sentence structure according to the content of the "typ" property
+Phrase.prototype.processTyp = function(types){
+    if (types["pas"]!==undefined && types["pas"]!== false){
+        this.passivate()
     }
-    return this;
+    if (this.isFr()){
+        if (types["contr"]!==undefined && types["contr"]!==false){
+            this.warn("no French contraction")
+        }
+        this.processTyp_fr(types) 
+    } else { 
+        this.processTyp_en(types) 
+    }
+    const int=types["int"];
+    if (int !== undefined && int !== false){
+        const sentenceTypeInt=this.getRules().sentence_type.int;
+        const prefix=sentenceTypeInt.prefix;
+        switch (int) {
+        case "yon": case "whe": case "why": case "whn": case "how": case "muc":
+                this.moveAuxToFront()
+            break;
+        // remove a part of the sentence 
+        case "wos":// remove subject (first NP,N, Pro or SP)
+            if (this.isOneOf(["S","SP"])){
+                const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
+                if (subjIdx!==undefined){
+                    this.elements.splice(subjIdx,1);
+                    // insure that the verb at the third person singular, 
+                    // because now the subject has been removed
+                    const v=this.getFromPath(["VP","V"])
+                    if (v!==undefined){
+                        v.props["n"]="s";
+                        v.props["pe"]=3;
+                    }
+                }
+            }
+            break;
+        case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
+            if (this.isOneOf(["S","SP"])){
+                this.moveAuxToFront();
+                const objIdxCtx=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
+                if (objIdxCtx!==undefined){
+                    objIdxCtx[1].splice(objIdxCtx[0],1);
+                }
+            }
+            break;
+        case "woi": // remove direct object (first PP in the first VP)
+            if (this.isOneOf(["S","SP"])){
+                this.moveAuxToFront();
+                const objIdxCtx=this.getIdxCtx("VP","PP");
+                if (objIdxCtx!==undefined){
+                    objIdxCtx[1].splice(objIdxCtx[0],1);
+                }
+            }
+            break;
+        default:
+            this.warn("not implemented","int:"+int)
+        }
+        if(this.isFr() || int !="yon") {// add the interrogative prefix
+            // separate the last "que" so that it can be elided
+            const pref=prefix[int];
+            if (/ qu(e|i)$/.test(pref)){
+                this.elements.splice(0,0,Q(pref.substr(0,pref.length-4)),Q(pref.substr(pref.length-3)));
+            } else {
+                this.elements.splice(0,0,Q(pref));
+            }
+        }
+        this.a(sentenceTypeInt.punctuation,true);
+    }    
+    const exc=types["exc"];
+    if (exc !== undefined && exc === true){
+        this.a(this.getRules().sentence_type.exc.punctuation,true);
+    }
+    return this;   
 }
 
 ////////////////// Realization
@@ -1242,55 +1422,67 @@ Phrase.prototype.typ = function(types){
 //  special case of realisation of a cp for which the gender and number must be computed
 //    at realization time...
 
-Phrase.prototype.cpReal = function(res){
+Phrase.prototype.cpReal = function(){
+    var res=[];
     // realize coordinated Phrase by adding ',' between elements except the last
+    // if no C is found then all elements are separated by a ","
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})
     var last=elems.length-1;
-    // compute the combined gender and number of the coordination
-    if(idxC >= 0 ){
-        // var c=this.elements.splice(idxC,1)[0]
-        var c=this.elements[idxC]
-        var and=this.isFr()?"et":"and";
-        var gn=this.findGenderNumber(c.lemma==and)
-        this.prop["g"]=gn.g;
-        this.prop["n"]=gn.n;
-    }            
+    if (elems.length==0){// empty coordinate (ignore)
+        return this.doFormat(res)
+    }
     if (last==0){// coordination with only one element, ignore coordinate
         Array.prototype.push.apply(res,elems[0].real());
+        return this.doFormat(res); // process format for the CP
+    }
+    // compute the combined gender and number of the coordination
+    let c;
+    if(idxC >= 0 ){
+        c=this.elements[idxC]
+        var and=this.isFr()?"et":"and";
+        var gn=this.findGenderNumber(c.lemma==and)
+        this.props["g"]=gn.g;
+        this.props["n"]=gn.n;
     } else {
-        for (let j = 0; j < last; j++) { //insert comma after each element
-            const ej=elems[j];
-            if (j<last-1 && 
-                (ej.prop["a"] === undefined || !contains(ej.prop["a"],",")))
-                    ej.prop["a"]=[","]
-            Array.prototype.push.apply(res,ej.real())
-        }
-        // insert realisation of C before last...
-        if(idxC>=0)
-            Array.prototype.push.apply(res,this.elements[idxC].real());
+        last++; // no coordinate, process all with the following loop 
+    }            
+    for (let j = 0; j < last; j++) { //insert comma after each element
+        const ej=elems[j];
+        if (j<last-1 && 
+            (ej.props["a"] === undefined || !contains(ej.props["a"],",")))
+                ej.props["a"]=[","]
+        Array.prototype.push.apply(res,ej.real())
+    }
+    // insert realisation of C before last...
+    if(idxC>=0){
+        Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
     }
-    this.doFormat(res); // process format for the CP   
+    return this.doFormat(res); // process format for the CP
 }
 
 // special case of VP for which the complements are put in increasing order of length
-Phrase.prototype.vpReal = function(res){
+Phrase.prototype.vpReal = function(){
+    var res=[];
     function realLength(terms){
         // sum the length of each realization and add the number of words...
-        return terms.map(t=>t.realization.length).reduce((a,b)=>a+b,0)+terms.length
+        //  use the lemma length (instead of realization) 
+        // so that html tags and punctuation are not taken into the count
+        return terms.map(t=>t.lemma.length).reduce((a,b)=>a+b,0)+terms.length
     }
+    this.pronominalizeChildren();
     // get index of last V (to take into account possible auxiliaries)
     const last=this.elements.length-1;
-    vIdx=last;
+    var vIdx=last;
     while (vIdx>=0 && !this.elements[vIdx].isA("V"))vIdx--;
     // copy everything up to the V (included)
     if (vIdx<0)vIdx=last;
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
-        else if (this.elements[vIdx].lemma=="être") { // do not rearrange complements of être
+        else if (contains(["être","be"],this.elements[vIdx].lemma)) { // do not rearrange complements of être/be
             vIdx=last 
         }
     } 
@@ -1300,8 +1492,7 @@ Phrase.prototype.vpReal = function(res){
         i++;
     }
     if (i>last) {
-        this.doFormat(res); // process format for the VP
-        return
+        return this.doFormat(res); // process format for the VP
     }
     // save all succeeding realisations
     let reals=[]
@@ -1310,28 +1501,38 @@ Phrase.prototype.vpReal = function(res){
         i++;
     }
     // sort realisations in increasing length
-    reals.sort(function(s1,s2){return realLength(s1)-realLength(s2)})
+    // HACK: consider two lengths differing by less than 25% (ratio > 0.75) as equal, 
+    //       so that only big differences in length are reordered
+    reals.sort(function(s1,s2){
+        const l1=realLength(s1),l2=realLength(s2);
+        return Math.min(l1,l2)/Math.max(l1,l2)>0.75?0:l1-l2
+    });
     reals.forEach(r=>Array.prototype.push.apply(res,r)); // add them
-    this.doFormat(res) // process format for the VP
+    return this.doFormat(res) // process format for the VP
 }
 
 // creates a list of Terminal each with its "realization" field now set
 Phrase.prototype.real = function() {
     let res=[];
     if (this.isA("CP")){
-        this.cpReal(res)
+        res=this.cpReal()
     } else {
-        const es=this.elements;    
+        this.pronominalizeChildren();
+        const typs=this.props["typ"];
+        if (typs!==undefined)this.processTyp(typs);
+        const es=this.elements;
         for (let i = 0; i < es.length; i++) {
             const e = es[i];
+            var r;
             if (e.isA("CP")){
-                e.cpReal(res);
+                r=e.cpReal();
             } else if (e.isA("VP") && reorderVPcomplements){
-                e.vpReal(res);
+                r=e.vpReal();
             } else {
-                // we must flatten the lists
-                Array.prototype.push.apply(res,e.real())
+                r=e.real()
             }
+            // we must flatten the lists
+            Array.prototype.push.apply(res,r)
         }
     }
     return this.doFormat(res);
@@ -1349,9 +1550,9 @@ Phrase.prototype.toSource = function(indent){
         newIdent=undefined
     }
     // create source of children
-    let res=this.constType+"("+this.elements.map(e => e.toSource(newIdent)).join(sep)+")";
+    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(newIdent)).join(sep)+")";
     // add the options by calling "super".toSource()
-    res+=Constituent.prototype.toSource.call(this);
+    res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
     return res;
 }
 
@@ -1370,13 +1571,17 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
+"use strict";
 
 ////// Creates a Terminal (subclass of Constituent)
-
 // Terminal
-function Terminal(terminalType,lemma){
+function Terminal(lemmaArr,terminalType,lang){
     Constituent.call(this,terminalType);
-    this.setLemma(lemma,terminalType);
+    this.lang=lang || currentLanguage;
+    if (terminalType!="DT" && lemmaArr.length!=1){
+        this.warn("too many parameters",terminalType,lemmaArr.length)
+    } else
+        this.setLemma(lemmaArr[0],terminalType);
 }
 extend(Constituent,Terminal)
 
@@ -1384,60 +1589,65 @@ Terminal.prototype.me = function(){
     return this.constType+"("+quote(this.lemma)+")";
 }
 
-Terminal.prototype.morphoError = function (lemma,type,fn,vals){
-    this.warning("morphology error:"+fn+"("+vals+")",
-                 "erreur de morphologie:"+fn+"("+vals+")");
+Terminal.prototype.morphoError = function (lemma,constType,errorKind,keyVals){
+    this.warn("morphology error",errorKind+` :${constType}(${lemma}) : `+JSON.stringify(keyVals))
     return "[["+lemma+"]]"
 }
 
-// Phrase structure modifications (should not be called on Terminal)==> warning
-Terminal.prototype.typ = function(types){
-    this.warning(".typ("+JSON.stringify(types)+") applied to a "+this.constType+ " should be S, SP or VP",
-                 ".typ("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être S, SP or VP")
-    return this;
-}
-Terminal.prototype.pro = function(args){
-    this.warning(".pro("+JSON.stringify(args)+") applied to a "+this.constType+ " should be a NP",
-                 ".pro("+JSON.stringify(types)+") appliqué à "+this.constType+ " devrait être NP");
-    return this;
-}
-
 Terminal.prototype.add = function(){
-    this.warning(".add should be applied to Phrase, not a "+this.constType,
-                 ".add appliqué à une Phrase, non un "+this.constType);
+    this.warn("bad application",".add","Phrase",this.constType)
     return this;
 }
 
 //  set lemma, precompute stem and store conjugation/declension table number 
 Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
-        terminalType=this.constType; 
+        terminalType=this.constType;
     this.lemma=lemma;
+    var lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
-         this.date = lemma==undefined?new Date():new Date(lemma);
-         this.dateOpts={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
+         if (lemma==undefined){
+             this.date=new Date()
+         } else {
+             if (lemmaType != "string" && !(lemma instanceof Date)){
+                 this.warn("bad parameter","string, Date",lemmaType);
+             }             
+             this.date = new Date(lemma);
+         }
+         this.lemma = this.date+""
+         this.props["dOpt"]={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                         nat:true,det:true,rtime:false}
         break;
     case "NO":
+        if (lemmaType != "string" && lemmaType != "number"){
+            this.warn("bad parameter","string, number",lemmaType);
+        }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
-        this.noOptions={mprecision:2, raw:false, nat:false, ord:false};
+        this.props["dOpt"]={mprecision:2, raw:false, nat:false, ord:false};
         break;
     case "Q":
+        this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
-        let lexInfo=lexicon[lemma];
+        if (lemmaType != "string"){
+            return this.warn("bad parameter","string",lemmaType)
+        }
+        let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
             this.tab=null;
-            this.warning("not in lexicon","absent du lexique");
+            this.realization =`[[${lemma}]]`;
+            this.warn("not in lexicon");
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
                 this.tab=null;
-                this.warning("not in lexicon","absent du lexique");
+                this.realization =`[[${lemma}]];`
+                this.warn("not in lexicon");
             } else {
                 const keys=Object.keys(lexInfo);
+                const rules=this.getRules();
                 for (let i = 0; i < keys.length; i++) {
                     const key=keys[i];
                     if (key=="tab"){ // save table number and compute stem
@@ -1458,25 +1668,23 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                     } else { // copy other key as property
                         let info=lexInfo[key]
                         if (typeof info === "object" && info.length==1)info=info[0]
-                        this.prop[key]=info
+                        this.props[key]=info
                     }
                 }
             }
         }        
         break;
     default:
-        this.warning("setLemma: unknown terminal type:"+terminalType,
-                     "setLemma: type de terminal inconnu:"+terminalType)
+        this.warn("not implemented",terminalType);
     }
 }
 
 Terminal.prototype.grammaticalNumber = function(){
     if (!this.isA("NO")){
-        return this.warning("grammaticalNumber must be called on a NO, not a "+this.constType,
-                            "grammaticalNumber doit être appelé sur un NO, non un "+this.constType);
+        return this.warn("bad application","grammaticalNumber","NO",this.constType);
     }
     
-    if (this.noOptions.ord==true)return "s"; // ordinal number are always singular
+    if (this.props["dOpt"].ord==true)return "s"; // ordinal number are always singular
     
     const number=this.value;
     if (this.isFr()){
@@ -1503,35 +1711,39 @@ Terminal.prototype.getConst = function(constTypes){
 //    equal with x = 1
 //    no match = 0
 //  but if the person does not match set score to 0
-Terminal.prototype.bestMatch = function(declension,fields){
+Terminal.prototype.bestMatch = function(errorKind,declension,keyVals){
     let matches=[];
     for (var i = 0; i < declension.length; i++) {
         const d=declension[i];
         let nbMatches=0;
-        for (let j = 0; j < fields.length; j++) {
-            const f=fields[j];
-            if (d[f]!==undefined){
-                const fVal=this.getProp(f)
-                if (f == "pe" && d[f]!=fVal){
+        for (let key in keyVals){
+            if (d[key]!==undefined){
+                const val=keyVals[key];
+                if (key=="pe" && d[key]!=val){// persons must match exactly
                     nbMatches=0;
                     break;
                 }
-                if (d[f]==fVal)nbMatches+=2;
-                else if (d[f]=="x") nbMatches+=1;
+                if (d[key]==val)nbMatches+=2;
+                else if (d[key]=="x")nbMatches+=1
             }
         }
         matches.push([nbMatches,d["val"]]);
     }
-    matches.sort((a,b)=>b[0]-a[0])
+    matches.sort((a,b)=>b[0]-a[0]); // sort scores in decreasing order
     const best=matches[0];
-    return (best[0]==0)?null:best[1];
+    if (best[0]==0){
+        this.morphoError(this.lemma,this.constType,errorKind,keyVals)
+        return null;
+    } 
+    return best[1];
 }
 
 // constant fields
 const gn=["g","n"];
-const gnpe=gn.concat(["pe"])
+const gnpe=["pe"].concat(gn) // check pe first
+const gnpetnc=["tn","c"].concat(gnpe)
 const gnpeown=gnpe.concat(["own"])
-const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpe},
+const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
               "en":{"N":["n"],"D":gnpeown,"Pro":gnpeown}};
 
 
@@ -1540,33 +1752,27 @@ Terminal.prototype.decline = function(setPerson){
     const g=this.getProp("g");
     const n=this.getProp("n");
     const pe=setPerson?+this.getProp("pe"):3;
-    if (this.tab==null){
-        if (this.isA("Adv")) // this happens for some adverbs in French with table in rules.regular...
-            return this.lemma; 
-        return this.morphoError(this.lemma,this.constType,"decline:tab",[g,n,pe]);
-    } 
-    const declension=rules.declension[this.tab].declension;
+    const rules=this.getRules();
+    let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
-            const ending=this.bestMatch(declension,gn);
+            const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
             if (ending==null){
-                return this.morphoError(this.lemma,this.constType,"decline",[g,n]);
+                return `[[${this.lemma}]]`;
             }
             res = this.stem+ending;
             const f = this.getProp("f");// comparatif d'adjectif
             if (f !== undefined && f !== false){
-                if (this.isFr()){
-                    const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
-                    if (f == "co"){
-                        const comp = specialFRcomp[this.lemma];
-                        return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
-                    }
-                    if (f == "su"){
-                        const comp = specialFRcomp[this.lemma];
-                        const art = D("le").g(g).n(n)+" ";
-                        return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
-                    }
+                const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
+                if (f == "co"){
+                    const comp = specialFRcomp[this.lemma];
+                    return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
+                }
+                if (f == "su"){
+                    const comp = specialFRcomp[this.lemma];
+                    const art = D("le").g(g).n(n)+" ";
+                    return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
                 }
             }
         } else {
@@ -1575,22 +1781,78 @@ Terminal.prototype.decline = function(setPerson){
             const f = this.getProp("f");// usual comparative/superlative
             if (f !== undefined && f !== false){
                 if (this.tab=="a1"){
-                    res = (f=="co"?"more ":"the most ") + res;
-                } else { // look in the adjective declension table
-                    const ending=this.bestMatch(declension,["f"])
+                    res = (f=="co"?"more ":"most ") + res;
+                } else {
+                    if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
+                        const adjAdv=this.getLexicon()[this.lemma]["A"]
+                        if (adjAdv !== undefined){
+                            declension=rules.declension[adjAdv["tab"][0]].declension;
+                        }
+                    } 
+                    // look in the adjective declension table
+                    const ending=this.bestMatch("adjective declension",declension,{f:f})
                     if (ending==null){
-                        return this.morphoError(this.lemma,this.constType,"decline:adjective",[f]);
+                        return `[[${this.lemma}]]`;
                     }
                     res = this.stem + ending;
                 }
             }
         }
-    } else if (declension.length==1){
+    } else if (declension.length==1){ // no declension
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
-        const ending=this.bestMatch(declension,fields[this.lang][this.constType]);
+        let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+        if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];
+        if (this.isA("Pro")){// check special combinations of tn and c for pronouns
+            const c  = this.props["c"];
+            if (c!==undefined){
+                if (this.isFr() && c=="gen"){ // genitive cannot be used in French
+                    this.warn("ignored value for option","c",c)
+                } else if (this.isEn() && c=="refl"){ // reflechi cannot be used in English
+                    this.warn("ignored value for option","c",c)
+                } else
+                    keyVals["c"]=c;
+            }
+            const tn = this.props["tn"];
+            if (tn !== undefined){
+                if (c!== undefined){
+                    this.warn("both tonic and clitic");
+                } else {
+                    keyVals["tn"]=tn;
+                }
+            }
+            if (c !== undefined || tn !== undefined){
+                if ((this.isFr() && this.lemma=="moi") || (this.isEn() && this.lemma=="me")){
+                    // HACK:remove defaults from pronoun such as "moi" in French and "me" in English
+                    //      because their definition is special in order to try to keep some upward compatibility
+                    //      with the original way of specifying the pronouns
+                    if (this.props["g"] ===undefined)delete keyVals["g"];
+                    if (this.props["n"] ===undefined)delete keyVals["n"];
+                    // make sure it matches the first and set the property for verb agreement
+                    if (this.props["pe"]===undefined)keyVals["pe"]=this.props["pe"]=1; 
+                } else { // set person
+                    const d0=declension[0];
+                    this.props["g"] = d0["g"] || g;
+                    this.props["n"] = d0["n"] || n
+                    this.props["pe"]= keyVals["pe"] = d0["pe"] || 3;
+                }
+            } else { // no c, nor tn set tn to "" except for "on"
+                if(this.lemma!="on")keyVals["tn"]="";
+            }
+        }
+        const ending=this.bestMatch(this.isFr()?"déclinaison":"declension",declension,keyVals);
         if (ending==null){
-            return this.morphoError(this.lemma,this.constType,"decline",[g,n,pe]);
+            return `[[${this.lemma}]]`;
+        }
+        if (this.isFr() && this.isA("N")){ 
+            // check is French noun gender specified corresponds to the one given in the lexicon
+            const lexiconG=this.getLexicon()[this.lemma]["N"]["g"]
+            if (lexiconG === undefined){
+                return this.morphoError(this.lemma,this.constType,"absent du lexique",{g:g,n:n});
+            } 
+            if (lexiconG != "x" && lexiconG != g) {
+                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",{g:g, lexique:lexiconG})
+            }
         }
         res = this.stem+ending;
     }
@@ -1604,16 +1866,16 @@ Terminal.prototype.conjugate_fr = function(){
     let n = this.getProp("n");
     const t = this.getProp("t");
     let neg;
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",[pe,n,t]);
+    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",{pe:pe,n:n,t:t});
     switch (t) {
     case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
-        const aux=this.prop["aux"];
+        const aux=this.props["aux"];
         const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        neg=this.prop["neg2"];
+        neg=this.neg2;
         if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
-            v.prop["neg2"]=neg;
-            delete this.prop["neg2"]
+            v.neg2=neg;
+            delete this.neg2
         }
         if (aux=="êt"){
             v.setLemma("être");
@@ -1623,7 +1885,7 @@ Terminal.prototype.conjugate_fr = function(){
             //   of its part participle
             g="m"
             n="s";
-            var cod = this.prop["cod"];
+            var cod = this.cod;
             if (cod !== undefined){
                 g=cod.getProp("g");
                 n=cod.getProp("n");
@@ -1631,44 +1893,48 @@ Terminal.prototype.conjugate_fr = function(){
         }
         return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
     default:// simple tense
-        var conjugation=rules.conjugation[this.tab].t[t];
-        if (conjugation!==undefined){
+        var conjugation=this.getRules().conjugation[this.tab].t[t];
+        if (conjugation!==undefined && conjugation!==null){
             let res;
             switch (t) {
             case "p": case "i": case "f": case "ps": case "c": case "s": case "si": case "ip":
                 if (t=="ip"){ // French imperative does not exist at all persons and numbers
                     if ((n=="s" && pe!=2)||(n=="p" && pe==3)){
-                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
                     }
                 }
                 if (n=="p"){pe+=3};
                 const term=conjugation[pe-1];
                 if (term==null){
-                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
                 } else {
                     res=this.stem+term;
                 }
-                neg=this.prop["neg2"];
+                neg=this.neg2;
                 if (neg !== undefined && neg !== ""){
                     res+=" "+neg;
                 }
                 return res;
             case "b": case "pr": case "pp":
                 res=this.stem+conjugation;
-                neg=this.prop["neg2"];
+                neg=this.neg2;
                 if (neg !== undefined && neg !== ""){
                     if (t=="b")res = neg+" "+res;
                     else res +=" "+neg;
                 }
-                if (t=="pp"){
-                    res+={"ms":"","mp":"s","fs":"e","fp":"es"}[this.getProp("g")+this.getProp("n")]
+                if (t=="pp" && res != "été"){ //HACK: peculiar frequent case of être that does not change
+                    let g=this.getProp("g");
+                    if (g=="x")g="m";
+                    let n=this.getProp("n");
+                    if (g=="x")g="s";
+                    res+={"ms":"","mp":"s","fs":"e","fp":"es"}[g+n]
                 }
                 return res;
             default:
-                return this.morphoError(this.lemma,this.constType,"conjugate_fr",[pe,n,t]);
+                return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
             }
         }
-        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",[pe,n,t]);
+        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",{pe:pe,n:n,t:t});
     }
 }
 
@@ -1677,8 +1943,8 @@ Terminal.prototype.conjugate_en = function(){
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",[pe,n,t]);
-    const conjugation=rules.conjugation[this.tab].t[t];
+    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t});
+    const conjugation=this.getRules().conjugation[this.tab].t[t];
     switch (t) {
     case "p": case "ps":
         if (typeof conjugation == "string"){
@@ -1687,7 +1953,7 @@ Terminal.prototype.conjugate_en = function(){
         if (n=="p"){pe+=3};
         const term=conjugation[pe-1];
         if (term==null){
-            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",[pe,n,t])
+            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})
         } else {
             return this.stem+term;
         }
@@ -1698,7 +1964,7 @@ Terminal.prototype.conjugate_en = function(){
     case "b": case "pp": case "pr":
         return this.stem+conjugation;
     default:
-        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",[pe,n,t]);
+        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
     }
     
 }
@@ -1712,15 +1978,14 @@ Terminal.prototype.conjugate = function(){
 
 Terminal.prototype.numberFormatter = function (rawNumber, maxPrecision) {
     let precision = (maxPrecision === undefined) ? 2 : maxPrecision;
-    const numberTable = rules.number;
+    const numberTable = this.getRules().number;
     precision = nbDecimal(rawNumber) > precision ? precision : nbDecimal(rawNumber);
     return formatNumber(rawNumber, precision, numberTable.symbol.decimal, numberTable.symbol.group);
 };
 
 Terminal.prototype.numberToWord = function(number, lang, gender) {
     if (parseInt(number) !== number){
-        this.warning("cannot show a decimal number in words",
-                     "ne peut écrire en mots un nombre avec décimales");
+        this.warn("bad number in word",number)
         return number+"";
     }
     if (lang=="fr" && gender=="f"){
@@ -1732,12 +1997,11 @@ Terminal.prototype.numberToWord = function(number, lang, gender) {
 
 Terminal.prototype.numberToOrdinal = function(number,lang,gender){
     if (parseInt(number) !== number){
-        this.warning("cannot show a decimal number as ordinal",
-                     "on ne peut réaliser un nombre avec décimales comme un ordinal");
+        this.warn("bad ordinal",number)
         return number+"";
-    } else if (number<=0){
-        this.warning("cannot show 0 or a negative number as an ordinal",
-                     "one ne peut réaliser 0 ou un nombre négatif comme un ordinal")
+    } 
+    if (number<=0){
+        this.warn("bad ordinal",number)
     }
     return ordinal(number,lang, gender);
 };
@@ -1747,7 +2011,7 @@ Terminal.prototype.numberToOrdinal = function(number,lang,gender){
 
 Terminal.prototype.dateFormat = function(dateObj,dOpts){
     // useful abbreviations for date format access
-    const dateRule = rules.date
+    const dateRule = this.getRules().date
     const naturalDate = dateRule.format.natural
     const nonNaturalDate =dateRule.format.non_natural
     const relativeDate = dateRule.format.relative_time
@@ -1766,8 +2030,8 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         const sign=diffDays<0?"-":"+";
         return relativeDate[sign].replace("[x]",Math.abs(diffDays))
     }
-    dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
-    tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
+    const dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
+    const tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
     if (dOpts["nat"]==true){
         res=this.interpretDateFmt(dateObj,naturalDate,dfs,dOpts["det"]==false);
         const hms=this.interpretDateFmt(dateObj,naturalDate,tfs);
@@ -1782,8 +2046,7 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         if (hms != "")return res+" "+hms;
         return res;
     }
-    this.warning("not implemented:"+JSON.stringify(dOpt),
-                 "non implanté:"+JSON.stringify(dOpts))
+    this.warn("not implemented",JSON.stringify(dOpts));
     return "[["+dateObj+"]]"
 }
 
@@ -1806,7 +2069,7 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
                 const pf=dateFormats[match[2]];
                 if (pf!==undefined){
                     const val=pf.param.call(dateObj); // call function to get the value
-                    res+=pf.func(val)               // format the value as a string
+                    res+=pf.func.call(this,val)       // format the value as a string
                 }
             } else if (match[3]!==undefined){
                 res+=match[3]      // copy the string
@@ -1825,27 +2088,30 @@ Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
 // Realize (i.e. set the "realization" field) for this Terminal
 Terminal.prototype.real = function(){
     switch (this.constType) {
-    case "N": case "A": case "D": case "Adv": 
-        this.realization=this.decline(false);
+    case "N": case "A": 
+        if (this.tab!==null)this.realization=this.decline(false);
         break;
+    case "Adv":
+        if (this.tab!==null)this.realization=this.decline(false);
+        else this.realization=this.lemma;
     case "C": case "P": case "Q":
-        this.realization=this.lemma;
+        if(this.realization===null)this.realization=this.lemma;
         break;
-    case "Pro":
-        this.realization=this.decline(true);
+    case "D": case "Pro":
+        if (this.tab!==null)this.realization=this.decline(true);
         break;
     case "V":
-        this.realization=this.conjugate();
+        if (this.tab!==null)this.realization=this.conjugate();
         break;
     case "DT":
-        this.realization=this.dateFormat(this.date,this.dateOpts);
+        this.realization=this.dateFormat(this.date,this.props["dOpt"]);
         break;
     case "NO":
-        const opts=this.noOptions;
+        const opts=this.props["dOpt"];
         if (opts.nat==true){
-            this.realization=this.numberToWord(this.value,this.lang,this.getProp("g"));
+            this.realization=this.numberToWord(this.value,this.lang,this.g);
         } else if (opts.ord==true){
-            this.realization=this.numberToOrdinal(this.value,this.lang,this.getProp("g"));
+            this.realization=this.numberToOrdinal(this.value,this.lang,this.g);
         } else if (opts.raw==false){
             this.realization=this.numberFormatter(this.value,opts.mprecision);
         } else { //opts.raw==true
@@ -1863,37 +2129,197 @@ Terminal.prototype.real = function(){
 Terminal.prototype.toSource = function(){
     // create the source of the Terminal
     let res=this.constType+"("+quote(this.lemma)+")";
-    // add the options by calling "super".toSource()
-    res+=Constituent.prototype.toSource.call(this);
-    return res;
+    // add the options by calling super.toSource()
+    res+=Constituent.prototype.toSource.call(this); 
+    return res;    
 }
 
 // functions for creating terminals
-function N  (lemma){ return new Terminal("N",lemma) }
-function A  (lemma){ return new Terminal("A",lemma) }
-function Pro(lemma){ return new Terminal("Pro",lemma) }
-function D  (lemma){ return new Terminal("D",lemma) }
-function V  (lemma){ return new Terminal("V",lemma) }
-function Adv(lemma){ return new Terminal("Adv",lemma) }
-function C  (lemma){ return new Terminal("C",lemma) }
-function P  (lemma){ return new Terminal("P",lemma) }
-function DT (lemma){ return new Terminal("DT",lemma) }
-function NO (lemma){ return new Terminal("NO",lemma) }
-function Q  (lemma){ return new Terminal("Q",lemma) }
+function N  (_){ return new Terminal(Array.from(arguments),"N") }
+function A  (_){ return new Terminal(Array.from(arguments),"A") }
+function Pro(_){ return new Terminal(Array.from(arguments),"Pro") }
+function D  (_){ return new Terminal(Array.from(arguments),"D") }
+function V  (_){ return new Terminal(Array.from(arguments),"V") }
+function Adv(_){ return new Terminal(Array.from(arguments),"Adv") }
+function C  (_){ return new Terminal(Array.from(arguments),"C") }
+function P  (_){ return new Terminal(Array.from(arguments),"P") }
+function DT (_){ return new Terminal(Array.from(arguments),"DT") }
+function NO (_){ return new Terminal(Array.from(arguments),"NO") }
+function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
+
+/**
+    jsRealB 3.3
+    Guy Lapalme, lapalme@iro.umontreal.ca, April 2020
+ */
+"use strict";
+
+/// Functions for dealing with JSON input
+
+// list of names of constituents (used in fromJSON)
+const terminals = ["N", "A", "Pro", "D", "V", "Adv", "C", "P", "DT", "NO", "Q"];
+const phrases   = ["S", "NP", "AP", "VP", "AdvP", "PP", "CP", "SP"];
+
+// create expression from a JSON structure
+function fromJSON(json,lang){
+    if (typeof json == "object" && !Array.isArray(json)){
+        let lang1 = json["lang"] || lang || currentLanguage ;
+        if ("phrase" in json) {
+            const constType=json["phrase"];
+            if (contains(phrases,constType)){
+                return Phrase.fromJSON(constType,json,lang1)
+            } else {
+                console.log("fromJSON: unknown Phrase type:"+constType)
+            }
+        } else if ("terminal" in json){
+            const constType=json["terminal"];
+            if (contains(terminals,constType)){
+                return Terminal.fromJSON(constType,json,lang1)
+            } else {
+                console.log("fromJSON: unknown Terminal type:"+constType)
+            }
+        }
+    } else {
+        console.log("fromJSON: object expected, but found "+typeof json)
+    }
+}
+
+///  Create constituents from JSON
+// add properties using the usual functions that test their input...
+function setJSONprops(constituent,json){
+    if ("props" in json){
+        const props=json["props"];
+        for (let opt in props){
+            if (opt in Constituent.prototype){
+                if (Array.isArray(props[opt])){ // deal with a list of options
+                    props[opt].forEach(o=>Array.isArray(o)
+                        ? Constituent.prototype[opt].apply(constituent,o)
+                        : Constituent.prototype[opt].call(constituent,o))
+                } else 
+                    Constituent.prototype[opt].call(constituent,props[opt])
+            } else {
+                console.log("Terminal.fromJSON: illegal prop:"+opt);
+            }
+        }
+    }
+}
+
+
+Phrase.fromJSON = function(constType,json,lang){
+    if ("elements" in json){
+        const elements=json["elements"];
+        if (Array.isArray(elements)){
+            const args=elements.map(json => fromJSON(json,lang));
+            let phrase=new Phrase(args,constType);
+            setJSONprops(phrase,json);
+            return phrase;
+        } else {
+            console.log("Phrase.fromJSON: elements should be an array")
+        }
+    } else {
+        console.log("Phrase.fromJSON: no elements found")
+    }
+}
+
+Terminal.fromJSON = function(constType,json,lang){
+    if ("lemma" in json){
+        const lemma=json["lemma"];
+        let terminal=new Terminal([lemma],constType,lang);
+        setJSONprops(terminal,json)
+        return terminal;
+    } else {
+        console.log("Terminal.fromJSON: no lemma found");
+    }
+}
+
+
+// create the JSON form  
+Phrase.prototype.toJSON = function(){
+    let res={phrase:this.constType, elements:this.elements.map(e=>e.toJSON())};
+    if (Object.keys(this.props).length>0) // do not output empty props
+        res.props=this.props;
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+        res.lang=this.lang;
+    return res;
+}
+
+Terminal.prototype.toJSON = function(){
+    let res={terminal:this.constType,lemma:this.lemma};
+    if (Object.keys(this.props).length>0) // do not output empty props
+        res.props=this.props;
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+        res.lang=this.lang;
+    return res;
+}
+
+// compact pretty-print of json (JSON.stringify(.,null,n) is hard to work with as it uses too many lines)
+//  adaptation of ppJson.oy (in project json-rnc)
+//  only useful for debugging, not necessary for using jsRealB
+function ppJSON(obj,level,str){
+    function out(s){str+=s}
+    function outQuoted(s){
+        if (s.indexOf('\\')>=0)s=s.replace(/\\/g,'\\\\');
+        if (s.indexOf('"' )>=0)s=s.replace(/"/g,'\\"');
+        out('"'+s+'"');
+    }
+    switch (arguments.length) {
+    case 1:return ppJSON(obj,0,"");
+    case 2:return ppJSON(obj,level,"");
+    default:
+        switch (typeof obj) {
+        case "string":
+            outQuoted(obj);
+            break;
+        case "object":
+            if (obj===null){
+                out("null")
+            } else if (Array.isArray(obj)){
+                out('[');
+                const n=obj.length;
+                // indent only if one of the elements of the array is an object != null 
+                const indent = obj.some((e)=>typeof e == "object" && e!==null)
+                for (var i = 1; i <= n; i++) {
+                    const elem=obj[i-1];
+                    if (indent && i>1)out("\n"+" ".repeat(level+1));
+                    out(ppJSON(elem,level+1,""));
+                    if (i<n)out(",")
+                }
+                out(']');
+            } else {
+                out('{');
+                const keys=Object.keys(obj);
+                const n=keys.length;
+                for (var i = 1; i <= n; i++) {
+                    const key=keys[i-1];
+                    if (i>1)out("\n"+" ".repeat(level+1));
+                    outQuoted(key);
+                    out(":");
+                    out(ppJSON(obj[key],level+1+key.length+3,""));
+                    if (i<n)out(",")
+                }
+                out('}');
+            }
+            break;
+        default: // primitive JavaScript values : boolean, number, string
+            out(obj);
+        }
+    }
+    return str;
+}
+
 
 /**
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 ///////// date formatting
 // mainly rule based (should language independent)
 
 function numberWithoutLeadingZero(n){return ""+n}
 function numberWithLeadingZero(n){return (n<10?"0":"")+n}
-function numberToMonth(n){return rules.date.text.month[""+n]}
-function numberToDay(n){return rules.date.text.weekday[n]}
-function numberToMeridiem(n){return rules.date.text.meridiem[n<12?0:1]}
+function numberToMonth(n){return this.getRules().date.text.month[""+n]}
+function numberToDay(n){return this.getRules().date.text.weekday[n]}
+function numberToMeridiem(n){return this.getRules().date.text.meridiem[n<12?0:1]}
 function numberTo12hour(n){return n%12}
 // HACK: add to the standard Date prototype
 Date.prototype.getRealMonth=function (){return this.getMonth()+1}
@@ -1921,7 +2347,7 @@ var dateFormats = {
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number
 // but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
 function nbDecimal(n) {
@@ -2095,11 +2521,12 @@ function rectifiee(s){
 // écriture des nombres ordinaux   //GL
 
 // rules taken from https://www.ego4u.com/en/cram-up/vocabulary/numbers/ordinal
-ordEnExceptions={"one":"first","two":"second","three":"third","five":"fifth",
+var ordEnExceptions={"one":"first","two":"second","three":"third","five":"fifth",
                  "eight":"eighth","nine":"ninth","twelve":"twelfth"}
 // règles tirées de https://francais.lingolia.com/fr/vocabulaire/nombres-date-et-heure/les-nombres-ordinaux
-ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
-var ordinal = function(s,lang,gender){
+var ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf":"neuvième"}
+
+function ordinal(s,lang,gender){
     const en = lang=="en";
     s=enToutesLettres(s,lang);
     if (s=="zéro" || s=="zero") return s;
@@ -2122,7 +2549,7 @@ var ordinal = function(s,lang,gender){
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 // https://stackoverflow.com/questions/4152931/javascript-inheritance-call-super-constructor-or-use-prototype-chain
 function extend(base, sub) {
     // Avoid instantiating the base class just to setup inheritance
@@ -2159,32 +2586,33 @@ function contains(arr,elem){
 
 function loadEn(trace,lenient){
     currentLanguage="en";
-    lexicon=lexiconEn;
-    rules=ruleEn;
-    defaultProps={g:"n",n:"s",pe:3,t:"p"};  // language dependent default properties
     if (trace===true)console.log("English lexicon and rules loaded");
     if (lenient==true)console.log("Lenient mode not implemented");
 }
 
 function loadFr(trace,lenient){
     currentLanguage="fr";
-    lexicon=lexiconFr;
-    rules=ruleFr;
-    defaultProps={g:"m",n:"s",pe:3,t:"p",aux:"av"};  // language dependent default properties 
-    if (trace===true)console.log("French lexicon and rules loaded");
-    if (lenient==true)console.log("Lenient mode not implemented");
+    if (trace===true)console.log("Règles et lexique français chargés");
+    if (lenient==true)console.log("Le mode Lenient n'est pas implanté");
 }
 
 //// add to lexicon and return the updated object
-///    to remove from lexicon (pass undefined as newInfos)
-var addToLexicon = function(lemma,newInfos){
+///    to remove from lexicon (give null as newInfos)
+var addToLexicon = function(lemma,newInfos,lang){
+    let lexicon = getLexicon(lang)
+    if (newInfos === null){ // remove key
+        if (lexicon[lemma] !== undefined){
+            delete lexicon[lemma]
+        }
+        return
+    }
     if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
         newInfos=Object.values(lemma)[0];
         lemma=Object.keys(lemma)[0];
     }
     const infos=lexicon[lemma]
     if (infos!==undefined && newInfos!==undefined){ // update with newInfos
-        for (ni in newInfos) {
+        for (var ni in newInfos) {
             infos[ni]=newInfos[ni]
         }
         lexicon[lemma]=infos
@@ -2198,18 +2626,25 @@ var addToLexicon = function(lemma,newInfos){
 /// update current lexicon by "merging" the new lexicon with the current one
 //     i.e. adding new key-value pairs and replacing existing key-value pairs with the new one
 //     newLexicon is a single object with the "correct" structure
-var updateLexicon = function(newLexicon){
+var updateLexicon = function(newLexicon,lang){
+    let lexicon = getLexicon(lang);
     Object.assign(lexicon,newLexicon)
 }
 
 //// get lemma from lexicon (useful for debugging )
-var getLemma = function(lemma){
-    return lexicon[lemma];
+var getLemma = function(lemma,lang){
+    return getLexicon(lang)[lemma];
 }
 
 // return the current realization language
 var getLanguage = function(){
     return currentLanguage;
+}
+
+// return the current lexicon
+var getLexicon = function(lang){
+    if (lang===undefined)lang=currentLanguage;
+    return lang=="fr"?lexiconFr:lexiconEn;    
 }
 
 //// select a random element in a list useful to have some variety in the generated text
@@ -2219,7 +2654,7 @@ var getLanguage = function(){
 var oneOf = function(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    e=elems[Math.floor(Math.random()*elems.length)];
+    const e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
 }
 
@@ -2228,9 +2663,8 @@ function setExceptionOnWarning(val){
     exceptionOnWarning=val;
 }
 
-var jsRealB_version="3.0";
-var jsRealB_dateCreated=new Date(); // might be changed in the makefile 
-jsRealB_dateCreated="2020-01-28 17:13"
+var jsRealB_version="3.4";
+var jsRealB_dateCreated=new Date(); // might be changed by the makefile 
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
  "!":{"Pc":{"tab":["pc4"]}},
@@ -2251,7 +2685,6 @@ var lexiconEn = //========== lexicon-en.js
  ":":{"Pc":{"tab":["pc4"]}},
  ";":{"Pc":{"tab":["pc4"]}},
  "?":{"Pc":{"tab":["pc4"]}},
- "I":{"Pro":{"tab":["pn1"]}},
  "[":{"Pc":{"compl":"]",
             "tab":["pc5"]}},
  "]":{"Pc":{"compl":"[",
@@ -2329,7 +2762,7 @@ var lexiconEn = //========== lexicon-en.js
  "actively":{"Adv":{"tab":["b1"]}},
  "activist":{"N":{"tab":["n1"]}},
  "activity":{"N":{"tab":["n3"]}},
- "actor":{"N":{"g":"m",
+ "actor":{"N":{"g":"x",
                "tab":["n85"]}},
  "actress":{"N":{"g":"f",
                  "tab":["n88"]}},
@@ -2352,7 +2785,8 @@ var lexiconEn = //========== lexicon-en.js
  "administer":{"V":{"tab":"v1"}},
  "administration":{"N":{"tab":["n1"]}},
  "administrative":{"A":{"tab":["a1"]}},
- "administrator":{"N":{"tab":["n1"]}},
+ "administrator":{"N":{"g":"x",
+                       "tab":["n1"]}},
  "admiration":{"N":{"tab":["n5"]}},
  "admire":{"V":{"tab":"v3"}},
  "admission":{"N":{"tab":["n1"]}},
@@ -2360,7 +2794,8 @@ var lexiconEn = //========== lexicon-en.js
  "adopt":{"V":{"tab":"v1"}},
  "adoption":{"N":{"tab":["n1"]}},
  "adult":{"A":{"tab":["a1"]},
-          "N":{"tab":["n1"]}},
+          "N":{"g":"x",
+               "tab":["n1"]}},
  "advance":{"N":{"tab":["n1"]},
             "V":{"tab":"v3"}},
  "advanced":{"A":{"tab":["a1"]}},
@@ -2371,7 +2806,8 @@ var lexiconEn = //========== lexicon-en.js
  "advertisement":{"N":{"tab":["n1"]}},
  "advice":{"N":{"tab":["n1"]}},
  "advise":{"V":{"tab":"v3"}},
- "adviser":{"N":{"tab":["n1"]}},
+ "adviser":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "advisory":{"A":{"tab":["a1"]}},
  "advocate":{"N":{"tab":["n1"]},
              "V":{"tab":"v3"}},
@@ -2382,7 +2818,8 @@ var lexiconEn = //========== lexicon-en.js
  "affinity":{"N":{"tab":["n3"]}},
  "afford":{"V":{"tab":"v1"}},
  "afraid":{"A":{"tab":["a1"]}},
- "after":{"P":{"tab":["pp"]}},
+ "after":{"C":{"tab":["cs"]},
+          "P":{"tab":["pp"]}},
  "afternoon":{"N":{"tab":["n1"]}},
  "afterwards":{"Adv":{"tab":["b1"]}},
  "again":{"Adv":{"tab":["b1"]}},
@@ -2419,6 +2856,7 @@ var lexiconEn = //========== lexicon-en.js
  "alike":{"Adv":{"tab":["b1"]}},
  "alive":{"A":{"tab":["a1"]}},
  "all":{"Adv":{"tab":["b1"]},
+        "D":{"tab":["d4"]},
         "Pro":{"tab":["b1"]}},
  "allegation":{"N":{"tab":["n1"]}},
  "allege":{"V":{"tab":"v3"}},
@@ -2473,8 +2911,10 @@ var lexiconEn = //========== lexicon-en.js
  "analyse":{"V":{"tab":"v3"}},
  "analysis":{"N":{"tab":["n8"]}},
  "analyst":{"N":{"tab":["n1"]}},
- "ancestor":{"N":{"tab":["n1"]}},
+ "ancestor":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "ancient":{"A":{"tab":["a1"]}},
+ "and":{"C":{"tab":["cc"]}},
  "angel":{"N":{"tab":["n1"]}},
  "anger":{"N":{"tab":["n5"]},
           "V":{"tab":"v1"}},
@@ -2490,6 +2930,8 @@ var lexiconEn = //========== lexicon-en.js
  "annual":{"A":{"tab":["a1"]}},
  "annually":{"Adv":{"tab":["b1"]}},
  "anonymous":{"A":{"tab":["a1"]}},
+ "another":{"D":{"tab":["d4"]},
+            "Pro":{"tab":["pn5"]}},
  "answer":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
  "ant":{"N":{"tab":["n1"]}},
@@ -2534,6 +2976,7 @@ var lexiconEn = //========== lexicon-en.js
  "approval":{"N":{"tab":["n5"]}},
  "approve":{"V":{"tab":"v3"}},
  "approximately":{"Adv":{"tab":["b1"]}},
+ "April":{"N":{"tab":["n1"]}},
  "aquarium":{"N":{"tab":["n1"]}},
  "arbitrary":{"A":{"tab":["a1"]}},
  "arc":{"N":{"tab":["n1"]}},
@@ -2568,9 +3011,12 @@ var lexiconEn = //========== lexicon-en.js
  "article":{"N":{"tab":["n1"]}},
  "articulate":{"V":{"tab":"v3"}},
  "artificial":{"A":{"tab":["a1"]}},
- "artist":{"N":{"tab":["n1"]}},
+ "artist":{"N":{"g":"x",
+                "tab":["n1"]}},
  "artistic":{"A":{"tab":["a1"]}},
  "as":{"Adv":{"tab":["b1"]},
+       "C":{"tab":["cs"]},
+       "D":{"tab":["d4"]},
        "P":{"tab":["pp"]}},
  "ascertain":{"V":{"tab":"v1"}},
  "ash":{"N":{"tab":["n2"]}},
@@ -2593,7 +3039,8 @@ var lexiconEn = //========== lexicon-en.js
  "assignment":{"N":{"tab":["n1"]}},
  "assist":{"V":{"tab":"v1"}},
  "assistance":{"N":{"tab":["n5"]}},
- "assistant":{"N":{"tab":["n1"]}},
+ "assistant":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "associate":{"N":{"tab":["n1"]},
               "V":{"tab":"v3"}},
  "association":{"N":{"tab":["n1"]}},
@@ -2604,7 +3051,8 @@ var lexiconEn = //========== lexicon-en.js
  "astonishing":{"A":{"tab":["a1"]}},
  "asylum":{"N":{"tab":["n1"]}},
  "at":{"P":{"tab":["pp"]}},
- "athlete":{"N":{"tab":["n1"]}},
+ "athlete":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "atmosphere":{"N":{"tab":["n1"]}},
  "atom":{"N":{"tab":["n1"]}},
  "atomic":{"A":{"tab":["a1"]}},
@@ -2630,9 +3078,10 @@ var lexiconEn = //========== lexicon-en.js
  "audience":{"N":{"tab":["n1"]}},
  "audit":{"N":{"tab":["n1"]}},
  "auditor":{"N":{"tab":["n1"]}},
+ "August":{"N":{"tab":["n1"]}},
  "aunt":{"N":{"g":"f",
               "tab":["n87"]}},
- "author":{"N":{"g":"m",
+ "author":{"N":{"g":"x",
                 "tab":["n85"]}},
  "authority":{"N":{"tab":["n3"]}},
  "automatic":{"A":{"tab":["a1"]}},
@@ -2660,9 +3109,11 @@ var lexiconEn = //========== lexicon-en.js
  "awkward":{"A":{"tab":["a1"]}},
  "axis":{"N":{"tab":["n8"]}},
  "aye":{"N":{"tab":["n1"]}},
- "baby":{"N":{"tab":["n3"]}},
+ "baby":{"N":{"g":"x",
+              "tab":["n3"]}},
  "back":{"Adv":{"tab":["b1"]},
          "N":{"tab":["n1"]},
+         "P":{"tab":["pp"]},
          "V":{"tab":"v1"}},
  "background":{"N":{"tab":["n1"]}},
  "backing":{"N":{"tab":["n1"]}},
@@ -2732,6 +3183,7 @@ var lexiconEn = //========== lexicon-en.js
  "beautiful":{"A":{"tab":["a1"]}},
  "beautifully":{"Adv":{"tab":["b1"]}},
  "beauty":{"N":{"tab":["n3"]}},
+ "because":{"C":{"tab":["cs"]}},
  "become":{"V":{"tab":"v41"}},
  "bed":{"N":{"tab":["n1"]}},
  "bedroom":{"N":{"tab":["n1"]}},
@@ -2739,6 +3191,7 @@ var lexiconEn = //========== lexicon-en.js
  "beef":{"N":{"tab":["n9"]}},
  "beer":{"N":{"tab":["n1"]}},
  "before":{"Adv":{"tab":["b1"]},
+           "C":{"tab":["cs"]},
            "P":{"tab":["pp"]}},
  "beg":{"V":{"tab":"v7"}},
  "begin":{"V":{"tab":"v106"}},
@@ -2855,6 +3308,9 @@ var lexiconEn = //========== lexicon-en.js
  "borough":{"N":{"tab":["n1"]}},
  "borrow":{"V":{"tab":"v1"}},
  "boss":{"N":{"tab":["n2"]}},
+ "both":{"C":{"tab":["cc"]},
+         "D":{"n":"p",
+              "tab":["d4"]}},
  "bother":{"V":{"tab":"v1"}},
  "bottle":{"N":{"tab":["n1"]}},
  "bottom":{"N":{"tab":["n1"]}},
@@ -2911,7 +3367,8 @@ var lexiconEn = //========== lexicon-en.js
  "brochure":{"N":{"tab":["n1"]}},
  "broker":{"N":{"tab":["n1"]}},
  "bronze":{"N":{"tab":["n1"]}},
- "brother":{"N":{"tab":["n85"]}},
+ "brother":{"N":{"g":"m",
+                 "tab":["n85"]}},
  "brow":{"N":{"tab":["n1"]}},
  "brown":{"A":{"tab":["a3"]}},
  "brush":{"N":{"tab":["n2"]},
@@ -2946,11 +3403,14 @@ var lexiconEn = //========== lexicon-en.js
  "business":{"N":{"tab":["n2"]}},
  "businessman":{"N":{"tab":["n7"]}},
  "busy":{"A":{"tab":["a4"]}},
+ "but":{"Adv":{"tab":["b1"]},
+        "C":{"tab":["cc"]}},
  "butter":{"N":{"tab":["n5"]}},
  "butterfly":{"N":{"tab":["n3"]}},
  "button":{"N":{"tab":["n1"]}},
  "buy":{"V":{"tab":"v59"}},
- "buyer":{"N":{"tab":["n1"]}},
+ "buyer":{"N":{"g":"x",
+               "tab":["n1"]}},
  "by":{"P":{"tab":["pp"]}},
  "bye":{"N":{"tab":["n1"]}},
  "cab":{"N":{"tab":["n1"]}},
@@ -2990,7 +3450,8 @@ var lexiconEn = //========== lexicon-en.js
             "N":{"tab":["n1"]}},
  "capitalism":{"N":{"tab":["n5"]}},
  "capitalist":{"N":{"tab":["n1"]}},
- "captain":{"N":{"tab":["n1"]}},
+ "captain":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "capture":{"V":{"tab":"v3"}},
  "car":{"N":{"tab":["n1"]}},
  "caravan":{"N":{"tab":["n1"]}},
@@ -3100,7 +3561,8 @@ var lexiconEn = //========== lexicon-en.js
  "chicken":{"N":{"tab":["n1"]}},
  "chief":{"A":{"tab":["a1"]},
           "N":{"tab":["n1"]}},
- "child":{"N":{"tab":["n15"]}},
+ "child":{"N":{"g":"x",
+               "tab":["n15"]}},
  "childhood":{"N":{"tab":["n5"]}},
  "chimney":{"N":{"tab":["n1"]}},
  "chin":{"N":{"tab":["n1"]}},
@@ -3125,7 +3587,8 @@ var lexiconEn = //========== lexicon-en.js
  "circulation":{"N":{"tab":["n1"]}},
  "circumstance":{"N":{"tab":["n1"]}},
  "cite":{"V":{"tab":"v3"}},
- "citizen":{"N":{"tab":["n1"]}},
+ "citizen":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "citizenship":{"N":{"tab":["n1"]}},
  "city":{"N":{"tab":["n3"]}},
  "civic":{"A":{"tab":["a1"]}},
@@ -3157,7 +3620,8 @@ var lexiconEn = //========== lexicon-en.js
  "clearly":{"Adv":{"tab":["b1"]}},
  "clergy":{"N":{"tab":["n3"]}},
  "clerical":{"A":{"tab":["a1"]}},
- "clerk":{"N":{"tab":["n1"]}},
+ "clerk":{"N":{"g":"x",
+               "tab":["n1"]}},
  "clever":{"A":{"tab":["a3"]}},
  "client":{"N":{"tab":["n1"]}},
  "cliff":{"N":{"tab":["n1"]}},
@@ -3259,7 +3723,8 @@ var lexiconEn = //========== lexicon-en.js
               "N":{"tab":["n1"]}},
  "community":{"N":{"tab":["n3"]}},
  "compact":{"N":{"tab":["n1"]}},
- "companion":{"N":{"tab":["n1"]}},
+ "companion":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "company":{"N":{"tab":["n3"]}},
  "comparable":{"A":{"tab":["a1"]}},
  "comparative":{"A":{"tab":["a1"]}},
@@ -3390,7 +3855,8 @@ var lexiconEn = //========== lexicon-en.js
  "construction":{"N":{"tab":["n1"]}},
  "constructive":{"A":{"tab":["a1"]}},
  "consult":{"V":{"tab":"v1"}},
- "consultant":{"N":{"tab":["n1"]}},
+ "consultant":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "consultation":{"N":{"tab":["n1"]}},
  "consume":{"V":{"tab":"v3"}},
  "consumer":{"N":{"tab":["n1"]}},
@@ -3447,7 +3913,8 @@ var lexiconEn = //========== lexicon-en.js
  "conviction":{"N":{"tab":["n1"]}},
  "convince":{"V":{"tab":"v3"}},
  "convincing":{"A":{"tab":["a1"]}},
- "cook":{"N":{"tab":["n1"]},
+ "cook":{"N":{"g":"x",
+              "tab":["n1"]},
          "V":{"tab":"v1"}},
  "cooking":{"N":{"tab":["n5"]}},
  "cool":{"A":{"tab":["a3"]},
@@ -3505,7 +3972,8 @@ var lexiconEn = //========== lexicon-en.js
  "court":{"N":{"tab":["n1"]}},
  "courtesy":{"N":{"tab":["n3"]}},
  "courtyard":{"N":{"tab":["n1"]}},
- "cousin":{"N":{"tab":["n1"]}},
+ "cousin":{"N":{"g":"x",
+                "tab":["n1"]}},
  "covenant":{"N":{"tab":["n1"]}},
  "cover":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
@@ -3534,7 +4002,8 @@ var lexiconEn = //========== lexicon-en.js
  "cricket":{"N":{"tab":["n1"]}},
  "crime":{"N":{"tab":["n1"]}},
  "criminal":{"A":{"tab":["a1"]},
-             "N":{"tab":["n1"]}},
+             "N":{"g":"x",
+                  "tab":["n1"]}},
  "crisis":{"N":{"tab":["n8"]}},
  "criterion":{"N":{"tab":["n26"]}},
  "critic":{"N":{"tab":["n1"]}},
@@ -3582,7 +4051,8 @@ var lexiconEn = //========== lexicon-en.js
  "cushion":{"N":{"tab":["n1"]}},
  "custody":{"N":{"tab":["n5"]}},
  "custom":{"N":{"tab":["n1"]}},
- "customer":{"N":{"tab":["n1"]}},
+ "customer":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "cut":{"N":{"tab":["n1"]},
         "V":{"tab":"v17"}},
  "cutting":{"N":{"tab":["n1"]}},
@@ -3597,15 +4067,17 @@ var lexiconEn = //========== lexicon-en.js
  "damp":{"A":{"tab":["a3"]}},
  "dance":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
- "dancer":{"N":{"tab":["n1"]}},
+ "dancer":{"N":{"g":"x",
+                "tab":["n1"]}},
  "dancing":{"N":{"tab":["n5"]}},
  "danger":{"N":{"tab":["n1"]}},
  "dangerous":{"A":{"tab":["a1"]}},
- "dare":{"V":{"tab":"v158"}},
+ "dare":{"V":{"tab":"v3"}},
  "dark":{"A":{"tab":["a3"]},
          "N":{"tab":["n5"]}},
  "darkness":{"N":{"tab":["n5"]}},
- "darling":{"N":{"tab":["n1"]}},
+ "darling":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "dash":{"V":{"tab":"v2"}},
  "data":{"N":{"tab":["n4"]}},
  "date":{"N":{"tab":["n1"]},
@@ -3625,7 +4097,8 @@ var lexiconEn = //========== lexicon-en.js
  "dealer":{"N":{"tab":["n1"]}},
  "dealing":{"N":{"tab":["n1"]}},
  "dear":{"A":{"tab":["a3"]},
-         "N":{"tab":["n1"]}},
+         "N":{"g":"x",
+              "tab":["n1"]}},
  "death":{"N":{"tab":["n1"]}},
  "debate":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
@@ -3634,6 +4107,7 @@ var lexiconEn = //========== lexicon-en.js
  "debut":{"N":{"tab":["n1"]}},
  "decade":{"N":{"tab":["n1"]}},
  "decay":{"N":{"tab":["n5"]}},
+ "December":{"N":{"tab":["n1"]}},
  "decent":{"A":{"tab":["a1"]}},
  "decide":{"V":{"tab":"v3"}},
  "decision":{"N":{"tab":["n1"]}},
@@ -3700,7 +4174,8 @@ var lexiconEn = //========== lexicon-en.js
  "denounce":{"V":{"tab":"v3"}},
  "dense":{"A":{"tab":["a2"]}},
  "density":{"N":{"tab":["n3"]}},
- "dentist":{"N":{"tab":["n1"]}},
+ "dentist":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "deny":{"V":{"tab":"v4"}},
  "depart":{"V":{"tab":"v1"}},
  "department":{"N":{"tab":["n1"]}},
@@ -3791,6 +4266,8 @@ var lexiconEn = //========== lexicon-en.js
  "dimension":{"N":{"tab":["n1"]}},
  "diminish":{"V":{"tab":"v2"}},
  "dine":{"V":{"tab":"v3"}},
+ "diner":{"N":{"g":"x",
+               "tab":["n1"]}},
  "dinner":{"N":{"tab":["n1"]}},
  "dioxide":{"N":{"tab":["n1"]}},
  "dip":{"V":{"tab":"v12"}},
@@ -3884,7 +4361,8 @@ var lexiconEn = //========== lexicon-en.js
             "V":{"tab":"v3"}},
  "do":{"V":{"tab":"v96"}},
  "dock":{"N":{"tab":["n1"]}},
- "doctor":{"N":{"tab":["n1"]}},
+ "doctor":{"N":{"g":"x",
+                "tab":["n1"]}},
  "doctrine":{"N":{"tab":["n1"]}},
  "document":{"N":{"tab":["n1"]},
              "V":{"tab":"v1"}},
@@ -3946,7 +4424,8 @@ var lexiconEn = //========== lexicon-en.js
           "V":{"tab":"v65"}},
  "drive":{"N":{"tab":["n1"]},
           "V":{"tab":"v42"}},
- "driver":{"N":{"tab":["n1"]}},
+ "driver":{"N":{"g":"x",
+                "tab":["n1"]}},
  "drop":{"N":{"tab":["n1"]},
          "V":{"tab":"v12"}},
  "drown":{"V":{"tab":"v1"}},
@@ -4072,7 +4551,8 @@ var lexiconEn = //========== lexicon-en.js
  "endless":{"A":{"tab":["a1"]}},
  "endorse":{"V":{"tab":"v3"}},
  "endure":{"V":{"tab":"v3"}},
- "enemy":{"N":{"tab":["n3"]}},
+ "enemy":{"N":{"g":"x",
+               "tab":["n3"]}},
  "energy":{"N":{"tab":["n3"]}},
  "enforce":{"V":{"tab":"v3"}},
  "enforcement":{"N":{"tab":["n5"]}},
@@ -4227,7 +4707,8 @@ var lexiconEn = //========== lexicon-en.js
                "V":{"tab":"v1"}},
  "experimental":{"A":{"tab":["a1"]}},
  "expert":{"A":{"tab":["a1"]},
-           "N":{"tab":["n1"]}},
+           "N":{"g":"x",
+                "tab":["n1"]}},
  "expertise":{"N":{"tab":["n5"]}},
  "explain":{"V":{"tab":"v1"}},
  "explanation":{"N":{"tab":["n1"]}},
@@ -4289,7 +4770,8 @@ var lexiconEn = //========== lexicon-en.js
  "familiar":{"A":{"tab":["a1"]}},
  "family":{"N":{"tab":["n3"]}},
  "famous":{"A":{"tab":["a1"]}},
- "fan":{"N":{"tab":["n1"]},
+ "fan":{"N":{"g":"x",
+             "tab":["n1"]},
         "V":{"tab":"v11"}},
  "fancy":{"V":{"tab":"v4"}},
  "fantastic":{"A":{"tab":["a1"]}},
@@ -4298,7 +4780,8 @@ var lexiconEn = //========== lexicon-en.js
         "Adv":{"tab":["b4"]}},
  "fare":{"N":{"tab":["n1"]}},
  "farm":{"N":{"tab":["n1"]}},
- "farmer":{"N":{"tab":["n1"]}},
+ "farmer":{"N":{"g":"x",
+                "tab":["n1"]}},
  "fascinate":{"V":{"tab":"v3"}},
  "fascinating":{"A":{"tab":["a1"]}},
  "fashion":{"N":{"tab":["n1"]}},
@@ -4324,6 +4807,7 @@ var lexiconEn = //========== lexicon-en.js
  "feather":{"N":{"tab":["n1"]}},
  "feature":{"N":{"tab":["n1"]},
             "V":{"tab":"v3"}},
+ "February":{"N":{"tab":["n3"]}},
  "federal":{"A":{"tab":["a1"]}},
  "federation":{"N":{"tab":["n1"]}},
  "fee":{"N":{"tab":["n1"]}},
@@ -4335,7 +4819,8 @@ var lexiconEn = //========== lexicon-en.js
  "feeling":{"N":{"tab":["n1"]}},
  "fellow":{"N":{"tab":["n1"]}},
  "female":{"A":{"tab":["a1"]},
-           "N":{"tab":["n1"]}},
+           "N":{"g":"f",
+                "tab":["n1"]}},
  "feminine":{"A":{"tab":["a1"]}},
  "feminist":{"N":{"tab":["n1"]}},
  "fence":{"N":{"tab":["n1"]}},
@@ -4443,7 +4928,8 @@ var lexiconEn = //========== lexicon-en.js
  "foot":{"N":{"tab":["n19"]}},
  "football":{"N":{"tab":["n1"]}},
  "footstep":{"N":{"tab":["n1"]}},
- "for":{"P":{"tab":["pp"]}},
+ "for":{"C":{"tab":["cs"]},
+        "P":{"tab":["pp"]}},
  "forbid":{"V":{"tab":"v118"}},
  "force":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
@@ -4451,7 +4937,8 @@ var lexiconEn = //========== lexicon-en.js
              "V":{"tab":"v58"}},
  "forehead":{"N":{"tab":["n1"]}},
  "foreign":{"A":{"tab":["a1"]}},
- "foreigner":{"N":{"tab":["n1"]}},
+ "foreigner":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "forest":{"N":{"tab":["n1"]}},
  "forestry":{"N":{"tab":["n5"]}},
  "forever":{"Adv":{"tab":["b1"]}},
@@ -4506,8 +4993,10 @@ var lexiconEn = //========== lexicon-en.js
  "frequent":{"A":{"tab":["a1"]}},
  "frequently":{"Adv":{"tab":["b1"]}},
  "fresh":{"A":{"tab":["a3"]}},
+ "Friday":{"N":{"tab":["n1"]}},
  "fridge":{"N":{"tab":["n1"]}},
- "friend":{"N":{"tab":["n1"]}},
+ "friend":{"N":{"g":"x",
+                "tab":["n1"]}},
  "friendly":{"A":{"tab":["a4"]}},
  "friendship":{"N":{"tab":["n1"]}},
  "frighten":{"V":{"tab":"v1"}},
@@ -4559,7 +5048,8 @@ var lexiconEn = //========== lexicon-en.js
  "gap":{"N":{"tab":["n1"]}},
  "garage":{"N":{"tab":["n1"]}},
  "garden":{"N":{"tab":["n1"]}},
- "gardener":{"N":{"tab":["n1"]}},
+ "gardener":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "garlic":{"N":{"tab":["n5"]}},
  "garment":{"N":{"tab":["n1"]}},
  "gas":{"N":{"tab":["n2"]}},
@@ -4583,7 +5073,8 @@ var lexiconEn = //========== lexicon-en.js
  "genetic":{"A":{"tab":["a1"]}},
  "genius":{"N":{"tab":["n2"]}},
  "gentle":{"A":{"tab":["a2"]}},
- "gentleman":{"N":{"tab":["n7"]}},
+ "gentleman":{"N":{"g":"m",
+                   "tab":["n7"]}},
  "gently":{"Adv":{"tab":["b1"]}},
  "genuine":{"A":{"tab":["a1"]}},
  "genuinely":{"Adv":{"tab":["b1"]}},
@@ -4593,7 +5084,8 @@ var lexiconEn = //========== lexicon-en.js
  "gesture":{"N":{"tab":["n1"]}},
  "get":{"V":{"tab":"v125"}},
  "ghost":{"N":{"tab":["n1"]}},
- "giant":{"N":{"tab":["n1"]}},
+ "giant":{"N":{"g":"x",
+               "tab":["n1"]}},
  "gift":{"N":{"tab":["n1"]}},
  "gig":{"N":{"tab":["n1"]}},
  "girl":{"N":{"g":"f",
@@ -4630,14 +5122,16 @@ var lexiconEn = //========== lexicon-en.js
  "gossip":{"N":{"tab":["n1"]}},
  "govern":{"V":{"tab":"v1"}},
  "government":{"N":{"tab":["n1"]}},
- "governor":{"N":{"tab":["n1"]}},
+ "governor":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "gown":{"N":{"tab":["n1"]}},
  "grab":{"V":{"tab":"v5"}},
  "grace":{"N":{"tab":["n1"]}},
  "grade":{"N":{"tab":["n1"]}},
  "gradual":{"A":{"tab":["a1"]}},
  "gradually":{"Adv":{"tab":["b1"]}},
- "graduate":{"N":{"tab":["n1"]},
+ "graduate":{"N":{"g":"x",
+                  "tab":["n1"]},
              "V":{"tab":"v3"}},
  "grain":{"N":{"tab":["n1"]}},
  "grammar":{"N":{"tab":["n1"]}},
@@ -4684,15 +5178,19 @@ var lexiconEn = //========== lexicon-en.js
  "growth":{"N":{"tab":["n1"]}},
  "guarantee":{"N":{"tab":["n1"]},
               "V":{"tab":"v16"}},
- "guard":{"N":{"tab":["n1"]},
+ "guard":{"N":{"g":"x",
+               "tab":["n1"]},
           "V":{"tab":"v1"}},
- "guardian":{"N":{"tab":["n1"]}},
+ "guardian":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "guerrilla":{"N":{"tab":["n1"]}},
  "guess":{"N":{"tab":["n2"]},
           "V":{"tab":"v2"}},
- "guest":{"N":{"tab":["n1"]}},
+ "guest":{"N":{"g":"x",
+               "tab":["n1"]}},
  "guidance":{"N":{"tab":["n5"]}},
- "guide":{"N":{"tab":["n1"]},
+ "guide":{"N":{"g":"x",
+               "tab":["n1"]},
           "V":{"tab":"v3"}},
  "guideline":{"N":{"tab":["n1"]}},
  "guild":{"N":{"tab":["n1"]}},
@@ -4751,7 +5249,8 @@ var lexiconEn = //========== lexicon-en.js
          "V":{"tab":"v1"}},
  "heading":{"N":{"tab":["n1"]}},
  "headline":{"N":{"tab":["n1"]}},
- "headmaster":{"N":{"tab":["n1"]}},
+ "headmaster":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "headquarters":{"N":{"tab":["n6"]}},
  "heal":{"V":{"tab":"v1"}},
  "health":{"N":{"tab":["n5"]}},
@@ -4806,7 +5305,8 @@ var lexiconEn = //========== lexicon-en.js
  "hip":{"N":{"tab":["n1"]}},
  "hire":{"N":{"tab":["n5"]},
          "V":{"tab":"v3"}},
- "historian":{"N":{"tab":["n1"]}},
+ "historian":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "historic":{"A":{"tab":["a1"]}},
  "historical":{"A":{"tab":["a1"]}},
  "historically":{"Adv":{"tab":["b1"]}},
@@ -4853,7 +5353,8 @@ var lexiconEn = //========== lexicon-en.js
  "host":{"N":{"g":"m",
               "tab":["n85"]},
          "V":{"tab":"v1"}},
- "hostage":{"N":{"tab":["n1"]}},
+ "hostage":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "hostile":{"A":{"tab":["a1"]}},
  "hostility":{"N":{"tab":["n3"]}},
  "hot":{"A":{"tab":["a11"]}},
@@ -4866,12 +5367,14 @@ var lexiconEn = //========== lexicon-en.js
  "housewife":{"N":{"tab":["n10"]}},
  "housing":{"N":{"tab":["n5"]}},
  "hover":{"V":{"tab":"v1"}},
- "how":{"Adv":{"tab":["b1"]}},
+ "how":{"Adv":{"tab":["b1"]},
+        "Pro":{"tab":["pn6"]}},
  "however":{"Adv":{"tab":["b1"]}},
  "hug":{"V":{"tab":"v7"}},
  "huge":{"A":{"tab":["a1"]}},
  "human":{"A":{"tab":["a1"]},
-          "N":{"tab":["n1"]}},
+          "N":{"g":"x",
+               "tab":["n1"]}},
  "humanity":{"N":{"tab":["n5"]}},
  "humble":{"A":{"tab":["a2"]}},
  "humour":{"N":{"tab":["n1"]}},
@@ -4879,7 +5382,8 @@ var lexiconEn = //========== lexicon-en.js
  "hungry":{"A":{"tab":["a4"]}},
  "hunt":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
- "hunter":{"N":{"tab":["n1"]}},
+ "hunter":{"N":{"g":"x",
+                "tab":["n1"]}},
  "hunting":{"N":{"tab":["n5"]}},
  "hurry":{"N":{"tab":["n3"]},
           "V":{"tab":"v4"}},
@@ -4889,6 +5393,7 @@ var lexiconEn = //========== lexicon-en.js
  "hut":{"N":{"tab":["n1"]}},
  "hydrogen":{"N":{"tab":["n5"]}},
  "hypothesis":{"N":{"tab":["n8"]}},
+ "I":{"Pro":{"tab":["pn1"]}},
  "ice":{"N":{"tab":["n1"]}},
  "idea":{"N":{"tab":["n1"]}},
  "ideal":{"A":{"tab":["a1"]},
@@ -4900,6 +5405,7 @@ var lexiconEn = //========== lexicon-en.js
  "identity":{"N":{"tab":["n3"]}},
  "ideological":{"A":{"tab":["a1"]}},
  "ideology":{"N":{"tab":["n3"]}},
+ "if":{"C":{"tab":["cs"]}},
  "ignorance":{"N":{"tab":["n5"]}},
  "ignore":{"V":{"tab":"v3"}},
  "ill":{"A":{"tab":["a1"]},
@@ -4917,7 +5423,8 @@ var lexiconEn = //========== lexicon-en.js
  "immediate":{"A":{"tab":["a1"]}},
  "immediately":{"Adv":{"tab":["b1"]}},
  "immense":{"A":{"tab":["a1"]}},
- "immigrant":{"N":{"tab":["n1"]}},
+ "immigrant":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "immigration":{"N":{"tab":["n1"]}},
  "imminent":{"A":{"tab":["a1"]}},
  "immune":{"A":{"tab":["a1"]}},
@@ -4986,7 +5493,8 @@ var lexiconEn = //========== lexicon-en.js
  "inequality":{"N":{"tab":["n3"]}},
  "inevitable":{"A":{"tab":["a1"]}},
  "inevitably":{"Adv":{"tab":["b1"]}},
- "infant":{"N":{"tab":["n1"]}},
+ "infant":{"N":{"g":"x",
+                "tab":["n1"]}},
  "infect":{"V":{"tab":"v1"}},
  "infection":{"N":{"tab":["n1"]}},
  "infinite":{"A":{"tab":["a1"]}},
@@ -5141,6 +5649,7 @@ var lexiconEn = //========== lexicon-en.js
  "jail":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "jam":{"N":{"tab":["n1"]}},
+ "January":{"N":{"tab":["n3"]}},
  "jar":{"N":{"tab":["n1"]}},
  "jaw":{"N":{"tab":["n1"]}},
  "jazz":{"N":{"tab":["n5"]}},
@@ -5159,18 +5668,22 @@ var lexiconEn = //========== lexicon-en.js
  "joke":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
  "journal":{"N":{"tab":["n1"]}},
- "journalist":{"N":{"tab":["n1"]}},
+ "journalist":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "journey":{"N":{"tab":["n1"]}},
  "joy":{"N":{"tab":["n1"]}},
- "judge":{"N":{"tab":["n1"]},
+ "judge":{"N":{"g":"x",
+               "tab":["n1"]},
           "V":{"tab":"v3"}},
  "judgement":{"N":{"tab":["n1"]}},
  "judgment":{"N":{"tab":["n1"]}},
  "judicial":{"A":{"tab":["a1"]}},
  "juice":{"N":{"tab":["n1"]}},
+ "July":{"N":{"tab":["n3"]}},
  "jump":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "junction":{"N":{"tab":["n1"]}},
+ "June":{"N":{"tab":["n1"]}},
  "jungle":{"N":{"tab":["n1"]}},
  "junior":{"A":{"tab":["a1"]}},
  "jurisdiction":{"N":{"tab":["n1"]}},
@@ -5191,13 +5704,15 @@ var lexiconEn = //========== lexicon-en.js
  "kid":{"N":{"tab":["n1"]}},
  "kidney":{"N":{"tab":["n1"]}},
  "kill":{"V":{"tab":"v1"}},
- "killer":{"N":{"tab":["n1"]}},
+ "killer":{"N":{"g":"x",
+                "tab":["n1"]}},
  "killing":{"N":{"tab":["n1"]}},
  "kilometre":{"N":{"tab":["n1"]}},
  "kind":{"A":{"tab":["a3"]},
          "N":{"tab":["n1"]}},
  "kindly":{"Adv":{"tab":["b1"]}},
- "king":{"N":{"tab":["n1"]}},
+ "king":{"N":{"g":"m",
+              "tab":["n1"]}},
  "kingdom":{"N":{"tab":["n1"]}},
  "kiss":{"N":{"tab":["n2"]},
          "V":{"tab":"v2"}},
@@ -5224,16 +5739,19 @@ var lexiconEn = //========== lexicon-en.js
  "lace":{"N":{"tab":["n1"]}},
  "lack":{"N":{"tab":["n5"]},
          "V":{"tab":"v1"}},
- "lad":{"N":{"tab":["n1"]}},
+ "lad":{"N":{"g":"m",
+             "tab":["n1"]}},
  "ladder":{"N":{"tab":["n1"]}},
- "lady":{"N":{"tab":["n3"]}},
+ "lady":{"N":{"g":"f",
+              "tab":["n3"]}},
  "lake":{"N":{"tab":["n1"]}},
  "lamb":{"N":{"tab":["n1"]}},
  "lamp":{"N":{"tab":["n1"]}},
  "land":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "landing":{"N":{"tab":["n1"]}},
- "landlord":{"N":{"tab":["n1"]}},
+ "landlord":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "landowner":{"N":{"tab":["n1"]}},
  "landscape":{"N":{"tab":["n1"]}},
  "lane":{"N":{"tab":["n1"]}},
@@ -5245,7 +5763,7 @@ var lexiconEn = //========== lexicon-en.js
  "laser":{"N":{"tab":["n1"]}},
  "last":{"V":{"tab":"v1"}},
  "late":{"A":{"tab":["a2"]},
-         "Adv":{"tab":["a2"]}},
+         "Adv":{"tab":["b1"]}},
  "lately":{"Adv":{"tab":["b1"]}},
  "laugh":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
@@ -5254,14 +5772,16 @@ var lexiconEn = //========== lexicon-en.js
            "V":{"tab":"v2"}},
  "law":{"N":{"tab":["n1"]}},
  "lawn":{"N":{"tab":["n1"]}},
- "lawyer":{"N":{"tab":["n1"]}},
+ "lawyer":{"N":{"g":"x",
+                "tab":["n1"]}},
  "lay":{"A":{"tab":["a1"]},
         "V":{"tab":"v19"}},
  "layer":{"N":{"tab":["n1"]}},
  "lazy":{"A":{"tab":["a4"]}},
  "lead":{"N":{"tab":["n1"]},
          "V":{"tab":"v77"}},
- "leader":{"N":{"tab":["n1"]}},
+ "leader":{"N":{"g":"x",
+                "tab":["n1"]}},
  "leadership":{"N":{"tab":["n5"]}},
  "leading":{"A":{"tab":["a1"]}},
  "leaf":{"N":{"tab":["n9"]}},
@@ -5271,14 +5791,16 @@ var lexiconEn = //========== lexicon-en.js
  "lean":{"V":{"tab":"v26"}},
  "leap":{"V":{"tab":"v26"}},
  "learn":{"V":{"tab":"v26"}},
- "learner":{"N":{"tab":["n1"]}},
+ "learner":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "learning":{"N":{"tab":["n5"]}},
  "lease":{"N":{"tab":["n1"]}},
  "leather":{"N":{"tab":["n1"]}},
  "leave":{"N":{"tab":["n1"]},
           "V":{"tab":"v155"}},
  "lecture":{"N":{"tab":["n1"]}},
- "lecturer":{"N":{"tab":["n1"]}},
+ "lecturer":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "left":{"A":{"tab":["a1"]},
          "N":{"tab":["n5"]}},
  "leg":{"N":{"tab":["n1"]}},
@@ -5293,10 +5815,12 @@ var lexiconEn = //========== lexicon-en.js
  "leisure":{"N":{"tab":["n5"]}},
  "lemon":{"N":{"tab":["n1"]}},
  "lend":{"V":{"tab":"v23"}},
- "lender":{"N":{"tab":["n1"]}},
+ "lender":{"N":{"g":"x",
+                "tab":["n1"]}},
  "length":{"N":{"tab":["n1"]}},
  "lengthy":{"A":{"tab":["a4"]}},
- "less":{"Adv":{"tab":["b1"]}},
+ "less":{"Adv":{"tab":["b1"]},
+         "P":{"tab":["pp"]}},
  "lesser":{"A":{"tab":["a1"]}},
  "lesson":{"N":{"tab":["n1"]}},
  "let":{"V":{"tab":"v17"}},
@@ -5312,7 +5836,8 @@ var lexiconEn = //========== lexicon-en.js
             "N":{"tab":["n1"]}},
  "liberation":{"N":{"tab":["n1"]}},
  "liberty":{"N":{"tab":["n3"]}},
- "librarian":{"N":{"tab":["n1"]}},
+ "librarian":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "library":{"N":{"tab":["n3"]}},
  "licence":{"N":{"tab":["n1"]}},
  "license":{"V":{"tab":"v3"}},
@@ -5398,7 +5923,8 @@ var lexiconEn = //========== lexicon-en.js
  "look":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "loose":{"A":{"tab":["a2"]}},
- "lord":{"N":{"tab":["n1"]}},
+ "lord":{"N":{"g":"m",
+              "tab":["n1"]}},
  "lordship":{"N":{"tab":["n1"]}},
  "lorry":{"N":{"tab":["n3"]}},
  "lose":{"V":{"tab":"v143"}},
@@ -5430,7 +5956,8 @@ var lexiconEn = //========== lexicon-en.js
  "magic":{"A":{"tab":["a1"]},
           "N":{"tab":["n5"]}},
  "magical":{"A":{"tab":["a1"]}},
- "magistrate":{"N":{"tab":["n1"]}},
+ "magistrate":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "magnetic":{"A":{"tab":["a1"]}},
  "magnificent":{"A":{"tab":["a1"]}},
  "magnitude":{"N":{"tab":["n5"]}},
@@ -5451,13 +5978,15 @@ var lexiconEn = //========== lexicon-en.js
  "maker":{"N":{"tab":["n1"]}},
  "making":{"N":{"tab":["n1"]}},
  "male":{"A":{"tab":["a1"]},
-         "N":{"tab":["n1"]}},
+         "N":{"g":"m",
+              "tab":["n1"]}},
  "mammal":{"N":{"tab":["n1"]}},
  "man":{"N":{"g":"m",
              "tab":["n89"]}},
  "manage":{"V":{"tab":"v3"}},
  "management":{"N":{"tab":["n1"]}},
- "manager":{"N":{"tab":["n1"]}},
+ "manager":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "managerial":{"A":{"tab":["a1"]}},
  "mandatory":{"A":{"tab":["a1"]}},
  "manifest":{"V":{"tab":"v1"}},
@@ -5481,6 +6010,7 @@ var lexiconEn = //========== lexicon-en.js
  "marble":{"N":{"tab":["n1"]}},
  "march":{"N":{"tab":["n2"]},
           "V":{"tab":"v2"}},
+ "March":{"N":{"tab":["n2"]}},
  "margin":{"N":{"tab":["n1"]}},
  "marginal":{"A":{"tab":["a1"]}},
  "marine":{"A":{"tab":["a1"]}},
@@ -5499,7 +6029,8 @@ var lexiconEn = //========== lexicon-en.js
  "mask":{"N":{"tab":["n1"]}},
  "mass":{"N":{"tab":["n2"]}},
  "massive":{"A":{"tab":["a1"]}},
- "master":{"N":{"tab":["n1"]},
+ "master":{"N":{"g":"x",
+                "tab":["n1"]},
            "V":{"tab":"v1"}},
  "match":{"N":{"tab":["n2"]},
           "V":{"tab":"v2"}},
@@ -5516,8 +6047,10 @@ var lexiconEn = //========== lexicon-en.js
  "maximum":{"A":{"tab":["a1"]},
             "N":{"tab":["n1"]}},
  "may":{"V":{"tab":"v153"}},
+ "May":{"N":{"tab":["n1"]}},
  "maybe":{"Adv":{"tab":["b1"]}},
- "mayor":{"N":{"tab":["n1"]}},
+ "mayor":{"N":{"g":"x",
+               "tab":["n1"]}},
  "me":{"Pro":{"tab":["pn2"]}},
  "meadow":{"N":{"tab":["n1"]}},
  "meal":{"N":{"tab":["n1"]}},
@@ -5542,7 +6075,8 @@ var lexiconEn = //========== lexicon-en.js
  "meet":{"V":{"tab":"v123"}},
  "meeting":{"N":{"tab":["n1"]}},
  "melt":{"V":{"tab":"v127"}},
- "member":{"N":{"tab":["n1"]}},
+ "member":{"N":{"g":"x",
+                "tab":["n1"]}},
  "membership":{"N":{"tab":["n5"]}},
  "membrane":{"N":{"tab":["n1"]}},
  "memorable":{"A":{"tab":["a1"]}},
@@ -5591,7 +6125,8 @@ var lexiconEn = //========== lexicon-en.js
  "minimum":{"A":{"tab":["a1"]},
             "N":{"tab":["n1"]}},
  "mining":{"N":{"tab":["n5"]}},
- "minister":{"N":{"tab":["n1"]}},
+ "minister":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "ministerial":{"A":{"tab":["a1"]}},
  "ministry":{"N":{"tab":["n3"]}},
  "minor":{"A":{"tab":["a1"]}},
@@ -5636,11 +6171,14 @@ var lexiconEn = //========== lexicon-en.js
  "monarch":{"N":{"tab":["n1"]}},
  "monarchy":{"N":{"tab":["n3"]}},
  "monastery":{"N":{"tab":["n3"]}},
+ "Monday":{"N":{"tab":["n1"]}},
  "monetary":{"A":{"tab":["a1"]}},
  "money":{"N":{"tab":["n50"]}},
- "monitor":{"N":{"tab":["n1"]},
+ "monitor":{"N":{"g":"x",
+                 "tab":["n1"]},
             "V":{"tab":"v1"}},
- "monk":{"N":{"tab":["n1"]}},
+ "monk":{"N":{"g":"m",
+              "tab":["n1"]}},
  "monkey":{"N":{"tab":["n1"]}},
  "monopoly":{"N":{"tab":["n3"]}},
  "monster":{"N":{"tab":["n1"]}},
@@ -5654,7 +6192,8 @@ var lexiconEn = //========== lexicon-en.js
           "N":{"tab":["n1"]}},
  "morale":{"N":{"tab":["n5"]}},
  "morality":{"N":{"tab":["n3"]}},
- "more":{"Adv":{"tab":["b1"]}},
+ "more":{"Adv":{"tab":["b1"]},
+         "D":{"tab":["d4"]}},
  "moreover":{"Adv":{"tab":["b1"]}},
  "morning":{"N":{"tab":["n1"]}},
  "mortality":{"N":{"tab":["n5"]}},
@@ -5670,7 +6209,8 @@ var lexiconEn = //========== lexicon-en.js
  "motivation":{"N":{"tab":["n1"]}},
  "motive":{"N":{"tab":["n1"]}},
  "motor":{"N":{"tab":["n1"]}},
- "motorist":{"N":{"tab":["n1"]}},
+ "motorist":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "motorway":{"N":{"tab":["n1"]}},
  "mould":{"N":{"tab":["n1"]}},
  "mount":{"V":{"tab":"v1"}},
@@ -5681,7 +6221,8 @@ var lexiconEn = //========== lexicon-en.js
          "V":{"tab":"v3"}},
  "movement":{"N":{"tab":["n1"]}},
  "movie":{"N":{"tab":["n1"]}},
- "much":{"Adv":{"tab":["b1"]}},
+ "much":{"Adv":{"tab":["b1"]},
+         "D":{"tab":["d4"]}},
  "mud":{"N":{"tab":["n5"]}},
  "mug":{"N":{"tab":["n1"]}},
  "multiple":{"A":{"tab":["a1"]}},
@@ -5689,14 +6230,16 @@ var lexiconEn = //========== lexicon-en.js
  "municipal":{"A":{"tab":["a1"]}},
  "murder":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
- "murderer":{"N":{"tab":["n1"]}},
+ "murderer":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "murmur":{"V":{"tab":"v1"}},
  "muscle":{"N":{"tab":["n1"]}},
  "museum":{"N":{"tab":["n1"]}},
  "mushroom":{"N":{"tab":["n1"]}},
  "music":{"N":{"tab":["n5"]}},
  "musical":{"A":{"tab":["a1"]}},
- "musician":{"N":{"tab":["n1"]}},
+ "musician":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "must":{"N":{"tab":["n1"]},
          "V":{"tab":"v166"}},
  "mutation":{"N":{"tab":["n1"]}},
@@ -5749,10 +6292,12 @@ var lexiconEn = //========== lexicon-en.js
  "negligence":{"N":{"tab":["n5"]}},
  "negotiate":{"V":{"tab":"v3"}},
  "negotiation":{"N":{"tab":["n1"]}},
- "neighbour":{"N":{"tab":["n1"]}},
+ "neighbour":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "neighbourhood":{"N":{"tab":["n1"]}},
  "neither":{"Adv":{"tab":["b1"]}},
- "nephew":{"N":{"tab":["n1"]}},
+ "nephew":{"N":{"g":"m",
+                "tab":["n1"]}},
  "nerve":{"N":{"tab":["n1"]}},
  "nervous":{"A":{"tab":["a1"]}},
  "nest":{"N":{"tab":["n1"]}},
@@ -5767,7 +6312,8 @@ var lexiconEn = //========== lexicon-en.js
  "newly":{"Adv":{"tab":["b1"]}},
  "news":{"N":{"tab":["n5"]}},
  "newspaper":{"N":{"tab":["n1"]}},
- "next":{"Adv":{"tab":["b1"]}},
+ "next":{"Adv":{"tab":["b1"]},
+         "P":{"tab":["pp"]}},
  "nice":{"A":{"tab":["a2"]}},
  "nicely":{"Adv":{"tab":["b1"]}},
  "night":{"N":{"tab":["n1"]}},
@@ -5809,7 +6355,9 @@ var lexiconEn = //========== lexicon-en.js
  "noun":{"N":{"tab":["n1"]}},
  "novel":{"A":{"tab":["a1"]},
           "N":{"tab":["n1"]}},
- "novelist":{"N":{"tab":["n1"]}},
+ "novelist":{"N":{"g":"x",
+                  "tab":["n1"]}},
+ "November":{"N":{"tab":["n1"]}},
  "now":{"Adv":{"tab":["b1"]}},
  "nowadays":{"Adv":{"tab":["b1"]}},
  "nowhere":{"Adv":{"tab":["b1"]}},
@@ -5818,7 +6366,8 @@ var lexiconEn = //========== lexicon-en.js
  "nuisance":{"N":{"tab":["n1"]}},
  "number":{"N":{"tab":["n1"]}},
  "numerous":{"A":{"tab":["a1"]}},
- "nun":{"N":{"tab":["n1"]}},
+ "nun":{"N":{"g":"f",
+             "tab":["n1"]}},
  "nurse":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
  "nursery":{"N":{"tab":["n3"]}},
@@ -5850,6 +6399,7 @@ var lexiconEn = //========== lexicon-en.js
  "occur":{"V":{"tab":"v13"}},
  "occurrence":{"N":{"tab":["n1"]}},
  "ocean":{"N":{"tab":["n1"]}},
+ "October":{"N":{"tab":["n1"]}},
  "odd":{"A":{"tab":["a3"]}},
  "odds":{"N":{"tab":["n6"]}},
  "odour":{"N":{"tab":["n1"]}},
@@ -5864,7 +6414,8 @@ var lexiconEn = //========== lexicon-en.js
           "V":{"tab":"v1"}},
  "offering":{"N":{"tab":["n1"]}},
  "office":{"N":{"tab":["n1"]}},
- "officer":{"N":{"tab":["n1"]}},
+ "officer":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "official":{"A":{"tab":["a1"]},
              "N":{"tab":["n1"]}},
  "officially":{"Adv":{"tab":["b1"]}},
@@ -5881,7 +6432,8 @@ var lexiconEn = //========== lexicon-en.js
  "on":{"Adv":{"tab":["b1"]},
        "P":{"tab":["pp"]}},
  "once":{"Adv":{"tab":["b1"]}},
- "one":{"Pro":{"tab":["pn5"]}},
+ "one":{"D":{"tab":["d4"],"value":1},
+        "Pro":{"tab":["pn0"]}},
  "onion":{"N":{"tab":["n1"]}},
  "only":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b1"]}},
@@ -5909,6 +6461,7 @@ var lexiconEn = //========== lexicon-en.js
  "optimistic":{"A":{"tab":["a1"]}},
  "option":{"N":{"tab":["n1"]}},
  "optional":{"A":{"tab":["a1"]}},
+ "or":{"C":{"tab":["cc"]}},
  "oral":{"A":{"tab":["a1"]}},
  "orange":{"A":{"tab":["a1"]},
            "N":{"tab":["n1"]}},
@@ -5930,7 +6483,8 @@ var lexiconEn = //========== lexicon-en.js
  "originally":{"Adv":{"tab":["b1"]}},
  "originate":{"V":{"tab":"v3"}},
  "orthodox":{"A":{"tab":["a1"]}},
- "otherwise":{"Adv":{"tab":["b1"]}},
+ "otherwise":{"Adv":{"tab":["b1"]},
+              "C":{"tab":["cs"]}},
  "out":{"A":{"tab":["a1"]},
         "Adv":{"tab":["b1"]}},
  "outbreak":{"N":{"tab":["n1"]}},
@@ -5967,7 +6521,8 @@ var lexiconEn = //========== lexicon-en.js
  "owe":{"V":{"tab":"v3"}},
  "owl":{"N":{"tab":["n1"]}},
  "own":{"V":{"tab":"v1"}},
- "owner":{"N":{"tab":["n1"]}},
+ "owner":{"N":{"g":"x",
+               "tab":["n1"]}},
  "ownership":{"N":{"tab":["n5"]}},
  "oxygen":{"N":{"tab":["n5"]}},
  "ozone":{"N":{"tab":["n5"]}},
@@ -6003,7 +6558,8 @@ var lexiconEn = //========== lexicon-en.js
  "parameter":{"N":{"tab":["n1"]}},
  "parcel":{"N":{"tab":["n1"]}},
  "pardon":{"N":{"tab":["n1"]}},
- "parent":{"N":{"tab":["n1"]}},
+ "parent":{"N":{"g":"x",
+                "tab":["n1"]}},
  "parental":{"A":{"tab":["a1"]}},
  "parish":{"N":{"tab":["n2"]}},
  "park":{"N":{"tab":["n1"]},
@@ -6030,7 +6586,8 @@ var lexiconEn = //========== lexicon-en.js
  "pass":{"N":{"tab":["n2"]},
          "V":{"tab":"v87"}},
  "passage":{"N":{"tab":["n1"]}},
- "passenger":{"N":{"tab":["n1"]}},
+ "passenger":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "passion":{"N":{"tab":["n1"]}},
  "passionate":{"A":{"tab":["a1"]}},
  "passive":{"A":{"tab":["a1"]}},
@@ -6062,7 +6619,8 @@ var lexiconEn = //========== lexicon-en.js
  "peak":{"N":{"tab":["n1"]}},
  "peasant":{"N":{"tab":["n1"]}},
  "peculiar":{"A":{"tab":["a1"]}},
- "pedestrian":{"N":{"tab":["n1"]}},
+ "pedestrian":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "peer":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "pen":{"N":{"tab":["n1"]}},
@@ -6071,7 +6629,8 @@ var lexiconEn = //========== lexicon-en.js
  "penetrate":{"V":{"tab":"v3"}},
  "penny":{"N":{"tab":["n3"]}},
  "pension":{"N":{"tab":["n1"]}},
- "pensioner":{"N":{"tab":["n1"]}},
+ "pensioner":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "people":{"N":{"tab":["n6"]}},
  "pepper":{"N":{"tab":["n1"]}},
  "per":{"P":{"tab":["pp"]}},
@@ -6082,7 +6641,8 @@ var lexiconEn = //========== lexicon-en.js
  "perfectly":{"Adv":{"tab":["b1"]}},
  "perform":{"V":{"tab":"v1"}},
  "performance":{"N":{"tab":["n1"]}},
- "performer":{"N":{"tab":["n1"]}},
+ "performer":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "perhaps":{"Adv":{"tab":["b1"]}},
  "period":{"N":{"tab":["n1"]}},
  "permanent":{"A":{"tab":["a1"]}},
@@ -6091,7 +6651,8 @@ var lexiconEn = //========== lexicon-en.js
  "permit":{"V":{"tab":"v14"}},
  "persist":{"V":{"tab":"v1"}},
  "persistent":{"A":{"tab":["a1"]}},
- "person":{"N":{"tab":["n1"]}},
+ "person":{"N":{"g":"x",
+                "tab":["n1"]}},
  "personal":{"A":{"tab":["a1"]}},
  "personality":{"N":{"tab":["n3"]}},
  "personally":{"Adv":{"tab":["b1"]}},
@@ -6113,7 +6674,8 @@ var lexiconEn = //========== lexicon-en.js
  "photo":{"N":{"tab":["n1"]}},
  "photograph":{"N":{"tab":["n1"]},
                "V":{"tab":"v1"}},
- "photographer":{"N":{"tab":["n1"]}},
+ "photographer":{"N":{"g":"x",
+                      "tab":["n1"]}},
  "photographic":{"A":{"tab":["a1"]}},
  "photography":{"N":{"tab":["n5"]}},
  "phrase":{"N":{"tab":["n1"]}},
@@ -6135,7 +6697,8 @@ var lexiconEn = //========== lexicon-en.js
  "pill":{"N":{"tab":["n1"]}},
  "pillar":{"N":{"tab":["n1"]}},
  "pillow":{"N":{"tab":["n1"]}},
- "pilot":{"N":{"tab":["n1"]}},
+ "pilot":{"N":{"g":"x",
+               "tab":["n1"]}},
  "pin":{"N":{"tab":["n1"]},
         "V":{"tab":"v11"}},
  "pine":{"N":{"tab":["n1"]}},
@@ -6166,7 +6729,8 @@ var lexiconEn = //========== lexicon-en.js
  "plausible":{"A":{"tab":["a1"]}},
  "play":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
- "player":{"N":{"tab":["n1"]}},
+ "player":{"N":{"g":"x",
+                "tab":["n1"]}},
  "plea":{"N":{"tab":["n1"]}},
  "plead":{"V":{"tab":"v165"}},
  "pleasant":{"A":{"tab":["a1"]}},
@@ -6181,7 +6745,8 @@ var lexiconEn = //========== lexicon-en.js
  "plus":{"P":{"tab":["pp"]}},
  "pocket":{"N":{"tab":["n1"]}},
  "poem":{"N":{"tab":["n1"]}},
- "poet":{"N":{"tab":["n1"]}},
+ "poet":{"N":{"g":"x",
+              "tab":["n1"]}},
  "poetry":{"N":{"tab":["n5"]}},
  "point":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
@@ -6189,7 +6754,8 @@ var lexiconEn = //========== lexicon-en.js
            "V":{"tab":"v1"}},
  "pole":{"N":{"tab":["n1"]}},
  "police":{"N":{"tab":["n4"]}},
- "policeman":{"N":{"tab":["n7"]}},
+ "policeman":{"N":{"g":"m",
+                   "tab":["n7"]}},
  "policy":{"N":{"tab":["n3"]}},
  "polish":{"V":{"tab":"v2"}},
  "polite":{"A":{"tab":["a2"]}},
@@ -6313,17 +6879,20 @@ var lexiconEn = //========== lexicon-en.js
  "price":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
  "pride":{"N":{"tab":["n1"]}},
- "priest":{"N":{"tab":["n1"]}},
+ "priest":{"N":{"g":"m",
+                "tab":["n1"]}},
  "primarily":{"Adv":{"tab":["b1"]}},
  "primary":{"A":{"tab":["a1"]},
             "N":{"tab":["n3"]}},
  "prime":{"A":{"tab":["a1"]}},
  "primitive":{"A":{"tab":["a1"]}},
- "prince":{"N":{"tab":["n1"]}},
+ "prince":{"N":{"g":"m",
+                "tab":["n1"]}},
  "princess":{"N":{"g":"f",
                   "tab":["n88"]}},
  "principal":{"A":{"tab":["a1"]},
-              "N":{"tab":["n1"]}},
+              "N":{"g":"x",
+                   "tab":["n1"]}},
  "principally":{"Adv":{"tab":["b1"]}},
  "principle":{"N":{"tab":["n1"]}},
  "print":{"N":{"tab":["n1"]},
@@ -6333,7 +6902,8 @@ var lexiconEn = //========== lexicon-en.js
  "prior":{"A":{"tab":["a1"]}},
  "priority":{"N":{"tab":["n3"]}},
  "prison":{"N":{"tab":["n1"]}},
- "prisoner":{"N":{"tab":["n1"]}},
+ "prisoner":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "privacy":{"N":{"tab":["n5"]}},
  "private":{"A":{"tab":["a1"]}},
  "privately":{"Adv":{"tab":["b1"]}},
@@ -6363,8 +6933,10 @@ var lexiconEn = //========== lexicon-en.js
  "productivity":{"N":{"tab":["n5"]}},
  "profession":{"N":{"tab":["n1"]}},
  "professional":{"A":{"tab":["a1"]},
-                 "N":{"tab":["n1"]}},
- "professor":{"N":{"tab":["n1"]}},
+                 "N":{"g":"x",
+                      "tab":["n1"]}},
+ "professor":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "profile":{"N":{"tab":["n1"]}},
  "profit":{"N":{"tab":["n1"]},
            "V":{"tab":"v1"}},
@@ -6402,7 +6974,8 @@ var lexiconEn = //========== lexicon-en.js
  "proposal":{"N":{"tab":["n1"]}},
  "propose":{"V":{"tab":"v3"}},
  "proposition":{"N":{"tab":["n1"]}},
- "proprietor":{"N":{"tab":["n1"]}},
+ "proprietor":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "prosecute":{"V":{"tab":"v3"}},
  "prosecution":{"N":{"tab":["n1"]}},
  "prospect":{"N":{"tab":["n1"]}},
@@ -6445,7 +7018,8 @@ var lexiconEn = //========== lexicon-en.js
           "V":{"tab":"v2"}},
  "punish":{"V":{"tab":"v2"}},
  "punishment":{"N":{"tab":["n1"]}},
- "pupil":{"N":{"tab":["n1"]}},
+ "pupil":{"N":{"g":"x",
+               "tab":["n1"]}},
  "purchase":{"N":{"tab":["n1"]},
              "V":{"tab":"v3"}},
  "purchaser":{"N":{"tab":["n1"]}},
@@ -6532,7 +7106,8 @@ var lexiconEn = //========== lexicon-en.js
  "reaction":{"N":{"tab":["n1"]}},
  "reactor":{"N":{"tab":["n1"]}},
  "read":{"V":{"tab":"v18"}},
- "reader":{"N":{"tab":["n1"]}},
+ "reader":{"N":{"g":"x",
+                "tab":["n1"]}},
  "readily":{"Adv":{"tab":["b1"]}},
  "reading":{"N":{"tab":["n1"]}},
  "ready":{"A":{"tab":["a4"]}},
@@ -6589,7 +7164,8 @@ var lexiconEn = //========== lexicon-en.js
  "redundancy":{"N":{"tab":["n3"]}},
  "redundant":{"A":{"tab":["a1"]}},
  "refer":{"V":{"tab":"v13"}},
- "referee":{"N":{"tab":["n1"]}},
+ "referee":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "reference":{"N":{"tab":["n1"]}},
  "referendum":{"N":{"tab":["n1"]}},
  "reflect":{"V":{"tab":"v1"}},
@@ -6598,7 +7174,8 @@ var lexiconEn = //========== lexicon-en.js
            "V":{"tab":"v1"}},
  "reformer":{"N":{"tab":["n1"]}},
  "refuge":{"N":{"tab":["n1"]}},
- "refugee":{"N":{"tab":["n1"]}},
+ "refugee":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "refusal":{"N":{"tab":["n1"]}},
  "refuse":{"V":{"tab":"v3"}},
  "regain":{"V":{"tab":"v1"}},
@@ -6625,10 +7202,12 @@ var lexiconEn = //========== lexicon-en.js
  "reject":{"V":{"tab":"v1"}},
  "rejection":{"N":{"tab":["n1"]}},
  "relate":{"V":{"tab":"v3"}},
- "relation":{"N":{"tab":["n1"]}},
+ "relation":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "relationship":{"N":{"tab":["n1"]}},
  "relative":{"A":{"tab":["a1"]},
-             "N":{"tab":["n1"]}},
+             "N":{"g":"x",
+                  "tab":["n1"]}},
  "relatively":{"Adv":{"tab":["b1"]}},
  "relax":{"V":{"tab":"v2"}},
  "relaxation":{"N":{"tab":["n1"]}},
@@ -6846,7 +7425,8 @@ var lexiconEn = //========== lexicon-en.js
  "rumour":{"N":{"tab":["n1"]}},
  "run":{"N":{"tab":["n1"]},
         "V":{"tab":"v33"}},
- "runner":{"N":{"tab":["n1"]}},
+ "runner":{"N":{"g":"x",
+                "tab":["n1"]}},
  "running":{"A":{"tab":["a1"]}},
  "rural":{"A":{"tab":["a1"]}},
  "rush":{"N":{"tab":["n2"]},
@@ -6884,6 +7464,7 @@ var lexiconEn = //========== lexicon-en.js
  "satisfaction":{"N":{"tab":["n1"]}},
  "satisfactory":{"A":{"tab":["a1"]}},
  "satisfy":{"V":{"tab":"v4"}},
+ "Saturday":{"N":{"tab":["n1"]}},
  "sauce":{"N":{"tab":["n1"]}},
  "sausage":{"N":{"tab":["n1"]}},
  "save":{"V":{"tab":"v3"}},
@@ -6908,7 +7489,8 @@ var lexiconEn = //========== lexicon-en.js
  "school":{"N":{"tab":["n1"]}},
  "science":{"N":{"tab":["n1"]}},
  "scientific":{"A":{"tab":["a1"]}},
- "scientist":{"N":{"tab":["n1"]}},
+ "scientist":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "scope":{"N":{"tab":["n5"]}},
  "score":{"N":{"tab":["n1"]},
           "V":{"tab":"v3"}},
@@ -6939,7 +7521,8 @@ var lexiconEn = //========== lexicon-en.js
  "secondly":{"Adv":{"tab":["b1"]}},
  "secret":{"A":{"tab":["a1"]},
            "N":{"tab":["n1"]}},
- "secretary":{"N":{"tab":["n3"]}},
+ "secretary":{"N":{"g":"x",
+                   "tab":["n3"]}},
  "secretion":{"N":{"tab":["n1"]}},
  "section":{"N":{"tab":["n1"]}},
  "sector":{"N":{"tab":["n1"]}},
@@ -6962,7 +7545,8 @@ var lexiconEn = //========== lexicon-en.js
  "selective":{"A":{"tab":["a1"]}},
  "self":{"N":{"tab":["n9"]}},
  "sell":{"V":{"tab":"v31"}},
- "seller":{"N":{"tab":["n1"]}},
+ "seller":{"N":{"g":"x",
+                "tab":["n1"]}},
  "semantic":{"A":{"tab":["a1"]}},
  "semi-final":{"N":{"tab":["n1"]}},
  "seminar":{"N":{"tab":["n1"]}},
@@ -6983,6 +7567,7 @@ var lexiconEn = //========== lexicon-en.js
              "V":{"tab":"v3"}},
  "separately":{"Adv":{"tab":["b1"]}},
  "separation":{"N":{"tab":["n1"]}},
+ "September":{"N":{"tab":["n1"]}},
  "sequence":{"N":{"tab":["n1"]}},
  "sergeant":{"N":{"tab":["n1"]}},
  "series":{"N":{"tab":["n4"]}},
@@ -7099,13 +7684,15 @@ var lexiconEn = //========== lexicon-en.js
           "P":{"tab":["pp"]}},
  "sincerely":{"Adv":{"tab":["b1"]}},
  "sing":{"V":{"tab":"v46"}},
- "singer":{"N":{"tab":["n1"]}},
+ "singer":{"N":{"g":"x",
+                "tab":["n1"]}},
  "single":{"A":{"tab":["a1"]},
            "N":{"tab":["n1"]}},
  "sink":{"N":{"tab":["n1"]},
          "V":{"tab":"v64"}},
  "sip":{"V":{"tab":"v12"}},
- "sir":{"N":{"tab":["n1"]}},
+ "sir":{"N":{"g":"m",
+             "tab":["n1"]}},
  "sister":{"N":{"g":"f",
                 "tab":["n87"]}},
  "sit":{"V":{"tab":"v44"}},
@@ -7161,7 +7748,8 @@ var lexiconEn = //========== lexicon-en.js
  "snatch":{"V":{"tab":"v2"}},
  "sniff":{"V":{"tab":"v1"}},
  "snow":{"N":{"tab":["n1"]}},
- "so":{"Adv":{"tab":["b1"]}},
+ "so":{"Adv":{"tab":["b1"]},
+       "C":{"tab":["cs"]}},
  "so-called":{"A":{"tab":["a1"]}},
  "soak":{"V":{"tab":"v1"}},
  "soap":{"N":{"tab":["n1"]}},
@@ -7185,7 +7773,8 @@ var lexiconEn = //========== lexicon-en.js
  "software":{"N":{"tab":["n5"]}},
  "soil":{"N":{"tab":["n1"]}},
  "solar":{"A":{"tab":["a1"]}},
- "soldier":{"N":{"tab":["n1"]}},
+ "soldier":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "sole":{"A":{"tab":["a1"]}},
  "solely":{"Adv":{"tab":["b1"]}},
  "solicitor":{"N":{"tab":["n1"]}},
@@ -7195,6 +7784,7 @@ var lexiconEn = //========== lexicon-en.js
  "solution":{"N":{"tab":["n1"]}},
  "solve":{"V":{"tab":"v3"}},
  "solvent":{"N":{"tab":["n1"]}},
+ "some":{"D":{"tab":["d4"]}},
  "somebody":{"Pro":{"tab":["pn5"]}},
  "somehow":{"Adv":{"tab":["b1"]}},
  "someone":{"Pro":{"tab":["pn5"]}},
@@ -7202,7 +7792,8 @@ var lexiconEn = //========== lexicon-en.js
  "sometimes":{"Adv":{"tab":["b1"]}},
  "somewhat":{"Adv":{"tab":["b1"]}},
  "somewhere":{"Adv":{"tab":["b1"]}},
- "son":{"N":{"tab":["n1"]}},
+ "son":{"N":{"g":"m",
+             "tab":["n1"]}},
  "song":{"N":{"tab":["n1"]}},
  "soon":{"Adv":{"tab":["b1"]}},
  "sophisticated":{"A":{"tab":["a1"]}},
@@ -7224,9 +7815,11 @@ var lexiconEn = //========== lexicon-en.js
           "V":{"tab":"v3"}},
  "spatial":{"A":{"tab":["a1"]}},
  "speak":{"V":{"tab":"v138"}},
- "speaker":{"N":{"tab":["n1"]}},
+ "speaker":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "special":{"A":{"tab":["a1"]}},
- "specialist":{"N":{"tab":["n1"]}},
+ "specialist":{"N":{"g":"x",
+                    "tab":["n1"]}},
  "specially":{"Adv":{"tab":["b1"]}},
  "species":{"N":{"tab":["n4"]}},
  "specific":{"A":{"tab":["a1"]}},
@@ -7236,7 +7829,8 @@ var lexiconEn = //========== lexicon-en.js
  "specimen":{"N":{"tab":["n1"]}},
  "spectacle":{"N":{"tab":["n1"]}},
  "spectacular":{"A":{"tab":["a1"]}},
- "spectator":{"N":{"tab":["n1"]}},
+ "spectator":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "spectrum":{"N":{"tab":["n11"]}},
  "speculation":{"N":{"tab":["n1"]}},
  "speech":{"N":{"tab":["n2"]}},
@@ -7267,14 +7861,16 @@ var lexiconEn = //========== lexicon-en.js
  "sport":{"N":{"tab":["n1"]}},
  "spot":{"N":{"tab":["n1"]},
          "V":{"tab":"v14"}},
- "spouse":{"N":{"tab":["n1"]}},
+ "spouse":{"N":{"g":"x",
+                "tab":["n1"]}},
  "spray":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
  "spread":{"N":{"tab":["n1"]},
            "V":{"tab":"v18"}},
  "spring":{"N":{"tab":["n1"]},
            "V":{"tab":"v46"}},
- "spy":{"N":{"tab":["n3"]}},
+ "spy":{"N":{"g":"x",
+             "tab":["n3"]}},
  "squad":{"N":{"tab":["n1"]}},
  "squadron":{"N":{"tab":["n1"]}},
  "square":{"A":{"tab":["a1"]},
@@ -7334,7 +7930,8 @@ var lexiconEn = //========== lexicon-en.js
  "step":{"N":{"tab":["n1"]},
          "V":{"tab":"v12"}},
  "sterling":{"A":{"tab":["a1"]}},
- "steward":{"N":{"tab":["n1"]}},
+ "steward":{"N":{"g":"m",
+                 "tab":["n1"]}},
  "stick":{"N":{"tab":["n1"]},
           "V":{"tab":"v119"}},
  "sticky":{"A":{"tab":["a4"]}},
@@ -7368,7 +7965,8 @@ var lexiconEn = //========== lexicon-en.js
  "strand":{"N":{"tab":["n1"]}},
  "strange":{"A":{"tab":["a2"]}},
  "strangely":{"Adv":{"tab":["b1"]}},
- "stranger":{"N":{"tab":["n1"]}},
+ "stranger":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "strap":{"N":{"tab":["n1"]}},
  "strategic":{"A":{"tab":["a1"]}},
  "strategy":{"N":{"tab":["n3"]}},
@@ -7401,7 +7999,8 @@ var lexiconEn = //========== lexicon-en.js
  "structure":{"N":{"tab":["n1"]}},
  "struggle":{"N":{"tab":["n1"]},
              "V":{"tab":"v3"}},
- "student":{"N":{"tab":["n1"]}},
+ "student":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "studio":{"N":{"tab":["n1"]}},
  "study":{"N":{"tab":["n3"]},
           "V":{"tab":"v4"}},
@@ -7463,6 +8062,7 @@ var lexiconEn = //========== lexicon-en.js
  "summit":{"N":{"tab":["n1"]}},
  "summon":{"V":{"tab":"v1"}},
  "sun":{"N":{"tab":["n1"]}},
+ "Sunday":{"N":{"tab":["n1"]}},
  "sunlight":{"N":{"tab":["n5"]}},
  "sunny":{"A":{"tab":["a4"]}},
  "sunshine":{"N":{"tab":["n5"]}},
@@ -7493,7 +8093,8 @@ var lexiconEn = //========== lexicon-en.js
          "Adv":{"tab":["b1"]}},
  "surely":{"Adv":{"tab":["b1"]}},
  "surface":{"N":{"tab":["n1"]}},
- "surgeon":{"N":{"tab":["n1"]}},
+ "surgeon":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "surgery":{"N":{"tab":["n3"]}},
  "surplus":{"N":{"tab":["n2"]}},
  "surprise":{"N":{"tab":["n1"]},
@@ -7577,7 +8178,8 @@ var lexiconEn = //========== lexicon-en.js
  "taxpayer":{"N":{"tab":["n1"]}},
  "tea":{"N":{"tab":["n1"]}},
  "teach":{"V":{"tab":"v142"}},
- "teacher":{"N":{"tab":["n1"]}},
+ "teacher":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "teaching":{"N":{"tab":["n1"]}},
  "team":{"N":{"tab":["n1"]}},
  "tear":{"N":{"tab":["n1"]},
@@ -7589,7 +8191,8 @@ var lexiconEn = //========== lexicon-en.js
  "technological":{"A":{"tab":["a1"]}},
  "technology":{"N":{"tab":["n3"]}},
  "teenage":{"A":{"tab":["a1"]}},
- "teenager":{"N":{"tab":["n1"]}},
+ "teenager":{"N":{"g":"x",
+                  "tab":["n1"]}},
  "telecommunication":{"N":{"tab":["n1"]}},
  "telephone":{"N":{"tab":["n1"]},
               "V":{"tab":"v3"}},
@@ -7631,10 +8234,12 @@ var lexiconEn = //========== lexicon-en.js
  "textbook":{"N":{"tab":["n1"]}},
  "textile":{"N":{"tab":["n1"]}},
  "texture":{"N":{"tab":["n1"]}},
- "than":{"P":{"tab":["pp"]}},
+ "than":{"C":{"tab":["cs"]},
+         "P":{"tab":["pp"]}},
  "thank":{"V":{"tab":"v1"}},
  "thanks":{"N":{"tab":["n6"]}},
  "that":{"Adv":{"tab":["b1"]},
+         "C":{"tab":["cs"]},
          "D":{"tab":["d3"]},
          "Pro":{"tab":["pn6"]}},
  "the":{"D":{"tab":["d4"]}},
@@ -7648,6 +8253,8 @@ var lexiconEn = //========== lexicon-en.js
  "theory":{"N":{"tab":["n3"]}},
  "therapist":{"N":{"tab":["n1"]}},
  "therapy":{"N":{"tab":["n3"]}},
+ "there":{"Adv":{"tab":["b1"]},
+          "N":{"tab":["n5"]}},
  "thereafter":{"Adv":{"tab":["b1"]}},
  "thereby":{"Adv":{"tab":["b1"]}},
  "therefore":{"Adv":{"tab":["b1"]}},
@@ -7655,7 +8262,8 @@ var lexiconEn = //========== lexicon-en.js
  "thesis":{"N":{"tab":["n8"]}},
  "thick":{"A":{"tab":["a3"]},
           "Adv":{"tab":["b1"]}},
- "thief":{"N":{"tab":["n9"]}},
+ "thief":{"N":{"g":"x",
+               "tab":["n9"]}},
  "thigh":{"N":{"tab":["n1"]}},
  "thin":{"A":{"tab":["a10"]}},
  "thing":{"N":{"tab":["n1"]}},
@@ -7682,6 +8290,7 @@ var lexiconEn = //========== lexicon-en.js
  "thrust":{"N":{"tab":["n1"]},
            "V":{"tab":"v18"}},
  "thumb":{"N":{"tab":["n1"]}},
+ "Thursday":{"N":{"tab":["n1"]}},
  "thus":{"Adv":{"tab":["b1"]}},
  "tick":{"V":{"tab":"v1"}},
  "ticket":{"N":{"tab":["n1"]}},
@@ -7741,7 +8350,8 @@ var lexiconEn = //========== lexicon-en.js
  "tour":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "tourism":{"N":{"tab":["n5"]}},
- "tourist":{"N":{"tab":["n1"]}},
+ "tourist":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "tournament":{"N":{"tab":["n1"]}},
  "toward":{"P":{"tab":["pp"]}},
  "towards":{"P":{"tab":["pp"]}},
@@ -7789,7 +8399,8 @@ var lexiconEn = //========== lexicon-en.js
          "V":{"tab":"v12"}},
  "travel":{"N":{"tab":["n1"]},
            "V":{"tab":"v9"}},
- "traveller":{"N":{"tab":["n1"]}},
+ "traveller":{"N":{"g":"x",
+                   "tab":["n1"]}},
  "tray":{"N":{"tab":["n1"]}},
  "tread":{"V":{"tab":"v141"}},
  "treasure":{"N":{"tab":["n1"]}},
@@ -7834,6 +8445,7 @@ var lexiconEn = //========== lexicon-en.js
         "V":{"tab":"v4"}},
  "tube":{"N":{"tab":["n1"]}},
  "tuck":{"V":{"tab":"v1"}},
+ "Tuesday":{"N":{"tab":["n1"]}},
  "tumble":{"V":{"tab":"v3"}},
  "tumour":{"N":{"tab":["n1"]}},
  "tune":{"N":{"tab":["n1"]},
@@ -7843,7 +8455,8 @@ var lexiconEn = //========== lexicon-en.js
  "turn":{"N":{"tab":["n1"]},
          "V":{"tab":"v1"}},
  "turnover":{"N":{"tab":["n1"]}},
- "tutor":{"N":{"tab":["n1"]}},
+ "tutor":{"N":{"g":"x",
+               "tab":["n1"]}},
  "twin":{"N":{"tab":["n1"]}},
  "twist":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
@@ -7861,7 +8474,8 @@ var lexiconEn = //========== lexicon-en.js
  "unaware":{"A":{"tab":["a1"]}},
  "uncertain":{"A":{"tab":["a1"]}},
  "uncertainty":{"N":{"tab":["n3"]}},
- "uncle":{"N":{"tab":["n1"]}},
+ "uncle":{"N":{"g":"m",
+               "tab":["n1"]}},
  "uncomfortable":{"A":{"tab":["a1"]}},
  "unconscious":{"A":{"tab":["a1"]}},
  "uncover":{"V":{"tab":"v1"}},
@@ -7902,6 +8516,7 @@ var lexiconEn = //========== lexicon-en.js
  "universe":{"N":{"tab":["n1"]}},
  "university":{"N":{"tab":["n3"]}},
  "unknown":{"A":{"tab":["a1"]}},
+ "unless":{"C":{"tab":["cs"]}},
  "unlike":{"A":{"tab":["a1"]},
            "P":{"tab":["pp"]}},
  "unlikely":{"A":{"tab":["a1"]}},
@@ -7911,7 +8526,8 @@ var lexiconEn = //========== lexicon-en.js
  "unreasonable":{"A":{"tab":["a1"]}},
  "unrest":{"N":{"tab":["n5"]}},
  "unsuccessful":{"A":{"tab":["a1"]}},
- "until":{"P":{"tab":["pp"]}},
+ "until":{"C":{"tab":["cs"]},
+          "P":{"tab":["pp"]}},
  "unusual":{"A":{"tab":["a1"]}},
  "unusually":{"Adv":{"tab":["b1"]}},
  "unwilling":{"A":{"tab":["a1"]}},
@@ -7995,7 +8611,8 @@ var lexiconEn = //========== lexicon-en.js
  "viable":{"A":{"tab":["a1"]}},
  "vicar":{"N":{"tab":["n1"]}},
  "vicious":{"A":{"tab":["a1"]}},
- "victim":{"N":{"tab":["n1"]}},
+ "victim":{"N":{"g":"x",
+                "tab":["n1"]}},
  "victory":{"N":{"tab":["n3"]}},
  "video":{"N":{"tab":["n1"]}},
  "view":{"N":{"tab":["n1"]},
@@ -8018,7 +8635,8 @@ var lexiconEn = //========== lexicon-en.js
  "vision":{"N":{"tab":["n1"]}},
  "visit":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
- "visitor":{"N":{"tab":["n1"]}},
+ "visitor":{"N":{"g":"x",
+                 "tab":["n1"]}},
  "visual":{"A":{"tab":["a1"]}},
  "vital":{"A":{"tab":["a1"]}},
  "vitamin":{"N":{"tab":["n1"]}},
@@ -8029,7 +8647,8 @@ var lexiconEn = //========== lexicon-en.js
  "voltage":{"N":{"tab":["n1"]}},
  "volume":{"N":{"tab":["n1"]}},
  "voluntary":{"A":{"tab":["a1"]}},
- "volunteer":{"N":{"tab":["n1"]},
+ "volunteer":{"N":{"g":"x",
+                   "tab":["n1"]},
               "V":{"tab":"v1"}},
  "vote":{"N":{"tab":["n1"]},
          "V":{"tab":"v3"}},
@@ -8040,7 +8659,8 @@ var lexiconEn = //========== lexicon-en.js
  "wage":{"N":{"tab":["n1"]}},
  "waist":{"N":{"tab":["n1"]}},
  "wait":{"V":{"tab":"v1"}},
- "waiter":{"N":{"tab":["n1"]}},
+ "waiter":{"N":{"g":"m",
+                "tab":["n1"]}},
  "wake":{"N":{"tab":["n1"]},
          "V":{"tab":"v164"}},
  "walk":{"N":{"tab":["n1"]},
@@ -8086,6 +8706,7 @@ var lexiconEn = //========== lexicon-en.js
  "weather":{"N":{"tab":["n1"]}},
  "weave":{"V":{"tab":"v69"}},
  "wedding":{"N":{"tab":["n1"]}},
+ "Wednesday":{"N":{"tab":["n1"]}},
  "wee":{"A":{"tab":["a1"]}},
  "weed":{"N":{"tab":["n1"]}},
  "week":{"N":{"tab":["n1"]}},
@@ -8141,7 +8762,8 @@ var lexiconEn = //========== lexicon-en.js
  "widely":{"Adv":{"tab":["b1"]}},
  "widen":{"V":{"tab":"v1"}},
  "widespread":{"A":{"tab":["a1"]}},
- "widow":{"N":{"tab":["n1"]}},
+ "widow":{"N":{"g":"f",
+               "tab":["n1"]}},
  "width":{"N":{"tab":["n1"]}},
  "wife":{"N":{"g":"f",
               "tab":["n91"]}},
@@ -8191,7 +8813,8 @@ var lexiconEn = //========== lexicon-en.js
  "wording":{"N":{"tab":["n1"]}},
  "work":{"N":{"tab":["n1"]},
          "V":{"tab":"v94"}},
- "worker":{"N":{"tab":["n1"]}},
+ "worker":{"N":{"g":"x",
+                "tab":["n1"]}},
  "workforce":{"N":{"tab":["n1"]}},
  "working":{"A":{"tab":["a1"]},
             "N":{"tab":["n1"]}},
@@ -8214,7 +8837,8 @@ var lexiconEn = //========== lexicon-en.js
  "wrap":{"V":{"tab":"v12"}},
  "wrist":{"N":{"tab":["n1"]}},
  "write":{"V":{"tab":"v36"}},
- "writer":{"N":{"tab":["n1"]}},
+ "writer":{"N":{"g":"x",
+                "tab":["n1"]}},
  "writing":{"N":{"tab":["n1"]}},
  "wrong":{"A":{"tab":["a3"]},
           "Adv":{"tab":["b1"]},
@@ -8236,25 +8860,6 @@ var lexiconEn = //========== lexicon-en.js
  "zero":{"N":{"tab":["n1"]}},
  "zone":{"N":{"tab":["n1"]}},
  "zoo":{"N":{"tab":["n1"]}},
- "Sunday":{"N":{"tab":["n1"]}},
- "Monday":{"N":{"tab":["n1"]}},
- "Tuesday":{"N":{"tab":["n1"]}},
- "Wednesday":{"N":{"tab":["n1"]}},
- "Thursday":{"N":{"tab":["n1"]}},
- "Friday":{"N":{"tab":["n1"]}},
- "Saturday":{"N":{"tab":["n1"]}},
- "January":{"N":{"tab":["n3"]}},
- "February":{"N":{"tab":["n3"]}},
- "March":{"N":{"tab":["n2"]}},
- "May":{"N":{"tab":["n1"]}},
- "April":{"N":{"tab":["n1"]}},
- "June":{"N":{"tab":["n1"]}},
- "July":{"N":{"tab":["n3"]}},
- "August":{"N":{"tab":["n1"]}},
- "September":{"N":{"tab":["n1"]}},
- "October":{"N":{"tab":["n1"]}},
- "November":{"N":{"tab":["n1"]}},
- "December":{"N":{"tab":["n1"]}},
  "{":{"Pc":{"compl":"}",
             "tab":["pc5"]}},
  "}":{"Pc":{"compl":"{",
@@ -8262,7 +8867,14 @@ var lexiconEn = //========== lexicon-en.js
  "«":{"Pc":{"compl":"»",
             "tab":["pc7"]}},
  "»":{"Pc":{"compl":"«",
-            "tab":["pc8"]}}}
+            "tab":["pc8"]}},
+ "you":{"Pro":{"tab":["pn2-2"]}},
+ "him":{"Pro":{"tab":["pn2-3sm"]}},
+ "her":{"Pro":{"tab":["pn2-3sf"]}},
+ "it":{"Pro":{"tab":["pn2-3sn"]}},
+ "us":{"Pro":{"tab":["pn2-1p"]}},
+ "them":{"Pro":{"tab":["pn2-3p"]}}
+}
 var ruleEn = //========== rule-en.js
 {
     "conjugation": {
@@ -10928,6 +11540,22 @@ var ruleEn = //========== rule-en.js
                 "val": "best","f": "su"
             }]
         },
+        "pn0": {
+            "ending": "one",
+            "declension": [{
+                "val": "one","n": "x","g": "x", "tn":""
+            },{
+                "val": "oneself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "one","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "one","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "one","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "one","n": "x","g": "x", "c":"gen"
+            }]
+        },
         "pn1": {
             "ending": "I",
             "declension": [{
@@ -10949,19 +11577,185 @@ var ruleEn = //========== rule-en.js
         "pn2": {
             "ending": "me",
             "declension": [{
-                "val": "me","pe": 1,"n": "s","g": "x"
+                "val": "me","pe": 1,"n": "s","g": "x", "tn":""
             },{
-                "val": "you","pe": 2,"n": "x","g": "x"
+                "val": "you","pe": 2,"n": "x","g": "x", "tn":""
             },{
-                "val": "her","pe": 3,"n": "s","g": "f"
+                "val": "her","pe": 3,"n": "s","g": "f", "tn":""
             },{
-                "val": "him","pe": 3,"n": "s","g": "m"
+                "val": "him","pe": 3,"n": "s","g": "m", "tn":""
             },{
-                "val": "it","pe": 3,"n": "s","g": "n"
+                "val": "it","pe": 3,"n": "s","g": "n", "tn":""
             },{
-                "val": "us","pe": 1,"n": "p","g": "x"
+                "val": "us","pe": 1,"n": "p","g": "x", "tn":""
             },{
-                "val": "them","pe": 3,"n": "p","g": "x"
+                "val": "them","pe": 3,"n": "p","g": "x", "tn":""
+            },{
+                "val": "myself","pe": 1,"n": "s","g": "x", "tn":"refl"
+            },{
+                "val": "yourself","pe": 2,"n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "herself","pe": 3,"n": "s","g": "f", "tn":"refl"
+            },{
+                "val": "himself","pe": 3,"n": "s","g": "m", "tn":"refl"
+            },{
+                "val": "itself","pe": 3,"n": "s","g": "n", "tn":"refl"
+            },{
+                "val": "ourself","pe": 1,"n": "p","g": "x", "tn":"refl"
+            },{
+                "val": "themselves","pe": 3,"n": "p","g": "x", "tn":"refl"
+            },{
+                "val": "I","pe": 1,"n": "s","g": "x", "c":"nom"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"nom"
+            },{
+                "val": "she","pe": 3,"n": "s","g": "f", "c":"nom"
+            },{
+                "val": "he","pe": 3,"n": "s","g": "m", "c":"nom"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"nom"
+            },{
+                "val": "we","pe": 1,"n": "p","g": "x", "c":"nom"
+            },{
+                "val": "they","pe": 3,"n": "p","g": "x", "c":"nom"
+            },{
+                "val": "me","pe": 1,"n": "s","g": "x", "c":"acc"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"acc"
+            },{
+                "val": "her","pe": 3,"n": "s","g": "f", "c":"acc"
+            },{
+                "val": "him","pe": 3,"n": "s","g": "m", "c":"acc"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"acc"
+            },{
+                "val": "us","pe": 1,"n": "p","g": "x", "c":"acc"
+            },{
+                "val": "them","pe": 3,"n": "p","g": "x", "c":"acc"
+            },{
+                "val": "me","pe": 1,"n": "s","g": "x", "c":"dat"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"dat"
+            },{
+                "val": "her","pe": 3,"n": "s","g": "f", "c":"dat"
+            },{
+                "val": "him","pe": 3,"n": "s","g": "m", "c":"dat"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"dat"
+            },{
+                "val": "us","pe": 1,"n": "p","g": "x", "c":"dat"
+            },{
+                "val": "them","pe": 3,"n": "p","g": "x", "c":"dat"
+            },{
+                "val": "mine","pe": 1,"n": "s","g": "x", "c":"gen"
+            },{
+                "val": "yours","pe": 2,"n": "x","g": "x", "c":"gen"
+            },{
+                "val": "hers","pe": 3,"n": "s","g": "f", "c":"gen"
+            },{
+                "val": "his","pe": 3,"n": "s","g": "m", "c":"gen"
+            },{
+                "val": "its","pe": 3,"n": "s","g": "n", "c":"gen"
+            },{
+                "val": "ours","pe": 1,"n": "p","g": "x", "c":"gen"
+            },{
+                "val": "theirs","pe": 3,"n": "p","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-2": {
+            "ending": "you",
+            "declension": [{
+                "val": "you","n": "x","g": "x", "tn":"", "pe":2,
+            },{
+                "val": "yourself","n": "x","g": "x", "tn":"refl", "pe":2,
+            },{
+                "val": "you","n": "x","g": "x", "c":"nom", "pe":2,
+            },{
+                "val": "you","n": "x","g": "x", "c":"acc", "pe":2,
+            },{
+                "val": "you","n": "x","g": "x", "c":"dat", "pe":2,
+            },{
+                "val": "yours","n": "x","g": "x", "c":"gen", "pe":2,
+            }]
+        },
+        "pn2-3sm": {
+            "ending": "him",
+            "declension": [{
+                "val": "him","n": "s","g": "m", "tn":"", "pe":3,
+            },{
+                "val": "himself","n": "s","g": "m", "tn":"refl", "pe":3,
+            },{
+                "val": "he","n": "s","g": "m", "c":"nom", "pe":3,
+            },{
+                "val": "him","n": "s","g": "m", "c":"acc", "pe":3,
+            },{
+                "val": "him","n": "s","g": "m", "c":"dat", "pe":3,
+            },{
+                "val": "his","n": "s","g": "m", "c":"gen", "pe":3,
+            }]
+        },
+        "pn2-3sf": {
+            "ending": "her",
+            "declension": [{
+                "val": "her","n": "s","g": "f", "tn":"", "pe":3,
+            },{
+                "val": "herself","n": "s","g": "f", "tn":"refl", "pe":3,
+            },{
+                "val": "she","n": "s","g": "f", "c":"nom", "pe":3,
+            },{
+                "val": "her","n": "s","g": "f", "c":"acc", "pe":3,
+            },{
+                "val": "her","n": "s","g": "f", "c":"dat", "pe":3,
+            },{
+                "val": "hers","n": "s","g": "f", "c":"gen", "pe":3,
+            }]
+        },
+        "pn2-3sn": {
+            "ending": "it",
+            "declension": [{
+                "val": "it","n": "s","g": "n", "tn":"", "pe":3,
+            },{
+                "val": "itself","n": "s","g": "n", "tn":"refl", "pe":3,
+            },{
+                "val": "it","n": "s","g": "n", "c":"nom", "pe":3,
+            },{
+                "val": "it","n": "s","g": "n", "c":"acc", "pe":3,
+            },{
+                "val": "it","n": "s","g": "n", "c":"dat", "pe":3,
+            },{
+                "val": "itself","n": "s","g": "n", "c":"gen", "pe":3,
+            }]
+        },
+        "pn2-1p": {
+            "ending": "us",
+            "declension": [{
+                "val": "us","n": "p","g": "x", "tn":"", "pe":1
+            },{
+                "val": "ourself","n": "p","g": "x", "tn":"refl", "pe":1
+            },{
+                "val": "we","n": "p","g": "x", "c":"nom", "pe":1
+            },{
+                "val": "us","n": "p","g": "x", "c":"acc", "pe":1
+            },{
+                "val": "us","n": "p","g": "x", "c":"dat", "pe":1
+            },{
+                "val": "ours","n": "p","g": "x", "c":"gen", "pe":1
+            }]
+        },
+        "pn2-3p": {
+            "ending": "them",
+            "declension": [{
+                "val": "them","n": "p","g": "x", "tn":"", "pe":3,
+            },{
+                "val": "themselves","n": "p","g": "x", "tn":"refl", "pe":3,
+            },{
+                "val": "they","n": "p","g": "x", "c":"nom", "pe":3,
+            },{
+                "val": "them","n": "p","g": "x", "c":"acc", "pe":3,
+            },{
+                "val": "them","n": "p","g": "x", "c":"dat", "pe":3,
+            },{
+                "val": "theirs","n": "p","g": "x", "c":"gen", "pe":3,
             }]
         },
         "pn3": {
@@ -11428,7 +12222,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":"v36"}},
  "acheter":{"V":{"aux":["av"],
                  "tab":"v11"}},
- "acheteur":{"N":{"g":"m",
+ "acheteur":{"N":{"g":"x",
                   "tab":["n55"]}},
  "achever":{"V":{"aux":["av"],
                  "tab":"v25"}},
@@ -11578,10 +12372,10 @@ var lexiconFr = //========== lexicon-fr.js
  "alors":{"Adv":{"tab":["av"]}},
  "alouette":{"N":{"g":"f",
                   "tab":["n17"]}},
- "amant":{"N":{"g":"m",
+ "amant":{"N":{"g":"x",
                "tab":["n28"]}},
- "amateur":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "amateur":{"N":{"g":"x",
+                 "tab":["n56"]}},
  "ambulance":{"N":{"g":"f",
                    "tab":["n17"]}},
  "âme":{"N":{"g":"f",
@@ -11592,14 +12386,14 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v24"}},
  "amer":{"A":{"tab":["n39"]}},
  "américain":{"A":{"tab":["n28"]}},
- "ami":{"N":{"g":"m",
+ "ami":{"N":{"g":"x",
              "tab":["n28"]}},
  "amical":{"A":{"tab":["n47"]}},
  "amicalement":{"Adv":{"tab":["av"]}},
  "amitié":{"N":{"g":"f",
                 "tab":["n17"]}},
- "amour":{"N":{"g":"m",
-               "tab":["n3"]}},
+ "amour":{"N":{"g":"x",
+               "tab":["n25"]}},
  "ample":{"A":{"tab":["n25"]}},
  "amusant":{"A":{"tab":["n28"]}},
  "amusement":{"N":{"g":"m",
@@ -11689,18 +12483,18 @@ var lexiconFr = //========== lexicon-fr.js
  "appuyer":{"V":{"aux":["av"],
                  "tab":"v5"}},
  "après":{"P":{"tab":["pp"]}},
- "après-midi":{"N":{"g":"m",
+ "après-midi":{"N":{"g":"x",
                     "tab":["n24"]}},
  "araignée":{"N":{"g":"f",
                   "tab":["n17"]}},
- "arbitre":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "arbitre":{"N":{"g":"x",
+                 "tab":["n25"]}},
  "arbre":{"N":{"g":"m",
                "tab":["n3"]}},
  "arbuste":{"N":{"g":"m",
                  "tab":["n3"]}},
- "architecte":{"N":{"g":"m",
-                    "tab":["n3"]}},
+ "architecte":{"N":{"g":"x",
+                    "tab":["n25"]}},
  "ardent":{"A":{"tab":["n28"]}},
  "ardeur":{"N":{"g":"f",
                 "tab":["n17"]}},
@@ -11824,8 +12618,8 @@ var lexiconFr = //========== lexicon-fr.js
  "autant":{"Adv":{"tab":["av"]}},
  "autel":{"N":{"g":"m",
                "tab":["n3"]}},
- "auteur":{"N":{"g":"m",
-                "tab":["n3"]}},
+ "auteur":{"N":{"g":"x",
+                "tab":["n56"]}},
  "auto":{"N":{"g":"f",
               "tab":["n17"]}},
  "automne":{"N":{"g":"m",
@@ -11864,7 +12658,7 @@ var lexiconFr = //========== lexicon-fr.js
  "avertir":{"V":{"aux":["av"],
                  "tab":"v58"}},
  "aveugle":{"A":{"tab":["n25"]}},
- "aviateur":{"N":{"g":"m",
+ "aviateur":{"N":{"g":"x",
                   "tab":["n56"]}},
  "avion":{"N":{"g":"m",
                "tab":["n3"]}},
@@ -11913,7 +12707,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "ballon":{"N":{"g":"m",
                 "tab":["n3"]}},
- "bambin":{"N":{"g":"m",
+ "bambin":{"N":{"g":"x",
                 "tab":["n28"]}},
  "banane":{"N":{"g":"f",
                 "tab":["n17"]}},
@@ -11925,8 +12719,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "banque":{"N":{"g":"f",
                 "tab":["n17"]}},
- "banquier":{"N":{"g":"m",
-                  "tab":["n3"]}},
+ "banquier":{"N":{"g":"x",
+                  "tab":["n39"]}},
  "baptême":{"N":{"g":"m",
                  "tab":["n3"]}},
  "baptiser":{"V":{"aux":["av"],
@@ -11990,7 +12784,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v0"}},
  "béret":{"N":{"g":"m",
                "tab":["n3"]}},
- "berger":{"N":{"g":"m",
+ "berger":{"N":{"g":"x",
                 "tab":["n39"]}},
  "bergère":{"N":{"g":"f",
                  "tab":["n17"]}},
@@ -12019,7 +12813,7 @@ var lexiconFr = //========== lexicon-fr.js
  "bienfaisant":{"A":{"tab":["n28"]}},
  "bienfait":{"N":{"g":"m",
                   "tab":["n3"]}},
- "bienfaiteur":{"N":{"g":"m",
+ "bienfaiteur":{"N":{"g":"x",
                      "tab":["n56"]}},
  "bienheureux":{"A":{"tab":["n54"]}},
  "bientôt":{"Adv":{"tab":["av"]}},
@@ -12123,7 +12917,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v3"}},
  "bougie":{"N":{"g":"f",
                 "tab":["n17"]}},
- "boulanger":{"N":{"g":"m",
+ "boulanger":{"N":{"g":"x",
                    "tab":["n39"]}},
  "boulangerie":{"N":{"g":"f",
                      "tab":["n17"]}},
@@ -12141,7 +12935,7 @@ var lexiconFr = //========== lexicon-fr.js
                        "tab":["n3"]}},
  "bourdonner":{"V":{"aux":["av"],
                     "tab":"v36"}},
- "bourgeois":{"N":{"g":"m",
+ "bourgeois":{"N":{"g":"x",
                    "tab":["n27"]}},
  "bourgeon":{"N":{"g":"m",
                   "tab":["n3"]}},
@@ -12174,7 +12968,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n16"]}},
  "brèche":{"N":{"g":"f",
                 "tab":["n17"]}},
- "bref":{"A":{"tab":["n38"], "pos": "pre"}},
+ "bref":{"A":{"pos":"pre",
+              "tab":["n38"]}},
  "brigand":{"N":{"g":"m",
                  "tab":["n3"]}},
  "brillant":{"A":{"tab":["n28"]}},
@@ -12215,7 +13010,7 @@ var lexiconFr = //========== lexicon-fr.js
  "brutal":{"A":{"tab":["n47"]}},
  "bruyamment":{"Adv":{"tab":["av"]}},
  "bruyant":{"A":{"tab":["n28"]}},
- "bûcheron":{"N":{"g":"m",
+ "bûcheron":{"N":{"g":"x",
                   "tab":["n49"]}},
  "buis":{"N":{"g":"m",
               "tab":["n2"]}},
@@ -12277,7 +13072,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "camp":{"N":{"g":"m",
               "tab":["n3"]}},
- "campagnard":{"N":{"g":"m",
+ "campagnard":{"N":{"g":"x",
                     "tab":["n28"]}},
  "campagne":{"N":{"g":"f",
                   "tab":["n17"]}},
@@ -12296,7 +13091,7 @@ var lexiconFr = //========== lexicon-fr.js
  "cantique":{"N":{"g":"m",
                   "tab":["n3"]}},
  "capable":{"A":{"tab":["n25"]}},
- "capitaine":{"N":{"g":"m",
+ "capitaine":{"N":{"g":"x",
                    "tab":["n3"]}},
  "capital":{"N":{"g":"m",
                  "tab":["n5"]}},
@@ -12433,10 +13228,10 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n3"]}},
  "chanter":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "chanteur":{"N":{"g":"m",
+ "chanteur":{"N":{"g":"x",
                   "tab":["n55"]}},
- "chantre":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "chantre":{"N":{"g":"x",
+                 "tab":["n25"]}},
  "chapeau":{"N":{"g":"m",
                  "tab":["n4"]}},
  "chapelet":{"N":{"g":"m",
@@ -12473,9 +13268,9 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "chasser":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "chasseur":{"N":{"g":"m",
+ "chasseur":{"N":{"g":"x",
                   "tab":["n55"]}},
- "chat":{"N":{"g":"m",
+ "chat":{"N":{"g":"x",
               "tab":["n51"]}},
  "château":{"N":{"g":"m",
                  "tab":["n4"]}},
@@ -12485,8 +13280,8 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":["n3"]}},
  "chauffer":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "chauffeur":{"N":{"g":"m",
-                   "tab":["n3"]}},
+ "chauffeur":{"N":{"g":"x",
+                   "tab":["n55"]}},
  "chauffeuse":{"N":{"g":"f",
                     "tab":["n17"]}},
  "chaume":{"N":{"g":"m",
@@ -12534,7 +13329,7 @@ var lexiconFr = //========== lexicon-fr.js
  "chèvre":{"N":{"g":"f",
                 "tab":["n17"]}},
  "chez":{"P":{"tab":["pp"]}},
- "chien":{"N":{"g":"m",
+ "chien":{"N":{"g":"x",
                "tab":["n49"]}},
  "chiffon":{"N":{"g":"m",
                  "tab":["n3"]}},
@@ -12584,7 +13379,7 @@ var lexiconFr = //========== lexicon-fr.js
               "tab":["n17"]}},
  "citer":{"V":{"aux":["av"],
                "tab":"v36"}},
- "citoyen":{"N":{"g":"m",
+ "citoyen":{"N":{"g":"x",
                  "tab":["n49"]}},
  "civil":{"A":{"tab":["n28"]}},
  "clair":{"A":{"tab":["n28"]}},
@@ -12604,12 +13399,10 @@ var lexiconFr = //========== lexicon-fr.js
  "clef":{"N":{"g":"f",
               "tab":["n17"]}},
  "clément":{"A":{"tab":["n28"]}},
- "client":{"N":{"g":"m",
+ "client":{"N":{"g":"x",
                 "tab":["n28"]}},
  "climat":{"N":{"g":"m",
                 "tab":["n3"]}},
- "clin d'oeil":{"N":{"g":"m",
-                     "tab":["nI"]}},
  "clinique":{"N":{"g":"f",
                   "tab":["n17"]}},
  "cloche":{"N":{"g":"f",
@@ -12651,7 +13444,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v36"}},
  "colline":{"N":{"g":"f",
                  "tab":["n17"]}},
- "colonel":{"N":{"g":"m",
+ "colonel":{"N":{"g":"x",
                  "tab":["n48"]}},
  "colonial":{"A":{"tab":["n47"]}},
  "colonne":{"N":{"g":"f",
@@ -12660,7 +13453,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":"v36"}},
  "combat":{"N":{"g":"m",
                 "tab":["n3"]}},
- "combattant":{"N":{"g":"m",
+ "combattant":{"N":{"g":"x",
                     "tab":["n28"]}},
  "combattre":{"V":{"aux":["av"],
                    "tab":"v87"}},
@@ -12668,7 +13461,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "combler":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "commandant":{"N":{"g":"m",
+ "commandant":{"N":{"g":"x",
                     "tab":["n28"]}},
  "commande":{"N":{"g":"f",
                   "tab":["n17"]}},
@@ -12680,7 +13473,7 @@ var lexiconFr = //========== lexicon-fr.js
                       "tab":["n3"]}},
  "commencer":{"V":{"aux":["av"],
                    "tab":"v0"}},
- "commerçant":{"N":{"g":"m",
+ "commerçant":{"N":{"g":"x",
                     "tab":["n28"]}},
  "commerce":{"N":{"g":"m",
                   "tab":["n3"]}},
@@ -12695,7 +13488,7 @@ var lexiconFr = //========== lexicon-fr.js
  "communal":{"A":{"tab":["n47"]}},
  "commune":{"N":{"g":"f",
                  "tab":["n17"]}},
- "communiant":{"N":{"g":"m",
+ "communiant":{"N":{"g":"x",
                     "tab":["n28"]}},
  "communication":{"N":{"g":"f",
                        "tab":["n17"]}},
@@ -12864,7 +13657,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":"v58"}},
  "conviction":{"N":{"g":"f",
                     "tab":["n17"]}},
- "copain":{"N":{"g":"m",
+ "copain":{"N":{"g":"x",
                 "tab":["n104"]}},
  "copier":{"V":{"aux":["av"],
                 "tab":"v36"}},
@@ -12884,7 +13677,7 @@ var lexiconFr = //========== lexicon-fr.js
  "cordial":{"N":{"g":"m",
                  "tab":["n5"]}},
  "cordialement":{"Adv":{"tab":["av"]}},
- "cordonnier":{"N":{"g":"m",
+ "cordonnier":{"N":{"g":"x",
                     "tab":["n39"]}},
  "corne":{"N":{"g":"f",
                "tab":["n17"]}},
@@ -12946,7 +13739,7 @@ var lexiconFr = //========== lexicon-fr.js
  "courant":{"A":{"tab":["n28"]}},
  "courber":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "coureur":{"N":{"g":"m",
+ "coureur":{"N":{"g":"x",
                  "tab":["n55"]}},
  "courir":{"V":{"aux":["av"],
                 "tab":"v57"}},
@@ -12961,7 +13754,7 @@ var lexiconFr = //========== lexicon-fr.js
  "course":{"N":{"g":"f",
                 "tab":["n17"]}},
  "court":{"A":{"tab":["n28"]}},
- "cousin":{"N":{"g":"m",
+ "cousin":{"N":{"g":"x",
                 "tab":["n28"]}},
  "coussin":{"N":{"g":"m",
                  "tab":["n3"]}},
@@ -12995,7 +13788,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":"v36"}},
  "crayon":{"N":{"g":"m",
                 "tab":["n3"]}},
- "créateur":{"N":{"g":"m",
+ "créateur":{"N":{"g":"x",
                   "tab":["n56"]}},
  "créature":{"N":{"g":"f",
                   "tab":["n17"]}},
@@ -13059,7 +13852,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "culotte":{"N":{"g":"f",
                  "tab":["n17"]}},
- "cultivateur":{"N":{"g":"m",
+ "cultivateur":{"N":{"g":"x",
                      "tab":["n56"]}},
  "cultiver":{"V":{"aux":["av"],
                   "tab":"v36"}},
@@ -13157,11 +13950,11 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v85"}},
  "défense":{"N":{"g":"f",
                  "tab":["n17"]}},
- "défenseur":{"N":{"g":"m",
-                   "tab":["n3"]}},
+ "défenseur":{"N":{"g":"x",
+                   "tab":["n55"]}},
  "défiler":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "défunt":{"N":{"g":"m",
+ "défunt":{"N":{"g":"x",
                 "tab":["n28"]}},
  "dégager":{"V":{"aux":["av"],
                  "tab":"v3"}},
@@ -13176,7 +13969,7 @@ var lexiconFr = //========== lexicon-fr.js
  "délaisser":{"V":{"aux":["av"],
                    "tab":"v36"}},
  "délicat":{"A":{"tab":["n28"]}},
- "délice":{"N":{"g":"m",
+ "délice":{"N":{"g":"x",
                 "tab":["n25"]}},
  "délicieux":{"A":{"tab":["n54"]}},
  "délivrer":{"V":{"aux":["av"],
@@ -13290,8 +14083,8 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v36"}},
  "dessous":{"P":{"tab":["pp"]}},
  "dessus":{"N":{"g":"m",
-                 "tab":["n2"]},
-            "P":{"tab":["pp"]}},
+                "tab":["n2"]},
+           "P":{"tab":["pp"]}},
  "destination":{"N":{"g":"f",
                      "tab":["n17"]}},
  "destinée":{"N":{"g":"f",
@@ -13364,7 +14157,7 @@ var lexiconFr = //========== lexicon-fr.js
  "dire":{"V":{"aux":["av"],
               "tab":"v117"}},
  "directement":{"Adv":{"tab":["av"]}},
- "directeur":{"N":{"g":"m",
+ "directeur":{"N":{"g":"x",
                    "tab":["n56"]}},
  "direction":{"N":{"g":"f",
                    "tab":["n17"]}},
@@ -13417,8 +14210,8 @@ var lexiconFr = //========== lexicon-fr.js
  "dizaine":{"N":{"g":"f",
                  "tab":["n17"]}},
  "docile":{"A":{"tab":["n25"]}},
- "docteur":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "docteur":{"N":{"g":"x",
+                 "tab":["n25"]}},
  "doigt":{"N":{"g":"m",
                "tab":["n3"]}},
  "domaine":{"N":{"g":"m",
@@ -13430,7 +14223,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":"v36"}},
  "dommage":{"N":{"g":"m",
                  "tab":["n3"]}},
- "dompteur":{"N":{"g":"m",
+ "dompteur":{"N":{"g":"x",
                   "tab":["n55"]}},
  "don":{"N":{"g":"m",
              "tab":["n3"]}},
@@ -13465,7 +14258,7 @@ var lexiconFr = //========== lexicon-fr.js
  "doux":{"A":{"tab":["n70"]}},
  "douzaine":{"N":{"g":"f",
                   "tab":["n17"]}},
- "doyen":{"N":{"g":"m",
+ "doyen":{"N":{"g":"x",
                "tab":["n49"]}},
  "drap":{"N":{"g":"m",
               "tab":["n3"]}},
@@ -13529,7 +14322,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "école":{"N":{"g":"f",
                "tab":["n17"]}},
- "écolier":{"N":{"g":"m",
+ "écolier":{"N":{"g":"x",
                  "tab":["n39"]}},
  "économie":{"N":{"g":"f",
                   "tab":["n17"]}},
@@ -13595,7 +14388,7 @@ var lexiconFr = //========== lexicon-fr.js
  "élégant":{"A":{"tab":["n28"]}},
  "éléphant":{"N":{"g":"m",
                   "tab":["n3"]}},
- "élève":{"N":{"g":"m",
+ "élève":{"N":{"g":"x",
                "tab":["n25"]}},
  "élever":{"V":{"aux":["av"],
                 "tab":"v25"}},
@@ -13627,15 +14420,15 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":"v36"}},
  "empêcher":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "empereur":{"N":{"g":"m",
-                  "tab":["n3"]}},
+ "empereur":{"N":{"g":"x",
+                  "tab":["n71"]}},
  "emplacement":{"N":{"g":"m",
                      "tab":["n3"]}},
  "emplir":{"V":{"aux":["av"],
                 "tab":"v58"}},
  "emploi":{"N":{"g":"m",
                 "tab":["n3"]}},
- "employé":{"N":{"g":"m",
+ "employé":{"N":{"g":"x",
                  "tab":["n28"]}},
  "employer":{"V":{"aux":["av"],
                   "tab":"v5"}},
@@ -13645,8 +14438,8 @@ var lexiconFr = //========== lexicon-fr.js
                       "tab":["n3"]}},
  "empresser":{"V":{"aux":["êt"],
                    "tab":"v36"}},
- "en":{"Pro":{"tab":["pn10"]},
-       "P":{"tab":["pp"]}},
+ "en":{"P":{"tab":["pp"]},
+       "Pro":{"tab":["pn10"]}},
  "encadrer":{"V":{"aux":["av"],
                   "tab":"v36"}},
  "enchanté":{"A":{"tab":["n28"]}},
@@ -13691,7 +14484,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":"v58"}},
  "enlever":{"V":{"aux":["av"],
                  "tab":"v25"}},
- "ennemi":{"N":{"g":"m",
+ "ennemi":{"N":{"g":"x",
                 "tab":["n28"]}},
  "ennui":{"N":{"g":"m",
                "tab":["n3"]}},
@@ -13791,7 +14584,7 @@ var lexiconFr = //========== lexicon-fr.js
  "épouvantable":{"A":{"tab":["n25"]}},
  "épouvanter":{"V":{"aux":["av"],
                     "tab":"v36"}},
- "époux":{"N":{"g":"m",
+ "époux":{"N":{"g":"x",
                "tab":["n54"]}},
  "épreuve":{"N":{"g":"f",
                  "tab":["n17"]}},
@@ -13817,8 +14610,8 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":["n3"]}},
  "esclave":{"N":{"g":"x",
                  "tab":["n25"]}},
- "espace":{"N":{"g":"m",
-                "tab":["n3"]}},
+ "espace":{"N":{"g":"x",
+                "tab":["n25"]}},
  "espèce":{"N":{"g":"f",
                 "tab":["n17"]}},
  "espérance":{"N":{"g":"f",
@@ -13901,7 +14694,7 @@ var lexiconFr = //========== lexicon-fr.js
  "étroit":{"A":{"tab":["n28"]}},
  "étude":{"N":{"g":"f",
                "tab":["n17"]}},
- "étudiant":{"N":{"g":"m",
+ "étudiant":{"N":{"g":"x",
                   "tab":["n28"]}},
  "étudier":{"V":{"aux":["av"],
                  "tab":"v36"}},
@@ -14011,8 +14804,8 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "façonner":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "facteur":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "facteur":{"N":{"g":"x",
+                 "tab":["n56"]}},
  "faible":{"A":{"tab":["n25"]}},
  "faiblesse":{"N":{"g":"f",
                    "tab":["n17"]}},
@@ -14043,8 +14836,8 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v36"}},
  "faucher":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "faucheur":{"N":{"g":"m",
-                  "tab":["n3"]}},
+ "faucheur":{"N":{"g":"x",
+                  "tab":["n55"]}},
  "faute":{"N":{"g":"f",
                "tab":["n17"]}},
  "fauteuil":{"N":{"g":"m",
@@ -14052,7 +14845,8 @@ var lexiconFr = //========== lexicon-fr.js
  "fauve":{"A":{"tab":["n25"]}},
  "fauvette":{"N":{"g":"f",
                   "tab":["n17"]}},
- "faux":{"A":{"tab":["n53"], "pos": "pre"}},
+ "faux":{"A":{"pos":"pre",
+              "tab":["n53"]}},
  "faveur":{"N":{"g":"f",
                 "tab":["n17"]}},
  "favorable":{"A":{"tab":["n25"]}},
@@ -14077,7 +14871,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "fermer":{"V":{"aux":["av"],
                 "tab":"v36"}},
- "fermier":{"N":{"g":"m",
+ "fermier":{"N":{"g":"x",
                  "tab":["n39"]}},
  "féroce":{"A":{"tab":["n25"]}},
  "ferraille":{"N":{"g":"f",
@@ -14099,7 +14893,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n17"]}},
  "février":{"N":{"g":"m",
                  "tab":["n3"]}},
- "fiancé":{"N":{"g":"m",
+ "fiancé":{"N":{"g":"x",
                 "tab":["n28"]}},
  "ficelle":{"N":{"g":"f",
                  "tab":["n17"]}},
@@ -14126,7 +14920,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "fillette":{"N":{"g":"f",
                   "tab":["n17"]}},
- "filleul":{"N":{"g":"m",
+ "filleul":{"N":{"g":"x",
                  "tab":["n28"]}},
  "fils":{"N":{"g":"m",
               "tab":["n2"]}},
@@ -14153,7 +14947,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "flatter":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "flatteur":{"N":{"g":"m",
+ "flatteur":{"N":{"g":"x",
                   "tab":["n55"]}},
  "fléau":{"N":{"g":"m",
                "tab":["n4"]}},
@@ -14323,7 +15117,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n17"]}},
  "gambader":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "gamin":{"N":{"g":"m",
+ "gamin":{"N":{"g":"x",
                "tab":["n28"]}},
  "gant":{"N":{"g":"m",
               "tab":["n3"]}},
@@ -14331,11 +15125,11 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v58"}},
  "garçon":{"N":{"g":"m",
                 "tab":["n3"]}},
- "garde":{"N":{"g":"m",
-               "tab":["n3"]}},
+ "garde":{"N":{"g":"x",
+               "tab":["n25"]}},
  "garder":{"V":{"aux":["av"],
                 "tab":"v36"}},
- "gardien":{"N":{"g":"m",
+ "gardien":{"N":{"g":"x",
                  "tab":["n49"]}},
  "gare":{"N":{"g":"f",
               "tab":["n17"]}},
@@ -14482,8 +15276,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v58"}},
  "gravure":{"N":{"g":"f",
                  "tab":["n17"]}},
- "grêle":{"N":{"g":"f",
-               "tab":["n17"]}},
+ "grêle":{"N":{"g":"x",
+               "tab":["n25"]}},
  "grelotter":{"V":{"aux":["av"],
                    "tab":"v36"}},
  "grenier":{"N":{"g":"m",
@@ -14538,7 +15332,7 @@ var lexiconFr = //========== lexicon-fr.js
  "guichet":{"N":{"g":"m",
                  "tab":["n3"]}},
  "guide":{"N":{"g":"x",
-               "tab":["n3"]}},
+               "tab":["n25"]}},
  "guider":{"V":{"aux":["av"],
                 "tab":"v36"}},
  "gymnastique":{"N":{"g":"f",
@@ -14550,7 +15344,7 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v36"}},
  "habit":{"N":{"g":"m",
                "tab":["n3"]}},
- "habitant":{"N":{"g":"m",
+ "habitant":{"N":{"g":"x",
                   "tab":["n28"]}},
  "habitation":{"N":{"g":"f",
                     "tab":["n17"]}},
@@ -14601,7 +15395,8 @@ var lexiconFr = //========== lexicon-fr.js
  "hausser":{"V":{"aux":["av"],
                  "h":1,
                  "tab":"v36"}},
- "haut":{"A":{"h":1, "pos": "pre",
+ "haut":{"A":{"h":1,
+              "pos":"pre",
               "tab":["n28"]}},
  "hauteur":{"N":{"g":"f",
                  "h":1,
@@ -14664,7 +15459,7 @@ var lexiconFr = //========== lexicon-fr.js
  "horrible":{"A":{"tab":["n25"]}},
  "hors":{"P":{"h":1,
               "tab":["pp"]}},
- "hôte":{"N":{"g":"m",
+ "hôte":{"N":{"g":"x",
               "tab":["n52"]}},
  "hôtel":{"N":{"g":"m",
                "tab":["n3"]}},
@@ -14748,7 +15543,7 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":["n3"]}},
  "incliner":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "inconnu":{"N":{"g":"m",
+ "inconnu":{"N":{"g":"x",
                  "tab":["n28"]}},
  "inconvénient":{"N":{"g":"m",
                       "tab":["n3"]}},
@@ -14767,7 +15562,7 @@ var lexiconFr = //========== lexicon-fr.js
  "infini":{"A":{"tab":["n28"]}},
  "infiniment":{"Adv":{"tab":["av"]}},
  "infirme":{"A":{"tab":["n25"]}},
- "infirmier":{"N":{"g":"m",
+ "infirmier":{"N":{"g":"x",
                    "tab":["n39"]}},
  "influence":{"N":{"g":"f",
                    "tab":["n17"]}},
@@ -14796,7 +15591,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n3"]}},
  "insister":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "inspecteur":{"N":{"g":"m",
+ "inspecteur":{"N":{"g":"x",
                     "tab":["n56"]}},
  "inspirer":{"V":{"aux":["av"],
                   "tab":"v36"}},
@@ -14806,7 +15601,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n3"]}},
  "institut":{"N":{"g":"m",
                   "tab":["n3"]}},
- "instituteur":{"N":{"g":"m",
+ "instituteur":{"N":{"g":"x",
                      "tab":["n56"]}},
  "instructif":{"A":{"tab":["n46"]}},
  "instruction":{"N":{"g":"f",
@@ -14881,7 +15676,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "jardinage":{"N":{"g":"m",
                    "tab":["n3"]}},
- "jardinier":{"N":{"g":"m",
+ "jardinier":{"N":{"g":"x",
                    "tab":["n39"]}},
  "jaune":{"A":{"tab":["n25"]}},
  "jaunir":{"V":{"aux":["av"],
@@ -14913,7 +15708,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":"v36"}},
  "jouet":{"N":{"g":"m",
                "tab":["n3"]}},
- "joueur":{"N":{"g":"m",
+ "joueur":{"N":{"g":"x",
                 "tab":["n55"]}},
  "jouir":{"V":{"aux":["av"],
                "tab":"v58"}},
@@ -14928,8 +15723,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n17"]}},
  "joyeusement":{"Adv":{"tab":["av"]}},
  "joyeux":{"A":{"tab":["n54"]}},
- "juge":{"N":{"g":"m",
-              "tab":["n3"]}},
+ "juge":{"N":{"g":"x",
+              "tab":["n25"]}},
  "jugement":{"N":{"g":"m",
                   "tab":["n3"]}},
  "juger":{"V":{"aux":["av"],
@@ -14960,8 +15755,8 @@ var lexiconFr = //========== lexicon-fr.js
  "laborieux":{"A":{"tab":["n54"]}},
  "labourer":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "laboureur":{"N":{"g":"m",
-                   "tab":["n3"]}},
+ "laboureur":{"N":{"g":"x",
+                   "tab":["n55"]}},
  "lac":{"N":{"g":"m",
              "tab":["n3"]}},
  "lâcher":{"V":{"aux":["av"],
@@ -14973,7 +15768,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":"v36"}},
  "lait":{"N":{"g":"m",
               "tab":["n3"]}},
- "laitier":{"N":{"g":"m",
+ "laitier":{"N":{"g":"x",
                  "tab":["n39"]}},
  "lambeau":{"N":{"g":"m",
                  "tab":["n4"]}},
@@ -14988,7 +15783,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "lanterne":{"N":{"g":"f",
                   "tab":["n17"]}},
- "lapin":{"N":{"g":"m",
+ "lapin":{"N":{"g":"x",
                "tab":["n28"]}},
  "large":{"A":{"tab":["n25"]}},
  "largement":{"Adv":{"tab":["av"]}},
@@ -15011,7 +15806,7 @@ var lexiconFr = //========== lexicon-fr.js
  "léger":{"A":{"tab":["n39"]}},
  "légèrement":{"Adv":{"tab":["av"]}},
  "légume":{"N":{"g":"x",
-                "tab":["n3"]}},
+                "tab":["n25"]}},
  "lendemain":{"N":{"g":"m",
                    "tab":["n3"]}},
  "lent":{"A":{"tab":["n28"]}},
@@ -15057,7 +15852,7 @@ var lexiconFr = //========== lexicon-fr.js
              "tab":["n3"]}},
  "linge":{"N":{"g":"m",
                "tab":["n3"]}},
- "lion":{"N":{"g":"m",
+ "lion":{"N":{"g":"x",
               "tab":["n49"]}},
  "liquide":{"A":{"tab":["n25"]}},
  "lire":{"V":{"aux":["av"],
@@ -15073,8 +15868,8 @@ var lexiconFr = //========== lexicon-fr.js
              "tab":["n3"]}},
  "litière":{"N":{"g":"f",
                  "tab":["n17"]}},
- "livre":{"N":{"g":"m",
-               "tab":["n3"]}},
+ "livre":{"N":{"g":"x",
+               "tab":["n25"]}},
  "livrer":{"V":{"aux":["av"],
                 "tab":"v36"}},
  "local":{"N":{"g":"m",
@@ -15156,13 +15951,13 @@ var lexiconFr = //========== lexicon-fr.js
  "maintenant":{"Adv":{"tab":["av"]}},
  "maintenir":{"V":{"aux":["av"],
                    "tab":"v52"}},
- "maire":{"N":{"g":"m",
-               "tab":["n3"]}},
- "mais":{"C":{"tab":["cj"]},
-         "Adv":{"tab":["av"]}},
+ "maire":{"N":{"g":"x",
+               "tab":["n52"]}},
+ "mais":{"Adv":{"tab":["av"]},
+         "C":{"tab":["cj"]}},
  "maison":{"N":{"g":"f",
                 "tab":["n17"]}},
- "maître":{"N":{"g":"m",
+ "maître":{"N":{"g":"x",
                 "tab":["n52"]}},
  "majesté":{"N":{"g":"f",
                  "tab":["n17"]}},
@@ -15191,8 +15986,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n17"]}},
  "manifester":{"V":{"aux":["av"],
                     "tab":"v36"}},
- "manoeuvre":{"N":{"g":"m",
-                   "tab":["n3"]}},
+ "manoeuvre":{"N":{"g":"x",
+                   "tab":["n25"]}},
  "manoeuvrer":{"V":{"aux":["av"],
                     "tab":"v36"}},
  "manque":{"N":{"g":"m",
@@ -15206,7 +16001,7 @@ var lexiconFr = //========== lexicon-fr.js
  "manuel":{"A":{"tab":["n48"]}},
  "marbre":{"N":{"g":"m",
                 "tab":["n3"]}},
- "marchand":{"N":{"g":"m",
+ "marchand":{"N":{"g":"x",
                   "tab":["n28"]}},
  "marchander":{"V":{"aux":["av"],
                     "tab":"v36"}},
@@ -15285,7 +16080,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n3"]}},
  "méditer":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "meilleur":{"A":{"tab":["n28"], "pos": "pre"}},
+ "meilleur":{"A":{"pos":"pre",
+                  "tab":["n28"]}},
  "mélancolie":{"N":{"g":"f",
                     "tab":["n17"]}},
  "mélancolique":{"A":{"tab":["n25"]}},
@@ -15311,7 +16107,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":"v3"}},
  "ménagerie":{"N":{"g":"f",
                    "tab":["n17"]}},
- "mendiant":{"N":{"g":"m",
+ "mendiant":{"N":{"g":"x",
                   "tab":["n28"]}},
  "mendier":{"V":{"aux":["av"],
                  "tab":"v36"}},
@@ -15319,7 +16115,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":"v24"}},
  "mensonge":{"N":{"g":"m",
                   "tab":["n3"]}},
- "menteur":{"N":{"g":"m",
+ "menteur":{"N":{"g":"x",
                  "tab":["n55"]}},
  "mentir":{"V":{"aux":["av"],
                 "tab":"v46"}},
@@ -15327,11 +16123,11 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "menu":{"N":{"g":"m",
               "tab":["n3"]}},
- "menuisier":{"N":{"g":"m",
+ "menuisier":{"N":{"g":"x",
                    "tab":["n3"]}},
  "mer":{"N":{"g":"f",
              "tab":["n17"]}},
- "merci":{"N":{"g":"m",
+ "merci":{"N":{"g":"x",
                "tab":["n25"]}},
  "mercredi":{"N":{"g":"m",
                   "tab":["n3"]}},
@@ -15347,7 +16143,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":["n17"]}},
  "merveilleusement":{"Adv":{"tab":["av"]}},
  "merveilleux":{"A":{"tab":["n54"]}},
- "messager":{"N":{"g":"m",
+ "messager":{"N":{"g":"x",
                   "tab":["n39"]}},
  "messe":{"N":{"g":"f",
                "tab":["n17"]}},
@@ -15370,7 +16166,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "meule":{"N":{"g":"f",
                "tab":["n17"]}},
- "meunier":{"N":{"g":"m",
+ "meunier":{"N":{"g":"x",
                  "tab":["n39"]}},
  "midi":{"N":{"g":"m",
               "tab":["n3"]}},
@@ -15392,9 +16188,9 @@ var lexiconFr = //========== lexicon-fr.js
  "mince":{"A":{"tab":["n25"]}},
  "mine":{"N":{"g":"f",
               "tab":["n17"]}},
- "mineur":{"N":{"g":"m",
-                "tab":["n3"]}},
- "ministre":{"N":{"g":"m",
+ "mineur":{"N":{"g":"x",
+                "tab":["n55"]}},
+ "ministre":{"N":{"g":"x",
                   "tab":["n25"]}},
  "minuit":{"N":{"g":"m",
                 "tab":["n3"]}},
@@ -15443,7 +16239,7 @@ var lexiconFr = //========== lexicon-fr.js
               "tab":["n2"]}},
  "moisson":{"N":{"g":"f",
                  "tab":["n17"]}},
- "moissonneur":{"N":{"g":"m",
+ "moissonneur":{"N":{"g":"x",
                      "tab":["n55"]}},
  "moitié":{"N":{"g":"f",
                 "tab":["n17"]}},
@@ -15459,8 +16255,8 @@ var lexiconFr = //========== lexicon-fr.js
                      "tab":["n13"]}},
  "monsieur":{"N":{"g":"m",
                   "tab":["n12"]}},
- "monstre":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "monstre":{"N":{"g":"x",
+                 "tab":["n25"]}},
  "mont":{"N":{"g":"m",
               "tab":["n3"]}},
  "montagne":{"N":{"g":"f",
@@ -15487,7 +16283,7 @@ var lexiconFr = //========== lexicon-fr.js
  "mordre":{"V":{"aux":["av"],
                 "tab":"v85"}},
  "morne":{"A":{"tab":["n25"]}},
- "mort":{"N":{"g":"m",
+ "mort":{"N":{"g":"x",
               "tab":["n28"]}},
  "mortel":{"A":{"tab":["n48"]}},
  "mot":{"N":{"g":"m",
@@ -15581,15 +16377,15 @@ var lexiconFr = //========== lexicon-fr.js
  "navire":{"N":{"g":"m",
                 "tab":["n3"]}},
  "ne":{"Adv":{"tab":["ave"]}},
- "néanmoins":{"Adv":{"tab":["av"],
-              "C":{"tab":["cj"]}}},
+ "néanmoins":{"Adv":{"C":{"tab":["cj"]},
+                     "tab":["av"]}},
  "nécessaire":{"A":{"tab":["n25"]}},
  "négligence":{"N":{"g":"f",
                     "tab":["n17"]}},
  "négligent":{"A":{"tab":["n28"]}},
  "négliger":{"V":{"aux":["av"],
                   "tab":"v3"}},
- "négociant":{"N":{"g":"m",
+ "négociant":{"N":{"g":"x",
                    "tab":["n28"]}},
  "nègre":{"A":{"tab":["n25"]}},
  "neige":{"N":{"g":"f",
@@ -15635,8 +16431,8 @@ var lexiconFr = //========== lexicon-fr.js
  "nord":{"N":{"g":"m",
               "tab":["n35"]}},
  "normal":{"A":{"tab":["n47"]}},
- "notaire":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "notaire":{"N":{"g":"x",
+                 "tab":["n25"]}},
  "note":{"N":{"g":"f",
               "tab":["n17"]}},
  "nôtre":{"Pro":{"tab":["pn13"]}},
@@ -15709,8 +16505,8 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v36"}},
  "office":{"N":{"g":"m",
                 "tab":["n3"]}},
- "officier":{"N":{"g":"m",
-                  "tab":["n3"]}},
+ "officier":{"N":{"g":"x",
+                  "tab":["n39"]}},
  "offre":{"N":{"g":"f",
                "tab":["n17"]}},
  "offrir":{"V":{"aux":["av"],
@@ -15740,9 +16536,9 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n17"]}},
  "opposer":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "or":{"N":{"g":"m",
-            "tab":["n3"]},
-       "C":{"tab":["cj"]}},
+ "or":{"C":{"tab":["cj"]},
+       "N":{"g":"m",
+            "tab":["n3"]}},
  "orage":{"N":{"g":"m",
                "tab":["n3"]}},
  "orange":{"A":{"tab":["n24"]},
@@ -15762,8 +16558,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n17"]}},
  "organiser":{"V":{"aux":["av"],
                    "tab":"v36"}},
- "orgue":{"N":{"g":"m",
-               "tab":["n3"]}},
+ "orgue":{"N":{"g":"x",
+               "tab":["n25"]}},
  "orgueil":{"N":{"g":"m",
                  "tab":["n3"]}},
  "orgueilleux":{"A":{"tab":["n54"]}},
@@ -15771,7 +16567,7 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":["n3"]}},
  "orner":{"V":{"aux":["av"],
                "tab":"v36"}},
- "orphelin":{"N":{"g":"m",
+ "orphelin":{"N":{"g":"x",
                   "tab":["n28"]}},
  "os":{"N":{"g":"m",
             "tab":["n2"]}},
@@ -15795,7 +16591,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":["n17"]}},
  "ouvrage":{"N":{"g":"m",
                  "tab":["n3"]}},
- "ouvrier":{"N":{"g":"m",
+ "ouvrier":{"N":{"g":"x",
                  "tab":["n39"]}},
  "ouvrir":{"V":{"aux":["av"],
                 "tab":"v44"}},
@@ -15917,9 +16713,9 @@ var lexiconFr = //========== lexicon-fr.js
              "tab":["n2"]}},
  "passage":{"N":{"g":"m",
                  "tab":["n3"]}},
- "passager":{"N":{"g":"m",
+ "passager":{"N":{"g":"x",
                   "tab":["n39"]}},
- "passant":{"N":{"g":"m",
+ "passant":{"N":{"g":"x",
                  "tab":["n28"]}},
  "passé":{"N":{"g":"m",
                "tab":["n3"]}},
@@ -15940,7 +16736,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n3"]}},
  "patrie":{"N":{"g":"f",
                 "tab":["n17"]}},
- "patron":{"N":{"g":"m",
+ "patron":{"N":{"g":"x",
                 "tab":["n49"]}},
  "patronage":{"N":{"g":"m",
                    "tab":["n3"]}},
@@ -15957,7 +16753,7 @@ var lexiconFr = //========== lexicon-fr.js
               "tab":["n2"]}},
  "paysage":{"N":{"g":"m",
                  "tab":["n3"]}},
- "paysan":{"N":{"g":"m",
+ "paysan":{"N":{"g":"x",
                 "tab":["n49"]}},
  "peau":{"N":{"g":"f",
               "tab":["n18"]}},
@@ -15969,7 +16765,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v27"}},
  "pêcher":{"V":{"aux":["av"],
                 "tab":"v36"}},
- "pêcheur":{"N":{"g":"m",
+ "pêcheur":{"N":{"g":"x",
                  "tab":["n55"]}},
  "peindre":{"V":{"aux":["av"],
                  "tab":"v97"}},
@@ -15990,8 +16786,8 @@ var lexiconFr = //========== lexicon-fr.js
  "pendant":{"P":{"tab":["pp"]}},
  "pendre":{"V":{"aux":["av"],
                 "tab":"v85"}},
- "pendule":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "pendule":{"N":{"g":"x",
+                 "tab":["n25"]}},
  "pénétrer":{"V":{"aux":["av"],
                   "tab":"v17"}},
  "pénible":{"A":{"tab":["n25"]}},
@@ -16057,7 +16853,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "petit":{"A":{"pos":"pre",
                "tab":["n28"]},
-          "N":{"g":"m",
+          "N":{"g":"x",
                "tab":["n28"]}},
  "pétrir":{"V":{"aux":["av"],
                 "tab":"v58"}},
@@ -16187,7 +16983,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "poésie":{"N":{"g":"f",
                 "tab":["n17"]}},
- "poète":{"N":{"g":"m",
+ "poète":{"N":{"g":"x",
                "tab":["n103"]}},
  "poids":{"N":{"g":"m",
                "tab":["n2"]}},
@@ -16219,16 +17015,16 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "politesse":{"N":{"g":"f",
                    "tab":["n17"]}},
- "politique":{"N":{"g":"f",
-                   "tab":["n17"]}},
+ "politique":{"N":{"g":"x",
+                   "tab":["n25"]}},
  "pomme":{"N":{"g":"f",
                "tab":["n17"]}},
  "pommier":{"N":{"g":"m",
                  "tab":["n3"]}},
  "pompe":{"N":{"g":"f",
                "tab":["n17"]}},
- "pompier":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "pompier":{"N":{"g":"x",
+                 "tab":["n39"]}},
  "pondre":{"V":{"aux":["av"],
                 "tab":"v85"}},
  "pont":{"N":{"g":"m",
@@ -16247,7 +17043,7 @@ var lexiconFr = //========== lexicon-fr.js
                       "tab":["n3"]}},
  "porter":{"V":{"aux":["av"],
                 "tab":"v36"}},
- "porteur":{"N":{"g":"m",
+ "porteur":{"N":{"g":"x",
                  "tab":["n55"]}},
  "portière":{"N":{"g":"f",
                   "tab":["n17"]}},
@@ -16263,8 +17059,8 @@ var lexiconFr = //========== lexicon-fr.js
                     "tab":["n17"]}},
  "possible":{"A":{"tab":["n25"]}},
  "postal":{"A":{"tab":["n47"]}},
- "poste":{"N":{"g":"m",
-               "tab":["n3"]}},
+ "poste":{"N":{"g":"x",
+               "tab":["n25"]}},
  "pot":{"N":{"g":"m",
              "tab":["n3"]}},
  "potager":{"N":{"g":"m",
@@ -16349,7 +17145,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":"v36"}},
  "préserver":{"V":{"aux":["av"],
                    "tab":"v36"}},
- "président":{"N":{"g":"m",
+ "président":{"N":{"g":"x",
                    "tab":["n28"]}},
  "présidente":{"N":{"g":"f",
                     "tab":["n17"]}},
@@ -16393,7 +17189,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "prison":{"N":{"g":"f",
                 "tab":["n17"]}},
- "prisonnier":{"N":{"g":"m",
+ "prisonnier":{"N":{"g":"x",
                     "tab":["n39"]}},
  "privation":{"N":{"g":"f",
                    "tab":["n17"]}},
@@ -16414,8 +17210,8 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":"v36"}},
  "procurer":{"V":{"aux":["av"],
                   "tab":"v36"}},
- "procureur":{"N":{"g":"m",
-                   "tab":["n3"]}},
+ "procureur":{"N":{"g":"x",
+                   "tab":["n28"]}},
  "prodigieux":{"A":{"tab":["n54"]}},
  "prodiguer":{"V":{"aux":["av"],
                    "tab":"v36"}},
@@ -16425,8 +17221,8 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v113"}},
  "produit":{"N":{"g":"m",
                  "tab":["n3"]}},
- "professeur":{"N":{"g":"m",
-                    "tab":["n3"]}},
+ "professeur":{"N":{"g":"x",
+                    "tab":["n28"]}},
  "profession":{"N":{"g":"f",
                     "tab":["n17"]}},
  "profit":{"N":{"g":"m",
@@ -16453,7 +17249,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":["n17"]}},
  "promener":{"V":{"aux":["av"],
                   "tab":"v24"}},
- "promeneur":{"N":{"g":"m",
+ "promeneur":{"N":{"g":"x",
                    "tab":["n55"]}},
  "promesse":{"N":{"g":"f",
                   "tab":["n17"]}},
@@ -16481,7 +17277,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":["n17"]}},
  "prospérité":{"N":{"g":"f",
                     "tab":["n17"]}},
- "protecteur":{"N":{"g":"m",
+ "protecteur":{"N":{"g":"x",
                     "tab":["n56"]}},
  "protection":{"N":{"g":"f",
                     "tab":["n17"]}},
@@ -16925,7 +17721,7 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":"v58"}},
  "retard":{"N":{"g":"m",
                 "tab":["n3"]}},
- "retardataire":{"N":{"g":"m",
+ "retardataire":{"N":{"g":"x",
                       "tab":["n25"]}},
  "retenir":{"V":{"aux":["av"],
                  "tab":"v52"}},
@@ -17024,8 +17820,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v3"}},
  "ronronner":{"V":{"aux":["av"],
                    "tab":"v36"}},
- "rose":{"N":{"g":"f",
-              "tab":["n17"]}},
+ "rose":{"N":{"g":"x",
+              "tab":["n25"]}},
  "roseau":{"N":{"g":"m",
                 "tab":["n4"]}},
  "rosée":{"N":{"g":"f",
@@ -17064,7 +17860,7 @@ var lexiconFr = //========== lexicon-fr.js
              "tab":["n17"]}},
  "ruelle":{"N":{"g":"f",
                 "tab":["n17"]}},
- "ruine":{"N":{"g":"m",
+ "ruine":{"N":{"g":"f",
                "tab":["n17"]}},
  "ruiner":{"V":{"aux":["av"],
                 "tab":"v36"}},
@@ -17154,7 +17950,7 @@ var lexiconFr = //========== lexicon-fr.js
  "sauvage":{"A":{"tab":["n25"]}},
  "sauver":{"V":{"aux":["av"],
                 "tab":"v36"}},
- "savant":{"N":{"g":"m",
+ "savant":{"N":{"g":"x",
                 "tab":["n28"]}},
  "savoir":{"V":{"aux":["av"],
                 "tab":"v67"}},
@@ -17223,8 +18019,8 @@ var lexiconFr = //========== lexicon-fr.js
  "septembre":{"N":{"g":"m",
                    "tab":["n3"]}},
  "serein":{"A":{"tab":["n28"]}},
- "sergent":{"N":{"g":"m",
-                 "tab":["n3"]}},
+ "sergent":{"N":{"g":"x",
+                 "tab":["n28"]}},
  "série":{"N":{"g":"f",
                "tab":["n17"]}},
  "sérieusement":{"Adv":{"tab":["av"]}},
@@ -17351,8 +18147,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n3"]}},
  "sommet":{"N":{"g":"m",
                 "tab":["n3"]}},
- "son":{"N":{"g":"m",
-             "tab":["n3"]}},
+ "son":{"D":{"tab":["d5-3"]},
+        "N":{"g":"m","tab":["n3"]}},
  "songer":{"V":{"aux":["av"],
                 "tab":"v3"}},
  "sonner":{"V":{"aux":["aê"],
@@ -17426,7 +18222,7 @@ var lexiconFr = //========== lexicon-fr.js
  "souvenir":{"N":{"g":"m",
                   "tab":["n3"]}},
  "souvent":{"Adv":{"tab":["av"]}},
- "souverain":{"N":{"g":"m",
+ "souverain":{"N":{"g":"x",
                    "tab":["n28"]}},
  "soyeux":{"A":{"tab":["n54"]}},
  "spacieux":{"A":{"tab":["n54"]}},
@@ -17434,7 +18230,7 @@ var lexiconFr = //========== lexicon-fr.js
  "spécialement":{"Adv":{"tab":["av"]}},
  "spectacle":{"N":{"g":"m",
                    "tab":["n3"]}},
- "spectateur":{"N":{"g":"m",
+ "spectateur":{"N":{"g":"x",
                     "tab":["n56"]}},
  "splendeur":{"N":{"g":"f",
                    "tab":["n17"]}},
@@ -17515,7 +18311,7 @@ var lexiconFr = //========== lexicon-fr.js
                     "tab":"v36"}},
  "survenir":{"V":{"aux":["êt"],
                   "tab":"v52"}},
- "suspect":{"N":{"g":"m",
+ "suspect":{"N":{"g":"x",
                  "tab":["n28"]}},
  "suspendre":{"V":{"aux":["av"],
                    "tab":"v85"}},
@@ -17545,8 +18341,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "tailler":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "tailleur":{"N":{"g":"m",
-                  "tab":["n3"]}},
+ "tailleur":{"N":{"g":"x",
+                  "tab":["n55"]}},
  "taillis":{"N":{"g":"m",
                  "tab":["n2"]}},
  "taire":{"V":{"aux":["av"],
@@ -17644,7 +18440,7 @@ var lexiconFr = //========== lexicon-fr.js
  "tiède":{"A":{"tab":["n25"]}},
  "tige":{"N":{"g":"f",
               "tab":["n17"]}},
- "tigre":{"N":{"g":"m",
+ "tigre":{"N":{"g":"x",
                "tab":["n52"]}},
  "tilleul":{"N":{"g":"m",
                  "tab":["n3"]}},
@@ -17675,8 +18471,8 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n4"]}},
  "tomber":{"V":{"aux":["êt"],
                 "tab":"v36"}},
- "ton":{"N":{"g":"m",
-             "tab":["n3"]}},
+ "ton":{"D":{"tab":["d5-2"]},
+        "N":{"g":"m","tab":["n3"]}},
  "tonneau":{"N":{"g":"m",
                  "tab":["n4"]}},
  "tonnerre":{"N":{"g":"m",
@@ -17696,8 +18492,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "touffu":{"A":{"tab":["n28"]}},
  "toujours":{"Adv":{"tab":["av"]}},
- "tour":{"N":{"g":"m",
-              "tab":["n3"]}},
+ "tour":{"N":{"g":"x",
+              "tab":["n25"]}},
  "tourbillon":{"N":{"g":"m",
                     "tab":["n3"]}},
  "tourbillonner":{"V":{"aux":["av"],
@@ -17764,7 +18560,7 @@ var lexiconFr = //========== lexicon-fr.js
                  "tab":["n6"]}},
  "travailler":{"V":{"aux":["av"],
                     "tab":"v36"}},
- "travailleur":{"N":{"g":"m",
+ "travailleur":{"N":{"g":"x",
                      "tab":["n55"]}},
  "travailleuse":{"N":{"g":"f",
                       "tab":["n17"]}},
@@ -17863,15 +18659,16 @@ var lexiconFr = //========== lexicon-fr.js
  "vache":{"N":{"g":"f",
                "tab":["n17"]}},
  "vagabond":{"A":{"tab":["n28"]}},
- "vague":{"N":{"g":"f",
-               "tab":["n17"]}},
+ "vague":{"N":{"g":"x",
+               "tab":["n25"]}},
  "vaillant":{"A":{"tab":["n28"]}},
  "vain":{"A":{"tab":["n28"]}},
  "vaincre":{"V":{"aux":["av"],
                  "tab":"v86"}},
- "vainqueur":{"N":{"g":"m",
-                   "tab":["n3"]}},
- "vaisseau":{"N":{"tab":["n4"], "g": "m"}},
+ "vainqueur":{"N":{"g":"x",
+                   "tab":["n25"]}},
+ "vaisseau":{"N":{"g":"m",
+                  "tab":["n4"]}},
  "vaisselle":{"N":{"g":"f",
                    "tab":["n17"]}},
  "valet":{"N":{"g":"m",
@@ -17890,8 +18687,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "varier":{"V":{"aux":["av"],
                 "tab":"v36"}},
- "vase":{"N":{"g":"m",
-              "tab":["n3"]}},
+ "vase":{"N":{"g":"x",
+              "tab":["n25"]}},
  "vaste":{"A":{"tab":["n25"]}},
  "veau":{"N":{"g":"m",
               "tab":["n4"]}},
@@ -17911,7 +18708,7 @@ var lexiconFr = //========== lexicon-fr.js
  "velours":{"N":{"g":"m",
                  "tab":["n2"]}},
  "velouté":{"A":{"tab":["n28"]}},
- "vendeur":{"N":{"g":"m",
+ "vendeur":{"N":{"g":"x",
                  "tab":["n55"]}},
  "vendre":{"V":{"aux":["av"],
                 "tab":"v85"}},
@@ -17997,7 +18794,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "village":{"N":{"g":"m",
                  "tab":["n3"]}},
- "villageois":{"N":{"g":"m",
+ "villageois":{"N":{"g":"x",
                     "tab":["n27"]}},
  "ville":{"N":{"g":"f",
                "tab":["n17"]}},
@@ -18018,7 +18815,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n17"]}},
  "visiter":{"V":{"aux":["av"],
                  "tab":"v36"}},
- "visiteur":{"N":{"g":"m",
+ "visiteur":{"N":{"g":"x",
                   "tab":["n55"]}},
  "vite":{"Adv":{"tab":["av"]}},
  "vitesse":{"N":{"g":"f",
@@ -18042,7 +18839,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":"v36"}},
  "voir":{"V":{"aux":["av"],
               "tab":"v72"}},
- "voisin":{"N":{"g":"m",
+ "voisin":{"N":{"g":"x",
                 "tab":["n28"]}},
  "voisinage":{"N":{"g":"m",
                    "tab":["n3"]}},
@@ -18060,7 +18857,7 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":"v36"}},
  "volet":{"N":{"g":"m",
                "tab":["n3"]}},
- "voleur":{"N":{"g":"m",
+ "voleur":{"N":{"g":"x",
                 "tab":["n55"]}},
  "volonté":{"N":{"g":"f",
                  "tab":["n17"]}},
@@ -18077,7 +18874,7 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n3"]}},
  "voyager":{"V":{"aux":["av"],
                  "tab":"v3"}},
- "voyageur":{"N":{"g":"m",
+ "voyageur":{"N":{"g":"x",
                   "tab":["n55"]}},
  "vrai":{"A":{"tab":["n28"]}},
  "vraiment":{"Adv":{"tab":["av"]}},
@@ -18089,10 +18886,25 @@ var lexiconFr = //========== lexicon-fr.js
  "y":{"Pro":{"tab":["pn11"]}},
  "zèle":{"N":{"g":"m",
               "tab":["n3"]}},
+ "toi":{"Pro":{"tab":["pn4-2s"]}},
+ "lui":{"Pro":{"tab":["pn4-3sm"]}},
+ "elle":{"Pro":{"tab":["pn4-3sf"]}},
+ "nous":{"Pro":{"tab":["pn4-1p"]}},
+ "vous":{"Pro":{"tab":["pn4-2p"]}},
+ "eux":{"Pro":{"tab":["pn4-3pm"]}},
+ "elles":{"Pro":{"tab":["pn4-3pf"]}},
+ 
+ "tien":{"Pro":{"tab":["pn12-2"]}},
+ "sien":{"Pro":{"tab":["pn12-3"]}},
+ "vôtre":{"Pro":{"tab":["pn13-2"]}},
+ "leur":{"Pro":{"tab":["pn13-3"]},
+         "D":{"tab":["d6-3"]}}, 
+ "votre":{"D":{"tab":["d6-2"]}},
  "{":{"Pc":{"compl":"}",
             "tab":["pc5"]}},
  "}":{"Pc":{"compl":"{",
-            "tab":["pc6"]}}}
+            "tab":["pc6"]}}
+}
 var ruleFr = //========== rule-fr.js
 {
     "conjugation": {
@@ -20472,7 +21284,8 @@ var ruleFr = //========== rule-fr.js
             "aux": ["a","aura","avait","ait","eût","aurait"],
             "pp": ["été","étés","étées"]
         },
-        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je","si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
+        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je",
+                      "si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
         "voyellesAccentuees": "àäéèêëïîöôùû",
         "voyelles": "aeiouàäéèêëïîöôùû"
     },
@@ -21596,7 +22409,19 @@ var ruleFr = //========== rule-fr.js
         "pn0":{
             "ending":"on",
             "declension":[{
-                "val": "on","g": "x","n": "s","pe": 3
+                "val":"on", "g":"m", "n":"s"
+            },{
+                "val":"soi", "g":"x", "n":"s", "tn":""
+            },{
+                "val":"soi-même", "g":"x", "n":"s", "tn":"refl"
+            },{
+                "val":"soi", "g":"x", "n":"s", "c":"nom"
+            },{
+                "val":"le", "g":"x", "n":"s", "c":"acc"
+            },{
+                "val":"soi", "g":"x", "n":"s", "c":"dat"
+            },{
+                "val":"se", "g":"x", "n":"s", "c":"refl"
             }]
         },
         "pn1": {
@@ -21653,24 +22478,216 @@ var ruleFr = //========== rule-fr.js
                 "val": "leur","g": "x","n": "p","pe": 3
             }]
         },
-        "pn4": {
-            "ending": "moi",
-            "declension": [{
-                "val": "moi","g": "x","n": "s","pe": 1
+        "pn4":{
+            "ending":"moi",
+            "declension":[{
+                "val":"moi", "g":"x", "n":"s", "pe":1, "tn":""
             },{
-                "val": "nous","g": "x","n": "p","pe": 1
+                "val":"moi-même", "g":"x", "n":"s", "pe":1, "tn":"refl"
             },{
-                "val": "toi","g": "x","n": "s","pe": 2
+                "val":"je", "g":"x", "n":"s", "pe":1, "c":"nom"
             },{
-                "val": "vous","g": "x","n": "p","pe": 2
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"acc"
             },{
-                "val": "lui","g": "m","n": "s","pe": 3
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"dat"
             },{
-                "val": "elle","g": "f","n": "s","pe": 3
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"refl"
             },{
-                "val": "eux","g": "m","n": "p","pe": 3
+                "val":"nous", "g":"x", "n":"p", "pe":1, "tn":""
             },{
-                "val": "elles","g": "f","n": "p","pe": 3
+                "val":"nous-mêmes", "g":"x", "n":"p", "pe":1, "tn":"refl"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"nom"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"acc"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"dat"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"refl"
+            },{
+                "val":"toi", "g":"x", "n":"s", "pe":2, "tn":""
+            },{
+                "val":"toi-même", "g":"x", "n":"s", "pe":2, "tn":"refl"
+            },{
+                "val":"tu", "g":"x", "n":"s", "pe":2, "c":"nom"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"acc"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"dat"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"refl"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "tn":""
+            },{
+                "val":"vous-mêmes", "g":"x", "n":"p", "pe":2, "tn":"refl"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"nom"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"acc"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"dat"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"refl"
+            },{
+                "val":"lui", "g":"m", "n":"s", "pe":3, "tn":""
+            },{
+                "val":"lui-même", "g":"m", "n":"s", "pe":3, "tn":"refl"
+            },{
+                "val":"il", "g":"m", "n":"s", "pe":3, "c":"nom"
+            },{
+                "val":"le", "g":"m", "n":"s", "pe":3, "c":"acc"
+            },{
+                "val":"lui", "g":"m", "n":"s", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"m", "n":"s", "pe":3, "c":"refl"
+            },{
+                "val":"elle", "g":"f", "n":"s", "pe":3, "tn":""
+            },{
+                "val":"elle-même", "g":"f", "n":"s", "pe":3, "tn":"refl"
+            },{
+                "val":"elle", "g":"f", "n":"s", "pe":3, "c":"nom"
+            },{
+                "val":"la", "g":"f", "n":"s", "pe":3, "c":"acc"
+            },{
+                "val":"lui", "g":"f", "n":"s", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"f", "n":"s", "pe":3, "c":"refl"
+            },{
+                "val":"eux", "g":"m", "n":"p", "pe":3, "tn":""
+            },{
+                "val":"eux-mêmes", "g":"m", "n":"p", "pe":3, "tn":"refl"
+            },{
+                "val":"ils", "g":"m", "n":"p", "pe":3, "c":"nom"
+            },{
+                "val":"les", "g":"m", "n":"p", "pe":3, "c":"acc"
+            },{
+                "val":"leur", "g":"m", "n":"p", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"m", "n":"p", "pe":3, "c":"refl"
+            },{
+                "val":"elles", "g":"f", "n":"p", "pe":3, "tn":""
+            },{
+                "val":"elles-mêmes", "g":"f", "n":"p", "pe":3, "tn":"refl"
+            },{
+                "val":"elles", "g":"f", "n":"p", "pe":3, "c":"nom"
+            },{
+                "val":"les", "g":"f", "n":"p", "pe":3, "c":"acc"
+            },{
+                "val":"leur", "g":"f", "n":"p", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"f", "n":"p", "pe":3, "c":"refl"
+            }]
+        },
+        "pn4-2s":{
+            "ending":"toi",
+            "declension":[{
+                "val":"toi", "tn":"", "n":"s", "pe":2
+            },{
+                "val":"toi-même", "tn":"refl", "n":"s", "pe":2
+            },{
+                "val":"tu", "c":"nom", "n":"s", "pe":2
+            },{
+                "val":"te", "c":"acc", "n":"s", "pe":2
+            },{
+                "val":"te", "c":"dat", "n":"s", "pe":2
+            },{
+                "val":"te", "c":"refl", "n":"s", "pe":2
+            }]
+        },
+        "pn4-3sm":{
+            "ending":"lui",
+            "declension":[{
+                "val":"lui", "tn":"", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"lui-même", "tn":"refl", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"il", "c":"nom", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"le", "c":"acc", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"lui", "c":"dat", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"se", "c":"refl", "g":"m", "n":"s", "pe":3
+            }]
+        },
+        "pn4-3sf":{
+            "ending":"elle",
+            "declension":[{
+                "val":"elle", "g":"f", "tn":"", "n":"s", "pe":3
+            },{
+                "val":"elle-même", "g":"f", "tn":"refl", "n":"s", "pe":3
+            },{
+                "val":"elle", "g":"f", "c":"nom", "n":"s", "pe":3
+            },{
+                "val":"la", "g":"f", "c":"acc", "n":"s", "pe":3
+            },{
+                "val":"lui", "g":"f", "c":"dat", "n":"s", "pe":3
+            },{
+                "val":"se", "g":"f", "c":"refl", "n":"s", "pe":3
+            }]
+        },
+        "pn4-1p":{
+            "ending":"nous",
+            "declension":[{
+                "val":"nous", "tn":"", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous-mêmes", "tn":"refl", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"nom", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"acc", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"dat", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"refl", "g":"x", "n":"p", "pe":1
+            }]
+        },
+        "pn4-2p":{
+            "ending":"vous",
+            "declension":[{
+                "val":"vous", "tn":"", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous-mêmes", "tn":"refl", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"nom", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"acc", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"dat", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"refl", "g":"x", "n":"p", "pe":2
+            }]
+        },
+        "pn4-3pm":{
+            "ending":"eux",
+            "declension":[{
+                "val":"eux", "tn":"", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"eux-mêmes", "tn":"refl", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"ils", "c":"nom", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"les", "c":"acc", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leur", "c":"dat", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"se", "c":"refl", "g":"m", "n":"p", "pe":3
+            }]
+        },
+        "pn4-3pf":{
+            "ending":"elles",
+            "declension":[{
+                "val":"elles", "g":"f", "tn":"", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"elles-mêmes", "g":"f", "tn":"refl", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"elles", "g":"f", "c":"nom", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"les", "g":"f", "c":"acc", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"leur", "g":"f", "c":"dat", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"se", "g":"f", "c":"refl", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn5": {
@@ -21755,60 +22772,108 @@ var ruleFr = //========== rule-fr.js
                 "val": "y","g": "x","n": "x"
             }]
         },
-        "pn12": {
-            "ending": "mien",
-            "declension": [{
-                "val": "mien","g": "m","n": "s","pe": 1
+        "pn12":{
+            "ending":"mien",
+            "declension":[{
+                "val":"mien", "g":"m", "n":"s", "pe":1
             },{
-                "val": "mienne","g": "f","n": "s","pe": 1
+                "val":"mienne", "g":"f", "n":"s", "pe":1
             },{
-                "val": "miens","g": "m","n": "p","pe": 1
+                "val":"miens", "g":"m", "n":"p", "pe":1
             },{
-                "val": "miennes","g": "f","n": "p","pe": 1
+                "val":"miennes", "g":"f", "n":"p", "pe":1
             },{
-                "val": "tien","g": "m","n": "s","pe": 2
+                "val":"tien", "g":"m", "n":"s", "pe":2
             },{
-                "val": "tienne","g": "f","n": "s","pe": 2
+                "val":"tienne", "g":"f", "n":"s", "pe":2
             },{
-                "val": "tiens","g": "m","n": "p","pe": 2
+                "val":"tiens", "g":"m", "n":"p", "pe":2
             },{
-                "val": "tiennes","g": "f","n": "p","pe": 2
+                "val":"tiennes", "g":"f", "n":"p", "pe":2
             },{
-                "val": "sien","g": "m","n": "s","pe": 3
+                "val":"sien", "g":"m", "n":"s", "pe":3
             },{
-                "val": "sienne","g": "f","n": "s","pe": 3
+                "val":"sienne", "g":"f", "n":"s", "pe":3
             },{
-                "val": "siens","g": "m","n": "p","pe": 3
+                "val":"siens", "g":"m", "n":"p", "pe":3
             },{
-                "val": "siennes","g": "f","n": "p","pe": 3
+                "val":"siennes", "g":"f", "n":"p", "pe":3
             }]
         },
-        "pn13": {
-            "ending": "nôtre",
-            "declension": [{
-                "val": "nôtre","g": "m","n": "s","pe": 1
+        "pn12-2":{
+            "ending":"tien",
+            "declension":[{
+                "val":"tien", "g":"m", "n":"s", "pe":2
             },{
-                "val": "nôtre","g": "f","n": "s","pe": 1
+                "val":"tienne", "g":"f", "n":"s", "pe":2
             },{
-                "val": "nôtres","g": "m","n": "p","pe": 1
+                "val":"tiens", "g":"m", "n":"p", "pe":2
             },{
-                "val": "nôtres","g": "f","n": "p","pe": 1
+                "val":"tiennes", "g":"f", "n":"p", "pe":2
+            }]
+        },
+        "pn12-3":{
+            "ending":"sien",
+            "declension":[{
+                "val":"sien", "g":"m", "n":"s", "pe":3
             },{
-                "val": "vôtre","g": "m","n": "s","pe": 2
+                "val":"sienne", "g":"f", "n":"s", "pe":3
             },{
-                "val": "vôtre","g": "f","n": "s","pe": 2
+                "val":"siens", "g":"m", "n":"p", "pe":3
             },{
-                "val": "vôtres","g": "m","n": "p","pe": 2
+                "val":"siennes", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "pn13":{
+            "ending":"nôtre",
+            "declension":[{
+                "val":"nôtre", "g":"m", "n":"s", "pe":1
             },{
-                "val": "vôtres","g": "f","n": "p","pe": 2
+                "val":"nôtre", "g":"f", "n":"s", "pe":1
             },{
-                "val": "leur","g": "m","n": "s","pe": 3
+                "val":"nôtres", "g":"m", "n":"p", "pe":1
             },{
-                "val": "leur","g": "f","n": "s","pe": 3
+                "val":"nôtres", "g":"f", "n":"p", "pe":1
             },{
-                "val": "leurs","g": "m","n": "p","pe": 3
+                "val":"vôtre", "g":"m", "n":"s", "pe":2
             },{
-                "val": "leurs","g": "f","n": "p","pe": 3
+                "val":"vôtre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vôtres", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vôtres", "g":"f", "n":"p", "pe":2
+            },{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "pn13-2":{
+            "ending":"vôtre",
+            "declension":[{
+                "val":"vôtre", "g":"m", "n":"s", "pe":2
+            },{
+                "val":"vôtre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vôtres", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vôtres", "g":"f", "n":"p", "pe":2
+            }]
+        },
+        "pn13-3":{
+            "ending":"leur",
+            "declension":[{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn14": {
@@ -22051,60 +23116,108 @@ var ruleFr = //========== rule-fr.js
                 "val": "des","g": "f","n": "p"
             }]
         },
-        "d5": {
-            "ending": "mon",
-            "declension": [{
-                "val": "mon","g": "m","n": "s","pe": 1
+        "d5":{
+            "ending":"mon",
+            "declension":[{
+                "val":"mon", "g":"m", "n":"s", "pe":1
             },{
-                "val": "ma","g": "f","n": "s","pe": 1
+                "val":"ma", "g":"f", "n":"s", "pe":1
             },{
-                "val": "mes","g": "m","n": "p","pe": 1
+                "val":"mes", "g":"m", "n":"p", "pe":1
             },{
-                "val": "mes","g": "f","n": "p","pe": 1
+                "val":"mes", "g":"f", "n":"p", "pe":1
             },{
-                "val": "ton","g": "m","n": "s","pe": 2
+                "val":"ton", "g":"m", "n":"s", "pe":2
             },{
-                "val": "ta","g": "f","n": "s","pe": 2
+                "val":"ta", "g":"f", "n":"s", "pe":2
             },{
-                "val": "tes","g": "m","n": "p","pe": 2
+                "val":"tes", "g":"m", "n":"p", "pe":2
             },{
-                "val": "tes","g": "f","n": "p","pe": 2
+                "val":"tes", "g":"f", "n":"p", "pe":2
             },{
-                "val": "son","g": "m","n": "s","pe": 3
+                "val":"son", "g":"m", "n":"s", "pe":3
             },{
-                "val": "sa","g": "f","n": "s","pe": 3
+                "val":"sa", "g":"f", "n":"s", "pe":3
             },{
-                "val": "ses","g": "m","n": "p","pe": 3
+                "val":"ses", "g":"m", "n":"p", "pe":3
             },{
-                "val": "ses","g": "f","n": "p","pe": 3
+                "val":"ses", "g":"f", "n":"p", "pe":3
             }]
         },
-        "d6": {
-            "ending": "notre",
-            "declension": [{
-                "val": "notre","g": "m","n": "s","pe": 1
+        "d5-2":{
+            "ending":"ton",
+            "declension":[{
+                "val":"ton", "g":"m", "n":"s"
             },{
-                "val": "notre","g": "f","n": "s","pe": 1
+                "val":"ta", "g":"f", "n":"s"
             },{
-                "val": "nos","g": "m","n": "p","pe": 1
+                "val":"tes", "g":"m", "n":"p"
             },{
-                "val": "nos","g": "f","n": "p","pe": 1
+                "val":"tes", "g":"f", "n":"p"
+            }]
+        },
+        "d5-3":{
+            "ending":"son",
+            "declension":[{
+                "val":"son", "g":"m", "n":"s"
             },{
-                "val": "votre","g": "m","n": "s","pe": 2
+                "val":"sa", "g":"f", "n":"s"
             },{
-                "val": "votre","g": "f","n": "s","pe": 2
+                "val":"ses", "g":"m", "n":"p"
             },{
-                "val": "vos","g": "m","n": "p","pe": 2
+                "val":"ses", "g":"f", "n":"p"
+            }]
+        },
+        "d6":{
+            "ending":"notre",
+            "declension":[{
+                "val":"notre", "g":"m", "n":"s", "pe":1
             },{
-                "val": "vos","g": "f","n": "p","pe": 2
+                "val":"notre", "g":"f", "n":"s", "pe":1
             },{
-                "val": "leur","g": "m","n": "s","pe": 3
+                "val":"nos", "g":"m", "n":"p", "pe":1
             },{
-                "val": "leur","g": "f","n": "s","pe": 3
+                "val":"nos", "g":"f", "n":"p", "pe":1
             },{
-                "val": "leurs","g": "m","n": "p","pe": 3
+                "val":"votre", "g":"m", "n":"s", "pe":2
             },{
-                "val": "leurs","g": "f","n": "p","pe": 3
+                "val":"votre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vos", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vos", "g":"f", "n":"p", "pe":2
+            },{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "d6-2":{
+            "ending":"votre",
+            "declension":[{
+                "val":"votre", "g":"m", "n":"s"
+            },{
+                "val":"votre", "g":"f", "n":"s"
+            },{
+                "val":"vos", "g":"m", "n":"p"
+            },{
+                "val":"vos", "g":"f", "n":"p"
+            }]
+        },
+        "d6-3":{
+            "ending":"leur",
+            "declension":[{
+                "val":"leur", "g":"m", "n":"s"
+            },{
+                "val":"leur", "g":"f", "n":"s"
+            },{
+                "val":"leurs", "g":"m", "n":"p"
+            },{
+                "val":"leurs", "g":"f", "n":"p"
             }]
         },
         "d7": {
@@ -22343,6 +23456,200 @@ var ruleFr = //========== rule-fr.js
     },
     "union": "ou"
 }
+/**
+    jsRealB 3.2
+    Guy Lapalme, lapalme@iro.umontreal.ca, February 2020
+ */
+"use strict";
+
+// Output of warnings:
+// it uses jsRealB for the realization of messages
+// not sure this design is simpler, but it shows how jsRealB can be used for realizing its own messages
+
+// add words to the basic lexicon for use in the warnings
+//  the lexical information is taken from dmf and dme
+loadFr();
+addToLexicon("aucun",{ D: { tab: [ 'd4' ] }})
+addToLexicon("comme",{ Adv: { tab: [ 'av' ] }, C: { tab: [ 'cj' ] } })
+addToLexicon("contraction",{ N: { g: 'f', tab: [ 'n17' ] } })
+addToLexicon("français",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
+addToLexicon("illégal",{ A: { tab: [ 'n47' ] } });
+addToLexicon("implémenter",{ V: { aux: [ 'av' ], tab: 'v36' } })
+addToLexicon("lexique",{ N: { g: 'm', tab: [ 'n3' ] } })
+addToLexicon("option",{ N: { g: 'f', tab: [ 'n17' ] } })
+addToLexicon("morphologie",{ N: { g: 'f', tab: [ 'n17' ] } })
+addToLexicon("ordinal",{ A: { tab: [ 'n47' ] }, N: { g: 'm', tab: [ 'n5' ] } })
+addToLexicon("paramètre",{ N: { g: 'm', tab: [ 'n3' ] } })
+addToLexicon("pronom",{N: {g: "m", tab: ["n3"]}});
+
+loadEn();
+addToLexicon("as",{ Adv: { tab: [ 'b1' ]}})
+addToLexicon("French",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n5' ] } })
+addToLexicon("implement",{ N: { tab: [ 'n1' ] }, V: { tab: 'v1' } })
+addToLexicon("lexicon",{ N: { tab: [ 'n1' ] } })
+addToLexicon("morphology",{ N: { tab: [ 'n5' ] } })
+addToLexicon("ordinal",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n1' ] } })
+addToLexicon("pronoun",{N: {tab: ["n1"]}})
+
+// generate a warning message in the current language
+//   the first argument must correspond to a key in the warnings table
+Constituent.prototype.warn = function(_){
+    let args=Array.from(arguments);
+    let mess;
+    const lang=getLanguage();
+    // load the current language, 
+    // HACK:  wrap object with parentheses so that the parser does not think this is the start of a block
+    ({en:loadEn,fr:loadFr})[lang](); 
+    const messFns = this.warnings[args.shift()];  // get the English and French jsRealB structure
+    if (messFns===undefined){
+        this.error("warn called with an unknown error message:"+arguments[0])
+    }
+    mess=this.me()+":: "+ messFns[lang].apply(null,args).cap(false) // realize the warning 
+    if (exceptionOnWarning) throw mess;
+    console.warn(mess);
+    return this;
+}
+
+// create a list of elements [a,b,c] => "a, b $conj c" 
+const makeDisj = function(conj,elems){
+    return CP.apply(null,[C(conj)].concat(elems.map(e=>Q(e))))+""
+}
+
+// table of jsRealB structures for warning messages
+//   the warnings are parameterized by strings that are inserted verbatim in the realization
+Constituent.prototype.warnings = {
+    "bad parameter":
+        {en:(good,bad)=> // the parameter should be $good, not $bad
+            S(NP(D("the"),N("parameter")),
+              VP(V("be").t("ps"),Q(good).a(","),Adv("not"),Q(bad))).typ({mod:"nece"}),
+         fr:(good,bad)=> // le paramètre devrait être $good, pas $bad
+            S(NP(D("le"),N("paramètre")),
+              VP(V("être").t("c"),Q(good).a(","),Adv("pas"),Q(bad))).typ({mod:"nece"})},
+    "bad application":
+        {en:(info,goods,bad)=> // $info should be applied to $good, not to $bad
+            S(Q(info),VP(V("apply").t("ps"),
+                         PP(P("to"),makeDisj("or",goods)).a(","),Adv("not"),PP(P("to"),Q(bad))))
+               .typ({mod:"nece",pas:true}),
+         fr:(info,goods,bad)=> // $info devrait être appliqué à $good, non à $bad.
+            S(Q(info),VP(V("appliquer").t("c"),
+                         PP(P("à"),makeDisj("ou",goods)).a(','),Adv("non"),PP(P("à"),Q(bad))))
+              .typ({mod:"nece",pas:true})},
+    "bad position":
+        {en:(bad,limit)=> // $bad should be smaller than $limit.
+            S(NO(bad),VP(V("be").t("ps"),A("small").f("co"),P("than"),NO(limit))).typ({mod:"nece"}),
+         fr:(bad,limit)=> // $bad devrait être plus petit que $limit.
+            S(NO(bad),VP(V("être").t("c"),A("petit").f("co"),Pro("que"),NO(limit))).typ({mod:"nece"})},
+    "bad const for option":
+        {en:(option,constType,allowedConsts)=> 
+            // option $option is applied to $constType, but it should be $allowedConsts.
+              CP(C("but"),
+                 VP(V("apply"),NP(N("option"),Q(option)),PP(P("to"),Q(constType))).typ({pas:true}).a(","),
+                 VP(Pro("I"),V("be").t("ps"),makeDisj("or",allowedConsts)).typ({mod:"nece"})
+              ),
+         fr:(option,constType,allowedConsts)=>
+              //  l'option $option est appliquée à $constType, mais elle devrait être $allowedConsts
+              CP(C("mais"),
+                 VP(V("appliquer"),NP(D("le"),N("option"),Q(option)),PP(P("à"),Q(constType)))
+                    .typ({pas:true}).a(","),
+                 VP(Pro("je").g("f"),V("être").t("c"),makeDisj("ou",allowedConsts)).typ({mod:"nece"})
+              )},
+    "ignored value for option":
+        {en:(option,bad)=> // $bad: bad value for option $option is ignored.
+            S(Q(bad).a(":"),
+              VP(V("ignore"),NP(D("this"),A("bad"),N("value"),
+                                PP(P("for"),N("option"),Q(option)))).typ({pas:true})),
+         fr:(option,bad)=>  // $bad : cette mauvaise valeur pour l'option $option est ignorée
+            S(NP(Q(bad).a(":"),
+              VP(V("ignorer"),NP(D("ce"),A("mauvais"),N("valeur"),
+                                 PP(P("pour"),D("le"),N("option"),Q(option)))).typ({pas:true})))},
+    "unknown type":
+        {en:(key,allowedTypes) => // illegal type: $key, it should be $allowedTypes.
+            S(NP(A("illegal"),N("type").a(":"),Q(key)).a(","),
+              VP(Pro("I"),V("be").t("ps"),makeDisj("or",allowedTypes))).typ({mod:"nece"}),
+         fr:(key,allowedTypes) => // type illégal : $key, il devrait être $allowedTypes.
+            S(NP(N("type"),A("illégal").a(":"),Q(key)).a(","),
+              VP(Pro("je"),V("être").t("c"),makeDisj("ou",allowedTypes))).typ({mod:"nece"})},
+    "no value for option":
+        {en:(option,validVals)=> // no value for option $option should be one of $validVals.
+            S(NP(Adv("no"),N("value"),PP(P("for"),N("option"),Q(option))),
+              VP(V("be").t("ps"),Pro("one"),PP(P("of"),Q(validVals)))).typ({mod:"nece"}),
+         fr:(option,validVals)=> // aucune valeur pour l'option $option, devrait être une parmi $validVals.
+            S(NP(D("aucun"),N("valeur"),PP(P("pour"),D("le"),N("option"),Q(option))).a(","),
+              VP(V("être").t("c"),D("un").g("f"),PP(P("parmi"),Q(validVals)))).typ({mod:"nece"})},
+    "not found":
+        {en:(missing,context)=> // no $missing found in $context.
+            S(NP(Adv("no"),Q(missing)),VP(V("find").t("pp"),PP(P("in"),Q(context)))),
+         fr:(missing,context)=> // aucun $missing trouvé dans $context.
+            S(NP(D("aucun"),Q(missing)),VP(V("trouver").t("pp"),PP(P("dans"),Q(context))))},
+    "bad ordinal":
+        {en:(value)=> // cannot realize $value as ordinal.
+            S(VP(V("realize"),Q(value),AdvP(Adv("as"),N("ordinal")))).typ({neg:true,mod:"poss"}),
+         fr:(value)=> // $value ne peut pas être réalisé comme un ordinal.
+            S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("ordinal")))))
+              .typ({neg:true,mod:"poss",pas:true})},
+    "bad number in word":
+        {en:(value)=> // cannot realize $value in words.
+            S(VP(V("realize"),Q(value),PP(P("in"),N("word").n("p")))).typ({neg:true,mod:"poss"}),
+         fr:(value)=>// $value ne peut pas être réalisé en mots.
+            S(VP(Q(value),V("réaliser"),PP(P("en"),NP(N("mot").n("p"))))).typ({neg:true,mod:"poss",pas:true})},
+    "no French contraction":
+        {en:()=> // contraction is ignored in French.
+            S(VP(V("ignore"),NP(N("contraction")),PP(P("in"),N("French")))).typ({pas:true}),
+         fr:()=> // la contraction est ignorée en français.
+            S(VP(V("ignorer"),NP(D("le"),N("contraction")),PP(P("en"),N("français")))).typ({pas:true})},
+    "morphology error":
+        {en:(info)=> // morphology error: $info.
+            S(NP(N("morphology"),N("error")).a(":"),Q(info)),
+         fr:(info)=> // erreur de morphologie : $info.
+            S(NP(N("erreur"),PP(P("de"),N("morphologie"))).a(":"),Q(info))},
+    "not implemented":
+        {en:(info)=> // $info is not implemented.
+            S(Q(info),VP(V("implement"))).typ({neg:true,pas:true}),
+         fr:(info)=> // $info n'est pas implémenté.
+            S(Q(info),VP(V("implémenter"))).typ({neg:true,pas:true})},
+    "not in lexicon":
+        {en:()=> // not found in lexicon.
+            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon"))),
+         fr:()=> // absent du lexique.
+            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
+    "no appropriate pronoun":
+        {en:()=>S(VP(V("find").t("ps"),NP(N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
+         fr:()=>S(VP(V("trouver").t("pc"),NP(N("pronom")))).typ({neg:true,pas:true,mod:"poss"})
+        },
+    "both tonic and clitic":
+        {en:()=>// tn(..) and c(..) cannot be used together, tn(..) is ignored.
+             S(CP(C("and"),Q("tn(..)"),Q("c(..)")),VP(V("use").n("p"),Adv("together"))
+                  .typ({neg:true,pas:true,mod:"poss"}).a(","),
+               Q("tn(..)"),VP(V("ignore")).typ({pas:true})),
+         fr:()=>// tn(..) et c(..) utilisés ensemble, tn(..) est ignoré.
+             S(CP(C("et"),Q("tn(..)"),Q("c(..)")),VP(V("utiliser").t("pp").n("p"),Adv("ensemble")).a(","),
+               Q("tn(..)"),VP(V("ignorer")).typ({pas:true}))
+        },
+    "bad Constituent":
+        {en:(rank,type)=> // the $rank parameter is not Constituent.
+            S(NP(D("the"),Q(rank),N("parameter")),
+              VP(V("be"),Q("Constituent"))).typ({neg:true}),
+         fr:(rank,type)=> // le $rank paramètre n'est pas Constituent.
+            S(NP(D("le"),Q(rank),N("paramètre")),
+              VP(V("être"),Q("Constituent"))).typ({neg:true})},
+    "too many parameters":
+        {en:(termType,number)=> // $termType accepts one parameter, but has $number.
+             S(Q(termType),CP(C("but"),
+                              VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
+                              VP(VP(V("have"),NO(number))))),
+         fr:(termType,number)=> // $termType accepte un paramètre, mais en a $number.
+             S(Q(termType),CP(C("mais"),
+                              VP(V("accepter"),NP(D("un"),A("seul"),N("paramètre"))).a(","),
+                              VP(VP(Pro("en"),V("avoir"),NO(number)))))}
+}
+
+// function testWarnings(n){
+//     for (w in warnings){
+//         console.log(w)
+//         N(n).warn(w,"A","B","C")
+//     }
+// }
+jsRealB_dateCreated="2020-04-06 14:12"
 //  Terminals
 exports.N=N;
 exports.A=A;
@@ -22371,8 +23678,12 @@ exports.addToLexicon=addToLexicon;
 exports.updateLexicon=updateLexicon; 
 exports.getLemma=getLemma;
 exports.getLanguage=getLanguage;
+exports.getLexicon=getLexicon;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
+// JSON
+exports.fromJSON=fromJSON;
+exports.ppJSON=ppJSON;
 
 exports.jsRealB_version=jsRealB_version;
 exports.jsRealB_dateCreated=jsRealB_dateCreated;

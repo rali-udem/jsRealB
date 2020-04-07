@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JS Unit testing - jsRealB - Tests Unitaires</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+    <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
+    <script>
+        function loadJSON(jsonFile,callback) {
+            var xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('GET',jsonFile, false); // synchronous...
+            xobj.send(null);
+            if (xobj.responseText!=null) {
+                callback(xobj.responseText);
+            } else {
+                console.log("status:"+xobj.status)
+            }
+        }
+        function loadDMF(){
+            loadFr();
+            loadJSON("../data/lexicon-dmf.json",function(jsonData){
+                updateLexicon(JSON.parse(jsonData));
+                console.log("dmf chargé:"+Object.keys(lexiconFr).length+" entrées");
+            })
+        }
+        function loadDME(){
+            loadEn();
+            loadJSON("../data/lexicon-dme.json",function(jsonData){
+                updateLexicon(JSON.parse(jsonData));
+                console.log("dme loaded:"+Object.keys(lexiconFr).length+" entries");
+            })
+        }
+    </script>
+    <script src="../dist/jsRealB.min.js"></script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="conjugation-en.js"></script>
+    <script src="conjugation-fr.js"></script>
+    <script src="declension-en.js"></script>
+    <script src="declension-fr.js"></script>
+    <script src="date-en.js"></script>
+    <script src="date-fr.js"></script>
+    <script src="number-en.js"></script>
+    <script src="number-fr.js"></script>
+    <script src="sentences-en.js"></script>
+    <script src="sentences-fr.js"></script>
+</body>
+</html>

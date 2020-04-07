@@ -26,8 +26,12 @@ exports.addToLexicon=addToLexicon;
 exports.updateLexicon=updateLexicon; 
 exports.getLemma=getLemma;
 exports.getLanguage=getLanguage;
+exports.getLexicon=getLexicon;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
+// JSON
+exports.fromJSON=fromJSON;
+exports.ppJSON=ppJSON;
 
 exports.jsRealB_version=jsRealB_version;
 exports.jsRealB_dateCreated=jsRealB_dateCreated;

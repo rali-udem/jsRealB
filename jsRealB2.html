@@ -1,22 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <title>jsRealB2</title>
-  <script src="data/lexicon-fr.js"></script>
-  <script src="data/rule-fr.js"></script>
-  <script src="data/lexicon-en.js"></script>
-  <script src="data/rule-en.js"></script>
-  <script src="build/Utils.js"></script>
-  <script src="build/Constituent.js"></script>
-  <script src="build/Phrase.js"></script>
-  <script src="build/Terminal.js"></script>
-  <script src="build/Date.js"></script>
-  <script src="build/Number.js"></script>
-  <script src="jsRealB2.js"></script>
+    <script src="data/lexicon-fr.js"></script>
+    <script src="data/rule-fr.js"></script>
+    <script src="data/lexicon-en.js"></script>
+    <script src="data/rule-en.js"></script>
+    <script src="build/Utils.js"></script>
+    <script src="build/Constituent.js"></script>
+    <script src="build/Phrase.js"></script>
+    <script src="build/Date.js"></script>
+    <script src="build/Number.js"></script>
+    <script src="build/Terminal.js"></script>
+    <script src="build/IO-json.js"></script>
+    <script src="build/Warnings.js"></script>
+    <script src="jsRealB2.js"></script>
 </head>
 <body>
-    This is single page loads all jsRealB source files including already some tests in <code>jsRealB2.js</code>. 
-    It is useful for developing using the Javascript console.
+    <p>This is single page loads all jsRealB source files including already some tests in <code>jsRealB2.js</code>.</p> 
+    <p>These tests are checked against the expected value. When the realization is not the expected one, the expression, the output and what was expected are displayed. The number of differences is also displayed.</p>
+    <p>A warning of a bad value for an option (in French) is also realized, to exercise the warning system.</p>
+    
+    <p>It is useful for developing using the Javascript console that is displayed using the following key strokes. </p>
+    <ul>
+        <li><strong>Chrome</strong> : ctrl+shift+j (macOS: cmd+opt+j)</li>
+        <li><strong>Firefox</strong> : ctrl+shift+k (macOS: cmd+opt+k) for Firefox</li>
+        <li><strong>Safari</strong> : cmd+opt+c</li>
+    </ul>
 </body>
 </html>

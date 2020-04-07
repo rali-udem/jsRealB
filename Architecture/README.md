@@ -3,7 +3,7 @@
 ```
 Guy Lapalme
 RALI-DIRO, Université de Montréal
-November 2019
+April 2020
 ```
 
 This document describes the design principles behind [jsRealB](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), a system written in *Javascript* that can produce English or French sentences from a specification inspired by the *constituent syntax* formalism. It can be used either within a web page or as a `node.js` module.
@@ -59,7 +59,9 @@ The diagrams in this document use the following set of drawing conventions:
 
 One of the many implementation challenges of `jsRealB` is the building of appropriate data structures using the functions while maintaining the agreement links between nodes in the tree. This will be explained later in the document, but first we explain how to go from an input structure to an English sentence.
 
-The previous example showed a single Javascript expression to build the internal structure. But a structure is most often incrementally and modified using Javascript instructions as shown below.  
+The previous example showed a single Javascript expression to build the internal structure. But a structure is most often incrementally and modified using Javascript instructions as shown below. 
+
+It is also possible to use a JSON object to create this structure. This notation is more, but simpler to create with an external tool wanting to use `jsRealB` as realizer. As the JSON is converted internally using the above functions, the JSON formalism is not described here, but the interested reader can consult [this document](../data/jsRealB-jsonInput.html).
 
 When a realized sentence is needed, the usual Javascript `toString()` object method  is called to perform a *stringification* process which involves setting the `realization` property of the object, formatting this string and then detokenization for building a single final string.  We now detail these steps.
 
@@ -290,7 +292,7 @@ But now, the following expression
     
 is realized as `It is red.` in which the pronominalization of `apple` is still in effect. 
 
-If this is not what was intended, then a new `apple` object should be created before pronominalization. To achieve this, we can call `clone()`which creates a new copy of the `Constituent`. This is implemented by traversing the object and creating a `String` that corresponds to the `jsRealB` expression for building this object. The resulting string is then evaluated in the current context to build a copy of the original expression. So our previous `S` could have been coded as
+If this is not what was intended, then a new `apple` object could have been created before pronominalization. To achieve this, we can call `clone()`which creates a new copy of the `Constituent`. This is implemented by traversing the object and creating a `String` that corresponds to the `jsRealB` expression for building this object. The resulting string is then evaluated in the current context to build a copy of the original expression. So our previous `S` could have been coded as
 
     S(Pro("I").g("m"),
       CP(C("and"),
@@ -299,7 +301,7 @@ If this is not what was intended, then a new `apple` object should be created be
 
 after which
 
-    S(a,VP(V("be"),A("red")))
+    S(apple,VP(V("be"),A("red")))
 
 is realized as `The apple is red.`
 
@@ -316,7 +318,7 @@ is realized as `He eats an <a href="https://en.wikipedia.org/wiki/Apple">apple.<
 
 The punctuation before, after and around constituents is dealt similarly. The appropriate values of the strings to be inserted are saved within the constituent structure and used during the *stringification* process.  
 
-**CAVEAT**: This implementation choice implies a *small* limitation: HTML and other formatting cannot appear anywhere within the text, they must match constituent boundaries.
+**CAVEAT**: This implementation choice implies a *small* limitation: HTML and other formatting can only be done at constituent boundaries.
 
 ### Ordering of verb complements
 
@@ -332,10 +334,11 @@ This section is quite *technical* and has been designed as a high-level document
 
 ### Class structure
 
-Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of three classes shown below in which shared methods for both `Phrase` et `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor.
+Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of three classes shown below in which shared methods for both `Phrase` et `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor. A Terminal should be called with only one parameter, or none in the case of `DT`, a check for this is done at call
+time.
 
-    function NP  (_){ return new Phrase(Array.from(arguments),"NP"); }
-    function N  (lemma){ return new Terminal("N",lemma) }
+    function NP  (_){ return new Phrase(Array.from(arguments),"NP") }
+    function N   (_){ return new Terminal(Array.from(arguments),"N") }
     
 In the figure, each *class* title shows its parameters, the first cell shows in italics the associated properties with their type followed by methods used when creating the object; next are shown the methods for each class.
 
@@ -437,11 +440,20 @@ These functions (except for the first) can be called by the user to change globa
 * `extend(base,sub)` : create a *subclass* by manipulating prototype links (cannot be called by the user);
 * `loadEn(trace)` : set the current lexicon and rule table for realizing sentences in English;
 * `loadFr(trace)` : set the current lexicon and rule table for realizing sentences in French;
-* `addToLexicon(lemma, infos)` : add a new lemma to the current lexicon by giving information for conjugation and lemmatization;
-* `updateLexicon(newLexicon)` : replace the current lexicon by a new one;
-* `getLemma(lemma)` : return the lexicon information for a given lemma;
+* `addToLexicon(lemma, infos, lang)` : add a new lemma to the current lexicon by giving information for conjugation and lemmatization in the specified lesicon;
+* `updateLexicon(newLexicon,lang)` : replace the specified lexicon by a new one;
+* `getLemma(lemma,lang)` : return the information for a given lemma from specified lexicon ;
 * `getLanguage()` : return the current realization language;
+* `getLexicon()` : return the current lexicon;
 * `oneOf(elems)` : selects randomly an element from a list.
+
+### JSON
+
+* `fromJSON(json,lang)` : create a jsRealB structure from a JSON object; if `lang` is not given, the current language is used;
+* `.toJSON()`, `.toJSON()` : create a JSON structure from a jsRealB structure ;
+* `ppJSON(json)` : create an indented string showing the structure of a JSON structure (not specific to jsRealB, but useful for debugging);
+* `Phrase.fromJSON`, `Terminal.fromJSON`, `setJSONprops` : internal functions used by fromJSON();
+* `Phrase.prototype.toJSON`, `Terminal.prototype.toJSON` :internal functions used by toJSON().
 
 ## Conclusion
 

@@ -1,0 +1,67 @@
+{
+ "name":[
+  "Alimentum",
+  "Aromi",
+  "Bibimbap House",
+  "Browns Cambridge",
+  "Clowns",
+  "Cocum",
+  "Cotto",
+  "Fitzbillies",
+  "Midsummer House",
+  "Taste of Cambridge",
+  "The Cambridge Blue",
+  "The Cricketers",
+  "The Eagle",
+  "The Golden Palace",
+  "The Mill",
+  "The Phoenix",
+  "The Punter",
+  "The Wrestlers",
+  "Travellers Rest Beefeater",
+  "Wildwood"
+ ],
+ "area":[
+  "city centre",
+  "riverside"
+ ],
+ "familyFriendly":[
+  "no",
+  "yes"
+ ],
+ "near":[
+  "Burger King",
+  "Café Sicilia",
+  "Crowne Plaza Hotel",
+  "Clare Hall",
+  "The Portland Arms",
+  "The Bakers",
+  "Café Brazil",
+  "The Sorrento",
+  "Raja Indian Cuisine",
+  "Ranch"
+ ],
+ "eatType":[
+  "coffee shop"
+ ],
+ "food":[
+  "Chinese",
+  "English"
+ ],
+ "customer rating":[
+  "1 out of 5",
+  "3 out of 5",
+  "5 out of 5",
+  "average",
+  "high",
+  "low"
+ ],
+ "priceRange":[
+  "£20-25",
+  "cheap",
+  "high",
+  "less than £20",
+  "moderate",
+  "more than £30"
+ ]
+}

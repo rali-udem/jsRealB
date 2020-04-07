@@ -2663,6 +2663,22 @@ var ruleEn = //========== rule-en.js
                 "val": "best","f": "su"
             }]
         },
+        "pn0": {
+            "ending": "one",
+            "declension": [{
+                "val": "one","n": "x","g": "x", "tn":""
+            },{
+                "val": "oneself","n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "one","n": "x","g": "x", "c":"nom"
+            },{
+                "val": "one","n": "x","g": "x", "c":"acc"
+            },{
+                "val": "one","n": "x","g": "x", "c":"dat"
+            },{
+                "val": "one","n": "x","g": "x", "c":"gen"
+            }]
+        },
         "pn1": {
             "ending": "I",
             "declension": [{
@@ -2684,19 +2700,185 @@ var ruleEn = //========== rule-en.js
         "pn2": {
             "ending": "me",
             "declension": [{
-                "val": "me","pe": 1,"n": "s","g": "x"
+                "val": "me","pe": 1,"n": "s","g": "x", "tn":""
             },{
-                "val": "you","pe": 2,"n": "x","g": "x"
+                "val": "you","pe": 2,"n": "x","g": "x", "tn":""
             },{
-                "val": "her","pe": 3,"n": "s","g": "f"
+                "val": "her","pe": 3,"n": "s","g": "f", "tn":""
             },{
-                "val": "him","pe": 3,"n": "s","g": "m"
+                "val": "him","pe": 3,"n": "s","g": "m", "tn":""
             },{
-                "val": "it","pe": 3,"n": "s","g": "n"
+                "val": "it","pe": 3,"n": "s","g": "n", "tn":""
             },{
-                "val": "us","pe": 1,"n": "p","g": "x"
+                "val": "us","pe": 1,"n": "p","g": "x", "tn":""
             },{
-                "val": "them","pe": 3,"n": "p","g": "x"
+                "val": "them","pe": 3,"n": "p","g": "x", "tn":""
+            },{
+                "val": "myself","pe": 1,"n": "s","g": "x", "tn":"refl"
+            },{
+                "val": "yourself","pe": 2,"n": "x","g": "x", "tn":"refl"
+            },{
+                "val": "herself","pe": 3,"n": "s","g": "f", "tn":"refl"
+            },{
+                "val": "himself","pe": 3,"n": "s","g": "m", "tn":"refl"
+            },{
+                "val": "itself","pe": 3,"n": "s","g": "n", "tn":"refl"
+            },{
+                "val": "ourself","pe": 1,"n": "p","g": "x", "tn":"refl"
+            },{
+                "val": "themselves","pe": 3,"n": "p","g": "x", "tn":"refl"
+            },{
+                "val": "I","pe": 1,"n": "s","g": "x", "c":"nom"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"nom"
+            },{
+                "val": "she","pe": 3,"n": "s","g": "f", "c":"nom"
+            },{
+                "val": "he","pe": 3,"n": "s","g": "m", "c":"nom"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"nom"
+            },{
+                "val": "we","pe": 1,"n": "p","g": "x", "c":"nom"
+            },{
+                "val": "they","pe": 3,"n": "p","g": "x", "c":"nom"
+            },{
+                "val": "me","pe": 1,"n": "s","g": "x", "c":"acc"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"acc"
+            },{
+                "val": "her","pe": 3,"n": "s","g": "f", "c":"acc"
+            },{
+                "val": "him","pe": 3,"n": "s","g": "m", "c":"acc"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"acc"
+            },{
+                "val": "us","pe": 1,"n": "p","g": "x", "c":"acc"
+            },{
+                "val": "them","pe": 3,"n": "p","g": "x", "c":"acc"
+            },{
+                "val": "me","pe": 1,"n": "s","g": "x", "c":"dat"
+            },{
+                "val": "you","pe": 2,"n": "x","g": "x", "c":"dat"
+            },{
+                "val": "her","pe": 3,"n": "s","g": "f", "c":"dat"
+            },{
+                "val": "him","pe": 3,"n": "s","g": "m", "c":"dat"
+            },{
+                "val": "it","pe": 3,"n": "s","g": "n", "c":"dat"
+            },{
+                "val": "us","pe": 1,"n": "p","g": "x", "c":"dat"
+            },{
+                "val": "them","pe": 3,"n": "p","g": "x", "c":"dat"
+            },{
+                "val": "mine","pe": 1,"n": "s","g": "x", "c":"gen"
+            },{
+                "val": "yours","pe": 2,"n": "x","g": "x", "c":"gen"
+            },{
+                "val": "hers","pe": 3,"n": "s","g": "f", "c":"gen"
+            },{
+                "val": "his","pe": 3,"n": "s","g": "m", "c":"gen"
+            },{
+                "val": "its","pe": 3,"n": "s","g": "n", "c":"gen"
+            },{
+                "val": "ours","pe": 1,"n": "p","g": "x", "c":"gen"
+            },{
+                "val": "theirs","pe": 3,"n": "p","g": "x", "c":"gen"
+            }]
+        },
+        "pn2-2": {
+            "ending": "you",
+            "declension": [{
+                "val": "you","n": "x","g": "x", "tn":"", "pe":2,
+            },{
+                "val": "yourself","n": "x","g": "x", "tn":"refl", "pe":2,
+            },{
+                "val": "you","n": "x","g": "x", "c":"nom", "pe":2,
+            },{
+                "val": "you","n": "x","g": "x", "c":"acc", "pe":2,
+            },{
+                "val": "you","n": "x","g": "x", "c":"dat", "pe":2,
+            },{
+                "val": "yours","n": "x","g": "x", "c":"gen", "pe":2,
+            }]
+        },
+        "pn2-3sm": {
+            "ending": "him",
+            "declension": [{
+                "val": "him","n": "s","g": "m", "tn":"", "pe":3,
+            },{
+                "val": "himself","n": "s","g": "m", "tn":"refl", "pe":3,
+            },{
+                "val": "he","n": "s","g": "m", "c":"nom", "pe":3,
+            },{
+                "val": "him","n": "s","g": "m", "c":"acc", "pe":3,
+            },{
+                "val": "him","n": "s","g": "m", "c":"dat", "pe":3,
+            },{
+                "val": "his","n": "s","g": "m", "c":"gen", "pe":3,
+            }]
+        },
+        "pn2-3sf": {
+            "ending": "her",
+            "declension": [{
+                "val": "her","n": "s","g": "f", "tn":"", "pe":3,
+            },{
+                "val": "herself","n": "s","g": "f", "tn":"refl", "pe":3,
+            },{
+                "val": "she","n": "s","g": "f", "c":"nom", "pe":3,
+            },{
+                "val": "her","n": "s","g": "f", "c":"acc", "pe":3,
+            },{
+                "val": "her","n": "s","g": "f", "c":"dat", "pe":3,
+            },{
+                "val": "hers","n": "s","g": "f", "c":"gen", "pe":3,
+            }]
+        },
+        "pn2-3sn": {
+            "ending": "it",
+            "declension": [{
+                "val": "it","n": "s","g": "n", "tn":"", "pe":3,
+            },{
+                "val": "itself","n": "s","g": "n", "tn":"refl", "pe":3,
+            },{
+                "val": "it","n": "s","g": "n", "c":"nom", "pe":3,
+            },{
+                "val": "it","n": "s","g": "n", "c":"acc", "pe":3,
+            },{
+                "val": "it","n": "s","g": "n", "c":"dat", "pe":3,
+            },{
+                "val": "itself","n": "s","g": "n", "c":"gen", "pe":3,
+            }]
+        },
+        "pn2-1p": {
+            "ending": "us",
+            "declension": [{
+                "val": "us","n": "p","g": "x", "tn":"", "pe":1
+            },{
+                "val": "ourself","n": "p","g": "x", "tn":"refl", "pe":1
+            },{
+                "val": "we","n": "p","g": "x", "c":"nom", "pe":1
+            },{
+                "val": "us","n": "p","g": "x", "c":"acc", "pe":1
+            },{
+                "val": "us","n": "p","g": "x", "c":"dat", "pe":1
+            },{
+                "val": "ours","n": "p","g": "x", "c":"gen", "pe":1
+            }]
+        },
+        "pn2-3p": {
+            "ending": "them",
+            "declension": [{
+                "val": "them","n": "p","g": "x", "tn":"", "pe":3,
+            },{
+                "val": "themselves","n": "p","g": "x", "tn":"refl", "pe":3,
+            },{
+                "val": "they","n": "p","g": "x", "c":"nom", "pe":3,
+            },{
+                "val": "them","n": "p","g": "x", "c":"acc", "pe":3,
+            },{
+                "val": "them","n": "p","g": "x", "c":"dat", "pe":3,
+            },{
+                "val": "theirs","n": "p","g": "x", "c":"gen", "pe":3,
             }]
         },
         "pn3": {

@@ -21,9 +21,10 @@ function d_nb(d0,nb){
 }
 
 // for adding description 
-function addNPVP(tasks,id,np,vp){
+function addNPVP(tasks,id,np,vvp){
     tasks[id].np=np;
-    tasks[id].vp=vp;
+    tasks[id].v=vvp[0];
+    tasks[id].vp=vvp[1];
 }
 // Display activities
 

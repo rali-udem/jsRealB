@@ -2,29 +2,22 @@
     jsRealB 3.0
     Guy Lapalme, lapalme@iro.umontreal.ca, nov 2019
  */
-
+"use strict";
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
 var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
-var defaultProps; // to be filled by loadEn | loadFR
-var currentLanguage, rules, lexicon;
+var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
+                    fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
+var currentLanguage;
 
 ///////////////  Constructor for a Constituent (superclass of Phrase and Terminal)
 function Constituent(constType){
     this.parentConst=null;
     this.constType=constType;    
-    this.prop={};
+    this.props={};
     this.realization=null;
-    this.lang=currentLanguage;
-}
-
-// warning message on the console prefixed with an identification or throws an Exception
-Constituent.prototype.warning = function(messEn,messFr){
-    const mess=this.me()+":: "+(messFr!==undefined && getLanguage()=="fr"?messFr:messEn);
-    if (exceptionOnWarning) throw mess;
-    console.warn(mess);
-    return this;
+    this.optSource=""   // string corresponding to the calls to the options
 }
 
 // error message for internal error that should never happen !!!
@@ -45,11 +38,16 @@ Constituent.prototype.isOneOf = function(types){
 Constituent.prototype.isFr = function(){return this.lang=="fr"}
 Constituent.prototype.isEn = function(){return this.lang=="en"}
 
+Constituent.prototype.getRules   = function(){return this.isFr()?ruleFr:ruleEn}
+Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
+
+
+
 // get the property by following the "agreesWith" links, but keeping track of last verb 
 // in case of "tense" so that it does not take the "default" tense of the subject...
 Constituent.prototype.getProp = function(propName){
     // check for specific property on this element
-    const val = this.prop[propName];
+    const val = this.props[propName];
     if (val !== undefined) return val ; 
     // follow the agreement list
     let lastVerb;
@@ -60,13 +58,14 @@ Constituent.prototype.getProp = function(propName){
         current=next;
         next=next.agreesWith;
     }
-    if (propName=="t" && lastVerb !== undefined)return lastVerb.prop["t"] || defaultProps["t"]
-    return current.prop[propName] || defaultProps[propName] 
+    if (current.isOneOf(["V","VP"]))lastVerb=current;
+    if (propName=="t" && lastVerb !== undefined)return lastVerb.props["t"] || defaultProps[this.lang]["t"]
+    return current.props[propName] || defaultProps[this.lang][propName] 
 }
 
 // get the property in the first surrounding sentence (S or SP)
 Constituent.prototype.getSentProp = function(propName){
-    const value=this.prop[propName];
+    const value=this.props[propName];
     if (value!==undefined) return value;
     if (this.parentConst==null || this.constType=="S" || this.constType=="SP")
         return undefined;
@@ -89,17 +88,54 @@ Constituent.prototype.getFromPath = function(path){
     return c.getFromPath(path);
 }
 
+// return a pronoun corresponding to this object 
+// taking into account the current gender, number and person
+//  do not change the current pronoun, if it is already using the tonic form
+// if case_ is not given, return the tonic form else return the corresponding case
+// HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
+Constituent.prototype.getTonicPro = function(case_){
+    if (this.isA("Pro") && (this.props["tn"] || this.props["c"])){
+        if (case_!==undefined){
+            this.props["c"]=case_
+        } else { // ensure tonic form
+            this.props["tn"]="";
+            if ("c" in this.props)delete this.props["c"];
+        }
+        return this;
+    } else { // generate the string corresponding to the tonic form
+        let pro=Pro(this.isFr()?"moi":"me");
+        const g = this.getProp("g");
+        if (g!==undefined)pro.g(g);
+        const n = this.getProp("n");
+        if (n!==undefined)pro.n(n);
+        const pe = this.getProp("pe");
+        if (pe!==undefined)pro.pe(pe);
+        if (case_===undefined) return Pro(pro.toString()).tn("");
+        return Pro(pro.toString()).c(case_) // set nominative
+    }
+}
+
+Constituent.prototype.getParentLang = function(){
+    if (this.lang !== undefined) return this.lang;
+    if (this.parentConst === null) return currentLanguage;
+    return this.parentConst.getParentLang();
+}
+
+Constituent.prototype.addOptSource = function(optionName,val){
+    this.optSource+="."+optionName+"("+(val===undefined? "" :JSON.stringify(val))+")"
+}
+
 // Creation of "standard" options 
 function genOptionFunc(option,validVals,allowedConsts,optionName){
-    Constituent.prototype[option]=function(val){
+    Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
             if (validVals !== undefined && validVals.indexOf("")<0){
-                return this.warning("Option "+option+" without value; should be one of ["+validVals+"]",
-                                    "Option "+option+" sans valeur; devrait être une parmi ["+validVals+"]")
+                return this.warn("no value for option",option,validVals);
             }
             val=null;
         }
         if (this.isA("CP")){// propagate an option through the children of a CP
+            if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
                 if (allowedConsts.length==0 || e.isOneOf(allowedConsts)){
@@ -110,36 +146,39 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
         }
         if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
-                return this.warning("Option "+option+" with invalid value:"+val+" ignored",
-                                    "Option "+option+" avec une valeur invalide:"+val+" ignoré");
+                return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
             if (optionName===undefined)optionName=option;
             let current=this; 
-            if (!contains(["pro","cap","lier","ow"],optionName)){// follow the "agreement" links except for some options
-                while (current.agreesWith!==undefined)current=current.agreesWith;
-            }
-            current.prop[optionName]=val;
+            // follow the "agreement" links except for some options 
+            // finally it is not such a good idea as it does not work for all cases (e.g. tense)
+            // it is much simpler to set options to the "headword" and have the rest agree with it
+            // so it is commented out....
+            // if (!contains(["pro","cap","lier","ow"],optionName)){
+            //     while (current.agreesWith!==undefined)current=current.agreesWith;
+            // }
+            current.props[optionName]=val;
+            if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
-            return this.warning("Option "+option+" is applied to a "+this.constType+
-                                            " but it should be applied only on one of "+allowedConsts,
-                                "Option "+option+" appliquée à "+this.constType+
-                                            " qui ne peut être appliquée qu'à une de "+allowedConsts)
+            return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
 }
 
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S"]);  // composed tenses
-genOptionFunc("g",["m","f","n","x"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("n",["s","p"],["D","N","NP","A","AP","Pro","V","VP","S"]);
-genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","V","VP","S"]);
-genOptionFunc("f",["co","su"],["A","AP","Adv"]);
-genOptionFunc("aux",["av","êt","aê"],["V","VP"]);
+                   "pc", "pq", "cp", "fa", "spa", "spq"],["V"]);  // composed tenses
+genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
+genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
+genOptionFunc("f",["co","su"],["A","Adv"]);
+genOptionFunc("aux",["av","êt","aê"],["V"]);
+genOptionFunc("tn",["","refl"],["Pro"]);
+genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
-genOptionFunc("pos",["post","pre"],["A","AP"]);
-genOptionFunc("pro",undefined,["N","NP"]);
+genOptionFunc("pos",["post","pre"],["A"]);
+genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 
@@ -149,9 +188,10 @@ genOptionFunc("lier",undefined,[]);
 
 // creation of option lists
 function genOptionListFunc(option){
-    Constituent.prototype[option]=function(val){
-        if (this.prop[option] === undefined)this.prop[option]=[];
-        this.prop[option].push(val);
+    Constituent.prototype[option]=function(val,prog){
+        if (this.props[option] === undefined)this.props[option]=[];
+        this.props[option].push(val);
+        if(prog==undefined)this.addOptSource(option,val)
         return this;
     }
 }
@@ -164,14 +204,23 @@ genOptionListFunc("en");
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined)attrs="";
-    if (this.prop["tag"] === undefined)this.prop["tag"]=[];
-    this.prop["tag"].push([name,attrs]);
+    if (attrs === undefined || Object.keys(attrs).length==0){
+        this.addOptSource("tag",name)
+        attrs={};
+    } else {
+        this.optSource+=".tag('"+name+"',"+JSON.stringify(attrs)+")" // special case of addOptSource...
+    }
+    if (this.props["tag"] === undefined)this.props["tag"]=[];
+    this.props["tag"].push([name,attrs]);
     return this;
 }
 
-// date options
+// date and number options
 Constituent.prototype.dOpt = function(dOptions){
+    this.addOptSource("dOpt",dOptions)
+    if (typeof dOptions != "object"){
+        return this.warn("bad application",".dOpt","object",typeof dOptions)
+    }
     if (this.isA("DT")){
         const allowedKeys =["year" , "month" , "date" , "day" , "hour" , "minute" , "second" , "nat", "det", "rtime"];
         const keys=Object.keys(dOptions);
@@ -180,14 +229,12 @@ Constituent.prototype.dOpt = function(dOptions){
             if (allowedKeys.indexOf(key)>=0){
                 const val = dOptions[key];
                 if (typeof val == "boolean"){
-                    this.dateOpts[key]=val
+                        this.props["dOpt"][key]=val
                 } else {
-                    this.warning("dOpt: the value of "+key+" should be a boolean, not "+val,
-                                 "dOpt: la valeur de "+key+" devrait être booléenne, non "+val);
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val);
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt of DT",
-                             key+ "n'est pas une clé permise pour dOpt de DT");
+                return this.warn("ignored value for option","DT.dOpt",key)
             }
         }
     } else if (this.isA("NO")){
@@ -199,44 +246,77 @@ Constituent.prototype.dOpt = function(dOptions){
                 const val = dOptions[key]
                 if (key=="mprecision"){
                     if (typeof val == "number"){
-                        this.noOptions["mprecision"]=val
+                        this.props["dOpt"]["mprecision"]=val
                     } else {
-                        this.warning("mprecision should be a number, not "+val,
-                                     "mprecision devrait être un nombre, non "+val)
+                        return this.warn("bad application","precision","number",val)
                     }
                 } else if (typeof val =="boolean"){
-                    this.noOptions[key]=val
+                    this.props["dOpt"][key]=val
                 } else {
-                    this.warning(".dOpt("+key+") for NO should be boolean, not "+val,
-                                 ".dOpt("+key+") pour NO devrait être booléenne, non "+val)
+                    return this.warn("bad application",".dOpt("+key+")","boolean",val)
                 }
             } else {
-                this.warning(key+ "is not an allowed key in dOpt for NO",
-                             key+ "n'est pas une clé valide pour dOpt de NO");
+                return this.warn("ignored value for option","NO.dOpt",key);
             }
         }
     } else {
-        this.warning(".dOpt should only be applied to a DT or a NO, not a "+this.constType,
-                     ".dOpt devrait être appliqué à un DT ou un NO, non à "+this.constType);
+        return this.warn("bad application",".dOpt",["DT","NO"],this.constType)
     }
     return this;
 }
 
 // number option
 Constituent.prototype.nat= function(isNat){
+    this.addOptSource("nat",isNat);
     if (this.isOneOf(["DT","NO"])){
-        const options=this.isA("DT")?this.dateOpts:this.noOptions;
+        const options=this.props["dOpt"];
         if (isNat === undefined){
             options.nat=false;
         } else if (typeof isNat == "boolean"){
             options.nat=isNat;
         } else {
-            this.warning("nat: the value of the argument should be a boolean, not "+isNat,
-                         "nat: la valeur du paramètre devrait être booléenne, non "+isNat);
+            return this.warn("bad application",".nat","boolean",isNat)
         }
     } else {
-        this.warning(".nat should only be applied to a DT or a NO, not a "+this.constType,
-                     ".nat devrait être appliqué à DT ou à NO, non un "+this.constType);
+        return this.warn("bad application",".nat",["DT","NO"],this.constType)
+    }
+    return this;
+}
+
+Constituent.prototype.typ = function(types){
+    const allowedTypes={
+      "neg": [false,true],
+      "pas": [false,true],
+      "prog":[false,true],
+      "exc": [false,true],
+      "perf":[false,true],
+      "contr":[false,true],
+      "mod": [false,"poss","perm","nece","obli","will"],
+      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
+    }
+    this.addOptSource("typ",types)
+    if (this.isOneOf(["S","SP","VP"])){
+        // validate types and keep only ones that are valid
+        for (let key in types) {
+            const val=types[key];
+            const allowedVals=allowedTypes[key];
+            if (allowedVals === undefined){
+                this.warn("unknown type",key,Object.keys(allowedTypes))
+            } else {
+                if (key == "neg" && this.isFr()){ // also accept string as neg value in French
+                    if (!contains(["string","boolean"],typeof val)){
+                        this.warn("ignored value for option",".typ("+key+")",val)
+                        delete types[key]
+                    }
+                } else if (!contains(allowedVals,val)){
+                    this.warn("ignored value for option",".typ("+key+")",val)
+                    delete types[key]
+                }
+            }
+        }
+        this.props["typ"]=types;
+    } else {
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
 }
@@ -265,19 +345,19 @@ Constituent.prototype.verbAgreeWith = function(subject){
         }
     } else if (this.isA("V")){ // this is a V
         this.agreesWith=subject;
-    } else {
-        this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
-    }
+    } // else {
+    //     this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
+    // }
 }
 
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:
 //     1-possible non-word chars and optional html tags
-//     2-the real word
+//     2-the real word 
 //     3-the rest after the word  
 const sepWordREen=/((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
 
-function doElisionEn(cList){
+Constituent.prototype.doElisionEn = function(cList){
     //// English elision rule only for changing "a" to "an"
     // according to https://owl.english.purdue.edu/owl/resource/591/1/
     const hAnRE=/^(heir|herb|honest|honou?r(able)?|hour)/i;
@@ -285,24 +365,54 @@ function doElisionEn(cList){
     const uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
     const acronymRE=/^[A-Z]+$/
     const punctuationRE=/^\s*[,:\.\[\]\(\)\?]+\s*$/
-    
+    // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
+    const contractionEnTable={
+        "are+not":"aren’t", "can+not":"can’t", "did+not":"didn’t", "do+not":"don’t", "does+not":"doesn’t", 
+        "had+not":"hadn’t", "has+not":"hasn’t", "have+not":"haven’t", "is+not":"isn’t", "must+not":"mustn’t", 
+        "need+not":"needn’t", "should+not":"shouldn’t", "was+not":"wasn’t", "were+not":"weren’t", 
+        "will+not":"won’t", "would+not":"wouldn’t",
+        "let+us":"let’s",
+        "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
+        "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
+        "he+will":"he’ll", "he+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
+        "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
+        "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
+        "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",
+        "it+is":"it’s", "it+will":"it’ll", "it+had":"it’d", "it+would":"it’d",
+        "there+will":"there’ll", "there+is":"there’s", "there+has":"there’s", "there+have":"there’ve",
+        "that+is":"that’s", "that+had":"that’d", "that+would":"that’d", "that+will":"that’ll"
+    } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
     for (var i = 0; i < last; i++) {
-        var m1=sepWordREen.exec(cList[i].realization)
+        var m1=sepWordREfr.exec(cList[i].realization)
         if (m1 === undefined) continue;
-        var w1=m1[2]        
+        var m2=sepWordREfr.exec(cList[i+1].realization)
+        if (m2 === undefined) continue;
+        // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
+        // for a single word 
+        var w1=m1[2];
+        var w2=m2[2];
         if (w1=="a" && cList[i].isA("D")){
-            var m2=sepWordREen.exec(cList[i+1].realization);
-            if (m2 === undefined)continue;
-            var w2=m2[2];
             if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
-                (w2.charAt(0)=="u" && !uLikeYouRE.exec(w2)) || // u does not sound like you
+                (/^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
                 hAnRE.exec(w2) ||       // silent h
                 acronymRE.exec(w2)) {   // is an acronym
                     cList[i].realization=m1[1]+"an"+m1[3];
                     i++;                     // skip next word
                 }
+        } else if (this.contraction !== undefined && this.contraction === true) {
+            if (w1=="cannot"){ // special case...
+                cList[i].realization=m1[1]+"can't"+m1[3];
+            } else {
+                const contr=contractionEnTable[w1+"+"+w2];   
+                if (contr!=null) {
+                    // do contraction of first word and remove second word (keeping start and end)
+                    cList[i].realization=m1[1]+contr+m1[3];
+                    cList[i+1].realization=m2[1]+m2[3].trim();
+                    i++;
+                }
+            }
         }
     }
 }
@@ -311,7 +421,7 @@ function doElisionEn(cList){
 // const sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/i
 const sepWordREfr=/((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
 
-function doElisionFr(cList){
+Constituent.prototype.doElisionFr = function(cList){
     //// Elision rules for French
     // implements the obligatory elision rules of the "Office de la langue française du Québec"
     //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&t1=&id=1737
@@ -331,7 +441,7 @@ function doElisionFr(cList){
 
     function isElidableFr(realization,lemma,pos){
         // check if realization starts with a vowel
-        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization,lemma,pos)) return true;
+        if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
             var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
@@ -367,7 +477,8 @@ function doElisionFr(cList){
             i++;
         } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
             // check if the next word would be elidable, so instead elide it instead of contracting
-            if (elidableWordFrRE.exec(w2) && i+2<=last &&
+            // except when the next word is a date which has a "strange" realization
+            if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
             } else { // do contraction of first word and remove second word (keeping start and end)
@@ -382,13 +493,14 @@ function doElisionFr(cList){
 // applies to a list of Constituents (can be a single one)
 // adds either to the first or last token (which can be the same)
 Constituent.prototype.doFormat = function(cList){
-    const punctuation=rules["punctuation"];    
+    const punctuation=this.getRules()["punctuation"];
+    const lexicon=this.getLexicon()   
     
     function getPunctString(punct){
         const punc=lexicon[punct];
         if (punc !== undefined && punc["Pc"] !== undefined){
             const tab=punc["Pc"]["tab"][0];
-            const puncRule=rules["punctuation"][tab];
+            const puncRule=punctuation[tab];
             return puncRule["b"]+punct+puncRule["a"]
         }
         return punct // default return string as is
@@ -405,8 +517,8 @@ Constituent.prototype.doFormat = function(cList){
                 const tabBefore=tab[0];
                 const tabAfter=tab.length==2?tab[1]:
                                lexicon[compl]["Pc"]["tab"][0]; //get from table of compl 
-                const puncRuleBefore=rules["punctuation"][tabBefore];
-                const puncRuleAfter=rules["punctuation"][tabAfter];
+                const puncRuleBefore=punctuation[tabBefore];
+                const puncRuleAfter=punctuation[tabAfter];
                 return {"b":puncRuleBefore["b"]+before+puncRuleBefore["a"],
                         "a":puncRuleAfter["b"]+after+puncRuleAfter["a"]}
             }
@@ -420,44 +532,49 @@ Constituent.prototype.doFormat = function(cList){
         cList[cList.length-1].realization+=after;
     }
     function startTag(tagName,attrs){
-        let attString="";
-        if (attrs !== "") {
-            attString=Object.entries(attrs).map(
-                function(entry){return " "+entry[0]+'="'+entry[1]+'"'}).join("")
-        }
+        const attString=Object.entries(attrs).map(
+            function(entry){return " "+entry[0]+'="'+entry[1]+'"'}).join("")
         return "<"+tagName+attString+">";
     }
     
+    // remove possible empty realisation strings (often generated by D("a").n("p")) which can break elision
+    function removeEmpty(cList){
+        for (let i=0;i<cList.length;){
+            if (cList[i].realization=="")cList.splice(i,1)
+            else i++
+        }
+    }
+    
     // start of processing
-    
+    removeEmpty(cList);
     if (this.isFr())
-        doElisionFr(cList);
+        this.doElisionFr(cList);
     else 
-        doElisionEn(cList);
+        this.doElisionEn(cList);
     
-    const cap = this.prop["cap"];
+    const cap = this.props["cap"];
     if (cap !== undefined && cap !== false){
         const r=cList[0].realization;
         if (r.length>0){
             cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
         }
     }
-    const as = this.prop["a"];
+    const as = this.props["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getPunctString(a))})
     }
-    const bs = this.prop["b"];
+    const bs = this.props["b"];
     if (bs !== undefined){
         bs.forEach(function(b){wrapWith(getPunctString(b),"")})
     }
-    const ens = this.prop["en"];
+    const ens = this.props["en"];
     if (ens !== undefined){
         ens.forEach(function(en){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
         })
     }
-    const tags=this.prop["tag"];
+    const tags=this.props["tag"];
     if (tags !== undefined) {
         tags.forEach(function(tag){
             const attName=tag[0];
@@ -476,7 +593,7 @@ Constituent.prototype.detokenize = function(terminals){
     if (last<0) return s;
     for (let i = 0; i < last; i++) {
         const terminal=terminals[i];
-        if (terminal.prop["lier"]!== undefined){
+        if (terminal.props["lier"]!== undefined){
             s+=terminal.realization+"-";
         } else if (/[- ']$/.exec(terminal.realization)){
             s+=terminal.realization;
@@ -489,7 +606,7 @@ Constituent.prototype.detokenize = function(terminals){
     if (this.parentConst==null){
         if (this.constType=="S" && s.length>0){ // if it is a top-level S
             // force a capital at the start unless .cap(false)
-            if (this.prop["cap"]!== false){
+            if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
@@ -507,11 +624,12 @@ Constituent.prototype.detokenize = function(terminals){
     return s;
 }
 
+//// ******* this seemingly simple function is in fact the start
+//           of the whole realization process
 // produce a string from a list of realization fields in the list of terminal
 //   created by .real(), applies elision if it is the top element
 Constituent.prototype.toString = function() {
-    // this launches the whole realization process which forces 
-    // the creation of the realization field in each Terminal
+    // sets the realization field in each Terminal
     const terminals=this.real(); 
     return this.detokenize(terminals);
 }
@@ -520,47 +638,6 @@ Constituent.prototype.clone = function(){
     return eval(this.toSource());
 }
 
-// create the source for the options from the properties
-Constituent.prototype.toSource = function(){
-    let res="";
-    let typs=[];
-    Object.entries(this.prop).forEach(
-        function (e) {
-            const key=e[0];
-            let val=e[1];
-            switch (key){
-            case "tag": // special case of HTML tag
-                val.forEach(
-                    function (tagE){
-                        res+=".tag("+quote(tagE[0])
-                        if(tagE[1]!="")res+=","+JSON.stringify(tagE[1])
-                        res+=")";
-                    }
-                )
-                break;
-            // options to be combined in a single .typ
-            case "neg": case"pas": case "prog": case "perf": case "exc":case "mod": case "int": 
-                if (val===false)break;
-                if (val!==true)val=quote(val);
-                typs.push(key+":"+val);
-                break;
-            case "h": case "cod": case "neg2":// option to ignore
-                break;
-            case "own": // internal option name differs from external one... 
-                res+=".ow("+quote(val)+")";
-                break;
-            default: // standard option but ignoring default values
-                if ( !(key in defaultProps) || val!=defaultProps[key]){
-                    if (val == null) {
-                        res+="."+key+"()"
-                    } else if (typeof val === "object"){
-                        val.forEach(function(ei){res+="."+key+"("+quote(ei)+")"})
-                    } else {
-                        res+="."+key+"("+quote(val)+")";
-                    }
-                }
-            }
-        }
-    )
-    return res+(typs.length==0?"":(".typ({"+typs.join()+"})"));
+Constituent.prototype.toSource=function(){
+    return this.optSource;
 }

@@ -4,16 +4,19 @@
         <title id="titre"></title>
         <meta charset="UTF-8"/>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="../../dist/jsRealB.js"></script>
+        <script src="../../dist/jsRealB.js"></script>
 <!-- to ease debugging we load each file separately -/->
         <script src="../../data/lexicon-fr.js"></script>
         <script src="../../data/rule-fr.js"></script>
+        <script src="../../data/lexicon-en.js"></script>
+        <script src="../../data/rule-en.js"></script>
         <script src="../../build/Utils.js"></script>
         <script src="../../build/Constituent.js"></script>
         <script src="../../build/Phrase.js"></script>
         <script src="../../build/Terminal.js"></script>
         <script src="../../build/Date.js"></script>
         <script src="../../build/Number.js"></script>
+        <script src="../../build/Warnings.js"></script>
 <!-/- end of separate loading -->
 
         <script>
@@ -53,7 +56,7 @@
             $body.append(h1);
             var use=V("user").t("p");
             var s1=S(Pro("ça"),use);
-            var s2=S(s1,NP(D("le"),N("soulier")).n("p"));
+            var s2=S(s1,NP(D("le"),N("soulier").n("p")));
             for(var i=1;i<=max;i++){
                 var kmap=kmsAPied(i).a(",");
                 var $lignes=$("<b/>").append("<p/>");

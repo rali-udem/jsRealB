@@ -2377,7 +2377,8 @@ var ruleFr = //========== rule-fr.js
             "aux": ["a","aura","avait","ait","eût","aurait"],
             "pp": ["été","étés","étées"]
         },
-        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je","si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
+        "elidables": ["la","ma","ta","sa","le","me","te","se","ce","de","ne","je",
+                      "si","que","jusque","lorsque","puisque","quoique","nouveau","beau"],
         "voyellesAccentuees": "àäéèêëïîöôùû",
         "voyelles": "aeiouàäéèêëïîöôùû"
     },
@@ -3501,7 +3502,19 @@ var ruleFr = //========== rule-fr.js
         "pn0":{
             "ending":"on",
             "declension":[{
-                "val": "on","g": "x","n": "s","pe": 3
+                "val":"on", "g":"m", "n":"s"
+            },{
+                "val":"soi", "g":"x", "n":"s", "tn":""
+            },{
+                "val":"soi-même", "g":"x", "n":"s", "tn":"refl"
+            },{
+                "val":"soi", "g":"x", "n":"s", "c":"nom"
+            },{
+                "val":"le", "g":"x", "n":"s", "c":"acc"
+            },{
+                "val":"soi", "g":"x", "n":"s", "c":"dat"
+            },{
+                "val":"se", "g":"x", "n":"s", "c":"refl"
             }]
         },
         "pn1": {
@@ -3558,24 +3571,216 @@ var ruleFr = //========== rule-fr.js
                 "val": "leur","g": "x","n": "p","pe": 3
             }]
         },
-        "pn4": {
-            "ending": "moi",
-            "declension": [{
-                "val": "moi","g": "x","n": "s","pe": 1
+        "pn4":{
+            "ending":"moi",
+            "declension":[{
+                "val":"moi", "g":"x", "n":"s", "pe":1, "tn":""
             },{
-                "val": "nous","g": "x","n": "p","pe": 1
+                "val":"moi-même", "g":"x", "n":"s", "pe":1, "tn":"refl"
             },{
-                "val": "toi","g": "x","n": "s","pe": 2
+                "val":"je", "g":"x", "n":"s", "pe":1, "c":"nom"
             },{
-                "val": "vous","g": "x","n": "p","pe": 2
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"acc"
             },{
-                "val": "lui","g": "m","n": "s","pe": 3
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"dat"
             },{
-                "val": "elle","g": "f","n": "s","pe": 3
+                "val":"me", "g":"x", "n":"s", "pe":1, "c":"refl"
             },{
-                "val": "eux","g": "m","n": "p","pe": 3
+                "val":"nous", "g":"x", "n":"p", "pe":1, "tn":""
             },{
-                "val": "elles","g": "f","n": "p","pe": 3
+                "val":"nous-mêmes", "g":"x", "n":"p", "pe":1, "tn":"refl"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"nom"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"acc"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"dat"
+            },{
+                "val":"nous", "g":"x", "n":"p", "pe":1, "c":"refl"
+            },{
+                "val":"toi", "g":"x", "n":"s", "pe":2, "tn":""
+            },{
+                "val":"toi-même", "g":"x", "n":"s", "pe":2, "tn":"refl"
+            },{
+                "val":"tu", "g":"x", "n":"s", "pe":2, "c":"nom"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"acc"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"dat"
+            },{
+                "val":"te", "g":"x", "n":"s", "pe":2, "c":"refl"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "tn":""
+            },{
+                "val":"vous-mêmes", "g":"x", "n":"p", "pe":2, "tn":"refl"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"nom"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"acc"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"dat"
+            },{
+                "val":"vous", "g":"x", "n":"p", "pe":2, "c":"refl"
+            },{
+                "val":"lui", "g":"m", "n":"s", "pe":3, "tn":""
+            },{
+                "val":"lui-même", "g":"m", "n":"s", "pe":3, "tn":"refl"
+            },{
+                "val":"il", "g":"m", "n":"s", "pe":3, "c":"nom"
+            },{
+                "val":"le", "g":"m", "n":"s", "pe":3, "c":"acc"
+            },{
+                "val":"lui", "g":"m", "n":"s", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"m", "n":"s", "pe":3, "c":"refl"
+            },{
+                "val":"elle", "g":"f", "n":"s", "pe":3, "tn":""
+            },{
+                "val":"elle-même", "g":"f", "n":"s", "pe":3, "tn":"refl"
+            },{
+                "val":"elle", "g":"f", "n":"s", "pe":3, "c":"nom"
+            },{
+                "val":"la", "g":"f", "n":"s", "pe":3, "c":"acc"
+            },{
+                "val":"lui", "g":"f", "n":"s", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"f", "n":"s", "pe":3, "c":"refl"
+            },{
+                "val":"eux", "g":"m", "n":"p", "pe":3, "tn":""
+            },{
+                "val":"eux-mêmes", "g":"m", "n":"p", "pe":3, "tn":"refl"
+            },{
+                "val":"ils", "g":"m", "n":"p", "pe":3, "c":"nom"
+            },{
+                "val":"les", "g":"m", "n":"p", "pe":3, "c":"acc"
+            },{
+                "val":"leur", "g":"m", "n":"p", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"m", "n":"p", "pe":3, "c":"refl"
+            },{
+                "val":"elles", "g":"f", "n":"p", "pe":3, "tn":""
+            },{
+                "val":"elles-mêmes", "g":"f", "n":"p", "pe":3, "tn":"refl"
+            },{
+                "val":"elles", "g":"f", "n":"p", "pe":3, "c":"nom"
+            },{
+                "val":"les", "g":"f", "n":"p", "pe":3, "c":"acc"
+            },{
+                "val":"leur", "g":"f", "n":"p", "pe":3, "c":"dat"
+            },{
+                "val":"se", "g":"f", "n":"p", "pe":3, "c":"refl"
+            }]
+        },
+        "pn4-2s":{
+            "ending":"toi",
+            "declension":[{
+                "val":"toi", "tn":"", "n":"s", "pe":2
+            },{
+                "val":"toi-même", "tn":"refl", "n":"s", "pe":2
+            },{
+                "val":"tu", "c":"nom", "n":"s", "pe":2
+            },{
+                "val":"te", "c":"acc", "n":"s", "pe":2
+            },{
+                "val":"te", "c":"dat", "n":"s", "pe":2
+            },{
+                "val":"te", "c":"refl", "n":"s", "pe":2
+            }]
+        },
+        "pn4-3sm":{
+            "ending":"lui",
+            "declension":[{
+                "val":"lui", "tn":"", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"lui-même", "tn":"refl", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"il", "c":"nom", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"le", "c":"acc", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"lui", "c":"dat", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"se", "c":"refl", "g":"m", "n":"s", "pe":3
+            }]
+        },
+        "pn4-3sf":{
+            "ending":"elle",
+            "declension":[{
+                "val":"elle", "g":"f", "tn":"", "n":"s", "pe":3
+            },{
+                "val":"elle-même", "g":"f", "tn":"refl", "n":"s", "pe":3
+            },{
+                "val":"elle", "g":"f", "c":"nom", "n":"s", "pe":3
+            },{
+                "val":"la", "g":"f", "c":"acc", "n":"s", "pe":3
+            },{
+                "val":"lui", "g":"f", "c":"dat", "n":"s", "pe":3
+            },{
+                "val":"se", "g":"f", "c":"refl", "n":"s", "pe":3
+            }]
+        },
+        "pn4-1p":{
+            "ending":"nous",
+            "declension":[{
+                "val":"nous", "tn":"", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous-mêmes", "tn":"refl", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"nom", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"acc", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"dat", "g":"x", "n":"p", "pe":1
+            },{
+                "val":"nous", "c":"refl", "g":"x", "n":"p", "pe":1
+            }]
+        },
+        "pn4-2p":{
+            "ending":"vous",
+            "declension":[{
+                "val":"vous", "tn":"", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous-mêmes", "tn":"refl", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"nom", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"acc", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"dat", "g":"x", "n":"p", "pe":2
+            },{
+                "val":"vous", "c":"refl", "g":"x", "n":"p", "pe":2
+            }]
+        },
+        "pn4-3pm":{
+            "ending":"eux",
+            "declension":[{
+                "val":"eux", "tn":"", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"eux-mêmes", "tn":"refl", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"ils", "c":"nom", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"les", "c":"acc", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leur", "c":"dat", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"se", "c":"refl", "g":"m", "n":"p", "pe":3
+            }]
+        },
+        "pn4-3pf":{
+            "ending":"elles",
+            "declension":[{
+                "val":"elles", "g":"f", "tn":"", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"elles-mêmes", "g":"f", "tn":"refl", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"elles", "g":"f", "c":"nom", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"les", "g":"f", "c":"acc", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"leur", "g":"f", "c":"dat", "g":"f", "n":"p", "pe":3
+            },{
+                "val":"se", "g":"f", "c":"refl", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn5": {
@@ -3660,60 +3865,108 @@ var ruleFr = //========== rule-fr.js
                 "val": "y","g": "x","n": "x"
             }]
         },
-        "pn12": {
-            "ending": "mien",
-            "declension": [{
-                "val": "mien","g": "m","n": "s","pe": 1
+        "pn12":{
+            "ending":"mien",
+            "declension":[{
+                "val":"mien", "g":"m", "n":"s", "pe":1
             },{
-                "val": "mienne","g": "f","n": "s","pe": 1
+                "val":"mienne", "g":"f", "n":"s", "pe":1
             },{
-                "val": "miens","g": "m","n": "p","pe": 1
+                "val":"miens", "g":"m", "n":"p", "pe":1
             },{
-                "val": "miennes","g": "f","n": "p","pe": 1
+                "val":"miennes", "g":"f", "n":"p", "pe":1
             },{
-                "val": "tien","g": "m","n": "s","pe": 2
+                "val":"tien", "g":"m", "n":"s", "pe":2
             },{
-                "val": "tienne","g": "f","n": "s","pe": 2
+                "val":"tienne", "g":"f", "n":"s", "pe":2
             },{
-                "val": "tiens","g": "m","n": "p","pe": 2
+                "val":"tiens", "g":"m", "n":"p", "pe":2
             },{
-                "val": "tiennes","g": "f","n": "p","pe": 2
+                "val":"tiennes", "g":"f", "n":"p", "pe":2
             },{
-                "val": "sien","g": "m","n": "s","pe": 3
+                "val":"sien", "g":"m", "n":"s", "pe":3
             },{
-                "val": "sienne","g": "f","n": "s","pe": 3
+                "val":"sienne", "g":"f", "n":"s", "pe":3
             },{
-                "val": "siens","g": "m","n": "p","pe": 3
+                "val":"siens", "g":"m", "n":"p", "pe":3
             },{
-                "val": "siennes","g": "f","n": "p","pe": 3
+                "val":"siennes", "g":"f", "n":"p", "pe":3
             }]
         },
-        "pn13": {
-            "ending": "nôtre",
-            "declension": [{
-                "val": "nôtre","g": "m","n": "s","pe": 1
+        "pn12-2":{
+            "ending":"tien",
+            "declension":[{
+                "val":"tien", "g":"m", "n":"s", "pe":2
             },{
-                "val": "nôtre","g": "f","n": "s","pe": 1
+                "val":"tienne", "g":"f", "n":"s", "pe":2
             },{
-                "val": "nôtres","g": "m","n": "p","pe": 1
+                "val":"tiens", "g":"m", "n":"p", "pe":2
             },{
-                "val": "nôtres","g": "f","n": "p","pe": 1
+                "val":"tiennes", "g":"f", "n":"p", "pe":2
+            }]
+        },
+        "pn12-3":{
+            "ending":"sien",
+            "declension":[{
+                "val":"sien", "g":"m", "n":"s", "pe":3
             },{
-                "val": "vôtre","g": "m","n": "s","pe": 2
+                "val":"sienne", "g":"f", "n":"s", "pe":3
             },{
-                "val": "vôtre","g": "f","n": "s","pe": 2
+                "val":"siens", "g":"m", "n":"p", "pe":3
             },{
-                "val": "vôtres","g": "m","n": "p","pe": 2
+                "val":"siennes", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "pn13":{
+            "ending":"nôtre",
+            "declension":[{
+                "val":"nôtre", "g":"m", "n":"s", "pe":1
             },{
-                "val": "vôtres","g": "f","n": "p","pe": 2
+                "val":"nôtre", "g":"f", "n":"s", "pe":1
             },{
-                "val": "leur","g": "m","n": "s","pe": 3
+                "val":"nôtres", "g":"m", "n":"p", "pe":1
             },{
-                "val": "leur","g": "f","n": "s","pe": 3
+                "val":"nôtres", "g":"f", "n":"p", "pe":1
             },{
-                "val": "leurs","g": "m","n": "p","pe": 3
+                "val":"vôtre", "g":"m", "n":"s", "pe":2
             },{
-                "val": "leurs","g": "f","n": "p","pe": 3
+                "val":"vôtre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vôtres", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vôtres", "g":"f", "n":"p", "pe":2
+            },{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "pn13-2":{
+            "ending":"vôtre",
+            "declension":[{
+                "val":"vôtre", "g":"m", "n":"s", "pe":2
+            },{
+                "val":"vôtre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vôtres", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vôtres", "g":"f", "n":"p", "pe":2
+            }]
+        },
+        "pn13-3":{
+            "ending":"leur",
+            "declension":[{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
             }]
         },
         "pn14": {
@@ -3956,60 +4209,108 @@ var ruleFr = //========== rule-fr.js
                 "val": "des","g": "f","n": "p"
             }]
         },
-        "d5": {
-            "ending": "mon",
-            "declension": [{
-                "val": "mon","g": "m","n": "s","pe": 1
+        "d5":{
+            "ending":"mon",
+            "declension":[{
+                "val":"mon", "g":"m", "n":"s", "pe":1
             },{
-                "val": "ma","g": "f","n": "s","pe": 1
+                "val":"ma", "g":"f", "n":"s", "pe":1
             },{
-                "val": "mes","g": "m","n": "p","pe": 1
+                "val":"mes", "g":"m", "n":"p", "pe":1
             },{
-                "val": "mes","g": "f","n": "p","pe": 1
+                "val":"mes", "g":"f", "n":"p", "pe":1
             },{
-                "val": "ton","g": "m","n": "s","pe": 2
+                "val":"ton", "g":"m", "n":"s", "pe":2
             },{
-                "val": "ta","g": "f","n": "s","pe": 2
+                "val":"ta", "g":"f", "n":"s", "pe":2
             },{
-                "val": "tes","g": "m","n": "p","pe": 2
+                "val":"tes", "g":"m", "n":"p", "pe":2
             },{
-                "val": "tes","g": "f","n": "p","pe": 2
+                "val":"tes", "g":"f", "n":"p", "pe":2
             },{
-                "val": "son","g": "m","n": "s","pe": 3
+                "val":"son", "g":"m", "n":"s", "pe":3
             },{
-                "val": "sa","g": "f","n": "s","pe": 3
+                "val":"sa", "g":"f", "n":"s", "pe":3
             },{
-                "val": "ses","g": "m","n": "p","pe": 3
+                "val":"ses", "g":"m", "n":"p", "pe":3
             },{
-                "val": "ses","g": "f","n": "p","pe": 3
+                "val":"ses", "g":"f", "n":"p", "pe":3
             }]
         },
-        "d6": {
-            "ending": "notre",
-            "declension": [{
-                "val": "notre","g": "m","n": "s","pe": 1
+        "d5-2":{
+            "ending":"ton",
+            "declension":[{
+                "val":"ton", "g":"m", "n":"s"
             },{
-                "val": "notre","g": "f","n": "s","pe": 1
+                "val":"ta", "g":"f", "n":"s"
             },{
-                "val": "nos","g": "m","n": "p","pe": 1
+                "val":"tes", "g":"m", "n":"p"
             },{
-                "val": "nos","g": "f","n": "p","pe": 1
+                "val":"tes", "g":"f", "n":"p"
+            }]
+        },
+        "d5-3":{
+            "ending":"son",
+            "declension":[{
+                "val":"son", "g":"m", "n":"s"
             },{
-                "val": "votre","g": "m","n": "s","pe": 2
+                "val":"sa", "g":"f", "n":"s"
             },{
-                "val": "votre","g": "f","n": "s","pe": 2
+                "val":"ses", "g":"m", "n":"p"
             },{
-                "val": "vos","g": "m","n": "p","pe": 2
+                "val":"ses", "g":"f", "n":"p"
+            }]
+        },
+        "d6":{
+            "ending":"notre",
+            "declension":[{
+                "val":"notre", "g":"m", "n":"s", "pe":1
             },{
-                "val": "vos","g": "f","n": "p","pe": 2
+                "val":"notre", "g":"f", "n":"s", "pe":1
             },{
-                "val": "leur","g": "m","n": "s","pe": 3
+                "val":"nos", "g":"m", "n":"p", "pe":1
             },{
-                "val": "leur","g": "f","n": "s","pe": 3
+                "val":"nos", "g":"f", "n":"p", "pe":1
             },{
-                "val": "leurs","g": "m","n": "p","pe": 3
+                "val":"votre", "g":"m", "n":"s", "pe":2
             },{
-                "val": "leurs","g": "f","n": "p","pe": 3
+                "val":"votre", "g":"f", "n":"s", "pe":2
+            },{
+                "val":"vos", "g":"m", "n":"p", "pe":2
+            },{
+                "val":"vos", "g":"f", "n":"p", "pe":2
+            },{
+                "val":"leur", "g":"m", "n":"s", "pe":3
+            },{
+                "val":"leur", "g":"f", "n":"s", "pe":3
+            },{
+                "val":"leurs", "g":"m", "n":"p", "pe":3
+            },{
+                "val":"leurs", "g":"f", "n":"p", "pe":3
+            }]
+        },
+        "d6-2":{
+            "ending":"votre",
+            "declension":[{
+                "val":"votre", "g":"m", "n":"s"
+            },{
+                "val":"votre", "g":"f", "n":"s"
+            },{
+                "val":"vos", "g":"m", "n":"p"
+            },{
+                "val":"vos", "g":"f", "n":"p"
+            }]
+        },
+        "d6-3":{
+            "ending":"leur",
+            "declension":[{
+                "val":"leur", "g":"m", "n":"s"
+            },{
+                "val":"leur", "g":"f", "n":"s"
+            },{
+                "val":"leurs", "g":"m", "n":"p"
+            },{
+                "val":"leurs", "g":"f", "n":"p"
             }]
         },
         "d7": {

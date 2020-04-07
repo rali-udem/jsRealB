@@ -46,7 +46,7 @@ function realiseTaches(tasks,p){
     for (var i = 1; i < tasks.length; i++) {
         var t=tasks[i][p];
         // console.log(i,tasks[i].id);
-        if (p=='vp')t.t("b"); // mettre verbe à l'infinitif
+        if (p=='vp')tasks[i].v.t("b"); // mettre verbe à l'infinitif
         if (!(typeof module !== 'undefined' && module.exports))
             t.tag("span",{"id":"T"+tasks[i].id});
         res.add(t)
@@ -71,9 +71,9 @@ function introduction(nbDays,firstTasks){
         ()=>S(Pro("je").pe(3),
               VP(V("falloir"),V("commencer").t("b"),
                        PP(P("par"),realiseTaches(firstTasks,nvp())))),
-        ()=>S(Pro("je").n("p").pe(2),V("devoir").t("c"),
-              VP(V("débuter").t("b"),
-                       PP(P("par"),realiseTaches(firstTasks,nvp()))))
+        ()=>S(Pro("je").n("p").pe(2),
+              VP(V("devoir").t("c"),V("débuter").t("b"),
+                 PP(P("par"),realiseTaches(firstTasks,nvp()))))
     )+"\n";
     return realisation;
 }

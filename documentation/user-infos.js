@@ -21,19 +21,17 @@ var terminalsSect =
                             "en":["Date possibly with <a href='#dateEn'>options</a>",'DT()']},
         {"pattern":"NO(…)", "fr":["Nombre avec <a href='#nombres'>options</a> facultatives",'NO(2)'],
                             "en":["Number possibly with <a href='#numbers'>options</a>",'NO(2)']},
-        {"pattern":'"…"',  "fr":["Texte brut",'"verbatim"'],
-                            "en":["Raw text",'"verbatim"']},
+        {"pattern":'"…"',  "fr":["Texte brut",'"Wow"'],
+                            "en":["Raw text",'"Wow"']},
         {"pattern":"Q(…)",  "fr":["Texte brut auquel on peut ajouter des <a href='#optionsFr'>options</a>",
-                                  'Q("verbatim").tag("i")'],
+                                  'Q("Bang !").tag("i")'],
                             "en":["Raw text to which <a href='#optionsEn'>options</a> can be added",
-                                  'Q("verbatim").tag("i")']}
+                                  'Q("Bang !").tag("i")']}
     ]};
 
 var syntagmesSect =
     {"fr":"Syntagmes","en":"Phrases",
      "ex":[
-         {"pattern":"S(…)", "fr":["Phrase",'S(Pro("je"), VP(V("dormir")))'],
-                            "en":["Sentence",'S(Pro("I"), VP(V("sleep")))']},
          {"pattern":"NP(…)","fr":["Syntagme nominal",'NP(D("le"), N("voiture"))'],
                             "en":["Noun Phrase",'NP(D("the"), N("car"))']},
          {"pattern":"AP(…)","fr":["Syntagme adjectival",'AP(Adv("très"), A("grand"))'],
@@ -46,6 +44,10 @@ var syntagmesSect =
                             "en":["Prepositional Phrase",'PP(P("at"), NP(N("midnight")))']},
          {"pattern":"CP(…)","fr":["Syntagme coordonné",'CP(C("et"), AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
                             "en":["Coordinated Phrase",'CP(C("and"), AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
+         {"pattern":"CP(…)","fr":["&nbsp;&nbsp;<code>CP</code> sans <code>C</code>",'CP(AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
+                            "en":["&nbsp;&nbsp;<code>CP</code> with no <code>C</code>",'CP(AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
+         {"pattern":"S(…)", "fr":["Phrase",'S(NP(D("le"),N("homme")), VP(V("dormir")))'],
+                            "en":["Sentence",'S(NP(D("the"),N("man")), VP(V("sleep")))']},
          {"pattern":"SP(…)","fr":["Syntagme subordonné",'SP(Pro("que"), Pro("je"), VP(V("rencontrer").t("pc")))'],
                             "en":["Subordinated Phrase",'SP(Adv("that"), Pro("I"), VP(V("meet").t("ps")))']},
      ]};
@@ -245,8 +247,8 @@ var formatSect={"fr":"","en":"",
                      "en":["Add an exclamation point after",'N("man").a("!")']},
        {"pattern":'.a(";")', "fr":["Ajouter point virgule après",'N("homme").a(";")'],
                      "en":["Add a semi-colon after",'N("man").a(";")']},
-       {"pattern":'.a("...")', "fr":["Ajouter des points de suspension après",'N("homme").a("...")'],
-                     "en":["Add an ellipsis after",'N("man").a("...")']},
+       {"pattern":'.a("\'s")', "fr":["Réaliser le possessif en anglais",'N("cousin").a("\'s")'],
+                     "en":["Realize an English possessive",'N("man").a("\'s")']},
 
        {"group":".en(…)","fr":'entourer',"en":'wrap with'},
        {"pattern":'.en("(")', "fr":["entourer de parenthèses",'N("homme").en("(")'],
@@ -294,17 +296,17 @@ var nPmods={"fr":'',"en":'',
         {"group":".pro()","fr":"Pronominalisation","en":"Pronominalisation"},
         {"pattern":"", "fr":["du sujet",'S(NP(D("le"),N("joueur")).pro(),VP(V("jouer")))'],
                        "en":["of the subject",'S(NP(D("the"),N("player")).pro(),VP(V("play")))']},
-        {"pattern":"", "fr":["de l'objet direct",
+        {"pattern":"", "fr":["de l'objet direct sur",
 'S(Pro("je").pe(1),\n\
    VP(V("aimer"),NP(D("le"),N("pomme")).pro()))'],
                        "en":["of the direct object",
 'S(Pro("I").pe(1),\n\
    VP(V("love"),NP(D("a"),N("apple").g("n")).pro()))']},
         {"pattern":"", 
-         "fr":["de l'objet indirect",
+         "fr":["de l'objet indirect sur <code>PP</code>",
 'S(Pro("je").pe(1),\n\
    VP(V("aller"),\n\
-       PP(P("vers"),NP(D("le"),N("maison")).pro())))'],
+       PP(P("vers"),NP(D("le"),N("maison"))).pro()))'],
          "en":["of the indirect object",
 'S(Pro("I").pe(1),\n\
    VP(V("go"),\n\
@@ -331,6 +333,10 @@ var sentType={"fr":'',"en":'',
        {"pattern":".typ({exc:true})",
         "fr":["Exclamatif",'S(NP(D("le"),N("chat")),\n  VP(V("aimer"),NP(D("le"),N("souris")))).typ({exc:true})'],
         "en":["Exclamative",'S(NP(D("the"),N("cat")),\n  VP(V("love"),NP(D("the"),N("mouse")))).typ({exc:true})']},
+       {"pattern":".typ({contr:true})",
+        "fr":["Contraction (ignorée en français)",
+              'S(NP(D("le"),N("chat")),\n  VP(V("aimer"),NP(D("le"),N("souris"))))\n    .typ({neg:true,contr:true})'],
+        "en":["Contraction",'S(NP(D("the"),N("cat")),\n  VP(V("love"),NP(D("the"),N("mouse"))))\n    .typ({neg:true,contr:true})']},
        {"group":'.typ({mod:"..."})',"fr":"Modalité","en":"Modality"}, 
        {"pattern":'.typ({mod:"poss"})',
         "fr":["Possibilité",'S(NP(D("le"),N("chat")),\n  VP(V("aimer"),NP(D("le"),N("souris")))).typ({mod:"poss"})'],
@@ -479,37 +485,53 @@ var numberAgreement={"fr":"Accord du nom selon le nombre","en":"Noun agreement i
     
 ]};
 
-var pomme,pommes,apple,apples,gars,boy;
+var pomme,pommes,la_pomme,apple,the_apple,apples,gars,boy;
 var cloneUse={"fr":"Illustration de l'utilisation de <code>.clone()</code>",
               "en":"Simple example of use of <code>.clone()</code>",
     "ex":[
-          {"pattern":"","fr":["déclaration",'pomme = NP(D("le"),N("pomme"))'],
-                        "en":["declaration",'apple = NP(D("the"),N("apple"))']},
-          {"pattern":"","fr":["déclaration",'gars = NP(D("le"),N("garçon")).n("p")'],
-                        "en":["declaration",'boy = NP(D("a"),N("boy"))']},
+          {"pattern":"","fr":["déclaration",'pomme = N("pomme")'],
+                        "en":["declaration",'apple = N("apple")']},
+          {"pattern":"","fr":["déclaration",'gars = NP(D("le"),N("garçon"))'],
+                        "en":["declaration",'boy = NP(D("the"),N("boy"))']},
           {"pattern":"","fr":["modification",'pomme.n("p")'],
                         "en":["modification",'apple.n("p")']},
           {"pattern":"","fr":["effet de bord visible",'pomme'],
                         "en":["side-effect occurred",'apple']},
-          {"pattern":"","fr":["redéclaration",'pomme = NP(D("le"),N("pomme"))'],
-                        "en":["redeclaration",'apple = NP(D("the"),N("apple"))']},
+          {"pattern":"","fr":["redéclaration",'pomme = N("pomme")'],
+                        "en":["redeclaration",'apple = N("apple")']},
           {"pattern":"","fr":["sauve l'original",'pommes=pomme.clone().n("p")'],
                         "en":["save the original",'apples=apple.clone().n("p")']},
           {"pattern":"","fr":["original a bien été sauvé",'pomme'],
                         "en":["original was saved",'apple']},
+          {"pattern":"","fr":["Autre exemple, plus subtil",'la_pomme = NP(D("le"),pomme)'],
+                        "en":["Another example, more devious",'the_apple = NP(D("the"),apple)']},
           {"pattern":"","fr":["clone est utile pour la réutilisation",
-                             'S(pomme.clone().a(","),gars,VP(V("manger"),pomme.clone().pro()))'],
+                             'S(la_pomme.clone().a(","),gars,VP(V("manger"),la_pomme.clone().pro()))'],
                         "en":["close is useful for reuse",
-                              'S(apple.clone().a(","),boy,VP(V("eat"),apple.clone().pro()))']},
-          {"pattern":"","fr":["exemple précédent sans clone; <b>mauvais résultat</b> car <code>.pro()</code> a modifié <code>pomme</code> avant la réalisation",
-                             'S(pomme.a(","),gars,VP(V("manger"),pomme.pro())).b("*")'],
-                        "en":["previous example without clone; <b>bad result</b> because <code>.pro()</code> modified <code>apple</code> before the realisation",
-                              'S(apple.a(","),boy,VP(V("eat"),apple.pro())).b("*")']},
+                              'S(the_apple.clone().a(","),boy,VP(V("eat"),the_apple.clone().pro()))']},
+          {"pattern":"","fr":["exemple précédent sans clone; <b>mauvais résultat</b> car <code>.pro()</code> a modifié <code>pomme</code> avant sa réalisation",
+                             'S(la_pomme.a(","),gars,VP(V("manger"),la_pomme.pro())).b("*")'],
+                        "en":["previous example without clone; <b>bad result</b> because <code>.pro()</code> modified <code>apple</code> before its realization",
+                              'S(the_apple.a(","),boy,VP(V("eat"),the_apple.pro())).b("*")']},
         
 ]};
 
-var addUse={"fr":"Illustration de l'utilisation de <code>.add(..)</code> en utilisant les variables de la section <code>.clone()</code>",
-              "en":"Simple example of use of <code>..add(..)</code> using variables of the <code>.clone()</code> section",
+var pommeF,pommeFF,appleF,appleAF;
+var functionUse={"fr":"Fonctions pour la réutilisation d'expression",
+              "en":"Functions for expression reuse",
+    "ex":[
+          {"pattern":"","fr":["fonction",'pommeF = function(n){return NP(D("un"),N("pomme").n(n||"s"))}'],
+                        "en":["fonction",'appleF = function(n){return NP(D("a"),N("apple").n(n||"s"))}']},
+          {"pattern":"","fr":["fonction fléchée",'pommeFF = (n)=>NP(D("un"),N("pomme").n(n||"s"))'],
+                        "en":["arrow function",'appleAF = (n)=>NP(D("a"),N("apple").n(n||"s"))']},
+        {"pattern":"","fr":["appel de fonction",'pommeFF("p")'],
+                      "en":["function call",'appleAF("p")']},
+        {"pattern":"","fr":["appel de fonction",'pommeFF()'],
+                      "en":["function call",'appleAF()']},
+    ]};
+
+var addUse={"fr":"Illustration de l'utilisation de <code>.add(..)</code> <i>en utilisant les variables de la section <code>.clone()</code></i>",
+            "en":"Simple example of use of <code>.add(..)</code> <i>using variables of the <code>.clone()</code> section</i>",
     "ex":[
           {"pattern":"","fr":["déclaration",'pomme = NP(D("le"),N("pomme"))'],
                         "en":["declaration",'apple = NP(D("the"),N("apple"))']},

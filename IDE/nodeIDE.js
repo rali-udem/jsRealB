@@ -1,7 +1,9 @@
 // some useful function for the NodeIDE
 // these function access internals of jsRealB
+"use strict";
+
 var checkAmbiguities=false;
-var lemmataEn,lemmataFr;
+var lemmataEn,lemmataFr,lemmataLang;
 
 function isConstituent(obj){
     return obj instanceof Constituent;
@@ -96,6 +98,9 @@ function addLemma(lemmata,word,jsRexp){
     l.push(jsRexp);
 }
 
+// generate a list of jsRealB expressions (only Pro will have more than 1)
+//  from a given form (entry), for a given part-of-speech (pos)
+//  using information from the declension and lexicon information (declension, lexiconEntry)
 function genExp(declension,pos,entry,lexiconEntry){
     var out = pos+'("'+entry+'")';
     // console.log("genExp",declension,pos,entry,lexiconEntry);
@@ -108,19 +113,33 @@ function genExp(declension,pos,entry,lexiconEntry){
         }
         break;
     case "Pro":case "D":
-        var defGender=lemmataLang=="fr"?"m":"n";
-        var g=declension["g"];
-        if (g===undefined || g=="x" || g=="n")g=defGender;
-        out+='.g("'+g+'")';
-        var n=declension["n"];
-        if (n===undefined || n=="x")n="s";
-        out+=n!="s"?'.n("'+n+'")':'';
+        // gender
+        let defGender=lemmataLang=="fr"?"m":"n";
+        let dg = declension["g"];
+        if (dg===undefined || dg=="x" || dg=="n")dg=defGender;
+        const outG = '.g("'+dg+'")';
+        // number
+        let dn = declension["n"];
+        if (dn===undefined || dn=="x")dn="s";
+        const outN = '.n("'+dn+'")';
+        // person
+        let outPe=""
         if ("pe" in declension){
             var pe=declension["pe"];
-            out+=(pe!=3?'.pe('+pe+')':'');
+            outPe+='.pe('+pe+')';
         }
+        // ow
+        let outOw="";
         if ("own" in declension){
-            out+='.ow("'+declension["own"]+'")'
+            outOw='.ow("'+declension["own"]+'")'
+        }
+        // combine all
+        if ("tn" in declension){
+            out+=outG + outN + outPe + outOw +`.tn("${declension["tn"]}")`
+        } else if ("c" in declension){
+            out+=outG + outN + outPe + outOw+`.c("${declension["c"]}")`
+        } else {
+            out+=outG + outN + outPe + outOw
         }
         return out;
         break;
@@ -190,7 +209,7 @@ function expandConjugation(lexicon,lemmata,rules,entry,tab,conjug){
 
 function expandDeclension(lexicon,lemmata,rules,entry,pos,tabs){
     // console.log(entry,"tabs",tabs)
-    for (var k = 0; k < tabs.length; k++) {
+    for (var k = 0; k < 1; k++) {// consider only first conjugation
         var tab=tabs[k];
         var rulesDecl=rules["declension"];
         var declension=null;
