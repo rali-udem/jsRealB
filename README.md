@@ -10,7 +10,7 @@ The web is constantly growing and its content, getting progressively more dynami
 
 **jsRealB can also be used in Javascript application** by means of a `node.js` module. It also accepts an input specification in JSON. 
 
-The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html). You can switch language in the upper right corner of the page.
+The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html). You can switch language in the upper right corner of the page. The input specification in JSON is described [here](http://rali.iro.umontreal.ca/JSrealB/current/data/jsRealB-jsonInput.html).
 
 **Caution**
 
