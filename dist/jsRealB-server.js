@@ -24,12 +24,17 @@ http.createServer(function (request, response) {
    var lang = query.lang
    var exp = query.exp
    if (lang=="en"){
-       try{
-           jsExp=eval(exp);
-           var resp=jsExp.toString();
-           response.end(resp+"\n");
-       } catch (e){
-           response.end(e+"\n")
+       try {        
+           if (exp.startsWith("{")){
+               errorType="JSON";
+               sentence=fromJSON(JSON.parse(exp)).toString();
+           } else {
+               errorType="jsRealB expression";
+               sentence=eval(exp).toString();
+           }
+           response.end(sentence+"\n")
+       } catch (e) {
+           response.end(`${e}\nErroneous ${errorType}: ${exp}\n`)
        }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')

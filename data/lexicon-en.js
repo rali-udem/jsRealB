@@ -3336,7 +3336,7 @@ var lexiconEn = //========== lexicon-en.js
                 "V":{"tab":"v3"}},
  "manufacturer":{"N":{"tab":["n1"]}},
  "manuscript":{"N":{"tab":["n1"]}},
- "many":{"Adv":{"tab":["b1"]}},
+ "many":{"A":{"tab":["a1"]}},
  "map":{"N":{"tab":["n1"]},
         "V":{"tab":"v12"}},
  "marathon":{"N":{"tab":["n1"]}},

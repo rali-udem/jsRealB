@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="../documentation/style.css">
 </head>
 <body>
-    <h1>JSON specification of the input to <span class="jsr">jsRealB</span></h1>
+    <h1>JSON use within <span class="jsr">jsRealB</span></h1>
 <h2>Motivation</h2> 
 <p> The input notation to <span class="jsr">jsRealB</span> realizer was originally designed to be a valid JavaScript program that reflects the traditional constituent syntax formalism.  An internal structure is built by <em>Constructor</em>s that create JavaScript objects which can be modified with property functions. The fact that <span class="jsr">jsRealB</span> expressions are JavaScript expressions allows the use of the many development tools available for JavaScript to create and debug the realizer. This also allows a seamless integration in the browser environment.</p>
 
@@ -191,7 +191,11 @@ If the line does not start with a left brace, then it evaluated as a <span class
 echo 'NP(D("a"),N("woman").n("p"))' | node jsRealB-filter.js
 </pre>
 
-<footer style="margin-top: 100px;">Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, Canada. 2020.</footer>
+<h2>JSON output</h2>
+<p>Although our original motivation was for allowing JSON input, it is also possible to get the JSON expression corresponding to a given <span class="jsr">jsRealB</span> expression by calling <code>.toJSON()</code> on any <em>Constituent</em>. This call (similar to <code>.toSource()</code>) creates a string that corresponds to the <span class="jsr">jsRealB</span> expression to which it is applied. In fact, <code>fromJSOM(exp.toJSON())</code> creates a <em>clone</em> of the original <code>exp</code>.</p>
+<p>The expression created by <code>.toJSON()</code> is a single line (<code>jsonl</code> format) which can be hard to decipher. This line  can be given to <code>ppJSON(<em>exp</em>)</code> to create an indented string such as the one shown in the right part of the above table.</p>
+
+<footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2020.</footer>
 
 </body>
 </html>

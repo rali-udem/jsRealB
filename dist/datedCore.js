@@ -6,7 +6,7 @@
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
-var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
+var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage;
@@ -1270,27 +1270,28 @@ Phrase.prototype.processTyp_en = function(types){
         }
         auxils.push(v.lemma);
         // realise the first verb, modal or auxiliary
-        v=auxils.shift();
+        // but make the difference between "have" as an auxiliary and "have" as a verb
+        const vAux=auxils.shift();
         let words=[];
         // conjugate the first verb
         if (neg) { // negate the first verb
-            if (v in negMod){
-                if (v=="can" && t=="p"){
+            if (vAux in negMod){
+                if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(v).pe(1).n(n).t(t))
+                    words.push(V(vAux).pe(1).n(n).t(t))
                     words.push(Adv("not"))
                 }
-            } else if (v=="be" || v=="have") {
-                words.push(V(v).pe(pe).n(n).t(t));
+            } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
+                words.push(V(vAux).pe(pe).n(n).t(t));
                 words.push(Adv("not"));
             } else {
                 words.push(V("do").pe(pe).n(n).t(t));
                 words.push(Adv("not"));
-                if (v != "do") words.push(V(v).t("b")); 
+                if (vAux != "do") words.push(V(vAux).t("b")); 
             }
         } else 
-            words.push(V(v).pe(v in negMod?1:pe).n(n).t(t));
+            words.push(V(vAux).pe(v in negMod?1:pe).n(n).t(t));
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
             v=auxils.shift();
@@ -1638,7 +1639,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
                 this.tab=null;
-                this.realization =`[[${lemma}]];`
+                this.realization =`[[${lemma}]]`;
                 this.warn("not in lexicon");
             } else {
                 const keys=Object.keys(lexInfo);
@@ -5998,7 +5999,7 @@ var lexiconEn = //========== lexicon-en.js
                 "V":{"tab":"v3"}},
  "manufacturer":{"N":{"tab":["n1"]}},
  "manuscript":{"N":{"tab":["n1"]}},
- "many":{"Adv":{"tab":["b1"]}},
+ "many":{"A":{"tab":["a1"]}},
  "map":{"N":{"tab":["n1"]},
         "V":{"tab":"v12"}},
  "marathon":{"N":{"tab":["n1"]}},
@@ -23644,4 +23645,4 @@ Constituent.prototype.warnings = {
 //         N(n).warn(w,"A","B","C")
 //     }
 // }
-jsRealB_dateCreated="2020-04-06 14:12"
+jsRealB_dateCreated="2020-04-14 22:07"

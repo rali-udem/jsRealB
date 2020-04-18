@@ -348,7 +348,7 @@ function getLexiconInfo(word,lang){
     // try with a regular expression
     var res={}
     var regex=new RegExp("^"+word+"$")
-    for (w in lexicon){
+    for (let w in lexicon){
         if (regex.exec(w))res[w]=lexicon[w];
     }
     if (Object.keys(res).length==0)return undefined

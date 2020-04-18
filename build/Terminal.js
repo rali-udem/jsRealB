@@ -74,7 +74,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
                 this.tab=null;
-                this.realization =`[[${lemma}]];`
+                this.realization =`[[${lemma}]]`;
                 this.warn("not in lexicon");
             } else {
                 const keys=Object.keys(lexInfo);
