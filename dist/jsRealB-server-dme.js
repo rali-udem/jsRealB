@@ -20,6 +20,11 @@ console.log(Object.keys(dmeLexicon).length+" lexicon entries")
 updateLexicon(dmeLexicon)
 
 // eval(fs.readFileSync(__dirname+'/addLexicon-dme.js').toString());
+const args=process.argv
+if (args.length>2){
+    eval(fs.readFileSync(args[2]).toString());
+    console.log(args[2]+": loaded")
+}
 
 http.createServer(function (request, response) {
    response.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'});
@@ -28,12 +33,17 @@ http.createServer(function (request, response) {
    var lang = query.lang
    var exp = query.exp
    if (lang=="en"){
-       try{
-           jsExp=eval(exp);
-           var resp=jsExp.toString();
-           response.end(resp+"\n");
-       } catch (e){
-           response.end(e+"\n")
+       try {        
+           if (exp.startsWith("{")){
+               errorType="JSON";
+               sentence=fromJSON(JSON.parse(exp)).toString();
+           } else {
+               errorType="jsRealB expression";
+               sentence=eval(exp).toString();
+           }
+           response.end(sentence+"\n")
+       } catch (e) {
+           response.end(`${e}\nErroneous ${errorType}: ${exp}\n`)
        }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')

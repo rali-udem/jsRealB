@@ -6,7 +6,7 @@
 
 // global variables 
 var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
-var reorderVPcomplements=true; // reorder VP complements by increasing length (experimental flag)
+var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage;

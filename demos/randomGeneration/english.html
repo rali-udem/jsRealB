@@ -1,245 +1,230 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <style type="text/css">
-        button,input,td,label {vertical-align:top}
-        textarea {font-family: monospace;font-size:11pt}
-        </style>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="../../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -/->
-        <script src="../../data/lexicon-fr.js"></script>
-        <script src="../../data/rule-fr.js"></script>
-        <script src="../../data/lexicon-en.js"></script>
-        <script src="../../data/rule-en.js"></script>
-        <script src="../../build/Utils.js"></script>
-        <script src="../../build/Constituent.js"></script>
-        <script src="../../build/Phrase.js"></script>
-        <script src="../../build/Terminal.js"></script>
-        <script src="../../build/Date.js"></script>
-        <script src="../../build/Number.js"></script>
-        <script src="../../build/Warnings.js"></script>
-<!-/- end of separate loading -->
-        <script>
-            var enFrancais=false;
-        </script>
-        <script type="text/javascript" src="generate.js"></script>
-        <title>jsRealB English random generation</title>
-    </head>
-<body>
-    <h1>jsRealB English (random) generation</h1>
-    <table>
-        <tbody><tr>
-            <td>
-                <fieldset>
-                    <legend>Subject</legend>
-                    <table>
-                        <tbody><tr>
-                            <td><label for="det">Determiner</label></td>
-                            <td>
-                                <select name="det" id="det" onchange="" size="1">
-                                    <option value="nil"></option>
-                                    <option value="the">definite</option>
-                                    <option value="a">undefinite</option>
-                                    <!-- <option value="dem">démonstratif</option> -->
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="adj">Adjective</label>
-                            </td>
-                            <td>
-                                <input type="text" name="adj" value="" id="adj" class="ui-autocomplete-input" autocomplete="off">
-                            </td>
-                            <td>
-                                <label for="adjForm">form</label>
-                                <select name="adjForm" id="adjForm">
-                                    <option value="nil"></option>
-                                    <option value="co">comparative</option>
-                                    <option value="su">superlative</option>                                    
-                                </select>
-                            </td>
-                        </tr><tr>
-                            <td><label for="nom">Name</label></td>
-                            <td><input type="text" name="nom" value="" id="nom" class="ui-autocomplete-input" autocomplete="off"></td>
-                        </tr>
-                        
-                        <tr>
-                            <td><label for="pluriel">Plural </label><input type="checkbox" name="pluriel" value="" id="pluriel">
-                            </td>
-                            <td><label for="est-pronom">Pronominalized </label><input type="checkbox" name="est-pronom" value="" id="est-pronom">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="border-top:1px solid black; padding-top:10px">
-                                <label for="personne">Pronoun</label>
-                            </td>
-                            <td style="border-top:1px solid black; padding-top:10px">
-                                <select name="personne" id="personne" onchange="" size="1">
-                                    <option value="nil"></option>
-                                    <option value="1">First</option>
-                                    <option value="2">Second</option>
-                                    <option value="3">Third</option>
-                                </select>
-                                <select name="nombre" id="nombre" size="1">
-                                    <option value="s">singular</option>
-                                    <option value="p">plural</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody></table>
-                </fieldset>
-            </td>
-            <td>
-                <fieldset>
-                    <legend>Verb</legend>
-                    <table>
-                        <tbody><tr>
-                            <td><label for="verbe">Verb</label></td>
-                            <td><input type="text" name="verbe" value="" id="verbe" class="ui-autocomplete-input" autocomplete="off"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="mode">Mode</label></td>
-                            <td>
-                                <select name="mode" id="mode" onchange="changeTemps()" size="1">
-                                    <option value="ind">indicative</option>
-                                    <option value="imp">imperative</option>
-<!--                                     <option value="cont">continuous</option>
-                                    <option value="perf">perfect</option>
-                                    <option value="perfcont">perfect continuous</option> -->
-                                    <!-- <option value="cond">conditional</option>
-                                    <option value="sub">subjonctive</option> -->
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="temps">Time</label></td>
-                            <td>
-                                <select id="temps" size="1"><option value="p">present</option><option value="ps">simple past</option></select>
-                            </td>
-                        </tr>
-					</tr>
-                    </tbody></table>
-                </fieldset>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <fieldset>
-                    <legend>Direct object</legend>
-                    <table>
-                        <tbody><tr>
-                            <td><label for="detOD">Determiner</label></td>
-                            <td>
-                                <select name="detOD" id="detOD" onchange="" size="1">
-                                    <option value="nil"></option>
-                                    <option value="the">definite</option>
-                                    <option value="a">undefinite</option>
-                                    <!-- <option value="dem">démonstratif</option> -->
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="adjOD">Adjective</label>
-                            </td>
-                            <td>
-                                <input type="text" name="adjOD" value="" id="adjOD" class="ui-autocomplete-input" autocomplete="off">
-                                                            
-                            </td>
-                            <td>
-                                <label for="addFormOD">form</label>
-                                <select name="adjFormOD" id="adjFormOD">
-                                    <option value="nil"></option>
-                                    <option value="co">comparative</option>
-                                    <option value="su">superlative</option>                                    
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="nomOD">Name</label></td>
-                            <td><input type="text" name="nomOD" value="" id="nomOD" class="ui-autocomplete-input" autocomplete="off"></td>
-                        </tr>
-                        </tbody>
-                        <tbody><tr>
-                            <td><label for="plurielOD">Plural </label><input type="checkbox" name="plurielOD" value="" id="plurielOD">
-                            </td>
-                            <td><label for="est-pronomOD">Pronominalized </label><input type="checkbox" name="est-pronomOD" value="" id="est-pronomOD">
-                            </td>
-                        </tr></tbody>
-                    </table>
-                </fieldset>
-            </td>
-            <td>
-                <fieldset>
-                    <legend>Indirect Object</legend>
-                    <table>
-                        <tbody><tr>
-                            <td><label for="prepOI">Preposition</label></td>
-                            <td><input type="text" name="prepOI" value="" id="prepOI" class="ui-autocomplete-input" autocomplete="off"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="detOI">Determiner</label></td>
-                            <td>
-                                <select name="detOI" id="detOI" onchange="" size="1">
-                                    <option value="nil"></option>
-                                    <option value="the">definite</option>
-                                    <option value="a">undefinite</option>
-                                    <!-- <option value="dem">démonstratif</option> -->
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="adjOI">Adjective</label>
-                            </td>
-                            <td>
-                                <input type="text" name="adjOI" value="" id="adjOI" class="ui-autocomplete-input" autocomplete="off">
-                            </td>
-                            <td>
-                                <label for="adjFormOI">form</label>
-                                <select name="adjFormOI" id="adjFormOI">
-                                    <option value="nil"></option>
-                                    <option value="co">comparative</option>
-                                    <option value="su">superlative</option>                                    
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="nomOI">Name</label></td>
-                            <td><input type="text" name="nomOI" value="" id="nomOI" class="ui-autocomplete-input" autocomplete="off"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="plurielOI">Plural</label><input type="checkbox" name="plurielOI" value="" id="plurielOI">
-                            </td>
-                            <td><label for="est-pronomOI">Pronominalized </label><input type="checkbox" name="est-pronomOI" value="" id="est-pronomOI">
-                            </td>
-                        </tr>
-                    </tbody></table>
-                </fieldset>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"><fieldset>
-                <legend>Sentence type</legend>
-                <form>
-                    <input type="checkbox" name="negation" id="negation">Negation
-                    <input type="checkbox" name="contraction" id="contraction">Contraction
-                    <input type="checkbox" name="passive" id="passive">Passive
-                    <input type="checkbox" name="perfect" id="perfect">Perfect
-					<input type="checkbox" name="progressive" id="progressive">Progressive
-				    <input type="checkbox" id="excForm" name="Form" value="exc">Exclamative
-                    <select name="modSpec" id="modSpec" onchange="" size="1">
-                        <option value="base">* Modality *</option>
+<!DOCTYPE html>
+<!-- adapté de https://www.quackit.com/bootstrap/bootstrap_4/tutorial/getting_started_with_bootstrap.cfm -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- Viewport Meta Tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- jQuery library -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- Tether -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <!-- Latest Bootstrap compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+    <script src="typeahead.bundle.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+    <script>
+        var enFrancais=false;
+    </script>
+    <script type="text/javascript" src="generate.js"></script>
+    <script>
+        function showNP(header,suffix,firstElem){
+            return`
+<div class="card card-body mt-2">
+<div class="card-header align-items-center d-flex" id="header${suffix}" style="height:2em">
+  <h2 class="mb-0">
+    <button type="button" class="btn-lg btn-link" data-toggle="collapse"data-target="#collapse${suffix}"
+            title="Click to see the components">
+        ${header}
+    </button>
+  </h2>
+</div>
+<div id="collapse${suffix}" class="collapse">
+    ${firstElem}
+<div class="row">
+    <legend class="col-form-label col-2 ml-4">Determiner</legend>
+    <div class="col-3 form-inline">
+        <div class="form-check mr-sm-3">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="det${suffix}" id="detNone${suffix}" 
+                       value="nil" checked="checked"> 
+                none
+            </label>
+        </div>
+        <div class="form-check mr-sm-2">
+            <label class="form-check-label">
+                  <input class="form-check-input" type="radio" 
+                   name="det${suffix}" id="detDef${suffix}" value="the"> 
+                 definite
+            </label>
+        </div>
+        <div class="form-check mr-sm-2">
+            <label class="form-check-label">
+                 <input class="form-check-input" type="radio" name="det${suffix}" 
+                         id="detIndef${suffix}" value="a"> 
+                indefinite
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <legend class="col-form-label col-2 ml-4">Adjective</legend>
+    <div class="col-2">
+        <input type="text" name="adj-search" value="" id="adj${suffix}" placeholder="adjective"
+               class="form-control typeahead tt-query" autocomplete="off">
+    </div>
+    <div class="form-inline col-4">
+        <div class="form-check mr-sm-3">
+            <label class="form-check-label">
+                 <input class="form-check-input" type="radio" name="adjForm${suffix}" 
+                       id="adjFormNone${suffix}" value="nil" checked="checked"> 
+                     base
+            </label>
+        </div>
+        <div class="form-check mr-sm-2">
+            <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="adjForm${suffix}" 
+                          id="adjFormco${suffix}" value="co"> 
+                     comparative
+           </label>
+        </div>
+        <div class="form-check mr-sm-2">
+            <label class="form-check-label">
+                   <input class="form-check-input" type="radio" 
+                          name="adjForm${suffix}" id="detIndef${suffix}" value="su">
+                     superlative
+            </label>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <legend class="col-form-label col-2 ml-4">Noun</legend>
+    <div class="col-2"><!-- ajoute -search pour empêcher l'autocomplete dans Safari... -->
+        <input type="text" name="nom-search" value="" id="nom${suffix}" placeholder="noun" 
+               class="form-control typeahead tt-query" autocomplete="off">
+    </div>
+    <div class="form-inline">
+        <div class="form-check mr-sm-3">
+            <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" name="nounPlural" 
+                         id="nounPlural${suffix}" value="nil" selected="selected"> 
+                  plural
+            </label>
+        </div>
+        <div class="form-check mr-sm-2">
+            <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" name="nounPron" 
+                       id="nounPron${suffix}" value="the"> 
+                  pronominalized
+            </label>
+        </div>
+        <div class="form-check mr-sm-2  ml-5">
+            <label class="form-check-label" 
+                   title="When this is checked, Determiner, Adjective and Noun are ignored">
+                  <input class="form-check-input" type="checkbox" name="usePron" 
+                       id="usePron${suffix}" value="the"> 
+                  <strong style="font-size:larger">Use pronoun</strong>
+            </label>
+        </div>
+        <select class="custom-select ml-2" id="pers${suffix}">
+            <option value="1">1st</option>
+            <option value="2">2nd</option>
+            <option value="3" selected >3rd</option>
+        </select>                        
+        <select class="custom-select ml-2" id="number${suffix}">
+            <option value="s" selected>singular</option>
+            <option value="p">plural</option>
+        </select>                        
+        <select class="custom-select ml-2" id="gender${suffix}">
+            <option value="m" selected>masculine</option>
+            <option value="f">feminine</option>
+            <option value="n">neutral</option>
+        </select>
+    </div>                       
+</div>
+</div>
+</div>
+`}
+    </script>
+    <title>jsRealB English random generation</title>
+    <link rel="stylesheet" href="generate.css">
+  </head>
+<div class="container pt-3">
+    <div class="row">
+        <div class="col-12">
+            <h1> jsRealB sentence generation demo </h1>
+            <ul>
+                <li>Select the sentence constituents (the <em>expandable</em> building blocks) in the options below;</li>
+                <li>Click <strong>Realize sentence</strong> to have jsRealB realize an affirmative sentence accordingly;</li>
+                <li>The affirmative sentence can be modified by checking boxes in the <strong>Sentence types</strong> block.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <script>document.write(showNP("Subject","",""))</script>
+            <div class="row mt-2 ml-4">
+                <h2 class="col-form-label col-2">Verb</h2>
+                <div class="col-2">
+                    <input type="text" name="verbe-search" value="" id="verbe" placeholder="verb" 
+                           class="form-control typeahead tt-query" autocomplete="off">
+                </div>
+                <select class="custom-select" id="mode">
+                      <option value="ind">Indicative</option>
+                      <option value="imp">Imperative</option>
+                </select>                        
+                <select class="custom-select col-2" id="tense">
+                      <option value="p">Present</option>
+                      <option value="ps">Simple Past</option>
+                </select>
+            </div>
+            <script>document.write(showNP("Direct object","OD",""))</script>
+            <script>document.write(showNP("Indirect object","OI",
+                `<div class="row">
+                    <legend class="col-form-label col-2  ml-4">Preposition</legend>
+                    <div class="col-2">
+                        <input type="text" name="prepOI-search" value="" id="prepOI" placeholder="preposition"
+                                class="form-control typeahead tt-query" autocomplete="off">
+                    </div>
+                </div>`
+            ))</script>
+            <div class="card card-body mt-2">
+                <div class="card-header  align-items-center d-flex" id="header${suffix}" style="height:2em">
+                  <h2 class="mb-0">
+                    <button type="button" class="btn-lg btn-link" data-toggle="collapse"
+                            data-target="#collapseTypes" title="Click to show sentence modifications">
+                        Sentence types
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseTypes" class="collapse">
+                <div class="row">
+                    <label class="form-check-label ml-4">
+                        <input class="form-check-input" type="checkbox" name="negation" id="negation" value="nil">
+                        Negation
+                    </label>
+                    <label class="form-check-label ml-2">
+                        <input class="form-check-input" type="checkbox" name="contraction" id="contraction" value="nil">
+                        Contraction
+                    </label>
+                    <label class="form-check-label ml-2">
+                        <input class="form-check-input" type="checkbox" name="passive" id="passive" value="nil">
+                        Passive
+                    </label>
+                    <label class="form-check-label ml-2">
+                        <input class="form-check-input" type="checkbox" name="perfect" id="perfect" value="nil">
+                        Perfect
+                    </label>
+                    <label class="form-check-label ml-2">
+                        <input class="form-check-input" type="checkbox" name="progressive" id="progressive" value="nil">
+                        Progressive
+                    </label>
+                    <label class="form-check-label ml-2">
+                        <input class="form-check-input" type="checkbox" name="exclamative" id="exclamative" value="nil">
+                        Exclamative
+                    </label>
+                    <select class="custom-select col-2 ml-2" id="modSpec">
+                        <option value="base" selected>* Modality *</option>
                         <option value="poss">Possibility</option>
                         <option value="perm">Permission</option>
                         <option value="nece">Necessity</option>
                         <option value="obli">Obligation</option>
                         <option value="will">Willingness</option>
-                    </select>
-                    <select name="intSpec" id="intSpec" onchange="" size="1">
-                        <option value="base">* Interrogation *</em></option>
+                    </select>                        
+                    <select class="custom-select col-2 ml-2" id="intSpec">
+                        <option value="base" selected>* Interrogative *</option>
                         <option value="yon">Yes/No</option>
                         <option value="wos">Who(subject)</option>
                         <option value="wod">Who(direct object)</option>
@@ -250,31 +235,57 @@
                         <option value="whn">When</option>
                         <option value="how">How</option>
                         <option value="muc">How much</option>
-                    </select>
-                </form>
-                </fieldset>
-            </td>
-        </tr>
-    </tbody></table>
-    <table>
-        <tbody><tr>
-            <td><p><input type="button" name="aleatoire" value="Random sentence" id="aleatoire" style="color:blue;"></p></td>
-        </tr>
-        <tr>
-            <td><label for="realisation">Realization </label></td>
-            <td><textarea rows="2" cols="80" id="realisation"></textarea></td>
-            <td><input type="button" name="realiser" value="Realize" id="realiser"
-                    title="Create a jsReal structure from the choices above and realize it in the box on the left"><br></td>
-        </tr> 
-        <tr>
-            <td><label for="jsreal">jsRealB code</label></td>
-            <td><textarea rows="10" cols="80" id="jsreal"></textarea></td>
-            <td><input type="button" name="evaluer" value="Evaluate" id="evaluer"
-                    title="Evaluate the jsRealB structure in the box on the left and show its realisation in the box above"></td>
-        </tr>
-    </tbody></table>
-    <p>This demo is an adaptation of the <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/snlgbil/snlgEnFr_francais.html" title="SimpleNLG-EnFr">SimpleNLG-ENfr</a> demo written by <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/" title="Fiche d'information de Pierre-Luc Vaudry">Pierre-Luc Vaudry</a></p>
-<p><a href="french.html"><em>Version française de la démo</em></a></p>
-
-
-<ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-1" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-2" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-3" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-4" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-5" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-6" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-7" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span><ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content" id="ui-id-8" tabindex="0" style="display: none;"></ul><span role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></span></body></html>
+                    </select>                        
+                </div>
+                </div>
+            </div>
+        <div>
+    </div>
+    <div class="row mt-2" >
+        <div class="col-12 text-center">
+            <input type="button" class="btn btn-primary btn mx-5" name="aleatoire" 
+                   value="Realize sentence" id="realiser">
+            <input type="button" class="btn btn-primary btn mx-5" name="aleatoire" 
+                   value="Random sentence" id="aleatoire">
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="input-group">
+              <div class="input-group-prepend col-2">
+                <h4 class="input-group-text">Realized sentence</h4>
+              </div>
+              <textarea class="form-control" readonly id="realisation"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12 text-center">
+            <h4>The constituents you picked above have the following representations for jsRealB</h4>
+        </div>
+        <div class="card cardBody inline col-5">
+              <h2>JavaScript</h2>
+              <textarea class="form-control" rows="10" id="jsreal"></textarea>
+              <input type="button" class="btn btn-primary" name="aleatoire" 
+                     value="Realize JavaScript" id="realiserJS">
+        </div>
+        <div class="card cardBody inline col-7">
+              <h2>JSON</h2>
+              <textarea class="form-control" rows="10" id="json"></textarea>
+              <input type="button" class="btn btn-primary" name="aleatoire" 
+                     value="Realize JSON" id="realiserJSON">
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <p> You can edit one of them. Hitting the corresponding <em>realize</em> button 
+                will show the modified sentence and update the other view. This does not change 
+                the original specifications.</p>
+        </div>
+    </div>
+    <div class="footer">
+        <em>Demonstration adapted from <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/snlgbil/snlgEnFr_francais.html" title="SimpleNLG-EnFr">SimpleNLG-Enfr</a> réalisée par <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/" title="Fiche d'information de Pierre-Luc Vaudry">Pierre-Luc Vaudry</a></em> [<a href="French.html">Version française</a>]<br/>
+        <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a>
+    </div>
+    
+</div>

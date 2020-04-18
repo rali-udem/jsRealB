@@ -627,27 +627,28 @@ Phrase.prototype.processTyp_en = function(types){
         }
         auxils.push(v.lemma);
         // realise the first verb, modal or auxiliary
-        v=auxils.shift();
+        // but make the difference between "have" as an auxiliary and "have" as a verb
+        const vAux=auxils.shift();
         let words=[];
         // conjugate the first verb
         if (neg) { // negate the first verb
-            if (v in negMod){
-                if (v=="can" && t=="p"){
+            if (vAux in negMod){
+                if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(v).pe(1).n(n).t(t))
+                    words.push(V(vAux).pe(1).n(n).t(t))
                     words.push(Adv("not"))
                 }
-            } else if (v=="be" || v=="have") {
-                words.push(V(v).pe(pe).n(n).t(t));
+            } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
+                words.push(V(vAux).pe(pe).n(n).t(t));
                 words.push(Adv("not"));
             } else {
                 words.push(V("do").pe(pe).n(n).t(t));
                 words.push(Adv("not"));
-                if (v != "do") words.push(V(v).t("b")); 
+                if (vAux != "do") words.push(V(vAux).t("b")); 
             }
         } else 
-            words.push(V(v).pe(v in negMod?1:pe).n(n).t(t));
+            words.push(V(vAux).pe(v in negMod?1:pe).n(n).t(t));
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
             v=auxils.shift();

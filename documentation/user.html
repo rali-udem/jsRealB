@@ -126,7 +126,7 @@
                        <li><code>nom</code> for the nominative</li>
                        <li><code>acc</code> for the accusative (direct object)</li>
                        <li><code>dat</code> for the dative (indirect object)</li>
-                       <li><code>geb</code> for the genitive (noun complement)</li>
+                       <li><code>gen</code> for the genitive (noun complement)</li>
                    </ul>
                </li>
            </ul>
@@ -322,10 +322,10 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 <p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
 
-<h2 lang="fr" id="entreeJSON">Entrée en JSON</h2><h2 lang="en" id="JSONinput">JSON input</h2>
-<p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealb-jsonInput.html">décrit dans ce document (en anglais)</a>.
+<h2 lang="fr" id="traitementsJSON">Traitements en JSON</h2><h2 lang="en" id="JSONprocessing">JSON processing</h2>
+<p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealb-jsonInput.html">décrit dans ce document (en anglais)</a>. Il est également possible d"obtenir une expression JSON correspondant à une expression <code>jsRealB</code>.
 </p>
-<p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealb-jsonInput.html">It is described in this document.</a>.
+<p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealb-jsonInput.html">It is described in this document.</a>. It is also possible to obtain the JSON expression corresponding to a given <code>jsRealB</code> expression.
 </p>
 <!-- *** Informations complémentaires *** -->
     <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
@@ -344,6 +344,6 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
     </li>
 </ul>
 
-<footer>Contact: <a href="lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2018.</footer>
+<footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2018.</footer>
 </body>
 </html>
