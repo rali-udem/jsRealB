@@ -8,7 +8,7 @@ demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Da
 		demos/KilometresAPied/index.html \
 		demos/PetitChaperonRouge/LittleRedRidingHood.html demos/PetitChaperonRouge/PetitChaperonRouge.html \
 		demos/Pronoms/index.html \
-		demos/randomGeneration/french.html demos/randomGeneration/english.html \
+		demos/randomGeneration/French.html demos/randomGeneration/English.html \
 		demos/VariantesDePhrases/index.html \
 		documentation/user.html \
 		Tutorial/tutorial.html \
