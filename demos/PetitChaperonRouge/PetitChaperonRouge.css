@@ -22,10 +22,14 @@
     color: black; 
     background-color: white;
 }
+
 .texte:hover {
-    border-bottom: 1px solid;
-    color:blue;
+    text-decoration: underline;
+    text-decoration-color: black;
+    color: blue;
+    cursor: default;
 }
+
 .texte:hover span.tt { 
     visibility: visible;
 }

@@ -231,9 +231,9 @@
             <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant. Ces fonctions retournent le nouveau dictionnaire chargé.</div><div lang="en">These functions can be called as often as necessary to change the current language. Each call returns the last loaded dictionary.</div>
 		</dd>
         
-<p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">répertoire</a>.</p>
+<p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://github.com/rali-udem/jsRealB/tree/master/dist">répertoire</a>.</p>
 <p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element. But you can also get <i>minified</i> versions from <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">this directory</a>.</p>
-    <p lang="fr">Des exemples d'intégration dans une page web peuvent être trouvés à la section <em>Démonstrations</em> de <a href="http://rali.iro.umontreal.ca/JSrealB/current/">cette page</a></p>
+    <p lang="fr">Des exemples d'intégration dans une page web peuvent être trouvés à la section <em>Démonstrations</em> de <a href="http://rali.iro.umontreal.ca/JSrealB/current/documentation/in_action/LISEZMOI.html">cette page</a></p>
     <p lang="en">Examples of web page integration can be found at the <em>Demonstrations</em> section of <a href="http://rali.iro.umontreal.ca/JSrealB/current/">this page</a></p>
 
 
@@ -321,6 +321,7 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 </p>
 <p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
+
 
 <h2 lang="fr" id="traitementsJSON">Traitements en JSON</h2><h2 lang="en" id="JSONprocessing">JSON processing</h2>
 <p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealb-jsonInput.html">décrit dans ce document (en anglais)</a>. Il est également possible d"obtenir une expression JSON correspondant à une expression <code>jsRealB</code>.
