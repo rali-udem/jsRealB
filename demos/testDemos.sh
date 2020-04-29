@@ -37,8 +37,8 @@ allDemos=(  99BottlesOfBeer/index.html \
             PetitChaperonRouge/LittleRedRidingHood.html \
             PetitChaperonRouge/PetitChaperonRouge.html \
             Pronoms/index.html \
-            randomGeneration/french.html \
-            randomGeneration/english.html \
+            randomGeneration/French.html \
+            randomGeneration/English.html \
             VariantesDePhrases/index.html )
 
 for demo in ${allDemos[*]}

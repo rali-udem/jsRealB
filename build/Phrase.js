@@ -440,7 +440,8 @@ Phrase.prototype.passivate = function(){
             newSubject=obj;
             this.elements.unshift(newSubject); // add object that will become the subject
             newSubject.parentConst=this;       // adjust parentConst
-            this.agreesWith=newSubject;
+            // make the verb agrees with the new subject (in English only, French is dealt below)
+            if (this.isEn())this.agreesWith.agreesWith=newSubject; 
             if (subject!=null){   // insert subject where the object was
                 vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by"),subject)); 
                 subject.parentConst=vp; // adjust parentConst
@@ -571,9 +572,10 @@ Phrase.prototype.processTyp_en = function(types){
     const idxV=vp.getIndex("V");
     if(idxV>=0){
         let v = vp.elements[idxV];
-        const pe = this.getProp("pe");
-        const g=this.getProp("g");
-        const n = this.getProp("n");
+        const vAgreesWith=v.agreesWith;
+        // const pe = this.getProp("pe");
+        // const g=this.getProp("g");
+        // const n = this.getProp("n");
         let t = vp.getProp("t");
         const neg = types["neg"]===true;
         // English conjugation 
@@ -636,19 +638,24 @@ Phrase.prototype.processTyp_en = function(types){
                 if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(vAux).pe(1).n(n).t(t))
+                    words.push(V(vAux).t(t))
                     words.push(Adv("not"))
                 }
             } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
-                words.push(V(vAux).pe(pe).n(n).t(t));
+                words.push(V(vAux).t(t));
                 words.push(Adv("not"));
             } else {
-                words.push(V("do").pe(pe).n(n).t(t));
+                words.push(V("do").t(t));
                 words.push(Adv("not"));
                 if (vAux != "do") words.push(V(vAux).t("b")); 
             }
-        } else 
-            words.push(V(vAux).pe(v in negMod?1:pe).n(n).t(t));
+        } else { // must only set necessary options, so that agreesWith links will work ok
+            let newAux=V(vAux);
+            if (!isFuture)newAux.t(t);
+            if (v in negMod)newAux.pe(1);
+            words.push(newAux);
+        }
+        words[0].agreesWith=vAgreesWith; // recover the original agreement links and set it to the first new verb...
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
             v=auxils.shift();

@@ -63,6 +63,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         break;
     case "N": case "A": case "Pro": case "D": case "V": case "Adv": case "C": case "P":
         if (lemmaType != "string"){
+            this.tab=null;
+            this.realization =`[[${lemma}]]`;
             return this.warn("bad parameter","string",lemmaType)
         }
         let lexInfo=this.getLexicon()[lemma];
@@ -378,15 +380,19 @@ Terminal.prototype.conjugate_en = function(){
     const conjugation=this.getRules().conjugation[this.tab].t[t];
     switch (t) {
     case "p": case "ps":
-        if (typeof conjugation == "string"){
-            return this.stem+conjugation;
-        }
-        if (n=="p"){pe+=3};
-        const term=conjugation[pe-1];
-        if (term==null){
-            return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})
+        if (conjugation!==undefined){
+            if (typeof conjugation == "string"){
+                return this.stem+conjugation;
+            }
+            if (n=="p"){pe+=3};
+            const term=conjugation[pe-1];
+            if (term==null){
+                return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})
+            } else {
+                return this.stem+term;
+            }
         } else {
-            return this.stem+term;
+            return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
         }
     case "f":
         return "will "+this.lemma;
@@ -397,7 +403,6 @@ Terminal.prototype.conjugate_en = function(){
     default:
         return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
     }
-    
 }
 
 Terminal.prototype.conjugate = function(){
