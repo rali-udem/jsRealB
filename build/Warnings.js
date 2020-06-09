@@ -170,10 +170,10 @@ Constituent.prototype.warnings = {
     "bad Constituent":
         {en:(rank,type)=> // the $rank parameter is not Constituent.
             S(NP(D("the"),Q(rank),N("parameter")),
-              VP(V("be"),Q("Constituent"))).typ({neg:true}),
+              VP(V("be"),Q("Constituent"),Adv("but"),Q(type))).typ({neg:true}),
          fr:(rank,type)=> // le $rank paramètre n'est pas Constituent.
             S(NP(D("le"),Q(rank),N("paramètre")),
-              VP(V("être"),Q("Constituent"))).typ({neg:true})},
+              VP(V("être"),Q("Constituent"),Adv("mais"),Q(type))).typ({neg:true})},
     "too many parameters":
         {en:(termType,number)=> // $termType accepts one parameter, but has $number.
              S(Q(termType),CP(C("but"),

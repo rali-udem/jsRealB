@@ -21,21 +21,40 @@ http.createServer(function (request, response) {
    response.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'});
    var req = url.parse(request.url, true);
    var query = req.query;
-   var lang = query.lang
-   var exp = query.exp
+   var lang  = query.lang
+   var exp   = query.exp
    if (lang=="en"){
-       try {        
-           if (exp.startsWith("{")){
-               errorType="JSON";
-               sentence=fromJSON(JSON.parse(exp)).toString();
-           } else {
-               errorType="jsRealB expression";
-               sentence=eval(exp).toString();
-           }
-           response.end(sentence+"\n")
-       } catch (e) {
-           response.end(`${e}\nErroneous ${errorType}: ${exp}\n`)
-       }
+        let errorType,sentence;
+        try {        
+            if (exp.startsWith("{")){
+                errorType="JSON";
+                jsonExp=JSON.parse(exp);
+                if (jsonExp["lang"]){ // check specified language in the JSON
+                    if (jsonExp["lang"]!=lang){
+                        response.end("specified language should be "+lang+" not "+jsonExp["lang"]);
+                        jsonExp["lang"]=lang;
+                    } else {
+                        jsonExp["lang"]=lang;
+                    }
+                }
+                sentence=fromJSON(jsonExp).toString();
+            } else {
+                errorType="jsRealB expression";
+                sentence=eval(exp).toString();
+            }
+            response.end(sentence)
+        } catch (e) {
+            response.end(`${e}\nErroneous realization from ${errorType}`)
+            if (errorType=="JSON"){
+                try { // pretty-print if possible... i.e. not a JSON error
+                    response.end(ppJSON(JSON.parse(input)))
+                } catch(e){ // print line as is
+                    response.end(input);
+                }
+            } else {
+                response.end(input)
+            }
+        }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')
    }

@@ -13,7 +13,15 @@ const phrases   = ["S", "NP", "AP", "VP", "AdvP", "PP", "CP", "SP"];
 // create expression from a JSON structure
 function fromJSON(json,lang){
     if (typeof json == "object" && !Array.isArray(json)){
-        let lang1 = json["lang"] || lang || currentLanguage ;
+        if (json["lang"]){
+            if (json["lang"]=="en")     lang="en";
+            else if (json["lang"]=="fr")lang="fr";
+            else {
+                console.log("FromJSON: lang should be 'en' or 'fr', not "+json["lang"]+" 'en' will be used");
+                lang="en";
+            }
+        }
+        let lang1 = lang || currentLanguage ;
         if ("phrase" in json) {
             const constType=json["phrase"];
             if (contains(phrases,constType)){
@@ -30,7 +38,7 @@ function fromJSON(json,lang){
             }
         }
     } else {
-        console.log("fromJSON: object expected, but found "+typeof json)
+        console.log("fromJSON: object expected, but found "+typeof json+":"+JSON.stringify(json))
     }
 }
 
@@ -64,10 +72,10 @@ Phrase.fromJSON = function(constType,json,lang){
             setJSONprops(phrase,json);
             return phrase;
         } else {
-            console.log("Phrase.fromJSON: elements should be an array")
+            console.log("Phrase.fromJSON: elements should be an array:"+JSON.stringify(json))
         }
     } else {
-        console.log("Phrase.fromJSON: no elements found")
+        console.log("Phrase.fromJSON: no elements found in "+JSON.stringify(json))
     }
 }
 
@@ -78,7 +86,7 @@ Terminal.fromJSON = function(constType,json,lang){
         setJSONprops(terminal,json)
         return terminal;
     } else {
-        console.log("Terminal.fromJSON: no lemma found");
+        console.log("Terminal.fromJSON: no lemma found in "+JSON.stringify(json));
     }
 }
 

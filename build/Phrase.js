@@ -27,7 +27,7 @@ function Phrase(elements,constType,lang){
                 this.elements.push(e);
                 this.elementsSource.push(e);
             } else {
-                this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"")
+                this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"",typeof e+":"+JSON.stringify(e))
             }
         }
         // terminate the list with add which does other checks on the final list
@@ -43,7 +43,7 @@ Phrase.prototype.add = function(constituent,position,prog){
         constituent=Q(constituent);
     }
     if (!(constituent instanceof Constituent)){
-        return this.warn("bad Constituent",this.isFr()?"dernier":"last")
+        return this.warn("bad Constituent",this.isFr()?"dernier":"last",typeof constituent+":"+JSON.stringify(constituent))
     }
     if (prog===undefined){// real call to .add 
         this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
@@ -441,7 +441,9 @@ Phrase.prototype.passivate = function(){
             this.elements.unshift(newSubject); // add object that will become the subject
             newSubject.parentConst=this;       // adjust parentConst
             // make the verb agrees with the new subject (in English only, French is dealt below)
-            if (this.isEn())this.agreesWith.agreesWith=newSubject; 
+            if (this.isEn() && this.agreesWith !== undefined){
+                this.agreesWith.agreesWith=newSubject;
+            } 
             if (subject!=null){   // insert subject where the object was
                 vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by"),subject)); 
                 subject.parentConst=vp; // adjust parentConst
