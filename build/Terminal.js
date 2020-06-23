@@ -35,6 +35,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
         terminalType=this.constType;
     this.lemma=lemma;
+    if (this.peng===undefined) this.initProps(); // setLemma can be used on an already initialized value
     var lemmaType= typeof lemma;
     switch (terminalType) {
     case "DT":
@@ -100,8 +101,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                         }
                     } else { // copy other key as property
                         let info=lexInfo[key]
-                        if (typeof info === "object" && info.length==1)info=info[0]
-                        this.props[key]=info
+                        if (typeof info === "object" && info.length==1)info=info[0];
+                        this.setProp(key,info);
                     }
                 }
             }
@@ -184,7 +185,11 @@ const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
 Terminal.prototype.decline = function(setPerson){
     const g=this.getProp("g");
     const n=this.getProp("n");
-    const pe=setPerson?+this.getProp("pe"):3;
+    let pe=3;
+    if (setPerson){
+        let p=this.getProp("pe");
+        pe = p===undefined ? 3 : +p;
+    }
     const rules=this.getRules();
     let declension=rules.declension[this.tab].declension;
     let res=null;
@@ -259,15 +264,18 @@ Terminal.prototype.decline = function(setPerson){
                     // HACK:remove defaults from pronoun such as "moi" in French and "me" in English
                     //      because their definition is special in order to try to keep some upward compatibility
                     //      with the original way of specifying the pronouns
-                    if (this.props["g"] ===undefined)delete keyVals["g"];
-                    if (this.props["n"] ===undefined)delete keyVals["n"];
+                    if (this.getProp("g") ===undefined)delete keyVals["g"];
+                    if (this.getProp("n") ===undefined)delete keyVals["n"];
                     // make sure it matches the first and set the property for verb agreement
-                    if (this.props["pe"]===undefined)keyVals["pe"]=this.props["pe"]=1; 
+                    if (c=="nom" || tn==""){
+                        keyVals["pe"]=1;
+                        this.setProp("pe",1);
+                    } 
                 } else { // set person
                     const d0=declension[0];
-                    this.props["g"] = d0["g"] || g;
-                    this.props["n"] = d0["n"] || n
-                    this.props["pe"]= keyVals["pe"] = d0["pe"] || 3;
+                    this.setProp("g", d0["g"] || g);
+                    this.setProp("n", d0["n"] || n);
+                    this.setProp("pe",keyVals["pe"] = d0["pe"] || 3);
                 }
             } else { // no c, nor tn set tn to "" except for "on"
                 if(this.lemma!="on")keyVals["tn"]="";
@@ -284,7 +292,8 @@ Terminal.prototype.decline = function(setPerson){
                 return this.morphoError(this.lemma,this.constType,"absent du lexique",{g:g,n:n});
             } 
             if (lexiconG != "x" && lexiconG != g) {
-                return this.morphoError(this.lemma,this.constType,"genre différent de celui du lexique",{g:g, lexique:lexiconG})
+                return this.morphoError(this.lemma,this.constType,
+                    "genre différent de celui du lexique",{g:g, lexique:lexiconG})
             }
         }
         res = this.stem+ending;
@@ -303,14 +312,18 @@ Terminal.prototype.conjugate_fr = function(){
     switch (t) {
     case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
-        const aux=this.props["aux"];
-        const v=V("avoir").pe(pe).n(n).t(tempsAux);
+        // const aux=this.getProp("aux");
+        // const v=V("avoir").pe(pe).n(n).t(tempsAux);
+        const v=V("avoir");
+        v.peng=this.peng;
+        v.taux=this.taux;
+        v.taux["t"]=tempsAux;
         neg=this.neg2;
         if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
             v.neg2=neg;
             delete this.neg2
         }
-        if (aux=="êt"){
+        if (v.taux["aux"]=="êt"){
             v.setLemma("être");
             return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
         } else {

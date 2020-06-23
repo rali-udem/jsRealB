@@ -134,7 +134,7 @@ var exemplesFr=[
         "2,4 livres"],
     [NP(NO(2), A("rouge"),N("avion")),
         "2 avions rouges"],
-    [N("pomme").g("w"), 
+    [N("pomme").g("w"),
         "pomme"],
     [S(Pro("lui").c("nom"),
       VP(V("donner").t("pc"),
@@ -196,10 +196,11 @@ function checkAllEx(exemples){
     let nbDiffs=0;
     for (var i=0;i<nb;i++){
         const exp=exemples[i][0];
+        // console.log(exp.toSource());
         const gen=exp.toString();
         const expected=exemples[i][1];
         if (expected!==null && gen!=expected){
-            console.log("%s\n ==> %s\n *** %s",exp.toSource(),gen,expected)
+            console.log("%s\n => %s\n *** %s",exp.toSource(),gen,expected)
             nbDiffs++;
         }
     }
@@ -234,11 +235,11 @@ function checkAllExJSON(exemples){
 loadFr();
 // testAllEx(showEx,exemplesFr)
 // testAllEx(showToSource,exemplesFr)
-// checkAllEx(exemplesFr);
-checkAllExJSON(exemplesFr);
+checkAllEx(exemplesFr);
+// checkAllExJSON(exemplesFr);
 
 loadEn();
 // // testAllEx(showEx,exemplesEn)
 // // testAllEx(showToSource,exemplesEn)
-// checkAllEx(exemplesEn);
-checkAllExJSON(exemplesEn);
+checkAllEx(exemplesEn);
+// checkAllExJSON(exemplesEn);

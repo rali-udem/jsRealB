@@ -5,7 +5,7 @@
 "use strict";
 
 // global variables 
-var exceptionOnWarning=false;  // throw an exception on Warning instead of merely write on the console
+var exceptionOnWarning=false;  // throw an exception on Warning instead of only writing on the console
 var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
@@ -41,35 +41,47 @@ Constituent.prototype.isEn = function(){return this.lang=="en"}
 Constituent.prototype.getRules   = function(){return this.isFr()?ruleFr:ruleEn}
 Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
 
-
-
-// get the property by following the "agreesWith" links, but keeping track of last verb 
-// in case of "tense" so that it does not take the "default" tense of the subject...
+// get the value of a property by first checking the special shared properties
 Constituent.prototype.getProp = function(propName){
-    // check for specific property on this element
-    const val = this.props[propName];
-    if (val !== undefined) return val ; 
-    // follow the agreement list
-    let lastVerb;
-    let current=this;
-    let next=current.agreesWith;
-    while (next !== undefined){
-        if (current.isOneOf(["V","VP"]))lastVerb=current;
-        current=next;
-        next=next.agreesWith;
+    if (propName=="pe" || propName=="n" || propName=="g"){
+        return this.peng===undefined ? undefined : this.peng[propName];
     }
-    if (current.isOneOf(["V","VP"]))lastVerb=current;
-    if (propName=="t" && lastVerb !== undefined)return lastVerb.props["t"] || defaultProps[this.lang]["t"]
-    return current.props[propName] || defaultProps[this.lang][propName] 
+    if (propName=="t" || propName=="aux"){
+        return this.taux===undefined ? undefined : this.taux[propName];
+    }
+    return this.props[propName];
 }
 
-// get the property in the first surrounding sentence (S or SP)
-Constituent.prototype.getSentProp = function(propName){
-    const value=this.props[propName];
-    if (value!==undefined) return value;
-    if (this.parentConst==null || this.constType=="S" || this.constType=="SP")
-        return undefined;
-    return this.parentConst.getSentProp(propName);
+Constituent.prototype.setProp = function(propName,val){
+    if (propName=="pe" || propName=="n" || propName=="g"){
+        this.peng[propName]=val;
+    } else if (propName=="t" || propName=="aux"){
+        this.taux[propName]=val;
+    } else 
+        this.props[propName]=val;    
+}
+
+Constituent.prototype.copyPengTo = function(target){
+    target.setProp("pe",this.getProp("pe"));
+    target.setProp("n",this.getProp("n"));
+    target.setProp("g",this.getProp("g"));
+}
+
+// should be in Terminal.prototype... but here for consistency with two previous definitions 
+Constituent.prototype.initProps = function(){
+    if (this.isOneOf(["N","A","D","V","NO"])){
+        this.peng={pe:defaultProps[this.lang]["pe"],
+                   n:defaultProps[this.lang]["n"],
+                   g:defaultProps[this.lang]["g"]};
+        if (this.isA("V")){
+            this.taux={t:defaultProps[this.lang]["t"]};
+            if (this.isFr())
+                this.taux["aux"]=defaultProps[this.lang]["aux"];
+        }
+    } else if (this.isA("Pro")){
+        // g and n will be filled later with dictionary info
+        this.peng={pe:3}
+    }
 }
 
 // get a given constituent with a path starting at this
@@ -111,7 +123,7 @@ Constituent.prototype.getTonicPro = function(case_){
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
         if (case_===undefined) return Pro(pro.toString()).tn("");
-        return Pro(pro.toString()).c(case_) // set nominative
+        return Pro(pro.toString()).c(case_) 
     }
 }
 
@@ -149,16 +161,8 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
-            if (optionName===undefined)optionName=option;
-            let current=this; 
-            // follow the "agreement" links except for some options 
-            // finally it is not such a good idea as it does not work for all cases (e.g. tense)
-            // it is much simpler to set options to the "headword" and have the rest agree with it
-            // so it is commented out....
-            // if (!contains(["pro","cap","lier","ow"],optionName)){
-            //     while (current.agreesWith!==undefined)current=current.agreesWith;
-            // }
-            current.props[optionName]=val;
+            if (optionName===undefined)optionName=option; 
+            this.setProp(optionName,val);
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
@@ -169,9 +173,12 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
                    "pc", "pq", "cp", "fa", "spa", "spq"],["V"]);  // composed tenses
-genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
-genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
-genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
+// genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
+// genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
+// genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
+genOptionFunc("g",["m","f","n","x"],[]);
+genOptionFunc("n",["s","p"],[]);
+genOptionFunc("pe",[1,2,3,'1','2','3'],[]);
 genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("aux",["av","êt","aê"],["V"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
@@ -195,10 +202,11 @@ function genOptionListFunc(option){
         return this;
     }
 }
-
-genOptionListFunc("b");
-genOptionListFunc("a");
-genOptionListFunc("en");
+// strings to add 
+genOptionListFunc("b");  // before
+genOptionListFunc("a");  // after
+genOptionListFunc("ba"); // before-after
+genOptionListFunc("en"); // "entourer": old name for before-after 
 
 ///////// specific options
 
@@ -326,29 +334,28 @@ Constituent.prototype.verbAgreeWith = function(subject){
     if (this.isA("VP")){
         const v=this.getConst("V");
         if (v!==undefined){
-            this.agreesWith=v;
-            v.agreesWith=subject;
+            subject.copyPengTo(v);
             if (v.lemma=="être"){// attribut du sujet
                 const apa=this.getConst(["AP","A"])
                 if (apa !== undefined){
                     if (apa.isA("AP")){
                         const a=apa.getConst("A");
                         if (a!== undefined){
-                            apa.agreesWith=a;
-                            a.agreesWith=subject;
+                            subject.copyPengTo(a);
                         }
                     } else { // apa is A
-                        apa.agreesWith=subject
+                        subject.copyPengto(apa);
                     }
                 }
             }
         }
     } else if (this.isA("V")){ // this is a V
-        this.agreesWith=subject;
+        subject.copyPengTo(this);
     } // else {
     //     this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
     // }
 }
+
 
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:
@@ -568,7 +575,7 @@ Constituent.prototype.doFormat = function(cList){
     if (bs !== undefined){
         bs.forEach(function(b){wrapWith(getPunctString(b),"")})
     }
-    const ens = this.props["en"];
+    const ens = this.props["en"] || this.props["ba"];
     if (ens !== undefined){
         ens.forEach(function(en){
             const ba=getBeforeAfterString(en);

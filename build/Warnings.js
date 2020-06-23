@@ -101,9 +101,9 @@ Constituent.prototype.warnings = {
               VP(V("ignore"),NP(D("this"),A("bad"),N("value"),
                                 PP(P("for"),N("option"),Q(option)))).typ({pas:true})),
          fr:(option,bad)=>  // $bad : cette mauvaise valeur pour l'option $option est ignorée
-            S(NP(Q(bad).a(":"),
+            S(Q(bad).a(":"),
               VP(V("ignorer"),NP(D("ce"),A("mauvais"),N("valeur"),
-                                 PP(P("pour"),D("le"),N("option"),Q(option)))).typ({pas:true})))},
+                                 PP(P("pour"),D("le"),N("option"),Q(option)))).typ({pas:true}))},
     "unknown type":
         {en:(key,allowedTypes) => // illegal type: $key, it should be $allowedTypes.
             S(NP(A("illegal"),N("type").a(":"),Q(key)).a(","),

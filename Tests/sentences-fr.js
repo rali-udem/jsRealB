@@ -213,7 +213,7 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Élisions, euphonies et cod coordonné placé avant le verbe"},
         // 34
         {expression: S(NP(D("le").tag("i"),N("chat").tag("b"))),
-         expected:"<i>Le</i> <b>chat.</b>",
+         expected:"<i>Le</i> <b>chat</b>.",
          message:"Top level,capitalization with HTML tags."},
         // 35
         {expression:S(Pro("je").pe(2),

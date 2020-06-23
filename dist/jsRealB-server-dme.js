@@ -56,12 +56,12 @@ http.createServer(function (request, response) {
            response.end(`${e}\nErroneous realization from ${errorType}`)
            if (errorType=="JSON"){
                try { // pretty-print if possible... i.e. not a JSON error
-                   response.end(ppJSON(JSON.parse(input)))
+                   response.end(ppJSON(JSON.parse(exp)))
                } catch(e){ // print line as is
-                   response.end(input);
+                   response.end(exp);
                }
            } else {
-               response.end(input)
+               response.end(exp)
            }
        }
    } else {

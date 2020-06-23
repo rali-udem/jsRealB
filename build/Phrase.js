@@ -60,7 +60,7 @@ Phrase.prototype.add = function(constituent,position,prog){
         this.warn("bad position",position,this.elements.length)
     }
     // change position of some children
-    this.setAgreementLinks();
+    this.linkProperties	();
     for (let i = 0; i < this.elements.length; i++) {
         const e=this.elements[i];
         if (e.isA("A")){// check for adjective position
@@ -81,33 +81,43 @@ Phrase.prototype.grammaticalNumber = function(){
     return this.error("grammaticalNumber must be called on a NO, not a "+this.constType);
 }
 
+Phrase.prototype.setHead = function(phName){
+    let termName=phName.substr(0,phName.length-1); // remove P at the end of the phrase name
+    let headIndex=this.getIndex([phName,termName]);
+    if (headIndex<0){
+        this.warn("not found",termName,phName);
+        headIndex=0;
+    }
+    this.peng=this.elements[headIndex].peng;
+    return headIndex;
+}
 
-// loop over children to make links between elements that should agree with each other
-Phrase.prototype.setAgreementLinks = function(){
+//  loop over children to set the peng and taux to their head or subject
+//  so that once a value is changed this change will be propagated correctly...
+Phrase.prototype.linkProperties	 = function(){
+    let headIndex;
     if (this.elements.length==0)return this;
     switch (this.constType) {
-    case "NP": // agrees with the first internal N, number with a possible NO
-        let noNumber,noConst;
+    case "NP": // the head is the first internal N, number with a possible NO
+        // find first NP or N
+        headIndex=this.setHead("NP");
         for (let i = 0; i < this.elements.length; i++) {
-            const e=this.elements[i]
-            if (e.isOneOf(["N","NP"]) && this.agreesWith===undefined){
-                this.agreesWith=e;
-            } else if (e.isA("NO")){
-                noConst=e;
-            } else if (e.isOneOf(["D","Pro","A"])){
-                e.agreesWith=this;
+            if (i!=headIndex){
+                const e=this.elements[i]
+                if (e.isA("NO")){
+                    this.peng["n"]=e.grammaticalNumber()
+                    // gender agreement between a French number and subject
+                    e.peng["g"]=this.peng["g"]; 
+                } else if (e.isOneOf(["D","A"])){
+                    e.peng=this.peng;
+                }
             }
-        }
-        if (noConst !== undefined && this.agreesWith !== undefined){// there was a NO in the S
-            this.agreesWith.props["n"]=noConst.grammaticalNumber(); 
-            // gender agreement between a French number and subject
-            noConst.g=this.agreesWith.getProp("g"); 
         }
         //   set agreement between the subject of a subordinate or the object of a subordinate
         const pro=this.getFromPath(["SP","Pro"]);
         if (pro!==undefined){
             if (contains(["qui","who"],pro.lemma)){// agrees with this NP
-                pro.agreesWith=this;
+                this.copyPengTo(pro);
             } else if (this.isFr() && pro.lemma=="que"){
                 // in French past participle can agree with a cod appearing before... keep that info in case
                 const v=pro.parentConst.getFromPath(["VP","V"]);
@@ -117,27 +127,18 @@ Phrase.prototype.setAgreementLinks = function(){
             }
         }
         break;
-    case "AP": // agrees with the first internal A
-        for (let i = 0; i < this.elements.length; i++) {
-            const e=this.elements[i]
-            if (e.isA("A")){
-                this.agreesWith=e;
-                break;
-            }
-        }
+    case "VP": 
+        headIndex=this.setHead("VP");// head is the first internal V
+        this.taux=this.elements[headIndex].taux;
         break;
-    case "VP": // agrees with the first internal V
-        for (let i = 0; i < this.elements.length; i++) {
-            const e=this.elements[i]
-            if (e.isA("V")){
-                this.agreesWith=e;
-                break;
-            }
-        }
-    case "AdvP": case "PP": // no agreement needed
+    case "AdvP": case "PP": case "AP":
+        this.setHead(this.constType);
         break;
     case "CP":
-        // not sure agreement has to be done...
+        // nothing to do, but make sure that the propagated properties exist
+        this.peng={};
+        this.aux={};
+        // the information will be computed at realization time (see Phrase.prototype.cpReal)
         break;
     case "S": case "SP":
         var iSubj=this.getIndex(["NP","N","CP","Pro"]);
@@ -158,7 +159,7 @@ Phrase.prototype.setAgreementLinks = function(){
                     return this;
                 }
             }
-            this.agreesWith=subject;
+            this.peng=subject.peng;
             const vpv=this.getFromPath([["VP",""],"V"]);
             if (vpv !== undefined){
                 vpv.verbAgreeWith(subject);
@@ -166,17 +167,17 @@ Phrase.prototype.setAgreementLinks = function(){
                     // with an adjective
                     const attribute=vpv.parentConst.getFromPath([["AP",""],"A"]);
                     if (attribute!==undefined){
-                        attribute.agreesWith=subject;
+                        subject.copyPengTo(attribute);
                     } else { // check for a past participle after the verb
                         var elems=vpv.parentConst.elements;
                         var vpvIdx=elems.findIndex(e => e==vpv);
                         if (vpvIdx<0){
-                            this.error("setAgreementLinks: verb not found, but this should never have happened")
+                            this.error("linkProperties	: verb not found, but this should never have happened")
                         } else {
                             for (var i=vpvIdx+1;i<elems.length;i++){
                                 var pp=elems[i];
-                                if (pp.isA("V") && pp.props["t"]=="pp"){
-                                    pp.agreesWith=subject;
+                                if (pp.isA("V") && pp.getProp("t")=="pp"){
+                                    subject.copyPengTo(pp);
                                     break;
                                 }
                             }
@@ -213,10 +214,11 @@ Phrase.prototype.setAgreementLinks = function(){
         }
         break;
     default:
-        this.error("setAgreementLinks,unimplemented type:"+this.constType)
+        this.error("linkProperties	,unimplemented type:"+this.constType)
     }
     return this;
 }
+
 
 //////// tools
 
@@ -249,6 +251,7 @@ Phrase.prototype.getConst = function(constTypes){
 // find the gender and number of NP elements of this Phrase
 //   set masculine if at least one NP is masculine
 //   set plural if one is plural or more than one combined with and
+//  TODO: take into account pronoun combination in French which can change the number
 Phrase.prototype.findGenderNumber = function(andCombination){
     let g="f";
     let n="s";
@@ -281,7 +284,7 @@ Phrase.prototype.pronominalize_fr = function(){
         let moveBeforeVerb=false;
         idxV=npParent.getIndex("V");
         if (this.isA("NP")){
-            if (this==npParent.agreesWith){ // is subject 
+            if (this.peng==npParent.peng){ // is subject 
                 pro=this.getTonicPro("nom");
             } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
                 pro=this.getTonicPro("nom");
@@ -305,7 +308,7 @@ Phrase.prototype.pronominalize_fr = function(){
                 } else { // change only the NP within the PP
                     let pro=np.getTonicPro();
                     pro.props=np.props;
-                    pro.agreesWith=np.agreesWith;
+                    pro.peng=np.peng;
                     np.elements=[pro];
                     return 
                 }
@@ -314,13 +317,9 @@ Phrase.prototype.pronominalize_fr = function(){
         if (pro === undefined){
             return npParent.warn("no appropriate pronoun");
         }
-        // pro.agreesWith=this.agreesWith;
-        pro.agreesWith=this
+        this.copyPengTo(pro);
         Object.assign(pro.props,this.props);
         delete pro.props["pro"]; // this property should not be copied into the Pro
-        if (this==npParent.agreesWith){
-            npParent.agreesWith=pro
-        }
         if (moveBeforeVerb && 
             // in French a pronominalized NP as direct object is moved before the verb
             idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
@@ -335,7 +334,7 @@ Phrase.prototype.pronominalize_fr = function(){
     } else {// special case without parentConst so we leave the NP and change its elements
         pro=this.getTonicPro();
         pro.props=this.props;
-        pro.agreesWith=this.agreesWith;
+        pro.peng=this.peng;
         this.elements=[pro];
     }
     return pro;
@@ -353,24 +352,24 @@ Phrase.prototype.pronominalize_en = function(){
         let idx=npParent.elements.findIndex(e => e==myself,this);
         let moveBeforeVerb=false;
         idxV=npParent.getIndex("V");
-        if (this==npParent.agreesWith){ // is subject 
+        if (this.peng==npParent.peng){ // is subject 
             pro=this.getTonicPro("nom");
         } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
             pro=this.getTonicPro("nom");
         } else {
             pro=this.getTonicPro("acc") // is direct complement;
         }               
-        pro.agreesWith=this.agreesWith;
+        pro.peng=this.peng;
         Object.assign(pro.props,this.props);
-        if (this==npParent.agreesWith){
-            npParent.agreesWith=pro
+        if (this.peng==npParent.peng){
+            npParent.peng=pro.peng
         }
         npParent.elements.splice(idx,1,pro);// insert pronoun where the NP was
         pro.parentConst=npParent;
     } else {// special case without parentConst so we leave the NP and change its elements
         pro=this.getNomPro();
         pro.props=this.props;
-        pro.agreesWith=this.agreesWith;
+        pro.peng=this.peng;
         this.elements=[pro];
     }
     return pro;
@@ -441,8 +440,8 @@ Phrase.prototype.passivate = function(){
             this.elements.unshift(newSubject); // add object that will become the subject
             newSubject.parentConst=this;       // adjust parentConst
             // make the verb agrees with the new subject (in English only, French is dealt below)
-            if (this.isEn() && this.agreesWith !== undefined){
-                this.agreesWith.agreesWith=newSubject;
+            if (this.isEn()){
+                newSubject.copyPengTo(vp)
             } 
             if (subject!=null){   // insert subject where the object was
                 vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by"),subject)); 
@@ -460,23 +459,24 @@ Phrase.prototype.passivate = function(){
                 }
             }
             this.elements.unshift(subject);
-            this.agreesWith=subject;
+            subject.copyPengTo(vp);
         }
         if (this.isFr()){
             // do this only for French because in English this is done by processTyp_en
             // change verbe into an "être" auxiliary and make it agree with the newSubject
             const verbeIdx=vp.getIndex("V")
             const verbe=vp.elements.splice(verbeIdx,1)[0];
-            const aux=V("être").t(verbe.getProp("t"));
+            const aux=V("être");
             aux.parentConst=vp;
+            aux.taux=verbe.taux;
+            aux.peng=newSubject.peng;
             aux.props=verbe.props;
             aux.pe(3); // force person to be 3rd (number and tense will come from the new subject)
             if (vp.getProp("t")=="ip"){
                 aux.t("s") // set subjonctive present tense for an imperative
             }
-            aux.agreesWith=newSubject;
             const pp = V(verbe.lemma).t("pp");
-            pp.agreesWith=newSubject;
+            pp.peng=newSubject.peng;
             pp.parentConst=vp;
             vp.elements.splice(verbeIdx,0,aux,pp);
         }
@@ -525,7 +525,7 @@ Phrase.prototype.processTyp_fr = function(types){
         // insert "en train","de" (separate so that élision can be done...) 
         // but do it BEFORE the pronouns created by .pro()
         let i=idxV-1;
-        while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].agreesWith!==undefined)i--;
+        while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].peng!==vp.peng)i--;
         vp.elements.splice(i+1,0,verb,Q("en train"),Q("de"));
         vp.elements.splice(idxV+3,0,V(origLemma).t("b"));
     });
@@ -539,7 +539,7 @@ Phrase.prototype.processTyp_fr = function(types){
         }
         let i=idxV-1;
         // move the modality verb before the pronoun(s) inserted by .pro()
-        while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].agreesWith!==undefined)i--;
+        while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].peng!==vp.peng)i--;
         if (i!=idxV-1){
             const modVerb=vp.elements.splice(idxV,1)[0]; // remove the modality verb
             vp.elements.splice(i+1,0,modVerb); // move it before the pronouns
@@ -574,10 +574,10 @@ Phrase.prototype.processTyp_en = function(types){
     const idxV=vp.getIndex("V");
     if(idxV>=0){
         let v = vp.elements[idxV];
-        const vAgreesWith=v.agreesWith;
         // const pe = this.getProp("pe");
         // const g=this.getProp("g");
         // const n = this.getProp("n");
+        const v_peng=v.peng;
         let t = vp.getProp("t");
         const neg = types["neg"]===true;
         // English conjugation 
@@ -651,13 +651,14 @@ Phrase.prototype.processTyp_en = function(types){
                 words.push(Adv("not"));
                 if (vAux != "do") words.push(V(vAux).t("b")); 
             }
-        } else { // must only set necessary options, so that agreesWith links will work ok
+        } else { // must only set necessary options, so that shared properties will work ok
             let newAux=V(vAux);
             if (!isFuture)newAux.t(t);
             if (v in negMod)newAux.pe(1);
             words.push(newAux);
         }
-        words[0].agreesWith=vAgreesWith; // recover the original agreement links and set it to the first new verb...
+        // recover the original agreement info and set it to the first new verb...
+        words[0].peng=v_peng;
         // realise the other parts using the corresponding affixes
         while (auxils.length>0) {
             v=auxils.shift();
@@ -734,8 +735,8 @@ Phrase.prototype.processTyp = function(types){
                     // because now the subject has been removed
                     const v=this.getFromPath(["VP","V"])
                     if (v!==undefined){
-                        v.props["n"]="s";
-                        v.props["pe"]=3;
+                        v.setProp("n","s");
+                        v.setProp("pe",3);
                     }
                 }
             }
@@ -786,8 +787,9 @@ Phrase.prototype.processTyp = function(types){
 
 Phrase.prototype.cpReal = function(){
     var res=[];
-    // realize coordinated Phrase by adding ',' between elements except the last
+    // realize coordinated Phrase by adding ',' between all elements except for the last
     // if no C is found then all elements are separated by a ","
+    // TODO: deal with the Oxford comma (i.e. a comma after all elements even the last)
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})
@@ -805,8 +807,9 @@ Phrase.prototype.cpReal = function(){
         c=this.elements[idxC]
         var and=this.isFr()?"et":"and";
         var gn=this.findGenderNumber(c.lemma==and)
-        this.props["g"]=gn.g;
-        this.props["n"]=gn.n;
+        this.setProp("g",gn.g);
+        this.setProp("n",gn.n);
+        this.setProp("pe",3);
     } else {
         last++; // no coordinate, process all with the following loop 
     }            
