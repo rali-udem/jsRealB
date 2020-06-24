@@ -67,12 +67,14 @@ Constituent.prototype.copyPengTo = function(target){
     target.setProp("g",this.getProp("g"));
 }
 
-// should be in Terminal.prototype... but here for consistency with two previous definitions 
+// should be in Terminal.prototype... but here for consistency with three previous definitions
+var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
 Constituent.prototype.initProps = function(){
     if (this.isOneOf(["N","A","D","V","NO"])){
         this.peng={pe:defaultProps[this.lang]["pe"],
                    n:defaultProps[this.lang]["n"],
-                   g:defaultProps[this.lang]["g"]};
+                   g:defaultProps[this.lang]["g"],
+                   pengNO:pengNO++};
         if (this.isA("V")){
             this.taux={t:defaultProps[this.lang]["t"]};
             if (this.isFr())
@@ -80,7 +82,7 @@ Constituent.prototype.initProps = function(){
         }
     } else if (this.isA("Pro")){
         // g and n will be filled later with dictionary info
-        this.peng={pe:3}
+        this.peng={pe:3,pengNO:pengNO++}
     }
 }
 
@@ -172,7 +174,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 }
 
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],["V"]);  // composed tenses
+                   "pc", "pq", "cp", "fa", "spa", "spq"],[]);  // composed tenses
 // genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
 // genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
 // genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
@@ -332,9 +334,10 @@ Constituent.prototype.typ = function(types){
 // propagate information from the subject to the verb in this Phrase or Terminal
 Constituent.prototype.verbAgreeWith = function(subject){
     if (this.isA("VP")){
+        this.peng=subject.peng;
         const v=this.getConst("V");
         if (v!==undefined){
-            subject.copyPengTo(v);
+            v.verbAgreeWith(subject);
             if (v.lemma=="être"){// attribut du sujet
                 const apa=this.getConst(["AP","A"])
                 if (apa !== undefined){
@@ -350,7 +353,10 @@ Constituent.prototype.verbAgreeWith = function(subject){
             }
         }
     } else if (this.isA("V")){ // this is a V
-        subject.copyPengTo(this);
+        // if (subject.isA("CP"))
+            this.peng=subject.peng ; // will be updated during realization
+        // else
+        //     subject.copyPengTo(this);
     } // else {
     //     this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
     // }

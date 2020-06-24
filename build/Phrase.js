@@ -88,7 +88,6 @@ Phrase.prototype.setHead = function(phName){
         this.warn("not found",termName,phName);
         headIndex=0;
     }
-    this.peng=this.elements[headIndex].peng;
     return headIndex;
 }
 
@@ -101,6 +100,7 @@ Phrase.prototype.linkProperties	 = function(){
     case "NP": // the head is the first internal N, number with a possible NO
         // find first NP or N
         headIndex=this.setHead("NP");
+        this.peng=this.elements[headIndex].peng;
         for (let i = 0; i < this.elements.length; i++) {
             if (i!=headIndex){
                 const e=this.elements[i]
@@ -109,6 +109,10 @@ Phrase.prototype.linkProperties	 = function(){
                     // gender agreement between a French number and subject
                     e.peng["g"]=this.peng["g"]; 
                 } else if (e.isOneOf(["D","A"])){
+                    // try to keep modifications done to modifiers...
+                    if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
+                    if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
+                    if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
                     e.peng=this.peng;
                 }
             }
@@ -116,28 +120,30 @@ Phrase.prototype.linkProperties	 = function(){
         //   set agreement between the subject of a subordinate or the object of a subordinate
         const pro=this.getFromPath(["SP","Pro"]);
         if (pro!==undefined){
-            if (contains(["qui","who"],pro.lemma)){// agrees with this NP
-                this.copyPengTo(pro);
-            } else if (this.isFr() && pro.lemma=="que"){
-                // in French past participle can agree with a cod appearing before... keep that info in case
-                const v=pro.parentConst.getFromPath(["VP","V"]);
-                if (v !=undefined){
-                    v.cod=this
-                }
+            const v=pro.parentConst.getFromPath(["VP","V"]);
+            if (v !=undefined){
+                if (contains(["qui","who"],pro.lemma)){// agrees with this NP
+                    v.peng=this.peng
+                } else if (this.isFr() && pro.lemma=="que"){
+                    // in French past participle can agree with a cod appearing before... keep that info in case
+                        v.cod=this
+                    }
             }
         }
         break;
     case "VP": 
         headIndex=this.setHead("VP");// head is the first internal V
+        this.peng=this.elements[headIndex].peng;
         this.taux=this.elements[headIndex].taux;
         break;
     case "AdvP": case "PP": case "AP":
-        this.setHead(this.constType);
+        headIndex=this.setHead(this.constType);
+        this.peng=this.elements[headIndex].peng;
         break;
     case "CP":
-        // nothing to do, but make sure that the propagated properties exist
-        this.peng={};
-        this.aux={};
+        // nothing to do, 
+        // but make sure that the propagated properties exist
+        this.peng={pengNO:pengNO++};
         // the information will be computed at realization time (see Phrase.prototype.cpReal)
         break;
     case "S": case "SP":
@@ -145,18 +151,20 @@ Phrase.prototype.linkProperties	 = function(){
         // determine subject
         if (iSubj>=0){
             let subject=this.elements[iSubj];
-            if (this.isA("SP") && subject.isA("Pro") && contains(["que","où","that"],subject.lemma)){
-                // HACK: the first pronoun  should not be a subject...
-                //        so we try to find another...
-                const jSubj=this.elements.slice(iSubj+1).findIndex(
-                    e => e.isOneOf(["NP","N","CP","Pro"])
-                );
-                if (iSubj>=0){
-                    subject=this.elements[iSubj+1+jSubj];
-                } else {
-                    // finally this generates too many spurious messages
-                    // this.warning("no possible subject found");
-                    return this;
+            if (this.isA("SP") && subject.isA("Pro")){
+                if (contains(["que","où","that"],subject.lemma)){
+                    // HACK: the first pronoun  should not be a subject...
+                    //        so we try to find another...
+                    const jSubj=this.elements.slice(iSubj+1).findIndex(
+                        e => e.isOneOf(["NP","N","CP","Pro"])
+                    );
+                    if (jSubj>=0){
+                        subject=this.elements[iSubj+1+jSubj];
+                    } else {
+                        // finally this generates too many spurious messages
+                        // this.warning("no possible subject found");
+                        return this;
+                    }
                 }
             }
             this.peng=subject.peng;
@@ -167,7 +175,8 @@ Phrase.prototype.linkProperties	 = function(){
                     // with an adjective
                     const attribute=vpv.parentConst.getFromPath([["AP",""],"A"]);
                     if (attribute!==undefined){
-                        subject.copyPengTo(attribute);
+                        attribute.peng=subject.peng;
+                        // subject.copyPengTo(attribute);
                     } else { // check for a past participle after the verb
                         var elems=vpv.parentConst.elements;
                         var vpvIdx=elems.findIndex(e => e==vpv);

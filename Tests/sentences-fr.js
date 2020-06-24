@@ -27,8 +27,8 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Beaux cadeaux.",
          message:"Accord adjectif"},
         // 4
-        {expression:NP(D("le"),N("gens").n("p"),A("bon").g("f").pos("pre")),
-         expected:"les bonnes gens",
+        {expression:NP(D("le"),N("gens").n("p"),A("vulgaire").pos("pre")),
+         expected:"les vulgaires gens",
          message:"Adjectif pré-posé"},
         // 5
         {expression:S( NP(D("le"), N("père"), PP(P("de"), NP(D("mon").pe(1), N("fille")) ) )),
