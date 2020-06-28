@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>jsRealB (V 3.4) - Documentation</title>
+    <title>jsRealB (V 3.5) - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <script src="../dist/jsRealB.js"></script> -->
@@ -33,7 +33,7 @@
     </span>
     <span id="langSelect">[<span lang="en">FR</span><span lang="fr">EN</span>]</span>
 <!-- start of page  -->
-    <h1><span class="jsr">jsRealB (Version 3.4)</span> - Documentation</h1>
+    <h1><span class="jsr">jsRealB (Version 3.5)</span> - Documentation</h1>
     <p lang="fr"><span class="jsr">jsRealB</span> est un réalisateur de texte pour l'anglais et le français écrit en Javascript. Il peut être utilisé soit à l'intérieur d'une page web comme celle-ci dont tous les exemples sont réalisés dynamiquement, ou comme module <code>Node.js</code>.</p>
     <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript. It can be used either within a web page such as this one whose examples are dynamically realized or as a <code>Node.js</code> module.</p>
 
@@ -46,7 +46,7 @@
         <ul>
             <li><code>NP</code>: le premier <code>N</code> ou <code>NP</code> en tenant compte de la modification possible par un <code>NO</code>, cet accord est propagé à une subordonnée interne au <code>NP</code>;</li>
             <li><code>AP</code>: le premier <code>A</code>;</li>
-            <li><code>VP</code>: le premier <code>V</code>;</li>
+            <li><code>VP</code>: le premier <code>V</code>;le verbe est accordé avec le sujet (le premier <code>NP</code> ou <code>Pro</code> de la phrase englobante);</li>
             <li><code>S</code>, <code>SP</code>: accord avec le <em>sujet</em>, soit le premier <code>NP</code>, <code>N</code>, 
                 <code>Pro</code> ou <code>CP</code>. Si le <code>Pro</code> est un pronom relatif, le <em>sujet</em> de la subordonnée est utilisé. Des tests spécifiques permettent d'accorder le verbe <code>être/be</code> ainsi que pour tenir compte des sujets coordonnés.</li>
         </ul>
@@ -58,7 +58,7 @@
         <ul>
             <li><code>NP</code>: the first <code>N</code> or <code>NP</code> taking into account an eventual <code>NO</code>, this agreement is propagated to an internal subordinate phrase;</li>
             <li><code>AP</code>: the first <code>A</code>;</li>
-            <li><code>VP</code>: the first <code>V</code>;</li>
+            <li><code>VP</code>: the first <code>V</code>; the verb agrees with its subject (the first <code>NP</code> or <code>Pro</code> in the enclosing sentence);</li>
             <li><code>S</code>, <code>SP</code>: agrees with the <em>subject</em>, taken as the first <code>NP</code>, <code>N</code>, 
                 <code>Pro</code> or <code>CP</code>. If the <code>Pro</code> is a relative pronoun, the <em>subject</em> of the subordinate is taken. Specific tests take into account the verbs <code>être/be</code> and the coordinate subjects.</li>
         </ul>

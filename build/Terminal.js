@@ -183,18 +183,13 @@ const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
 
 /// French and English declension
 Terminal.prototype.decline = function(setPerson){
-    const g=this.getProp("g");
-    const n=this.getProp("n");
-    let pe=3;
-    if (setPerson){
-        let p=this.getProp("pe");
-        pe = p===undefined ? 3 : +p;
-    }
     const rules=this.getRules();
     let declension=rules.declension[this.tab].declension;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
+            const g=this.getProp("g");
+            const n=this.getProp("n");
             const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
             if (ending==null){
                 return `[[${this.lemma}]]`;
@@ -239,6 +234,13 @@ Terminal.prototype.decline = function(setPerson){
     } else if (declension.length==1){ // no declension
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
+        const g=this.getProp("g");
+        const n=this.getProp("n");
+        let pe=3;
+        if (setPerson){
+            let p=this.getProp("pe");
+            pe = p===undefined ? 3 : +p;
+        }
         let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
         if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];
         if (this.isA("Pro")){// check special combinations of tn and c for pronouns

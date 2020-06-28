@@ -41,13 +41,13 @@ Constituent.prototype.isEn = function(){return this.lang=="en"}
 Constituent.prototype.getRules   = function(){return this.isFr()?ruleFr:ruleEn}
 Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
 
-// get the value of a property by first checking the special shared properties
+// get/set the value of a property by first checking the special shared properties
 Constituent.prototype.getProp = function(propName){
     if (propName=="pe" || propName=="n" || propName=="g"){
-        return this.peng===undefined ? undefined : this.peng[propName];
+        return this.peng[propName];
     }
     if (propName=="t" || propName=="aux"){
-        return this.taux===undefined ? undefined : this.taux[propName];
+        return this.taux[propName];
     }
     return this.props[propName];
 }
@@ -61,28 +61,24 @@ Constituent.prototype.setProp = function(propName,val){
         this.props[propName]=val;    
 }
 
-Constituent.prototype.copyPengTo = function(target){
-    target.setProp("pe",this.getProp("pe"));
-    target.setProp("n",this.getProp("n"));
-    target.setProp("g",this.getProp("g"));
-}
-
 // should be in Terminal.prototype... but here for consistency with three previous definitions
-var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
+// var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
+// var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
 Constituent.prototype.initProps = function(){
-    if (this.isOneOf(["N","A","D","V","NO"])){
-        this.peng={pe:defaultProps[this.lang]["pe"],
-                   n:defaultProps[this.lang]["n"],
-                   g:defaultProps[this.lang]["g"],
-                   pengNO:pengNO++};
+    if (this.isOneOf(["N","A","D","V","NO","Pro"])){
+        // "tien" and "vôtre" are very special case of pronouns which are to the second person
+        this.peng={pe:contains(["tien","vôtre"],this.lemma)?2:defaultProps[this.lang]["pe"],
+                   n: defaultProps[this.lang]["n"],
+                   g: defaultProps[this.lang]["g"],
+                   // pengNO:pengNO++
+                   };
         if (this.isA("V")){
-            this.taux={t:defaultProps[this.lang]["t"]};
+            this.taux={t:defaultProps[this.lang]["t"],
+                       // tauxNO:tauxNO++
+                       };
             if (this.isFr())
                 this.taux["aux"]=defaultProps[this.lang]["aux"];
         }
-    } else if (this.isA("Pro")){
-        // g and n will be filled later with dictionary info
-        this.peng={pe:3,pengNO:pengNO++}
     }
 }
 
@@ -173,16 +169,17 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
     }
 }
 
+// shared properties 
+//   pe,n and g : can be applied to compoennts of NP and Sentences
+genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+genOptionFunc("n",["s","p"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+//  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],[]);  // composed tenses
-// genOptionFunc("g",["m","f","n","x"],["D","N","A","Pro","V"]);
-// genOptionFunc("n",["s","p"],["D","N","A","Pro","V"]);
-// genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","V"]);
-genOptionFunc("g",["m","f","n","x"],[]);
-genOptionFunc("n",["s","p"],[]);
-genOptionFunc("pe",[1,2,3,'1','2','3'],[]);
+                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S","SP","CP"]);  // composed tenses
+genOptionFunc("aux",["av","êt","aê"],["V","VP","S","SP","CP"]);
+// ordinary properties
 genOptionFunc("f",["co","su"],["A","Adv"]);
-genOptionFunc("aux",["av","êt","aê"],["V"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
@@ -331,38 +328,6 @@ Constituent.prototype.typ = function(types){
     return this;
 }
 
-// propagate information from the subject to the verb in this Phrase or Terminal
-Constituent.prototype.verbAgreeWith = function(subject){
-    if (this.isA("VP")){
-        this.peng=subject.peng;
-        const v=this.getConst("V");
-        if (v!==undefined){
-            v.verbAgreeWith(subject);
-            if (v.lemma=="être"){// attribut du sujet
-                const apa=this.getConst(["AP","A"])
-                if (apa !== undefined){
-                    if (apa.isA("AP")){
-                        const a=apa.getConst("A");
-                        if (a!== undefined){
-                            subject.copyPengTo(a);
-                        }
-                    } else { // apa is A
-                        subject.copyPengto(apa);
-                    }
-                }
-            }
-        }
-    } else if (this.isA("V")){ // this is a V
-        // if (subject.isA("CP"))
-            this.peng=subject.peng ; // will be updated during realization
-        // else
-        //     subject.copyPengTo(this);
-    } // else {
-    //     this.error("verbAgreeWith should be called on VP or V, not a "+this.constType)
-    // }
-}
-
-
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:
 //     1-possible non-word chars and optional html tags
@@ -431,7 +396,6 @@ Constituent.prototype.doElisionEn = function(cList){
 }
 
 // same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
-// const sepWordREfr=/(([^<\wàâéèêëîïôöùüç'-]*(<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?/i
 const sepWordREfr=/((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
 
 Constituent.prototype.doElisionFr = function(cList){
