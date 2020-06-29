@@ -426,8 +426,8 @@ var p30 =
      Pro("le").g("f"),V("voir").t("pr"),V("entrer").t("b").a(","),
      VP(Pro("me*coi"),V("dire"),
         VP(P("en"),Pro("me*refl"),V("cacher").t("pr"),
-           PP(P("dans"),NP(D("le"),NP("lit"))).a(","),
-           PP(P("sous"),NP(D("le"),NP("couverture")))))
+           PP(P("dans"),NP(D("le"),N("lit"))).a(","),
+           PP(P("sous"),NP(D("le"),N("couverture")))))
    ).a(":")
 
 // " Mets la galette et le petit pot de beurre sur la huche, et viens te coucher avec moi. " 

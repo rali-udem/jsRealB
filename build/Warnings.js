@@ -120,9 +120,9 @@ Constituent.prototype.warnings = {
               VP(V("être").t("c"),D("un").g("f"),PP(P("parmi"),Q(validVals)))).typ({mod:"nece"})},
     "not found":
         {en:(missing,context)=> // no $missing found in $context.
-            S(NP(Adv("no"),Q(missing)),VP(V("find").t("pp"),PP(P("in"),Q(context)))),
+            S(AdvP(Adv("no"),Q(missing)),VP(V("find").t("pp"),PP(P("in"),Q(context)))),
          fr:(missing,context)=> // aucun $missing trouvé dans $context.
-            S(NP(D("aucun"),Q(missing)),VP(V("trouver").t("pp"),PP(P("dans"),Q(context))))},
+            S(D("aucun"),Q(missing),VP(V("trouver").t("pp"),PP(P("dans"),Q(context))))},
     "bad ordinal":
         {en:(value)=> // cannot realize $value as ordinal.
             S(VP(V("realize"),Q(value),AdvP(Adv("as"),N("ordinal")))).typ({neg:true,mod:"poss"}),

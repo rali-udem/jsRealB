@@ -49,19 +49,19 @@ Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
 // get/set the value of a property by first checking the special shared properties
 Constituent.prototype.getProp = function(propName){
     if (propName=="pe" || propName=="n" || propName=="g"){
-        return this.peng[propName];
+        return this.peng===undefined ? undefined : this.peng[propName];
     }
     if (propName=="t" || propName=="aux"){
-        return this.taux[propName];
+        return this.taux===undefined ? undefined : this.taux[propName];
     }
     return this.props[propName];
 }
 
 Constituent.prototype.setProp = function(propName,val){
     if (propName=="pe" || propName=="n" || propName=="g"){
-        this.peng[propName]=val;
+        if (this.peng!==undefined) this.peng[propName]=val;
     } else if (propName=="t" || propName=="aux"){
-        this.taux[propName]=val;
+        if (this.taux!==undefined) this.taux[propName]=val;
     } else 
         this.props[propName]=val;    
 }
@@ -587,19 +587,21 @@ Constituent.prototype.detokenize = function(terminals){
     s+=terminals[last].realization;
     // apply capitalization and final full stop
     if (this.parentConst==null){
-        if (this.constType=="S" && s.length>0){ // if it is a top-level S
+        if (this.isA("S") && s.length>0){ // if it is a top-level S
             // force a capital at the start unless .cap(false)
             if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
                 s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
-            }
-            // and a full stop at the end unless there is already one
-            // taking into account any trailing HTML tag
-            const m=/(.)( |(<[^>]+>))*$/.exec(s);
-            if (m!=null && !contains("?!.:;/",m[1])){
-                s+="."
+            };
+            if (this.props["tag"]===undefined){ // do not touch top-level tag
+                // and a full stop at the end unless there is already one
+                // taking into account any trailing HTML tag
+                const m=/(.)( |(<[^>]+>))*$/.exec(s);
+                if (m!=null && !contains("?!.:;/",m[1])){
+                    s+="."
+                }
             }
         }
     }
@@ -23626,9 +23628,9 @@ Constituent.prototype.warnings = {
               VP(V("être").t("c"),D("un").g("f"),PP(P("parmi"),Q(validVals)))).typ({mod:"nece"})},
     "not found":
         {en:(missing,context)=> // no $missing found in $context.
-            S(NP(Adv("no"),Q(missing)),VP(V("find").t("pp"),PP(P("in"),Q(context)))),
+            S(AdvP(Adv("no"),Q(missing)),VP(V("find").t("pp"),PP(P("in"),Q(context)))),
          fr:(missing,context)=> // aucun $missing trouvé dans $context.
-            S(NP(D("aucun"),Q(missing)),VP(V("trouver").t("pp"),PP(P("dans"),Q(context))))},
+            S(D("aucun"),Q(missing),VP(V("trouver").t("pp"),PP(P("dans"),Q(context))))},
     "bad ordinal":
         {en:(value)=> // cannot realize $value as ordinal.
             S(VP(V("realize"),Q(value),AdvP(Adv("as"),N("ordinal")))).typ({neg:true,mod:"poss"}),
@@ -23697,7 +23699,7 @@ Constituent.prototype.warnings = {
 //         N(n).warn(w,"A","B","C")
 //     }
 // }
-jsRealB_dateCreated="2020-06-28 16:52"
+jsRealB_dateCreated="2020-06-29 11:27"
 //  Terminals
 exports.N=N;
 exports.A=A;

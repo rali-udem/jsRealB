@@ -635,7 +635,7 @@ var s30 =
          NP(D("this"),A("gentle"),N("wolf").n("p"),
             SP(Pro("who"),
                VP(V("be"),
-                  NP(D("the"),A("dangerous").f("su"),D("ones"),P("of"),D("all"))))))
+                  AP(D("the"),A("dangerous").f("su"),D("ones"),P("of"),D("all"))))))
     )
 fmt(s27+" "+s28+" "+s29+" "+s30)
     

@@ -82,7 +82,7 @@ function composer(t,g,n){
 
   // Celui-ci lui conseille de faire remonter le bouton supérieur de son pardessus.
   ps[5]=
-  S(NP(Pro("celui-ci").g(g).n(n).tag("span", {"class": "ami genre nombre"})),
+  S(Pro("celui-ci").g(g).n(n).tag("span", {"class": "ami genre nombre"}),
     Pro("me*coi").g(g).n(n).tag("span", {"class": "genre nombre jeune-homme"}),
     VP(V("conseiller").n(n).t(t).tag("span", {"class": "nombre temps"}),
        PP(P("de"),
