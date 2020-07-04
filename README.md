@@ -1,14 +1,14 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.4 - April 2020*
+*Version 3.5 - July 2020*
 
-**Natural language generation** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
+**Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
 The web is constantly growing and its content, getting progressively more dynamic, is well-suited to automation by a realizer. However existing realizers are not designed with the web in mind and their operation requires much knowledge, complicating their use.
 
 **jsRealB is a text realizer designed specifically for the web**, easy to learn and to use. This realizer allows its user to build a variety of French and English expressions and sentences, to add HTML tags to them and to easily integrate them into web pages.
 
-**jsRealB can also be used in Javascript application** by means of a `node.js` module. It also accepts an input specification in JSON. 
+**jsRealB can also be used in Javascript application** by means of a `node.js` module available also as `npm` package. It also accepts an input specification in JSON. 
 
 The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html). You can switch language in the upper right corner of the page. The specification of the JSON input format is described [here](http://rali.iro.umontreal.ca/JSrealB/current/data/jsRealB-jsonInput.html).
 
@@ -58,6 +58,11 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `jsRealB-server-dme.js`: same as above but loading the *comprehensive* lexicon
     * `testServer.py`: example of a Python program using the `jsRealB` server
     * `datedCore.js`: intermediary file used during the makefile for saving the date the makefile was created. This file should probably be deleted after the makefile 
+    * `package.json`: necessary for publishing the `jsrealb` *npm* package.  
+    When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory:  
+      `npm version {major|minor|patch}
+       npm publish`  
+    Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` and `jsRealB.min.js` are published.
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * `style.css`: style sheet
@@ -76,7 +81,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 
 ## Demos
 ### Simple examples on a single sentence
-* Evaluate a jsRealB expression and display its realization in a web page in either English or French.
+* Evaluate a `jsRealB` expression and display its realization in a web page in either English or French.
     * [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index.html)
 * Show the use of loops in Javascript to create repetitive texts
     * English: [99 bottles of beer](demos/99BottlesOfBeer). [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/99BottlesOfBeer/index.html)
@@ -94,6 +99,8 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/English.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/French.html)
+* `jsRealB` is also available an an `npm` package:
+    * `use-npm.js` is a simple example of its use (after it is *install*ed on the system)
 
 ### Text realization
 * Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
@@ -121,9 +128,15 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 
 ### Test demos
 * The demos are usually run using the *compiled* version. But after modification of the source files, the version with the separate loading of the file can be obtained by commenting/uncommenting some `<script>...</script>` lines at the start of the html file. The shell script `testDemos.sh` can be used to do this while keeping the original intact. If the script is called with a name of an HTML file, then that file is uncommented and shown in the browser (using the `open` command on the MacOS). With no argument, then all demos are displayed in different tabs. The script wait for 5 seconds between each try.
+
+### Interactive use with *Observable*
+* Two [Observable](https://observablehq.com) notebooks are available for trying `jsRealB` expressions and seeing their realizations.
+    * [English](https://observablehq.com/@lapalme/exprimenting-with-jsrealb "Experimenting with jsRealB / Guy Lapalme / Observable")
+    * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
+
 ## Design of the system
 
-The current version (3.4) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
+The current version (3.5) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 
