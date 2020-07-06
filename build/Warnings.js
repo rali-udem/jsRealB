@@ -11,8 +11,9 @@
 // add words to the basic lexicon for use in the warnings
 //  the lexical information is taken from dmf and dme
 loadFr();
-addToLexicon("aucun",{ D: { tab: [ 'd4' ] }})
-addToLexicon("comme",{ Adv: { tab: [ 'av' ] }, C: { tab: [ 'cj' ] } })
+addToLexicon("adéquat",{A:{tab:["n28"]}});
+addToLexicon("aucun",{ D: { tab: [ 'd4' ] }});
+addToLexicon("comme",{ Adv: { tab: [ 'av' ] }, C: { tab: [ 'cj' ] } });
 addToLexicon("contraction",{ N: { g: 'f', tab: [ 'n17' ] } })
 addToLexicon("français",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
 addToLexicon("illégal",{ A: { tab: [ 'n47' ] } });
@@ -54,6 +55,7 @@ Constituent.prototype.warn = function(_){
 
 // create a list of elements [a,b,c] => "a, b $conj c" 
 const makeDisj = function(conj,elems){
+    if (!Array.isArray(elems))elems=[elems];
     return CP.apply(null,[C(conj)].concat(elems.map(e=>Q(e))))+""
 }
 
@@ -66,7 +68,7 @@ Constituent.prototype.warnings = {
               VP(V("be").t("ps"),Q(good).a(","),Adv("not"),Q(bad))).typ({mod:"nece"}),
          fr:(good,bad)=> // le paramètre devrait être $good, pas $bad
             S(NP(D("le"),N("paramètre")),
-              VP(V("être").t("c"),Q(good).a(","),Adv("pas"),Q(bad))).typ({mod:"nece"})},
+              VP(V("être").t("c"),Q(good).a(","),Adv("non"),Q(bad))).typ({mod:"nece"})},
     "bad application":
         {en:(info,goods,bad)=> // $info should be applied to $good, not to $bad
             S(Q(info),VP(V("apply").t("ps"),
@@ -83,17 +85,19 @@ Constituent.prototype.warnings = {
             S(NO(bad),VP(V("être").t("c"),A("petit").f("co"),Pro("que"),NO(limit))).typ({mod:"nece"})},
     "bad const for option":
         {en:(option,constType,allowedConsts)=> 
-            // option $option is applied to $constType, but it should be $allowedConsts.
+            // option $option is applied to $constType, but it should be to $allowedConsts.
               CP(C("but"),
                  VP(V("apply"),NP(N("option"),Q(option)),PP(P("to"),Q(constType))).typ({pas:true}).a(","),
-                 VP(Pro("I"),V("be").t("ps"),makeDisj("or",allowedConsts)).typ({mod:"nece"})
+                 SP(Pro("I"),VP(V("be").t("ps"),PP(P("to"),makeDisj("or",allowedConsts)))).typ({mod:"nece"})
               ),
          fr:(option,constType,allowedConsts)=>
-              //  l'option $option est appliquée à $constType, mais elle devrait être $allowedConsts
+              //  l'option $option est appliquée à $constType, mais elle devrait l'être à $allowedConsts
               CP(C("mais"),
                  VP(V("appliquer"),NP(D("le"),N("option"),Q(option)),PP(P("à"),Q(constType)))
                     .typ({pas:true}).a(","),
-                 VP(Pro("je").g("f"),V("être").t("c"),makeDisj("ou",allowedConsts)).typ({mod:"nece"})
+                 SP(Pro("je").g("f"),
+                    VP(Pro("elle").c("acc"),
+                       V("être").t("c"),PP(P("à"),makeDisj("ou",allowedConsts)))).typ({mod:"nece"})
               )},
     "ignored value for option":
         {en:(option,bad)=> // $bad: bad value for option $option is ignored.
@@ -110,7 +114,7 @@ Constituent.prototype.warnings = {
               VP(Pro("I"),V("be").t("ps"),makeDisj("or",allowedTypes))).typ({mod:"nece"}),
          fr:(key,allowedTypes) => // type illégal : $key, il devrait être $allowedTypes.
             S(NP(N("type"),A("illégal").a(":"),Q(key)).a(","),
-              VP(Pro("je"),V("être").t("c"),makeDisj("ou",allowedTypes))).typ({mod:"nece"})},
+              SP(Pro("je"),VP(V("être").t("c"),makeDisj("ou",allowedTypes))).typ({mod:"nece"}))},
     "no value for option":
         {en:(option,validVals)=> // no value for option $option should be one of $validVals.
             S(NP(Adv("no"),N("value"),PP(P("for"),N("option"),Q(option))),
@@ -155,8 +159,8 @@ Constituent.prototype.warnings = {
          fr:()=> // absent du lexique.
             S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
     "no appropriate pronoun":
-        {en:()=>S(VP(V("find").t("ps"),NP(N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
-         fr:()=>S(VP(V("trouver").t("pc"),NP(N("pronom")))).typ({neg:true,pas:true,mod:"poss"})
+        {en:()=>S(VP(V("find").t("ps"),NP(D("a"),A("appropriate"),N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
+         fr:()=>S(VP(V("trouver").t("pc"),NP(D("un"),A("adéquat"),N("pronom")))).typ({neg:true,pas:true,mod:"poss"})
         },
     "both tonic and clitic":
         {en:()=>// tn(..) and c(..) cannot be used together, tn(..) is ignored.
@@ -164,8 +168,8 @@ Constituent.prototype.warnings = {
                   .typ({neg:true,pas:true,mod:"poss"}).a(","),
                Q("tn(..)"),VP(V("ignore")).typ({pas:true})),
          fr:()=>// tn(..) et c(..) utilisés ensemble, tn(..) est ignoré.
-             S(CP(C("et"),Q("tn(..)"),Q("c(..)")),VP(V("utiliser").t("pp").n("p"),Adv("ensemble")).a(","),
-               Q("tn(..)"),VP(V("ignorer")).typ({pas:true}))
+             S(SP(CP(C("et"),Q("tn(..)"),Q("c(..)")),VP(V("utiliser").t("pp").n("p"),Adv("ensemble"))).a(","),
+               SP(Q("tn(..)"),VP(V("ignorer")).typ({pas:true})))
         },
     "bad Constituent":
         {en:(rank,type)=> // the $rank parameter is not Constituent.
@@ -176,18 +180,20 @@ Constituent.prototype.warnings = {
               VP(V("être"),Q("Constituent"),Adv("mais"),Q(type))).typ({neg:true})},
     "too many parameters":
         {en:(termType,number)=> // $termType accepts one parameter, but has $number.
-             S(Q(termType),CP(C("but"),
-                              VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
-                              VP(VP(V("have"),NO(number))))),
-         fr:(termType,number)=> // $termType accepte un paramètre, mais en a $number.
-             S(Q(termType),CP(C("mais"),
-                              VP(V("accepter"),NP(D("un"),A("seul"),N("paramètre"))).a(","),
-                              VP(VP(Pro("en"),V("avoir"),NO(number)))))}
+             S(Q(termType),VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
+               SP(C("but"),Pro("I"),VP(VP(V("have"),NO(number))))),
+         fr:(termType,number)=> // $termType accepte un seul paramètre, mais en a $number.
+             S(Q(termType),VP(V("accepter"),NP(D("un"),A("seul").pos("pre"),N("paramètre"))).a(","),
+               SP(C("mais"),Pro("je"),VP(VP(Pro("en"),V("avoir"),NO(number)))))},
 }
 
-// function testWarnings(n){
-//     for (w in warnings){
-//         console.log(w)
-//         N(n).warn(w,"A","B","C")
-//     }
-// }
+// show all warnings with dummy parameters in the console : useful for debugging
+function testWarnings(){
+    for (let w in Constituent.prototype.warnings){
+        console.log(w);
+        loadEn();
+        NP(D("a"),N("error")).warn(w,"A","B","C");
+        loadFr();
+        NP(D("un"),N("erreur")).warn(w,"A","B","C");
+    }
+}

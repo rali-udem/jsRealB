@@ -90,7 +90,19 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                         if (typeof this.tab == "object") {// looking for a declension
                             this.tab=this.tab[0];
                             const declension=rules.declension[this.tab]; // occurs for C, Adv and P
-                            if (declension !== undefined)ending = declension.ending;
+                            if (declension !== undefined){
+                                ending = declension.ending;
+                                // set person for Pro when different than 3 (i.e. all elements of declension are the same)
+                                if (terminalType=="Pro"){
+                                    const dd=declension.declension;
+                                    const pe=dd[0].pe;
+                                    if (pe !== 3){
+                                        let i=1;
+                                        while (i<dd.length && dd[i].pe==pe)i++;
+                                        if (i==dd.length)this.setProp("pe",pe);
+                                    }
+                                }
+                            }
                         } else {
                             ending = rules.conjugation[this.tab].ending;
                         }

@@ -67,7 +67,7 @@ Constituent.prototype.setProp = function(propName,val){
 Constituent.prototype.initProps = function(){
     if (this.isOneOf(["N","A","D","V","NO","Pro"])){
         // "tien" and "vôtre" are very special case of pronouns which are to the second person
-        this.peng={pe:contains(["tien","vôtre"],this.lemma)?2:defaultProps[this.lang]["pe"],
+        this.peng={pe:defaultProps[this.lang]["pe"],
                    n: defaultProps[this.lang]["n"],
                    g: defaultProps[this.lang]["g"],
                    // pengNO:pengNO++

@@ -191,6 +191,13 @@ var exemplesFr=[
       VP(V("manger").t("pc"),
          NP(D("le"),N("souris")))).t("f").n("s"),
         "La chatte mangera la souris."],
+    [S(CP(C("et"),
+          Pro("elle").tn(""),
+          Pro("moi").tn("")),
+        VP(V("aller"),
+           PP(P("à"),
+              NP(D("le"),N("plage"))))).t("pc"),
+     "Elle et moi sommes allés à la plage."],
     
 ];
 

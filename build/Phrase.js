@@ -271,25 +271,29 @@ Phrase.prototype.getConst = function(constTypes){
 
 //////////// information propagation
 
-// find the gender and number of NP elements of this Phrase
+// find the gender, number and Person of NP elements of this Phrase
 //   set masculine if at least one NP is masculine
 //   set plural if one is plural or more than one combined with and
-//  TODO: take into account pronoun combination in French which can change the number
-Phrase.prototype.findGenderNumber = function(andCombination){
+//   set person to the minimum one encountered (i.e. 1st < 2nd < 3rd) mostly useful for French 
+Phrase.prototype.findGenderNumberPerson = function(andCombination){
     let g="f";
     let n="s";
+    let pe=3;
     let nb=0;
     for (let i = 0; i < this.elements.length; i++) {
         const e=this.elements[i];
-        if (e.isOneOf(["NP","N"])){
-            nb+=1
-            if (e.getProp("g")=="m")g="m";
-            if (e.getProp("n")=="p")n="p"
+        if (e.isOneOf(["NP","N","Pro","Q"])){
+            nb+=1;
+            const propG=e.getProp("g");
+            if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
+            if (e.getProp("n")=="p")n="p";
+            const propPe=e.getProp("pe");
+            if (propPe !== undefined && propPe<pe)pe=propPe;
         }
     }
     if (nb==0) g="m";
     else if (nb>1 && n=="s" && andCombination)n="p";  
-    return {"g":g,"n":n}
+    return {"g":g,"n":n,"pe":pe}
 }
 
 ////////////// Phrase structure modification
@@ -493,14 +497,16 @@ Phrase.prototype.passivate = function(){
             const aux=V("être");
             aux.parentConst=vp;
             aux.taux=verbe.taux;
-            aux.peng=newSubject.peng;
+            if (newSubject!==undefined) // this can happen when a subject is Q
+                aux.peng=newSubject.peng;
             aux.props=verbe.props;
             aux.pe(3); // force person to be 3rd (number and tense will come from the new subject)
             if (vp.getProp("t")=="ip"){
                 aux.t("s") // set subjonctive present tense for an imperative
             }
             const pp = V(verbe.lemma).t("pp");
-            pp.peng=newSubject.peng;
+            if (newSubject!==undefined) // this can happen when a subject is Q
+                pp.peng=newSubject.peng;
             pp.parentConst=vp;
             vp.elements.splice(verbeIdx,0,aux,pp);
         }
@@ -822,25 +828,12 @@ Phrase.prototype.cpReal = function(){
         return this.doFormat(res)
     }
     if (last==0){// coordination with only one element, ignore coordinate
+        Array.prototype.push.apply(res,elems[0].real());
         this.setProp("g",elems[0].getProp("g"));
         this.setProp("n",elems[0].getProp("n"));
-        this.setProp("pe",elems[0].getProp("pe"));
-        this.peng=elems[0].peng; // set pe,n,g info from single element
-        Array.prototype.push.apply(res,elems[0].real());
+        this.setProp("pe",elems[0].getProp("pe")||3);
         return this.doFormat(res); // process format for the CP
     }
-    // compute the combined gender and number of the coordination
-    let c;
-    if(idxC >= 0 ){
-        c=this.elements[idxC]
-        var and=this.isFr()?"et":"and";
-        var gn=this.findGenderNumber(c.lemma==and)
-        this.setProp("g",gn.g);
-        this.setProp("n",gn.n);
-        this.setProp("pe",3);
-    } else {
-        last++; // no coordinate, process all with the following loop 
-    }            
     for (let j = 0; j < last; j++) { //insert comma after each element
         const ej=elems[j];
         if (j<last-1 && 
@@ -853,6 +846,18 @@ Phrase.prototype.cpReal = function(){
         Array.prototype.push.apply(res,this.elements[idxC].real());
         Array.prototype.push.apply(res,elems[last].real());
     }
+    // compute the combined gender and number of the coordination once children have been realized
+    let c;
+    if(idxC >= 0 ){
+        c=this.elements[idxC]
+        var and=this.isFr()?"et":"and";
+        var gn=this.findGenderNumberPerson(c.lemma==and)
+        this.setProp("g",gn.g);
+        this.setProp("n",gn.n);
+        this.setProp("pe",gn.pe);
+    } else {
+        last++; // no coordinate, process all with the following loop 
+    }            
     return this.doFormat(res); // process format for the CP
 }
 
