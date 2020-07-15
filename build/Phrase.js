@@ -85,7 +85,7 @@ Phrase.prototype.getHeadIndex = function(phName){
     let termName=phName.substr(0,phName.length-1); // remove P at the end of the phrase name
     let headIndex=this.getIndex([phName,termName]);
     if (headIndex<0){
-        this.warn("not found",termName,phName);
+        // this.warn("not found",termName,phName); // this generates too many spurious messages
         headIndex=0;
     }
     return headIndex;

@@ -53,15 +53,15 @@ http.createServer(function (request, response) {
            }
            response.end(sentence)
        } catch (e) {
-           response.end(`${e}\nErroneous realization from ${errorType}`)
+           mess=`${e}\nErroneous realization from ${errorType}\n`
            if (errorType=="JSON"){
                try { // pretty-print if possible... i.e. not a JSON error
-                   response.end(ppJSON(JSON.parse(exp)))
+                   response.end(mess+ppJSON(JSON.parse(exp)))
                } catch(e){ // print line as is
-                   response.end(exp);
+                   response.end(mess+exp);
                }
            } else {
-               response.end(exp)
+               response.end(mess+exp)
            }
        }
    } else {
