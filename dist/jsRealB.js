@@ -1840,8 +1840,10 @@ Terminal.prototype.decline = function(setPerson){
     } else if (declension.length==1){ // no declension
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
-        const g=this.getProp("g");
-        const n=this.getProp("n");
+        let g=this.getProp("g");
+        if (this.isOneOf(["D","N"]) && g==undefined)g="m";
+        let n=this.getProp("n");
+        if (this.isOneOf(["D","N"]) && n==undefined)n="s";
         let pe=3;
         if (setPerson){
             let p=this.getProp("pe");
@@ -1912,6 +1914,7 @@ Terminal.prototype.decline = function(setPerson){
 // French conjugation
 Terminal.prototype.conjugate_fr = function(){
     let pe = +this.getProp("pe"); // property can also be a string with a single number 
+    if (pe == undefined) pe=3;
     let g = this.getProp("g");
     let n = this.getProp("n");
     const t = this.getProp("t");
@@ -23722,7 +23725,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-07-14 17:36"
+jsRealB_dateCreated="2020-09-02 17:03"
 //  Terminals
 exports.N=N;
 exports.A=A;
