@@ -33,17 +33,36 @@ http.createServer(function (request, response) {
    var lang = query.lang
    var exp = query.exp
    if (lang=="en"){
+       let errorType,sentence;
        try {        
            if (exp.startsWith("{")){
                errorType="JSON";
-               sentence=fromJSON(JSON.parse(exp)).toString();
+               jsonExp=JSON.parse(exp);
+               if (jsonExp["lang"]){ // check specified language in the JSON
+                   if (jsonExp["lang"]!=lang){
+                       response.end("specified language should be "+lang+" not "+jsonExp["lang"]);
+                       jsonExp["lang"]=lang;
+                   } else {
+                       jsonExp["lang"]=lang;
+                   }
+               }
+               sentence=fromJSON(jsonExp).toString();
            } else {
                errorType="jsRealB expression";
                sentence=eval(exp).toString();
            }
-           response.end(sentence+"\n")
+           response.end(sentence)
        } catch (e) {
-           response.end(`${e}\nErroneous ${errorType}: ${exp}\n`)
+           mess=`${e}\nErroneous realization from ${errorType}\n`
+           if (errorType=="JSON"){
+               try { // pretty-print if possible... i.e. not a JSON error
+                   response.end(mess+ppJSON(JSON.parse(exp)))
+               } catch(e){ // print line as is
+                   response.end(mess+exp);
+               }
+           } else {
+               response.end(mess+exp)
+           }
        }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')

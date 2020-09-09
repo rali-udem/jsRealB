@@ -33,6 +33,7 @@ function quote(s){
     return '"'+s.replace('"','\\"')+'"';   // double quotes escaping double quotes 
 }
 
+// check if array contains an element
 function contains(arr,elem){
     return arr.indexOf(elem)>=0;
 }
@@ -116,5 +117,6 @@ function setExceptionOnWarning(val){
     exceptionOnWarning=val;
 }
 
-var jsRealB_version="3.4";
+// version and date informations
+var jsRealB_version="3.5";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

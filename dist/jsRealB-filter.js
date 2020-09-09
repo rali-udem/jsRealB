@@ -23,28 +23,53 @@ var rl = readline.createInterface({
   terminal: false
 });
 
+function realizeSentence(input,lang,okFunc,errFunc){
+    let errorType,sentence;
+    try {        
+        if (input.startsWith("{")){
+            errorType="JSON";
+            jsonExp=JSON.parse(input);
+            if (jsonExp["lang"]){ // check specified language in the JSON
+                if (jsonExp["lang"]!=lang){
+                    errFunc("specified language should be "+lang+" not "+jsonExp["lang"]);
+                    jsonExp["lang"]=lang;
+                } else {
+                    jsonExp["lang"]=lang;
+                }
+            }
+            sentence=fromJSON(jsonExp).toString();
+        } else {
+            errorType="jsRealB expression";
+            sentence=eval(input).toString();
+        }
+        okFunc(sentence)
+    } catch (e) {
+        errFunc(`${e}\nErroneous realization from ${errorType}`)
+        if (errorType=="JSON"){
+            try { // pretty-print if possible... i.e. not a JSON error
+                errFunc(ppJSON(JSON.parse(input)))
+            } catch(e){ // print line as is
+                errFunc(input);
+            }
+        } else {
+            errFunc(input)
+        }
+    }
+}
+
 rl.on('line', function(line){
     line=line.trim();
     if (line.length>0){
-        let errType,sentence;
-        try {        
-            if (line.startsWith("{")){
-                errorType="JSON";
-                sentence=fromJSON(JSON.parse(line)).toString();
-            } else {
-                errorType="jsRealB expression";
-                sentence=eval(line).toString();
-            }
-            console.log(sentence)
-        } catch (e) {
-            console.error(`${e}\nErroneous ${errorType}: ${line}`)
-        }
+        realizeSentence(line,"en",console.log,console.error)
     }
 })
 
 // try this as input
 // S(NP(D("the"),N("man")),VP(V("love")))
 // or
-// {"phrase":"S", "elements":[{"phrase":"NP", "elements":[{"terminal":"D", "lemma":"the"}, {"terminal":"N", "lemma":"man"}]}, {"phrase":"VP", "elements":[{"terminal":"V", "lemma":"love"}]}], "lang":"fr"}
+// {"phrase":"S", "elements":[{"phrase":"NP", "elements":[{"terminal":"D", "lemma":"the"}, {"terminal":"N", "lemma":"man"}]}, {"phrase":"VP", "elements":[{"terminal":"V", "lemma":"love"}]}], "lang":"en"}
 // it should return in both cases
 // The man loves.
+//   test of erroneous input 
+// S(NP(D("the"),N("man")),VP(V("love",true)))
+// {"phrase":"S", "elements":[{"phrase":"NP", "elements":[{"terminal":"D", "lemma":"the"}, {"terminal":"N", "lemma":"man"}]}, {"phrase":"VP", "elements":[{"terminal":"V", "lemma":3}]}], "lang":"en"}

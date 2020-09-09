@@ -14,6 +14,20 @@
 
 <p>While being compact and <em>linguist-friendly</em>, this notation is not so convenient when it must be created by another system. Producing a syntactically legal JavaScript programmatically can be cumbersome and error-prone. This is why we have defined an alternative input format to <span class="jsr">jsRealB</span> using JSON. Almost all programming languages provide convenient and efficient APIs for transforming their data structures in JSON.  Using this format, the <em>What to say</em> part of a natural language generation system can be defined in any programming language, while being able to use the <span class="jsr">jsRealB</span> realizer for producing a well-formed and well-formatted natural language utterance. This is similar in spirit to the XML input format for <a href="https://github.com/simplenlg/simplenlg" title="Java API for Natural Language Generation.">SimpleNLG</a>.</p>
 
+<h2>Use cases</h2>
+<p>This format of JSON input has been used as output from two different programming languages, for which  auxiliary functions have been developed to ease the creation of the JSON structures.</p>
+<dl>
+    <dt><strong>Python</strong></dt> 
+    <dd><a href="../documentation/jsRealBfromPython.html">documentation</a><br/>
+        <a href="../build/jsRealBclass.py">source file</a>
+    </dd>
+    
+    <dt><strong>Prolog</strong></dt>
+    <dd>it <a href="https://www.swi-prolog.org/pldoc/man?section=jsonsupport" title="SWI-Prolog -- Manual">uses the <em>classical</em> JSON representation of SWI-Prolog</a><br/>
+       <a href="../build/swi-json.pl">source file</a>
+    </dd>
+</dl>
+
 <h2>Description</h2>
 <p>This notation closely parallels the <em>usual</em> <span class="jsr">jsRealB</span> function calls that create constituents as described in the <a href="../documentation/user.html">documentation</a>. The JSON input is an object with a key that indicates if it is a <code>phrase</code> or a <code>terminal</code> depending on its key.</p>
 <ul>

@@ -27,8 +27,8 @@ QUnit.test( "Phrase FR", function( assert ) {
          expected:"Beaux cadeaux.",
          message:"Accord adjectif"},
         // 4
-        {expression:NP(D("le"),N("gens").n("p"),A("bon").g("f").pos("pre")),
-         expected:"les bonnes gens",
+        {expression:NP(D("le"),N("gens").n("p"),A("vulgaire").pos("pre")),
+         expected:"les vulgaires gens",
          message:"Adjectif pré-posé"},
         // 5
         {expression:S( NP(D("le"), N("père"), PP(P("de"), NP(D("mon").pe(1), N("fille")) ) )),
@@ -213,7 +213,7 @@ QUnit.test( "Phrase FR", function( assert ) {
          message:"Élisions, euphonies et cod coordonné placé avant le verbe"},
         // 34
         {expression: S(NP(D("le").tag("i"),N("chat").tag("b"))),
-         expected:"<i>Le</i> <b>chat.</b>",
+         expected:"<i>Le</i> <b>chat</b>.",
          message:"Top level,capitalization with HTML tags."},
         // 35
         {expression:S(Pro("je").pe(2),
