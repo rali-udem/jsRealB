@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Using jsRealB from Python</title>
+  <link rel="stylesheet" type="text/css" href="../documentation/style.css">
+</head>
+<body>
+    
+<h1>Calling <span class="jsr">jsRealB</span> from Python</h1>
+
+<h2>Motivation</h2> 
+<p> The input notation to <span class="jsr">jsRealB</span> realizer was originally designed to be a valid JavaScript program  reflecting the traditional constituent syntax formalism which is quite convenient when the NLG system is written in Javascript. Given the fact that Python has become the <em>lingua franca</em> of NLP, we have developed an <a href="../data/jsRealB-jsoninput.html">alternative JSON input format</a> for <span class="jsr">jsRealB</span> that can be built using the <a href="https://docs.python.org/3/library/json.html" title="json — JSON encoder and decoder &#8212; Python 3.8.5 documentation">standard Python JSON API</a>.</p>
+
+<h2>JSON creation using the standard API</h2>
+<p>The following table shows how JSON values are mapped to Python values. Using the JSON API, it is relatively easy to create in Python a value that can be serialized into JSON that can be sent to a <span class="jsr">jsRealB</span> HTTP server using the <a href="../data/jsRealB-jsoninput.html">JSON input format</a>.</p>
+<table style="width:200px;margin:auto">
+    <thead>
+        <tr>
+            <th scope="col">JSON</th>
+            <th scope="col">Python</th>
+        </tr>
+    </thead>
+    <tbody style="font-family:courier">
+        <tr> <td>object</td> <td>dict</td></tr>
+        <tr> <td>array</td> <td>list</td></tr>
+        <tr> <td>string</td> <td>string</td></tr>
+        <tr> <td>number</td> <td>number</td></tr>
+        <tr> <td>true</td> <td>True</td></tr>
+        <tr> <td>false</td> <td>False</td></tr>
+        <tr> <td>null</td> <td>None</td></tr>
+    </tbody>
+</table>
+
+<h2>JSON creation using the <em>Constituent</em> notation</h2>
+<p>Using the classical constituent based notation is quite similar to Python constructors which are called by simply writing their name, usually starting with a capital letter. Similarly to Javascript, the created object can use the dot notation to call its members. So we developed a constituent based notation for creating Python data structures which is similar (in fact the same!) as the one used for the <span class="jsr">jsRealB</span> Javascript version. Of course, in Python this notation is only used for creating a data structure, while in Javascript it can be serialized directly.</p>
+<p>The system is based on three main classes: <code>Constituent</code> with two subclasses, <code>Terminal</code> and <code>Phrase</code>. The <code>Phrase</code> is subclassed to define the <span class="jsr">jsRealB</span> constructors: <code>S</code>, <code>SP</code>, <code>NP</code>,... <code>Terminal</code> is subclassed to define <code>D</code>, <code>N</code>, <code>V</code>, ... See the <a href="user.html"><span class="jsr">jsRealB</span> documentation</a> for details. </p>
+<p>With this notation, it is now easy to create Python data structures using the <em>usual</em> <span class="jsr">jsRealB</span> notation. For example</p>
+<pre><code>sent = S(                 # Sentence
+  Pro("him").c("nom"),    # Pronoun (citation form), nominative case
+  VP(V("eat"),            # Verb at present tense by default
+     NP(D("a"),           # Noun Phrase, Determiner
+        N("apple").n("p") # Noun plural
+       ).tag("em")        # add an &lt;em> tag around the NP
+    ))
+</code></pre>
+<p>creates a Python data structure that can be serialized as string with the JSON representation with <code>str(sent)</code> to return </p>
+<pre><code>'{"phrase":"S","props":{},"elements":[{"terminal":"Pro","props":{"c":"nom"},"lemma":"him"},{"phrase":"VP","props":{},"elements":[{"terminal":"V","props":{},"lemma":"eat"},{"phrase":"NP","props":{"tag":"em"},"elements":[{"terminal":"D","props":{},"lemma":"a"},{"terminal":"N","props":{"n":"p"},"lemma":"apple"}]}]}]}'
+</code></pre>
+<p>A pretty printed JSON string can be printed with <code>print(sent.pp())</code></p>
+<pre><code>{"phrase":"S",
+ "elements":[{"terminal":"Pro","lemma":"him","props":{"c":"nom"}}},
+             {"phrase":"VP",
+              "elements":[{"terminal":"V","lemma":"eat"},
+                          {"phrase":"NP","props":{"tag":"em"},
+                           "elements":[{"terminal":"D","lemma":"a"},
+                                       {"terminal":"N","lemma":"apple","props":{"n":"p"}}}]}]}]}
+</code></pre>
+<p>A pretty-printed constituent notation of the expression can be printed with <code>print(sent.show())</code></p>
+<pre><code>S(Pro("him").c("nom"),
+  VP(V("eat"),
+     NP(D("a"),
+        N("apple").n("p")).tag("em")))
+</code></pre>
+<p>Note that this string is recomputed from the internal data structure so it is not necessarily the one used as input, especially if it has been modified by the program since its creation.</p>
+
+<h2>Realizng the expression with a <span class="jsr">jsRealB</span> server</h2>
+<p><code>jsRealB(exp,show=False,json=False,lang="en")</code> sends the Python expression <code>exp</code> to an HTTP <span class="jsr">jsRealB</span> server and returns the realized string.</p> 
+<p>If <code>show</code> is set to <code>True</code>, it displays the expression sent to the server (before being URL encoded). By default, it sends the expression using the <em>constituent</em> notation which is more compact. <code>lang</code> sets the realization language, English by default.</p>
+
+<h2>Modification of data structure</h2>
+<p>Although the JSON notation is a statci description of a structures,  the <code>add(self,elements,ix=None)</code> method of the <code>Phrase</code> class can modify an existing structure as it can be in Javascript. <code>ix</code> is the position at which the new element will be added within the current elements. When not specified it is added at the end. For example, after the following definitions:</p>
+<pre><code>apple = NP(D("a"),N("apple"))
+boy = NP(D("the"),N("boy"))
+</code></pre>
+<p>the call</p>
+<pre><code>jsRealB(S(VP().add(V("love")).add(apple)).add(boy.n("p"),0))</code></pre>
+<p>creates the following structure</p>
+<pre><code>S(NP(D("the"),
+     N("boy")).n("p"),
+  VP(V("love"),
+     NP(D("a"),
+        N("apple"))))
+</code></pre>
+<p>which is realized as</p>
+<pre><code>'The boys love an apple.'</code></pre>
+
+<h2>Usage</h2>
+<p>To add these functions to a Python 3 program. First copy <a href="../build/jsRealBclass.py">this file</a> in your directory, then add this to your program</p>
+<pre><code>from jsRealBclass import *</code></pre>
+
+<h2>Conclusion</h2>
+We have described the use of the <span class="jsr">jsRealB</span> text realizer from a Python program by sending a serialized Python data structure to an HTTP server. We have also described how to create this structure from a constituent inspired notation. Of course, it would be <em>simpler</em> if the realization process could also be done in Python, but we leave this as an <em>exercise for the reader</em>!
+
+<p><a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a>, September 2020</p>
+</body>
+</html>
