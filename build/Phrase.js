@@ -106,17 +106,19 @@ Phrase.prototype.linkProperties	 = function(){
         this.peng=this.elements[headIndex].peng;
         for (let i = 0; i < this.elements.length; i++) {
             if (i!=headIndex){
-                const e=this.elements[i]
-                if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
-                    this.peng["n"]=e.grammaticalNumber()
-                    // gender agreement between a French number and subject
-                    e.peng["g"]=this.peng["g"]; 
-                } else if (e.isOneOf(["D","A"])){
-                    // try to keep modifications done to modifiers...
-                    if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
-                    if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
-                    if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
-                    e.peng=this.peng;
+                const e=this.elements[i];
+                if (this.peng){ // do not try to modify if current peng does not exist e.g. Q
+                    if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
+                        this.peng["n"]=e.grammaticalNumber()
+                        // gender agreement between a French number and subject
+                        e.peng["g"]=this.peng["g"]; 
+                    } else if (e.isOneOf(["D","A"])){
+                        // try to keep modifications done to modifiers...
+                        if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
+                        if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
+                        if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
+                        e.peng=this.peng;
+                    }
                 }
             }
         }

@@ -473,16 +473,6 @@ Constituent.prototype.doFormat = function(cList){
     const punctuation=this.getRules()["punctuation"];
     const lexicon=this.getLexicon()   
     
-    function getPunctString(punct){
-        const punc=lexicon[punct];
-        if (punc !== undefined && punc["Pc"] !== undefined){
-            const tab=punc["Pc"]["tab"][0];
-            const puncRule=punctuation[tab];
-            return puncRule["b"]+punct+puncRule["a"]
-        }
-        return punct // default return string as is
-    }
-    
     function getBeforeAfterString(punct){
         const punc=lexicon[punct];
         if (punc !== undefined && punc["Pc"] !== undefined){
@@ -498,6 +488,10 @@ Constituent.prototype.doFormat = function(cList){
                 const puncRuleAfter=punctuation[tabAfter];
                 return {"b":puncRuleBefore["b"]+before+puncRuleBefore["a"],
                         "a":puncRuleAfter["b"]+after+puncRuleAfter["a"]}
+            } else {
+                const tab=punc["Pc"]["tab"][0];
+                const puncRule=punctuation[tab];
+                punct=puncRule["b"]+punct+puncRule["a"]
             }
         }
         return {"b":punct,"a":punct}
@@ -539,11 +533,11 @@ Constituent.prototype.doFormat = function(cList){
     }
     const as = this.props["a"];
     if (as !== undefined){
-        as.forEach(function(a){wrapWith("",getPunctString(a))})
+        as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["a"])})
     }
     const bs = this.props["b"];
     if (bs !== undefined){
-        bs.forEach(function(b){wrapWith(getPunctString(b),"")})
+        bs.forEach(function(b){wrapWith(getBeforeAfterString(b)["b"],"")})
     }
     const ens = this.props["en"] || this.props["ba"];
     if (ens !== undefined){

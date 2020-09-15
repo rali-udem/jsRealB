@@ -55,6 +55,9 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         if (lemmaType != "string" && lemmaType != "number"){
             this.warn("bad parameter","string, number",lemmaType);
         }
+        if (lemmaType == "string"){
+            lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+        }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.props["dOpt"]={mprecision:2, raw:false, nat:false, ord:false};
@@ -319,8 +322,7 @@ Terminal.prototype.decline = function(setPerson){
 
 // French conjugation
 Terminal.prototype.conjugate_fr = function(){
-    let pe = +this.getProp("pe"); // property can also be a string with a single number 
-    if (pe == undefined) pe=3;
+    let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
     let g = this.getProp("g");
     let n = this.getProp("n");
     const t = this.getProp("t");
@@ -402,7 +404,7 @@ Terminal.prototype.conjugate_fr = function(){
 }
 
 Terminal.prototype.conjugate_en = function(){
-    let pe = +this.getProp("pe"); // property can also be a string with a single number 
+    let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");

@@ -473,16 +473,6 @@ Constituent.prototype.doFormat = function(cList){
     const punctuation=this.getRules()["punctuation"];
     const lexicon=this.getLexicon()   
     
-    function getPunctString(punct){
-        const punc=lexicon[punct];
-        if (punc !== undefined && punc["Pc"] !== undefined){
-            const tab=punc["Pc"]["tab"][0];
-            const puncRule=punctuation[tab];
-            return puncRule["b"]+punct+puncRule["a"]
-        }
-        return punct // default return string as is
-    }
-    
     function getBeforeAfterString(punct){
         const punc=lexicon[punct];
         if (punc !== undefined && punc["Pc"] !== undefined){
@@ -498,6 +488,10 @@ Constituent.prototype.doFormat = function(cList){
                 const puncRuleAfter=punctuation[tabAfter];
                 return {"b":puncRuleBefore["b"]+before+puncRuleBefore["a"],
                         "a":puncRuleAfter["b"]+after+puncRuleAfter["a"]}
+            } else {
+                const tab=punc["Pc"]["tab"][0];
+                const puncRule=punctuation[tab];
+                punct=puncRule["b"]+punct+puncRule["a"]
             }
         }
         return {"b":punct,"a":punct}
@@ -539,11 +533,11 @@ Constituent.prototype.doFormat = function(cList){
     }
     const as = this.props["a"];
     if (as !== undefined){
-        as.forEach(function(a){wrapWith("",getPunctString(a))})
+        as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["a"])})
     }
     const bs = this.props["b"];
     if (bs !== undefined){
-        bs.forEach(function(b){wrapWith(getPunctString(b),"")})
+        bs.forEach(function(b){wrapWith(getBeforeAfterString(b)["b"],"")})
     }
     const ens = this.props["en"] || this.props["ba"];
     if (ens !== undefined){
@@ -728,17 +722,19 @@ Phrase.prototype.linkProperties	 = function(){
         this.peng=this.elements[headIndex].peng;
         for (let i = 0; i < this.elements.length; i++) {
             if (i!=headIndex){
-                const e=this.elements[i]
-                if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
-                    this.peng["n"]=e.grammaticalNumber()
-                    // gender agreement between a French number and subject
-                    e.peng["g"]=this.peng["g"]; 
-                } else if (e.isOneOf(["D","A"])){
-                    // try to keep modifications done to modifiers...
-                    if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
-                    if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
-                    if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
-                    e.peng=this.peng;
+                const e=this.elements[i];
+                if (this.peng){ // do not try to modify if current peng does not exist e.g. Q
+                    if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
+                        this.peng["n"]=e.grammaticalNumber()
+                        // gender agreement between a French number and subject
+                        e.peng["g"]=this.peng["g"]; 
+                    } else if (e.isOneOf(["D","A"])){
+                        // try to keep modifications done to modifiers...
+                        if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
+                        if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
+                        if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
+                        e.peng=this.peng;
+                    }
                 }
             }
         }
@@ -1644,6 +1640,9 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         if (lemmaType != "string" && lemmaType != "number"){
             this.warn("bad parameter","string, number",lemmaType);
         }
+        if (lemmaType == "string"){
+            lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+        }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
         this.props["dOpt"]={mprecision:2, raw:false, nat:false, ord:false};
@@ -1908,8 +1907,7 @@ Terminal.prototype.decline = function(setPerson){
 
 // French conjugation
 Terminal.prototype.conjugate_fr = function(){
-    let pe = +this.getProp("pe"); // property can also be a string with a single number 
-    if (pe == undefined) pe=3;
+    let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
     let g = this.getProp("g");
     let n = this.getProp("n");
     const t = this.getProp("t");
@@ -1991,7 +1989,7 @@ Terminal.prototype.conjugate_fr = function(){
 }
 
 Terminal.prototype.conjugate_en = function(){
-    let pe = +this.getProp("pe"); // property can also be a string with a single number 
+    let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
@@ -23720,7 +23718,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-09-02 17:03"
+jsRealB_dateCreated="2020-09-15 10:47"
 //  Terminals
 exports.N=N;
 exports.A=A;
