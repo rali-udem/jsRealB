@@ -109,15 +109,14 @@ Phrase.prototype.linkProperties	 = function(){
                 const e=this.elements[i];
                 if (this.peng){ // do not try to modify if current peng does not exist e.g. Q
                     if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
-                        this.peng["n"]=e.grammaticalNumber()
+                        this.peng["n"]=e.grammaticalNumber();
                         // gender agreement between a French number and subject
                         e.peng["g"]=this.peng["g"]; 
                     } else if (e.isOneOf(["D","A"])){
-                        // try to keep modifications done to modifiers...
-                        if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
-                        if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
-                        if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
-                        e.peng=this.peng;
+                        // propagate gender and number of the noun to the determiners and adjectives
+                        // but unfortunately this will not be propagated if the NP is modified afterward...
+                        e.peng["g"]=this.peng["g"];
+                        e.peng["n"]=this.peng["n"];
                     }
                 }
             }

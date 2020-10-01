@@ -19,14 +19,14 @@ console.log("** jsRealB "+jsRealB_version+" ("+jsRealB_dateCreated+") Developmen
 if (args.length>2){
     var a2=args[2];
     if (a2=="dme"){
-        loadEn();
+        loadEn(true);
         updateLexicon(require("../data/lexicon-dme.json"));
         console.log("dme lexicon loaded");
         buildLemmataEn();
     } else if (a2=="dmf") {
         loadFr(true);
         updateLexicon(require("../data/lexicon-dmf.json"));
-        console.log("dmf lexicon loaded")
+        console.log("lexique dmf chargé")
         buildLemmataFr();
     } else if (a2=="en"){
         loadEn(true);

@@ -365,12 +365,10 @@ function help(){
 }
 
 function buildLemmataEn(){
-    loadEn();
     lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
 }
 
 function buildLemmataFr(){
-    loadFr();
     lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
 }
 
