@@ -432,6 +432,8 @@ Constituent.prototype.doElisionFr = function(cList){
     var contr;
     var last=cList.length-1;
     for (var i = 0; i < last; i++) {
+        if (i>0 && cList[i-1].getProp("lier")!== undefined) // ignore if the preceding word is "lié" to this one
+            continue;
         var m1=sepWordREfr.exec(cList[i].realization)
         if (m1 === undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
@@ -567,6 +569,17 @@ Constituent.prototype.detokenize = function(terminals){
         const terminal=terminals[i];
         if (terminal.props["lier"]!== undefined){
             s+=terminal.realization+"-";
+            // check for adding -t- in French between a verb and pronoun
+            if (this.isFr() && terminal.isA("V") && terminals[i+1].isA("Pro")){
+                /* According to Antidote:
+                C’est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
+                du futur de l’indicatif se termine par une autre lettre que d ou t et qu’il est suivi 
+                des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
+                et le pronom sujet inversé.*/
+                if (/[^dt]$/.test(terminal.realization) && /^[ieo]/.test(terminals[i+1].realization)){
+                    s+="t-";
+                }
+            }
         } else if (/[- ']$/.exec(terminal.realization)){
             s+=terminal.realization;
         } else if (terminal.realization.length>0) {

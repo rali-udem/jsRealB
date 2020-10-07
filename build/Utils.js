@@ -118,5 +118,5 @@ function setExceptionOnWarning(val){
 }
 
 // version and date informations
-var jsRealB_version="3.5";
+var jsRealB_version="3.6";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

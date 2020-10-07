@@ -39,7 +39,8 @@ allDemos=(  99BottlesOfBeer/index.html \
             Pronoms/index.html \
             randomGeneration/French.html \
             randomGeneration/English.html \
-            VariantesDePhrases/index.html )
+            VariantesDePhrases/index.html \
+            ../Tutorial/metro.html)
 
 for demo in ${allDemos[*]}
 do

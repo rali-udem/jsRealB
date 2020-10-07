@@ -286,7 +286,7 @@ Terminal.prototype.decline = function(setPerson){
                     if (this.getProp("g") ===undefined)delete keyVals["g"];
                     if (this.getProp("n") ===undefined)delete keyVals["n"];
                     // make sure it matches the first and set the property for verb agreement
-                    if (c=="nom" || tn==""){
+                    if ((c=="nom" || tn=="") && this.getProp("pe")===undefined){
                         keyVals["pe"]=1;
                         this.setProp("pe",1);
                     } 
@@ -320,31 +320,45 @@ Terminal.prototype.decline = function(setPerson){
     return res; 
 }
 
-// French conjugation
+Terminal.prototype.removeNextConstInSentence = function(){
+    const parentElems=this.parentConst.elements;
+    const me=this;
+    const meIdx=parentElems.findIndex(e=>e===me);
+    if (meIdx>=0){
+        const nextWord=parentElems.splice(meIdx+1,1)[0]; // remove nextWord from parent
+        nextWord.realization=nextWord+""; // force realization
+        return nextWord;
+    } 
+    return this.error("no parent for removeNextConstInSentence")
+}
+
+// create a new constituent and fill its realization field 
+// used in conjugate_fr and conjugate_en
+function constReal(cnst){
+    cnst.realization=cnst.isA("Q")?cnst.lemma:cnst.toString();
+    return cnst;
+}
+// French conjugation returns a list of Terminals
 Terminal.prototype.conjugate_fr = function(){
     let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
     let g = this.getProp("g");
     let n = this.getProp("n");
     const t = this.getProp("t");
     let neg;
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",{pe:pe,n:n,t:t});
+    if (this.tab==null) 
+        return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_fr:tab",{pe:pe,n:n,t:t})))];
     switch (t) {
     case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         // const aux=this.getProp("aux");
         // const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        const v=V("avoir");
-        v.peng=this.peng;
-        v.taux=this.taux;
-        v.taux["t"]=tempsAux;
-        neg=this.neg2;
-        if (neg!==undefined){ // apply negation to the auxiliary and remove it from the verb...
-            v.neg2=neg;
-            delete this.neg2
-        }
-        if (v.taux["aux"]=="êt"){
-            v.setLemma("être");
-            return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
+        const aux=V("avoir");
+        aux.parentConst=this.parentConst;
+        aux.peng=this.peng;
+        aux.taux=this.taux;
+        aux.taux["t"]=tempsAux;
+        if (aux.taux["aux"]=="êt"){
+            aux.setLemma("être");
         } else {
             // check the gender and number of a cod appearing before the verb to do proper agreement
             //   of its part participle
@@ -356,7 +370,24 @@ Terminal.prototype.conjugate_fr = function(){
                 n=cod.getProp("n");
             }
         }
-        return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
+        let pp=constReal(V(this.lemma).t("pp").g(g).n(n));
+        neg=this.neg2;
+        aux.realization=aux+"";
+        if (this.props["lier"] !== undefined ){
+            aux.props["lier"]=this.props["lier"];
+            const nextWord=this.removeNextConstInSentence();
+            if (neg!==undefined && neg !== ""){
+                delete this.neg2;
+                return [aux,nextWord,constReal(Adv(neg)),pp];
+            } else {
+                return [aux,nextWord,pp]
+            }
+        }
+        if (neg!==undefined && neg !== ""){
+            return [aux,constReal(Adv(neg)),pp];
+        }
+        return [aux,pp];
+        // return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
     default:// simple tense
         var conjugation=this.getRules().conjugation[this.tab].t[t];
         if (conjugation!==undefined && conjugation!==null){
@@ -365,75 +396,94 @@ Terminal.prototype.conjugate_fr = function(){
             case "p": case "i": case "f": case "ps": case "c": case "s": case "si": case "ip":
                 if (t=="ip"){ // French imperative does not exist at all persons and numbers
                     if ((n=="s" && pe!=2)||(n=="p" && pe==3)){
-                        return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
+                        return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t})))];
                     }
                 }
                 if (n=="p"){pe+=3};
                 const term=conjugation[pe-1];
                 if (term==null){
-                    return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
+                    return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t})))];
                 } else {
-                    res=this.stem+term;
+                    this.realization=this.stem+term;
                 }
                 neg=this.neg2;
+                if (this.props["lier"]!==undefined){
+                    const nextWord=this.removeNextConstInSentence();
+                    if (neg!==undefined && neg !== ""){
+                        return [this, nextWord,constReal(Adv(neg))];
+                    } else {
+                        return [this,nextWord]
+                    }
+                } 
                 if (neg !== undefined && neg !== ""){
-                    res+=" "+neg;
+                    return [this,constReal(Adv(neg))]
                 }
-                return res;
+                return [this];
             case "b": case "pr": case "pp":
-                res=this.stem+conjugation;
-                neg=this.neg2;
-                if (neg !== undefined && neg !== ""){
-                    if (t=="b")res = neg+" "+res;
-                    else res +=" "+neg;
-                }
+                this.realization=this.stem+conjugation;
                 if (t=="pp" && res != "été"){ //HACK: peculiar frequent case of être that does not change
                     let g=this.getProp("g");
                     if (g=="x")g="m";
                     let n=this.getProp("n");
                     if (g=="x")g="s";
-                    res+={"ms":"","mp":"s","fs":"e","fp":"es"}[g+n]
+                    this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[g+n]
                 }
-                return res;
+                neg=this.neg2;
+                if (neg !== undefined && neg !== ""){
+                    const qNeg=Q(neg);
+                    qNeg.realization=neg;
+                    if (t=="b"){
+                        return [neg,this]
+                    }
+                    else return[this,neg];
+                }
+                return [this];
             default:
-                return this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t});
+                return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_fr",{pe:pe,n:n,t:t})))];
             }
         }
-        return this.morphoError(this.lemma,this.constType,"conjugate_fr:t",{pe:pe,n:n,t:t});
+        return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_fr:t",{pe:pe,n:n,t:t})))];
     }
 }
 
+// English conjugation returns a list of terminals
 Terminal.prototype.conjugate_en = function(){
     let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
     const g=this.getProp("g");
     const n = this.getProp("n");
     const t = this.getProp("t");
-    if (this.tab==null) return this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t});
+    if (this.tab==null)
+        return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t})))];
     const conjugation=this.getRules().conjugation[this.tab].t[t];
     switch (t) {
     case "p": case "ps":
         if (conjugation!==undefined){
             if (typeof conjugation == "string"){
-                return this.stem+conjugation;
+                this.realization=this.stem+conjugation;
+                return [this];
             }
             if (n=="p"){pe+=3};
             const term=conjugation[pe-1];
             if (term==null){
-                return this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})
+                return [constReal(Q(this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})))];
             } else {
-                return this.stem+term;
+                this.realization=this.stem+term;
+                return [this];
             }
         } else {
-            return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
+            return [constReal(Q(this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})))];
         }
     case "f":
-        return "will "+this.lemma;
+        this.realization=this.lemma;
+        return [constReal(V("will").t("b")),this];
     case "ip":
-        return this.lemma;
+        this.realization=this.lemma;
+        return [this];
     case "b": case "pp": case "pr":
-        return this.stem+conjugation;
+        this.realization=this.stem+conjugation;
+        return [this];
     default:
-        return this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t});
+        return [constReal(Q(this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})))];
     }
 }
 
@@ -569,17 +619,20 @@ Terminal.prototype.real = function(){
         if (this.tab!==null)this.realization=this.decline(true);
         break;
     case "V":
-        if (this.tab!==null)this.realization=this.conjugate();
-        break;
+        // if (this.tab!==null)this.realization=this.conjugate();
+        // caution: conjugate returns a list of tokens
+        if (this.tab!==null)
+            return this.doFormat(this.conjugate());
+        // break;
     case "DT":
         this.realization=this.dateFormat(this.date,this.props["dOpt"]);
         break;
     case "NO":
         const opts=this.props["dOpt"];
         if (opts.nat==true){
-            this.realization=this.numberToWord(this.value,this.lang,this.g);
+            this.realization=this.numberToWord(this.value,this.lang,this.peng.g);
         } else if (opts.ord==true){
-            this.realization=this.numberToOrdinal(this.value,this.lang,this.g);
+            this.realization=this.numberToOrdinal(this.value,this.lang,this.peng.g);
         } else if (opts.raw==false){
             this.realization=this.numberFormatter(this.value,opts.mprecision);
         } else { //opts.raw==true

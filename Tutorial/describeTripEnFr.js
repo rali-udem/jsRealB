@@ -48,7 +48,7 @@ function nbStations(leg,ord){
     var st=N(oneOf("station",currentLang=="en"?"stop":"arrêt"));
     if (leg.length==2){
         return currentLang=="en"?NP(Adv("only"),NO(1).dOpt({"nat": true}),st)
-                                :NP(NO(1).dOpt({"nat":true}),st);
+                                :NP(NO(1).dOpt({"ord":true}),st);
     }
     return NP(NO(leg.length-1).dOpt({"ord":ord}),st)
 }

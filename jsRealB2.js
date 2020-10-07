@@ -10,8 +10,8 @@ var  gars = NP(D("le"),N("garçon").n("p"));
 var exemplesFr=[
     [N("chat"),
         "chat"],
-    [Pro("moi"),
-        "lui"],
+    [Pro("moi").c("acc"),
+        "me"],
     [Pro("moi").tn(""),
         "moi"],
     [NP(D("le"),N("chat")),
@@ -202,7 +202,30 @@ var exemplesFr=[
     [S(NP(D("notre").pe(2),N("chef")),
        VP(V("aller"))),
      "Votre chef va."],
-    
+    // nouveau type de question "yon" par inversion du sujet
+    [S(NP(D('le'),  // 54
+          N('chat')),
+       VP(V('manger'),
+          NP(D('le'),
+             N('souris')))).typ({int:"yon"}),
+     "Le chat mange-t-il la souris? "],
+    [S(NP(D('le'), // 55
+          N('chat')),
+       VP(V('manger'),
+          NP(D('le'),
+             N('souris')))).typ({int:"yon",neg:true}),
+     "Le chat ne mange-t-il pas la souris? "],
+    [S(NP(D('le'), // 56
+          N('chat')),
+       VP(V('manger'),
+          NP(D('le'),
+             N('souris')))).typ({int:"yon",pas:true}),
+     "La souris est-elle mangée par le chat? "],
+     [S(Pro("je"),  // 57
+        VP(V('manger'),
+           NP(D('le'),
+              N('fromage')))).typ({int:"yon"}),
+     "Mange-t-il le fromage? "],
 ];
 
 //  exemples en anglais
@@ -368,3 +391,4 @@ loadEn();
 // // testAllEx(showToSource,exemplesEn)
 checkAllEx(exemplesEn);
 // checkAllExJSON(exemplesEn);
+loadFr();

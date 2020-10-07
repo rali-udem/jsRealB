@@ -52,7 +52,7 @@ QUnit.test( "Phrase FR", function( assert ) {
         // 9
         {expression:S(CP(C("et"), NP(D("le"), N("boulanger").g("f")), 
                       NP(D("le"), N("client").g("f"))), VP(V("parler").t("p"))).typ({int:"yon"}),
-         expected:"Est-ce que la boulangère et la cliente parlent? ",
+         expected:"La boulangère et la cliente parlent-elles? ",
          message:"Coordination et interrogation"},
         // 10
         {expression:S(CP(C("et"), NP(D("le"), N("boulanger").g("f")), NP(D("le"), N("vendeur")), 
