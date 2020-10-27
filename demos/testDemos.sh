@@ -25,6 +25,7 @@ fi
 
 ## test all demos
 allDemos=(  99BottlesOfBeer/index.html \
+            Augmentation/Augmentation.html \
             Data2Text/batiment.html \
             Data2Text/building.html \
             date/index.html \

@@ -1,0 +1,41 @@
+body {font-family: arial,sans-serif}
+
+#organigramme,#realisation {
+    border: 1px solid #999;
+    float:left;
+    height:1000px;
+}
+#organigramme{
+    width:800px;
+}
+#realisation {
+    margin-left:10px;
+    padding:3px;
+    width: 350px;
+    display:inline;
+    overflow-y:scroll;
+    font-family: Didot,serif;
+}
+
+rect.test {fill:#FFFACD; /* jaune pâle */}
+g text {
+    font-family:Didot;
+    font-size:11pt;
+}
+
+rect.etape{fill:#F5F5F5; /* gris pâle */}
+
+text.selected,tspan.selected{fill:blue; font-weight:bold;}
+path.selected{stroke:blue; stroke-width:2px;}
+
+rect {fill:none;}
+
+#realisation p {padding:2px; margin:0px 2px;}
+
+fieldset,input {display:inline;}
+#legende {clear:both;}
+
+.activeChoice {
+    stroke:green;
+    cursor:pointer;
+}

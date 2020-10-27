@@ -2,6 +2,7 @@ js   := dist/jsRealB.js dist/jsRealB-node.js IDE/jsRealB-IDE.js
 minjs = $(patsubst %.js,%.min.js,$(js)) 
 
 demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Data2Text/building.html \
+        demos/Augmentation/Augmentation.html \
         demos/date/index.html demos/e2eChallenge/index.html \
 		demos/Evaluation/index.html demos/Evenements/index.html \
 		demos/ExercicesDeStyle/index.html demos/Inflection/index.html \

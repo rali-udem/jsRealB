@@ -109,6 +109,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 
 ### Text realization
 * Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
+* Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
 * Reproduce a classical fairy tale in which hovering over a sentence, shows the underlying `jsRealB` expression 
     * in French : *Le petit chaperon rouge*   [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/PetitChaperonRouge.html)
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)
