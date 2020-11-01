@@ -2261,11 +2261,8 @@ Terminal.prototype.real = function(){
         if (this.tab!==null)this.realization=this.decline(true);
         break;
     case "V":
-        // if (this.tab!==null)this.realization=this.conjugate();
         // caution: conjugate returns a list of tokens
-        if (this.tab!==null)
-            return this.doFormat(this.conjugate());
-        // break;
+        return this.doFormat(this.conjugate());
     case "DT":
         this.realization=this.dateFormat(this.date,this.props["dOpt"]);
         break;
@@ -23828,7 +23825,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-10-06 22:36"
+jsRealB_dateCreated="2020-11-01 15:56"
 //  Terminals
 exports.N=N;
 exports.A=A;
