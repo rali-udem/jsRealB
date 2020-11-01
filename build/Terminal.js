@@ -619,11 +619,8 @@ Terminal.prototype.real = function(){
         if (this.tab!==null)this.realization=this.decline(true);
         break;
     case "V":
-        // if (this.tab!==null)this.realization=this.conjugate();
         // caution: conjugate returns a list of tokens
-        if (this.tab!==null)
-            return this.doFormat(this.conjugate());
-        // break;
+        return this.doFormat(this.conjugate());
     case "DT":
         this.realization=this.dateFormat(this.date,this.props["dOpt"]);
         break;
