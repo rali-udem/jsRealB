@@ -122,7 +122,7 @@ Phrase.prototype.linkProperties	 = function(){
             }
         }
         //   set agreement between the subject of a subordinate or the object of a subordinate
-        const pro=this.getFromPath(["SP","Pro"]);
+        const pro=this.getFromPath([["S","SP"],"Pro"]);
         if (pro!==undefined){
             const v=pro.parentConst.getFromPath(["VP","V"]);
             if (v !=undefined){
@@ -236,6 +236,8 @@ Phrase.prototype.linkProperties	 = function(){
 }
 
 Phrase.prototype.linkPengWithSubject = function(phrase,terminal,subject){
+    // do not link a subject pronoun at genitive
+    if (subject.isA("Pro") && subject.props["c"]=="gen") return;
     let pt=this.getFromPath([phrase,terminal]);
     if (pt !== undefined){
         pt.parentConst.peng = pt.peng = subject.peng;

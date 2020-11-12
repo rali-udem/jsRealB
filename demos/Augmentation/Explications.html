@@ -26,7 +26,7 @@
 <h2>Contexte de la création de l'oeuvre originale</h2>
 <p><i>Informations tirées des notes explicatives figurant dans l'édition La Pléiade, pp 1231-1233.</i></p>
 <p>En 1968, Jacques Perriault confie un organigramme à Perec, qui venait d'intégrer l'<a href="https://oulipo.net" title="Oulipo | Ouvroir de littérature potentielle">OULIPO</a>, en lui demandant d'en explorer les potentialités littéraires. Perec tente alors, avec du papier calque, d'explorer tous les chemins dans cet organigramme en suivant tous les embranchements selon que la situation vérifiée par chaque test soit vraie ou non. Il en produit alors un texte (35 pages dans l'édition de La Pléiade) sans aucune ponctuation, entièrement construit sur la redondance. En effet, pour arriver à une position, il (re+)explicitait tout le chemin pour y parvenir.</p>
-<p>Perec a ensuite adapté ce texte pour en faire une pièce radiophonique d'abord présentée en allemand. Cette pièce, simplifiée par rapport au texte original, est organisée avec 6 voix qui prennent alternativement la parole: </p>
+<p>Perec a ensuite adapté ce texte pour en faire une pièce radiophonique d'abord présentée en allemand. Cette pièce, simplifiée par rapport au texte original, est organisée avec 6 voix qui prennent la parole à tour de rôle: </p>
 <ol>
     <li>proposition</li>
     <li>alternative</li>
@@ -46,7 +46,7 @@
 <h3>Analyse de l'organigramme</h3>
 <p>Au point de vue informatique, l'organigramme de 1968 ne correspond plus aux standards modernes de programmation structurée. Nous ne sommes donc pas arrivé à le traduire en un algorithme dans un langage de programmation de haut niveau qui aurait guidé la création des phrases.</p>
 <p> Nous avons plutôt considéré l'organigramme comme un graphe dans lequel chaque noeud est un <em>état</em>: une <em>étape</em> qui décrit une action ou un <em>test</em> qui pose une question. Les arcs du graphe correspondent aux transitions entre les états: une étape n'a  qu'un seul successeur alors qu'un test en a deux.</p>
-<p>Même s'il n'était pas essentiel de reproduire l'organigramme sur la page pour générer le texte, nous avons crû intéressant de le faire, car cela permet d'illustrer le chemin suivi pour obtenir le texte. L'organigramme a été reproduit aussi fidèlement que possible en positionnant des éléments SVG (rectangles, texte, arcs avec des flèches) à des positions précises à l'intérieur d'une surface de dessin. Quelques détails ont été <em>corrigés</em> par rapport à la version retrouvée dans les papiers de Perec:</p>
+<p>Même s'il n'était pas essentiel de reproduire l'organigramme sur la page pour générer le texte, nous avons cru intéressant de le faire, car cela permet d'illustrer le chemin suivi pour obtenir le texte. L'organigramme a été reproduit aussi fidèlement que possible en positionnant des éléments SVG (rectangles, texte, arcs avec des flèches) à des positions précises à l'intérieur d'une surface de dessin. Quelques détails ont été <em>corrigés</em> par rapport à la version retrouvée dans les papiers de Perec:</p>
 <ul>
     <li>L'étape <code>ATTENDEZ SIX MOIS</code> ayant deux successeurs, nous avons éliminé la flèche vers la droite;</li>
     <li>Le test <code>L'obtenez-vous ?</code> n'avait qu'un seul successeur <code>NON</code>, nous avons ajouté un arc pour <code>OUI</code>;</li>
@@ -72,7 +72,7 @@
 
 <p> De plus, la structure est configurée de façon à ce que le pronom sujet dépende du genre associé au chef <code class="real">il</code> ou <code class="real">elle</code>. On paramètre aussi le temps du verbe pour réaliser <code class="real">Il a été dans son bureau</code> dans le cas d'un passé composé. Il en est ainsi pour les autres modifications de genre. Une limitation, parmi d'autres: jsRealB ne traitant pas le vous <em>de majesté</em>, il considère <code class="real">vous</code> comme la deuxième personne du pluriel; on pourra alors lire <code class="real">Vous êtes allés</code> au passé composé même s'il n'y a qu'un seul protagoniste. Le lecteur intéressé par le formalisme précis de la spécification peut se référer au code de l'application.</p>
 
-<p>La réalisation du texte associé à un état dépend de son type et est organisé selon les 6 voix de la pièce <em>l'Augmentation</em> décrites précédemment:</p>
+<p>La réalisation du texte associé à un état dépend de son type et est organisée selon les 6 voix de la pièce <em>l'Augmentation</em> décrites précédemment:</p>
 <dl>
     <dt><em>étape</em></dt>
     <dd>

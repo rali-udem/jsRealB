@@ -290,11 +290,13 @@ Terminal.prototype.decline = function(setPerson){
                         keyVals["pe"]=1;
                         this.setProp("pe",1);
                     } 
-                } else { // set person
+                } else { // set person, gender and number except when subject in an English genitive
                     const d0=declension[0];
-                    this.setProp("g", d0["g"] || g);
-                    this.setProp("n", d0["n"] || n);
-                    this.setProp("pe",keyVals["pe"] = d0["pe"] || 3);
+                    if (this.isFr() || c != "gen"){
+                        this.setProp("g", d0["g"] || g);
+                        this.setProp("n", d0["n"] || n);
+                        this.setProp("pe",keyVals["pe"] = d0["pe"] || 3);
+                    }
                 }
             } else { // no c, nor tn set tn to "" except for "on"
                 if(this.lemma!="on")keyVals["tn"]="";
@@ -454,19 +456,25 @@ Terminal.prototype.conjugate_en = function(){
     const t = this.getProp("t");
     if (this.tab==null)
         return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t})))];
-    const conjugation=this.getRules().conjugation[this.tab].t[t];
+    // subjonctive present is like present except that it does not end in s at 3rd person
+    // subjonctive past is like simple past
+    const t1 = t=="s"?"p":t=="si"?"ps":t;
+    const conjugation=this.getRules().conjugation[this.tab].t[t1];
     switch (t) {
-    case "p": case "ps":
+        case "p": case "ps": 
+        case "s": case "si": 
         if (conjugation!==undefined){
             if (typeof conjugation == "string"){
                 this.realization=this.stem+conjugation;
                 return [this];
             }
             if (n=="p"){pe+=3};
-            const term=conjugation[pe-1];
+            let term=conjugation[pe-1];
             if (term==null){
                 return [constReal(Q(this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})))];
             } else {
+                // remove final s at subjonctive present by taking the form at the first person
+                if (t=="s" && pe==3)term=conjugation[0];
                 this.realization=this.stem+term;
                 return [this];
             }

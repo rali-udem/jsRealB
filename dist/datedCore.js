@@ -751,7 +751,7 @@ Phrase.prototype.linkProperties	 = function(){
             }
         }
         //   set agreement between the subject of a subordinate or the object of a subordinate
-        const pro=this.getFromPath(["SP","Pro"]);
+        const pro=this.getFromPath([["S","SP"],"Pro"]);
         if (pro!==undefined){
             const v=pro.parentConst.getFromPath(["VP","V"]);
             if (v !=undefined){
@@ -865,6 +865,8 @@ Phrase.prototype.linkProperties	 = function(){
 }
 
 Phrase.prototype.linkPengWithSubject = function(phrase,terminal,subject){
+    // do not link a subject pronoun at genitive
+    if (subject.isA("Pro") && subject.props["c"]=="gen") return;
     let pt=this.getFromPath([phrase,terminal]);
     if (pt !== undefined){
         pt.parentConst.peng = pt.peng = subject.peng;
@@ -1932,11 +1934,13 @@ Terminal.prototype.decline = function(setPerson){
                         keyVals["pe"]=1;
                         this.setProp("pe",1);
                     } 
-                } else { // set person
+                } else { // set person, gender and number except when subject in an English genitive
                     const d0=declension[0];
-                    this.setProp("g", d0["g"] || g);
-                    this.setProp("n", d0["n"] || n);
-                    this.setProp("pe",keyVals["pe"] = d0["pe"] || 3);
+                    if (this.isFr() || c != "gen"){
+                        this.setProp("g", d0["g"] || g);
+                        this.setProp("n", d0["n"] || n);
+                        this.setProp("pe",keyVals["pe"] = d0["pe"] || 3);
+                    }
                 }
             } else { // no c, nor tn set tn to "" except for "on"
                 if(this.lemma!="on")keyVals["tn"]="";
@@ -2096,19 +2100,25 @@ Terminal.prototype.conjugate_en = function(){
     const t = this.getProp("t");
     if (this.tab==null)
         return [constReal(Q(this.morphoError(this.lemma,this.constType,"conjugate_en:tab",{pe:pe,n:n,t:t})))];
-    const conjugation=this.getRules().conjugation[this.tab].t[t];
+    // subjonctive present is like present except that it does not end in s at 3rd person
+    // subjonctive past is like simple past
+    const t1 = t=="s"?"p":t=="si"?"ps":t;
+    const conjugation=this.getRules().conjugation[this.tab].t[t1];
     switch (t) {
-    case "p": case "ps":
+        case "p": case "ps": 
+        case "s": case "si": 
         if (conjugation!==undefined){
             if (typeof conjugation == "string"){
                 this.realization=this.stem+conjugation;
                 return [this];
             }
             if (n=="p"){pe+=3};
-            const term=conjugation[pe-1];
+            let term=conjugation[pe-1];
             if (term==null){
                 return [constReal(Q(this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})))];
             } else {
+                // remove final s at subjonctive present by taking the form at the first person
+                if (t=="s" && pe==3)term=conjugation[0];
                 this.realization=this.stem+term;
                 return [this];
             }
@@ -11837,7 +11847,9 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "you","n": "x","g": "x", "tn":"", "pe":2,
             },{
-                "val": "yourself","n": "x","g": "x", "tn":"refl", "pe":2,
+                "val": "yourself","n": "s","g": "x", "tn":"refl", "pe":2,
+            },{
+                "val": "yourselves","n": "p","g": "x", "tn":"refl", "pe":2,
             },{
                 "val": "you","n": "x","g": "x", "c":"nom", "pe":2,
             },{
@@ -11893,7 +11905,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "it","n": "s","g": "n", "c":"dat", "pe":3,
             },{
-                "val": "itself","n": "s","g": "n", "c":"gen", "pe":3,
+                "val": "its","n": "s","g": "n", "c":"gen", "pe":3,
             }]
         },
         "pn2-1p": {
@@ -11901,7 +11913,7 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "us","n": "p","g": "x", "tn":"", "pe":1
             },{
-                "val": "ourself","n": "p","g": "x", "tn":"refl", "pe":1
+                "val": "ourselves","n": "p","g": "x", "tn":"refl", "pe":1
             },{
                 "val": "we","n": "p","g": "x", "c":"nom", "pe":1
             },{
@@ -22585,7 +22597,7 @@ var ruleFr = //========== rule-fr.js
             },{
                 "val":"soi-même", "g":"x", "n":"s", "tn":"refl"
             },{
-                "val":"soi", "g":"x", "n":"s", "c":"nom"
+                "val":"on", "g":"x", "n":"s", "c":"nom"
             },{
                 "val":"le", "g":"x", "n":"s", "c":"acc"
             },{
@@ -23825,4 +23837,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-11-01 15:56"
+jsRealB_dateCreated="2020-11-08 16:01"

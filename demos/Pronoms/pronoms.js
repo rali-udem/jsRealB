@@ -49,7 +49,7 @@ function pronomsPersonnels($t,pro,opts,tnC){
         const citation=pro=="on"?"on":eval(exp);
         $tr.append($makeCell("Pro",pro,os))
         for (var j = 1; j < tnC.length; j++) {
-            $tr.append($makeCell("Pro",citation,tnC[j]))
+            $tr.append($makeCell("Pro",citation,tnC[j]+(i==0 && opts.length>1?".pe(1)":"")))
         }
         $t.append($tr);
     }
@@ -130,7 +130,7 @@ function englishTable(){
     let $english=$("#englishPro");
     let $t=$("<table/>");
     ajouterTitre($t,titres);
-    pronomsPersonnels($t,"me",makeOptions(["g","n","pe"]),tnC);
+    pronomsPersonnels($t,"me",makeOptions(["pe","g","n"]),tnC);
     pronomsPersonnels($t,"it",[""],tnC);
     $english.append($t);
 

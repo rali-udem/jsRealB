@@ -3508,7 +3508,7 @@ var ruleFr = //========== rule-fr.js
             },{
                 "val":"soi-même", "g":"x", "n":"s", "tn":"refl"
             },{
-                "val":"soi", "g":"x", "n":"s", "c":"nom"
+                "val":"on", "g":"x", "n":"s", "c":"nom"
             },{
                 "val":"le", "g":"x", "n":"s", "c":"acc"
             },{
