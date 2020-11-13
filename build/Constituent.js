@@ -535,7 +535,7 @@ Constituent.prototype.doFormat = function(cList){
     }
     const as = this.props["a"];
     if (as !== undefined){
-        as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["a"])})
+        as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["b"])})
     }
     const bs = this.props["b"];
     if (bs !== undefined){
