@@ -391,4 +391,3 @@ loadEn();
 // // testAllEx(showToSource,exemplesEn)
 checkAllEx(exemplesEn);
 // checkAllExJSON(exemplesEn);
-loadFr();

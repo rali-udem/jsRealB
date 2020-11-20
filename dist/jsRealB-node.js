@@ -744,8 +744,11 @@ Phrase.prototype.linkProperties	 = function(){
                     } else if (e.isOneOf(["D","A"])){
                         // propagate gender and number of the noun to the determiners and adjectives
                         // but unfortunately this will not be propagated if the NP is modified afterward...
-                        e.peng["g"]=this.peng["g"];
-                        e.peng["n"]=this.peng["n"];
+                        // in English possessive determiner should not depend on the noun but on the "owner"
+                        if (!e.isA("D") || e.getProp("own") === undefined){
+                            e.peng["g"]=this.peng["g"];
+                            e.peng["n"]=this.peng["n"];
+                        }
                     }
                 }
             }
@@ -1535,7 +1538,7 @@ Phrase.prototype.cpReal = function(){
     } else {
         last++; // no coordinate, process all with the following loop 
     }            
-    return this.doFormat(res); // process format for the CP
+    return res; 
 }
 
 // special case of VP for which the complements are put in increasing order of length
@@ -2104,9 +2107,6 @@ Terminal.prototype.conjugate_en = function(){
     // subjonctive past is like simple past
     const t1 = t=="s"?"p":(t=="si"?"ps":t);
     const conjugation=this.getRules().conjugation[this.tab].t[t1];
-    if (conjugation===undefined){
-        return [constReal(Q(this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})))]
-    }
     switch (t) {
         case "p": case "ps": 
         case "s": case "si": 
@@ -2135,6 +2135,9 @@ Terminal.prototype.conjugate_en = function(){
         this.realization=this.lemma;
         return [this];
     case "b": case "pp": case "pr":
+        if (conjugation===undefined){
+            return [constReal(Q(this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})))]
+        }
         this.realization=this.stem+conjugation;
         return [this];
     default:
@@ -23840,7 +23843,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-11-13 17:25"
+jsRealB_dateCreated="2020-11-19 21:37"
 //  Terminals
 exports.N=N;
 exports.A=A;

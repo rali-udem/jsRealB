@@ -460,9 +460,6 @@ Terminal.prototype.conjugate_en = function(){
     // subjonctive past is like simple past
     const t1 = t=="s"?"p":(t=="si"?"ps":t);
     const conjugation=this.getRules().conjugation[this.tab].t[t1];
-    if (conjugation===undefined){
-        return [constReal(Q(this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})))]
-    }
     switch (t) {
         case "p": case "ps": 
         case "s": case "si": 
@@ -491,6 +488,9 @@ Terminal.prototype.conjugate_en = function(){
         this.realization=this.lemma;
         return [this];
     case "b": case "pp": case "pr":
+        if (conjugation===undefined){
+            return [constReal(Q(this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})))]
+        }
         this.realization=this.stem+conjugation;
         return [this];
     default:

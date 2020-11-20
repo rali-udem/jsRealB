@@ -115,8 +115,11 @@ Phrase.prototype.linkProperties	 = function(){
                     } else if (e.isOneOf(["D","A"])){
                         // propagate gender and number of the noun to the determiners and adjectives
                         // but unfortunately this will not be propagated if the NP is modified afterward...
-                        e.peng["g"]=this.peng["g"];
-                        e.peng["n"]=this.peng["n"];
+                        // in English possessive determiner should not depend on the noun but on the "owner"
+                        if (!e.isA("D") || e.getProp("own") === undefined){
+                            e.peng["g"]=this.peng["g"];
+                            e.peng["n"]=this.peng["n"];
+                        }
                     }
                 }
             }
@@ -906,7 +909,7 @@ Phrase.prototype.cpReal = function(){
     } else {
         last++; // no coordinate, process all with the following loop 
     }            
-    return this.doFormat(res); // process format for the CP
+    return res; 
 }
 
 // special case of VP for which the complements are put in increasing order of length
