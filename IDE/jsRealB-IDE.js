@@ -1515,16 +1515,18 @@ Phrase.prototype.cpReal = function(){
     }
     for (let j = 0; j < last; j++) { //insert comma after each element
         const ej=elems[j];
-        if (j<last-1 && 
-            (ej.props["a"] === undefined || !contains(ej.props["a"],",")))
-                ej.props["a"]=[","]
+        if (idxC<0 || j<last-1){ // except the last if there is conjunction
+            if (ej.props["a"] === undefined || !contains(ej.props["a"],","))
+                ej.props["a"]=[","];
+        }
         Array.prototype.push.apply(res,ej.real())
     }
     // insert realisation of C before last...
     if(idxC>=0){
         Array.prototype.push.apply(res,this.elements[idxC].real());
-        Array.prototype.push.apply(res,elems[last].real());
     }
+    // insert last element
+    Array.prototype.push.apply(res,elems[last].real());
     // compute the combined gender and number of the coordination once children have been realized
     let c;
     if(idxC >= 0 ){
@@ -23843,7 +23845,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-11-19 21:37"
+jsRealB_dateCreated="2020-11-19 22:11"
 //  Terminals
 exports.N=N;
 exports.A=A;
