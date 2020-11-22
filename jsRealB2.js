@@ -188,7 +188,7 @@ var exemplesFr=[
      "Elle ne lui a pas été donnée par lui."],
     // modifications globales de propriétés
     [S(NP(D("le"),N("chat").g("f")),
-      VP(V("manger").t("pc"),
+      VP(V("manger"),
          NP(D("le"),N("souris")))).t("f"),
         "La chatte mangera la souris."],
     [S(CP(C("et"),
@@ -311,6 +311,14 @@ var exemplesEn=[
        "one plane"],   
       [NP(NO(3).dOpt({nat:true}),N("plane")),     // 22
        "three planes"],
+      [NP(NP(D("the"),                            // 23 
+        A("large").f("su"),
+        NP(P("of"),
+           D("the"),
+           N("trainer").n("p")).a(",")),
+        D("this").n("s"),    // check propagation of the number (this should not be these)
+        N("addition").n("s")),
+       "the largest of the trainers, this addition"]
 ];
    
 function showEx(exemple){

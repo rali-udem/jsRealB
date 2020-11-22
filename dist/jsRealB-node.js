@@ -43,13 +43,16 @@ Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
 
 // get/set the value of a property by first checking the special shared properties
 Constituent.prototype.getProp = function(propName){
+    const value=this.props[propName];
+    if (value!==undefined) return value;
     if (propName=="pe" || propName=="n" || propName=="g"){
         return this.peng===undefined ? undefined : this.peng[propName];
     }
     if (propName=="t" || propName=="aux"){
         return this.taux===undefined ? undefined : this.taux[propName];
     }
-    return this.props[propName];
+    // return this.props[propName];
+    return undefined;
 }
 
 Constituent.prototype.setProp = function(propName,val){
@@ -57,8 +60,10 @@ Constituent.prototype.setProp = function(propName,val){
         if (this.peng!==undefined) this.peng[propName]=val;
     } else if (propName=="t" || propName=="aux"){
         if (this.taux!==undefined) this.taux[propName]=val;
-    } else 
-        this.props[propName]=val;    
+    // } else
+        // this.props[propName]=val;
+    }
+    this.props[propName]=val;
 }
 
 // should be in Terminal.prototype... but here for consistency with three previous definitions
@@ -1385,7 +1390,7 @@ Phrase.prototype.invertSubject = function(){
             pro = this.elements.splice(subjIdx,1)[0]; // remove subject pronoun 
         else if (subj.isA("CP")){
             pro=Pro("moi").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
-            subj.pro=pro;  // add a flag to be processed by cpReal
+            subj.pronoun=pro;  // add a flag to be processed by cpReal
         } else 
             pro=Pro("moi").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
         let idxCtx = this.getIdxCtx("VP","V");
@@ -1536,7 +1541,13 @@ Phrase.prototype.cpReal = function(){
         this.setProp("g",gn.g);
         this.setProp("n",gn.n);
         this.setProp("pe",gn.pe);
-        if (this.pro)this.pro.peng=gn;
+        // for the pronoun, we must override its existing properties...
+        if (this.pronoun!==undefined){
+            this.pronoun.peng=gn;
+            this.pronoun.props["g"]=gn.g;
+            this.pronoun.props["n"]=gn.n;
+            this.pronoun.props["pe"]=gn.pe;
+        }
     } else {
         last++; // no coordinate, process all with the following loop 
     }            
@@ -8429,7 +8440,7 @@ var lexiconEn = //========== lexicon-en.js
  "that":{"Adv":{"tab":["b1"]},
          "C":{"tab":["cs"]},
          "D":{"tab":["d3"]},
-         "Pro":{"tab":["pn6"]}},
+         "Pro":{"tab":["d3"]}},
  "the":{"D":{"tab":["d4"]}},
  "theatre":{"N":{"tab":["n1"]}},
  "theft":{"N":{"tab":["n1"]}},
@@ -8445,9 +8456,7 @@ var lexiconEn = //========== lexicon-en.js
           "N":{"tab":["n5"]}},
  "thereafter":{"Adv":{"tab":["b1"]}},
  "thereby":{"Adv":{"tab":["b1"]}},
- "therefore":{"Adv":{"tab":["b1"]}},
- "these":{"Pro":{"tab":["pn8"]}},
- "thesis":{"N":{"tab":["n8"]}},
+ "therefore":{"Adv":{"tab":["b1"]}}, "thesis":{"N":{"tab":["n8"]}},
  "thick":{"A":{"tab":["a3"]},
           "Adv":{"tab":["b1"]}},
  "thief":{"N":{"g":"x",
@@ -8460,7 +8469,7 @@ var lexiconEn = //========== lexicon-en.js
              "N":{"tab":["n5"]}},
  "this":{"Adv":{"tab":["b1"]},
          "D":{"tab":["d5"]},
-         "Pro":{"tab":["pn8"]}},
+         "Pro":{"tab":["d5"]}},
  "thorough":{"A":{"tab":["a1"]}},
  "thoroughly":{"Adv":{"tab":["b1"]}},
  "though":{"Adv":{"tab":["b1"]}},
@@ -23845,7 +23854,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-11-19 22:11"
+jsRealB_dateCreated="2020-11-22 14:42"
 //  Terminals
 exports.N=N;
 exports.A=A;

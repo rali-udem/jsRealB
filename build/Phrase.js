@@ -756,7 +756,7 @@ Phrase.prototype.invertSubject = function(){
             pro = this.elements.splice(subjIdx,1)[0]; // remove subject pronoun 
         else if (subj.isA("CP")){
             pro=Pro("moi").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
-            subj.pro=pro;  // add a flag to be processed by cpReal
+            subj.pronoun=pro;  // add a flag to be processed by cpReal
         } else 
             pro=Pro("moi").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
         let idxCtx = this.getIdxCtx("VP","V");
@@ -907,7 +907,13 @@ Phrase.prototype.cpReal = function(){
         this.setProp("g",gn.g);
         this.setProp("n",gn.n);
         this.setProp("pe",gn.pe);
-        if (this.pro)this.pro.peng=gn;
+        // for the pronoun, we must override its existing properties...
+        if (this.pronoun!==undefined){
+            this.pronoun.peng=gn;
+            this.pronoun.props["g"]=gn.g;
+            this.pronoun.props["n"]=gn.n;
+            this.pronoun.props["pe"]=gn.pe;
+        }
     } else {
         last++; // no coordinate, process all with the following loop 
     }            

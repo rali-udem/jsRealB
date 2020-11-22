@@ -43,13 +43,16 @@ Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
 
 // get/set the value of a property by first checking the special shared properties
 Constituent.prototype.getProp = function(propName){
+    const value=this.props[propName];
+    if (value!==undefined) return value;
     if (propName=="pe" || propName=="n" || propName=="g"){
         return this.peng===undefined ? undefined : this.peng[propName];
     }
     if (propName=="t" || propName=="aux"){
         return this.taux===undefined ? undefined : this.taux[propName];
     }
-    return this.props[propName];
+    // return this.props[propName];
+    return undefined;
 }
 
 Constituent.prototype.setProp = function(propName,val){
@@ -57,8 +60,10 @@ Constituent.prototype.setProp = function(propName,val){
         if (this.peng!==undefined) this.peng[propName]=val;
     } else if (propName=="t" || propName=="aux"){
         if (this.taux!==undefined) this.taux[propName]=val;
-    } else 
-        this.props[propName]=val;    
+    // } else
+        // this.props[propName]=val;
+    }
+    this.props[propName]=val;
 }
 
 // should be in Terminal.prototype... but here for consistency with three previous definitions
