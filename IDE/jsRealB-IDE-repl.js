@@ -105,7 +105,11 @@ replServer.defineCommand('lx', {
     var info=getLexiconInfo(word);
     if (info===undefined)
         console.log(word+":"+(getLanguage()=="en"?" not found":"pas trouvé"));
-    else console.log(util.inspect(info,{depth:null}));
+    else {
+        for (const [key,val] of Object.entries(info)){
+            console.log("%s:%s",JSON.stringify(key),JSON.stringify(val));
+        }
+    } 
     this.displayPrompt();
   }
 });

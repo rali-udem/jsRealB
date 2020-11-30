@@ -56,7 +56,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             this.warn("bad parameter","string, number",lemmaType);
         }
         if (lemmaType == "string"){
-            lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+            // check if this looks like a legal number...
+            if (!/^[-+]?[0-9]+([.,][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
+                this.warn("bad parameter","number",lemmaType);
+                lemma=0;
+            } else {
+                lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+            }
         }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
@@ -200,6 +206,7 @@ const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
 Terminal.prototype.decline = function(setPerson){
     const rules=this.getRules();
     let declension=rules.declension[this.tab].declension;
+    let stem=this.stem;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
@@ -235,6 +242,8 @@ Terminal.prototype.decline = function(setPerson){
                         const adjAdv=this.getLexicon()[this.lemma]["A"]
                         if (adjAdv !== undefined){
                             declension=rules.declension[adjAdv["tab"][0]].declension;
+                            const ending=rules.declension[adjAdv["tab"][0]].ending;
+                            stem=stem.slice(0,-ending.length);
                         }
                     } 
                     // look in the adjective declension table
@@ -242,7 +251,7 @@ Terminal.prototype.decline = function(setPerson){
                     if (ending==null){
                         return `[[${this.lemma}]]`;
                     }
-                    res = this.stem + ending;
+                    res = stem + ending;
                 }
             }
         }

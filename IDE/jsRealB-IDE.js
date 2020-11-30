@@ -367,11 +367,12 @@ Constituent.prototype.doElisionEn = function(cList){
     } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
+    if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
         var m1=sepWordREfr.exec(cList[i].realization)
-        if (m1 === undefined) continue;
+        if (m1 === undefined || m1[2]===undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
-        if (m2 === undefined) continue;
+        if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];
@@ -436,13 +437,14 @@ Constituent.prototype.doElisionFr = function(cList){
     
     var contr;
     var last=cList.length-1;
+    if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
         if (i>0 && cList[i-1].getProp("lier")!== undefined) // ignore if the preceding word is "lié" to this one
             continue;
         var m1=sepWordREfr.exec(cList[i].realization)
-        if (m1 === undefined) continue;
+        if (m1 === undefined || m1[2]===undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
-        if (m2 === undefined) continue;
+        if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];
@@ -1716,7 +1718,13 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             this.warn("bad parameter","string, number",lemmaType);
         }
         if (lemmaType == "string"){
-            lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+            // check if this looks like a legal number...
+            if (!/^[-+]?[0-9]+([.,][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
+                this.warn("bad parameter","number",lemmaType);
+                lemma=0;
+            } else {
+                lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+            }
         }
         this.value=+lemma; // this parses the number if it is a string
         this.nbDecimals=nbDecimal(lemma);
@@ -1860,6 +1868,7 @@ const fields={"fr":{"N":gn,   "D":gnpe,   "Pro":gnpetnc},
 Terminal.prototype.decline = function(setPerson){
     const rules=this.getRules();
     let declension=rules.declension[this.tab].declension;
+    let stem=this.stem;
     let res=null;
     if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
         if (this.isFr()){
@@ -1895,6 +1904,8 @@ Terminal.prototype.decline = function(setPerson){
                         const adjAdv=this.getLexicon()[this.lemma]["A"]
                         if (adjAdv !== undefined){
                             declension=rules.declension[adjAdv["tab"][0]].declension;
+                            const ending=rules.declension[adjAdv["tab"][0]].ending;
+                            stem=stem.slice(0,-ending.length);
                         }
                     } 
                     // look in the adjective declension table
@@ -1902,7 +1913,7 @@ Terminal.prototype.decline = function(setPerson){
                     if (ending==null){
                         return `[[${this.lemma}]]`;
                     }
-                    res = this.stem + ending;
+                    res = stem + ending;
                 }
             }
         }
@@ -13379,7 +13390,8 @@ var lexiconFr = //========== lexicon-fr.js
  "central":{"A":{"tab":["n47"]}},
  "centre":{"N":{"g":"m",
                 "tab":["n3"]}},
- "cependant":{"C":{"tab":["cj"]}},
+ "cependant":{"C":{"tab":["cj"]},
+              "Adv":{"tab": ["av"]}},
  "cercle":{"N":{"g":"m",
                 "tab":["n3"]}},
  "cérémonie":{"N":{"g":"f",
@@ -13439,6 +13451,7 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":["n17"]}},
  "chapitre":{"N":{"g":"m",
                   "tab":["n3"]}},
+ "chaque":{"D":{"tab":["n23"]}},
  "charbon":{"N":{"g":"m",
                  "tab":["n3"]}},
  "charbonnage":{"N":{"g":"m",
@@ -13656,6 +13669,8 @@ var lexiconFr = //========== lexicon-fr.js
                     "tab":["n28"]}},
  "combattre":{"V":{"aux":["av"],
                    "tab":"v87"}},
+ "combien":{"Pro":{"tab":["pn33"]},
+            "Adv":{"tab":["av"]}},
  "comble":{"N":{"g":"m",
                 "tab":["n3"]}},
  "combler":{"V":{"aux":["av"],
@@ -16295,7 +16310,8 @@ var lexiconFr = //========== lexicon-fr.js
  "mélodieux":{"A":{"tab":["n54"]}},
  "membre":{"N":{"g":"m",
                 "tab":["n3"]}},
- "même":{"Adv":{"tab":["av"]}},
+ "même":{"Adv":{"tab":["av"]},
+         "A":{"tab":["n25"]}},
  "mémoire":{"N":{"g":"f",
                  "tab":["n17"]}},
  "menacer":{"V":{"aux":["av"],
@@ -16414,7 +16430,7 @@ var lexiconFr = //========== lexicon-fr.js
  "mobile":{"A":{"tab":["n25"]}},
  "mobilier":{"N":{"g":"m",
                   "tab":["n3"]}},
- "mode":{"N":{"g":"f",
+ "mode":{"N":{"g":"x",
               "tab":["n17"]}},
  "modèle":{"N":{"g":"m",
                 "tab":["n3"]}},
@@ -16777,7 +16793,8 @@ var lexiconFr = //========== lexicon-fr.js
  "ôter":{"V":{"aux":["av"],
               "tab":"v36"}},
  "ou":{"C":{"tab":["cj"]}},
- "où":{"Pro":{"tab":["pn27"]}},
+ "où":{"Pro":{"tab":["pn27"]},
+       "Adv":{"tab":["av"]}},
  "ouate":{"N":{"g":"f",
                "tab":["n17"]}},
  "oui":{"Adv":{"h":1,
@@ -17518,13 +17535,21 @@ var lexiconFr = //========== lexicon-fr.js
               "tab":["n3"]}},
  "qualité":{"N":{"g":"f",
                  "tab":["n17"]}},
+ "quand":{"Pro":{"tab":["pn28"]},
+          "Adv":{"tab":[ "av" ]}, 
+          "C":{"tab": [ "cji" ]}},
  "quantité":{"N":{"g":"f",
                   "tab":["n17"]}},
  "quart":{"N":{"g":"m",
                "tab":["n3"]}},
  "quartier":{"N":{"g":"m",
                   "tab":["n3"]}},
- "que":{"Pro":{"tab":["pn31"]}},
+ "que":{"C":{"tab":["cje"]},
+        "Pro":{"tab":["pn31"]},
+        "Adv":{"tab":["av"]}},
+ "quel":{"D":{"tab":["d8"]},
+         "Pro":{"tab":["pn35"]},
+         "A":{"pos":"pre","tab":["n48"]}},
  "quelconque":{"A":{"tab":["n25"]}},
  "quelquefois":{"Adv":{"tab":["av"]}},
  "question":{"N":{"g":"f",
@@ -18579,6 +18604,8 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "teinte":{"N":{"g":"f",
                 "tab":["n17"]}},
+ "tel":{"Adv":{"tab":["av"]},
+        "A":{"pos":"pre","tab":["n48"]}},
  "télégramme":{"N":{"g":"m",
                     "tab":["n3"]}},
  "téléphone":{"N":{"g":"m",
@@ -18710,6 +18737,8 @@ var lexiconFr = //========== lexicon-fr.js
  "tournoyer":{"V":{"aux":["av"],
                    "tab":"v5"}},
  "tout":{"A":{"tab":["n76"]},
+         "Pro":{"tab":["n76"]},
+         "D":{"tab":["n76"]},
          "Adv":{"tab":["av"]},
          "N":{"g":"m",
               "tab":["n3"]}},
@@ -23854,7 +23883,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-11-22 14:42"
+jsRealB_dateCreated="2020-11-30 14:46"
 //  Terminals
 exports.N=N;
 exports.A=A;

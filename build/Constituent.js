@@ -367,11 +367,12 @@ Constituent.prototype.doElisionEn = function(cList){
     } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
+    if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
         var m1=sepWordREfr.exec(cList[i].realization)
-        if (m1 === undefined) continue;
+        if (m1 === undefined || m1[2]===undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
-        if (m2 === undefined) continue;
+        if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];
@@ -436,13 +437,14 @@ Constituent.prototype.doElisionFr = function(cList){
     
     var contr;
     var last=cList.length-1;
+    if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
         if (i>0 && cList[i-1].getProp("lier")!== undefined) // ignore if the preceding word is "lié" to this one
             continue;
         var m1=sepWordREfr.exec(cList[i].realization)
-        if (m1 === undefined) continue;
+        if (m1 === undefined || m1[2]===undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
-        if (m2 === undefined) continue;
+        if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];

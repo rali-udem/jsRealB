@@ -273,10 +273,10 @@ intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 
 has already two basic lexicons: French (3 700 entries) and English (5 200 entries) that can be queried and modified with the following functions. When <code>lang</code> (<code>"en"</code> or <code>"fr"</code>) is specified, the function is applied to the lexicon of this language, otherwise it applies to the current lexicon, the one of the last call to <code>loadEn()</code> o <code>loadFr()</code>.
 </p>
 
-<h3><code>addtoLexicon(lemma[,newInfos][,lang])</code></h3>
+<h3><code>addToLexicon(lemma[,newInfos][,lang])</code></h3>
 <p lang="fr"> 
      <code>lemma</code> est l'entrée de base et <code>newInfos</code> est l'information morphologique selon le format interne à <span class="jsr">jsRealB</span>: un objet indiquant le ou les catégories possibles et pour chaque catégorie, des propriétés et la table de déclinaison ou conjugaison correspondantes.
-    Par exemple, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
+    Par exemple, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
     Cette fonction peut aussi être appelée avec un seul paramètre qui est un objet dont la clé est le lemme. L'exemple précédent peut donc s'écrire: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>. Si le lemme et la catégorie existent déjà dans le lexique, alors l'entrée pour cette catégorie est remplacée par <code>newInfos</code>.
 </p>
 <p lang="fr"><a href="../data/lexiconFormat.html">Plus d'information (en anglais) sur le format des lexiques</a>   </p> 
@@ -286,7 +286,7 @@ Pour déterminer les informations à ajouter, le plus simple est de copier les i
 <p lang="fr">Pour enlever une entrée d'un lexique, il de mettre <code>newInfos</code> à <code>null</code>.</p>
 <p lang="en"> 
      <code>lemma</code> is the basic form and <code>newInfos</code> is the morphologic information according to the internal  <span class="jsr">jsRealB</span> format: an object indicating one or many possible categories. For each category, properties and declension or conjugation are given.
-    For example, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.  If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.
+    For example, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.  If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.
 </p>
 <p lang="en"><a href="../data/lexiconFormat.html">More information about the lexicon format</a></p>
 <p lang="en">
