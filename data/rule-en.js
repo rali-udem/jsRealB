@@ -2790,7 +2790,9 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "you","n": "x","g": "x", "tn":"", "pe":2,
             },{
-                "val": "yourself","n": "x","g": "x", "tn":"refl", "pe":2,
+                "val": "yourself","n": "s","g": "x", "tn":"refl", "pe":2,
+            },{
+                "val": "yourselves","n": "p","g": "x", "tn":"refl", "pe":2,
             },{
                 "val": "you","n": "x","g": "x", "c":"nom", "pe":2,
             },{
@@ -2846,7 +2848,7 @@ var ruleEn = //========== rule-en.js
             },{
                 "val": "it","n": "s","g": "n", "c":"dat", "pe":3,
             },{
-                "val": "itself","n": "s","g": "n", "c":"gen", "pe":3,
+                "val": "its","n": "s","g": "n", "c":"gen", "pe":3,
             }]
         },
         "pn2-1p": {
@@ -2854,7 +2856,7 @@ var ruleEn = //========== rule-en.js
             "declension": [{
                 "val": "us","n": "p","g": "x", "tn":"", "pe":1
             },{
-                "val": "ourself","n": "p","g": "x", "tn":"refl", "pe":1
+                "val": "ourselves","n": "p","g": "x", "tn":"refl", "pe":1
             },{
                 "val": "we","n": "p","g": "x", "c":"nom", "pe":1
             },{

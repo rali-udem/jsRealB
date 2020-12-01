@@ -43,13 +43,16 @@ Constituent.prototype.getLexicon = function(){return getLexicon(this.lang)}
 
 // get/set the value of a property by first checking the special shared properties
 Constituent.prototype.getProp = function(propName){
+    const value=this.props[propName];
+    if (value!==undefined) return value;
     if (propName=="pe" || propName=="n" || propName=="g"){
         return this.peng===undefined ? undefined : this.peng[propName];
     }
     if (propName=="t" || propName=="aux"){
         return this.taux===undefined ? undefined : this.taux[propName];
     }
-    return this.props[propName];
+    // return this.props[propName];
+    return undefined;
 }
 
 Constituent.prototype.setProp = function(propName,val){
@@ -57,8 +60,10 @@ Constituent.prototype.setProp = function(propName,val){
         if (this.peng!==undefined) this.peng[propName]=val;
     } else if (propName=="t" || propName=="aux"){
         if (this.taux!==undefined) this.taux[propName]=val;
-    } else 
-        this.props[propName]=val;    
+    // } else
+        // this.props[propName]=val;
+    }
+    this.props[propName]=val;
 }
 
 // should be in Terminal.prototype... but here for consistency with three previous definitions
@@ -362,11 +367,12 @@ Constituent.prototype.doElisionEn = function(cList){
     } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
+    if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
         var m1=sepWordREfr.exec(cList[i].realization)
-        if (m1 === undefined) continue;
+        if (m1 === undefined || m1[2]===undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
-        if (m2 === undefined) continue;
+        if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];
@@ -431,11 +437,14 @@ Constituent.prototype.doElisionFr = function(cList){
     
     var contr;
     var last=cList.length-1;
+    if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
+        if (i>0 && cList[i-1].getProp("lier")!== undefined) // ignore if the preceding word is "lié" to this one
+            continue;
         var m1=sepWordREfr.exec(cList[i].realization)
-        if (m1 === undefined) continue;
+        if (m1 === undefined || m1[2]===undefined) continue;
         var m2=sepWordREfr.exec(cList[i+1].realization)
-        if (m2 === undefined) continue;
+        if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];
@@ -473,16 +482,6 @@ Constituent.prototype.doFormat = function(cList){
     const punctuation=this.getRules()["punctuation"];
     const lexicon=this.getLexicon()   
     
-    function getPunctString(punct){
-        const punc=lexicon[punct];
-        if (punc !== undefined && punc["Pc"] !== undefined){
-            const tab=punc["Pc"]["tab"][0];
-            const puncRule=punctuation[tab];
-            return puncRule["b"]+punct+puncRule["a"]
-        }
-        return punct // default return string as is
-    }
-    
     function getBeforeAfterString(punct){
         const punc=lexicon[punct];
         if (punc !== undefined && punc["Pc"] !== undefined){
@@ -498,6 +497,10 @@ Constituent.prototype.doFormat = function(cList){
                 const puncRuleAfter=punctuation[tabAfter];
                 return {"b":puncRuleBefore["b"]+before+puncRuleBefore["a"],
                         "a":puncRuleAfter["b"]+after+puncRuleAfter["a"]}
+            } else {
+                const tab=punc["Pc"]["tab"][0];
+                const puncRule=punctuation[tab];
+                punct=puncRule["b"]+punct+puncRule["a"]
             }
         }
         return {"b":punct,"a":punct}
@@ -539,11 +542,11 @@ Constituent.prototype.doFormat = function(cList){
     }
     const as = this.props["a"];
     if (as !== undefined){
-        as.forEach(function(a){wrapWith("",getPunctString(a))})
+        as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["b"])})
     }
     const bs = this.props["b"];
     if (bs !== undefined){
-        bs.forEach(function(b){wrapWith(getPunctString(b),"")})
+        bs.forEach(function(b){wrapWith(getBeforeAfterString(b)["b"],"")})
     }
     const ens = this.props["en"] || this.props["ba"];
     if (ens !== undefined){
@@ -573,6 +576,17 @@ Constituent.prototype.detokenize = function(terminals){
         const terminal=terminals[i];
         if (terminal.props["lier"]!== undefined){
             s+=terminal.realization+"-";
+            // check for adding -t- in French between a verb and pronoun
+            if (this.isFr() && terminal.isA("V") && terminals[i+1].isA("Pro")){
+                /* According to Antidote:
+                C’est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
+                du futur de l’indicatif se termine par une autre lettre que d ou t et qu’il est suivi 
+                des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
+                et le pronom sujet inversé.*/
+                if (/[^dt]$/.test(terminal.realization) && /^[ieo]/.test(terminals[i+1].realization)){
+                    s+="t-";
+                }
+            }
         } else if (/[- ']$/.exec(terminal.realization)){
             s+=terminal.realization;
         } else if (terminal.realization.length>0) {

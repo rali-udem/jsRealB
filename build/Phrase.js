@@ -106,22 +106,26 @@ Phrase.prototype.linkProperties	 = function(){
         this.peng=this.elements[headIndex].peng;
         for (let i = 0; i < this.elements.length; i++) {
             if (i!=headIndex){
-                const e=this.elements[i]
-                if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
-                    this.peng["n"]=e.grammaticalNumber()
-                    // gender agreement between a French number and subject
-                    e.peng["g"]=this.peng["g"]; 
-                } else if (e.isOneOf(["D","A"])){
-                    // try to keep modifications done to modifiers...
-                    if (e.peng['pe']!=defaultProps[this.lang]["pe"])this.peng["pe"]=e.peng["pe"];
-                    if (e.peng['g']!=defaultProps[this.lang]["g"])this.peng["g"]=e.peng["g"];
-                    if (e.peng['n']!=defaultProps[this.lang]["n"])this.peng["g"]=e.peng["n"];
-                    e.peng=this.peng;
+                const e=this.elements[i];
+                if (this.peng){ // do not try to modify if current peng does not exist e.g. Q
+                    if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
+                        this.peng["n"]=e.grammaticalNumber();
+                        // gender agreement between a French number and subject
+                        e.peng["g"]=this.peng["g"]; 
+                    } else if (e.isOneOf(["D","A"])){
+                        // propagate gender and number of the noun to the determiners and adjectives
+                        // but unfortunately this will not be propagated if the NP is modified afterward...
+                        // in English possessive determiner should not depend on the noun but on the "owner"
+                        if (!e.isA("D") || e.getProp("own") === undefined){
+                            e.peng["g"]=this.peng["g"];
+                            e.peng["n"]=this.peng["n"];
+                        }
+                    }
                 }
             }
         }
         //   set agreement between the subject of a subordinate or the object of a subordinate
-        const pro=this.getFromPath(["SP","Pro"]);
+        const pro=this.getFromPath([["S","SP"],"Pro"]);
         if (pro!==undefined){
             const v=pro.parentConst.getFromPath(["VP","V"]);
             if (v !=undefined){
@@ -152,7 +156,10 @@ Phrase.prototype.linkProperties	 = function(){
         // the information will be computed at realization time (see Phrase.prototype.cpReal)
         break;
     case "S": case "SP":
-        var iSubj=this.getIndex(["NP","N","CP","Pro"]);
+        let vpv = this.getFromPath([["","VP"],"V"]);
+        if (vpv !== undefined && vpv.getProp("t")=="ip")
+            return this; // do not search for subject for an imperative verb
+        let iSubj=this.getIndex(["NP","N","CP","Pro"]);
         // determine subject
         if (iSubj>=0){
             let subject=this.elements[iSubj];
@@ -180,8 +187,8 @@ Phrase.prototype.linkProperties	 = function(){
                     // with an adjective
                     const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
                     if (attribute===undefined){
-                        var elems=vpv.parentConst.elements;
-                        var vpvIdx=elems.findIndex(e => e==vpv);
+                        let elems=vpv.parentConst.elements;
+                        let vpvIdx=elems.findIndex(e => e==vpv);
                         if (vpvIdx<0){
                             this.error("linkProperties	: verb not found, but this should never have happened")
                         } else {
@@ -210,9 +217,9 @@ Phrase.prototype.linkProperties	 = function(){
                     const cp=this.getConst("CP");
                     const sp=this.getConst("SP");
                     if (cp !==undefined && sp !== undefined){
-                        var sppro=sp.getConst("Pro");
+                        let sppro=sp.getConst("Pro");
                         if (sppro !== undefined && sppro.lemma=="que"){
-                            var v=sp.getFromPath([["VP",""],"V"]);
+                            let v=sp.getFromPath([["VP",""],"V"]);
                             if (v!==undefined){
                                 v.cod=cp;
                             }
@@ -232,6 +239,8 @@ Phrase.prototype.linkProperties	 = function(){
 }
 
 Phrase.prototype.linkPengWithSubject = function(phrase,terminal,subject){
+    // do not link a subject pronoun at genitive
+    if (subject.isA("Pro") && subject.props["c"]=="gen") return;
     let pt=this.getFromPath([phrase,terminal]);
     if (pt !== undefined){
         pt.parentConst.peng = pt.peng = subject.peng;
@@ -706,7 +715,7 @@ Phrase.prototype.processTyp_en = function(types){
 Phrase.prototype.getIdxCtx = function(cst1,cst2){
     if (this.isA(cst1)){
         var idx=this.getIndex(cst2)
-        if (idx!==undefined)return [idx,this.elements];
+        if (idx>=0)return [idx,this.elements];
     } else if (this.isOneOf(["S","SP"])){
         var cst=this.getConst(cst1);
         if (cst!==undefined)return cst.getIdxCtx(cst1,cst2);
@@ -731,11 +740,40 @@ Phrase.prototype.moveAuxToFront = function(){
                 }
             }
         }
-    }
+    } 
+}
+
+Phrase.prototype.invertSubject = function(){
+    // in French : use inversion rule which is quite "delicate"
+    // rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
+    // if subject is a pronoun, invert and add "-t-" or "-"
+    // if subject is a noun, the subject stays but add a new pronoun
+    const subjIdx=this.getIndex(["NP","N","Pro","SP","CP"]);
+    if (subjIdx>=0){
+        const subj=this.elements[subjIdx];
+        let pro;
+        if (subj.isA("Pro"))
+            pro = this.elements.splice(subjIdx,1)[0]; // remove subject pronoun 
+        else if (subj.isA("CP")){
+            pro=Pro("moi").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
+            subj.pronoun=pro;  // add a flag to be processed by cpReal
+        } else 
+            pro=Pro("moi").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
+        let idxCtx = this.getIdxCtx("VP","V");
+        if (idxCtx!==undefined) {
+            let vp=this.getConst("VP");
+            let vpElems=idxCtx[1];
+            let v=idxCtx[1][idxCtx[0]];
+            vpElems.splice(idxCtx[0]+1,0,pro); // add pronoun after verb
+            pro.parentConst=vp;
+            v.lier() // add - after verb
+        }
+    } 
 }
 
 // modify sentence structure according to the content of the "typ" property
 Phrase.prototype.processTyp = function(types){
+    let pp; // flag for possible pp removal for French wod or wad
     if (types["pas"]!==undefined && types["pas"]!== false){
         this.passivate()
     }
@@ -752,8 +790,8 @@ Phrase.prototype.processTyp = function(types){
         const sentenceTypeInt=this.getRules().sentence_type.int;
         const prefix=sentenceTypeInt.prefix;
         switch (int) {
-        case "yon": case "whe": case "why": case "whn": case "how": case "muc":
-                this.moveAuxToFront()
+        case "yon":case "whe": case "how": case "whn": case "why": case "muc": 
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             break;
         // remove a part of the sentence 
         case "wos":// remove subject (first NP,N, Pro or SP)
@@ -773,36 +811,48 @@ Phrase.prototype.processTyp = function(types){
             break;
         case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
             if (this.isOneOf(["S","SP"])){
-                this.moveAuxToFront();
                 const objIdxCtx=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
                 if (objIdxCtx!==undefined){
                     objIdxCtx[1].splice(objIdxCtx[0],1);
+                } else if (this.isFr()){// check for passive subject starting with par
+                    const ppIdxCtx=this.getIdxCtx("VP","PP");
+                    if (ppIdxCtx!==undefined){
+                        pp=ppIdxCtx[1][ppIdxCtx[0]].getConst("P");
+                        if (pp!==undefined && pp.lemma=="par"){
+                            ppIdxCtx[1].splice(ppIdxCtx[0],1); // remove the passive subject
+                        } else {
+                            pp=undefined;
+                        }
+                        
+                    }
                 }
+                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             }
             break;
         case "woi": // remove direct object (first PP in the first VP)
             if (this.isOneOf(["S","SP"])){
-                this.moveAuxToFront();
                 const objIdxCtx=this.getIdxCtx("VP","PP");
                 if (objIdxCtx!==undefined){
                     objIdxCtx[1].splice(objIdxCtx[0],1);
                 }
+                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             }
             break;
         default:
             this.warn("not implemented","int:"+int)
         }
         if(this.isFr() || int !="yon") {// add the interrogative prefix
-            // separate the last "que" so that it can be elided
             const pref=prefix[int];
-            if (/ qu(e|i)$/.test(pref)){
-                this.elements.splice(0,0,Q(pref.substr(0,pref.length-4)),Q(pref.substr(pref.length-3)));
-            } else {
-                this.elements.splice(0,0,Q(pref));
+            this.elements.splice(0,0,Q(pref));
+            if (pp !== undefined){ // add "par" in front of some French passive interrogative
+                this.elements.splice(0,0,pp);
+                if (int=="wad"){ // replace "que" by "quoi" for French passive wad
+                    this.elements[1].lemma="quoi";
+                }
             }
         }
-        this.a(sentenceTypeInt.punctuation,true);
-    }    
+        this.a(sentenceTypeInt.punctuation,true);//
+    }
     const exc=types["exc"];
     if (exc !== undefined && exc === true){
         this.a(this.getRules().sentence_type.exc.punctuation,true);
@@ -836,29 +886,38 @@ Phrase.prototype.cpReal = function(){
     }
     for (let j = 0; j < last; j++) { //insert comma after each element
         const ej=elems[j];
-        if (j<last-1 && 
-            (ej.props["a"] === undefined || !contains(ej.props["a"],",")))
-                ej.props["a"]=[","]
+        if (idxC<0 || j<last-1){ // except the last if there is conjunction
+            if (ej.props["a"] === undefined || !contains(ej.props["a"],","))
+                ej.props["a"]=[","];
+        }
         Array.prototype.push.apply(res,ej.real())
     }
     // insert realisation of C before last...
     if(idxC>=0){
         Array.prototype.push.apply(res,this.elements[idxC].real());
-        Array.prototype.push.apply(res,elems[last].real());
     }
+    // insert last element
+    Array.prototype.push.apply(res,elems[last].real());
     // compute the combined gender and number of the coordination once children have been realized
     let c;
     if(idxC >= 0 ){
         c=this.elements[idxC]
         var and=this.isFr()?"et":"and";
-        var gn=this.findGenderNumberPerson(c.lemma==and)
+        var gn=this.findGenderNumberPerson(c.lemma==and);
         this.setProp("g",gn.g);
         this.setProp("n",gn.n);
         this.setProp("pe",gn.pe);
+        // for the pronoun, we must override its existing properties...
+        if (this.pronoun!==undefined){
+            this.pronoun.peng=gn;
+            this.pronoun.props["g"]=gn.g;
+            this.pronoun.props["n"]=gn.n;
+            this.pronoun.props["pe"]=gn.pe;
+        }
     } else {
         last++; // no coordinate, process all with the following loop 
     }            
-    return this.doFormat(res); // process format for the CP
+    return res; 
 }
 
 // special case of VP for which the complements are put in increasing order of length

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Informations sur la page Augmentation</title>
+  <style>
+      body {font-family: arial,sans-serif}
+      img {border: 1px solid #999;}
+      code {font-family:courier;}
+      code.real {
+          font-family: Didot;
+          font-size:large;
+      }
+       ul,ul p{margin:0px;}
+      
+      /*code.real::before{content:"« ";}
+      code.real::after{content:" »";}*/
+  </style>
+</head>
+<body>
+<h1>Informations supplémentaires sur la page <a href="Augmentation.html">Augmentation</a></h1>
+<h3><a href="http://associationgeorgesperec.fr/georges-perec/" title="Georges Perec - Association Georges Perec">Perec</a> aurait plutôt écrit: <em>Considérations sur l’art et la manière de <del>croiser</del> générer les mots</em></h3>
+
+<h2>Contexte de la création de l'oeuvre originale</h2>
+<p><i>Informations tirées des notes explicatives figurant dans l'édition La Pléiade, pp 1231-1233.</i></p>
+<p>En 1968, Jacques Perriault confie un organigramme à Perec, qui venait d'intégrer l'<a href="https://oulipo.net" title="Oulipo | Ouvroir de littérature potentielle">OULIPO</a>, en lui demandant d'en explorer les potentialités littéraires. Perec tente alors, avec du papier calque, d'explorer tous les chemins dans cet organigramme en suivant tous les embranchements selon que la situation vérifiée par chaque test soit vraie ou non. Il en produit alors un texte (35 pages dans l'édition de La Pléiade) sans aucune ponctuation, entièrement construit sur la redondance. En effet, pour arriver à une position, il (re+)explicitait tout le chemin pour y parvenir.</p>
+<p>Perec a ensuite adapté ce texte pour en faire une pièce radiophonique d'abord présentée en allemand. Cette pièce, simplifiée par rapport au texte original, est organisée avec 6 voix qui prennent la parole à tour de rôle: </p>
+<ol>
+    <li>proposition</li>
+    <li>alternative</li>
+    <li>hypothèse positive</li>
+    <li>hypothèse négative</li>
+    <li>choix</li>
+    <li>conclusion</li>
+</ol>
+<p>Cette version a été ensuite présentée à la radio en français et elle a été utilisée comme base pour la pièce de théâtre intitulée <a href="https://data.bnf.fr/fr/16977544/georges_perec_l__augmentation/" title="L&#39; augmentation"><em>L'augmentation</em></a> (pages 947-994 dans l'édition de La Pléiade) qui fut créée en 1970 à Paris. Cette pièce est encore régulièrement présentée un peu partout dans le monde. L'organisation du texte produit par notre système est basée sur ce découpage systématique des éléments du texte.</p>
+
+<h2>Motivation</h2>
+
+<p>En tant qu'informaticien, nous trouvions intéressante l'idée d'utiliser un organigramme comme plan de texte, d'autant plus que chaque scène de <em>L'Augmentation</em> est organisée de façon très systématique. Nous y avons aussi vu une occasion de démontrer certaines possibilités de la version française du réalisateur de texte <a href="https://github.com/rali-udem/jsRealB">jsRealB</a> sur lequel nous travaillons depuis quelques années. Perec introduit plusieurs variantes et figures de style autour de chaque situation avec lesquelles nous n'avons pas l'ambition de rivaliser. Nous avons plutôt introduit des variations grammaticales.</p>
+
+<h2>Aspects informatiques</h2>
+
+<h3>Analyse de l'organigramme</h3>
+<p>Au point de vue informatique, l'organigramme de 1968 ne correspond plus aux standards modernes de programmation structurée. Nous ne sommes donc pas arrivé à le traduire en un algorithme dans un langage de programmation de haut niveau qui aurait guidé la création des phrases.</p>
+<p> Nous avons plutôt considéré l'organigramme comme un graphe dans lequel chaque noeud est un <em>état</em>: une <em>étape</em> qui décrit une action ou un <em>test</em> qui pose une question. Les arcs du graphe correspondent aux transitions entre les états: une étape n'a  qu'un seul successeur alors qu'un test en a deux.</p>
+<p>Même s'il n'était pas essentiel de reproduire l'organigramme sur la page pour générer le texte, nous avons cru intéressant de le faire, car cela permet d'illustrer le chemin suivi pour obtenir le texte. L'organigramme a été reproduit aussi fidèlement que possible en positionnant des éléments SVG (rectangles, texte, arcs avec des flèches) à des positions précises à l'intérieur d'une surface de dessin. Quelques détails ont été <em>corrigés</em> par rapport à la version retrouvée dans les papiers de Perec:</p>
+<ul>
+    <li>L'étape <code>ATTENDEZ SIX MOIS</code> ayant deux successeurs, nous avons éliminé la flèche vers la droite;</li>
+    <li>Le test <code>L'obtenez-vous ?</code> n'avait qu'un seul successeur <code>NON</code>, nous avons ajouté un arc pour <code>OUI</code>;</li>
+    <li>Les flèches mutuelles entre étapes <code>Alarme 2e urgence</code> et <code>Alarme 1re urgence</code> ont été enlevées, car elles sont inutiles d'autant plus qu'une étape ne peut avoir qu'un seul successeur.</li>
+</ul>
+
+<h3>Calcul des chemins</h3>
+<p>Nous avons interprété le processus esquissé par Perec comme l'énumération de tous les chemins dans le  graphe en partant de l'état initial <code>Aller chez Mr X</code> pour y retourner en évitant de revenir sur un état déjà présent ailleurs dans le parcours. Un algorithme récursif choisissant soit <code>NON</code> ou <code>OUI</code> à chaque test a permis d'identifier 72 chemins différents.</p>
+
+<p>Un chemin est une suite d'<em>actions</em>. Une action est soit le nom d'une étape, soit le nom d'un test avec une indication de la branche <code>OUI</code> ou <code>NON</code> qui a été prise. Le calcul des chemins est effectué au chargement de la page, car l'organigramme est statique. La sélection d'un chemin est faite en indiquant son numéro dans le premier champ en haut de la page.</p>
+
+<h3>Réalisation du texte</h3>
+
+<p>Pour la réalisation du texte, nous avons associé une phrase affirmative à chaque état. Par exemple, pour l'état <code>Est-il dans son bureau ?</code>, nous associons une structure jsRealB pour réaliser <code class="real">Il est dans son bureau.</code></p>
+<p>Pour les curieux, voici la spécification en Javascript de la structure en constituants pour cette phrase:</p>
+<p><pre><code>S(Pro("moi").g(chef.g).pe(3).c("nom")      // pronom nominatif qui peut varier en genre
+  VP(V("être").t(t),                       // Syntagme verbal avec le verbe être 
+     PP(P("dans"),                         // Syntagme prépositionnel avec préposition dans
+        NP(D("mon").pe(3),N("bureau")))))  // Syntagme nominal avec déterminant et nom
+</code></pre>
+</p>
+<p>À partir de cette structure, jsRealB peut produire sa négation <code class="real">Il n'est pas dans son bureau.</code> ou des formes interrogatives en oui/non telles que <code class="real">Est-il dans son bureau?</code> ou <code class="real">Est-ce qu'il est dans son bureau?</code>. </p>
+
+<p> De plus, la structure est configurée de façon à ce que le pronom sujet dépende du genre associé au chef <code class="real">il</code> ou <code class="real">elle</code>. On paramètre aussi le temps du verbe pour réaliser <code class="real">Il a été dans son bureau</code> dans le cas d'un passé composé. Il en est ainsi pour les autres modifications de genre. Une limitation, parmi d'autres: jsRealB ne traitant pas le vous <em>de majesté</em>, il considère <code class="real">vous</code> comme la deuxième personne du pluriel; on pourra alors lire <code class="real">Vous êtes allés</code> au passé composé même s'il n'y a qu'un seul protagoniste. Le lecteur intéressé par le formalisme précis de la spécification peut se référer au code de l'application.</p>
+
+<p>La réalisation du texte associé à un état dépend de son type et est organisée selon les 6 voix de la pièce <em>l'Augmentation</em> décrites précédemment:</p>
+<dl>
+    <dt><em>étape</em></dt>
+    <dd>
+       [<em>proposition</em>] un paragraphe ne contenant que la structure de la phrase affirmative. 
+    </dd>
+    <dt><em>test</em></dt>
+    <dd>combinaison des états successeurs du test en un seul paragraphe. Un test T, avec la structure T<sub>S</sub> dont les successeurs sont les états E<sub>oui</sub> et E<sub>non</sub> sera réalisé avec les éléments suivants: 
+        <ul>
+            <li>[<em>alternative</em>] forme interrogative de T<sub>S</sub> <br/>ou une phrase composée de <code class="real">Ou bien</code> suivi de la forme affirmative de T<sub>S</sub> et de <code class="real">ou bien</code> suivi de la forme négative de T<sub>S</sub>;</li>
+            <li>[<em>hypothèse positive</em>] <code class="real">si</code> suivi de la forme affirmative de E<sub>oui</sub></li>
+            <li>[<em>hypothèse négative</em>] <code class="real">sinon</code> suivi de la forme négative de E<sub>non</sub>
+            <li>[<em>choix</em>]
+            <ul>
+                <li>si la réponse au test est <code>OUI</code>: réaliser <code class="real">heureusement</code> suivi de la forme affirmative de E<sub>oui</sub></li>
+                <li>si la réponse au test est <code>NON</code>: réaliser <code class="real">cependant</code> suivi de la forme négative de E<sub>non</sub></li>
+                </ul>
+                <p>Lorsque le successeur d'un test est un autre test, il faut plutôt générer <code class="real">vous vous demandez si</code> suivi de la forme affirmative du second test.</p>
+            </li>
+        </ul>
+    </dd>
+    </dl>
+
+<p>Par exemple, pour ce test avec ses étapes suivantes, dans le cas où le <code>NON</code> est choisi.</p>
+<img src="ExempleTest.jpg" width="800" alt="ExempleTest">
+<p>Les deux paragraphes suivants seront réalisés:</p> 
+<p><code class="real">Est-il dans son bureau? S'il est dans son bureau, vous frappez. S'il n'est pas dans son bureau, vous guettez son retour dans le couloir. Cependant, il n'est pas dans son bureau.<br/><br/>Vous guettez son retour dans le couloir.</code></p>
+
+<p>Afin de varier les textes, plusieurs structures de phrases ou mots équivalentes peuvent être associées à un état ou à une étape  de la génération d'un test; le système en choisit une aléatoirement lors de la réalisation.</p>
+
+<p>L'application de cet algorithme à chaque état permet de réaliser un chemin identifié dans le graphe.</p>
+
+<h2>Références</h2>
+<ul>
+    <li>Georges Perec, <em>L'augmentation</em> précédée de <em>L'art et la manière d'aborder son chef pour lui demander une augmentation</em>, textes établis, présentés et annotés par Maryline Heck, pages 905-1000 et 1231-1240, dans Oeuvres II, Édition La Pléiade, Gallimard, 2017.</li>
+    <li>Nathalie Berkman, <em>La littérature algorithmique : frontière entre auteur et lecteur</em>, Le Cabinet d’amateur. Revue d’études perecquiennes, Nov 2015. [<a href="https://mla.hcommons.org/deposits/objects/mla:752/datastreams/CONTENT/content">pdf</a>]</li>
+    <li><a href="https://github.com/wordaligned/pay-rise-please" title="GitHub - wordaligned/pay-rise-please: The Art and Craft of Approaching your Head of Department to Submit a request for a Raise">Programme Python pour une version anglaise</a> permettant de parcourir les états; il comporte aussi une interface pour la borne Alexa.</li>
+</ul>
+
+<p><a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></p>
+</body>
+</html>

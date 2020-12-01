@@ -33,7 +33,7 @@
         }
         
         function verse(n){
-            var vers1=CP(nbbW(n).a(","), 
+            var vers1=CP(nbbW(n), 
                          nbb(n));
             var vers2;
             if (n>0){
@@ -42,7 +42,7 @@
                 vers2=CP(C("and"),tod,pia,nbbW(n-1));
             } else {
                 var gts=VP(V("go").pe(2),PP(P("to"),D("a"),N("store")));
-                var bsm=VP(V("buy").pe(2),"some more").a(",");
+                var bsm=VP(V("buy").pe(2),"some more");
                 vers2=CP(CP(C("and"),gts,bsm),nbbW(99));
             }
             return S(vers1)+"<br/>"+S(vers2);

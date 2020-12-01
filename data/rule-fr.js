@@ -3508,7 +3508,7 @@ var ruleFr = //========== rule-fr.js
             },{
                 "val":"soi-même", "g":"x", "n":"s", "tn":"refl"
             },{
-                "val":"soi", "g":"x", "n":"s", "c":"nom"
+                "val":"on", "g":"x", "n":"s", "c":"nom"
             },{
                 "val":"le", "g":"x", "n":"s", "c":"acc"
             },{
@@ -4385,16 +4385,16 @@ var ruleFr = //========== rule-fr.js
             "type": "interrogative",
             "punctuation": "?",
             "prefix": {
-                "base": "est-ce que",
-                "yon": "est-ce que",
-                "wos": "qui est-ce qui",
-                "wod": "qui est-ce que",
-                "woi": "à qui est-ce que",
-                "wad": "qu'est-ce que",
-                "whe": "où est-ce que",
-                "how": "comment est-ce que",
-                "whn": "quand est-ce que",
-                "why": "pourquoi est-ce que",
+                "base": "" ,                      // "est-ce que",
+                "yon":  "" ,                      //"est-ce que",
+                "wos":  "qui",                       //"qui est-ce qui",
+                "wod":  "qui",                       //"qui est-ce que",
+                "woi":  "à qui",                       //"à qui est-ce que",
+                "wad":  "que",                       //"qu'est-ce que",
+                "whe":  "où",                       //"où est-ce que",
+                "how":  "comment",                       //"comment est-ce que",
+                "whn":  "quand",                       //"quand est-ce que",
+                "why":  "pourquoi",                       //"pourquoi est-ce que",
                 "muc": "combien"
             }
         },

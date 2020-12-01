@@ -85,6 +85,7 @@ function filter(fields,mrRef,strict){
 function showValuesInMenu(event){
     $(".current").removeClass("current");
     var $tgt=$(event.target);
+    if ($tgt.attr("id")=="sentences")return; // click into the textarea without sentences
     $tgt.addClass("current");
     var i=parseInt($tgt.attr("id").slice(1));
     var mr=mrRefs[i]["mr"];

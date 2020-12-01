@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>jsRealB (V 3.5) - Documentation</title>
+    <title>jsRealB (V 3.6) - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <script src="../dist/jsRealB.js"></script> -->
@@ -33,7 +33,7 @@
     </span>
     <span id="langSelect">[<span lang="en">FR</span><span lang="fr">EN</span>]</span>
 <!-- start of page  -->
-    <h1><span class="jsr">jsRealB (Version 3.5)</span> - Documentation</h1>
+    <h1><span class="jsr">jsRealB (Version 3.6)</span> - Documentation</h1>
     <p lang="fr"><span class="jsr">jsRealB</span> est un réalisateur de texte pour l'anglais et le français écrit en Javascript. Il peut être utilisé soit à l'intérieur d'une page web comme celle-ci dont tous les exemples sont réalisés dynamiquement, ou comme module <code>Node.js</code>.</p>
     <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript. It can be used either within a web page such as this one whose examples are dynamically realized or as a <code>Node.js</code> module.</p>
 
@@ -104,6 +104,7 @@
                     </ul>
                 </li>
             </ul>
+            <p>Afin de rester compatible avec la méthode de spécification précédente, les formes clitiques et toniques des pronoms doivent spécifier <code>.pe(1)</code> pour le pronom <code>moi</code>. Il en est de même pour les pronoms possessifs <code>mien</code> et <code>nôtre</code> ainsi que pour les déterminants possessifs <code>mon</code> et <code>notre</code>.</p>
             <p>Le tableau suivant présente la forme obtenue au-dessus de la spécification <span class="jsr">jsRealB</span>.</p>
             <div id="pronomsTon"></div>
             <p>Le tableau suivant présente les pronoms possessifs qui s'accordent en genre et en nombre.</p>
@@ -130,6 +131,8 @@
                    </ul>
                </li>
            </ul>
+           <p>In order to stay compatible with the previous form of specification, when using tonic or clitic form,
+              <code>pe(1)</code> must be specified for the pronoun <code>me</code>.</p>
            <p>The following table shows the realized form above the corresponding 
                <span class="jsr">jsRealB</span> expression.</p>
             <div id="tonicPro"></div>
@@ -270,10 +273,10 @@ intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 
 has already two basic lexicons: French (3 700 entries) and English (5 200 entries) that can be queried and modified with the following functions. When <code>lang</code> (<code>"en"</code> or <code>"fr"</code>) is specified, the function is applied to the lexicon of this language, otherwise it applies to the current lexicon, the one of the last call to <code>loadEn()</code> o <code>loadFr()</code>.
 </p>
 
-<h3><code>addtoLexicon(lemma[,newInfos][,lang])</code></h3>
+<h3><code>addToLexicon(lemma[,newInfos][,lang])</code></h3>
 <p lang="fr"> 
      <code>lemma</code> est l'entrée de base et <code>newInfos</code> est l'information morphologique selon le format interne à <span class="jsr">jsRealB</span>: un objet indiquant le ou les catégories possibles et pour chaque catégorie, des propriétés et la table de déclinaison ou conjugaison correspondantes.
-    Par exemple, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
+    Par exemple, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
     Cette fonction peut aussi être appelée avec un seul paramètre qui est un objet dont la clé est le lemme. L'exemple précédent peut donc s'écrire: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>. Si le lemme et la catégorie existent déjà dans le lexique, alors l'entrée pour cette catégorie est remplacée par <code>newInfos</code>.
 </p>
 <p lang="fr"><a href="../data/lexiconFormat.html">Plus d'information (en anglais) sur le format des lexiques</a>   </p> 
@@ -283,7 +286,7 @@ Pour déterminer les informations à ajouter, le plus simple est de copier les i
 <p lang="fr">Pour enlever une entrée d'un lexique, il de mettre <code>newInfos</code> à <code>null</code>.</p>
 <p lang="en"> 
      <code>lemma</code> is the basic form and <code>newInfos</code> is the morphologic information according to the internal  <span class="jsr">jsRealB</span> format: an object indicating one or many possible categories. For each category, properties and declension or conjugation are given.
-    For example, <code>addLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.  If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.
+    For example, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"tsunami":{"N":{"tab":["n1"]}}})</code>.  If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.
 </p>
 <p lang="en"><a href="../data/lexiconFormat.html">More information about the lexicon format</a></p>
 <p lang="en">

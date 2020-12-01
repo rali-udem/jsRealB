@@ -1,0 +1,2 @@
+- ajouter own au pronom possessif et determinants français (comme en anglais) pour éviter les mon/notre et mien/nôtre
+- permettre d'avoir des pos(pre/post) pour les adverbes français

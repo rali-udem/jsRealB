@@ -10,8 +10,8 @@ var  gars = NP(D("le"),N("garçon").n("p"));
 var exemplesFr=[
     [N("chat"),
         "chat"],
-    [Pro("moi"),
-        "lui"],
+    [Pro("moi").c("acc"),
+        "me"],
     [Pro("moi").tn(""),
         "moi"],
     [NP(D("le"),N("chat")),
@@ -55,11 +55,11 @@ var exemplesFr=[
     [S(NP(N("John")),
       VP(Pro("lui").c("refl"),V("évanouir").aux("êt").t("pc")),
         PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
-        "John ne s'est pas évanoui au lundi 21 mai 1979 à 6 h 5 min 0 s."],
+        "John ne s'est pas évanoui au lundi 21 mai 1979 à 10 h 5 min 0 s."],
     [S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
       VP(V("évanouir").t("pc")),
          PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
-        "John et Mary ne sont pas évanouis au lundi 21 mai 1979 à 6 h 5 min 0 s."],
+        "John et Mary ne sont pas évanouis au lundi 21 mai 1979 à 10 h 5 min 0 s."],
     [S(VP().add(V("aimer")).add(pomme)).add(gars,0),
         "Les garçons aiment la pomme."],
     [S(CP(C("et"),NP(D("le"),N("fruit"))).add(pomme).add(gars),
@@ -187,9 +187,9 @@ var exemplesFr=[
           PP(P("à"),NP(D("le"),N("fille"))).pro())).typ({neg:true,pas:true}),
      "Elle ne lui a pas été donnée par lui."],
     // modifications globales de propriétés
-    [S(NP(D("le"),N("chat")).g("f").n("p"),
-      VP(V("manger").t("pc"),
-         NP(D("le"),N("souris")))).t("f").n("s"),
+    [S(NP(D("le"),N("chat").g("f")),
+      VP(V("manger"),
+         NP(D("le"),N("souris")))).t("f"),
         "La chatte mangera la souris."],
     [S(CP(C("et"),
           Pro("elle").tn(""),
@@ -198,7 +198,34 @@ var exemplesFr=[
            PP(P("à"),
               NP(D("le"),N("plage"))))).t("pc"),
      "Elle et moi sommes allés à la plage."],
-    
+    // changement de personne dans le déterminant
+    [S(NP(D("notre").pe(2),N("chef")),
+       VP(V("aller"))),
+     "Votre chef va."],
+    // nouveau type de question "yon" par inversion du sujet
+    [S(NP(D('le'),  // 54
+          N('chat')),
+       VP(V('manger'),
+          NP(D('le'),
+             N('souris')))).typ({int:"yon"}),
+     "Le chat mange-t-il la souris? "],
+    [S(NP(D('le'), // 55
+          N('chat')),
+       VP(V('manger'),
+          NP(D('le'),
+             N('souris')))).typ({int:"yon",neg:true}),
+     "Le chat ne mange-t-il pas la souris? "],
+    [S(NP(D('le'), // 56
+          N('chat')),
+       VP(V('manger'),
+          NP(D('le'),
+             N('souris')))).typ({int:"yon",pas:true}),
+     "La souris est-elle mangée par le chat? "],
+     [S(Pro("je"),  // 57
+        VP(V('manger'),
+           NP(D('le'),
+              N('fromage')))).typ({int:"yon"}),
+     "Mange-t-il le fromage? "],
 ];
 
 //  exemples en anglais
@@ -284,6 +311,14 @@ var exemplesEn=[
        "one plane"],   
       [NP(NO(3).dOpt({nat:true}),N("plane")),     // 22
        "three planes"],
+      [NP(NP(D("the"),                            // 23 
+        A("large").f("su"),
+        NP(P("of"),
+           D("the"),
+           N("trainer").n("p")).a(",")),
+        D("this").n("s"),    // check propagation of the number (this should not be these)
+        N("addition").n("s")),
+       "the largest of the trainers, this addition"]
 ];
    
 function showEx(exemple){

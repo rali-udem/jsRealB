@@ -185,8 +185,8 @@ testPronounDeclensionEn=[
     ["why",{"why":{"n":"p","g":"m","pe":1}}],
     ["who",{"who":{"n":"p","g":"m","pe":1}}],
     ["where",{"where":{"n":"p","g":"m","pe":1}}],
-    ["these",{"these":{"n":"p","g":"m","pe":3}}],
-    
+    ["this",{"these":{"n":"p","g":"m","pe":3}}],
+    ["that",{"those":{"n":"p","g":"m","pe":3}}],
 ]
 
 testDetDeclensionEn=[

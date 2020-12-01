@@ -25,6 +25,7 @@ fi
 
 ## test all demos
 allDemos=(  99BottlesOfBeer/index.html \
+            Augmentation/Augmentation.html \
             Data2Text/batiment.html \
             Data2Text/building.html \
             date/index.html \
@@ -39,7 +40,8 @@ allDemos=(  99BottlesOfBeer/index.html \
             Pronoms/index.html \
             randomGeneration/French.html \
             randomGeneration/English.html \
-            VariantesDePhrases/index.html )
+            VariantesDePhrases/index.html \
+            ../Tutorial/metro.html)
 
 for demo in ${allDemos[*]}
 do
