@@ -243,7 +243,7 @@ Terminal.prototype.decline = function(setPerson){
                         if (adjAdv !== undefined){
                             declension=rules.declension[adjAdv["tab"][0]].declension;
                             const ending=rules.declension[adjAdv["tab"][0]].ending;
-                            stem=stem.slice(0,-ending.length);
+                            stem=stem.slice(0,stem.length-ending.length);
                         }
                     } 
                     // look in the adjective declension table
@@ -432,7 +432,7 @@ Terminal.prototype.conjugate_fr = function(){
                 return [this];
             case "b": case "pr": case "pp":
                 this.realization=this.stem+conjugation;
-                if (t=="pp" && res != "été"){ //HACK: peculiar frequent case of être that does not change
+                if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
                     let g=this.getProp("g");
                     if (g=="x")g="m";
                     let n=this.getProp("n");
@@ -444,9 +444,9 @@ Terminal.prototype.conjugate_fr = function(){
                     const qNeg=Q(neg);
                     qNeg.realization=neg;
                     if (t=="b"){
-                        return [neg,this]
+                        return [qNeg,this]
                     }
-                    else return[this,neg];
+                    else return[this,qNeg];
                 }
                 return [this];
             default:

@@ -10,7 +10,6 @@
 "use strict";
 
 // global variables 
-var exceptionOnWarning=false;  // throw an exception on Warning instead of only writing on the console
 var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
@@ -1188,7 +1187,7 @@ Phrase.prototype.processVP = function(types,key,action){
             }
         }
         const idxV=vp.getIndex("V");
-        if (idxV!==undefined){
+        if (idxV>=0){
             const v=vp.elements[idxV];
             action(vp,idxV,v,val);
         }
@@ -1910,7 +1909,7 @@ Terminal.prototype.decline = function(setPerson){
                         if (adjAdv !== undefined){
                             declension=rules.declension[adjAdv["tab"][0]].declension;
                             const ending=rules.declension[adjAdv["tab"][0]].ending;
-                            stem=stem.slice(0,-ending.length);
+                            stem=stem.slice(0,stem.length-ending.length);
                         }
                     } 
                     // look in the adjective declension table
@@ -2099,7 +2098,7 @@ Terminal.prototype.conjugate_fr = function(){
                 return [this];
             case "b": case "pr": case "pp":
                 this.realization=this.stem+conjugation;
-                if (t=="pp" && res != "été"){ //HACK: peculiar frequent case of être that does not change
+                if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
                     let g=this.getProp("g");
                     if (g=="x")g="m";
                     let n=this.getProp("n");
@@ -2111,9 +2110,9 @@ Terminal.prototype.conjugate_fr = function(){
                     const qNeg=Q(neg);
                     qNeg.realization=neg;
                     if (t=="b"){
-                        return [neg,this]
+                        return [qNeg,this]
                     }
-                    else return[this,neg];
+                    else return[this,qNeg];
                 }
                 return [this];
             default:
@@ -2870,11 +2869,6 @@ var oneOf = function(elems){
         elems=Array.from(arguments);
     const e=elems[Math.floor(Math.random()*elems.length)];
     return typeof e=='function'?e():e;
-}
-
-// set the flag so that a warning generates an exception
-function setExceptionOnWarning(val){
-    exceptionOnWarning=val;
 }
 
 // version and date informations
@@ -23695,6 +23689,26 @@ var ruleFr = //========== rule-fr.js
  */
 "use strict";
 
+// global variables
+var exceptionOnWarning=false;  // throw an exception on Warning instead of only writing on the console
+var savedWarnings=undefined;    // if this is set to an array then warnings will be pushed on this array, 
+                                // so that all warnings can be returned in one bunch to the caller which has
+                                // to resetSavedWarnings() once it has called getSavedWarnings()
+
+// set the flag so that a warning generates an exception
+function setExceptionOnWarning(val){
+    exceptionOnWarning=val;
+}
+
+// reset savedWarnings
+function resetSavedWarnings(){
+    savedWarnings=[]
+}
+
+function getSavedWarnings(){
+    return savedWarnings || [];
+}
+
 // Output of warnings:
 // it uses jsRealB for the realization of messages
 // not sure this design is simpler, but it shows how jsRealB can be used for realizing its own messages
@@ -23740,7 +23754,10 @@ Constituent.prototype.warn = function(_){
     }
     mess=this.me()+":: "+ messFns[lang].apply(null,args).cap(false) // realize the warning 
     if (exceptionOnWarning) throw mess;
-    console.warn(mess);
+    if (Array.isArray(savedWarnings))
+        savedWarnings.push(mess);
+    else
+        console.warn(mess);
     return this;
 }
 
@@ -23888,7 +23905,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-11-30 14:46"
+jsRealB_dateCreated="2020-12-15 09:17"
 //  Terminals
 exports.N=N;
 exports.A=A;
@@ -23920,6 +23937,8 @@ exports.getLanguage=getLanguage;
 exports.getLexicon=getLexicon;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
+exports.resetSavedWarnings=resetSavedWarnings;
+exports.getSavedWarnings=getSavedWarnings;
 // JSON
 exports.fromJSON=fromJSON;
 exports.ppJSON=ppJSON;

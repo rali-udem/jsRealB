@@ -1,2 +1,17 @@
-- ajouter own au pronom possessif et determinants français (comme en anglais) pour éviter les mon/notre et mien/nôtre
+- ajouter own au pronom possessif et déterminants français (comme en anglais) pour éviter les mon/notre et mien/nôtre
+- vérifier pronom lui au pluriel => eux . p.ex. Pro("lui").c("dat").pe(3).n("p") devrait donner "leur"...
 - permettre d'avoir des pos(pre/post) pour les adverbes français
+- vérifier dans les dictionnaires: 
+   - beaucoup, aucun, rien, plusieurs (souvent adv...)
+   - parce ?
+- vérifier l'élision dans ces cas
+jsRealB > .lx haut
+"A":{"h":1,"pos":"pre","tab":["n28"]}
+"Adv":{"h":1,"tab":["av"]}
+"N":{"g":"m","h":1,"tab":["n3"]}
+jsRealB > NP(D("le"),N("haut"))
+=> le haut
+jsRealB > NP(D("le"),Q("haut"))
+=> l'haut
+jsRealB > NP(D("le"),Q("Haut"))
+=> l'Haut

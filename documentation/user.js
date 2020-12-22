@@ -227,9 +227,10 @@ function englishTable(){
 
 
 $(document).ready(function() {
-    $("#jsRealB-en").append(jsRealBdir+"jsRealB-en.min.js")
-    $("#jsRealB-fr").append(jsRealBdir+"jsRealB-fr.min.js")
-    $("#jsRealB-enfr").append(jsRealBdir+"jsRealB-enfr.min.js")
+    $("#jsRealB-en").append(jsRealBdir+"jsRealB-en.min.js");
+    $("#jsRealB-fr").append(jsRealBdir+"jsRealB-fr.min.js");
+    $("#jsRealB-enfr").append(jsRealBdir+"jsRealB-enfr.min.js");
+    $("#version-no").text(jsRealB_version);
     insertQuickLinks("fr");
     insertQuickLinks("en");
     $("div[id]").each(function(){

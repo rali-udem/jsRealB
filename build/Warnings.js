@@ -4,6 +4,26 @@
  */
 "use strict";
 
+// global variables
+var exceptionOnWarning=false;  // throw an exception on Warning instead of only writing on the console
+var savedWarnings=undefined;    // if this is set to an array then warnings will be pushed on this array, 
+                                // so that all warnings can be returned in one bunch to the caller which has
+                                // to resetSavedWarnings() once it has called getSavedWarnings()
+
+// set the flag so that a warning generates an exception
+function setExceptionOnWarning(val){
+    exceptionOnWarning=val;
+}
+
+// reset savedWarnings
+function resetSavedWarnings(){
+    savedWarnings=[]
+}
+
+function getSavedWarnings(){
+    return savedWarnings || [];
+}
+
 // Output of warnings:
 // it uses jsRealB for the realization of messages
 // not sure this design is simpler, but it shows how jsRealB can be used for realizing its own messages
@@ -49,7 +69,10 @@ Constituent.prototype.warn = function(_){
     }
     mess=this.me()+":: "+ messFns[lang].apply(null,args).cap(false) // realize the warning 
     if (exceptionOnWarning) throw mess;
-    console.warn(mess);
+    if (Array.isArray(savedWarnings))
+        savedWarnings.push(mess);
+    else
+        console.warn(mess);
     return this;
 }
 
