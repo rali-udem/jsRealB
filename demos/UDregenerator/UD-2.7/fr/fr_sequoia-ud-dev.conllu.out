@@ -1,0 +1,1927 @@
+0:in annodis.er_00014
+1 erreur: annodis.er_00014
+D('plusieurs'):: absent du lexique.
+---
+1:in annodis.er_00022
+2 erreurs: annodis.er_00022
+N('h'):: absent du lexique.
+N('h'):: absent du lexique.
+---
+2:in annodis.er_00037
+1 erreur: annodis.er_00037
+Adv('quant'):: absent du lexique.
+---
+3:in annodis.er_00063
+1 erreur: annodis.er_00063
+N('h'):: absent du lexique.
+---
+4: annodis.er_00070
+1 différence
+# text = [1;32;4mM. [0mHosneld avait 44 ans.
+# TEXT = [1;32;4mMonsieur [0mHosneld avait 44 ans.
+---
+5: annodis.er_00090
+# text = C'est le cas de ce brave Joseph Bari, toujours présent au comité, vedette de la colombophilie jusqu'en 1962, époque à laquelle il fut obligé de quitter son pigeonnier de Châtenois-les-Forges pour aller habiter un espace réduit à Grand-Charmont.
+# TEXT = C'est le cas de ce brave Joseph Bari, toujours présent au comité, vedette de la colombophilie jusqu'en 1962, époque à laquelle il fut obligé de quitter son pigeonnier de Châtenois-les-Forges pour aller habiter un espace réduit à Grand-Charmont. 
+---
+6: annodis.er_00128
+# text = Pour animer cette soirée, François Puel, chercheur du laboratoire d'astrophysique de Besançon.
+# TEXT = pour animer cette soirée, François Puel, chercheur du laboratoire d'astrophysique de Besançon. 
+---
+7:in annodis.er_00143
+1 erreur: annodis.er_00143
+Pro('cinq'):: absent du lexique.
+---
+8:in annodis.er_00154
+1 erreur: annodis.er_00154
+A('décentralisé'):: absent du lexique.
+---
+9: annodis.er_00163
+# text = Suzanne Collin était née à Brauvilliers dans la Meuse, le 21 janvier 1924, issue d'une famille de cinq enfants.
+# TEXT = Suzanne Collin était née à Brauvilliers dans la Meuse, le 21 janvier 1924, issue d'une famille de cinq enfants. 
+---
+10:in annodis.er_00170
+1 erreur: annodis.er_00170
+N('copine'):: absent du lexique.
+---
+11: annodis.er_00182
+# text = Le fond du problème : l'opposition avec le président de l'Harmonie, accusé de "prendre seul les décisions".
+# TEXT = le fond du problème: l'opposition avec le président de l'harmonie, accusé de " prendre seul les décisions ". 
+---
+12: annodis.er_00186
+# text = Selon les démissionnaires, il ne reste plus aujourd'hui que trois clairons et un tambour au sein de la batterie.
+# TEXT = Selon les démissionnaires, il ne reste plus aujourd'hui que trois clairons et un tambour au sein de la batterie. 
+---
+13: annodis.er_00190
+1 différence
+# text = "Verdun, ville de lumière[1;32;4m !"[0m
+# TEXT = " Verdun, ville de lumière[1;32;4m! "[0m
+---
+14:in annodis.er_00192
+1 erreur: annodis.er_00192
+N('usagé'):: absent du lexique.
+---
+15: annodis.er_00195
+## non projective
+3 différences
+# text = à ce jour, ils attendent que [1;32;4mleur[0m directeur [1;32;4men[0m [1;32;4mfasse[0m tout autant.
+# TEXT = À ce jour, ils attendent que [1;32;4mson[0m directeur [1;32;4mfasse[0m [1;32;4men[0m tout autant.
+---
+16:in annodis.er_00203
+2 erreurs: annodis.er_00203
+N('Evêque'):: absent du lexique.
+D('plusieurs'):: absent du lexique.
+---
+17: annodis.er_00217
+14 différences
+# text = "[1;32;4mCe[0m [1;32;4mne[0m sera pas un cours magistral[1;32;4m, mais[0m [1;32;4mplutôt[0m [1;32;4mun partage[0m [1;32;4mde[0m [1;32;4mconnaissances", souligne[0m [1;32;4mDominique[0m [1;32;4mRichard, responsable[0m [1;32;4mdes[0m [1;32;4manimations[0m [1;32;4mdans[0m [1;32;4mle[0m [1;32;4mvillage[0m.
+# TEXT = " [1;32;4mNe[0m [1;32;4mce[0m sera pas un cours magistral[1;32;4m, ", souligne[0m [1;32;4mDominique[0m [1;32;4mRichard, responsable[0m [1;32;4mdes[0m [1;32;4manimations dans[0m [1;32;4mle[0m [1;32;4mvillage mais[0m [1;32;4mplutôt[0m [1;32;4mun[0m [1;32;4mpartage[0m [1;32;4mde[0m [1;32;4mconnaissances[0m.
+---
+18:in annodis.er_00228
+1 erreur: annodis.er_00228
+N('70-61'):: absent du lexique.
+---
+19: annodis.er_00238
+# text = Le conducteur présente des signes d'ivresse et est conduit au commissariat central où son taux d'alcoolémie est fixé à 1,74 gramme par litre de sang.
+# TEXT = le conducteur présente des signes d'ivresse et est conduit au commissariat central où son taux d'alcoolémie est fixé à 1,74 gramme par litre de sang. 
+---
+20: annodis.er_00242
+# text = L'association paroissiale investit dans les locaux de la cure.
+# TEXT = L'association paroissiale investit dans les locaux de la cure. 
+---
+21: annodis.er_00247
+# text = La réévaluation de cette participation était à l'ordre du jour.
+# TEXT = La réévaluation de cette participation était à l'ordre du jour. 
+---
+22: annodis.er_00256
+# text = Le comité est inchangé :
+# TEXT = Le comité est inchangé:
+---
+23: annodis.er_00258
+# text = vice-président : André Ménétrez ;
+# TEXT = vice-président: André Ménétrez ;
+---
+24:in annodis.er_00266
+2 erreurs: annodis.er_00266
+Pro('soi'):: absent du lexique.
+N('prêt-relais'):: absent du lexique.
+---
+25: annodis.er_00277
+# text = Et comme le plan de résorption des dettes prévoyait un autre versement de près de deux millions d'euros en juin prochain...
+# TEXT = Et comme le plan de résorption des dettes prévoyait un autre versement de près de deux millions d'euros en juin prochain...
+---
+26: annodis.er_00319
+# text = Ils pourront découvrir le "Planétarium" et partir à la rencontre du monde merveilleux des étoiles et des constellations.
+# TEXT = Ils pourront découvrir le " planétarium " et partir à la rencontre du monde merveilleux des étoiles et des constellations. 
+---
+27:in annodis.er_00327
+1 erreur: annodis.er_00327
+N('°C'):: absent du lexique.
+---
+28: annodis.er_00331
+# text = Et l'acte malveillant figure parmi les hypothèses.
+# TEXT = Et l'acte malveillant figure parmi les hypothèses. 
+---
+29: annodis.er_00336
+9 différences
+# text = Pour éviter une reprise du feu[1;32;4m mais[0m [1;32;4maussi[0m [1;32;4mpour[0m [1;32;4mprévenir[0m [1;32;4mdes[0m [1;32;4mactes[0m [1;32;4mmalveillants" constatait[0m [1;32;4mMartial[0m [1;32;4mBourquin[0m.
+# TEXT = pour éviter une reprise du feu[1;32;4m " constatait[0m [1;32;4mMartial[0m [1;32;4mBourquin[0m [1;32;4mmais[0m [1;32;4maussi[0m [1;32;4mpour[0m [1;32;4mprévenir des[0m [1;32;4mactes[0m [1;32;4mmalveillants[0m.
+---
+30: annodis.er_00347
+5 différences
+# text = [1;32;4mM. [0mRivasseau a réaffirmé [1;32;4ml'"[0mexigence absolue du respect des droits de l'Homme" pour Paris alors que des témoignages de réfugiés font état d'exactions[1;34;47m, viols, et[0m [1;34;47mpillages [0mpar des éléments semble-t-il libériens[1;31m•[0m.
+# TEXT = [1;32;4mMonsieur [0mRivasseau a réaffirmé [1;32;4mla " [0mexigence absolue du respect des droits de l'homme " pour Paris alors que des témoignages de réfugiés font état d'exactions par des éléments semble-t-il libériens[1;31m, viols, et pillages[0m.
+---
+31: annodis.er_00356
+# text = Les obligations de parité prévues par la loi ont donné des résultats.
+# TEXT = Les obligations de parité prévues par la loi ont donné des résultats. 
+---
+32:in annodis.er_00357
+## non projective
+2 erreurs: annodis.er_00357
+N('municipale'):: absent du lexique.
+Pro('six'):: absent du lexique.
+---
+33: annodis.er_00360
+1 différence
+# text = Aux législatives de 2002, le scrutin uninominal majoritaire à deux tours ne permettait que des mesures incitatives, à savoir des pénalités financières portant sur l'aide publique de l'[1;32;4mEtat[0m aux partis politiques.
+# TEXT = Aux législatives de 2002, le scrutin uninominal majoritaire à deux tours ne permettait que des mesures incitatives, à savoir des pénalités financières portant sur l'aide publique de l'[1;32;4métat[0m aux partis politiques.
+---
+34:in annodis.er_00368
+2 erreurs: annodis.er_00368
+N('régionale'):: absent du lexique.
+Pro('six'):: absent du lexique.
+---
+35: annodis.er_00394
+# text = Le 19 juillet 1947, la défunte épouse René Jacquin, originaire de la commune.
+# TEXT = Le 19 juillet 1947, la défunte épouse René Jacquin, originaire de la commune. 
+---
+36:in annodis.er_00399
+3 erreurs: annodis.er_00399
+N('amie'):: absent du lexique.
+N('petit-enfant'):: absent du lexique.
+N('arrière-petit-enfant'):: absent du lexique.
+---
+37: annodis.er_00409
+# text = Cette association de jardiniers amateurs créée en 2000 à l'initiative de J.-P. Bruneau, passionné de jardinage et correspondant local des Jardiniers de France, comptait 17 adhérents en 2002.
+# TEXT = Cette association de jardiniers amateurs créée en 2000 à l'initiative de J.-P. Bruneau, passionné de jardinage et correspondant local des jardiniers de France, comptait 17 adhérents en 2002. 
+---
+38:in annodis.er_00418
+1 erreur: annodis.er_00418
+A('guidé'):: absent du lexique.
+---
+39: annodis.er_00420
+# text = Le conteur a fait jouer les enfants.
+# TEXT = Le conteur a fait jouer les enfants. 
+---
+40: annodis.er_00438
+# text = Tous en avaient à raconter aux parents à l'heure du déjeuner.
+# TEXT = Tous en avaient à raconter aux parents à l'heure du déjeuner. 
+---
+41:in annodis.er_00443
+1 erreur: annodis.er_00443
+A('divers'):: absent du lexique.
+---
+42:in annodis.er_00456
+1 erreur: annodis.er_00456
+Adv('quant'):: absent du lexique.
+---
+43:in annodis.er_00459
+1 erreur: annodis.er_00459
+Adv('en-dessous'):: absent du lexique.
+---
+44: annodis.er_00461
+# text = Le conseil municipal donne son accord pour cette procédure.
+# TEXT = Le conseil municipal donne son accord pour cette procédure. 
+---
+45: annodis.er_00466
+# text = En attendant la création d'un syndicat intercommunal de gestion, il est nécessaire que des délégués du conseil suivent de près l'opération.
+# TEXT = En attendant la création d'un syndicat intercommunal de gestion, il est nécessaire que des délégués du conseil suivent de près l'opération. 
+---
+46:in annodis.er_00472
+2 erreurs: annodis.er_00472
+A('nancéien'):: absent du lexique.
+N('staff'):: absent du lexique.
+---
+47: annodis.er_00489
+# text = Dans un premier temps, les occupants de la voiture doublée ont porté secours aux victimes.
+# TEXT = Dans un premier temps, les occupants de la voiture doublée ont porté secours aux victimes. 
+---
+48:in annodis.er_00493
+2 erreurs: annodis.er_00493
+N('belfortain'):: absent du lexique.
+N('amie'):: absent du lexique.
+---
+49: annodis.er_00514
+7 différences
+# text = [1;32;4mEtaient[0m conviés à la petite cérémonie, égayée de fleurs et biscuits, les sept personnes suivantes : Paulette Bertrand, née en 1926[1;32;4m ; [0mLucien Carillon (1928[1;32;4m) ; [0mAnita Dachaud (1921[1;32;4m) ; [0mSuzanne Grim (1903[1;32;4m) ; [0mJoséphine Conte (1912[1;32;4m) ; [0mJeanne Fosse (1907) et [1;32;4mM. [0mRoseman (1929).
+# TEXT = [1;32;4mÉtaient[0m conviés à la petite cérémonie, égayée de fleurs et biscuits, les sept personnes suivantes: Paulette Bertrand, née en 1926[1;32;4m, ; [0mLucien Carillon (1928[1;32;4m), ; [0mAnita Dachaud ( 1921[1;32;4m ), ; [0mSuzanne Grim ( 1903[1;32;4m ), ; [0mJoséphine Conte ( 1912[1;32;4m ), ; [0mJeanne Fosse ( 1907 ) et [1;32;4mmonsieur [0mRoseman ( 1929 ).
+---
+50:in emea-fr-dev_00007
+1 erreur: emea-fr-dev_00007
+Adv('afin'):: absent du lexique.
+---
+51: emea-fr-dev_00019
+# text = Comment Angiox est-il utilisé ?
+# TEXT = Comment Angiox est-il utilisé?
+---
+52: emea-fr-dev_00027
+# text = Angiox ne doit pas être utilisé chez les patients qui présentent des problèmes rénaux aigus.
+# TEXT = Angiox ne doit pas être utilisé chez les patients qui présentent des problèmes rénaux aigus. 
+---
+53: emea-fr-dev_00028
+1 différence
+# text = Pour plus d'informations, voir le résumé des caractéristiques du produit (également inclus dans l'[1;32;4mEPAR[0m).
+# TEXT = Pour plus d'informations, voir le résumé des caractéristiques du produit (également inclus dans l'[1;32;4mépar[0m).
+---
+54: emea-fr-dev_00031
+# text = Angiox est un anticoagulant ;
+# TEXT = Angiox est un anticoagulant ;
+---
+55:in emea-fr-dev_00036
+2 erreurs: emea-fr-dev_00036
+N('SCA'):: absent du lexique.
+N('ICP'):: absent du lexique.
+---
+56: emea-fr-dev_00043
+# text = Angiox a été comparé à l'héparine.
+# TEXT = Angiox a été comparé à l'héparine. 
+---
+57:in emea-fr-dev_00049
+1 erreur: emea-fr-dev_00049
+N('clopidogrel'):: absent du lexique.
+---
+58: emea-fr-dev_00063
+1 différence
+# text = L'[1;32;4mEPAR[0m complet relatif à Angiox est disponible ici.
+# TEXT = L'[1;32;4mépar[0m complet relatif à Angiox est disponible ici.
+---
+59:in emea-fr-dev_00085
+1 erreur: emea-fr-dev_00085
+N('mg'):: absent du lexique.
+---
+60: emea-fr-dev_00090
+# text = Pour la liste complète des excipients, voir rubrique 6.1.
+# TEXT = Pour la liste complète des excipients, voir rubrique 6.1. 
+---
+61:in emea-fr-dev_00096
+5 erreurs: emea-fr-dev_00096
+N('AI'):: absent du lexique.
+N('IDM'):: absent du lexique.
+A('ST-'):: absent du lexique.
+N('sus'):: absent du lexique.
+N('ST'):: absent du lexique.
+---
+62:in emea-fr-dev_00112
+9 erreurs: emea-fr-dev_00112
+N('ICP'):: absent du lexique.
+N('bolus'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+---
+63:in emea-fr-dev_00114
+1 erreur: emea-fr-dev_00114
+N('bolus'):: absent du lexique.
+---
+64:in emea-fr-dev_00145
+1 erreur: emea-fr-dev_00145
+N('bivalirudine'):: absent du lexique.
+---
+65:in emea-fr-dev_00178
+2 erreurs: emea-fr-dev_00178
+N('bivalirudine'):: absent du lexique.
+A('plaquettaire'):: absent du lexique.
+---
+66:in emea-fr-dev_00189
+1 erreur: emea-fr-dev_00189
+N('SCA'):: absent du lexique.
+---
+67:in emea-fr-dev_00190
+3 erreurs: emea-fr-dev_00190
+N('bivalirudine'):: absent du lexique.
+D('13 819'):: absent du lexique.
+N('SCA'):: absent du lexique.
+---
+68: emea-fr-dev_00196
+# text = Dans ACUITY, les données relatives aux saignements ont été recueillies séparément de celles concernant les événements indésirables.
+# TEXT = Dans ACUITY, les données relatives aux saignements ont été recueillies séparément de celles concernant les événements indésirables. 
+---
+69:in emea-fr-dev_00227
+4 erreurs: emea-fr-dev_00227
+P('comme'):: absent du lexique.
+N('g'):: absent du lexique.
+P('/'):: absent du lexique.
+N('dL'):: absent du lexique.
+---
+70:in emea-fr-dev_00236
+3 erreurs: emea-fr-dev_00236
+N('%'):: absent du lexique.
+N('bivalirudine'):: absent du lexique.
+N('%'):: absent du lexique.
+---
+71: emea-fr-dev_00245
+3 différences
+# text = Thrombose, hypotension, hémorragie, trouble [1;32;4met[0m [1;32;4manomalie[0m [1;32;4mvasculaires[0m
+# TEXT = thrombose, hypotension, hémorragie, trouble [1;32;4mvasculaires[0m [1;32;4met[0m [1;32;4manomalie[0m
+---
+72:in emea-fr-dev_00278
+2 erreurs: emea-fr-dev_00278
+N('post-commercialisation'):: absent du lexique.
+N('bivalirudine'):: absent du lexique.
+---
+73:in emea-fr-dev_00301
+8 erreurs: emea-fr-dev_00301
+N('bivalirudine'):: absent du lexique.
+N('aPTT'):: absent du lexique.
+N('TT'):: absent du lexique.
+N('TP'):: absent du lexique.
+A('plaquettaire'):: absent du lexique.
+N('thrombocytopénie'):: absent du lexique.
+N('TIH'):: absent du lexique.
+N('STIHT'):: absent du lexique.
+---
+74:in emea-fr-dev_00310
+13 erreurs: emea-fr-dev_00310
+N('bivalirudine'):: absent du lexique.
+N('B'):: absent du lexique.
+N('C'):: absent du lexique.
+N('bolus'):: absent du lexique.
+N('randomisation'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('h'):: absent du lexique.
+---
+75:in emea-fr-dev_00311
+10 erreurs: emea-fr-dev_00311
+N('ICP'):: absent du lexique.
+N('bolus'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('h'):: absent du lexique.
+---
+76:in emea-fr-dev_00315
+1 erreur: emea-fr-dev_00315
+N('h'):: absent du lexique.
+---
+77:in emea-fr-dev_00323
+4 erreurs: emea-fr-dev_00323
+V('randomiser'):: absent du lexique.
+D('6 000'):: absent du lexique.
+N('ICP'):: absent du lexique.
+V('randomiser'):: erreur de morphologie : conjugate_fr:tab :V(randomiser) : {"pe":3,"n":"s","t":"pp"}.
+---
+78:in emea-fr-dev_00331
+2 erreurs: emea-fr-dev_00331
+N('bivalirudine'):: absent du lexique.
+A('extracellulaire'):: absent du lexique.
+---
+79:in emea-fr-dev_00341
+1 erreur: emea-fr-dev_00341
+P('±'):: absent du lexique.
+---
+80:in emea-fr-dev_00342
+6 erreurs: emea-fr-dev_00342
+P('±'):: absent du lexique.
+N('ml'):: absent du lexique.
+P('/'):: absent du lexique.
+N('min'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+---
+81:in emea-fr-dev_00363
+2 erreurs: emea-fr-dev_00363
+N('bivalirudine'):: absent du lexique.
+A('clastogène'):: absent du lexique.
+---
+82: emea-fr-dev_00385
+# text = Angiox est disponible en boîtes de 2 et 10 flacons.
+# TEXT = Angiox est disponible en boîtes de 2 et 10 flacons. 
+---
+83:in emea-fr-dev_00407
+1 erreur: emea-fr-dev_00407
+A('I'):: absent du lexique.
+---
+84:in emea-fr-dev_00412
+1 erreur: emea-fr-dev_00412
+N('PGR'):: absent du lexique.
+---
+85: emea-fr-dev_00428
+# text = Lire la notice avant usage.
+# TEXT = lire la notice avant usage. 
+---
+86: emea-fr-dev_00431
+7 différences
+# text = AUTRE[1;34;47m(S[0m[1;32;4m) [0mMISE[1;34;47m(S[0m[1;32;4m) [0mEN GARDE [1;34;47mSPECIALE([0m[1;32;4mS), [0mSI [1;32;4mNECESSAIRE[0m
+# TEXT = autre[1;32;4m [0mmise[1;32;4m [0men garde [1;32;4mspéciale, [0msi [1;32;4mnécessaire[0m
+---
+87: emea-fr-dev_00452
+# text = MENTIONS MINIMALES DEVANT FIGURER SUR LES PETITS CONDITIONNEMENTS PRIMAIRES
+# TEXT = mentions minimales devant figurer sur les petits conditionnements primaires
+---
+88: emea-fr-dev_00454
+4 différences
+# text = [1;32;4mDENOMINATION[0m DU [1;32;4mMEDICAMENT[0m ET VOIE[1;34;47m(S[0m[1;32;4m) [0mD'ADMINISTRATION
+# TEXT = [1;32;4mdénomination[0m du [1;32;4mmédicament[0m et voie[1;32;4m [0md'administration
+---
+89: emea-fr-dev_00468
+2 différences
+# text = [1;34;47mQuelles sont [0mles informations à connaître avant d'utiliser Angiox [1;31m•[0m3.
+# TEXT = Les informations à connaître avant d'utiliser Angiox [1;31msont quelles [0m3.
+---
+90:in emea-fr-dev_00475
+1 erreur: emea-fr-dev_00475
+N('antithrombotique'):: absent du lexique.
+---
+91: emea-fr-dev_00479
+# text = N'utilisez jamais Angiox :
+# TEXT = N'utilisez jamais Angiox:
+---
+92:in emea-fr-dev_00494
+1 erreur: emea-fr-dev_00494
+Pro('soi'):: absent du lexique.
+---
+93:in emea-fr-dev_00506
+1 erreur: emea-fr-dev_00506
+Pro('1'):: absent du lexique.
+---
+94:in emea-fr-dev_00515
+9 erreurs: emea-fr-dev_00515
+N('bolus'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('h'):: absent du lexique.
+---
+95:in emea-fr-dev_00518
+8 erreurs: emea-fr-dev_00518
+N('bolus'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+---
+96:in emea-fr-dev_00539
+1 erreur: emea-fr-dev_00539
+Pro('1'):: absent du lexique.
+---
+97:in emea-fr-dev_00540
+1 erreur: emea-fr-dev_00540
+P('comme'):: absent du lexique.
+---
+98:in emea-fr-dev_00559
+2 erreurs: emea-fr-dev_00559
+N('°C'):: absent du lexique.
+N('°C'):: absent du lexique.
+---
+99: emea-fr-dev_00574
+1 différence
+# text = Pour [1;32;4mtoute[0m information complémentaire concernant ce médicament, veuillez prendre contact avec le représentant local du titulaire de l'autorisation de mise sur le marché.
+# TEXT = Pour [1;32;4mune[0m information complémentaire concernant ce médicament, veuillez prendre contact avec le représentant local du titulaire de l'autorisation de mise sur le marché.
+---
+100:in emea-fr-test_00006
+4 erreurs: emea-fr-test_00006
+A('zolédronique'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('ml'):: absent du lexique.
+---
+101: emea-fr-test_00007
+# text = Dans quel cas Aclasta est-il utilisé ?
+# TEXT = Dans quel cas Aclasta est-il utilisé?
+---
+102: emea-fr-test_00010
+# text = la maladie osseuse de Paget, maladie dans laquelle le processus normal de croissance osseuse se trouve modifié.
+# TEXT = la maladie osseuse de Paget, maladie dans laquelle le processus normal de croissance osseuse se trouve modifié. 
+---
+103: emea-fr-test_00015
+# text = Pour la maladie de Paget, Aclasta est administré en une seule perfusion.
+# TEXT = Pour la maladie de Paget, Aclasta est administré en une seule perfusion. 
+---
+104: emea-fr-test_00016
+# text = La perfusion agit au moins un an.
+# TEXT = La perfusion agit au moins un an. 
+---
+105: emea-fr-test_00026
+# text = Chez les femmes, l'ostéoporose est plus fréquente après la ménopause, lorsque la production d'hormones féminines, les oestrogènes, chute.
+# TEXT = Chez les femmes, l'ostéoporose est plus fréquente après la ménopause, lorsque la production d'hormones féminines, les oestrogènes, chute. 
+---
+106: emea-fr-test_00027
+1 différence
+# text = Chez les patients souffrant de la maladie de Paget, la résorption osseuse est trop rapide et l'os [1;32;4mnouveau[0m est plus fragile que l'os normal.
+# TEXT = Chez les patients souffrant de la maladie de Paget, la résorption osseuse est trop rapide et l'os [1;32;4mnouvel[0m est plus fragile que l'os normal.
+---
+107:in emea-fr-test_00033
+1 erreur: emea-fr-test_00033
+D('8 000'):: absent du lexique.
+---
+108:in emea-fr-test_00034
+1 erreur: emea-fr-test_00034
+D('2 127'):: absent du lexique.
+---
+109:in emea-fr-test_00035
+1 erreur: emea-fr-test_00035
+N('bisphosphonate'):: absent du lexique.
+---
+110:in emea-fr-test_00042
+2 erreurs: emea-fr-test_00042
+A('anti-ostéoporotique'):: absent du lexique.
+N('%'):: absent du lexique.
+---
+111: emea-fr-test_00047
+2 différences
+# text = [1;34;47mQuel est [0mle risque associé à l'utilisation d'Aclasta[1;31m•[0m ?
+# TEXT = Le risque associé à l'utilisation d'Aclasta[1;31m est quel[0m?
+---
+112: emea-fr-test_00050
+# text = Pour avoir le détail de tous les effets indésirables observés lors de l'utilisation d'Aclasta, voir la notice.
+# TEXT = Pour avoir le détail de tous les effets indésirables observés lors de l'utilisation d'Aclasta, voir la notice. 
+---
+113:in emea-fr-test_00055
+2 erreurs: emea-fr-test_00055
+A('post-ménopausique'):: absent du lexique.
+A('compris'):: absent du lexique.
+---
+114: emea-fr-test_00056
+# text = Le comité a recommandé l'octroi d'une autorisation de mise sur le marché pour Aclasta.
+# TEXT = Le comité a recommandé l'octroi d'une autorisation de mise sur le marché pour Aclasta. 
+---
+115: emea-fr-test_00060
+# text = Autres informations relatives à Aclasta :
+# TEXT = autres informations relatives à Aclasta:
+---
+116:in emea-fr-test_00067
+3 erreurs: emea-fr-test_00067
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('ml'):: absent du lexique.
+---
+117:in emea-fr-test_00069
+1 erreur: emea-fr-test_00069
+N('ml'):: absent du lexique.
+---
+118: emea-fr-test_00084
+# text = Pour la maladie de Paget, Aclasta doit uniquement être prescrit par des médecins expérimentés dans le traitement de cette pathologie.
+# TEXT = Pour la maladie de Paget, Aclasta doit uniquement être prescrit par des médecins expérimentés dans le traitement de cette pathologie. 
+---
+119:in emea-fr-test_00095
+5 erreurs: emea-fr-test_00095
+D('50 000'):: absent du lexique.
+D('125 000'):: absent du lexique.
+N('UI'):: absent du lexique.
+N('D'):: absent du lexique.
+A('1er'):: absent du lexique.
+---
+120:in emea-fr-test_00096
+2 erreurs: emea-fr-test_00096
+N('paracétamol'):: absent du lexique.
+N('ibuprofène'):: absent du lexique.
+---
+121:in emea-fr-test_00103
+1 erreur: emea-fr-test_00103
+N('biodisponibilité'):: absent du lexique.
+---
+122:in emea-fr-test_00107
+1 erreur: emea-fr-test_00107
+N('hypocalcémie'):: absent du lexique.
+---
+123: emea-fr-test_00108
+# text = Aclasta est contre-indiqué chez la femme enceinte ou qui allaite (voir rubrique 4.6).
+# TEXT = Aclasta est contre-indiqué chez la femme enceinte ou qui allaite (voir rubrique 4.6). 
+---
+124:in emea-fr-test_00116
+1 erreur: emea-fr-test_00116
+N('prescripteur'):: absent du lexique.
+---
+125:in emea-fr-test_00119
+2 erreurs: emea-fr-test_00119
+N('calcium-élément'):: absent du lexique.
+N('mg'):: absent du lexique.
+---
+126:in emea-fr-test_00120
+1 erreur: emea-fr-test_00120
+N('hypocalcémie'):: absent du lexique.
+---
+127:in emea-fr-test_00127
+1 erreur: emea-fr-test_00127
+N('plupart'):: absent du lexique.
+---
+128:in emea-fr-test_00133
+2 erreurs: emea-fr-test_00133
+N('bisphosphonate'):: absent du lexique.
+N('ostéonécrose'):: absent du lexique.
+---
+129:in emea-fr-test_00143
+1 erreur: emea-fr-test_00143
+A('zolédronique'):: absent du lexique.
+---
+130:in emea-fr-test_00150
+1 erreur: emea-fr-test_00150
+A('sucessif'):: absent du lexique.
+---
+131:in emea-fr-test_00173
+4 erreurs: emea-fr-test_00173
+N('créatininémie'):: absent du lexique.
+N('%'):: absent du lexique.
+P('vs'):: absent du lexique.
+N('%'):: absent du lexique.
+---
+132:in emea-fr-test_00206
+1 erreur: emea-fr-test_00206
+A('post-ménopausique'):: absent du lexique.
+---
+133:in emea-fr-test_00215
+1 erreur: emea-fr-test_00215
+N('%'):: absent du lexique.
+---
+134: emea-fr-test_00230
+1 différence
+# text = (1) [1;32;4mA[0m l'exclusion des fractures des doigts, des orteils et des os de la face
+# TEXT = (1) [1;32;4mà[0m l'exclusion des fractures des doigts, des orteils et des os de la face
+---
+135:in emea-fr-test_00238
+2 erreurs: emea-fr-test_00238
+N('fibrose'):: absent du lexique.
+A('tissé'):: absent du lexique.
+---
+136:in emea-fr-test_00259
+2 erreurs: emea-fr-test_00259
+N('%'):: absent du lexique.
+Pro('soi'):: absent du lexique.
+---
+137:in emea-fr-test_00267
+1 erreur: emea-fr-test_00267
+A('compris'):: absent du lexique.
+---
+138:in emea-fr-test_00271
+4 erreurs: emea-fr-test_00271
+Pro('34'):: absent du lexique.
+N('%'):: absent du lexique.
+Pro('29'):: absent du lexique.
+N('%'):: absent du lexique.
+---
+139:in emea-fr-test_00294
+7 erreurs: emea-fr-test_00294
+A('zolédronique'):: absent du lexique.
+A('triphasique'):: absent du lexique.
+A('biphasique'):: absent du lexique.
+N('t½'):: absent du lexique.
+Pro('0,24'):: absent du lexique.
+N('t½'):: absent du lexique.
+N('t½'):: absent du lexique.
+---
+140: emea-fr-test_00420
+4 différences
+# text = [1;34;47mQUELLES SONT [0mLES INFORMATIONS [1;32;4mA[0m [1;32;4mCONNAITRE[0m AVANT DE RECEVOIR ACLASTA[1;31m•[0m
+# TEXT = Les informations [1;32;4mà[0m [1;32;4mconnaître[0m avant de recevoir ACLASTA [1;31msont quelles.[0m
+---
+141: emea-fr-test_00421
+1 différence
+# text = Avant de recevoir Aclasta, suivez attentivement toutes les instructions qui vous sont données par [1;32;4mvotre[0m médecin.
+# TEXT = Avant de recevoir Aclasta, suivez attentivement toutes les instructions qui vous sont données par [1;32;4mson[0m médecin.
+---
+142:in emea-fr-test_00423
+3 erreurs: emea-fr-test_00423
+A('zolédronique'):: absent du lexique.
+N('bisphosphonate'):: absent du lexique.
+Pro('un'):: absent du lexique.
+---
+143: emea-fr-test_00473
+3 différences
+# text = La majorité des effets indésirables, tels que fièvre[1;34;47m et[0m[1;32;4m [0mfrissons, douleurs dans les muscles ou articulations et maux de tête, surviennent lors [1;32;4mdes[0m trois premiers jours suivant l'administration d'Aclasta.
+# TEXT = La majorité des effets indésirables, tels que fièvre[1;32;4m, [0mfrissons, douleurs dans les muscles ou articulations et maux de tête, surviennent lors [1;32;4mdu[0m trois premiers jours suivant l'administration d'Aclasta.
+---
+144: emea-fr-test_00491
+3 différences
+# text = Prévenez [1;32;4mvotre[0m médecin ou [1;32;4mvotre[0m dentiste si vous présentez [1;32;4mde[0m tels symptômes.
+# TEXT = prévenez [1;32;4mson[0m médecin ou [1;32;4mson[0m dentiste si vous présentez [1;32;4mdes[0m tels symptômes.
+---
+145:in emea-fr-test_00515
+2 erreurs: emea-fr-test_00515
+N('mg'):: absent du lexique.
+A('zolédronique'):: absent du lexique.
+---
+146:in emea-fr-test_00521
+2 erreurs: emea-fr-test_00521
+N('hypocalcémie'):: absent du lexique.
+N('D'):: absent du lexique.
+---
+147:in emea-fr-test_00530
+5 erreurs: emea-fr-test_00530
+D('50 000'):: absent du lexique.
+D('125 000'):: absent du lexique.
+N('UI'):: absent du lexique.
+N('D'):: absent du lexique.
+A('1er'):: absent du lexique.
+---
+148:in Europar.550_00006
+1 erreur: Europar.550_00006
+Pro('soi'):: absent du lexique.
+---
+149:in Europar.550_00009
+1 erreur: Europar.550_00009
+N('CO2'):: absent du lexique.
+---
+150:in Europar.550_00026
+2 erreurs: Europar.550_00026
+Adv('contre'):: absent du lexique.
+N('monsieur'):: erreur de morphologie : genre différent de celui du lexique :N(monsieur) : {"g":"f","lexique":"m"}.
+---
+151: Europar.550_00032
+# text = Je me suis finalement abstenue en ce qui concerne le vote pour un certain nombre de raisons.
+# TEXT = Je me suis finalement abstenue en ce qui concerne le vote pour un certain nombre de raisons. 
+---
+152: Europar.550_00051
+# text = L'UE doit aussi avancer dans son travail législatif conformément à ce qui a été convenu à l'OMPI.
+# TEXT = L'UE doit aussi avancer dans son travail législatif conformément à ce qui a été convenu à l'OMPI. 
+---
+153: Europar.550_00060
+# text = Il s'agirait bien de la même situation que si le facteur devait payer des droits d'auteur lorsqu'il apporte un livre au client qui le lira.
+# TEXT = Il s'agirait bien de la même situation que si le facteur devait payer des droits d'auteur lorsqu'il apporte un livre au client qui le lira. 
+---
+154: Europar.550_00061
+1 différence
+# text = Le véritable avantage de la culture est le fait de pouvoir transmettre de l'art et de l'information, en [1;32;4mtoute[0m sécurité et sans peine, directement de l'artiste à l'utilisateur, au consommateur.
+# TEXT = Le véritable avantage de la culture est le fait de pouvoir transmettre de l'art et de l'information, en [1;32;4mune[0m sécurité et sans peine, directement de l'artiste à l'utilisateur, au consommateur.
+---
+155: Europar.550_00069
+11 différences
+# text = Je me réjouis de la concentration proposée sur la promotion de nouveaux moyens de lutte contre la discrimination [1;32;4met[0m [1;32;4mtoute[0m [1;32;4mautre[0m [1;32;4mforme[0m [1;32;4md'inégalité au[0m [1;32;4msein[0m [1;32;4mdu[0m [1;32;4mmarché[0m [1;32;4mde[0m [1;32;4ml[0m'[1;32;4memploi[0m.
+# TEXT = Je me réjouis de la concentration proposée sur la promotion de nouveaux moyens de lutte contre la discrimination [1;32;4mau[0m [1;32;4msein[0m [1;32;4mdu[0m [1;32;4mmarché[0m [1;32;4mde l'emploi[0m [1;32;4met[0m [1;32;4mune[0m [1;32;4mautre[0m [1;32;4mforme[0m [1;32;4md[0m'[1;32;4minégalité[0m.
+---
+156: Europar.550_00080
+# text = La participation des partenaires sociaux doit aussi être soulignée.
+# TEXT = La participation des partenaires sociaux doit aussi être soulignée. 
+---
+157: Europar.550_00081
+9 différences
+# text = Il faut de la flexibilité[1;32;4m et la[0m [1;32;4mcharge[0m [1;32;4madministrative[0m [1;32;4mdoit[0m [1;32;4mêtre[0m [1;32;4mréduite, c'est[0m [1;32;4mlà[0m [1;32;4mune[0m [1;32;4mpriorité[0m.
+# TEXT = il faut de la flexibilité[1;32;4m, c'est[0m [1;32;4mlà[0m [1;32;4mune[0m [1;32;4mpriorité[0m [1;32;4met[0m [1;32;4mla charge administrative[0m [1;32;4mdoit[0m [1;32;4mêtre[0m [1;32;4mréduite[0m.
+---
+158:in Europar.550_00130
+1 erreur: Europar.550_00130
+Pro('peu'):: absent du lexique.
+---
+159: Europar.550_00145
+# text = Mais, pour ce faire, il faut tenir compte du fait qu'il existe une corrélation entre le rendement issu de l'activité de pêche et l'augmentation de l'effort de pêche.
+# TEXT = Mais, pour ce faire, il faut tenir compte du fait qu'il existe une corrélation entre le rendement issu de l'activité de pêche et l'augmentation de l'effort de pêche. 
+---
+160:in Europar.550_00146
+1 erreur: Europar.550_00146
+Adv('afin'):: absent du lexique.
+---
+161: Europar.550_00148
+5 différences
+# text = Je voudrais profiter de ce moment pour rappeler la [1;34;47mhaute [0mqualité [1;32;4met[0m [1;34;47mla constance [0mdes relations entre le Parlement européen et le Parlement belge qui, grâce à l'engagement majoritaire de [1;32;4mnos[0m collègues belges en faveur de la cause européenne, se sont toujours situées bien au-delà des simples relations de bon voisinage qui sont un devoir commun largement partagé[1;31m•[0m.
+# TEXT = Je voudrais profiter de ce moment pour rappeler la qualité [1;32;4mhaute[0m des relations entre le parlement européen et le parlement belge qui, grâce à l'engagement majoritaire de [1;32;4mses[0m collègues belges en faveur de la cause européenne, se sont toujours situées bien au-delà des simples relations de bon voisinage qui sont un devoir commun largement partagé[1;31m et la constance[0m.
+---
+162: Europar.550_00150
+2 différences
+# text = Nous ferons tout ce qui est en [1;32;4mnotre[0m pouvoir afin que la visite de [1;32;4mM. [0mHerman De Croo et de ses deux collègues soit couronnée de succès.
+# TEXT = Nous ferons tout ce qui est en [1;32;4mson[0m pouvoir afin que la visite de [1;32;4mmonsieur [0mHerman de Croo et de ses deux collègues soit couronnée de succès.
+---
+163: Europar.550_00166
+# text = Nous devrions prendre cela au sérieux.
+# TEXT = Nous devrions prendre cela au sérieux. 
+---
+164:in Europar.550_00193
+1 erreur: Europar.550_00193
+C('parce'):: absent du lexique.
+---
+165: Europar.550_00231
+# text = Imposé au peuple irakien, devrais-je dire.
+# TEXT = imposé au peuple irakien, devrais-je dire. 
+---
+166: Europar.550_00238
+# text = Pour répondre à cette préoccupation -non fondée, selon les experts-, la France a proposé au Conseil de sécurité que la levée de l'embargo soit accompagnée de la poursuite des inspections de désarmement et d'un contrôle des importations irakiennes.
+# TEXT = Pour répondre à cette préoccupation-non fondée, selon les experts-, la France a proposé au conseil de sécurité que la levée de l'embargo soit accompagnée de la poursuite des inspections de désarmement et d'un contrôle des importations irakiennes. 
+---
+167:in Europar.550_00242
+1 erreur: Europar.550_00242
+N('irakien'):: absent du lexique.
+---
+168: Europar.550_00247
+# text = Sur une question aussi dramatique, nous préférons d'abord demander une déclaration à la Commission et au Conseil.
+# TEXT = Sur une question aussi dramatique, nous préférons d'abord demander une déclaration à la commission et au conseil. 
+---
+169: Europar.550_00250
+# text = Monsieur le Président, je constate à la lecture de l'ordre des votes que le vote sur la situation en Irak a été retiré.
+# TEXT = Monsieur le président, je constate à la lecture de l'ordre des votes que le vote sur la situation en Irak a été retiré. 
+---
+170: Europar.550_00251
+1 différence
+# text = [1;32;4mPuis[0m-je savoir à la demande de qui et pour quels motifs ?
+# TEXT = [1;32;4mpeux[0m-je savoir à la demande de qui et pour quels motifs?
+---
+171: Europar.550_00255
+# text = Ces systèmes régionaux de gouvernement sont normalement financés en tout ou en partie par les fonds du gouvernement central.
+# TEXT = Ces systèmes régionaux de gouvernement sont normalement financés en tout ou en partie par les fonds du gouvernement central. 
+---
+172:in Europar.550_00263
+1 erreur: Europar.550_00263
+N('monsieur'):: erreur de morphologie : genre différent de celui du lexique :N(monsieur) : {"g":"f","lexique":"m"}.
+---
+173:in Europar.550_00271
+1 erreur: Europar.550_00271
+C('parce'):: absent du lexique.
+---
+174: Europar.550_00278
+# text = J'espère que nous ne devrons pas avoir recours au type de mesures que vous suggérez, Monsieur le Député.
+# TEXT = J'espère que nous ne devrons pas avoir recours au type de mesures que vous suggérez, monsieur le député. 
+---
+175:in Europar.550_00285
+3 erreurs: Europar.550_00285
+D('certain'):: absent du lexique.
+P('comme'):: absent du lexique.
+Pro('soi'):: absent du lexique.
+---
+176:in Europar.550_00290
+3 erreurs: Europar.550_00290
+V('reconfirmer'):: absent du lexique.
+A('membre'):: absent du lexique.
+V('reconfirmer'):: erreur de morphologie : conjugate_fr:tab :V(reconfirmer) : {"pe":3,"n":"s","t":"b"}.
+---
+177: Europar.550_00297
+# text = Plus concrètement, je veux parler de la coopération renforcée.
+# TEXT = Plus concrètement, je veux parler de la coopération renforcée. 
+---
+178: Europar.550_00298
+# text = Celle-ci, du moins telle que nous la concevons, doit comporter deux éléments.
+# TEXT = Celle-ci, du moins telle que nous la concevons, doit comporter deux éléments. 
+---
+179: Europar.550_00308
+# text = Il s'agit, d'une part, de la question de la décharge, qui est précisément une question très actuelle.
+# TEXT = Il s'agit, d'une part, de la question de la décharge, qui est précisément une question très actuelle. 
+---
+180: Europar.550_00318
+# text = Le deuxième point est la création d'un ministère public européen.
+# TEXT = Le deuxième point est la création d'un ministère public européen. 
+---
+181: Europar.550_00321
+2 différences
+# text = en effet, avec la criminalité croissante, transnationale qui s'exerce au détriment du budget UE, [1;31m•[0mla coopération entre les États membres [1;34;47mn'[0mest pas suffisante au niveau policier et judiciaire.
+# TEXT = En effet, avec la criminalité croissante, transnationale qui s'exerce au détriment du budget UE, [1;31mne [0mla coopération entre les états membres est pas suffisante au niveau policier et judiciaire.
+---
+182: Europar.550_00333
+# text = Le bruit des armes a trop longtemps couvert les cris de ceux qui ont faim.
+# TEXT = Le bruit des armes a trop longtemps couvert les cris de ceux qui ont faim. 
+---
+183:in Europar.550_00365
+1 erreur: Europar.550_00365
+N('ONG'):: absent du lexique.
+---
+184: Europar.550_00378
+# text = Le plan d'action veut faire du marché européen l'égal du marché américain.
+# TEXT = Le plan d'action veut faire du marché européen l'égal du marché américain. 
+---
+185: Europar.550_00382
+# text = Le problème est que le législateur, tant national qu'européen, tarde à adapter le pays légal au pays réel.
+# TEXT = Le problème est que le législateur, tant national qu'européen, tarde à adapter le pays légal au pays réel. 
+---
+186: Europar.550_00387
+# text = L'appât du gain est tel que le monde financier a tendance à engendrer une euphorie collective tournant souvent à la crise financière.
+# TEXT = L'appât du gain est tel que le monde financier a tendance à engendrer une euphorie collective tournant souvent à la crise financière. 
+---
+187:in Europar.550_00399
+3 erreurs: Europar.550_00399
+Pro('lui-même'):: absent du lexique.
+D('plusieurs'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+188: Europar.550_00449
+# text = Je voudrais à présent aborder les sujets suivants.
+# TEXT = Je voudrais à présent aborder les sujets suivants. 
+---
+189:in Europar.550_00450
+1 erreur: Europar.550_00450
+N('ESB'):: absent du lexique.
+---
+190:in Europar.550_00452
+1 erreur: Europar.550_00452
+N('ESB'):: absent du lexique.
+---
+191:in Europar.550_00473
+## non projective
+1 erreur: Europar.550_00473
+Pro('un'):: absent du lexique.
+---
+192: Europar.550_00474
+# text = Si des signes manifestes nous permettent de conclure à une fraude majeure et si Mugabe reste illégalement au pouvoir, l'aide prévue en vertu des dispositions de la convention de Lomé doit être supprimée.
+# TEXT = Si des signes manifestes nous permettent de conclure à une fraude majeure et si Mugabe reste illégalement au pouvoir, l'aide prévue en vertu des dispositions de la convention de Lomé doit être supprimée. 
+---
+193: Europar.550_00481
+3 différences
+# text = En effet, en raison de ses caractéristiques, celle-ci compte parmi les activités principales de l'Union[1;32;4m [0met[1;32;4m, [0msi elle est menée au niveau des États membres, elle ne pourra obtenir [1;32;4mde[0m résultats satisfaisants.
+# TEXT = en effet, en raison de ses caractéristiques, celle-ci compte parmi les activités principales de l'Union[1;32;4m, [0met[1;32;4m [0msi elle est menée au niveau des états membres, elle ne pourra obtenir [1;32;4mdes[0m résultats satisfaisants.
+---
+194: Europar.550_00485
+# text = En conclusion, je voudrais rappeler que, d'une manière ou d'une autre, les retraités doivent aussi être concernés par cette recherche spatiale.
+# TEXT = En conclusion, je voudrais rappeler que, d'une manière ou d'une autre, les retraités doivent aussi être concernés par cette recherche spatiale. 
+---
+195: Europar.550_00528
+# text = En revanche, les propos du député d'Euskal Herritarrok me semblent indécents.
+# TEXT = En revanche, les propos du député d'Euskal Herritarrok me semblent indécents. 
+---
+196: Europar.550_00531
+1 différence
+# text = Nous avons [1;32;4mpu[0m écouter Nelson Mandela au Parlement européen ;
+# TEXT = Nous avons [1;32;4mpus[0m écouter Nelson Mandela au parlement européen ;
+---
+197: frwiki_50.1000_00018
+1 différence
+# text = Seuls 4 autres caporaux, tous originaires de la Manche sont condamnés à [1;32;4mmort[0m le 16 mars 1915.
+# TEXT = Seuls 4 autres caporaux, tous originaires de la Manche sont condamnés à [1;32;4mmorte[0m le 16 mars 1915.
+---
+198:in frwiki_50.1000_00021
+2 erreurs: frwiki_50.1000_00021
+A('17e'):: absent du lexique.
+A('336e'):: absent du lexique.
+---
+199: frwiki_50.1000_00028
+# text = Le 11 avril 1920, le ministère de la justice refusait d'examiner le dossier.
+# TEXT = Le 11 avril 1920, le ministère de la justice refusait d'examiner le dossier. 
+---
+200:in frwiki_50.1000_00053
+2 erreurs: frwiki_50.1000_00053
+N('fusillé'):: absent du lexique.
+N('édition'):: erreur de morphologie : genre différent de celui du lexique :N(édition) : {"g":"m","lexique":"f"}.
+---
+201:in frwiki_50.1000_00054
+1 erreur: frwiki_50.1000_00054
+N('édition'):: erreur de morphologie : genre différent de celui du lexique :N(édition) : {"g":"m","lexique":"f"}.
+---
+202: frwiki_50.1000_00057
+# text = Catégories : Première Guerre mondiale.
+# TEXT = catégories: première guerre mondiale. 
+---
+203: frwiki_50.1000_00074
+# text = - Une analyse du phénomène
+# TEXT = -une analyse du phénomène
+---
+204:in frwiki_50.1000_00089
+2 erreurs: frwiki_50.1000_00089
+Pro('rien'):: absent du lexique.
+Adv('-là'):: absent du lexique.
+---
+205: frwiki_50.1000_00103
+# text = La machination a fonctionné grâce à l'intervention de Lauri Fitz-Pegado, qui a convaincu les députés que l'identité n'était pas révélée pour protéger la famille de la jeune femme [2].
+# TEXT = La machination a fonctionné grâce à l'intervention de Lauri Fitz-Pegado, qui a convaincu les députés que l'identité n'était pas révélée pour protéger la famille de la jeune femme [ 2 ]. 
+---
+206: frwiki_50.1000_00110
+# text = - ^ (en) Brian Eno, Lessons in how to lie about Iraq, The Observer, August 17, 2003.
+# TEXT = -^ (en) Brian Eno, Lessons in how to lie about Iraq, The Observer, August 17, 2003. 
+---
+207:in frwiki_50.1000_00121
+1 erreur: frwiki_50.1000_00121
+N('1990-1991'):: absent du lexique.
+---
+208:in frwiki_50.1000_00124
+## non projective
+1 erreur: frwiki_50.1000_00124
+A('centrafricain'):: absent du lexique.
+---
+209:in frwiki_50.1000_00126
+2 erreurs: frwiki_50.1000_00126
+D('4 000'):: absent du lexique.
+D('7 000'):: absent du lexique.
+---
+210: frwiki_50.1000_00165
+# text = Le procès a lieu à Brazzaville en 2005.
+# TEXT = Le procès a lieu à Brazzaville en 2005. 
+---
+211: frwiki_50.1000_00201
+1 différence
+# text = Le RPR était un parti politique créé par Jacques Chirac[1;32;4m, [0met dont il était à l'époque le président, en même temps qu'il exerçait la fonction de maire de Paris.
+# TEXT = Le RPR était un parti politique créé par Jacques Chirac[1;32;4m [0met dont il était à l'époque le président, en même temps qu'il exerçait la fonction de maire de Paris.
+---
+212: frwiki_50.1000_00207
+# text = Le juge Desmure se déclare alors incompétent pour instruire des faits visant le chef de l'État.
+# TEXT = Le juge Desmure se déclare alors incompétent pour instruire des faits visant le chef de l'état. 
+---
+213: frwiki_50.1000_00273
+# text = Jacques Dominati a menacé à l'audience de produire une liste d'élus qui auraient eu recours à ces pratiques irrégulières, soutenant que la pratique était généralisée.
+# TEXT = Jacques Dominati a menacé à l'audience de produire une liste d'élus qui auraient eu recours à ces pratiques irrégulières, soutenant que la pratique était généralisée. 
+---
+214:in frwiki_50.1000_00314
+2 erreurs: frwiki_50.1000_00314
+A('2ème'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+215:in frwiki_50.1000_00345
+3 erreurs: frwiki_50.1000_00345
+N('A'):: absent du lexique.
+N('B'):: absent du lexique.
+N('C'):: absent du lexique.
+---
+216: frwiki_50.1000_00359
+1 différence
+# text = L'enquête suisse confiée au juge Paul Perraudin continue[1;32;4m, [0mmais l'argent des Wang n'a pas été redistribué.
+# TEXT = l'enquête suisse confiée au juge Paul Perraudin continue[1;32;4m [0mmais l'argent des Wang n'a pas été redistribué.
+---
+217: frwiki_50.1000_00371
+# text = La note ajoutait que, "au cours du voyage d'octobre 1990 à Pékin, une réponse positive avait été obtenue des responsables chinois rencontrés dans le contexte difficile d'après Tiananmen".
+# TEXT = La note ajoutait que, " au cours du voyage d'octobre 1990 à Pékin, une réponse positive avait été obtenue des responsables chinois rencontrés dans le contexte difficile d'après Tiananmen ". 
+---
+218:in frwiki_50.1000_00387
+1 erreur: frwiki_50.1000_00387
+Pro('nul'):: absent du lexique.
+---
+219:in frwiki_50.1000_00398
+2 erreurs: frwiki_50.1000_00398
+C('voire'):: absent du lexique.
+A('divers'):: absent du lexique.
+---
+220:in frwiki_50.1000_00402
+1 erreur: frwiki_50.1000_00402
+A('taïwanais'):: absent du lexique.
+---
+221: frwiki_50.1000_00439
+# text = - L'affaire est instruite par Dominique de Talancé et Renaud Van Ruymbeke.
+# TEXT = -l'affaire est instruite par Dominique de Talancé et Renaud Van Ruymbeke. 
+---
+222: frwiki_50.1000_00469
+# text = Cette révélation a entraîné une nouvelle affaire d'État dans l'affaire d'État.
+# TEXT = Cette révélation a entraîné une nouvelle affaire d'état dans l'affaire d'état. 
+---
+223: frwiki_50.1000_00483
+# text = - Les hommes d'affaires : Alain Gomez
+# TEXT = -les hommes d'affaires: Alain Gomez
+---
+224:in frwiki_50.1000_00495
+1 erreur: frwiki_50.1000_00495
+N('rétrocommission'):: absent du lexique.
+---
+225: frwiki_50.1000_00496
+# text = L'argent pourrait alors servir au règlement du litige civil avec Taïwan qui exige que la France rembourse les commissions occultes que le contrat signé en 1991 interdisait formellement par son article 18.
+# TEXT = L'argent pourrait alors servir au règlement du litige civil avec Taïwan qui exige que la France rembourse les commissions occultes que le contrat signé en 1991 interdisait formellement par son article 18. 
+---
+226:in frwiki_50.1000_00502
+2 erreurs: frwiki_50.1000_00502
+A('taïwanais'):: absent du lexique.
+A('taiwanais'):: absent du lexique.
+---
+227: frwiki_50.1000_00512
+# text = La justice française a conclu à un accident domestique.
+# TEXT = La justice française a conclu à un accident domestique. 
+---
+228:in frwiki_50.1000_00564
+1 erreur: frwiki_50.1000_00564
+N('HLM'):: absent du lexique.
+---
+229:in frwiki_50.1000_00599
+1 erreur: frwiki_50.1000_00599
+N('HLM'):: absent du lexique.
+---
+230: frwiki_50.1000_00601
+1 différence
+# text = Parmi ces entreprises figurent Tecni, filiale de Vivendi-Générale des Eaux, la Cofreth, entreprise de chauffage, la SAR, entreprise de Travaux publics, la Somatem, entreprise d'ascenseurs[1;32;4m, [0met d'autres...
+# TEXT = Parmi ces entreprises figurent Tecni, filiale de Vivendi-Générale des Eaux, la Cofreth, entreprise de chauffage, la SAR, entreprise de travaux publics, la Somatem, entreprise d'ascenseurs[1;32;4m [0met d'autres...
+---
+231: frwiki_50.1000_00681
+# text = - 25 avril 2001 : le juge Éric Halphen se déclare incompétent pour instruire le cas du président Chirac, en raison de son immunité présidentielle.
+# TEXT = -25 avril 2001: le juge Éric Halphen se déclare incompétent pour instruire le cas du président Chirac, en raison de son immunité présidentielle. 
+---
+232:in frwiki_50.1000_00699
+1 erreur: frwiki_50.1000_00699
+N('HLM'):: absent du lexique.
+---
+233:in frwiki_50.1000_00712
+2 erreurs: frwiki_50.1000_00712
+N('%'):: absent du lexique.
+N('%'):: absent du lexique.
+---
+234: frwiki_50.1000_00729
+# text = La rénovation des lycées d'Île-de-France
+# TEXT = la rénovation des lycées d'Île-de-France
+---
+235: frwiki_50.1000_00738
+# text = - Jean-Claude Méry, ancien collecteur de fonds occulte du RPR, décédé.
+# TEXT = -Jean-Claude Méry, ancien collecteur de fonds occulte du RPR, décédé. 
+---
+236:in frwiki_50.1000_00746
+1 erreur: frwiki_50.1000_00746
+Pro('un'):: absent du lexique.
+---
+237: frwiki_50.1000_00754
+3 différences
+# text = L'affaire fut instruite par le juge Armand Riberolles à [1;32;4mpartir[0m [1;32;4mde[0m [1;32;4m1997[0m.
+# TEXT = L'affaire fut instruite par le juge Armand Riberolles à [1;32;4mde[0m [1;32;4m1997[0m [1;32;4mpartir[0m.
+---
+238: frwiki_50.1000_00757
+# text = Le juge Armand Riberolles a renvoyé Michel Roussin et 46 personnes devant le tribunal correctionnel.
+# TEXT = Le juge Armand Riberolles a renvoyé Michel Roussin et 46 personnes devant le tribunal correctionnel. 
+---
+239: frwiki_50.1000_00808
+# text = Le 14 juillet 2006, le tribunal rend sa décision.
+# TEXT = Le 14 juillet 2006, le tribunal rend sa décision. 
+---
+240: frwiki_50.1000_00818
+# text = Seul le Milan AC n'a pas bénéficié dans cette décision d'une réduction de sa pénalité (8 points).
+# TEXT = Seul le Milan AC n'a pas bénéficié dans cette décision d'une réduction de sa pénalité (8 points). 
+---
+241: frwiki_50.1000_00831
+# text = Wikipédia : ébauche droit.
+# TEXT = Wikipédia: ébauche droit. 
+---
+242:in frwiki_50.1000_00855
+1 erreur: frwiki_50.1000_00855
+D('certain'):: absent du lexique.
+---
+243:in frwiki_50.1000_00860
+2 erreurs: frwiki_50.1000_00860
+Pro('5'):: absent du lexique.
+Pro('2'):: absent du lexique.
+---
+244: frwiki_50.1000_00867
+## non projective
+3 différences
+# text = La droite crie au scandale et affirme que c'est Chirac [1;34;47mque [0ml'[1;32;4mon[0m cherche [1;31m•[0mà atteindre au travers de son ministre de l'Intérieur de l'époque.
+# TEXT = la droite crie au scandale et affirme que c'est Chirac l'[1;32;4mil[0m cherche [1;31mqu'[0mà atteindre au travers de son ministre de l'intérieur de l'époque.
+---
+245: frwiki_50.1000_00969
+# text = Une commission parlementaire fut constituée le 2 juillet 1953 ;
+# TEXT = Une commission parlementaire fut constituée le 2 juillet 1953 ;
+---
+246: frwiki_50.1000_00982
+# text = - Jules Roy, La bataille de Dien Bien Phu : Julliard, 1963 ; Albin Michel, 1989.
+# TEXT = -Jules Roy, la bataille de Dien Bien Phu: Julliard, 1963 ; Albin Michel, 1989. 
+---
+247: Europar.550_00005
+## non projective
+3 différences
+# text = Monsieur le Président, je tiens à remercier le rapporteur pour son exposé [1;34;47mdont [0mje partage en [1;32;4mtous[0m points [1;31m•[0mle contenu.
+# TEXT = Monsieur le président, je tiens à remercier le rapporteur pour son exposé je partage en [1;32;4mdes[0m points [1;31mdont [0mle contenu.
+---
+248:in Europar.550_00016
+1 erreur: Europar.550_00016
+N('%'):: absent du lexique.
+---
+249:in Europar.550_00034
+1 erreur: Europar.550_00034
+Adv('quant'):: absent du lexique.
+---
+250: Europar.550_00041
+## non projective
+2 différences
+# text = Si vous voulez combattre la xénophobie et le racisme -et je crois que nous devons le faire-, nous devons [1;32;4men[0m [1;32;4mexaminer[0m les causes profondes.
+# TEXT = Si vous voulez combattre la xénophobie et le racisme-et je crois que nous devons le faire-, nous devons [1;32;4mexaminer[0m [1;32;4men[0m les causes profondes.
+---
+251: Europar.550_00045
+10 différences
+# text = Donc l'Autriche a tout à fait le droit de former un gouvernement et le Président de la Commission a parfaitement le droit[1;32;4m, et[0m [1;32;4ma[0m [1;32;4mmême[0m [1;32;4mle[0m [1;32;4mdevoir, de[0m [1;32;4mprésenter ses[0m [1;32;4mmeilleurs[0m [1;32;4mvoeux[0m [1;32;4mà[0m [1;32;4ml'Autriche[0m.
+# TEXT = donc l'Autriche a tout à fait le droit de former un gouvernement et le président de la commission a parfaitement le droit[1;32;4m,, de[0m [1;32;4mprésenter[0m [1;32;4mses[0m [1;32;4mmeilleurs[0m [1;32;4mvoeux à[0m [1;32;4ml'Autriche[0m [1;32;4met[0m [1;32;4ma[0m [1;32;4mmême[0m [1;32;4mle devoir[0m.
+---
+252: Europar.550_00053
+5 différences
+# text = [1;31m•[0mLa première lecture de la directive sur le droit d'auteur [1;34;47ma [0mété particulièrement aberrante[1;32;4m [0met[1;32;4m, [0mde plus, [1;32;4mon[0m est en train de modifier l'équilibre dans un mauvais sens du point de vue européen.
+# TEXT = [1;31mA [0mla première lecture de la directive sur le droit d'auteur été particulièrement aberrante[1;32;4m, [0met[1;32;4m [0mde plus, [1;32;4mil[0m est en train de modifier l'équilibre dans un mauvais sens du point de vue européen.
+---
+253: Europar.550_00058
+1 différence
+# text = Dans le traité de l'OMPI, [1;32;4mon[0m n'a pas consciemment pris position sur les copies temporaires.
+# TEXT = Dans le traité de l'OMPI, [1;32;4mil[0m n'a pas consciemment pris position sur les copies temporaires.
+---
+254:in Europar.550_00076
+2 erreurs: Europar.550_00076
+Pro('plusieurs'):: absent du lexique.
+N('capitaux'):: absent du lexique.
+---
+255: Europar.550_00082
+# text = Il faut aussi de la flexibilité pour les pays qui disposent de petits budgets.
+# TEXT = Il faut aussi de la flexibilité pour les pays qui disposent de petits budgets. 
+---
+256:in Europar.550_00099
+1 erreur: Europar.550_00099
+Pro('personne'):: absent du lexique.
+---
+257: Europar.550_00112
+# text = C'est grave.
+# TEXT = C'est grave. 
+---
+258:in Europar.550_00125
+1 erreur: Europar.550_00125
+C('parce'):: absent du lexique.
+---
+259: Europar.550_00132
+# text = Monsieur le Président, un journaliste accomplit une mission d'information, qui exige la liberté.
+# TEXT = Monsieur le président, un journaliste accomplit une mission d'information, qui exige la liberté. 
+---
+260:in Europar.550_00139
+2 erreurs: Europar.550_00139
+P('comme'):: absent du lexique.
+Pro('rien'):: absent du lexique.
+---
+261: Europar.550_00147
+# text = D'où l'importance des propositions que nous présentons dans cet objectif.
+# TEXT = d'où l'importance des propositions que nous présentons dans cet objectif. 
+---
+262:in Europar.550_00185
+2 erreurs: Europar.550_00185
+Adv('pourquoi'):: absent du lexique.
+N('tiers-monde'):: absent du lexique.
+---
+263: Europar.550_00186
+# text = Nous croyons que le droit au développement constitue une priorité mondiale et une condition essentielle pour que la politique en matière de droits de l'homme dans ces pays soit réellement praticable.
+# TEXT = Nous croyons que le droit au développement constitue une priorité mondiale et une condition essentielle pour que la politique en matière de droits de l'homme dans ces pays soit réellement praticable. 
+---
+264:in Europar.550_00243
+1 erreur: Europar.550_00243
+N('ex-ambassadeur'):: absent du lexique.
+---
+265: Europar.550_00264
+1 différence
+# text = Il est fort probable, vu qu'ils sont accusés d'espionnage en faveur des États-Unis et d'Israël -lesquels ont par ailleurs démenti [1;32;4mtout[0m lien avec ces personnes- qu'ils soient condamnés à la peine capitale.
+# TEXT = Il est fort probable, vu qu'ils sont accusés d'espionnage en faveur des États-Unis et d'Israël-lesquels ont par ailleurs démenti [1;32;4mun[0m lien avec ces personnes-qu'ils soient condamnés à la peine capitale.
+---
+266: Europar.550_00276
+## non projective
+3 différences
+# text = Il y a un problème général de sécurité, [1;32;4mdont[0m [1;32;4mje[0m [1;32;4msais[0m que le Haut Représentant s'occupe comme il le faut.
+# TEXT = Il y a un problème général de sécurité, [1;32;4mje[0m [1;32;4msais[0m [1;32;4mdont[0m que le haut représentant s'occupe comme il le faut.
+---
+267:in Europar.550_00277
+2 erreurs: Europar.550_00277
+Adv('quant'):: absent du lexique.
+Pro('deux'):: absent du lexique.
+---
+268:in Europar.550_00289
+## non projective
+1 erreur: Europar.550_00289
+Pro('autre'):: absent du lexique.
+---
+269:in Europar.550_00313
+1 erreur: Europar.550_00313
+Adv("c'est-à-dire"):: absent du lexique.
+---
+270: Europar.550_00319
+# text = Nous nous efforçons depuis des années de mieux défendre les intérêts financiers de la Communauté.
+# TEXT = Nous nous efforçons depuis des années de mieux défendre les intérêts financiers de la communauté. 
+---
+271: Europar.550_00384
+# text = La Commission pourrait utilement faire des propositions en simplifiant et en codifiant les quelque 11 directives régissant le secteur bancaire, les 8 directives concernant les fonds d'investissement et les 21 directives traitant du secteur des assurances.
+# TEXT = La commission pourrait utilement faire des propositions en simplifiant et en codifiant les quelque 11 directives régissant le secteur bancaire, les 8 directives concernant les fonds d'investissement et les 21 directives traitant du secteur des assurances. 
+---
+272:in Europar.550_00392
+1 erreur: Europar.550_00392
+A('prudentiel'):: absent du lexique.
+---
+273:in Europar.550_00395
+1 erreur: Europar.550_00395
+A('biométrique'):: absent du lexique.
+---
+274: Europar.550_00413
+3 différences
+# text = D'un point de vue technique, [1;32;4mle[0m [1;32;4mproblème[0m [1;32;4mn'[0mest pas excessivement complexe.
+# TEXT = D'un point de vue technique, [1;32;4mne[0m [1;32;4mle[0m [1;32;4mproblème [0mest pas excessivement complexe.
+---
+275: Europar.550_00416
+# text = La question est de savoir si cette longue attente est souhaitable ou non.
+# TEXT = La question est de savoir si cette longue attente est souhaitable ou non. 
+---
+276: Europar.550_00421
+# text = Pour garantir une concurrence loyale, il convient que ces mesures soient prises au niveau international.
+# TEXT = Pour garantir une concurrence loyale, il convient que ces mesures soient prises au niveau international. 
+---
+277:in Europar.550_00422
+2 erreurs: Europar.550_00422
+Pro('autre'):: absent du lexique.
+A('divers'):: absent du lexique.
+---
+278: Europar.550_00424
+# text = Il doit être clair que la solution la plus adéquate réside dans la répercussion des coûts réels pour la protection de l'environnement.
+# TEXT = Il doit être clair que la solution la plus adéquate réside dans la répercussion des coûts réels pour la protection de l'environnement. 
+---
+279: Europar.550_00430
+# text = Nous approuvons le point 9 du rapport qui considère que la Commission doit suivre fidèlement les orientations budgétaires établies pour les projets RTE.
+# TEXT = Nous approuvons le point 9 du rapport qui considère que la commission doit suivre fidèlement les orientations budgétaires établies pour les projets RTE. 
+---
+280: Europar.550_00455
+1 différence
+# text = Mais je pense en [1;32;4mtout[0m cas que ces tests sont prometteurs.
+# TEXT = Mais je pense en [1;32;4mun[0m cas que ces tests sont prometteurs.
+---
+281: Europar.550_00511
+# text = À cause des difficultés naturelles concernant l'endroit où se déroulent les rencontres de l'Euro 2000, le groupe PPE-DE a décidé en bloc de ne pas soutenir cette résolution et de la retirer.
+# TEXT = À cause des difficultés naturelles concernant l'endroit où se déroulent les rencontres de l'Euro 2000, le groupe PPE-DE a décidé en bloc de ne pas soutenir cette résolution et de la retirer. 
+---
+282: Europar.550_00557
+# text = Si la base légale était correcte, cette directive aurait abouti en commission juridique, compétente pour le marché intérieur.
+# TEXT = Si la base légale était correcte, cette directive aurait abouti en commission juridique, compétente pour le marché intérieur. 
+---
+283: annodis.er_00003
+# text = à peu près au même moment que Gutenberg inventait l'imprimerie, Gillet Bonnemire créait en 1450 la première forge à Saint-Dizier, à l'actuel emplacement du CHS.
+# TEXT = À peu près au même moment que Gutenberg inventait l'imprimerie, Gillet Bonnemire créait en 1450 la première forge à Saint-Dizier, à l'actuel emplacement du CHS. 
+---
+284: annodis.er_00018
+## non projective
+2 différences
+# text = C'est donc toute la vie industrielle du bassin de Saint-Dizier, sans oublier les papeteries de Jeand'Heurs, les carrières de Savonnières, [1;34;47mque [0mles visiteurs du lavoir pourront [1;31m•[0mdécouvrir.
+# TEXT = C'est donc toute la vie industrielle du bassin de Saint-Dizier, sans oublier les papeteries de Jeand'Heurs, les carrières de Savonnières, les visiteurs du lavoir pourront [1;31mque [0mdécouvrir.
+---
+285: annodis.er_00030
+# text = Une réflexion commune est menée avec les enseignants et les délégués de parents d'élèves, sous la conduite du CAUE.
+# TEXT = Une réflexion commune est menée avec les enseignants et les délégués de parents d'élèves, sous la conduite du CAUE. 
+---
+286: annodis.er_00044
+# text = Peut-être a-t-elle eu le tort, la veille, de faire installer des poubelles fixes, synonymes, à priori, de propreté, ce qui a eu probablement pour effet d'inciter les gens à rester à domicile.
+# TEXT = Peut-être a-t-elle eu le tort, la veille, de faire installer des poubelles fixes, synonymes, à priori, de propreté, ce qui a eu probablement pour effet d'inciter les gens à rester à domicile. 
+---
+287: annodis.er_00045
+1 différence
+# text = Les enfants fêtent saint Honoré[1;32;4m[0m
+# TEXT = Les enfants fêtent saint Honoré[1;32;4m.[0m
+---
+288: annodis.er_00052
+# text = Quel bonheur aussi d'entrer dans l'antre de la gourmandise et de découvrir les secrets du magicien du pain !
+# TEXT = quel bonheur aussi d'entrer dans l'antre de la gourmandise et de découvrir les secrets du magicien du pain!
+---
+289: annodis.er_00059
+# text = Cyclisme
+# TEXT = cyclisme
+---
+290: annodis.er_00102
+2 différences
+# text = Il semble [1;32;4mqu'[0mun malaise du conducteur, qui pourrait être d'origine épileptique[1;32;4m, [0msoit à l'origine de cet accident peu classique.
+# TEXT = Il semble [1;32;4mque, [0mun malaise du conducteur, qui pourrait être d'origine épileptique[1;32;4m [0msoit à l'origine de cet accident peu classique.
+---
+291:in annodis.er_00104
+1 erreur: annodis.er_00104
+N('couple'):: erreur de morphologie : genre différent de celui du lexique :N(couple) : {"g":"m","lexique":"f"}.
+---
+292: annodis.er_00117
+# text = Ils ont été transportés au centre hospitalier de Belfort pour des examens de contrôle.
+# TEXT = Ils ont été transportés au centre hospitalier de Belfort pour des examens de contrôle. 
+---
+293:in annodis.er_00121
+1 erreur: annodis.er_00121
+N('km'):: absent du lexique.
+---
+294: annodis.er_00135
+# text = Une représentation théâtrale remarquable.
+# TEXT = une représentation théâtrale remarquable. 
+---
+295:in annodis.er_00159
+1 erreur: annodis.er_00159
+Adv('toute'):: absent du lexique.
+---
+296:in annodis.er_00251
+1 erreur: annodis.er_00251
+Pro('150'):: absent du lexique.
+---
+297:in annodis.er_00291
+1 erreur: annodis.er_00291
+N('veuve'):: absent du lexique.
+---
+298: annodis.er_00298
+# text = l'Union nationale des déportés, internés et victimes de guerre ;
+# TEXT = l'Union nationale des déportés, internés et victimes de guerre ;
+---
+299: annodis.er_00318
+# text = Cet après-midi, au niveau 1 du centre commercial Les Nations, la MJC accueillera les enfants.
+# TEXT = Cet après-midi, au niveau 1 du centre commercial les Nations, la MJC accueillera les enfants. 
+---
+300:in annodis.er_00329
+1 erreur: annodis.er_00329
+Pro('soi'):: absent du lexique.
+---
+301: annodis.er_00365
+# text = Pour les européennes, il prévoit huit grandes régions mais avec des sous-sections par régions administratives qui n'éliraient qu'un, deux ou trois députés.
+# TEXT = pour les européennes, il prévoit huit grandes régions mais avec des sous-sections par régions administratives qui n'éliraient qu'un, deux ou trois députés. 
+---
+302: annodis.er_00366
+# text = Dans ce cas, les élus seraient essentiellement les têtes de liste et donc rarement des femmes.
+# TEXT = Dans ce cas, les élus seraient essentiellement les têtes de liste et donc rarement des femmes. 
+---
+303: annodis.er_00380
+# text = Malheureusement, elles ne trouvaient aucune trace de la jeune fille.
+# TEXT = Malheureusement, elles ne trouvaient aucune trace de la jeune fille. 
+---
+304: annodis.er_00414
+# text = Bourse dédiée aux passionnés et amateurs reposant sur le principe du troc et qui remporte un vif succès.
+# TEXT = bourse dédiée aux passionnés et amateurs reposant sur le principe du troc et qui remporte un vif succès. 
+---
+305:in annodis.er_00518
+1 erreur: annodis.er_00518
+N('charmeuse'):: absent du lexique.
+---
+306:in annodis.er_00522
+1 erreur: annodis.er_00522
+C('puis'):: absent du lexique.
+---
+307:in emea-fr-dev_00017
+1 erreur: emea-fr-dev_00017
+N('ICP'):: absent du lexique.
+---
+308:in emea-fr-dev_00122
+4 erreurs: emea-fr-dev_00122
+C('puis'):: absent du lexique.
+Adv('afin'):: absent du lexique.
+N('ACT'):: absent du lexique.
+N('bolus'):: absent du lexique.
+---
+309:in emea-fr-dev_00126
+10 erreurs: emea-fr-dev_00126
+N('SCA'):: absent du lexique.
+N('bolus'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('h'):: absent du lexique.
+---
+310:in emea-fr-dev_00129
+1 erreur: emea-fr-dev_00129
+N('ICP'):: absent du lexique.
+---
+311:in emea-fr-dev_00132
+6 erreurs: emea-fr-dev_00132
+A('III'):: absent du lexique.
+N('angioplastie'):: absent du lexique.
+N('ACT'):: absent du lexique.
+N('bolus'):: absent du lexique.
+N('bivalirudine'):: absent du lexique.
+P('+/-'):: absent du lexique.
+---
+312:in emea-fr-dev_00169
+2 erreurs: emea-fr-dev_00169
+A('compris'):: absent du lexique.
+N('post-commercialisation'):: absent du lexique.
+---
+313:in emea-fr-dev_00171
+2 erreurs: emea-fr-dev_00171
+N('lépirudine'):: absent du lexique.
+A('anti-lépirudin'):: absent du lexique.
+---
+314:in emea-fr-dev_00175
+6 erreurs: emea-fr-dev_00175
+A('plaquettaire'):: absent du lexique.
+N('ticlopidine'):: absent du lexique.
+N('clopidogrel'):: absent du lexique.
+N('abciximab'):: absent du lexique.
+N('eptifibatide'):: absent du lexique.
+N('tirofiban'):: absent du lexique.
+---
+315: emea-fr-dev_00179
+# text = Grossesse et allaitement
+# TEXT = grossesse et allaitement
+---
+316: emea-fr-dev_00186
+# text = Effets sur l'aptitude à conduire des véhicules et à utiliser des machines
+# TEXT = effets sur l'aptitude à conduire des véhicules et à utiliser des machines
+---
+317:in emea-fr-dev_00200
+6 erreurs: emea-fr-dev_00200
+N('Bivalidurine'):: absent du lexique.
+P('plus'):: absent du lexique.
+N('GP'):: absent du lexique.
+N('Bivalidurine'):: absent du lexique.
+P('plus'):: absent du lexique.
+N('GP'):: absent du lexique.
+---
+318:in emea-fr-dev_00206
+1 erreur: emea-fr-dev_00206
+N('1/10'):: absent du lexique.
+---
+319: emea-fr-dev_00215
+# text = Saignements mineurs
+# TEXT = saignements mineurs
+---
+320: emea-fr-dev_00219
+# text = Troubles gastro-intestinaux
+# TEXT = troubles gastro-intestinaux
+---
+321:in emea-fr-dev_00274
+1 erreur: emea-fr-dev_00274
+N('post-commercialisation'):: absent du lexique.
+---
+322:in emea-fr-dev_00275
+2 erreurs: emea-fr-dev_00275
+N('post-commercialisation'):: absent du lexique.
+N('organes'):: absent du lexique.
+---
+323:in emea-fr-dev_00276
+2 erreurs: emea-fr-dev_00276
+N('post-commercialisation'):: absent du lexique.
+N('bivalirudine'):: absent du lexique.
+---
+324: emea-fr-dev_00327
+# text = Absorption :
+# TEXT = absorption:
+---
+325:in emea-fr-dev_00329
+9 erreurs: emea-fr-dev_00329
+N('bivalirudine'):: absent du lexique.
+N('mg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('kg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('h'):: absent du lexique.
+N('µg'):: absent du lexique.
+P('/'):: absent du lexique.
+N('ml'):: absent du lexique.
+---
+326:in emea-fr-dev_00333
+1 erreur: emea-fr-dev_00333
+N('bivalirudine'):: absent du lexique.
+---
+327:in emea-fr-dev_00375
+2 erreurs: emea-fr-dev_00375
+A('physicochimique'):: absent du lexique.
+N('°C'):: absent du lexique.
+---
+328: emea-fr-dev_00383
+2 différences
+# text = Nature [1;34;47met contenu [0mde l'emballage extérieur[1;31m•[0m
+# TEXT = nature de l'emballage extérieur [1;31met contenu[0m
+---
+329: emea-fr-dev_00395
+2 différences
+# text = La solution [1;32;4mreconstituée/diluée[0m [1;31m•[0msera une solution limpide à légèrement opalescente, incolore à légèrement jaune.
+# TEXT = La solution [1;32;4mreconstituée[0m [1;31mou diluée [0msera une solution limpide à légèrement opalescente, incolore à légèrement jaune.
+---
+330:in emea-fr-dev_00411
+2 erreurs: emea-fr-dev_00411
+N('PGR'):: absent du lexique.
+N('PSUR'):: absent du lexique.
+---
+331: emea-fr-dev_00418
+4 différences
+# text = COMPOSITION EN SUBSTANCE[1;34;47m(S[0m[1;32;4m) [0mACTIVE[1;34;47m(S[0m[1;32;4m)[0m
+# TEXT = composition en substance[1;32;4m [0mactive[1;32;4m[0m
+---
+332: emea-fr-dev_00424
+# text = FORME PHARMACEUTIQUE ET CONTENU
+# TEXT = forme pharmaceutique et contenu
+---
+333: emea-fr-dev_00425
+# text = 2 flacons.
+# TEXT = 2 flacons. 
+---
+334: emea-fr-dev_00449
+7 différences
+# text = AUTRE[1;34;47m(S[0m[1;32;4m) [0mMISE[1;34;47m(S[0m[1;32;4m) [0mEN GARDE [1;34;47mSPECIALE([0m[1;32;4mS), [0mSI [1;32;4mNECESSAIRE[0m
+# TEXT = autre[1;32;4m [0mmise[1;32;4m [0men garde [1;32;4mspéciale, [0msi [1;32;4mnécessaire[0m
+---
+335: emea-fr-dev_00493
+# text = L'utilisation d'Angiox n'est recommandée en cas de grossesse qu'en cas de nécessité absolue.
+# TEXT = L'utilisation d'Angiox n'est recommandée en cas de grossesse qu'en cas de nécessité absolue. 
+---
+336:in emea-fr-dev_00535
+1 erreur: emea-fr-dev_00535
+Pro('1'):: absent du lexique.
+---
+337: emea-fr-dev_00569
+# text = Toutes les présentations peuvent ne pas être commercialisées.
+# TEXT = Toutes les présentations peuvent ne pas être commercialisées. 
+---
+338: emea-fr-dev_00573
+# text = Hälsa Pharma GmbH Immermannstraße 9 33619 Bielefeld Allemagne
+# TEXT = Hälsa Pharma GmbH Immermannstraße 9 33619 Bielefeld Allemagne
+---
+339:in emea-fr-test_00018
+1 erreur: emea-fr-test_00018
+N('D'):: absent du lexique.
+---
+340:in emea-fr-test_00019
+4 erreurs: emea-fr-test_00019
+N('mg'):: absent du lexique.
+N('D'):: absent du lexique.
+D('50 000'):: absent du lexique.
+D('125 000'):: absent du lexique.
+---
+341: emea-fr-test_00024
+1 différence
+# text = L'ostéoporose est une maladie qui apparaît lorsque la croissance d'os [1;32;4mnouveau[0m est insuffisante pour remplacer l'os qui se résorbe naturellement.
+# TEXT = L'ostéoporose est une maladie qui apparaît lorsque la croissance d'os [1;32;4mnouvel[0m est insuffisante pour remplacer l'os qui se résorbe naturellement.
+---
+342: emea-fr-test_00032
+1 différence
+# text = Pour le traitement de l'ostéoporose, les effets d'Aclasta administré une fois par an ont été comparés à ceux d'un placebo (traitement fictif) au cours de deux études [1;32;4mprincpales[0m.
+# TEXT = Pour le traitement de l'ostéoporose, les effets d'Aclasta administré une fois par an ont été comparés à ceux d'un placebo (traitement fictif) au cours de deux études [1;32;4mprincipales[0m.
+---
+343: emea-fr-test_00068
+# text = Solution pour perfusion
+# TEXT = solution pour perfusion
+---
+344: emea-fr-test_00086
+2 différences
+# text = Répétition du traitement de la maladie de Paget : [1;31m•[0maucune donnée spécifique [1;34;47mn'[0mest disponible concernant un traitement répété.
+# TEXT = répétition du traitement de la maladie de Paget: [1;31mn'[0maucune donnée spécifique est disponible concernant un traitement répété.
+---
+345:in emea-fr-test_00094
+3 erreurs: emea-fr-test_00094
+N('supplémentation'):: absent du lexique.
+N('calcium-élément'):: absent du lexique.
+N('mg'):: absent du lexique.
+---
+346:in emea-fr-test_00106
+2 erreurs: emea-fr-test_00106
+Pro('un'):: absent du lexique.
+N('bisphosphonate'):: absent du lexique.
+---
+347: emea-fr-test_00128
+# text = La majorité des cas rapportés ont été associés à des interventions dentaires telles qu'une extraction dentaire.
+# TEXT = La majorité des cas rapportés ont été associés à des interventions dentaires telles qu'une extraction dentaire. 
+---
+348:in emea-fr-test_00136
+5 erreurs: emea-fr-test_00136
+A('zolédronique'):: absent du lexique.
+V('métaboliser'):: absent du lexique.
+N('cytochrome'):: absent du lexique.
+N('P450'):: absent du lexique.
+V('métaboliser'):: erreur de morphologie : conjugate_fr:tab :V(métaboliser) : {"pe":3,"n":"s","t":"pp"}.
+---
+349:in emea-fr-test_00171
+1 erreur: emea-fr-test_00171
+N('mg'):: absent du lexique.
+---
+350:in emea-fr-test_00181
+2 erreurs: emea-fr-test_00181
+N('D'):: absent du lexique.
+N('D'):: absent du lexique.
+---
+351:in emea-fr-test_00184
+1 erreur: emea-fr-test_00184
+N('ostéonécrose'):: absent du lexique.
+---
+352:in emea-fr-test_00204
+1 erreur: emea-fr-test_00204
+A('pré-ménopausique'):: absent du lexique.
+---
+353:in emea-fr-test_00213
+1 erreur: emea-fr-test_00213
+Adv('significativement'):: absent du lexique.
+---
+354: emea-fr-test_00229
+# text = Réduction relative
+# TEXT = réduction relative
+---
+355: emea-fr-test_00263
+1 différence
+# text = [1;32;4mToute[0m fracture clinique
+# TEXT = [1;32;4mune[0m fracture clinique
+---
+356:in emea-fr-test_00286
+2 erreurs: emea-fr-test_00286
+P('comme'):: absent du lexique.
+N('suivi'):: absent du lexique.
+---
+357: emea-fr-test_00407
+# text = Elle est fréquente chez les femmes après la ménopause mais peut également survenir chez les hommes.
+# TEXT = Elle est fréquente chez les femmes après la ménopause mais peut également survenir chez les hommes. 
+---
+358: emea-fr-test_00432
+1 différence
+# text = - si vous avez déjà subi une ablation d'une partie de [1;32;4mvotre[0m intestin.
+# TEXT = -si vous avez déjà subi une ablation d'une partie de [1;32;4mson[0m intestin.
+---
+359:in emea-fr-test_00502
+3 erreurs: emea-fr-test_00502
+A('compris'):: absent du lexique.
+N('°C'):: absent du lexique.
+N('°C'):: absent du lexique.
+---
+360:in emea-fr-test_00528
+1 erreur: emea-fr-test_00528
+N('hypocalcémie'):: absent du lexique.
+---
+361:in frwiki_50.1000_00007
+3 erreurs: frwiki_50.1000_00007
+A('21e'):: absent du lexique.
+D('plusieurs'):: absent du lexique.
+Adv('-là'):: absent du lexique.
+---
+362: frwiki_50.1000_00025
+# text = La réhabilitation
+# TEXT = la réhabilitation
+---
+363:in frwiki_50.1000_00060
+1 erreur: frwiki_50.1000_00060
+N('évènement'):: absent du lexique.
+---
+364: frwiki_50.1000_00067
+# text = Les cadavres, dont les images avaient fait le tour du monde, avaient en réalité été sortis de la morgue d'un hôpital local ;
+# TEXT = Les cadavres, dont les images avaient fait le tour du monde, avaient en réalité été sortis de la morgue d'un hôpital local ;
+---
+365: frwiki_50.1000_00099
+# text = En fait, ce témoignage était entièrement faux.
+# TEXT = En fait, ce témoignage était entièrement faux. 
+---
+366:in frwiki_50.1000_00127
+3 erreurs: frwiki_50.1000_00127
+D('10 000'):: absent du lexique.
+A('US'):: absent du lexique.
+N('$'):: absent du lexique.
+---
+367: frwiki_50.1000_00149
+# text = Il contestera son appartenance supposée à l'extrême droite affirmée par VGE dans son livre et le fera condamner à un franc de dommages et intérêts pour diffamation en 1991.
+# TEXT = il contestera son appartenance supposée à l'extrême droite affirmée par VGE dans son livre et le fera condamner à un franc de dommages et intérêts pour diffamation en 1991. 
+---
+368:in frwiki_50.1000_00194
+1 erreur: frwiki_50.1000_00194
+N('lien'):: erreur de morphologie : genre différent de celui du lexique :N(lien) : {"g":"f","lexique":"m"}.
+---
+369: frwiki_50.1000_00205
+# text = L'instruction a révélé l'existence d'une lettre datée de décembre 1993 et signée par Jacques Chirac, qui demande à son administration d'accorder une promotion à une employée municipale, Madeleine Farrad, qui, bien que rémunérée par la ville, travaille en fait au siège du RPR.
+# TEXT = L'instruction a révélé l'existence d'une lettre datée de décembre 1993 et signée par Jacques Chirac, qui demande à son administration d'accorder une promotion à une employée municipale, Madeleine Farrad, qui, bien que rémunérée par la ville, travaille en fait au siège du RPR. 
+---
+370: frwiki_50.1000_00220
+# text = - Affaire des faux chargés de mission
+# TEXT = -affaire des faux chargés de mission
+---
+371: frwiki_50.1000_00233
+# text = - Affaire des emplois fictifs de la mairie de Paris
+# TEXT = -affaire des emplois fictifs de la mairie de Paris
+---
+372: frwiki_50.1000_00265
+2 différences
+# text = Quinze prévenus comparaissent pour "manoeuvres frauduleuses" lors [1;32;4mdes[0m [1;31m•[0mélections municipales de 1989 et 1995.
+# TEXT = Quinze prévenus comparaissent pour " manoeuvres frauduleuses " lors [1;32;4mde[0m [1;31ml'[0mélections municipales de 1989 et 1995.
+---
+373: frwiki_50.1000_00269
+# text = Jugement en première instance
+# TEXT = jugement en première instance
+---
+374: frwiki_50.1000_00275
+# text = Si vous me demandez cette liste, je vais être obligé de la fournir ".
+# TEXT = Si vous me demandez cette liste, je vais être obligé de la fournir ". 
+---
+375:in frwiki_50.1000_00298
+1 erreur: frwiki_50.1000_00298
+C('puis'):: absent du lexique.
+---
+376: frwiki_50.1000_00337
+# text = Voir Chronologie de l'affaire des frégates de Taïwan
+# TEXT = voir chronologie de l'affaire des frégates de Taïwan
+---
+377: frwiki_50.1000_00343
+# text = En effet, Alfred Sirven, son officier traitant chez Elf Thomson CSF a contesté la réalité de l'intervention du réseau Elf et a porté plainte pour tentative d'escroquerie.
+# TEXT = en effet, Alfred Sirven, son officier traitant chez Elf Thomson CSF a contesté la réalité de l'intervention du réseau Elf et a porté plainte pour tentative d'escroquerie. 
+---
+378: frwiki_50.1000_00360
+# text = Contractuellement interdites, les commissions ont fait gonfler le prix.
+# TEXT = Contractuellement interdites, les commissions ont fait gonfler le prix. 
+---
+379:in frwiki_50.1000_00363
+1 erreur: frwiki_50.1000_00363
+N('suisse'):: absent du lexique.
+---
+380: frwiki_50.1000_00374
+# text = Références
+# TEXT = références
+---
+381:in frwiki_50.1000_00375
+1 erreur: frwiki_50.1000_00375
+A('taïwanais'):: absent du lexique.
+---
+382:in frwiki_50.1000_00377
+1 erreur: frwiki_50.1000_00377
+N('C'):: absent du lexique.
+---
+383: frwiki_50.1000_00379
+2 différences
+# text = Aux policiers, ce dernier a expliqué qu'au moment où le projet de vente des frégates était bloqué par l'Élysée et le Quai d'Orsay, il était apparu utile [1;32;4md'"[0mutiliser les relations que le groupe Elf avait en Chine", signalant que [1;32;4mde[0m telles synergies existaient déjà "entre Thomson CSF et Elf, notamment en Afrique".
+# TEXT = Aux policiers, ce dernier a expliqué qu'au moment où le projet de vente des frégates était bloqué par l'Élysée et le Quai d'Orsay, il était apparu utile [1;32;4mde " [0mutiliser les relations que le groupe Elf avait en Chine ", signalant que [1;32;4mdes[0m telles synergies existaient déjà " entre Thomson CSF et Elf, notamment en Afrique ".
+---
+384: frwiki_50.1000_00400
+1 différence
+# text = [1;32;4mLeur[0m destination n'est pas connue.
+# TEXT = [1;32;4mSa[0m destination n'est pas connue.
+---
+385:in frwiki_50.1000_00413
+1 erreur: frwiki_50.1000_00413
+N('rétrocommission'):: absent du lexique.
+---
+386: frwiki_50.1000_00435
+# text = - Cette procédure risque de conduire l'État français à payer une amende d'un montant évalué en l'état de l'enquête à 599 millions de dollars (près de 500 millions d'euros).
+# TEXT = -cette procédure risque de conduire l'état français à payer une amende d'un montant évalué en l'état de l'enquête à 599 millions de dollars (près de 500 millions d'euros). 
+---
+387: frwiki_50.1000_00456
+# text = Thierry Imbot, fils de l'ancien directeur de la DGSE René Imbot, est décédé en octobre 2000 à Paris en chutant du quatrième étage de son appartement.
+# TEXT = Thierry Imbot, fils de l'ancien directeur de la DGSE René Imbot, est décédé en octobre 2000 à Paris en chutant du quatrième étage de son appartement. 
+---
+388:in frwiki_50.1000_00477
+1 erreur: frwiki_50.1000_00477
+N('maîtresse'):: absent du lexique.
+---
+389: frwiki_50.1000_00493
+# text = Il se serait notamment occupé pour le compte de Thomson des "affaires parisiennes" de l'intermédiaire : appartement, loyers, relations avec le syndic...
+# TEXT = Il se serait notamment occupé pour le compte de Thomson des " affaires parisiennes " de l'intermédiaire: appartement, loyers, relations avec le syndic...
+---
+390: frwiki_50.1000_00497
+# text = Références
+# TEXT = références
+---
+391: frwiki_50.1000_00508
+# text = Habitant au deuxième étage, il était monté au cinquième par l'escalier de service, a ouvert une fenêtre pour se jeter dans le vide.
+# TEXT = Habitant au deuxième étage, il était monté au cinquième par l'escalier de service, a ouvert une fenêtre pour se jeter dans le vide. 
+---
+392:in frwiki_50.1000_00552
+1 erreur: frwiki_50.1000_00552
+N('ISBN'):: absent du lexique.
+---
+393:in frwiki_50.1000_00554
+1 erreur: frwiki_50.1000_00554
+N('ISBN'):: absent du lexique.
+---
+394:in frwiki_50.1000_00600
+2 erreurs: frwiki_50.1000_00600
+A('fournisseur'):: absent du lexique.
+N('25/01/06'):: absent du lexique.
+---
+395: frwiki_50.1000_00602
+# text = Chronologie
+# TEXT = chronologie
+---
+396: frwiki_50.1000_00609
+3 différences
+# text = Elle attire l'attention de la justice sur [1;32;4mde[0m fausses facturations mêlant la société SAR, dirigée par Francis Poullain, à Jean-Claude Méry, membre du comité exécutif du RPR, qui exerçait une activité de consultant auprès [1;32;4mdes[0m [1;31m•[0mentreprises du bâtiment.
+# TEXT = Elle attire l'attention de la justice sur [1;32;4mdes[0m fausses facturations mêlant la société SAR, dirigée par Francis Poullain, à Jean-Claude Méry, membre du comité exécutif du RPR, qui exerçait une activité de consultant auprès [1;32;4mde[0m [1;31ml'[0mentreprises du bâtiment.
+---
+397: frwiki_50.1000_00628
+# text = - 22 septembre 1994 : Le juge Éric Halphen interroge Francis Poullain sur ses liens avec Rémy Halbwax.
+# TEXT = -22 septembre 1994: le juge Éric Halphen interroge Francis Poullain sur ses liens avec Rémy Halbwax. 
+---
+398:in frwiki_50.1000_00650
+1 erreur: frwiki_50.1000_00650
+N('Docteur'):: absent du lexique.
+---
+399: frwiki_50.1000_00662
+# text = Sur Jean-Paul Schimpf, les enquêteurs trouvent un contrat de prêt de 1 million de francs destiné à l'achat de l'appartement de la compagne de Didier Schuller.
+# TEXT = Sur Jean-Paul Schimpf, les enquêteurs trouvent un contrat de prêt de 1 million de francs destiné à l'achat de l'appartement de la compagne de Didier Schuller. 
+---
+400:in frwiki_50.1000_00664
+1 erreur: frwiki_50.1000_00664
+Pro('soi'):: absent du lexique.
+---
+401: frwiki_50.1000_00701
+# text = Aucun financement politique occulte n'a pu être mis en évidence.
+# TEXT = Aucun financement politique occulte n'a pu être mis en évidence. 
+---
+402: frwiki_50.1000_00722
+# text = Paris.
+# TEXT = Paris. 
+---
+403: frwiki_50.1000_00761
+# text = Une cinquantaine de personnes ont été renvoyée devant le tribunal correctionnel de Paris.
+# TEXT = Une cinquantaine de personnes ont été renvoyée devant le tribunal correctionnel de Paris. 
+---
+404: frwiki_50.1000_00776
+# text = - Des chefs d'entreprise ont également été condamnés.
+# TEXT = -des chefs d'entreprise ont également été condamnés. 
+---
+405: frwiki_50.1000_00841
+2 différences
+# text = D'autres enlèvements suivent en 1986 : en mars, c'est le tour d'une équipe d'Antenne 2 qui vient de filmer une manifestation [1;32;4mdu[0m [1;31m•[0mHezbollah.
+# TEXT = D'autres enlèvements suivent en 1986: en mars, c'est le tour d'une équipe d'Antenne 2 qui vient de filmer une manifestation [1;32;4mde[0m [1;31ml'[0mHezbollah.
+---
+406:in frwiki_50.1000_00862
+1 erreur: frwiki_50.1000_00862
+N('clearing'):: absent du lexique.
+---
+407: frwiki_50.1000_00890
+# text = - 13 octobre 2004 : Recours en cassation rejeté
+# TEXT = -13 octobre 2004: recours en cassation rejeté
+---
+408:in frwiki_50.1000_00901
+1 erreur: frwiki_50.1000_00901
+D('certain'):: absent du lexique.
+---
+409: frwiki_50.1000_00902
+# text = Le photographe Adnan Hajj travaillait depuis plus de dix ans pour l'agence Reuters au Proche-Orient [1].
+# TEXT = Le photographe Adnan Hajj travaillait depuis plus de dix ans pour l'agence Reuters au Proche-Orient [ 1 ]. 
+---
+410: frwiki_50.1000_00931
+# text = - ^ "Reuters admits altering Beirut photo".
+# TEXT = -^ " Reuters admits altering Beirut photo ". 
+---
+411: frwiki_50.1000_00994
+# text = Indochine française.
+# TEXT = Indochine française. 
+---
+412 UD dépendences traitées
+0 modifiées

@@ -1,0 +1,51 @@
+#input {
+    height:3in;
+    background:white;
+    border: 1px solid black; 
+    margin:5pt;
+}
+input[type=button]{
+    font-weight: bold;
+}
+svg {
+    display:block;
+    margin:5pt;
+}
+#realisations{
+    border-collapse:collapse;
+    border: 1px solid #999;
+    margin: 5px;
+    display:block;
+}
+#nbSent {
+    margin-right:20px;
+}
+td {
+    border: 1px solid #999;
+    margin: 2px;
+}
+#sentences {
+    vertical-align:top;
+}
+#langChoice, #doc {padding-left:30px;}
+.emphase {color: #FC6405; }
+textarea#jsrStructure {
+    font: 14pt courier;
+}
+.ace_jsRealConstructor{color: blue;}
+#jsrSentence,#text{
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 80%;
+}
+
+.rep {
+    color: #008000; /*clover*/
+    text-decoration: underline;
+}
+
+.ins {color: red;}
+
+.del {
+    text-decoration: line-through;
+    color:#00F;
+}

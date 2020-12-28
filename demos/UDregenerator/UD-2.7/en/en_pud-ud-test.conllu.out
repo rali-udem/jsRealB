@@ -1,0 +1,4635 @@
+0:in n01001011
+1 error: n01001011
+N('blog'):: not found in lexicon.
+---
+1:in n01001013
+2 errors: n01001013
+Pro('those'):: not found in lexicon.
+N('media'):: not found in lexicon.
+---
+2: n01002017
+6 differences
+# text = But in a break from his past rhetoric about curtailing immigration, the GOP nominee proclaimed that as president he would allow [1;32;4m“tremendous[0m [1;32;4mnumbers”[0m [1;31m•[0mof legal immigrants based on a [1;32;4m“merit[0m [1;31m•[0msystem.”[1;32;4m[0m
+# TEXT = But in a break from his past rhetoric about curtailing immigration, the GOP nominee proclaimed that as president he would allow [1;32;4m“[0m [1;32;4mtremendous[0m [1;31mnumbers ” [0mof legal immigrants based on a [1;32;4m“[0m [1;31mmerit [0msystem. ”[1;32;4m.[0m
+---
+3: n01002032
+26 differences
+# text = [1;32;4m“So[0m [1;31m•[0mI [1;32;4mhate[0m to put a little pressure on you[1;32;4m, but[0m [1;32;4mthe[0m [1;32;4mfate[0m [1;34;47mof [0mthe [1;32;4mrepublic[0m [1;32;4mrests[0m on [1;32;4myour[0m [1;32;4mshoulders,”[0m [1;32;4mhe[0m [1;32;4mtold[0m [1;32;4mthe[0m [1;32;4mcrowd[0m [1;32;4mgathered[0m [1;32;4mon[0m [1;32;4ma[0m [1;32;4msports[0m [1;32;4mfield[0m [1;32;4mat[0m [1;32;4mthe[0m [1;32;4mUniversity[0m [1;32;4mof[0m [1;32;4mNorth[0m [1;32;4mCarolina[0m.
+# TEXT = [1;32;4m“[0m [1;31mso [0mI [1;32;4mhates[0m to put a little pressure on you[1;32;4m,, ”[0m [1;32;4mhe[0m [1;32;4mtold[0m the [1;32;4mcrowd[0m [1;32;4mgathered[0m on [1;32;4msports[0m [1;32;4mfield at[0m [1;32;4mthe[0m [1;32;4mUniversity[0m [1;32;4mof[0m [1;32;4mNorth[0m [1;32;4mCarolina[0m [1;32;4mbut[0m [1;32;4mthe[0m [1;32;4mfate[0m [1;32;4mof[0m [1;32;4mthe[0m [1;32;4mrepublic[0m [1;32;4mrests[0m [1;32;4mon[0m [1;32;4myour[0m [1;32;4mshoulders[0m.
+---
+4:in n01002042
+1 error: n01002042
+N('spending'):: not found in lexicon.
+---
+5: n01002058
+## non projective
+5 differences
+# text = What she[1;32;4m's[0m saying and what she[1;32;4m's[0m doing, [1;31m•[0mit — [1;34;47mactually, [0mit[1;32;4m's[0m unbelievable.
+# TEXT = What she[1;32;4m is[0m saying and what she[1;32;4m is[0m doing, [1;31mactually, [0mit — it[1;32;4m is[0m unbelievable.
+---
+6: n01003007
+# text = $5,000 per person, the maximum allowed.
+# TEXT = $ 5,000 per person, the maximum allowed. 
+---
+7: n01003010
+# text = In early October, the transition team used the same venue to meet with technology lobbyists, inviting representatives from Uber, the Motion Picture Association of America, the Consumer Technology Association and other groups.
+# TEXT = In early October, the transition team used the same venue to meet with technology lobbyists, inviting representatives from Uber, the motion picture association of America, the consumer technology association and other groups. 
+---
+8: n01003012
+3 differences
+# text = The gathering [1;32;4mwas[0m [1;32;4moriginally[0m slated for Washington's private Metropolitan Club on H Street [1;34;47ma [0mfew blocks away.
+# TEXT = The gathering [1;32;4moriginally[0m [1;32;4mwas[0m slated for Washington 's private metropolitan club on H Street few blocks away.
+---
+9: n01003013
+# text = Maybe the dress code was too stuffy.
+# TEXT = Maybe the dress code was too stuffy. 
+---
+10:in n01004009
+1 error: n01004009
+C('by'):: not found in lexicon.
+---
+11: n01004017
+1 difference
+# text = They are at the national average in grade 4 and [1;31m•[0mbetter than national average in grade 8.
+# TEXT = They are at the national average in grade 4 and [1;31mmore [0mbetter than national average in grade 8.
+---
+12:in n01005023
+1 error: n01005023
+N('infill'):: not found in lexicon.
+---
+13: n01005024
+15 differences
+# text = [1;32;4m“We[0m [1;32;4mface[0m [1;31m•[0ma lot of competition[1;32;4m, and[0m [1;32;4mwe[0m [1;32;4mthink transit[0m [1;32;4mcan[0m [1;32;4mhelp,”[0m [1;32;4msaid[0m [1;32;4mJoe[0m [1;32;4mSternlieb, president[0m [1;32;4mof[0m [1;32;4mthe[0m [1;32;4mGeorgetown[0m [1;32;4mBID[0m.
+# TEXT = [1;32;4m“[0m [1;32;4mwe[0m [1;31mfaces [0ma lot of competition[1;32;4m,, ”[0m [1;32;4msaid[0m [1;32;4mJoe, president[0m [1;32;4mof[0m [1;32;4mthe Georgetown[0m [1;32;4mBID[0m [1;32;4mSternlieb[0m [1;32;4mand we[0m [1;32;4mthink[0m [1;32;4mtransit[0m [1;32;4mcan[0m [1;32;4mhelp[0m.
+---
+14: n01005031
+# text = The feasibility study estimates that it would take passengers about four minutes to cross the Potomac River on the gondola.
+# TEXT = The feasibility study estimates that it would take passengers about four minutes to cross the Potomac River on the gondola. 
+---
+15: n01006011
+# text = A witness told police that the victim had attacked the suspect in April.
+# TEXT = A witness told police that the victim had attacked the suspect in April. 
+---
+16: n01007012
+1 difference
+# text = There [1;32;4mare[0m parallels to draw here between games and our everyday lives.
+# TEXT = There [1;32;4mis[0m parallels to draw here between games and our everyday lives.
+---
+17:in n01008017
+1 error: n01008017
+N('percent'):: not found in lexicon.
+---
+18:in n01009027
+1 error: n01009027
+Adv('n’t'):: not found in lexicon.
+---
+19: n01009054
+2 differences
+# text = [1;32;4m“We've[0m [1;31m•[0mrequested other nations to help us populate the zoo with different species of animals, including a pig,” Saqib said.
+# TEXT = [1;32;4m“ We[0m [1;31mhas [0mrequested other nations to help us populate the zoo with different species of animals, including a pig, ” Saqib said.
+---
+20: n01010042
+## non projective
+4 differences
+# text = There was a time[1;34;47m, Mr[0m [1;34;47mPanvalkar said, [0mwhen he felt that they should leave the building[1;31m•[0m[1;32;4m.[0m
+# TEXT = There was a time when he felt that they should leave the building[1;31m, Mr Panvalkar said[0m[1;32;4m,.[0m
+---
+21:in n01011004
+1 error: n01011004
+C('with'):: not found in lexicon.
+---
+22:in n01011011
+1 error: n01011011
+C('by'):: not found in lexicon.
+---
+23: n01011017
+3 differences
+# text = "I[1;32;4m'm[0m going to jail either way, [1;32;4mhope[0m it was worth it[1;32;4m."[0m
+# TEXT = " I[1;32;4m is[0m going to jail either way, [1;32;4mhopes[0m it was worth it[1;32;4m. ".[0m
+---
+24: n01012003
+# text = First one of the Yazidi women started crying, then one of her friends.
+# TEXT = first one of the Yazidi women started crying, then one of her friends. 
+---
+25: n01013005
+1 difference
+# text = Mr Osborne signed up with [1;34;47ma [0mUS speakers agency after being sacked in July.
+# TEXT = Mr Osborne signed up with US speakers agency after being sacked in July.
+---
+26: n01014003
+# text = Michael Fallon said the date for cutting the first steel would help secure new investment and safeguard hundreds of skilled jobs until 2035.
+# TEXT = Michael Fallon said the date for cutting the first steel would help secure new investment and safeguard hundreds of skilled jobs until 2035. 
+---
+27:in n01014012
+1 error: n01014012
+A('scottish'):: not found in lexicon.
+---
+28: n01015033
+1 difference
+# text = It[1;32;4m's[0m most obvious when a celebrity's name is initially quite rare.
+# TEXT = It[1;32;4m is[0m most obvious when a celebrity 's name is initially quite rare.
+---
+29: n01015036
+## non projective
+8 differences
+# text = And by 2007, at the height of its popularity[1;32;4m ([0mand[1;32;4m, [0mperhaps, Knightley's) it was a top 50 name, with three times more [1;32;4mbabies[0m [1;32;4mnamed[0m [1;32;4mKeira[0m [1;32;4mthan[0m [1;31m•[0m[1;32;4mKiera[0m.
+# TEXT = And by 2007, at the height of its popularity[1;32;4m [0mand[1;32;4m (, [0mperhaps, Knightley 's) it was a top 50 name, with three times more [1;32;4mmore[0m [1;32;4mthan[0m [1;32;4mKiera[0m [1;32;4mbabies[0m [1;31mnamed [0m[1;32;4mKeira[0m.
+---
+30:in n01016014
+1 error: n01016014
+A('south'):: not found in lexicon.
+---
+31:in n01016019
+2 errors: n01016019
+Adv('best'):: not found in lexicon.
+N('setback'):: not found in lexicon.
+---
+32: n01016032
+1 difference
+# text = The Mate 9 phones [1;32;4mlack[0m an artificial intelligence interface, like the Google Assistant or Apple's Siri.
+# TEXT = The Mate 9 phones [1;32;4mlacks[0m an artificial intelligence interface, like the Google Assistant or Apple 's Siri.
+---
+33: n01017005
+# text = But one travel expert warned in-flight internet was often unreliable and was unlikely to influence travellers' airline choices.
+# TEXT = But one travel expert warned in-flight internet was often unreliable and was unlikely to influence travellers 'airline choices. 
+---
+34:in n01017008
+1 error: n01017008
+N('something'):: not found in lexicon.
+---
+35: n01017010
+# text = The company told the BBC it would be the responsibility of each airline brand to decide whether to charge passengers an access fee.
+# TEXT = The company told the BBC it would be the responsibility of each airline brand to decide whether to charge passengers an access fee. 
+---
+36:in n01017013
+1 error: n01017013
+N('wi-fi'):: not found in lexicon.
+---
+37: n01018024
+1 difference
+# text = It[1;32;4m's[0m like a super power sometimes.
+# TEXT = It[1;32;4m is[0m like a super power sometimes.
+---
+38:in n01018040
+2 errors: n01018040
+N('sponsorship'):: not found in lexicon.
+N('advertising'):: not found in lexicon.
+---
+39: n01019004
+2 differences
+# text = The 10-week course[1;32;4m has[0m been[1;32;4m "[0mcertified" by UK spy agency GCHQ.
+# TEXT = The 10-week course[1;32;4m " have[0m been[1;32;4m [0mcertified " by UK spy agency GCHQ.
+---
+40: n01019005
+# text = But some security experts raised questions about the need for the course and the intent behind it.
+# TEXT = But some security experts raised questions about the need for the course and the intent behind it. 
+---
+41:in n01020004
+1 error: n01020004
+N('blogger'):: not found in lexicon.
+---
+42: n01020017
+3 differences
+# text = Naturally China [1;32;4mwill[0m [1;32;4mbe[0m [1;32;4mpresenting[0m plenty of other military hardware this week from attack helicopters to seaplanes.
+# TEXT = Naturally China [1;32;4mbe[0m [1;32;4mwill[0m [1;32;4mpresent[0m plenty of other military hardware this week from attack helicopters to seaplanes.
+---
+43:in n01020021
+2 errors: n01020021
+C('with'):: not found in lexicon.
+A('biggest'):: not found in lexicon.
+---
+44: n01021007
+4 differences
+# text = "Unfortunately once again the few [1;32;4mruin[0m it for the many[1;32;4m," [0mwrote Jesse[1;34;47m LaBrocca[0m, founder of Hack Forums, [1;31m•[0min a message explaining why the section was being closed.
+# TEXT = " Unfortunately once again the few [1;32;4mruins[0m it for the many[1;32;4m, " [0mwrote Jesse, founder of hack forums, [1;31mLaBrocca [0min a message explaining why the section was being closed.
+---
+45:in n01021011
+1 error: n01021011
+N('other'):: not found in lexicon.
+---
+46: n01021012
+1 difference
+# text = Analysis revealed that historic amounts of data [1;32;4mhad[0m been used to cause the disruption.
+# TEXT = Analysis revealed that historic amounts of data [1;32;4mhave[0m been used to cause the disruption.
+---
+47:in n01022002
+1 error: n01022002
+N('2c'):: not found in lexicon.
+---
+48: n01022005
+4 differences
+# text = Many scientists say that technology to remove carbon from the air [1;32;4mwill[0m [1;32;4mnow[0m [1;32;4mbe[0m [1;32;4mneeded[0m to meet the Paris targets.
+# TEXT = Many scientists say that technology to remove carbon from the air [1;32;4mnow[0m [1;32;4mbe[0m [1;32;4mwill[0m [1;32;4mneed[0m to meet the Paris targets.
+---
+49:in n01022010
+1 error: n01022010
+N('hfc'):: not found in lexicon.
+---
+50: n01022016
+# text = Investments in this area were up by 6% in 2015 to $221bn.
+# TEXT = Investments in this area were up by 6% in 2015 to $ 221bn. 
+---
+51: n01022027
+1 difference
+# text = It[1;32;4m's[0m fantastic that they got the Paris Agreement but their contributions at the moment are nowhere near the 1.5-degree target.
+# TEXT = It[1;32;4m is[0m fantastic that they got the Paris agreement but their contributions at the moment are nowhere near the 1.5-degree target.
+---
+52: n01023020
+# text = It was conducted just off the Mexican coast from April to June.
+# TEXT = It was conducted just off the mexican coast from April to June. 
+---
+53: n01023034
+# text = This will put new limits on the nature of the environmental changes that overtook the Earth and sent so many species - not just the dinosaurs - into oblivion.
+# TEXT = This will put new limits on the nature of the environmental changes that overtook the Earth and sent so many species-not just the dinosaurs-into oblivion. 
+---
+54:in n01023043
+1 error: n01023043
+A('meteoritic'):: not found in lexicon.
+---
+55: n01024010
+2 differences
+# text = Just over 70% of the plants grown from Earth seeds [1;32;4mwere[0m alive after 17 days - just slightly more [1;31m•[0mthan the plants grown from space seeds - just over 66%.
+# TEXT = Just over 70% of the plants grown from Earth seeds [1;32;4mwas[0m alive after 17 days-just slightly more [1;31mmore [0mthan the plants grown from space seeds-just over 66%.
+---
+56:in n01024013
+## non projective
+1 error: n01024013
+C('without'):: not found in lexicon.
+---
+57:in n01024016
+1 error: n01024016
+N('schoolchildren'):: not found in lexicon.
+---
+58:in n01025025
+2 errors: n01025025
+N('yuk'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+59: n01025040
+2 differences
+# text = In China the hair [1;32;4mis[0m [1;32;4mtypically[0m put in a chemical bath to remove the cuticle completely, Tarlo explains.
+# TEXT = In China the hair [1;32;4mtypically[0m [1;32;4mis[0m put in a chemical bath to remove the cuticle completely, Tarlo explains.
+---
+60: n01025045
+# text = Throughout history, the international hair market has always had a political dimension, says Tarlo.
+# TEXT = Throughout history, the international hair market has always had a political dimension, says Tarlo. 
+---
+61: n01026004
+2 differences
+# text = "Tonight we [1;32;4mare[0m carrying out punishments using a high beam[1;32;4m," [0mthe post reads.
+# TEXT = " Tonight we [1;32;4mis[0m carrying out punishments using a high beam[1;32;4m, " [0mthe post reads.
+---
+62: n01026016
+1 difference
+# text = Shenzhen's traffic police [1;32;4mhave[0m opted for unconventional penalties before.
+# TEXT = Shenzhen 's traffic police [1;32;4mhas[0m opted for unconventional penalties before.
+---
+63: n01027007
+2 differences
+# text = [1;32;4mWho[0m are [1;32;4mthey[0m?
+# TEXT = [1;32;4mThey[0m are [1;32;4mwho[0m?
+---
+64: n01027030
+8 differences
+# text = [1;32;4mMuch[0m [1;32;4mof[0m [1;32;4mthe[0m [1;32;4mdebate, from[0m [1;32;4mthe Democratic[0m [1;32;4mside[0m [1;32;4mthis[0m [1;32;4myear, [0mhas been about white male identity.
+# TEXT = [1;32;4m, From[0m [1;32;4mthe[0m [1;32;4mdemocratic[0m [1;32;4mside this[0m [1;32;4myear, much[0m [1;32;4mof[0m [1;32;4mthe[0m [1;32;4mdebate [0mhas been about white male identity.
+---
+65: n01027041
+# text = I asked her afterwards if she understood why people might vote for Trump.
+# TEXT = I asked her afterwards if she understood why people might vote for Trump. 
+---
+66:in n01027049
+1 error: n01027049
+N('everyone'):: not found in lexicon.
+---
+67:in n01028022
+1 error: n01028022
+N('someone'):: not found in lexicon.
+---
+68: n01029006
+# text = Seagal made headlines when he described Russia's actions in Crimea, which it annexed in 2014, as "very reasonable".
+# TEXT = Seagal made headlines when he described Russia 's actions in Crimea, which it annexed in 2014, as " very reasonable ". 
+---
+69:in n01029007
+1 error: n01029007
+N('guitarist'):: not found in lexicon.
+---
+70: n01029011
+# text = Seagal, whose grandmother was from Vladivostok in Russia's far east, has made frequent trips to Russia in recent years and visited Kamchatka and Sakhalin in September.
+# TEXT = Seagal, whose grandmother was from Vladivostok in Russia 's far east, has made frequent trips to Russia in recent years and visited Kamchatka and Sakhalin in September. 
+---
+71:in n01029014
+## non projective
+2 errors: n01029014
+Adv('earlier'):: not found in lexicon.
+A('serbian'):: not found in lexicon.
+---
+72: n01030005
+3 differences
+# text = [1;34;47mA [0mpolice spokesman told the Associated Press there was "an exchange of words" followed by [1;32;4man[0m "altercation" but that no injuries [1;32;4mhad[0m been reported.
+# TEXT = Police spokesman told the Associated Press there was " an exchange of words " followed by [1;32;4ma[0m " altercation " but that no injuries [1;32;4mhave[0m been reported.
+---
+73:in n01030006
+2 errors: n01030006
+V('winning'):: not found in lexicon.
+V('winning'):: morphology error: conjugate_en:tab :V(winning) : {"pe":3,"n":"s","t":"pr"}.
+---
+74:in n01030008
+1 error: n01030008
+Pro('themselves'):: not found in lexicon.
+---
+75:in n01031005
+1 error: n01031005
+A('hormonal'):: not found in lexicon.
+---
+76:in n01031021
+2 errors: n01031021
+C('of'):: not found in lexicon.
+A('hormonal'):: not found in lexicon.
+---
+77:in n01032032
+3 errors: n01032032
+N('mla'):: not found in lexicon.
+V('held'):: not found in lexicon.
+V('held'):: morphology error: conjugate_en:tab :V(held) : {"pe":3,"n":"s","t":"pp"}.
+---
+78:in n01033005
+3 errors: n01033005
+N('dna'):: not found in lexicon.
+A('underlying'):: not found in lexicon.
+V('may'):: morphology error: conjugate_en: unrecognized tense :V(may) : {"pe":3,"n":"s","t":"pr"}.
+---
+79:in n01033012
+1 error: n01033012
+N('dna'):: not found in lexicon.
+---
+80: n01033021
+3 differences
+# text = However, they could not find this same pattern in tissues such as the bladder, which [1;32;4mare[0m [1;32;4mnot[0m [1;32;4mdirectly[0m exposed.
+# TEXT = However, they could not find this same pattern in tissues such as the bladder, which [1;32;4mdirectly[0m [1;32;4mis[0m [1;32;4mnot[0m exposed.
+---
+81: n01033028
+2 differences
+# text = Ms Pugh has received treatment at Papworth[1;31m•[0m and Addenbrooke[1;34;47m's[0m Hospitals in Cambridgeshire.
+# TEXT = Ms Pugh has received treatment at Papworth[1;31m 's[0m and Addenbrooke hospitals in Cambridgeshire.
+---
+82:in n01033031
+1 error: n01033031
+N('scan'):: not found in lexicon.
+---
+83:in n01034033
+1 error: n01034033
+D('there'):: not found in lexicon.
+---
+84:in n01034060
+1 error: n01034060
+A('45th'):: not found in lexicon.
+---
+85:in n01035004
+## non projective
+2 errors: n01035004
+N('stabbing'):: not found in lexicon.
+N('teen'):: not found in lexicon.
+---
+86:in n01035013
+1 error: n01035013
+Adv('earlier'):: not found in lexicon.
+---
+87: n01035025
+2 differences
+# text = "We do not believe the suspect has ties to this school, [1;34;47mor [0mto the two girls, or specifically to the Abbotsford area[1;32;4m," [0mshe said.
+# TEXT = " We do not believe the suspect has ties to this school, to the two girls, or specifically to the Abbotsford area[1;32;4m, " [0mshe said.
+---
+88:in n01035030
+3 errors: n01035030
+A('uncommunicative'):: not found in lexicon.
+A('uncooperative'):: not found in lexicon.
+N('courthouse'):: not found in lexicon.
+---
+89:in n01036002
+1 error: n01036002
+A('unethical'):: not found in lexicon.
+---
+90:in n01036020
+1 error: n01036020
+A('greater'):: not found in lexicon.
+---
+91: n01036033
+# text = Currently, the maximum fine RECO can levy against an agent is $25,000.
+# TEXT = Currently, the maximum fine RECO can levy against an agent is $ 25,000. 
+---
+92:in n01037020
+3 errors: n01037020
+A('middle'):: not found in lexicon.
+V('choking'):: not found in lexicon.
+V('choking'):: morphology error: conjugate_en:tab :V(choking) : {"pe":3,"n":"s","t":"pr"}.
+---
+93:in n01038021
+3 errors: n01038021
+N('emitter'):: not found in lexicon.
+C('of'):: not found in lexicon.
+C('in'):: not found in lexicon.
+---
+94: n01038025
+2 differences
+# text = He [1;32;4mcould[0m [1;32;4malso[0m wait until the end of his first term to use a provision in the Paris agreement to pull out of the pact.
+# TEXT = He [1;32;4malso[0m [1;32;4mcould[0m wait until the end of his first term to use a provision in the Paris agreement to pull out of the pact.
+---
+95:in n01039013
+1 error: n01039013
+A('disparaging'):: not found in lexicon.
+---
+96: n01039018
+2 differences
+# text = That[1;32;4m's[0m not what we [1;32;4mneed[0m in our country, folks.
+# TEXT = That[1;32;4m is[0m not what we [1;32;4mneeds[0m in our country, folks.
+---
+97: n01039039
+# text = Trump's wife, Melania Trump, made her first appearance on the trail since the Republican convention in July.
+# TEXT = Trump 's wife, Melania Trump, made her first appearance on the trail since the republican convention in July. 
+---
+98:in n01040028
+3 errors: n01040028
+C('about'):: not found in lexicon.
+A('biggest'):: not found in lexicon.
+C('from'):: not found in lexicon.
+---
+99: n01041006
+1 difference
+# text = "This is a disaster for pain patients[1;32;4m," [0mMailis said in an interview Thursday with CBC News.
+# TEXT = " This is a disaster for pain patients[1;32;4m, " [0mMailis said in an interview Thursday with CBC News.
+---
+100: n01041018
+2 differences
+# text = "Physicians [1;32;4mdon't[0m have these tools, they have only a prescription pad and an injection[1;32;4m," [0mMailis said.
+# TEXT = " Physicians [1;32;4mdo not[0m have these tools, they have only a prescription pad and an injection[1;32;4m, " [0mMailis said.
+---
+101:in n01042004
+1 error: n01042004
+C('about'):: not found in lexicon.
+---
+102: n01042008
+# text = The review is also investigating inflammatory Facebook posts from September, alleged to come from police officers in the northern Ontario city.
+# TEXT = The review is also investigating inflammatory Facebook posts from September, alleged to come from police officers in the northern Ontario city. 
+---
+103:in n01043005
+2 errors: n01043005
+V('called'):: not found in lexicon.
+V('called'):: morphology error: conjugate_en:tab :V(called) : {"pe":3,"n":"s","t":"pp"}.
+---
+104: n01043014
+## non projective
+3 differences
+# text = Its annual budget is[1;31m•[0m more than[1;32;4m $[0m1.4 billion, and it employs more [1;31m•[0mthan 6,000 people.
+# TEXT = Its annual budget is[1;31m $ more[0m more than[1;32;4m [0m1.4 billion, and it employs more [1;31mmore [0mthan 6,000 people.
+---
+105:in n01043025
+4 errors: n01043025
+Adv('proactively'):: not found in lexicon.
+A('aggregate'):: not found in lexicon.
+A('latest'):: not found in lexicon.
+N('posting'):: not found in lexicon.
+---
+106: n01043027
+# text = The total for performance pay and bonus that year was $1.5 million, about the same level as for 2015-2016.
+# TEXT = The total for performance pay and bonus that year was $ 1.5 million, about the same level as for 2015-2016. 
+---
+107:in n01044004
+1 error: n01044004
+N('sponsorship'):: not found in lexicon.
+---
+108:in n01044009
+1 error: n01044009
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+109: n01045010
+4 differences
+# text = "There should be no preferential access to government, [1;34;47mor appearance of preferential access, [0maccorded to individuals or organizations because they [1;32;4mhave[0m made financial contributions to politicians and political parties[1;32;4m," [0mthe guidelines read[1;31m•[0m.
+# TEXT = " There should be no preferential access to government, accorded to individuals or organizations because they [1;32;4mhas[0m made financial contributions to politicians and political parties[1;32;4m, " [0mthe guidelines read[1;31m, or appearance of preferential access[0m.
+---
+110: n01045035
+# text = The judge in Duffy's fraud and breach of trust trial ultimately ruled they were within the Senate's rules when he cleared Duffy of all charges.
+# TEXT = The judge in Duffy 's fraud and breach of trust trial ultimately ruled they were within the senate 's rules when he cleared Duffy of all charges. 
+---
+111:in n01046003
+1 error: n01046003
+N('cellphone'):: not found in lexicon.
+---
+112: n01046036
+1 difference
+# text = "It is amazing[1;32;4m," [0mreported SaskTel unlimited data customer Lindsay Gay last month.
+# TEXT = " It is amazing[1;32;4m, " [0mreported SaskTel unlimited data customer Lindsay Gay last month.
+---
+113:in n01046057
+1 error: n01046057
+N('app'):: not found in lexicon.
+---
+114: n01047048
+2 differences
+# text = That[1;32;4m's[0m what keeps us coming back for more[1;31m•[0m.
+# TEXT = That[1;32;4m is[0m what keeps us coming back for more[1;31m more[0m.
+---
+115:in n01048008
+2 errors: n01048008
+N('condo'):: not found in lexicon.
+A('rental'):: not found in lexicon.
+---
+116: n01049022
+22 differences
+# text = "This strain helps with back pain[1;32;4m, this[0m [1;32;4mstrain[0m [1;32;4mhelps[0m [1;32;4mwith[0m [1;32;4mnausea, this[0m [1;32;4mproduct[0m [1;32;4mmakes[0m [1;32;4myou sleep at[0m [1;34;47mnight," [0m[1;32;4msays[0m [1;32;4mDietrich[0m [1;32;4mfrom[0m [1;32;4mthe company's[0m [1;32;4mheadquarters[0m [1;32;4min[0m [1;32;4mDenver[0m, [1;32;4mColorado, where[0m [1;32;4mpot[0m [1;32;4mis[0m [1;32;4msold[0m [1;31m•[0m[1;32;4mlegally[0m.
+# TEXT = " this strain helps with back pain[1;32;4m, " says[0m [1;32;4mDietrich[0m [1;32;4mfrom[0m [1;32;4mthe[0m [1;32;4mcompany 's[0m [1;32;4mheadquarters[0m [1;32;4min[0m [1;32;4mDenver, Colorado, where[0m [1;32;4mpot[0m [1;32;4mis[0m [1;32;4msold[0m [1;32;4mlegally, this strain[0m [1;32;4mhelps[0m [1;32;4mwith[0m [1;32;4mnausea[0m, [1;32;4mthis product[0m [1;32;4mmakes[0m [1;32;4myou[0m [1;32;4msleep[0m [1;31mat [0m[1;32;4mnight[0m.
+---
+117:in n01049033
+2 errors: n01049033
+V('altering'):: not found in lexicon.
+V('altering'):: morphology error: conjugate_en:tab :V(altering) : {"pe":3,"n":"s","t":"pr"}.
+---
+118: n01050006
+1 difference
+# text = Iron is an essential element the body requires to produce hemoglobin, the protein found in red blood cells that[1;32;4m's[0m responsible for transporting oxygen to tissues in the body.
+# TEXT = Iron is an essential element the body requires to produce hemoglobin, the protein found in red blood cells that[1;32;4m is[0m responsible for transporting oxygen to tissues in the body.
+---
+119:in n01050009
+1 error: n01050009
+N('waiting'):: not found in lexicon.
+---
+120:in n01050014
+1 error: n01050014
+Adv('overall'):: not found in lexicon.
+---
+121: n01050019
+2 differences
+# text = The new iron guidelines [1;32;4mmean[0m more [1;31m•[0mdonors are needed.
+# TEXT = The new iron guidelines [1;32;4mmeans[0m more [1;31mmore [0mdonors are needed.
+---
+122:in n01051004
+1 error: n01051004
+N('ultrasound'):: not found in lexicon.
+---
+123:in n01051006
+3 errors: n01051006
+A('sacrococcygeal'):: not found in lexicon.
+N('teratoma'):: not found in lexicon.
+N('tailbone'):: not found in lexicon.
+---
+124: n01051007
+# text = It is the most common tumour found in babies, occurring in one of every 35,000 births.
+# TEXT = It is the most common tumour found in babies, occurring in one of every 35,000 births. 
+---
+125: n01052004
+# text = She was 84 years old.
+# TEXT = She was 84 years old. 
+---
+126: n01052006
+2 differences
+# text = He described her as a "remarkable" and "loving[1;32;4m [0mand wonderful[1;32;4m" [0mwoman who left her mark in the literary world with her stories.
+# TEXT = He described her as a " remarkable " and " loving[1;32;4m " [0mand wonderful[1;32;4m [0mwoman who left her mark in the literary world with her stories.
+---
+127:in n01053008
+1 error: n01053008
+D('those'):: not found in lexicon.
+---
+128:in n01053036
+1 error: n01053036
+N('bullying'):: not found in lexicon.
+---
+129: n01053041
+1 difference
+# text = "Her voice literally went around the world[1;32;4m," [0mLeive said.
+# TEXT = " Her voice literally went around the world[1;32;4m, " [0mLeive said.
+---
+130:in n01054011
+2 errors: n01054011
+N('media'):: not found in lexicon.
+A('less'):: not found in lexicon.
+---
+131: n01054017
+# text = Many people, including Indigenous groups, argue they trivialize First Nations culture.
+# TEXT = Many people, including indigenous groups, argue they trivialize first Nations culture. 
+---
+132:in n01055008
+1 error: n01055008
+N('stakeholder'):: not found in lexicon.
+---
+133:in n01055038
+1 error: n01055038
+AdvP(Adv('only')):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
+---
+134: n01055047
+# text = After all, the internet is not a luxury; it is an essential tool.
+# TEXT = After all, the internet is not a luxury ; it is an essential tool. 
+---
+135: n01057014
+2 differences
+# text = The debris formed a ring around the Earth's equator and [1;32;4mwas[0m [1;32;4meventually[0m drawn together by gravity to form the moon.
+# TEXT = the debris formed a ring around the Earth 's equator and [1;32;4meventually[0m [1;32;4mwas[0m drawn together by gravity to form the moon.
+---
+136: n01057036
+1 difference
+# text = Still, there [1;32;4mare[0m questions left unanswered.
+# TEXT = Still, there [1;32;4mis[0m questions left unanswered.
+---
+137:in n01058037
+3 errors: n01058037
+N('someone'):: not found in lexicon.
+V('firebomb'):: not found in lexicon.
+V('firebomb'):: morphology error: conjugate_en:tab :V(firebomb) : {"pe":3,"n":"s","t":"ps"}.
+---
+138:in n01058052
+3 errors: n01058052
+A('north'):: not found in lexicon.
+N('voting'):: not found in lexicon.
+N('rights'):: not found in lexicon.
+---
+139: n01058064
+# text = He could detect the effects of the election around him, in the bursts of conflict and the curious intersection of new ideas with old ones.
+# TEXT = He could detect the effects of the election around him, in the bursts of conflict and the curious intersection of new ideas with old ones. 
+---
+140: n01059008
+# text = This discordance between economic data and political rhetoric is familiar, or should be.
+# TEXT = This discordance between economic data and political rhetoric is familiar, or should be. 
+---
+141:in n01059019
+1 error: n01059019
+C('against'):: not found in lexicon.
+---
+142:in n01059025
+5 errors: n01059025
+Adv('n’t'):: not found in lexicon.
+N('g.d.p.'):: not found in lexicon.
+D('those'):: not found in lexicon.
+V('lasting'):: not found in lexicon.
+V('lasting'):: morphology error: conjugate_en:tab :V(lasting) : {"pe":3,"n":"s","t":"pr"}.
+---
+143:in n01059054
+## non projective
+1 error: n01059054
+Adv('n’t'):: not found in lexicon.
+---
+144:in n01060069
+2 errors: n01060069
+N('something'):: not found in lexicon.
+Adv('better'):: not found in lexicon.
+---
+145:in n01061016
+1 error: n01061016
+A('empathetic'):: not found in lexicon.
+---
+146: n01061023
+3 differences
+# text = [1;32;4m“When[0m [1;31m•[0mI[1;32;4m'm[0m playing him, I feel powerful,” the Donald Trump impersonator John Di Domenico explained to Slate last year.
+# TEXT = [1;32;4m“[0m [1;31mWhen [0mI[1;32;4m is[0m playing him, I feel powerful, ” the Donald Trump impersonator John Di Domenico explained to Slate last year.
+---
+147:in n01061041
+## non projective
+1 error: n01061041
+A('troubling'):: not found in lexicon.
+---
+148: n01062035
+1 difference
+# text = They[1;32;4m're[0m usually artists who want to do a bunch of stuff.
+# TEXT = They[1;32;4m are[0m usually artists who want to do a bunch of stuff.
+---
+149: n01062049
+# text = Then the commercial ends.
+# TEXT = Then the commercial ends. 
+---
+150: n01063011
+3 differences
+# text = Miami Bass producers [1;32;4mwere[0m clinical in the art of moving [1;32;4mbutts—their[0m [1;31m•[0mmain concern.
+# TEXT = Miami bass producers [1;32;4mwas[0m clinical in the art of moving [1;32;4mbutts[0m [1;31m— their [0mmain concern.
+---
+151:in n01063043
+3 errors: n01063043
+V('knuck'):: not found in lexicon.
+N('laptop'):: not found in lexicon.
+V('knuck'):: morphology error: conjugate_en:tab :V(knuck) : {"pe":3,"n":"s","t":"b"}.
+---
+152:in n01063048
+2 errors: n01063048
+A('grainy'):: not found in lexicon.
+N('loop'):: not found in lexicon.
+---
+153: n01063051
+# text = Their revivals underscore the appeal of a good challenge, artistic or otherwise: discomfort, growth, and a meaningful connection.
+# TEXT = Their revivals underscore the appeal of a good challenge, artistic or otherwise: discomfort, growth, and a meaningful connection. 
+---
+154:in n01064009
+1 error: n01064009
+A('safer'):: not found in lexicon.
+---
+155: n01064096
+1 difference
+# text = Like many people I know, I[1;32;4m've[0m spent recent months staying up late, reading polls in terror.
+# TEXT = Like many people I know, I[1;32;4m has[0m spent recent months staying up late, reading polls in terror.
+---
+156:in n01064113
+2 errors: n01064113
+N('voting'):: not found in lexicon.
+N('pharaoh'):: not found in lexicon.
+---
+157:in n01065073
+1 error: n01065073
+N('behavior'):: not found in lexicon.
+---
+158:in n01066045
+2 errors: n01066045
+A('typeset'):: not found in lexicon.
+Pro('those'):: not found in lexicon.
+---
+159:in n01066068
+2 errors: n01066068
+C('at'):: not found in lexicon.
+N('etym'):: not found in lexicon.
+---
+160: n01066093
+2 differences
+# text = [1;32;4m“Complete[0m [1;31m•[0mneglect of his own health,” his wife, Alice, reported.
+# TEXT = [1;32;4m“[0m [1;31mcomplete [0mneglect of his own health, ” his wife, Alice, reported.
+---
+161: n01067014
+# text = Each map in the exhibition tells its own story, not all factual.
+# TEXT = Each map in the exhibition tells its own story, not all factual. 
+---
+162: n01067023
+3 differences
+# text = Also being exhibited for the first time [1;32;4mare[0m British Ministry of Defence maps which [1;32;4mimagine[0m cold war battles and which [1;32;4mwere[0m used in military college exams.
+# TEXT = Also being exhibited for the first time [1;32;4mis[0m British ministry of defence maps which [1;32;4mimagines[0m cold war battles and which [1;32;4mwas[0m used in military college exams.
+---
+163:in n01068029
+1 error: n01068029
+A('north'):: not found in lexicon.
+---
+164:in n01068038
+1 error: n01068038
+C('in'):: not found in lexicon.
+---
+165: n01069004
+2 differences
+# text = Christian[1;34;47m Wolmar[0m, who has written a number of books on railway history, [1;31m•[0mwill stand in the contest on 1 December.
+# TEXT = Christian, who has written a number of books on railway history, [1;31mWolmar [0mwill stand in the contest on 1 December.
+---
+166: n01069006
+1 difference
+# text = The Liberal Democrats, who represented the affluent suburb until 2010, [1;32;4mare[0m hoping to snatch it back with their candidate Sarah Olney.
+# TEXT = The liberal Democrats, who represented the affluent suburb until 2010, [1;32;4mis[0m hoping to snatch it back with their candidate Sarah Olney.
+---
+167:in n01069014
+1 error: n01069014
+A('estranged'):: not found in lexicon.
+---
+168: n01069023
+9 differences
+# text = He was utterly gracious[1;32;4m and[0m [1;32;4mtook[0m [1;32;4mit[0m [1;32;4mlike[0m [1;32;4ma[0m [1;32;4mman, I[0m [1;32;4mam[0m [1;32;4mbeyond[0m [1;32;4mfurious[0m.
+# TEXT = He was utterly gracious[1;32;4m, I[0m [1;32;4mam[0m [1;32;4mbeyond[0m [1;32;4mfurious[0m [1;32;4mand[0m [1;32;4mtook it[0m [1;32;4mlike[0m [1;32;4ma[0m [1;32;4mman[0m.
+---
+169:in n01070016
+1 error: n01070016
+P('onboard'):: not found in lexicon.
+---
+170: n01070017
+# text = Vega suggested that, because of their age, many would be unaware of its history.
+# TEXT = Vega suggested that, because of their age, many would be unaware of its history. 
+---
+171: n01070020
+# text = People got killed there.
+# TEXT = People got killed there. 
+---
+172:in n01071009
+4 errors: n01071009
+V('fired'):: not found in lexicon.
+A('south'):: not found in lexicon.
+A('east'):: not found in lexicon.
+V('fired'):: morphology error: conjugate_en:tab :V(fired) : {"pe":3,"n":"s","t":"pp"}.
+---
+173: n01072010
+# text = He then spent four years with BBC World Service radio at Bush House.
+# TEXT = He then spent four years with BBC world service radio at Bush House. 
+---
+174: n01072012
+# text = He worked for the BBC for a decade.
+# TEXT = He worked for the BBC for a decade. 
+---
+175: n01072021
+9 differences
+# text = One of their many grieving Facebook posts has a line which [1;32;4mwould[0m [1;32;4mhave[0m [1;32;4mdelighted[0m Chris: [1;32;4m“More[0m [1;31m•[0mAfrican than you, I [1;32;4mhave[0m [1;31m•[0mnot [1;32;4mknown[0m.”[1;32;4m[0m
+# TEXT = One of their many grieving Facebook posts has a line which [1;32;4mhave[0m [1;32;4mwould[0m [1;32;4mdelight[0m Chris: [1;32;4m“[0m [1;31mmore [0mafrican than you, I [1;32;4mhas[0m [1;31mdone [0mnot [1;32;4mknow[0m. ”[1;32;4m.[0m
+---
+176: n01073004
+# text = Who can stop this Australia side?
+# TEXT = Who can stop this Australia side?
+---
+177:in n01073023
+1 error: n01073023
+Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
+---
+178: n01074011
+# text = They have one crack at redemption, beating England.
+# TEXT = They have one crack at redemption, beating England. 
+---
+179: n01074015
+1 difference
+# text = South Africa [1;32;4mare[0m almost at the point of no return and we have to be able to match their desire.
+# TEXT = South Africa [1;32;4mis[0m almost at the point of no return and we have to be able to match their desire.
+---
+180: n01074020
+1 difference
+# text = He has [1;32;4mgot[0m that hard edge to his game but also the soft hands.
+# TEXT = He has [1;32;4mgotten[0m that hard edge to his game but also the soft hands.
+---
+181: n01074026
+1 difference
+# text = We [1;32;4mhave[0m a great squad and it is an opportunity for us to take the ship forward.
+# TEXT = we [1;32;4mhas[0m a great squad and it is an opportunity for us to take the ship forward.
+---
+182:in n01074030
+5 errors: n01074030
+V('rather'):: not found in lexicon.
+N('someone'):: not found in lexicon.
+V('rather'):: morphology error: conjugate_en:tab :V(rather) : {"pe":1,"n":"s","t":"b"}.
+V('rather'):: not found in lexicon.
+V('rather'):: morphology error: conjugate_en:tab :V(rather) : {"pe":3,"n":"s","t":"b"}.
+---
+183:in n01075028
+1 error: n01075028
+A('upturned'):: not found in lexicon.
+---
+184:in n01075044
+1 error: n01075044
+A('higher'):: not found in lexicon.
+---
+185:in n01076006
+1 error: n01076006
+A('unsettled'):: not found in lexicon.
+---
+186:in n01076017
+1 error: n01076017
+A('hawkish'):: not found in lexicon.
+---
+187: n01076030
+1 difference
+# text = He[1;32;4m's[0m spoken in favour of torture.
+# TEXT = He[1;32;4m has[0m spoken in favour of torture.
+---
+188: n01077018
+# text = I also struggle with passwords.
+# TEXT = I also struggle with passwords. 
+---
+189:in n01077030
+2 errors: n01077030
+V('called'):: not found in lexicon.
+V('called'):: morphology error: conjugate_en:tab :V(called) : {"pe":3,"n":"s","t":"pp"}.
+---
+190:in n01078025
+2 errors: n01078025
+Adv('course'):: not found in lexicon.
+Adv('course'):: option n is applied to Adv, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+191:in n01079015
+1 error: n01079015
+N('headscarf'):: not found in lexicon.
+---
+192: n01079065
+3 differences
+# text = Artists reach people at their heart; it[1;32;4m's[0m the only time we [1;32;4mmeet[0m in one place and [1;32;4mput[0m our differences aside.
+# TEXT = Artists reach people at their heart ; it[1;32;4m is[0m the only time we [1;32;4mmeets[0m in one place and [1;32;4mputs[0m our differences aside.
+---
+193: n01079069
+1 difference
+# text = His more unusual accolades [1;32;4minclude[0m global ambassador for New York City Health and Hospitals Corporation, and a place at Harvard Business School.
+# TEXT = His more unusual accolades [1;32;4mincludes[0m global ambassador for New York City health and hospitals corporation, and a place at Harvard business school.
+---
+194: n01080039
+2 differences
+# text = I [1;32;4mcan[0m [1;32;4mjust[0m do that with my life.
+# TEXT = I [1;32;4mjust[0m [1;32;4mcan[0m do that with my life.
+---
+195: n01080042
+2 differences
+# text = I wanted to watch it with them, but they decided they[1;32;4m'd[0m [1;32;4mrather[0m watch it without me in the end.
+# TEXT = I wanted to watch it with them, but they decided they[1;32;4m rather[0m [1;32;4mwould[0m watch it without me in the end.
+---
+196:in n01081022
+3 errors: n01081022
+Adv('n’t'):: not found in lexicon.
+N('someone'):: not found in lexicon.
+A('racist'):: not found in lexicon.
+---
+197:in n01082014
+1 error: n01082014
+N('borrowing'):: not found in lexicon.
+---
+198: n01083013
+# text = Her reason is that it provides insufficient protection to American workers whose jobs and living standards it might harm.
+# TEXT = Her reason is that it provides insufficient protection to american workers whose jobs and living standards it might harm. 
+---
+199: n01083035
+# text = In this context, railing against trade makes sense.
+# TEXT = In this context, railing against trade makes sense. 
+---
+200: n01084008
+4 differences
+# text = Theoretically, a couple could open four Tesco accounts and earn 3% on [1;31m•[0m[1;32;4m£12[0m,000 – [1;31m•[0m[1;32;4m£360[0m.
+# TEXT = theoretically, a couple could open four Tesco accounts and earn 3% on [1;31m£ [0m[1;32;4m12[0m,000 – [1;31m£ [0m[1;32;4m360[0m.
+---
+201: n01084023
+5 differences
+# text = Meanwhile, Bank of Scotland customers [1;32;4mearn[0m 3% on balances of [1;31m•[0m[1;32;4m£3[0m,000-[1;31m•[0m[1;32;4m£5[0m,000 when they add the free Vantage option to their account.
+# TEXT = Meanwhile, bank of Scotland customers [1;32;4mearns[0m 3% on balances of [1;31m£ [0m[1;32;4m3[0m,000-[1;31m£ [0m[1;32;4m5[0m,000 when they add the free vantage option to their account.
+---
+202: n01084036
+1 difference
+# text = With this, in theory, you [1;32;4mare[0m able to access your money whenever you like.
+# TEXT = With this, in theory, you [1;32;4mis[0m able to access your money whenever you like.
+---
+203:in n01084045
+1 error: n01084045
+N('cardholder'):: not found in lexicon.
+---
+204:in n01085006
+2 errors: n01085006
+A('key'):: not found in lexicon.
+N('nutrient'):: not found in lexicon.
+---
+205: n01085008
+# text = Fast forward to 2016 and this is increasingly worthy of attention.
+# TEXT = fast forward to 2016 and this is increasingly worthy of attention. 
+---
+206:in n01085011
+1 error: n01085011
+V('can'):: morphology error: conjugate_en: unrecognized tense :V(can) : {"pe":3,"n":"s","t":"pr"}.
+---
+207:in n01086013
+4 errors: n01086013
+A('enraging'):: not found in lexicon.
+Adv('at'):: not found in lexicon.
+N('someone'):: not found in lexicon.
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+208:in n01086016
+1 error: n01086016
+A('irritated'):: not found in lexicon.
+---
+209:in n01086031
+1 error: n01086031
+A('horrendous'):: not found in lexicon.
+---
+210:in n01087005
+1 error: n01087005
+A('retro'):: not found in lexicon.
+---
+211:in n01087018
+3 errors: n01087018
+V('’s'):: not found in lexicon.
+Pro('themselves'):: not found in lexicon.
+V('’s'):: morphology error: conjugate_en:tab :V(’s) : {"pe":3,"n":"s","t":"p"}.
+---
+212: n01087023
+# text = Catalano moved back to the area after living in London and then Glasgow, where he had studied jewellery design at Glasgow School of Art.
+# TEXT = Catalano moved back to the area after living in London and then Glasgow, where he had studied jewellery design at Glasgow school of art. 
+---
+213: n01087035
+2 differences
+# text = [1;32;4m“I[0m [1;31m•[0mloved the tropical colours,” he says.
+# TEXT = [1;32;4m“[0m [1;31mI [0mloved the tropical colours, ” he says.
+---
+214: n01087039
+2 differences
+# text = [1;32;4m“I[0m [1;31m•[0mvisit the degree shows at Northampton University to spot new talent,” he says.
+# TEXT = [1;32;4m“[0m [1;31mI [0mvisit the degree shows at Northampton university to spot new talent, ” he says.
+---
+215: n01088026
+# text = But, when I suggest that she get Frank to model for her, she laughs.
+# TEXT = But, when I suggest that she get Frank to model for her, she laughs. 
+---
+216: n01089007
+# text = Naturally, the office landscape features many clothes and little in the way of food.
+# TEXT = Naturally, the office landscape features many clothes and little in the way of food. 
+---
+217:in n01089033
+2 errors: n01089033
+Pro('herself'):: not found in lexicon.
+N('sunglass'):: not found in lexicon.
+---
+218:in n01090004
+2 errors: n01090004
+N('motocross'):: not found in lexicon.
+N('1970'):: not found in lexicon.
+---
+219: n01090037
+2 differences
+# text = I [1;32;4mlove[0m to play with that and I am always looking for muses that [1;32;4mfit[0m that bill because it is so interesting making a collection when I find one.
+# TEXT = I [1;32;4mloves[0m to play with that and I am always looking for muses that [1;32;4mfits[0m that bill because it is so interesting making a collection when I find one.
+---
+220:in n01091013
+1 error: n01091013
+A('worst'):: not found in lexicon.
+---
+221:in n01091017
+2 errors: n01091017
+A('amazed'):: not found in lexicon.
+N('licensing'):: not found in lexicon.
+---
+222:in n01091019
+3 errors: n01091019
+N('conservationist'):: not found in lexicon.
+N('tv'):: not found in lexicon.
+N('presenter'):: not found in lexicon.
+---
+223: n01092008
+3 differences
+# text = Let[1;32;4m's[0m just [1;32;4msay[0m he[1;32;4m's[0m wrong.
+# TEXT = let[1;32;4m we[0m just [1;32;4msays[0m he[1;32;4m is[0m wrong.
+---
+224: n01092014
+# text = And what about Australia’s position?
+# TEXT = and what about Australia ’s position?
+---
+225:in n01092025
+2 errors: n01092025
+A('middle'):: not found in lexicon.
+A('developed'):: not found in lexicon.
+---
+226:in n01092040
+1 error: n01092040
+Pro('those'):: not found in lexicon.
+---
+227: n01093007
+2 differences
+# text = [1;32;4m“Celtic[0m [1;31m•[0mSea cod could collapse,” without the proposed limits, one EU official said.
+# TEXT = [1;32;4m“[0m [1;31mCeltic [0mSea cod could collapse, ” without the proposed limits, one EU official said.
+---
+228:in n01093024
+2 errors: n01093024
+N('seas'):: not found in lexicon.
+N('pollack'):: not found in lexicon.
+---
+229:in n01093025
+1 error: n01093025
+N('conservationist'):: not found in lexicon.
+---
+230:in n01094014
+1 error: n01094014
+N('marketplace'):: not found in lexicon.
+---
+231:in n01094022
+1 error: n01094022
+N('marketplace'):: not found in lexicon.
+---
+232: n01095004
+2 differences
+# text = They [1;31m•[0m[1;32;4mdidn[0m't have them in our day, and people without children express through their disapproval all their hatred of modern parenting.
+# TEXT = they [1;31mdid [0m[1;32;4mn[0m't have them in our day, and people without children express through their disapproval all their hatred of modern parenting.
+---
+233: n01095009
+2 differences
+# text = I [1;31m•[0m[1;32;4mdon[0m't call it a beast lightly.
+# TEXT = I [1;31mdoes [0m[1;32;4mn[0m't call it a beast lightly.
+---
+234: n01095019
+# text = Day three, I was back on the EMicro.
+# TEXT = Day three, I was back on the EMicro. 
+---
+235: n01096006
+2 differences
+# text = The world [1;32;4m–[0m [1;32;4mand[0m by extension the UK – is facing a shortage of people with the skills needed to mount an effective defence.
+# TEXT = The world [1;32;4mand[0m [1;32;4m–[0m by extension the UK – is facing a shortage of people with the skills needed to mount an effective defence.
+---
+236:in n01096032
+1 error: n01096032
+N('firewall'):: not found in lexicon.
+---
+237:in n01096040
+3 errors: n01096040
+A('booby'):: not found in lexicon.
+N('traps'):: not found in lexicon.
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+238: n01097020
+# text = After I discovered a rich seam of internet discussion on the subject, my list had grown inordinately long and covered almost every state in the union.
+# TEXT = after I discovered a rich seam of internet discussion on the subject, my list had grown inordinately long and covered almost every state in the union. 
+---
+239: n01097041
+# text = I spotted a few.
+# TEXT = I spotted a few. 
+---
+240: n01097098
+# text = My next stop was Bellingham, right up near the Canadian border.
+# TEXT = My next stop was Bellingham, right up near the canadian border. 
+---
+241: n01098034
+1 difference
+# text = Back on the train, we [1;32;4mcontinue[0m southwards.
+# TEXT = Back on the train, we [1;32;4mcontinues[0m southwards.
+---
+242:in n01098041
+1 error: n01098041
+Adv('by'):: not found in lexicon.
+---
+243:in n01098044
+2 errors: n01098044
+A('capped'):: not found in lexicon.
+N('tapper'):: not found in lexicon.
+---
+244:in n01099035
+1 error: n01099035
+Adv('am'):: not found in lexicon.
+---
+245:in n01101003
+3 errors: n01101003
+V('reaching'):: not found in lexicon.
+N('handover'):: not found in lexicon.
+V('reaching'):: morphology error: conjugate_en:tab :V(reaching) : {"pe":3,"n":"s","t":"pr"}.
+---
+246: n01101007
+# text = The oath involves lawmakers swearing allegiance to Hong Kong as part of the People’s Republic of China.
+# TEXT = The oath involves lawmakers swearing allegiance to Hong Kong as part of the people ’s republic of China. 
+---
+247:in n01101012
+1 error: n01101012
+A('pro-beijing'):: not found in lexicon.
+---
+248: n01101015
+2 differences
+# text = [1;32;4m“Beijing[0m [1;31m•[0mbelieves its intervention is necessary to prevent a continued legislative paralysis in the city,” he said.
+# TEXT = [1;32;4m“[0m [1;31mBeijing [0mbelieves its intervention is necessary to prevent a continued legislative paralysis in the city, ” he said.
+---
+249: n01101017
+# text = Hong Kong, meanwhile, appears to be bracing for a wave of protests.
+# TEXT = Hong Kong, meanwhile, appears to be bracing for a wave of protests. 
+---
+250: n01102006
+3 differences
+# text = He told the BBC's Andrew Marr Show: [1;32;4m“A[0m [1;31m•[0mgeneral election is frankly the last thing that the Government wants.”[1;32;4m[0m
+# TEXT = He told the BBC 's Andrew Marr show: [1;32;4m“[0m [1;31ma [0mgeneral election is frankly the last thing that the government wants. ”[1;32;4m.[0m
+---
+251: n01103013
+# text = It is his dream to end his career here.
+# TEXT = It is his dream to end his career here. 
+---
+252:in n01104011
+1 error: n01104011
+P('is'):: not found in lexicon.
+---
+253: n01104019
+1 difference
+# text = We are so disappointed because we [1;32;4mhave[0m dropped six points playing at home.
+# TEXT = We are so disappointed because we [1;32;4mhas[0m dropped six points playing at home.
+---
+254: n01105003
+# text = That was definitely the case for Andy when he played Benoît Paire in Monte Carlo in April.
+# TEXT = That was definitely the case for Andy when he played Benoît Paire in Monte Carlo in April. 
+---
+255:in n01105013
+2 errors: n01105013
+N('everything'):: not found in lexicon.
+N('kilter'):: not found in lexicon.
+---
+256: n01105023
+# text = I also wonder whether the Davis Cup played a part.
+# TEXT = I also wonder whether the Davis cup played a part. 
+---
+257:in n01106008
+1 error: n01106008
+C('about'):: not found in lexicon.
+---
+258: n01106015
+3 differences
+# text = Ms Hopley added: [1;32;4m“The[0m [1;31m•[0mspike in political risk should not go unnoticed.”[1;32;4m[0m
+# TEXT = Ms Hopley added: [1;32;4m“[0m [1;31mthe [0mspike in political risk should not go unnoticed. ”[1;32;4m.[0m
+---
+259:in n01107005
+1 error: n01107005
+N('euro'):: not found in lexicon.
+---
+260: n01107006
+3 differences
+# text = It has also opened VW up to huge compensation claims, legal action and has seen it take more [1;31m•[0mthan [1;32;4m€16bn[0m [1;31m•[0mof provisions.
+# TEXT = it has also opened VW up to huge compensation claims, legal action and has seen it take more [1;31mmore [0mthan [1;32;4m€[0m [1;31m16bn [0mof provisions.
+---
+261: n01107008
+## non projective
+8 differences
+# text = The probe [1;34;47mbegan in June, [0mfocusing on Mr Winterkorn [1;32;4mand[0m [1;32;4mbrand[0m [1;32;4mchief[0m [1;32;4mHerbert[0m [1;32;4mDiess[0m, who remains at the car maker[1;31m•[0m[1;32;4m.[0m
+# TEXT = The probe focusing on Mr Winterkorn [1;32;4mHerbert[0m [1;32;4mDiess[0m [1;32;4mand[0m [1;32;4mbrand[0m [1;32;4mchief[0m, who remains at the car maker[1;31m began in June[0m[1;32;4m,.[0m
+---
+262: n01107010
+# text = He was promoted to chairman in October 2015, the month after the scandal was unearthed.
+# TEXT = He was promoted to chairman in October 2015, the month after the scandal was unearthed. 
+---
+263: n01108003
+1 difference
+# text = Businesses had expected to start contracting in July, immediately after the Brexit vote, but instead [1;32;4mhave[0m managed to keep growing steadily.
+# TEXT = businesses had expected to start contracting in July, immediately after the Brexit vote, but instead [1;32;4mhas[0m managed to keep growing steadily.
+---
+264:in n01108005
+1 error: n01108005
+A('upbeat'):: not found in lexicon.
+---
+265: n01108015
+# text = There will be limits to his ability to spend, however, as the Government is still running a substantial budget deficit.
+# TEXT = There will be limits to his ability to spend, however, as the government is still running a substantial budget deficit. 
+---
+266: n01109008
+# text = The cost will change monthly and the price is expected to rise in winter as usage increases.
+# TEXT = the cost will change monthly and the price is expected to rise in winter as usage increases. 
+---
+267: n01109012
+## non projective
+4 differences
+# text = Eon's fixed rate tariff costs [1;32;4m£760[0m [1;31m•[0mand Avro Energy customers would pay [1;31m•[0maround [1;32;4m£760[0m for its Simple and Select tariff.
+# TEXT = Eon 's fixed rate tariff costs [1;32;4m£[0m [1;31m760 [0mand Avro energy customers would pay [1;31m£ [0maround [1;32;4m760[0m for its simple and select tariff.
+---
+268: n01109022
+2 differences
+# text = Or [1;32;4mis[0m [1;32;4mit[0m an expensive standard or prepayment tariff?
+# TEXT = Or [1;32;4mit[0m [1;32;4mis[0m an expensive standard or prepayment tariff?
+---
+269: n01110006
+4 differences
+# text = An investor with average luck and [1;31m•[0m[1;32;4m£10[0m,000 in bonds could expect to receive [1;32;4m£125[0m [1;31m•[0min prizes per year.
+# TEXT = An investor with average luck and [1;31m£ [0m[1;32;4m10[0m,000 in bonds could expect to receive [1;32;4m£[0m [1;31m125 [0min prizes per year.
+---
+270:in n01110008
+2 errors: n01110008
+A('premium'):: not found in lexicon.
+N('savings'):: not found in lexicon.
+---
+271:in n01110022
+2 errors: n01110022
+A('premium'):: not found in lexicon.
+N('spending'):: not found in lexicon.
+---
+272: n01111018
+2 differences
+# text = This has [1;31m•[0mnot [1;32;4mstopped[0m investors flocking to put their money in the funds.
+# TEXT = This has [1;31mdone [0mnot [1;32;4mstop[0m investors flocking to put their money in the funds.
+---
+273:in n01111021
+2 errors: n01111021
+N('multi'):: not found in lexicon.
+N('Strategy'):: not found in lexicon.
+---
+274: n01111030
+3 differences
+# text = This means that they [1;32;4mhave[0m [1;31m•[0mnot [1;32;4mbenefited[0m from the uplift that the fall in sterling has given to overseas assets.
+# TEXT = This means that they [1;32;4mhas[0m [1;31mdone [0mnot [1;32;4mbenefit[0m from the uplift that the fall in sterling has given to overseas assets.
+---
+275:in n01112002
+1 error: n01112002
+C('by'):: not found in lexicon.
+---
+276: n01112012
+# text = The consumer can boost the demand for change.
+# TEXT = The consumer can boost the demand for change. 
+---
+277: n01112014
+## non projective
+3 differences
+# text = A major report in January said oceans would contain more [1;32;4mplastic[0m [1;32;4mthan[0m [1;32;4mfish[0m by 2050 unless the world took radical action to stop rubbish leaking into the seas.
+# TEXT = A major report in January said oceans would contain more [1;32;4mthan[0m [1;32;4mfishes[0m [1;32;4mplastic[0m by 2050 unless the world took radical action to stop rubbish leaking into the seas.
+---
+278:in n01113021
+2 errors: n01113021
+A('genius'):: not found in lexicon.
+N('rehab'):: not found in lexicon.
+---
+279: n01114012
+2 differences
+# text = Warning that the NHS was now under "enormous pressure[1;32;4m," [0mhe urged the public to take more [1;31m•[0mresponsibility for their own health.
+# TEXT = Warning that the NHS was now under " enormous pressure[1;32;4m, " [0mhe urged the public to take more [1;31mmore [0mresponsibility for their own health.
+---
+280: n01114025
+1 difference
+# text = Four in 10 adults have been injured due to bad weather while nine in 10 [1;32;4munderestimate[0m how chilly Britain can get in the winter time.
+# TEXT = Four in 10 adults have been injured due to bad weather while nine in 10 [1;32;4munderestimates[0m how chilly Britain can get in the winter time.
+---
+281: n01115005
+# text = They will play on Saturday, 10 June.
+# TEXT = They will play on Saturday, 10 June. 
+---
+282: n01115013
+2 differences
+# text = Last year was an incredible year and I[1;32;4m'm[0m ready for us to come back even [1;31m•[0mbetter in 2017.
+# TEXT = Last year was an incredible year and I[1;32;4m am[0m ready for us to come back even [1;31mmore [0mbetter in 2017.
+---
+283:in n01116009
+2 errors: n01116009
+N('mid-sixty'):: not found in lexicon.
+C('/'):: not found in lexicon.
+---
+284: n01116014
+# text = The dress is contemporary.
+# TEXT = The dress is contemporary. 
+---
+285:in n01116018
+## non projective
+1 error: n01116018
+N('shockwave'):: not found in lexicon.
+---
+286:in n01116021
+2 errors: n01116021
+V('accentuating'):: not found in lexicon.
+V('accentuating'):: morphology error: conjugate_en:tab :V(accentuating) : {"pe":3,"n":"s","t":"pr"}.
+---
+287:in n01116035
+1 error: n01116035
+N('blinder'):: not found in lexicon.
+---
+288:in n01117007
+1 error: n01117007
+N('tv'):: not found in lexicon.
+---
+289:in n01117014
+1 error: n01117014
+A('un-detectable'):: not found in lexicon.
+---
+290:in n01118003
+1 error: n01118003
+N('mic'):: not found in lexicon.
+---
+291: n01118010
+# text = According to the director's own count, to date he has made eight feature films.
+# TEXT = According to the director 's own count, to date he has made eight feature films. 
+---
+292: n01118017
+## non projective
+3 differences
+# text = "Cinema had changed so [1;34;47mdrastically [0mthat Hollywood had alienated the family audience[1;31m•[0m[1;32;4m."[0m
+# TEXT = " Cinema had changed so that Hollywood had alienated the family audience[1;31m drastically[0m[1;32;4m. ".[0m
+---
+293:in n01119011
+4 errors: n01119011
+N('balancing'):: not found in lexicon.
+N('hijinks'):: not found in lexicon.
+V('hitting'):: not found in lexicon.
+V('hitting'):: morphology error: conjugate_en:tab :V(hitting) : {"pe":3,"n":"s","t":"pr"}.
+---
+294:in n01119012
+3 errors: n01119012
+N('heartwarmer'):: not found in lexicon.
+V('made'):: not found in lexicon.
+V('made'):: morphology error: conjugate_en:tab :V(made) : {"pe":3,"n":"s","t":"pp"}.
+---
+295: n01119017
+1 difference
+# text = And, of course, there[1;32;4m's[0m Bob, a constant source of entertainment.
+# TEXT = And, of course, there[1;32;4m is[0m Bob, a constant source of entertainment.
+---
+296: n01119019
+4 differences
+# text = [1;31m•[0m[1;32;4m[0mThe result[1;34;47m, then[0m[1;32;4m, [0mis hardly the cat's pyjamas.
+# TEXT = [1;31m, Then[0m[1;32;4m, [0mthe result[1;32;4m [0mis hardly the cat 's pyjamas.
+---
+297:in n01120008
+2 errors: n01120008
+N('frontline'):: not found in lexicon.
+A('unimaginable'):: not found in lexicon.
+---
+298: n01120010
+# text = Doss’s story also has an unlikely quality to it that makes it all the more appealing.
+# TEXT = Doss ’s story also has an unlikely quality to it that makes it all the more appealing. 
+---
+299:in n01120020
+1 error: n01120020
+A('armed'):: not found in lexicon.
+---
+300:in n01121032
+2 errors: n01121032
+A('glitchy'):: not found in lexicon.
+A('twitchy'):: not found in lexicon.
+---
+301: n01121051
+# text = Is series two working so far?
+# TEXT = Is series two working so far?
+---
+302:in n01122024
+1 error: n01122024
+N('superhero'):: not found in lexicon.
+---
+303: n01123010
+1 difference
+# text = But Cotton's dark deeds [1;32;4mdid[0m not occur due to some sort of compulsion to kill.
+# TEXT = But Cotton 's dark deeds [1;32;4mdo[0m not occur due to some sort of compulsion to kill.
+---
+304: n01123012
+1 difference
+# text = Cotton was [1;32;4mborn[0m on October 31, 1832, in a village near Sunderland.
+# TEXT = Cotton was [1;32;4mborne[0m on October 31, 1832, in a village near Sunderland.
+---
+305:in n01123024
+2 errors: n01123024
+Adv('n’t'):: not found in lexicon.
+Adv('n’t'):: not found in lexicon.
+---
+306:in n01125009
+3 errors: n01125009
+N('throwback'):: not found in lexicon.
+P('is'):: not found in lexicon.
+Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
+---
+307:in n01125016
+1 error: n01125016
+A('south'):: not found in lexicon.
+---
+308:in n01125030
+1 error: n01125030
+C('with'):: not found in lexicon.
+---
+309:in n01127008
+2 errors: n01127008
+Adv('later'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+310: n01127089
+1 difference
+# text = I [1;32;4mdon't[0m know why I chose her ...
+# TEXT = I [1;32;4mdo not[0m know why I chose her...
+---
+311:in n01127130
+1 error: n01127130
+Adv('later'):: not found in lexicon.
+---
+312:in n01128017
+1 error: n01128017
+C('of'):: not found in lexicon.
+---
+313:in n01128021
+1 error: n01128021
+D('nary'):: not found in lexicon.
+---
+314:in n01128025
+4 errors: n01128025
+C('on'):: not found in lexicon.
+Pro('themselves'):: not found in lexicon.
+Adv('better'):: not found in lexicon.
+Adv('online'):: not found in lexicon.
+---
+315: n01128033
+# text = Finally, we must make it easy for people to report suspected breaches and malicious emails.
+# TEXT = Finally, we must make it easy for people to report suspected breaches and malicious emails. 
+---
+316:in n01129006
+1 error: n01129006
+N('voting'):: not found in lexicon.
+---
+317:in n01129010
+1 error: n01129010
+A('existential'):: not found in lexicon.
+---
+318:in n01129017
+2 errors: n01129017
+C('about'):: not found in lexicon.
+A('registered'):: not found in lexicon.
+---
+319:in n01129021
+2 errors: n01129021
+Pro('those'):: not found in lexicon.
+A('contested'):: not found in lexicon.
+---
+320: n01130003
+# text = North Carolina is ground zero in this election.
+# TEXT = North Carolina is ground zero in this election. 
+---
+321:in n01130025
+2 errors: n01130025
+A('entitled'):: not found in lexicon.
+Pro('himself'):: not found in lexicon.
+---
+322:in n01131007
+1 error: n01131007
+N('voting'):: not found in lexicon.
+---
+323:in n01131013
+2 errors: n01131013
+N('voting'):: not found in lexicon.
+Adv('earlier'):: not found in lexicon.
+---
+324:in n01132006
+1 error: n01132006
+NP(Q('"'),N('game'),NP(P('of'),N('throne')),Q('.'),Q('"')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+325:in n01132013
+1 error: n01132013
+A('acclaimed'):: not found in lexicon.
+---
+326:in n01133014
+2 errors: n01133014
+A('dutch'):: not found in lexicon.
+N('motorcycle'):: not found in lexicon.
+---
+327:in n01133022
+3 errors: n01133022
+N('spokeswoman'):: not found in lexicon.
+N('timeline'):: not found in lexicon.
+N('media'):: not found in lexicon.
+---
+328: n01134005
+2 differences
+# text = U.S. stock futures [1;32;4mare[0m surging by more [1;31m•[0mthan 1%, alongside European markets.
+# TEXT = U.S. stock futures [1;32;4mis[0m surging by more [1;31mmore [0mthan 1%, alongside european markets.
+---
+329:in n01134007
+2 errors: n01134007
+C('with'):: not found in lexicon.
+A('biggest'):: not found in lexicon.
+---
+330: n01134015
+# text = He is credited with helping efforts to tackle the mountain of debt accumulated by local governments in China.
+# TEXT = He is credited with helping efforts to tackle the mountain of debt accumulated by local governments in China. 
+---
+331:in n01134020
+1 error: n01134020
+N('environmental'):: not found in lexicon.
+---
+332: n01135002
+# text = China's insatiable appetite for fried chicken used to be a big reason why investors loved KFC-parent Yum Brands.
+# TEXT = China 's insatiable appetite for fried chicken used to be a big reason why investors loved KFC-parent Yum brands. 
+---
+333: n01136005
+# text = With help from the American Civil Liberties Union, they eventually challenged the state, in a case that eventually went to the U.S. Supreme Court.
+# TEXT = With help from the american civil liberties union, they eventually challenged the state, in a case that eventually went to the U.S. Supreme Court. 
+---
+334: n01136006
+2 differences
+# text = As the movie makes clear, the Lovings[1;32;4m -- [0mand[1;32;4m [0mRichard in particular -- were reluctant participants in history.
+# TEXT = As the movie makes clear, the Lovings[1;32;4m [0mand[1;32;4m--[0mRichard in particular--were reluctant participants in history.
+---
+335:in n01136010
+1 error: n01136010
+C('with'):: not found in lexicon.
+---
+336:in n01137003
+1 error: n01137003
+A('stranger'):: not found in lexicon.
+---
+337: n01137010
+2 differences
+# text = I [1;32;4mhadn't[0m [1;31m•[0mseen a lot of the episodes and then my phone started lighting up.
+# TEXT = I [1;32;4mdid not[0m [1;31mhave [0mseen a lot of the episodes and then my phone started lighting up.
+---
+338: n01138007
+3 differences
+# text = As one of Negan's (Jeffrey[1;32;4m [0mDean Morgan[1;32;4m) [0mtop guys, he[1;32;4m's[0m afforded certain freedoms.
+# TEXT = As one of Negan 's (Jeffrey[1;32;4m) [0mDean Morgan[1;32;4m [0mtop guys, he[1;32;4m is[0m afforded certain freedoms.
+---
+339: n01138017
+1 difference
+# text = "Norman is one of my good buddies, so it totally sucked to see him in that emotional state[1;32;4m."[0m
+# TEXT = " Norman is one of my good buddies, so it totally sucked to see him in that emotional state[1;32;4m. ".[0m
+---
+340:in n01138026
+1 error: n01138026
+N('dead'):: not found in lexicon.
+---
+341: n01139006
+3 differences
+# text = "In the cities where we[1;32;4m've[0m launched or [1;32;4mare[0m under construction, our work will continue[1;32;4m," [0mBarratt said.
+# TEXT = " In the cities where we[1;32;4m has[0m launched or [1;32;4mis[0m under construction, our work will continue[1;32;4m, " [0mBarratt said.
+---
+342: n01139016
+# text = The Internet effort was said to be the main driver of capital expenditures for the unit.
+# TEXT = The internet effort was said to be the main driver of capital expenditures for the unit. 
+---
+343: n01139027
+# text = For now, analysts are hesitant to write off the service for dead.
+# TEXT = For now, analysts are hesitant to write off the service for dead. 
+---
+344:in n01140012
+2 errors: n01140012
+A('lower'):: not found in lexicon.
+A('tech'):: not found in lexicon.
+---
+345: n01141002
+# text = Microsoft announced on Wednesday a new workplace chat tool poised to take on industry darling Slack.
+# TEXT = Microsoft announced on Wednesday a new workplace chat tool poised to take on industry darling Slack. 
+---
+346:in n01141007
+4 errors: n01141007
+N('emoji'):: not found in lexicon.
+N('gif'):: not found in lexicon.
+A('custom'):: not found in lexicon.
+N('meme'):: not found in lexicon.
+---
+347: n01141020
+1 difference
+# text = The move highlighted the company's desire for users to start thinking of its products as more [1;31m•[0mthan just productivity tools.
+# TEXT = The move highlighted the company 's desire for users to start thinking of its products as more [1;31mmore [0mthan just productivity tools.
+---
+348:in n01141022
+2 errors: n01141022
+A('latest'):: not found in lexicon.
+A('larger'):: not found in lexicon.
+---
+349:in n01142007
+1 error: n01142007
+N('decider'):: not found in lexicon.
+---
+350:in n01142008
+1 error: n01142008
+N('no.'):: not found in lexicon.
+---
+351:in n01143003
+2 errors: n01143003
+V('prank'):: not found in lexicon.
+V('prank'):: morphology error: conjugate_en:tab :V(prank) : {"pe":3,"n":"s","t":"p"}.
+---
+352: n01143009
+3 differences
+# text = Two Australians, [1;34;47mwho [0mby their own admission [1;32;4mare[0m [1;31m•[0mterrible golfers, bluffed their way into a premier golf tournament in North Korea.
+# TEXT = Two Australians, by their own admission [1;32;4mwho[0m [1;31mis [0mterrible golfers, bluffed their way into a premier golf tournament in North Korea.
+---
+353: n01144021
+# text = Snowman would jump the high fencing that separated the two properties and always return to where he felt was home.
+# TEXT = Snowman would jump the high fencing that separated the two properties and always return to where he felt was home. 
+---
+354: n01144023
+1 difference
+# text = He kept on turning up at my barn and I joked to the guy that clearly he [1;32;4mdidn't[0m want to be sold.
+# TEXT = he kept on turning up at my barn and I joked to the guy that clearly he [1;32;4mdo not[0m want to be sold.
+---
+355:in n01144038
+2 errors: n01144038
+N('anything'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+356: n01144041
+# text = I was just a boy with muddy shoes.
+# TEXT = I was just a boy with muddy shoes. 
+---
+357: n01145008
+# text = There is no parade and there never has been.
+# TEXT = there is no parade and there never has been. 
+---
+358: n01145012
+3 differences
+# text = It[1;32;4m's[0m an event Mexico hopes [1;32;4mwill[0m [1;32;4meventually[0m rival the Carnival of Brazil.
+# TEXT = It[1;32;4m is[0m an event Mexico hopes [1;32;4meventually[0m [1;32;4mwill[0m rival the carnival of Brazil.
+---
+359: n01145015
+3 differences
+# text = Alejandra[1;34;47m González Anaya[0m, one of the parade's creative directors, [1;31m•[0mexplained to CNN why Mexico [1;32;4mhave[0m decided now is the time to put on such a show.
+# TEXT = Alejandra, one of the parade 's creative directors, [1;31mGonzález Anaya [0mexplained to CNN why Mexico [1;32;4mhas[0m decided now is the time to put on such a show.
+---
+360: n01145028
+2 differences
+# text = "There [1;32;4mare[0m 1200 volunteers working for the parade alone[1;32;4m," [0mGonzález Anaya says.
+# TEXT = " There [1;32;4mis[0m 1200 volunteers working for the parade alone[1;32;4m, " [0mGonzález Anaya says.
+---
+361: n01145034
+1 difference
+# text = So it[1;32;4m's[0m wonderful to be able to rescue that and bring it to a new format and a new tradition for Mexicans.
+# TEXT = So it[1;32;4m is[0m wonderful to be able to rescue that and bring it to a new format and a new tradition for Mexicans.
+---
+362:in n01146046
+3 errors: n01146046
+C('by'):: not found in lexicon.
+N('maglev'):: not found in lexicon.
+A('bigger'):: not found in lexicon.
+---
+363: n01147026
+1 difference
+# text = [1;32;4mAn[0m F1 ticket grants access to the concert on the same day.
+# TEXT = [1;32;4mA[0m F1 ticket grants access to the concert on the same day.
+---
+364: n01147085
+# text = The Yas Marina Circuit website has exact timings.
+# TEXT = The Yas marina circuit website has exact timings. 
+---
+365:in n01147087
+1 error: n01147087
+N('anyone'):: not found in lexicon.
+---
+366:in n01148029
+2 errors: n01148029
+N('rises'):: not found in lexicon.
+A('tallest'):: not found in lexicon.
+---
+367: n01148035
+# text = Not all transformations in the region have been successful.
+# TEXT = Not all transformations in the region have been successful. 
+---
+368:in n01149002
+3 errors: n01149002
+N('meter'):: not found in lexicon.
+N('metro'):: not found in lexicon.
+A('deepest'):: not found in lexicon.
+---
+369: n01149010
+# text = She spoke to CNN Style about the experience.
+# TEXT = She spoke to CNN Style about the experience. 
+---
+370:in n01149027
+2 errors: n01149027
+N('smartphone'):: not found in lexicon.
+A('fewer'):: not found in lexicon.
+---
+371: n01150007
+2 differences
+# text = "But architecture can build a bridge between the living and the dead[1;32;4m [0mand, to some extent, blur the boundaries[1;32;4m."[0m
+# TEXT = " but architecture can build a bridge between the living and the dead[1;32;4m. " [0mand, to some extent, blur the boundaries[1;32;4m[0m
+---
+372: n01150031
+# text = When people die of old age in India, it is supposed to be a celebration.
+# TEXT = When people die of old age in India, it is supposed to be a celebration. 
+---
+373:in n01150042
+2 errors: n01150042
+V('winning'):: not found in lexicon.
+V('winning'):: morphology error: conjugate_en:tab :V(winning) : {"pe":3,"n":"s","t":"pr"}.
+---
+374: n01150051
+3 differences
+# text = "Architecture [1;32;4mwon't[0m help deceased people[1;31m•[0m, but it helps to keep their memories alive among the living[1;34;47m," he says[0m.
+# TEXT = " architecture [1;32;4mwill not[0m help deceased people[1;31m, " he says[0m, but it helps to keep their memories alive among the living.
+---
+375: w01001049
+1 difference
+# text = The charter allowed for the creation of [1;34;47ma [0mmerchants' guild, run by the town's burgesses to tax people passing through the borough.
+# TEXT = The charter allowed for the creation of merchants 'guild, run by the town 's burgesses to tax people passing through the borough.
+---
+376: w01002008
+# text = It is exceptionally rich in minerals, containing large deposits of gold, diamonds, and ores of manganese, lead, zinc, nickel, cobalt and molybdenum.
+# TEXT = It is exceptionally rich in minerals, containing large deposits of gold, diamonds, and ores of manganese, lead, zinc, nickel, cobalt and molybdenum. 
+---
+377:in w01002013
+1 error: w01002013
+N('taiga'):: not found in lexicon.
+---
+378:in w01002075
+1 error: w01002075
+N('universiade'):: not found in lexicon.
+---
+379: w01003051
+# text = Examples are the Line Islands in the Pacific and the Maldives in the Indian Ocean.
+# TEXT = Examples are the Line Islands in the Pacific and the Maldives in the Indian Ocean. 
+---
+380: w01003056
+3 differences
+# text = Granite islands [1;32;4minclude[0m Seychelles[1;34;47m and[0m[1;32;4m [0mTioman and volcanic islands such as Saint Helena.
+# TEXT = Granite islands [1;32;4mincludes[0m Seychelles[1;32;4m, [0mTioman and volcanic islands such as Saint Helena.
+---
+381: w01003062
+# text = An example of a desert island would be the small islands off the coast of Baja California, Mexico.
+# TEXT = An example of a desert island would be the small islands off the coast of Baja California, Mexico. 
+---
+382:in w01004051
+4 errors: w01004051
+A('greek'):: not found in lexicon.
+A('5th'):: not found in lexicon.
+N('bc'):: not found in lexicon.
+A('megarian'):: not found in lexicon.
+---
+383:in w01005020
+1 error: w01005020
+N('conquer'):: not found in lexicon.
+---
+384:in w01005021
+3 errors: w01005021
+A('achaemenid'):: not found in lexicon.
+N('troops'):: not found in lexicon.
+A('greek'):: not found in lexicon.
+---
+385:in w01005022
+3 errors: w01005022
+N('bc'):: not found in lexicon.
+A('achaemenid'):: not found in lexicon.
+A('achaemenid'):: not found in lexicon.
+---
+386:in w01005023
+2 errors: w01005023
+A('multi-ethnic'):: not found in lexicon.
+A('achaemenid'):: not found in lexicon.
+---
+387: w01005024
+# text = Moreover, many of the Macedonian and Persian elite intermarried.
+# TEXT = Moreover, many of the macedonian and persian elite intermarried. 
+---
+388: w01006027
+# text = In 1912 was founded the first film company (Athina Film) and in 1916 the Asty Film.
+# TEXT = in 1912 was founded the first film company (Athina Film) and in 1916 the Asty Film. 
+---
+389: w01006081
+# text = In 2007 the most successful film was El Greco, directed by Yannis Smaragdis.
+# TEXT = In 2007 the most successful film was El Greco, directed by Yannis Smaragdis. 
+---
+390:in w01007004
+2 errors: w01007004
+A('limited'):: not found in lexicon.
+A('french'):: not found in lexicon.
+---
+391:in w01007035
+1 error: w01007035
+A('five'):: not found in lexicon.
+---
+392: w01007070
+# text = Its police includes a special unit which operates patrol and surveillance boats.
+# TEXT = Its police includes a special unit which operates patrol and surveillance boats. 
+---
+393: w01007087
+1 difference
+# text = Current land reclamation projects [1;32;4minclude[0m extending the district of Fontvieille.
+# TEXT = Current land reclamation projects [1;32;4mincludes[0m extending the district of Fontvieille.
+---
+394: w01008043
+1 difference
+# text = However, there [1;32;4mare[0m important differences in law and procedure between Northern Ireland and England and Wales.
+# TEXT = However, there [1;32;4mis[0m important differences in law and procedure between Northern Ireland and England and Wales.
+---
+395: w01009010
+# text = The Bergeron classification is the most widely accepted form of air mass classification.
+# TEXT = The Bergeron classification is the most widely accepted form of air mass classification. 
+---
+396:in w01009017
+3 errors: w01009017
+N('forecasting'):: not found in lexicon.
+N('1950'):: not found in lexicon.
+N('climatologist'):: not found in lexicon.
+---
+397: w01009027
+# text = A monsoon is a seasonal prevailing wind which lasts for several months, ushering in a region's rainy season.
+# TEXT = A monsoon is a seasonal prevailing wind which lasts for several months, ushering in a region 's rainy season. 
+---
+398:in w01010044
+4 errors: w01010044
+A('germanic'):: not found in lexicon.
+A('slavic'):: not found in lexicon.
+Pro('themselves'):: not found in lexicon.
+A('6th'):: not found in lexicon.
+---
+399:in w01010045
+5 errors: w01010045
+A('8th'):: not found in lexicon.
+A('moravian'):: not found in lexicon.
+A('day'):: not found in lexicon.
+A('south'):: not found in lexicon.
+A('south'):: not found in lexicon.
+---
+400: w01010046
+# text = In 833 AD, this became the state of Great Moravia with the conquest of the Principality of Nitra (present-day Slovakia).
+# TEXT = In 833 ad, this became the state of Great Moravia with the conquest of the principality of Nitra (present-day Slovakia). 
+---
+401:in w01010047
+1 error: w01010047
+P('–'):: not found in lexicon.
+---
+402: w01010048
+# text = Louis the German invaded Moravia and replaced Mojmír I with his nephew Rastiz who became St. Rastislav.
+# TEXT = Louis the German invaded Moravia and replaced Mojmír i with his nephew Rastiz who became St. Rastislav. 
+---
+403: w01012052
+# text = In addition, statute determines the election of assembly of regions, and metropolitan districts.
+# TEXT = In addition, statute determines the election of assembly of regions, and metropolitan districts. 
+---
+404:in w01013083
+3 errors: w01013083
+A('later'):: not found in lexicon.
+N('borrowing'):: not found in lexicon.
+A('icelandic'):: not found in lexicon.
+---
+405: w01013096
+1 difference
+# text = There [1;32;4mare[0m also languages derived from Finnish, having evolved separately, known as Meänkieli in Sweden and Kven in Norway.
+# TEXT = There [1;32;4mis[0m also languages derived from Finnish, having evolved separately, known as Meänkieli in Sweden and Kven in Norway.
+---
+406:in w01013102
+1 error: w01013102
+A('south'):: not found in lexicon.
+---
+407: w01014002
+# text = The northern portion of the Caucasus is known as the Ciscaucasus and the southern portion as the Transcaucasus.
+# TEXT = the northern portion of the Caucasus is known as the Ciscaucasus and the southern portion as the Transcaucasus. 
+---
+408: w01016028
+# text = The atmosphere is a chaotic system, so small changes to one part of the system can grow to have large effects on the system as a whole.
+# TEXT = The atmosphere is a chaotic system, so small changes to one part of the system can grow to have large effects on the system as a whole. 
+---
+409:in w01016034
+1 error: w01016034
+N('droplet'):: not found in lexicon.
+---
+410:in w01016070
+1 error: w01016070
+N('olympic'):: not found in lexicon.
+---
+411:in w01017004
+3 errors: w01017004
+A('tectonic'):: not found in lexicon.
+A('east'):: not found in lexicon.
+A('tallest'):: not found in lexicon.
+---
+412:in w01017046
+1 error: w01017046
+N('latter'):: not found in lexicon.
+---
+413: w01018019
+# text = France integrated the economy of Cameroun with that of France and improved the infrastructure with capital investments and skilled workers, modifying the system of forced labour.
+# TEXT = France integrated the economy of Cameroun with that of France and improved the infrastructure with capital investments and skilled workers, modifying the system of forced labour. 
+---
+414: w01018029
+# text = On 1 October 1961, the formerly British Southern Cameroons united with French Cameroun to form the Federal Republic of Cameroon.
+# TEXT = On 1 October 1961, the formerly british Southern Cameroons united with French Cameroun to form the federal republic of Cameroon. 
+---
+415:in w01018101
+5 errors: w01018101
+N('Department'):: not found in lexicon.
+N('Labor'):: not found in lexicon.
+A('worst'):: not found in lexicon.
+V('aged'):: not found in lexicon.
+V('aged'):: morphology error: conjugate_en:tab :V(aged) : {"pe":3,"n":"s","t":"pp"}.
+---
+416:in w01019014
+## non projective
+1 error: w01019014
+Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
+---
+417: w01019073
+# text = In June to August 2010 famine struck the Sahel.
+# TEXT = In June to August 2010 famine struck the Sahel. 
+---
+418:in w01020016
+1 error: w01020016
+N('civilisation'):: not found in lexicon.
+---
+419:in w01020017
+1 error: w01020017
+N('colonisation'):: not found in lexicon.
+---
+420:in w01020018
+2 errors: w01020018
+V('center'):: not found in lexicon.
+V('center'):: morphology error: conjugate_en:tab :V(center) : {"pe":3,"n":"s","t":"pp"}.
+---
+421:in w01020019
+4 errors: w01020019
+N('civilisation'):: not found in lexicon.
+A('greek'):: not found in lexicon.
+V('colonise'):: not found in lexicon.
+V('colonise'):: morphology error: conjugate_en:tab :V(colonise) : {"pe":3,"n":"s","t":"ps"}.
+---
+422:in w01020020
+## non projective
+1 error: w01020020
+Adv('later'):: not found in lexicon.
+---
+423:in w01022033
+2 errors: w01022033
+N('skerry'):: not found in lexicon.
+A('protected'):: not found in lexicon.
+---
+424: w01022055
+2 differences
+# text = In Danish, the word [1;32;4mmay[0m [1;32;4meven[0m apply to shallow lagoons.
+# TEXT = In Danish, the word [1;32;4meven[0m [1;32;4mmay[0m apply to shallow lagoons.
+---
+425:in w01022092
+1 error: w01022092
+N('freshwater'):: not found in lexicon.
+---
+426:in w01023074
+1 error: w01023074
+N('bjórr'):: not found in lexicon.
+---
+427: w01023120
+4 differences
+# text = [1;32;4mWhatever[0m [1;32;4mthe[0m [1;32;4mrules[0m [1;32;4mwere[0m, the fights often resulted in the death of one of the stallions.
+# TEXT = [1;32;4mThe[0m [1;32;4mrules[0m [1;32;4mwere[0m [1;32;4mwhatever[0m, the fights often resulted in the death of one of the stallions.
+---
+428:in w01025083
+1 error: w01025083
+A('south'):: not found in lexicon.
+---
+429:in w01025084
+3 errors: w01025084
+A('Austro'):: not found in lexicon.
+A('danish'):: not found in lexicon.
+C('in'):: not found in lexicon.
+---
+430: w01025085
+3 differences
+# text = It resulted, however, in the abandonment of important pieces of heavy artillery, and it remains a matter of historical debate why the railway to Flensburg [1;32;4mwas[0m [1;32;4mnever[0m [1;32;4mproperly[0m used for the evacuation.
+# TEXT = it resulted, however, in the abandonment of important pieces of heavy artillery, and it remains a matter of historical debate why the railway to Flensburg [1;32;4mnever[0m [1;32;4mproperly[0m [1;32;4mwas[0m used for the evacuation.
+---
+431:in w01025086
+2 errors: w01025086
+A('danish'):: not found in lexicon.
+A('relieved'):: not found in lexicon.
+---
+432: w01025087
+# text = The Danevirke has remained in German possession ever since.
+# TEXT = The Danevirke has remained in german possession ever since. 
+---
+433: w01026024
+# text = The amount of goods transported on the Danube increased to about 100 million tons in 1987.
+# TEXT = The amount of goods transported on the Danube increased to about 100 million tons in 1987. 
+---
+434:in w01026037
+4 errors: w01026037
+A('greater'):: not found in lexicon.
+N('Delta'):: not found in lexicon.
+V('situate'):: not found in lexicon.
+V('situate'):: morphology error: conjugate_en:tab :V(situate) : {"pe":3,"n":"s","t":"pp"}.
+---
+435: w01027007
+2 differences
+# text = The climate is so dry that these plains [1;32;4mare[0m [1;32;4msometimes[0m thought of as part of the Sahara.
+# TEXT = The climate is so dry that these plains [1;32;4msometimes[0m [1;32;4mare[0m thought of as part of the Sahara.
+---
+436:in w01027015
+2 errors: w01027015
+C('in'):: not found in lexicon.
+A('topographic'):: not found in lexicon.
+---
+437: w01027035
+# text = Northern Algeria is in the temperate zone and enjoys a mild, Mediterranean climate.
+# TEXT = Northern Algeria is in the temperate zone and enjoys a mild, mediterranean climate. 
+---
+438: w01028004
+# text = The first and foremost was the Ohio River, which flowed into the Mississippi River.
+# TEXT = The first and foremost was the Ohio river, which flowed into the Mississippi river. 
+---
+439:in w01028050
+1 error: w01028050
+C('of'):: not found in lexicon.
+---
+440:in w01028069
+1 error: w01028069
+A('divided'):: not found in lexicon.
+---
+441:in w01029015
+1 error: w01029015
+N('color'):: not found in lexicon.
+---
+442: w01029049
+# text = Native Americans across the Americas relied on it as a staple of their medical treatments.
+# TEXT = Native Americans across the Americas relied on it as a staple of their medical treatments. 
+---
+443: w01029083
+# text = Christian churches in northwestern Europe and Ukraine often used willow branches in place of palms in the ceremonies on Palm Sunday.
+# TEXT = Christian churches in northwestern Europe and Ukraine often used willow branches in place of palms in the ceremonies on palm Sunday. 
+---
+444:in w01030092
+1 error: w01030092
+N('lowland'):: not found in lexicon.
+---
+445:in w01030093
+3 errors: w01030093
+N('percent'):: not found in lexicon.
+N('percent'):: not found in lexicon.
+N('lowland'):: not found in lexicon.
+---
+446:in w01030094
+2 errors: w01030094
+N('percent'):: not found in lexicon.
+N('runoff'):: not found in lexicon.
+---
+447:in w01030095
+1 error: w01030095
+N('hydroelectricity'):: not found in lexicon.
+---
+448:in w01030096
+## non projective
+1 error: w01030096
+N('headwater'):: not found in lexicon.
+---
+449:in w01031003
+2 errors: w01031003
+N('volcanology'):: not found in lexicon.
+N('vulcanology'):: not found in lexicon.
+---
+450:in w01031015
+1 error: w01031015
+N('magma'):: not found in lexicon.
+---
+451: w01031034
+# text = They generally do not explode catastrophically.
+# TEXT = They generally do not explode catastrophically. 
+---
+452:in w01032139
+1 error: w01032139
+N('warming'):: not found in lexicon.
+---
+453: w01033022
+# text = It contains a tiny lagoon, which has all but dried up.
+# TEXT = It contains a tiny lagoon, which has all but dried up. 
+---
+454:in w01033025
+1 error: w01033025
+N('wildlife'):: not found in lexicon.
+---
+455: w01033061
+# text = Investigation and expeditions to the island continue.
+# TEXT = Investigation and expeditions to the island continue. 
+---
+456:in w01033067
+1 error: w01033067
+N('bc'):: not found in lexicon.
+---
+457:in w01034023
+1 error: w01034023
+N('cabinetmaker'):: not found in lexicon.
+---
+458: w01035079
+2 differences
+# text = Habitat destruction vastly increases an area's vulnerability to natural disasters like flood[1;34;47m and[0m[1;32;4m [0mdrought, crop failure, spread of disease, and water contamination.
+# TEXT = Habitat destruction vastly increases an area 's vulnerability to natural disasters like flood[1;32;4m, [0mdrought, crop failure, spread of disease, and water contamination.
+---
+459:in w01035080
+2 errors: w01035080
+C('of'):: not found in lexicon.
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+460: w01035081
+2 differences
+# text = Agricultural land [1;32;4mcan[0m [1;32;4mactually[0m suffer from the destruction of the surrounding landscape.
+# TEXT = Agricultural land [1;32;4mactually[0m [1;32;4mcan[0m suffer from the destruction of the surrounding landscape.
+---
+461:in w01035082
+4 errors: w01035082
+Adv('worldwide'):: not found in lexicon.
+N('salinization'):: not found in lexicon.
+N('compaction'):: not found in lexicon.
+N('nutrient'):: not found in lexicon.
+---
+462: w01035083
+# text = Humans also lose direct uses of natural habitat when habitat is destroyed.
+# TEXT = Humans also lose direct uses of natural habitat when habitat is destroyed. 
+---
+463:in w01036044
+1 error: w01036044
+A('worst'):: not found in lexicon.
+---
+464: w01036077
+1 difference
+# text = These plant families [1;32;4mare[0m still present in Papua New Guinea.
+# TEXT = These plant families [1;32;4mis[0m still present in Papua New Guinea.
+---
+465: w01037024
+# text = North America and South America are treated as separate continents in the seven-continent model.
+# TEXT = North America and South America are treated as separate continents in the seven-continent model. 
+---
+466:in w01037080
+1 error: w01037080
+A('atlantic'):: not found in lexicon.
+---
+467:in w01038009
+1 error: w01038009
+Pro('these'):: not found in lexicon.
+---
+468:in w01038016
+1 error: w01038016
+N('percent'):: not found in lexicon.
+---
+469:in w01038022
+1 error: w01038022
+A('daytime'):: not found in lexicon.
+---
+470: w01038044
+2 differences
+# text = Numerous indigenous [1;32;4mpeoples[0m occupied Alaska for thousands of years before the arrival of European [1;32;4mpeoples[0m to the area.
+# TEXT = Numerous indigenous [1;32;4mpeople[0m occupied Alaska for thousands of years before the arrival of european [1;32;4mpeople[0m to the area.
+---
+471: w01039032
+# text = It was here they stole a small canoe left by the Australian Aborigines of the region.
+# TEXT = It was here they stole a small canoe left by the australian Aborigines of the region. 
+---
+472:in w01039058
+1 error: w01039058
+A('worst'):: not found in lexicon.
+---
+473: w01039065
+# text = 1987 was proclaimed the "Year of the River" by the Lord Mayor of Brisbane at the time, Sallyanne Atkinson.
+# TEXT = 1987 was proclaimed the " year of the river " by the lord mayor of Brisbane at the time, Sallyanne Atkinson. 
+---
+474: w01040100
+3 differences
+# text = Sand and dust storms are natural events that [1;32;4moccur[0m in arid regions where the land [1;32;4mis[0m [1;32;4mnot[0m protected by a covering of vegetation.
+# TEXT = Sand and dust storms are natural events that [1;32;4moccurs[0m in arid regions where the land [1;32;4mnot[0m [1;32;4mis[0m protected by a covering of vegetation.
+---
+475:in w01040101
+2 errors: w01040101
+Pro('themselves'):: not found in lexicon.
+A('finer'):: not found in lexicon.
+---
+476: w01040102
+# text = As a steady wind begins to blow, fine particles lying on the exposed ground begin to vibrate.
+# TEXT = As a steady wind begins to blow, fine particles lying on the exposed ground begin to vibrate. 
+---
+477:in w01040103
+1 error: w01040103
+A('greater'):: not found in lexicon.
+---
+478: w01040104
+# text = When they land, they strike other particles which may be jerked into the air in their turn, starting a chain reaction.
+# TEXT = When they land, they strike other particles which may be jerked into the air in their turn, starting a chain reaction. 
+---
+479: w01041046
+# text = However, in Thailand, urbanization has also resulted in massive increases in problems such as obesity.
+# TEXT = However, in Thailand, urbanization has also resulted in massive increases in problems such as obesity. 
+---
+480: w01042055
+# text = Thunderstorms are rare, as the city reports thunder on just seven days per year.
+# TEXT = Thunderstorms are rare, as the city reports thunder on just seven days per year. 
+---
+481:in w01043027
+2 errors: w01043027
+A('largest'):: not found in lexicon.
+A('west'):: not found in lexicon.
+---
+482: w01043065
+# text = Meanwhile, additional controls of the Nile fostered development within Gezira Island and along the city's waterfront.
+# TEXT = Meanwhile, additional controls of the Nile fostered development within Gezira Island and along the city 's waterfront. 
+---
+483:in w01044010
+2 errors: w01044010
+N('publishing'):: not found in lexicon.
+N('processing'):: not found in lexicon.
+---
+484:in w01045002
+1 error: w01045002
+A('15th'):: not found in lexicon.
+---
+485: w01045003
+## non projective
+2 differences
+# text = After the discovery of America [1;32;4mby[0m [1;32;4mChristopher[0m Columbus in 1492, the Spanish term Antillas applied to the lands; stemming from this, "Sea of the Antilles" became a common alternative name for "Caribbean Sea" in various European languages.
+# TEXT = After the discovery of America [1;32;4mChristopher[0m [1;32;4mby[0m Columbus in 1492, the Spanish term Antillas applied to the lands ; stemming from this, " Sea of the Antilles " became a common alternative name for " Caribbean Sea " in various european languages.
+---
+486:in w01045004
+2 errors: w01045004
+A('spanish'):: not found in lexicon.
+A('undisputed'):: not found in lexicon.
+---
+487:in w01045005
+2 errors: w01045005
+A('16th'):: not found in lexicon.
+A('caribbean'):: not found in lexicon.
+---
+488:in w01045006
+1 error: w01045006
+A('caribbean'):: not found in lexicon.
+---
+489: w01046011
+# text = Unfortunately, rapid population growth and urban sprawl has covered much of these ecosystems with development.
+# TEXT = Unfortunately, rapid population growth and urban sprawl has covered much of these ecosystems with development. 
+---
+490: w01046056
+# text = Cape Town's local government is the City of Cape Town, which is a metropolitan municipality.
+# TEXT = Cape Town 's local government is the city of Cape Town, which is a metropolitan municipality. 
+---
+491: w01047008
+2 differences
+# text = [1;32;4m[0mThe essay, published as Undersea[1;32;4m, [0mwas a vivid narrative of a journey along the ocean floor.
+# TEXT = [1;32;4m, [0mThe essay, published as Undersea[1;32;4m [0mwas a vivid narrative of a journey along the ocean floor.
+---
+492: w01047071
+# text = She also took advantage of her personal connections with many government scientists, who supplied her with confidential information.
+# TEXT = She also took advantage of her personal connections with many government scientists, who supplied her with confidential information. 
+---
+493:in w01047094
+3 errors: w01047094
+N('mid-1962'):: not found in lexicon.
+N('editing'):: not found in lexicon.
+C('by'):: not found in lexicon.
+---
+494: w01047104
+3 differences
+# text = This brought the book to the attention of the chemical industry[1;34;47m and[0m[1;32;4m [0mits lobbyists, [1;31m•[0mas well as a wide swath of the American populace.
+# TEXT = This brought the book to the attention of the chemical industry[1;32;4m, [0mits lobbyists, [1;31mand [0mas well as a wide swath of the american populace.
+---
+495:in w01048027
+1 error: w01048027
+N('1350'):: not found in lexicon.
+---
+496:in w01048090
+1 error: w01048090
+N('1960'):: not found in lexicon.
+---
+497: w01049051
+# text = It usually involves a low level of development, such as rustic picnic areas, benches and trails.
+# TEXT = It usually involves a low level of development, such as rustic picnic areas, benches and trails. 
+---
+498: w01049066
+# text = Australia's Royal National Park, established in 1879, was the world's second officially established national park.
+# TEXT = Australia 's royal national park, established in 1879, was the world 's second officially established national park. 
+---
+499: w01049082
+## non projective
+26 differences
+# text = [1;32;4mFirst[0m [1;32;4mand[0m [1;32;4mforemost[0m [1;32;4mwas[0m [1;32;4mthe[0m [1;32;4mprovision[0m [1;32;4mof[0m [1;32;4mopen[0m [1;32;4mspace[0m [1;32;4mfor[0m [1;32;4mthe[0m [1;32;4mbenefit[0m [1;32;4mof[0m [1;32;4mtownspeople[0m [1;32;4mand[0m [1;32;4mlocal[0m [1;32;4mresidents[0m [1;32;4mwithin[0m [1;32;4man[0m [1;32;4marea[0m [1;32;4mthat[0m [1;32;4mwas[0m [1;32;4mbeing[0m [1;32;4mrapidly[0m [1;32;4mbuilt[0m [1;32;4mup[0m.
+# TEXT = [1;32;4mThe[0m [1;32;4mprovision[0m [1;32;4mof[0m [1;32;4mopen[0m [1;32;4mspace[0m [1;32;4mwithin[0m [1;32;4man[0m [1;32;4marea[0m [1;32;4mthat[0m [1;32;4mwas[0m [1;32;4mrapidly[0m [1;32;4mbeing[0m [1;32;4mbuilt[0m [1;32;4mup[0m [1;32;4mfor[0m [1;32;4mthe[0m [1;32;4mbenefit[0m [1;32;4mof[0m [1;32;4mtownspeople[0m [1;32;4mand[0m [1;32;4mlocal[0m [1;32;4mresidents[0m [1;32;4mwas[0m [1;32;4mfirst[0m [1;32;4mand[0m [1;32;4mforemost[0m.
+---
+500: w01050067
+# text = With the fall of the Qing dynasty in 1911, Mongolia under the Bogd Khaan declared independence.
+# TEXT = With the fall of the Qing dynasty in 1911, Mongolia under the Bogd Khaan declared independence. 
+---
+501: w01050068
+# text = But, the newly established Republic of China considered Mongolia to be part of its own territory.
+# TEXT = But, the newly established republic of China considered Mongolia to be part of its own territory. 
+---
+502: w01050069
+2 differences
+# text = Yuan[1;34;47m Shikai[0m, the President of the Republic of China, [1;31m•[0mconsidered the new republic to be the successor of the Qing.
+# TEXT = Yuan, the president of the republic of China, [1;31mShikai [0mconsidered the new republic to be the successor of the Qing.
+---
+503: w01050070
+1 difference
+# text = Bogd Khaan said that both Mongolia and China [1;32;4mhad[0m been administered by the Manchu during the Qing, and after the fall of the Qing dynasty in 1911, the contract of Mongolian submission to the Manchu had become invalid.
+# TEXT = Bogd Khaan said that both Mongolia and China [1;32;4mhas[0m been administered by the Manchu during the Qing, and after the fall of the Qing dynasty in 1911, the contract of mongolian submission to the Manchu had become invalid.
+---
+504: w01050071
+# text = The area controlled by the Bogd Khaan was approximately that of the former Outer Mongolia during the Qing period.
+# TEXT = The area controlled by the Bogd Khaan was approximately that of the former Outer Mongolia during the Qing period. 
+---
+505: w01051032
+# text = In his haste to capture Kadesh, Ramesses II committed a major tactical error.
+# TEXT = In his haste to capture Kadesh, Ramesses ii committed a major tactical error. 
+---
+506: w01051080
+# text = Indeed, the first scholarly report on the battle, by James Henry Breasted in 1903, praised the sources that allowed the reconstruction the battle with certainty.
+# TEXT = Indeed, the first scholarly report on the battle, by James Henry Breasted in 1903, praised the sources that allowed the reconstruction the battle with certainty. 
+---
+507:in w01052022
+1 error: w01052022
+Adv('logistically'):: not found in lexicon.
+---
+508:in w01052038
+3 errors: w01052038
+N('pharaoh'):: not found in lexicon.
+Pro('himself'):: not found in lexicon.
+A('earlier'):: not found in lexicon.
+---
+509:in w01052046
+1 error: w01052046
+C('without'):: not found in lexicon.
+---
+510: w01053015
+3 differences
+# text = The exact year of the marriage of Herod [1;32;4mAntipas[0m [1;32;4mand[0m [1;32;4mHerodias[0m is subject to debate among scholars.
+# TEXT = The exact year of the marriage of Herod [1;32;4mand[0m [1;32;4mHerodias[0m [1;32;4mAntipas[0m is subject to debate among scholars.
+---
+511: w01053031
+# text = Given that Herod was in Jerusalem at that time, Pilate decided to send Jesus to Herod to be tried.
+# TEXT = Given that Herod was in Jerusalem at that time, Pilate decided to send Jesus to Herod to be tried. 
+---
+512: w01053045
+# text = According to the New Testament, Paul spent eighteen months in Corinth, approximately seventeen years after his conversion.
+# TEXT = According to the New Testament, Paul spent eighteen months in Corinth, approximately seventeen years after his conversion. 
+---
+513: w01053062
+4 differences
+# text = The latter date [1;32;4mcan[0m [1;32;4monly[0m have fallen on a Friday if an exceptional leap month [1;32;4mhad[0m been introduced that year[1;32;4m, [0mbut this was favoured by Newton.
+# TEXT = the latter date [1;32;4monly[0m [1;32;4mcan[0m have fallen on a Friday if an exceptional leap month [1;32;4mhas[0m been introduced that year[1;32;4m [0mbut this was favoured by Newton.
+---
+514: w01053067
+## non projective
+18 differences
+# text = It is possible to establish the phase of the moon [1;32;4mon[0m [1;32;4ma[0m [1;32;4mparticular[0m [1;32;4mday[0m [1;32;4mtwo[0m [1;32;4mthousand[0m [1;32;4myears[0m [1;32;4mago[0m [1;32;4mbut[0m [1;32;4mnot[0m [1;32;4mwhether[0m [1;32;4mit[0m [1;32;4mwas[0m [1;32;4mobscured[0m [1;32;4mby[0m [1;32;4mclouds[0m [1;32;4mor[0m [1;32;4mhaze[0m.
+# TEXT = It is possible to establish the phase of the moon [1;32;4mbut[0m [1;32;4mwhether[0m [1;32;4mit[0m [1;32;4mwas[0m [1;32;4mnot[0m [1;32;4mobscured[0m [1;32;4mby[0m [1;32;4mclouds[0m [1;32;4mor[0m [1;32;4mhaze[0m [1;32;4mon[0m [1;32;4ma[0m [1;32;4mparticular[0m [1;32;4mday[0m [1;32;4mtwo[0m [1;32;4mthousand[0m [1;32;4myears[0m [1;32;4mago[0m.
+---
+515:in w01054107
+1 error: w01054107
+A('older'):: not found in lexicon.
+---
+516: w01056103
+2 differences
+# text = It set the basis for integration where the economic and judicial mechanisms of the state could be applied throughout the Mediterranean as [1;32;4mwas[0m [1;32;4monce[0m done from Latium into all Italy.
+# TEXT = It set the basis for integration where the economic and judicial mechanisms of the state could be applied throughout the Mediterranean as [1;32;4monce[0m [1;32;4mwas[0m done from Latium into all Italy.
+---
+517: w01057006
+# text = Each poem narrates only a part of the war.
+# TEXT = Each poem narrates only a part of the war. 
+---
+518:in w01057016
+2 errors: w01057016
+A('later'):: not found in lexicon.
+N('War'):: not found in lexicon.
+---
+519:in w01057041
+## non projective
+1 error: w01057041
+A('uneventful'):: not found in lexicon.
+---
+520: w01058009
+# text = However this was reversed when Julian was killed in battle in 363.
+# TEXT = However this was reversed when Julian was killed in battle in 363. 
+---
+521: w01058013
+2 differences
+# text = The last Olympic Games [1;32;4mare[0m believed [1;34;47mto [0mhave been held in 393.
+# TEXT = The last Olympic Games [1;32;4mis[0m believed have been held in 393.
+---
+522: w01060037
+8 differences
+# text = Shen Kuo soon impressed Wang Anshi with his skills [1;32;4mand[0m [1;32;4mabilities[0m [1;32;4mas[0m [1;32;4man[0m [1;32;4madministrator[0m [1;32;4mand[0m [1;32;4mgovernment[0m [1;32;4magent[0m.
+# TEXT = Shen Kuo soon impressed Wang Anshi with his skills [1;32;4mas[0m [1;32;4man[0m [1;32;4madministrator[0m [1;32;4mand[0m [1;32;4mgovernment[0m [1;32;4magent[0m [1;32;4mand[0m [1;32;4mabilities[0m.
+---
+523:in w01060038
+1 error: w01060038
+C('of'):: not found in lexicon.
+---
+524: w01060039
+# text = Using an original technique, Shen successfully dredged the canal and demonstrated the formidable value of the silt gathered as a fertilizer.
+# TEXT = using an original technique, Shen successfully dredged the canal and demonstrated the formidable value of the silt gathered as a fertilizer. 
+---
+525:in w01060040
+1 error: w01060040
+C('once'):: not found in lexicon.
+---
+526:in w01060041
+2 errors: w01060041
+C('of'):: not found in lexicon.
+A('chinese'):: not found in lexicon.
+---
+527:in w01061050
+1 error: w01061050
+A('islamic'):: not found in lexicon.
+---
+528: w01062037
+2 differences
+# text = Tiberius reportedly regretted his departure[1;34;47m and[0m[1;32;4m [0mrequested to return to Rome several times, but each time Augustus refused his requests.
+# TEXT = Tiberius reportedly regretted his departure[1;32;4m, [0mrequested to return to Rome several times, but each time Augustus refused his requests.
+---
+529:in w01062063
+## non projective
+1 error: w01062063
+C('on'):: not found in lexicon.
+---
+530: w01063048
+2 differences
+# text = The gods represented distinctly the practical needs of daily life, and they [1;32;4mwere[0m [1;32;4mscrupulously[0m accorded the rites and offerings considered proper.
+# TEXT = the gods represented distinctly the practical needs of daily life, and they [1;32;4mscrupulously[0m [1;32;4mwere[0m accorded the rites and offerings considered proper.
+---
+531: w01064034
+# text = This was by boat from continental Europe.
+# TEXT = This was by boat from continental Europe. 
+---
+532:in w01065018
+4 errors: w01065018
+A('cultic'):: not found in lexicon.
+N('massebot'):: not found in lexicon.
+A('tallest'):: not found in lexicon.
+N('meter'):: not found in lexicon.
+---
+533:in w01065019
+4 errors: w01065019
+A('canaanite'):: not found in lexicon.
+Adv('ca.'):: not found in lexicon.
+N('b.c.e.'):: not found in lexicon.
+V('may'):: morphology error: conjugate_en: unrecognized tense :V(may) : {"pe":3,"n":"p","t":"pp"}.
+---
+534:in w01065020
+2 errors: w01065020
+A('canaanite'):: not found in lexicon.
+N('pharaoh'):: not found in lexicon.
+---
+535:in w01065021
+1 error: w01065021
+A('oldest'):: not found in lexicon.
+---
+536:in w01065022
+3 errors: w01065022
+A('14th'):: not found in lexicon.
+N('bce'):: not found in lexicon.
+N('pharaoh'):: not found in lexicon.
+---
+537:in w01066003
+1 error: w01066003
+A('thai'):: not found in lexicon.
+---
+538:in w01066006
+1 error: w01066006
+A('zodiacal'):: not found in lexicon.
+---
+539:in w01066008
+1 error: w01066008
+A('thai'):: not found in lexicon.
+---
+540:in w01066040
+5 errors: w01066040
+A('chinese'):: not found in lexicon.
+N('new'):: not found in lexicon.
+A('thai'):: not found in lexicon.
+Pro('these'):: not found in lexicon.
+A('chinese'):: not found in lexicon.
+---
+541:in w01067032
+1 error: w01067032
+N('defens'):: not found in lexicon.
+---
+542: w01067059
+# text = He reigned only fifteen years, which is evidenced by the incomplete nature of many of his constructions.
+# TEXT = He reigned only fifteen years, which is evidenced by the incomplete nature of many of his constructions. 
+---
+543:in w01067103
+## non projective
+1 error: w01067103
+A('lower'):: not found in lexicon.
+---
+544:in w01068027
+2 errors: w01068027
+C('of'):: not found in lexicon.
+A('japanese'):: not found in lexicon.
+---
+545: w01068056
+# text = Aldrin has been married three times.
+# TEXT = Aldrin has been married three times. 
+---
+546: w01069007
+# text = In 1519, he became ruler of the Habsburg empire, and he gained the title Holy Roman Emperor in 1530.
+# TEXT = in 1519, he became ruler of the Habsburg empire, and he gained the title holy roman emperor in 1530. 
+---
+547:in w01069040
+1 error: w01069040
+A('empathetic'):: not found in lexicon.
+---
+548: w01069056
+# text = In 1566, a league of about 400 members of the nobility presented a petition to the governor Margaret of Parma, to suspend persecution until the rest had returned.
+# TEXT = In 1566, a league of about 400 members of the nobility presented a petition to the governor Margaret of Parma, to suspend persecution until the rest had returned. 
+---
+549: w01069094
+# text = Its struggle against the Ottoman Empire in the Mediterranean Sea put serious limits on the military power it could deploy against the rebels in the Netherlands.
+# TEXT = Its struggle against the Ottoman empire in the Mediterranean Sea put serious limits on the military power it could deploy against the rebels in the Netherlands. 
+---
+550:in w01070031
+2 errors: w01070031
+N('bc'):: not found in lexicon.
+N('bc'):: not found in lexicon.
+---
+551: w01070032
+# text = The central space was used to observe the rising of the sun and full moon.
+# TEXT = The central space was used to observe the rising of the sun and full moon. 
+---
+552: w01070033
+# text = Three markings locate sunrise at the summer and winter solstices and at the two equinoxes.
+# TEXT = Three markings locate sunrise at the summer and winter solstices and at the two equinoxes. 
+---
+553: w01070034
+1 difference
+# text = Four more [1;32;4mgive[0m the minimum and maximum declinations of the full moon: in summer, and in winter.
+# TEXT = Four more [1;32;4mgives[0m the minimum and maximum declinations of the full moon: in summer, and in winter.
+---
+554: w01070035
+# text = Two measure the lengths of lunar months.
+# TEXT = two measure the lengths of lunar months. 
+---
+555: w01071036
+# text = Its importance resides in two facts.
+# TEXT = Its importance resides in two facts. 
+---
+556:in w01071043
+2 errors: w01071043
+N('Post'):: not found in lexicon.
+A('Classic'):: not found in lexicon.
+---
+557:in w01072002
+## non projective
+2 errors: w01072002
+Adv('at'):: not found in lexicon.
+Adv('best'):: not found in lexicon.
+---
+558: w01072046
+# text = But the impact of Hispania in the newcomers was also big.
+# TEXT = But the impact of Hispania in the newcomers was also big. 
+---
+559: w01072065
+# text = During the first stages of Romanization, the peninsula was divided in two by the Romans for administrative purposes.
+# TEXT = During the first stages of Romanization, the peninsula was divided in two by the Romans for administrative purposes. 
+---
+560:in w01072079
+1 error: w01072079
+A('3rd'):: not found in lexicon.
+---
+561:in w01073007
+## non projective
+2 errors: w01073007
+V('reference'):: not found in lexicon.
+V('reference'):: morphology error: conjugate_en:tab :V(reference) : {"pe":3,"n":"p","t":"ps"}.
+---
+562: w01073042
+3 differences
+# text = During his time there, Kipling also met and fell in love with Florence [1;34;47mGarrard [0mwho was boarding with Trix at Southsea (to which Trix had returned[1;31m•[0m[1;32;4m).[0m
+# TEXT = During his time there, Kipling also met and fell in love with Florence who was boarding with Trix at Southsea (to which Trix had returned[1;31m) Garrard[0m[1;32;4m.[0m
+---
+563:in w01073054
+1 error: w01073054
+A('unstoppable'):: not found in lexicon.
+---
+564: w01073067
+# text = Back in Lahore, some thirty-nine stories appeared in the Gazette between November 1886 and June 1887.
+# TEXT = Back in Lahore, some thirty-nine stories appeared in the Gazette between November 1886 and June 1887. 
+---
+565: w01073075
+4 differences
+# text = By this time, he [1;32;4mhad[0m [1;32;4mbeen[0m [1;32;4mincreasingly[0m [1;32;4mthinking[0m about the future.
+# TEXT = By this time, he [1;32;4mis[0m [1;32;4mincreasingly[0m [1;32;4mhaving[0m [1;32;4mthought[0m about the future.
+---
+566:in w01074088
+1 error: w01074088
+A('earlier'):: not found in lexicon.
+---
+567:in w01075036
+4 errors: w01075036
+A('higher'):: not found in lexicon.
+N('enrollment'):: not found in lexicon.
+N('capita'):: not found in lexicon.
+C('on'):: not found in lexicon.
+---
+568:in w01075037
+2 errors: w01075037
+N('enrollment'):: not found in lexicon.
+A('higher'):: not found in lexicon.
+---
+569:in w01075038
+1 error: w01075038
+A('lower'):: not found in lexicon.
+---
+570:in w01075039
+1 error: w01075039
+Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
+---
+571:in w01075040
+2 errors: w01075040
+N('capita'):: not found in lexicon.
+A('armed'):: not found in lexicon.
+---
+572:in w01076039
+1 error: w01076039
+A('inter-communal'):: not found in lexicon.
+---
+573:in w01076054
+1 error: w01076054
+A('arab'):: not found in lexicon.
+---
+574:in w01078013
+4 errors: w01078013
+A('socially'):: not found in lexicon.
+Adv('culturally'):: not found in lexicon.
+A('degenerative'):: not found in lexicon.
+Pro('itself'):: not found in lexicon.
+---
+575: w01079038
+4 differences
+# text = [1;32;4mDominican[0m [1;32;4mpriest[0m [1;32;4mHeinrich[0m [1;32;4mKramer[0m was assistant to the Archbishop of Salzburg.
+# TEXT = [1;32;4mHeinrich[0m [1;32;4mKramer[0m [1;32;4mdominican[0m [1;32;4mpriest[0m was assistant to the archbishop of Salzburg.
+---
+576:in w01079049
+2 errors: w01079049
+A('spanish'):: not found in lexicon.
+N('everything'):: not found in lexicon.
+---
+577:in w01079057
+2 errors: w01079057
+A('forced'):: not found in lexicon.
+N('anybody'):: not found in lexicon.
+---
+578:in w01079077
+2 errors: w01079077
+A('sephardic'):: not found in lexicon.
+A('spanish'):: not found in lexicon.
+---
+579: w01080128
+2 differences
+# text = The Macedonian eastern border with Thrace [1;32;4mwas[0m [1;32;4mnow[0m secured at the river Nestus (Mesta).
+# TEXT = The macedonian eastern border with Thrace [1;32;4mnow[0m [1;32;4mwas[0m secured at the river Nestus (Mesta).
+---
+580: w01080129
+# text = Philip next marched against his southern enemies.
+# TEXT = Philip next marched against his southern enemies. 
+---
+581: w01080130
+# text = In Thessaly he defeated his enemies and by 352, he was firmly in control of this region.
+# TEXT = in Thessaly he defeated his enemies and by 352, he was firmly in control of this region. 
+---
+582: w01080131
+3 differences
+# text = The Macedonian army advanced as far as the pass of Thermopylae which divides Greece in two parts, but it [1;32;4mdid[0m not attempt to take it because it [1;32;4mwas[0m [1;32;4mstrongly[0m guarded by a joint force of Athenians, Spartans, and Achaeans.
+# TEXT = the macedonian army advanced as far as the pass of Thermopylae which divides Greece in two parts, but it [1;32;4mdo[0m not attempt to take it because it [1;32;4mstrongly[0m [1;32;4mwas[0m guarded by a joint force of Athenians, Spartans, and Achaeans.
+---
+583: w01080132
+# text = Having secured the bordering regions of Macedon, Philip assembled a large Macedonian army and marched deep into Thrace for a long conquering campaign.
+# TEXT = having secured the bordering regions of Macedon, Philip assembled a large macedonian army and marched deep into Thrace for a long conquering campaign. 
+---
+584:in w01081030
+1 error: w01081030
+A('satisfied'):: not found in lexicon.
+---
+585: w01082055
+2 differences
+# text = Throughout the war, Pearl Harbor [1;32;4mwas[0m [1;32;4mfrequently[0m used in American propaganda.
+# TEXT = Throughout the war, Pearl Harbor [1;32;4mfrequently[0m [1;32;4mwas[0m used in american propaganda.
+---
+586: w01083007
+# text = This idealized vision of the Romanov monarchy blinded him to the actual state of his country.
+# TEXT = This idealized vision of the Romanov monarchy blinded him to the actual state of his country. 
+---
+587:in w01083021
+1 error: w01083021
+N('ethnicity'):: not found in lexicon.
+---
+588: w01084085
+## non projective
+3 differences
+# text = This city-state emerged in the same [1;32;4mperiod[0m [1;32;4mas[0m [1;32;4mSukhothai[0m.
+# TEXT = This city-state emerged in the same [1;32;4mas[0m [1;32;4mSukhothai[0m [1;32;4mperiod[0m.
+---
+589:in w01084102
+1 error: w01084102
+A('16th'):: not found in lexicon.
+---
+590: w01085004
+# text = The Army performed well in combat in Cuba.
+# TEXT = The army performed well in combat in Cuba. 
+---
+591:in w01085005
+3 errors: w01085005
+V('prepared'):: not found in lexicon.
+V('prepared'):: not found in lexicon.
+V('prepared'):: morphology error: conjugate_en:tab :V(prepared) : {"pe":3,"n":"s","t":"b"}.
+---
+592:in w01085006
+1 error: w01085006
+A('logistical'):: not found in lexicon.
+---
+593: w01085007
+# text = The United States freed Cuba (after an occupation by the U.S. Army).
+# TEXT = The United States freed Cuba (after an occupation by the U.S. Army). 
+---
+594: w01085008
+# text = By the peace treaty Spain ceded to the United States its colonies of Puerto Rico, Guam, and the Philippines.
+# TEXT = By the peace treaty Spain ceded to the United States its colonies of Puerto Rico, Guam, and the Philippines. 
+---
+595: w01086012
+# text = The offensive against the huge army enlisted by Venice was launched from France.
+# TEXT = The offensive against the huge army enlisted by Venice was launched from France. 
+---
+596: w01086037
+# text = By 1563, the population of Venice had dropped to about 168,000 people.
+# TEXT = By 1563, the population of Venice had dropped to about 168,000 people. 
+---
+597:in w01087052
+1 error: w01087052
+N('behavior'):: not found in lexicon.
+---
+598:in w01088099
+1 error: w01088099
+N('childbearing'):: not found in lexicon.
+---
+599: w01089017
+1 difference
+# text = Most [1;31m•[0mof the information about the period comes from burial sites and the grave goods contained within them.
+# TEXT = Most [1;31mmost [0mof the information about the period comes from burial sites and the grave goods contained within them.
+---
+600:in w01089040
+2 errors: w01089040
+N('farming'):: not found in lexicon.
+N('grazing'):: not found in lexicon.
+---
+601:in w01089068
+1 error: w01089068
+Adv('further'):: morphology error: adjective declension :Adv(further) : {"f":"co"}.
+---
+602:in w01091016
+2 errors: w01091016
+V('re-domesticate'):: not found in lexicon.
+V('re-domesticate'):: morphology error: conjugate_en:tab :V(re-domesticate) : {"pe":3,"n":"s","t":"pp"}.
+---
+603:in w01091045
+1 error: w01091045
+C('besides'):: not found in lexicon.
+---
+604: w01092019
+# text = A fundamental change in working principles was brought about by Scotsman James Watt.
+# TEXT = A fundamental change in working principles was brought about by Scotsman James Watt. 
+---
+605: w01092032
+# text = The Industrial Revolution created a demand for metal parts used in machinery.
+# TEXT = The Industrial Revolution created a demand for metal parts used in machinery. 
+---
+606:in w01093028
+1 error: w01093028
+Pro('itself'):: not found in lexicon.
+---
+607:in w01094022
+1 error: w01094022
+A('20th'):: not found in lexicon.
+---
+608:in w01094066
+4 errors: w01094066
+V('sized'):: not found in lexicon.
+V('downsize'):: not found in lexicon.
+V('sized'):: morphology error: conjugate_en:tab :V(sized) : {"pe":3,"n":"s","t":"pp"}.
+V('downsize'):: morphology error: conjugate_en:tab :V(downsize) : {"pe":3,"n":"s","t":"pp"}.
+---
+609:in w01095089
+1 error: w01095089
+A('unadvisable'):: not found in lexicon.
+---
+610: w01095090
+# text = In the case of the imperial family, it is considered extremely inappropriate to use the given name.
+# TEXT = In the case of the imperial family, it is considered extremely inappropriate to use the given name. 
+---
+611: w01095091
+# text = Since Emperor Meiji, it has been customary to have one era per Emperor and to rename each Emperor after his death using the name of the era over which he presided.
+# TEXT = Since emperor Meiji, it has been customary to have one era per Emperor and to rename each emperor after his death using the name of the era over which he presided. 
+---
+612:in w01095092
+1 error: w01095092
+Adv('prior'):: not found in lexicon.
+---
+613:in w01095093
+1 error: w01095093
+P('whilst'):: not found in lexicon.
+---
+614:in w01096013
+1 error: w01096013
+A('japanese'):: not found in lexicon.
+---
+615: w01096055
+# text = In Europe, before the outbreak of the war, the Allies had significant advantages in both population and economics.
+# TEXT = In Europe, before the outbreak of the war, the Allies had significant advantages in both population and economics. 
+---
+616: w01096074
+# text = Land warfare changed from the static front lines of World War I to increased mobility and combined arms.
+# TEXT = Land warfare changed from the static front lines of World War I to increased mobility and combined arms. 
+---
+617: w01097059
+# text = British cavalry troopers also received excellent mounted swordsmanship training.
+# TEXT = British cavalry troopers also received excellent mounted swordsmanship training. 
+---
+618: w01097104
+1 difference
+# text = Some historians, such as Chandler and Weller, assert that the British heavy cavalry [1;32;4mwere[0m destroyed as a viable force following their first, epic charge.
+# TEXT = Some historians, such as Chandler and Weller, assert that the british heavy cavalry [1;32;4mwas[0m destroyed as a viable force following their first, epic charge.
+---
+619:in w01098043
+4 errors: w01098043
+A('autosomal'):: not found in lexicon.
+A('southasian'):: not found in lexicon.
+A('North'):: not found in lexicon.
+A('West'):: not found in lexicon.
+---
+620:in w01099012
+1 error: w01099012
+C('on'):: not found in lexicon.
+---
+621: w01099045
+# text = Among humans both males and females are ardent singers, and making music is mostly a communal activity.
+# TEXT = Among humans both males and females are ardent singers, and making music is mostly a communal activity. 
+---
+622:in w01100046
+3 errors: w01100046
+Pro('itself'):: not found in lexicon.
+N('Governor'):: not found in lexicon.
+N('General'):: not found in lexicon.
+---
+623: w01100047
+# text = China was defeated, and in 1842 agreed to the provisions of the Treaty of Nanking.
+# TEXT = China was defeated, and in 1842 agreed to the provisions of the Treaty of Nanking. 
+---
+624: w01100048
+# text = Hong Kong Island was ceded to Britain, and certain ports, including Shanghai and Guangzhou, were opened to British trade and residence.
+# TEXT = Hong Kong Island was ceded to Britain, and certain ports, including Shanghai and Guangzhou, were opened to british trade and residence. 
+---
+625: w01100049
+2 differences
+# text = In 1856, the Second Opium War broke out; the Chinese [1;32;4mwere[0m [1;32;4magain[0m defeated and forced to the terms of the 1858 Treaty of Tientsin and the 1860 Convention of Peking.
+# TEXT = In 1856, the Second Opium War broke out ; the Chinese [1;32;4magain[0m [1;32;4mwas[0m defeated and forced to the terms of the 1858 Treaty of Tientsin and the 1860 Convention of Peking.
+---
+626: w01100050
+# text = The treaty opened new ports to trade and allowed foreigners to travel in the interior.
+# TEXT = the treaty opened new ports to trade and allowed foreigners to travel in the interior. 
+---
+627: w01101020
+# text = Lamarr accompanied Mandl to business meetings where he conferred with scientists and other professionals involved in military technology.
+# TEXT = Lamarr accompanied Mandl to business meetings where he conferred with scientists and other professionals involved in military technology. 
+---
+628:in w01101046
+3 errors: w01101046
+A('earliest'):: not found in lexicon.
+A('improved'):: not found in lexicon.
+N('stoplight'):: not found in lexicon.
+---
+629:in w01101084
+1 error: w01101084
+N('none'):: not found in lexicon.
+---
+630:in w01102020
+1 error: w01102020
+N('paramilitary'):: not found in lexicon.
+---
+631: w01102040
+# text = De Gaulle had instructed that there be no excessive displays of public affection towards Churchill and no official awards without his prior agreement.
+# TEXT = De Gaulle had instructed that there be no excessive displays of public affection towards Churchill and no official awards without his prior agreement. 
+---
+632:in w01103022
+2 errors: w01103022
+N('aids'):: not found in lexicon.
+N('mid-1980'):: not found in lexicon.
+---
+633: w01105053
+1 difference
+# text = It was completed rather late in the war; although a number of B-29s [1;32;4mwere[0m equipped with Eagle and it worked well, it came too late to make much difference.
+# TEXT = It was completed rather late in the war ; although a number of B-29s [1;32;4mwas[0m equipped with Eagle and it worked well, it came too late to make much difference.
+---
+634:in w01105054
+3 errors: w01105054
+Adv('best'):: not found in lexicon.
+A('post'):: not found in lexicon.
+N('airlift'):: not found in lexicon.
+---
+635:in w01105055
+4 errors: w01105055
+N('dipole'):: not found in lexicon.
+V('based'):: not found in lexicon.
+C('by'):: not found in lexicon.
+V('based'):: morphology error: conjugate_en:tab :V(based) : {"pe":3,"n":"s","t":"ps"}.
+---
+636:in w01105056
+1 error: w01105056
+A('untrained'):: not found in lexicon.
+---
+637:in w01105057
+## non projective
+1 error: w01105057
+N('1980'):: not found in lexicon.
+---
+638: w01106021
+1 difference
+# text = With population growth, new indigenous quarters [1;32;4mwere[0m created.
+# TEXT = With population growth, new indigenous quarters [1;32;4mwas[0m created.
+---
+639: w01106052
+# text = The Alliance of Democratic Forces for the Liberation of Congo rebels captured Lubumbashi in April 1997.
+# TEXT = The alliance of democratic forces for the liberation of Congo rebels captured Lubumbashi in April 1997. 
+---
+640: w01106073
+3 differences
+# text = The high altitude serves to cool the climate, [1;32;4mwhich[0m [1;32;4mwould[0m [1;32;4motherwise[0m be very hot.
+# TEXT = The high altitude serves to cool the climate, [1;32;4motherwise[0m [1;32;4mwhich[0m [1;32;4mwould[0m be very hot.
+---
+641: w01107013
+# text = Failing health reduced Hitchcock's output during the last two decades of his life.
+# TEXT = Failing health reduced Hitchcock 's output during the last two decades of his life. 
+---
+642: w01107063
+1 difference
+# text = Hitchcock's films sometimes [1;32;4mfeature[0m characters struggling in their relationships with their mothers.
+# TEXT = Hitchcock 's films sometimes [1;32;4mfeatures[0m characters struggling in their relationships with their mothers.
+---
+643: w01107124
+6 differences
+# text = Hitchcock preferred to work with the [1;31m•[0mbest talent of his [1;32;4mday—film[0m [1;31m•[0mposter designers such as Bill [1;32;4mGold[0m and Saul [1;32;4mBass—who[0m [1;31m•[0mwould produce posters that accurately represented his films.
+# TEXT = Hitchcock preferred to work with the [1;31mmost [0mbest talent of his [1;32;4mday[0m [1;31m— film [0mposter designers such as Bill [1;32;4mBass[0m and Saul [1;32;4mGold[0m [1;31m— who [0mwould produce posters that accurately represented his films.
+---
+644: w01108036
+# text = A mental clash gripped Herzl, between the craving for literary success and a desire to act as a public figure.
+# TEXT = A mental clash gripped Herzl, between the craving for literary success and a desire to act as a public figure. 
+---
+645: w01108063
+2 differences
+# text = On March 10, 1896, Herzl was visited by Reverend[1;34;47m William Hechler[0m, the Anglican minister to the British Embassy[1;31m•[0m.
+# TEXT = On March 10, 1896, Herzl was visited by Reverend, the anglican minister to the british embassy[1;31m William Hechler[0m.
+---
+646: w01109009
+1 difference
+# text = During one episode, he is [1;32;4mshown[0m to be an adept guitar player.
+# TEXT = During one episode, he is [1;32;4mshowed[0m to be an adept guitar player.
+---
+647: w01109036
+# text = Lenny is a persistent bachelor who has poor luck with women.
+# TEXT = Lenny is a persistent bachelor who has poor luck with women. 
+---
+648: w01109120
+# text = On one occasion, it is implied he is an undercover agent whose target is Homer.
+# TEXT = On one occasion, it is implied he is an undercover agent whose target is Homer. 
+---
+649: w01111021
+1 difference
+# text = Deciding to pursue drama, Winstone [1;32;4menrolled[0m at the Corona Stage Academy in Hammersmith.
+# TEXT = Deciding to pursue drama, Winstone [1;32;4menroled[0m at the Corona Stage Academy in Hammersmith.
+---
+650: w01111089
+# text = Winstone met his wife, Elaine, while filming That Summer in 1979.
+# TEXT = Winstone met his wife, Elaine, while filming that summer in 1979. 
+---
+651: w01111093
+# text = Winstone was declared bankrupt on 4 October 1988 and again on 19 March 1993.
+# TEXT = Winstone was declared bankrupt on 4 October 1988 and again on 19 March 1993. 
+---
+652:in w01112060
+1 error: w01112060
+N('rights'):: not found in lexicon.
+---
+653:in w01112098
+## non projective
+1 error: w01112098
+A('miniature'):: not found in lexicon.
+---
+654:in w01113033
+1 error: w01113033
+N('atm'):: not found in lexicon.
+---
+655: w01113046
+# text = He also built and renovated five traditional markets in 2013 and four traditional markets in 2014.
+# TEXT = He also built and renovated five traditional markets in 2013 and four traditional markets in 2014. 
+---
+656:in w01113058
+1 error: w01113058
+A('confused'):: not found in lexicon.
+---
+657:in w01113074
+## non projective
+2 errors: w01113074
+C('prior'):: not found in lexicon.
+C('by'):: not found in lexicon.
+---
+658: w01114053
+# text = His official biography also claims that Kim composed six operas and enjoys staging elaborate musicals.
+# TEXT = His official biography also claims that Kim composed six operas and enjoys staging elaborate musicals. 
+---
+659: w01115022
+# text = With advice from Alexander, he was able to work out a compromise: he would attend a university, but would study literature.
+# TEXT = With advice from Alexander, he was able to work out a compromise: he would attend a university, but would study literature. 
+---
+660: w01115023
+1 difference
+# text = Barrie [1;32;4menrolled[0m at the University of Edinburgh where he wrote drama reviews for the Edinburgh Evening Courant.
+# TEXT = Barrie [1;32;4menroled[0m at the university of Edinburgh where he wrote drama reviews for the Edinburgh Evening Courant.
+---
+661:in w01115024
+1 error: w01115024
+N('m.a.'):: not found in lexicon.
+---
+662: w01115025
+# text = Following a job advertisement found by his sister in The Scotsman, he worked for a year and a half as a staff journalist on the Nottingham Journal.
+# TEXT = Following a job advertisement found by his sister in the Scotsman, he worked for a year and a half as a staff journalist on the Nottingham Journal. 
+---
+663: w01115026
+# text = He then returned to Kirriemuir.
+# TEXT = He then returned to Kirriemuir. 
+---
+664: w01116036
+## non projective
+6 differences
+# text = Only 3000 copies [1;32;4mwere[0m [1;32;4mpublished[0m [1;32;4mof[0m [1;32;4mthe[0m [1;32;4mfirst[0m [1;32;4medition[0m.
+# TEXT = Only 3000 copies [1;32;4mof[0m [1;32;4mthe[0m [1;32;4mfirst[0m [1;32;4medition[0m [1;32;4mwas[0m [1;32;4mpublished[0m.
+---
+665: w01116088
+1 difference
+# text = By 2009, total sales of The Power of Now and A New Earth in North America [1;32;4mhad[0m been estimated at three million and five million copies respectively.
+# TEXT = By 2009, total sales of the power of now and a new Earth in North America [1;32;4mhas[0m been estimated at three million and five million copies respectively.
+---
+666:in w01116100
+1 error: w01116100
+N('other'):: not found in lexicon.
+---
+667: w01117009
+# text = Between 1991 and 1997, she ran a school for children with learning disabilities.
+# TEXT = Between 1991 and 1997, she ran a school for children with learning disabilities. 
+---
+668:in w01117029
+1 error: w01117029
+A('latest'):: not found in lexicon.
+---
+669: w01117034
+2 differences
+# text = She found the transition to fiction easy, explaining, "Every book is a learning curve[1;32;4m, [0mand you have to keep an open mind[1;32;4m."[0m
+# TEXT = She found the transition to fiction easy, explaining, " every book is a learning curve[1;32;4m. ", [0mand you have to keep an open mind[1;32;4m.[0m
+---
+670:in w01119059
+1 error: w01119059
+N('filmmaker'):: not found in lexicon.
+---
+671:in w01119076
+1 error: w01119076
+A('non-white'):: not found in lexicon.
+---
+672:in w01119100
+2 errors: w01119100
+Adv('thematically'):: not found in lexicon.
+N('rights'):: not found in lexicon.
+---
+673:in w01121052
+1 error: w01121052
+A('wartime'):: not found in lexicon.
+---
+674:in w01122031
+1 error: w01122031
+A('related'):: not found in lexicon.
+---
+675:in w01122064
+1 error: w01122064
+C('on'):: not found in lexicon.
+---
+676:in w01124011
+3 errors: w01124011
+N('no.'):: not found in lexicon.
+Pro("'ya"):: not found in lexicon.
+N('no.'):: not found in lexicon.
+---
+677: w01124049
+# text = Following her dismissal, Peniston took playing as Glinda the Good Witch in a theatrical production of musical play The Wiz.
+# TEXT = Following her dismissal, Peniston took playing as Glinda the good witch in a theatrical production of musical play the Wiz. 
+---
+678:in w01125034
+3 errors: w01125034
+V('re-elect'):: not found in lexicon.
+N('up'):: not found in lexicon.
+V('re-elect'):: morphology error: conjugate_en:tab :V(re-elect) : {"pe":3,"n":"s","t":"pp"}.
+---
+679: w01125035
+# text = Grafton's government disintegrated in 1770, allowing the Tories led by Lord North to return to power.
+# TEXT = Grafton 's government disintegrated in 1770, allowing the Tories led by lord North to return to power. 
+---
+680: w01125036
+2 differences
+# text = George was deeply devout[1;34;47m and[0m[1;32;4m [0mspent hours in prayer, but his piety was not shared by his brothers.
+# TEXT = George was deeply devout[1;32;4m, [0mspent hours in prayer, but his piety was not shared by his brothers.
+---
+681: w01125037
+# text = George was appalled by what he saw as their loose morals.
+# TEXT = George was appalled by what he saw as their loose morals. 
+---
+682: w01125038
+# text = In 1770, his brother Prince Henry, Duke of Cumberland and Strathearn, was exposed as an adulterer, and the following year Cumberland married a young widow, Anne Horton.
+# TEXT = in 1770, his brother prince Henry, Duke of Cumberland and Strathearn, was exposed as an adulterer, and the following year Cumberland married a young widow, Anne Horton. 
+---
+683:in w01127071
+1 error: w01127071
+A('biggest'):: not found in lexicon.
+---
+684:in w01127096
+1 error: w01127096
+N('spending'):: not found in lexicon.
+---
+685:in w01128053
+## non projective
+1 error: w01128053
+A('icelandic'):: not found in lexicon.
+---
+686: w01128059
+1 difference
+# text = Louis Post Dispatch called it one of LaBeouf's [1;31m•[0mbest performances.
+# TEXT = Louis Post Dispatch called it one of LaBeouf 's [1;31mmost [0mbest performances.
+---
+687: w01129019
+# text = The car burst into flames, and Kenseth walked away.
+# TEXT = the car burst into flames, and Kenseth walked away. 
+---
+688: w01129037
+# text = Elliott was attending his father's funeral on the day of the race.
+# TEXT = Elliott was attending his father 's funeral on the day of the race. 
+---
+689: w01129053
+2 differences
+# text = In 2003, he dominated in the points [1;34;47mstandings [0m[1;32;4mand [0mleading the last 33 of 36 races and became the 2003 NASCAR Winston Cup champion, the last driver to ever hold that title.
+# TEXT = in 2003, he dominated in the points [1;32;4mstanding, [0mleading the last 33 of 36 races and became the 2003 NASCAR Winston cup champion, the last driver to ever hold that title.
+---
+690:in w01130099
+2 errors: w01130099
+N('1990'):: not found in lexicon.
+Adv('later'):: not found in lexicon.
+---
+691: w01130100
+4 differences
+# text = On a Wing[1;31m•[0m[1;32;4m [0mand a Prayer[1;34;47m (1992[0m[1;32;4m) [0mreunited him with his Stealers Wheel partner Egan on several tracks.
+# TEXT = On a wing[1;31m (1992[0m[1;32;4m) [0mand a prayer[1;32;4m [0mreunited him with his Stealers Wheel partner Egan on several tracks.
+---
+692:in w01130101
+4 errors: w01130101
+V('cowritten'):: not found in lexicon.
+N('songwriter'):: not found in lexicon.
+N('1970'):: not found in lexicon.
+V('cowritten'):: morphology error: conjugate_en:tab :V(cowritten) : {"pe":3,"n":"s","t":"pp"}.
+---
+693:in w01130102
+1 error: w01130102
+N('Head'):: not found in lexicon.
+---
+694:in w01130103
+1 error: w01130103
+Pro('these'):: not found in lexicon.
+---
+695: w01131060
+2 differences
+# text = At [1;31m•[0mleast 330,000 people, including 10,000 technicians, [1;32;4mwere[0m involved.
+# TEXT = At [1;31mmost [0mleast 330,000 people, including 10,000 technicians, [1;32;4mwas[0m involved.
+---
+696: w01131076
+# text = Stalin had begun to encourage Abakumov to form his own network inside the MGB to counter Beria's dominance of the power ministries.
+# TEXT = Stalin had begun to encourage Abakumov to form his own network inside the MGB to counter Beria 's dominance of the power ministries. 
+---
+697:in w01132042
+1 error: w01132042
+N('lowland'):: not found in lexicon.
+---
+698:in w01132056
+1 error: w01132056
+N('defens'):: not found in lexicon.
+---
+699:in w01132081
+2 errors: w01132081
+A('mesoamerican'):: not found in lexicon.
+N('iconography'):: not found in lexicon.
+---
+700:in w01133014
+2 errors: w01133014
+V('center'):: not found in lexicon.
+V('center'):: morphology error: conjugate_en:tab :V(center) : {"pe":3,"n":"s","t":"pp"}.
+---
+701:in w01133016
+1 error: w01133016
+N('mid-1970'):: not found in lexicon.
+---
+702: w01134009
+## non projective
+2 differences
+# text = Through his grandmother, Mishima was a direct descendant [1;32;4mof[0m [1;32;4mTokugawa[0m Ieyasu.
+# TEXT = Through his grandmother, Mishima was a direct descendant [1;32;4mTokugawa[0m [1;32;4mof[0m Ieyasu.
+---
+703:in w01134062
+1 error: w01134062
+N('workout'):: not found in lexicon.
+---
+704: w01134078
+# text = Mishima espoused a very individual brand of nationalism towards the end of his life.
+# TEXT = Mishima espoused a very individual brand of nationalism towards the end of his life. 
+---
+705: w01135034
+2 differences
+# text = In 2011, Blunt was named the ambassadress of the new Yves [1;32;4mSaint[0m [1;32;4mLaurent[0m fragrance, Opium.
+# TEXT = In 2011, Blunt was named the ambassadress of the new Yves [1;32;4mLaurent[0m [1;32;4mSaint[0m fragrance, Opium.
+---
+706: w01135035
+## non projective
+8 differences
+# text = Blunt starred in the 2011 British comedy film Salmon Fishing in the Yemen, directed by Lasse Hallström[1;34;47m and[0m[1;32;4m [0mco-starring [1;31m•[0mEwan [1;32;4mMcGregor[0m [1;32;4mand[0m [1;32;4mKristin[0m [1;32;4mScott[0m [1;32;4mThomas[0m.
+# TEXT = Blunt starred in the 2011 british comedy film salmon fishing in the Yemen, directed by Lasse Hallström[1;32;4m, [0mco-starring [1;31mand [0mEwan [1;32;4mScott[0m [1;32;4mThomas[0m [1;32;4mand[0m [1;32;4mKristin[0m [1;32;4mMcGregor[0m.
+---
+707: w01135036
+2 differences
+# text = Also that year, she briefly appeared in Disney's The Muppets, as Miss[1;34;47m Piggy[0m's [1;31m•[0mreceptionist.
+# TEXT = Also that year, she briefly appeared in Disney 's the Muppets, as Miss 's [1;31mPiggy [0mreceptionist.
+---
+708:in w01135037
+1 error: w01135037
+N('Year'):: not found in lexicon.
+---
+709: w01135038
+4 differences
+# text = In January 2011, Blunt began filming an American science-fiction film, Looper, directed by Rian Johnson and co-starring Bruce [1;31m•[0m[1;32;4mWillis[0m and Joseph [1;34;47mGordon-[0m[1;32;4mLevitt[0m; the film was released in September 2012.
+# TEXT = In January 2011, Blunt began filming an american science-fiction film, Looper, directed by Rian Johnson and co-starring Bruce [1;31mGordon-[0m[1;32;4mLevitt[0m and Joseph [1;32;4mWillis[0m ; the film was released in September 2012.
+---
+710:in w01136029
+2 errors: w01136029
+A('stereotypical'):: not found in lexicon.
+A('arab'):: not found in lexicon.
+---
+711:in w01136074
+2 errors: w01136074
+C('in'):: not found in lexicon.
+P('opposite'):: not found in lexicon.
+---
+712: w01137050
+# text = Lord Halifax, the Lord President of the Council, visited Germany privately in November and met Hitler and other German officials.
+# TEXT = Lord Halifax, the lord president of the council, visited Germany privately in November and met Hitler and other german officials. 
+---
+713:in w01137068
+1 error: w01137068
+C('in'):: not found in lexicon.
+---
+714:in w01137087
+3 errors: w01137087
+A('czech'):: not found in lexicon.
+A('sudeten'):: not found in lexicon.
+C('without'):: not found in lexicon.
+---
+715: w01138045
+2 differences
+# text = During this time, Marcelle [1;32;4mwas[0m [1;32;4moften[0m left alone in the room while Piaf and Mômone were out on the streets or at the club singing.
+# TEXT = During this time, Marcelle [1;32;4moften[0m [1;32;4mwas[0m left alone in the room while Piaf and Mômone were out on the streets or at the club singing.
+---
+716:in w01139043
+1 error: w01139043
+Pro('these'):: not found in lexicon.
+---
+717: w01139090
+# text = Another theme of the Skylark novels involves precursors of modern information technology.
+# TEXT = Another theme of the Skylark novels involves precursors of modern information technology. 
+---
+718:in w01140030
+1 error: w01140030
+N('polonium'):: not found in lexicon.
+---
+719:in w01140031
+2 errors: w01140031
+C('once'):: not found in lexicon.
+N('polonium'):: not found in lexicon.
+---
+720:in w01140032
+3 errors: w01140032
+C('of'):: not found in lexicon.
+N('polonium'):: not found in lexicon.
+N('emissions'):: not found in lexicon.
+---
+721:in w01140033
+2 errors: w01140033
+D('those'):: not found in lexicon.
+N('polonium'):: not found in lexicon.
+---
+722:in w01140034
+1 error: w01140034
+N('polonium'):: not found in lexicon.
+---
+723: w01141025
+# text = During the 2013 off-season she appeared on CTV Montreal as a guest weather anchor.
+# TEXT = During the 2013 off-season she appeared on CTV Montreal as a guest weather anchor. 
+---
+724: w01141077
+5 differences
+# text = She next faced defending champion [1;32;4mand[0m [1;32;4mtop[0m [1;32;4mseed[0m [1;32;4mSara[0m [1;32;4mErrani[0m, but was defeated.
+# TEXT = she next faced defending champion [1;32;4mSara[0m [1;32;4mErrani[0m [1;32;4mand[0m [1;32;4mtop[0m [1;32;4mseed[0m, but was defeated.
+---
+725: w01141137
+1 difference
+# text = Bouchard suffered [1;34;47ma [0mshocking three-set loss.
+# TEXT = Bouchard suffered shocking three-set loss.
+---
+726:in w01142013
+1 error: w01142013
+A('3rd'):: not found in lexicon.
+---
+727: w01142031
+# text = John of Gaunt died in 1399.
+# TEXT = John of Gaunt died in 1399. 
+---
+728: w01142063
+# text = The knight Lyvet was released and his follower thrown into the Tower.
+# TEXT = The knight Lyvet was released and his follower thrown into the Tower. 
+---
+729: w01143015
+2 differences
+# text = Not long ago he was divorced from the actress, Gloria[1;32;4m [0mHolden[1;32;4m, [0mbut carried the torch after the marital rift.
+# TEXT = not long ago he was divorced from the actress, Gloria[1;32;4m, [0mHolden[1;32;4m [0mbut carried the torch after the marital rift.
+---
+730:in w01143037
+1 error: w01143037
+A('younger'):: not found in lexicon.
+---
+731: w01144031
+2 differences
+# text = He chose [1;32;4mnot[0m [1;32;4mto[0m seek a third term in the following election cycle.
+# TEXT = He chose [1;32;4mdo[0m [1;32;4mnot[0m seek a third term in the following election cycle.
+---
+732: w01144056
+5 differences
+# text = The 1980 presidential campaign between Reagan [1;32;4mand[0m [1;32;4mincumbent[0m [1;32;4mPresident[0m [1;32;4mJimmy[0m [1;32;4mCarter[0m was conducted during domestic concerns and the ongoing Iran hostage crisis.
+# TEXT = The 1980 presidential campaign between Reagan [1;32;4mJimmy[0m [1;32;4mCarter[0m [1;32;4mand[0m [1;32;4mincumbent[0m [1;32;4mpresident[0m was conducted during domestic concerns and the ongoing Iran hostage crisis.
+---
+733: w01144063
+1 difference
+# text = Republicans captured the Senate for the first time since 1952, [1;34;47mand [0mgained 34 House seats, but the Democrats retained a majority.
+# TEXT = Republicans captured the Senate for the first time since 1952, gained 34 House seats, but the Democrats retained a majority.
+---
+734: w01144084
+# text = He recovered and was released from the hospital on April 11, becoming the first serving U.S. president to survive being shot in an assassination attempt.
+# TEXT = He recovered and was released from the hospital on April 11, becoming the first serving U.S. president to survive being shot in an assassination attempt. 
+---
+735:in w01144086
+1 error: w01144086
+A('greater'):: not found in lexicon.
+---
+736: w01146051
+# text = Bloch is concerned to establish hope as the guiding principle of his Marxism and stresses the implied humanism inherent in mystical tradition.
+# TEXT = Bloch is concerned to establish hope as the guiding principle of his Marxism and stresses the implied humanism inherent in mystical tradition. 
+---
+737: w01146099
+2 differences
+# text = A proper theology [1;32;4mwould[0m [1;32;4mtherefore[0m have to be constructed in the light of its future goal.
+# TEXT = A proper theology [1;32;4mtherefore[0m [1;32;4mwould[0m have to be constructed in the light of its future goal.
+---
+738:in w01147010
+2 errors: w01147010
+N('publishing'):: not found in lexicon.
+N('songwriting'):: not found in lexicon.
+---
+739:in w01147018
+## non projective
+2 errors: w01147018
+V('co-write'):: not found in lexicon.
+V('co-write'):: morphology error: conjugate_en:tab :V(co-write) : {"pe":3,"n":"p","t":"ps"}.
+---
+740:in w01147122
+1 error: w01147122
+A('upcoming'):: not found in lexicon.
+---
+741:in w01148068
+1 error: w01148068
+Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
+---
+742: w01149002
+1 difference
+# text = Wright was [1;32;4mborn[0m in Poole, Dorset, but grew up predominantly in Wells, Somerset.
+# TEXT = Wright was [1;32;4mborne[0m in Poole, Dorset, but grew up predominantly in Wells, Somerset.
+---
+743:in w01149077
+3 errors: w01149077
+N('storyboard'):: not found in lexicon.
+A('conceptual'):: not found in lexicon.
+A('promotional'):: not found in lexicon.
+---
+744:in w01149088
+1 error: w01149088
+A('fellow'):: not found in lexicon.
+---
+745: w01150044
+1 difference
+# text = The Great Powers [1;32;4mdid[0m not fulfill the requests for recognition of Albania.
+# TEXT = The great Powers [1;32;4mdo[0m not fulfill the requests for recognition of Albania.
+---
+746: w01150045
+# text = At the beginning of the London conference in December 1912 the ambassadors of all six Great Powers rejected the plan for establishing an independent Albania.
+# TEXT = At the beginning of the London conference in December 1912 the ambassadors of all six great Powers rejected the plan for establishing an independent Albania. 
+---
+747: w01150046
+1 difference
+# text = Instead, they decided that Albania [1;32;4mwould[0m be under Ottoman suzerainty but with an autonomous government.
+# TEXT = Instead, they decided that Albania [1;32;4mwill[0m be under Ottoman suzerainty but with an autonomous government.
+---
+748: w01150047
+# text = After it became obvious that Ottoman Empire would lose all of Macedonia and its territorial connection with Albania, the Great Powers realized they had to change their decision.
+# TEXT = After it became obvious that Ottoman Empire would lose all of Macedonia and its territorial connection with Albania, the great Powers realized they had to change their decision. 
+---
+749:in w01150048
+2 errors: w01150048
+P('regardless'):: not found in lexicon.
+A('balkan'):: not found in lexicon.
+---
+750: n02002007
+# text = The officers were able to subdue the 53 year old during the act on Sunday morning.
+# TEXT = The officers were able to subdue the 53 year old during the act on Sunday morning. 
+---
+751: n02004007
+# text = King Salaman replaced the political veteran with the head of financial oversight, Mohammed al-Jadaan.
+# TEXT = King Salaman replaced the political veteran with the head of financial oversight, Mohammed al-Jadaan. 
+---
+752:in n02006006
+1 error: n02006006
+Adv('worldwide'):: not found in lexicon.
+---
+753: n02007010
+# text = With 71 goals in 137 international matches, he has shot a record number of goals for the DFB.
+# TEXT = With 71 goals in 137 international matches, he has shot a record number of goals for the DFB. 
+---
+754:in n02011003
+2 errors: n02011003
+Adv('by'):: not found in lexicon.
+N('retiree'):: not found in lexicon.
+---
+755:in n02011018
+1 error: n02011018
+N('other'):: not found in lexicon.
+---
+756:in n02016006
+2 errors: n02016006
+N('euro'):: not found in lexicon.
+Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
+---
+757:in n02017008
+1 error: n02017008
+N('rumor'):: not found in lexicon.
+---
+758: n02022015
+4 differences
+# text = One [1;32;4mdoesn't[0m know in which way both dramatists [1;32;4mwould[0m [1;32;4mhave[0m [1;32;4mworked[0m together.
+# TEXT = One [1;32;4mdo not[0m know in which way both dramatists [1;32;4mhave[0m [1;32;4mwould[0m [1;32;4mwork[0m together.
+---
+759:in n02024008
+2 errors: n02024008
+A('swedish'):: not found in lexicon.
+Adv('at'):: not found in lexicon.
+---
+760: n02027007
+1 difference
+# text = According to Parker, Russian Secret Service agents [1;32;4mare[0m active in large numbers in Great Britain.
+# TEXT = According to Parker, russian secret Service agents [1;32;4mis[0m active in large numbers in great Britain.
+---
+761: n02027019
+# text = Russia announced a suspension of the contract at the beginning of October.
+# TEXT = Russia announced a suspension of the contract at the beginning of October. 
+---
+762:in n02027021
+2 errors: n02027021
+N('fulfillment'):: not found in lexicon.
+N('troops'):: not found in lexicon.
+---
+763: n02030005
+11 differences
+# text = It is a political process[1;32;4m and[0m [1;32;4mI[0m [1;32;4mhave[0m [1;32;4mdecided[0m [1;32;4mnot[0m [1;32;4mto[0m [1;32;4mbe[0m [1;32;4mpresent, so[0m [1;32;4mit[0m [1;32;4mwas[0m [1;32;4msaid[0m.
+# TEXT = It is a political process[1;32;4m, so[0m [1;32;4mit[0m [1;32;4mwas[0m [1;32;4msaid[0m [1;32;4mand[0m [1;32;4mI[0m [1;32;4mhas[0m [1;32;4mdecided not[0m [1;32;4mto[0m [1;32;4mbe[0m [1;32;4mpresent[0m.
+---
+764:in n02031071
+2 errors: n02031071
+A('turkish'):: not found in lexicon.
+A('turkish'):: not found in lexicon.
+---
+765:in n02032022
+1 error: n02032022
+A('satisfied'):: not found in lexicon.
+---
+766: n02033063
+2 differences
+# text = Kühn [1;32;4mcan[0m [1;32;4monly[0m shake his head.
+# TEXT = Kühn [1;32;4monly[0m [1;32;4mcan[0m shake his head.
+---
+767: n02033113
+3 differences
+# text = The newspaper "Die[1;32;4m [0mZEIT[1;32;4m" [0mfirst inquired with the real estate business about its dubious cash [1;32;4mflows[0m and the threat of insolvency in July.
+# TEXT = The newspaper " Die[1;32;4m " [0mZEIT[1;32;4m [0mfirst inquired with the real estate business about its dubious cash [1;32;4mflow[0m and the threat of insolvency in July.
+---
+768:in n02034018
+4 errors: n02034018
+N('witching'):: not found in lexicon.
+N('60'):: not found in lexicon.
+N('hit'):: option t is applied to N, but it should be to V, VP, S, SP or CP
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+769:in n02036018
+2 errors: n02036018
+A('detailed'):: not found in lexicon.
+N('planning'):: not found in lexicon.
+---
+770: n02038007
+# text = Simon Krätschmer gropes around alone through the dilapidated, sinister barrack.
+# TEXT = Simon Krätschmer gropes around alone through the dilapidated, sinister barrack. 
+---
+771:in n02040023
+1 error: n02040023
+A('specialized'):: not found in lexicon.
+---
+772:in n02041014
+1 error: n02041014
+N('smartphone'):: not found in lexicon.
+---
+773: n02042005
+# text = It was August 30, 2015, as an army of ducks conquered the internet.
+# TEXT = It was August 30, 2015, as an army of ducks conquered the internet. 
+---
+774:in n02042026
+2 errors: n02042026
+N('smartphone'):: not found in lexicon.
+N('app'):: not found in lexicon.
+---
+775:in n02042028
+1 error: n02042028
+N('seconds'):: not found in lexicon.
+---
+776: n02043008
+# text = And now he is also world champion.
+# TEXT = And now he is also world champion. 
+---
+777: n02044008
+# text = For Kerber, the season finale nevertheless marks the end of an unbelievable year.
+# TEXT = For Kerber, the season finale nevertheless marks the end of an unbelievable year. 
+---
+778: n02044009
+# text = After the sensation at the Australian Open, the 28 year-old lost for the first time in the final game against Serena Williams.
+# TEXT = After the sensation at the Australian Open, the 28 year-old lost for the first time in the final game against Serena Williams. 
+---
+779:in n02046037
+1 error: n02046037
+A('unclear'):: not found in lexicon.
+---
+780: n02048002
+# text = Do you argue with your alarm clock?
+# TEXT = Do you argue with your alarm clock? 
+---
+781: n02050052
+2 differences
+# text = It[1;32;4m's[0m clear: Men could have more [1;31m•[0mresponsibility in matters of contraception.
+# TEXT = It[1;32;4m is[0m clear: men could have more [1;31mmore [0mresponsibility in matters of contraception.
+---
+782:in n02052023
+3 errors: n02052023
+N('chalkstone'):: not found in lexicon.
+V('resting'):: not found in lexicon.
+V('resting'):: morphology error: conjugate_en:tab :V(resting) : {"pe":3,"n":"s","t":"p"}.
+---
+783:in n02056019
+1 error: n02056019
+A('unclear'):: not found in lexicon.
+---
+784: n02058056
+# text = I was asked by the officers, in their inimitably dumb way, whether I knew the writer Günter de Bruyn and whether we are intellectual relatives.
+# TEXT = I was asked by the officers, in their inimitably dumb way, whether I knew the writer Günter de Bruyn and whether we are intellectual relatives. 
+---
+785:in n02066010
+1 error: n02066010
+A('convinced'):: not found in lexicon.
+---
+786:in n02066011
+1 error: n02066011
+A('east'):: not found in lexicon.
+---
+787:in n02068010
+1 error: n02068010
+A('over'):: not found in lexicon.
+---
+788: n02068015
+# text = The exchange of Barrosos caused a big stir.
+# TEXT = The exchange of Barrosos caused a big stir. 
+---
+789:in n02069039
+1 error: n02069039
+N('shenanigan'):: not found in lexicon.
+---
+790:in n02073024
+1 error: n02073024
+Adv('closer'):: not found in lexicon.
+---
+791: n02074009
+2 differences
+# text = The husband of the current candidate for the White House, Hillary[1;32;4m [0mClinton[1;32;4m, [0mpardoned a number of people, also including Rich, on the last day of his presidency, January 20, 2001.
+# TEXT = The husband of the current candidate for the White House, Hillary[1;32;4m, [0mClinton[1;32;4m [0mpardoned a number of people, also including Rich, on the last day of his presidency, January 20, 2001.
+---
+792:in n02075020
+1 error: n02075020
+C('about'):: not found in lexicon.
+---
+793:in n02076003
+1 error: n02076003
+A('offshore'):: not found in lexicon.
+---
+794: n02078004
+# text = The good numbers in Asia promptly pushed the stock markets up.
+# TEXT = The good numbers in Asia promptly pushed the stock markets up. 
+---
+795:in n02078011
+1 error: n02078011
+A('booming'):: not found in lexicon.
+---
+796:in n02079042
+1 error: n02079042
+A('elder'):: not found in lexicon.
+---
+797: n02081019
+8 differences
+# text = Therefore the irksome signs [1;32;4mwill[0m [1;32;4mnot[0m [1;32;4mcompletely[0m disappear: According to information from the news agency dpa, they [1;32;4mwill[0m [1;32;4monly[0m [1;32;4mbe[0m [1;32;4mactivated[0m if, for instance, the artist or record label is not a member of GEMA and [1;32;4mdoes[0m not have an agreement with YouTube.
+# TEXT = Therefore the irksome signs [1;32;4mcompletely[0m [1;32;4mwill[0m [1;32;4mnot[0m disappear: according to information from the news agency dpa, they [1;32;4monly[0m [1;32;4mbe[0m [1;32;4mwill[0m [1;32;4mactivate[0m if, for instance, the artist or record label is not a member of GEMA and [1;32;4mdo[0m not have an agreement with YouTube.
+---
+798:in n02082017
+1 error: n02082017
+N('contaminant'):: not found in lexicon.
+---
+799:in n02083054
+1 error: n02083054
+A('highest'):: not found in lexicon.
+---
+800:in n03001007
+1 error: n03001007
+N('28th'):: not found in lexicon.
+---
+801: n03001019
+1 difference
+# text = If his Democrat opponent [1;32;4mwere[0m to be elected, he assured that she would be 'under investigation for years'.
+# TEXT = If his Democrat opponent [1;32;4mwas[0m to be elected, he assured that she would be 'under investigation for years '.
+---
+802:in n03001023
+1 error: n03001023
+N('somebody'):: not found in lexicon.
+---
+803: n03001030
+# text = According to the programme, she will speak at 23.45.
+# TEXT = According to the programme, she will speak at 23.45. 
+---
+804: n03002003
+# text = On Tuesday, the United States of America could elect the first female president in its history.
+# TEXT = On Tuesday, the United States of America could elect the first female president in its history. 
+---
+805: n03002010
+1 difference
+# text = On the other hand, Ms. Clinton's relations with the continent over the past twenty years [1;32;4mleave[0m much to be desired.
+# TEXT = On the other hand, Ms. Clinton 's relations with the continent over the past twenty years [1;32;4mleaves[0m much to be desired.
+---
+806:in n03003025
+2 errors: n03003025
+A('islamic'):: not found in lexicon.
+N('questioning'):: not found in lexicon.
+---
+807:in n03003036
+## non projective
+1 error: n03003036
+N('mp'):: not found in lexicon.
+---
+808:in n03004003
+1 error: n03004003
+N('3rd'):: not found in lexicon.
+---
+809:in n03005007
+2 errors: n03005007
+N('latter'):: not found in lexicon.
+N('candidacy'):: not found in lexicon.
+---
+810: n03005025
+# text = In the message, the former Minister for Justice accused Brice Hortefeux of being a 'fascist', 'Minister (moron) of the Interior' and a 'thug'.
+# TEXT = In the message, the former minister for justice accused Brice Hortefeux of being a 'fascist ', 'minister (moron) of the interior 'and a 'thug '. 
+---
+811: n03006003
+2 differences
+# text = [1;34;47mWhat are [0mthe limits that could inhibit the expression of religious beliefs in private companies[1;31m•[0m?
+# TEXT = The limits that could inhibit the expression of religious beliefs in private companies[1;31m are what[0m?
+---
+812: n03006008
+1 difference
+# text = Even if the majority of situations that [1;32;4marise[0m in the workplace can be resolved without conflict.
+# TEXT = Even if the majority of situations that [1;32;4marises[0m in the workplace can be resolved without conflict.
+---
+813: n03006016
+2 differences
+# text = [1;32;4mAre[0m [1;32;4mworkers[0m allowed to keep religious objects on their desks?
+# TEXT = [1;32;4mWorkers[0m [1;32;4mare[0m allowed to keep religious objects on their desks?
+---
+814: n03006028
+2 differences
+# text = The Force Ouvrière union regrets that its remarks on the content of the guide were not included: "There [1;32;4mwasn't[0m really any consultation[1;32;4m," [0msaid Ms. Gillard.
+# TEXT = The Force Ouvrière union regrets that its remarks on the content of the guide were not included: " there [1;32;4mwas not[0m really any consultation[1;32;4m, " [0msaid Ms. Gillard.
+---
+815: n03006034
+# text = The guide is problematic, firstly because it has been developed "in the context of a state of emergency".
+# TEXT = The guide is problematic, firstly because it has been developed " in the context of a state of emergency ". 
+---
+816: n03007003
+# text = This clause included the time taken to travel to clients' homes in working hours.
+# TEXT = This clause included the time taken to travel to clients 'homes in working hours. 
+---
+817:in n03007006
+3 errors: n03007006
+N('organisation'):: not found in lexicon.
+N('cassation'):: not found in lexicon.
+N('12th'):: not found in lexicon.
+---
+818:in n03007009
+3 errors: n03007009
+V('working'):: not found in lexicon.
+C('without'):: not found in lexicon.
+V('working'):: morphology error: conjugate_en:tab :V(working) : {"pe":3,"n":"s","t":"p"}.
+---
+819:in n03007011
+3 errors: n03007011
+V('working'):: not found in lexicon.
+V('working'):: morphology error: conjugate_en:tab :V(working) : {"pe":3,"n":"s","t":"p"}.
+Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
+---
+820:in n03008011
+1 error: n03008011
+A('french'):: not found in lexicon.
+---
+821: n03009006
+1 difference
+# text = He also remarked that "the existence of such a document could lead to consequences that [1;32;4mare[0m as likely as they are unacceptable".
+# TEXT = He also remarked that " the existence of such a document could lead to consequences that [1;32;4mis[0m as likely as they are unacceptable ".
+---
+822:in n03009011
+5 errors: n03009011
+A('french'):: not found in lexicon.
+V('scrutinise'):: not found in lexicon.
+V('scrutinise'):: morphology error: conjugate_en:tab :V(scrutinise) : {"pe":3,"n":"s","t":"b"}.
+V('scrutinise'):: not found in lexicon.
+V('scrutinise'):: morphology error: conjugate_en:tab :V(scrutinise) : {"pe":3,"n":"s","t":"b"}.
+---
+823:in n03010012
+1 error: n03010012
+N('euro'):: not found in lexicon.
+---
+824: n03010019
+1 difference
+# text = France [1;32;4mdoesn't[0m have a good reputation.
+# TEXT = France [1;32;4mdo not[0m have a good reputation.
+---
+825:in n04001002
+2 errors: n04001002
+N('25th'):: not found in lexicon.
+A('anti-fascist'):: not found in lexicon.
+---
+826:in n04001013
+1 error: n04001013
+N('rights'):: not found in lexicon.
+---
+827:in n04002020
+## non projective
+2 errors: n04002020
+A('fewer'):: not found in lexicon.
+N('km'):: not found in lexicon.
+---
+828:in n04002027
+3 errors: n04002027
+V('emphasise'):: not found in lexicon.
+Pro('those'):: not found in lexicon.
+V('emphasise'):: morphology error: conjugate_en:tab :V(emphasise) : {"pe":3,"n":"s","t":"pp"}.
+---
+829: n04002029
+# text = We will evaluate whether and how to continue onto the next section.
+# TEXT = We will evaluate whether and how to continue onto the next section. 
+---
+830: n04003043
+# text = The hit song is "Geronimo" by Sheppard.
+# TEXT = The hit song is " Geronimo " by Sheppard. 
+---
+831:in n04005003
+3 errors: n04005003
+Pro('those'):: not found in lexicon.
+N('euro'):: not found in lexicon.
+N('31st'):: not found in lexicon.
+---
+832:in n04005016
+## non projective
+1 error: n04005016
+N('smartphone'):: not found in lexicon.
+---
+833:in n04006003
+1 error: n04006003
+N('1st'):: not found in lexicon.
+---
+834:in n04006004
+2 errors: n04006004
+Adv('at'):: not found in lexicon.
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+835: n04006010
+# text = A level that in both cases is at the top of the EU.
+# TEXT = a level that in both cases is at the top of the EU. 
+---
+836:in n04006014
+4 errors: n04006014
+A('latest'):: not found in lexicon.
+N('24th'):: not found in lexicon.
+N('euro'):: not found in lexicon.
+N('euro'):: not found in lexicon.
+---
+837:in n04006016
+2 errors: n04006016
+A('higher'):: not found in lexicon.
+N('euro'):: not found in lexicon.
+---
+838: n04007002
+1 difference
+# text = Corrado Passera withdraws the offer for Mps due to "the attitude of total closure that the Bank has [1;32;4mshown[0m to us".
+# TEXT = Corrado Passera withdraws the offer for Mps due to " the attitude of total closure that the bank has [1;32;4mshowed[0m to us ".
+---
+839:in n04007015
+2 errors: n04007015
+C('by'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+840:in n04007018
+1 error: n04007018
+N('ex-minister'):: not found in lexicon.
+---
+841: n04007023
+# text = It will go for assessment.
+# TEXT = It will go for assessment. 
+---
+842: n04008007
+## non projective
+2 differences
+# text = Students [1;32;4mat[0m [1;32;4mLUISS[0m University were told during the course of a meeting which took place in Rome.
+# TEXT = Students [1;32;4mLUISS[0m [1;32;4mat[0m University were told during the course of a meeting which took place in Rome.
+---
+843: n04008016
+2 differences
+# text = This morning, Pope Francis met Mark [1;34;47mZuckerberg [0mand his wife [1;31m•[0mat Casa Santa Marta.
+# TEXT = This morning, Pope Francis met Mark and his wife [1;31mZuckerberg [0mat Casa Santa Marta.
+---
+844:in n04009002
+2 errors: n04009002
+N('motorcycle'):: not found in lexicon.
+C('by'):: not found in lexicon.
+---
+845:in n04009003
+1 error: n04009003
+A('humanoid'):: not found in lexicon.
+---
+846:in n04010006
+1 error: n04010006
+A('chinese'):: not found in lexicon.
+---
+847: n04010016
+3 differences
+# text = More [1;31m•[0mand more [1;31m•[0mtech companies [1;32;4mare[0m calling the shots more than ever before on Wall Street, even more than in Silicon Valley.
+# TEXT = More [1;31mmore [0mand more [1;31mmore [0mtech companies [1;32;4mis[0m calling the shots more than ever before on Wall Street, even more than in Silicon Valley.
+---
+848:in n04010017
+2 errors: n04010017
+A('largest'):: not found in lexicon.
+N('capitalisation'):: not found in lexicon.
+---
+849: n04010021
+# text = Leaders of companies such as Spotify, Tesla, Uber and Snapchat will attend a private event in addition to the Mountain View Summit.
+# TEXT = Leaders of companies such as Spotify, Tesla, Uber and Snapchat will attend a private event in addition to the Mountain View Summit. 
+---
+850:in n05001005
+3 errors: n05001005
+A('sectorial'):: not found in lexicon.
+P('Under'):: not found in lexicon.
+N('Secretary'):: not found in lexicon.
+---
+851: n05001008
+3 differences
+# text = Durán acts as spokesman [1;32;4mand[0m [1;32;4mÁngel[0m [1;32;4mPintado[0m as treasurer.
+# TEXT = Durán acts as spokesman [1;32;4mPintado[0m [1;32;4mand[0m [1;32;4mÁngel[0m as treasurer.
+---
+852: n05002004
+3 differences
+# text = For the first time in the last six years the rate of unemployment has dropped below 20%, and there [1;32;4mare[0m already 600,000 more [1;31m•[0mpeople employed than there [1;32;4mwere[0m a year ago.
+# TEXT = for the first time in the last six years the rate of unemployment has dropped below 20%, and there [1;32;4mis[0m already 600,000 more [1;31mmore [0mpeople employed than there [1;32;4mwas[0m a year ago.
+---
+853: n05002015
+4 differences
+# text = [1;31m•[0m[1;32;4m[0mIts management[1;34;47m, however[0m[1;32;4m, hasn't[0m been devoid of criticism.
+# TEXT = [1;31m, However[0m[1;32;4m, [0mits management[1;32;4m has not[0m been devoid of criticism.
+---
+854:in n05002017
+## non projective
+1 error: n05002017
+A('proudest'):: not found in lexicon.
+---
+855: n05002020
+# text = This department now faces new challenges.
+# TEXT = This department now faces new challenges. 
+---
+856: n05002023
+# text = Furthermore, the Government will have to deal with another "hot potato".
+# TEXT = Furthermore, the government will have to deal with another " hot potato ". 
+---
+857: n05003006
+# text = The Minister of Defense has allowed her to remain General Secretary of the party for now.
+# TEXT = The minister of defense has allowed her to remain general secretary of the party for now. 
+---
+858: n05003010
+1 difference
+# text = The consulted sources [1;32;4mhave[0m said that it is "100% Cospedal".
+# TEXT = The consulted sources [1;32;4mhas[0m said that it is " 100% Cospedal ".
+---
+859:in n05003019
+## non projective
+1 error: n05003019
+N('everyone'):: not found in lexicon.
+---
+860: n05003022
+# text = Barón de Claret, the only one in Government with a noble title.
+# TEXT = Barón de Claret, the only one in government with a noble title. 
+---
+861: n05004020
+2 differences
+# text = Pedro[1;34;47m Sánchez[0m, like many other socialists, [1;31m•[0msaid in the programme Évole that Spain is a nation of nations.
+# TEXT = Pedro, like many other socialists, [1;31mSánchez [0msaid in the programme Évole that Spain is a nation of nations.
+---
+862:in n05004025
+1 error: n05004025
+N('rights'):: not found in lexicon.
+---
+863: n05005002
+# text = Federico Fellini once said: "The clown is to humanity as the shadow is to man".
+# TEXT = Federico Fellini once said: " the clown is to humanity as the shadow is to man ". 
+---
+864:in n05005016
+2 errors: n05005016
+Pro('himself'):: not found in lexicon.
+C('in'):: not found in lexicon.
+---
+865: n05006002
+# text = In the war films or cowboy and Indian films the battles, fights and beatings were out of this world.
+# TEXT = In the war films or cowboy and Indian films the battles, fights and beatings were out of this world. 
+---
+866: n05006013
+4 differences
+# text = Emphasis, fine irony, blunt [1;32;4minnuendos[0m and other well used verbal devices [1;32;4mfit[0m into parliamentary oratory[1;32;4m, [0mbut flicking at each other and slapstick comedy [1;32;4mdo[0m not.
+# TEXT = emphasis, fine irony, blunt [1;32;4minnuendoes[0m and other well used verbal devices [1;32;4mfits[0m into parliamentary oratory[1;32;4m [0mbut flicking at each other and slapstick comedy [1;32;4mdoes[0m not.
+---
+867: n05007006
+# text = He believes that nobody waiting for us waits for us.
+# TEXT = He believes that nobody waiting for us waits for us. 
+---
+868: n05007014
+1 difference
+# text = Perhaps that[1;32;4m's[0m why a surge of tears clouds his pupils while the syllable of time unearths his crop and surrenders his mystery to the bound waters.
+# TEXT = Perhaps that[1;32;4m is[0m why a surge of tears clouds his pupils while the syllable of time unearths his crop and surrenders his mystery to the bound waters.
+---
+869: n05007025
+# text = And they must be greeted with an open spirit and clear mind because they form the new generation of beauty and hope.
+# TEXT = And they must be greeted with an open spirit and clear mind because they form the new generation of beauty and hope. 
+---
+870: n05008012
+1 difference
+# text = As a result, Trump [1;32;4misn't[0m very worried about the Latin American vote at a national level.
+# TEXT = As a result, Trump [1;32;4mis not[0m very worried about the Latin american vote at a national level.
+---
+871:in n05008018
+3 errors: n05008018
+N('voting'):: not found in lexicon.
+A('greater'):: not found in lexicon.
+A('unclear'):: not found in lexicon.
+---
+872:in n05009025
+1 error: n05009025
+D('there'):: not found in lexicon.
+---
+873: n05009030
+1 difference
+# text = Dozens of FSLN followers [1;32;4mare[0m already celebrating the victory in the Plaza de las Victorias.
+# TEXT = Dozens of FSLN followers [1;32;4mis[0m already celebrating the victory in the Plaza de las Victorias.
+---
+874:in n05010004
+1 error: n05010004
+N('media'):: not found in lexicon.
+---
+875:in w02001041
+2 errors: w02001041
+N('everyman'):: not found in lexicon.
+N('theater'):: not found in lexicon.
+---
+876: w02001069
+## non projective
+2 differences
+# text = The festive dedication took place [1;32;4mon[0m [1;32;4mApril[0m 30, 1955.
+# TEXT = The festive dedication took place [1;32;4mApril[0m [1;32;4mon[0m 30, 1955.
+---
+877: w02002032
+# text = In 1882, a telegraphic system equipped with 34 fire alarm signals was put in operation.
+# TEXT = In 1882, a telegraphic system equipped with 34 fire alarm signals was put in operation. 
+---
+878:in w02002093
+2 errors: w02002093
+N('grounds'):: not found in lexicon.
+N('theater'):: not found in lexicon.
+---
+879:in w02002120
+1 error: w02002120
+N('center'):: not found in lexicon.
+---
+880: w02003037
+# text = In 1832, the former cloister was sold to the manufacturer Georg Reichenbach by the state of Württemberg with the stipulation to establish a cotton factory there.
+# TEXT = In 1832, the former cloister was sold to the manufacturer Georg Reichenbach by the state of Württemberg with the stipulation to establish a cotton factory there. 
+---
+881:in w02003070
+2 errors: w02003070
+A('islamic'):: not found in lexicon.
+N('1960'):: not found in lexicon.
+---
+882: w02004008
+3 differences
+# text = Among them is the former cloister from the abbey church of St. [1;32;4mPeter[0m [1;32;4mand[0m [1;32;4mPaul[0m.
+# TEXT = Among them is the former cloister from the abbey church of St. [1;32;4mand[0m [1;32;4mPaul[0m [1;32;4mPeter[0m.
+---
+883:in w02004021
+1 error: w02004021
+A('13th'):: not found in lexicon.
+---
+884: w02004065
+1 difference
+# text = There [1;32;4mare[0m different theories about the reasons for leaving the place.
+# TEXT = There [1;32;4mis[0m different theories about the reasons for leaving the place.
+---
+885:in w02005026
+2 errors: w02005026
+N('kilometer'):: not found in lexicon.
+A('japanese'):: not found in lexicon.
+---
+886: w02005027
+# text = It serves as a local place of rest and relaxation for San Franciscans.
+# TEXT = It serves as a local place of rest and relaxation for San Franciscans. 
+---
+887:in w02005028
+1 error: w02005028
+N('1990'):: not found in lexicon.
+---
+888: w02005029
+2 differences
+# text = It contains a monument to Martin[1;32;4m [0mLuther King[1;32;4m, [0mJr.
+# TEXT = It contains a monument to Martin[1;32;4m, [0mLuther King[1;32;4m [0mJr.
+---
+889:in w02006036
+1 error: w02006036
+N('1960'):: not found in lexicon.
+---
+890:in w02006081
+1 error: w02006081
+N('voting'):: not found in lexicon.
+---
+891: w02007008
+10 differences
+# text = Both the time [1;32;4mand[0m [1;32;4mthe[0m [1;32;4msequence[0m [1;32;4mof[0m [1;32;4mevents[0m [1;32;4mof[0m [1;32;4mthis[0m [1;32;4mincident[0m [1;32;4mwere[0m [1;32;4mvigorously[0m discussed.
+# TEXT = Both the time [1;32;4mof[0m [1;32;4mthis[0m [1;32;4mincident[0m [1;32;4mand[0m [1;32;4mthe[0m [1;32;4msequence[0m [1;32;4mof[0m [1;32;4mevents[0m [1;32;4mvigorously[0m [1;32;4mwere[0m discussed.
+---
+892:in w02007032
+2 errors: w02007032
+A('turkish'):: not found in lexicon.
+C('by'):: not found in lexicon.
+---
+893:in w02007061
+1 error: w02007061
+C('from'):: not found in lexicon.
+---
+894: w02007074
+# text = The Ottoman Empire and Russia were denied permission to keep their war fleet in the Black Sea.
+# TEXT = The Ottoman Empire and Russia were denied permission to keep their war fleet in the Black Sea. 
+---
+895:in w02008010
+2 errors: w02008010
+V('reaching'):: not found in lexicon.
+V('reaching'):: morphology error: conjugate_en:tab :V(reaching) : {"pe":3,"n":"s","t":"pr"}.
+---
+896:in w02008028
+2 errors: w02008028
+A('5th'):: not found in lexicon.
+Adv('bc'):: not found in lexicon.
+---
+897:in w02008038
+3 errors: w02008038
+A('known'):: not found in lexicon.
+A('frozen'):: not found in lexicon.
+Adv('bc'):: not found in lexicon.
+---
+898: w02008055
+# text = They were primarily on hills.
+# TEXT = They were primarily on hills. 
+---
+899:in w02008065
+2 errors: w02008065
+C('of'):: not found in lexicon.
+Adv('technologically'):: not found in lexicon.
+---
+900: w02009002
+11 differences
+# text = The severity [1;32;4mand[0m the [1;32;4mpresence[0m [1;32;4mof[0m the [1;32;4mrevolution[0m [1;32;4min[0m the [1;32;4mcountryside[0m alarmed the Court [1;32;4mand[0m [1;32;4mNational[0m [1;32;4mAssembly[0m [1;32;4min[0m [1;32;4mVersailles[0m.
+# TEXT = The severity [1;32;4mof[0m the [1;32;4mrevolution[0m [1;32;4min[0m the [1;32;4mcountryside[0m [1;32;4mand[0m the [1;32;4mpresence[0m alarmed the court [1;32;4min[0m [1;32;4mVersailles[0m [1;32;4mand[0m [1;32;4mnational[0m [1;32;4massembly[0m.
+---
+901: w02009025
+3 differences
+# text = The event was known about in Paris and caused more [1;31m•[0mupset in a mood which [1;32;4mwas[0m [1;32;4malready[0m charged by the persistently high price of bread and lack of provisions.
+# TEXT = the event was known about in Paris and caused more [1;31mmore [0mupset in a mood which [1;32;4malready[0m [1;32;4mwas[0m charged by the persistently high price of bread and lack of provisions.
+---
+902: w02009087
+1 difference
+# text = The king [1;32;4mdid[0m not take special precautions during his escape and was recognized multiple times during his stays.
+# TEXT = the king [1;32;4mdo[0m not take special precautions during his escape and was recognized multiple times during his stays.
+---
+903: w02011012
+2 differences
+# text = The hymn [1;32;4mwas[0m [1;32;4mwell[0m received and the audience demanded an encore.
+# TEXT = The hymn [1;32;4mwell[0m [1;32;4mwas[0m received and the audience demanded an encore.
+---
+904:in w02011029
+1 error: w02011029
+A('olympic'):: not found in lexicon.
+---
+905: w02012042
+6 differences
+# text = The First World War brought about shifts [1;32;4mand[0m [1;32;4mnew[0m [1;32;4mdevelopments[0m [1;32;4min[0m [1;32;4mcolonial[0m [1;32;4mpolitics[0m.
+# TEXT = The first World War brought about shifts [1;32;4min[0m [1;32;4mcolonial[0m [1;32;4mpolitics[0m [1;32;4mand[0m [1;32;4mnew[0m [1;32;4mdevelopments[0m.
+---
+906:in w02013015
+1 error: w02013015
+Adv('earlier'):: not found in lexicon.
+---
+907: w02013033
+# text = The Suez Crisis showed the limits of the old colonial powers such as Great Britain and France in a changing world.
+# TEXT = The Suez Crisis showed the limits of the old colonial powers such as great Britain and France in a changing world. 
+---
+908: w02013076
+1 difference
+# text = After the seizure of power by the National Socialists in 1933 there [1;32;4mwere[0m dispersed attempts to win back the old colonies.
+# TEXT = After the seizure of power by the National Socialists in 1933 there [1;32;4mwas[0m dispersed attempts to win back the old colonies.
+---
+909: w02013093
+# text = After the Russian Revolution in 1917, some countries, such as Finland, Poland and the Baltic States, won their independence.
+# TEXT = After the russian Revolution in 1917, some countries, such as Finland, Poland and the Baltic states, won their independence. 
+---
+910:in w02014013
+3 errors: w02014013
+N('means'):: not found in lexicon.
+C('of'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+911: w02014030
+4 differences
+# text = After the Compromise, Emperor [1;32;4mand[0m [1;32;4mKing Franz[0m [1;32;4mJoseph[0m [1;32;4mI. [0mtook great care to treat both of his monarchies equally.
+# TEXT = After the compromise, Emperor [1;32;4mJoseph[0m [1;32;4mI. and[0m [1;32;4mKing[0m [1;32;4mFranz [0mtook great care to treat both of his monarchies equally.
+---
+912: w02015084
+# text = The Disibodenberg cloister was disbanded and fell into ruin as a result of the Reformation.
+# TEXT = The Disibodenberg cloister was disbanded and fell into ruin as a result of the Reformation. 
+---
+913: w02015085
+# text = Today, expansive ruins can be viewed there.
+# TEXT = Today, expansive ruins can be viewed there. 
+---
+914:in w02015086
+2 errors: w02015086
+A('swedish'):: not found in lexicon.
+N('troops'):: not found in lexicon.
+---
+915: w02015087
+# text = The displaced nuns were moved to the Eibingen cloister.
+# TEXT = The displaced nuns were moved to the Eibingen cloister. 
+---
+916:in w02015088
+1 error: w02015088
+Adv('later'):: not found in lexicon.
+---
+917: w02016015
+# text = After these successes, he signed a contract with Team Telekom and moved in with his girlfriend in Merdingen in Südbaden, where he lived until 2002.
+# TEXT = after these successes, he signed a contract with team Telekom and moved in with his girlfriend in Merdingen in Südbaden, where he lived until 2002. 
+---
+918:in w02016060
+1 error: w02016060
+C('of'):: not found in lexicon.
+---
+919: w02017046
+# text = The censorship disposed of all undesirable opinions; participation in public life had become practically impossible.
+# TEXT = The censorship disposed of all undesirable opinions ; participation in public life had become practically impossible. 
+---
+920: w02017061
+1 difference
+# text = The traces of blood on the clothes were in the shape that they [1;32;4mwere[0m reported to have by the news reports on the day of the murder.
+# TEXT = The traces of blood on the clothes were in the shape that they [1;32;4mwas[0m reported to have by the news reports on the day of the murder.
+---
+921:in w02018030
+2 errors: w02018030
+V('honor'):: not found in lexicon.
+V('honor'):: morphology error: conjugate_en:tab :V(honor) : {"pe":3,"n":"s","t":"pp"}.
+---
+922: w02019048
+# text = Privately as well as publicly, Springer vigorously pursued reconciliation with the Jewish people and took many trips to Israel.
+# TEXT = privately as well as publicly, Springer vigorously pursued reconciliation with the jewish people and took many trips to Israel. 
+---
+923: w02019077
+# text = The chalet burned completely down.
+# TEXT = The chalet burned completely down. 
+---
+924: w02019085
+# text = In the following year, 1977, he received the distinction of the American Friendship Medal for the friendly position of his press toward the USA.
+# TEXT = In the following year, 1977, he received the distinction of the american Friendship Medal for the friendly position of his press toward the USA. 
+---
+925:in w03001037
+2 errors: w03001037
+D('those'):: not found in lexicon.
+A('immigrant'):: not found in lexicon.
+---
+926: w03001058
+2 differences
+# text = The history of Carcassonne [1;32;4mis[0m [1;32;4mdirectly[0m linked to that of its fortified city.
+# TEXT = The history of Carcassonne [1;32;4mdirectly[0m [1;32;4mis[0m linked to that of its fortified city.
+---
+927:in w03002048
+2 errors: w03002048
+NO('2000'):: option n is applied to NO, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+D('there'):: not found in lexicon.
+---
+928: w03002055
+# text = Amnesty International cites newspaper articles from 2008 describing the murder of fifty people accused of witchcraft.
+# TEXT = Amnesty International cites newspaper articles from 2008 describing the murder of fifty people accused of witchcraft. 
+---
+929:in w03003023
+## non projective
+1 error: w03003023
+N('27th'):: not found in lexicon.
+---
+930: w03003039
+## non projective
+3 differences
+# text = In the Endurance expedition in 1914, the British ship Endurance, captained [1;32;4mby[0m [1;32;4mSir[0m [1;32;4mErnest[0m Shackleton, set sail with twenty eight men to cross the Antarctic.
+# TEXT = In the Endurance expedition in 1914, the british ship Endurance, captained [1;32;4mErnest[0m [1;32;4mby[0m [1;32;4mSir[0m Shackleton, set sail with twenty eight men to cross the Antarctic.
+---
+931:in w03004037
+1 error: w03004037
+A('founding'):: not found in lexicon.
+---
+932: w03004107
+# text = However, Pyrrhus was forced to leave Sicily in order to attend to business in southern Italy.
+# TEXT = However, Pyrrhus was forced to leave Sicily in order to attend to business in southern Italy. 
+---
+933:in w03005012
+3 errors: w03005012
+A('8th'):: not found in lexicon.
+N('bc'):: not found in lexicon.
+A('mycenaean'):: not found in lexicon.
+---
+934:in w03005013
+3 errors: w03005013
+A('mycenaean'):: not found in lexicon.
+A('phoenician'):: not found in lexicon.
+A('greek'):: not found in lexicon.
+---
+935:in w03005014
+3 errors: w03005014
+A('9th'):: not found in lexicon.
+N('BC'):: not found in lexicon.
+A('greek'):: not found in lexicon.
+---
+936:in w03005015
+3 errors: w03005015
+V('governing'):: not found in lexicon.
+A('greek'):: not found in lexicon.
+V('governing'):: morphology error: conjugate_en:tab :V(governing) : {"pe":3,"n":"s","t":"pr"}.
+---
+937:in w03005016
+## non projective
+4 errors: w03005016
+A('8th'):: not found in lexicon.
+N('bc'):: not found in lexicon.
+V('governing'):: not found in lexicon.
+V('governing'):: morphology error: conjugate_en:tab :V(governing) : {"pe":3,"n":"s","t":"pr"}.
+---
+938:in w03006024
+1 error: w03006024
+A('middle'):: not found in lexicon.
+---
+939: w03007008
+# text = However, they did not expand until ships big enough to cross seas were built.
+# TEXT = However, they did not expand until ships big enough to cross seas were built. 
+---
+940:in w03007039
+1 error: w03007039
+C('by'):: not found in lexicon.
+---
+941:in w03008011
+2 errors: w03008011
+A('starting'):: not found in lexicon.
+N('revolutionary'):: not found in lexicon.
+---
+942: w03008029
+# text = In Pluviose year III (January-February 1794), easing off the pressure of the Reign of Terror, he took various measures to liberate the suspects.
+# TEXT = In Pluviose year iii (January-February 1794), easing off the pressure of the reign of terror, he took various measures to liberate the suspects. 
+---
+943: w03009029
+3 differences
+# text = Financed entirely with Bernard[1;34;47m Tapie[0m's [1;31m•[0mown money, these schools [1;32;4mwere[0m closed in 1994 when he was declared bankrupt.
+# TEXT = Financed entirely with Bernard 's [1;31mTapie [0mown money, these schools [1;32;4mwas[0m closed in 1994 when he was declared bankrupt.
+---
+944:in w03009044
+2 errors: w03009044
+C('despite'):: not found in lexicon.
+Adv('worldwide'):: not found in lexicon.
+---
+945: w03010096
+1 difference
+# text = To get away from it all, the Remis resided in Switzerland for most [1;31m•[0mof summer 1947.
+# TEXT = To get away from it all, the Remis resided in Switzerland for most [1;31mmost [0mof summer 1947.
+---
+946:in w03010097
+3 errors: w03010097
+C('of'):: not found in lexicon.
+A('south'):: not found in lexicon.
+A('postwar'):: not found in lexicon.
+---
+947:in w03010098
+2 errors: w03010098
+C('of'):: not found in lexicon.
+N('vain'):: not found in lexicon.
+---
+948: w03010099
+1 difference
+# text = In the summer, Georges and his wife returned to Switzerland, accompanied by Rosane, [1;34;47man [0m18 year old who was the daughter of one of Germaine's friends.
+# TEXT = in the summer, Georges and his wife returned to Switzerland, accompanied by Rosane, 18 year old who was the daughter of one of Germaine 's friends.
+---
+949:in w03010100
+1 error: w03010100
+A('extra-marital'):: not found in lexicon.
+---
+950:in w04001027
+1 error: w04001027
+A('lower'):: not found in lexicon.
+---
+951: w04001037
+# text = Furthermore, the occurrence of hurricanes on the island is possible during the summer.
+# TEXT = Furthermore, the occurrence of hurricanes on the island is possible during the summer. 
+---
+952:in w04001053
+1 error: w04001053
+A('located'):: not found in lexicon.
+---
+953: w04002008
+# text = An element supporting this hypothesis would be the intense royal livestock of horses that took place at Villa Pelucca, in Sesto San Giovanni.
+# TEXT = An element supporting this hypothesis would be the intense royal livestock of horses that took place at Villa Pelucca, in Sesto San Giovanni. 
+---
+954:in w04002048
+2 errors: w04002048
+A('north'):: not found in lexicon.
+N('racetrack'):: not found in lexicon.
+---
+955:in w04002055
+3 errors: w04002055
+N('racecourse'):: not found in lexicon.
+Adv('later'):: not found in lexicon.
+Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
+---
+956: w04003025
+# text = In August 1969, Pope Paul VI removed the death penalty from the Vatican law and revoked it from all offences.
+# TEXT = in August 1969, Pope Paul VI removed the death penalty from the Vatican law and revoked it from all offences. 
+---
+957:in w04003054
+3 errors: w04003054
+N('issuing'):: not found in lexicon.
+A('numismatic'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+958: w04004005
+2 differences
+# text = The inner part of the region is flat[1;34;47m and hilly[0m, with no clear distinction between one area to the next[1;31m•[0m.
+# TEXT = The inner part of the region is flat, with no clear distinction between one area to the next[1;31m and hilly[0m.
+---
+959:in w04004045
+1 error: w04004045
+N('menhir'):: not found in lexicon.
+---
+960: w04004051
+2 differences
+# text = The second Apulian and Calabrian Royal Region [1;32;4mwas[0m [1;32;4mthen[0m established, also including Samnium, parts of Molise and the oriental Basilicata.
+# TEXT = The second Apulian and Calabrian Royal Region [1;32;4mthen[0m [1;32;4mwas[0m established, also including Samnium, parts of Molise and the oriental Basilicata.
+---
+961: w04004059
+# text = During the thirteenth century, the name Apulia was used by some authors to signify the southern part of the Italian peninsula.
+# TEXT = During the thirteenth century, the name Apulia was used by some authors to signify the southern part of the italian peninsula. 
+---
+962:in w04006023
+1 error: w04006023
+A('historian'):: not found in lexicon.
+---
+963:in w04006065
+1 error: w04006065
+Pro('these'):: not found in lexicon.
+---
+964:in w04007006
+## non projective
+3 errors: w04007006
+C('to'):: not found in lexicon.
+A('corsican'):: not found in lexicon.
+A('french'):: not found in lexicon.
+---
+965:in w04007021
+2 errors: w04007021
+N('resolver'):: not found in lexicon.
+A('french'):: not found in lexicon.
+---
+966:in w04007037
+1 error: w04007037
+C('in'):: not found in lexicon.
+---
+967: w04007049
+19 differences
+# text = Napoleon was confident that the clear success of Austerlitz could lead to a general peace treaty[1;32;4m, but[0m [1;32;4mhis[0m [1;32;4mhopes[0m [1;32;4mwere[0m [1;32;4msoon[0m [1;32;4mdashed: the[0m [1;32;4mnew[0m [1;32;4mBritish[0m [1;32;4mPrime[0m [1;32;4mMinister[0m [1;32;4mLord[0m [1;32;4mGrenville[0m [1;32;4mrefused[0m [1;32;4many[0m [1;32;4magreement, and[0m [1;32;4mso[0m [1;32;4mdid[0m [1;32;4mTsar[0m [1;32;4mAlexander[0m.
+# TEXT = Napoleon was confident that the clear success of Austerlitz could lead to a general peace treaty[1;32;4m,: the[0m [1;32;4mnew[0m [1;32;4mbritish[0m [1;32;4mPrime[0m [1;32;4mMinister[0m [1;32;4mLord Grenville[0m [1;32;4mrefused[0m [1;32;4many[0m [1;32;4magreement[0m [1;32;4mand[0m [1;32;4mso[0m [1;32;4mdid[0m [1;32;4mTsar[0m [1;32;4mAlexander[0m [1;32;4mbut his[0m [1;32;4mhopes[0m [1;32;4msoon[0m [1;32;4mwere[0m [1;32;4mdashed[0m.
+---
+968:in w04008006
+1 error: w04008006
+N('regards'):: not found in lexicon.
+---
+969:in w04009042
+1 error: w04009042
+N('other'):: not found in lexicon.
+---
+970: w04010027
+2 differences
+# text = Both students of Goffredo Petrassi, Ennio [1;32;4mMorricone[0m and Bruno [1;32;4mNicolai[0m met at the Santa (Saint) Cecelia conservatory.
+# TEXT = Both students of Goffredo Petrassi, Ennio [1;32;4mNicolai[0m and Bruno [1;32;4mMorricone[0m met at the Santa (Saint) Cecelia conservatory.
+---
+971: w04010028
+# text = Between them bloomed a long professional and amicable relationship that lasted for years.
+# TEXT = Between them bloomed a long professional and amicable relationship that lasted for years. 
+---
+972: w04010029
+1 difference
+# text = Nicolai collaborates on various cinematic scores by Morricone as Metti, one night at dinner; some of them [1;32;4mwere[0m written by both together.
+# TEXT = Nicolai collaborates on various cinematic scores by Morricone as Metti, one night at dinner ; some of them [1;32;4mwas[0m written by both together.
+---
+973: w04010030
+1 difference
+# text = However, the friendship has fallen apart due to unofficial [1;32;4mcollaborations[0m between the two, which has given rise to legal disputes.
+# TEXT = However, the friendship has fallen apart due to unofficial [1;32;4mcollaboration[0m between the two, which has given rise to legal disputes.
+---
+974:in w04010031
+3 errors: w04010031
+Adv('later'):: not found in lexicon.
+V('characterise'):: not found in lexicon.
+V('characterise'):: morphology error: conjugate_en:tab :V(characterise) : {"pe":3,"n":"s","t":"pp"}.
+---
+975:in w05001026
+1 error: w05001026
+A('20th'):: not found in lexicon.
+---
+976: w05001036
+# text = It has three parallel chapels at the apse and many lateral chapels between the buttresses.
+# TEXT = It has three parallel chapels at the apse and many lateral chapels between the buttresses. 
+---
+977: w05001045
+# text = Tradition has it that the theme was selected intentionally because of the great number of converted Jews who lived in Palma.
+# TEXT = Tradition has it that the theme was selected intentionally because of the great number of converted Jews who lived in Palma. 
+---
+978:in w05002014
+1 error: w05002014
+N('orogeny'):: not found in lexicon.
+---
+979:in w05002032
+2 errors: w05002032
+A('called'):: not found in lexicon.
+N('subduction'):: not found in lexicon.
+---
+980:in w05003012
+1 error: w05003012
+N('discontinuation'):: not found in lexicon.
+---
+981:in w05003050
+3 errors: w05003050
+V('legalise'):: not found in lexicon.
+A('exiled'):: not found in lexicon.
+V('legalise'):: morphology error: conjugate_en:tab :V(legalise) : {"pe":3,"n":"s","t":"pp"}.
+---
+982: w05003119
+1 difference
+# text = The collapse of and intervention in dozens of banks [1;32;4mlead[0m to a flight of capital, causing businesses to go bankrupt.
+# TEXT = The collapse of and intervention in dozens of banks [1;32;4mled[0m to a flight of capital, causing businesses to go bankrupt.
+---
+983: w05004031
+# text = It is the portion from this second boundary up to the outer boundary, the imaginary line that connects the lighthouse landmark at Punta del Este to the lighthouse landmark at Punta Rasa.
+# TEXT = It is the portion from this second boundary up to the outer boundary, the imaginary line that connects the lighthouse landmark at Punta del Este to the lighthouse landmark at Punta Rasa. 
+---
+984: w05005083
+# text = Things started to change in October 1777 when British forces under the command of General John Burgoyne surrendered in Saratoga in the north of the state of New York.
+# TEXT = Things started to change in October 1777 when british forces under the command of General John Burgoyne surrendered in Saratoga in the north of the state of New York. 
+---
+985: w05005084
+# text = This was the coup de grâce and encouragement the settlers needed to get their independence.
+# TEXT = This was the coup de grâce and encouragement the settlers needed to get their independence. 
+---
+986: w05005085
+3 differences
+# text = Indians arrived from Canada, led by Joseph Brant; they supported the British because the colonists [1;32;4mwere[0m expropriating more [1;34;47mand [0mmore of their lands[1;31m•[0m.
+# TEXT = Indians arrived from Canada, led by Joseph Brant ; they supported the British because the colonists [1;32;4mwas[0m expropriating more more of their lands[1;31m and more more[0m.
+---
+987: w05005086
+2 differences
+# text = The expedition was led by General Joseph [1;34;47mBurgoyne [0mwho intended to reach Albany[1;31m•[0m.
+# TEXT = The expedition was led by General Joseph who intended to reach Albany[1;31m Burgoyne[0m.
+---
+988: w05005087
+# text = However, they were intercepted and had to do battle in Freeman, close to the Hudson River.
+# TEXT = However, they were intercepted and had to do battle in Freeman, close to the Hudson River. 
+---
+989: w05006024
+# text = Golden Age Spanish or Early Modern Spanish is the variant of the language that constitutes the transition from Medieval Spanish to Modern Spanish.
+# TEXT = Golden age Spanish or early modern Spanish is the variant of the language that constitutes the transition from medieval Spanish to modern Spanish. 
+---
+990: w05006058
+# text = On the other hand, external history contains references to the history of Spanish speakers, their historical vicissitudes and the social use of the language.
+# TEXT = On the other hand, external history contains references to the history of Spanish speakers, their historical vicissitudes and the social use of the language. 
+---
+991:in w05007004
+1 error: w05007004
+A('english'):: not found in lexicon.
+---
+992:in w05007080
+1 error: w05007080
+C('at'):: not found in lexicon.
+---
+993:in w05008107
+1 error: w05008107
+N('federalization'):: not found in lexicon.
+---
+994: w05009044
+3 differences
+# text = In 1976 he met with a friend who worked with his record label The Rocket Record Company, Kiki[1;32;4m [0mDee[1;32;4m, [0mto record what would be another remarkable success for him: "[1;32;4mDon't[0m Go Breaking My Heart".
+# TEXT = In 1976 he met with a friend who worked with his record label the Rocket Record Company, Kiki[1;32;4m, [0mDee[1;32;4m [0mto record what would be another remarkable success for him: " [1;32;4mdo not[0m go breaking my heart ".
+---
+995:in w05010023
+1 error: w05010023
+N('favor'):: not found in lexicon.
+---
+996: w05010024
+2 differences
+# text = César [1;32;4mwas[0m [1;32;4mpersonally[0m informed of Pompey's actions by Curio, who at that time had finished his term in office.
+# TEXT = César [1;32;4mpersonally[0m [1;32;4mwas[0m informed of Pompey 's actions by Curio, who at that time had finished his term in office.
+---
+997: w05010025
+2 differences
+# text = Meanwhile, his place in tribune was occupied by Marco[1;34;47m Antonio[0m, who held the position until December[1;31m•[0m.
+# TEXT = Meanwhile, his place in tribune was occupied by Marco, who held the position until December[1;31m Antonio[0m.
+---
+998:in w05010026
+6 errors: w05010026
+Adv('definitively'):: not found in lexicon.
+C('by'):: not found in lexicon.
+C('from'):: not found in lexicon.
+N('consolate'):: not found in lexicon.
+C('of'):: not found in lexicon.
+N('troops'):: not found in lexicon.
+---
+999:in w05010027
+3 errors: w05010027
+A('1st'):: not found in lexicon.
+N('bc'):: not found in lexicon.
+Pro('himself'):: not found in lexicon.
+---
+1000 UD dependencies processed
+0 modified

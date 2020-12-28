@@ -1,0 +1,3169 @@
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-1275
+# text = Qui était le premier vice-président des États-Unis ?
+# gl = ok
+1	Qui	qui	PRON	_	PronType=Int	5	nsubj	_	_
+2	était	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	5	cop	_	_
+3	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	5	det	_	_
+4	premier	premier	ADJ	_	Gender=Masc|Number=Sing|NumType=Ord	5	amod	_	_
+5	vice-président	vice-président	NOUN	_	Gender=Masc|Number=Sing	0	root	_	_
+6	de	de	ADP	_	_	8	case	_	_
+7	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
+8	États-Unis	États-Unis	PROPN	_	_	5	nmod	_	_
+9	?	?	PUNCT	_	_	5	punct	_	_
+# jsRealB-start
+NP(Pro("qui").c("nom"),
+   V("être").t("i").pe("3").n("s"),
+   D("le").g("m").n("s"),
+   A("premier").pos("pre").g("m").n("s"),
+   N("vice-président").g("m").n("s"),
+   NP(P("de"),
+      D("le").n("p"),
+      Q("États-Unis"))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-1426
+# text = Qui est gouverneur du Tennessee ?
+# gl = ok
+1	Qui	qui	PRON	_	PronType=Int	3	nsubj	_	_
+2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	gouverneur	gouverneur	NOUN	_	Gender=Masc|Number=Sing	0	root	_	_
+4	de	de	ADP	_	_	6	case	_	_
+5	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	6	det	_	_
+6	Tennessee	Tennessee	PROPN	_	Gender=Masc|Number=Sing	3	nmod	_	_
+7	?	?	PUNCT	_	_	3	punct	_	_
+# jsRealB-start
+NP(Pro("qui").c("nom"),
+   V("être").t("p").pe("3").n("s"),
+   N("gouverneur").g("m").n("s"),
+   NP(P("de"),
+      D("le").g("m").n("s"),
+      Q("Tennessee"))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-1750
+# text = Quelle est la population du Mexique ?
+# gl = ok
+1	Quelle	quel	ADJ	_	Gender=Fem|Number=Sing	0	root	_	_
+2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	cop	_	_
+3	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	4	det	_	_
+4	population	population	NOUN	_	Gender=Fem|Number=Sing	1	nsubj	_	_
+5	de	de	ADP	_	_	7	case	_	_
+6	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	Mexique	Mexique	PROPN	_	Gender=Masc|Number=Sing	4	nmod	_	_
+8	?	?	PUNCT	_	_	1	punct	_	_
+# jsRealB-start
+NP(A("quel").pos("post").g("f").n("s"),
+   V("être").t("p").pe("3").n("s"),
+   NP(D("le").g("f").n("s"),
+      N("population").g("f").n("s"),
+      NP(P("de"),
+         D("le").g("m").n("s"),
+         Q("Mexique")))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-931
+# text = À quelle distance du filet se trouve la ligne de service au tennis ?
+# gl = 7:lemma le/lui>moi
+1	À	à	ADP	_	_	3	case	_	_
+2	quelle	quel	DET	_	Gender=Fem|Number=Sing|PronType=Int	3	det	_	_
+3	distance	distance	NOUN	_	Gender=Fem|Number=Sing	8	obl:arg	_	_
+4	de	de	ADP	_	_	6	case	_	_
+5	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	6	det	_	_
+6	filet	filet	NOUN	_	Gender=Masc|Number=Sing	3	nmod	_	_
+7	se	le/lui	PRON	_	Person=3|Reflex=Yes	8	expl:comp	_	_
+8	trouve	trouver	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+9	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	10	det	_	_
+10	ligne	ligne	NOUN	_	Gender=Fem|Number=Sing	8	nsubj	_	_
+11	de	de	ADP	_	_	12	case	_	_
+12	service	service	NOUN	_	Gender=Masc|Number=Sing	10	nmod	_	_
+13	à	à	ADP	_	_	15	case	_	_
+14	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	15	det	_	_
+15	tennis	tennis	NOUN	_	Gender=Masc	8	obl:mod	_	_
+16	?	?	PUNCT	_	_	8	punct	_	_
+# jsRealB-start
+S(NP(P("à"),
+     D("quel").g("f").n("s"),
+     N("distance").g("f").n("s"),
+     NP(P("de"),
+        D("le").g("m").n("s"),
+        N("filet").g("m").n("s"))),
+  Pro("moi").c("refl").pe("3"),
+  VP(V("trouver").t("p").pe("3").n("s"),
+     NP(D("le").g("f").n("s"),
+        N("ligne").g("f").n("s"),
+        NP(P("de"),
+           N("service").g("m").n("s"))),
+     NP(P("à"),
+        D("le").g("m").n("s"),
+        N("tennis").g("m")))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-1689
+# text = À quelle guerre fait référence le livre "Charge of the Light Brigade" ?
+# gl = ok
+1	À	à	ADP	_	_	3	case	_	_
+2	quelle	quel	DET	_	Gender=Fem|Number=Sing|PronType=Int	3	det	_	_
+3	guerre	guerre	NOUN	_	Gender=Fem|Number=Sing	4	obl:arg	_	_
+4	fait	faire	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	référence	référence	NOUN	_	Gender=Fem|Number=Sing	4	obj	_	_
+6	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	livre	livre	NOUN	_	Number=Sing	4	nsubj	_	_
+8	"	"	PUNCT	_	_	9	punct	_	SpaceAfter=No
+9	Charge	Charge	X	_	_	7	dep	_	_
+10	of	of	X	_	_	9	flat:foreign	_	_
+11	the	the	X	_	_	9	flat:foreign	_	_
+12	Light	Light	X	_	_	9	flat:foreign	_	_
+13	Brigade	Brigade	X	_	_	9	flat:foreign	_	SpaceAfter=No
+14	"	"	PUNCT	_	_	9	punct	_	_
+15	?	?	PUNCT	_	_	4	punct	_	_
+# jsRealB-start
+S(NP(P("à"),
+     D("quel").g("f").n("s"),
+     N("guerre").g("f").n("s")),
+  VP(V("faire").t("p").pe("3").n("s"),
+     N("référence").g("f").n("s"),
+     NP(D("le").g("m").n("s"),
+        N("livre").n("s"),
+        S(Q("\""),
+          VP(Q("Charge"),
+             Q("of"),
+             Q("the"),
+             Q("Light"),
+             Q("Brigade"),
+             Q("\"")))))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-821
+# text = Quel est le lieu de l'aéroport McCarren ?
+# gl = ok
+1	Quel	quel	ADJ	_	Gender=Masc|Number=Sing	0	root	_	_
+2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	cop	_	_
+3	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	4	det	_	_
+4	lieu	lieu	NOUN	_	Gender=Masc|Number=Sing	1	nsubj	_	_
+5	de	de	ADP	_	_	7	case	_	_
+6	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	7	det	_	SpaceAfter=No
+7	aéroport	aéroport	NOUN	_	Gender=Masc|Number=Sing	4	nmod	_	_
+8	McCarren	McCarren	PROPN	_	_	7	nmod	_	_
+9	?	?	PUNCT	_	_	1	punct	_	_
+# jsRealB-start
+NP(A("quel").pos("post").g("m").n("s"),
+   V("être").t("p").pe("3").n("s"),
+   NP(D("le").g("m").n("s"),
+      N("lieu").g("m").n("s"),
+      NP(P("de"),
+         D("le").n("s"),
+         N("aéroport").g("m").n("s"),
+         Q("McCarren")))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-850
+# text = Où est l'Orange Bowl ?
+# gl = ok
+1	Où	où	ADV	_	PronType=Int	2	obl:arg	_	_
+2	est	être	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	4	det	_	SpaceAfter=No
+4	Orange	Orange	PROPN	_	Gender=Masc|Number=Sing	2	nsubj	_	_
+5	Bowl	Bowl	PROPN	_	_	4	flat:name	_	_
+6	?	?	PUNCT	_	_	2	punct	_	_
+# jsRealB-start
+S(Adv("où"),
+  VP(V("être").t("p").pe("3").n("s"),
+     NP(D("le").n("s"),
+        Q("Orange"),
+        Q("Bowl")))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-1097
+# text = Comment nomme-t-on les animaux qui ne possèdent pas de colonne vertébrale ?
+# gl = ok
+1	Comment	comment	ADV	_	PronType=Int	2	xcomp	_	_
+2	nomme	nommer	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	SpaceAfter=No
+3	-t	t	PART	_	_	4	dep	_	SpaceAfter=No|wordform=t
+4	-on	il	PRON	_	Number=Sing|Person=3	2	nsubj	_	wordform=on
+5	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	animaux	animal	NOUN	_	Gender=Masc|Number=Plur	2	obj	_	_
+7	qui	qui	PRON	_	PronType=Rel	9	nsubj	_	_
+8	ne	ne	ADV	_	Polarity=Neg	9	advmod	_	_
+9	possèdent	posséder	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	6	acl:relcl	_	_
+10	pas	pas	ADV	_	Polarity=Neg	9	advmod	_	_
+11	de	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	12	det	_	_
+12	colonne	colonne	NOUN	_	Gender=Fem|Number=Sing	9	obj	_	_
+13	vertébrale	vertébral	ADJ	_	Gender=Fem|Number=Sing	12	amod	_	_
+14	?	?	PUNCT	_	_	2	punct	_	_
+# jsRealB-start
+S(Adv("comment"),
+  VP(V("nommer").t("p").pe("3").n("s"),
+     NP(Q("-t"),
+        Pro("moi").c("nom").b("-").pe("3").n("s")),
+     NP(D("le").n("p"),
+        N("animal").g("m").n("p"),
+        S(Pro("qui").c("nom"),
+          Adv("ne"),
+          VP(V("posséder").t("p").pe("3").n("p"),
+             Adv("pas"),
+             NP(D("un").n("p"),
+                N("colonne").g("f").n("s"),
+                A("vertébral").pos("post").g("f").n("s"))))))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-1519
+# text = Où est né Hans Christian Anderson ?
+# gl = ok
+1	Où	où	ADV	_	PronType=Int	3	advmod	_	_
+2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux:tense	_	_
+3	né	naître	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+4	Hans	Hans	PROPN	_	Gender=Masc|Number=Sing	3	nsubj	_	_
+5	Christian	Christian	PROPN	_	Gender=Masc|Number=Sing	4	flat:name	_	_
+6	Anderson	Anderson	PROPN	_	Gender=Masc|Number=Sing	4	flat:name	_	_
+7	?	?	PUNCT	_	_	3	punct	_	_
+# jsRealB-start
+S(Adv("où"),
+  V("être").t("p").pe("3").n("s"),
+  VP(V("naître").t("pp").n("s").g("m"),
+     NP(Q("Hans"),
+        Q("Christian"),
+        Q("Anderson")))).a("?")
+# jsRealB-end
+
+# file = fr/fr_fqb-ud-test.conllu
+# sent_id = FQB_TREC-fr-978
+# text = Quand Rosa Parks est-elle née ?
+# gl = ok
+1	Quand	quand	ADV	_	PronType=Int	6	advmod	_	_
+2	Rosa	Rosa	PROPN	_	Gender=Fem|Number=Sing	6	nsubj	_	_
+3	Parks	Parks	PROPN	_	_	2	flat:name	_	_
+4	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux:tense	_	SpaceAfter=No
+5	-elle	il	PRON	_	Gender=Fem|Number=Sing|Person=3	6	expl:subj	_	_
+6	née	naître	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+7	?	?	PUNCT	_	_	6	punct	_	_
+# jsRealB-start
+S(Adv("quand"),
+  NP(Q("Rosa"),
+     Q("Parks")),
+  V("être").t("p").pe("3").n("s"),
+  Pro("moi").c("nom").b("-").pe("3").g("f").n("s"),
+  VP(V("naître").t("pp").n("s").g("f"))).a("?")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-dev_01515
+# text = La pratique combinée de ces trois points a pour effet de diminuer l'emprise des cinq kleśa (afflictions).
+# gl = ok
+1	La	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	wordform=la
+2	pratique	pratique	NOUN	_	Gender=Fem|Number=Sing	8	nsubj	_	_
+3	combinée	combiner	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	2	acl	_	_
+4	de	de	ADP	_	_	7	case	_	_
+5	ces	ce	DET	_	Number=Plur|PronType=Dem	7	det	_	_
+6	trois	trois	NUM	_	Number=Plur	7	nummod	_	_
+7	points	point	NOUN	_	Gender=Masc|Number=Plur	2	nmod	_	_
+8	a	avoir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+9	pour	pour	ADP	_	_	10	case	_	_
+10	effet	effet	NOUN	_	Gender=Masc|Number=Sing	8	obl:arg	_	_
+11	de	de	ADP	_	_	12	mark	_	_
+12	diminuer	diminuer	VERB	_	VerbForm=Inf	8	ccomp:obj	_	_
+13	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	14	det	_	SpaceAfter=No
+14	emprise	emprise	NOUN	_	Gender=Fem|Number=Sing	12	obj	_	_
+15	de	de	ADP	_	_	18	case	_	_
+16	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	18	det	_	_
+17	cinq	cinq	NUM	_	Number=Plur	18	nummod	_	_
+18	kleśa	kleśa	NOUN	_	Gender=Masc|Number=Plur	14	nmod	_	_
+19	(	(	PUNCT	_	_	20	punct	_	SpaceAfter=No
+20	afflictions	affliction	NOUN	_	Gender=Fem|Number=Plur	18	appos	_	SpaceAfter=No
+21	)	)	PUNCT	_	_	20	punct	_	SpaceAfter=No
+22	.	.	PUNCT	_	_	8	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("f").n("s"),
+     N("pratique").g("f").n("s"),
+     V("combiner").t("pp").n("s").g("f"),
+     NP(P("de"),
+        D("ce").n("p"),
+        NO(3).dOpt({nat:true}),
+        N("point").g("m").n("p"))),
+  VP(V("avoir").t("p").pe("3").n("s"),
+     NP(P("pour"),
+        N("effet").g("m").n("s")),
+     S(P("de"),
+       VP(V("diminuer").t("b"),
+          NP(D("le").n("s"),
+             N("emprise").g("f").n("s"),
+             NP(P("de"),
+                D("le").n("p"),
+                NO(5).dOpt({nat:true}),
+                Q("kleśa"),
+                NP(Q("("),
+                   N("affliction").g("f").n("p"),
+                   Q(")")))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-test_00255
+# text = Le cadre est très joli, mais l'ambiance n'est pas à la hauteur de celle d'un Pub anglais, par manque de musique adaptée.
+# gl = ok
+1	Le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	wordform=le
+2	cadre	cadre	NOUN	_	Gender=Masc|Number=Sing	5	nsubj	_	_
+3	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+4	très	très	ADV	_	_	5	advmod	_	_
+5	joli	joli	ADJ	_	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
+6	,	,	PUNCT	_	_	15	punct	_	_
+7	mais	mais	CCONJ	_	_	15	cc	_	_
+8	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	9	det	_	SpaceAfter=No
+9	ambiance	ambiance	NOUN	_	Gender=Fem|Number=Sing	15	nsubj	_	_
+10	n'	ne	ADV	_	Polarity=Neg	15	advmod	_	SpaceAfter=No
+11	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	15	cop	_	_
+12	pas	pas	ADV	_	Polarity=Neg	15	advmod	_	_
+13	à	à	ADP	_	_	15	case	_	_
+14	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	15	det	_	_
+15	hauteur	hauteur	NOUN	_	Gender=Fem|Number=Sing	5	conj	_	_
+16	de	de	ADP	_	_	17	case	_	_
+17	celle	celui	PRON	_	Gender=Fem|Number=Sing|Person=3|PronType=Dem	15	nmod	_	_
+18	d'	de	ADP	_	_	20	case	_	SpaceAfter=No
+19	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	20	det	_	_
+20	Pub	pub	NOUN	_	Gender=Masc|Number=Sing	17	nmod	_	wordform=pub
+21	anglais	anglais	ADJ	_	Gender=Masc	20	amod	_	SpaceAfter=No
+22	,	,	PUNCT	_	_	24	punct	_	_
+23	par	par	ADP	_	_	24	case	_	_
+24	manque	manque	NOUN	_	Gender=Masc|Number=Sing	15	obl:mod	_	_
+25	de	de	ADP	_	_	26	case	_	_
+26	musique	musique	NOUN	_	Gender=Fem|Number=Sing	24	nmod	_	_
+27	adaptée	adapté	ADJ	_	Gender=Fem|Number=Sing	26	amod	_	SpaceAfter=No
+28	.	.	PUNCT	_	_	5	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("f").n("s"),
+     N("pratique").g("f").n("s"),
+     V("combiner").t("pp").n("s").g("f"),
+     NP(P("de"),
+        D("ce").n("p"),
+        NO(3).dOpt({nat:true}),
+        N("point").g("m").n("p"))),
+  VP(V("avoir").t("p").pe("3").n("s"),
+     NP(P("pour"),
+        N("effet").g("m").n("s")),
+     S(P("de"),
+       VP(V("diminuer").t("b"),
+          NP(D("le").n("s"),
+             N("emprise").g("f").n("s"),
+             NP(P("de"),
+                D("le").n("p"),
+                NO(5).dOpt({nat:true}),
+                Q("kleśa"),
+                NP(Q("("),
+                   N("affliction").g("f").n("p"),
+                   Q(")")))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-dev_01512
+# text = Pour Pokémon, il en faut exactement 60.
+# gl = 5:head 8>6
+1	Pour	pour	ADP	_	_	2	case	_	wordform=pour
+2	Pokémon	Pokémon	PROPN	_	_	6	obl:mod	_	SpaceAfter=No
+3	,	,	PUNCT	_	_	2	punct	_	_
+4	il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	expl:subj	_	_
+5	en	en	PRON	_	Person=3|PronType=Prs	8	nmod	_	_
+6	faut	falloir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	exactement	exactement	ADV	_	_	8	advmod	_	_
+8	60	60	NUM	_	Number=Plur	6	obj	_	SpaceAfter=No
+9	.	.	PUNCT	_	_	6	punct	_	_
+# jsRealB-start
+S(NP(P("pour"),
+     Q("Pokémon"),
+     Q(",")),
+  Pro("moi").c("nom").pe("3").g("m").n("s"),
+  Pro("en").c("nom").pe("3"),
+  VP(V("falloir").t("p").pe("3").n("s"),
+     NP(Adv("exactement"),
+        NO("60").dOpt({raw:true})))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-test_00089
+# text = L'acteur espagnol Alex Angulo a attribué "La Camella blanca" aux réalisateurs du film, qui ont souligné que ce travail leur a permis d'observer l'état de l'esprit "courageux, pacifique, mais aussi combatif" du peuple sahraoui.
+# gl = ok
+1	L'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	2	det	_	SpaceAfter=No|wordform=l'
+2	acteur	acteur	NOUN	_	Gender=Masc|Number=Sing	7	nsubj	_	_
+3	espagnol	espagnol	ADJ	_	Gender=Masc|Number=Sing	2	amod	_	_
+4	Alex	Alex	PROPN	_	_	2	appos	_	_
+5	Angulo	Angulo	PROPN	_	_	4	flat:name	_	_
+6	a	avoir	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	aux:tense	_	_
+7	attribué	attribuer	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+8	"	"	PUNCT	_	_	10	punct	_	SpaceAfter=No
+9	La	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	10	det	_	wordform=la
+10	Camella	camella	NOUN	_	Gender=Fem|Number=Sing	7	obj	_	wordform=camella
+11	blanca	blanc	ADJ	_	Gender=Fem|Number=Sing	10	amod	_	SpaceAfter=No
+12	"	"	PUNCT	_	_	10	punct	_	_
+13	à	à	ADP	_	_	15	case	_	_
+14	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	15	det	_	_
+15	réalisateurs	réalisateur	NOUN	_	Gender=Masc|Number=Plur	7	obl:arg	_	_
+16	de	de	ADP	_	_	18	case	_	_
+17	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
+18	film	film	NOUN	_	Gender=Masc|Number=Sing	15	nmod	_	SpaceAfter=No
+19	,	,	PUNCT	_	_	22	punct	_	_
+20	qui	qui	PRON	_	PronType=Rel	22	nsubj	_	_
+21	ont	avoir	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	22	aux:tense	_	_
+22	souligné	souligner	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	15	acl:relcl	_	_
+23	que	que	SCONJ	_	_	28	mark	_	_
+24	ce	ce	DET	_	Gender=Masc|Number=Sing|PronType=Dem	25	det	_	_
+25	travail	travail	NOUN	_	Gender=Masc|Number=Sing	28	nsubj	_	_
+26	leur	lui	PRON	_	Number=Plur|Person=3|PronType=Prs	28	obl:arg	_	_
+27	a	avoir	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	28	aux:tense	_	_
+28	permis	permettre	VERB	_	Gender=Masc|Tense=Past|VerbForm=Part	22	ccomp:obj	_	_
+29	d'	de	ADP	_	_	30	mark	_	SpaceAfter=No
+30	observer	observer	VERB	_	VerbForm=Inf	28	xcomp:obj	_	_
+31	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	32	det	_	SpaceAfter=No
+32	état	état	NOUN	_	Gender=Masc|Number=Sing	30	obj	_	_
+33	de	de	ADP	_	_	35	case	_	_
+34	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	35	det	_	SpaceAfter=No
+35	esprit	esprit	NOUN	_	Gender=Masc|Number=Sing	32	nmod	_	_
+36	"	"	PUNCT	_	_	37	punct	_	SpaceAfter=No
+37	courageux	courageux	ADJ	_	Gender=Masc	32	amod	_	SpaceAfter=No
+38	,	,	PUNCT	_	_	39	punct	_	_
+39	pacifique	pacifique	ADJ	_	Gender=Masc|Number=Sing	37	conj	_	SpaceAfter=No
+40	,	,	PUNCT	_	_	43	punct	_	_
+41	mais	mais	CCONJ	_	_	43	cc	_	_
+42	aussi	aussi	ADV	_	_	43	advmod	_	_
+43	combatif	combatif	ADJ	_	Gender=Masc|Number=Sing	37	conj	_	SpaceAfter=No
+44	"	"	PUNCT	_	_	37	punct	_	_
+45	de	de	ADP	_	_	47	case	_	_
+46	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	47	det	_	_
+47	peuple	peuple	NOUN	_	Gender=Masc|Number=Sing	32	nmod	_	_
+48	sahraoui	sahraoui	ADJ	_	Gender=Masc|Number=Sing	47	amod	_	SpaceAfter=No
+49	.	.	PUNCT	_	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("le").n("s"),
+     N("acteur").g("m").n("s"),
+     A("espagnol").pos("post").g("m").n("s"),
+     NP(Q("Alex"),
+        Q("Angulo"))),
+  V("avoir").t("p").pe("3").n("s"),
+  VP(V("attribuer").t("pp").n("s").g("m"),
+     NP(Q("\""),
+        D("le").g("f").n("s"),
+        Q("camella"),
+        A("blanc").pos("post").g("f").n("s"),
+        Q("\"")),
+     NP(P("à"),
+        D("le").n("p"),
+        N("réalisateur").g("m").n("p"),
+        NP(P("de"),
+           D("le").g("m").n("s"),
+           N("film").g("m").n("s")),
+        S(Q(","),
+          Pro("qui").c("nom"),
+          V("avoir").t("p").pe("3").n("p"),
+          VP(V("souligner").t("pp").n("s").g("m"),
+             S(C("que"),
+               NP(D("ce").g("m").n("s"),
+                  N("travail").g("m").n("s")),
+               Pro("lui").c("nom").pe("3").n("p"),
+               V("avoir").t("p").pe("3").n("s"),
+               VP(V("permettre").t("pp").g("m"),
+                  S(P("de"),
+                    VP(V("observer").t("b"),
+                       NP(D("le").n("s"),
+                          N("état").g("m").n("s"),
+                          NP(P("de"),
+                             D("le").n("s"),
+                             N("esprit").g("m").n("s")),
+                          CP(C("mais"),
+                             NP(Q("\""),
+                                A("courageux").pos("post").g("m"),
+                                Q("\"")),
+                             A("pacifique").pos("post").g("m").n("s"),
+                             NP(Adv("aussi"),
+                                A("combatif").pos("post").g("m").n("s"))),
+                          NP(P("de"),
+                             D("le").g("m").n("s"),
+                             N("peuple").g("m").n("s"),
+                             Q("Sahraoui")))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-test_00179
+# text = Cette loi, qui contrôle l'établissement de nouvelles unités de production ou l'agrandissement des sites existants, a ainsi fait tomber le seuil de 250 UA à 75 UA.
+# gl = ok
+1	Cette	ce	DET	_	Gender=Fem|Number=Sing|PronType=Dem	2	det	_	wordform=cette
+2	loi	loi	NOUN	_	Gender=Fem|Number=Sing	24	nsubj:caus	_	SpaceAfter=No
+3	,	,	PUNCT	_	_	5	punct	_	_
+4	qui	qui	PRON	_	PronType=Rel	5	nsubj	_	_
+5	contrôle	contrôler	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	acl:relcl	_	_
+6	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	7	det	_	SpaceAfter=No
+7	établissement	établissement	NOUN	_	Gender=Masc|Number=Sing	5	obj	_	_
+8	de	de	ADP	_	_	10	case	_	_
+9	nouvelles	nouveau	ADJ	_	Gender=Fem|Number=Plur	10	amod	_	_
+10	unités	unité	NOUN	_	Gender=Fem|Number=Plur	7	nmod	_	_
+11	de	de	ADP	_	_	12	case	_	_
+12	production	production	NOUN	_	Gender=Fem|Number=Sing	10	nmod	_	_
+13	ou	ou	CCONJ	_	_	15	cc	_	_
+14	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	15	det	_	SpaceAfter=No
+15	agrandissement	agrandissement	NOUN	_	Gender=Masc|Number=Sing	7	conj	_	_
+16	de	de	ADP	_	_	18	case	_	_
+17	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	18	det	_	_
+18	sites	site	NOUN	_	Gender=Masc|Number=Plur	15	nmod	_	_
+19	existants	existant	ADJ	_	Gender=Masc|Number=Plur	18	amod	_	SpaceAfter=No
+20	,	,	PUNCT	_	_	5	punct	_	_
+21	a	avoir	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	24	aux:tense	_	_
+22	ainsi	ainsi	ADV	_	_	24	advmod	_	_
+23	fait	faire	AUX	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	24	aux:caus	_	_
+24	tomber	tomber	VERB	_	VerbForm=Inf	0	root	_	_
+25	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	26	det	_	_
+26	seuil	seuil	NOUN	_	Gender=Masc|Number=Sing	24	obj:agent	_	_
+27	de	de	ADP	_	_	29	case	_	_
+28	250	250	NUM	_	Number=Plur	29	nummod	_	_
+29	UA	UA	NOUN	_	Gender=Masc|Number=Plur	24	obl:mod	_	_
+30	à	à	ADP	_	_	32	case	_	_
+31	75	75	NUM	_	Number=Plur	32	nummod	_	_
+32	UA	UA	NOUN	_	Gender=Masc|Number=Plur	29	nmod	_	SpaceAfter=No
+33	.	.	PUNCT	_	_	24	punct	_	_
+# jsRealB-start
+S(NP(D("ce").g("f").n("s"),
+     N("loi").g("f").n("s"),
+     S(Q(","),
+       Pro("qui").c("nom"),
+       VP(V("contrôler").t("p").pe("3").n("s"),
+          CP(C("ou"),
+             NP(D("le").n("s"),
+                N("établissement").g("m").n("s"),
+                NP(P("de"),
+                   A("nouveau").pos("pre").g("f").n("p"),
+                   N("unité").g("f").n("p"),
+                   NP(P("de"),
+                      N("production").g("f").n("s")))),
+             NP(D("le").n("s"),
+                N("agrandissement").g("m").n("s"),
+                NP(P("de"),
+                   D("le").n("p"),
+                   N("site").g("m").n("p"),
+                   A("existant").pos("post").g("m").n("p")))),
+          Q(",")))),
+  V("avoir").t("p").pe("3").n("s"),
+  Adv("ainsi"),
+  V("faire").t("pp").n("s").g("m"),
+  VP(V("tomber").t("b"),
+     NP(D("le").g("m").n("s"),
+        N("seuil").g("m").n("s")),
+     NP(P("de"),
+        NO("250").dOpt({raw:true}),
+        Q("UA"),
+        NP(P("à"),
+           NO("75").dOpt({raw:true}),
+           Q("UA"))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-dev_01485
+# text = Les produits échangés sont essentiellement du sel, de l'ambre, de l'huile, des céréales, du vin et de la viande salée.
+# gl = 6: form and lemma should be split > de le
+# gl = 17: form and lemma should be split > de les
+# gl = 20: form and lemma should be split > de le
+1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	wordform=les
+2	produits	produit	NOUN	_	Gender=Masc|Number=Plur	7	nsubj	_	_
+3	échangés	échanger	VERB	_	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	2	acl	_	_
+4	sont	être	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	7	cop	_	_
+5	essentiellement	essentiellement	ADV	_	_	7	advmod	_	_
+6	du	du	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	sel	sel	NOUN	_	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
+8	,	,	PUNCT	_	_	11	punct	_	_
+9	de	de	ADP	_	_	11	det	_	ExtPos=DET|PhraseType=Idiom
+10	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	9	fixed	_	SpaceAfter=No
+11	ambre	ambre	NOUN	_	Gender=Masc|Number=Sing	7	conj	_	SpaceAfter=No
+12	,	,	PUNCT	_	_	15	punct	_	_
+13	de	de	ADP	_	_	15	det	_	ExtPos=DET|PhraseType=Idiom
+14	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	13	fixed	_	SpaceAfter=No
+15	huile	huile	NOUN	_	Gender=Fem|Number=Sing	7	conj	_	SpaceAfter=No
+16	,	,	PUNCT	_	_	18	punct	_	_
+17	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	18	det	_	_
+18	céréales	céréale	NOUN	_	Gender=Fem|Number=Plur	7	conj	_	SpaceAfter=No
+19	,	,	PUNCT	_	_	21	punct	_	_
+20	du	du	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	21	det	_	_
+21	vin	vin	NOUN	_	Gender=Masc|Number=Sing	7	conj	_	_
+22	et	et	CCONJ	_	_	25	cc	_	_
+23	de	de	ADP	_	_	25	det	_	ExtPos=DET|PhraseType=Idiom
+24	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	23	fixed	_	_
+25	viande	viande	NOUN	_	Gender=Fem|Number=Sing	7	conj	_	_
+26	salée	saler	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	25	acl	_	SpaceAfter=No
+27	.	.	PUNCT	_	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("le").n("p"),
+     N("produit").g("m").n("p"),
+     V("échanger").t("pp").n("p").g("m")),
+  VP(V("être").t("p").pe("3").n("p"),
+     Adv("essentiellement"),
+     VP(P("de"),
+        D("le").g("m").n("s")),
+     CP(C("et"),
+        NP(N("sel").g("m").n("s")),
+        NP(P("de"),
+           D("le").n("s"),
+           N("ambre").g("m").n("s")),
+        NP(P("de"),
+           D("le").n("s"),
+           N("huile").g("f").n("s")),
+        NP(P("de"),
+           D("le").g("m").n("p"),
+           N("céréale").g("f").n("p")),
+        NP(P("de"),
+           D("le").g("m").n("s"),
+           N("vin").g("m").n("s")),
+        NP(P("de"),
+           D("le").g("f").n("s"),
+           N("viande").g("f").n("s"),
+           V("saler").t("pp").n("s").g("f"))))).a(".")
+# jsRealB-end
+
+// # gl = this should be the UD for the previous example (sent_id = fr-ud-dev_01485)
+// with elisions spelled out
+// 1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	wordform=les
+// 2	produits	produit	NOUN	_	Gender=Masc|Number=Plur	8	nsubj	_	_
+// 3	échangés	échanger	VERB	_	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	2	acl	_	_
+// 4	sont	être	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	_
+// 5	essentiellement	essentiellement	ADV	_	_	8	advmod	_	_
+// 6-7	du	_	_	_	_	_	_	_	_
+// 6	de	de	ADP	_	_	8	det	_	ExtPos=DET|PhraseType=Idiom
+// 7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	6	fixed	_	_
+// 8	sel	sel	NOUN	_	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
+// 9	,	,	PUNCT	_	_	12	punct	_	_
+// 10	de	de	ADP	_	_	12	det	_	ExtPos=DET|PhraseType=Idiom
+// 11	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	10	fixed	_	SpaceAfter=No
+// 12	ambre	ambre	NOUN	_	Gender=Masc|Number=Sing	8	conj	_	SpaceAfter=No
+// 13	,	,	PUNCT	_	_	16	punct	_	_
+// 14	de	de	ADP	_	_	16	det	_	ExtPos=DET|PhraseType=Idiom
+// 15	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	14	fixed	_	SpaceAfter=No
+// 16	huile	huile	NOUN	_	Gender=Fem|Number=Sing	8	conj	_	SpaceAfter=No
+// 17	,	,	PUNCT	_	_	20	punct	_	_
+// 18-19	des	_	_	_	_	_	_	_	_
+// 18	de	de	ADP	_	_	20	det	_	ExtPos=DET|PhraseType=Idiom
+// 19	les	le	DET	_	Definite=Def|Gender=Masc|Number=Plur|PronType=Art	18	fixed	_	_
+// 20	céréales	céréale	NOUN	_	Gender=Fem|Number=Plur	8	conj	_	SpaceAfter=No
+// 21	,	,	PUNCT	_	_	24	punct	_	_
+// 22-23	du	_	_	_	_	_	_	_	_
+// 22	de	de	ADP	_	_	24	det	_	ExtPos=DET|PhraseType=Idiom
+// 23	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	22	fixed	_	_
+// 24	vin	vin	NOUN	_	Gender=Masc|Number=Sing	8	conj	_	_
+// 25	et	et	CCONJ	_	_	28	cc	_	_
+// 26	de	de	ADP	_	_	28	det	_	ExtPos=DET|PhraseType=Idiom
+// 27	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	26	fixed	_	_
+// 28	viande	viande	NOUN	_	Gender=Fem|Number=Sing	8	conj	_	_
+// 29	salée	saler	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	28	acl	_	SpaceAfter=No
+// 30	.	.	PUNCT	_	_	8	punct	_	_
+
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-dev_01563
+# text = Dans les facultés de pharmacie, les assistants étaient des fonctionnaires, soumis à une période de stage de trois ans.
+# gl = ok
+1	Dans	dans	ADP	_	_	3	case	_	wordform=dans
+2	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	3	det	_	_
+3	facultés	faculté	NOUN	_	Gender=Fem|Number=Plur	11	obl:mod	_	_
+4	de	de	ADP	_	_	5	case	_	_
+5	pharmacie	pharmacie	NOUN	_	Gender=Fem|Number=Sing	3	nmod	_	SpaceAfter=No
+6	,	,	PUNCT	_	_	3	punct	_	_
+7	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
+8	assistants	assistant	NOUN	_	Gender=Masc|Number=Plur	11	nsubj	_	_
+9	étaient	être	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	11	cop	_	_
+10	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	11	det	_	_
+11	fonctionnaires	fonctionnaire	NOUN	_	Gender=Masc|Number=Plur	0	root	_	SpaceAfter=No
+12	,	,	PUNCT	_	_	13	punct	_	_
+13	soumis	soumettre	VERB	_	Gender=Masc|Tense=Past|VerbForm=Part	11	acl	_	_
+14	à	à	ADP	_	_	16	case	_	_
+15	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	16	det	_	_
+16	période	période	NOUN	_	Gender=Fem|Number=Sing	13	obl:arg	_	_
+17	de	de	ADP	_	_	18	case	_	_
+18	stage	stage	NOUN	_	Gender=Masc|Number=Sing	16	nmod	_	_
+19	de	de	ADP	_	_	21	case	_	_
+20	trois	trois	NUM	_	Number=Plur	21	nummod	_	_
+21	ans	an	NOUN	_	Gender=Masc|Number=Plur	18	nmod	_	SpaceAfter=No
+22	.	.	PUNCT	_	_	11	punct	_	_
+# jsRealB-start
+NP(NP(P("dans"),
+      D("le").n("p"),
+      N("faculté").g("f").n("p"),
+      NP(P("de"),
+         N("pharmacie").g("f").n("s")),
+      Q(",")),
+   NP(D("le").n("p"),
+      N("assistant").g("m").n("p")),
+   V("être").t("i").pe("3").n("p"),
+   D("un").n("p"),
+   N("fonctionnaire").g("m").n("p"),
+   S(Q(","),
+     VP(V("soumettre").t("pp").g("m"),
+        NP(P("à"),
+           D("un").g("f").n("s"),
+           N("période").g("f").n("s"),
+           NP(P("de"),
+              N("stage").g("m").n("s"),
+              NP(P("de"),
+                 NO(3).dOpt({nat:true}),
+                 N("an").g("m").n("p"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-dev_01505
+# text = On peut arriver à Verrès aussi par la route nationale 26 de la Vallée d'Aoste (du col du Petit-Saint-Bernard).
+# gl = ok
+1	On	on	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Ind	2	nsubj	_	wordform=on
+2	peut	pouvoir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	arriver	arriver	VERB	_	VerbForm=Inf	2	xcomp:obj	_	_
+4	à	à	ADP	_	_	5	case	_	_
+5	Verrès	Verrès	PROPN	_	_	3	obl:arg	_	_
+6	aussi	aussi	ADV	_	_	9	advmod	_	_
+7	par	par	ADP	_	_	9	case	_	_
+8	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	route	route	NOUN	_	Gender=Fem|Number=Sing	3	obl:arg	_	_
+10	nationale	national	ADJ	_	Gender=Fem|Number=Sing	9	amod	_	_
+11	26	26	NUM	_	Number=Plur	9	nmod	_	_
+12	de	de	ADP	_	_	14	case	_	_
+13	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	14	det	_	_
+14	Vallée	Vallée	PROPN	_	Gender=Fem|Number=Sing	9	nmod	_	_
+15	d'	de	ADP	_	_	16	case	_	SpaceAfter=No
+16	Aoste	Aoste	PROPN	_	_	14	nmod	_	_
+17	(	(	PUNCT	_	_	20	punct	_	SpaceAfter=No
+18	de	de	ADP	_	_	20	case	_	_
+19	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	20	det	_	_
+20	col	col	NOUN	_	Gender=Masc|Number=Sing	9	nmod	_	_
+21	de	de	ADP	_	_	23	case	_	_
+22	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	23	det	_	_
+23	Petit-Saint-Bernard	Petit-Saint-Bernard	PROPN	_	Gender=Masc|Number=Sing	20	nmod	_	SpaceAfter=No
+24	)	)	PUNCT	_	_	20	punct	_	SpaceAfter=No
+25	.	.	PUNCT	_	_	2	punct	_	_
+# jsRealB-start
+S(Pro("on").c("nom").pe("3").g("m").n("s"),
+  VP(V("pouvoir").t("p").pe("3").n("s"),
+     VP(V("arriver").t("b"),
+        NP(P("à"),
+           Q("Verrès")),
+        NP(Adv("aussi"),
+           P("par"),
+           D("le").g("f").n("s"),
+           N("route").g("f").n("s"),
+           A("national").pos("post").g("f").n("s"),
+           NO("26").dOpt({raw:true}),
+           NP(P("de"),
+              D("le").g("f").n("s"),
+              Q("Vallée"),
+              NP(P("de"),
+                 Q("Aoste"))),
+           NP(Q("("),
+              P("de"),
+              D("le").g("m").n("s"),
+              N("col").g("m").n("s"),
+              NP(P("de"),
+                 D("le").g("m").n("s"),
+                 Q("Petit-Saint-Bernard")),
+              Q(")")))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-test_00125
+# text = Odeurs, saveurs, couleurs... tout se mélange pour le plus grand plaisir des gourmands et amateurs de produits de qualité.
+# gl = ok
+1	Odeurs	odeur	NOUN	_	Gender=Fem|Number=Plur	9	dislocated	_	SpaceAfter=No|wordform=odeurs
+2	,	,	PUNCT	_	_	3	punct	_	_
+3	saveurs	saveur	NOUN	_	Gender=Fem|Number=Plur	1	conj	_	SpaceAfter=No
+4	,	,	PUNCT	_	_	5	punct	_	_
+5	couleurs	couleur	NOUN	_	Gender=Fem|Number=Plur	1	conj	_	SpaceAfter=No
+6	...	...	PUNCT	_	_	1	punct	_	_
+7	tout	tout	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Ind	9	nsubj	_	_
+8	se	se	PRON	_	Person=3|PronType=Prs	9	obj	_	_
+9	mélange	mélanger	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	pour	pour	ADP	_	_	14	case	_	_
+11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
+12	plus	plus	ADV	_	_	13	advmod	_	_
+13	grand	grand	ADJ	_	Gender=Masc|Number=Sing	14	amod	_	_
+14	plaisir	plaisir	NOUN	_	Gender=Masc|Number=Sing	9	obl:mod	_	_
+15	de	de	ADP	_	_	17	case	_	_
+16	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	17	det	_	_
+17	gourmands	gourmand	NOUN	_	Gender=Masc|Number=Plur	14	nmod	_	_
+18	et	et	CCONJ	_	_	19	cc	_	_
+19	amateurs	amateur	NOUN	_	Gender=Masc|Number=Plur	17	conj	_	_
+20	de	de	ADP	_	_	21	case	_	_
+21	produits	produit	NOUN	_	Gender=Masc|Number=Plur	19	nmod	_	_
+22	de	de	ADP	_	_	23	case	_	_
+23	qualité	qualité	NOUN	_	Gender=Fem|Number=Sing	21	nmod	_	SpaceAfter=No
+24	.	.	PUNCT	_	_	9	punct	_	_
+# jsRealB-start
+S(CP(NP(N("odeur").g("f").n("p"),
+        Q("...")),
+     N("saveur").g("f").n("p"),
+     N("couleur").g("f").n("p")),
+  Pro("tout").c("nom").pe("3").g("m").n("s"),
+  Pro("moi").c("refl").pe("3"),
+  VP(V("mélanger").t("p").pe("3").n("s"),
+     NP(P("pour"),
+        D("le").g("m").n("s"),
+        NP(Adv("plus"),
+           A("grand").pos("pre").g("m").n("s")),
+        N("plaisir").g("m").n("s"),
+        CP(C("et"),
+           NP(P("de"),
+              D("le").n("p"),
+              N("gourmand").g("m").n("p")),
+           NP(N("amateur").g("m").n("p"),
+              NP(P("de"),
+                 N("produit").g("m").n("p"),
+                 NP(P("de"),
+                    N("qualité").g("f").n("s")))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_gsd-ud-test.conllu
+# sent_id = fr-ud-dev_01562
+# text = La fraise de Cachoubie est réputée plus savoureuse (73%) et plus sucrée (68%) que les autres fraises.
+# gl = 23:head 7>8
+1	La	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	wordform=la
+2	fraise	fraise	NOUN	_	Gender=Fem|Number=Sing	6	nsubj	_	_
+3	de	de	ADP	_	_	4	case	_	_
+4	Cachoubie	Cachoubie	PROPN	_	_	2	nmod	_	_
+5	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux:tense	_	_
+6	réputée	réputer	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+7	plus	plus	ADV	_	_	8	advmod	_	_
+8	savoureuse	savoureux	ADJ	_	Gender=Fem|Number=Sing	6	xcomp:pred	_	_
+9	(	(	PUNCT	_	_	11	punct	_	SpaceAfter=No
+10	73	73	NUM	_	Number=Plur	11	nummod	_	SpaceAfter=No
+11	%	%	SYM	_	Number=Plur	8	obl:mod	_	ExtPos=NOUN|SpaceAfter=No
+12	)	)	PUNCT	_	_	11	punct	_	_
+13	et	et	CCONJ	_	_	15	cc	_	_
+14	plus	plus	ADV	_	_	15	advmod	_	_
+15	sucrée	sucré	ADJ	_	Gender=Fem|Number=Sing	8	conj	_	_
+16	(	(	PUNCT	_	_	18	punct	_	SpaceAfter=No
+17	68	68	NUM	_	Number=Plur	18	nummod	_	SpaceAfter=No
+18	%	%	SYM	_	Number=Plur	15	obl:mod	_	ExtPos=NOUN|SpaceAfter=No
+19	)	)	PUNCT	_	_	18	punct	_	_
+20	que	que	SCONJ	_	_	23	case	_	_
+21	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	23	det	_	_
+22	autres	autre	ADJ	_	Gender=Fem|Number=Plur	23	amod	_	_
+23	fraises	fraise	NOUN	_	Gender=Fem|Number=Plur	7	obj	_	SpaceAfter=No
+24	.	.	PUNCT	_	_	6	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("f").n("s"),
+     N("fraise").g("f").n("s"),
+     NP(P("de"),
+        Q("Cachoubie"))),
+  V("être").t("p").pe("3").n("s"),
+  VP(V("réputer").t("pp").n("s").g("f"),
+     CP(C("et"),
+        NP(Adv("plus"),
+           A("savoureux").pos("post").g("f").n("s"),
+           S(Q("("),
+             NO("73").dOpt({raw:true}),
+             VP(Q("%"),
+                Q(")")))),
+        NP(Adv("plus"),
+           A("sucré").pos("post").g("f").n("s"),
+           S(Q("("),
+             NO("68").dOpt({raw:true}),
+             VP(Q("%"),
+                Q(")"))))),
+        NP(C("que"),
+              D("le").n("p"),
+              A("autre").pos("pre").g("f").n("p"),
+              N("fraise").g("f").n("p")))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-963
+# text = Le dernier exercice de programmation de l'aide de préadhésion visée au paragraphe 1 a lieu pendant la dernière année précédant l'adhésion.
+# gl = ok
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	3	det	_	_
+2	dernier	dernier	ADJ	NO	Gender=Masc|Number=Sing|NumType=Ord	3	amod	_	_
+3	exercice	exercice	NOUN	S	Gender=Masc|Number=Sing	16	nsubj	_	_
+4	de	de	ADP	E	_	5	case	_	_
+5	programmation	programmation	NOUN	S	Gender=Fem|Number=Sing	3	nmod	_	_
+6	de	de	ADP	E	_	8	case	_	_
+7	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	8	det	_	SpaceAfter=No
+8	aide	aide	NOUN	S	Gender=Fem|Number=Sing	5	nmod	_	_
+9	de	de	ADP	E	_	10	case	_	_
+10	préadhésion	préadhésion	NOUN	S	Gender=Fem|Number=Sing	8	nmod	_	_
+11	visée	viser	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	5	acl	_	_
+12	à	à	ADP	E	_	14	case	_	_
+13	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
+14	paragraphe	paragraphe	NOUN	S	Gender=Masc|Number=Sing	11	obl	_	_
+15	1	1	NUM	N	NumType=Card	14	nummod	_	_
+16	a	avoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+17	lieu	lieu	NOUN	S	Gender=Masc|Number=Sing	16	obj	_	_
+18	pendant	pendant	ADP	E	_	21	case	_	_
+19	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	21	det	_	_
+20	dernière	dernier	ADJ	NO	Gender=Fem|Number=Sing|NumType=Ord	21	amod	_	_
+21	année	année	NOUN	S	Gender=Fem|Number=Sing	16	obl	_	_
+22	précédant	précéder	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	21	acl	_	_
+23	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	24	det	_	SpaceAfter=No
+24	adhésion	adhésion	NOUN	S	Gender=Fem|Number=Sing	22	obj	_	SpaceAfter=No
+25	.	.	PUNCT	FS	_	16	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("m").n("s"),
+     A("dernier").pos("pre").g("m").n("s"),
+     N("exercice").g("m").n("s"),
+     NP(P("de"),
+        N("programmation").g("f").n("s"),
+        NP(P("de"),
+           D("le").n("s"),
+           N("aide").g("f").n("s"),
+           NP(P("de"),
+              Q("préadhésion"))),
+        VP(V("viser").t("pp").n("s").g("f"),
+           NP(P("à"),
+              D("le").g("m").n("s"),
+              N("paragraphe").g("m").n("s"),
+              NO("1").dOpt({raw:true}))))),
+  VP(V("avoir").t("p").pe("3").n("s"),
+     N("lieu").g("m").n("s"),
+     NP(P("pendant"),
+        D("le").g("f").n("s"),
+        A("dernier").pos("pre").g("f").n("s"),
+        N("année").g("f").n("s"),
+        VP(V("précéder").t("pr").n("s"),
+           NP(D("le").n("s"),
+              N("adhésion").g("f").n("s")))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-222
+# text = Je peux m'accommoder de ces normes minimales mais je prie la commission de suivre ce dossier avec une réelle attention.
+# gl = 7:lemma normes>norme
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	4	nsubj	_	_
+2	peux	pouvoir	AUX	VM	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	aux	_	_
+3	m'	me	PRON	P	Person=1|PronType=Prs	4	expl	_	SpaceAfter=No
+4	accommoder	accommoder	VERB	V	VerbForm=Inf	0	root	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	ces	ce	DET	DD	Number=Plur|PronType=Dem	7	det	_	_
+7	normes	normes	NOUN	S	Gender=Fem|Number=Plur	4	obl	_	_
+8	minimales	minimal	ADJ	A	Gender=Fem|Number=Plur	7	amod	_	_
+9	mais	mais	CCONJ	CC	_	11	cc	_	_
+10	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	11	nsubj	_	_
+11	prie	prier	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	conj	_	_
+12	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	13	det	_	_
+13	commission	commission	NOUN	S	Gender=Fem|Number=Sing	11	obj	_	_
+14	de	de	ADP	E	_	15	mark	_	_
+15	suivre	suivre	VERB	V	VerbForm=Inf	11	xcomp	_	_
+16	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	17	det	_	_
+17	dossier	dossier	NOUN	S	Gender=Masc|Number=Sing	15	obj	_	_
+18	avec	avec	ADP	E	_	21	case	_	_
+19	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	21	det	_	_
+20	réelle	réel	ADJ	A	Gender=Fem|Number=Sing	21	amod	_	_
+21	attention	attention	NOUN	S	Gender=Fem|Number=Sing	15	obl	_	SpaceAfter=No
+22	.	.	PUNCT	FS	_	4	punct	_	_
+# jsRealB-start
+CP(C("mais"),
+   VP(Pro("moi").c("nom").pe("1").n("s"),
+      V("pouvoir").t("p").pe("1").n("s"),
+      Pro("moi").c("acc").pe("1"),
+      V("accommoder").t("b"),
+      NP(P("de"),
+         D("ce").n("p"),
+         N("norme").g("f").n("p"),
+         A("minimal").pos("post").g("f").n("p"))),
+   S(Pro("moi").c("nom").pe("1").n("s"),
+     VP(V("prier").t("p").pe("1").n("s"),
+        NP(D("le").g("f").n("s"),
+           N("commission").g("f").n("s")),
+        S(P("de"),
+          VP(V("suivre").t("b"),
+             NP(D("ce").g("m").n("s"),
+                N("dossier").g("m").n("s")),
+             NP(P("avec"),
+                D("un").g("f").n("s"),
+                A("réel").pos("pre").g("f").n("s"),
+                N("attention").g("f").n("s"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-46
+# text = À l'exception des situations expressément mentionnées dans le présent contrat ou dans un autre accord écrit, ou exigées par la loi applicable, l'oeuvre est mise à disposition en l'état sans garantie d'aucune sorte, qu'elle soit expresse ou tacite, y compris à l'égard du contenu ou de l'exactitude de l'oeuvre.
+# gl = ok
+1	À	à	ADP	E	_	3	case	_	_
+2	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	3	det	_	SpaceAfter=No
+3	exception	exception	NOUN	S	Gender=Fem|Number=Sing	30	obl	_	_
+4	de	de	ADP	E	_	6	case	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	situations	situation	NOUN	S	Gender=Fem|Number=Plur	3	nmod	_	_
+7	expressément	expressément	ADV	B	_	8	advmod	_	_
+8	mentionnées	mentionner	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	6	acl	_	_
+9	dans	dans	ADP	E	_	12	case	_	_
+10	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+11	présent	présent	ADJ	A	Gender=Masc|Number=Sing	12	amod	_	_
+12	contrat	contrat	NOUN	S	Gender=Masc|Number=Sing	8	obl	_	_
+13	ou	ou	CCONJ	CC	_	17	cc	_	_
+14	dans	dans	ADP	E	_	17	case	_	_
+15	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	17	det	_	_
+16	autre	autre	ADJ	A	Number=Sing	17	amod	_	_
+17	accord	accord	NOUN	S	Gender=Masc|Number=Sing	12	conj	_	_
+18	écrit	écrire	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	17	acl	_	SpaceAfter=No
+19	,	,	PUNCT	FF	_	21	punct	_	_
+20	ou	ou	CCONJ	CC	_	21	cc	_	_
+21	exigées	exiger	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	8	conj	_	_
+22	par	par	ADP	E	_	24	case	_	_
+23	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	24	det	_	_
+24	loi	loi	NOUN	S	Gender=Fem|Number=Sing	21	obl:agent	_	_
+25	applicable	applicable	ADJ	A	Number=Sing	24	amod	_	SpaceAfter=No
+26	,	,	PUNCT	FF	_	21	punct	_	_
+27	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	28	det	_	SpaceAfter=No
+28	oeuvre	oeuvre	NOUN	S	Gender=Fem|Number=Sing	30	nsubj:pass	_	_
+29	est	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	30	aux:pass	_	_
+30	mise	mettre	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+31	à	à	ADP	E	_	32	case	_	_
+32	disposition	disposition	NOUN	S	Gender=Fem|Number=Sing	30	obl	_	_
+33	en	en	ADP	E	_	35	case	_	_
+34	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	35	det	_	SpaceAfter=No
+35	état	état	NOUN	S	Gender=Masc|Number=Sing	30	obl	_	_
+36	sans	sans	ADP	E	_	37	case	_	_
+37	garantie	garantie	NOUN	S	Gender=Fem|Number=Sing	30	obl	_	_
+38	d'	de	ADP	E	_	40	case	_	SpaceAfter=No
+39	aucune	aucun	DET	DI	Gender=Fem|Number=Sing|PronType=Ind	40	det	_	_
+40	sorte	sorte	NOUN	S	Gender=Fem|Number=Sing	37	nmod	_	SpaceAfter=No
+41	,	,	PUNCT	FF	_	30	punct	_	_
+42	qu'	que	SCONJ	CS	_	45	mark	_	SpaceAfter=No
+43	elle	elle	PRON	PE	Gender=Fem|Number=Sing|Person=3|PronType=Prs	45	nsubj	_	_
+44	soit	être	AUX	V	Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	45	cop	_	_
+45	expresse	expresse	ADJ	A	Number=Sing	30	advcl	_	_
+46	ou	ou	CCONJ	CC	_	47	cc	_	_
+47	tacite	tacite	ADJ	A	Number=Sing	45	conj	_	SpaceAfter=No
+48	,	,	PUNCT	FF	_	45	punct	_	_
+49	y	y	ADV	B	_	50	advmod	_	_
+50	compris	comprendre	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	53	acl	_	_
+51	à	à	ADP	E	_	53	case	_	_
+52	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	53	det	_	SpaceAfter=No
+53	égard	égard	NOUN	S	Gender=Masc|Number=Sing	45	obl	_	_
+54	de	de	ADP	E	_	56	case	_	_
+55	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	56	det	_	_
+56	contenu	contenir	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	53	nmod	_	_
+57	ou	ou	CCONJ	CC	_	60	cc	_	_
+58	de	de	ADP	E	_	60	case	_	_
+59	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	60	det	_	SpaceAfter=No
+60	exactitude	exactitude	NOUN	S	Gender=Fem|Number=Sing	56	conj	_	_
+61	de	de	ADP	E	_	63	case	_	_
+62	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	63	det	_	SpaceAfter=No
+63	oeuvre	oeuvre	NOUN	S	Gender=Fem|Number=Sing	60	nmod	_	SpaceAfter=No
+64	.	.	PUNCT	FS	_	30	punct	_	_
+# jsRealB-start
+S(NP(P("à"),
+     D("le").n("s"),
+     N("exception").g("f").n("s"),
+     NP(P("de"),
+        D("le").n("p"),
+        N("situation").g("f").n("p"),
+        CP(C("ou"),
+           VP(Adv("expressément"),
+              V("mentionner").t("pp").n("p").g("f"),
+              CP(C("ou"),
+                 NP(P("dans"),
+                    D("le").g("m").n("s"),
+                    A("présent").pos("pre").g("m").n("s"),
+                    N("contrat").g("m").n("s")),
+                 NP(P("dans"),
+                    D("un").g("m").n("s"),
+                    A("autre").pos("pre").n("s"),
+                    N("accord").g("m").n("s"),
+                    V("écrire").t("pp").n("s").g("m")))),
+           VP(V("exiger").t("pp").n("p").g("f"),
+              NP(P("par"),
+                 D("le").g("f").n("s"),
+                 N("loi").g("f").n("s"),
+                 A("applicable").pos("post").n("s")),
+              Q(","))))),
+  NP(D("le").n("s"),
+     N("oeuvre").g("f").n("s")),
+  VP(V("être").t("p").pe("3").n("s"),
+     V("mettre").t("pp").n("s").g("f"),
+     NP(P("à"),
+        N("disposition").g("f").n("s")),
+     NP(P("en"),
+        D("le").n("s"),
+        N("état").g("m").n("s")),
+     NP(P("sans"),
+        N("garantie").g("f").n("s"),
+        NP(P("de"),
+           D("aucun").g("f").n("s"),
+           N("sorte").g("f").n("s"))),
+     Q(","),
+     CP(C("ou"),
+        NP(C("que"),
+           Pro("moi").c("nom").pe("3").g("f").n("s"),
+           V("être").t("s").pe("3").n("s"),
+           Q("expresse"),
+           Q(","),
+           NP(S(Q("y"),
+                VP(V("comprendre").t("pp").n("s").g("m"))),
+              P("à"),
+              D("le").n("s"),
+              N("égard").g("m").n("s"),
+              S(P("de"),
+                D("le").n("s"),
+                VP(V("contenir").t("pp").n("s").g("m"),
+                   NP(C("ou"),
+                      P("de"),
+                      D("le").n("s"),
+                      N("exactitude").g("f").n("s"),
+                      NP(P("de"),
+                         D("le").n("s"),
+                         N("oeuvre").g("f").n("s"))))))),
+        A("tacite").pos("post").n("s")))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-542
+# text = Vous pouvez désormais voir les mises à jour publiques des personnes qui vous intéressent, sans pour autant les ajouter à votre liste d'amis.
+# gl = 26:lemma amis>ami
+1	Vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	4	nsubj	_	_
+2	pouvez	pouvoir	AUX	VM	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	4	aux	_	_
+3	désormais	désormais	ADV	B	_	4	advmod	_	_
+4	voir	voir	VERB	V	VerbForm=Inf	0	root	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	mises	mise	NOUN	S	Gender=Fem|Number=Plur	4	obj	_	_
+7	à	à	ADP	E	_	8	case	_	_
+8	jour	jour	NOUN	S	Gender=Masc|Number=Sing	6	nmod	_	_
+9	publiques	public	ADJ	A	Gender=Fem|Number=Plur	8	amod	_	_
+10	de	de	ADP	E	_	12	case	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	personnes	personne	NOUN	S	Gender=Fem|Number=Plur	6	nmod	_	_
+13	qui	qui	PRON	PR	PronType=Rel	15	nsubj	_	_
+14	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	15	iobj	_	_
+15	intéressent	intéresser	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	acl:relcl	_	SpaceAfter=No
+16	,	,	PUNCT	FF	_	15	punct	_	_
+17	sans	sans	ADP	E	_	21	mark	_	_
+18	pour	pour	ADP	E	_	19	case	_	_
+19	autant	autant	ADV	B	_	20	advmod	_	_
+20	les	le	PRON	P	Number=Plur|Person=3|PronType=Prs	21	obj	_	_
+21	ajouter	ajouter	VERB	V	VerbForm=Inf	15	advcl	_	_
+22	à	à	ADP	E	_	24	case	_	_
+23	votre	votre	DET	AP	Gender=Fem|Number=Sing|PronType=Prs	24	det	_	_
+24	liste	liste	NOUN	S	Gender=Fem|Number=Sing	21	obl	_	_
+25	d'	de	ADP	E	_	26	case	_	SpaceAfter=No
+26	amis	amis	ADJ	A	Number=Plur	24	nmod	_	SpaceAfter=No
+27	.	.	PUNCT	FS	_	4	punct	_	_
+# jsRealB-start
+S(Pro("moi").c("nom").pe("2").n("p"),
+  V("pouvoir").t("p").pe("2").n("p"),
+  Adv("désormais"),
+  VP(V("voir").t("b"),
+     NP(D("le").n("p"),
+        N("mise").g("f").n("p"),
+        NP(P("à"),
+           N("jour").g("m").n("s"),
+           A("public").pos("post").g("f").n("p")),
+        NP(P("de"),
+           D("le").n("p"),
+           N("personne").g("f").n("p"),
+           S(Pro("qui").c("nom"),
+             Pro("moi").c("nom").pe("2").n("p"),
+             VP(V("intéresser").t("p").pe("3").n("p"),
+                Q(","),
+                S(P("sans"),
+                  NP(S(P("pour"),
+                       VP(Adv("autant"))),
+                     Pro("moi").c("acc").pe("3").n("p")),
+                  VP(V("ajouter").t("b"),
+                     NP(P("à"),
+                        D("votre").g("f").n("s"),
+                        N("liste").g("f").n("s"),
+                        NP(P("de"),
+                           A("ami").pos("post").n("p"))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-988
+# text = Le parlement européen apporte à son règlement intérieur les adaptations rendues nécessaires par l'adhésion.
+# gl = 7:feats Fem>Masc
+# gl = 10:lemma adaptations>adaptation
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	parlement	parlement	NOUN	S	Gender=Masc|Number=Sing	4	nsubj	_	_
+3	européen	européen	ADJ	A	Gender=Masc|Number=Sing	2	amod	_	_
+4	apporte	apporter	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	à	à	ADP	E	_	7	case	_	_
+6	son	son	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	7	det	_	_
+7	règlement	règlement	NOUN	S	Gender=Fem|Number=Sing	4	obl	_	_
+8	intérieur	intérieur	ADJ	A	Gender=Masc|Number=Sing	7	amod	_	_
+9	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	10	det	_	_
+10	adaptations	adaptations	NOUN	S	Gender=Fem|Number=Plur	4	obj	_	_
+11	rendues	rendre	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	10	acl	_	_
+12	nécessaires	nécessaire	ADJ	A	Number=Plur	11	xcomp	_	_
+13	par	par	ADP	E	_	15	case	_	_
+14	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	15	det	_	SpaceAfter=No
+15	adhésion	adhésion	NOUN	S	Gender=Fem|Number=Sing	11	obl:agent	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	4	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("m").n("s"),
+     N("parlement").g("m").n("s"),
+     A("européen").pos("post").g("m").n("s")),
+  VP(V("apporter").t("p").pe("3").n("s"),
+     NP(P("à"),
+        D("son").g("m").n("s"),
+        N("règlement").g("m").n("s"),
+        A("intérieur").pos("post").g("m").n("s")),
+     NP(D("le").n("p"),
+        N("adaptation").g("f").n("p"),
+        VP(V("rendre").t("pp").n("p").g("f"),
+           A("nécessaire").pos("post").n("p"),
+           NP(P("par"),
+              D("le").n("s"),
+              N("adhésion").g("f").n("s")))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-969
+# text = La commission peut arrêter les modalités de mise en œuvre de l'assistance visée au paragraphe 2.
+# gl = ok
+1	La	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
+2	commission	commission	NOUN	S	Gender=Fem|Number=Sing	4	nsubj	_	_
+3	peut	pouvoir	AUX	VM	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	arrêter	arrêter	VERB	V	VerbForm=Inf	0	root	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	modalités	modalité	NOUN	S	Gender=Fem|Number=Plur	4	obj	_	_
+7	de	de	ADP	E	_	8	case	_	_
+8	mise	mise	NOUN	S	Gender=Fem|Number=Sing	6	nmod	_	_
+9	en	en	ADP	E	_	10	case	_	_
+10	œuvre	œuvre	NOUN	S	Gender=Fem|Number=Sing	8	nmod	_	_
+11	de	de	ADP	E	_	13	case	_	_
+12	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	13	det	_	SpaceAfter=No
+13	assistance	assistance	NOUN	S	Gender=Fem|Number=Sing	8	nmod	_	_
+14	visée	viser	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	8	acl	_	_
+15	à	à	ADP	E	_	17	case	_	_
+16	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	17	det	_	_
+17	paragraphe	paragraphe	NOUN	S	Gender=Masc|Number=Sing	14	obl	_	_
+18	2	2	NUM	N	NumType=Card	17	nummod	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	4	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("f").n("s"),
+     N("commission").g("f").n("s")),
+  V("pouvoir").t("p").pe("3").n("s"),
+  VP(V("arrêter").t("b"),
+     NP(D("le").n("p"),
+        N("modalité").g("f").n("p"),
+        NP(P("de"),
+           N("mise").g("f").n("s"),
+           NP(P("en"),
+              N("oeuvre").g("f").n("s")),
+           NP(P("de"),
+              D("le").n("s"),
+              N("assistance").g("f").n("s")),
+           VP(V("viser").t("pp").n("s").g("f"),
+              NP(P("à"),
+                 D("le").g("m").n("s"),
+                 N("paragraphe").g("m").n("s"),
+                 NO("2").dOpt({raw:true}))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-292
+# text = Je voudrais demander à la vice-présidente si elle peut nous dire où en sont les efforts d'harmonisation déployés par ces deux organisations et si l'Ue a la possibilité d'accélérer ces efforts en appliquant des principes aussi simples que possibles.
+# gl = ok
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	_
+2	voudrais	vouloir	AUX	VM	Mood=Cnd|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	demander	demander	VERB	V	VerbForm=Inf	0	root	_	_
+4	à	à	ADP	E	_	8	case	_	_
+5	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	8	det	_	_
+6	vice	vice	ADJ	A	_	8	amod	_	SpaceAfter=No
+7	-	-	PUNCT	FF	_	6	punct	_	SpaceAfter=No
+8	présidente	président	NOUN	S	Gender=Fem|Number=Sing	3	obl	_	_
+9	si	si	SCONJ	CS	_	13	mark	_	_
+10	elle	elle	PRON	PE	Gender=Fem|Number=Sing|Person=3|PronType=Prs	13	nsubj	_	_
+11	peut	pouvoir	AUX	VM	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	aux	_	_
+12	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	13	iobj	_	_
+13	dire	dire	VERB	V	VerbForm=Inf	3	ccomp	_	_
+14	où	où	ADV	B	_	13	ccomp	_	_
+15	en	en	PRON	P	PronType=Prs	14	expl	_	_
+16	sont	être	AUX	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	14	cop	_	_
+17	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	18	det	_	_
+18	efforts	effort	NOUN	S	Gender=Masc|Number=Plur	14	nsubj	_	_
+19	d'	de	ADP	E	_	20	case	_	SpaceAfter=No
+20	harmonisation	harmonisation	NOUN	S	Gender=Fem|Number=Sing	18	nmod	_	_
+21	déployés	déployer	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	18	acl	_	_
+22	par	par	ADP	E	_	25	case	_	_
+23	ces	ce	DET	DD	Number=Plur|PronType=Dem	25	det	_	_
+24	deux	deux	NUM	N	NumType=Card	25	nummod	_	_
+25	organisations	organisation	NOUN	S	Gender=Fem|Number=Plur	21	obl:agent	_	_
+26	et	et	CCONJ	CC	_	30	cc	_	_
+27	si	si	SCONJ	CS	_	30	mark	_	_
+28	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	29	det	_	SpaceAfter=No
+29	Ue	Ue	PROPN	SP	_	30	nsubj	_	_
+30	a	avoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	conj	_	_
+31	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	32	det	_	_
+32	possibilité	possibilité	NOUN	S	Gender=Fem|Number=Sing	30	obj	_	_
+33	d'	de	ADP	E	_	34	mark	_	SpaceAfter=No
+34	accélérer	accélérer	VERB	V	VerbForm=Inf	32	acl	_	_
+35	ces	ce	DET	DD	Number=Plur|PronType=Dem	36	det	_	_
+36	efforts	effort	NOUN	S	Gender=Masc|Number=Plur	34	obj	_	_
+37	en	en	ADP	E	_	38	mark	_	_
+38	appliquant	appliquer	VERB	V	VerbForm=Ger	34	advcl	_	_
+39	des	un	DET	RI	Definite=Ind|Gender=Masc|Number=Plur|PronType=Art	40	det	_	_
+40	principes	principe	NOUN	S	Gender=Masc|Number=Plur	38	obj	_	_
+41	aussi	aussi	ADV	B	_	42	cc	_	_
+42	simples	simple	ADJ	A	Number=Plur	40	amod	_	_
+43	que	que	CCONJ	CC	_	44	cc	_	_
+44	possibles	possible	ADJ	A	Number=Plur	42	conj	_	SpaceAfter=No
+45	.	.	PUNCT	FS	_	3	punct	_	_
+# jsRealB-start
+S(Pro("moi").c("nom").pe("1").n("s"),
+  V("vouloir").t("c").pe("1").n("s"),
+  VP(V("demander").t("b"),
+     NP(P("à"),
+        D("le").g("f").n("s"),
+        NP(A("vice").pos("pre"),
+           Q("-")),
+        N("président").g("f").n("s")),
+     CP(C("et"),
+        VP(C("si"),
+           Pro("moi").c("nom").pe("3").g("f").n("s"),
+           V("pouvoir").t("p").pe("3").n("s"),
+           Pro("moi").c("nom").pe("1").n("p"),
+           V("dire").t("b"),
+           VP(Adv("où"),
+              Pro("en").c("nom"),
+              V("être").t("p").pe("3").n("p"),
+              NP(D("le").n("p"),
+                 N("effort").g("m").n("p"),
+                 NP(P("de"),
+                    N("harmonisation").g("f").n("s")),
+                 VP(V("déployer").t("pp").n("p").g("m"),
+                    NP(P("par"),
+                       D("ce").n("p"),
+                       NO(2).dOpt({nat:true}),
+                       N("organisation").g("f").n("p")))))),
+        S(C("si"),
+          NP(D("le").n("s"),
+             Q("Ue")),
+          VP(V("avoir").t("p").pe("3").n("s"),
+             NP(D("le").g("f").n("s"),
+                N("possibilité").g("f").n("s"),
+                S(P("de"),
+                  VP(V("accélérer").t("b"),
+                     NP(D("ce").n("p"),
+                        N("effort").g("m").n("p")),
+                     S(P("en"),
+                       VP(V("appliquer").t("pr"),
+                          NP(D("un").g("m").n("p"),
+                             N("principe").g("m").n("p"),
+                             CP(C("que"),
+                                NP(Adv("aussi"),
+                                   A("simple").pos("post").n("p")),
+                                A("possible").pos("post").n("p"))))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-949
+# text = Les dispositions de cet acte font partie intégrante du présent traité.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	dispositions	disposition	NOUN	S	Gender=Fem|Number=Plur	6	nsubj	_	_
+3	de	de	ADP	E	_	5	case	_	_
+4	cet	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	5	det	_	_
+5	acte	acte	NOUN	S	Gender=Masc|Number=Sing	2	nmod	_	_
+6	font	faire	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	partie	partie	NOUN	S	Gender=Fem|Number=Sing	6	obj	_	_
+8	intégrante	intégrant	ADJ	A	Gender=Fem|Number=Sing	7	amod	_	_
+9	de	de	ADP	ADJ	_	12	case	_	_
+10	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	12	det	_	_
+11	présent	présent	ADJ	A	Gender=Masc|Number=Sing	12	amod	_	_
+12	traité	traité	NOUN	S	Gender=Masc|Number=Sing	6	obl	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	6	punct	_	_
+# jsRealB-start
+S(NP(D("le").n("p"),
+     N("disposition").g("f").n("p"),
+     NP(P("de"),
+        D("ce").g("m").n("s"),
+        N("acte").g("m").n("s"))),
+  VP(V("faire").t("p").pe("3").n("p"),
+     NP(N("partie").g("f").n("s"),
+        A("intégrant").pos("post").g("f").n("s")),
+     NP(P("de"),
+        D("le").n("s"),
+        A("présent").pos("pre").g("m").n("s"),
+        N("traité").g("m").n("s")))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-1014
+# text = Toutefois, pour la France, deux superficies de base sont établies.
+# gl = 8:lemma superficies>superficie
+1	Toutefois	toutefois	ADV	B	_	12	advmod	_	SpaceAfter=No
+2	,	,	PUNCT	FF	_	1	punct	_	_
+3	pour	pour	ADP	E	_	5	case	_	_
+4	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	5	det	_	_
+5	France	France	PROPN	SP	_	12	obl	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	5	punct	_	_
+7	deux	deux	NUM	N	NumType=Card	8	nummod	_	_
+8	superficies	superficies	NOUN	S	Gender=Fem|Number=Plur	12	nsubj:pass	_	_
+9	de	de	ADP	E	_	10	case	_	_
+10	base	base	NOUN	S	Gender=Fem|Number=Sing	8	nmod	_	_
+11	sont	être	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	aux:pass	_	_
+12	établies	établir	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	0	root	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	12	punct	_	_
+# jsRealB-start
+S(NP(D("le").n("p"),
+     N("disposition").g("f").n("p"),
+     NP(P("de"),
+        D("ce").g("m").n("s"),
+        N("acte").g("m").n("s"))),
+  VP(V("faire").t("p").pe("3").n("p"),
+     NP(N("partie").g("f").n("s"),
+        A("intégrant").pos("post").g("f").n("s")),
+     NP(P("de"),
+        D("le").n("s"),
+        A("présent").pos("pre").g("m").n("s"),
+        N("traité").g("m").n("s")))).a(".")
+# jsRealB-end
+
+# file = fr/fr_partut-ud-test.conllu
+# sent_id = fr_partut-ud-323
+# text = Monsieur le président, je souhaite vivement remercier mme Schroedter pour le travail qu'elle a accompli dans ce domaine et expliquer aux députés que j'interviens au nom de ma collègue, mme Flautre, qui a suivi ce sujet pour la commission de l'emploi et des affaires sociales mais qui est hélas malade.
+# gl = 33:feats >Pers=1
+# gl = 53:feats Fem>Masc
+# gl = 58:lemma helas>hélas
+1	Monsieur	monsieur	NOUN	S	Gender=Masc|Number=Sing	6	vocative	_	_
+2	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	3	det	_	_
+3	président	président	NOUN	S	Gender=Masc|Number=Sing	1	nmod	_	SpaceAfter=No
+4	,	,	PUNCT	FF	_	1	punct	_	_
+5	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	6	nsubj	_	_
+6	souhaite	souhaiter	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	vivement	vivement	ADV	B	_	6	advmod	_	_
+8	remercier	remercier	VERB	V	VerbForm=Inf	6	xcomp	_	_
+9	mme	madame	NOUN	S	Gender=Fem	8	obj	_	_
+10	Schroedter	Schroedter	PROPN	SP	_	9	flat	_	_
+11	pour	pour	ADP	E	_	13	case	_	_
+12	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	13	det	_	_
+13	travail	travail	NOUN	S	Gender=Masc|Number=Sing	8	obl	_	_
+14	qu'	que	PRON	PR	PronType=Rel	17	obj	_	SpaceAfter=No
+15	elle	elle	PRON	PE	Gender=Fem|Number=Sing|Person=3|PronType=Prs	17	nsubj	_	_
+16	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	aux	_	_
+17	accompli	accomplir	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	13	acl:relcl	_	_
+18	dans	dans	ADP	E	_	20	case	_	_
+19	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	20	det	_	_
+20	domaine	domaine	NOUN	S	Gender=Masc|Number=Sing	17	obl	_	_
+21	et	et	CCONJ	CC	_	22	cc	_	_
+22	expliquer	expliquer	VERB	V	VerbForm=Inf	8	conj	_	_
+23	à	à	ADP	E	_	25	case	_	_
+24	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	25	det	_	_
+25	députés	député	NOUN	S	Gender=Masc|Number=Plur	22	obl	_	_
+26	que	que	SCONJ	CS	_	28	mark	_	_
+27	j'	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	28	nsubj	_	SpaceAfter=No
+28	interviens	intervenir	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	22	ccomp	_	_
+29	à	à	ADP	E	_	31	case	_	_
+30	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	31	det	_	_
+31	nom	nom	NOUN	S	Gender=Masc|Number=Sing	28	obl	_	_
+32	de	de	ADP	E	_	34	case	_	_
+33	ma	mon	DET	AP	Gender=Fem|Number=Sing|PronType=Prs	34	det	_	_
+34	collègue	collègue	NOUN	S	Gender=Fem|Number=Sing	31	nmod	_	SpaceAfter=No
+35	,	,	PUNCT	FF	_	34	punct	_	_
+36	mme	madame	NOUN	S	Gender=Fem	34	appos	_	_
+37	Flautre	Flautre	PROPN	SP	_	36	flat	_	SpaceAfter=No
+38	,	,	PUNCT	FF	_	36	punct	_	_
+39	qui	qui	PRON	PR	PronType=Rel	41	nsubj	_	_
+40	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	41	aux	_	_
+41	suivi	suivre	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	34	acl:relcl	_	_
+42	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	43	det	_	_
+43	sujet	sujet	NOUN	S	Gender=Masc|Number=Sing	41	obj	_	_
+44	pour	pour	ADP	E	_	46	case	_	_
+45	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	46	det	_	_
+46	commission	commission	NOUN	S	Gender=Fem|Number=Sing	41	obl	_	_
+47	de	de	ADP	E	_	49	case	_	_
+48	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	49	det	_	SpaceAfter=No
+49	emploi	emploi	NOUN	S	Gender=Masc|Number=Sing	46	nmod	_	_
+50	et	et	CCONJ	CC	_	53	cc	_	_
+51	de	de	ADP	E	_	53	case	_	_
+52	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	53	det	_	_
+53	affaires	affaire	NOUN	S	Gender=Masc|Number=Plur	49	conj	_	_
+54	sociales	social	ADJ	A	Gender=Fem|Number=Plur	41	amod	_	_
+55	mais	mais	CCONJ	CC	_	41	cc	_	_
+56	qui	qui	PRON	PR	PronType=Rel	59	nsubj	_	_
+57	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	59	cop	_	_
+58	hélas	helas	ADV	B	_	59	discourse	_	_
+59	malade	malade	ADJ	A	Number=Sing	41	acl:relcl	_	SpaceAfter=No
+60	.	.	PUNCT	FS	_	6	punct	_	_
+# jsRealB-start
+S(NP(N("monsieur").g("m").n("s"),
+     NP(D("le").g("m").n("s"),
+        N("président").g("m").n("s")),
+     Q(",")),
+  Pro("moi").c("nom").pe("1").n("s"),
+  VP(V("souhaiter").t("p").pe("1").n("s"),
+     Adv("vivement"),
+     CP(C("et"),
+        VP(V("remercier").t("b"),
+           NP(N("madame").g("f"),
+              Q("Schroedter")),
+           NP(P("pour"),
+              D("le").g("m").n("s"),
+              N("travail").g("m").n("s"),
+              S(Pro("que").c("nom"),
+                Pro("moi").c("nom").pe("3").g("f").n("s"),
+                V("avoir").t("p").pe("3").n("s"),
+                VP(V("accomplir").t("pp").n("s").g("m"),
+                   NP(P("dans"),
+                      D("ce").g("m").n("s"),
+                      N("domaine").g("m").n("s")))))),
+        VP(V("expliquer").t("b"),
+           NP(P("à"),
+              D("le").n("p"),
+              N("député").g("m").n("p")),
+           S(C("que"),
+             Pro("moi").c("nom").pe("1").n("s"),
+             VP(V("intervenir").t("p").pe("1").n("s"),
+                NP(P("à"),
+                   D("le").g("m").n("s"),
+                   N("nom").g("m").n("s"),
+                   NP(P("de"),
+                      D("mon").g("f").n("s").pe(1),
+                      N("collègue").g("f").n("s"),
+                      Q(","),
+                      NP(N("madame").g("f"),
+                         Q("Flautre"),
+                         Q(",")),
+                      S(Pro("qui").c("nom"),
+                        V("avoir").t("p").pe("3").n("s"),
+                        VP(V("suivre").t("pp").n("s").g("m"),
+                           NP(D("ce").g("m").n("s"),
+                              N("sujet").g("m").n("s")),
+                           NP(P("pour"),
+                              D("le").g("f").n("s"),
+                              N("commission").g("f").n("s"),
+                              CP(C("et"),
+                                 NP(P("de"),
+                                    D("le").n("s"),
+                                    N("emploi").g("m").n("s")),
+                                 NP(P("de"),
+                                    D("le").n("p"),
+                                    N("affaire").g("f").n("p")))),
+                           A("social").pos("post").g("f").n("p"),
+                           C("mais"),
+                           NP(Pro("qui").c("nom"),
+                              V("être").t("p").pe("3").n("s"),
+                              Q("hélas"),
+                              A("malade").pos("post").n("s")))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = w01125036
+# text = George III était profondément dévoué et passait des heures dans la prière, mais ses frères n’éprouvaient aucune pitié envers lui.
+# gl = 22:feats >Case=Dat
+1	George	George	PROPN	NNP	Gender=Masc|Number=Sing	5	nsubj	_	_
+2	III	III	NUM	CD	_	1	nummod	_	Proper=True|wordform=iii
+3	était	être	AUX	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	5	cop	_	_
+4	profondément	profondément	ADV	RB	_	5	advmod	_	_
+5	dévoué	dévoué	ADJ	JJ	Gender=Masc|Number=Sing	0	root	_	_
+6	et	et	CCONJ	CC	_	7	cc	_	_
+7	passait	passer	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	5	conj	_	_
+8	des	un	DET	DT	Gender=Fem|Number=Plur	9	det	_	_
+9	heures	heure	NOUN	NN	Gender=Fem|Number=Plur	7	obj	_	_
+10	dans	dans	ADP	IN	_	12	case	_	_
+11	la	le	DET	DT	Gender=Fem|Number=Sing	12	det	_	_
+12	prière	prière	NOUN	NN	Gender=Fem|Number=Sing	7	obl	_	SpaceAfter=No
+13	,	,	PUNCT	,	_	18	punct	_	_
+14	mais	mais	CCONJ	CC	_	18	cc	_	_
+15	ses	son	DET	DTP$	Gender=Masc|Number=Plur|Number[psor]=Sing|Person=3|Poss=Yes|PronType=Prs	16	det	_	_
+16	frères	frère	NOUN	NN	Gender=Masc|Number=Plur	18	nsubj	_	_
+17	n’	ne	ADV	RB	Polarity=Neg	18	advmod	_	SpaceAfter=No|wordform=n'
+18	éprouvaient	éprouver	VERB	VBC	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	5	conj	_	_
+19	aucune	aucun	DET	_	Gender=Fem|Number=Sing|Polarity=Neg|PronType=Neg	20	det	_	_
+20	pitié	pitié	NOUN	NN	Gender=Fem|Number=Sing	18	obj	_	_
+21	envers	envers	ADP	IN	_	22	case	_	_
+22	lui	lui	PRON	PRP	Gender=Masc|Number=Sing|Person=3	20	nmod	_	SpaceAfter=No
+23	.	.	PUNCT	.	_	5	punct	_	_
+# jsRealB-start
+CP(C("mais"),
+   NP(NP(Q("George"),
+         Q("III")),
+      V("être").t("i").pe("3").n("s"),
+      Adv("profondément"),
+      A("dévoué").pos("post").g("m").n("s")),
+   VP(V("passer").t("i").pe("3").n("s"),
+      NP(D("un").g("f").n("p"),
+         N("heure").g("f").n("p")),
+      NP(P("dans"),
+         D("le").g("f").n("s"),
+         N("prière").g("f").n("s"))),
+   S(NP(D("mon").pe(3).g("m").n("p").ow("s"),
+        N("frère").g("m").n("p")),
+     Adv("ne"),
+     VP(V("éprouver").t("i").pe("3").n("p"),
+        NP(D("aucun").g("f").n("s"),
+           N("pitié").g("f").n("s"),
+           NP(P("envers"),
+              Pro("lui").c("dat").pe("3").g("m").n("s")))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = n01033021
+# text = Néanmoins, ils n'ont pas pu trouver le même schéma dans des tissus qui ne sont pas directement exposés, comme la vessie.
+# gl = 22:upos ADP>ADV
+1	Néanmoins	néanmoins	ADV	RB	_	7	advmod	_	SpaceAfter=No|wordform=néanmoins
+2	,	,	PUNCT	,	_	1	punct	_	_
+3	ils	il	PRON	PRP	Gender=Masc|Number=Plur|Person=3	7	nsubj	_	_
+4	n'	ne	ADV	RB	Polarity=Neg	7	advmod	_	SpaceAfter=No
+5	ont	avoir	AUX	VBC	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	7	aux:tense	_	_
+6	pas	pas	ADV	RB	Polarity=Neg	7	advmod	_	_
+7	pu	pouvoir	VERB	VBN	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+8	trouver	trouver	VERB	VB	VerbForm=Inf	7	xcomp	_	_
+9	le	le	DET	DT	Gender=Masc|Number=Sing	11	det	_	_
+10	même	même	ADJ	JJ	Gender=Masc|Number=Sing	11	amod	_	_
+11	schéma	schéma	NOUN	NN	Gender=Masc|Number=Sing	8	obj	_	_
+12	dans	dans	ADP	IN	_	14	case	_	_
+13	des	un	DET	DT	Gender=Masc|Number=Plur	14	det	_	_
+14	tissus	tissu	NOUN	NN	Gender=Masc|Number=Plur	8	obl	_	_
+15	qui	qui	PRON	WP	Gender=Masc|Number=Plur	20	nsubj:pass	_	_
+16	ne	ne	ADV	RB	Polarity=Neg	20	advmod	_	_
+17	sont	être	AUX	VBC	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	20	aux:pass	_	_
+18	pas	pas	ADV	RB	Polarity=Neg	20	advmod	_	_
+19	directement	directement	ADV	RB	_	20	advmod	_	_
+20	exposés	exposer	VERB	VBN	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	14	acl:relcl	_	SpaceAfter=No
+21	,	,	PUNCT	,	_	24	punct	_	_
+22	comme	comme	ADP	IN	_	24	case	_	_
+23	la	le	DET	DT	Gender=Fem|Number=Sing	24	det	_	_
+24	vessie	vessie	NOUN	NN	Gender=Fem|Number=Sing	14	nmod	_	SpaceAfter=No
+25	.	.	PUNCT	.	_	7	punct	_	_
+# jsRealB-start
+S(VP(Adv("néanmoins"),
+     Q(",")),
+  Pro("moi").c("nom").pe("3").g("m").n("p"),
+  Adv("ne"),
+  V("avoir").t("p").pe("3").n("p"),
+  Adv("pas"),
+  VP(V("pouvoir").t("pp").n("s").g("m"),
+     VP(V("trouver").t("b"),
+        NP(D("le").g("m").n("s"),
+           A("même").pos("pre").g("m").n("s"),
+           N("schéma").g("m").n("s")),
+        NP(P("dans"),
+           D("un").g("m").n("p"),
+           N("tissu").g("m").n("p"),
+           S(Pro("qui").c("nom").g("m").n("p"),
+             Adv("ne"),
+             Adv("pas"),
+             Adv("directement"),
+             VP(V("être").t("p").pe("3").n("p"),
+                V("exposer").t("pp").n("p").g("m"))),
+           NP(Q(","),
+              Adv("comme"),
+              D("le").g("f").n("s"),
+              N("vessie").g("f").n("s")))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = n01139016
+# text = On considérait les efforts au niveau de l’Internet comme étant le principal moteur des dépenses de l'unité.
+# gl = 11:upos ADP>ADV
+1	On	on	PRON	PRP	Number=Sing|Person=3	2	nsubj	_	wordform=on
+2	considérait	considérer	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	0	root	_	_
+3	les	le	DET	DT	Gender=Masc|Number=Plur	4	det	_	_
+4	efforts	effort	NOUN	NN	Gender=Masc|Number=Plur	2	obj	_	_
+5	à	à	ADP	INDT	_	7	case	_	_
+6	le	le	DET	_	Gender=Masc|Number=Sing	7	det	_	_
+7	niveau	niveau	NOUN	NN	Gender=Masc|Number=Sing	4	nmod	_	_
+8	de	de	ADP	IN	_	10	case	_	_
+9	l’	le	DET	DT	Gender=Masc|Number=Sing	10	det	_	SpaceAfter=No|wordform=l'
+10	Internet	internet	NOUN	NN	Gender=Masc|Number=Sing	7	nmod	_	wordform=internet
+11	comme	comme	ADP	IN	_	15	mark	_	_
+12	étant	être	AUX	VBG	Tense=Pres|VerbForm=Part	15	cop	_	_
+13	le	le	DET	DT	Gender=Masc|Number=Sing	15	det	_	_
+14	principal	principal	ADJ	JJ	Gender=Masc|Number=Sing	15	amod	_	_
+15	moteur	moteur	NOUN	NN	Gender=Masc|Number=Sing	4	xcomp	_	_
+16	de	de	ADP	INDT	_	18	case	_	_
+17	les	le	DET	_	Gender=Fem|Number=Plur	18	det	_	_
+18	dépenses	dépense	NOUN	NN	Gender=Fem|Number=Plur	15	nmod	_	_
+19	de	de	ADP	IN	_	21	case	_	_
+20	l'	le	DET	DT	Gender=Fem|Number=Sing	21	det	_	SpaceAfter=No
+21	unité	unité	NOUN	NN	Gender=Fem|Number=Sing	18	nmod	_	SpaceAfter=No
+22	.	.	PUNCT	.	_	2	punct	_	_
+# jsRealB-start
+S(Pro("on").c("nom").pe("3").n("s"),
+  VP(V("considérer").t("i").pe("3").n("s"),
+     NP(D("le").g("m").n("p"),
+        N("effort").g("m").n("p"),
+        NP(P("à"),
+           D("le").g("m").n("s"),
+           N("niveau").g("m").n("s"),
+           NP(P("de"),
+              D("le").g("m").n("s"),
+              Q("internet"))),
+        NP(Adv("comme"),
+           V("être").t("pr"),
+           D("le").g("m").n("s"),
+           A("principal").pos("pre").g("m").n("s"),
+           N("moteur").g("m").n("s"),
+           NP(P("de"),
+              D("le").g("f").n("p"),
+              N("dépense").g("f").n("p"),
+              NP(P("de"),
+                 D("le").g("f").n("s"),
+                 N("unité").g("f").n("s"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = w01130103
+# text = Il s'agit des deux derniers enregistrements réalisés par Gerry Rafferty avec Hugh Murphy ; ce dernier est décédé en 1998.
+# gl = ok
+1	Il	il	PRON	PRP	Gender=Masc|Number=Sing|Person=3	3	expl:subj	_	wordform=il
+2	s'	se	PRON	PRP	Gender=Masc|Number=Sing|Person=3	3	obj	_	SpaceAfter=No
+3	agit	agir	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	de	de	ADP	INDT	_	8	case	_	_
+5	les	le	DET	_	Gender=Masc|Number=Plur	8	det	_	_
+6	deux	deux	NUM	CD	_	8	nummod	_	_
+7	derniers	dernier	ADJ	JJ	Gender=Masc|Number=Plur	8	amod	_	_
+8	enregistrements	enregistrement	NOUN	NN	Gender=Masc|Number=Plur	3	obl	_	_
+9	réalisés	réaliser	VERB	VBN	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	8	acl	_	_
+10	par	par	ADP	IN	_	11	case	_	_
+11	Gerry	Gerry	PROPN	NNP	Gender=Masc|Number=Sing	9	obl	_	_
+12	Rafferty	Rafferty	PROPN	NNP	Gender=Masc|Number=Sing	11	flat:name	_	_
+13	avec	avec	ADP	IN	_	14	case	_	_
+14	Hugh	Hugh	PROPN	NNP	Gender=Masc|Number=Sing	9	obl	_	_
+15	Murphy	Murphy	PROPN	NNP	Gender=Masc|Number=Sing	14	flat:name	_	_
+16	;	;	PUNCT	:	_	20	punct	_	_
+17	ce	ce	DET	DT	Gender=Masc|Number=Sing	18	det	_	_
+18	dernier	dernier	NOUN	NN	Gender=Masc|Number=Sing	20	nsubj	_	_
+19	est	être	AUX	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	20	aux:tense	_	_
+20	décédé	décéder	VERB	VBN	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	3	parataxis	_	_
+21	en	en	ADP	IN	_	22	case	_	_
+22	1998	1998	NUM	CD	_	20	obl	_	SpaceAfter=No
+23	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(Pro("moi").c("nom").pe("3").g("m").n("s"),
+  Pro("moi").c("refl").pe("3").g("m").n("s"),
+  VP(V("agir").t("p").pe("3").n("s"),
+     NP(P("de"),
+        D("le").g("m").n("p"),
+        NO(2).dOpt({nat:true}),
+        A("dernier").pos("pre").g("m").n("p"),
+        N("enregistrement").g("m").n("p"),
+        VP(V("réaliser").t("pp").n("p").g("m"),
+           NP(P("par"),
+              Q("Gerry"),
+              Q("Rafferty")),
+           NP(P("avec"),
+              Q("Hugh"),
+              Q("Murphy")))),
+     S(Q(";"),
+       NP(D("ce").g("m").n("s"),
+          N("dernier").g("m").n("s")),
+       V("être").t("p").pe("3").n("s"),
+       VP(V("décéder").t("pp").n("s").g("m"),
+          NP(P("en"),
+             NO("1998").dOpt({raw:true})))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = w01134078
+# text = Yukio Mishima adopta une marque nationalisme très individuelle vers la fin de sa vie.
+# gl = 6 text, form, lemma: nationalisme>nationaliste
+1	Yukio	Yukio	PROPN	NNP	Gender=Masc|Number=Sing	3	nsubj	_	_
+2	Mishima	Mishima	PROPN	NNP	Gender=Masc|Number=Sing	1	flat:name	_	_
+3	adopta	adopter	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+4	une	un	DET	DT	Gender=Fem|Number=Sing	5	det	_	_
+5	marque	marque	NOUN	NN	Gender=Fem|Number=Sing	3	obj	_	_
+6	nationalisme	nationalisme	ADJ	JJ	Gender=Fem|Number=Sing	5	amod	_	_
+7	très	très	ADV	RB	_	8	advmod	_	_
+8	individuelle	individuel	ADJ	JJ	Gender=Fem|Number=Sing	5	amod	_	_
+9	vers	vers	ADP	IN	_	11	case	_	_
+10	la	le	DET	DT	Gender=Fem|Number=Sing	11	det	_	_
+11	fin	fin	NOUN	NN	Gender=Fem|Number=Sing	3	obl	_	_
+12	de	de	ADP	IN	_	14	case	_	_
+13	sa	son	DET	DTP$	Gender=Fem|Number=Sing|Number[psor]=Sing|Person=3|Poss=Yes|PronType=Prs	14	det	_	_
+14	vie	vie	NOUN	NN	Gender=Fem|Number=Sing	11	nmod	_	SpaceAfter=No
+15	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(Q("Yukio"),
+     Q("Mishima")),
+  VP(V("adopter").t("ps").pe("3").n("s"),
+     NP(D("un").g("f").n("s"),
+        N("marque").g("f").n("s"),
+        A("nationaliste").pos("post").g("f").n("s"),
+        NP(Adv("très"),
+           A("individuel").pos("post").g("f").n("s"))),
+     NP(P("vers"),
+        D("le").g("f").n("s"),
+        N("fin").g("f").n("s"),
+        NP(P("de"),
+           D("mon").pe(3).g("f").n("s").ow("s"),
+           N("vie").g("f").n("s"))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = n03007011
+# text = Le temps de prestation effective de cette première heure sera ainsi au moins égal à 45 minutes.
+# gl = ok
+1	Le	le	DET	DT	Gender=Masc|Number=Sing	2	det	_	wordform=le
+2	temps	temps	NOUN	NN	Gender=Masc|Number=Sing	10	nsubj	_	_
+3	de	de	ADP	IN	_	4	case	_	_
+4	prestation	prestation	NOUN	NN	Gender=Fem|Number=Sing	2	nmod	_	_
+5	effective	effectif	ADJ	JJ	Gender=Fem|Number=Sing	4	amod	_	_
+6	de	de	ADP	IN	_	9	case	_	_
+7	cette	ce	DET	DT	Gender=Fem|Number=Sing	9	det	_	_
+8	première	premier	ADJ	JJ	Gender=Fem|Number=Sing	9	amod	_	_
+9	heure	heure	NOUN	NN	Gender=Fem|Number=Sing	2	nmod	_	_
+10	sera	être	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin	0	root	_	_
+11	ainsi	ainsi	ADV	RB	_	10	advmod	_	_
+12	à	à	ADP	INDT	_	14	case	_	_
+13	le	le	DET	_	Gender=Masc|Number=Sing	14	det	_	_
+14	moins	moins	ADV	RBR	_	15	advmod	_	_
+15	égal	égal	ADJ	JJ	Gender=Masc|Number=Sing	10	amod	_	_
+16	à	à	ADP	IN	_	18	case	_	_
+17	45	45	NUM	CD	_	18	nummod	_	_
+18	minutes	minute	NOUN	NN	Gender=Fem|Number=Plur	15	obl	_	SpaceAfter=No
+19	.	.	PUNCT	.	_	10	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("m").n("s"),
+     N("temps").g("m").n("s"),
+     NP(P("de"),
+        N("prestation").g("f").n("s"),
+        A("effectif").pos("post").g("f").n("s")),
+     NP(P("de"),
+        D("ce").g("f").n("s"),
+        A("premier").pos("pre").g("f").n("s"),
+        N("heure").g("f").n("s"))),
+  VP(V("être").t("f").pe("3").n("s"),
+     Adv("ainsi"),
+     NP(S(P("à"),
+          D("le").g("m").n("s"),
+          VP(Adv("moins"))),
+        A("égal").pos("post").g("m").n("s"),
+        NP(P("à"),
+           NO("45").dOpt({raw:true}),
+           N("minute").g("f").n("p"))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = n01026016
+# text = La police routière de Shenzhen a opté pour des pénalités inhabituelles dans le passé.
+# gl = ok
+1	La	le	DET	DT	Gender=Fem|Number=Sing	2	det	_	wordform=la
+2	police	police	NOUN	NN	Gender=Fem|Number=Sing	7	nsubj	_	_
+3	routière	routier	ADJ	JJ	Gender=Fem|Number=Sing	2	amod	_	_
+4	de	de	ADP	IN	_	5	case	_	_
+5	Shenzhen	Shenzhen	PROPN	NNP	Number=Sing	2	nmod	_	_
+6	a	avoir	AUX	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	aux:tense	_	_
+7	opté	opter	VERB	VBN	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+8	pour	pour	ADP	IN	_	10	case	_	_
+9	des	un	DET	DT	Gender=Fem|Number=Plur	10	det	_	_
+10	pénalités	pénalité	NOUN	NN	Gender=Fem|Number=Plur	7	obl	_	_
+11	inhabituelles	inhabituel	ADJ	JJ	Gender=Fem|Number=Plur	10	amod	_	_
+12	dans	dans	ADP	IN	_	14	case	_	_
+13	le	le	DET	DT	Gender=Masc|Number=Sing	14	det	_	_
+14	passé	passé	NOUN	NN	Gender=Masc|Number=Sing	11	obl	_	SpaceAfter=No
+15	.	.	PUNCT	.	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("le").g("f").n("s"),
+     N("police").g("f").n("s"),
+     A("routier").pos("post").g("f").n("s"),
+     NP(P("de"),
+        Q("Shenzhen"))),
+  V("avoir").t("p").pe("3").n("s"),
+  VP(V("opter").t("pp").n("s").g("m"),
+     NP(P("pour"),
+        D("un").g("f").n("p"),
+        N("pénalité").g("f").n("p"),
+        NP(A("inhabituel").pos("post").g("f").n("p"),
+           NP(P("dans"),
+              D("le").g("m").n("s"),
+              N("passé").g("m").n("s")))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = n01050006
+# text = Le fer est un élément essentiel dont le corps a besoin pour produire l'hémoglobine, la protéine des globules rouges responsable du transport de l'oxygène vers les tissus de l'organisme.
+# gl = 7:upos ADP>PRON
+1	Le	le	DET	DT	Gender=Masc|Number=Sing	2	det	_	wordform=le
+2	fer	fer	NOUN	NN	Gender=Masc|Number=Sing	5	nsubj	_	_
+3	est	être	AUX	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+4	un	un	DET	DT	Gender=Masc|Number=Sing	5	det	_	_
+5	élément	élément	NOUN	NN	Gender=Masc|Number=Sing	0	root	_	_
+6	essentiel	essentiel	ADJ	JJ	Gender=Masc|Number=Sing	5	amod	_	_
+7	dont	dont	ADP	INP	Gender=Masc|Number=Sing	10	obl	_	_
+8	le	le	DET	DT	Gender=Masc|Number=Sing	9	det	_	_
+9	corps	corps	NOUN	NN	Gender=Masc|Number=Sing	10	nsubj	_	_
+10	a	avoir	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	acl:relcl	_	_
+11	besoin	besoin	NOUN	NN	Gender=Masc|Number=Sing	10	obj	_	_
+12	pour	pour	ADP	IN	_	13	case	_	_
+13	produire	produire	VERB	VB	VerbForm=Inf	10	xcomp	_	_
+14	l'	le	DET	DT	Gender=Fem|Number=Sing	15	det	_	SpaceAfter=No
+15	hémoglobine	hémoglobine	NOUN	NN	Gender=Fem|Number=Sing	13	obj	_	SpaceAfter=No
+16	,	,	PUNCT	,	_	18	punct	_	_
+17	la	le	DET	DT	Gender=Fem|Number=Sing	18	det	_	_
+18	protéine	protéine	NOUN	NN	Gender=Fem|Number=Sing	15	appos	_	_
+19	de	de	ADP	INDT	_	21	case	_	_
+20	les	le	DET	_	Gender=Masc|Number=Plur	21	det	_	_
+21	globules	globule	NOUN	NN	Gender=Masc|Number=Plur	18	nmod	_	_
+22	rouges	rouge	ADJ	JJ	Gender=Masc|Number=Plur	21	amod	_	_
+23	responsable	responsable	ADJ	JJ	Gender=Fem|Number=Sing	18	amod	_	_
+24	de	de	ADP	INDT	_	26	case	_	_
+25	le	le	DET	_	Gender=Masc|Number=Sing	26	det	_	_
+26	transport	transport	NOUN	NN	Gender=Masc|Number=Sing	23	obl	_	_
+27	de	de	ADP	IN	_	29	case	_	_
+28	l'	le	DET	DT	Gender=Masc|Number=Sing	29	det	_	SpaceAfter=No
+29	oxygène	oxygène	NOUN	NN	Gender=Masc|Number=Sing	26	nmod	_	_
+30	vers	vers	ADP	IN	_	32	case	_	_
+31	les	le	DET	DT	Gender=Masc|Number=Plur	32	det	_	_
+32	tissus	tissu	NOUN	NN	Gender=Masc|Number=Plur	26	nmod	_	_
+33	de	de	ADP	IN	_	35	case	_	_
+34	l'	le	DET	DT	Gender=Masc|Number=Sing	35	det	_	SpaceAfter=No
+35	organisme	organisme	NOUN	NN	Gender=Masc|Number=Sing	32	nmod	_	SpaceAfter=No
+36	.	.	PUNCT	.	_	5	punct	_	_
+# jsRealB-start
+NP(NP(D("le").g("m").n("s"),
+      N("fer").g("m").n("s")),
+   V("être").t("p").pe("3").n("s"),
+   D("un").g("m").n("s"),
+   N("élément").g("m").n("s"),
+   A("essentiel").pos("post").g("m").n("s"),
+   S(Pro("dont").g("m").n("s"),
+     NP(D("le").g("m").n("s"),
+        N("corps").g("m").n("s")),
+     VP(V("avoir").t("p").pe("3").n("s"),
+        N("besoin").g("m").n("s"),
+        S(P("pour"),
+          VP(V("produire").t("b"),
+             NP(D("le").g("f").n("s"),
+                N("hémoglobine").g("f").n("s"),
+                NP(Q(","),
+                   D("le").g("f").n("s"),
+                   N("protéine").g("f").n("s"),
+                   NP(P("de"),
+                      D("le").g("m").n("p"),
+                      N("globule").g("m").n("p"),
+                      A("rouge").pos("post").g("m").n("p")),
+                   NP(A("responsable").pos("post").g("f").n("s"),
+                      NP(P("de"),
+                         D("le").g("m").n("s"),
+                         N("transport").g("m").n("s"),
+                         NP(P("de"),
+                            D("le").g("m").n("s"),
+                            N("oxygène").g("m").n("s")),
+                         NP(P("vers"),
+                            D("le").g("m").n("p"),
+                            N("tissu").g("m").n("p"),
+                            NP(P("de"),
+                               D("le").g("m").n("s"),
+                               N("organisme").g("m").n("s")))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = w05009044
+# text = En 1976, il a rencontré un ami qui travaillait avec sa maison de disques The Rocket Record Company, Kiki Dee, pour enregistrer ce qui consistait d’un autre succès remarquable pour lui: « Don’t Go Breaking My Heart ».
+# gl = 35 feats >Case=Dat
+1	En	en	ADP	IN	_	2	case	_	wordform=en
+2	1976	1976	NUM	CD	_	6	obl	_	SpaceAfter=No
+3	,	,	PUNCT	,	_	2	punct	_	_
+4	il	il	PRON	PRP	Gender=Masc|Number=Sing|Person=3	6	nsubj	_	_
+5	a	avoir	AUX	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux:tense	_	_
+6	rencontré	rencontrer	VERB	VBN	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+7	un	un	DET	DT	Gender=Masc|Number=Sing	8	det	_	_
+8	ami	ami	NOUN	NN	Gender=Masc|Number=Sing	6	obj	_	_
+9	qui	qui	PRON	WP	Gender=Masc|Number=Sing	10	nsubj	_	_
+10	travaillait	travailler	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	8	acl:relcl	_	_
+11	avec	avec	ADP	IN	_	13	case	_	_
+12	sa	son	DET	DTP$	Gender=Fem|Number=Sing|Number[psor]=Sing|Person=3|Poss=Yes|PronType=Prs	13	det	_	_
+13	maison	maison	NOUN	NN	Gender=Fem|Number=Sing	10	obl	_	_
+14	de	de	ADP	IN	_	15	case	_	_
+15	disques	disque	NOUN	NN	Gender=Masc|Number=Plur	13	nmod	_	_
+16	The	The	X	FW	_	13	appos	_	Proper=True
+17	Rocket	Rocket	X	FW	_	16	flat:foreign	_	Proper=True
+18	Record	Record	X	FW	_	16	flat:foreign	_	Proper=True
+19	Company	Company	X	FW	_	16	flat:foreign	_	Proper=True|SpaceAfter=No
+20	,	,	PUNCT	,	_	21	punct	_	_
+21	Kiki	Kiki	PROPN	NNP	Gender=Masc|Number=Sing	8	appos	_	_
+22	Dee	Dee	PROPN	NNP	Gender=Masc|Number=Sing	21	flat:name	_	SpaceAfter=No
+23	,	,	PUNCT	,	_	25	punct	_	_
+24	pour	pour	ADP	IN	_	25	mark	_	_
+25	enregistrer	enregistrer	VERB	VB	VerbForm=Inf	6	advcl	_	_
+26	ce	ce	PRON	PDEM	_	25	obj	_	_
+27	qui	qui	PRON	WP	_	28	nsubj	_	_
+28	consistait	consister	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	26	acl:relcl	_	_
+29	d’	de	ADP	IN	_	32	case	_	SpaceAfter=No|wordform=d'
+30	un	un	DET	DT	Gender=Masc|Number=Sing	32	det	_	_
+31	autre	autre	ADJ	JJ	Gender=Masc|Number=Sing	32	amod	_	_
+32	succès	succès	NOUN	NN	Gender=Masc|Number=Sing	28	obl	_	_
+33	remarquable	remarquable	ADJ	JJ	Gender=Masc|Number=Sing	32	amod	_	_
+34	pour	pour	ADP	IN	_	35	case	_	_
+35	lui	lui	PRON	PRP	Gender=Masc|Number=Sing|Person=3	32	nmod	_	SpaceAfter=No
+36	:	:	PUNCT	:	_	38	punct	_	_
+37	«	«	PUNCT	``	_	38	punct	_	_
+38	Don’t	Don’t	X	FW	_	32	appos	_	_
+39	Go	Go	X	FW	_	38	flat:foreign	_	Proper=True
+40	Breaking	Breaking	X	FW	_	38	flat:foreign	_	_
+41	My	My	X	FW	_	38	flat:foreign	_	Proper=True
+42	Heart	Heart	X	FW	_	38	flat:foreign	_	Proper=True
+43	»	»	PUNCT	''	_	38	punct	_	SpaceAfter=No
+44	.	.	PUNCT	.	_	6	punct	_	_
+# jsRealB-start
+S(NP(P("en"),
+     NO("1976").dOpt({raw:true}),
+     Q(",")),
+  Pro("moi").c("nom").pe("3").g("m").n("s"),
+  V("avoir").t("p").pe("3").n("s"),
+  VP(V("rencontrer").t("pp").n("s").g("m"),
+     NP(D("un").g("m").n("s"),
+        N("ami").g("m").n("s"),
+        S(Pro("qui").c("nom").g("m").n("s"),
+          VP(V("travailler").t("i").pe("3").n("s"),
+             NP(P("avec"),
+                D("mon").pe(3).g("f").n("s").ow("s"),
+                N("maison").g("f").n("s"),
+                NP(P("de"),
+                   N("disque").g("m").n("p")),
+                VP(Q("The"),
+                   Q("Rocket"),
+                   Q("Record"),
+                   Q("Company"))))),
+        NP(Q(","),
+           Q("Kiki"),
+           Q("Dee"))),
+     S(Q(","),
+       P("pour"),
+       VP(V("enregistrer").t("b"),
+          NP(Pro("ce").c("nom"),
+             S(Pro("qui").c("nom"),
+               VP(V("consister").t("i").pe("3").n("s"),
+                  NP(P("de"),
+                     D("un").g("m").n("s"),
+                     A("autre").pos("pre").g("m").n("s"),
+                     N("succès").g("m").n("s"),
+                     A("remarquable").pos("post").g("m").n("s"),
+                     NP(P("pour"),
+                        Pro("lui").c("dat").pe("3").g("m").n("s")),
+                     S(Q(":"),
+                       Q("«"),
+                       VP(Q("Don’t"),
+                          Q("Go"),
+                          Q("Breaking"),
+                          Q("My"),
+                          Q("Heart"),
+                          Q("»"))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_pud-ud-test.conllu
+# sent_id = n01095004
+# text = De notre temps, il n’y en avait aucun, et les gens sans enfants manifestaient leur propre désapprobation et, par conséquence, leur haine, des parents modernes.
+# gl = ouf, à revoir car l'ordre est bizarre et Pers=1 n'a pas été pris en compte
+1	De	de	ADP	IN	_	3	case	_	wordform=de
+2	notre	son	DET	DTP$	Gender=Masc|Number=Sing|Number[psor]=Plur|Person=1|Poss=Yes|PronType=Prs	3	det	_	_
+3	temps	temps	NOUN	NN	Gender=Masc|Number=Sing	9	obl	_	SpaceAfter=No
+4	,	,	PUNCT	,	_	3	punct	_	_
+5	il	il	PRON	PRP	Gender=Masc|Number=Sing|Person=3	9	expl:subj	_	_
+6	n’	ne	ADV	RB	Polarity=Neg	9	advmod	_	SpaceAfter=No|wordform=n'
+7	y	y	PRON	PRP	Person=3	9	obl	_	_
+8	en	en	PRON	PRP	Person=3	9	iobj	_	_
+9	avait	avoir	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	0	root	_	_
+10	aucun	aucun	PRON	_	Gender=Masc|Number=Sing|Polarity=Neg|PronType=Neg	9	obj	_	SpaceAfter=No
+11	,	,	PUNCT	,	_	17	punct	_	_
+12	et	et	CCONJ	CC	_	17	cc	_	_
+13	les	le	DET	DT	Gender=Masc|Number=Plur	14	det	_	_
+14	gens	gens	NOUN	NN	Gender=Masc|Number=Plur	17	nsubj	_	_
+15	sans	sans	ADP	IN	_	16	case	_	_
+16	enfants	enfant	NOUN	NN	Gender=Masc|Number=Plur	14	nmod	_	_
+17	manifestaient	manifester	VERB	VBC	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	9	conj	_	_
+18	leur	son	DET	DTP$	Gender=Fem|Number=Sing|Number[psor]=Plur|Person=3|Poss=Yes|PronType=Prs	20	det	_	_
+19	propre	propre	ADJ	JJ	Gender=Fem|Number=Sing	20	amod	_	_
+20	désapprobation	désapprobation	NOUN	NN	Gender=Fem|Number=Sing	17	obj	_	_
+21	et	et	CCONJ	CC	_	27	cc	_	SpaceAfter=No
+22	,	,	PUNCT	,	_	23	punct	_	_
+23	par	par	ADP	IN	_	27	advmod	_	_
+24	conséquence	conséquence	NOUN	NN	Gender=Fem|Number=Sing	23	fixed	_	SpaceAfter=No
+25	,	,	PUNCT	,	_	23	punct	_	_
+26	leur	son	DET	DTP$	Gender=Fem|Number=Sing|Number[psor]=Plur|Person=3|Poss=Yes|PronType=Prs	27	det	_	_
+27	haine	haine	NOUN	NN	Gender=Fem|Number=Sing	20	conj	_	SpaceAfter=No
+28	,	,	PUNCT	,	_	31	punct	_	_
+29	de	de	ADP	INDT	_	31	case	_	_
+30	les	le	DET	_	Gender=Masc|Number=Plur	31	det	_	_
+31	parents	parent	NOUN	NN	Gender=Masc|Number=Plur	20	nmod	_	_
+32	modernes	moderne	ADJ	JJ	Gender=Masc|Number=Plur	31	amod	_	SpaceAfter=No
+33	.	.	PUNCT	.	_	9	punct	_	_
+# jsRealB-start
+##
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = emea-fr-test_00418
+# text = Si la maladie n'est pas traitée, les os se déforment, deviennent douloureux et peuvent se casser.
+# gl = ok
+1	Si	si	SCONJ	_	_	7	mark	_	_
+2	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
+3	maladie	maladie	NOUN	_	Gender=Fem|Number=Sing	7	nsubj:pass	_	_
+4	n'	ne	ADV	_	Polarity=Neg	7	advmod	_	SpaceAfter=No
+5	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	aux:pass	_	_
+6	pas	pas	ADV	_	Polarity=Neg	7	advmod	_	_
+7	traitée	traiter	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass	12	advcl	_	SpaceAfter=No
+8	,	,	PUNCT	_	_	12	punct	_	_
+9	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	10	det	_	_
+10	os	os	NOUN	_	Gender=Masc|Number=Plur	12	nsubj	_	_
+11	se	se	PRON	_	Person=3|Reflex=Yes	12	expl:comp	_	_
+12	déforment	déformer	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	SpaceAfter=No
+13	,	,	PUNCT	_	_	14	punct	_	_
+14	deviennent	devenir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	conj	_	_
+15	douloureux	douloureux	ADJ	_	Gender=Masc	14	xcomp	_	_
+16	et	et	CCONJ	_	_	17	cc	_	_
+17	peuvent	pouvoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	conj	_	_
+18	se	se	PRON	_	Person=3|Reflex=Yes	19	expl:pass	_	_
+19	casser	casser	VERB	_	VerbForm=Inf	17	xcomp	_	SpaceAfter=No
+20	.	.	PUNCT	_	_	12	punct	_	_
+# jsRealB-start
+S(S(C("si"),
+    NP(D("le").g("f").n("s"),
+       N("maladie").g("f").n("s")),
+    Adv("ne"),
+    VP(V("être").t("p").pe("3").n("s"),Adv("pas"),
+       V("traiter").t("pp").n("s").g("f"))),
+  Q(","),
+  NP(D("le").n("p"),
+     N("os").g("m").n("p")),
+  Pro("moi").c("refl").pe("3"),
+  VP(V("déformer").t("p").pe("3").n("p"),
+     S(Q(","),
+       VP(V("devenir").t("p").pe("3").n("p"),
+          A("douloureux").pos("post").g("m"))),
+     S(C("et"),
+       VP(V("pouvoir").t("p").pe("3").n("p"),
+          S(Pro("moi").c("refl").pe("3"),
+            VP(V("casser").t("b"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = emea-fr-test_00218
+# text = Au moins une nouvelle fracture vertébrale (0-3 ans)
+# gl = ok
+1	À	à	ADP	_	_	6	advmod	_	ExtPos=ADV
+2	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	1	fixed	_	_
+3	moins	moins	ADV	_	_	1	fixed	_	_
+4	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
+5	nouvelle	nouveau	ADJ	_	Gender=Fem|Number=Sing	6	amod	_	_
+6	fracture	fracture	NOUN	_	Gender=Fem|Number=Sing	0	root	_	_
+7	vertébrale	vertébral	ADJ	_	Gender=Fem|Number=Sing	6	amod	_	_
+8	(	(	PUNCT	_	_	6	punct	_	SpaceAfter=No
+9	0-3	0-3	NUM	_	NumType=Card	10	nummod	_	_
+10	ans	an	NOUN	_	Gender=Masc|Number=Plur	6	parataxis	_	SpaceAfter=No
+11	)	)	PUNCT	_	_	6	punct	_	_
+# jsRealB-start
+NP(VP(P("à"),
+      D("le").g("m").n("s"),
+      Adv("moins")),
+   D("un").g("f").n("s"),
+   A("nouveau").pos("pre").g("f").n("s"),
+   N("fracture").g("f").n("s"),
+   A("vertébral").pos("post").g("f").n("s"),
+   Q("("),
+   NP(Q("0-3"),
+      N("an").g("m").n("p"))).a(")")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = Europar.550_00091
+# text = Nous ne pouvons nous demander ce qu'il adviendra du Kosovo.
+# gl = ok
+1	Nous	il	PRON	_	Number=Plur|Person=1	3	nsubj	_	_
+2	ne	ne	ADV	_	Polarity=Neg	3	advmod	_	_
+3	pouvons	pouvoir	VERB	_	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	nous	se	PRON	_	Number=Plur|Person=1|Reflex=Yes	5	expl:comp	_	_
+5	demander	demander	VERB	_	VerbForm=Inf	3	xcomp	_	_
+6	ce	ce	PRON	_	_	5	obj	_	_
+7	qu'	que	PRON	_	PronType=Rel	9	obj	_	SpaceAfter=No
+8	il	il	PRON	_	Gender=Masc|Number=Sing|Person=3	9	expl:subj	_	_
+9	adviendra	advenir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin	6	acl:relcl	_	_
+10	de	de	ADP	_	_	12	case	_	_
+11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+12	Kosovo	Kosovo	PROPN	_	_	9	obl:arg	_	SpaceAfter=No
+13	.	.	PUNCT	_	_	3	punct	_	_
+# jsRealB-start
+S(Pro("moi").c("nom").pe("1").n("p"),
+  Adv("ne"),
+  VP(V("pouvoir").t("p").pe("1").n("p"),
+     S(Pro("moi").c("refl").pe("1").n("p"),
+       VP(V("demander").t("b"),
+          NP(Pro("ce").c("nom"),
+             S(Pro("que").c("nom"),
+               Pro("moi").c("nom").pe("3").g("m").n("s"),
+               VP(V("advenir").t("f").pe("3").n("s"),
+                  NP(P("de"),
+                     D("le").g("m").n("s"),
+                     Q("Kosovo"))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = annodis.er_00415
+# text = D'autres manifestations ont très bien fonctionné en terme d'affluence, notamment lors de la fête des Fraises organisée le 1er dimanche de juin, ou encore la journée des associations au Zénith, où 2.000 visiteurs étaient présents.
+# gl = 40 lemma 2.000>2000
+1	D'	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	3	det	_	SpaceAfter=No
+2	autres	autre	ADJ	_	Number=Plur	3	amod	_	_
+3	manifestations	manifestation	NOUN	_	Gender=Fem|Number=Plur	7	nsubj	_	_
+4	ont	avoir	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	7	aux:tense	_	_
+5	très	très	ADV	_	_	6	advmod	_	_
+6	bien	bien	ADV	_	_	7	advmod	_	_
+7	fonctionné	fonctionner	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+8	en	en	ADP	_	_	9	case	_	_
+9	terme	terme	NOUN	_	Gender=Masc|Number=Sing	7	obl:mod	_	_
+10	d'	de	ADP	_	_	11	case	_	SpaceAfter=No
+11	affluence	affluence	NOUN	_	Gender=Fem|Number=Sing	9	nmod	_	SpaceAfter=No
+12	,	,	PUNCT	_	_	7	punct	_	_
+13	notamment	notamment	ADV	_	_	7	advmod	_	_
+14	lors	lors	ADV	_	_	7	advmod	_	_
+15	de	de	ADP	_	_	17	case	_	_
+16	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	17	det	_	_
+17	fête	fête	NOUN	_	Gender=Fem|Number=Sing	14	obl:arg	_	_
+18	de	de	ADP	_	_	20	case	_	_
+19	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	20	det	_	_
+20	Fraises	fraise	NOUN	_	Gender=Fem|Number=Plur	17	nmod	_	_
+21	organisée	organiser	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	17	acl	_	_
+22	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	24	det	_	_
+23	1er	1er	ADJ	_	NumType=Ord	24	amod	_	_
+24	dimanche	dimanche	NOUN	_	Gender=Masc|Number=Sing	21	obl:mod	_	_
+25	de	de	ADP	_	_	26	case	_	_
+26	juin	juin	NOUN	_	Gender=Masc|Number=Sing	24	nmod	_	SpaceAfter=No
+27	,	,	PUNCT	_	_	17	punct	_	_
+28	ou	ou	CCONJ	_	_	31	cc	_	_
+29	encore	encore	ADV	_	_	31	advmod	_	_
+30	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	31	det	_	_
+31	journée	journée	NOUN	_	Gender=Fem|Number=Sing	17	conj	_	_
+32	de	de	ADP	_	_	34	case	_	_
+33	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	34	det	_	_
+34	associations	association	NOUN	_	Gender=Fem|Number=Plur	31	nmod	_	_
+35	à	à	ADP	_	_	37	case	_	_
+36	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	37	det	_	_
+37	Zénith	Zénith	PROPN	_	_	31	nmod	_	SpaceAfter=No
+38	,	,	PUNCT	_	_	31	punct	_	_
+39	où	où	PRON	_	PronType=Rel	43	iobj	_	_
+40	2.000	2.000	NUM	_	NumType=Card	41	nummod	_	_
+41	visiteurs	visiteur	NOUN	_	Gender=Masc|Number=Plur	43	nsubj	_	_
+42	étaient	être	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	43	cop	_	_
+43	présents	présent	ADJ	_	Gender=Masc|Number=Plur	31	acl:relcl	_	SpaceAfter=No
+44	.	.	PUNCT	_	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("un").n("p"),
+     A("autre").pos("pre").n("p"),
+     N("manifestation").g("f").n("p")),
+  V("avoir").t("p").pe("3").n("p"),
+  S(Adv("très"),
+    VP(Adv("bien"))),
+  VP(V("fonctionner").t("pp").n("s").g("m"),
+     NP(P("en"),
+        N("terme").g("m").n("s"),
+        NP(P("de"),
+           N("affluence").g("f").n("s"))),
+     Q(","),
+     Adv("notamment"),
+     VP(Adv("lors"),
+        CP(C("ou"),
+           NP(P("de"),
+              D("le").g("f").n("s"),
+              N("fête").g("f").n("s"),
+              NP(P("de"),
+                 D("le").n("p"),
+                 N("fraise").g("f").n("p")),
+              VP(V("organiser").t("pp").n("s").g("f"),
+                 NP(D("le").g("m").n("s"),
+                    A("premier").pos("pre"),
+                    N("dimanche").g("m").n("s"),
+                    NP(P("de"),
+                       N("juin").g("m").n("s"))))),
+           NP(Adv("encore"),
+              D("le").g("f").n("s"),
+              N("journée").g("f").n("s"),
+              NP(P("de"),
+                 D("le").n("p"),
+                 N("association").g("f").n("p")),
+              NP(P("à"),
+                 D("le").g("m").n("s"),
+                 Q("Zénith")),
+              Q(","),
+              NP(Pro("où").c("nom"),
+                 NP(NO("2000").dOpt({raw:true}),
+                    N("visiteur").g("m").n("p")),
+                 V("être").t("i").pe("3").n("p"),
+                 A("présent").pos("post").g("m").n("p"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = emea-fr-test_00170
+# text = Une insuffisance rénale a été observée après l'administration d'acide zolédronique, en particulier chez les patients présentant une altération rénale préexistante ou des facteurs de risque supplémentaires (par exemple, chimiothérapie anticancéreuse, médicaments néphrotoxiques concomitants, déshydratation sévère, etc.).
+# gl = ok
+1	Une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
+2	insuffisance	insuffisance	NOUN	_	Gender=Fem|Number=Sing	6	nsubj:pass	_	_
+3	rénale	rénal	ADJ	_	Gender=Fem|Number=Sing	2	amod	_	_
+4	a	avoir	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux:tense	_	_
+5	été	être	AUX	_	Tense=Past|VerbForm=Part	6	aux:pass	_	_
+6	observée	observer	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+7	après	après	ADP	_	_	9	case	_	_
+8	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	9	det	_	SpaceAfter=No
+9	administration	administration	NOUN	_	Gender=Fem|Number=Sing	6	obl:mod	_	_
+10	d'	de	ADP	_	_	11	case	_	SpaceAfter=No
+11	acide	acide	NOUN	_	Gender=Masc|Number=Sing	9	nmod	_	_
+12	zolédronique	zolédronique	ADJ	_	Gender=Masc|Number=Sing	11	amod	_	SpaceAfter=No
+13	,	,	PUNCT	_	_	6	punct	_	_
+14	en	en	ADP	_	_	18	advmod	_	ExtPos=ADV
+15	particulier	particulier	ADJ	_	Gender=Masc|Number=Sing	14	fixed	_	_
+16	chez	chez	ADP	_	_	18	case	_	_
+17	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	18	det	_	_
+18	patients	patient	NOUN	_	Gender=Masc|Number=Plur	6	obl:mod	_	_
+19	présentant	présenter	VERB	_	Tense=Pres|VerbForm=Part	18	acl	_	_
+20	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	21	det	_	_
+21	altération	altération	NOUN	_	Gender=Fem|Number=Sing	19	obj	_	_
+22	rénale	rénal	ADJ	_	Gender=Fem|Number=Sing	21	amod	_	_
+23	préexistante	préexistant	ADJ	_	Gender=Fem|Number=Sing	21	amod	_	_
+24	ou	ou	CCONJ	_	_	26	cc	_	_
+25	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	26	det	_	_
+26	facteurs	facteur	NOUN	_	Gender=Masc|Number=Plur	21	conj	_	_
+27	de	de	ADP	_	_	28	case	_	_
+28	risque	risque	NOUN	_	Gender=Masc|Number=Sing	26	nmod	_	_
+29	supplémentaires	supplémentaire	ADJ	_	Number=Plur	28	amod	_	_
+30	(	(	PUNCT	_	_	26	punct	_	SpaceAfter=No
+31	par	par	ADP	_	_	32	case	_	_
+32	exemple	exemple	NOUN	_	Gender=Masc|Number=Sing	26	nmod	_	SpaceAfter=No
+33	,	,	PUNCT	_	_	26	punct	_	_
+34	chimiothérapie	chimiothérapie	NOUN	_	Gender=Fem|Number=Sing	26	appos	_	_
+35	anticancéreuse	anticancéreux	ADJ	_	Gender=Fem|Number=Sing	34	amod	_	SpaceAfter=No
+36	,	,	PUNCT	_	_	37	punct	_	_
+37	médicaments	médicament	NOUN	_	Gender=Masc|Number=Plur	34	conj	_	_
+38	néphrotoxiques	néphrotoxique	ADJ	_	Gender=Masc|Number=Plur	37	amod	_	_
+39	concomitants	concomitant	ADJ	_	Gender=Masc|Number=Plur	37	amod	_	SpaceAfter=No
+40	,	,	PUNCT	_	_	41	punct	_	_
+41	déshydratation	déshydratation	NOUN	_	Gender=Fem|Number=Sing	34	conj	_	_
+42	sévère	sévère	ADJ	_	Number=Sing	41	amod	_	SpaceAfter=No
+43	,	,	PUNCT	_	_	26	punct	_	_
+44	etc.	etc.	ADV	_	_	26	advmod	_	SpaceAfter=No
+45	)	)	PUNCT	_	_	26	punct	_	SpaceAfter=No
+46	.	.	PUNCT	_	_	6	punct	_	_
+# jsRealB-start
+S(NP(D("un").g("f").n("s"),
+     N("insuffisance").g("f").n("s"),
+     A("rénal").pos("post").g("f").n("s")),
+  V("avoir").t("p").pe("3").n("s"),
+  VP(V("être").t("pp"),
+     V("observer").t("pp").n("s").g("f"),
+     NP(P("après"),
+        D("le").n("s"),
+        N("administration").g("f").n("s"),
+        NP(P("de"),
+           N("acide").g("m").n("s"),
+           Q("zolédronique"))),
+     Q(","),
+     NP(VP(P("en"),
+           A("particulier").pos("post").g("m").n("s")),
+        P("chez"),
+        D("le").n("p"),
+        N("patient").g("m").n("p"),
+        VP(V("présenter").t("pr"),
+           CP(C("ou"),
+              NP(D("un").g("f").n("s"),
+                 N("altération").g("f").n("s"),
+                 A("rénal").pos("post").g("f").n("s"),
+                 A("préexistant").pos("post").g("f").n("s")),
+              NP(D("un").n("p"),
+                 N("facteur").g("m").n("p"),
+                 NP(P("de"),
+                    N("risque").g("m").n("s"),
+                    A("supplémentaire").pos("post").n("p")),
+                 Q("("),
+                 NP(P("par"),
+                    N("exemple").g("m").n("s")),
+                 Q(","),
+                 CP(NP(N("chimiothérapie").g("f").n("s"),
+                       A("anticancéreux").pos("post").g("f").n("s")),
+                    NP(N("médicament").g("m").n("p"),
+                       Q("néphrotoxiques"),
+                       A("concomitant").pos("post").g("m").n("p")),
+                    NP(N("déshydratation").g("f").n("s"),
+                       A("sévère").pos("post").n("s"))),
+                 Q(","),
+                 Adv("etc."),
+                 Q(")"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = annodis.er_00031
+# text = Après une année d'études, la conduite des travaux est menée par le cabinet Cadel et son associé, M. Bruand, sous le contrôle de l'Equipement, en neuf mois.
+# gl = ok
+1	Après	après	ADP	_	_	3	case	_	_
+2	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
+3	année	année	NOUN	_	Gender=Fem|Number=Sing	13	obl:mod	_	_
+4	d'	de	ADP	_	_	5	case	_	SpaceAfter=No
+5	études	étude	NOUN	_	Gender=Fem|Number=Plur	3	nmod	_	SpaceAfter=No
+6	,	,	PUNCT	_	_	13	punct	_	_
+7	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	8	det	_	_
+8	conduite	conduite	NOUN	_	Gender=Fem|Number=Sing	13	nsubj:pass	_	_
+9	de	de	ADP	_	_	11	case	_	_
+10	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	11	det	_	_
+11	travaux	travail	NOUN	_	Gender=Masc|Number=Plur	8	nmod	_	_
+12	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	aux:pass	_	_
+13	menée	mener	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+14	par	par	ADP	_	_	16	case	_	_
+15	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	16	det	_	_
+16	cabinet	cabinet	NOUN	_	Gender=Masc|Number=Sing	13	obl:agent	_	_
+17	Cadel	Cadel	PROPN	_	_	16	nmod	_	_
+18	et	et	CCONJ	_	_	20	cc	_	_
+19	son	son	DET	_	Number=Sing|Poss=Yes	20	det	_	_
+20	associé	associé	NOUN	_	Gender=Masc|Number=Sing	16	conj	_	SpaceAfter=No
+21	,	,	PUNCT	_	_	20	punct	_	_
+22	M.	monsieur	NOUN	_	Gender=Masc|Number=Sing	20	appos	_	_
+23	Bruand	Bruand	PROPN	_	_	22	flat:name	_	SpaceAfter=No
+24	,	,	PUNCT	_	_	13	punct	_	_
+25	sous	sous	ADP	_	_	27	case	_	_
+26	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	27	det	_	_
+27	contrôle	contrôle	NOUN	_	Gender=Masc|Number=Sing	13	obl:mod	_	_
+28	de	de	ADP	_	_	30	case	_	_
+29	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	30	det	_	SpaceAfter=No
+30	Equipement	équipement	NOUN	_	Gender=Masc|Number=Sing	27	nmod	_	SpaceAfter=No
+31	,	,	PUNCT	_	_	13	punct	_	_
+32	en	en	ADP	_	_	34	case	_	_
+33	neuf	neuf	NUM	_	NumType=Card	34	nummod	_	_
+34	mois	mois	NOUN	_	Gender=Masc|Number=Plur	13	obl:mod	_	SpaceAfter=No
+35	.	.	PUNCT	_	_	13	punct	_	_
+# jsRealB-start
+S(NP(D("un").g("f").n("s"),
+     N("insuffisance").g("f").n("s"),
+     A("rénal").pos("post").g("f").n("s")),
+  V("avoir").t("p").pe("3").n("s"),
+  VP(V("être").t("pp"),
+     V("observer").t("pp").n("s").g("f"),
+     NP(P("après"),
+        D("le").n("s"),
+        N("administration").g("f").n("s"),
+        NP(P("de"),
+           N("acide").g("m").n("s"),
+           Q("zolédronique"))),
+     Q(","),
+     NP(VP(P("en"),
+           A("particulier").pos("post").g("m").n("s")),
+        P("chez"),
+        D("le").n("p"),
+        N("patient").g("m").n("p"),
+        VP(V("présenter").t("pr"),
+           CP(C("ou"),
+              NP(D("un").g("f").n("s"),
+                 N("altération").g("f").n("s"),
+                 A("rénal").pos("post").g("f").n("s"),
+                 A("préexistant").pos("post").g("f").n("s")),
+              NP(D("un").n("p"),
+                 N("facteur").g("m").n("p"),
+                 NP(P("de"),
+                    N("risque").g("m").n("s"),
+                    A("supplémentaire").pos("post").n("p")),
+                 Q("("),
+                 NP(P("par"),
+                    N("exemple").g("m").n("s")),
+                 Q(","),
+                 CP(NP(N("chimiothérapie").g("f").n("s"),
+                       A("anticancéreux").pos("post").g("f").n("s")),
+                    NP(N("médicament").g("m").n("p"),
+                       Q("néphrotoxiques"),
+                       A("concomitant").pos("post").g("m").n("p")),
+                    NP(N("déshydratation").g("f").n("s"),
+                       A("sévère").pos("post").n("s"))),
+                 Q(","),
+                 Adv("etc."),
+                 Q(")"))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = frwiki_50.1000_00551
+# text = - Christine Deviers-Joncour, Opération Bravo, Pocket (2000).
+# gl = ok
+1	-	-	PUNCT	_	_	2	punct	_	_
+2	Christine	Christine	PROPN	_	Gender=Fem|Number=Sing	0	root	_	_
+3	Deviers-Joncour	Deviers-Joncour	PROPN	_	_	2	flat:name	_	SpaceAfter=No
+4	,	,	PUNCT	_	_	2	punct	_	_
+5	Opération	opération	NOUN	_	Gender=Fem|Number=Sing	2	nmod	_	_
+6	Bravo	Bravo	PROPN	_	_	5	nmod	_	SpaceAfter=No
+7	,	,	PUNCT	_	_	2	punct	_	_
+8	Pocket	Pocket	PROPN	_	_	2	nmod	_	_
+9	(	(	PUNCT	_	_	2	punct	_	SpaceAfter=No
+10	2000	2000	NUM	_	NumType=Card	2	nummod	_	SpaceAfter=No
+11	)	)	PUNCT	_	_	2	punct	_	SpaceAfter=No
+12	.	.	PUNCT	_	_	2	punct	_	_
+# jsRealB-start
+NP(Q("-"),
+   Q("Christine"),
+   Q("Deviers-Joncour"),
+   Q(","),
+   NP(N("opération").g("f").n("s"),
+      Q("Bravo")),
+   Q(","),
+   Q("Pocket"),
+   Q("("),
+   NO("2000").dOpt({raw:true}),
+   Q(")")).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = frwiki_50.1000_00378
+# text = "Mis en place (...) par mesure d'assurance" et "dans des conditions non rigoureuses", écrivait Jean-François Briand, l'ancien directeur général de Thomson-CSF, ce réseau suscitait plus de doutes que de certitudes chez les dirigeants d'Elf.
+# gl = ok
+1	"	"	PUNCT	_	_	2	punct	_	SpaceAfter=No
+2	Mis	mettre	VERB	_	Gender=Masc|Tense=Past|VerbForm=Part	35	advcl	_	_
+3	en	en	ADP	_	_	4	case	_	_
+4	place	place	NOUN	_	Gender=Fem|Number=Sing	2	obl:arg	_	_
+5	(	(	PUNCT	_	_	2	punct	_	SpaceAfter=No
+6	...	...	PUNCT	_	_	2	punct	_	SpaceAfter=No
+7	)	)	PUNCT	_	_	2	punct	_	_
+8	par	par	ADP	_	_	9	case	_	_
+9	mesure	mesure	NOUN	_	Gender=Fem|Number=Sing	2	obl:mod	_	_
+10	d'	de	ADP	_	_	11	case	_	SpaceAfter=No
+11	assurance	assurance	NOUN	_	Gender=Fem|Number=Sing	9	nmod	_	SpaceAfter=No
+12	"	"	PUNCT	_	_	9	punct	_	_
+13	et	et	CCONJ	_	_	17	cc	_	_
+14	"	"	PUNCT	_	_	17	punct	_	SpaceAfter=No
+15	dans	dans	ADP	_	_	17	case	_	_
+16	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	17	det	_	_
+17	conditions	condition	NOUN	_	Gender=Fem|Number=Plur	9	conj	_	_
+18	non	non	ADV	_	_	19	advmod	_	_
+19	rigoureuses	rigoureux	ADJ	_	Gender=Fem|Number=Plur	17	amod	_	SpaceAfter=No
+20	"	"	PUNCT	_	_	17	punct	_	SpaceAfter=No
+21	,	,	PUNCT	_	_	35	punct	_	_
+22	écrivait	écrire	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	35	parataxis	_	_
+23	Jean-François	Jean-François	PROPN	_	_	22	nsubj	_	_
+24	Briand	Briand	PROPN	_	_	23	flat:name	_	SpaceAfter=No
+25	,	,	PUNCT	_	_	23	punct	_	_
+26	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	28	det	_	SpaceAfter=No
+27	ancien	ancien	ADJ	_	Gender=Masc|Number=Sing	28	amod	_	_
+28	directeur	directeur	NOUN	_	Gender=Masc|Number=Sing	23	appos	_	_
+29	général	général	ADJ	_	Gender=Masc|Number=Sing	28	amod	_	_
+30	de	de	ADP	_	_	31	case	_	_
+31	Thomson-CSF	Thomson-CSF	PROPN	_	_	28	nmod	_	SpaceAfter=No
+32	,	,	PUNCT	_	_	35	punct	_	_
+33	ce	ce	DET	_	Gender=Masc|Number=Sing|PronType=Dem	34	det	_	_
+34	réseau	réseau	NOUN	_	Gender=Masc|Number=Sing	35	nsubj	_	_
+35	suscitait	susciter	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	0	root	_	_
+36	plus	plus	ADV	_	_	35	obj	_	_
+37	de	de	ADP	_	_	38	case	_	_
+38	doutes	doute	NOUN	_	Gender=Masc|Number=Plur	36	obl:arg	_	_
+39	que	que	SCONJ	_	_	41	mark	_	_
+40	de	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	41	det	_	_
+41	certitudes	certitude	NOUN	_	Gender=Fem|Number=Plur	38	nmod	_	_
+42	chez	chez	ADP	_	_	44	case	_	_
+43	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	44	det	_	_
+44	dirigeants	dirigeant	NOUN	_	Gender=Masc|Number=Plur	35	obl:mod	_	_
+45	d'	de	ADP	_	_	46	case	_	SpaceAfter=No
+46	Elf	Elf	PROPN	_	_	44	nmod	_	SpaceAfter=No
+47	.	.	PUNCT	_	_	35	punct	_	_
+# jsRealB-start
+S(S(Q("\""),
+    VP(V("mettre").t("pp").g("m"),
+       NP(P("en"),
+          N("place").g("f").n("s")),
+       Q("("),
+       Q("..."),
+       Q(")"),
+       CP(C("et"),
+          NP(P("par"),
+             N("mesure").g("f").n("s"),
+             NP(P("de"),
+                N("assurance").g("f").n("s")),
+             Q("\"")),
+          NP(Q("\""),
+             P("dans"),
+             D("un").n("p"),
+             N("condition").g("f").n("p"),
+             NP(Adv("non"),
+                A("rigoureux").pos("post").g("f").n("p")),
+             Q("\""))))),
+  Q(","),
+  VP(V("écrire").t("i").pe("3").n("s"),
+     NP(Q("Jean-François"),
+        Q("Briand"),
+        Q(","),
+        NP(D("le").n("s"),
+           A("ancien").pos("pre").g("m").n("s"),
+           N("directeur").g("m").n("s"),
+           A("général").pos("post").g("m").n("s"),
+           NP(P("de"),
+              Q("Thomson-CSF"))))),
+  Q(","),
+  NP(D("ce").g("m").n("s"),
+     N("réseau").g("m").n("s")),
+  VP(V("susciter").t("i").pe("3").n("s"),
+     VP(Adv("plus"),
+        NP(P("de"),
+           N("doute").g("m").n("p"),
+           NP(C("que"),
+              D("un").n("p"),
+              N("certitude").g("f").n("p")))),
+     NP(P("chez"),
+        D("le").n("p"),
+        N("dirigeant").g("m").n("p"),
+        NP(P("de"),
+           Q("Elf"))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = annodis.er_00144
+# text = C'est dans une aisance toute naturelle que les élèves apprentis-acteurs ont joué.
+# gl = ok
+1	C'	ce	PRON	_	Number=Sing|Person=3	5	expl:subj	_	SpaceAfter=No
+2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	dans	dans	ADP	_	_	5	case	_	_
+4	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	5	det	_	_
+5	aisance	aisance	NOUN	_	Gender=Fem|Number=Sing	0	root	_	_
+6	toute	toute	ADV	_	_	7	advmod	_	_
+7	naturelle	naturel	ADJ	_	Gender=Fem|Number=Sing	5	amod	_	_
+8	que	que	PRON	_	PronType=Rel	13	iobj	_	_
+9	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	10	det	_	_
+10	élèves	élève	NOUN	_	Number=Plur	13	nsubj	_	_
+11	apprentis-acteurs	apprenti-acteur	NOUN	_	Gender=Masc|Number=Plur	10	nmod	_	_
+12	ont	avoir	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	13	aux:tense	_	_
+13	joué	jouer	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	5	advcl:cleft	_	SpaceAfter=No
+14	.	.	PUNCT	_	_	5	punct	_	_
+# jsRealB-start
+NP(Pro("ce").c("nom").pe("3").n("s"),
+   V("être").t("p").pe("3").n("s"),
+   P("dans"),
+   D("un").g("f").n("s"),
+   N("aisance").g("f").n("s"),
+   NP(A("tout").g("f"),
+      A("naturel").pos("post").g("f").n("s")),
+   S(Pro("que").c("nom"),
+     NP(D("le").n("p"),
+        N("élève").n("p"),
+        Q("apprentis").lier(),
+        N("acteur").g("m").n("p")),
+     V("avoir").t("p").pe("3").n("p"),
+     VP(V("jouer").t("pp").n("s").g("m")))).a(".")
+# jsRealB-end
+
+# file = fr/fr_sequoia-ud-test.conllu
+# sent_id = frwiki_50.1000_00293
+# text = Dans la pratique, la direction du G.O. (le Conseil de l'Ordre) fait passer une circulaire aux vénérables maîtres (présidents) de chaque loge de cette obédience pour leur demander de rassembler à leur niveau le plus d'informations possibles sur les officiers des garnisons de leurs villes ou départements.
+# gl = 35:feats >Case=Dat
+# gl = 40:feats >Number[psor]=Plur
+# gl = 54:feats >Number[psor]=Plur
+1	Dans	dans	ADP	_	_	3	case	_	_
+2	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
+3	pratique	pratique	NOUN	_	Gender=Fem|Number=Sing	18	obl:mod	_	SpaceAfter=No
+4	,	,	PUNCT	_	_	18	punct	_	_
+5	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
+6	direction	direction	NOUN	_	Gender=Fem|Number=Sing	18	nsubj:caus	_	_
+7	de	de	ADP	_	_	9	case	_	_
+8	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
+9	G.O.	G.O.	PROPN	_	_	6	nmod	_	_
+10	(	(	PUNCT	_	_	6	punct	_	SpaceAfter=No
+11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+12	Conseil	conseil	NOUN	_	Gender=Masc|Number=Sing	6	appos	_	_
+13	de	de	ADP	_	_	15	case	_	_
+14	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	15	det	_	SpaceAfter=No
+15	Ordre	ordre	NOUN	_	Gender=Masc|Number=Sing	12	nmod	_	SpaceAfter=No
+16	)	)	PUNCT	_	_	6	punct	_	_
+17	fait	faire	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	aux:caus	_	_
+18	passer	passer	VERB	_	VerbForm=Inf	0	root	_	_
+19	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	20	det	_	_
+20	circulaire	circulaire	NOUN	_	Gender=Fem|Number=Sing	18	obj	_	_
+21	à	à	ADP	_	_	24	case	_	_
+22	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	24	det	_	_
+23	vénérables	vénérable	ADJ	_	Number=Plur	24	amod	_	_
+24	maîtres	maître	NOUN	_	Gender=Masc|Number=Plur	18	obl:arg	_	_
+25	(	(	PUNCT	_	_	24	punct	_	SpaceAfter=No
+26	présidents	président	NOUN	_	Gender=Masc|Number=Plur	24	appos	_	SpaceAfter=No
+27	)	)	PUNCT	_	_	24	punct	_	_
+28	de	de	ADP	_	_	30	case	_	_
+29	chaque	chaque	DET	_	Number=Sing	30	det	_	_
+30	loge	loge	NOUN	_	Gender=Fem|Number=Sing	24	nmod	_	_
+31	de	de	ADP	_	_	33	case	_	_
+32	cette	ce	DET	_	Gender=Fem|Number=Sing|PronType=Dem	33	det	_	_
+33	obédience	obédience	NOUN	_	Gender=Fem|Number=Sing	30	nmod	_	_
+34	pour	pour	ADP	_	_	36	mark	_	_
+35	leur	lui	PRON	_	Number=Plur|Person=3	36	iobj	_	_
+36	demander	demander	VERB	_	VerbForm=Inf	18	advcl	_	_
+37	de	de	ADP	_	_	38	mark	_	_
+38	rassembler	rassembler	VERB	_	VerbForm=Inf	36	xcomp	_	_
+39	à	à	ADP	_	_	41	case	_	_
+40	leur	son	DET	_	Number=Sing|Poss=Yes|Number[psor]=Plus	41	det	_	_
+41	niveau	niveau	NOUN	_	Gender=Masc|Number=Sing	38	obl:mod	_	_
+42	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	45	det	_	_
+43	plus	plus	ADV	_	_	42	advmod	_	_
+44	d'	de	ADP	_	_	43	fixed	_	SpaceAfter=No
+45	informations	information	NOUN	_	Gender=Fem|Number=Plur	38	obj	_	_
+46	possibles	possible	ADJ	_	Number=Plur	45	amod	_	_
+47	sur	sur	ADP	_	_	49	case	_	_
+48	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	49	det	_	_
+49	officiers	officier	NOUN	_	Number=Plur	45	nmod	_	_
+50	de	de	ADP	_	_	52	case	_	_
+51	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	52	det	_	_
+52	garnisons	garnison	NOUN	_	Gender=Fem|Number=Plur	49	nmod	_	_
+53	de	de	ADP	_	_	55	case	_	_
+54	leurs	son	DET	_	Number=Plur|Poss=Yes|Number[psor]=Plur	55	det	_	_
+55	villes	ville	NOUN	_	Gender=Fem|Number=Plur	52	nmod	_	_
+56	ou	ou	CCONJ	_	_	57	cc	_	_
+57	départements	département	NOUN	_	Gender=Masc|Number=Plur	55	conj	_	SpaceAfter=No
+58	.	.	PUNCT	_	_	18	punct	_	_
+# jsRealB-start
+S(PP(P("dans"),
+     D("le").g("f").n("s"),
+     N("pratique").g("f").n("s")),
+  Q(","),
+  NP(D("le").g("f").n("s"),
+     N("direction").g("f").n("s"),
+     PP(P("de"),
+        D("le").g("m").n("s"),
+        Q("G.O.")),
+     Q("("),
+     NP(D("le").g("m").n("s"),
+        N("conseil").g("m").n("s"),
+        PP(P("de"),
+           D("le").n("s"),
+           N("ordre").g("m").n("s"))),
+     Q(")")),
+  V("faire").t("p").pe("3").n("s"),
+  VP(V("passer").t("b"),
+     NP(D("un").g("f").n("s"),
+        N("circulaire").g("f").n("s")),
+     PP(P("à"),
+        D("le").n("p"),
+        A("vénérable").pos("pre").n("p"),
+        N("maître").g("m").n("p"),
+        Q("("),
+        N("président").g("m").n("p"),
+        Q(")"),
+        PP(P("de"),
+           D("chaque").n("s"),
+           N("loge").g("f").n("s"),
+           PP(P("de"),
+              D("ce").g("f").n("s"),
+              N("obédience").g("f").n("s")))),
+     S(P("pour"),
+       Pro("eux").c("dat").pe("3").n("p"),
+       VP(V("demander").t("b"),
+          S(P("de"),
+            VP(V("rassembler").t("b"),
+               PP(P("à"),
+                  D("leur").pe(3).n("s"),
+                  N("niveau").g("m").n("s")),
+               NP(VP(D("le").g("m").n("s"),
+                     VP(Adv("plus"),
+                        P("de"))),
+                  N("information").g("f").n("p"),
+                  A("possible").pos("post").n("p"),
+                  PP(P("sur"),
+                     D("le").n("p"),
+                     N("officier").n("p"),
+                     PP(P("de"),
+                        D("le").n("p"),
+                        N("garnison").g("f").n("p"),
+                        CP(C("ou"),
+                           NP(P("de"),
+                              D("leur").pe(3).n("p").ow("p"),
+                              N("ville").g("f").n("p")),
+                           N("département").g("m").n("p"))))))))))).a(".")
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_M2003-37
+# text = que de nuits de souffrance dans notre humanité
+# gl = 7:feats 3>1
+1	que	que	ADV	_	_	0	root	_	_
+2	de	de	ADP	_	_	3	case	_	_
+3	nuits	nuit	NOUN	_	Gender=Fem|Number=Plur	1	obl:arg	_	_
+4	de	de	ADP	_	_	5	case	_	_
+5	souffrance	souffrance	NOUN	_	Gender=Fem|Number=Sing	3	nmod	_	_
+6	dans	dans	ADP	_	_	8	case	_	_
+7	notre	son	DET	_	Number=Sing|Person=3|PossNumber=Plur|PossPerson=1|PronType=Prs	8	det	_	_
+8	humanité	humanité	NOUN	_	Gender=Fem|Number=Sing	3	nmod	_	_
+# jsRealB-start
+VP(Adv("que"),
+   NP(P("de"),
+      N("nuit").g("f").n("p"),
+      NP(P("de"),
+         N("souffrance").g("f").n("s")),
+      NP(P("dans"),
+         D("notre").n("s").pe("1"),
+         N("humanité").g("f").n("s"))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_D2008-116
+# text = ce qui peut comprendre le le discours de nos autorités de santé qui vont se voir euh non pas réconfortées hein mais euh plutôt euh euh vigilan~ avec une vigilance encore accrue sur euh l' hiver qui qui arrive
+# gl = 9:feats 3>1
+1	ce	ce	PRON	_	_	0	root	_	_
+2	qui	qui	PRON	_	_	3	nsubj	_	_
+3	peut	pouvoir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	acl:relcl	_	_
+4	comprendre	comprendre	VERB	_	VerbForm=Inf	3	xcomp:obj	_	_
+5	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+6	le	le	DET	conj:reform	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	5	reparandum	_	_
+7	discours	discours	NOUN	_	Gender=Masc	4	obj	_	_
+8	de	de	ADP	_	_	10	case	_	_
+9	nos	son	DET	_	Number=Plur|Person=3|PossNumber=Plur|PossPerson=1|PronType=Prs	10	det	_	_
+10	autorités	autorité	NOUN	_	Gender=Fem|Number=Plur	7	nmod	_	_
+11	de	de	ADP	_	_	12	case	_	_
+12	santé	santé	NOUN	_	Gender=Fem|Number=Sing	10	nmod	_	_
+13	qui	qui	PRON	_	_	14	nsubj	_	_
+14	vont	aller	VERB	ETRE	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	10	acl:relcl	_	_
+15	se	se	PRON	_	Person=3|PronType=Prs	16	dep:comp	_	_
+16	voir	voir	VERB	DoubleAux	VerbForm=Inf	14	xcomp:obj	_	_
+17	euh	euh	INTJ	_	_	20	discourse	_	_
+18	non	non	ADV	_	Polarity=Neg	19	advmod	_	_
+19	pas	pas	ADV	_	Polarity=Neg	20	advmod	_	_
+20	réconfortées	réconforter	VERB	DoubleAux	_	16	ccomp:pred	_	_
+21	hein	hein	INTJ	_	_	20	discourse	_	_
+22	mais	mais	CCONJ	_	_	27	cc	_	_
+23	euh	euh	INTJ	_	_	27	discourse	_	_
+24	plutôt	plutôt	ADV	_	_	27	advmod	_	_
+25	euh	euh	INTJ	_	_	24	discourse	_	_
+26	euh	euh	INTJ	_	_	24	discourse	_	_
+27	vigilan~	vigilan~	NOUN	_	_	20	conj	_	_
+28	avec	avec	ADP	_	_	30	case	_	_
+29	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	30	det	_	_
+30	vigilance	vigilance	NOUN	_	Gender=Fem|Number=Sing	27	reparandum	_	_
+31	encore	encore	ADV	_	_	32	advmod	_	_
+32	accrue	accroître	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	30	acl	_	_
+33	sur	sur	ADP	_	_	36	case	_	_
+34	euh	euh	INTJ	_	_	36	discourse	_	_
+35	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	36	det	_	_
+36	hiver	hiver	NOUN	_	Gender=Masc|Number=Sing	32	obl:mod	_	_
+37	qui	qui	PRON	_	_	39	nsubj	_	_
+38	qui	qui	PRON	conj:reform	_	37	reparandum	_	_
+39	arrive	arriver	VERB	ETRE	_	36	acl:relcl	_	_
+# jsRealB-start
+NP(Pro("ce").c("nom"),
+   S(Pro("qui").c("nom"),
+     VP(V("pouvoir").t("p").pe("3").n("s"),
+        VP(V("comprendre").t("b"),
+           NP(VP(D("le").g("m").n("s"),
+                 D("le").g("m").n("s")),
+              N("discours").g("m"),
+              NP(P("de"),
+                 D("notre").n("p").pe("1"),
+                 N("autorité").g("f").n("p"),
+                 NP(P("de"),
+                    N("santé").g("f").n("s")),
+                 S(Pro("qui").c("nom"),
+                   VP(V("aller").t("p").pe("3").n("p"),
+                      S(Pro("moi").c("refl").pe("3"),
+                        VP(V("voir").t("b"),
+                           CP(C("mais"),
+                              VP(Q("euh"),
+                                 S(Adv("non"),
+                                   VP(Adv("pas"))),
+                                 V("réconforter").t("pp").g("f").n("p"),
+                                 Q("hein")),
+                              NP(Q("euh"),
+                                 VP(Adv("plutôt"),
+                                    Q("euh"),
+                                    Q("euh")),
+                                 Q("vigilan~"),
+                                 NP(P("avec"),
+                                    D("un").g("f").n("s"),
+                                    N("vigilance").g("f").n("s"),
+                                    S(Adv("encore"),
+                                      VP(V("accroître").t("pp").n("s").g("f"),
+                                         NP(P("sur"),
+                                            Q("euh"),
+                                            D("le").n("s"),
+                                            N("hiver").g("m").n("s"),
+                                            S(NP(Pro("qui").c("nom"),
+                                                 Pro("qui").c("nom")),
+                                              VP(V("arriver").t("p")))))))))))))))))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_M2003-32
+# text = et le cri de Job que nous avons entendu dans la première lecture retentit à nos oreilles
+# gl = 7:feats >Pers=1|Number=Plur
+# gl = 16:feats 3>1
+1	et	et	CCONJ	_	_	14	cc	_	_
+2	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	3	det	_	_
+3	cri	cri	NOUN	_	Gender=Masc|Number=Sing	14	nsubj	_	_
+4	de	de	ADP	_	_	5	case	_	_
+5	Job	Job	PROPN	_	_	3	nmod	_	_
+6	que	que	PRON	_	_	9	obj	_	_
+7	nous	il	PRON	_	_	9	nsubj	_	_
+8	avons	avoir	AUX	_	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	9	aux	_	_
+9	entendu	entendre	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	3	acl:relcl	_	_
+10	dans	dans	ADP	_	_	13	case	_	_
+11	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	13	det	_	_
+12	première	premier	ADJ	_	Gender=Fem|Number=Sing	13	amod	_	_
+13	lecture	lecture	NOUN	_	Gender=Fem|Number=Sing	9	obl:mod	_	_
+14	retentit	retentir	VERB	_	_	0	root	_	_
+15	à	à	ADP	_	_	17	case	_	_
+16	nos	son	DET	_	Number=Plur|Person=3|PossNumber=Plur|PossPerson=1|PronType=Prs	17	det	_	_
+17	oreilles	oreille	NOUN	_	Gender=Fem|Number=Plur	14	obl:mod	_	_
+# jsRealB-start
+S(C("et"),
+  NP(D("le").g("m").n("s"),
+     N("cri").g("m").n("s"),
+     NP(P("de"),
+        Q("Job")),
+     S(Pro("que").c("nom"),
+       Pro("moi").c("nom").n("p").pe(1),
+       V("avoir").t("p").pe("1").n("p"),
+       VP(V("entendre").t("pp").n("s").g("m"),
+          NP(P("dans"),
+             D("le").g("f").n("s"),
+             A("premier").pos("pre").g("f").n("s"),
+             N("lecture").g("f").n("s"))))),
+  VP(V("retentir").t("p"),
+     NP(P("à"),
+        D("notre").n("p").pe("1"),
+        N("oreille").g("f").n("p"))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_D2001-115
+# text = j' habitais avec ma mère
+# gl = 2:feats >Tense=Imp
+# gl = 4:feats 3>1
+1	j'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	habitais	habiter	VERB	_	Number=Sing|Person=1	0	root	_	_
+3	avec	avec	ADP	_	_	5	case	_	_
+4	ma	son	DET	_	Gender=Fem|Number=Sing|Person=3|PossNumber=Sing|PossPerson=1|PronType=Prs	5	det	_	_
+5	mère	mère	NOUN	_	Gender=Fem|Number=Sing	2	obl:mod	_	_
+# jsRealB-start
+S(Pro("moi").c("nom").pe("1").n("s"),
+  VP(V("habiter").t("i").pe("1").n("s"),
+     NP(P("avec"),
+        D("mon").g("f").n("s").pe("1"),
+        N("mère").g("f").n("s"))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_D2008-21
+# text = vous êtes directeur de recherche au CNRS et responsable du centre de recherche sur le risque et sa régulation à l' École des hautes études en santé publique
+# gl = ok
+1	vous	il	PRON	_	Number=Plur|Person=2|PronType=Prs	3	nsubj	_	_
+2	êtes	être	AUX	_	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	directeur	directeur	NOUN	_	Gender=Masc|Number=Sing	0	root	_	_
+4	de	de	ADP	_	_	5	case	_	_
+5	recherche	recherche	NOUN	_	Gender=Fem|Number=Sing	3	nmod	_	_
+6	à	à	ADP	_	_	8	case	_	_
+7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
+8	CNRS	CNRS	PROPN	_	_	3	nmod	_	_
+9	et	et	CCONJ	_	_	10	cc	_	_
+10	responsable	responsable	NOUN	_	_	3	conj	_	_
+11	de	de	ADP	_	_	13	case	_	_
+12	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	13	det	_	_
+13	centre	centre	NOUN	_	Gender=Masc|Number=Sing	10	nmod	_	_
+14	de	de	ADP	_	_	15	case	_	_
+15	recherche	recherche	NOUN	_	Gender=Fem|Number=Sing	13	nmod	_	_
+16	sur	sur	ADP	_	_	18	case	_	_
+17	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
+18	risque	risque	NOUN	_	Gender=Masc|Number=Sing	15	nmod	_	_
+19	et	et	CCONJ	_	_	21	cc	_	_
+20	sa	son	DET	_	Gender=Fem|Number=Sing|Person=3|PossNumber=Sing|PossPerson=3|PronType=Prs	21	det	_	_
+21	régulation	régulation	NOUN	_	Gender=Fem|Number=Sing	18	conj	_	_
+22	à	à	ADP	_	_	24	case	_	_
+23	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	24	det	_	_
+24	École	École	PROPN	_	_	13	nmod	_	_
+25	de	de	ADP	_	_	28	case	_	_
+26	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	28	det	_	_
+27	hautes	haut	ADJ	_	Gender=Fem|Number=Plur	28	amod	_	_
+28	études	étude	NOUN	_	Gender=Fem|Number=Plur	24	nmod	_	_
+29	en	en	ADP	_	_	30	case	_	_
+30	santé	santé	NOUN	_	Gender=Fem|Number=Sing	28	nmod	_	_
+31	publique	public	ADJ	_	Gender=Fem|Number=Sing	30	amod	_	_
+# jsRealB-start
+CP(C("et"),
+   NP(Pro("moi").c("nom").pe("2").n("p"),
+      V("être").t("p").pe("2").n("p"),
+      N("directeur").g("m").n("s"),
+      NP(P("de"),
+         N("recherche").g("f").n("s")),
+      NP(P("à"),
+         D("le").g("m").n("s"),
+         Q("CNRS"))),
+   NP(N("responsable"),
+      NP(P("de"),
+         D("le").g("m").n("s"),
+         N("centre").g("m").n("s"),
+         NP(P("de"),
+            N("recherche").g("f").n("s"),
+            CP(C("et"),
+               NP(P("sur"),
+                  D("le").g("m").n("s"),
+                  N("risque").g("m").n("s")),
+               NP(D("son").g("f").n("s").pe("3"),
+                  N("régulation").g("f").n("s")))),
+         NP(P("à"),
+            D("le").n("s"),
+            Q("École"),
+            NP(P("de"),
+               D("le").n("p"),
+               A("haut").pos("pre").g("f").n("p"),
+               N("étude").g("f").n("p"),
+               NP(P("en"),
+                  N("santé").g("f").n("s"),
+                  A("public").pos("post").g("f").n("s")))))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_M0008-2
+# text = et euh ensuite vous prenez la direction de Saint-Jean
+# gl = ok
+1	et	et	CCONJ	_	_	5	cc	_	_
+2	euh	euh	INTJ	_	_	5	discourse	_	_
+3	ensuite	ensuite	ADV	_	_	5	advmod	_	_
+4	vous	il	PRON	_	Number=Plur|Person=2|PronType=Prs	5	nsubj	_	_
+5	prenez	prendre	VERB	_	Number=Plur|Person=2	0	root	_	_
+6	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	direction	direction	NOUN	_	Gender=Fem|Number=Sing	5	obj	_	_
+8	de	de	ADP	_	_	9	case	_	_
+9	Saint-Jean	Saint-Jean	PROPN	_	_	7	nmod	_	_
+# jsRealB-start
+S(C("et"),
+  Q("euh"),
+  Adv("ensuite"),
+  Pro("moi").c("nom").pe("2").n("p"),
+  VP(V("prendre").t("p").pe("2").n("p"),
+     NP(D("le").g("f").n("s"),
+        N("direction").g("f").n("s"),
+        NP(P("de"),
+           Q("Saint-Jean")))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_M2003-38
+# text = et beaucoup il faut l' avouer beaucoup s' éloignent de la foi à cause de ce mal à cause de cette souffrance sans répit
+# gl = ok
+1	et	et	CCONJ	_	_	9	cc	_	_
+2	beaucoup	beaucoup	PRON	_	_	9	nsubj	_	_
+3	il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	4	nsubj	_	_
+4	faut	falloir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	parataxis:parenth	_	_
+5	l'	le	PRON	_	Number=Sing|Person=3|PronType=Prs	6	obj	_	_
+6	avouer	avouer	VERB	_	VerbForm=Inf	4	xcomp:obj	_	_
+7	beaucoup	beaucoup	PRON	_	_	2	reparandum	_	_
+8	s'	se	PRON	_	Person=3|PronType=Prs	9	dep:comp	_	_
+9	éloignent	éloigner	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	de	de	ADP	_	_	12	case	_	_
+11	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	12	det	_	_
+12	foi	foi	NOUN	_	Gender=Fem|Number=Sing	9	obl:arg	_	_
+13	à	à	ADP	_	_	14	case	_	_
+14	cause	cause	NOUN	_	Gender=Fem|Number=Sing	9	obl:mod	_	_
+15	de	de	ADP	_	_	17	case	_	_
+16	ce	ce	DET	_	_	17	det	_	_
+17	mal	mal	NOUN	_	Gender=Masc|Number=Sing	14	nmod	_	_
+18	à	à	ADP	_	_	19	case	_	_
+19	cause	cause	NOUN	_	Gender=Fem|Number=Sing	14	reparandum	_	_
+20	de	de	ADP	_	_	22	case	_	_
+21	cette	ce	DET	_	Gender=Fem|Number=Sing|PronType=Dem	22	det	_	_
+22	souffrance	souffrance	NOUN	_	Gender=Fem|Number=Sing	19	nmod	_	_
+23	sans	sans	ADP	_	_	24	case	_	_
+24	répit	répit	NOUN	_	_	22	nmod	_	_
+# jsRealB-start
+S(C("et"),
+  NP(Adv("beaucoup"),
+     S(Pro("moi").c("nom").pe("3").g("m").n("s"),
+       VP(V("falloir").t("p").pe("3").n("s"),
+          S(Pro("moi").c("acc").pe("3").n("s"),
+            VP(V("avouer").t("b"))))),
+     Adv("beaucoup")),
+  Pro("moi").c("refl").pe("3"),
+  VP(V("éloigner").t("p").pe("3").n("p"),
+     NP(P("de"),
+        D("le").g("f").n("s"),
+        N("foi").g("f").n("s")),
+     NP(P("à"),
+        N("cause").g("f").n("s"),
+        NP(P("de"),
+           D("ce"),
+           N("mal").g("m").n("s")),
+        NP(P("à"),
+           N("cause").g("f").n("s"),
+           NP(P("de"),
+              D("ce").g("f").n("s"),
+              N("souffrance").g("f").n("s"),
+              NP(P("sans"),
+                 N("répit")))))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_D2011-46
+# text = là il y a plus rien et également sur le côté plus de traces de café
+# gl = 13:lemma de
+# gl = 13:upos ADP
+1	là	là	ADV	_	_	4	advmod	_	_
+2	il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	4	expl:subj	_	_
+3	y	y	PRON	_	Person=3|PronType=Prs	4	obl:arg	_	_
+4	a	avoir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	plus	plus	ADV	_	_	6	advmod	_	_
+6	rien	rien	PRON	_	_	4	obj	_	_
+7	et	et	CCONJ	_	_	14	cc	_	_
+8	également	également	ADV	_	_	14	advmod	_	_
+9	sur	sur	ADP	_	_	11	case	_	_
+10	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	11	det	_	_
+11	côté	côté	NOUN	_	Gender=Masc|Number=Sing	14	nmod	_	_
+12	plus	plus	ADV	_	_	14	advmod	_	_
+13	de	UN	DET	_	_	14	det	_	_
+14	traces	trace	NOUN	_	Gender=Fem|Number=Plur	6	conj	_	_
+15	de	de	ADP	_	_	16	case	_	_
+16	café	café	NOUN	_	Gender=Masc|Number=Sing	14	nmod	_	_
+# jsRealB-start
+S(Adv("là"),
+  Pro("moi").c("nom").pe("3").g("m").n("s"),
+  Pro("y").c("nom").pe("3"),
+  VP(V("avoir").t("p").pe("3").n("s"),
+     CP(C("et"),
+        NP(Adv("plus"),
+           N("rien")),
+        NP(Adv("également"),
+           NP(P("sur"),
+              D("le").g("m").n("s"),
+              N("côté").g("m").n("s")),
+           Adv("plus"),
+           P("de"),
+           N("trace").g("f").n("p"),
+           NP(P("de"),
+              N("café").g("m").n("s"))))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_D2011-88
+# text = et en plus ça apporte une odeur de fraîcheur
+# gl = ok
+1	et	et	CCONJ	_	_	5	cc	_	_
+2	en	en	ADP	_	_	3	case	_	_
+3	plus	plus	ADV	_	_	5	obl:mod	_	_
+4	ça	ça	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Dem	5	nsubj	_	_
+5	apporte	apporter	VERB	_	_	0	root	_	_
+6	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	odeur	odeur	NOUN	_	Gender=Fem|Number=Sing	5	obj	_	_
+8	de	de	ADP	_	_	9	case	_	_
+9	fraîcheur	fraîcheur	NOUN	_	Gender=Fem|Number=Sing	7	nmod	_	_
+# jsRealB-start
+S(C("et"),
+  S(P("en"),
+    VP(Adv("plus"))),
+  Pro("ça").c("nom").pe("3").g("m").n("s"),
+  VP(V("apporter").t("p"),
+     NP(D("un").g("f").n("s"),
+        N("odeur").g("f").n("s"),
+        NP(P("de"),
+           N("fraîcheur").g("f").n("s")))))
+# jsRealB-end
+
+# file = fr/fr_spoken-ud-test.conllu
+# sent_id = Rhap_M1001-15
+# text = donc j' ai pris italien en deuxième choix parce que aussi euh j' ai des facilités en italien
+# gl = ok
+1	donc	donc	ADV	_	_	4	advmod	_	_
+2	j'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	4	nsubj	_	_
+3	ai	avoir	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	pris	prendre	VERB	_	Gender=Masc|Tense=Past|VerbForm=Part	0	root	_	_
+5	italien	italien	NOUN	_	Gender=Masc|Number=Sing	4	obj	_	_
+6	en	en	ADP	_	_	8	case	_	_
+7	deuxième	deuxième	ADJ	_	Number=Sing	8	amod	_	_
+8	choix	choix	NOUN	_	Gender=Masc	4	obl:mod	_	_
+9	parce	parce	SCONJ	_	_	14	mark	_	ExtPos=SCONJ|PhraseType=Idiom
+10	que	que	SCONJ	_	_	9	fixed	_	_
+11	aussi	aussi	ADV	_	_	4	advmod	_	_
+12	euh	euh	INTJ	_	_	11	discourse	_	_
+13	j'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	14	nsubj	_	_
+14	ai	avoir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	advcl	_	_
+15	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	16	det	_	_
+16	facilités	facilité	NOUN	_	Gender=Fem|Number=Plur	14	obl:arg	_	_
+17	en	en	ADP	_	_	18	case	_	_
+18	italien	italien	NOUN	_	Gender=Masc|Number=Sing	14	obl:mod	_	_
+# jsRealB-start
+S(Adv("donc"),
+  Pro("moi").c("nom").pe("1").n("s"),
+  V("avoir").t("p").pe("1").n("s"),
+  VP(V("prendre").t("pp").g("m"),
+     N("italien").g("m").n("s"),
+     NP(P("en"),
+        A("deuxième").pos("pre").n("s"),
+        N("choix").g("m")),
+     S(Q("parce"),
+       C("que"),
+       VP(Adv("aussi"),
+          Q("euh")),
+       Pro("moi").c("nom").pe("1").n("s"),
+       VP(V("avoir").t("p").pe("1").n("s"),
+          NP(D("un").n("p"),
+             N("facilité").g("f").n("p")),
+          NP(P("en"),
+             N("italien").g("m").n("s"))))))
+# jsRealB-end
+

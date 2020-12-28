@@ -1,0 +1,3984 @@
+0: fr_partut-ud-3
+# text = La distribution de la présente version de ce contrat ne crée aucune relation juridique entre les parties au contrat présenté ci-après et Creative Commons.
+# TEXT = La distribution de la présente version de ce contrat ne crée aucune relation juridique entre les parties au contrat présenté ci-après et Creative Commons. 
+---
+1:in fr_partut-ud-4
+1 erreur: fr_partut-ud-4
+D('cette'):: absent du lexique.
+---
+2:in fr_partut-ud-5
+1 erreur: fr_partut-ud-5
+A('éventuels'):: absent du lexique.
+---
+3: fr_partut-ud-6
+# text = Contrat.
+# TEXT = contrat. 
+---
+4:in fr_partut-ud-8
+3 erreurs: fr_partut-ud-8
+A('voisins'):: absent du lexique.
+N('producteurs'):: absent du lexique.
+D('autre'):: absent du lexique.
+---
+5: fr_partut-ud-10
+# text = L'exercice sur l'Oeuvre de tout droit proposé par le présent contrat vaut acceptation de celui-ci.
+# TEXT = L'exercice sur l'Oeuvre de tout droit proposé par le présent contrat vaut acceptation de celui-ci. 
+---
+6:in fr_partut-ud-11
+## non projective
+2 erreurs: fr_partut-ud-11
+A('offrant'):: absent du lexique.
+D('certain'):: absent du lexique.
+---
+7:in fr_partut-ud-13
+2 erreurs: fr_partut-ud-13
+A('collective'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+8: fr_partut-ud-14
+1 différence
+# text = [1;32;4mla [0mou les personnes physiques ou morales qui proposent la mise à disposition de l'Oeuvre selon les termes du présent contrat.
+# TEXT = [1;32;4ml'[0mou les personnes physiques ou morales qui proposent la mise à disposition de l'Oeuvre selon les termes du présent contrat.
+---
+9:in fr_partut-ud-15
+1 erreur: fr_partut-ud-15
+A('commerciale'):: absent du lexique.
+---
+10:in fr_partut-ud-16
+1 erreur: fr_partut-ud-16
+A('exclusifs'):: absent du lexique.
+---
+11: fr_partut-ud-17
+# text = 3) Autorisation.
+# TEXT = 3) autorisation. 
+---
+12:in fr_partut-ud-18
+1 erreur: fr_partut-ud-18
+D('cette'):: absent du lexique.
+---
+13:in fr_partut-ud-19
+2 erreurs: fr_partut-ud-19
+A('plusieur'):: absent du lexique.
+A('collective'):: absent du lexique.
+---
+14: fr_partut-ud-20
+1 différence
+# text = créer et reproduire des oeuvres dites [1;32;4mderivées[0m;
+# TEXT = créer et reproduire des oeuvres dites [1;32;4mdérivées[0m ;
+---
+15:in fr_partut-ud-21
+2 erreurs: fr_partut-ud-21
+Adv('y'):: absent du lexique.
+A('collective'):: absent du lexique.
+---
+16:in fr_partut-ud-22
+1 erreur: fr_partut-ud-22
+N('oeuvres'):: absent du lexique.
+---
+17:in fr_partut-ud-23
+2 erreurs: fr_partut-ud-23
+V('réutiliser'):: absent du lexique.
+V('réutiliser'):: erreur de morphologie : conjugate_fr:tab :V(réutiliser) : {"pe":3,"n":"s","t":"b"}.
+---
+18:in fr_partut-ud-24
+1 erreur: fr_partut-ud-24
+N('formats'):: absent du lexique.
+---
+19:in fr_partut-ud-25
+1 erreur: fr_partut-ud-25
+D('autre'):: absent du lexique.
+---
+20: fr_partut-ud-26
+# text = L'exercice de tous les droits qui ne sont pas expressément autorisés par l'offrant ou dont il n'aurait pas la gestion demeure réservé, notamment les mécanismes de gestion collective obligatoire applicables décrits à l'article 4d.
+# TEXT = L'exercice de tous les droits qui ne sont pas expressément autorisés par l'offrant ou dont il n'aurait pas la gestion demeure réservé, notamment les mécanismes de gestion collective obligatoire applicables décrits à l'article 4d. 
+---
+21: fr_partut-ud-28
+# text = L'autorisation accordée par l'article 3 est expressément assujettie et limitée par le respect des restrictions suivantes:
+# TEXT = L'autorisation accordée par l'article 3 est expressément assujettie et limitée par le respect des restrictions suivantes:
+---
+22:in fr_partut-ud-29
+2 erreurs: fr_partut-ud-29
+V('restreigner'):: absent du lexique.
+V('restreigner'):: erreur de morphologie : conjugate_fr:tab :V(restreigner) : {"pe":3,"n":"p","t":"p"}.
+---
+23: fr_partut-ud-30
+1 différence
+# text = L'acceptant ne peut pas céder [1;32;4mde[0m droits sur l'oeuvre.
+# TEXT = L'acceptant ne peut pas céder [1;32;4mdes[0m droits sur l'oeuvre.
+---
+24:in fr_partut-ud-31
+2 erreurs: fr_partut-ud-31
+V('renvoier'):: absent du lexique.
+V('renvoier'):: erreur de morphologie : conjugate_fr:tab :V(renvoier) : {"pe":3,"n":"p","t":"p"}.
+---
+25:in fr_partut-ud-32
+3 erreurs: fr_partut-ud-32
+Adv('y'):: absent du lexique.
+A('accès'):: absent du lexique.
+D('cet'):: absent du lexique.
+---
+26:in fr_partut-ud-33
+1 erreur: fr_partut-ud-33
+Pro('elle-même'):: absent du lexique.
+---
+27: fr_partut-ud-34
+# text = Si l'acceptant crée une oeuvre dite collective, à la demande de tout offrant, il devra, dans la mesure du possible, retirer de l'oeuvre dite collective toute référence au dit offrant, comme demandé.
+# TEXT = Si l'acceptant crée une oeuvre dite collective, à la demande de tout offrant, il devra, dans la mesure du possible, retirer de l'oeuvre dite collective toute référence au dit offrant, comme demandé. 
+---
+28: fr_partut-ud-35
+# text = Si l'acceptant crée une oeuvre dite dérivée, à la demande de tout offrant, il devra, dans la mesure du possible, retirer de l'oeuvre dite dérivée toute référence au dit offrant, comme demandé.
+# TEXT = Si l'acceptant crée une oeuvre dite dérivée, à la demande de tout offrant, il devra, dans la mesure du possible, retirer de l'oeuvre dite dérivée toute référence au dit offrant, comme demandé. 
+---
+29:in fr_partut-ud-36
+4 erreurs: fr_partut-ud-36
+Adv('y'):: absent du lexique.
+P('que'):: absent du lexique.
+P('que'):: absent du lexique.
+A('commerciale'):: absent du lexique.
+---
+30:in fr_partut-ud-37
+7 erreurs: fr_partut-ud-37
+V('altèrent'):: absent du lexique.
+N('restreignent'):: absent du lexique.
+N('intactes'):: absent du lexique.
+V('renvoier'):: absent du lexique.
+V('altèrent'):: erreur de morphologie : conjugate_fr:tab :V(altèrent) : {"pe":3,"n":"p","t":"ps"}.
+V('renvoier'):: erreur de morphologie : conjugate_fr:tab :V(renvoier) : {"pe":3,"n":"p","t":"p"}.
+N('avertissement'):: erreur de morphologie : genre différent de celui du lexique :N(avertissement) : {"g":"f","lexique":"m"}.
+---
+31:in fr_partut-ud-38
+5 erreurs: fr_partut-ud-38
+Adv('y'):: absent du lexique.
+V('dite'):: absent du lexique.
+A('accès'):: absent du lexique.
+D('cet'):: absent du lexique.
+V('dite'):: erreur de morphologie : conjugate_fr:tab :V(dite) : {"pe":3,"n":"s","t":"pp"}.
+---
+32:in fr_partut-ud-39
+3 erreurs: fr_partut-ud-39
+V('dite'):: absent du lexique.
+Pro('elle-même'):: absent du lexique.
+V('dite'):: erreur de morphologie : conjugate_fr:tab :V(dite) : {"pe":3,"n":"s","t":"pp"}.
+---
+33:in fr_partut-ud-40
+3 erreurs: fr_partut-ud-40
+A('originale'):: absent du lexique.
+P('si'):: absent du lexique.
+N('oeuvre'):: erreur de morphologie : genre différent de celui du lexique :N(oeuvre) : {"g":"m","lexique":"f"}.
+---
+34:in fr_partut-ud-41
+4 erreurs: fr_partut-ud-41
+N('identifiant'):: absent du lexique.
+D('cette'):: absent du lexique.
+V('renvoier'):: absent du lexique.
+V('renvoier'):: erreur de morphologie : conjugate_fr:tab :V(renvoier) : {"pe":3,"n":"s","t":"p"}.
+---
+35:in fr_partut-ud-42
+2 erreurs: fr_partut-ud-42
+V('basé'):: absent du lexique.
+V('basé'):: erreur de morphologie : conjugate_fr:tab :V(basé) : {"pe":3,"n":"s","t":"pp"}.
+---
+36:in fr_partut-ud-43
+3 erreurs: fr_partut-ud-43
+D('ces'):: absent du lexique.
+V('exécutér'):: absent du lexique.
+V('exécutér'):: erreur de morphologie : conjugate_fr:tab :V(exécutér) : {"pe":3,"n":"p","t":"pp"}.
+---
+37:in fr_partut-ud-44
+3 erreurs: fr_partut-ud-44
+D('ces'):: absent du lexique.
+D('la'):: absent du lexique.
+P('que'):: absent du lexique.
+---
+38: fr_partut-ud-45
+# text = 5) Garantie et exonération de responsabilité.
+# TEXT = 5) garantie et exonération de responsabilité. 
+---
+39: fr_partut-ud-47
+# text = 6) Limitation de responsabilité.
+# TEXT = 6) limitation de responsabilité. 
+---
+40:in fr_partut-ud-48
+2 erreurs: fr_partut-ud-48
+A('vis-à-vis'):: absent du lexique.
+Adv('y'):: absent du lexique.
+---
+41: fr_partut-ud-50
+# text = Tout manquement aux termes du contrat par l'acceptant entraîne la résiliation automatique du contrat et la fin des droits qui en découlent.
+# TEXT = Tout manquement aux termes du contrat par l'acceptant entraîne la résiliation automatique du contrat et la fin des droits qui en découlent. 
+---
+42:in fr_partut-ud-51
+1 erreur: fr_partut-ud-51
+A('morale'):: absent du lexique.
+---
+43:in fr_partut-ud-52
+1 erreur: fr_partut-ud-52
+N('sections'):: absent du lexique.
+---
+44: fr_partut-ud-53
+# text = Dans les limites indiquées ci-dessus, le présent contrat s'applique pendant toute la durée de protection de l'oeuvre selon le droit applicable.
+# TEXT = Dans les limites indiquées ci-dessus, le présent contrat s'applique pendant toute la durée de protection de l'oeuvre selon le droit applicable. 
+---
+45: fr_partut-ud-54
+## non projective
+2 différences
+# text = Néanmoins, l'offrant se réserve à tout moment le droit d'exploiter l'oeuvre sous des conditions contractuelles différentes, ou [1;32;4md'en[0m [1;32;4mcesser[0m la diffusion;
+# TEXT = Néanmoins, l'offrant se réserve à tout moment le droit d'exploiter l'oeuvre sous des conditions contractuelles différentes, ou [1;32;4mde cesser[0m [1;32;4men[0m la diffusion ;
+---
+46:in fr_partut-ud-55
+## non projective
+1 erreur: fr_partut-ud-55
+D('cette'):: absent du lexique.
+---
+47:in fr_partut-ud-56
+1 erreur: fr_partut-ud-56
+A('divers'):: absent du lexique.
+---
+48:in fr_partut-ud-57
+2 erreurs: fr_partut-ud-57
+N('chaque'):: absent du lexique.
+A('reproduction'):: absent du lexique.
+---
+49:in fr_partut-ud-58
+2 erreurs: fr_partut-ud-58
+N('chaque'):: absent du lexique.
+A('reproduction'):: absent du lexique.
+---
+50:in fr_partut-ud-59
+1 erreur: fr_partut-ud-59
+A('signé'):: absent du lexique.
+---
+51: fr_partut-ud-60
+# text = Ce contrat constitue le seul accord entre les parties à propos de l'oeuvre mise ici à disposition.
+# TEXT = Ce contrat constitue le seul accord entre les parties à propos de l'oeuvre mise ici à disposition. 
+---
+52:in fr_partut-ud-61
+1 erreur: fr_partut-ud-61
+D('cette'):: absent du lexique.
+---
+53:in fr_partut-ud-62
+2 erreurs: fr_partut-ud-62
+D('quelconque'):: absent du lexique.
+N('accepter'):: absent du lexique.
+---
+54: fr_partut-ud-63
+# text = Ce contrat ne peut être modifié sans l'accord mutuel écrit de l'offrant et de l'Acceptant.
+# TEXT = Ce contrat ne peut être modifié sans l'accord mutuel écrit de l'offrant et de l'Acceptant. 
+---
+55:in fr_partut-ud-65
+2 erreurs: fr_partut-ud-65
+D('autre'):: absent du lexique.
+D('cette'):: absent du lexique.
+---
+56:in fr_partut-ud-66
+1 erreur: fr_partut-ud-66
+P('comme'):: absent du lexique.
+---
+57:in fr_partut-ud-67
+2 erreurs: fr_partut-ud-67
+Pro('aucun'):: absent du lexique.
+D('autre'):: absent du lexique.
+---
+58:in fr_partut-ud-68
+3 erreurs: fr_partut-ud-68
+A('autorisée'):: absent du lexique.
+N('lignes'):: absent du lexique.
+N('internet'):: absent du lexique.
+---
+59:in fr_partut-ud-69
+2 erreurs: fr_partut-ud-69
+V('contacté'):: absent du lexique.
+V('contacté'):: erreur de morphologie : conjugate_fr:tab :V(contacté) : {"pe":3,"n":"s","t":"pp"}.
+---
+60: fr_partut-ud-70
+# text = Reprise de la session.
+# TEXT = reprise de la session. 
+---
+61:in fr_partut-ud-71
+1 erreur: fr_partut-ud-71
+N('voeux'):: absent du lexique.
+---
+62:in fr_partut-ud-73
+3 erreurs: fr_partut-ud-73
+V('attender'):: absent du lexique.
+D('certain'):: absent du lexique.
+V('attender'):: erreur de morphologie : conjugate_fr:tab :V(attender) : {"pe":3,"n":"s","t":"pr"}.
+---
+63: fr_partut-ud-74
+# text = Je vous invite à vous lever pour cette minute de silence.
+# TEXT = Je vous invite à vous lever pour cette minute de silence. 
+---
+64: fr_partut-ud-75
+# text = (Le parlement, debout, observe une minute de silence).
+# TEXT = (Le parlement, debout, observe une minute de silence). 
+---
+65: fr_partut-ud-76
+# text = Madame la présidente, c'est une motion de procédure.
+# TEXT = Madame la présidente, c'est une motion de procédure. 
+---
+66:in fr_partut-ud-77
+1 erreur: fr_partut-ud-77
+D('plusieurs'):: absent du lexique.
+---
+67:in fr_partut-ud-78
+1 erreur: fr_partut-ud-78
+Pro('un'):: absent du lexique.
+---
+68:in fr_partut-ud-79
+1 erreur: fr_partut-ud-79
+P('que'):: absent du lexique.
+---
+69: fr_partut-ud-81
+3 différences
+# text = Si [1;31m•[0ml'assemblée [1;34;47men [0mest d'accord, je ferai comme [1;32;4mM. [0mEvans l'a suggéré.
+# TEXT = Si [1;31men [0ml'assemblée est d'accord, je ferai comme [1;32;4mmonsieur [0mEvans l'a suggéré.
+---
+70: fr_partut-ud-82
+# text = Madame la présidente, c'est une motion de procédure.
+# TEXT = Madame la présidente, c'est une motion de procédure. 
+---
+71: fr_partut-ud-83
+# text = Je voudrais vous demander un conseil au sujet de l'article 143, qui concerne l'irrecevabilité.
+# TEXT = Je voudrais vous demander un conseil au sujet de l'article 143, qui concerne l'irrecevabilité. 
+---
+72: fr_partut-ud-84
+1 différence
+# text = [1;32;4mMa[0m question porte sur un sujet qui est à l'ordre du jour du jeudi et que je soulèverai donc une nouvelle fois.
+# TEXT = [1;32;4mSa[0m question porte sur un sujet qui est à l'ordre du jour du jeudi et que je soulèverai donc une nouvelle fois.
+---
+73: fr_partut-ud-86
+2 différences
+# text = À [1;32;4mmon[0m sens, le principe de stabilité relative est un principe juridique fondamental de la politique commune de la pêche et toute proposition le [1;32;4mbouleversant[0m serait juridiquement irrecevable.
+# TEXT = À [1;32;4mson[0m sens, le principe de stabilité relative est un principe juridique fondamental de la politique commune de la pêche et toute proposition le [1;32;4mbouleversé[0m serait juridiquement irrecevable.
+---
+74:in fr_partut-ud-87
+1 erreur: fr_partut-ud-87
+A('habilité'):: absent du lexique.
+---
+75:in fr_partut-ud-88
+1 erreur: fr_partut-ud-88
+Adv("c'est-à-dire"):: absent du lexique.
+---
+76: fr_partut-ud-89
+3 différences
+# text = Madame la présidente, alors que se déroule la première session de l'année du parlement européen, l'exécution d'un condamné à [1;32;4mmort[0m au Texas aux États-Unis, un jeune homme de 34 ans appelé Hicks, [1;32;4ma[0m [1;34;47mété [0mfixée, malheureusement, à jeudi prochain.
+# TEXT = Madame la présidente, alors que se déroule la première session de l'année du parlement européen, l'exécution d'un condamné à [1;32;4mmorte[0m au Texas aux États-Unis, un jeune homme de 34 ans appelé Hicks, [1;32;4mest[0m fixée, malheureusement, à jeudi prochain.
+---
+77:in fr_partut-ud-90
+1 erreur: fr_partut-ud-90
+P('auprès'):: absent du lexique.
+---
+78: fr_partut-ud-91
+# text = Et tout ceci dans le respect des principes que nous avons toujours soutenus.
+# TEXT = et tout ceci dans le respect des principes que nous avons toujours soutenus. 
+---
+79:in fr_partut-ud-92
+1 erreur: fr_partut-ud-92
+Adv('merci'):: absent du lexique.
+---
+80: fr_partut-ud-93
+1 différence
+# text = C'est en effet tout à fait dans la ligne des positions que [1;32;4mnotre[0m parlement a toujours adoptées.
+# TEXT = C'est en effet tout à fait dans la ligne des positions que [1;32;4mleur[0m parlement a toujours adoptées.
+---
+81: fr_partut-ud-94
+# text = Madame la présidente, je voudrais attirer votre attention sur un cas dont s'est régulièrement occupé le parlement.
+# TEXT = Madame la présidente, je voudrais attirer votre attention sur un cas dont s'est régulièrement occupé le parlement. 
+---
+82: fr_partut-ud-95
+# text = Nous nous réjouissons tous, dans cette enceinte, que le tribunal ait prononcé sa libération et ait clairement établi qu'en Russie aussi, l'accès aux informations environnementales était un droit constitutionnel.
+# TEXT = Nous nous réjouissons tous, dans cette enceinte, que le tribunal ait prononcé sa libération et ait clairement établi qu'en Russie aussi, l'accès aux informations environnementales était un droit constitutionnel. 
+---
+83: fr_partut-ud-96
+# text = Cependant, il se fait qu'il semblerait être à nouveau mis en accusation, le ministère public ayant interjeté appel.
+# TEXT = Cependant, il se fait qu'il semblerait être à nouveau mis en accusation, le ministère public ayant interjeté appel. 
+---
+84:in fr_partut-ud-97
+2 erreurs: fr_partut-ud-97
+D('nombreux'):: absent du lexique.
+Adv('y'):: absent du lexique.
+---
+85:in fr_partut-ud-98
+1 erreur: fr_partut-ud-98
+C('pourquoi'):: absent du lexique.
+---
+86: fr_partut-ud-99
+2 différences
+# text = Oui, madame[1;32;4m [0mSchroedter[1;32;4m, [0mj'examinerai bien volontiers les faits relatifs à cette question lorsque j'aurai reçu votre lettre.
+# TEXT = Oui, madame[1;32;4m, [0mSchroedter[1;32;4m [0mj'examinerai bien volontiers les faits relatifs à cette question lorsque j'aurai reçu votre lettre.
+---
+87:in fr_partut-ud-100
+1 erreur: fr_partut-ud-100
+D('nos'):: absent du lexique.
+---
+88: fr_partut-ud-101
+# text = Toutefois, madame la présidente, ce que j'avais demandé n'a pas été réalisé.
+# TEXT = Toutefois, madame la présidente, ce que j'avais demandé n'a pas été réalisé. 
+---
+89: fr_partut-ud-102
+# text = Je vous demande donc à nouveau de faire le nécessaire pour que nous puissions disposer d'une chaîne néerlandaise.
+# TEXT = Je vous demande donc à nouveau de faire le nécessaire pour que nous puissions disposer d'une chaîne néerlandaise. 
+---
+90: fr_partut-ud-103
+3 différences
+# text = Madame[1;32;4m [0mPlooij[1;32;4m-[0mVan Gorsel[1;32;4m, [0mje peux vous dire que cette question est à l'ordre du jour de la réunion des questeurs de mercredi.
+# TEXT = Madame[1;32;4m-, [0mPlooij[1;32;4m [0mVan Gorsel[1;32;4m [0mje peux vous dire que cette question est à l'ordre du jour de la réunion des questeurs de mercredi.
+---
+91: fr_partut-ud-104
+# text = Elle sera, je l'espère, examinée dans un esprit positif.
+# TEXT = Elle sera, je l'espère, examinée dans un esprit positif. 
+---
+92: fr_partut-ud-105
+# text = Madame la présidente, comment se fait-il que le parlement ne se conforme pas à la réglementation en matière de santé et de sécurité qu'il vote?
+# TEXT = Madame la présidente, comment se fait-il que le parlement ne se conforme pas à la réglementation en matière de santé et de sécurité qu'il vote?
+---
+93: fr_partut-ud-106
+4 différences
+# text = Comment se fait-il [1;32;4mque [0maucun test de qualité de l'air n'[1;32;4mait[0m [1;34;47mété [0mréalisé dans ce bâtiment depuis [1;32;4mnotre[0m élection?
+# TEXT = Comment se fait-il [1;32;4mqu'[0maucun test de qualité de l'air n'[1;32;4mest[0m réalisé dans ce bâtiment depuis [1;32;4mleur[0m élection?
+---
+94: fr_partut-ud-107
+# text = Comment se fait-il que le comité de santé et d'hygiène ne se soit plus réuni depuis 1998?
+# TEXT = Comment se fait-il que le comité de santé et d'hygiène ne se soit plus réuni depuis 1998?
+---
+95: fr_partut-ud-108
+1 différence
+# text = Comment se fait-il que nous n'ayons jamais fait [1;32;4md'[0mexercice d'évacuation dans les bâtiments du parlement de Bruxelles et de Strasbourg?
+# TEXT = Comment se fait-il que nous n'ayons jamais fait [1;32;4mun [0mexercice d'évacuation dans les bâtiments du parlement de Bruxelles et de Strasbourg?
+---
+96: fr_partut-ud-109
+1 différence
+# text = Comment se fait-il qu'il n'y ait pas [1;32;4mde[0m consignes en cas d'incendie?
+# TEXT = Comment se fait-il qu'il n'y ait pas [1;32;4mdes[0m consignes en cas d'incendie?
+---
+97: fr_partut-ud-110
+1 différence
+# text = Comment se fait-il que les escaliers n'aient pas été améliorés depuis [1;32;4mmon[0m accident?
+# TEXT = Comment se fait-il que les escaliers n'aient pas été améliorés depuis [1;32;4mson[0m accident?
+---
+98: fr_partut-ud-111
+1 différence
+# text = Comment se fait-il [1;32;4mqu'[0ml'on ne respecte pas les zones non fumeurs?
+# TEXT = Comment se fait-il [1;32;4mque [0ml'on ne respecte pas les zones non fumeurs?
+---
+99: fr_partut-ud-112
+2 différences
+# text = Madame[1;32;4m [0mLynne[1;32;4m, [0mvous avez parfaitement raison et je vais vérifier si tout cela n'a effectivement pas été fait.
+# TEXT = madame[1;32;4m, [0mLynne[1;32;4m [0mvous avez parfaitement raison et je vais vérifier si tout cela n'a effectivement pas été fait.
+---
+100:in fr_partut-ud-113
+## non projective
+1 erreur: fr_partut-ud-113
+D('nos'):: absent du lexique.
+---
+101:in fr_partut-ud-114
+1 erreur: fr_partut-ud-114
+D('certain'):: absent du lexique.
+---
+102:in fr_partut-ud-115
+1 erreur: fr_partut-ud-115
+P('lors'):: absent du lexique.
+---
+103: fr_partut-ud-117
+## non projective
+4 différences
+# text = Les questions auxquelles on a répondu précédemment se rapportaient à l'intervention de [1;32;4mmme[0m de Palacio [1;34;47mdans un dossier précis, [0met non aux déclarations parues dans le journal Abc du 18 novembre dernier[1;31m•[0m[1;32;4m.[0m
+# TEXT = Les questions auxquelles on a répondu précédemment se rapportaient à l'intervention de [1;32;4mmadame[0m de Palacio et non aux déclarations parues dans le journal Abc du 18 novembre dernier[1;31m dans un dossier précis[0m[1;32;4m,.[0m
+---
+104: fr_partut-ud-119
+# text = Je vous avouerai que, pour le moment, les choses me semblent un petit peu confuses.
+# TEXT = Je vous avouerai que, pour le moment, les choses me semblent un petit peu confuses. 
+---
+105: fr_partut-ud-120
+# text = Donc, nous allons revoir cela très sérieusement pour que tout soit bien en ordre.
+# TEXT = Donc, nous allons revoir cela très sérieusement pour que tout soit bien en ordre. 
+---
+106:in fr_partut-ud-121
+1 erreur: fr_partut-ud-121
+Adv('quant'):: absent du lexique.
+---
+107: fr_partut-ud-122
+# text = La décision d'aujourd'hui de ne pas renouveler l'embargo est extrêmement dangereuse, compte tenu de la situation sur place.
+# TEXT = La décision d'aujourd'hui de ne pas renouveler l'embargo est extrêmement dangereuse, compte tenu de la situation sur place. 
+---
+108: fr_partut-ud-123
+# text = Le parlement devrait dès lors envoyer un message en ce sens, étant donné qu'une grande majorité des députés le souhaite.
+# TEXT = Le parlement devrait dès lors envoyer un message en ce sens, étant donné qu'une grande majorité des députés le souhaite. 
+---
+109: fr_partut-ud-124
+# text = En refusant de prolonger l'embargo, les états membres font preuve d'irresponsabilité.
+# TEXT = En refusant de prolonger l'embargo, les états membres font preuve d'irresponsabilité. 
+---
+110:in fr_partut-ud-125
+1 erreur: fr_partut-ud-125
+Pro('aucun'):: absent du lexique.
+---
+111: fr_partut-ud-126
+# text = Nous ne savons pas ce qui se passe.
+# TEXT = Nous ne savons pas ce qui se passe. 
+---
+112: fr_partut-ud-127
+# text = En tout cas, cette question ne figure pas pour l'instant parmi les demandes d'urgence pour jeudi prochain.
+# TEXT = En tout cas, cette question ne figure pas pour l'instant parmi les demandes d'urgence pour jeudi prochain. 
+---
+113:in fr_partut-ud-128
+## non projective
+6 erreurs: fr_partut-ud-128
+A('explicit'):: absent du lexique.
+V('réitéré'):: absent du lexique.
+N('discour'):: absent du lexique.
+N('législature'):: erreur de morphologie : genre différent de celui du lexique :N(législature) : {"g":"m","lexique":"f"}.
+V('réitéré'):: erreur de morphologie : conjugate_fr:tab :V(réitéré) : {"pe":3,"n":"s","t":"pp"}.
+N('investiture'):: erreur de morphologie : genre différent de celui du lexique :N(investiture) : {"g":"m","lexique":"f"}.
+---
+114: fr_partut-ud-129
+2 différences
+# text = Cet engagement est important dans la mesure où la commission est un organisme qui détient, conformément aux traités, le monopole de l'initiative et qui, par conséquent, décide pour l'essentiel [1;34;47mquelle sera [0ml'activité politique et législative de ce parlement [1;31m•[0mau cours des cinq prochaines années.
+# TEXT = Cet engagement est important dans la mesure où la commission est un organisme qui détient, conformément aux traités, le monopole de l'initiative et qui, par conséquent, décide pour l'essentiel l'activité politique et législative de ce parlement [1;31msera quelle [0mau cours des cinq prochaines années.
+---
+115:in fr_partut-ud-130
+1 erreur: fr_partut-ud-130
+N('législature'):: erreur de morphologie : genre différent de celui du lexique :N(législature) : {"g":"m","lexique":"f"}.
+---
+116:in fr_partut-ud-131
+1 erreur: fr_partut-ud-131
+N('législature'):: erreur de morphologie : genre différent de celui du lexique :N(législature) : {"g":"m","lexique":"f"}.
+---
+117:in fr_partut-ud-132
+## non projective
+1 erreur: fr_partut-ud-132
+N('temp'):: absent du lexique.
+---
+118: fr_partut-ud-133
+# text = En ce sens, je vous rappelle la résolution du 15 septembre, laquelle recommandait que la proposition soit présentée dans les plus brefs délais.
+# TEXT = En ce sens, je vous rappelle la résolution du 15 septembre, laquelle recommandait que la proposition soit présentée dans les plus brefs délais. 
+---
+119:in fr_partut-ud-134
+1 erreur: fr_partut-ud-134
+N('marge'):: erreur de morphologie : genre différent de celui du lexique :N(marge) : {"g":"m","lexique":"f"}.
+---
+120: fr_partut-ud-135
+2 différences
+# text = Aux dires de son président, la commission serait en mesure [1;32;4mde[0m [1;34;47mle [0mfaire.
+# TEXT = Aux dires de son président, la commission serait en mesure [1;32;4mdu[0m faire.
+---
+121:in fr_partut-ud-136
+3 erreurs: fr_partut-ud-136
+N('temp'):: absent du lexique.
+D('nos'):: absent du lexique.
+N('concitoyenne'):: absent du lexique.
+---
+122:in fr_partut-ud-137
+## non projective
+1 erreur: fr_partut-ud-137
+N('prétexte'):: erreur de morphologie : genre différent de celui du lexique :N(prétexte) : {"g":"m","lexique":"f"}.
+---
+123: fr_partut-ud-138
+# text = Je vous prie dès lors, madame la présidente, de demander à la commission de s'exprimer maintenant et que l'on procède ensuite au vote.
+# TEXT = Je vous prie dès lors, madame la présidente, de demander à la commission de s'exprimer maintenant et que l'on procède ensuite au vote. 
+---
+124:in fr_partut-ud-139
+1 erreur: fr_partut-ud-139
+N('applaudissemnt'):: absent du lexique.
+---
+125: fr_partut-ud-140
+1 différence
+# text = Madame la présidente, pour répondre aux rires que j'entends parmi les socialistes, on m'a dit que [1;32;4mde[0m larges pans du groupe socialiste aimeraient également supprimer ce point de l'ordre du jour car lors du scrutin au sein de la conférence des présidents, les collègues responsables du groupe socialiste ne disposaient pas du vote du groupe de travail.
+# TEXT = Madame la présidente, pour répondre aux rires que j'entends parmi les socialistes, on m'a dit que [1;32;4mdes[0m larges pans du groupe socialiste aimeraient également supprimer ce point de l'ordre du jour car lors du scrutin au sein de la conférence des présidents, les collègues responsables du groupe socialiste ne disposaient pas du vote du groupe de travail.
+---
+126:in fr_partut-ud-141
+1 erreur: fr_partut-ud-141
+D('maint'):: absent du lexique.
+---
+127: fr_partut-ud-142
+## non projective
+2 différences
+# text = Des décisions [1;34;47mexistent [0mqui s'opposent à une telle taxe[1;31m•[0m.
+# TEXT = Des décisions qui s'opposent à une telle taxe[1;31m existent[0m.
+---
+128:in fr_partut-ud-143
+1 erreur: fr_partut-ud-143
+C('pourquoi'):: absent du lexique.
+---
+129:in fr_partut-ud-144
+1 erreur: fr_partut-ud-144
+Adv('merci'):: absent du lexique.
+---
+130: fr_partut-ud-145
+3 différences
+# text = Nous entendons à présent [1;34;47mM. [0m[1;32;4mWurtz[0m, qui s'exprime contre cette demande[1;31m•[0m.
+# TEXT = Nous entendons à présent [1;32;4mmonsieur[0m, qui s'exprime contre cette demande[1;31m Wurtz[0m.
+---
+131: fr_partut-ud-146
+1 différence
+# text = Madame la présidente, je voudrais d'abord souligner le manque de logique de [1;32;4mM. [0mPoettering.
+# TEXT = Madame la présidente, je voudrais d'abord souligner le manque de logique de [1;32;4mmonsieur [0mPoettering.
+---
+132: fr_partut-ud-147
+# text = Ce n'est pas demander beaucoup.
+# TEXT = Ce n'est pas demander beaucoup. 
+---
+133: fr_partut-ud-148
+# text = Nous allons voter sur la demande du groupe PPE-DE visant à retirer la question orale concernant l'impôt sur le capital de l'ordre du jour.
+# TEXT = Nous allons voter sur la demande du groupe PPE-DE visant à retirer la question orale concernant l'impôt sur le capital de l'ordre du jour. 
+---
+134:in fr_partut-ud-149
+3 erreurs: fr_partut-ud-149
+V('rejetter'):: absent du lexique.
+N('abstentions'):: absent du lexique.
+V('rejetter'):: erreur de morphologie : conjugate_fr:tab :V(rejetter) : {"pe":3,"n":"s","t":"p"}.
+---
+135: fr_partut-ud-150
+## non projective
+3 différences
+# text = Madame la présidente, je voudrais remercier [1;32;4mM. [0mPoettering pour le coup de publicité [1;34;47mqu'[0mil vient [1;31m•[0mde donner à ce débat.
+# TEXT = Madame la présidente, je voudrais remercier [1;32;4mmonsieur [0mPoettering pour le coup de publicité il vient [1;31mque [0mde donner à ce débat.
+---
+136:in fr_partut-ud-151
+1 erreur: fr_partut-ud-151
+Adv('merci'):: absent du lexique.
+---
+137: fr_partut-ud-152
+# text = J'ai voté "pour".
+# TEXT = J'ai voté " pour ". 
+---
+138: fr_partut-ud-153
+# text = Madame la présidente, la présidence a proclamé le résultat du vote.
+# TEXT = Madame la présidente, la présidence a proclamé le résultat du vote. 
+---
+139: fr_partut-ud-154
+# text = Les modifications n'ont pas lieu d'être.
+# TEXT = Les modifications n'ont pas lieu d'être. 
+---
+140: fr_partut-ud-155
+1 différence
+# text = Madame la présidente, lors du dernier vote ­ et je m'en remets à votre décision sur ce sujet - sur la question du plan stratégique de la commission, j'ai signalé que je demandais la parole avant le vote au nom de [1;32;4mmon[0m groupe.
+# TEXT = Madame la présidente, lors du dernier vote ­ et je m'en remets à votre décision sur ce sujet-sur la question du plan stratégique de la commission, j'ai signalé que je demandais la parole avant le vote au nom de [1;32;4mson[0m groupe.
+---
+141:in fr_partut-ud-156
+3 erreurs: fr_partut-ud-156
+A('gré'):: absent du lexique.
+N('issu'):: absent du lexique.
+N('explication'):: erreur de morphologie : genre différent de celui du lexique :N(explication) : {"g":"m","lexique":"f"}.
+---
+142: fr_partut-ud-157
+# text = C'est important.
+# TEXT = C'est important. 
+---
+143:in fr_partut-ud-158
+## non projective
+1 erreur: fr_partut-ud-158
+N('verbal'):: absent du lexique.
+---
+144: fr_partut-ud-159
+1 différence
+# text = [1;32;4mMoi[0m non plus, vous ne m'avez pas donné la parole.
+# TEXT = [1;32;4mJe[0m non plus, vous ne m'avez pas donné la parole.
+---
+145:in fr_partut-ud-160
+2 erreurs: fr_partut-ud-160
+V('tombée'):: absent du lexique.
+V('tombée'):: erreur de morphologie : conjugate_fr:tab :V(tombée) : {"pe":3,"n":"s","t":"pp"}.
+---
+146:in fr_partut-ud-161
+3 erreurs: fr_partut-ud-161
+V('consignées'):: absent du lexique.
+N('verbal'):: absent du lexique.
+V('consignées'):: erreur de morphologie : conjugate_fr:tab :V(consignées) : {"pe":3,"n":"p","t":"pp"}.
+---
+147:in fr_partut-ud-162
+1 erreur: fr_partut-ud-162
+N('verbal'):: absent du lexique.
+---
+148: fr_partut-ud-163
+2 différences
+# text = Il me semble que c'est une [1;32;4mbonne[0m [1;32;4mformule[0m.
+# TEXT = Il me semble que c'est une [1;32;4mformule[0m [1;32;4mbonne[0m.
+---
+149:in fr_partut-ud-164
+2 erreurs: fr_partut-ud-164
+N('verbal'):: absent du lexique.
+A('complémentaires'):: absent du lexique.
+---
+150:in fr_partut-ud-165
+1 erreur: fr_partut-ud-165
+P('que'):: absent du lexique.
+---
+151: fr_partut-ud-166
+2 différences
+# text = Monsieur[1;32;4m [0mCox[1;32;4m, [0mmonsieur Hänsch, est-ce que cela vous convient?
+# TEXT = Monsieur[1;32;4m, [0mCox[1;32;4m [0mmonsieur Hänsch, est-ce que cela vous convient?
+---
+152:in fr_partut-ud-167
+3 erreurs: fr_partut-ud-167
+N('verbal'):: absent du lexique.
+V('reflète'):: absent du lexique.
+V('reflète'):: erreur de morphologie : conjugate_fr:tab :V(reflète) : {"pe":3,"n":"s","t":"p"}.
+---
+153:in fr_partut-ud-168
+1 erreur: fr_partut-ud-168
+D('certain'):: absent du lexique.
+---
+154:in fr_partut-ud-169
+2 erreurs: fr_partut-ud-169
+V('reflète'):: absent du lexique.
+V('reflète'):: erreur de morphologie : conjugate_fr:tab :V(reflète) : {"pe":3,"n":"s","t":"p"}.
+---
+155: fr_partut-ud-170
+# text = (Le parlement adopte l'ordre des travaux ainsi modifié).
+# TEXT = (Le parlement adopte l'ordre des travaux ainsi modifié). 
+---
+156:in fr_partut-ud-171
+7 erreurs: fr_partut-ud-171
+V('provoquent'):: absent du lexique.
+N('routes'):: absent du lexique.
+N('dégâts'):: absent du lexique.
+A('divers'):: absent du lexique.
+V('tourne'):: absent du lexique.
+V('provoquent'):: erreur de morphologie : conjugate_fr:tab :V(provoquent) : {"pe":3,"n":"p","t":"p"}.
+V('tourne'):: erreur de morphologie : conjugate_fr:tab :V(tourne) : {"pe":3,"n":"s","t":"s"}.
+---
+157:in fr_partut-ud-172
+5 erreurs: fr_partut-ud-172
+N('autrichien'):: absent du lexique.
+D('nombreux'):: absent du lexique.
+N('destructions'):: absent du lexique.
+V('provoquées'):: absent du lexique.
+V('provoquées'):: erreur de morphologie : conjugate_fr:tab :V(provoquées) : {"pe":3,"n":"p","t":"pp"}.
+---
+158:in fr_partut-ud-173
+4 erreurs: fr_partut-ud-173
+A('étendue'):: absent du lexique.
+D('plusieurs'):: absent du lexique.
+V('coupé'):: absent du lexique.
+V('coupé'):: erreur de morphologie : conjugate_fr:tab :V(coupé) : {"pe":3,"n":"s","t":"pp"}.
+---
+159:in fr_partut-ud-174
+4 erreurs: fr_partut-ud-174
+V('accablé'):: absent du lexique.
+N('milliers'):: absent du lexique.
+N('supportable'):: absent du lexique.
+V('accablé'):: erreur de morphologie : conjugate_fr:tab :V(accablé) : {"pe":3,"n":"s","t":"pp"}.
+---
+160:in fr_partut-ud-175
+2 erreurs: fr_partut-ud-175
+D('certain'):: absent du lexique.
+N('commun'):: erreur de morphologie : genre différent de celui du lexique :N(commun) : {"g":"f","lexique":"m"}.
+---
+161:in fr_partut-ud-176
+## non projective
+1 erreur: fr_partut-ud-176
+N('temp'):: absent du lexique.
+---
+162: fr_partut-ud-177
+# text = Nous ne devrions vraiment pas nous contenter de faire évoluer le droit européen vers une plus grande sécurité.
+# TEXT = Nous ne devrions vraiment pas nous contenter de faire évoluer le droit européen vers une plus grande sécurité. 
+---
+163:in fr_partut-ud-178
+2 erreurs: fr_partut-ud-178
+A('conséquente'):: absent du lexique.
+D('nos'):: absent du lexique.
+---
+164:in fr_partut-ud-180
+2 erreurs: fr_partut-ud-180
+Pro('un'):: absent du lexique.
+N('carences'):: absent du lexique.
+---
+165:in fr_partut-ud-181
+1 erreur: fr_partut-ud-181
+Adv('afin'):: absent du lexique.
+---
+166:in fr_partut-ud-182
+1 erreur: fr_partut-ud-182
+A('centrale'):: absent du lexique.
+---
+167: fr_partut-ud-183
+# text = Je le félicite de son excellent rapport.
+# TEXT = Je le félicite de son excellent rapport. 
+---
+168:in fr_partut-ud-185
+6 erreurs: fr_partut-ud-185
+V('transportant'):: absent du lexique.
+V('rappellent'):: absent du lexique.
+A('motivés'):: absent du lexique.
+A('qualifiés'):: absent du lexique.
+V('transportant'):: erreur de morphologie : conjugate_fr:tab :V(transportant) : {"pe":3,"n":"s","t":"pr"}.
+V('rappellent'):: erreur de morphologie : conjugate_fr:tab :V(rappellent) : {"pe":3,"n":"p","t":"p"}.
+---
+169: fr_partut-ud-186
+2 différences
+# text = Le rapporteur a signalé au parlement que la position commune du conseil retient six des dix amendements au texte présentés par le parlement en première lecture, ainsi que la [1;32;4mteneur[0m [1;32;4mdes [0mautres amendements du parlement.
+# TEXT = Le rapporteur a signalé au parlement que la position commune du conseil retient six des dix amendements au texte présentés par le parlement en première lecture, ainsi que la [1;32;4mteneuse[0m [1;32;4md'[0mautres amendements du parlement.
+---
+170:in fr_partut-ud-187
+4 erreurs: fr_partut-ud-187
+V('promulguée'):: absent du lexique.
+V('atteignons'):: absent du lexique.
+V('promulguée'):: erreur de morphologie : conjugate_fr:tab :V(promulguée) : {"pe":3,"n":"s","t":"pp"}.
+V('atteignons'):: erreur de morphologie : conjugate_fr:tab :V(atteignons) : {"pe":3,"n":"s","t":"s"}.
+---
+171: fr_partut-ud-188
+1 différence
+# text = [1;32;4mMon[0m groupe soutiendra d'ailleurs toute initiative visant à améliorer la sécurité des transports.
+# TEXT = [1;32;4mSon[0m groupe soutiendra d'ailleurs toute initiative visant à améliorer la sécurité des transports.
+---
+172:in fr_partut-ud-189
+1 erreur: fr_partut-ud-189
+Pro('beaucoup'):: absent du lexique.
+---
+173:in fr_partut-ud-190
+1 erreur: fr_partut-ud-190
+N('remarque'):: erreur de morphologie : genre différent de celui du lexique :N(remarque) : {"g":"m","lexique":"f"}.
+---
+174:in fr_partut-ud-191
+2 erreurs: fr_partut-ud-191
+V('formulée'):: absent du lexique.
+V('formulée'):: erreur de morphologie : conjugate_fr:tab :V(formulée) : {"pe":3,"n":"s","t":"pp"}.
+---
+175:in fr_partut-ud-192
+1 erreur: fr_partut-ud-192
+A('minimales'):: absent du lexique.
+---
+176:in fr_partut-ud-194
+1 erreur: fr_partut-ud-194
+D('plusieurs'):: absent du lexique.
+---
+177:in fr_partut-ud-195
+5 erreurs: fr_partut-ud-195
+N('bateliers'):: absent du lexique.
+N('navires'):: absent du lexique.
+V('amarrent'):: absent du lexique.
+A('évidentes'):: absent du lexique.
+V('amarrent'):: erreur de morphologie : conjugate_fr:tab :V(amarrent) : {"pe":3,"n":"p","t":"p"}.
+---
+178:in fr_partut-ud-196
+4 erreurs: fr_partut-ud-196
+N('ports'):: absent du lexique.
+V('révélé'):: absent du lexique.
+N('conteneurs'):: absent du lexique.
+V('révélé'):: erreur de morphologie : conjugate_fr:tab :V(révélé) : {"pe":3,"n":"s","t":"pp"}.
+---
+179: fr_partut-ud-197
+# text = Bref, le sujet est très important.
+# TEXT = Bref, le sujet est très important. 
+---
+180:in fr_partut-ud-198
+2 erreurs: fr_partut-ud-198
+A('1er'):: absent du lexique.
+D('certain'):: absent du lexique.
+---
+181: fr_partut-ud-199
+1 différence
+# text = Le respect de ce principe pose [1;32;4md'[0mimportants problèmes actuellement, notamment pour les entreprises moins importantes qui ne peuvent se le permettre financièrement.
+# TEXT = Le respect de ce principe pose [1;32;4mdes [0mimportants problèmes actuellement, notamment pour les entreprises moins importantes qui ne peuvent se le permettre financièrement.
+---
+182:in fr_partut-ud-200
+1 erreur: fr_partut-ud-200
+D('autre'):: absent du lexique.
+---
+183:in fr_partut-ud-201
+2 erreurs: fr_partut-ud-201
+V('développées'):: absent du lexique.
+V('développées'):: erreur de morphologie : conjugate_fr:tab :V(développées) : {"pe":3,"n":"p","t":"pp"}.
+---
+184: fr_partut-ud-202
+## non projective
+2 différences
+# text = Le travail est fait, il s'agit encore d'[1;32;4men[0m [1;32;4massurer[0m le respect.
+# TEXT = Le travail est fait, il s'agit encore d'[1;32;4massurer[0m [1;32;4men[0m le respect.
+---
+185: fr_partut-ud-203
+# text = Je me permets de soulever un dernier point.
+# TEXT = Je me permets de soulever un dernier point. 
+---
+186:in fr_partut-ud-204
+4 erreurs: fr_partut-ud-204
+A('1er'):: absent du lexique.
+V('adhéreront'):: absent du lexique.
+V('adhéreront'):: erreur de morphologie : conjugate_fr:tab :V(adhéreront) : {"pe":3,"n":"p","t":"f"}.
+N('vigueur'):: erreur de morphologie : genre différent de celui du lexique :N(vigueur) : {"g":"m","lexique":"f"}.
+---
+187:in fr_partut-ud-205
+2 erreurs: fr_partut-ud-205
+V('conférera'):: absent du lexique.
+V('conférera'):: erreur de morphologie : conjugate_fr:tab :V(conférera) : {"pe":3,"n":"s","t":"f"}.
+---
+188:in fr_partut-ud-206
+5 erreurs: fr_partut-ud-206
+Pro('soi'):: absent du lexique.
+V('transportées'):: absent du lexique.
+Adv('aussitot'):: absent du lexique.
+A('candidats'):: absent du lexique.
+V('transportées'):: erreur de morphologie : conjugate_fr:tab :V(transportées) : {"pe":3,"n":"p","t":"pp"}.
+---
+189: fr_partut-ud-207
+# text = Madame la présidente, dans ce parlement, on attire régulièrement l'attention, à juste titre, sur l'importance de la sécurité dans les transports.
+# TEXT = Madame la présidente, dans ce parlement, on attire régulièrement l'attention, à juste titre, sur l'importance de la sécurité dans les transports. 
+---
+190: fr_partut-ud-208
+## non projective
+2 différences
+# text = Les quantités de plus en plus importantes de marchandises traversant l'Europe engendrent, sciemment ou non, toute une série de risques pour le personnel qui [1;32;4men[0m [1;32;4ma[0m la charge et la société en général.
+# TEXT = Les quantités de plus en plus importantes de marchandises traversant l'Europe engendrent, sciemment ou non, toute une série de risques pour le personnel qui [1;32;4ma[0m [1;32;4men[0m la charge et la société en général.
+---
+191:in fr_partut-ud-209
+1 erreur: fr_partut-ud-209
+A('stricte'):: absent du lexique.
+---
+192:in fr_partut-ud-210
+2 erreurs: fr_partut-ud-210
+N('normes'):: absent du lexique.
+Pro('CE'):: absent du lexique.
+---
+193:in fr_partut-ud-211
+7 erreurs: fr_partut-ud-211
+N('normes'):: absent du lexique.
+V('préféré'):: absent du lexique.
+N('normes'):: absent du lexique.
+V('uniformisées'):: absent du lexique.
+N('diplômes'):: absent du lexique.
+V('préféré'):: erreur de morphologie : conjugate_fr:tab :V(préféré) : {"pe":1,"n":"s","t":"pp"}.
+V('uniformisées'):: erreur de morphologie : conjugate_fr:tab :V(uniformisées) : {"pe":3,"n":"p","t":"pp"}.
+---
+194: fr_partut-ud-212
+# text = Toutefois, cela ne paraît pas réalisable.
+# TEXT = Toutefois, cela ne paraît pas réalisable. 
+---
+195: fr_partut-ud-213
+# text = Pour conclure, l'amendement proposé par le rapporteur est on ne peut plus logique et je le soutiens avec joie.
+# TEXT = Pour conclure, l'amendement proposé par le rapporteur est on ne peut plus logique et je le soutiens avec joie. 
+---
+196: fr_partut-ud-214
+3 différences
+# text = Monsieur le président, madame la commissaire, chers collègues, je voudrais tout d'abord féliciter [1;32;4mnotre[0m collègue Koch pour ses rapports, [1;34;47mqui [0mpour être techniques, n'en [1;31m•[0msont pas moins d'une très grande importance pour la sécurité.
+# TEXT = Monsieur le président, madame la commissaire, chers collègues, je voudrais tout d'abord féliciter [1;32;4mleur[0m collègue Koch pour ses rapports, pour être techniques, n'en [1;31mqui [0msont pas moins d'une très grande importance pour la sécurité.
+---
+197:in fr_partut-ud-215
+1 erreur: fr_partut-ud-215
+N('remarque'):: erreur de morphologie : genre différent de celui du lexique :N(remarque) : {"g":"m","lexique":"f"}.
+---
+198:in fr_partut-ud-216
+1 erreur: fr_partut-ud-216
+N('vu'):: absent du lexique.
+---
+199:in fr_partut-ud-217
+2 erreurs: fr_partut-ud-217
+V('réagi'):: absent du lexique.
+V('réagi'):: erreur de morphologie : conjugate_fr:tab :V(réagi) : {"pe":3,"n":"s","t":"pp"}.
+---
+200:in fr_partut-ud-219
+2 erreurs: fr_partut-ud-219
+V('évoqué'):: absent du lexique.
+V('évoqué'):: erreur de morphologie : conjugate_fr:tab :V(évoqué) : {"pe":3,"n":"s","t":"pp"}.
+---
+201:in fr_partut-ud-220
+2 erreurs: fr_partut-ud-220
+D('nombreux'):: absent du lexique.
+N('règlements'):: absent du lexique.
+---
+202:in fr_partut-ud-221
+1 erreur: fr_partut-ud-221
+Adv('parce'):: absent du lexique.
+---
+203:in fr_partut-ud-223
+4 erreurs: fr_partut-ud-223
+N('règlements'):: absent du lexique.
+A('insatisfaisants'):: absent du lexique.
+D('certain'):: absent du lexique.
+N('genre'):: erreur de morphologie : genre différent de celui du lexique :N(genre) : {"g":"f","lexique":"m"}.
+---
+204:in fr_partut-ud-224
+2 erreurs: fr_partut-ud-224
+V('évoqué'):: absent du lexique.
+V('évoqué'):: erreur de morphologie : conjugate_fr:tab :V(évoqué) : {"pe":3,"n":"s","t":"pp"}.
+---
+205:in fr_partut-ud-225
+1 erreur: fr_partut-ud-225
+P('comme'):: absent du lexique.
+---
+206:in fr_partut-ud-226
+3 erreurs: fr_partut-ud-226
+D('certain'):: absent du lexique.
+P('que'):: absent du lexique.
+N('region'):: absent du lexique.
+---
+207: fr_partut-ud-228
+3 différences
+# text = Monsieur le président, je voudrais tout d'abord féliciter le rapporteur, [1;32;4mM. [0mKoch, de son [1;32;4mmagnifique[0m [1;32;4mtravail[0m et de sa collaboration positive avec la commission pour améliorer les textes, présenter ce rapport et cette proposition;
+# TEXT = Monsieur le président, je voudrais tout d'abord féliciter le rapporteur, [1;32;4mmonsieur [0mKoch, de son [1;32;4mtravail[0m [1;32;4mmagnifique[0m et de sa collaboration positive avec la commission pour améliorer les textes, présenter ce rapport et cette proposition ;
+---
+208:in fr_partut-ud-229
+## non projective
+1 erreur: fr_partut-ud-229
+Adv('seul'):: absent du lexique.
+---
+209: fr_partut-ud-230
+2 différences
+# text = Nous pensons que la collaboration, le travail commun de la part des deux institutions ­ parlement et commission ­ est importante et que[1;32;4m [0mla coopération qui existe avec la commission de la politique régionale, et concrètement avec le groupe des transports[1;32;4m, [0mest magnifique.
+# TEXT = Nous pensons que la collaboration, le travail commun de la part des deux institutions ­ parlement et commission ­ est importante et que[1;32;4m, [0mla coopération qui existe avec la commission de la politique régionale, et concrètement avec le groupe des transports[1;32;4m [0mest magnifique.
+---
+210:in fr_partut-ud-231
+6 erreurs: fr_partut-ud-231
+P('que'):: absent du lexique.
+V('projetée'):: absent du lexique.
+D('plusieurs'):: absent du lexique.
+V('debattre'):: absent du lexique.
+V('projetée'):: erreur de morphologie : conjugate_fr:tab :V(projetée) : {"pe":3,"n":"s","t":"pp"}.
+V('debattre'):: erreur de morphologie : conjugate_fr:tab :V(debattre) : {"pe":1,"n":"p","t":"p"}.
+---
+211: fr_partut-ud-232
+# text = Très brièvement, je voudrais également remercier les différents députés de leurs interventions et dire que la sécurité est une priorité de la commission dans le domaine des transports.
+# TEXT = très brièvement, je voudrais également remercier les différents députés de leurs interventions et dire que la sécurité est une priorité de la commission dans le domaine des transports. 
+---
+212: fr_partut-ud-233
+1 différence
+# text = Comme l'a très bien dit [1;32;4mM. [0mSimpson, il ne faut jamais considérer que le processus est acquis, qu'il a abouti.
+# TEXT = Comme l'a très bien dit [1;32;4mmonsieur [0mSimpson, il ne faut jamais considérer que le processus est acquis, qu'il a abouti.
+---
+213:in fr_partut-ud-234
+## non projective
+1 erreur: fr_partut-ud-234
+N('marge'):: erreur de morphologie : genre différent de celui du lexique :N(marge) : {"g":"m","lexique":"f"}.
+---
+214: fr_partut-ud-235
+4 différences
+# text = En ce sens, je voudrais également aborder très brièvement les problèmes des tunnels, auxquels [1;34;47mmm. [0m[1;32;4mRack[0m et Swoboda [1;31m•[0mont fait référence, et qui, dans le cas de l'Autriche, constituent sans aucun doute un sujet très sensible, raison pour laquelle il est nécessaire de faire des efforts pour voir [1;32;4mcomment[0m accroître leur sécurité.
+# TEXT = En ce sens, je voudrais également aborder très brièvement les problèmes des tunnels, auxquels [1;32;4mmessieurs[0m et Swoboda [1;31mRack [0mont fait référence, et qui, dans le cas de l'Autriche, constituent sans aucun doute un sujet très sensible, raison pour laquelle il est nécessaire de faire des efforts pour voir [1;32;4mcomme[0m accroître leur sécurité.
+---
+215:in fr_partut-ud-236
+1 erreur: fr_partut-ud-236
+Pro('soi'):: absent du lexique.
+---
+216:in fr_partut-ud-237
+3 erreurs: fr_partut-ud-237
+N('kilos'):: absent du lexique.
+V('provoqué'):: absent du lexique.
+V('provoqué'):: erreur de morphologie : conjugate_fr:tab :V(provoqué) : {"pe":3,"n":"s","t":"pp"}.
+---
+217: fr_partut-ud-238
+# text = Il faut dès lors étudier la manière dont on peut ajuster encore plus les exigences afin de garantir un maximum de sécurité.
+# TEXT = Il faut dès lors étudier la manière dont on peut ajuster encore plus les exigences afin de garantir un maximum de sécurité. 
+---
+218: fr_partut-ud-239
+# text = Pour terminer, je voudrais dire qu'il est nécessaire d'aborder la sécurité de tous les types de transport.
+# TEXT = Pour terminer, je voudrais dire qu'il est nécessaire d'aborder la sécurité de tous les types de transport. 
+---
+219: fr_partut-ud-240
+# text = Cette semaine, nous organiserons un débat ici pour parler de la sécurité du transport maritime, à la suite de la catastrophe de l'Erika, et nous devrons discuter tout au long de cette année des objectifs, en matière de sécurité, du transport aérien.
+# TEXT = cette semaine, nous organiserons un débat ici pour parler de la sécurité du transport maritime, à la suite de la catastrophe de l'Erika, et nous devrons discuter tout au long de cette année des objectifs, en matière de sécurité, du transport aérien. 
+---
+220: fr_partut-ud-241
+1 différence
+# text = Mais je tiens à dire, mesdames et messieurs les députés[1;32;4m, [0mque la sécurité est un objectif prioritaire de la commission.
+# TEXT = Mais je tiens à dire, mesdames et messieurs les députés[1;32;4m [0mque la sécurité est un objectif prioritaire de la commission.
+---
+221:in fr_partut-ud-242
+## non projective
+5 erreurs: fr_partut-ud-242
+V('attender'):: absent du lexique.
+Adv('dessus'):: absent du lexique.
+N('circonstances'):: absent du lexique.
+V('attender'):: erreur de morphologie : conjugate_fr:tab :V(attender) : {"pe":1,"n":"p","t":"p"}.
+N('marge'):: erreur de morphologie : genre différent de celui du lexique :N(marge) : {"g":"m","lexique":"f"}.
+---
+222: fr_partut-ud-243
+3 différences
+# text = Je tiens à réitérer [1;32;4mmes[0m remerciements à tous les [1;32;4mintervenants[0m et plus particulièrement au rapporteur, [1;32;4mM. [0mKoch.
+# TEXT = Je tiens à réitérer [1;32;4mses[0m remerciements à tous les [1;32;4mintervenant[0m et plus particulièrement au rapporteur, [1;32;4mmonsieur [0mKoch.
+---
+223: fr_partut-ud-244
+# text = Le débat est clos.
+# TEXT = Le débat est clos. 
+---
+224:in fr_partut-ud-245
+1 erreur: fr_partut-ud-245
+N('heures'):: absent du lexique.
+---
+225: fr_partut-ud-246
+# text = Transport de marchandises dangereuses par route.
+# TEXT = transport de marchandises dangereuses par route. 
+---
+226:in fr_partut-ud-247
+2 erreurs: fr_partut-ud-247
+V('appelle'):: absent du lexique.
+V('appelle'):: erreur de morphologie : conjugate_fr:tab :V(appelle) : {"pe":3,"n":"s","t":"p"}.
+---
+227:in fr_partut-ud-248
+2 erreurs: fr_partut-ud-248
+N('temp'):: absent du lexique.
+N('vigueur'):: erreur de morphologie : genre différent de celui du lexique :N(vigueur) : {"g":"m","lexique":"f"}.
+---
+228: fr_partut-ud-249
+# text = Les retards survenus dans les travaux du Cen entraînent à présent des problèmes dans l'application même de la directive.
+# TEXT = Les retards survenus dans les travaux du Cen entraînent à présent des problèmes dans l'application même de la directive. 
+---
+229: fr_partut-ud-250
+# text = Il s'agit en particulier des annexes qui ne pourront être adaptées pour répondre à l'évolution technique et industrielle.
+# TEXT = Il s'agit en particulier des annexes qui ne pourront être adaptées pour répondre à l'évolution technique et industrielle. 
+---
+230:in fr_partut-ud-251
+1 erreur: fr_partut-ud-251
+Pro('autre'):: absent du lexique.
+---
+231:in fr_partut-ud-252
+1 erreur: fr_partut-ud-252
+Pro('CE'):: absent du lexique.
+---
+232:in fr_partut-ud-253
+## non projective
+2 erreurs: fr_partut-ud-253
+N('temp'):: absent du lexique.
+N('incertitudes'):: absent du lexique.
+---
+233: fr_partut-ud-254
+1 différence
+# text = La modification qui est à l'ordre du jour n'entraîne donc aucune modification de l'harmonisation communautaire [1;32;4mexistante[0m en matière de transports de marchandises dangereuses.
+# TEXT = La modification qui est à l'ordre du jour n'entraîne donc aucune modification de l'harmonisation communautaire [1;32;4mexistant[0m en matière de transports de marchandises dangereuses.
+---
+234:in fr_partut-ud-255
+2 erreurs: fr_partut-ud-255
+A('stricte'):: absent du lexique.
+A('délimitées'):: absent du lexique.
+---
+235:in fr_partut-ud-256
+1 erreur: fr_partut-ud-256
+N('subsidiarité'):: absent du lexique.
+---
+236:in fr_partut-ud-257
+2 erreurs: fr_partut-ud-257
+V('accroir'):: absent du lexique.
+V('accroir'):: erreur de morphologie : conjugate_fr:tab :V(accroir) : {"pe":3,"n":"p","t":"pp"}.
+---
+237: fr_partut-ud-258
+# text = La commission européenne décide si les états membres peuvent édicter des dispositions spécifiques déterminées, la procédure de réglementation prévoyant qu'elle bénéficie à cette fin du soutien d'un comité d'experts en matière de transports de marchandises dangereuses.
+# TEXT = La commission européenne décide si les états membres peuvent édicter des dispositions spécifiques déterminées, la procédure de réglementation prévoyant qu'elle bénéficie à cette fin du soutien d'un comité d'experts en matière de transports de marchandises dangereuses. 
+---
+238:in fr_partut-ud-259
+4 erreurs: fr_partut-ud-259
+V('redefinir'):: absent du lexique.
+V('conferir'):: absent du lexique.
+V('redefinir'):: erreur de morphologie : conjugate_fr:tab :V(redefinir) : {"pe":3,"n":"s","t":"pp"}.
+V('conferir'):: erreur de morphologie : conjugate_fr:tab :V(conferir) : {"pe":3,"n":"p","t":"pp"}.
+---
+239:in fr_partut-ud-260
+1 erreur: fr_partut-ud-260
+A('comitologique'):: absent du lexique.
+---
+240: fr_partut-ud-261
+4 différences
+# text = [1;32;4mNous[0m [1;32;4mvoudrions[0m être sûrs que cela soit déjà signalé dans les [1;32;4mconsidérants[0m et que le délai clairement [1;32;4mformulé[0m dans lequel le conseil doit prendre une décision soit fixé à un maximum de trois mois.
+# TEXT = [1;32;4mVoudrions[0m [1;32;4mnous[0m être sûrs que cela soit déjà signalé dans les [1;32;4mconsidérant[0m et que le délai clairement [1;32;4mformulée[0m dans lequel le conseil doit prendre une décision soit fixé à un maximum de trois mois.
+---
+241:in fr_partut-ud-262
+2 erreurs: fr_partut-ud-262
+V('accroire'):: absent du lexique.
+V('accroire'):: erreur de morphologie : conjugate_fr:tab :V(accroire) : {"pe":3,"n":"s","t":"pp"}.
+---
+242:in fr_partut-ud-263
+3 erreurs: fr_partut-ud-263
+N('citernes'):: absent du lexique.
+N('véhicules'):: absent du lexique.
+N('vigueur'):: erreur de morphologie : genre différent de celui du lexique :N(vigueur) : {"g":"m","lexique":"f"}.
+---
+243:in fr_partut-ud-265
+1 erreur: fr_partut-ud-265
+N('vux'):: absent du lexique.
+---
+244: fr_partut-ud-267
+# text = Je voudrais commenter brièvement la proposition de la commission modifiant la directive sur le transport de marchandises dangereuses par route.
+# TEXT = Je voudrais commenter brièvement la proposition de la commission modifiant la directive sur le transport de marchandises dangereuses par route. 
+---
+245:in fr_partut-ud-268
+1 erreur: fr_partut-ud-268
+Adv('sinon'):: absent du lexique.
+---
+246:in fr_partut-ud-269
+2 erreurs: fr_partut-ud-269
+N('citernes'):: absent du lexique.
+N('substances'):: absent du lexique.
+---
+247: fr_partut-ud-270
+3 différences
+# text = D'après la proposition de la commission, une limite de[1;32;4m ­20º[0m [1;32;4maurait[0m [1;34;47mété [0msuffisante;
+# TEXT = D'après la proposition de la commission, une limite de[1;32;4m-20º[0m [1;32;4mest[0m suffisante ;
+---
+248:in fr_partut-ud-271
+2 erreurs: fr_partut-ud-271
+A('bord'):: absent du lexique.
+Adv('dessous'):: absent du lexique.
+---
+249: fr_partut-ud-272
+1 différence
+# text = En Laponie aussi, les gens sont favorables à l'Union Européenne, pensons donc à [1;32;4meux[0m.
+# TEXT = En Laponie aussi, les gens sont favorables à l'Union Européenne, pensons donc à [1;32;4mil[0m.
+---
+250:in fr_partut-ud-273
+1 erreur: fr_partut-ud-273
+C('pourquoi'):: absent du lexique.
+---
+251:in fr_partut-ud-274
+1 erreur: fr_partut-ud-274
+N('region'):: absent du lexique.
+---
+252:in fr_partut-ud-276
+2 erreurs: fr_partut-ud-276
+V('temoigner'):: absent du lexique.
+V('temoigner'):: erreur de morphologie : conjugate_fr:tab :V(temoigner) : {"pe":3,"n":"s","t":"pp"}.
+---
+253: fr_partut-ud-277
+# text = J'ai trouvé cela tout à fait exceptionnel.
+# TEXT = J'ai trouvé cela tout à fait exceptionnel. 
+---
+254:in fr_partut-ud-278
+## non projective
+1 erreur: fr_partut-ud-278
+N('routes'):: absent du lexique.
+---
+255: fr_partut-ud-279
+# text = Cette directive y contribue.
+# TEXT = Cette directive y contribue. 
+---
+256: fr_partut-ud-280
+# text = Dans le fond, ce que nous faisons est contrariant.
+# TEXT = Dans le fond, ce que nous faisons est contrariant. 
+---
+257: fr_partut-ud-281
+6 différences
+# text = Le rapporteur, [1;32;4mM. [0mKoch[1;32;4m, [0mque nous remercions pour le travail qu'il a accompli, a signalé que, dans le fond, [1;32;4mtout[0m [1;32;4mceci[0m [1;32;4mpourrait[0m [1;32;4mdéjà[0m être un peu plus avancé sans la négligence du CEN, qui a énormément tardé à élaborer et à harmoniser la directive.
+# TEXT = Le rapporteur, [1;32;4mmonsieur, [0mKoch[1;32;4m [0mque nous remercions pour le travail qu'il a accompli, a signalé que, dans le fond, [1;32;4mpourrait[0m [1;32;4mdéjà[0m [1;32;4mtout[0m [1;32;4mceci[0m être un peu plus avancé sans la négligence du CEN, qui a énormément tardé à élaborer et à harmoniser la directive.
+---
+258: fr_partut-ud-282
+# text = C'est également une question importante au regard des conditions de fonctionnement du marché intérieur.
+# TEXT = C'est également une question importante au regard des conditions de fonctionnement du marché intérieur. 
+---
+259: fr_partut-ud-283
+3 différences
+# text = Si nous voulons faire en sorte que fonctionne réellement le marché commun des transports à l'échelle de l'union, il est important non seulement que des règles existent, mais que, dans toute la mesure du possible, [1;32;4mces[0m [1;32;4mrègles[0m [1;32;4mnous[0m soient communes.
+# TEXT = Si nous voulons faire en sorte que fonctionne réellement le marché commun des transports à l'échelle de l'union, il est important non seulement que des règles existent, mais que, dans toute la mesure du possible, [1;32;4mnous[0m [1;32;4mces[0m [1;32;4mrègles[0m soient communes.
+---
+260: fr_partut-ud-284
+3 différences
+# text = Enfin, je voudrais commenter un troisième point qui me paraît également essentiel, à savoir une proposition d'amendement qui [1;32;4ma[0m [1;34;47mété [0mdéposée par [1;32;4mM. [0mAri Vatanen.
+# TEXT = Enfin, je voudrais commenter un troisième point qui me paraît également essentiel, à savoir une proposition d'amendement qui [1;32;4mest[0m déposée par [1;32;4mmonsieur [0mAri Vatanen.
+---
+261:in fr_partut-ud-286
+1 erreur: fr_partut-ud-286
+N('region'):: absent du lexique.
+---
+262:in fr_partut-ud-287
+2 erreurs: fr_partut-ud-287
+N('températures'):: absent du lexique.
+N('emballages'):: absent du lexique.
+---
+263:in fr_partut-ud-288
+1 erreur: fr_partut-ud-288
+D('certain'):: absent du lexique.
+---
+264: fr_partut-ud-289
+# text = J'espère que la commission acceptera cet amendement.
+# TEXT = J'espère que la commission acceptera cet amendement. 
+---
+265: fr_partut-ud-290
+5 différences
+# text = Monsieur le président, je voudrais remercier non seulement [1;34;47mM. [0m[1;32;4mKoch[0m mais aussi la vice-présidente [1;32;4mdela[0m [1;31m•[0mcommission [1;31m•[0mpour s'être engagée aussi clairement en faveur de la sécurité dans le domaine des transports et avoir reconnu le caractère prioritaire de celle-ci.
+# TEXT = Monsieur le président, je voudrais remercier non seulement [1;32;4mmonsieur[0m mais aussi la vice-présidente [1;32;4mde[0m [1;31mla [0mcommission [1;31mKoch [0mpour s'être engagée aussi clairement en faveur de la sécurité dans le domaine des transports et avoir reconnu le caractère prioritaire de celle-ci.
+---
+266: fr_partut-ud-293
+# text = Car une chose est claire:
+# TEXT = Car une chose est claire:
+---
+267: fr_partut-ud-295
+2 différences
+# text = Nous regrettons tous que [1;31m•[0mle comité européen de normalisation (CEN) [1;34;47mn'ait pas [0mété capable de réaliser dans les délais fixés la modification des dispositions nécessaire pour parvenir à une harmonisation appropriée au sein de l'Union Européenne.
+# TEXT = Nous regrettons tous que [1;31mn'ait pas [0mle comité européen de normalisation (CEN) été capable de réaliser dans les délais fixés la modification des dispositions nécessaire pour parvenir à une harmonisation appropriée au sein de l'Union Européenne.
+---
+268:in fr_partut-ud-296
+1 erreur: fr_partut-ud-296
+N('vigueur'):: erreur de morphologie : genre différent de celui du lexique :N(vigueur) : {"g":"m","lexique":"f"}.
+---
+269:in fr_partut-ud-297
+1 erreur: fr_partut-ud-297
+N('températures'):: absent du lexique.
+---
+270:in fr_partut-ud-298
+3 erreurs: fr_partut-ud-298
+N('spécificités'):: absent du lexique.
+N('normalisations'):: absent du lexique.
+N('caractérisations'):: absent du lexique.
+---
+271:in fr_partut-ud-299
+1 erreur: fr_partut-ud-299
+P('auprès'):: absent du lexique.
+---
+272:in fr_partut-ud-300
+1 erreur: fr_partut-ud-300
+Adv('concretement'):: absent du lexique.
+---
+273: fr_partut-ud-301
+2 différences
+# text = Nous acceptons donc les quatre amendements qui nous [1;32;4mont[0m [1;34;47mété [0mproposés.
+# TEXT = Nous acceptons donc les quatre amendements qui nous [1;32;4mest[0m proposés.
+---
+274: fr_partut-ud-302
+3 différences
+# text = Coordination Fonds [1;31m•[0m[1;32;4mstructurels/Fonds[0m [1;31m•[0mde cohésion.
+# TEXT = coordination fonds [1;31mstructurels, [0m[1;32;4m/[0m [1;31mfonds [0mde cohésion.
+---
+275:in fr_partut-ud-303
+2 erreurs: fr_partut-ud-303
+V('appelle'):: absent du lexique.
+V('appelle'):: erreur de morphologie : conjugate_fr:tab :V(appelle) : {"pe":3,"n":"s","t":"p"}.
+---
+276:in fr_partut-ud-304
+1 erreur: fr_partut-ud-304
+P('comme'):: absent du lexique.
+---
+277: fr_partut-ud-305
+1 différence
+# text = [1;32;4mVous n'[0mêtes pas sans savoir que la majeure partie du pays de Galles est devenu éligible à l'objectif 1 du programme de fonds structurels.
+# TEXT = [1;32;4mN'vous [0mêtes pas sans savoir que la majeure partie du pays de Galles est devenu éligible à l'objectif 1 du programme de fonds structurels.
+---
+278:in fr_partut-ud-306
+3 erreurs: fr_partut-ud-306
+P('comme'):: absent du lexique.
+D('certain'):: absent du lexique.
+D('nombreux'):: absent du lexique.
+---
+279: fr_partut-ud-307
+# text = Nous avons vu le fossé entre les riches et les pauvres se creuser.
+# TEXT = Nous avons vu le fossé entre les riches et les pauvres se creuser. 
+---
+280:in fr_partut-ud-308
+2 erreurs: fr_partut-ud-308
+V('attender'):: absent du lexique.
+V('attender'):: erreur de morphologie : conjugate_fr:tab :V(attender) : {"pe":1,"n":"p","t":"p"}.
+---
+281:in fr_partut-ud-309
+2 erreurs: fr_partut-ud-309
+C('pourquoi'):: absent du lexique.
+D('certain'):: absent du lexique.
+---
+282:in fr_partut-ud-310
+1 erreur: fr_partut-ud-310
+N('additionnalité'):: absent du lexique.
+---
+283:in fr_partut-ud-311
+2 erreurs: fr_partut-ud-311
+N('chiffre'):: erreur de morphologie : genre différent de celui du lexique :N(chiffre) : {"g":"f","lexique":"m"}.
+N('chiffre'):: erreur de morphologie : genre différent de celui du lexique :N(chiffre) : {"g":"f","lexique":"m"}.
+---
+284:in fr_partut-ud-312
+1 erreur: fr_partut-ud-312
+N('financements'):: absent du lexique.
+---
+285:in fr_partut-ud-313
+## non projective
+2 erreurs: fr_partut-ud-313
+N('encontre'):: absent du lexique.
+N('dépenses'):: absent du lexique.
+---
+286:in fr_partut-ud-314
+2 erreurs: fr_partut-ud-314
+V('depenser'):: absent du lexique.
+V('depenser'):: erreur de morphologie : conjugate_fr:tab :V(depenser) : {"pe":3,"n":"p","t":"pp"}.
+---
+287:in fr_partut-ud-315
+1 erreur: fr_partut-ud-315
+N('defaut'):: absent du lexique.
+---
+288:in fr_partut-ud-316
+1 erreur: fr_partut-ud-316
+N('amie'):: absent du lexique.
+---
+289:in fr_partut-ud-317
+1 erreur: fr_partut-ud-317
+N('angle'):: erreur de morphologie : genre différent de celui du lexique :N(angle) : {"g":"f","lexique":"m"}.
+---
+290:in fr_partut-ud-318
+7 erreurs: fr_partut-ud-318
+V('elargir'):: absent du lexique.
+N('écoles'):: absent du lexique.
+N('universités'):: absent du lexique.
+P('que'):: absent du lexique.
+N('region'):: absent du lexique.
+A('developpe'):: absent du lexique.
+V('elargir'):: erreur de morphologie : conjugate_fr:tab :V(elargir) : {"pe":3,"n":"p","t":"pp"}.
+---
+291:in fr_partut-ud-319
+2 erreurs: fr_partut-ud-319
+Adv('precisement'):: absent du lexique.
+N('internet'):: absent du lexique.
+---
+292:in fr_partut-ud-320
+1 erreur: fr_partut-ud-320
+N('structures'):: absent du lexique.
+---
+293:in fr_partut-ud-321
+1 erreur: fr_partut-ud-321
+C('pourquoi'):: absent du lexique.
+---
+294:in fr_partut-ud-322
+3 erreurs: fr_partut-ud-322
+N('ressources'):: absent du lexique.
+N('ressources'):: absent du lexique.
+A('consequent'):: absent du lexique.
+---
+295:in fr_partut-ud-324
+1 erreur: fr_partut-ud-324
+N('affaire'):: erreur de morphologie : genre différent de celui du lexique :N(affaire) : {"g":"m","lexique":"f"}.
+---
+296:in fr_partut-ud-325
+2 erreurs: fr_partut-ud-325
+N('potentialités'):: absent du lexique.
+N('place'):: erreur de morphologie : genre différent de celui du lexique :N(place) : {"g":"m","lexique":"f"}.
+---
+297:in fr_partut-ud-326
+1 erreur: fr_partut-ud-326
+P('comme'):: absent du lexique.
+---
+298:in fr_partut-ud-327
+2 erreurs: fr_partut-ud-327
+V('appelle'):: absent du lexique.
+V('appelle'):: erreur de morphologie : conjugate_fr:tab :V(appelle) : {"pe":3,"n":"s","t":"p"}.
+---
+299:in fr_partut-ud-328
+1 erreur: fr_partut-ud-328
+N('choix'):: erreur de morphologie : genre différent de celui du lexique :N(choix) : {"g":"f","lexique":"m"}.
+---
+300:in fr_partut-ud-329
+## non projective
+1 erreur: fr_partut-ud-329
+N('manque'):: erreur de morphologie : genre différent de celui du lexique :N(manque) : {"g":"f","lexique":"m"}.
+---
+301: fr_partut-ud-330
+# text = Les propositions de la commission se réfèrent aux quatre piliers de la stratégie d'emploi et aux cinq domaines d'actions du fond social européen.
+# TEXT = Les propositions de la commission se réfèrent aux quatre piliers de la stratégie d'emploi et aux cinq domaines d'actions du fond social européen. 
+---
+302: fr_partut-ud-332
+1 différence
+# text = On pourrait dire que l'oubli donne l'impression que la Commission ne sait pas non plus [1;32;4mcomment[0m assurer un maximum de coordination entre les interventions du fonds social européen, sujettes à une révision après 3 ans et demi, et les plans nationaux pour l'emploi annuels des états membres.
+# TEXT = On pourrait dire que l'oubli donne l'impression que la commission ne sait pas non plus [1;32;4mcomme[0m assurer un maximum de coordination entre les interventions du fonds social européen, sujettes à une révision après 3 ans et demi, et les plans nationaux pour l'emploi annuels des états membres.
+---
+303: fr_partut-ud-333
+# text = Nous espérons que la commission pourra nous rassurer et nous dire qu'il s'agit d'un oubli, qu'elle réparera de manière constructive.
+# TEXT = Nous espérons que la commission pourra nous rassurer et nous dire qu'il s'agit d'un oubli, qu'elle réparera de manière constructive. 
+---
+304:in fr_partut-ud-334
+1 erreur: fr_partut-ud-334
+N('départi'):: absent du lexique.
+---
+305:in fr_partut-ud-335
+1 erreur: fr_partut-ud-335
+N('défis'):: absent du lexique.
+---
+306:in fr_partut-ud-336
+1 erreur: fr_partut-ud-336
+N('poid'):: absent du lexique.
+---
+307:in fr_partut-ud-337
+5 erreurs: fr_partut-ud-337
+N('déficiences'):: absent du lexique.
+N('réseaux'):: absent du lexique.
+A('saisonnière'):: absent du lexique.
+A('diversifiée'):: absent du lexique.
+N('exode'):: erreur de morphologie : genre différent de celui du lexique :N(exode) : {"g":"m","lexique":"f"}.
+---
+308: fr_partut-ud-338
+# text = Les conséquences ne se font pas attendre.
+# TEXT = Les conséquences ne se font pas attendre. 
+---
+309:in fr_partut-ud-339
+3 erreurs: fr_partut-ud-339
+V('disparaitre'):: absent du lexique.
+P('dehors'):: absent du lexique.
+V('disparaitre'):: erreur de morphologie : conjugate_fr:tab :V(disparaitre) : {"pe":3,"n":"p","t":"p"}.
+---
+310: fr_partut-ud-340
+# text = Cette absence d'infrastructures constitue également un obstacle à l'implantation d'entreprises et à la création d'emplois.
+# TEXT = Cette absence d'infrastructures constitue également un obstacle à l'implantation d'entreprises et à la création d'emplois. 
+---
+311: fr_partut-ud-342
+# text = L'agriculture fournit seulement 5,5% de l'emploi de l'union.
+# TEXT = L'agriculture fournit seulement 5,5% de l'emploi de l'union. 
+---
+312:in fr_partut-ud-343
+2 erreurs: fr_partut-ud-343
+D('nos'):: absent du lexique.
+N('temp'):: absent du lexique.
+---
+313:in fr_partut-ud-344
+4 erreurs: fr_partut-ud-344
+Pro('un'):: absent du lexique.
+A('trascendant'):: absent du lexique.
+D('nos'):: absent du lexique.
+P('que'):: absent du lexique.
+---
+314:in fr_partut-ud-345
+4 erreurs: fr_partut-ud-345
+N('role'):: absent du lexique.
+N('fantome'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+N('biodiversité'):: absent du lexique.
+---
+315: fr_partut-ud-346
+2 différences
+# text = Il est important de définir des critères généraux d'aménagement du territoire et d'équilibre de la population et de prendre en considération les conclusions auxquelles est parvenue la commission de l'agriculture et du développement rural sur cinq aspects fondamentaux, qui n'[1;32;4mont[0m [1;34;47mété [0mque partiellement repris par la commission de la politique régionale, des transports et du tourisme dans les points 16 et 17.
+# TEXT = Il est important de définir des critères généraux d'aménagement du territoire et d'équilibre de la population et de prendre en considération les conclusions auxquelles est parvenue la commission de l'agriculture et du développement rural sur cinq aspects fondamentaux, qui n'[1;32;4mest[0m que partiellement repris par la commission de la politique régionale, des transports et du tourisme dans les points 16 et 17.
+---
+316:in fr_partut-ud-347
+2 erreurs: fr_partut-ud-347
+Adv('parce'):: absent du lexique.
+Pro('un'):: absent du lexique.
+---
+317: fr_partut-ud-348
+4 différences
+# text = Monsieur le président, monsieur le commissaire, chers collègues, je voudrais commencer [1;32;4mmon[0m intervention en remerciant [1;31m•[0m[1;32;4mmme[0m Schroedter, [1;34;47mrapporteur, [0mdu travail qu'elle a effectué.
+# TEXT = Monsieur le président, monsieur le commissaire, chers collègues, je voudrais commencer [1;32;4mson[0m intervention en remerciant [1;31mmadame, [0m[1;32;4mrapporteur[0m Schroedter, du travail qu'elle a effectué.
+---
+318:in fr_partut-ud-349
+4 erreurs: fr_partut-ud-349
+P('que'):: absent du lexique.
+V('attender'):: absent du lexique.
+V('attender'):: erreur de morphologie : conjugate_fr:tab :V(attender) : {"pe":3,"n":"s","t":"i"}.
+N('écho'):: erreur de morphologie : genre différent de celui du lexique :N(écho) : {"g":"f","lexique":"m"}.
+---
+319:in fr_partut-ud-350
+3 erreurs: fr_partut-ud-350
+D('nos'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+A('rhetorique'):: absent du lexique.
+---
+320:in fr_partut-ud-352
+7 erreurs: fr_partut-ud-352
+D('nos'):: absent du lexique.
+V('reflète'):: absent du lexique.
+N('inégalite'):: absent du lexique.
+N('region'):: absent du lexique.
+N('définitive'):: absent du lexique.
+A('train'):: absent du lexique.
+V('reflète'):: erreur de morphologie : conjugate_fr:tab :V(reflète) : {"pe":3,"n":"s","t":"p"}.
+---
+321:in fr_partut-ud-353
+3 erreurs: fr_partut-ud-353
+N('elan'):: absent du lexique.
+N('createur'):: absent du lexique.
+A('veritable'):: absent du lexique.
+---
+322: fr_partut-ud-354
+# text = Il faut surtout que les patrons des petites et moyennes entreprises prennent part à la distribution de ces fonds.
+# TEXT = Il faut surtout que les patrons des petites et moyennes entreprises prennent part à la distribution de ces fonds. 
+---
+323:in fr_partut-ud-355
+1 erreur: fr_partut-ud-355
+D('nos'):: absent du lexique.
+---
+324:in fr_partut-ud-356
+3 erreurs: fr_partut-ud-356
+N('inégalite'):: absent du lexique.
+N('region'):: absent du lexique.
+N('réseaux'):: absent du lexique.
+---
+325:in fr_partut-ud-357
+2 erreurs: fr_partut-ud-357
+V('completer'):: absent du lexique.
+V('completer'):: erreur de morphologie : conjugate_fr:tab :V(completer) : {"pe":3,"n":"p","t":"pr"}.
+---
+326: fr_partut-ud-358
+2 différences
+# text = Monsieur le président, il m'incombe de rappeler à [1;32;4mmon[0m collègue, [1;32;4mM. [0mEvans, la cause de l'éligibilité du pays de Galles à l'objectif 1.
+# TEXT = Monsieur le président, il m'incombe de rappeler à [1;32;4mson[0m collègue, [1;32;4mmonsieur [0mEvans, la cause de l'éligibilité du pays de Galles à l'objectif 1.
+---
+327:in fr_partut-ud-359
+2 erreurs: fr_partut-ud-359
+V('discrediter'):: absent du lexique.
+V('discrediter'):: erreur de morphologie : conjugate_fr:tab :V(discrediter) : {"pe":3,"n":"p","t":"pp"}.
+---
+328:in fr_partut-ud-360
+2 erreurs: fr_partut-ud-360
+N('additionnalité'):: absent du lexique.
+A('severe'):: absent du lexique.
+---
+329:in fr_partut-ud-361
+2 erreurs: fr_partut-ud-361
+Adv('quant'):: absent du lexique.
+N('additionnalité'):: absent du lexique.
+---
+330: fr_partut-ud-362
+1 différence
+# text = Je suggère à [1;32;4mM. [0mEvans d'aller relire le règlement.
+# TEXT = Je suggère à [1;32;4mmonsieur [0mEvans d'aller relire le règlement.
+---
+331: fr_partut-ud-363
+2 différences
+# text = [1;32;4mMon[0m groupe a proposé [1;32;4md'[0mimportants amendements aux deux rapports que nous examinons aujourd'hui.
+# TEXT = [1;32;4mSon[0m groupe a proposé [1;32;4mdes [0mimportants amendements aux deux rapports que nous examinons aujourd'hui.
+---
+332: fr_partut-ud-364
+1 différence
+# text = Je souhaiterais attirer [1;32;4mnotre[0m attention sur le rôle essentiel des lignes directrices.
+# TEXT = Je souhaiterais attirer [1;32;4mleur[0m attention sur le rôle essentiel des lignes directrices.
+---
+333:in fr_partut-ud-365
+4 erreurs: fr_partut-ud-365
+N('capacite'):: absent du lexique.
+N('potentialite'):: absent du lexique.
+D('nos'):: absent du lexique.
+N('region'):: absent du lexique.
+---
+334: fr_partut-ud-366
+1 différence
+# text = En effet, les reportages des [1;32;4mmédias[0m montrent particulièrement que l'Europe perd rapidement du terrain vis-à-vis des États Unis dans les industries de la haute technologie de l'avenir, en pleine croissance.
+# TEXT = En effet, les reportages des [1;32;4mmédia[0m montrent particulièrement que l'Europe perd rapidement du terrain vis-à-vis des États Unis dans les industries de la haute technologie de l'avenir, en pleine croissance.
+---
+335:in fr_partut-ud-367
+1 erreur: fr_partut-ud-367
+N('couches'):: absent du lexique.
+---
+336:in fr_partut-ud-368
+1 erreur: fr_partut-ud-368
+Pro('autre'):: absent du lexique.
+---
+337:in fr_partut-ud-369
+1 erreur: fr_partut-ud-369
+N('specificite'):: absent du lexique.
+---
+338:in fr_partut-ud-370
+4 erreurs: fr_partut-ud-370
+D('nos'):: absent du lexique.
+N('credit'):: absent du lexique.
+N('potentialite'):: absent du lexique.
+D('nos'):: absent du lexique.
+---
+339:in fr_partut-ud-373
+1 erreur: fr_partut-ud-373
+N('temp'):: absent du lexique.
+---
+340:in fr_partut-ud-375
+1 erreur: fr_partut-ud-375
+A('mi'):: absent du lexique.
+---
+341: fr_partut-ud-376
+# text = Par rapport au moment où il nous arrive, ce rapport est devenu beaucoup trop vaste lors des examens successifs.
+# TEXT = Par rapport au moment où il nous arrive, ce rapport est devenu beaucoup trop vaste lors des examens successifs. 
+---
+342: fr_partut-ud-378
+## non projective
+6 différences
+# text = Au stade où nous en sommes, il vaut mieux se consacrer à une réflexion sur la manière d'orienter la politique régionale communautaire, en gardant à l'esprit que [1;32;4ml'objectif[0m [1;32;4mest[0m [1;32;4mla[0m [1;32;4mréduction[0m [1;32;4mdes[0m [1;32;4mdisparités régionales[0m.
+# TEXT = Au stade où nous en sommes, il vaut mieux se consacrer à une réflexion sur la manière d'orienter la politique régionale communautaire, en gardant à l'esprit que [1;32;4mla réduction[0m [1;32;4mdes[0m [1;32;4mdisparités[0m [1;32;4mrégionales[0m [1;32;4mest[0m [1;32;4ml'objectif[0m.
+---
+343:in fr_partut-ud-379
+4 erreurs: fr_partut-ud-379
+V('mettere'):: absent du lexique.
+N('subsidiarité'):: absent du lexique.
+N('role'):: absent du lexique.
+V('mettere'):: erreur de morphologie : conjugate_fr:tab :V(mettere) : {"pe":3,"n":"s","t":"p"}.
+---
+344:in fr_partut-ud-380
+1 erreur: fr_partut-ud-380
+N('pme'):: absent du lexique.
+---
+345:in fr_partut-ud-381
+5 erreurs: fr_partut-ud-381
+P('que'):: absent du lexique.
+N('region'):: absent du lexique.
+Adv('outre-mer'):: absent du lexique.
+N('region'):: absent du lexique.
+A('peripherique'):: absent du lexique.
+---
+346: fr_partut-ud-383
+# text = L'efficacité des programmes mis en oeuvre avec le soutien de l'Union Européenne a trop souvent dû souffrir d'une prise de décision trop lente et d'une gestion trop complexe.
+# TEXT = L'efficacité des programmes mis en oeuvre avec le soutien de l'Union Européenne a trop souvent dû souffrir d'une prise de décision trop lente et d'une gestion trop complexe. 
+---
+347:in fr_partut-ud-384
+1 erreur: fr_partut-ud-384
+N('ressources'):: absent du lexique.
+---
+348: fr_partut-ud-385
+2 différences
+# text = Il [1;32;4mfaudrait[0m que les projets soient plus efficaces, plus souples et produisent plus [1;32;4mde[0m résultats.
+# TEXT = Il [1;32;4mfaut[0m que les projets soient plus efficaces, plus souples et produisent plus [1;32;4mdes[0m résultats.
+---
+349: fr_partut-ud-386
+2 différences
+# text = L'élaboration du rapport [1;32;4ma[0m [1;34;47mété [0ml'occasion de mener un intéressant débat sur la politique régionale communautaire en général.
+# TEXT = L'élaboration du rapport [1;32;4mest[0m l'occasion de mener un intéressant débat sur la politique régionale communautaire en général.
+---
+350: fr_partut-ud-387
+# text = C'était pour nous, nouveaux députés, la première fois, et c'est un processus extrêmement intéressant.
+# TEXT = C'était pour nous, nouveaux députés, la première fois, et c'est un processus extrêmement intéressant. 
+---
+351: fr_partut-ud-388
+## non projective
+3 différences
+# text = Ce rapport est tout à fait bon [1;31m•[0met [1;32;4mnotre[0m groupe [1;34;47mle [0msoutient.
+# TEXT = Ce rapport est tout à fait bon [1;31ml'[0met [1;32;4mleur[0m groupe soutient.
+---
+352:in fr_partut-ud-389
+2 erreurs: fr_partut-ud-389
+N('plénière'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+---
+353:in fr_partut-ud-390
+2 erreurs: fr_partut-ud-390
+V('etudier'):: absent du lexique.
+V('etudier'):: erreur de morphologie : conjugate_fr:tab :V(etudier) : {"pe":3,"n":"p","t":"pp"}.
+---
+354: fr_partut-ud-391
+# text = Monsieur le président, nous ne devrions pas perdre de vue que l'objectif principal et stratégique des fonds structurels et de cohésion, et de leur coordination, est de parvenir à la cohésion économique et sociale.
+# TEXT = Monsieur le président, nous ne devrions pas perdre de vue que l'objectif principal et stratégique des fonds structurels et de cohésion, et de leur coordination, est de parvenir à la cohésion économique et sociale. 
+---
+355: fr_partut-ud-392
+1 différence
+# text = Il est de [1;32;4mnotre[0m devoir de participer à l'élaboration des orientations, mais également à l'évaluation des résultats.
+# TEXT = Il est de [1;32;4mleur[0m devoir de participer à l'élaboration des orientations, mais également à l'évaluation des résultats.
+---
+356:in fr_partut-ud-393
+2 erreurs: fr_partut-ud-393
+Adv('parce'):: absent du lexique.
+N('region'):: absent du lexique.
+---
+357: fr_partut-ud-394
+# text = Nous constatons que les fonds sont une condition nécessaire mais insuffisante pour parvenir à la cohésion économique et sociale.
+# TEXT = Nous constatons que les fonds sont une condition nécessaire mais insuffisante pour parvenir à la cohésion économique et sociale. 
+---
+358:in fr_partut-ud-395
+1 erreur: fr_partut-ud-395
+P('comme'):: absent du lexique.
+---
+359:in fr_partut-ud-396
+1 erreur: fr_partut-ud-396
+D('certain'):: absent du lexique.
+---
+360:in fr_partut-ud-397
+4 erreurs: fr_partut-ud-397
+V('etudier'):: absent du lexique.
+P('que'):: absent du lexique.
+Pro('autre'):: absent du lexique.
+V('etudier'):: erreur de morphologie : conjugate_fr:tab :V(etudier) : {"pe":3,"n":"s","t":"b"}.
+---
+361:in fr_partut-ud-398
+6 erreurs: fr_partut-ud-398
+D('certain'):: absent du lexique.
+N('region'):: absent du lexique.
+N('chomeur'):: absent du lexique.
+P('que'):: absent du lexique.
+N('region'):: absent du lexique.
+A('prospere'):: absent du lexique.
+---
+362: fr_partut-ud-399
+# text = Ceci oblige le parlement européen, le commissaire et la commission à agir de manière décidée et stratégique.
+# TEXT = Ceci oblige le parlement européen, le commissaire et la commission à agir de manière décidée et stratégique. 
+---
+363:in fr_partut-ud-400
+## non projective
+1 erreur: fr_partut-ud-400
+N('législature'):: erreur de morphologie : genre différent de celui du lexique :N(législature) : {"g":"m","lexique":"f"}.
+---
+364: fr_partut-ud-401
+# text = Mais je ne pense pas que le rapport arrive en retard.
+# TEXT = Mais je ne pense pas que le rapport arrive en retard. 
+---
+365:in fr_partut-ud-402
+3 erreurs: fr_partut-ud-402
+A('mi'):: absent du lexique.
+N('parcour'):: absent du lexique.
+Pro('un'):: absent du lexique.
+---
+366: fr_partut-ud-403
+# text = Ceux-ci ne peuvent accepter que l'Union Européenne prenne des décisions de façon, du moins en apparence, bureaucratique.
+# TEXT = Ceux-ci ne peuvent accepter que l'Union Européenne prenne des décisions de façon, du moins en apparence, bureaucratique. 
+---
+367: fr_partut-ud-404
+# text = Ils ont besoin que la dimension politique fonctionne, qu'il y ait des responsabilités, qu'une communication soit établie avec les citoyens.
+# TEXT = Ils ont besoin que la dimension politique fonctionne, qu'il y ait des responsabilités, qu'une communication soit établie avec les citoyens. 
+---
+368: fr_partut-ud-405
+# text = C'est ce que nous demandons aujourd'hui au commissaire.
+# TEXT = C'est ce que nous demandons aujourd'hui au commissaire. 
+---
+369: fr_partut-ud-406
+# text = Je veux croire qu'il est d'accord, étant donné son expérience passée de président régional, pour proposer des indicateurs et une stratégie en faveur de la cohésion économique et sociale, et pas seulement de la productivité.
+# TEXT = Je veux croire qu'il est d'accord, étant donné son expérience passée de président régional, pour proposer des indicateurs et une stratégie en faveur de la cohésion économique et sociale, et pas seulement de la productivité. 
+---
+370: fr_partut-ud-407
+# text = Monsieur le président, je suis favorable aux propositions principales du rapport concernant l'administration des fonds structurels et du fonds de cohésion pour la période 2000-2006 et aux recommandations principales de ce rapport comprenant les points suivants:
+# TEXT = Monsieur le président, je suis favorable aux propositions principales du rapport concernant l'administration des fonds structurels et du fonds de cohésion pour la période 2000-2006 et aux recommandations principales de ce rapport comprenant les points suivants:
+---
+371:in fr_partut-ud-408
+2 erreurs: fr_partut-ud-408
+P('entres'):: absent du lexique.
+A('urbaine'):: absent du lexique.
+---
+372:in fr_partut-ud-410
+1 erreur: fr_partut-ud-410
+A('plénière'):: absent du lexique.
+---
+373:in fr_partut-ud-411
+2 erreurs: fr_partut-ud-411
+A('peripherique'):: absent du lexique.
+N('region'):: absent du lexique.
+---
+374:in fr_partut-ud-412
+1 erreur: fr_partut-ud-412
+N('favorisé'):: absent du lexique.
+---
+375:in fr_partut-ud-413
+2 erreurs: fr_partut-ud-413
+D('nos'):: absent du lexique.
+D('nos'):: absent du lexique.
+---
+376: fr_partut-ud-414
+4 différences
+# text = Monsieur le président, dans le passé, [1;34;47mj'[0mai assez souvent [1;31m•[0mété en désaccord avec [1;32;4mmme[0m le rapporteur pour son approche des questions de la politique régionale, mais cette fois je souscris à ses [1;32;4mvues[0m.
+# TEXT = Monsieur le président, dans le passé, ai assez souvent [1;31mj'[0mété en désaccord avec [1;32;4mmadame[0m le rapporteur pour son approche des questions de la politique régionale, mais cette fois je souscris à ses [1;32;4mvue[0m.
+---
+377:in fr_partut-ud-415
+1 erreur: fr_partut-ud-415
+N('annexe'):: erreur de morphologie : genre différent de celui du lexique :N(annexe) : {"g":"m","lexique":"f"}.
+---
+378: fr_partut-ud-416
+# text = Je le dis pour rappeler la position du parlement.
+# TEXT = Je le dis pour rappeler la position du parlement. 
+---
+379: fr_partut-ud-417
+# text = Elles sont d'un grand secours pour les états membres, et je veux souligner en particulier la place importante accordée par la commission aux questions du développement durable, de l'augmentation du nombre d'emplois - l'accent étant mis sur l'égalité des chances - et des transports.
+# TEXT = Elles sont d'un grand secours pour les états membres, et je veux souligner en particulier la place importante accordée par la commission aux questions du développement durable, de l'augmentation du nombre d'emplois-l'accent étant mis sur l'égalité des chances-et des transports. 
+---
+380: fr_partut-ud-418
+# text = En ce qui me concerne, j'approuve totalement ces aspects.
+# TEXT = En ce qui me concerne, j'approuve totalement ces aspects. 
+---
+381: fr_partut-ud-419
+2 différences
+# text = [1;32;4mCela[0m [1;32;4métant[0m, j'ai un grief à exprimer en tant qu'insulaire du fait qu'on a négligé le développement des îles.
+# TEXT = [1;32;4mÉtant[0m [1;32;4mcela[0m, j'ai un grief à exprimer en tant qu'insulaire du fait qu'on a négligé le développement des îles.
+---
+382: fr_partut-ud-420
+4 différences
+# text = Il n'est pas accordé à cette question l'importance qui conviendrait[1;32;4m, [0met [1;32;4mce n[0m'est pas la [1;32;4mpremière[0m [1;32;4mfois:[0m
+# TEXT = il n'est pas accordé à cette question l'importance qui conviendrait[1;32;4m:, [0met [1;32;4mn'c[0m'est pas la [1;32;4mfois[0m [1;32;4mpremière[0m
+---
+383: fr_partut-ud-422
+1 différence
+# text = Monsieur le commissaire, nous continuerons à la relancer[1;32;4m, [0mcar à l'article 158, paragraphe 1, du traité d'Amsterdam, il y a une disposition qui prévoit une politique intégrée pour les îles.
+# TEXT = Monsieur le commissaire, nous continuerons à la relancer[1;32;4m [0mcar à l'article 158, paragraphe 1, du traité d'Amsterdam, il y a une disposition qui prévoit une politique intégrée pour les îles.
+---
+384: fr_partut-ud-423
+# text = Par conséquent, la commission devra enfin examiner cette question particulière.
+# TEXT = Par conséquent, la commission devra enfin examiner cette question particulière. 
+---
+385: fr_partut-ud-424
+2 différences
+# text = En ce qui nous concerne, au sein du parlement, je tiens à rappeler qu'il existe, entre parlement et commission, un code de bonne conduite, qui [1;32;4ma[0m [1;34;47mété [0msigné en mai.
+# TEXT = En ce qui nous concerne, au sein du parlement, je tiens à rappeler qu'il existe, entre parlement et commission, un code de bonne conduite, qui [1;32;4mest[0m signé en mai.
+---
+386: fr_partut-ud-425
+# text = Je suis tout à fait convaincu que ce code sera respecté et que le parlement sera tenu informé de toutes les évolutions et des détails de la mise en oeuvre des programmes.
+# TEXT = Je suis tout à fait convaincu que ce code sera respecté et que le parlement sera tenu informé de toutes les évolutions et des détails de la mise en oeuvre des programmes. 
+---
+387:in fr_partut-ud-426
+1 erreur: fr_partut-ud-426
+N('demie'):: erreur de morphologie : genre différent de celui du lexique :N(demie) : {"g":"m","lexique":"f"}.
+---
+388:in fr_partut-ud-427
+3 erreurs: fr_partut-ud-427
+Pro('beaucoup'):: absent du lexique.
+Pro('un'):: absent du lexique.
+Pro('autre'):: absent du lexique.
+---
+389: fr_partut-ud-428
+# text = Je m'associerai au regret qu'elle a exprimé que le parlement ait en quelque sorte pris le train en marche concernant ces orientations, puisque la procédure de négociation avec les états est aujourd'hui à ce point avancée que l'on ne peut pas penser que ce rapport aura un impact immédiat, ce que je déplore.
+# TEXT = Je m'associerai au regret qu'elle a exprimé que le parlement ait en quelque sorte pris le train en marche concernant ces orientations, puisque la procédure de négociation avec les états est aujourd'hui à ce point avancée que l'on ne peut pas penser que ce rapport aura un impact immédiat, ce que je déplore. 
+---
+390:in fr_partut-ud-430
+1 erreur: fr_partut-ud-430
+N('défis'):: absent du lexique.
+---
+391:in fr_partut-ud-431
+1 erreur: fr_partut-ud-431
+Pro('premier'):: absent du lexique.
+---
+392:in fr_partut-ud-432
+3 erreurs: fr_partut-ud-432
+V('suffiser'):: absent du lexique.
+N('defaut'):: absent du lexique.
+V('suffiser'):: erreur de morphologie : conjugate_fr:tab :V(suffiser) : {"pe":3,"n":"p","t":"p"}.
+---
+393: fr_partut-ud-433
+# text = C'est donc une question de fond que nous devons nous poser:
+# TEXT = C'est donc une question de fond que nous devons nous poser:
+---
+394:in fr_partut-ud-435
+1 erreur: fr_partut-ud-435
+A('budgetaire'):: absent du lexique.
+---
+395: fr_partut-ud-436
+## non projective
+5 différences
+# text = Voilà deux chantiers [1;34;47mque [0mj'invite le commissaire [1;31m•[0mà mettre en oeuvre et [1;32;4mauxquels je[0m [1;32;4mlui[0m [1;32;4mdemande[0m de nous associer.
+# TEXT = voilà deux chantiers j'invite le commissaire [1;31mqu'[0mà mettre en oeuvre et [1;32;4mj'il[0m [1;32;4mdemande[0m [1;32;4mauxquels[0m de nous associer.
+---
+396: fr_partut-ud-437
+# text = Enfin, en cette période de catastrophes naturelles, je voudrais tout de même évoquer la question de l'emploi des fonds structurels.
+# TEXT = Enfin, en cette période de catastrophes naturelles, je voudrais tout de même évoquer la question de l'emploi des fonds structurels. 
+---
+397:in fr_partut-ud-438
+2 erreurs: fr_partut-ud-438
+Pro('chacun'):: absent du lexique.
+N('enveloppe'):: erreur de morphologie : genre différent de celui du lexique :N(enveloppe) : {"g":"m","lexique":"f"}.
+---
+398:in fr_partut-ud-439
+3 erreurs: fr_partut-ud-439
+P('comme'):: absent du lexique.
+V('disparaitre'):: absent du lexique.
+V('disparaitre'):: erreur de morphologie : conjugate_fr:tab :V(disparaitre) : {"pe":3,"n":"s","t":"p"}.
+---
+399: fr_partut-ud-440
+1 différence
+# text = Aujourd'hui, les opinions publiques, la presse[1;32;4m, [0mnous accusent d'être aux abonnés absents alors que nous allons financer une grande part des efforts nationaux.
+# TEXT = Aujourd'hui, les opinions publiques, la presse[1;32;4m [0mnous accusent d'être aux abonnés absents alors que nous allons financer une grande part des efforts nationaux.
+---
+400: fr_partut-ud-441
+2 différences
+# text = Je crois qu'il faut que nous soyons capables [1;32;4mde[0m [1;34;47mle [0mdire haut et fort.
+# TEXT = Je crois qu'il faut que nous soyons capables [1;32;4mdu[0m dire haut et fort.
+---
+401: fr_partut-ud-442
+1 différence
+# text = Je pense qu'il [1;32;4mfaudrait[0m aussi que nous instaurions ou que nous demandions aux états membres qu'ils assurent une information sur les aides européennes, chaque fois qu'elles sont mobilisées pour réparer les dégâts causés par des catastrophes naturelles ou des accidents.
+# TEXT = Je pense qu'il [1;32;4mfaut[0m aussi que nous instaurions ou que nous demandions aux états membres qu'ils assurent une information sur les aides européennes, chaque fois qu'elles sont mobilisées pour réparer les dégâts causés par des catastrophes naturelles ou des accidents.
+---
+402:in fr_partut-ud-443
+1 erreur: fr_partut-ud-443
+N('inégalite'):: absent du lexique.
+---
+403:in fr_partut-ud-445
+1 erreur: fr_partut-ud-445
+Adv('or'):: absent du lexique.
+---
+404: fr_partut-ud-446
+1 différence
+# text = [1;32;4mNotre[0m projet d'une Europe tournée vers la satisfaction des besoins sociaux vise une convergence par le haut des conditions d'existence.
+# TEXT = [1;32;4mLeur[0m projet d'une Europe tournée vers la satisfaction des besoins sociaux vise une convergence par le haut des conditions d'existence.
+---
+405:in fr_partut-ud-448
+2 erreurs: fr_partut-ud-448
+A('unifié'):: absent du lexique.
+N('temp'):: absent du lexique.
+---
+406:in fr_partut-ud-449
+1 erreur: fr_partut-ud-449
+Adv('or'):: absent du lexique.
+---
+407: fr_partut-ud-450
+# text = Le rapport proposé aujourd'hui redonne sa place au politique.
+# TEXT = Le rapport proposé aujourd'hui redonne sa place au politique. 
+---
+408: fr_partut-ud-451
+2 différences
+# text = C'est ceci qui nous conduira [1;32;4mà[0m [1;34;47mle [0mvoter.
+# TEXT = C'est ceci qui nous conduira [1;32;4mau[0m voter.
+---
+409:in fr_partut-ud-453
+2 erreurs: fr_partut-ud-453
+P('que'):: absent du lexique.
+Adv('quant'):: absent du lexique.
+---
+410:in fr_partut-ud-454
+3 erreurs: fr_partut-ud-454
+Pro('chacun'):: absent du lexique.
+N('ressources'):: absent du lexique.
+N('capacite'):: absent du lexique.
+---
+411:in fr_partut-ud-455
+1 erreur: fr_partut-ud-455
+N('ressources'):: absent du lexique.
+---
+412: fr_partut-ud-456
+# text = L'Italie, par exemple, au cours de ces dernières années, a rencontré des difficultés dans l'utilisation des fonds structurels, surtout en raison d'une bureaucratie excessive, d'un manque d'information et de l'implication quasi absente des opérateurs économiques et sociaux au niveau local.
+# TEXT = L'Italie, par exemple, au cours de ces dernières années, a rencontré des difficultés dans l'utilisation des fonds structurels, surtout en raison d'une bureaucratie excessive, d'un manque d'information et de l'implication quasi absente des opérateurs économiques et sociaux au niveau local. 
+---
+413: fr_partut-ud-457
+# text = Il y a donc deux points sur lesquels je voudrais attirer l'attention de la commission:
+# TEXT = Il y a donc deux points sur lesquels je voudrais attirer l'attention de la commission:
+---
+414:in fr_partut-ud-458
+1 erreur: fr_partut-ud-458
+N('inégalite'):: absent du lexique.
+---
+415: fr_partut-ud-460
+# text = Avant de vous inscrire.
+# TEXT = Avant de vous inscrire. 
+---
+416: fr_partut-ud-461
+# text = Combien coûte l'inscription à Facebook?
+# TEXT = Combien coûte l'inscription à Facebook?
+---
+417:in fr_partut-ud-462
+2 erreurs: fr_partut-ud-462
+N('vrai'):: erreur de morphologie : genre différent de celui du lexique :N(vrai) : {"g":"f","lexique":"m"}.
+N('site'):: erreur de morphologie : genre différent de celui du lexique :N(site) : {"g":"f","lexique":"m"}.
+---
+418: fr_partut-ud-463
+# text = Facebook est un site gratuit et vous n'aurez jamais à payer pour continuer à utiliser le site.
+# TEXT = Facebook est un site gratuit et vous n'aurez jamais à payer pour continuer à utiliser le site. 
+---
+419:in fr_partut-ud-464
+1 erreur: fr_partut-ud-464
+N('jeux'):: absent du lexique.
+---
+420:in fr_partut-ud-466
+1 erreur: fr_partut-ud-466
+Pro('si'):: absent du lexique.
+---
+421: fr_partut-ud-467
+# text = Vous devez avoir au moins 13 ans pour pouvoir vous inscrire sur Facebook.
+# TEXT = Vous devez avoir au moins 13 ans pour pouvoir vous inscrire sur Facebook. 
+---
+422:in fr_partut-ud-468
+1 erreur: fr_partut-ud-468
+Pro('autre'):: absent du lexique.
+---
+423: fr_partut-ud-469
+# text = Les comptes Facebook sont conçus pour une utilisation individuelle.
+# TEXT = Les comptes Facebook sont conçus pour une utilisation individuelle. 
+---
+424: fr_partut-ud-470
+# text = Nous n'autorisons donc pas les comptes communs.
+# TEXT = Nous n'autorisons donc pas les comptes communs. 
+---
+425: fr_partut-ud-471
+# text = En outre, vous ne pouvez créer qu'un seul compte Facebook par adresse électronique.
+# TEXT = En outre, vous ne pouvez créer qu'un seul compte Facebook par adresse électronique. 
+---
+426:in fr_partut-ud-472
+1 erreur: fr_partut-ud-472
+Pro('chacun'):: absent du lexique.
+---
+427:in fr_partut-ud-473
+1 erreur: fr_partut-ud-473
+Pro('chacun'):: absent du lexique.
+---
+428:in fr_partut-ud-474
+2 erreurs: fr_partut-ud-474
+P('en'):: l'option pe est appliquée à P, mais elle devrait l'être à D, Pro, N, NP, A, AP, V, VP, S, SP ou CP
+D('nos'):: absent du lexique.
+---
+429:in fr_partut-ud-475
+5 erreurs: fr_partut-ud-475
+N('interactions'):: absent du lexique.
+D('vos'):: absent du lexique.
+N('amis'):: absent du lexique.
+V('regroupées'):: absent du lexique.
+V('regroupées'):: erreur de morphologie : conjugate_fr:tab :V(regroupées) : {"pe":3,"n":"p","t":"pp"}.
+---
+430:in fr_partut-ud-476
+1 erreur: fr_partut-ud-476
+Adv('pourquoi'):: absent du lexique.
+---
+431: fr_partut-ud-477
+# text = Vous avez reçu ce courrier électronique car un membre de Facebook vous invite à rejoindre Facebook.
+# TEXT = vous avez reçu ce courrier électronique car un membre de Facebook vous invite à rejoindre Facebook. 
+---
+432:in fr_partut-ud-478
+4 erreurs: fr_partut-ud-478
+V('permettere'):: absent du lexique.
+N('invitations'):: absent du lexique.
+N('contacts'):: absent du lexique.
+V('permettere'):: erreur de morphologie : conjugate_fr:tab :V(permettere) : {"pe":3,"n":"s","t":"p"}.
+---
+433:in fr_partut-ud-479
+1 erreur: fr_partut-ud-479
+N('invitations'):: absent du lexique.
+---
+434: fr_partut-ud-480
+2 différences
+# text = Si [1;32;4mvous n'[0mêtes pas encore membre de Facebook et que vous souhaitez vous inscrire[1;32;4m, [0mvous pouvez utiliser ce courrier électronique pour commencer la procédure d'inscription.
+# TEXT = Si [1;32;4mn'vous [0mêtes pas encore membre de Facebook et que vous souhaitez vous inscrire[1;32;4m [0mvous pouvez utiliser ce courrier électronique pour commencer la procédure d'inscription.
+---
+435:in fr_partut-ud-481
+6 erreurs: fr_partut-ud-481
+N('invitations'):: absent du lexique.
+D('vos'):: absent du lexique.
+N('amis'):: absent du lexique.
+N('désinscription'):: absent du lexique.
+V('trouve'):: absent du lexique.
+V('trouve'):: erreur de morphologie : conjugate_fr:tab :V(trouve) : {"pe":3,"n":"s","t":"p"}.
+---
+436: fr_partut-ud-482
+# text = Création d'un compte.
+# TEXT = création d'un compte. 
+---
+437: fr_partut-ud-483
+2 différences
+# text = [1;34;47mQuelle est [0mla différence entre une connexion et une inscription[1;31m•[0m?
+# TEXT = La différence entre une connexion et une inscription[1;31m est quelle[0m?
+---
+438:in fr_partut-ud-484
+1 erreur: fr_partut-ud-484
+N('étapes'):: absent du lexique.
+---
+439: fr_partut-ud-486
+# text = Si vous disposez déjà d'un compte Facebook, vous pouvez vous connecter sur votre compte à partir de la même page.
+# TEXT = Si vous disposez déjà d'un compte Facebook, vous pouvez vous connecter sur votre compte à partir de la même page. 
+---
+440:in fr_partut-ud-487
+4 erreurs: fr_partut-ud-487
+V('située'):: absent du lexique.
+V('cliquer'):: absent du lexique.
+V('située'):: erreur de morphologie : conjugate_fr:tab :V(située) : {"pe":3,"n":"s","t":"pp"}.
+V('cliquer'):: erreur de morphologie : conjugate_fr:tab :V(cliquer) : {"pe":2,"n":"p","t":"ip"}.
+---
+441:in fr_partut-ud-488
+2 erreurs: fr_partut-ud-488
+N('critères'):: absent du lexique.
+A('minimaux'):: absent du lexique.
+---
+442: fr_partut-ud-489
+1 différence
+# text = Comment renforcer la sécurité de [1;32;4mmon[0m mot de passe?
+# TEXT = Comment renforcer la sécurité de [1;32;4mson[0m mot de passe?
+---
+443:in fr_partut-ud-490
+3 erreurs: fr_partut-ud-490
+N('chiffres'):: absent du lexique.
+N('marques'):: absent du lexique.
+N('caractères'):: absent du lexique.
+---
+444:in fr_partut-ud-491
+2 erreurs: fr_partut-ud-491
+N('minuscules'):: absent du lexique.
+N('majuscules'):: absent du lexique.
+---
+445: fr_partut-ud-492
+2 différences
+# text = [1;31m•[0mLe mot de passe que vous choisissez [1;34;47mdevrait [0mêtre facile à mémoriser mais difficile à deviner.
+# TEXT = [1;31mDevrait [0mle mot de passe que vous choisissez être facile à mémoriser mais difficile à deviner.
+---
+446:in fr_partut-ud-493
+3 erreurs: fr_partut-ud-493
+D('autre'):: absent du lexique.
+N('internet'):: absent du lexique.
+N('passe'):: erreur de morphologie : genre différent de celui du lexique :N(passe) : {"g":"m","lexique":"f"}.
+---
+447: fr_partut-ud-494
+1 différence
+# text = Comment ajouter une question de sécurité à [1;32;4mmon[0m compte?
+# TEXT = Comment ajouter une question de sécurité à [1;32;4mson[0m compte?
+---
+448:in fr_partut-ud-495
+## non projective
+1 erreur: fr_partut-ud-495
+N('accès'):: erreur de morphologie : genre différent de celui du lexique :N(accès) : {"g":"f","lexique":"m"}.
+---
+449: fr_partut-ud-496
+# text = Vous pouvez ajouter une question de sécurité pour votre compte sur la page Paramètres de sécurité:
+# TEXT = Vous pouvez ajouter une question de sécurité pour votre compte sur la page Paramètres de sécurité:
+---
+450:in fr_partut-ud-497
+2 erreurs: fr_partut-ud-497
+V('cliquer'):: absent du lexique.
+V('cliquer'):: erreur de morphologie : conjugate_fr:tab :V(cliquer) : {"pe":2,"n":"p","t":"ip"}.
+---
+451:in fr_partut-ud-498
+2 erreurs: fr_partut-ud-498
+V('cliquer'):: absent du lexique.
+V('cliquer'):: erreur de morphologie : conjugate_fr:tab :V(cliquer) : {"pe":2,"n":"p","t":"ip"}.
+---
+452:in fr_partut-ud-499
+3 erreurs: fr_partut-ud-499
+V('cliquer'):: absent du lexique.
+N('étapes'):: absent du lexique.
+V('cliquer'):: erreur de morphologie : conjugate_fr:tab :V(cliquer) : {"pe":2,"n":"p","t":"ip"}.
+---
+453:in fr_partut-ud-500
+1 erreur: fr_partut-ud-500
+Pro('si'):: absent du lexique.
+---
+454: fr_partut-ud-501
+# text = Conseils pour choisir une question de sécurité efficace:
+# TEXT = conseils pour choisir une question de sécurité efficace:
+---
+455: fr_partut-ud-502
+## non projective
+2 différences
+# text = Choisissez une question et une réponse [1;34;47mdont [0mvous êtes certain [1;31m•[0mde vous rappeler.
+# TEXT = choisissez une question et une réponse vous êtes certain [1;31mdont [0mde vous rappeler.
+---
+456:in fr_partut-ud-503
+1 erreur: fr_partut-ud-503
+V('divulguer'):: erreur de morphologie : conjugate_fr :V(divulguer) : {"pe":3,"n":"s","t":"ip"}.
+---
+457:in fr_partut-ud-504
+2 erreurs: fr_partut-ud-504
+A('réponse'):: absent du lexique.
+A('précise'):: absent du lexique.
+---
+458:in fr_partut-ud-505
+1 erreur: fr_partut-ud-505
+D('vos'):: absent du lexique.
+---
+459:in fr_partut-ud-507
+5 erreurs: fr_partut-ud-507
+V('atteigner'):: absent du lexique.
+N('millions'):: absent du lexique.
+V('trouvent'):: absent du lexique.
+V('atteigner'):: erreur de morphologie : conjugate_fr:tab :V(atteigner) : {"pe":2,"n":"p","t":"ip"}.
+V('trouvent'):: erreur de morphologie : conjugate_fr:tab :V(trouvent) : {"pe":3,"n":"p","t":"p"}.
+---
+460: fr_partut-ud-508
+1 différence
+# text = Créer une publicité ou contacter [1;32;4mnotre[0m équipe de vente.
+# TEXT = créer une publicité ou contacter [1;32;4mleur[0m équipe de vente.
+---
+461:in fr_partut-ud-509
+1 erreur: fr_partut-ud-509
+D('vos'):: absent du lexique.
+---
+462:in fr_partut-ud-510
+1 erreur: fr_partut-ud-510
+N('millions'):: absent du lexique.
+---
+463:in fr_partut-ud-511
+2 erreurs: fr_partut-ud-511
+N('centres'):: absent du lexique.
+N('âge'):: erreur de morphologie : genre différent de celui du lexique :N(âge) : {"g":"f","lexique":"m"}.
+---
+464:in fr_partut-ud-512
+3 erreurs: fr_partut-ud-512
+D('vos'):: absent du lexique.
+V('marche'):: absent du lexique.
+V('marche'):: erreur de morphologie : conjugate_fr:tab :V(marche) : {"pe":3,"n":"s","t":"p"}.
+---
+465:in fr_partut-ud-514
+2 erreurs: fr_partut-ud-514
+A('web'):: absent du lexique.
+N('site'):: erreur de morphologie : genre différent de celui du lexique :N(site) : {"g":"f","lexique":"m"}.
+---
+466: fr_partut-ud-515
+5 différences
+# text = Utilisez [1;32;4mnotre[0m bouton [1;31m•[0m[1;32;4m«j[0m'[1;32;4maime»[0m [1;31m•[0mpour accroître l'impact de votre publicité.
+# TEXT = utilisez [1;32;4mleur[0m bouton [1;31m« [0m[1;32;4mj[0m'[1;32;4maime[0m [1;31m» [0mpour accroître l'impact de votre publicité.
+---
+467:in fr_partut-ud-516
+2 erreurs: fr_partut-ud-516
+V('bâtisser'):: absent du lexique.
+V('bâtisser'):: erreur de morphologie : conjugate_fr:tab :V(bâtisser) : {"pe":2,"n":"p","t":"ip"}.
+---
+468:in fr_partut-ud-517
+3 erreurs: fr_partut-ud-517
+V('controler'):: absent du lexique.
+V('controler'):: erreur de morphologie : conjugate_fr:tab :V(controler) : {"pe":2,"n":"p","t":"ip"}.
+N('budget'):: erreur de morphologie : genre différent de celui du lexique :N(budget) : {"g":"f","lexique":"m"}.
+---
+469: fr_partut-ud-518
+# text = Définissez le budget quotidien qui vous convient.
+# TEXT = définissez le budget quotidien qui vous convient. 
+---
+470:in fr_partut-ud-519
+2 erreurs: fr_partut-ud-519
+A('budget'):: absent du lexique.
+N('quotidien'):: erreur de morphologie : genre différent de celui du lexique :N(quotidien) : {"g":"f","lexique":"m"}.
+---
+471:in fr_partut-ud-520
+1 erreur: fr_partut-ud-520
+N('clic'):: absent du lexique.
+---
+472:in fr_partut-ud-521
+1 erreur: fr_partut-ud-521
+N('prospect'):: absent du lexique.
+---
+473:in fr_partut-ud-522
+4 erreurs: fr_partut-ud-522
+V('permettere'):: absent du lexique.
+N('prospect'):: absent du lexique.
+D('vos'):: absent du lexique.
+V('permettere'):: erreur de morphologie : conjugate_fr:tab :V(permettere) : {"pe":3,"n":"s","t":"p"}.
+---
+474:in fr_partut-ud-523
+3 erreurs: fr_partut-ud-523
+A('pubblicitaire'):: absent du lexique.
+N('dollars'):: absent du lexique.
+N('dollars'):: absent du lexique.
+---
+475:in fr_partut-ud-524
+4 erreurs: fr_partut-ud-524
+N('utilisatrices'):: absent du lexique.
+A('web'):: absent du lexique.
+V('demandé'):: absent du lexique.
+V('demandé'):: erreur de morphologie : conjugate_fr:tab :V(demandé) : {"pe":3,"n":"s","t":"pp"}.
+---
+476:in fr_partut-ud-525
+3 erreurs: fr_partut-ud-525
+N('suggestions'):: absent du lexique.
+N('campagnes'):: absent du lexique.
+A('pubblicitaire'):: absent du lexique.
+---
+477:in fr_partut-ud-526
+3 erreurs: fr_partut-ud-526
+D('vos'):: absent du lexique.
+N('campagnes'):: absent du lexique.
+A('pubblicitaire'):: absent du lexique.
+---
+478:in fr_partut-ud-527
+6 erreurs: fr_partut-ud-527
+N('campagnes'):: absent du lexique.
+N('étudiants'):: absent du lexique.
+N('vacances'):: absent du lexique.
+N('cible'):: erreur de morphologie : genre différent de celui du lexique :N(cible) : {"g":"m","lexique":"f"}.
+N('campus'):: erreur de morphologie : genre différent de celui du lexique :N(campus) : {"g":"f","lexique":"m"}.
+N('été'):: erreur de morphologie : genre différent de celui du lexique :N(été) : {"g":"f","lexique":"m"}.
+---
+479:in fr_partut-ud-528
+## non projective
+4 erreurs: fr_partut-ud-528
+N('suggestions'):: absent du lexique.
+N('filtres'):: absent du lexique.
+N('ciblage'):: absent du lexique.
+N('âge'):: erreur de morphologie : genre différent de celui du lexique :N(âge) : {"g":"f","lexique":"m"}.
+---
+480:in fr_partut-ud-529
+1 erreur: fr_partut-ud-529
+N('efforts'):: absent du lexique.
+---
+481:in fr_partut-ud-530
+1 erreur: fr_partut-ud-530
+N('locations'):: absent du lexique.
+---
+482: fr_partut-ud-532
+# text = Équivalent de Google Adwords en termes de coût par piste et coût par client.
+# TEXT = équivalent de Google Adwords en termes de coût par piste et coût par client. 
+---
+483:in fr_partut-ud-533
+2 erreurs: fr_partut-ud-533
+N('clic'):: absent du lexique.
+N('dollars'):: absent du lexique.
+---
+484:in fr_partut-ud-534
+1 erreur: fr_partut-ud-534
+N('marketing'):: absent du lexique.
+---
+485:in fr_partut-ud-535
+3 erreurs: fr_partut-ud-535
+N('évènements'):: absent du lexique.
+A('pubblicitaire'):: absent du lexique.
+D('vos'):: absent du lexique.
+---
+486:in fr_partut-ud-536
+2 erreurs: fr_partut-ud-536
+A('prospects'):: absent du lexique.
+N('messages'):: absent du lexique.
+---
+487:in fr_partut-ud-538
+3 erreurs: fr_partut-ud-538
+N('campagnes'):: absent du lexique.
+A('pubblicitaire'):: absent du lexique.
+N('clic'):: absent du lexique.
+---
+488:in fr_partut-ud-539
+1 erreur: fr_partut-ud-539
+N('clic'):: absent du lexique.
+---
+489:in fr_partut-ud-540
+5 erreurs: fr_partut-ud-540
+N('plupart'):: absent du lexique.
+P('que'):: absent du lexique.
+P('comme'):: absent du lexique.
+N('vacances'):: absent du lexique.
+N('gens'):: erreur de morphologie : genre différent de celui du lexique :N(gens) : {"g":"f","lexique":"m"}.
+---
+490: fr_partut-ud-541
+# text = Le bouton "s'abonner".
+# TEXT = le bouton " s'abonner ". 
+---
+491:in fr_partut-ud-543
+2 erreurs: fr_partut-ud-543
+Pro('chacun'):: absent du lexique.
+N('amis'):: absent du lexique.
+---
+492:in fr_partut-ud-544
+5 erreurs: fr_partut-ud-544
+N('actualités'):: absent du lexique.
+N('journalistes'):: absent du lexique.
+N('célébrités'):: absent du lexique.
+P('comme'):: absent du lexique.
+Pro('chacun'):: absent du lexique.
+---
+493:in fr_partut-ud-545
+2 erreurs: fr_partut-ud-545
+V('cliquer'):: absent du lexique.
+V('cliquer'):: erreur de morphologie : conjugate_fr:tab :V(cliquer) : {"pe":2,"n":"p","t":"ip"}.
+---
+494: fr_partut-ud-546
+# text = Trouver des personnes auxquelles vous abonner.
+# TEXT = trouver des personnes auxquelles vous abonner. 
+---
+495:in fr_partut-ud-547
+1 erreur: fr_partut-ud-547
+A('personnalisé'):: absent du lexique.
+---
+496: fr_partut-ud-548
+1 différence
+# text = Utilisez le bouton "[1;32;4ms[0m'abonner" pour choisir ce que vous voyez dans votre fil d'actualité.
+# TEXT = utilisez le bouton " [1;32;4mm[0m'abonner " pour choisir ce que vous voyez dans votre fil d'actualité.
+---
+497:in fr_partut-ud-549
+4 erreurs: fr_partut-ud-549
+N('jeux'):: absent du lexique.
+N('photos'):: absent du lexique.
+N('actualités'):: absent du lexique.
+N('évènements'):: absent du lexique.
+---
+498:in fr_partut-ud-550
+3 erreurs: fr_partut-ud-550
+D('vos'):: absent du lexique.
+A('propres'):: absent du lexique.
+N('abonne'):: absent du lexique.
+---
+499:in fr_partut-ud-551
+1 erreur: fr_partut-ud-551
+D('vos'):: absent du lexique.
+---
+500:in fr_partut-ud-552
+2 erreurs: fr_partut-ud-552
+N('abonne'):: absent du lexique.
+D('vos'):: absent du lexique.
+---
+501:in fr_partut-ud-553
+1 erreur: fr_partut-ud-553
+A('fréquente'):: absent du lexique.
+---
+502:in fr_partut-ud-554
+2 erreurs: fr_partut-ud-554
+Pro('chacun'):: absent du lexique.
+N('amis'):: absent du lexique.
+---
+503:in fr_partut-ud-555
+2 erreurs: fr_partut-ud-555
+Adv('pourquoi'):: absent du lexique.
+N('profils'):: absent du lexique.
+---
+504:in fr_partut-ud-556
+1 erreur: fr_partut-ud-556
+N('profil'):: erreur de morphologie : genre différent de celui du lexique :N(profil) : {"g":"f","lexique":"m"}.
+---
+505: fr_partut-ud-558
+2 différences
+# text = Comment peut-on [1;32;4ms[0m'abonner à [1;32;4mmes[0m publications?
+# TEXT = Comment peut-on [1;32;4mm[0m'abonner à [1;32;4mses[0m publications?
+---
+506:in fr_partut-ud-559
+2 erreurs: fr_partut-ud-559
+N('fonctionnalité'):: absent du lexique.
+N('abonnement'):: erreur de morphologie : genre différent de celui du lexique :N(abonnement) : {"g":"f","lexique":"m"}.
+---
+507:in fr_partut-ud-560
+3 erreurs: fr_partut-ud-560
+V('cliquent'):: absent du lexique.
+N('paramètre'):: erreur de morphologie : genre différent de celui du lexique :N(paramètre) : {"g":"f","lexique":"m"}.
+V('cliquent'):: erreur de morphologie : conjugate_fr:tab :V(cliquent) : {"pe":3,"n":"p","t":"p"}.
+---
+508:in fr_partut-ud-561
+1 erreur: fr_partut-ud-561
+N('abonnement'):: erreur de morphologie : genre différent de celui du lexique :N(abonnement) : {"g":"f","lexique":"m"}.
+---
+509:in fr_partut-ud-562
+2 erreurs: fr_partut-ud-562
+N('choses'):: absent du lexique.
+N('paramètre'):: erreur de morphologie : genre différent de celui du lexique :N(paramètre) : {"g":"f","lexique":"m"}.
+---
+510: fr_partut-ud-563
+# text = Ils peuvent choisir la quantité et le type de ces mises à jour publiques qu'ils verront dans leur fil d'actualité.
+# TEXT = Ils peuvent choisir la quantité et le type de ces mises à jour publiques qu'ils verront dans leur fil d'actualité. 
+---
+511: fr_partut-ud-564
+1 différence
+# text = Pour en apprendre plus sur le bouton "[1;32;4ms[0m'abonner", consultez les Aide.
+# TEXT = Pour en apprendre plus sur le bouton " [1;32;4mm[0m'abonner ", consultez les Aide.
+---
+512:in fr_partut-ud-566
+2 erreurs: fr_partut-ud-566
+V('découvrir'):: erreur de morphologie : conjugate_fr :V(découvrir) : {"pe":3,"n":"s","t":"ip"}.
+N('abonnement'):: erreur de morphologie : genre différent de celui du lexique :N(abonnement) : {"g":"f","lexique":"m"}.
+---
+513:in fr_partut-ud-567
+1 erreur: fr_partut-ud-567
+N('écoconception'):: absent du lexique.
+---
+514:in fr_partut-ud-568
+2 erreurs: fr_partut-ud-568
+D('ces'):: absent du lexique.
+A('déloyale'):: absent du lexique.
+---
+515:in fr_partut-ud-569
+1 erreur: fr_partut-ud-569
+N('ressources'):: absent du lexique.
+---
+516: fr_partut-ud-570
+# text = Ils ont également toute une série d'autres impacts environnementaux importants.
+# TEXT = Ils ont également toute une série d'autres impacts environnementaux importants. 
+---
+517:in fr_partut-ud-571
+4 erreurs: fr_partut-ud-571
+A('divers'):: absent du lexique.
+Pro('ceux-ci'):: absent du lexique.
+N('performances'):: absent du lexique.
+A('fonctionnelle'):: absent du lexique.
+---
+518:in fr_partut-ud-572
+2 erreurs: fr_partut-ud-572
+D('ces'):: absent du lexique.
+D('cette'):: absent du lexique.
+---
+519:in fr_partut-ud-573
+2 erreurs: fr_partut-ud-573
+N('écoconception'):: absent du lexique.
+A('intégré'):: absent du lexique.
+---
+520:in fr_partut-ud-574
+1 erreur: fr_partut-ud-574
+N('performances'):: absent du lexique.
+---
+521:in fr_partut-ud-575
+3 erreurs: fr_partut-ud-575
+Pro('un'):: absent du lexique.
+D('cet'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+522: fr_partut-ud-576
+# text = Une réduction sensible de la consommation d'énergie est possible, comme l'indique la commission dans son rapport sur le programme européen sur le changement climatique (PECC).
+# TEXT = Une réduction sensible de la consommation d'énergie est possible, comme l'indique la commission dans son rapport sur le programme européen sur le changement climatique (PECC). 
+---
+523:in fr_partut-ud-577
+1 erreur: fr_partut-ud-577
+Pro('un'):: absent du lexique.
+---
+524: fr_partut-ud-578
+# text = Les économies d'énergie sont le moyen le plus efficace par rapport aux coûts d'améliorer la sécurité d'approvisionnement et de réduire la dépendance à l'égard des importations.
+# TEXT = Les économies d'énergie sont le moyen le plus efficace par rapport aux coûts d'améliorer la sécurité d'approvisionnement et de réduire la dépendance à l'égard des importations. 
+---
+525: fr_partut-ud-579
+# text = Il convient donc d'agir réellement sur la demande et de fixer des objectifs substantiels en la matière.
+# TEXT = Il convient donc d'agir réellement sur la demande et de fixer des objectifs substantiels en la matière. 
+---
+526:in fr_partut-ud-580
+4 erreurs: fr_partut-ud-580
+V('avèrer'):: absent du lexique.
+N('plupart'):: absent du lexique.
+D('cette'):: absent du lexique.
+V('avèrer'):: erreur de morphologie : conjugate_fr:tab :V(avèrer) : {"pe":3,"n":"s","t":"p"}.
+---
+527:in fr_partut-ud-581
+1 erreur: fr_partut-ud-581
+N('écoconception'):: absent du lexique.
+---
+528:in fr_partut-ud-582
+1 erreur: fr_partut-ud-582
+D('ces'):: absent du lexique.
+---
+529:in fr_partut-ud-583
+2 erreurs: fr_partut-ud-583
+N('écoconception'):: absent du lexique.
+Adv('y'):: absent du lexique.
+---
+530: fr_partut-ud-584
+# text = (8) La présente directive vise à atteindre un niveau élevé de protection de l'environnement en réduisant l'impact potentiel sur l'environnement des produits consommateurs d'énergie, qui bénéficiera finalement aux consommateurs et autres utilisateurs finals.
+# TEXT = (8) la présente directive vise à atteindre un niveau élevé de protection de l'environnement en réduisant l'impact potentiel sur l'environnement des produits consommateurs d'énergie, qui bénéficiera finalement aux consommateurs et autres utilisateurs finals. 
+---
+531: fr_partut-ud-585
+# text = Le développement durable requiert également un examen adéquat de l'impact sanitaire, social et économique des mesures envisagées.
+# TEXT = Le développement durable requiert également un examen adéquat de l'impact sanitaire, social et économique des mesures envisagées. 
+---
+532: fr_partut-ud-586
+# text = L'amélioration de l'efficacité énergétique des produits contribue à la sécurité d'approvisionnement énergétique, qui est une condition préalable à une activité économique saine et donc au développement durable.
+# TEXT = L'amélioration de l'efficacité énergétique des produits contribue à la sécurité d'approvisionnement énergétique, qui est une condition préalable à une activité économique saine et donc au développement durable. 
+---
+533:in fr_partut-ud-587
+1 erreur: fr_partut-ud-587
+D('cet'):: absent du lexique.
+---
+534: fr_partut-ud-588
+12 différences
+# text = (10) Afin de maximiser les avantages que l'amélioration de la conception présente pour l'environnement, il peut s'avérer nécessaire d'informer les consommateurs des caractéristiques et de la performance [1;32;4menvironnementale[0m des produits consommateurs d'énergie [1;32;4met[0m [1;32;4mde leur[0m [1;32;4mdonner[0m [1;32;4mdes[0m [1;32;4mconseils afin[0m [1;32;4md'utiliser[0m [1;32;4mles produits[0m [1;32;4md'une[0m [1;32;4mmanière[0m [1;32;4mrespectant[0m [1;32;4ml'environnement[0m.
+# TEXT = (10) afin de maximiser les avantages que l'amélioration de la conception présente pour l'environnement, il peut s'avérer nécessaire d'informer les consommateurs des caractéristiques et de la performance [1;32;4menvironnementales[0m des produits consommateurs d'énergie [1;32;4mafin[0m [1;32;4md'utiliser[0m [1;32;4mles[0m [1;32;4mproduits[0m [1;32;4md'une[0m [1;32;4mmanière respectant[0m [1;32;4ml'environnement[0m [1;32;4met de[0m [1;32;4mleurs[0m [1;32;4mdonner[0m [1;32;4mdes conseils[0m.
+---
+535:in fr_partut-ud-589
+3 erreurs: fr_partut-ud-589
+A('intégré'):: absent du lexique.
+Pro('un'):: absent du lexique.
+N('long'):: absent du lexique.
+---
+536:in fr_partut-ud-590
+1 erreur: fr_partut-ud-590
+N('long'):: absent du lexique.
+---
+537:in fr_partut-ud-591
+2 erreurs: fr_partut-ud-591
+C('de'):: absent du lexique.
+A('fonctionnelle'):: absent du lexique.
+---
+538:in fr_partut-ud-592
+4 erreurs: fr_partut-ud-592
+N('performances'):: absent du lexique.
+P('comme'):: absent du lexique.
+V('attender'):: absent du lexique.
+V('attender'):: erreur de morphologie : conjugate_fr:tab :V(attender) : {"pe":3,"n":"s","t":"pr"}.
+---
+539:in fr_partut-ud-593
+5 erreurs: fr_partut-ud-593
+N('écoconception'):: absent du lexique.
+D('certain'):: absent du lexique.
+D('certain'):: absent du lexique.
+Pro('ceux-ci'):: absent du lexique.
+A('justifié'):: absent du lexique.
+---
+540:in fr_partut-ud-594
+1 erreur: fr_partut-ud-594
+D('certain'):: absent du lexique.
+---
+541:in fr_partut-ud-595
+1 erreur: fr_partut-ud-595
+N('ressources'):: absent du lexique.
+---
+542:in fr_partut-ud-597
+## non projective
+2 erreurs: fr_partut-ud-597
+N('écoconception'):: absent du lexique.
+Adv('y'):: absent du lexique.
+---
+543:in fr_partut-ud-598
+1 erreur: fr_partut-ud-598
+N('performances'):: absent du lexique.
+---
+544:in fr_partut-ud-599
+2 erreurs: fr_partut-ud-599
+Adv('y'):: absent du lexique.
+D('cette'):: absent du lexique.
+---
+545:in fr_partut-ud-600
+1 erreur: fr_partut-ud-600
+A('concerné'):: absent du lexique.
+---
+546:in fr_partut-ud-601
+2 erreurs: fr_partut-ud-601
+D('cette'):: absent du lexique.
+N('œuvre'):: absent du lexique.
+---
+547:in fr_partut-ud-602
+2 erreurs: fr_partut-ud-602
+V('permettere'):: absent du lexique.
+V('permettere'):: erreur de morphologie : conjugate_fr:tab :V(permettere) : {"pe":3,"n":"s","t":"p"}.
+---
+548:in fr_partut-ud-603
+4 erreurs: fr_partut-ud-603
+P('comme'):: absent du lexique.
+D('cette'):: absent du lexique.
+A('onéreuse'):: absent du lexique.
+P('que'):: absent du lexique.
+---
+549: fr_partut-ud-604
+5 différences
+# text = [1;31m•[0mDes mesures législatives [1;34;47mpeuvent [0mêtre nécessaires lorsque les [1;32;4mforces[0m du marché ne parviennent pas à progresser dans la [1;32;4mbonne[0m [1;32;4mdirection[0m ou à une vitesse acceptable.
+# TEXT = [1;31mPeuvent [0mdes mesures législatives être nécessaires lorsque les [1;32;4mforce[0m du marché ne parviennent pas à progresser dans la [1;32;4mdirection[0m [1;32;4mbonne[0m ou à une vitesse acceptable.
+---
+550: fr_partut-ud-605
+# text = (18) Aux fins de l'évaluation d'accords volontaires ou autres mesures d'autorégulation présentés en remplacement de mesures d'exécution, des informations doivent être au moins fournies sur les aspects suivants:
+# TEXT = (18) aux fins de l'évaluation d'accords volontaires ou autres mesures d'autorégulation présentés en remplacement de mesures d'exécution, des informations doivent être au moins fournies sur les aspects suivants:
+---
+551:in fr_partut-ud-606
+3 erreurs: fr_partut-ud-606
+A('ajouter'):: absent du lexique.
+N('suivi'):: absent du lexique.
+N('valeur'):: erreur de morphologie : genre différent de celui du lexique :N(valeur) : {"g":"m","lexique":"f"}.
+---
+552: fr_partut-ud-607
+# text = (19) Le chapitre 6 de la communication de la commission intitulée "les accords environnementaux conclus au niveau communautaire dans le cadre du plan d'action" simplifier et améliorer l'environnement réglementaire "pourrait fournir des orientations utiles pour évaluer l'autorégulation de l'industrie dans le cadre de la présente directive.
+# TEXT = (19) le chapitre 6 de la communication de la commission intitulée " les accords environnementaux conclus au niveau communautaire dans le cadre du plan d'action " simplifier et améliorer l'environnement réglementaire " pourrait fournir des orientations utiles pour évaluer l'autorégulation de l'industrie dans le cadre de la présente directive. 
+---
+553:in fr_partut-ud-608
+1 erreur: fr_partut-ud-608
+N('écoconception'):: absent du lexique.
+---
+554:in fr_partut-ud-609
+1 erreur: fr_partut-ud-609
+D('cette'):: absent du lexique.
+---
+555:in fr_partut-ud-611
+1 erreur: fr_partut-ud-611
+A('stricte'):: absent du lexique.
+---
+556:in fr_partut-ud-612
+8 erreurs: fr_partut-ud-612
+N('elaboration'):: absent du lexique.
+N('execution'):: absent du lexique.
+N('representant'):: absent du lexique.
+N('etat'):: absent du lexique.
+A('interessé'):: absent du lexique.
+Adv('y'):: absent du lexique.
+N('operateur'):: absent du lexique.
+N('detaillant'):: absent du lexique.
+---
+557:in fr_partut-ud-613
+6 erreurs: fr_partut-ud-613
+V('élabore'):: absent du lexique.
+V('préservée'):: absent du lexique.
+N('substances'):: absent du lexique.
+N('toxiques'):: absent du lexique.
+V('élabore'):: erreur de morphologie : conjugate_fr:tab :V(élabore) : {"pe":3,"n":"s","t":"p"}.
+V('préservée'):: erreur de morphologie : conjugate_fr:tab :V(préservée) : {"pe":3,"n":"s","t":"pp"}.
+---
+558:in fr_partut-ud-614
+7 erreurs: fr_partut-ud-614
+N('modules'):: absent du lexique.
+V('destinés'):: absent du lexique.
+N('modules'):: absent du lexique.
+Pro('CE'):: absent du lexique.
+V('destinés'):: absent du lexique.
+V('destinés'):: erreur de morphologie : conjugate_fr:tab :V(destinés) : {"pe":3,"n":"p","t":"pp"}.
+V('destinés'):: erreur de morphologie : conjugate_fr:tab :V(destinés) : {"pe":3,"n":"p","t":"pp"}.
+---
+559: fr_partut-ud-615
+# text = (25) Les autorités de surveillance devraient échanger des informations sur les mesures envisagées dans le champ d'application de la présente directive en vue d'améliorer la surveillance du marché.
+# TEXT = (25) les autorités de surveillance devraient échanger des informations sur les mesures envisagées dans le champ d'application de la présente directive en vue d'améliorer la surveillance du marché. 
+---
+560:in fr_partut-ud-616
+1 erreur: fr_partut-ud-616
+N('maximum'):: erreur de morphologie : genre différent de celui du lexique :N(maximum) : {"g":"f","lexique":"m"}.
+---
+561:in fr_partut-ud-617
+1 erreur: fr_partut-ud-617
+N('performances'):: absent du lexique.
+---
+562:in fr_partut-ud-618
+3 erreurs: fr_partut-ud-618
+N('écoconception'):: absent du lexique.
+V('déploy'):: absent du lexique.
+V('déploy'):: erreur de morphologie : conjugate_fr:tab :V(déploy) : {"pe":3,"n":"s","t":"pp"}.
+---
+563:in fr_partut-ud-619
+1 erreur: fr_partut-ud-619
+Adv('quant'):: absent du lexique.
+---
+564:in fr_partut-ud-620
+## non projective
+2 erreurs: fr_partut-ud-620
+V('importe'):: absent du lexique.
+V('importe'):: erreur de morphologie : conjugate_fr:tab :V(importe) : {"pe":3,"n":"s","t":"p"}.
+---
+565:in fr_partut-ud-621
+4 erreurs: fr_partut-ud-621
+N('écoconception'):: absent du lexique.
+V('destinée'):: absent du lexique.
+N('PME'):: absent du lexique.
+V('destinée'):: erreur de morphologie : conjugate_fr:tab :V(destinée) : {"pe":3,"n":"s","t":"pp"}.
+---
+566:in fr_partut-ud-622
+1 erreur: fr_partut-ud-622
+N('normes'):: absent du lexique.
+---
+567:in fr_partut-ud-623
+1 erreur: fr_partut-ud-623
+D('autre'):: absent du lexique.
+---
+568:in fr_partut-ud-624
+3 erreurs: fr_partut-ud-624
+Pro('un'):: absent du lexique.
+N('fonctions'):: absent du lexique.
+N('normes'):: absent du lexique.
+---
+569:in fr_partut-ud-625
+2 erreurs: fr_partut-ud-625
+N('normes'):: absent du lexique.
+N('essai'):: erreur de morphologie : genre différent de celui du lexique :N(essai) : {"g":"f","lexique":"m"}.
+---
+570:in fr_partut-ud-626
+3 erreurs: fr_partut-ud-626
+N('écoconception'):: absent du lexique.
+N('normes'):: absent du lexique.
+N('profil'):: erreur de morphologie : genre différent de celui du lexique :N(profil) : {"g":"f","lexique":"m"}.
+---
+571:in fr_partut-ud-627
+1 erreur: fr_partut-ud-627
+N('normes'):: absent du lexique.
+---
+572:in fr_partut-ud-628
+1 erreur: fr_partut-ud-628
+N('normes'):: absent du lexique.
+---
+573:in fr_partut-ud-629
+3 erreurs: fr_partut-ud-629
+N('définitions'):: absent du lexique.
+N('normes'):: absent du lexique.
+P('que'):: absent du lexique.
+---
+574:in fr_partut-ud-630
+3 erreurs: fr_partut-ud-630
+D('certain'):: absent du lexique.
+A('normalisation'):: absent du lexique.
+N('normes'):: absent du lexique.
+---
+575:in fr_partut-ud-631
+3 erreurs: fr_partut-ud-631
+V('examine'):: absent du lexique.
+N('octobre'):: erreur de morphologie : genre différent de celui du lexique :N(octobre) : {"g":"f","lexique":"m"}.
+V('examine'):: erreur de morphologie : conjugate_fr:tab :V(examine) : {"pe":3,"n":"s","t":"s"}.
+---
+576:in fr_partut-ud-632
+23 erreurs: fr_partut-ud-632
+N('instruments'):: absent du lexique.
+P('que'):: absent du lexique.
+N('appareils'):: absent du lexique.
+N('ressources'):: absent du lexique.
+A('uniformes'):: absent du lexique.
+Pro('CE'):: absent du lexique.
+A('révisé'):: absent du lexique.
+Pro('CE'):: absent du lexique.
+A('équipements'):: absent du lexique.
+D('certain'):: absent du lexique.
+N('substances'):: absent du lexique.
+N('équipements'):: absent du lexique.
+A('électroniques'):: absent du lexique.
+D('certain'):: absent du lexique.
+N('substances'):: absent du lexique.
+N('préparations'):: absent du lexique.
+N('étiquetage'):: erreur de morphologie : genre différent de celui du lexique :N(étiquetage) : {"g":"f","lexique":"m"}.
+N('système'):: erreur de morphologie : genre différent de celui du lexique :N(système) : {"g":"f","lexique":"m"}.
+N('label'):: erreur de morphologie : genre différent de celui du lexique :N(label) : {"g":"f","lexique":"m"}.
+N('novembre'):: erreur de morphologie : genre différent de celui du lexique :N(novembre) : {"g":"f","lexique":"m"}.
+N('étiquetage'):: erreur de morphologie : genre différent de celui du lexique :N(étiquetage) : {"g":"f","lexique":"m"}.
+N('janvier'):: erreur de morphologie : genre différent de celui du lexique :N(janvier) : {"g":"f","lexique":"m"}.
+N('janvier'):: erreur de morphologie : genre différent de celui du lexique :N(janvier) : {"g":"f","lexique":"m"}.
+---
+577:in fr_partut-ud-633
+2 erreurs: fr_partut-ud-633
+N('synergies'):: absent du lexique.
+N('instruments'):: absent du lexique.
+---
+578:in fr_partut-ud-634
+9 erreurs: fr_partut-ud-634
+N('chaudières'):: absent du lexique.
+A('eau'):: absent du lexique.
+N('réfrigérateurs'):: absent du lexique.
+N('congélateurs'):: absent du lexique.
+N('appareils'):: absent du lexique.
+N('rendement'):: erreur de morphologie : genre différent de celui du lexique :N(rendement) : {"g":"f","lexique":"m"}.
+N('rendement'):: erreur de morphologie : genre différent de celui du lexique :N(rendement) : {"g":"f","lexique":"m"}.
+N('rendement'):: erreur de morphologie : genre différent de celui du lexique :N(rendement) : {"g":"f","lexique":"m"}.
+N('éclairage'):: erreur de morphologie : genre différent de celui du lexique :N(éclairage) : {"g":"f","lexique":"m"}.
+---
+579:in fr_partut-ud-635
+6 erreurs: fr_partut-ud-635
+N('étoiles'):: absent du lexique.
+V('destiné'):: absent du lexique.
+N('performances'):: absent du lexique.
+N('système'):: erreur de morphologie : genre différent de celui du lexique :N(système) : {"g":"f","lexique":"m"}.
+N('classement'):: erreur de morphologie : genre différent de celui du lexique :N(classement) : {"g":"f","lexique":"m"}.
+V('destiné'):: erreur de morphologie : conjugate_fr:tab :V(destiné) : {"pe":3,"n":"s","t":"pp"}.
+---
+580:in fr_partut-ud-636
+3 erreurs: fr_partut-ud-636
+A('escompté'):: absent du lexique.
+N('systèmes'):: absent du lexique.
+N('système'):: erreur de morphologie : genre différent de celui du lexique :N(système) : {"g":"f","lexique":"m"}.
+---
+581:in fr_partut-ud-637
+13 erreurs: fr_partut-ud-637
+N('performances'):: absent du lexique.
+A('eau'):: absent du lexique.
+N('immeubles'):: absent du lexique.
+A('industriels'):: absent du lexique.
+A('chaleur'):: absent du lexique.
+A('chaude'):: absent du lexique.
+A('industriels'):: absent du lexique.
+V('remplacées'):: absent du lexique.
+N('appareils'):: absent du lexique.
+N('performances'):: absent du lexique.
+N('bâtiments'):: absent du lexique.
+N('février'):: erreur de morphologie : genre différent de celui du lexique :N(février) : {"g":"f","lexique":"m"}.
+V('remplacées'):: erreur de morphologie : conjugate_fr:tab :V(remplacées) : {"pe":3,"n":"p","t":"pp"}.
+---
+582: fr_partut-ud-638
+2 différences
+# text = Il convient par conséquent d'abroger la directive [1;31m•[0m[1;32;4m78/170/CEE[0m.
+# TEXT = Il convient par conséquent d'abroger la directive [1;31m78 / 170 / [0m[1;32;4mCEE[0m.
+---
+583:in fr_partut-ud-639
+2 erreurs: fr_partut-ud-639
+A('europeen'):: absent du lexique.
+N('œuvre'):: absent du lexique.
+---
+584:in fr_partut-ud-640
+2 erreurs: fr_partut-ud-640
+P('du'):: absent du lexique.
+N('monnayage'):: erreur de morphologie : genre différent de celui du lexique :N(monnayage) : {"g":"f","lexique":"m"}.
+---
+585:in fr_partut-ud-641
+2 erreurs: fr_partut-ud-641
+V('élargissant'):: absent du lexique.
+V('élargissant'):: erreur de morphologie : conjugate_fr:tab :V(élargissant) : {"pe":3,"n":"s","t":"pr"}.
+---
+586: fr_partut-ud-642
+7 différences
+# text = Le programme Pericles, programme communautaire en matière d'[1;32;4méchange[0m, d'assistance et de formation[1;32;4m, [0mpour la protection de l'euro contre le faux monnayage, [1;32;4ma[0m [1;34;47mété [0métabli par la décision du conseil du 17 décembre 2001 ([1;31m•[0m[1;32;4m2001/923/CE[0m) et vise à appuyer et à compléter les actions engagées par les états membres et les programmes [1;32;4mexistants[0m en matière de protection de l'euro contre le faux monnayage.
+# TEXT = le programme Pericles, programme communautaire en matière d'[1;32;4méchanges[0m, d'assistance et de formation[1;32;4m [0mpour la protection de l'euro contre le faux monnayage, [1;32;4mest[0m établi par la décision du conseil du 17 décembre 2001 ([1;31m2001 / 923 / [0m[1;32;4mCE[0m) et vise à appuyer et à compléter les actions engagées par les états membres et les programmes [1;32;4mexistant[0m en matière de protection de l'euro contre le faux monnayage.
+---
+587:in fr_partut-ud-643
+6 erreurs: fr_partut-ud-643
+N('séminaires'):: absent du lexique.
+N('ateliers'):: absent du lexique.
+N('rencontres'):: absent du lexique.
+N('conférences'):: absent du lexique.
+N('stages'):: absent du lexique.
+A('opérationnelle'):: absent du lexique.
+---
+588:in fr_partut-ud-644
+## non projective
+4 erreurs: fr_partut-ud-644
+V('dispose'):: absent du lexique.
+N('œuvre'):: absent du lexique.
+V('dispose'):: erreur de morphologie : conjugate_fr:tab :V(dispose) : {"pe":3,"n":"s","t":"p"}.
+N('janvier'):: erreur de morphologie : genre différent de celui du lexique :N(janvier) : {"g":"f","lexique":"m"}.
+---
+589:in fr_partut-ud-645
+1 erreur: fr_partut-ud-645
+N('millions'):: absent du lexique.
+---
+590: fr_partut-ud-646
+# text = L'article 13, paragraphe 3, de la dite décision dispose que la commission présente au parlement européen et au conseil, au plus tard le 30 juin 2005:
+# TEXT = L'article 13, paragraphe 3, de la dite décision dispose que la commission présente au parlement européen et au conseil, au plus tard le 30 juin 2005:
+---
+591: fr_partut-ud-647
+# text = - un rapport d'évaluation indépendant, par rapport au gestionnaire du programme, sur la pertinence, l'efficience et l'efficacité du programme;
+# TEXT = -un rapport d'évaluation indépendant, par rapport au gestionnaire du programme, sur la pertinence, l'efficience et l'efficacité du programme ;
+---
+592: fr_partut-ud-648
+# text = et - une communication sur l'opportunité de poursuivre et adapter le programme, accompagnée d'une proposition appropriée.
+# TEXT = et-une communication sur l'opportunité de poursuivre et adapter le programme, accompagnée d'une proposition appropriée. 
+---
+593:in fr_partut-ud-649
+1 erreur: fr_partut-ud-649
+N('novembre'):: erreur de morphologie : genre différent de celui du lexique :N(novembre) : {"g":"f","lexique":"m"}.
+---
+594:in fr_partut-ud-650
+8 erreurs: fr_partut-ud-650
+N('ete'):: absent du lexique.
+N('billets'):: absent du lexique.
+V('détectés'):: absent du lexique.
+V('stabilisé'):: absent du lexique.
+A('antérieurs'):: absent du lexique.
+N('millions'):: absent du lexique.
+V('détectés'):: erreur de morphologie : conjugate_fr:tab :V(détectés) : {"pe":3,"n":"p","t":"pp"}.
+V('stabilisé'):: erreur de morphologie : conjugate_fr:tab :V(stabilisé) : {"pe":3,"n":"s","t":"pp"}.
+---
+595:in fr_partut-ud-651
+1 erreur: fr_partut-ud-651
+N('pièces'):: absent du lexique.
+---
+596:in fr_partut-ud-652
+6 erreurs: fr_partut-ud-652
+D('certain'):: absent du lexique.
+N('opérations'):: absent du lexique.
+A('plusieurs'):: absent du lexique.
+N('ateliers'):: absent du lexique.
+N('stocks'):: absent du lexique.
+N('pièces'):: absent du lexique.
+---
+597: fr_partut-ud-653
+2 différences
+# text = Cette situation globalement favorable est le résultat d'une longue préparation, tant au niveau législatif qu'institutionnel, et montre le degré de coopération important qui [1;32;4ma[0m [1;34;47mété [0matteint dans l'Union Européenne et au niveau international.
+# TEXT = Cette situation globalement favorable est le résultat d'une longue préparation, tant au niveau législatif qu'institutionnel, et montre le degré de coopération important qui [1;32;4mest[0m atteint dans l'Union Européenne et au niveau international.
+---
+598:in fr_partut-ud-654
+2 erreurs: fr_partut-ud-654
+V('exposé'):: absent du lexique.
+V('exposé'):: erreur de morphologie : conjugate_fr:tab :V(exposé) : {"pe":3,"n":"s","t":"pp"}.
+---
+599:in fr_partut-ud-655
+1 erreur: fr_partut-ud-655
+N('monnayage'):: erreur de morphologie : genre différent de celui du lexique :N(monnayage) : {"g":"f","lexique":"m"}.
+---
+600:in fr_partut-ud-656
+2 erreurs: fr_partut-ud-656
+N('sanctions'):: absent du lexique.
+N('œuvre'):: absent du lexique.
+---
+601:in fr_partut-ud-657
+5 erreurs: fr_partut-ud-657
+A('étroite'):: absent du lexique.
+N('offices'):: absent du lexique.
+A('centraux'):: absent du lexique.
+N('monnayage'):: erreur de morphologie : genre différent de celui du lexique :N(monnayage) : {"g":"f","lexique":"m"}.
+N('flux'):: erreur de morphologie : genre différent de celui du lexique :N(flux) : {"g":"f","lexique":"m"}.
+---
+602:in fr_partut-ud-658
+3 erreurs: fr_partut-ud-658
+V('gèrer'):: absent du lexique.
+N('systèmes'):: absent du lexique.
+V('gèrer'):: erreur de morphologie : conjugate_fr:tab :V(gèrer) : {"pe":3,"n":"p","t":"p"}.
+---
+603:in fr_partut-ud-659
+3 erreurs: fr_partut-ud-659
+N('contrefaçons'):: absent du lexique.
+N('billets'):: absent du lexique.
+N('pièces'):: absent du lexique.
+---
+604:in fr_partut-ud-660
+2 erreurs: fr_partut-ud-660
+A('actuels'):: absent du lexique.
+P('grâce'):: absent du lexique.
+---
+605:in fr_partut-ud-661
+2 erreurs: fr_partut-ud-661
+A('actuels'):: absent du lexique.
+N('vigilant'):: erreur de morphologie : genre différent de celui du lexique :N(vigilant) : {"g":"f","lexique":"m"}.
+---
+606: fr_partut-ud-662
+# text = Le soutien en matière de formation et l'assistance technique jouent un rôle important à cet égard, d'où la nécessité de poursuivre le programme Pericles.
+# TEXT = Le soutien en matière de formation et l'assistance technique jouent un rôle important à cet égard, d'où la nécessité de poursuivre le programme Pericles. 
+---
+607:in fr_partut-ud-663
+4 erreurs: fr_partut-ud-663
+V('confiée'):: absent du lexique.
+N('antifraude'):: absent du lexique.
+V('confiée'):: erreur de morphologie : conjugate_fr:tab :V(confiée) : {"pe":3,"n":"s","t":"pp"}.
+N('novembre'):: erreur de morphologie : genre différent de celui du lexique :N(novembre) : {"g":"f","lexique":"m"}.
+---
+608:in fr_partut-ud-664
+5 erreurs: fr_partut-ud-664
+V('examiné'):: absent du lexique.
+N('dossiers'):: absent du lexique.
+A('mars'):: absent du lexique.
+N('évaluateur'):: erreur de morphologie : genre différent de celui du lexique :N(évaluateur) : {"g":"f","lexique":"m"}.
+V('examiné'):: erreur de morphologie : conjugate_fr:tab :V(examiné) : {"pe":3,"n":"s","t":"pp"}.
+---
+609:in fr_partut-ud-665
+4 erreurs: fr_partut-ud-665
+V('adressés'):: absent du lexique.
+N('organisateurs'):: absent du lexique.
+N('discussions'):: absent du lexique.
+V('adressés'):: erreur de morphologie : conjugate_fr:tab :V(adressés) : {"pe":3,"n":"p","t":"pp"}.
+---
+610: fr_partut-ud-666
+5 différences
+# text = - le programme a amélioré la perception de la dimension communautaire de l'euro[1;32;4m [0met a également permis aux participants de mieux comprendre les législations[1;34;47m et[0m[1;32;4m [0minstruments s'y rapportant, [1;31m•[0mnotamment des éléments pertinents du droit communautaire et du droit européen en général[1;32;4m;[0m
+# TEXT = -le programme a amélioré la perception de la dimension communautaire de l'euro[1;32;4m ; [0met a également permis aux participants de mieux comprendre les législations[1;32;4m, [0minstruments s'y rapportant, [1;31met [0mnotamment des éléments pertinents du droit communautaire et du droit européen en général[1;32;4m[0m
+---
+611:in fr_partut-ud-667
+4 erreurs: fr_partut-ud-667
+N('plupart'):: absent du lexique.
+N('ateliers'):: absent du lexique.
+N('rencontres'):: absent du lexique.
+N('séminaires'):: absent du lexique.
+---
+612:in fr_partut-ud-668
+1 erreur: fr_partut-ud-668
+A('répressifs'):: absent du lexique.
+---
+613:in fr_partut-ud-669
+1 erreur: fr_partut-ud-669
+N('chambres'):: absent du lexique.
+---
+614: fr_partut-ud-670
+2 différences
+# text = - les activités examinées [1;32;4mont[0m [1;34;47mété [0mjugées pertinentes au regard des principaux objectifs du programme;
+# TEXT = -les activités examinées [1;32;4mest[0m jugées pertinentes au regard des principaux objectifs du programme ;
+---
+615:in fr_partut-ud-671
+6 erreurs: fr_partut-ud-671
+V('constaté'):: absent du lexique.
+D('certain'):: absent du lexique.
+D('certain'):: absent du lexique.
+N('évaluateur'):: erreur de morphologie : genre différent de celui du lexique :N(évaluateur) : {"g":"f","lexique":"m"}.
+V('constaté'):: erreur de morphologie : conjugate_fr:tab :V(constaté) : {"pe":3,"n":"s","t":"pp"}.
+N('exergue'):: erreur de morphologie : genre différent de celui du lexique :N(exergue) : {"g":"f","lexique":"m"}.
+---
+616:in fr_partut-ud-672
+1 erreur: fr_partut-ud-672
+N('évaluateur'):: erreur de morphologie : genre différent de celui du lexique :N(évaluateur) : {"g":"f","lexique":"m"}.
+---
+617:in fr_partut-ud-674
+1 erreur: fr_partut-ud-674
+A('seconde'):: absent du lexique.
+---
+618: fr_partut-ud-675
+6 différences
+# text = - le programme doit demeurer accessible à tous les états membres[1;32;4m, [0mmais il convient d'accorder une priorité (dans un premier temps) à ceux ayant une faible participation[1;34;47m ou[0m[1;32;4m [0mà ceux qui n'ont pas réalisé [1;32;4md'[0mactions au cours du premier programme, [1;31m•[0mainsi qu'aux nouveaux états membres[1;32;4m;[0m
+# TEXT = -le programme doit demeurer accessible à tous les états membres[1;32;4m ;, [0mmais il convient d'accorder une priorité (dans un premier temps) à ceux ayant une faible participation[1;32;4m, [0mà ceux qui n'ont pas réalisé [1;32;4mles [0mactions au cours du premier programme, [1;31mou [0mainsi qu'aux nouveaux états membres[1;32;4m[0m
+---
+619:in fr_partut-ud-676
+1 erreur: fr_partut-ud-676
+N('accent'):: erreur de morphologie : genre différent de celui du lexique :N(accent) : {"g":"f","lexique":"m"}.
+---
+620:in fr_partut-ud-677
+1 erreur: fr_partut-ud-677
+Adv('y'):: absent du lexique.
+---
+621:in fr_partut-ud-678
+1 erreur: fr_partut-ud-678
+N('rentables'):: absent du lexique.
+---
+622:in fr_partut-ud-679
+4 erreurs: fr_partut-ud-679
+N('institutions'):: absent du lexique.
+V('accroitre'):: absent du lexique.
+V('accroitre'):: erreur de morphologie : conjugate_fr:tab :V(accroitre) : {"pe":3,"n":"s","t":"pp"}.
+N('ministère'):: erreur de morphologie : genre différent de celui du lexique :N(ministère) : {"g":"f","lexique":"m"}.
+---
+623:in fr_partut-ud-680
+## non projective
+2 erreurs: fr_partut-ud-680
+N('formateurs'):: absent du lexique.
+A('lien'):: absent du lexique.
+---
+624:in fr_partut-ud-681
+6 erreurs: fr_partut-ud-681
+N('formateurs'):: absent du lexique.
+V('finalisé'):: absent du lexique.
+N('évaluateur'):: erreur de morphologie : genre différent de celui du lexique :N(évaluateur) : {"g":"f","lexique":"m"}.
+N('document'):: erreur de morphologie : genre différent de celui du lexique :N(document) : {"g":"f","lexique":"m"}.
+V('finalisé'):: erreur de morphologie : conjugate_fr:tab :V(finalisé) : {"pe":3,"n":"s","t":"pp"}.
+N('vigueur'):: erreur de morphologie : genre différent de celui du lexique :N(vigueur) : {"g":"m","lexique":"f"}.
+---
+625:in fr_partut-ud-682
+3 erreurs: fr_partut-ud-682
+V('démarré'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+V('démarré'):: erreur de morphologie : conjugate_fr:tab :V(démarré) : {"pe":3,"n":"s","t":"pp"}.
+---
+626:in fr_partut-ud-683
+3 erreurs: fr_partut-ud-683
+A('relevant'):: absent du lexique.
+A('initiale'):: absent du lexique.
+N('octobre'):: erreur de morphologie : genre différent de celui du lexique :N(octobre) : {"g":"f","lexique":"m"}.
+---
+627:in fr_partut-ud-684
+2 erreurs: fr_partut-ud-684
+V('développé'):: absent du lexique.
+V('développé'):: erreur de morphologie : conjugate_fr:tab :V(développé) : {"pe":3,"n":"s","t":"pp"}.
+---
+628:in fr_partut-ud-685
+1 erreur: fr_partut-ud-685
+N('solde'):: erreur de morphologie : genre différent de celui du lexique :N(solde) : {"g":"m","lexique":"f"}.
+---
+629:in fr_partut-ud-686
+1 erreur: fr_partut-ud-686
+N('prévisions'):: absent du lexique.
+---
+630: fr_partut-ud-687
+# text = Les principaux agrégats dans l'exécution du programme Pericles sont indiqués dans le tableau 2.
+# TEXT = Les principaux agrégats dans l'exécution du programme Pericles sont indiqués dans le tableau 2. 
+---
+631:in fr_partut-ud-688
+2 erreurs: fr_partut-ud-688
+V('lancés'):: absent du lexique.
+V('lancés'):: erreur de morphologie : conjugate_fr:tab :V(lancés) : {"pe":3,"n":"p","t":"pp"}.
+---
+632: fr_partut-ud-689
+# text = 18 autres actions sont prévues en 2005 par les états membres et la commission.
+# TEXT = 18 autres actions sont prévues en 2005 par les états membres et la commission. 
+---
+633:in fr_partut-ud-690
+## non projective
+1 erreur: fr_partut-ud-690
+Adv('tandis'):: absent du lexique.
+---
+634:in fr_partut-ud-691
+7 erreurs: fr_partut-ud-691
+N('plupart'):: absent du lexique.
+V('exécutéer'):: absent du lexique.
+V('consistent'):: absent du lexique.
+N('conférences'):: absent du lexique.
+A('spécialisée'):: absent du lexique.
+V('exécutéer'):: erreur de morphologie : conjugate_fr:tab :V(exécutéer) : {"pe":3,"n":"p","t":"pp"}.
+V('consistent'):: erreur de morphologie : conjugate_fr:tab :V(consistent) : {"pe":3,"n":"p","t":"p"}.
+---
+635:in fr_partut-ud-692
+2 erreurs: fr_partut-ud-692
+V('développés'):: absent du lexique.
+V('développés'):: erreur de morphologie : conjugate_fr:tab :V(développés) : {"pe":3,"n":"p","t":"pp"}.
+---
+636: fr_partut-ud-693
+# text = À la suite de l'élargissement, ce type d'activité devrait continuer à se développer, ce que recommande également l'évaluateur du programme Pericles.
+# TEXT = À la suite de l'élargissement, ce type d'activité devrait continuer à se développer, ce que recommande également l'évaluateur du programme Pericles. 
+---
+637:in fr_partut-ud-694
+## non projective
+2 erreurs: fr_partut-ud-694
+V('lancér'):: absent du lexique.
+V('lancér'):: erreur de morphologie : conjugate_fr:tab :V(lancér) : {"pe":3,"n":"s","t":"pp"}.
+---
+638: fr_partut-ud-695
+# text = L'analyse du programme par type de projet figure dans le tableau 3.
+# TEXT = L'analyse du programme par type de projet figure dans le tableau 3. 
+---
+639: fr_partut-ud-696
+1 différence
+# text = Près de 2600 personnes ont [1;32;4mpris[0m part à ces actions.
+# TEXT = Près de 2600 personnes ont [1;32;4mpriss[0m part à ces actions.
+---
+640:in fr_partut-ud-697
+7 erreurs: fr_partut-ud-697
+N('agents'):: absent du lexique.
+A('répressifs'):: absent du lexique.
+V('montrait'):: absent du lexique.
+N('liens'):: absent du lexique.
+A('étroits'):: absent du lexique.
+N('début'):: erreur de morphologie : genre différent de celui du lexique :N(début) : {"g":"f","lexique":"m"}.
+V('montrait'):: erreur de morphologie : conjugate_fr:tab :V(montrait) : {"pe":3,"n":"s","t":"i"}.
+---
+641:in fr_partut-ud-698
+1 erreur: fr_partut-ud-698
+A('répressifs'):: absent du lexique.
+---
+642:in fr_partut-ud-699
+## non projective
+4 erreurs: fr_partut-ud-699
+Adv('tandis'):: absent du lexique.
+A('centrales'):: absent du lexique.
+D('autre'):: absent du lexique.
+N('institutions'):: absent du lexique.
+---
+643:in fr_partut-ud-700
+2 erreurs: fr_partut-ud-700
+N('séminaires'):: absent du lexique.
+N('évaluateur'):: erreur de morphologie : genre différent de celui du lexique :N(évaluateur) : {"g":"f","lexique":"m"}.
+---
+644:in fr_partut-ud-701
+1 erreur: fr_partut-ud-701
+Pro('dernier'):: absent du lexique.
+---
+645:in fr_partut-ud-702
+4 erreurs: fr_partut-ud-702
+V('signalé'):: absent du lexique.
+D('certain'):: absent du lexique.
+D('certain'):: absent du lexique.
+V('signalé'):: erreur de morphologie : conjugate_fr:tab :V(signalé) : {"pe":3,"n":"s","t":"pp"}.
+---
+646:in fr_partut-ud-703
+5 erreurs: fr_partut-ud-703
+A('organisationnels'):: absent du lexique.
+P('que'):: absent du lexique.
+A('structurels'):: absent du lexique.
+N('efforts'):: absent du lexique.
+N('équilibre'):: erreur de morphologie : genre différent de celui du lexique :N(équilibre) : {"g":"f","lexique":"m"}.
+---
+647:in fr_partut-ud-704
+## non projective
+3 erreurs: fr_partut-ud-704
+D('certain'):: absent du lexique.
+N('manifestations'):: absent du lexique.
+N('total'):: erreur de morphologie : genre différent de celui du lexique :N(total) : {"g":"f","lexique":"m"}.
+---
+648: fr_partut-ud-705
+# text = À compter de 2005, les nouveaux états membres sont devenus actifs dans l'organisation d'actions Pericles.
+# TEXT = À compter de 2005, les nouveaux états membres sont devenus actifs dans l'organisation d'actions Pericles. 
+---
+649: fr_partut-ud-706
+1 différence
+# text = Comme le mentionne également le rapport d'évaluation ([1;32;4mp.[0m14), l'organisation des actions Pericles couvrait tous les domaines relatifs à la protection de l'euro:
+# TEXT = Comme le mentionne également le rapport d'évaluation ([1;32;4mpage [0m14), l'organisation des actions Pericles couvrait tous les domaines relatifs à la protection de l'euro:
+---
+650:in fr_partut-ud-707
+2 erreurs: fr_partut-ud-707
+A('répressifs'):: absent du lexique.
+A('corps'):: absent du lexique.
+---
+651:in fr_partut-ud-708
+2 erreurs: fr_partut-ud-708
+D('certain'):: absent du lexique.
+A('américains'):: absent du lexique.
+---
+652:in fr_partut-ud-709
+4 erreurs: fr_partut-ud-709
+V('incombe'):: absent du lexique.
+V('recherché'):: absent du lexique.
+V('incombe'):: erreur de morphologie : conjugate_fr:tab :V(incombe) : {"pe":3,"n":"s","t":"p"}.
+V('recherché'):: erreur de morphologie : conjugate_fr:tab :V(recherché) : {"pe":3,"n":"s","t":"pp"}.
+---
+653:in fr_partut-ud-710
+1 erreur: fr_partut-ud-710
+N('plupart'):: absent du lexique.
+---
+654:in fr_partut-ud-711
+2 erreurs: fr_partut-ud-711
+D('certain'):: absent du lexique.
+A('candidats'):: absent du lexique.
+---
+655: fr_partut-ud-712
+6 différences
+# text = [1;34;47mTel est [0mle cas des actions lancées en Colombie, dans tous les pays d'Amérique [1;32;4mdu[0m [1;32;4msud[0m [1;32;4met [0men Bulgarie, [1;31m•[0mainsi que dans d'autres pays du sud-est de l'Europe[1;31m•[0m.
+# TEXT = Le cas des actions lancées en Colombie, dans tous les pays d'Amérique [1;32;4mde[0m [1;32;4mla[0m [1;32;4msud, [0men Bulgarie, [1;31met [0mainsi que dans d'autres pays du sud-est de l'Europe[1;31m est tel[0m.
+---
+656:in fr_partut-ud-713
+2 erreurs: fr_partut-ud-713
+V('recherché'):: absent du lexique.
+V('recherché'):: erreur de morphologie : conjugate_fr:tab :V(recherché) : {"pe":3,"n":"s","t":"pp"}.
+---
+657:in fr_partut-ud-714
+2 erreurs: fr_partut-ud-714
+N('œuvre'):: absent du lexique.
+N('partenariat'):: absent du lexique.
+---
+658:in fr_partut-ud-715
+1 erreur: fr_partut-ud-715
+A('candidats'):: absent du lexique.
+---
+659: fr_partut-ud-716
+# text = Cette situation est également conforme au septième considérant de la décision Pericles.
+# TEXT = Cette situation est également conforme au septième considérant de la décision Pericles. 
+---
+660:in fr_partut-ud-717
+4 erreurs: fr_partut-ud-717
+V('centralisée'):: absent du lexique.
+V('remplacé'):: absent du lexique.
+V('centralisée'):: erreur de morphologie : conjugate_fr:tab :V(centralisée) : {"pe":3,"n":"s","t":"pp"}.
+V('remplacé'):: erreur de morphologie : conjugate_fr:tab :V(remplacé) : {"pe":3,"n":"s","t":"pp"}.
+---
+661:in fr_partut-ud-718
+3 erreurs: fr_partut-ud-718
+V('axées'):: absent du lexique.
+P('que'):: absent du lexique.
+V('axées'):: erreur de morphologie : conjugate_fr:tab :V(axées) : {"pe":3,"n":"p","t":"pp"}.
+---
+662:in fr_partut-ud-719
+2 erreurs: fr_partut-ud-719
+Adv("c'est-à-dire"):: absent du lexique.
+N('réalisables'):: absent du lexique.
+---
+663:in fr_partut-ud-720
+2 erreurs: fr_partut-ud-720
+D('certain'):: absent du lexique.
+Pro('autre'):: absent du lexique.
+---
+664:in fr_partut-ud-721
+3 erreurs: fr_partut-ud-721
+A('centraux'):: absent du lexique.
+A('plusieurs'):: absent du lexique.
+N('monnayage'):: erreur de morphologie : genre différent de celui du lexique :N(monnayage) : {"g":"f","lexique":"m"}.
+---
+665:in fr_partut-ud-722
+2 erreurs: fr_partut-ud-722
+V('assisté'):: absent du lexique.
+V('assisté'):: erreur de morphologie : conjugate_fr:tab :V(assisté) : {"pe":3,"n":"s","t":"pp"}.
+---
+666:in fr_partut-ud-723
+2 erreurs: fr_partut-ud-723
+V('élaboré'):: absent du lexique.
+V('élaboré'):: erreur de morphologie : conjugate_fr:tab :V(élaboré) : {"pe":3,"n":"s","t":"pp"}.
+---
+667: fr_partut-ud-725
+# text = Conformément à l'analyse qui précède et eu égard aux conclusions de l'évaluateur du programme Pericles, la présente communication est accompagnée d'une proposition visant à adapter et à poursuivre ce programme.
+# TEXT = Conformément à l'analyse qui précède et eu égard aux conclusions de l'évaluateur du programme Pericles, la présente communication est accompagnée d'une proposition visant à adapter et à poursuivre ce programme. 
+---
+668:in fr_partut-ud-726
+1 erreur: fr_partut-ud-726
+N('novembre'):: erreur de morphologie : genre différent de celui du lexique :N(novembre) : {"g":"f","lexique":"m"}.
+---
+669: fr_partut-ud-727
+# text = La période de prorogation proposée est de six ans et le montant de référence reste identique, à savoir d'un million d'euros par an.
+# TEXT = La période de prorogation proposée est de six ans et le montant de référence reste identique, à savoir d'un million d'euros par an. 
+---
+670:in fr_partut-ud-728
+2 erreurs: fr_partut-ud-728
+N('adaptations'):: absent du lexique.
+N('cofinancement'):: absent du lexique.
+---
+671:in fr_partut-ud-729
+1 erreur: fr_partut-ud-729
+A('chaque'):: absent du lexique.
+---
+672:in fr_partut-ud-730
+3 erreurs: fr_partut-ud-730
+A('opérationnelle'):: absent du lexique.
+N('enquêtes'):: absent du lexique.
+N('rôle'):: erreur de morphologie : genre différent de celui du lexique :N(rôle) : {"g":"f","lexique":"m"}.
+---
+673: fr_partut-ud-731
+# text = En conformité également avec la recommandation de l'évaluateur du programme Pericles, il convient de proroger le programme, compte tenu de la nécessité:
+# TEXT = En conformité également avec la recommandation de l'évaluateur du programme Pericles, il convient de proroger le programme, compte tenu de la nécessité:
+---
+674:in fr_partut-ud-732
+2 erreurs: fr_partut-ud-732
+A('augmentation'):: absent du lexique.
+N('pièces'):: absent du lexique.
+---
+675:in fr_partut-ud-733
+2 erreurs: fr_partut-ud-733
+N('agents'):: absent du lexique.
+N('techniciens'):: absent du lexique.
+---
+676: fr_partut-ud-734
+1 différence
+# text = - de former le personnel concerné sur les caractéristiques de la nouvelle génération de billets en euros qui seront [1;32;4mémis[0m à la fin de cette décennie;
+# TEXT = -de former le personnel concerné sur les caractéristiques de la nouvelle génération de billets en euros qui seront [1;32;4mémiss[0m à la fin de cette décennie ;
+---
+677:in fr_partut-ud-735
+2 erreurs: fr_partut-ud-735
+Pro('premier'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+678: fr_partut-ud-736
+# text = Déclaration universelle des droits de l'homme.
+# TEXT = déclaration universelle des droits de l'homme. 
+---
+679:in fr_partut-ud-737
+1 erreur: fr_partut-ud-737
+A('troisieme'):: absent du lexique.
+---
+680: fr_partut-ud-738
+# text = Préambule.
+# TEXT = Préambule. 
+---
+681:in fr_partut-ud-740
+1 erreur: fr_partut-ud-740
+P('comme'):: absent du lexique.
+---
+682:in fr_partut-ud-741
+2 erreurs: fr_partut-ud-741
+D('la'):: absent du lexique.
+N('régime'):: erreur de morphologie : genre différent de celui du lexique :N(régime) : {"g":"f","lexique":"m"}.
+---
+683: fr_partut-ud-742
+# text = Considérant qu'il est essentiel d'encourager le développement de relations amicales entre nations.
+# TEXT = considérant qu'il est essentiel d'encourager le développement de relations amicales entre nations. 
+---
+684: fr_partut-ud-743
+7 différences
+# text = Considérant que dans la charte les peuples des Nations Unies ont proclamé à nouveau leur foi dans les droits fondamentaux de l'homme, dans la dignité [1;32;4met[0m la [1;32;4mvaleur[0m [1;32;4mde[0m [1;32;4mla[0m [1;32;4mpersonne[0m [1;32;4mhumaine[0m, dans l'égalité des droits des hommes et des femmes, et qu'ils se sont déclarés résolus à favoriser le progrès social et à instaurer des [1;32;4mmeilleueres[0m conditions de vie dans une liberté plus grande.
+# TEXT = considérant que dans la charte les peuples des Nations Unies ont proclamé à nouveau leur foi dans les droits fondamentaux de l'homme, dans la dignité [1;32;4mde[0m la [1;32;4mpersonne[0m [1;32;4mhumaine[0m [1;32;4met[0m [1;32;4mla[0m [1;32;4mvaleur[0m, dans l'égalité des droits des hommes et des femmes, et qu'ils se sont déclarés résolus à favoriser le progrès social et à instaurer des [1;32;4mmeilleures[0m conditions de vie dans une liberté plus grande.
+---
+685: fr_partut-ud-744
+# text = Considérant que les Etats membres se sont engagés à assurer, en coopération avec l'organisation des Nations Unies, le respect universel et effectif des droits de l'homme et des libertés fondamentales.
+# TEXT = considérant que les Etats membres se sont engagés à assurer, en coopération avec l'organisation des Nations Unies, le respect universel et effectif des droits de l'homme et des libertés fondamentales. 
+---
+686:in fr_partut-ud-745
+2 erreurs: fr_partut-ud-745
+D('ces'):: absent du lexique.
+D('cet'):: absent du lexique.
+---
+687:in fr_partut-ud-746
+## non projective
+9 erreurs: fr_partut-ud-746
+A('générale'):: absent du lexique.
+A('universelle'):: absent du lexique.
+P('comme'):: absent du lexique.
+D('cette'):: absent du lexique.
+V('efforcent'):: absent du lexique.
+D('ces'):: absent du lexique.
+Pro('eux-mêmes'):: absent du lexique.
+Pro('celles'):: absent du lexique.
+V('efforcent'):: erreur de morphologie : conjugate_fr:tab :V(efforcent) : {"pe":3,"n":"p","t":"p"}.
+---
+688: fr_partut-ud-747
+# text = Article premier.
+# TEXT = article premier. 
+---
+689: fr_partut-ud-748
+# text = Tous les êtres humains naissent libres et égaux en dignité et en droits.
+# TEXT = Tous les êtres humains naissent libres et égaux en dignité et en droits. 
+---
+690:in fr_partut-ud-749
+2 erreurs: fr_partut-ud-749
+N('uns'):: absent du lexique.
+Pro('autre'):: absent du lexique.
+---
+691:in fr_partut-ud-750
+1 erreur: fr_partut-ud-750
+Pro('chacun'):: absent du lexique.
+---
+692:in fr_partut-ud-751
+1 erreur: fr_partut-ud-751
+D('quelconque'):: absent du lexique.
+---
+693: fr_partut-ud-752
+# text = Tout individu a droit à la vie, à la liberté et à la sûreté de sa personne.
+# TEXT = Tout individu a droit à la vie, à la liberté et à la sûreté de sa personne. 
+---
+694:in fr_partut-ud-753
+1 erreur: fr_partut-ud-753
+Pro('nul'):: absent du lexique.
+---
+695:in fr_partut-ud-754
+1 erreur: fr_partut-ud-754
+A('interdits'):: absent du lexique.
+---
+696:in fr_partut-ud-755
+1 erreur: fr_partut-ud-755
+Pro('nul'):: absent du lexique.
+---
+697:in fr_partut-ud-756
+1 erreur: fr_partut-ud-756
+Pro('chacun'):: absent du lexique.
+---
+698: fr_partut-ud-757
+# text = Tous sont égaux devant la loi et ont droit sans distinction à une égale protection de la loi.
+# TEXT = Tous sont égaux devant la loi et ont droit sans distinction à une égale protection de la loi. 
+---
+699: fr_partut-ud-758
+# text = Tous ont droit à une protection égale contre toute discrimination qui violerait la présente déclaration et contre toute provocation à une telle discrimination.
+# TEXT = Tous ont droit à une protection égale contre toute discrimination qui violerait la présente déclaration et contre toute provocation à une telle discrimination. 
+---
+700: fr_partut-ud-759
+1 différence
+# text = Toute personne a droit à un recours effectif devant les juridictions nationales compétentes contre les actes violant les droits fondamentaux qui [1;32;4mlui[0m sont reconnus par la constitution ou par la loi.
+# TEXT = Toute personne a droit à un recours effectif devant les juridictions nationales compétentes contre les actes violant les droits fondamentaux qui [1;32;4mil[0m sont reconnus par la constitution ou par la loi.
+---
+701:in fr_partut-ud-760
+1 erreur: fr_partut-ud-760
+Pro('nul'):: absent du lexique.
+---
+702: fr_partut-ud-761
+2 différences
+# text = Toute personne a droit, en pleine égalité, à ce que sa cause soit entendue équitablement et publiquement par un tribunal indépendant et impartial, qui décidera, soit de ses droits[1;34;47m et[0m[1;32;4m [0mobligations, soit du bien-fondé de toute accusation en matière pénale dirigée contre elle.
+# TEXT = Toute personne a droit, en pleine égalité, à ce que sa cause soit entendue équitablement et publiquement par un tribunal indépendant et impartial, qui décidera, soit de ses droits[1;32;4m, [0mobligations, soit du bien-fondé de toute accusation en matière pénale dirigée contre elle.
+---
+703: fr_partut-ud-762
+5 différences
+# text = 1. Toute personne accusée d'un acte délictueux est présumée innocente jusqu'à ce que sa culpabilité [1;32;4mait[0m [1;34;47mété [0mlégalement établie au cours d'un procès public où toutes les garanties nécessaires à sa défense [1;32;4mlui[0m [1;32;4mauront[0m [1;34;47mété [0massurées.
+# TEXT = 1. toute personne accusée d'un acte délictueux est présumée innocente jusqu'à ce que sa culpabilité [1;32;4mest[0m légalement établie au cours d'un procès public où toutes les garanties nécessaires à sa défense [1;32;4mil[0m [1;32;4mest[0m assurées.
+---
+704:in fr_partut-ud-763
+1 erreur: fr_partut-ud-763
+Pro('nul'):: absent du lexique.
+---
+705:in fr_partut-ud-764
+2 erreurs: fr_partut-ud-764
+P('que'):: absent du lexique.
+Pro('celle'):: absent du lexique.
+---
+706:in fr_partut-ud-765
+2 erreurs: fr_partut-ud-765
+Pro('nul'):: absent du lexique.
+N('immixtions'):: absent du lexique.
+---
+707:in fr_partut-ud-766
+3 erreurs: fr_partut-ud-766
+D('tel'):: absent du lexique.
+N('immixtions'):: absent du lexique.
+D('tel'):: absent du lexique.
+---
+708:in fr_partut-ud-767
+1 erreur: fr_partut-ud-767
+N('intérieur'):: erreur de morphologie : genre différent de celui du lexique :N(intérieur) : {"g":"f","lexique":"m"}.
+---
+709: fr_partut-ud-769
+# text = 1. Devant la persécution, toute personne a le droit de chercher asile et de bénéficier de l'asile en d'autres pays.
+# TEXT = 1. devant la persécution, toute personne a le droit de chercher asile et de bénéficier de l'asile en d'autres pays. 
+---
+710:in fr_partut-ud-770
+1 erreur: fr_partut-ud-770
+N('crime'):: erreur de morphologie : genre différent de celui du lexique :N(crime) : {"g":"f","lexique":"m"}.
+---
+711:in fr_partut-ud-772
+1 erreur: fr_partut-ud-772
+Pro('nul'):: absent du lexique.
+---
+712: fr_partut-ud-774
+2 différences
+# text = Ils ont des droits égaux au regard du mariage, [1;31m•[0mdurant le mariage [1;34;47met [0mlors de sa dissolution.
+# TEXT = Ils ont des droits égaux au regard du mariage, [1;31met [0mdurant le mariage lors de sa dissolution.
+---
+713:in fr_partut-ud-775
+1 erreur: fr_partut-ud-775
+A('futurs'):: absent du lexique.
+---
+714:in fr_partut-ud-776
+1 erreur: fr_partut-ud-776
+A('famille'):: absent du lexique.
+---
+715: fr_partut-ud-777
+1 différence
+# text = 1. Toute personne, aussi bien seule qu'en collectivité[1;32;4m, [0ma droit à la propriété.
+# TEXT = 1. toute personne, aussi bien seule qu'en collectivité[1;32;4m [0ma droit à la propriété.
+---
+716:in fr_partut-ud-778
+1 erreur: fr_partut-ud-778
+Pro('nul'):: absent du lexique.
+---
+717: fr_partut-ud-779
+# text = Toute personne a droit à la liberté de pensée, de conscience et de religion;
+# TEXT = Toute personne a droit à la liberté de pensée, de conscience et de religion ;
+---
+718: fr_partut-ud-780
+## non projective
+5 différences
+# text = Ce droit implique la liberté de changer de religion ou de conviction[1;32;4m [0mainsi que la liberté de manifester sa religion ou sa conviction seule ou en commun, [1;32;4mtant[0m [1;32;4men[0m [1;32;4mpublic[0m [1;32;4mqu'[0men privé, par l'enseignement, les pratiques, le culte et l'accomplissement des rites.
+# TEXT = Ce droit implique la liberté de changer de religion ou de conviction[1;32;4m, [0mainsi que la liberté de manifester sa religion ou sa conviction seule ou en commun, [1;32;4men[0m [1;32;4mpublic[0m [1;32;4mque[0m [1;32;4mtant [0men privé, par l'enseignement, les pratiques, le culte et l'accomplissement des rites.
+---
+719:in fr_partut-ud-781
+1 erreur: fr_partut-ud-781
+A('expression'):: absent du lexique.
+---
+720: fr_partut-ud-782
+# text = 1. Toute personne a droit à la liberté de réunion et d'association pacifiques.
+# TEXT = 1. toute personne a droit à la liberté de réunion et d'association pacifiques. 
+---
+721:in fr_partut-ud-783
+1 erreur: fr_partut-ud-783
+Pro('nul'):: absent du lexique.
+---
+722:in fr_partut-ud-784
+1 erreur: fr_partut-ud-784
+N('affaires'):: absent du lexique.
+---
+723: fr_partut-ud-786
+# text = 3. La volonté du peuple est le fondement de l'autorité des pouvoirs publics;
+# TEXT = 3. la volonté du peuple est le fondement de l'autorité des pouvoirs publics ;
+---
+724:in fr_partut-ud-787
+5 erreurs: fr_partut-ud-787
+D('cette'):: absent du lexique.
+N('élections'):: absent du lexique.
+N('suffrage'):: erreur de morphologie : genre différent de celui du lexique :N(suffrage) : {"g":"f","lexique":"m"}.
+N('vote'):: erreur de morphologie : genre différent de celui du lexique :N(vote) : {"g":"f","lexique":"m"}.
+N('vote'):: erreur de morphologie : genre différent de celui du lexique :N(vote) : {"g":"f","lexique":"m"}.
+---
+725: fr_partut-ud-788
+# text = Toute personne, en tant que membre de la société, a droit à la sécurité sociale;
+# TEXT = Toute personne, en tant que membre de la société, a droit à la sécurité sociale ;
+---
+726:in fr_partut-ud-789
+2 erreurs: fr_partut-ud-789
+N('choix'):: erreur de morphologie : genre différent de celui du lexique :N(choix) : {"g":"f","lexique":"m"}.
+N('chômage'):: erreur de morphologie : genre différent de celui du lexique :N(chômage) : {"g":"f","lexique":"m"}.
+---
+727: fr_partut-ud-790
+# text = 2. Tous ont droit, sans aucune discrimination, à un salaire égal pour un travail égal.
+# TEXT = 2. tous ont droit, sans aucune discrimination, à un salaire égal pour un travail égal. 
+---
+728:in fr_partut-ud-792
+1 erreur: fr_partut-ud-792
+Pro('autre'):: absent du lexique.
+---
+729: fr_partut-ud-793
+# text = Toute personne a droit au repos et aux loisirs et notamment à une limitation raisonnable de la durée du travail et à des congés payés périodiques.
+# TEXT = Toute personne a droit au repos et aux loisirs et notamment à une limitation raisonnable de la durée du travail et à des congés payés périodiques. 
+---
+730:in fr_partut-ud-794
+2 erreurs: fr_partut-ud-794
+Pro('ceux'):: absent du lexique.
+N('habillement'):: erreur de morphologie : genre différent de celui du lexique :N(habillement) : {"g":"f","lexique":"m"}.
+---
+731: fr_partut-ud-795
+1 différence
+# text = 2. La maternité et l'enfance ont droit à une aide et à une assistance [1;32;4mspéciales[0m.
+# TEXT = 2. la maternité et l'enfance ont droit à une aide et à une assistance [1;32;4mspéciale[0m.
+---
+732:in fr_partut-ud-796
+1 erreur: fr_partut-ud-796
+N('enfants'):: absent du lexique.
+---
+733: fr_partut-ud-797
+# text = 1. Toute personne a droit à l'éducation.
+# TEXT = 1. toute personne a droit à l'éducation. 
+---
+734:in fr_partut-ud-798
+1 erreur: fr_partut-ud-798
+A('gratuite'):: absent du lexique.
+---
+735: fr_partut-ud-799
+3 différences
+# text = Elle doit favoriser la compréhension[1;34;47m, la[0m [1;34;47mtolérance et l'amitié [0mentre toutes les nations et tous les groupes raciaux ou religieux, [1;31m•[0mainsi que le développement des activités des Nations Unies pour le maintien de la paix.
+# TEXT = Elle doit favoriser la compréhension entre toutes les nations et tous les groupes raciaux ou religieux, [1;31mla tolérance, l'amitié, et [0mainsi que le développement des activités des Nations Unies pour le maintien de la paix.
+---
+736:in fr_partut-ud-800
+1 erreur: fr_partut-ud-800
+N('genre'):: erreur de morphologie : genre différent de celui du lexique :N(genre) : {"g":"f","lexique":"m"}.
+---
+737:in fr_partut-ud-801
+1 erreur: fr_partut-ud-801
+N('arts'):: absent du lexique.
+---
+738:in fr_partut-ud-802
+3 erreurs: fr_partut-ud-802
+Pro('chacun'):: absent du lexique.
+A('moraul'):: absent du lexique.
+A('matériels'):: absent du lexique.
+---
+739:in fr_partut-ud-803
+2 erreurs: fr_partut-ud-803
+V('règner'):: absent du lexique.
+V('règner'):: erreur de morphologie : conjugate_fr:tab :V(règner) : {"pe":3,"n":"s","t":"p"}.
+---
+740:in fr_partut-ud-804
+1 erreur: fr_partut-ud-804
+Adv('seul'):: absent du lexique.
+---
+741:in fr_partut-ud-805
+2 erreurs: fr_partut-ud-805
+Pro('chacun'):: absent du lexique.
+Pro('autrui'):: absent du lexique.
+---
+742:in fr_partut-ud-806
+1 erreur: fr_partut-ud-806
+D('ces'):: absent du lexique.
+---
+743:in fr_partut-ud-807
+3 erreurs: fr_partut-ud-807
+P('comme'):: absent du lexique.
+D('quelconque'):: absent du lexique.
+N('groupement'):: erreur de morphologie : genre différent de celui du lexique :N(groupement) : {"g":"f","lexique":"m"}.
+---
+744: fr_partut-ud-808
+2 différences
+# text = [1;32;4mÇa[0m [1;32;4mpeut[0m être très compliqué, l'océan.
+# TEXT = [1;32;4mPeut[0m [1;32;4mcet[0m être très compliqué, l'océan.
+---
+745: fr_partut-ud-809
+2 différences
+# text = Et [1;32;4mça[0m [1;32;4mpeut[0m être très compliqué, la santé humaine.
+# TEXT = Et [1;32;4mpeut[0m [1;32;4mcet[0m être très compliqué, la santé humaine.
+---
+746: fr_partut-ud-810
+2 différences
+# text = Et [1;31m•[0mces thèmes simples [1;34;47mne [0msont pas vraiment des thèmes sur la science complexe de ce qui se passe, mais des choses que nous connaissons tous assez bien.
+# TEXT = Et [1;31mne [0mces thèmes simples sont pas vraiment des thèmes sur la science complexe de ce qui se passe, mais des choses que nous connaissons tous assez bien.
+---
+747: fr_partut-ud-811
+# text = Et je vais commencer par celui-ci:
+# TEXT = Et je vais commencer par celui-ci:
+---
+748: fr_partut-ud-813
+1 différence
+# text = On connaît [1;32;4mça[0m, n'est-ce pas?
+# TEXT = On connaît [1;32;4mce[0m, n'est-ce pas?
+---
+749: fr_partut-ud-814
+# text = On l'a tous vécu.
+# TEXT = On l'a tous vécu. 
+---
+750: fr_partut-ud-815
+1 différence
+# text = Voilà le thème de [1;32;4mmon[0m allocution.
+# TEXT = voilà le thème de [1;32;4mson[0m allocution.
+---
+751: fr_partut-ud-816
+# text = Et nous rendons l'océan malheureux de pas mal de façons.
+# TEXT = Et nous rendons l'océan malheureux de pas mal de façons. 
+---
+752: fr_partut-ud-817
+# text = Voici une photo de Cannery Row en 1932.
+# TEXT = voici une photo de Cannery Row en 1932. 
+---
+753: fr_partut-ud-818
+# text = À cette époque, Cannery Row, avait le plus grand complexe de conserveries de toute la côte ouest.
+# TEXT = À cette époque, Cannery Row, avait le plus grand complexe de conserveries de toute la côte ouest. 
+---
+754:in fr_partut-ud-819
+1 erreur: fr_partut-ud-819
+N('eau'):: erreur de morphologie : genre différent de celui du lexique :N(eau) : {"g":"m","lexique":"f"}.
+---
+755: fr_partut-ud-820
+3 différences
+# text = Rolf Bolin, qui était professeur à la station marine [1;32;4mde [0mHopkin où je travaille, a écrit dans les années 40 que, "les gaz émanant de la crasse [1;32;4mflottante[0m dans les anses du golfe [1;32;4métaient[0m si mauvais qu'ils faisaient même noircir les peintures au plomb".
+# TEXT = Rolf Bolin, qui était professeur à la station marine [1;32;4md'[0mHopkin où je travaille, a écrit dans les années 40 que, " les gaz émanant de la crasse [1;32;4mflottant[0m dans les anses du golfe [1;32;4msont[0m si mauvais qu'ils faisaient même noircir les peintures au plomb ".
+---
+756: fr_partut-ud-821
+# text = Mais savez-vous ce qu'ils disaient en sortant?
+# TEXT = Mais savez-vous ce qu'ils disaient en sortant?
+---
+757:in fr_partut-ud-822
+1 erreur: fr_partut-ud-822
+Adv('parce'):: absent du lexique.
+---
+758: fr_partut-ud-823
+# text = On a rendu l'océan malheureux;
+# TEXT = On a rendu l'océan malheureux ;
+---
+759: fr_partut-ud-824
+1 différence
+# text = On a rendu les gens malheureux, et on [1;32;4mleur[0m a donné une mauvaise santé.
+# TEXT = on a rendu les gens malheureux, et on [1;32;4mleurs[0m a donné une mauvaise santé.
+---
+760: fr_partut-ud-825
+# text = La pyramide de la vie océanique.
+# TEXT = la pyramide de la vie océanique. 
+---
+761:in fr_partut-ud-826
+1 erreur: fr_partut-ud-826
+N('diagrame'):: absent du lexique.
+---
+762:in fr_partut-ud-827
+1 erreur: fr_partut-ud-827
+A('écologiste'):: absent du lexique.
+---
+763:in fr_partut-ud-829
+1 erreur: fr_partut-ud-829
+Adv('pourquoi'):: absent du lexique.
+---
+764:in fr_partut-ud-830
+2 erreurs: fr_partut-ud-830
+Adv('parce'):: absent du lexique.
+Adv('y'):: absent du lexique.
+---
+765: fr_partut-ud-831
+# text = Maintenant, pour vraiment vous faire comprendre, j'ai pensé à inventer un petit jeu.
+# TEXT = Maintenant, pour vraiment vous faire comprendre, j'ai pensé à inventer un petit jeu. 
+---
+766: fr_partut-ud-832
+# text = On n'a pas besoin d'y jouer vraiment.
+# TEXT = On n'a pas besoin d'y jouer vraiment. 
+---
+767: fr_partut-ud-833
+# text = C'est le jeu du polystyrène et du chocolat.
+# TEXT = C'est le jeu du polystyrène et du chocolat. 
+---
+768:in fr_partut-ud-834
+1 erreur: fr_partut-ud-834
+N('chip'):: absent du lexique.
+---
+769:in fr_partut-ud-835
+1 erreur: fr_partut-ud-835
+N('chip'):: absent du lexique.
+---
+770:in fr_partut-ud-836
+## non projective
+1 erreur: fr_partut-ud-836
+N('chip'):: absent du lexique.
+---
+771: fr_partut-ud-837
+# text = Et c'est exactement ce qui se passe avec les PDB dans cette pyramide de la chaîne alimentaire.
+# TEXT = Et c'est exactement ce qui se passe avec les PDB dans cette pyramide de la chaîne alimentaire. 
+---
+772: fr_partut-ud-838
+# text = Ils s'accumulent dans le haut de la pyramide.
+# TEXT = Ils s'accumulent dans le haut de la pyramide. 
+---
+773:in fr_partut-ud-839
+1 erreur: fr_partut-ud-839
+N('chip'):: absent du lexique.
+---
+774: fr_partut-ud-840
+1 différence
+# text = Les PCB [1;32;4ms[0m'accumulent.
+# TEXT = Les PCB [1;32;4mm[0m'accumulent.
+---
+775:in fr_partut-ud-841
+1 erreur: fr_partut-ud-841
+P('du'):: absent du lexique.
+---
+776: fr_partut-ud-842
+# text = Ils rentrent dans la chaîne alimentaire.
+# TEXT = Ils rentrent dans la chaîne alimentaire. 
+---
+777: fr_partut-ud-843
+# text = Les dauphins mangent les poissons qui ont absorbé des PCB du plancton, et ces PCB, étant solubles dans la graisse, s'accumulent chez les dauphins.
+# TEXT = les dauphins mangent les poissons qui ont absorbé des PCB du plancton, et ces PCB, étant solubles dans la graisse, s'accumulent chez les dauphins. 
+---
+778: fr_partut-ud-844
+2 différences
+# text = Alors, un dauphin[1;32;4m, [0mmaman dauphin, n'importe quel dauphin[1;32;4m - [0mil n'y a qu'une façon pour que le PCB sortent du dauphin.
+# TEXT = Alors, un dauphin[1;32;4m-, [0mmaman dauphin, n'importe quel dauphin[1;32;4m [0mil n'y a qu'une façon pour que le PCB sortent du dauphin.
+---
+779: fr_partut-ud-846
+# text = Le lait maternel.
+# TEXT = le lait maternel. 
+---
+780: fr_partut-ud-847
+# text = Voici un diagramme de la quantité de PCB dans les dauphins de la baie de Sarasota.
+# TEXT = voici un diagramme de la quantité de PCB dans les dauphins de la baie de Sarasota. 
+---
+781: fr_partut-ud-848
+# text = Les femelles après avoir sevré leur petit, une quantité un peu moindre.
+# TEXT = les femelles après avoir sevré leur petit, une quantité un peu moindre. 
+---
+782:in fr_partut-ud-849
+2 erreurs: fr_partut-ud-849
+Adv('y'):: absent du lexique.
+Pro('rien'):: absent du lexique.
+---
+783:in fr_partut-ud-850
+1 erreur: fr_partut-ud-850
+N('pourcent'):: absent du lexique.
+---
+784: fr_partut-ud-851
+2 différences
+# text = Alors, la mère peut aller se reproduire, mais quel prix terrible à payer pour l'accumulation de ce polluant dans ces animaux[1;32;4m - [0mla [1;32;4mmort[0m de leur premier né.
+# TEXT = Alors, la mère peut aller se reproduire, mais quel prix terrible à payer pour l'accumulation de ce polluant dans ces animaux[1;32;4m-, [0mla [1;32;4mmorte[0m de leur premier né.
+---
+785: fr_partut-ud-852
+# text = Il y a un autre prédateur suprême dans l'océan.
+# TEXT = Il y a un autre prédateur suprême dans l'océan. 
+---
+786:in fr_partut-ud-854
+1 erreur: fr_partut-ud-854
+D('certain'):: absent du lexique.
+---
+787:in fr_partut-ud-855
+2 erreurs: fr_partut-ud-855
+V('photographiée'):: absent du lexique.
+V('photographiée'):: erreur de morphologie : conjugate_fr:tab :V(photographiée) : {"pe":3,"n":"s","t":"pp"}.
+---
+788:in fr_partut-ud-856
+## non projective
+1 erreur: fr_partut-ud-856
+N('labo'):: absent du lexique.
+---
+789:in fr_partut-ud-857
+1 erreur: fr_partut-ud-857
+Pro('certain'):: absent du lexique.
+---
+790:in fr_partut-ud-858
+1 erreur: fr_partut-ud-858
+D('certain'):: absent du lexique.
+---
+791: fr_partut-ud-859
+2 différences
+# text = C'est une [1;32;4mautre[0m [1;32;4mhistoire[0m.
+# TEXT = C'est une [1;32;4mhistoire[0m [1;32;4mautre[0m.
+---
+792:in fr_partut-ud-860
+1 erreur: fr_partut-ud-860
+D('certain'):: absent du lexique.
+---
+793: fr_partut-ud-861
+3 différences
+# text = Même [1;32;4msi [0mils [1;32;4mavaient[0m [1;34;47mété [0métiquetés viande de baleine, c'était de la viande de dauphin.
+# TEXT = Même [1;32;4ms'[0mils [1;32;4mest[0m étiquetés viande de baleine, c'était de la viande de dauphin.
+---
+794:in fr_partut-ud-862
+1 erreur: fr_partut-ud-862
+D('certain'):: absent du lexique.
+---
+795: fr_partut-ud-863
+1 différence
+# text = Et ces parties du dauphin contenaient des quantités importantes de PCB, [1;34;47met [0mde toxines et de métaux lourds.
+# TEXT = Et ces parties du dauphin contenaient des quantités importantes de PCB, de toxines et de métaux lourds.
+---
+796: fr_partut-ud-864
+# text = Et ces sommes importantes passaient dans le corps des gens qui mangeaient cette viande.
+# TEXT = Et ces sommes importantes passaient dans le corps des gens qui mangeaient cette viande. 
+---
+797:in fr_partut-ud-865
+4 erreurs: fr_partut-ud-865
+V('avèrer'):: absent du lexique.
+Pro('beaucoup'):: absent du lexique.
+P('comme'):: absent du lexique.
+V('avèrer'):: erreur de morphologie : conjugate_fr:tab :V(avèrer) : {"pe":3,"n":"s","t":"p"}.
+---
+798:in fr_partut-ud-866
+1 erreur: fr_partut-ud-866
+C('parce'):: absent du lexique.
+---
+799: fr_partut-ud-867
+1 différence
+# text = Nous avons eu ces données [1;32;4mil [0my a quelques années.
+# TEXT = Nous avons eu ces données [1;32;4mj'[0my a quelques années.
+---
+800:in fr_partut-ud-868
+## non projective
+1 erreur: fr_partut-ud-868
+P('que'):: absent du lexique.
+---
+801:in fr_partut-ud-869
+2 erreurs: fr_partut-ud-869
+V('assoir'):: absent du lexique.
+V('assoir'):: erreur de morphologie : conjugate_fr:tab :V(assoir) : {"pe":3,"n":"s","t":"pp"}.
+---
+802: fr_partut-ud-870
+# text = "C'est une grande découverte scientifique".
+# TEXT = " C'est une grande découverte scientifique ". 
+---
+803 UD dépendences traitées
+0 modifiées

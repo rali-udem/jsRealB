@@ -34,6 +34,8 @@ Terminal.prototype.add = function(){
 Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
         terminalType=this.constType;
+    if (typeof lemma == "string")
+        lemma=lemma.replace(/œ/g,"oe").replace(/æ/g,"ae"); // expand ligature
     this.lemma=lemma;
     if (this.peng===undefined) this.initProps(); // setLemma can be used on an already initialized value
     var lemmaType= typeof lemma;
@@ -87,7 +89,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             if (lexInfo===undefined){
                 this.tab=null;
                 this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon");
+                this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
             } else {
                 const keys=Object.keys(lexInfo);
                 const rules=this.getRules();

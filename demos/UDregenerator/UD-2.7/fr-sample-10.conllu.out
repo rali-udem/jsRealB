@@ -1,0 +1,283 @@
+0:in FQB_CLEF03-23
+2 erreurs: FQB_CLEF03-23
+N('mégaoctet'):: absent du lexique.
+N('gigaoctet'):: absent du lexique.
+---
+1: FQB_TREC-fr-822
+# text = Où est situé l'aéroport McCarren ?
+# TEXT = Où est situé l'aéroport McCarren?
+---
+2: FQB_TREC-fr-1751
+# text = Où est situé le parc national Mesa Verde ?
+# TEXT = Où est situé le parc national Mesa Verde?
+---
+3:in FQB_CAF-35-pre
+3 erreurs: FQB_CAF-35-pre
+D('_'):: absent du lexique.
+N('_'):: absent du lexique.
+P("à_l'étranger"):: absent du lexique.
+---
+4:in FQB_TREC-fr-1070
+1 erreur: FQB_TREC-fr-1070
+Pro('le/lui'):: absent du lexique.
+---
+5: FQB_TREC-fr-1096
+1 différence
+# text = Qui a inventé le "slinky[1;32;4m" ?[0m
+# TEXT = Qui a inventé le " slinky[1;32;4m "?[0m
+---
+6: FQB_TREC-fr-885
+# text = Les automobiles à moteur rotatif étaient produites par quelle compagnie ?
+# TEXT = Les automobiles à moteur rotatif étaient produites par quelle compagnie?
+---
+7: FQB_TREC-fr-1185
+2 différences
+# text = [1;32;4mQu'[0mest[1;32;4m-ce[0m que la maladie de la vache folle ?
+# TEXT = [1;32;4m-ce [0mest[1;32;4m que[0m que la maladie de la vache folle?
+---
+8:in FQB_TREC-fr-1438
+1 erreur: FQB_TREC-fr-1438
+Pro('le/lui'):: absent du lexique.
+---
+9: FQB_TREC-fr-685
+# text = Quand Amtrak a-t-elle débuté ses opérations ?
+# TEXT = Quand Amtrak a-t-elle débuté ses opérations?
+---
+10:in n01120020
+1 erreur: n01120020
+Pro('soi'):: absent du lexique.
+---
+11:in n01134020
+1 erreur: n01134020
+P('que'):: absent du lexique.
+---
+12: w01045004
+# text = Le premier siècle de colonisation fut marqué par la domination espagnole.
+# TEXT = Le premier siècle de colonisation fut marqué par la domination espagnole. 
+---
+13:in n02040023
+3 erreurs: n02040023
+Adv('parce'):: absent du lexique.
+A('chaque'):: absent du lexique.
+A('chaque'):: absent du lexique.
+---
+14:in w02001041
+3 erreurs: w02001041
+P('comme'):: absent du lexique.
+N('tous'):: absent du lexique.
+A('St'):: absent du lexique.
+---
+15: n02036018
+# text = Von Beust a justifié les coûts en incriminant le manque de soins dans la planification.
+# TEXT = Von Beust a justifié les coûts en incriminant le manque de soins dans la planification. 
+---
+16: w01101020
+7 différences
+# text = Hedy Lamarr accompagnait Friedrich Mandl aux réunions d'affaires où il discutait avec des scientifiques [1;32;4met[0m [1;32;4md'autres[0m [1;32;4mprofessionnels[0m [1;32;4mimpliqués[0m [1;32;4mdans[0m [1;32;4mla technologie[0m [1;32;4mmilitaire[0m.
+# TEXT = Hedy Lamarr accompagnait Friedrich Mandl aux réunions d'affaires où il discutait avec des scientifiques [1;32;4mimpliqués[0m [1;32;4mdans la[0m [1;32;4mtechnologie[0m [1;32;4mmilitaire[0m [1;32;4met[0m [1;32;4md'autres[0m [1;32;4mprofessionnels[0m.
+---
+17:in n01033031
+1 erreur: n01033031
+N('scanner'):: absent du lexique.
+---
+18:in n02031071
+1 erreur: n02031071
+P('que'):: absent du lexique.
+---
+19: w01079038
+# text = Le prêtre dominicain Heinrich Kramer était l’assistant de l’archevêque de Salzburg.
+# TEXT = Le prêtre dominicain Heinrich Kramer était l'assistant de l'archevêque de Salzburg. 
+---
+20: fr-ud-dev_01555
+2 différences
+# text = En[1;32;4m [0moutre[1;32;4m, [0mil a été décidé de faire Freddy un pédophile, par opposition à son milieu traditionnel d'un tueur d'enfants.
+# TEXT = En[1;32;4m, [0moutre[1;32;4m [0mil a été décidé de faire Freddy un pédophile, par opposition à son milieu traditionnel d'un tueur d'enfants.
+---
+21:in fr-ud-test_00208
+1 erreur: fr-ud-test_00208
+N('sortir'):: absent du lexique.
+---
+22: fr-ud-test_00190
+# text = Peut-être serait-il plus libérateur de crier bien fort : OUACHE !...
+# TEXT = Peut-être serait-il plus libérateur de crier bien fort: OUACHE!...
+---
+23: fr-ud-test_00103
+3 différences
+# text = La gestion [1;34;47met l'exploitation [0mde la salle de concert Wagram, récemment rénovée[1;31m•[0m[1;32;4m, [0msera assurée par Eurosites, leader en France de la location de salles.
+# TEXT = La gestion de la salle de concert Wagram, récemment rénovée[1;31m et l'exploitation[0m[1;32;4m [0msera assurée par Eurosites, leader en France de la location de salles.
+---
+24: fr-ud-dev_01571
+2 différences
+# text = En 1992, ils sont éliminés par le club congolais d'Elecsport Bouansa dès le premier tour (0-2[1;32;4m, [0m1-0[1;32;4m).[0m
+# TEXT = En 1992, ils sont éliminés par le club congolais d'Elecsport Bouansa dès le premier tour (0-2[1;32;4m), [0m1-0[1;32;4m.[0m
+---
+25: fr-ud-dev_01548
+1 différence
+# text = Elle a été découverte à 1000 [1;32;4mm[0m d'altitude dans les monts des Cardamomes.
+# TEXT = Elle a été découverte à 1000 [1;32;4mmètres[0m d'altitude dans les monts des Cardamomes.
+---
+26: fr-ud-dev_01528
+# text = Le village de Saint-Léonard n'est desservie que par des voies communales depuis Avilly, Courteuil (RD 924) et Saint-Nicolas-d'Acy (RD 924).
+# TEXT = Le village de Saint-Léonard n'est desservie que par des voies communales depuis Avilly, Courteuil (RD 924) et Saint-Nicolas-d'Acy ( RD 924 ). 
+---
+27: fr-ud-test_00050
+## non projective
+6 différences
+# text = Lors du dernier rapport publié par le ministère de l'écologie, il s'avère que [1;31m•[0ml'état de [1;32;4mnos[0m cours d'eau [1;34;47mne [0msoit pas si [1;32;4mbrillant[0m [1;32;4mque[0m [1;32;4mça[0m.
+# TEXT = Lors du dernier rapport publié par le ministère de l'écologie, il s'avère que [1;31mne [0ml'état de [1;32;4mses[0m cours d'eau soit pas si [1;32;4mque[0m [1;32;4mça[0m [1;32;4mbrillant[0m.
+---
+28:in fr-ud-dev_01596
+1 erreur: fr-ud-dev_01596
+N('boxeuse'):: absent du lexique.
+---
+29:in fr-ud-test_00116
+1 erreur: fr-ud-test_00116
+A('150e'):: absent du lexique.
+---
+30: Rhap_D2001-125
+2 différences
+# text = car euh on [1;32;4mvous[0m avait proposé de tourner dans un film[1;32;4m[0m
+# TEXT = Car euh on [1;32;4mil[0m avait proposé de tourner dans un film[1;32;4m.[0m
+---
+31: Rhap_M2003-26
+4 différences
+# text = ou encore [1;32;4mmoi[0m [1;32;4mmoi[0m [1;32;4mje te[0m l' ordonne[1;32;4m[0m
+# TEXT = Ou encore [1;32;4mil[0m [1;32;4mil[0m [1;32;4mj'il[0m l'ordonne[1;32;4m.[0m
+---
+32: Rhap_D2008-114
+4 différences
+# text = on va donc avoir [1;32;4mnos[0m regards [1;32;4mbraqués[0m sur l' hémisphère sud et notamment sur les pays de la zone [1;32;4mtempérée[0m de l' hémisphère sud dans les mois à venir[1;32;4m[0m
+# TEXT = On va donc avoir [1;32;4mses[0m regards [1;32;4mbraque[0m sur l'hémisphère sud et notamment sur les pays de la zone [1;32;4mtempère[0m de l'hémisphère sud dans les mois à venir[1;32;4m.[0m
+---
+33: Rhap_D2001-49
+4 différences
+# text = euh disons que si [1;32;4mmon[0m père était mort enfin[1;32;4m [0msi s' étaient produites sensiblement plus tard je ne sais pas [1;32;4mmoi[0m quand j' avais vingt ans ou vingt-deux ans eh bien[1;32;4m[0m
+# TEXT = Euh disons que si [1;32;4mson[0m père était mort enfin[1;32;4m, [0msi s'étaient produites sensiblement plus tard je ne sais pas [1;32;4mil[0m quand j'avais vingt ans ou vingt-deux ans eh bien[1;32;4m.[0m
+---
+34:in Rhap_D2008-72
+3 erreurs: Rhap_D2008-72
+D('UN'):: absent du lexique.
+D('UN'):: absent du lexique.
+D('UN'):: absent du lexique.
+---
+35: Rhap_M0001-12
+1 différence
+# text = tu continues la rue la petite rue[1;32;4m[0m
+# TEXT = Tu continues la rue la petite rue[1;32;4m.[0m
+---
+36:in Rhap_M2003-14
+1 erreur: Rhap_M2003-14
+P('comme'):: absent du lexique.
+---
+37:in Rhap_D2001-51
+1 erreur: Rhap_D2001-51
+N('Monsieur'):: absent du lexique.
+---
+38: Rhap_D2001-72
+3 différences
+# text = je sais [1;32;4mce que[0m [1;32;4mc' est[0m que d' être pauvre[1;32;4m[0m
+# TEXT = Je sais [1;32;4mc'est[0m [1;32;4mque ce[0m que d'être pauvre[1;32;4m.[0m
+---
+39:in Rhap_D2008-10
+1 erreur: Rhap_D2008-10
+N('épidémiologiste'):: absent du lexique.
+---
+40: Europar.550_00190
+2 différences
+# text = Nous sommes des hommes, des femmes, des citoyens[1;32;4m, [0met non [1;32;4mde[0m simples numéros.
+# TEXT = Nous sommes des hommes, des femmes, des citoyens[1;32;4m [0met non [1;32;4mdes[0m simples numéros.
+---
+41: Europar.550_00329
+# text = Bien sûr, les 800 000 tonnes d'aide d'urgence promises par la communauté internationale doivent être envoyées au plus vite.
+# TEXT = Bien sûr, les 800 000 tonnes d'aide d'urgence promises par la communauté internationale doivent être envoyées au plus vite. 
+---
+42:in frwiki_50.1000_00730
+3 erreurs: frwiki_50.1000_00730
+N('%'):: absent du lexique.
+N('%'):: absent du lexique.
+N('%'):: absent du lexique.
+---
+43: annodis.er_00457
+# text = Il sera donc limité de mars à octobre à raison d'un passage par mois.
+# TEXT = Il sera donc limité de mars à octobre à raison d'un passage par mois. 
+---
+44: Europar.550_00438
+# text = Je ne peux donc pas mettre cette demande aux voix.
+# TEXT = Je ne peux donc pas mettre cette demande aux voix. 
+---
+45:in emea-fr-dev_00349
+3 erreurs: emea-fr-dev_00349
+N('ACT'):: absent du lexique.
+V('monitorer'):: absent du lexique.
+V('monitorer'):: erreur de morphologie : conjugate_fr:tab :V(monitorer) : {"pe":3,"n":"p","t":"pp"}.
+---
+46:in frwiki_50.1000_00161
+1 erreur: frwiki_50.1000_00161
+Pro('autre'):: absent du lexique.
+---
+47:in emea-fr-test_00161
+1 erreur: emea-fr-test_00161
+N('dysgueusie'):: absent du lexique.
+---
+48: frwiki_50.1000_00725
+# text = L'affaire des marchés publics d'Île-de-France ou Affaire des marchés truqués des lycées d'Île-de-France est un dossier emblématique des dérives du financement des partis politiques dans les années 1990.
+# TEXT = L'affaire des marchés publics d'Île-de-France ou affaire des marchés truqués des lycées d'Île-de-France est un dossier emblématique des dérives du financement des partis politiques dans les années 1990. 
+---
+49: Europar.550_00336
+2 différences
+# text = Monsieur le Président, je voudrais surtout discuter, pendant le temps qui m'est imparti, de la conférence sur le financement du pacte de stabilité qui vient de se dérouler[1;32;4m, [0mcar j'estime qu'il est bien plus judicieux de diriger son attention sur celui-ci que sur le texte de [1;32;4mmon[0m rapport qui a bien sûr été écrit pour cette conférence.
+# TEXT = monsieur le président, je voudrais surtout discuter, pendant le temps qui m'est imparti, de la conférence sur le financement du pacte de stabilité qui vient de se dérouler[1;32;4m [0mcar j'estime qu'il est bien plus judicieux de diriger son attention sur celui-ci que sur le texte de [1;32;4mson[0m rapport qui a bien sûr été écrit pour cette conférence.
+---
+50:in fr_partut-ud-994
+2 erreurs: fr_partut-ud-994
+V('désigné'):: absent du lexique.
+V('désigné'):: erreur de morphologie : conjugate_fr:tab :V(désigné) : {"pe":3,"n":"s","t":"pp"}.
+---
+51:in fr_partut-ud-948
+1 erreur: fr_partut-ud-948
+A('intégrer'):: absent du lexique.
+---
+52:in fr_partut-ud-768
+1 erreur: fr_partut-ud-768
+Adv('y'):: absent du lexique.
+---
+53: fr_partut-ud-596
+# text = (14) En règle générale, la consommation d'énergie des produits consommateurs d'énergie en mode veille ou arrêt doit être réduite au minimum nécessaire pour leur bon fonctionnement.
+# TEXT = (14) en règle générale, la consommation d'énergie des produits consommateurs d'énergie en mode veille ou arrêt doit être réduite au minimum nécessaire pour leur bon fonctionnement. 
+---
+54:in fr_partut-ud-953
+4 erreurs: fr_partut-ud-953
+Pro('un'):: absent du lexique.
+A('adhérents'):: absent du lexique.
+N('vigueur'):: erreur de morphologie : genre différent de celui du lexique :N(vigueur) : {"g":"m","lexique":"f"}.
+N('janvier'):: erreur de morphologie : genre différent de celui du lexique :N(janvier) : {"g":"f","lexique":"m"}.
+---
+55:in fr_partut-ud-988
+2 erreurs: fr_partut-ud-988
+N('adaptations'):: absent du lexique.
+N('règlement'):: erreur de morphologie : genre différent de celui du lexique :N(règlement) : {"g":"f","lexique":"m"}.
+---
+56:in fr_partut-ud-967
+3 erreurs: fr_partut-ud-967
+N('audit'):: absent du lexique.
+N('préadhésion'):: absent du lexique.
+N('fonds'):: erreur de morphologie : genre différent de celui du lexique :N(fonds) : {"g":"f","lexique":"m"}.
+---
+57:in fr_partut-ud-1003
+4 erreurs: fr_partut-ud-1003
+V('expire'):: absent du lexique.
+N('temp'):: absent du lexique.
+P('que'):: absent du lexique.
+V('expire'):: erreur de morphologie : conjugate_fr:tab :V(expire) : {"pe":3,"n":"s","t":"p"}.
+---
+58: fr_partut-ud-962
+# text = Par dérogation à ce qui précède, les procédures de marchés publics engagées après l'adhésion respectent les dispositions pertinentes de l'union.
+# TEXT = Par dérogation à ce qui précède, les procédures de marchés publics engagées après l'adhésion respectent les dispositions pertinentes de l'union. 
+---
+59:in fr_partut-ud-951
+2 erreurs: fr_partut-ud-951
+N('instruments'):: absent du lexique.
+P('auprès'):: absent du lexique.
+---
+60 UD dépendences traitées
+0 modifiées

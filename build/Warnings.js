@@ -177,10 +177,12 @@ Constituent.prototype.warnings = {
          fr:(info)=> // $info n'est pas implémenté.
             S(Q(info),VP(V("implémenter"))).typ({neg:true,pas:true})},
     "not in lexicon":
-        {en:()=> // not found in lexicon.
-            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon"))),
-         fr:()=> // absent du lexique.
-            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
+        {en:(altPos)=> // not found in lexicon.
+            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon")),
+              altPos!==undefined?AdvP(Adv("but"),V("exist"),Adv("as"),makeDisj("or",altPos)):Q("")),
+         fr:(altPos)=> // absent du lexique.
+            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))),
+              altPos!==undefined?AdvP(Adv("mais"),V("exister"),Adv("comme"),makeDisj("ou",altPos)):Q(""))},
     "no appropriate pronoun":
         {en:()=>S(VP(V("find").t("ps"),NP(D("a"),A("appropriate"),N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
          fr:()=>S(VP(V("trouver").t("pc"),NP(D("un"),A("adéquat"),N("pronom")))).typ({neg:true,pas:true,mod:"poss"})

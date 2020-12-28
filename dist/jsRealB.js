@@ -431,8 +431,12 @@ Constituent.prototype.doElisionFr = function(cList){
         if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
-            var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
-            if (typeof lexiconInfo == "undefined") return true; // elide when unknown
+            let lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
+            if (typeof lexiconInfo == "undefined"){ 
+                lexiconInfo=getLemma(lemma.toLowerCase()); // check with lower case
+                if (typeof lexiconInfo == "undefined")return true; // elide when unknown
+            } 
+            if (!(pos in lexiconInfo))pos=Object.keys(lexiconInfo)[0]; // try the first pos if current not found
             if (pos in lexiconInfo && lexiconInfo[pos].h==1) return false; // h aspiré found
             return true;
         }
@@ -1700,6 +1704,8 @@ Terminal.prototype.add = function(){
 Terminal.prototype.setLemma = function(lemma,terminalType){
     if (terminalType==undefined) // when it is not called from a Constructor, keep the current terminalType
         terminalType=this.constType;
+    if (typeof lemma == "string")
+        lemma=lemma.replace(/œ/g,"oe").replace(/æ/g,"ae"); // expand ligature
     this.lemma=lemma;
     if (this.peng===undefined) this.initProps(); // setLemma can be used on an already initialized value
     var lemmaType= typeof lemma;
@@ -1753,7 +1759,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             if (lexInfo===undefined){
                 this.tab=null;
                 this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon");
+                this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
             } else {
                 const keys=Object.keys(lexInfo);
                 const rules=this.getRules();
@@ -5325,7 +5331,7 @@ var lexiconEn = //========== lexicon-en.js
  "golden":{"A":{"tab":["a1"]}},
  "golf":{"N":{"tab":["n5"]}},
  "good":{"A":{"tab":["a15"]},
-         "N":{"tab":["n5"]}},
+         "N":{"tab":["n1"]}},
  "goodness":{"N":{"tab":["n5"]}},
  "gospel":{"N":{"tab":["n1"]}},
  "gossip":{"N":{"tab":["n1"]}},
@@ -12812,6 +12818,8 @@ var lexiconFr = //========== lexicon-fr.js
                   "tab":["n17"]}},
  "auberge":{"N":{"g":"f",
                  "tab":["n17"]}},
+ "aucun":{"D":{"tab":["d4"]},
+          "Pro":{"tab":["d4"]}},
  "augmenter":{"V":{"aux":["aê"],
                    "tab":"v36"}},
  "aujourd'hui":{"Adv":{"tab":["av"]}},
@@ -12973,7 +12981,8 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n3"]}},
  "beau":{"A":{"pos":"pre",
               "tab":["n108"]}},
- "beaucoup":{"Adv":{"tab":["av"]}},
+ "beaucoup":{"Adv":{"tab":["av"]},
+             "Pro":{"tab":["nI"]}},
  "beauté":{"N":{"g":"f",
                 "tab":["n17"]}},
  "bébé":{"N":{"g":"m",
@@ -13360,6 +13369,7 @@ var lexiconFr = //========== lexicon-fr.js
  "ce":{"D":{"tab":["d7"]},
        "Pro":{"g":"n",
               "tab":["pn14"]}},
+ "c'est-à-dire":{"C":{"tab":["cj"]}},
  "ceci":{"Pro":{"g":"n",
                 "tab":["pn16"]}},
  "céder":{"V":{"aux":["av"],
@@ -16862,6 +16872,7 @@ var lexiconFr = //========== lexicon-fr.js
                    "tab":["n3"]}},
  "parc":{"N":{"g":"m",
               "tab":["n3"]}},
+ "parce que":{"C":{"tab":["cj"]}},
  "parcourir":{"V":{"aux":["av"],
                    "tab":"v57"}},
  "parcours":{"N":{"g":"m",
@@ -17189,8 +17200,10 @@ var lexiconFr = //========== lexicon-fr.js
                "tab":["n17"]}},
  "plumier":{"N":{"g":"m",
                  "tab":["n3"]}},
+ "plupart":{"Pro":{"tab":["nI"]}},
  "plus":{"Adv":{"tab":["av"]}},
- "plusieurs":{"Adv":{"tab":["av"]}},
+ "plusieurs":{"D":{"tab":["nI"]},
+              "Pro":{"tab":["nI"]}},
  "plutôt":{"Adv":{"tab":["av"]}},
  "poche":{"N":{"g":"f",
                "tab":["n17"]}},
@@ -18004,7 +18017,8 @@ var lexiconFr = //========== lexicon-fr.js
                 "tab":["n4"]}},
  "rider":{"V":{"aux":["av"],
                "tab":"v36"}},
- "rien":{"Adv":{"tab":["av"]}},
+ "rien":{"N":{"g":"m","tab":["n3"]},
+         "Pro":{"tab":["nI"]}},
  "rigole":{"N":{"g":"f",
                 "tab":["n17"]}},
  "rigoureux":{"A":{"tab":["n54"]}},
@@ -23862,10 +23876,12 @@ Constituent.prototype.warnings = {
          fr:(info)=> // $info n'est pas implémenté.
             S(Q(info),VP(V("implémenter"))).typ({neg:true,pas:true})},
     "not in lexicon":
-        {en:()=> // not found in lexicon.
-            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon"))),
-         fr:()=> // absent du lexique.
-            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
+        {en:(altPos)=> // not found in lexicon.
+            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon")),
+              altPos!==undefined?AdvP(Adv("but"),V("exist"),Adv("as"),makeDisj("or",altPos)):Q("")),
+         fr:(altPos)=> // absent du lexique.
+            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))),
+              altPos!==undefined?AdvP(Adv("mais"),V("exister"),Adv("comme"),makeDisj("ou",altPos)):Q(""))},
     "no appropriate pronoun":
         {en:()=>S(VP(V("find").t("ps"),NP(D("a"),A("appropriate"),N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
          fr:()=>S(VP(V("trouver").t("pc"),NP(D("un"),A("adéquat"),N("pronom")))).typ({neg:true,pas:true,mod:"poss"})
@@ -23905,7 +23921,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-12-15 09:17"
+jsRealB_dateCreated="2020-12-28 11:05"
 //  Terminals
 exports.N=N;
 exports.A=A;

@@ -1,0 +1,1880 @@
+0: fr-ud-test_00001
+1 différence
+# text = Je sens qu'entre ça et les films de médecins et scientifiques fous que nous avons déjà vus[1;32;4m, [0mnous pourrions emprunter un autre chemin pour l'origine.
+# TEXT = Je sens qu'entre ça et les films de médecins et scientifiques fous que nous avons déjà vus[1;32;4m [0mnous pourrions emprunter un autre chemin pour l'origine.
+---
+1: fr-ud-test_00002
+2 différences
+# text = On pourra toujours parler à [1;34;47mpropos [0md'Averroès [1;31m•[0mde "décentrement du Sujet".
+# TEXT = On pourra toujours parler à d'Averroès [1;31mpropos [0mde " décentrement du sujet ".
+---
+2:in fr-ud-test_00003
+4 erreurs: fr-ud-test_00003
+A('divers'):: absent du lexique.
+P('comme'):: absent du lexique.
+N('ONG'):: absent du lexique.
+A('sahraoui'):: absent du lexique.
+---
+3: fr-ud-test_00004
+# text = 1er : début de la présidence lituanienne de l'Organisation pour la Sécurité et la Coopération en Europe (OSCE) (jusqu'au 31 décembre), avant l'Irlande (2012) et l'Ukraine (2013).
+# TEXT = 1er: début de la présidence lituanienne de l'organisation pour la sécurité et la coopération en Europe (OSCE) ( jusqu'au 31 décembre ), avant l'Irlande ( 2012 ) et l'Ukraine ( 2013 ). 
+---
+4:in fr-ud-test_00005
+1 erreur: fr-ud-test_00005
+A('subsaharien'):: absent du lexique.
+---
+5:in fr-ud-test_00006
+1 erreur: fr-ud-test_00006
+N('match'):: absent du lexique.
+---
+6:in fr-ud-test_00007
+1 erreur: fr-ud-test_00007
+Adv('parce'):: absent du lexique.
+---
+7:in fr-ud-test_00008
+## non projective
+8 erreurs: fr-ud-test_00008
+D('tel'):: absent du lexique.
+D('tel'):: absent du lexique.
+D('tel'):: absent du lexique.
+D('tel'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+N('cœur'):: absent du lexique.
+P('comme'):: absent du lexique.
+A('waterproof'):: absent du lexique.
+---
+8: fr-ud-test_00009
+# text = Son discours, inspiré d'une pensée du Moyen-âge, a trouvé preneur.
+# TEXT = Son discours, inspiré d'une pensée du moyen-âge, a trouvé preneur. 
+---
+9:in fr-ud-test_00010
+1 erreur: fr-ud-test_00010
+N('déstabilisation'):: absent du lexique.
+---
+10: fr-ud-test_00011
+# text = Est-ce le fait du hasard ou d'une malédiction que toute la zone comprise entre le Soudan et la Mauritanie soit instable ?
+# TEXT = est-ce le fait du hasard ou d'une malédiction que toute la zone comprise entre le Soudan et la Mauritanie soit instable?
+---
+11: fr-ud-test_00012
+3 différences
+# text = Maintenant, avec un [1;34;47mpeu [0mde bonne volonté [1;32;4mvous[0m [1;31m•[0mobserverez que l'on peut être traditionaliste ET intégriste, mais que les intégristes n'ont pas le monopole du traditionalisme, et réciproquement.
+# TEXT = Maintenant, avec un de bonne volonté [1;32;4mpeu[0m [1;31mtu [0mobserverez que l'on peut être traditionaliste et intégriste, mais que les intégristes n'ont pas le monopole du traditionalisme, et réciproquement.
+---
+12: fr-ud-test_00013
+# text = Royale donc, cette voie de communication est aussi vouée à être préservée, développée et modernisée.
+# TEXT = Royale donc, cette voie de communication est aussi vouée à être préservée, développée et modernisée. 
+---
+13: fr-ud-test_00014
+# text = Pour pouvoir mener à bien sa politique dictatoriale, le régime marocain a besoin de stabilité interne pour affronter les "risques externes" engendrés par le conflit du Sahara Occidental.
+# TEXT = Pour pouvoir mener à bien sa politique dictatoriale, le régime marocain a besoin de stabilité interne pour affronter les " risques externes " engendrés par le conflit du Sahara occidental. 
+---
+14: fr-ud-test_00015
+# text = Belle, grande, claire, séduisante à souhait, elle est pourtant déjà à la retraite.
+# TEXT = Belle, grande, claire, séduisante à souhait, elle est pourtant déjà à la retraite. 
+---
+15: fr-ud-test_00016
+1 différence
+# text = Et si officiellement le Maroc n'a pas [1;32;4mde[0m relations diplomatiques « ouvertes » avec Israël, cela n'a jamais empêché des ministres de se rendre au royaume chérifien.
+# TEXT = Et si officiellement le Maroc n'a pas [1;32;4mdes[0m relations diplomatiques « ouvertes » avec Israël, cela n'a jamais empêché des ministres de se rendre au royaume chérifien.
+---
+16: fr-ud-test_00017
+# text = Trois ans plus tard, il tient un discours sur la crise.
+# TEXT = Trois ans plus tard, il tient un discours sur la crise. 
+---
+17: fr-ud-test_00018
+# text = Je suis déchirée.
+# TEXT = Je suis déchirée. 
+---
+18: fr-ud-test_00019
+1 différence
+# text = Selon [1;32;4mlui[0m, cette période sera mise à profit pour étudier les conséquences de l'accord sur les ressources de poisson, "ainsi que l'impact régional" des fonds versés par l'Union européenne, sur la base notamment des informations fournies par les autorités marocaines.
+# TEXT = Selon [1;32;4mil[0m, cette période sera mise à profit pour étudier les conséquences de l'accord sur les ressources de poisson, " ainsi que l'impact régional " des fonds versés par l'Union européenne, sur la base notamment des informations fournies par les autorités marocaines.
+---
+19: fr-ud-test_00020
+# text = Le 20 juin, le Secrétaire général de l'Elysée Claude Guéant a été reçu à Alger par le président Bouteflika et le Premier ministre Ahmed Ouyahia.
+# TEXT = Le 20 juin, le Secrétaire général de l'Elysée Claude Guéant a été reçu à Alger par le président Bouteflika et le premier ministre Ahmed Ouyahia. 
+---
+20: fr-ud-test_00021
+8 différences
+# text = Ce qui transparaît dans tous ces textes est l'espoir [1;32;4met les[0m [1;32;4mrêves[0m [1;32;4md'un[0m [1;32;4mpeuple[0m [1;32;4met[0m [1;32;4mde[0m [1;32;4mses[0m [1;32;4menfants[0m.
+# TEXT = Ce qui transparaît dans tous ces textes est l'espoir [1;32;4md'un[0m [1;32;4mpeuple[0m [1;32;4met de[0m [1;32;4mses[0m [1;32;4menfants[0m [1;32;4met[0m [1;32;4mles[0m [1;32;4mrêves[0m.
+---
+21:in fr-ud-test_00022
+2 erreurs: fr-ud-test_00022
+N('irakisation'):: absent du lexique.
+N('somalisation'):: absent du lexique.
+---
+22:in fr-ud-test_00023
+1 erreur: fr-ud-test_00023
+A('anti-hérétique'):: absent du lexique.
+---
+23:in fr-ud-test_00024
+1 erreur: fr-ud-test_00024
+N('couple'):: erreur de morphologie : genre différent de celui du lexique :N(couple) : {"g":"m","lexique":"f"}.
+---
+24: fr-ud-test_00025
+1 différence
+# text = Autant dire dans un désert médiatique pour la [1;32;4mmort[0m d'un poète.
+# TEXT = Autant dire dans un désert médiatique pour la [1;32;4mmorte[0m d'un poète.
+---
+25: fr-ud-test_00026
+# text = Les lendemains de lynchage sont pleins d'incertitudes.
+# TEXT = Les lendemains de lynchage sont pleins d'incertitudes. 
+---
+26: fr-ud-test_00027
+3 différences
+# text = Pour cela, ils affirment que le premier mandat de Wade ne rentre pas sous le nouveau texte constitutionnel et[1;32;4m, [0mpour[1;32;4m [0mautant[1;32;4m, [0mne compte pas dans l'application de la nouvelle loi.
+# TEXT = Pour cela, ils affirment que le premier mandat de Wade ne rentre pas sous le nouveau texte constitutionnel et[1;32;4m [0mpour[1;32;4m, [0mautant[1;32;4m [0mne compte pas dans l'application de la nouvelle loi.
+---
+27: fr-ud-test_00028
+2 différences
+# text = N'hésitez[1;32;4m-[0mpas à la faire circuler largement autour [1;32;4mde vous[0m !
+# TEXT = N'hésitez[1;32;4m [0mpas à la faire circuler largement autour [1;32;4md'il[0m!
+---
+28: fr-ud-test_00029
+# text = Il y a un an naissait Gdem Izik.
+# TEXT = Il y a un an naissait Gdem Izik. 
+---
+29: fr-ud-test_00030
+# text = iii) La taxe foncière ;
+# TEXT = iii) la taxe foncière ;
+---
+30:in fr-ud-test_00031
+1 erreur: fr-ud-test_00031
+N('heure'):: erreur de morphologie : genre différent de celui du lexique :N(heure) : {"g":"m","lexique":"f"}.
+---
+31:in fr-ud-test_00032
+1 erreur: fr-ud-test_00032
+A('béni'):: absent du lexique.
+---
+32: fr-ud-test_00033
+# text = Le royaume s'est amélioré, mais pas dans le sens voulu par l'UE.
+# TEXT = Le royaume s'est amélioré, mais pas dans le sens voulu par l'UE. 
+---
+33: fr-ud-test_00034
+# text = Même si la DGSE (Direction générale de la sécurité extérieure), est en quête de « bons intermédiaires » pour « négocier ».
+# TEXT = Même si la DGSE (Direction générale de la sécurité extérieure), est en quête de « bons intermédiaires » pour « négocier ». 
+---
+34: fr-ud-test_00035
+# text = Son destin est-il la Poussière ?
+# TEXT = Son destin est-il la poussière?
+---
+35: fr-ud-test_00036
+# text = C'est un sourire de Dieu.
+# TEXT = C'est un sourire de Dieu. 
+---
+36:in fr-ud-test_00037
+1 erreur: fr-ud-test_00037
+A('présidentielle'):: absent du lexique.
+---
+37:in fr-ud-test_00038
+1 erreur: fr-ud-test_00038
+Pro('lui-même'):: absent du lexique.
+---
+38: fr-ud-test_00039
+# text = Tout cela est présent dans sa passion.
+# TEXT = Tout cela est présent dans sa passion. 
+---
+39: fr-ud-test_00040
+# text = Plus, l'AQMI tente de nouer des rapports avec les mouvements subversifs dans le delta du Nigéria, autant qu'avec des sectes d'inspiration religieuse au nord du pays.
+# TEXT = Plus, l'AQMI tente de nouer des rapports avec les mouvements subversifs dans le delta du Nigéria, autant qu'avec des sectes d'inspiration religieuse au nord du pays. 
+---
+40: fr-ud-test_00041
+# text = Au regard du droit international, la question du Sahara Occidental est très claire.
+# TEXT = Au regard du droit international, la question du Sahara occidental est très claire. 
+---
+41: fr-ud-test_00042
+# text = La justice française n'a fait qu'obéir et se déjuger.
+# TEXT = La justice française n'a fait qu'obéir et se déjuger. 
+---
+42:in fr-ud-test_00043
+3 erreurs: fr-ud-test_00043
+P('contre'):: l'option g est appliquée à P, mais elle devrait l'être à D, Pro, N, NP, A, AP, V, VP, S, SP ou CP
+P('contre'):: l'option n est appliquée à P, mais elle devrait l'être à D, Pro, N, NP, A, AP, V, VP, S, SP ou CP
+N('plupart'):: absent du lexique.
+---
+43:in fr-ud-test_00044
+1 erreur: fr-ud-test_00044
+Pro('personne'):: absent du lexique.
+---
+44: fr-ud-test_00045
+3 différences
+# text = Mais la réalité est que [1;32;4mla[0m [1;32;4mMauritanie[0m [1;32;4mn'[0mest pas le Maroc ou l'Algérie.
+# TEXT = Mais la réalité est que [1;32;4mne[0m [1;32;4mla[0m [1;32;4mMauritanie [0mest pas le Maroc ou l'Algérie.
+---
+45:in fr-ud-test_00046
+1 erreur: fr-ud-test_00046
+N('fondamentalisme'):: absent du lexique.
+---
+46: fr-ud-test_00047
+# text = Y a-t-il un risque de voir les choses tourner mal en Syrie ?
+# TEXT = Y a-t-il un risque de voir les choses tourner mal en Syrie?
+---
+47: fr-ud-test_00048
+1 différence
+# text = C'est simple, il y a [1;32;4mde[0m tout.
+# TEXT = C'est simple, il y a [1;32;4mun[0m tout.
+---
+48: fr-ud-test_00049
+# text = Renommée par Warner France sous le nom de "La Ligue des Justiciers : La Nouvelle Génération", les 8 premiers épisodes de la série animée seront disponibles dès le 30 novembre prochain.
+# TEXT = Renommée par Warner France sous le nom de " la ligue des justiciers: la nouvelle génération ", les 8 premiers épisodes de la série animée seront disponibles dès le 30 novembre prochain. 
+---
+49: fr-ud-test_00050
+## non projective
+6 différences
+# text = Lors du dernier rapport publié par le ministère de l'écologie, il s'avère que [1;31m•[0ml'état de [1;32;4mnos[0m cours d'eau [1;34;47mne [0msoit pas si [1;32;4mbrillant[0m [1;32;4mque[0m [1;32;4mça[0m.
+# TEXT = Lors du dernier rapport publié par le ministère de l'écologie, il s'avère que [1;31mne [0ml'état de [1;32;4mses[0m cours d'eau soit pas si [1;32;4mque[0m [1;32;4mça[0m [1;32;4mbrillant[0m.
+---
+50: fr-ud-test_00051
+4 différences
+# text = Retenu au « Forum » de la Berlinale, Territoire perdu s'inscrit pleinement dans l'esprit de cette section « expérimentale[1;31m•[0m, [1;31m•[0m[1;32;4mavantgardiste[0m et politiquement engagée[1;34;47m »[0m.
+# TEXT = Retenu au « Forum » de la Berlinale, Territoire perdu s'inscrit pleinement dans l'esprit de cette section « expérimentale[1;31m »[0m, [1;31mavant-[0m[1;32;4mgardiste[0m et politiquement engagée.
+---
+51: fr-ud-test_00052
+1 différence
+# text = Arrêtez la lecture, si cela [1;32;4mvous[0m suffit pour aujourd'hui.
+# TEXT = arrêtez la lecture, si cela [1;32;4mil[0m suffit pour aujourd'hui.
+---
+52: fr-ud-test_00053
+# text = Elle était dans la petite cour du garage, capot ouvert.
+# TEXT = Elle était dans la petite cour du garage, capot ouvert. 
+---
+53:in fr-ud-test_00054
+1 erreur: fr-ud-test_00054
+N('heure'):: erreur de morphologie : genre différent de celui du lexique :N(heure) : {"g":"m","lexique":"f"}.
+---
+54:in fr-ud-test_00055
+3 erreurs: fr-ud-test_00055
+N('sahraoui'):: absent du lexique.
+A('sahraoui'):: absent du lexique.
+A('sahraoui'):: absent du lexique.
+---
+55: fr-ud-test_00056
+2 différences
+# text = Il se passe de commentaires : « Je comprends très bien [1;32;4mvotre[0m préoccupation par rapport à [1;32;4mma[0m participation à la rencontre d'Assise.
+# TEXT = Il se passe de commentaires: « je comprends très bien [1;32;4msa[0m préoccupation par rapport à [1;32;4msa[0m participation à la rencontre d'Assise.
+---
+56:in fr-ud-test_00057
+1 erreur: fr-ud-test_00057
+N('sixties'):: absent du lexique.
+---
+57:in fr-ud-test_00058
+3 erreurs: fr-ud-test_00058
+P('comme'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+N('séquestré'):: absent du lexique.
+---
+58:in fr-ud-test_00059
+1 erreur: fr-ud-test_00059
+Pro("quelqu'un"):: absent du lexique.
+---
+59: fr-ud-test_00060
+1 différence
+# text = Les observateurs espagnols, Carlos Sanchez et Mar Figueras[1;32;4m, [0mont été arrêtés.
+# TEXT = Les observateurs espagnols, Carlos Sanchez et Mar Figueras[1;32;4m [0mont été arrêtés.
+---
+60: fr-ud-test_00061
+# text = Qui a donné l'exemple ?
+# TEXT = Qui a donné l'exemple?
+---
+61:in fr-ud-test_00062
+1 erreur: fr-ud-test_00062
+N('PPE'):: absent du lexique.
+---
+62: fr-ud-test_00063
+# text = N'étant pas préparés pour recevoir plus de dix quinze mille personnes, les autorités, qui font tout ce qu'elles peuvent pour nourrir ce flux ininterrompu, craignent que la situation ne dégénère si l'aide internationale ne pointe pas plus vite le bout de son nez.
+# TEXT = N'étant pas préparés pour recevoir plus de dix quinze mille personnes, les autorités, qui font tout ce qu'elles peuvent pour nourrir ce flux ininterrompu, craignent que la situation ne dégénère si l'aide internationale ne pointe pas plus vite le bout de son nez. 
+---
+63:in fr-ud-test_00064
+5 erreurs: fr-ud-test_00064
+N('britannique'):: absent du lexique.
+N('argentin'):: absent du lexique.
+N('cubain'):: absent du lexique.
+N('sud-africains'):: absent du lexique.
+N('vénézuélien'):: absent du lexique.
+---
+64:in fr-ud-test_00065
+2 erreurs: fr-ud-test_00065
+N('match'):: absent du lexique.
+A('maroco-sahraoui'):: absent du lexique.
+---
+65: fr-ud-test_00066
+# text = Ont également assisté à cette occasion, des représentants du corps diplomatique accrédité en Algérie, notamment d'Afrique du sud, de Cuba, du Venezuela, d'Angola et du Congo.
+# TEXT = Ont également assisté à cette occasion, des représentants du corps diplomatique accrédité en Algérie, notamment d'Afrique du sud, de Cuba, du Venezuela, d'Angola et du Congo. 
+---
+66: fr-ud-test_00067
+5 différences
+# text = Attention : [1;31m•[0mmême la conversion [1;34;47mn'[0mest pas un changement total, encore moins un reniement de ce [1;32;4mque[0m [1;32;4mnous[0m [1;32;4mavons été[0m.
+# TEXT = attention: [1;31mne [0mmême la conversion est pas un changement total, encore moins un reniement de ce [1;32;4mnous[0m [1;32;4mété[0m [1;32;4mqu'avons[0m.
+---
+67:in fr-ud-test_00068
+3 erreurs: fr-ud-test_00068
+Pro('un'):: absent du lexique.
+N('télécoms'):: absent du lexique.
+N('business'):: absent du lexique.
+---
+68: fr-ud-test_00069
+1 différence
+# text = [1;32;4mVous[0m m'accusez de "subjectivisme".
+# TEXT = [1;32;4mTu[0m m'accusez de " subjectivisme ".
+---
+69:in fr-ud-test_00070
+1 erreur: fr-ud-test_00070
+A('affairiste'):: absent du lexique.
+---
+70: fr-ud-test_00071
+# text = Mgr Velasio de Paolis n'est pas là pour aggraver une situation déjà très lourde.
+# TEXT = Mgr Velasio de Paolis n'est pas là pour aggraver une situation déjà très lourde. 
+---
+71:in fr-ud-test_00072
+1 erreur: fr-ud-test_00072
+N('facto'):: absent du lexique.
+---
+72: fr-ud-test_00073
+# text = Que dit l'Eglise sur ce point délicat ?
+# TEXT = Que dit l'Eglise sur ce point délicat?
+---
+73: fr-ud-test_00074
+# text = Mais elle guette, oui, elle guette.
+# TEXT = Mais elle guette, oui, elle guette. 
+---
+74: fr-ud-test_00075
+1 différence
+# text = En [1;32;4mnous[0m livrant les clefs de l'histoire de ce projet industriel, il nous invite à tirer les leçons du passé pour mieux appréhender les perspectives énergétiques du Maghreb aujourd'hui.
+# TEXT = En [1;32;4mil[0m livrant les clefs de l'histoire de ce projet industriel, il nous invite à tirer les leçons du passé pour mieux appréhender les perspectives énergétiques du Maghreb aujourd'hui.
+---
+75:in fr-ud-test_00076
+1 erreur: fr-ud-test_00076
+N('CGI'):: absent du lexique.
+---
+76: fr-ud-test_00077
+3 différences
+# text = Consacrant, [1;32;4mlui[0m, l'essentiel de son temps et de son [1;32;4ménérgie[0m exclusivement aux grands chantiers économiques destinés à procurer [1;32;4mdu[0m travail aux jeunes générations.
+# TEXT = consacrant, [1;32;4mil[0m, l'essentiel de son temps et de son [1;32;4ménergie[0m exclusivement aux grands chantiers économiques destinés à procurer [1;32;4mun[0m travail aux jeunes générations.
+---
+77:in fr-ud-test_00078
+2 erreurs: fr-ud-test_00078
+V('œuvrer'):: absent du lexique.
+V('œuvrer'):: erreur de morphologie : conjugate_fr:tab :V(œuvrer) : {"pe":3,"n":"s","t":"b"}.
+---
+78:in fr-ud-test_00079
+1 erreur: fr-ud-test_00079
+N('néolibéralisme'):: absent du lexique.
+---
+79: fr-ud-test_00080
+## non projective
+2 différences
+# text = Je me demande s'il y a une loi [1;34;47mchez nous [0mqui peut condamner des citoyens pour des rêves illégaux[1;31m•[0m ?
+# TEXT = Je me demande s'il y a une loi qui peut condamner des citoyens pour des rêves illégaux[1;31m chez il[0m?
+---
+80:in fr-ud-test_00081
+2 erreurs: fr-ud-test_00081
+N('vu'):: absent du lexique.
+A('sahraoui'):: absent du lexique.
+---
+81:in fr-ud-test_00082
+3 erreurs: fr-ud-test_00082
+V('voilà'):: absent du lexique.
+Pro('soi'):: absent du lexique.
+V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+---
+82:in fr-ud-test_00083
+1 erreur: fr-ud-test_00083
+Adv("c'est-à-dire"):: absent du lexique.
+---
+83: fr-ud-test_00084
+2 différences
+# text = Selon ce discours--maintenant bien rodé--, avec la [1;32;4mmort[0m d'Hassan II et l'arrivée au pouvoir de Mohammed VI[1;32;4m, [0mles choses auraient évolué au Maroc.
+# TEXT = Selon ce discours--maintenant bien rodé--, avec la [1;32;4mmorte[0m d'Hassan II et l'arrivée au pouvoir de Mohammed VI[1;32;4m [0mles choses auraient évolué au Maroc.
+---
+84: fr-ud-test_00085
+# text = Pour rappel, le Sahara Occidental a été envahi par le Maroc en 1975 et 1979 suite au retrait espagnol du territoire.
+# TEXT = Pour rappel, le Sahara occidental a été envahi par le Maroc en 1975 et 1979 suite au retrait espagnol du territoire. 
+---
+85: fr-ud-test_00086
+# text = Toutefois, dans des camps de réfugiés, la cause politique importe plus que la cause humaine.
+# TEXT = Toutefois, dans des camps de réfugiés, la cause politique importe plus que la cause humaine. 
+---
+86: fr-ud-test_00087
+2 différences
+# text = Il [1;32;4mme[0m l'a dit à [1;32;4mla [0mHaye ».
+# TEXT = Il [1;32;4mil[0m l'a dit à [1;32;4ml'[0mHaye ».
+---
+87: fr-ud-test_00088
+# text = Le président de l'Égypte, Hosni Moubarak, éprouve, selon un diplomate basé au Caire « une haine viscérale pour la République islamique ».
+# TEXT = Le président de l'Égypte, Hosni Moubarak, éprouve, selon un diplomate basé au Caire « une haine viscérale pour la république islamique ». 
+---
+88:in fr-ud-test_00089
+2 erreurs: fr-ud-test_00089
+N('camella'):: absent du lexique.
+A('sahraoui'):: absent du lexique.
+---
+89: fr-ud-test_00090
+# text = Tenue trois mois après la précédente réunion informelle de la Valette (Malte), cette nouvelle rencontre se déroule sous les auspices de l'envoyé personnel du secrétaire général des Nations unies pour le Sahara occidental, M. Christopher Ross, en présence des délégations des deux parties et des représentants des deux pays observateurs, l'Algérie et la Mauritanie.
+# TEXT = Tenue trois mois après la précédente réunion informelle de la Valette (Malte), cette nouvelle rencontre se déroule sous les auspices de l'envoyé personnel du secrétaire général des Nations unies pour le Sahara occidental, M. Christopher Ross, en présence des délégations des deux parties et des représentants des deux pays observateurs, l'Algérie et la Mauritanie. 
+---
+90:in fr-ud-test_00091
+1 erreur: fr-ud-test_00091
+N('ras-le-bol'):: absent du lexique.
+---
+91: fr-ud-test_00092
+1 différence
+# text = [1;32;4mA[0m aucun moment, du jour ou de la nuit s'il le faut.
+# TEXT = [1;32;4mà[0m aucun moment, du jour ou de la nuit s'il le faut.
+---
+92: fr-ud-test_00093
+# text = Il a en outre exprimé la volonté de son pays de renforcer et consolider les relations bilatérales entre les deux pays dans l'avenir.
+# TEXT = Il a en outre exprimé la volonté de son pays de renforcer et consolider les relations bilatérales entre les deux pays dans l'avenir. 
+---
+93:in fr-ud-test_00094
+1 erreur: fr-ud-test_00094
+N('FPEG'):: absent du lexique.
+---
+94: fr-ud-test_00095
+1 différence
+# text = N'hésitez pas à [1;32;4mm'[0menvoyer actualités et libres tribunes à l'adresse suivante : criticusleblog@gmail.com.
+# TEXT = N'hésitez pas à [1;32;4mil [0menvoyer actualités et libres tribunes à l'adresse suivante: criticusleblog@gmail.com.
+---
+95: fr-ud-test_00096
+# text = Jusqu'à quand la France officielle maintiendra-t-elle sa préférence pour la protection des agresseurs des droits de l'homme ?
+# TEXT = Jusqu'à quand la France officielle maintiendra-t-elle sa préférence pour la protection des agresseurs des droits de l'homme?
+---
+96: fr-ud-test_00097
+## non projective
+2 différences
+# text = Il n'y [1;32;4men[0m [1;32;4ma[0m point.
+# TEXT = Il n'y [1;32;4ma[0m [1;32;4men[0m point.
+---
+97:in fr-ud-test_00098
+1 erreur: fr-ud-test_00098
+Pro('autre'):: absent du lexique.
+---
+98:in fr-ud-test_00099
+1 erreur: fr-ud-test_00099
+D('plusieurs'):: absent du lexique.
+---
+99: fr-ud-test_00100
+# text = La préfecture de Police de Paris déconseille aux automobilistes de se déplacer.
+# TEXT = La préfecture de police de Paris déconseille aux automobilistes de se déplacer. 
+---
+100:in fr-ud-test_00101
+1 erreur: fr-ud-test_00101
+N('ME'):: absent du lexique.
+---
+101:in fr-ud-test_00102
+1 erreur: fr-ud-test_00102
+N('slip'):: absent du lexique.
+---
+102: fr-ud-test_00103
+3 différences
+# text = La gestion [1;34;47met l'exploitation [0mde la salle de concert Wagram, récemment rénovée[1;31m•[0m[1;32;4m, [0msera assurée par Eurosites, leader en France de la location de salles.
+# TEXT = La gestion de la salle de concert Wagram, récemment rénovée[1;31m et l'exploitation[0m[1;32;4m [0msera assurée par Eurosites, leader en France de la location de salles.
+---
+103:in fr-ud-test_00104
+1 erreur: fr-ud-test_00104
+N('supporter'):: absent du lexique.
+---
+104: fr-ud-test_00105
+## non projective
+2 différences
+# text = Elle se remarie et un autre fils[1;31m•[0m va naître[1;34;47m, Serge[0m.
+# TEXT = Elle se remarie et un autre fils[1;31m, Serge[0m va naître.
+---
+105:in fr-ud-test_00106
+3 erreurs: fr-ud-test_00106
+N('fantasy'):: absent du lexique.
+N('plupart'):: absent du lexique.
+N('kemonomimi'):: absent du lexique.
+---
+106:in fr-ud-test_00107
+2 erreurs: fr-ud-test_00107
+N('mg/100'):: absent du lexique.
+N('ml'):: absent du lexique.
+---
+107:in fr-ud-test_00108
+1 erreur: fr-ud-test_00108
+N('show'):: absent du lexique.
+---
+108:in fr-ud-test_00109
+1 erreur: fr-ud-test_00109
+N('voile'):: erreur de morphologie : genre différent de celui du lexique :N(voile) : {"g":"m","lexique":"f"}.
+---
+109: fr-ud-test_00110
+11 différences
+# text = [1;32;4mLe[0m [1;32;4mmessage, bien que[0m [1;32;4mfeutré[0m, est clair : « nous [1;32;4mvous [0mavons accueilli longtemps[1;32;4m, il[0m [1;32;4mest temps[0m [1;32;4mde[0m [1;32;4mnous rendre[0m [1;32;4mnos[0m [1;32;4mbienfaits[0m [1;32;4m»[0m.
+# TEXT = [1;32;4mBien[0m [1;32;4mque feutré, le[0m [1;32;4mmessage[0m, est clair: « nous [1;32;4mt'[0mavons accueilli longtemps[1;32;4m temps[0m [1;32;4m», il[0m [1;32;4mest[0m [1;32;4md'il[0m [1;32;4mrendre[0m [1;32;4mses[0m [1;32;4mbienfaits[0m.
+---
+110: fr-ud-test_00111
+# text = Après-midi libre de détente (piscine).
+# TEXT = après-midi libre de détente (piscine). 
+---
+111: fr-ud-test_00112
+# text = Des visites commentées permettront au public de découvrir les collections, avec aussi différentes animations.
+# TEXT = Des visites commentées permettront au public de découvrir les collections, avec aussi différentes animations. 
+---
+112:in fr-ud-test_00113
+1 erreur: fr-ud-test_00113
+N('gang'):: absent du lexique.
+---
+113:in fr-ud-test_00114
+1 erreur: fr-ud-test_00114
+Pro('un'):: absent du lexique.
+---
+114:in fr-ud-test_00115
+1 erreur: fr-ud-test_00115
+N('internet'):: absent du lexique.
+---
+115:in fr-ud-test_00116
+1 erreur: fr-ud-test_00116
+A('150e'):: absent du lexique.
+---
+116:in fr-ud-test_00117
+1 erreur: fr-ud-test_00117
+Pro('chacun'):: absent du lexique.
+---
+117:in fr-ud-test_00118
+2 erreurs: fr-ud-test_00118
+N('match'):: absent du lexique.
+N('finale'):: erreur de morphologie : genre différent de celui du lexique :N(finale) : {"g":"m","lexique":"f"}.
+---
+118:in fr-ud-test_00119
+1 erreur: fr-ud-test_00119
+N('200m'):: absent du lexique.
+---
+119: fr-ud-test_00120
+# text = Chaque grande entreprise possède son centre de téléphonistes, ce qui équivaut au Québec à des milliers de centres d'appels.
+# TEXT = Chaque grande entreprise possède son centre de téléphonistes, ce qui équivaut au Québec à des milliers de centres d'appels. 
+---
+120: fr-ud-test_00121
+# text = Prenant la parole, Charles Mwando Nsimba a sollicité un délai supplémentaire avant de répondre aux préoccupations soulevées, estimant que des éléments nouveaux y avaient été introduits.
+# TEXT = Prenant la parole, Charles Mwando Nsimba a sollicité un délai supplémentaire avant de répondre aux préoccupations soulevées, estimant que des éléments nouveaux y avaient été introduits. 
+---
+121: fr-ud-test_00122
+# text = Ce mercredi soir, il s'est installé dans un logement situé à TriBeCa, un quartier du sud-ouest de Manhattan.
+# TEXT = Ce mercredi soir, il s'est installé dans un logement situé à TriBeCa, un quartier du sud-ouest de Manhattan. 
+---
+122:in fr-ud-test_00123
+1 erreur: fr-ud-test_00123
+N('primaire'):: erreur de morphologie : genre différent de celui du lexique :N(primaire) : {"g":"f","lexique":"m"}.
+---
+123:in fr-ud-test_00124
+## non projective
+6 erreurs: fr-ud-test_00124
+A('disputé'):: absent du lexique.
+V('facebooker'):: absent du lexique.
+V('tweeter'):: absent du lexique.
+N('meeting'):: absent du lexique.
+V('facebooker'):: erreur de morphologie : conjugate_fr:tab :V(facebooker) : {"pe":3,"n":"s","t":"pr"}.
+V('tweeter'):: erreur de morphologie : conjugate_fr:tab :V(tweeter) : {"pe":3,"n":"s","t":"pr"}.
+---
+124: fr-ud-test_00125
+2 différences
+# text = Odeurs[1;32;4m, [0msaveurs, couleurs[1;32;4m... [0mtout se mélange pour le plus grand plaisir des gourmands et amateurs de produits de qualité.
+# TEXT = Odeurs[1;32;4m..., [0msaveurs, couleurs[1;32;4m [0mtout se mélange pour le plus grand plaisir des gourmands et amateurs de produits de qualité.
+---
+125: fr-ud-test_00126
+7 différences
+# text = Il faut savoir que les appareils de la dernière génération exposent la couche supérieure de la main à [1;32;4m40°C[0m [1;31m•[0met que les couches plus profondes atteindront la température de [1;31m•[0m[1;32;4m60°C[0m, il est donc normal de ressentir un [1;32;4mpeu[0m [1;32;4mde[0m [1;32;4mdouleur[0m.
+# TEXT = Il faut savoir que les appareils de la dernière génération exposent la couche supérieure de la main à [1;32;4m40[0m [1;31m° C [0met que les couches plus profondes atteindront la température de [1;31m60 ° [0m[1;32;4mC[0m, il est donc normal de ressentir un [1;32;4mde[0m [1;32;4mdouleur[0m [1;32;4mpeu[0m.
+---
+126: fr-ud-test_00127
+# text = Sean David Morton qui se fait appeler "le prophète de l'Amérique", a levé six millions de dollars en faisant croire aux investisseurs qu'il pouvait prédire l'évolution de la Bourse !
+# TEXT = Sean David Morton qui se fait appeler " le prophète de l'Amérique ", a levé six millions de dollars en faisant croire aux investisseurs qu'il pouvait prédire l'évolution de la Bourse!
+---
+127: fr-ud-test_00128
+# text = De quoi inciter à une certaine prudence.
+# TEXT = De quoi inciter à une certaine prudence. 
+---
+128: fr-ud-test_00129
+# text = L'excédent brut d'exploitation atteint 47,4 millions d'euros, en rebond de 6,7%, et le résultat opérationnel courant affiche une hausse de 3,8%, à 29,8 millions d'euros.
+# TEXT = l'excédent brut d'exploitation atteint 47,4 millions d'euros, en rebond de 6,7%, et le résultat opérationnel courant affiche une hausse de 3,8%, à 29,8 millions d'euros. 
+---
+129: fr-ud-test_00130
+2 différences
+# text = Pour[1;32;4m [0mautant[1;32;4m, [0mnous avions tranché.
+# TEXT = Pour[1;32;4m, [0mautant[1;32;4m [0mnous avions tranché.
+---
+130:in fr-ud-test_00131
+2 erreurs: fr-ud-test_00131
+N('match'):: absent du lexique.
+N('match'):: absent du lexique.
+---
+131: fr-ud-test_00132
+# text = L'attaquant du Bayern Munich demande aussi, et surtout, que le livre soit retiré de la vente.
+# TEXT = L'attaquant du Bayern Munich demande aussi, et surtout, que le livre soit retiré de la vente. 
+---
+132:in fr-ud-test_00133
+1 erreur: fr-ud-test_00133
+P('comme'):: absent du lexique.
+---
+133:in fr-ud-test_00134
+2 erreurs: fr-ud-test_00134
+N('IP'):: absent du lexique.
+N('nouvelle'):: absent du lexique.
+---
+134:in fr-ud-test_00135
+1 erreur: fr-ud-test_00135
+N('long'):: absent du lexique.
+---
+135: fr-ud-test_00136
+1 différence
+# text = Retrouver [1;32;4mnotre[0m inspiration.
+# TEXT = retrouver [1;32;4mson[0m inspiration.
+---
+136: fr-ud-test_00137
+4 différences
+# text = Si Moody's estime que [1;32;4mleur[0m note ne devrait pas baisser de plus d'un cran, [1;32;4mla[0m [1;32;4msituation[0m [1;32;4mn'[0mest pas la même pour la Société Générale, dont la dégradation pourrait atteindre deux crans.
+# TEXT = Si Moody's estime que [1;32;4msa[0m note ne devrait pas baisser de plus d'un cran, [1;32;4mne[0m [1;32;4mla[0m [1;32;4msituation [0mest pas la même pour la Société générale, dont la dégradation pourrait atteindre deux crans.
+---
+137:in fr-ud-test_00138
+2 erreurs: fr-ud-test_00138
+Adv('nombre'):: absent du lexique.
+N('œil'):: absent du lexique.
+---
+138: fr-ud-test_00139
+1 différence
+# text = [1;32;4mCa[0m énerve beaucoup de personnes, mais pour l'utilisateur final, c'est rassurant dans 80% des cas.
+# TEXT = [1;32;4mça[0m énerve beaucoup de personnes, mais pour l'utilisateur final, c'est rassurant dans 80% des cas.
+---
+139: fr-ud-test_00140
+# text = C'est un caillou blanc.
+# TEXT = C'est un caillou blanc. 
+---
+140: fr-ud-test_00141
+4 différences
+# text = Ainsi, ces cadres, de par [1;32;4mleur[0m clarté et [1;32;4mleur[0m crédibilité[1;32;4m, [0mont [1;32;4maccru[0m la portée des actions de la Banque.
+# TEXT = Ainsi, ces cadres, de par [1;32;4msa[0m clarté et [1;32;4msa[0m crédibilité[1;32;4m [0mont [1;32;4maccrû[0m la portée des actions de la Banque.
+---
+141: fr-ud-test_00142
+# text = Il s'agit des importateurs utilisés par le Comité Fal pour établir le baromètre du passage au port.
+# TEXT = Il s'agit des importateurs utilisés par le Comité Fal pour établir le baromètre du passage au port. 
+---
+142: fr-ud-test_00143
+# text = On s'était dit : "Quand on aura un premier pas de fait, on s'éclatera un peu plus", a expliqué Véronique.
+# TEXT = On s'était dit: " quand on aura un premier pas de fait, on s'éclatera un peu plus ", a expliqué Véronique. 
+---
+143:in fr-ud-test_00144
+2 erreurs: fr-ud-test_00144
+D('plusieurs'):: absent du lexique.
+N('maîtresse'):: absent du lexique.
+---
+144: fr-ud-test_00145
+## non projective
+5 différences
+# text = [1;32;4mQu'est[0m-ce que 1[1;34;47m.000[0m emplois quand on en détruit et qu'on [1;32;4men[0m [1;32;4mcréé[0m 20[1;34;47m.000[0m tous les jours en France ?
+# TEXT = [1;32;4mest que[0m-ce que 1 emplois quand on en détruit et qu'on [1;32;4mcréé[0m [1;32;4men[0m 20 tous les jours en France?
+---
+145:in fr-ud-test_00146
+4 erreurs: fr-ud-test_00146
+N('heure'):: erreur de morphologie : genre différent de celui du lexique :N(heure) : {"g":"m","lexique":"f"}.
+N('heure'):: erreur de morphologie : genre différent de celui du lexique :N(heure) : {"g":"m","lexique":"f"}.
+N('heure'):: erreur de morphologie : genre différent de celui du lexique :N(heure) : {"g":"m","lexique":"f"}.
+N('heure'):: erreur de morphologie : genre différent de celui du lexique :N(heure) : {"g":"m","lexique":"f"}.
+---
+146: fr-ud-test_00147
+# text = En 2004, a-t-il indiqué, nous avons appliqué ce concept en Afrique après avoir constaté le caractère désastreux du système d'éclairage au kérosène.
+# TEXT = En 2004, a-t-il indiqué, nous avons appliqué ce concept en Afrique après avoir constaté le caractère désastreux du système d'éclairage au kérosène. 
+---
+147: fr-ud-test_00148
+# text = Ce dimanche 30, à Pleumeur-Bodou, sur le site de Cosmopolis.
+# TEXT = ce dimanche 30, à Pleumeur-Bodou, sur le site de Cosmopolis. 
+---
+148: fr-ud-test_00149
+# text = Là, on saura qui est le coupable et qui est la victime », a prévenu le patron de la FAF.
+# TEXT = Là, on saura qui est le coupable et qui est la victime », a prévenu le patron de la FAF. 
+---
+149: fr-ud-test_00150
+1 différence
+# text = Comment repoussez [1;32;4mvous[0m les bateaux d'immigrés dans les eaux internationales ?
+# TEXT = Comment repoussez [1;32;4mtu[0m les bateaux d'immigrés dans les eaux internationales?
+---
+150:in fr-ud-test_00151
+2 erreurs: fr-ud-test_00151
+A('rochelais'):: absent du lexique.
+Adv('moins'):: l'option n est appliquée à Adv, mais elle devrait l'être à D, Pro, N, NP, A, AP, V, VP, S, SP ou CP
+---
+151: fr-ud-test_00152
+# text = Ce sera l'ultime étape de coupe de France pour les catégories espoirs, la revanche des championnats de France chez les vétérans, de plus en plus motivés par la compétition et quelques jours plus tard l'incontournable épreuve internationale qui cette année se déroulera en open.
+# TEXT = Ce sera l'ultime étape de coupe de France pour les catégories espoirs, la revanche des championnats de France chez les vétérans, de plus en plus motivés par la compétition et quelques jours plus tard l'incontournable épreuve internationale qui cette année se déroulera en open. 
+---
+152:in fr-ud-test_00153
+1 erreur: fr-ud-test_00153
+N('PIB'):: absent du lexique.
+---
+153:in fr-ud-test_00154
+2 erreurs: fr-ud-test_00154
+Pro('un'):: absent du lexique.
+A('74e'):: absent du lexique.
+---
+154:in fr-ud-test_00155
+1 erreur: fr-ud-test_00155
+N('finale'):: erreur de morphologie : genre différent de celui du lexique :N(finale) : {"g":"m","lexique":"f"}.
+---
+155:in fr-ud-test_00156
+1 erreur: fr-ud-test_00156
+N('match'):: absent du lexique.
+---
+156: fr-ud-test_00157
+# text = De son côté, l'agence de sûreté nucléaire japonaise n'a pas relevé le classement de l'accident de la centrale de Fukushima au niveau 6.
+# TEXT = De son côté, l'agence de sûreté nucléaire japonaise n'a pas relevé le classement de l'accident de la centrale de Fukushima au niveau 6. 
+---
+157:in fr-ud-test_00158
+1 erreur: fr-ud-test_00158
+N('18h40'):: absent du lexique.
+---
+158:in fr-ud-test_00159
+4 erreurs: fr-ud-test_00159
+A('logistique'):: absent du lexique.
+A('canéjanais'):: absent du lexique.
+Adv('tandis'):: absent du lexique.
+A('canéjanais'):: absent du lexique.
+---
+159: fr-ud-test_00160
+# text = Même du fond de l'enfer, Dany Laferrière reste un réaliste heureux.
+# TEXT = Même du fond de l'enfer, Dany Laferrière reste un réaliste heureux. 
+---
+160: fr-ud-test_00161
+# text = Faut-il éviter de se rendre dans les pays du sous-continent indien ?
+# TEXT = faut-il éviter de se rendre dans les pays du sous-continent indien?
+---
+161: fr-ud-test_00162
+3 différences
+# text = Celle-ci a également perdu du terrain sur l'euro, l'[1;31m•[0m[1;32;4mEUR/GBP[0m [1;31m•[0mprenant 0.27% pour se hisser à 0.8647.
+# TEXT = Celle-ci a également perdu du terrain sur l'euro, l'[1;31mEUR, [0m[1;32;4m/[0m [1;31mGBP [0mprenant 0.27% pour se hisser à 0.8647.
+---
+162: fr-ud-test_00163
+1 différence
+# text = " J'ai senti, au cours de [1;32;4mmon[0m déplacement à Prague, que les Tchèques étaient probablement les plus ouverts.
+# TEXT = " J'ai senti, au cours de [1;32;4mson[0m déplacement à Prague, que les Tchèques étaient probablement les plus ouverts.
+---
+163:in fr-ud-test_00164
+1 erreur: fr-ud-test_00164
+N('CM1'):: absent du lexique.
+---
+164:in fr-ud-test_00165
+## non projective
+1 erreur: fr-ud-test_00165
+A('chiite'):: absent du lexique.
+---
+165: fr-ud-test_00166
+# text = Puis, à l'école, deux autres délégués sont intervenus pour parler aux élèves mais aussi parents.
+# TEXT = Puis, à l'école, deux autres délégués sont intervenus pour parler aux élèves mais aussi parents. 
+---
+166: fr-ud-test_00167
+# text = Sur place vente de livres consacrés à Jean Ferrat
+# TEXT = sur place vente de livres consacrés à Jean Ferrat
+---
+167: fr-ud-test_00168
+2 différences
+# text = En[1;32;4m [0mtout[1;32;4m, [0mce sont près d'une centaine de conteneurs qui ont été utilisés pour créer ces logements étudiants.
+# TEXT = En[1;32;4m, [0mtout[1;32;4m [0mce sont près d'une centaine de conteneurs qui ont été utilisés pour créer ces logements étudiants.
+---
+168:in fr-ud-test_00169
+1 erreur: fr-ud-test_00169
+Pro('nul'):: absent du lexique.
+---
+169: fr-ud-test_00170
+2 différences
+# text = De[1;32;4m [0mplus[1;32;4m, [0mon pourra aussi trouver une nouveauté avec le Salon du jeu en bois.
+# TEXT = De[1;32;4m, [0mplus[1;32;4m [0mon pourra aussi trouver une nouveauté avec le salon du jeu en bois.
+---
+170: fr-ud-test_00171
+# text = À son bord, deux frères de 25 et 23 ans demeurant à Bourg-Argental (Loire).
+# TEXT = à son bord, deux frères de 25 et 23 ans demeurant à Bourg-Argental (Loire). 
+---
+171: fr-ud-test_00172
+1 différence
+# text = Ça va forcément [1;32;4mme[0m rappeler des souvenirs.
+# TEXT = Ça va forcément [1;32;4mil[0m rappeler des souvenirs.
+---
+172:in fr-ud-test_00173
+4 erreurs: fr-ud-test_00173
+A('logiciel'):: absent du lexique.
+A('intégré'):: absent du lexique.
+N('e-mail'):: absent du lexique.
+N('marketing'):: absent du lexique.
+---
+173:in fr-ud-test_00174
+1 erreur: fr-ud-test_00174
+D('plusieurs'):: absent du lexique.
+---
+174: fr-ud-test_00175
+## non projective
+3 différences
+# text = M. Di Rupo, dont le parti avait remporté les élections de juin en Wallonie francophone, a émis l'espoir[1;34;47m lundi[0m "que la raison finira par l'emporter[1;31m•[0m[1;32;4m".[0m
+# TEXT = M. Di Rupo, dont le parti avait remporté les élections de juin en Wallonie francophone, a émis l'espoir " que la raison finira par l'emporter[1;31m " lundi[0m[1;32;4m.[0m
+---
+175:in fr-ud-test_00176
+1 erreur: fr-ud-test_00176
+A('endetté'):: absent du lexique.
+---
+176: fr-ud-test_00177
+12 différences
+# text = "C'est la panique totale sur le marché[1;32;4m, et[0m [1;32;4mla[0m [1;32;4mchute du[0m [1;32;4mcours[0m [1;32;4msuit[0m [1;32;4mle risque[0m [1;32;4msouverain", explique[0m [1;32;4mNuria[0m [1;32;4mAlvarez, analyste[0m [1;32;4mchez[0m [1;32;4mRenta[0m [1;32;4m4[0m.
+# TEXT = " C'est la panique totale sur le marché[1;32;4m ", explique[0m [1;32;4mNuria[0m [1;32;4mAlvarez, analyste[0m [1;32;4mchez[0m [1;32;4mRenta[0m [1;32;4m4, et[0m [1;32;4mla chute[0m [1;32;4mdu[0m [1;32;4mcours suit[0m [1;32;4mle[0m [1;32;4mrisque[0m [1;32;4msouverain[0m.
+---
+177: fr-ud-test_00178
+2 différences
+# text = [1;34;47mQuel est [0mle coût d'un tel projet[1;31m•[0m ?
+# TEXT = Le coût d'un tel projet[1;31m est quel[0m?
+---
+178:in fr-ud-test_00179
+2 erreurs: fr-ud-test_00179
+N('UA'):: absent du lexique.
+N('UA'):: absent du lexique.
+---
+179: fr-ud-test_00180
+# text = Pour souligner les 35 ans du Théâtre du Trillium, la directrice artistique Anne-Marie White a décidé de faire éclater le quatrième mur entre les artistes et le public.
+# TEXT = Pour souligner les 35 ans du théâtre du Trillium, la directrice artistique Anne-Marie White a décidé de faire éclater le quatrième mur entre les artistes et le public. 
+---
+180: fr-ud-test_00181
+1 différence
+# text = Mardi midi, l'automobiliste était toujours en [1;32;4mgarde[0m à vue.
+# TEXT = Mardi midi, l'automobiliste était toujours en [1;32;4mgardes[0m à vue.
+---
+181: fr-ud-test_00182
+## non projective
+5 différences
+# text = En d'autres mots, [1;32;4mla[0m [1;32;4mpandémie[0m [1;32;4ma[0m été un peu moins [1;34;47mmortelle [0mque les pires saisons grippales[1;31m•[0m.
+# TEXT = En d'autres mots, [1;32;4ma[0m [1;32;4mla[0m [1;32;4mpandémie[0m été un peu moins que les pires saisons grippales[1;31m mortelle[0m.
+---
+182: fr-ud-test_00183
+1 différence
+# text = Cependant, [1;32;4mvous[0m êtes invités à respecter un certain nombre de critères.
+# TEXT = Cependant, [1;32;4mtu[0m êtes invités à respecter un certain nombre de critères.
+---
+183: fr-ud-test_00184
+# text = On a le droit "d'être contre".
+# TEXT = On a le droit " d'être contre ". 
+---
+184: fr-ud-test_00185
+# text = Selon People, la jeune femme a très rapidement engagé un avocat très en vue de Las Vegas pour assurer sa défense.
+# TEXT = Selon People, la jeune femme a très rapidement engagé un avocat très en vue de Las Vegas pour assurer sa défense. 
+---
+185: fr-ud-test_00186
+2 différences
+# text = « Les changements d'horaire, c'est plutôt une bonne chose pour [1;32;4mmoi[0m, je gagne deux minutes sur [1;32;4mmon[0m temps d'attente, sourit-elle.
+# TEXT = « Les changements d'horaire, c'est plutôt une bonne chose pour [1;32;4mil[0m, je gagne deux minutes sur [1;32;4mson[0m temps d'attente, sourit-elle.
+---
+186:in fr-ud-test_00187
+1 erreur: fr-ud-test_00187
+P('comme'):: absent du lexique.
+---
+187:in fr-ud-test_00188
+2 erreurs: fr-ud-test_00188
+N('SMS'):: absent du lexique.
+N('quiz'):: absent du lexique.
+---
+188: fr-ud-test_00189
+# text = Barack Obama s'est baigné samedi dans une station balnéaire de Floride affirmant que toutes les plages du golfe du Mexique sont praticables et essayant de montrer l'exemple après la marée noire provoquée par BP.
+# TEXT = Barack Obama s'est baigné samedi dans une station balnéaire de Floride affirmant que toutes les plages du golfe du Mexique sont praticables et essayant de montrer l'exemple après la marée noire provoquée par BP. 
+---
+189: fr-ud-test_00190
+# text = Peut-être serait-il plus libérateur de crier bien fort : OUACHE !...
+# TEXT = Peut-être serait-il plus libérateur de crier bien fort: OUACHE!...
+---
+190: fr-ud-test_00191
+1 différence
+# text = Une marge nette d'intérêts solide et le contrôle des coûts ont [1;32;4mpermis[0m au groupe, malgré la crise, de faire croître son bénéfice net de 0,7% en 2009 à 8,943 milliards d'euros, malgré 9,484 milliards de provisions pour créances douteuses.
+# TEXT = Une marge nette d'intérêts solide et le contrôle des coûts ont [1;32;4mpermiss[0m au groupe, malgré la crise, de faire croître son bénéfice net de 0,7% en 2009 à 8,943 milliards d'euros, malgré 9,484 milliards de provisions pour créances douteuses.
+---
+191: fr-ud-test_00192
+1 différence
+# text = 200 vols ont été annulés samedi, et ce malgré la déclaration du porte-parole de la compagnie au premier jour de la [1;32;4mgréve[0m.
+# TEXT = 200 vols ont été annulés samedi, et ce malgré la déclaration du porte-parole de la compagnie au premier jour de la [1;32;4mgrève[0m.
+---
+192: fr-ud-test_00193
+16 différences
+# text = « Il n'y a pas [1;32;4mde[0m problème de banlieue [1;32;4met la banlieue, je[0m [1;32;4mne[0m [1;32;4msais[0m [1;32;4mpas[0m [1;32;4mce[0m [1;32;4mque[0m [1;32;4mc'est[0m [1;32;4m», n'a[0m [1;32;4mcessé de[0m [1;32;4mrépéter[0m [1;32;4mcet[0m [1;32;4manimateur[0m [1;32;4mpassé[0m [1;32;4mpar Radio[0m [1;32;4mNova[0m.
+# TEXT = « il n'y a pas [1;32;4mun[0m problème de banlieue [1;32;4m», n'a cessé[0m [1;32;4mde[0m [1;32;4mrépéter[0m [1;32;4mcet[0m [1;32;4manimateur[0m [1;32;4mpassé[0m [1;32;4mpar Radio[0m [1;32;4mNova et la[0m [1;32;4mbanlieue, je[0m [1;32;4mne[0m [1;32;4msais[0m [1;32;4mpas[0m [1;32;4mce[0m [1;32;4mc'est[0m [1;32;4mque[0m.
+---
+193:in fr-ud-test_00194
+1 erreur: fr-ud-test_00194
+Pro('rien'):: absent du lexique.
+---
+194: fr-ud-test_00195
+3 différences
+# text = Et côté coloration, [1;32;4mMiss[0m [1;32;4mFrance[0m [1;32;4mn'[0mest pas à son coup d'essai.
+# TEXT = Et côté coloration, [1;32;4mne[0m [1;32;4mMiss[0m [1;32;4mFrance [0mest pas à son coup d'essai.
+---
+195: fr-ud-test_00196
+# text = Hormis ce professeur d'anglais, au lycée, qui, quand elle le voyait sourire, pensait qu'il se moquait d'elle.
+# TEXT = hormis ce professeur d'anglais, au lycée, qui, quand elle le voyait sourire, pensait qu'il se moquait d'elle. 
+---
+196: fr-ud-test_00197
+2 différences
+# text = Pendant que le Chef d'[1;32;4mEtat[0m Major Soumaila Bagayoko fustigeait le comportement des éléments incontrôlés des Frci dans le camp de la Garde Républicaine de Treichville, le jeudi dernier, Huit (8) militaires armés jusqu'aux dents attaquaient un bureau de change appartenant à [1;32;4mnotre[0m compatriote Sacko Souleymane, à quelques centaines de mètres de là.
+# TEXT = Pendant que le chef d'[1;32;4métat[0m major Soumaila Bagayoko fustigeait le comportement des éléments incontrôlés des Frci dans le camp de la garde républicaine de Treichville, le jeudi dernier, Huit (8) militaires armés jusqu'aux dents attaquaient un bureau de change appartenant à [1;32;4mson[0m compatriote Sacko Souleymane, à quelques centaines de mètres de là.
+---
+197: fr-ud-test_00198
+# text = « Oui on le sait, mais je dirai qu'il la faut.
+# TEXT = « Oui on le sait, mais je dirai qu'il la faut. 
+---
+198:in fr-ud-test_00199
+1 erreur: fr-ud-test_00199
+A('18e'):: absent du lexique.
+---
+199: fr-ud-test_00200
+# text = -Le tout saupoudré d'un niveau gustatif plus que moyen En gros, je ne saurai que déconseiller en tout cas pour plus de 5 personnes !
+# TEXT = -le tout saupoudré d'un niveau gustatif plus que moyen en gros, je ne saurai que déconseiller en tout cas pour plus de 5 personnes!
+---
+200: fr-ud-test_00201
+1 différence
+# text = [1;32;4mA[0m 5 minutes à pieds du métro.
+# TEXT = [1;32;4mà[0m 5 minutes à pieds du métro.
+---
+201:in fr-ud-test_00202
+1 erreur: fr-ud-test_00202
+N('tapa'):: absent du lexique.
+---
+202: fr-ud-test_00203
+# text = Allez-y.
+# TEXT = allez-y. 
+---
+203: fr-ud-test_00204
+6 différences
+# text = Alors je [1;32;4mretournes[0m souvent au Campuchea, son [1;32;4mhote[0m est toujours là pour [1;32;4mvous [0maider à trouver [1;32;4mvotre[0m bonheur, la cuisine est vraiment excellente et [1;32;4mvous[0m passez toujours un bon moment, essayez et [1;32;4mvous[0m y retournerez...
+# TEXT = Alors je [1;32;4mretourne[0m souvent au Campuchea, son [1;32;4mhôte[0m est toujours là pour [1;32;4mt'[0maider à trouver [1;32;4mson[0m bonheur, la cuisine est vraiment excellente et [1;32;4mtu[0m passez toujours un bon moment, essayez et [1;32;4mtu[0m y retournerez...
+---
+204:in fr-ud-test_00205
+3 erreurs: fr-ud-test_00205
+N('solaire'):: absent du lexique.
+N('solaire'):: absent du lexique.
+A('photovoltaïque'):: absent du lexique.
+---
+205: fr-ud-test_00206
+2 différences
+# text = Après quelques séances de massage, je suis bien [1;32;4mrelaxé[0m et surtout je n'ai plus mal à [1;32;4mmon[0m poignet anciennement foulé.
+# TEXT = après quelques séances de massage, je suis bien [1;32;4mrelaxée[0m et surtout je n'ai plus mal à [1;32;4mson[0m poignet anciennement foulé.
+---
+206:in fr-ud-test_00207
+2 erreurs: fr-ud-test_00207
+Adv('pas'):: l'option g est appliquée à Adv, mais elle devrait l'être à D, Pro, N, NP, A, AP, V, VP, S, SP ou CP
+Adv('pas'):: l'option n est appliquée à Adv, mais elle devrait l'être à D, Pro, N, NP, A, AP, V, VP, S, SP ou CP
+---
+207:in fr-ud-test_00208
+1 erreur: fr-ud-test_00208
+N('sortir'):: absent du lexique.
+---
+208:in fr-ud-test_00209
+1 erreur: fr-ud-test_00209
+N('serpillère'):: absent du lexique.
+---
+209: fr-ud-test_00210
+# text = Avec plus de 40000 références, on est assuré d'une livraison rapide dans toute la France.
+# TEXT = Avec plus de 40000 références, on est assuré d'une livraison rapide dans toute la France. 
+---
+210:in fr-ud-test_00211
+1 erreur: fr-ud-test_00211
+A('pinailleur'):: absent du lexique.
+---
+211: fr-ud-test_00212
+# text = Bonjour, Nous avons fait l'acquisition d'un O'Hara modèle 2010.
+# TEXT = Bonjour, nous avons fait l'acquisition d'un O'Hara modèle 2010. 
+---
+212: fr-ud-test_00213
+2 différences
+# text = Boutique bobo chic[1;32;4m [0mmais il manque l'essentiel : le professionnalisme[1;32;4m ![0m
+# TEXT = boutique bobo chic[1;32;4m! [0mmais il manque l'essentiel: le professionnalisme[1;32;4m[0m
+---
+213: fr-ud-test_00214
+1 différence
+# text = Bref, la rue des maréchaux de nancy [1;32;4mvous[0m permettra sans doute de trouver bien mieux !
+# TEXT = Bref, la rue des maréchaux de nancy [1;32;4mil[0m permettra sans doute de trouver bien mieux!
+---
+214: fr-ud-test_00215
+# text = Bref, à déconseiller !
+# TEXT = Bref, à déconseiller!
+---
+215: fr-ud-test_00216
+# text = Bémol : le refus des cartes de paiement !
+# TEXT = bémol: le refus des cartes de paiement!
+---
+216: fr-ud-test_00217
+1 différence
+# text = C'est l'adresse de l'hôtel de ville de Faches Thumesnil[1;32;4m[0m
+# TEXT = C'est l'adresse de l'hôtel de ville de Faches Thumesnil[1;32;4m.[0m
+---
+217: fr-ud-test_00218
+# text = C'est tellement rare de pouvoir dîner au coin du feu !
+# TEXT = C'est tellement rare de pouvoir dîner au coin du feu!
+---
+218: fr-ud-test_00219
+# text = C'est un lieu incontournable, car il permet de sentir la vie d'une famille qui respirait la sainteté.
+# TEXT = C'est un lieu incontournable, car il permet de sentir la vie d'une famille qui respirait la sainteté. 
+---
+219:in fr-ud-test_00220
+2 erreurs: fr-ud-test_00220
+V('diner'):: absent du lexique.
+V('diner'):: erreur de morphologie : conjugate_fr:tab :V(diner) : {"pe":3,"n":"s","t":"b"}.
+---
+220: fr-ud-test_00221
+# text = Car l'on peut trouver très aisément des préservatifs usagés sur les matelas.
+# TEXT = Car l'on peut trouver très aisément des préservatifs usagés sur les matelas. 
+---
+221:in fr-ud-test_00222
+1 erreur: fr-ud-test_00222
+A('1ère'):: absent du lexique.
+---
+222: fr-ud-test_00223
+1 différence
+# text = Cette école est très bien sérieuse et aide beaucoup[1;32;4m[0m
+# TEXT = Cette école est très bien sérieuse et aide beaucoup[1;32;4m.[0m
+---
+223: fr-ud-test_00224
+# text = Elles donnent à toucher, fabriquer, débattre, inventer, grâce à un matériel pédagogique spécifique.
+# TEXT = Elles donnent à toucher, fabriquer, débattre, inventer, grâce à un matériel pédagogique spécifique. 
+---
+224:in fr-ud-test_00225
+1 erreur: fr-ud-test_00225
+Pro("quelqu'un"):: absent du lexique.
+---
+225: fr-ud-test_00226
+2 différences
+# text = En 2 séances (maillot[1;32;4m [0met aisselles[1;32;4m) [0mje vois déjà la différence.
+# TEXT = En 2 séances (maillot[1;32;4m) [0met aisselles[1;32;4m [0mje vois déjà la différence.
+---
+226:in fr-ud-test_00227
+1 erreur: fr-ud-test_00227
+Pro('autre'):: absent du lexique.
+---
+227: fr-ud-test_00228
+# text = En plus il est gentil, à l'écoute et on voit qu'il aime vraiment les animaux.
+# TEXT = En plus il est gentil, à l'écoute et on voit qu'il aime vraiment les animaux. 
+---
+228: fr-ud-test_00229
+# text = Enfin, arrive la douloureuse qui est parfaitement justifiée par la qualité des prestations servies.
+# TEXT = Enfin, arrive la douloureuse qui est parfaitement justifiée par la qualité des prestations servies. 
+---
+229:in fr-ud-test_00230
+## non projective
+1 erreur: fr-ud-test_00230
+N('mezcal'):: absent du lexique.
+---
+230: fr-ud-test_00231
+3 différences
+# text = Et la qualité du service est [1;32;4mtrés[0m [1;32;4mtrés[0m [1;32;4mtrés[0m... bonne.
+# TEXT = Et la qualité du service est [1;32;4mtrès[0m [1;32;4mtrès[0m [1;32;4mtrès[0m... bonne.
+---
+231:in fr-ud-test_00232
+1 erreur: fr-ud-test_00232
+N('jacuzzi'):: absent du lexique.
+---
+232: fr-ud-test_00233
+# text = Fini les plats décevants !
+# TEXT = fini les plats décevants!
+---
+233: fr-ud-test_00234
+# text = Génial, et en plus c'est rapide.
+# TEXT = génial, et en plus c'est rapide. 
+---
+234: fr-ud-test_00235
+# text = Ici c'est très professionnelle.
+# TEXT = Ici c'est très professionnelle. 
+---
+235: fr-ud-test_00236
+1 différence
+# text = Il sont formés à [1;32;4mvous [0marnaquer.
+# TEXT = Il sont formés à [1;32;4mt'[0marnaquer.
+---
+236: fr-ud-test_00237
+# text = Il vaut mieux réserver car ce petit coin de Naples est bien connu.
+# TEXT = il vaut mieux réserver car ce petit coin de Naples est bien connu. 
+---
+237: fr-ud-test_00238
+# text = Il y a même un café avec des pingouins !
+# TEXT = Il y a même un café avec des pingouins!
+---
+238: fr-ud-test_00239
+2 différences
+# text = Ils enregistrent [1;32;4mma[0m demande d'annulation, et communiquent l'annulation à [1;32;4mleur[0m fournisseur.
+# TEXT = ils enregistrent [1;32;4msa[0m demande d'annulation, et communiquent l'annulation à [1;32;4mson[0m fournisseur.
+---
+239:in fr-ud-test_00240
+2 erreurs: fr-ud-test_00240
+V('bullshitter'):: absent du lexique.
+V('bullshitter'):: erreur de morphologie : conjugate_fr:tab :V(bullshitter) : {"pe":3,"n":"s","t":"b"}.
+---
+240: fr-ud-test_00241
+1 différence
+# text = Ils ont réalisé un excellent travail[1;32;4m[0m
+# TEXT = Ils ont réalisé un excellent travail[1;32;4m.[0m
+---
+241: fr-ud-test_00242
+# text = Ils sont sur Cherbourg depuis 2007.
+# TEXT = Ils sont sur Cherbourg depuis 2007. 
+---
+242: fr-ud-test_00243
+# text = J'y vais très souvent, car comme on dit on change pas une équipe qui gagne.
+# TEXT = j'y vais très souvent, car comme on dit on change pas une équipe qui gagne. 
+---
+243: fr-ud-test_00244
+# text = J'adore la bouffe et le style.
+# TEXT = J'adore la bouffe et le style. 
+---
+244: fr-ud-test_00245
+1 différence
+# text = J'ai donc choisi de ne faire qu'une coupe[1;32;4m [0m+ balayage.
+# TEXT = J'ai donc choisi de ne faire qu'une coupe[1;32;4m, [0m+ balayage.
+---
+245: fr-ud-test_00246
+1 différence
+# text = J'ai installé une chaudière à condensation dans [1;32;4mma[0m maison, initialement chauffée par des radiateurs électriques.
+# TEXT = J'ai installé une chaudière à condensation dans [1;32;4msa[0m maison, initialement chauffée par des radiateurs électriques.
+---
+246: fr-ud-test_00247
+# text = J'ai rencontré par hasard Lionel en cherchant sur Google un coiffeur à domicile... le hasard fait bien les choses !
+# TEXT = J'ai rencontré par hasard Lionel en cherchant sur Google un coiffeur à domicile... le hasard fait bien les choses!
+---
+247: fr-ud-test_00248
+# text = J'y suis allé 2 fois à une semaine d'intervalle et je n'ai pas été déçu.
+# TEXT = j'y suis allé 2 fois à une semaine d'intervalle et je n'ai pas été déçu. 
+---
+248: fr-ud-test_00249
+1 différence
+# text = Je recommande vivement ce magasin à tous ceux qui veulent faire [1;32;4mde[0m réelles économies !
+# TEXT = Je recommande vivement ce magasin à tous ceux qui veulent faire [1;32;4mdes[0m réelles économies!
+---
+249:in fr-ud-test_00250
+2 erreurs: fr-ud-test_00250
+N('ayurvéda'):: absent du lexique.
+N('kalaripayat'):: absent du lexique.
+---
+250: fr-ud-test_00251
+# text = Je veux bien que cela soit une chambre économique (50 euro la nuitée tout de même) mais je pense que les économies ne doivent pas être faites sur l'hygiène (l'aspirateur n'avait même pas été passé derrière la porte.
+# TEXT = je veux bien que cela soit une chambre économique (50 euro la nuitée tout de même) mais je pense que les économies ne doivent pas être faites sur l'hygiène ( l'aspirateur n'avait même pas été passé derrière la porte. 
+---
+251: fr-ud-test_00252
+## non projective
+3 différences
+# text = La carte regorge de trésors tant [1;32;4men crêpes[0m [1;32;4mqu'[0men [1;32;4mgalettes[0m.
+# TEXT = La carte regorge de trésors tant [1;32;4mqu'en[0m [1;32;4mgalettes [0men [1;32;4mcrêpes[0m.
+---
+252:in fr-ud-test_00253
+2 erreurs: fr-ud-test_00253
+Adv('environs'):: absent du lexique.
+N('2cm'):: absent du lexique.
+---
+253: fr-ud-test_00254
+1 différence
+# text = La paroisse Marie-Reine-des-Coeurs est située au : 5905, rue Turenne Montréal (Québec) H1M 1N4[1;32;4m[0m
+# TEXT = La paroisse Marie-Reine-des-Coeurs est située au: 5905, rue Turenne Montréal (Québec) H1M 1N4[1;32;4m.[0m
+---
+254:in fr-ud-test_00255
+2 erreurs: fr-ud-test_00255
+N('pub'):: absent du lexique.
+A('adapté'):: absent du lexique.
+---
+255:in fr-ud-test_00256
+1 erreur: fr-ud-test_00256
+N('cœur'):: absent du lexique.
+---
+256: fr-ud-test_00257
+4 différences
+# text = Le signe qui ne trompe pas, ce midi là... [1;31m•[0mles clients à table [1;34;47mn'[0métaient que des habitués[1;32;4m, [0met la salle était pleine[1;32;4m.[0m
+# TEXT = le signe qui ne trompe pas, ce midi là... [1;31mne [0mles clients à table étaient que des habitués[1;32;4m., [0met la salle était pleine[1;32;4m[0m
+---
+257:in fr-ud-test_00258
+1 erreur: fr-ud-test_00258
+A('habitué'):: absent du lexique.
+---
+258: fr-ud-test_00259
+# text = Les prix sont abordables pour la qualité des produits et le service en salle.
+# TEXT = Les prix sont abordables pour la qualité des produits et le service en salle. 
+---
+259:in fr-ud-test_00260
+## non projective
+1 erreur: fr-ud-test_00260
+N('seul'):: erreur de morphologie : genre différent de celui du lexique :N(seul) : {"g":"f","lexique":"m"}.
+---
+260:in fr-ud-test_00261
+1 erreur: fr-ud-test_00261
+N('18h'):: absent du lexique.
+---
+261: fr-ud-test_00262
+1 différence
+# text = [1;32;4mLeur[0m chocolat chaud est divin !
+# TEXT = [1;32;4mSon[0m chocolat chaud est divin!
+---
+262: fr-ud-test_00263
+# text = Madame Tellier est une excellente comptable que je recommande vivement !
+# TEXT = Madame Tellier est une excellente comptable que je recommande vivement!
+---
+263: fr-ud-test_00264
+3 différences
+# text = Magasin de chaussures pour [1;31m•[0m[1;32;4menfants/adolescents[0m [1;31m•[0mtrès convivial.
+# TEXT = magasin de chaussures pour [1;31menfants, [0m[1;32;4m/[0m [1;31madolescents [0mtrès convivial.
+---
+264: fr-ud-test_00265
+1 différence
+# text = Mais à souligner que jamais la musique ne prend le pas sur [1;32;4mnos[0m conversations.
+# TEXT = Mais à souligner que jamais la musique ne prend le pas sur [1;32;4mses[0m conversations.
+---
+265: fr-ud-test_00266
+1 différence
+# text = Merci beaucoup à [1;32;4mlui[0m !
+# TEXT = Merci beaucoup à [1;32;4mil[0m!
+---
+266:in fr-ud-test_00267
+## non projective
+2 erreurs: fr-ud-test_00267
+N('tagliatelle'):: absent du lexique.
+N('vapeur'):: erreur de morphologie : genre différent de celui du lexique :N(vapeur) : {"g":"m","lexique":"f"}.
+---
+267:in fr-ud-test_00268
+1 erreur: fr-ud-test_00268
+N('destockage'):: absent du lexique.
+---
+268: fr-ud-test_00269
+5 différences
+# text = Nous avons dépensé avec [1;32;4mma[0m femme 145 € pour une entrée[1;31m•[0m[1;32;4m, [0mun plat et un dessert[1;34;47m (sans alcool[0m[1;32;4m) ![0m
+# TEXT = Nous avons dépensé avec [1;32;4msa[0m femme 145 € pour une entrée[1;31m (sans alcool[0m[1;32;4m), [0mun plat et un dessert[1;32;4m![0m
+---
+269: fr-ud-test_00270
+2 différences
+# text = Nous avons [1;32;4mpris[0m [1;32;4mpossesion[0m de 2 chambres cabines ayant les toilettes en commun : poussière et saleté étaient au rendez-vous !
+# TEXT = Nous avons [1;32;4mpriss[0m [1;32;4mpossession[0m de 2 chambres cabines ayant les toilettes en commun: poussière et saleté étaient au rendez-vous!
+---
+270: fr-ud-test_00271
+# text = On y retourne cet été !
+# TEXT = On y retourne cet été!
+---
+271: fr-ud-test_00272
+4 différences
+# text = Par[1;32;4m [0mcontre[1;32;4m, [0msi [1;32;4mvous[0m êtes nombreux passez [1;32;4mvotre[0m chemin c'est relativement étroit !
+# TEXT = Par[1;32;4m, [0mcontre[1;32;4m [0msi [1;32;4mtu[0m êtes nombreux passez [1;32;4mson[0m chemin c'est relativement étroit!
+---
+272: fr-ud-test_00273
+3 différences
+# text = Par contre l'accueil est impeccable[1;34;47m et[0m[1;32;4m [0mtrès chaleureux, la propreté parfaite et le petit jardin très reposant[1;32;4m...[0m
+# TEXT = Par contre l'accueil est impeccable[1;32;4m..., [0mtrès chaleureux, la propreté parfaite et le petit jardin très reposant[1;32;4m.[0m
+---
+273: fr-ud-test_00274
+2 différences
+# text = [1;32;4mPetits[0m [1;32;4mcoups[0m de vin à boire au verre, pour 2-4 €, bière du Montblanc accompagne un repas succulent qui se déguste aussi à la carte.
+# TEXT = [1;32;4mcoups[0m [1;32;4mpetits[0m de vin à boire au verre, pour 2-4 €, bière du Montblanc accompagne un repas succulent qui se déguste aussi à la carte.
+---
+274: fr-ud-test_00275
+4 différences
+# text = Pour couronner le tout, [1;31m•[0mles personnes de la réception [1;34;47mne [0msont pas aimable[1;34;47m, ni compétent[0m... je dirais même totalement antipathiques[1;31m•[0m.
+# TEXT = Pour couronner le tout, [1;31mne [0mles personnes de la réception sont pas aimable... je dirais même totalement antipathiques[1;31m, ni compétent[0m.
+---
+275:in fr-ud-test_00276
+1 erreur: fr-ud-test_00276
+N('fashion'):: absent du lexique.
+---
+276: fr-ud-test_00277
+# text = Pour terminer ils disent qu'ils ont internet gratuit, mais il ne marche pratiquement jamais.
+# TEXT = pour terminer ils disent qu'ils ont internet gratuit, mais il ne marche pratiquement jamais. 
+---
+277:in fr-ud-test_00278
+1 erreur: fr-ud-test_00278
+Adv('super'):: absent du lexique.
+---
+278:in fr-ud-test_00279
+1 erreur: fr-ud-test_00279
+N('ps'):: absent du lexique.
+---
+279: fr-ud-test_00280
+# text = Qu'on se le dise !
+# TEXT = Qu'on se le dise!
+---
+280:in fr-ud-test_00281
+1 erreur: fr-ud-test_00281
+A('décoré'):: absent du lexique.
+---
+281: fr-ud-test_00282
+2 différences
+# text = Que ce soit à titre professionnel (pour [1;32;4mma[0m société) ou à titre personnel pour [1;32;4mmoi, [0mje vais chez Bureau Vallée Toulouse Montaudran.
+# TEXT = Que ce soit à titre professionnel (pour [1;32;4msa[0m société) ou à titre personnel pour [1;32;4mil [0mje vais chez Bureau Vallée Toulouse Montaudran.
+---
+282: fr-ud-test_00283
+2 différences
+# text = Si [1;32;4mvous[0m avez le malheur d'y déjeuner lorsque les patrons sont absents [1;32;4mvous[0m aurez droit au pire du pire.
+# TEXT = Si [1;32;4mtu[0m avez le malheur d'y déjeuner lorsque les patrons sont absents [1;32;4mtu[0m aurez droit au pire du pire.
+---
+283: fr-ud-test_00284
+2 différences
+# text = Si [1;32;4mvous[0m souhaitez régaler "[1;32;4mvos[0m papilles" n'hésitez surtout pas !
+# TEXT = Si [1;32;4mtu[0m souhaitez régaler " [1;32;4mses[0m papilles " n'hésitez surtout pas!
+---
+284: fr-ud-test_00285
+# text = Son dirigeant est disponible et à l'écoute de ses clients.
+# TEXT = Son dirigeant est disponible et à l'écoute de ses clients. 
+---
+285: fr-ud-test_00286
+# text = Temps d'attente un peu long mais peut-être qu'avec les nouveaux travaux cela va s'arranger
+# TEXT = temps d'attente un peu long mais peut-être qu'avec les nouveaux travaux cela va s'arranger
+---
+286: fr-ud-test_00287
+# text = Trop cher, il y a des pizzeria meilleure et moins cher ;)
+# TEXT = trop cher, il y a des pizzeria meilleure et moins cher ;)
+---
+287:in fr-ud-test_00288
+1 erreur: fr-ud-test_00288
+N('cocktail'):: absent du lexique.
+---
+288:in fr-ud-test_00289
+2 erreurs: fr-ud-test_00289
+V('voilà'):: absent du lexique.
+V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":1,"n":"s","t":"p"}.
+---
+289: fr-ud-test_00290
+1 différence
+# text = [1;32;4mVous[0m repartirez très déçu...
+# TEXT = [1;32;4mTu[0m repartirez très déçu...
+---
+290: fr-ud-test_00291
+2 différences
+# text = j'ai appelé, croyant dans [1;32;4mma[0m grande [1;32;4mnaîveté[0m qu'un service serait proposé.
+# TEXT = J'ai appelé, croyant dans [1;32;4msa[0m grande [1;32;4mnaïveté[0m qu'un service serait proposé.
+---
+291: fr-ud-test_00292
+6 différences
+# text = j'ai eu besoin de faire rénover [1;32;4mmes[0m serrures à la fois à titre particulier et [1;32;4mprofessionel[0m, et[1;34;47m "Actif[0m [1;34;47mDépannage" [0ma, dans les deux cas[1;31m•[0m [1;31m•[0mété à la hauteur.
+# TEXT = j'ai eu besoin de faire rénover [1;32;4mses[0m serrures à la fois à titre particulier et [1;32;4mprofessionnel[0m, et a, dans les deux cas[1;31m " Actif[0m [1;31mDépannage " [0mété à la hauteur.
+---
+292:in fr-ud-test_00293
+1 erreur: fr-ud-test_00293
+Pro('rien'):: absent du lexique.
+---
+293: fr-ud-test_00294
+2 différences
+# text = plus de 80 euros 2 menus à pas cher[1;32;4m [0mdeux kirs[1;32;4m [0mune bouteille.
+# TEXT = plus de 80 euros 2 menus à pas cher[1;32;4m, [0mdeux kirs[1;32;4m, [0mune bouteille.
+---
+294:in fr-ud-test_00295
+1 erreur: fr-ud-test_00295
+N('appart'):: absent du lexique.
+---
+295: fr-ud-test_00296
+# text = très bon accueil les chambres sont très agréables et spacieuses bon rapport qualité prix
+# TEXT = très bon accueil les chambres sont très agréables et spacieuses bon rapport qualité prix
+---
+296: fr-ud-test_00297
+# text = un café 17 euros !
+# TEXT = un café 17 euros!
+---
+297: fr-ud-test_00298
+# text = Ça donne le goût d'avoir une "bedaine"..
+# TEXT = Ça donne le goût d'avoir une " bedaine "..
+---
+298: fr-ud-dev_01479
+# text = Il a notamment gagné une étape du Tour d'Italie 2010, une étape du Tour d'Espagne 2008 et terminé troisième de Gand-Wevelgem la même année.
+# TEXT = il a notamment gagné une étape du Tour d'Italie 2010, une étape du Tour d'Espagne 2008 et terminé troisième de Gand-Wevelgem la même année. 
+---
+299: fr-ud-dev_01480
+# text = Les autres principaux représentants de ce mouvement sont Guido Gozzano et Aldo Palazzeschi.
+# TEXT = Les autres principaux représentants de ce mouvement sont Guido Gozzano et Aldo Palazzeschi. 
+---
+300: fr-ud-dev_01481
+# text = Bud Collyer est un acteur américain né le 18 juin 1908 à New York, New York (États-Unis), décédé le 8 septembre 1969 à Greenwich (Connecticut).
+# TEXT = Bud Collyer est un acteur américain né le 18 juin 1908 à New York, New York (États-Unis), décédé le 8 septembre 1969 à Greenwich ( Connecticut ). 
+---
+301:in fr-ud-dev_01482
+1 erreur: fr-ud-dev_01482
+Adv('sûr'):: absent du lexique.
+---
+302:in fr-ud-dev_01483
+1 erreur: fr-ud-dev_01483
+N('RADSL'):: absent du lexique.
+---
+303: fr-ud-dev_01484
+# text = Dans cette même perspective et pour accélérer la diffusion des connaissances dans le pays, les pouvoirs publics ivoiriens ont introduit dans les années 70 la télévision éducative dans l'enseignement primaire.
+# TEXT = Dans cette même perspective et pour accélérer la diffusion des connaissances dans le pays, les pouvoirs publics ivoiriens ont introduit dans les années 70 la télévision éducative dans l'enseignement primaire. 
+---
+304: fr-ud-dev_01485
+2 différences
+# text = Les produits échangés sont essentiellement [1;32;4mdu[0m sel, de l'ambre, de l'huile, des céréales, [1;32;4mdu[0m vin et de la viande salée.
+# TEXT = Les produits échangés sont essentiellement [1;32;4mun[0m sel, de l'ambre, de l'huile, des céréales, [1;32;4mun[0m vin et de la viande salée.
+---
+305:in fr-ud-dev_01486
+2 erreurs: fr-ud-dev_01486
+N('barotraumatisme'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+306: fr-ud-dev_01487
+# text = Cela fut nécessaire jusqu'à l'arrivée de l'Open Firmware.
+# TEXT = Cela fut nécessaire jusqu'à l'arrivée de l'Open Firmware. 
+---
+307: fr-ud-dev_01488
+# text = Le 6 mai 2011, il met un terme à sa carrière sportive.
+# TEXT = Le 6 mai 2011, il met un terme à sa carrière sportive. 
+---
+308: fr-ud-dev_01489
+# text = Aller dans ce restaurant est tout simplement un grand plaisir !
+# TEXT = Aller dans ce restaurant est tout simplement un grand plaisir!
+---
+309:in fr-ud-dev_01490
+1 erreur: fr-ud-dev_01490
+Pro('un'):: absent du lexique.
+---
+310: fr-ud-dev_01491
+5 différences
+# text = Vedel fut consulté à [1;32;4mde[0m nombreuses reprises par des gouvernements français (de [1;32;4mla [0mIV[1;32;4m [0met de la V[1;32;4m) [0mde toute obédience[1;32;4m [0mainsi que par un certain nombre de gouvernements étrangers.
+# TEXT = Vedel fut consulté à [1;32;4mdes[0m nombreuses reprises par des gouvernements français (de [1;32;4ml'[0mIV[1;32;4m) [0met de la V[1;32;4m [0mde toute obédience[1;32;4m, [0mainsi que par un certain nombre de gouvernements étrangers.
+---
+311: fr-ud-dev_01492
+1 différence
+# text = Un taux de zéro n'exclut pas des changements importants dans la distribution des âges [1;32;4met/ou[0m dans les taux de natalité, d'immigration ou de mortalité.
+# TEXT = Un taux de zéro n'exclut pas des changements importants dans la distribution des âges [1;32;4met[0m dans les taux de natalité, d'immigration ou de mortalité.
+---
+312: fr-ud-dev_01493
+# text = Les étoiles fixes reposaient sur la sphère la plus extérieure, dite « sphère des fixes ».
+# TEXT = Les étoiles fixes reposaient sur la sphère la plus extérieure, dite « sphère des fixes ». 
+---
+313:in fr-ud-dev_01494
+1 erreur: fr-ud-dev_01494
+P('comme'):: absent du lexique.
+---
+314:in fr-ud-dev_01495
+1 erreur: fr-ud-dev_01495
+Adv('afin'):: absent du lexique.
+---
+315:in fr-ud-dev_01496
+1 erreur: fr-ud-dev_01496
+D('plusieurs'):: absent du lexique.
+---
+316:in fr-ud-dev_01497
+3 erreurs: fr-ud-dev_01497
+N('thyréophore'):: absent du lexique.
+N('stégosaurien'):: absent du lexique.
+N('ankylosaurien'):: absent du lexique.
+---
+317:in fr-ud-dev_01498
+1 erreur: fr-ud-dev_01498
+N('écozone'):: absent du lexique.
+---
+318: fr-ud-dev_01499
+4 différences
+# text = Un homme avec un téléphone sans fil à la main est entré et il [1;32;4mm'[0ma demandé[1;31m•[0m : « [1;34;47mqu'[0m[1;32;4mest[0m ce que tu as ? ».
+# TEXT = Un homme avec un téléphone sans fil à la main est entré et il [1;32;4mil [0ma demandé[1;31m est[0m: « [1;32;4mque[0m ce que tu as? ».
+---
+319:in fr-ud-dev_01500
+4 erreurs: fr-ud-dev_01500
+A('XIIIe'):: absent du lexique.
+A('XIVe'):: absent du lexique.
+A('XVIe'):: absent du lexique.
+A('XVIIIe'):: absent du lexique.
+---
+320:in fr-ud-dev_01501
+1 erreur: fr-ud-dev_01501
+A('programmatique'):: absent du lexique.
+---
+321: fr-ud-dev_01502
+# text = Tam joue depuis la saison 2007-2008 avec les Remparts de Québec de la Ligue de hockey junior majeur du Québec.
+# TEXT = Tam joue depuis la saison 2007-2008 avec les Remparts de Québec de la ligue de hockey junior majeur du Québec. 
+---
+322: fr-ud-dev_01503
+# text = L'association des producteurs de fruits de Saverne et environs organise un cours de taille d'arbres fruitiers et d'ornement.
+# TEXT = L'association des producteurs de fruits de Saverne et environs organise un cours de taille d'arbres fruitiers et d'ornement. 
+---
+323: fr-ud-dev_01504
+# text = Si l'organisation est libre, Mgr Lebrun insiste sur « deux piliers : la prière avec la Parole et la charité ».
+# TEXT = Si l'organisation est libre, Mgr Lebrun insiste sur « deux piliers: la prière avec la Parole et la charité ». 
+---
+324: fr-ud-dev_01505
+# text = On peut arriver à Verrès aussi par la route nationale 26 de la Vallée d'Aoste (du col du Petit-Saint-Bernard).
+# TEXT = On peut arriver à Verrès aussi par la route nationale 26 de la Vallée d'Aoste (du col du Petit-Saint-Bernard). 
+---
+325: fr-ud-dev_01506
+5 différences
+# text = Si, ce qui est probable, le Premier ministre grec va au bout de sa décision et que ses compatriotes rejettent le plan de sauvetage financier européen[1;31m•[0m[1;32;4m, [0mla sortie de [1;32;4mleur[0m pays de la zone Euro [1;34;47men [0msera inéluctable et[1;32;4m, [0mpar effet induit, l'éclatement de celle-ci.
+# TEXT = Si, ce qui est probable, le premier ministre grec va au bout de sa décision et que ses compatriotes rejettent le plan de sauvetage financier européen[1;31m en[0m[1;32;4m [0mla sortie de [1;32;4mson[0m pays de la zone Euro sera inéluctable et[1;32;4m [0mpar effet induit, l'éclatement de celle-ci.
+---
+326: fr-ud-dev_01507
+3 différences
+# text = Le conseil général [1;32;4mdu[0m [1;31m•[0mHaut-Rhin [1;32;4mlui[0m a confié la réalisation de sa signalisation.
+# TEXT = Le conseil général [1;32;4mde[0m [1;31ml'[0mHaut-Rhin [1;32;4mil[0m a confié la réalisation de sa signalisation.
+---
+327: fr-ud-dev_01508
+# text = Simon Kessler (né le 14 mars 1975 à Johannesburg) est un coureur cycliste professionnel sud-africain.
+# TEXT = Simon Kessler (né le 14 mars 1975 à Johannesburg) est un coureur cycliste professionnel sud-africain. 
+---
+328:in fr-ud-dev_01509
+1 erreur: fr-ud-dev_01509
+A('8ème'):: absent du lexique.
+---
+329: fr-ud-dev_01510
+# text = Idem pour l'achèvement de l'autoroute Est-Ouest qui relie la frontière du Maroc à celle de la Tunisie.
+# TEXT = idem pour l'achèvement de l'autoroute est-ouest qui relie la frontière du Maroc à celle de la Tunisie. 
+---
+330:in fr-ud-dev_01511
+1 erreur: fr-ud-dev_01511
+A('VIIIe'):: absent du lexique.
+---
+331: fr-ud-dev_01512
+## non projective
+2 différences
+# text = Pour Pokémon, il [1;32;4men[0m [1;32;4mfaut[0m exactement 60.
+# TEXT = Pour Pokémon, il [1;32;4mfaut[0m [1;32;4men[0m exactement 60.
+---
+332: fr-ud-dev_01513
+# text = Son coût (en investissements seulement) est chiffré à 21,4 milliards d'euros par M. Blanc.
+# TEXT = Son coût (en investissements seulement) est chiffré à 21,4 milliards d'euros par M. Blanc. 
+---
+333:in fr-ud-dev_01514
+1 erreur: fr-ud-dev_01514
+N('people'):: absent du lexique.
+---
+334:in fr-ud-dev_01515
+1 erreur: fr-ud-dev_01515
+N('kleśa'):: absent du lexique.
+---
+335: fr-ud-dev_01516
+# text = La pièce est retirée de l'affiche après 17 représentations (1935).
+# TEXT = La pièce est retirée de l'affiche après 17 représentations (1935). 
+---
+336:in fr-ud-dev_01517
+1 erreur: fr-ud-dev_01517
+N('match'):: absent du lexique.
+---
+337: fr-ud-dev_01518
+# text = Il écrit des articles libéraux en faveur de Lafayette, notamment dans la Revue américaine (1826-1827) et la Revue encyclopédique (février 1830).
+# TEXT = Il écrit des articles libéraux en faveur de Lafayette, notamment dans la Revue américaine (1826-1827) et la revue encyclopédique ( février 1830 ). 
+---
+338: fr-ud-dev_01519
+# text = Les armes de Grenoble sont d'or aux trois roses de gueules.
+# TEXT = Les armes de Grenoble sont d'or aux trois roses de gueules.
+---
+339:in fr-ud-dev_01520
+2 erreurs: fr-ud-dev_01520
+A('manceau'):: absent du lexique.
+A('roussard'):: absent du lexique.
+---
+340: fr-ud-dev_01521
+# text = En 1945, le destroyer de l'US Navy USS O'Hare (DD-889) fut baptisé en son honneur.
+# TEXT = En 1945, le destroyer de l'US Navy USS O'Hare (DD-889) fut baptisé en son honneur. 
+---
+341: fr-ud-dev_01522
+# text = Il devient joueur autonome à l'automne.
+# TEXT = Il devient joueur autonome à l'automne. 
+---
+342: fr-ud-dev_01523
+2 différences
+# text = [1;31m•[0mSaint Agile de Rebais, ou saint Aile, [1;34;47ma [0mété le premier abbé de Rebais, au diocèse de Meaux.
+# TEXT = [1;31mA [0mSaint Agile de Rebais, ou saint Aile, été le premier abbé de Rebais, au diocèse de Meaux.
+---
+343:in fr-ud-dev_01524
+1 erreur: fr-ud-dev_01524
+Pro('autre'):: absent du lexique.
+---
+344:in fr-ud-dev_01525
+1 erreur: fr-ud-dev_01525
+N('GPL'):: absent du lexique.
+---
+345:in fr-ud-dev_01526
+1 erreur: fr-ud-dev_01526
+P('von'):: absent du lexique.
+---
+346: fr-ud-dev_01527
+# text = Ainsi, le général français Philippe Morillon, qui commandait les forces de l'ONU sur place, accuse :.
+# TEXT = Ainsi, le général français Philippe Morillon, qui commandait les forces de l'ONU sur place, accuse:. 
+---
+347: fr-ud-dev_01528
+# text = Le village de Saint-Léonard n'est desservie que par des voies communales depuis Avilly, Courteuil (RD 924) et Saint-Nicolas-d'Acy (RD 924).
+# TEXT = Le village de Saint-Léonard n'est desservie que par des voies communales depuis Avilly, Courteuil (RD 924) et Saint-Nicolas-d'Acy ( RD 924 ). 
+---
+348:in fr-ud-dev_01529
+1 erreur: fr-ud-dev_01529
+N('flute'):: absent du lexique.
+---
+349: fr-ud-dev_01530
+# text = La première version de ce jeu, Crown 602 fabriquée par Taito, est apparue au Japon en 1965.
+# TEXT = La première version de ce jeu, Crown 602 fabriquée par Taito, est apparue au Japon en 1965. 
+---
+350: fr-ud-dev_01531
+## non projective
+3 différences
+# text = Il est fortement bridé sur la version routière, de façon à ne pas afficher [1;32;4mde[0m performances beaucoup plus [1;34;47mflatteuses [0mque celles de la M3 CSL[1;31m•[0m.
+# TEXT = Il est fortement bridé sur la version routière, de façon à ne pas afficher [1;32;4mdes[0m performances beaucoup plus que celles de la M3 CSL[1;31m flatteuses[0m.
+---
+351:in fr-ud-dev_01532
+1 erreur: fr-ud-dev_01532
+N('arnaque'):: erreur de morphologie : genre différent de celui du lexique :N(arnaque) : {"g":"f","lexique":"m"}.
+---
+352: fr-ud-dev_01533
+1 différence
+# text = Son seul souvenir, c'est cette mélodie [1;32;4menvoutante[0m, jouée sur cette scène.
+# TEXT = Son seul souvenir, c'est cette mélodie [1;32;4menvoûtante[0m, jouée sur cette scène.
+---
+353: fr-ud-dev_01534
+1 différence
+# text = Conséquence : la moitié des entreprises ayant obtenu un prêt ont dû apporter une garantie, et[1;32;4m, [0mdans les trois quarts des cas, ce sont les dirigeants qui se sont portés garants.
+# TEXT = conséquence: la moitié des entreprises ayant obtenu un prêt ont dû apporter une garantie, et[1;32;4m [0mdans les trois quarts des cas, ce sont les dirigeants qui se sont portés garants.
+---
+354: fr-ud-dev_01535
+4 différences
+# text = Ainsi le mot populisme contient dans la définition qu'on [1;32;4mlui[0m prête [1;32;4mtous[0m [1;32;4mles[0m [1;32;4mpréjugés[0m de classe, tout le mépris pour le peuple.
+# TEXT = Ainsi le mot populisme contient dans la définition qu'on [1;32;4mil[0m prête [1;32;4mles[0m [1;32;4mpréjugés[0m [1;32;4mtous[0m de classe, tout le mépris pour le peuple.
+---
+355: fr-ud-dev_01536
+# text = Le groupe est composé de Phil Hartley (chant), Mike Bryson (basse), Mark McQuaid (guitare) et Tristan King (batterie).
+# TEXT = Le groupe est composé de Phil Hartley (chant), Mike Bryson ( basse ), Mark McQuaid ( guitare ) et Tristan King ( batterie ). 
+---
+356: fr-ud-dev_01537
+1 différence
+# text = Le téléphone avait un défaut de fabrication et il [1;32;4mm'[0ma été changé au magasin dès que j'y suis retourné.
+# TEXT = le téléphone avait un défaut de fabrication et il [1;32;4mil [0ma été changé au magasin dès que j'y suis retourné.
+---
+357: fr-ud-dev_01538
+# text = Ce stage se déroule du lundi 4 au vendredi 8 juillet.
+# TEXT = Ce stage se déroule du lundi 4 au vendredi 8 juillet. 
+---
+358: fr-ud-dev_01539
+# text = Abraham est né à Dantzig, Allemagne (maintenant Gdańsk en Pologne) dans une famille de marchands juifs.
+# TEXT = Abraham est né à Dantzig, Allemagne (maintenant Gdańsk en Pologne) dans une famille de marchands juifs. 
+---
+359: fr-ud-dev_01540
+# text = Il tente d'empêcher des chasseurs de trésor de s'aventurer sur ces territoires interdits.
+# TEXT = Il tente d'empêcher des chasseurs de trésor de s'aventurer sur ces territoires interdits. 
+---
+360: fr-ud-dev_01541
+# text = Prédisant un duo avec le chanteur, le public s'attendait à un titre bouillonnant mais il s'agit finalement d'un morceau usuel parmi les chansons autobiographique que Madonna estime plus adultes.
+# TEXT = prédisant un duo avec le chanteur, le public s'attendait à un titre bouillonnant mais il s'agit finalement d'un morceau usuel parmi les chansons autobiographique que Madonna estime plus adultes. 
+---
+361: fr-ud-dev_01542
+# text = Les Nations Unies mènent une campagne mondiale « Scellons l'accord !
+# TEXT = Les nations unies mènent une campagne mondiale « scellons l'accord!
+---
+362:in fr-ud-dev_01543
+1 erreur: fr-ud-dev_01543
+D('divers'):: absent du lexique.
+---
+363:in fr-ud-dev_01544
+2 erreurs: fr-ud-dev_01544
+N('gariguette'):: absent du lexique.
+N('chantilly'):: absent du lexique.
+---
+364: fr-ud-dev_01545
+# text = Le chef a ramené de ses années au Japon une cuisine extrêmement audacieuse tout en respectant parfaitement des produits de qualité, sans esbroufe ni artifices.
+# TEXT = Le chef a ramené de ses années au Japon une cuisine extrêmement audacieuse tout en respectant parfaitement des produits de qualité, sans esbroufe ni artifices. 
+---
+365: fr-ud-dev_01546
+1 différence
+# text = Les activités de protestation ont été conduites par l'Association du mouvement contre les centrales nucléaires [1;32;4mde [0mYoungkwang.
+# TEXT = Les activités de protestation ont été conduites par l'association du mouvement contre les centrales nucléaires [1;32;4md'[0mYoungkwang.
+---
+366: fr-ud-dev_01547
+# text = Le dessous des ailes varie du blanc au gris selon les sous-espèces.
+# TEXT = Le dessous des ailes varie du blanc au gris selon les sous-espèces. 
+---
+367: fr-ud-dev_01548
+1 différence
+# text = Elle a été découverte à 1000 [1;32;4mm[0m d'altitude dans les monts des Cardamomes.
+# TEXT = Elle a été découverte à 1000 [1;32;4mmètres[0m d'altitude dans les monts des Cardamomes.
+---
+368: fr-ud-dev_01549
+# text = Le coureur de l'équipe BBox Bouygues Telecom Damien Gaudin a notamment remporté trois titres au cours de ces championnats.
+# TEXT = Le coureur de l'équipe BBox Bouygues Telecom Damien Gaudin a notamment remporté trois titres au cours de ces championnats. 
+---
+369:in fr-ud-dev_01550
+1 erreur: fr-ud-dev_01550
+P('comme'):: absent du lexique.
+---
+370: fr-ud-dev_01551
+11 différences
+# text = Le français est utilisé au travail par 50,8% des travailleurs [1;32;4met[0m [1;32;4ml'anglais par[0m [1;32;4m41,7%[0m [1;32;4malors[0m [1;32;4mque[0m [1;32;4m2,3%[0m [1;32;4mdes[0m [1;32;4mtravailleurs[0m [1;32;4mutilisent les[0m [1;32;4mdeux[0m [1;32;4mlangues officielles[0m.
+# TEXT = le français est utilisé au travail par 50,8% des travailleurs [1;32;4malors[0m [1;32;4mque 2,3%[0m [1;32;4mdes travailleurs[0m [1;32;4mutilisent[0m [1;32;4mles[0m [1;32;4mdeux langues[0m [1;32;4mofficielles[0m [1;32;4met[0m [1;32;4ml'anglais[0m [1;32;4mpar[0m [1;32;4m41,7%[0m.
+---
+371: fr-ud-dev_01552
+# text = L'Académie Équestre a été dans la sélection de 2012 pour organiser les Championnats du Monde de Voltige.
+# TEXT = L'académie équestre a été dans la sélection de 2012 pour organiser les Championnats du Monde de Voltige. 
+---
+372: fr-ud-dev_01553
+# text = Candidat malheureux à l'élection présidentielle d'août 2007, Marcus Stephen remporte néanmoins la présidence de la République le 19 décembre 2007 lorsque son prédécesseur Ludwig Scotty est écarté de cette fonction par une motion de censure parlementaire.
+# TEXT = Candidat malheureux à l'élection présidentielle d'août 2007, Marcus Stephen remporte néanmoins la présidence de la république le 19 décembre 2007 lorsque son prédécesseur Ludwig Scotty est écarté de cette fonction par une motion de censure parlementaire. 
+---
+373: fr-ud-dev_01554
+2 différences
+# text = Ils n'avaient pas [1;32;4mde[0m casquettes et [1;32;4mleurs[0m cheveux blonds brillaient au soleil.
+# TEXT = ils n'avaient pas [1;32;4mdes[0m casquettes et [1;32;4mses[0m cheveux blonds brillaient au soleil.
+---
+374: fr-ud-dev_01555
+2 différences
+# text = En[1;32;4m [0moutre[1;32;4m, [0mil a été décidé de faire Freddy un pédophile, par opposition à son milieu traditionnel d'un tueur d'enfants.
+# TEXT = En[1;32;4m, [0moutre[1;32;4m [0mil a été décidé de faire Freddy un pédophile, par opposition à son milieu traditionnel d'un tueur d'enfants.
+---
+375: fr-ud-dev_01556
+# text = Lorsqu'on y réfléchit, jamais Jean Paul II n'a abordé de front le problème de la liberté de conscience.
+# TEXT = Lorsqu'on y réfléchit, jamais Jean Paul II n'a abordé de front le problème de la liberté de conscience. 
+---
+376: fr-ud-dev_01557
+# text = Ce cabinet d'ostéopathie est vraiment très bien.
+# TEXT = Ce cabinet d'ostéopathie est vraiment très bien. 
+---
+377:in fr-ud-dev_01558
+3 erreurs: fr-ud-dev_01558
+V('œuvrer'):: absent du lexique.
+P('comme'):: absent du lexique.
+V('œuvrer'):: erreur de morphologie : conjugate_fr:tab :V(œuvrer) : {"pe":3,"n":"s","t":"p"}.
+---
+378:in fr-ud-dev_01559
+2 erreurs: fr-ud-dev_01559
+P('comme'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+379:in fr-ud-dev_01560
+1 erreur: fr-ud-dev_01560
+N('transcontinental'):: absent du lexique.
+---
+380:in fr-ud-dev_01561
+1 erreur: fr-ud-dev_01561
+Pro('lui-même'):: absent du lexique.
+---
+381: fr-ud-dev_01562
+## non projective
+7 différences
+# text = La fraise de Cachoubie est réputée plus [1;32;4msavoureuse (73%) et[0m [1;32;4mplus[0m [1;32;4msucrée[0m ([1;32;4m68%[0m) [1;32;4mque[0m [1;32;4mles[0m [1;32;4mautres fraises.[0m
+# TEXT = La fraise de Cachoubie est réputée plus [1;32;4mque les autres[0m [1;32;4mfraises[0m [1;32;4msavoureuse[0m ([1;32;4m73%[0m) [1;32;4met[0m [1;32;4mplus[0m [1;32;4msucrée ( 68% ).[0m
+---
+382: fr-ud-dev_01563
+# text = Dans les facultés de pharmacie, les assistants étaient des fonctionnaires, soumis à une période de stage de trois ans.
+# TEXT = Dans les facultés de pharmacie, les assistants étaient des fonctionnaires, soumis à une période de stage de trois ans. 
+---
+383: fr-ud-dev_01564
+# text = Han s'engage finalement dans la bataille, couvre Luke et met Vador hors course.
+# TEXT = Han s'engage finalement dans la bataille, couvre Luke et met Vador hors course. 
+---
+384:in fr-ud-dev_01565
+2 erreurs: fr-ud-dev_01565
+N('choréauteur'):: absent du lexique.
+Adv('afin'):: absent du lexique.
+---
+385: fr-ud-dev_01566
+1 différence
+# text = « Le ministère de l'Intérieur affirme que des mesures décisives seront prises pour faire face à [1;32;4mde[0m telles actions, en conformité avec la loi », indique un communiqué.
+# TEXT = « Le ministère de l'Intérieur affirme que des mesures décisives seront prises pour faire face à [1;32;4mdes[0m telles actions, en conformité avec la loi », indique un communiqué.
+---
+386:in fr-ud-dev_01567
+2 erreurs: fr-ud-dev_01567
+Pro('certain'):: absent du lexique.
+Pro('rien'):: absent du lexique.
+---
+387:in fr-ud-dev_01568
+1 erreur: fr-ud-dev_01568
+A('néoclassique'):: absent du lexique.
+---
+388:in fr-ud-dev_01569
+1 erreur: fr-ud-dev_01569
+A('mémoriel'):: absent du lexique.
+---
+389: fr-ud-dev_01570
+# text = Il est l'ancien directeur de l'hebdomadaire francophone Le Journal Hebdomadaire et son confrère arabophone Assahifa Al Ousbouiya.
+# TEXT = Il est l'ancien directeur de l'hebdomadaire francophone le journal hebdomadaire et son confrère arabophone Assahifa Al Ousbouiya. 
+---
+390: fr-ud-dev_01571
+2 différences
+# text = En 1992, ils sont éliminés par le club congolais d'Elecsport Bouansa dès le premier tour (0-2[1;32;4m, [0m1-0[1;32;4m).[0m
+# TEXT = En 1992, ils sont éliminés par le club congolais d'Elecsport Bouansa dès le premier tour (0-2[1;32;4m), [0m1-0[1;32;4m.[0m
+---
+391:in fr-ud-dev_01572
+1 erreur: fr-ud-dev_01572
+A('Blanche'):: absent du lexique.
+---
+392: fr-ud-dev_01573
+1 différence
+# text = [1;32;4mDe[0m nombreuses espèces devenues rares ou menacées survivent dans la zone boréale (du nunavik à l'Alaska pour l'Amérique du Nord).
+# TEXT = [1;32;4mDes[0m nombreuses espèces devenues rares ou menacées survivent dans la zone boréale (du nunavik à l'Alaska pour l'Amérique du nord).
+---
+393: fr-ud-dev_01574
+# text = N'arrivez surtout pas quelques minutes en retard !
+# TEXT = N'arrivez surtout pas quelques minutes en retard!
+---
+394: fr-ud-dev_01575
+# text = Charles Monginot (1825-1900) est un peintre français.
+# TEXT = Charles Monginot (1825-1900) est un peintre français. 
+---
+395: fr-ud-dev_01576
+# text = Licencié en histoire et géographie, il enseigna à l'université Yale aux États-Unis.
+# TEXT = Licencié en histoire et géographie, il enseigna à l'université Yale aux États-Unis. 
+---
+396: fr-ud-dev_01577
+# text = À l'issue des élections municipales de juin 2008, Gheorghe Tirifon (PNL) a été élu maire de la commune.
+# TEXT = À l'issue des élections municipales de juin 2008, Gheorghe Tirifon (PNL) a été élu maire de la commune. 
+---
+397: fr-ud-dev_01578
+# text = Le conseil général, propriétaire du bâtiment de l'ancienne gare de Signy-le-Petit, a conclu un bail commercial avec une entreprise de communication, dont l'installation génère à court terme trois emplois.
+# TEXT = Le conseil général, propriétaire du bâtiment de l'ancienne gare de Signy-le-Petit, a conclu un bail commercial avec une entreprise de communication, dont l'installation génère à court terme trois emplois. 
+---
+398:in fr-ud-dev_01579
+2 erreurs: fr-ud-dev_01579
+Adv('tandis'):: absent du lexique.
+Adv('à'):: absent du lexique.
+---
+399: fr-ud-dev_01580
+# text = Le pré salé dans son dernier méandre avant l'océan fait l'objet d'un inventaire ZNIEFF de type 1 en 1990.
+# TEXT = Le pré salé dans son dernier méandre avant l'océan fait l'objet d'un inventaire ZNIEFF de type 1 en 1990. 
+---
+400: fr-ud-dev_01581
+# text = Les transactions se font essentiellement en espèces.
+# TEXT = Les transactions se font essentiellement en espèces. 
+---
+401: fr-ud-dev_01582
+1 différence
+# text = [1;32;4mEquipe[0m de professionnels avec des années d'expérience.
+# TEXT = [1;32;4méquipe[0m de professionnels avec des années d'expérience.
+---
+402: fr-ud-dev_01583
+# text = Il forme ainsi des générations de chartistes jusqu'à sa retraite en 1953.
+# TEXT = Il forme ainsi des générations de chartistes jusqu'à sa retraite en 1953. 
+---
+403: fr-ud-dev_01584
+9 différences
+# text = Robert Royer découvre également des foyers de l'âge du bronze[1;32;4m et[0m [1;32;4mdes éléments[0m [1;32;4mde la[0m [1;32;4mvie[0m [1;32;4mquotidienne[0m des [1;32;4mGaulois, attestant[0m [1;32;4ml'existence[0m [1;32;4md'une[0m [1;32;4mferme[0m.
+# TEXT = Robert Royer découvre également des foyers de l'âge du bronze[1;32;4m, attestant[0m [1;32;4ml'existence[0m [1;32;4md'une[0m [1;32;4mferme[0m [1;32;4met[0m des [1;32;4méléments de[0m [1;32;4mla vie[0m [1;32;4mquotidienne des[0m [1;32;4mGaulois[0m.
+---
+404: fr-ud-dev_01585
+2 différences
+# text = En[1;32;4m [0moutre[1;32;4m, [0mles revendications infondées du Maroc sur le territoire ont été rejetées par la Cour Internationale de Justice.
+# TEXT = En[1;32;4m, [0moutre[1;32;4m [0mles revendications infondées du Maroc sur le territoire ont été rejetées par la cour internationale de Justice.
+---
+405:in fr-ud-dev_01586
+1 erreur: fr-ud-dev_01586
+N('story'):: absent du lexique.
+---
+406: fr-ud-dev_01587
+# text = Il étudie sous la direction de photographes reconnus et publie en collaboration avec d'autres médecins un traité intitulé Iconographie photographique appliquée à l'ophtalmologie en 1881.
+# TEXT = il étudie sous la direction de photographes reconnus et publie en collaboration avec d'autres médecins un traité intitulé iconographie photographique appliquée à l'ophtalmologie en 1881. 
+---
+407: fr-ud-dev_01588
+# text = Le Concert d'Astrée est un ensemble musical français de musique baroque.
+# TEXT = Le Concert d'Astrée est un ensemble musical français de musique baroque. 
+---
+408: fr-ud-dev_01589
+2 différences
+# text = En 1931, l'A établit son siège à [1;34;47mcôté [0mde la maison des étudiants[1;31m•[0m.
+# TEXT = En 1931, l'A établit son siège à de la maison des étudiants[1;31m côté[0m.
+---
+409: fr-ud-dev_01590
+# text = Comme en 2007, le club local d'Arsenal remporte le trophée.
+# TEXT = Comme en 2007, le club local d'Arsenal remporte le trophée. 
+---
+410: fr-ud-dev_01591
+2 différences
+# text = Les CRES ne fédèrent donc pas de manière directe les structures de base, [1;31m•[0mcelles-ci [1;34;47men [0msont membres par le biais des structures fédératives que se sont données les acteurs de terrain.
+# TEXT = les CRES ne fédèrent donc pas de manière directe les structures de base, [1;31men [0mcelles-ci sont membres par le biais des structures fédératives que se sont données les acteurs de terrain.
+---
+411:in fr-ud-dev_01592
+1 erreur: fr-ud-dev_01592
+N('agapè'):: absent du lexique.
+---
+412:in fr-ud-dev_01593
+2 erreurs: fr-ud-dev_01593
+D('plusieurs'):: absent du lexique.
+N('œuvre'):: absent du lexique.
+---
+413:in fr-ud-dev_01594
+1 erreur: fr-ud-dev_01594
+N('score'):: absent du lexique.
+---
+414:in fr-ud-dev_01595
+1 erreur: fr-ud-dev_01595
+N('communaux'):: absent du lexique.
+---
+415:in fr-ud-dev_01596
+1 erreur: fr-ud-dev_01596
+N('boxeuse'):: absent du lexique.
+---
+416 UD dépendences traitées
+0 modifiées

@@ -1,0 +1,126 @@
+UD-2.7/en/en_ewt-ud-dev.conllu
+real	0m1.497s
+nb sent : 2002
+nb toks : 25148
+nb non-projective : 55
+OK : 1359
+regen-diffs: 585
+lexicon-errors: 0
+---
+UD-2.7/en/en_ewt-ud-test.conllu
+real	0m1.539s
+nb sent : 2077
+nb toks : 25096
+nb non-projective : 54
+OK : 1446
+regen-diffs: 592
+lexicon-errors: 0
+---
+UD-2.7/en/en_ewt-ud-train.conllu
+real	0m7.857s
+nb sent : 12543
+nb toks : 204585
+nb non-projective : 656
+OK : 7669
+regen-diffs: 3518
+lexicon-errors: 0
+---
+UD-2.7/en/en_gum-ud-dev.conllu
+real	0m1.100s
+nb sent : 784
+nb toks : 15598
+nb non-projective : 57
+OK : 447
+regen-diffs: 209
+lexicon-errors: 0
+---
+UD-2.7/en/en_gum-ud-test.conllu
+real	0m1.237s
+nb sent : 890
+nb toks : 15926
+nb non-projective : 48
+OK : 484
+regen-diffs: 190
+lexicon-errors: 0
+---
+UD-2.7/en/en_gum-ud-train.conllu
+real	0m3.601s
+nb sent : 4287
+nb toks : 81861
+nb non-projective : 232
+OK : 2410
+regen-diffs: 1187
+lexicon-errors: 0
+---
+UD-2.7/en/en_lines-ud-dev.conllu
+real	0m1.204s
+nb sent : 1032
+nb toks : 19170
+nb non-projective : 102
+OK : 603
+regen-diffs: 321
+lexicon-errors: 0
+---
+UD-2.7/en/en_lines-ud-test.conllu
+real	0m1.269s
+nb sent : 1035
+nb toks : 17675
+nb non-projective : 67
+OK : 639
+regen-diffs: 323
+lexicon-errors: 0
+---
+UD-2.7/en/en_lines-ud-train.conllu
+real	0m2.721s
+nb sent : 3176
+nb toks : 57372
+nb non-projective : 254
+OK : 1928
+regen-diffs: 1055
+lexicon-errors: 0
+---
+UD-2.7/en/en_partut-ud-dev.conllu
+real	0m0.430s
+nb sent : 156
+nb toks : 2722
+nb non-projective : 4
+OK : 73
+regen-diffs: 31
+lexicon-errors: 0
+---
+UD-2.7/en/en_partut-ud-test.conllu
+real	0m0.441s
+nb sent : 153
+nb toks : 3408
+nb non-projective : 1
+OK : 82
+regen-diffs: 34
+lexicon-errors: 0
+---
+UD-2.7/en/en_pronouns-ud-test-GL.conllu
+real	0m0.408s
+nb sent : 285
+nb toks : 1695
+nb non-projective : 0
+OK : 285
+regen-diffs: 65
+lexicon-errors: 0
+---
+UD-2.7/en/en_pronouns-ud-test.conllu
+real	0m0.393s
+nb sent : 285
+nb toks : 1695
+nb non-projective : 5
+OK : 270
+regen-diffs: 133
+lexicon-errors: 0
+---
+UD-2.7/en/en_pud-ud-test.conllu
+real	0m1.346s
+nb sent : 1000
+nb toks : 21176
+nb non-projective : 45
+OK : 501
+regen-diffs: 245
+lexicon-errors: 0
+---
