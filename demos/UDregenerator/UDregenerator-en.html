@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+	<script src="ace-src-noconflict/ace.js"></script>
+    <script src="utils.js"></script>
+    <script src="JSR.js"></script>
+    <script src="UD2jsr.js"></script>
+    <script src="UD.js"></script>
+    <script src="UDnode.js"></script>
+    <script src="UDnode-en.js"></script>
+	<script src="levenshtein.js"></script>
+	<script src="Tokenizer.js"></script>
+	<script src="drawDependencies.js"></script>
+    <script src="UDregenerator.js"></script>
+    <script src="UDregenerator-en.js"></script>
+	<link rel="stylesheet" href="UDregenerator.css"/>
+	<title>Universal Dependencies graph/tree display and re-generation</title>
+</head>
+<body>
+	<h1><a href="https://universaldependencies.org">Universal Dependencies</a> graph/tree display with re-generation using <a href="http://github.com/rali-udem/jsRealB">jsRealB</a></h1>
+	<input type="button" value="Show instructions" id="showHideInstructions"/> [<a href="UDregenerator-fr.html">Version française</a>]
+<div >
+    <ul id="instructions" style="display:none">
+        <li>Copy one or many dependency structures in the text box in <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">CONLLU format</a></li>
+    	<li>Click on the <code>Parse</code> button to build the menu. If <code>Only different</code> is checked, then only sentences whose realisation is different from the original text appear in the menu.</li> 
+    	<li>Select a sentence from the menu. A starting asterisk indicates a <em>non-projective</em> dependency structure.</li>
+        <li>The graph or tree of dependencies will be shown. The <em>root</em> word is shown in red. By hovering over a word, infos about this words will appear in a tooltip.</li>
+        <li>An English sentence will be regenerated from the dependencies by <em>jsRealB</em></li>
+        <li>A table shows the edit operations to transform the re generated sentence to the original text of the UD: <span class="rep">replacement</span>, <span class="ins">insertion</span>, <span class="del">deletion</span>. Differences in spacing are ignored.</li>
+        <li>The <em>jsRealB</em> expression appears in a text area allowing its edition for re-realization by clicking on the <code>Realize</code> button.</li>
+	</ul>
+	<textarea cols="120" rows="10" id="input" wrap="off" style="tab-size:20; line-height:13px">
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_voyage_oakland-21
+# text = Many of the neighborhoods are commercial centers and absolute heaven for foodies or those who seek quieter surroundings than the hustle and bustle of Downtown and Chinatown.
+# gl = 1:lemma Many>many
+# gl = 14:lemma this>that
+# gl = 25:lemma downtown>Downtown
+# gl = 25:upos NOUN>PROPN
+# gl = à revoir après avoir traité les PP (ADP)
+1	Many	many	ADJ	JJ	Degree=Pos	7	nsubj	_	Discourse=elaboration:43->41|Entity=(place-103
+2	of	of	ADP	IN	_	4	case	_	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	Entity=(place-104
+4	neighborhoods	neighbourhood	NOUN	NNS	Number=Plur	1	obl	_	Entity=place-103)place-104)
+5	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	7	cop	_	_
+6	commercial	commercial	ADJ	JJ	Degree=Pos	7	amod	_	Entity=(place-103
+7	centers	centre	NOUN	NNS	Number=Plur	0	root	_	Entity=place-103)
+8	and	and	CCONJ	CC	_	10	cc	_	_
+9	absolute	absolute	ADJ	JJ	Degree=Pos	10	amod	_	Entity=(place-103
+10	heaven	heaven	NOUN	NN	Number=Sing	7	conj	_	_
+11	for	for	ADP	IN	_	12	case	_	_
+12	foodies	foodies	PROPN	NNS	Number=Plur	7	nmod	_	Entity=(person-105)
+13	or	or	CCONJ	CC	_	14	cc	_	_
+14	those	that	PRON	DT	Number=Plur|PronType=Dem	12	conj	_	Entity=(person-106
+15	who	who	PRON	WP	PronType=Rel	16	nsubj	_	Discourse=elaboration:44->43
+16	seek	seek	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin|Number=Plur	14	acl:relcl	_	_
+17	quieter	quiet	ADJ	JJR	Degree=Cmp	18	amod	_	Entity=(place-107
+18	surroundings	surroundings	NOUN	NNS	Number=Plur	16	obj	_	_
+19	than	than	ADP	IN	_	21	case	_	_
+20	the	the	DET	DT	Definite=Def|PronType=Art	21	det	_	Entity=(abstract-108
+21	hustle	hustle	NOUN	NN	Number=Sing	16	obl	_	_
+22	and	and	CCONJ	CC	_	23	cc	_	_
+23	bustle	bustle	NOUN	NN	Number=Sing	21	conj	_	_
+24	of	of	ADP	IN	_	25	case	_	_
+25	Downtown	Downtown	PROPN	NN	Number=Sing	21	nmod	_	Entity=(place-3)
+26	and	and	CCONJ	CC	_	27	cc	_	_
+27	Chinatown	Chinatown	PROPN	NNP	Number=Sing	25	conj	_	Entity=(place-54)place-103)person-106)place-107)abstract-108)|SpaceAfter=No
+28	.	.	PUNCT	.	_	7	punct	_	_
+# jsRealB-start
+##
+# jsRealB-end
+
+# newdoc
+# newdoc id = reviews-048644
+# newpar id = reviews-048644-p0001
+# sent_id = reviews-048644-0001
+# text = Don't judge a book by its cover
+1-2	Don't	_	_	_	_	_	_	_	_
+1	Do	do	AUX	VB	Mood=Imp|VerbForm=Fin	3	aux	3:aux	_
+2	n't	not	PART	RB	_	3	advmod	3:advmod	_
+3	judge	judge	VERB	VB	Mood=Imp|VerbForm=Fin	0	root	0:root	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	5:det	_
+5	book	book	NOUN	NN	Number=Sing	3	obj	3:obj	_
+6	by	by	ADP	IN	_	8	case	8:case	_
+7	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	8	nmod:poss	8:nmod:poss	_
+8	cover	cover	NOUN	NN	Number=Sing	3	obl	3:obl:by	_
+
+# s_type = wh
+# sent_id = GUM_interview_libertarian-17
+# speaker = WilliamSaturn
+# text = What would you have done differently than him?
+1	What	what	PRON	WP	PronType=Int	5	obj	_	Discourse=joint:41->39
+2	would	would	AUX	MD	VerbForm=Fin	5	aux	_	_
+3	you	you	PRON	PRP	Case=Nom|Person=2|PronType=Prs	5	nsubj	_	Entity=(person-3)
+4	have	have	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	5	aux	_	_
+5	done	do	VERB	VBN	Tense=Past|VerbForm=Part	0	root	_	_
+6	differently	differently	ADV	RB	_	5	advmod	_	_
+7	than	than	ADP	IN	_	8	case	_	_
+8	him	he	PRON	PRP	Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	nmod	_	Entity=(person-29)|SpaceAfter=No
+9	?	?	PUNCT	.	_	5	punct	_	_
+
+# newdoc id = 5
+# sent_id = en_lines-ud-test-doc5-4732
+# text = The proposal put forward by the Commission is to be welcomed from the consumers' point of view.
+1	The	the	DET	DEF	Definite=Def|PronType=Art	2	det	_	_
+2	proposal	proposal	NOUN	SG-NOM	Number=Sing	11	nsubj:pass	_	_
+3	put	put	VERB	PASS	Tense=Past|VerbForm=Part|Voice=Pass	2	acl:relcl	_	_
+4	forward	forward	ADV	_	_	3	advmod	_	_
+5	by	by	ADP	_	_	7	case	_	_
+6	the	the	DET	DEF	Definite=Def|PronType=Art	7	det	_	_
+7	Commission	commission	NOUN	SG-NOM	Number=Sing	3	obl	_	_
+8	is	be	AUX	PRES	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	cop	_	_
+9	to	to	PART	_	_	11	mark	_	_
+10	be	be	AUX	INF	VerbForm=Inf	11	aux:pass	_	_
+11	welcomed	welcome	VERB	PASS	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+12	from	from	ADP	_	_	16	case	_	_
+13	the	the	DET	DEF	Definite=Def|PronType=Art	16	det	_	_
+14	consumers	consumer	NOUN	PL	Number=Plur	16	nmod:poss	_	SpaceAfter=No
+15	'	's	PART	GEN	_	14	case	_	_
+16	point	point	NOUN	SG-NOM	Number=Sing	11	obl	_	_
+17	of	of	ADP	_	_	18	case	_	_
+18	view	view	NOUN	SG-NOM	Number=Sing	16	nmod	_	SpaceAfter=No
+19	.	.	PUNCT	Period	_	11	punct	_	_
+
+# sent_id = 1
+# text = It is hers.
+# previous = Which person owns this?
+# comment = copular subject
+1	It	it	PRON	PERS-SG	Number=Sing|Person=3|PronType=Prs	3	nsubj	_	_
+2	is	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	hers	she	PRON	SG-GEN-INDEP	Case=Gen|Gender=Fem|Number=Sing|Person=3|Poss=Yes|PronType=Prs	0	root	_	SpaceAfter=No
+4	.	.	PUNCT	Period	_	3	punct	_	_
+
+# sent_id = en_lines-ud-test-doc1-4222
+# text = For example, when you move a Product field to the filter area, you can have the chart display category and series values for one product at a time.
+1	For	for	ADV	_	Case=Nom	17	advmod	_	_
+2	example	example	NOUN	_	Number=Sing	1	fixed	_	SpaceAfter=No
+3	,	,	PUNCT	Comma	_	1	punct	_	_
+4	when	when	SCONJ	_	Case=Nom	6	mark	_	_
+5	you	you	PRON	PERS-P2	_	6	nsubj	_	_
+6	move	move	VERB	PRES	Mood=Ind|Tense=Pres|VerbForm=Fin	17	advcl	_	_
+7	a	a	DET	IND-SG	Definite=Ind|PronType=Art	9	det	_	_
+8	Product	Product	PROPN	SG-NOM	Case=Nom	9	compound	_	_
+9	field	field	NOUN	SG-NOM	Number=Sing	6	obj	_	_
+10	to	to	ADP	_	_	13	case	_	_
+11	the	the	DET	DEF	Definite=Def|PronType=Art	13	det	_	_
+12	filter	filter	NOUN	SG-NOM	Number=Sing	13	compound	_	_
+13	area	area	NOUN	SG-NOM	Number=Sing	6	obl	_	SpaceAfter=No
+14	,	,	PUNCT	Comma	_	6	punct	_	_
+15	you	you	PRON	PERS-P2	_	17	nsubj	_	_
+16	can	can	AUX	PRES-AUX	VerbForm=Fin	17	aux	_	_
+17	have	have	VERB	INF	VerbForm=Inf	0	root	_	_
+18	the	the	DET	DEF	Definite=Def|PronType=Art	19	det	_	_
+19	chart	chart	NOUN	SG-NOM	Number=Sing	17	obj	_	_
+20	display	display	VERB	INF	VerbForm=Inf	17	xcomp	_	_
+21	category	category	NOUN	SG-NOM	Number=Sing	20	compound	_	_
+22	and	and	CCONJ	_	_	23	cc	_	_
+23	series	series	NOUN	SG-NOM	Number=Sing	21	conj	_	_
+24	values	value	NOUN	PL-NOM	Number=Plur	20	obj	_	_
+25	for	for	ADP	_	_	27	case	_	_
+26	one	one	NUM	CARD-SG	NumType=Card	27	nummod	_	_
+27	product	product	NOUN	SG-NOM	Number=Sing	24	nmod	_	_
+28	at	at	ADP	_	_	30	case	_	_
+29	a	a	DET	IND-SG	Definite=Ind|PronType=Art	30	det	_	_
+30	time	time	NOUN	SG-NOM	Number=Sing	27	nmod	_	SpaceAfter=No
+31	.	.	PUNCT	Period	_	17	punct	_	_
+
+# sent_id = 209
+# text = Dealers like seeing cars, mine especially.
+# previous = What did the dealers like doing with your cars?
+# comment = with orphaned following dependent due to verb ellipsis in conjunction
+1	Dealers	dealer	NOUN	_	Number=Plur	2	nsubj	_	_
+2	like	like	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	seeing	see	VERB	V	VerbForm=Part|Tense=Pres	2	xcomp	_	_
+4	cars	car	NOUN	_	Number=Plur	3	obj	_	SpaceAfter=No
+5	,	,	PUNCT	,	_	2	punct	_	_
+6	mine	me	PRON	SG-GEN-INDEP	Case=Gen|Gender=Neut|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	conj	_	_
+7	especially	especially	ADV	RB	_	6	orphan	_	SpaceAfter=No
+8	.	.	PUNCT	Period	_	2	punct	_	_
+
+# file = en_pronouns-ud-test.conllu
+# comment = extracted/raised object
+# previous = What did the dealer do with Alex's car?
+# sent_id = 198
+# text = Theirs, the dealer cleaned.
+1	Theirs	they	PRON	SG-GEN-INDEP	Case=Gen|Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	5	obl	_	SpaceAfter=No
+2	,	,	PUNCT	,	_	5	punct	_	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	_
+4	dealer	dealer	NOUN	NN	Number=Sing	5	nsubj	_	_
+5	cleaned	clean	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	SpaceAfter=No
+6	.	.	PUNCT	Period	_	5	punct	_	_
+
+# file = en_partut-ud-test.conllu
+# sent_id = en_partut-ud-1410
+# text = These countries' global economic and financial significance has grown rapidly, yet they have relatively little representation at the Fund.
+1	These	this	DET	DD	Number=Plur|PronType=Dem	2	det	_	_
+2	countries	country	NOUN	S	Number=Plur	8	nmod	_	SpaceAfter=No
+3	'	'	PART	PART	_	2	case	_	_
+4	global	global	ADJ	A	Degree=Pos	8	amod	_	_
+5	economic	economic	ADJ	A	Degree=Pos	8	amod	_	_
+6	and	and	CCONJ	CC	_	7	cc	_	_
+7	financial	financial	ADJ	A	Degree=Pos	5	conj	_	_
+8	significance	significance	NOUN	S	Number=Sing	10	nsubj	_	_
+9	has	have	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	10	aux	_	_
+10	grown	grow	VERB	V	Tense=Past|VerbForm=Part	0	root	_	_
+11	rapidly	rapidly	ADV	B	_	10	advmod	_	SpaceAfter=No
+12	,	,	PUNCT	FF	_	10	punct	_	_
+13	yet	yet	SCONJ	CS	_	15	mark	_	_
+14	they	they	PRON	PE	Number=Plur|Person=3|PronType=Prs	15	nsubj	_	_
+15	have	have	VERB	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	10	advcl	_	_
+16	relatively	relatively	ADV	B	_	18	advmod	_	_
+17	little	little	ADJ	A	Degree=Pos	18	amod	_	_
+18	representation	representation	NOUN	S	Number=Sing	15	obj	_	_
+19	at	at	ADP	E	_	21	case	_	_
+20	the	the	DET	RD	Definite=Def|PronType=Art	21	det	_	_
+21	Fund	fund	NOUN	S	Number=Sing	15	obl	_	SpaceAfter=No
+22	.	.	PUNCT	FS	_	10	punct	_	_
+
+# file = en_partut-ud-test.conllu
+# sent_id = en_partut-ud-768
+# text = (2) Everyone has the right to leave any country, including his own, and to return to his country.
+1	(	(	PUNCT	FB	_	2	punct	_	SpaceAfter=No
+2	2	2	NUM	N	NumType=Card	5	nummod	_	SpaceAfter=No
+3	)	)	PUNCT	FB	_	2	punct	_	_
+4	Everyone	everyone	PRON	PE	Number=Sing|Person=3|PronType=Prs	5	nsubj	_	_
+5	has	have	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	the	the	DET	RD	Definite=Def|PronType=Art	7	det	_	_
+7	right	right	NOUN	S	Number=Sing	5	obj	_	_
+8	to	to	PART	PART	_	9	mark	_	_
+9	leave	leave	VERB	V	VerbForm=Inf	7	acl	_	_
+10	any	any	DET	DI	PronType=Ind	11	det	_	_
+11	country	country	NOUN	S	Number=Sing	9	obj	_	SpaceAfter=No
+12	,	,	PUNCT	FF	_	11	punct	_	_
+13	including	include	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	11	acl	_	_
+14	his	his	PRON	PP	Poss=Yes|PronType=Prs	13	obj	_	_
+15	own	own	ADJ	A	Degree=Pos	14	amod	_	SpaceAfter=No
+16	,	,	PUNCT	FF	_	19	punct	_	_
+17	and	and	CCONJ	CC	_	19	cc	_	_
+18	to	to	PART	PART	_	19	mark	_	_
+19	return	return	VERB	V	VerbForm=Inf	9	conj	_	_
+20	to	to	ADP	E	_	22	case	_	_
+21	his	his	DET	AP	Poss=Yes|PronType=Prs	22	nmod:poss	_	_
+22	country	country	NOUN	S	Number=Sing	19	obl	_	SpaceAfter=No
+23	.	.	PUNCT	FS	_	5	punct	_	_
+
+# file = en_partut-ud-test.conllu
+# sent_id = en_partut-ud-960
+# text = The Council shall act unanimously after consulting the European Parliament.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	Council	council	NOUN	S	Number=Sing	4	nsubj	_	_
+3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	act	act	VERB	V	VerbForm=Inf	0	root	_	_
+5	unanimously	unanimously	ADV	B	_	4	advmod	_	_
+6	after	after	ADP	E	_	7	mark	_	_
+7	consulting	consult	VERB	V	VerbForm=Ger	4	advcl	_	_
+8	the	the	DET	RD	Definite=Def|PronType=Art	10	det	_	_
+9	European	European	ADJ	A	Degree=Pos	10	amod	_	_
+10	Parliament	parliament	NOUN	S	Number=Sing	7	obj	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	4	punct	_	_
+
+# file = en_partut-ud-test.conllu
+# sent_id = en_partut-ud-964
+# text = Actions under these programmes will have to be contracted within the following two years.
+1	Actions	action	NOUN	S	Number=Plur	6	nsubj	_	_
+2	under	under	ADP	E	_	4	case	_	_
+3	these	this	DET	DD	Number=Plur|PronType=Dem	4	det	_	_
+4	programmes	programme	NOUN	S	Number=Plur	1	nmod	_	_
+5	will	will	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	6	aux	_	_
+6	have	have	VERB	V	VerbForm=Inf	0	root	_	_
+7	to	to	PART	PART	_	9	mark	_	_
+8	be	be	AUX	VA	VerbForm=Inf	9	aux:pass	_	_
+9	contracted	contract	VERB	V	Tense=Past|VerbForm=Part	6	xcomp	_	_
+10	within	within	ADP	E	_	12	case	_	_
+11	the	the	DET	RD	Definite=Def|PronType=Art	12	det	_	_
+12	following	following	NOUN	S	Number=Sing	9	obl	_	_
+13	two	two	NUM	N	NumType=Card	14	nummod	_	_
+14	years	year	NOUN	S	Number=Plur	9	obl	_	SpaceAfter=No
+15	.	.	PUNCT	FS	_	6	punct	_	_
+
+# file = en_partut-ud-test.conllu
+# sent_id = en_partut-ud-977
+# text = The Commission may adopt any technical provisions necessary for the operation of the temporary Cash-flow and Schengen Facility.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	Commission	commission	NOUN	S	Number=Sing	4	nsubj	_	_
+3	may	may	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	adopt	adopt	VERB	V	VerbForm=Inf	0	root	_	_
+5	any	any	DET	DI	PronType=Ind	7	det	_	_
+6	technical	technical	ADJ	A	Degree=Pos	7	amod	_	_
+7	provisions	provision	NOUN	S	Number=Plur	4	obj	_	_
+8	necessary	necessary	ADJ	A	Degree=Pos	7	amod	_	_
+9	for	for	ADP	E	_	11	case	_	_
+10	the	the	DET	RD	Definite=Def|PronType=Art	11	det	_	_
+11	operation	operation	NOUN	S	Number=Sing	8	obl	_	_
+12	of	of	ADP	E	_	17	case	_	_
+13	the	the	DET	RD	Definite=Def|PronType=Art	17	det	_	_
+14	temporary	temporary	ADJ	A	Degree=Pos	17	amod	_	_
+15	Cash	cash	NOUN	S	Number=Sing	17	nmod	_	SpaceAfter=No
+16	-	-	PUNCT	FF	_	17	punct	_	SpaceAfter=No
+17	flow	flow	NOUN	S	Number=Sing	11	nmod	_	_
+18	and	and	CCONJ	CC	_	20	cc	_	_
+19	Schengen	Schengen	PROPN	SP	_	20	nmod	_	_
+20	Facility	facility	NOUN	S	Number=Sing	17	conj	_	SpaceAfter=No
+21	.	.	PUNCT	FS	_	4	punct	_	_
+
+# file = en_partut-ud-test.conllu
+# sent_id = en_partut-ud-951
+# text = The instruments of ratification shall be deposited with the Government of the Italian Republic by 31 December 2006 at the latest.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	instruments	instrument	NOUN	S	Number=Plur	7	nsubj:pass	_	_
+3	of	of	ADP	E	_	4	case	_	_
+4	ratification	ratification	NOUN	S	Number=Sing	2	nmod	_	_
+5	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	7	aux	_	_
+6	be	be	AUX	VA	VerbForm=Inf	7	aux:pass	_	_
+7	deposited	deposit	VERB	V	Tense=Past|VerbForm=Part	0	root	_	_
+8	with	with	ADP	E	_	10	case	_	_
+9	the	the	DET	RD	Definite=Def|PronType=Art	10	det	_	_
+10	Government	government	NOUN	S	Number=Sing	7	obl	_	_
+11	of	of	ADP	E	_	14	case	_	_
+12	the	the	DET	RD	Definite=Def|PronType=Art	14	det	_	_
+13	Italian	Italian	ADJ	A	Degree=Pos	14	amod	_	_
+14	Republic	republic	NOUN	S	Number=Sing	10	nmod	_	_
+15	by	by	ADP	E	_	16	case	_	_
+16	31	31	NUM	N	NumType=Card	7	obl	_	_
+17	December	December	PROPN	SP	_	16	flat	_	_
+18	2006	2006	NUM	N	NumType=Card	16	flat	_	_
+19	at	at	ADP	E	_	21	case	_	_
+20	the	the	DET	RD	Definite=Def|PronType=Art	21	det	_	_
+21	latest	late	ADJ	A	Degree=Sup	7	advmod	_	SpaceAfter=No
+22	.	.	PUNCT	FS	_	7	punct	_	_
+
+# file = en_pud-ud-test.conllu
+# sent_id = w02013093
+# text = After the Russian Revolution in 1917, some countries, such as Finland, Poland and the Baltic States, won their independence.
+1	After	after	ADP	IN	_	4	case	4:case	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	4	det	4:det	_
+3	Russian	Russian	ADJ	JJ	Degree=Pos	4	compound	4:compound	Proper=True
+4	Revolution	revolution	PROPN	NN	Number=Sing	21	obl	21:obl:after	_
+5	in	in	ADP	IN	_	6	case	6:case	_
+6	1917	1917	NUM	CD	NumType=Card	4	nmod	4:nmod:in	SpaceAfter=No
+7	,	,	PUNCT	,	_	21	punct	21:punct	_
+8	some	some	DET	DT	_	9	det	9:det	_
+9	countries	country	NOUN	NNS	Number=Plur	21	nsubj	21:nsubj	SpaceAfter=No
+10	,	,	PUNCT	,	_	9	punct	9:punct	_
+11	such	such	DET	DT	Degree=Pos	13	case	13:case	_
+12	as	as	ADP	IN	_	11	fixed	11:fixed	_
+13	Finland	Finland	PROPN	NNP	Number=Sing	9	nmod	9:nmod:such_as	SpaceAfter=No
+14	,	,	PUNCT	,	_	15	punct	15:punct	_
+15	Poland	Poland	PROPN	NNP	Number=Sing	13	conj	9:nmod:such_as|13:conj:and	_
+16	and	and	CCONJ	CC	_	19	cc	19:cc	_
+17	the	the	DET	DT	Definite=Def|PronType=Art	19	det	19:det	_
+18	Baltic	Baltic	PROPN	NNP	Number=Sing	19	compound	19:compound	_
+19	States	state	NOUN	NNS	Number=Plur	13	conj	9:nmod:such_as|13:conj:and	SpaceAfter=No
+20	,	,	PUNCT	,	_	9	punct	9:punct	_
+21	won	win	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	0:root	_
+22	their	their	DET	DT	Number=Plur|Person=3|Poss=Yes|PronType=Prs	23	nmod:poss	23:nmod:poss	_
+23	independence	independence	NOUN	NN	Number=Sing	21	obj	21:obj	SpaceAfter=No
+24	.	.	PUNCT	.	_	21	punct	21:punct	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc6-4907
+# text = You could make it to Matoko in, say, six or seven.
+1	You	you	PRON	PERS-P2	_	3	nsubj	_	_
+2	could	could	AUX	PAST-AUX	VerbForm=Fin	3	aux	_	_
+3	make	make	VERB	INF	VerbForm=Inf	0	root	_	_
+4	it	it	PRON	PERS-SG	_	3	obj	_	_
+5	to	to	ADP	_	_	6	case	_	_
+6	Matoko	Matoko	PROPN	SG-NOM	Number=Sing	3	obl	_	_
+7	in	in	ADP	_	_	11	case	_	SpaceAfter=No
+8	,	,	PUNCT	Comma	_	9	punct	_	_
+9	say	say	VERB	INF	VerbForm=Inf	11	advcl	_	SpaceAfter=No
+10	,	,	PUNCT	Comma	_	9	punct	_	_
+11	six	six	NUM	CARD-PL	NumType=Card	3	obl	_	_
+12	or	or	CCONJ	_	_	13	cc	_	_
+13	seven	seven	NUM	CARD-PL	NumType=Card	11	conj	_	SpaceAfter=No
+14	.	.	PUNCT	Period	_	3	punct	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc1-4296
+# text = You can not group items that belong to different fields or items that belong to parent items into a custom group.
+1	You	you	PRON	PERS-P2	_	4	nsubj	_	_
+2	can	can	AUX	PRES-AUX	VerbForm=Fin	4	aux	_	_
+3	not	not	PART	NEG	_	4	advmod	_	_
+4	group	group	VERB	INF	Case=Nom	0	root	_	_
+5	items	item	NOUN	PL-NOM	Number=Plur	4	obj	_	_
+6	that	that	PRON	REL	PronType=Rel	7	nsubj	_	_
+7	belong	belong	VERB	PRES	Mood=Ind|Tense=Pres|VerbForm=Fin	5	acl:relcl	_	_
+8	to	to	ADP	_	_	10	case	_	_
+9	different	different	ADJ	POS	Degree=Pos	10	amod	_	_
+10	fields	field	NOUN	PL-NOM	Number=Plur	7	obl	_	_
+11	or	or	CCONJ	_	_	12	cc	_	_
+12	items	item	NOUN	PL-NOM	Number=Plur	5	conj	_	_
+13	that	that	PRON	REL	PronType=Rel	14	nsubj	_	_
+14	belong	belong	VERB	PRES	Mood=Ind|Tense=Pres|VerbForm=Fin	12	acl:relcl	_	_
+15	to	to	ADP	_	_	17	case	_	_
+16	parent	parent	NOUN	SG-NOM	Number=Sing	17	compound	_	_
+17	items	item	NOUN	PL-NOM	Number=Plur	14	obl	_	_
+18	into	into	ADP	_	_	21	case	_	_
+19	a	a	DET	IND-SG	Definite=Ind|PronType=Art	21	det	_	_
+20	custom	custom	NOUN	SG-NOM	Number=Sing	21	compound	_	_
+21	group	group	NOUN	SG-NOM	Number=Sing	4	obl	_	SpaceAfter=No
+22	.	.	PUNCT	Period	_	4	punct	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc7-5028
+# text = Dobby leaned towards Harry, his eyes wide as headlamps.
+1	Dobby	Dobby	PROPN	SG-NOM	Number=Sing	2	nsubj	_	_
+2	leaned	lean	VERB	PAST	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+3	towards	towards	ADP	_	_	4	case	_	_
+4	Harry	Harry	PROPN	SG-NOM	Number=Sing	2	obl	_	SpaceAfter=No
+5	,	,	PUNCT	Comma	_	8	punct	_	_
+6	his	he	PRON	P3SG-GEN	Gender=Masc|Number=Sing|Person=3|Poss=Yes|PronType=Prs	7	nmod:poss	_	_
+7	eyes	eye	NOUN	PL-NOM	Number=Plur	8	nsubj	_	_
+8	wide	wide	ADJ	POS	Degree=Pos	2	advcl	_	_
+9	as	as	ADP	_	_	10	case	_	_
+10	headlamps	headlamp	NOUN	PL-NOM	Number=Plur	8	obl	_	SpaceAfter=No
+11	.	.	PUNCT	Period	_	2	punct	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc7-5043
+# text = A sudden, unpleasant thought struck him.
+1	A	a	DET	IND-SG	Definite=Ind|PronType=Art	5	det	_	_
+2	sudden	sudden	ADJ	POS	Degree=Pos	5	amod	_	SpaceAfter=No
+3	,	,	PUNCT	Comma	_	4	punct	_	_
+4	unpleasant	unpleasant	ADJ	POS	Degree=Pos	5	amod	_	_
+5	thought	think	NOUN	SG-NOM	Number=Sing	6	nsubj	_	_
+6	struck	strike	VERB	PAST	Tense=Past|VerbForm=Part	0	root	_	_
+7	him	he	PRON	PERS-P3SG-ACC	Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	obj	_	SpaceAfter=No
+8	.	.	PUNCT	Period	_	6	punct	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc2-4353
+# text = They should ship him back to Cincinatti by express mail.
+1	They	they	PRON	PERS-PL-NOM	Case=Nom|Number=Plur|Person=3|PronType=Prs	3	nsubj	_	_
+2	should	should	AUX	PAST-AUX	VerbForm=Fin	3	aux	_	_
+3	ship	ship	VERB	INF	Case=Nom	0	root	_	_
+4	him	he	PRON	PERS-P3SG-ACC	Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	obj	_	_
+5	back	back	ADV	_	_	3	advmod	_	_
+6	to	to	ADP	_	_	7	case	_	_
+7	Cincinatti	Cincinatti	PROPN	SG-NOM	Number=Sing	3	obl	_	_
+8	by	by	ADP	_	_	10	case	_	_
+9	express	express	NOUN	SG-NOM	Case=Nom	10	compound	_	_
+10	mail	mail	NOUN	SG-NOM	Number=Sing	3	obl	_	SpaceAfter=No
+11	.	.	PUNCT	Period	_	3	punct	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc1-4327
+# text = If you move the line to the left, the distance between the moving line and the nearest parallel line to the right remains constant, and the perpendicular line to the left of the moving line contracts.
+1	If	if	SCONJ	_	_	3	mark	_	_
+2	you	you	PRON	PERS-P2	_	3	nsubj	_	_
+3	move	move	VERB	PRES	Mood=Ind|Tense=Pres|VerbForm=Fin	24	advcl	_	_
+4	the	the	DET	DEF	Definite=Def|PronType=Art	5	det	_	_
+5	line	line	NOUN	SG-NOM	Number=Sing	3	obj	_	_
+6	to	to	ADP	_	_	8	case	_	_
+7	the	the	DET	DEF	Definite=Def|PronType=Art	8	det	_	_
+8	left	left	NOUN	SG-NOM	Number=Sing	3	obl	_	SpaceAfter=No
+9	,	,	PUNCT	Comma	_	3	punct	_	_
+10	the	the	DET	DEF	Definite=Def|PronType=Art	11	det	_	_
+11	distance	distance	NOUN	SG-NOM	Number=Sing	24	nsubj	_	_
+12	between	between	ADP	_	_	15	case	_	_
+13	the	the	DET	DEF	Definite=Def|PronType=Art	15	det	_	_
+14	moving	moving	ADJ	ING	Case=Nom	15	amod	_	_
+15	line	line	NOUN	SG-NOM	Number=Sing	11	nmod	_	_
+16	and	and	CCONJ	_	_	20	cc	_	_
+17	the	the	DET	DEF	Definite=Def|PronType=Art	20	det	_	_
+18	nearest	near	ADJ	SPL	Degree=Sup	20	amod	_	_
+19	parallel	parallel	ADJ	POS	Degree=Pos	20	amod	_	_
+20	line	line	NOUN	SG-NOM	Number=Sing	15	conj	_	_
+21	to	to	ADP	_	_	23	case	_	_
+22	the	the	DET	DEF	Definite=Def|PronType=Art	23	det	_	_
+23	right	right	NOUN	SG-NOM	Number=Sing	20	nmod	_	_
+24	remains	remain	VERB	PRES	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+25	constant	constant	ADJ	POS	Degree=Pos	24	xcomp	_	SpaceAfter=No
+26	,	,	PUNCT	Comma	_	24	punct	_	_
+27	and	and	CCONJ	_	_	38	cc	_	_
+28	the	the	DET	DEF	Definite=Def|PronType=Art	30	det	_	_
+29	perpendicular	perpendicular	ADJ	POS	Degree=Pos	30	amod	_	_
+30	line	line	NOUN	SG-NOM	Number=Sing	38	nsubj	_	_
+31	to	to	ADP	_	_	33	case	_	_
+32	the	the	DET	DEF	Definite=Def|PronType=Art	33	det	_	_
+33	left	left	NOUN	SG-NOM	Number=Sing	30	nmod	_	_
+34	of	of	ADP	_	_	37	case	_	_
+35	the	the	DET	DEF	Definite=Def|PronType=Art	37	det	_	_
+36	moving	moving	ADJ	ING	Case=Nom	37	amod	_	_
+37	line	line	NOUN	SG-NOM	Number=Sing	33	nmod	_	_
+38	contracts	contract	VERB	PRES	Case=Nom	24	conj	_	SpaceAfter=No
+39	.	.	PUNCT	Period	_	24	punct	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc1-4223
+# text = Moving fields to the MultiChart area
+1	Moving	move	VERB	ING	Tense=Pres|VerbForm=Part	0	root	_	_
+2	fields	field	NOUN	PL-NOM	Number=Plur	1	obj	_	_
+3	to	to	ADP	_	_	6	case	_	_
+4	the	the	DET	DEF	Definite=Def|PronType=Art	6	det	_	_
+5	MultiChart	chart	NOUN	SG-NOM	Number=Sing	6	compound	_	_
+6	area	area	NOUN	SG-NOM	Number=Sing	1	obl	_	_
+
+# file = en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc1-4240
+# text = You can also remove fields from the chart layout that you no longer want to see.
+1	You	you	PRON	PERS-P2	_	4	nsubj	_	_
+2	can	can	AUX	PRES-AUX	VerbForm=Fin	4	aux	_	_
+3	also	also	ADV	_	_	4	advmod	_	_
+4	remove	remove	VERB	INF	VerbForm=Inf	0	root	_	_
+5	fields	field	NOUN	PL-NOM	Number=Plur	4	obj	_	_
+6	from	from	ADP	_	_	9	case	_	_
+7	the	the	DET	DEF	Definite=Def|PronType=Art	9	det	_	_
+8	chart	chart	NOUN	SG-NOM	Number=Sing	9	compound	_	_
+9	layout	layout	NOUN	SG-NOM	Number=Sing	4	obl	_	_
+10	that	that	SCONJ	_	_	14	obj	_	_
+11	you	you	PRON	PERS-P2	_	14	nsubj	_	_
+12	no	no	ADV	_	_	14	advmod	_	_
+13	longer	long	ADV	_	Degree=Cmp	12	fixed	_	_
+14	want	want	VERB	PRES	Mood=Ind|Tense=Pres|VerbForm=Fin	9	acl:relcl	_	_
+15	to	to	PART	_	_	16	mark	_	_
+16	see	see	VERB	INF	VerbForm=Inf	14	xcomp	_	SpaceAfter=No
+17	.	.	PUNCT	Period	_	4	punct	_	_ 
+</textarea>
+</div>
+<div>	
+	<input type="button" value="Parse" id="parse"/>
+    <span id="nbSent"></span> 
+    <select id="sentences"></select>
+    <label for="onlyDiffs">Only differences</label><input type="checkbox" name="onlyDiffs" id="onlyDiffs">
+</div>
+<div>
+    <span>Display as
+    <select id="displayType">
+        <option value="links">Links</option>
+        <option value="tree">Tree</option>
+        <option value="hide">Hidden</option>
+    </select>
+    </span>
+    <span>Spacing in pixels:</span>
+    <label for="wordSpacing">Word</label> <input type="number" name="wordSpacing" value="5" min="3" max="25" id="wordSpacing">
+    <label for="letterSpacing">Letter</label> <input type="number" name="letterSpacing" value="0" min="0" max="5" id="letterSpacing" step="0.5">
+</div>
+<svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="dependencies" style="border: 1px solid #999">
+    <defs>
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3"
+        orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M0,0 L0,6 L6,3 z" fill="black" />
+    </marker>
+    </defs>
+    <g></g>
+</svg>
+<svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="tree" style="border: 1px solid #999">
+    <g></g>
+</svg>
+<table id="realisations">
+    <tr><td><strong>UD text</strong></td><td id="text"></td></tr>
+    <tr><td><strong>jsRealB</strong></td><td id="jsrSentence"></td></tr>
+    <tr><td></td><td id="nbDiffs"></td></tr>
+</table>
+<div id="jsrStructure"></div>
+<div>
+    <input type="button" name="realize" value="Realize" id="realize">
+    <input type="button" name="realize" value="Show constituent tree" id="showHideContituentTree">
+</div>
+<svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="constTree" style="border: 1px solid #999;display:none">
+    <g></g>
+</svg>
+<p><em>Informations:<a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></em></p>
+</body>
+</html>

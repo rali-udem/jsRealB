@@ -4,6 +4,26 @@
  */
 "use strict";
 
+// global variables
+var exceptionOnWarning=false;  // throw an exception on Warning instead of only writing on the console
+var savedWarnings=undefined;    // if this is set to an array then warnings will be pushed on this array, 
+                                // so that all warnings can be returned in one bunch to the caller which has
+                                // to resetSavedWarnings() once it has called getSavedWarnings()
+
+// set the flag so that a warning generates an exception
+function setExceptionOnWarning(val){
+    exceptionOnWarning=val;
+}
+
+// reset savedWarnings
+function resetSavedWarnings(){
+    savedWarnings=[]
+}
+
+function getSavedWarnings(){
+    return savedWarnings || [];
+}
+
 // Output of warnings:
 // it uses jsRealB for the realization of messages
 // not sure this design is simpler, but it shows how jsRealB can be used for realizing its own messages
@@ -49,7 +69,10 @@ Constituent.prototype.warn = function(_){
     }
     mess=this.me()+":: "+ messFns[lang].apply(null,args).cap(false) // realize the warning 
     if (exceptionOnWarning) throw mess;
-    console.warn(mess);
+    if (Array.isArray(savedWarnings))
+        savedWarnings.push(mess);
+    else
+        console.warn(mess);
     return this;
 }
 
@@ -154,10 +177,12 @@ Constituent.prototype.warnings = {
          fr:(info)=> // $info n'est pas implémenté.
             S(Q(info),VP(V("implémenter"))).typ({neg:true,pas:true})},
     "not in lexicon":
-        {en:()=> // not found in lexicon.
-            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon"))),
-         fr:()=> // absent du lexique.
-            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))))},
+        {en:(altPos)=> // not found in lexicon.
+            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon")),
+              altPos!==undefined?AdvP(Adv("but"),V("exist"),Adv("as"),makeDisj("or",altPos)):Q("")),
+         fr:(altPos)=> // absent du lexique.
+            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))),
+              altPos!==undefined?AdvP(Adv("mais"),V("exister"),Adv("comme"),makeDisj("ou",altPos)):Q(""))},
     "no appropriate pronoun":
         {en:()=>S(VP(V("find").t("ps"),NP(D("a"),A("appropriate"),N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
          fr:()=>S(VP(V("trouver").t("pc"),NP(D("un"),A("adéquat"),N("pronom")))).typ({neg:true,pas:true,mod:"poss"})

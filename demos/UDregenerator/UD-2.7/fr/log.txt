@@ -1,0 +1,126 @@
+UD-2.7/fr/fr_fqb-ud-test.conllu
+real	0m1.554s
+nb sent : 2289
+nb toks : 24135
+nb non-projective : 75
+OK : 1769
+regen-diffs: 863
+lexicon-errors: 687
+---
+UD-2.7/fr/fr_gsd-ud-dev.conllu
+real	0m1.850s
+nb sent : 1476
+nb toks : 35718
+nb non-projective : 60
+OK : 941
+regen-diffs: 333
+lexicon-errors: 720
+---
+UD-2.7/fr/fr_gsd-ud-test.conllu
+real	0m0.849s
+nb sent : 416
+nb toks : 10019
+nb non-projective : 17
+OK : 266
+regen-diffs: 117
+lexicon-errors: 203
+---
+UD-2.7/fr/fr_gsd-ud-train.conllu
+real	0m13.598s
+nb sent : 14449
+nb toks : 354662
+nb non-projective : 576
+OK : 9230
+regen-diffs: 3122
+lexicon-errors: 7283
+---
+UD-2.7/fr/fr_partut-ud-dev.conllu
+real	0m0.419s
+nb sent : 107
+nb toks : 1870
+nb non-projective : 2
+OK : 35
+regen-diffs: 9
+lexicon-errors: 127
+---
+UD-2.7/fr/fr_partut-ud-test.conllu
+real	0m0.466s
+nb sent : 110
+nb toks : 2603
+nb non-projective : 1
+OK : 34
+regen-diffs: 13
+lexicon-errors: 111
+---
+UD-2.7/fr/fr_partut-ud-train.conllu
+real	0m1.649s
+nb sent : 803
+nb toks : 24122
+nb non-projective : 41
+OK : 299
+regen-diffs: 123
+lexicon-errors: 870
+---
+UD-2.7/fr/fr_pud-ud-test.conllu
+real	0m1.571s
+nb sent : 1000
+nb toks : 24734
+nb non-projective : 17
+OK : 532
+regen-diffs: 182
+lexicon-errors: 663
+---
+UD-2.7/fr/fr_sequoia-ud-dev.conllu
+real	0m0.874s
+nb sent : 412
+nb toks : 10002
+nb non-projective : 10
+OK : 220
+regen-diffs: 63
+lexicon-errors: 387
+---
+UD-2.7/fr/fr_sequoia-ud-test.conllu
+real	0m0.944s
+nb sent : 456
+nb toks : 10048
+nb non-projective : 9
+OK : 270
+regen-diffs: 80
+lexicon-errors: 332
+---
+UD-2.7/fr/fr_sequoia-ud-train.conllu
+real	0m2.606s
+nb sent : 2231
+nb toks : 50517
+nb non-projective : 47
+OK : 1291
+regen-diffs: 394
+lexicon-errors: 1714
+---
+UD-2.7/fr/fr_spoken-ud-dev.conllu
+real	0m1.064s
+nb sent : 909
+nb toks : 10062
+nb non-projective : 74
+OK : 662
+regen-diffs: 587
+lexicon-errors: 326
+---
+UD-2.7/fr/fr_spoken-ud-test.conllu
+real	0m0.986s
+nb sent : 730
+nb toks : 9991
+nb non-projective : 82
+OK : 498
+regen-diffs: 467
+lexicon-errors: 321
+---
+UD-2.7/fr/fr_spoken-ud-train.conllu
+real	0m1.598s
+nb sent : 1167
+nb toks : 15172
+nb non-projective : 108
+OK : 818
+regen-diffs: 726
+lexicon-errors: 521
+---

@@ -1,0 +1,288 @@
+0: 117
+1 difference
+# text = The dealers liked that his cleaned [1;32;4measily[0m.
+# TEXT = The dealers liked that his cleaned [1;32;4measy[0m.
+---
+1: 241
+# text = The dealer waited at hers.
+# TEXT = The dealer waited at hers. 
+---
+2: 235
+# text = The dealer drove using yours.
+# TEXT = The dealer drove using yours. 
+---
+3: 187
+# text = One of his was cleaned.
+# TEXT = One of his was cleaned. 
+---
+4: 120
+1 difference
+# text = The dealers liked that yours cleaned [1;32;4measily[0m.
+# TEXT = The dealers liked that yours cleaned [1;32;4measy[0m.
+---
+5: 61
+1 difference
+# text = The car [1;32;4misn't[0m hers.
+# TEXT = The car [1;32;4mis not[0m hers.
+---
+6: 162
+# text = After his, the dealer cleaned the car.
+# TEXT = After his, the dealer cleaned the car. 
+---
+7: 254
+# text = The dealer came from mine.
+# TEXT = The dealer came from mine. 
+---
+8: 150
+# text = The dealer's cars and yours sell quickly.
+# TEXT = The dealer 's cars and yours sell quickly. 
+---
+9: 208
+2 differences
+# text = Dealers [1;32;4mlike[0m [1;32;4mseeing[0m cars, theirs especially.
+# TEXT = dealers [1;32;4mlikes[0m [1;32;4msee[0m cars, theirs especially.
+---
+10: en_partut-ud-997
+# text = The term of office of the other Judge shall expire on 31 August 2010.
+# TEXT = The term of office of the other judge shall expire on 31 August 2010. 
+---
+11:in en_partut-ud-1256
+1 error: en_partut-ud-1256
+Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
+---
+12: en_partut-ud-331
+2 differences
+# text = But the lack of specific guidelines here is particularly to be regretted, as the idea of linking Social Fund assistance to the employment strategy [1;32;4mwill[0m [1;32;4mbe[0m put into effect for the first time during the 2000-2006 programme.
+# TEXT = But the lack of specific guidelines here is particularly to be regretted, as the idea of linking social fund assistance to the employment strategy [1;32;4mbe[0m [1;32;4mwill[0m put into effect for the first time during the 2000-2006 programme.
+---
+13:in en_partut-ud-812
+1 error: en_partut-ud-812
+N('momma'):: not found in lexicon.
+---
+14:in en_partut-ud-967
+3 errors: en_partut-ud-967
+N('costs'):: not found in lexicon.
+A('pre'):: not found in lexicon.
+N('funds'):: not found in lexicon.
+---
+15:in en_partut-ud-673
+3 errors: en_partut-ud-673
+Adv('at'):: not found in lexicon.
+N('euro'):: not found in lexicon.
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+16: en_partut-ud-955
+# text = The text of the Treaty establishing a Constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this Treaty.
+# TEXT = The text of the treaty establishing a constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this treaty. 
+---
+17:in en_partut-ud-1020
+1 error: en_partut-ud-1020
+N('carryover'):: not found in lexicon.
+---
+strange possessive determiner:us
+18:in en_partut-ud-1461
+3 errors: en_partut-ud-1461
+N('Ukrainian'):: not found in lexicon.
+D('us'):: not found in lexicon.
+A('soviet'):: not found in lexicon.
+---
+19:in en_partut-ud-1901
+3 errors: en_partut-ud-1901
+A('stone'):: not found in lexicon.
+V('moving'):: not found in lexicon.
+V('moving'):: morphology error: conjugate_en:tab :V(moving) : {"pe":3,"n":"s","t":"pr"}.
+---
+20: n01024010
+2 differences
+# text = Just over 70% of the plants grown from Earth seeds [1;32;4mwere[0m alive after 17 days - just slightly more [1;31m•[0mthan the plants grown from space seeds - just over 66%.
+# TEXT = Just over 70% of the plants grown from Earth seeds [1;32;4mwas[0m alive after 17 days-just slightly more [1;31mmore [0mthan the plants grown from space seeds-just over 66%.
+---
+21:in n01046057
+1 error: n01046057
+N('app'):: not found in lexicon.
+---
+22:in w01035080
+2 errors: w01035080
+C('of'):: not found in lexicon.
+Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
+---
+23:in n01001013
+2 errors: n01001013
+Pro('those'):: not found in lexicon.
+N('media'):: not found in lexicon.
+---
+24: n01022027
+1 difference
+# text = It[1;32;4m's[0m fantastic that they got the Paris Agreement but their contributions at the moment are nowhere near the 1.5-degree target.
+# TEXT = It[1;32;4m is[0m fantastic that they got the Paris agreement but their contributions at the moment are nowhere near the 1.5-degree target.
+---
+25: n01109008
+# text = The cost will change monthly and the price is expected to rise in winter as usage increases.
+# TEXT = the cost will change monthly and the price is expected to rise in winter as usage increases. 
+---
+26:in w02018030
+2 errors: w02018030
+V('honor'):: not found in lexicon.
+V('honor'):: morphology error: conjugate_en:tab :V(honor) : {"pe":3,"n":"s","t":"pp"}.
+---
+27:in w01075037
+2 errors: w01075037
+N('enrollment'):: not found in lexicon.
+A('higher'):: not found in lexicon.
+---
+28:in w01036044
+1 error: w01036044
+A('worst'):: not found in lexicon.
+---
+29:in n01029014
+## non projective
+2 errors: n01029014
+Adv('earlier'):: not found in lexicon.
+A('serbian'):: not found in lexicon.
+---
+30: email-enronsent29_02-0038
+1 difference
+# text = I[1;32;4m'm[0m free any day but Tuesday.
+# TEXT = I[1;32;4m am[0m free any day but Tuesday.
+---
+31: email-enronsent04_01-0015
+# text = Location: Houston, Texas USA
+# TEXT = location: Houston, Texas USA
+---
+32: reviews-214912-0004
+# text = Your children will be taken care of and loved by a professional staff.
+# TEXT = your children will be taken care of and loved by a professional staff. 
+---
+33: reviews-048644-0001
+1 difference
+# text = [1;32;4mDon't[0m judge a book by its cover
+# TEXT = [1;32;4mdo not[0m judge a book by its cover
+---
+34: answers-20111108102205AArwNzY_ans-0011
+6 differences
+# text = They gave the [1;31m•[0mbest service [1;32;4m&[0m [1;32;4mrates[0m [1;32;4mI[0m [1;32;4mcould[0m [1;32;4mfind[0m.
+# TEXT = They gave the [1;31mmost [0mbest service [1;32;4mI[0m [1;32;4mcould[0m [1;32;4mfind[0m [1;32;4m&[0m [1;32;4mrates[0m.
+---
+35: answers-20111108074455AAiMwmn_ans-0003
+2 differences
+# text = the camera only begins to work again when i [1;32;4mtake[0m out the battery and [1;32;4mput[0m it back in.
+# TEXT = The camera only begins to work again when I [1;32;4mtakes[0m out the battery and [1;32;4mputs[0m it back in.
+---
+36:in email-enronsent21_02-0047
+4 errors: email-enronsent21_02-0047
+V('cc'):: not found in lexicon.
+V('cc'):: morphology error: conjugate_en:tab :V(cc) : {"pe":2,"n":"s","t":"b"}.
+V('cc'):: not found in lexicon.
+V('cc'):: morphology error: conjugate_en:tab :V(cc) : {"pe":3,"n":"s","t":"b"}.
+---
+37: answers-20081218053636AA9vV0u_ans-0008
+# text = A Look at Slogans - http://www.small-business-software.net/look-at-slogans.htm
+# TEXT = a look at slogans-http://www.small-business-software.net/look-at-slogans.htm
+---
+38: reviews-024306-0003
+1 difference
+# text = I [1;32;4mdon't[0m recommend this place to anyone or even anything to eat.
+# TEXT = I [1;32;4mdo not[0m recommend this place to anyone or even anything to eat.
+---
+39: newsgroup-groups.google.com_n3td3v_e874a1e5eb995654_ENG_20060120_052200-0002
+# text = n3td3v saw this story on BBC News Online and thought you should see it.
+# TEXT = n3td3v saw this story on BBC News Online and thought you should see it. 
+---
+40: GUM_whow_cactus-14
+# text = Be aware that growing Beavertail cactus from seeds takes much longer than growing one from a cutting.
+# TEXT = be aware that growing Beavertail cactus from seeds takes much longer than growing one from a cutting. 
+---
+41: GUM_voyage_oakland-25
+# text = It has lots of local boutiques and a diverse range of food at all prices and styles.
+# TEXT = It has lots of local boutiques and a diverse range of food at all prices and styles. 
+---
+42: GUM_interview_libertarian-17
+4 differences
+# text = What [1;32;4mwould[0m [1;32;4myou[0m [1;32;4mhave[0m [1;32;4mdone[0m differently than him?
+# TEXT = What [1;32;4myou[0m [1;32;4mhas[0m [1;32;4mwould[0m [1;32;4mdo[0m differently than him?
+---
+43: GUM_bio_jespersen-15
+# text = He advanced the theories of Rank and Nexus in Danish in two papers: Sprogets logik (1913) and De to hovedarter af grammatiske forbindelser (1921).
+# TEXT = He advanced the theories of rank and nexus in Danish in two papers: Sprogets logik (1913) and De to hovedarter af grammatiske forbindelser ( 1921 ). 
+---
+44: GUM_interview_mcguire-49
+1 difference
+# text = While Pride and Prejudice will attract many readers, I [1;32;4mdon't[0m know about O'Reilly's latest tome on XML ... though I might be wrong.
+# TEXT = While Pride and Prejudice will attract many readers, I [1;32;4mdo not[0m know about O'Reilly 's latest tome on XML... though I might be wrong.
+---
+45:in GUM_fiction_falling-60
+1 error: GUM_fiction_falling-60
+A('upside-down'):: not found in lexicon.
+---
+46: GUM_voyage_vavau-37
+# text = This is some 35 minutes from Neiafu Harbour and provides the main concentration of humpback whales.
+# TEXT = This is some 35 minutes from Neiafu Harbour and provides the main concentration of humpback whales. 
+---
+47: GUM_whow_mice-13
+# text = Peppermint oil is a natural deterrent.
+# TEXT = Peppermint oil is a natural deterrent. 
+---
+48: GUM_interview_hill-6
+# text = I understood it was an Oath to ALL of our people.
+# TEXT = I understood it was an oath to all of our people. 
+---
+49:in GUM_news_nasa-41
+## non projective
+1 error: GUM_news_nasa-41
+N('CEO'):: not found in lexicon.
+---
+50: en_lines-ud-test-doc1-4255
+# text = Data access page with two group levels
+# TEXT = data access page with two group levels
+---
+51:in en_lines-ud-test-doc1-4275
+5 errors: en_lines-ud-test-doc1-4275
+P('prior'):: not found in lexicon.
+NO('01-jul-1999'):: the parameter should be number, not string.
+V('title'):: not found in lexicon.
+NO('01-jul-1999'):: the parameter should be number, not string.
+V('title'):: morphology error: conjugate_en:tab :V(title) : {"pe":3,"n":"s","t":"pp"}.
+---
+52:in en_lines-ud-test-doc3-4573
+2 errors: en_lines-ud-test-doc3-4573
+V('undeveloped'):: not found in lexicon.
+V('undeveloped'):: morphology error: conjugate_en:tab :V(undeveloped) : {"pe":3,"n":"s","t":"pp"}.
+---
+53:in en_lines-ud-test-doc4-4721
+## non projective
+2 errors: en_lines-ud-test-doc4-4721
+A('back'):: not found in lexicon.
+A('neglected'):: not found in lexicon.
+---
+54:in en_lines-ud-test-doc5-4776
+1 error: en_lines-ud-test-doc5-4776
+N('vice-president'):: not found in lexicon.
+---
+55: en_lines-ud-test-doc5-4732
+# text = The proposal put forward by the Commission is to be welcomed from the consumers' point of view.
+# TEXT = The proposal put forward by the commission is to be welcomed from the consumers 'point of view. 
+---
+56:in en_lines-ud-test-doc6-4869
+4 errors: en_lines-ud-test-doc6-4869
+N('sunglasses'):: not found in lexicon.
+V('barber'):: not found in lexicon.
+A('encircle'):: not found in lexicon.
+V('barber'):: morphology error: conjugate_en:tab :V(barber) : {"pe":3,"n":"s","t":"pr"}.
+---
+57: en_lines-ud-test-doc1-4222
+2 differences
+# text = For[1;32;4m [0mexample[1;32;4m, [0mwhen you move a Product field to the filter area, you can have the chart display category and series values for one product at a time.
+# TEXT = For[1;32;4m, [0mexample[1;32;4m [0mwhen you move a Product field to the filter area, you can have the chart display category and series values for one product at a time.
+---
+58: en_lines-ud-test-doc5-4734
+# text = Ultimately that would be a disadvantage for the consumer.
+# TEXT = Ultimately that would be a disadvantage for the consumer. 
+---
+59:in en_lines-ud-test-doc3-4522
+3 errors: en_lines-ud-test-doc3-4522
+N('french'):: not found in lexicon.
+N('english'):: not found in lexicon.
+N('hebrew'):: not found in lexicon.
+---
+60 UD dependencies processed
+0 modified

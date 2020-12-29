@@ -1,0 +1,3662 @@
+0: GUM_academic_exposure-1
+# text = Introduction
+# TEXT = introduction
+---
+1:in GUM_academic_exposure-2
+5 errors: GUM_academic_exposure-2
+A('adult-learned'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+A('neurocognitive'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+N('processing'):: not found in lexicon.
+---
+2:in GUM_academic_exposure-3
+6 errors: GUM_academic_exposure-3
+C('in'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+A('native-like'):: not found in lexicon.
+A('neurocognitive'):: not found in lexicon.
+N('processing'):: not found in lexicon.
+S(VP(C('that'),Q(',')),NP(P('despite'),D('the'),N('difficulty'),S(C('in'),VP(V('acquire'),NP(N('L2'),N('grammar')))),Q(',')),NP(A('adult'),N('learner')),VP(V('approximate'),NP(A('native-like'),N('level'),CP(C('and'),NP(P('of'),N('use')),NP(A('neurocognitive'),N('processing')))))):: no V found in VP.
+---
+3:in GUM_academic_exposure-4
+1 error: GUM_academic_exposure-4
+A('native-like'):: not found in lexicon.
+---
+4:in GUM_academic_exposure-5
+2 errors: GUM_academic_exposure-5
+A('continued'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+---
+5:in GUM_academic_exposure-6
+3 errors: GUM_academic_exposure-6
+A('limited'):: not found in lexicon.
+Pro('no'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+---
+6:in GUM_academic_exposure-7
+2 errors: GUM_academic_exposure-7
+Pro('such'):: not found in lexicon.
+A('immersed'):: not found in lexicon.
+---
+7:in GUM_academic_exposure-8
+## non projective
+8 errors: GUM_academic_exposure-8
+Pro('such'):: not found in lexicon.
+N('neurocognition'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+A('decreased'):: not found in lexicon.
+A('native-like'):: not found in lexicon.
+A('native-like'):: not found in lexicon.
+N('processing'):: not found in lexicon.
+Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
+---
+8:in GUM_academic_exposure-9
+3 errors: GUM_academic_exposure-9
+N('L2'):: not found in lexicon.
+A('classroom-like'):: not found in lexicon.
+A('immersion-like'):: not found in lexicon.
+---
+9: GUM_academic_exposure-10
+# text = Previous Research
+# TEXT = previous research
+---
+10:in GUM_academic_exposure-11
+## non projective
+3 errors: GUM_academic_exposure-11
+A('limited'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+A('behavioral'):: not found in lexicon.
+---
+11:in GUM_academic_exposure-12
+2 errors: GUM_academic_exposure-12
+A('observational'):: not found in lexicon.
+N('L2s'):: not found in lexicon.
+---
+12:in GUM_academic_exposure-13
+## non projective
+3 errors: GUM_academic_exposure-13
+N('L2'):: not found in lexicon.
+A('limited'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+---
+13:in GUM_academic_exposure-14
+## non projective
+3 errors: GUM_academic_exposure-14
+A('limited'):: not found in lexicon.
+C('with'):: not found in lexicon.
+A('limited'):: not found in lexicon.
+---
+14:in GUM_academic_exposure-15
+## non projective
+1 error: GUM_academic_exposure-15
+A('limited'):: not found in lexicon.
+---
+15:in GUM_academic_exposure-16
+2 errors: GUM_academic_exposure-16
+Adv('prior'):: not found in lexicon.
+A('limited'):: not found in lexicon.
+---
+16:in GUM_academic_exposure-17
+1 error: GUM_academic_exposure-17
+Adv('overall'):: not found in lexicon.
+---
+17:in GUM_academic_exposure-18
+2 errors: GUM_academic_exposure-18
+A('limited'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+---
+18:in GUM_academic_exposure-19
+## non projective
+3 errors: GUM_academic_exposure-19
+A('limited'):: not found in lexicon.
+Adv('e.g.'):: not found in lexicon.
+AdvP(Adv('early')):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
+---
+19:in GUM_academic_exposure-20
+1 error: GUM_academic_exposure-20
+C('with'):: not found in lexicon.
+---
+20:in GUM_academic_exposure-21
+## non projective
+2 errors: GUM_academic_exposure-21
+A('observed'):: not found in lexicon.
+A('less'):: not found in lexicon.
+---
+21:in GUM_academic_exposure-22
+## non projective
+1 error: GUM_academic_exposure-22
+A('limited'):: not found in lexicon.
+---
+22:in GUM_academic_exposure-23
+## non projective
+3 errors: GUM_academic_exposure-23
+N('L2'):: not found in lexicon.
+A('limited'):: not found in lexicon.
+N('listening'):: not found in lexicon.
+---
+23:in GUM_academic_exposure-24
+## non projective
+4 errors: GUM_academic_exposure-24
+A('unclear'):: not found in lexicon.
+N('L2'):: not found in lexicon.
+A('limited'):: not found in lexicon.
+A('cognitive'):: not found in lexicon.
+---
+24: GUM_academic_librarians-1
+# text = Digital Humanities Clinics -
+# TEXT = Digital Humanities Clinics-
+---
+25: GUM_academic_librarians-2
+# text = Leading Dutch Librarians into DH
+# TEXT = leading Dutch librarians into DH
+---
+26: GUM_academic_librarians-3
+# text = Michiel Cock m.p.cock@vu.nl Vrije Universiteit Amsterdam, the Netherlands
+# TEXT = Michiel Cock m.p.cock@vu.nl Vrije Universiteit Amsterdam, the Netherlands
+---
+27: GUM_academic_librarians-4
+# text = Lotte Wilms lotte.wilms@kb.nl National Library of the Netherlands, the Netherlands
+# TEXT = Lotte Wilms lotte.wilms@kb.nl National Library of the Netherlands, the Netherlands
+---
+28: GUM_academic_librarians-5
+2 differences
+# text = In 2015, an initiative was started to set up a Dutch speaking DH+Lib community in the Netherlands and Belgium, based on the example of the American communal space of librarians, archivists, LIS graduate students, and information specialists to discuss topics[1;32;4m ‘Where[0m the Digital [1;32;4mHumanities[0m and Libraries meet'.
+# TEXT = In 2015, an initiative was started to set up a Dutch speaking DH+Lib community in the Netherlands and Belgium, based on the example of the American communal space of librarians, archivists, LIS graduate students, and information specialists to discuss topics[1;32;4m 'where[0m the digital [1;32;4mhumanity[0m and libraries meet '.
+---
+29:in GUM_academic_librarians-6
+1 error: GUM_academic_librarians-6
+AdvP(Q('('),Adv('yet'),Q(')')):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
+---
+30: GUM_academic_librarians-7
+# text = On the administrative level, the directors of the libraries participating in the consortium of Dutch academic libraries (UKB) also expressed the wish that librarians become more fluent in DH.
+# TEXT = On the administrative level, the directors of the libraries participating in the consortium of Dutch academic libraries (UKB) also expressed the wish that librarians become more fluent in DH. 
+---
+31: GUM_academic_librarians-8
+6 differences
+# text = A year later, the National Library of the Netherlands (Koninklijke Bibliotheek), and the University Library of the Vrije Universiteit Amsterdam again concluded that librarians at their institutes who wanted to get involved in DH needed more [1;31m•[0mtraining to adequately support researchers [1;32;4mand[0m [1;32;4mstudents[0m [1;32;4min[0m [1;32;4mthis[0m [1;32;4mfield[0m.
+# TEXT = A year later, the National Library of the Netherlands (Koninklijke Bibliotheek), and the University Library of the Vrije Universiteit Amsterdam again concluded that librarians at their institutes who wanted to get involved in DH needed more [1;31mmore [0mtraining to adequately support researchers [1;32;4min[0m [1;32;4mthis[0m [1;32;4mfield[0m [1;32;4mand[0m [1;32;4mstudents[0m.
+---
+32: GUM_academic_librarians-9
+# text = Therefore both institutes joined forces to develop a set of clinics on DH for librarians.
+# TEXT = Therefore both institutes joined forces to develop a set of clinics on DH for librarians. 
+---
+33: GUM_academic_librarians-10
+2 differences
+# text = The two institutes [1;32;4mwere[0m [1;32;4mlater[0m joined by the Leiden University Libraries.
+# TEXT = The two institutes [1;32;4mlater[0m [1;32;4mwere[0m joined by the Leiden University Libraries.
+---
+34:in GUM_academic_librarians-11
+## non projective
+2 errors: GUM_academic_librarians-11
+A('educative'):: not found in lexicon.
+AdvP(Adv('only')):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
+---
+35:in GUM_academic_librarians-12
+3 errors: GUM_academic_librarians-12
+N('out'):: not found in lexicon.
+C('in'):: not found in lexicon.
+C('of'):: not found in lexicon.
+---
+36:in GUM_academic_librarians-13
+2 errors: GUM_academic_librarians-13
+A('methodological'):: not found in lexicon.
+N('competency'):: not found in lexicon.
+---
+37:in GUM_academic_librarians-14
+1 error: GUM_academic_librarians-14
+A('self-directed'):: not found in lexicon.
+---
+38:in GUM_academic_librarians-15
+4 errors: GUM_academic_librarians-15
+N('cruncher'):: not found in lexicon.
+A('online'):: not found in lexicon.
+C('of'):: not found in lexicon.
+C('by'):: not found in lexicon.
+---
+39:in GUM_academic_librarians-16
+5 errors: GUM_academic_librarians-16
+C('in'):: not found in lexicon.
+Adv('Out'):: not found in lexicon.
+Adv('Out'):: option n is applied to Adv, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+Adv('Loud'):: not found in lexicon.
+Adv('Loud'):: option n is applied to Adv, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+40:in GUM_academic_librarians-17
+1 error: GUM_academic_librarians-17
+Adv('e.g.'):: not found in lexicon.
+---
+41:in GUM_academic_librarians-18
+## non projective
+1 error: GUM_academic_librarians-18
+Adv('e.g.'):: not found in lexicon.
+---
+42: GUM_academic_librarians-19
+6 differences
+# text = Get feedback from researchers on possible subjects, based on the knowledge [1;32;4mand[0m [1;32;4mskills[0m [1;32;4mthey[0m [1;32;4mfeel[0m [1;32;4mlibrarians[0m [1;32;4mneed[0m;
+# TEXT = get feedback from researchers on possible subjects, based on the knowledge [1;32;4mthey[0m [1;32;4mfeel[0m [1;32;4mlibrarians[0m [1;32;4mneed[0m [1;32;4mand[0m [1;32;4mskills[0m ;
+---
+43: GUM_academic_librarians-20
+# text = Get feedback from librarians on possible subjects, based on already known gaps in their knowledge and skills.
+# TEXT = get feedback from librarians on possible subjects, based on already known gaps in their knowledge and skills. 
+---
+44:in GUM_academic_librarians-21
+1 error: GUM_academic_librarians-21
+C('with'):: not found in lexicon.
+---
+45:in GUM_academic_librarians-22
+1 error: GUM_academic_librarians-22
+Pro('each'):: not found in lexicon.
+---
+46:in GUM_academic_librarians-23
+1 error: GUM_academic_librarians-23
+A('conceptual'):: not found in lexicon.
+---
+47:in GUM_academic_librarians-24
+1 error: GUM_academic_librarians-24
+A('hands-on'):: not found in lexicon.
+---
+48:in GUM_academic_librarians-25
+1 error: GUM_academic_librarians-25
+C('by'):: not found in lexicon.
+---
+49: GUM_academic_librarians-26
+# text = With these clinics, we hope to initiate a stream of DH activities in Dutch universities, making access to support easier for new digital scholars.
+# TEXT = With these clinics, we hope to initiate a stream of DH activities in Dutch universities, making access to support easier for new digital scholars. 
+---
+50: GUM_academic_librarians-27
+# text = The poster at DH2017 will present the curriculum, its position in the international context and offer the lessons learned from both the design process and the first clinics.
+# TEXT = the poster at DH2017 will present the curriculum, its position in the international context and offer the lessons learned from both the design process and the first clinics. 
+---
+51:in GUM_academic_librarians-28
+1 error: GUM_academic_librarians-28
+C('of'):: not found in lexicon.
+---
+52: GUM_bio_byron-1
+# text = Education and early loves
+# TEXT = education and early loves
+---
+53: GUM_bio_byron-2
+4 differences
+# text = Byron received his early formal education at Aberdeen Grammar School[1;31m•[0m[1;32;4m, [0mand in August 1799 entered the school of Dr. William Glennie, in Dulwich[1;34;47m. [17[0m[1;32;4m][0m
+# TEXT = Byron received his early formal education at Aberdeen Grammar School[1;31m. [ 17[0m[1;32;4m ], [0mand in August 1799 entered the school of Dr. William Glennie, in Dulwich[1;32;4m[0m
+---
+54:in GUM_bio_byron-3
+3 errors: GUM_bio_byron-3
+Pro('himself'):: not found in lexicon.
+V('overcompensate'):: not found in lexicon.
+V('overcompensate'):: morphology error: conjugate_en:tab :V(overcompensate) : {"pe":3,"n":"s","t":"b"}.
+---
+55: GUM_bio_byron-4
+# text = His mother interfered with his studies, often withdrawing him from school, with the result that he lacked discipline and his classical studies were neglected.
+# TEXT = His mother interfered with his studies, often withdrawing him from school, with the result that he lacked discipline and his classical studies were neglected. 
+---
+56: GUM_bio_byron-5
+1 difference
+# text = In 1801, he was sent to Harrow, where he remained until July 1805. [6[1;32;4m][0m
+# TEXT = In 1801, he was sent to Harrow, where he remained until July 1805. [ 6[1;32;4m ].[0m
+---
+57:in GUM_bio_byron-6
+2 errors: GUM_bio_byron-6
+A('undistinguished'):: not found in lexicon.
+P('v'):: not found in lexicon.
+---
+58: GUM_bio_byron-7
+# text = His lack of moderation was not restricted to physical exercise.
+# TEXT = His lack of moderation was not restricted to physical exercise. 
+---
+59: GUM_bio_byron-8
+3 differences
+# text = Byron fell in love with Mary[1;34;47m Chaworth[0m, [1;32;4mwhom[0m he met while at school[1;31m•[0m, [6] and she was the reason he refused to return to Harrow in September 1803.
+# TEXT = Byron fell in love with Mary, [1;32;4mwho[0m he met while at school[1;31m Chaworth[0m, [ 6 ] and she was the reason he refused to return to Harrow in September 1803.
+---
+60:in GUM_bio_byron-9
+## non projective
+1 error: GUM_bio_byron-9
+P('but'):: not found in lexicon.
+---
+61: GUM_bio_byron-10
+3 differences
+# text = In Byron's later memoirs[1;32;4m, "[0mMary Chaworth is portrayed as the first object of his adult sexual feelings[1;32;4m." [[0m20[1;32;4m][0m
+# TEXT = In Byron 's later memoirs[1;32;4m, ''[0mMary Chaworth is portrayed as the first object of his adult sexual feelings[1;32;4m. ''[ [0m20[1;32;4m ].[0m
+---
+62: GUM_bio_byron-11
+4 differences
+# text = Byron finally returned in January 1804, [6] to a more settled period which saw the formation of a circle of emotional involvements with other Harrow boys, which he recalled with great vividness[1;32;4m: "[0mMy school friendships [1;32;4mwere[0m with me passions (for I was always violent[1;32;4m)." [[0m21[1;32;4m][0m
+# TEXT = Byron finally returned in January 1804, [ 6 ] to a more settled period which saw the formation of a circle of emotional involvements with other Harrow boys, which he recalled with great vividness[1;32;4m: ''[0mmy school friendships [1;32;4mwas[0m with me passions (for I was always violent[1;32;4m). ''[ [0m21[1;32;4m ].[0m
+---
+63:in GUM_bio_byron-12
+## non projective
+1 error: GUM_bio_byron-12
+A('2nd'):: not found in lexicon.
+---
+64:in GUM_bio_byron-13
+1 error: GUM_bio_byron-13
+A('untenable'):: not found in lexicon.
+---
+65:in GUM_bio_byron-14
+1 error: GUM_bio_byron-14
+A('unremarked'):: not found in lexicon.
+---
+66:in GUM_bio_byron-15
+1 error: GUM_bio_byron-15
+A('2nd'):: not found in lexicon.
+---
+67: GUM_bio_byron-16
+# text = Ah!
+# TEXT = Ah!
+---
+68:in GUM_bio_byron-17
+1 error: GUM_bio_byron-17
+P('To'):: not found in lexicon.
+---
+69: GUM_bio_byron-18
+## non projective
+5 differences
+# text = The following autumn, he went up to Trinity[1;34;47m College[0m, Cambridge[1;34;47m, [24[0m[1;32;4m] [0mwhere he met and formed a close friendship with the younger John Edleston[1;31m•[0m[1;32;4m.[0m
+# TEXT = The following autumn, he went up to Trinity, Cambridge[1;32;4m, [0mwhere he met and formed a close friendship with the younger John Edleston[1;31m College [ 24[0m[1;32;4m ].[0m
+---
+70: GUM_bio_byron-19
+4 differences
+# text = About his[1;32;4m "[0mprotégé[1;32;4m" [0mhe wrote[1;32;4m, "[0mHe has been my almost constant associate since October, 1805, when I entered Trinity College. His voice first attracted my attention, his countenance fixed it, and his manners attached me to him for ever[1;32;4m."[0m
+# TEXT = About his[1;32;4m ''[0mprotégé[1;32;4m ''[0mhe wrote[1;32;4m, ''[0mhe has been my almost constant associate since October, 1805, when I entered Trinity College. his voice first attracted my attention, his countenance fixed it, and his manners attached me to him for ever[1;32;4m. ''.[0m
+---
+71: GUM_bio_byron-20
+1 difference
+# text = In his memory Byron composed Thyrza, a series of elegies. [25[1;32;4m][0m
+# TEXT = In his memory Byron composed Thyrza, a series of elegies. [ 25[1;32;4m ].[0m
+---
+72:in GUM_bio_byron-21
+1 error: GUM_bio_byron-21
+P('though'):: not found in lexicon.
+---
+73: GUM_bio_byron-22
+1 difference
+# text = This statement, however, needs to be read in the context of hardening public attitudes toward homosexuality in England and the severe sanctions (including public hanging) against convicted or even suspected offenders. [26[1;32;4m][0m
+# TEXT = This statement, however, needs to be read in the context of hardening public attitudes toward homosexuality in England and the severe sanctions (including public hanging) against convicted or even suspected offenders. [ 26[1;32;4m ].[0m
+---
+74: GUM_bio_byron-23
+7 differences
+# text = [1;34;47mThe liaison, [0mon the other hand, [1;32;4mmay[0m [1;32;4mwell[0m [1;31m•[0mhave been[1;32;4m "[0mpure[1;32;4m" [0mout of respect for Edleston's innocence, in contrast to the (probably) more sexually overt relations experienced at Harrow School. [27[1;32;4m][0m
+# TEXT = On the other hand, [1;32;4mwell[0m [1;32;4mthe[0m [1;31mliaison, may [0mhave been[1;32;4m ''[0mpure[1;32;4m ''[0mout of respect for Edleston 's innocence, in contrast to the (probably) more sexually overt relations experienced at Harrow School. [ 27[1;32;4m ].[0m
+---
+75: GUM_bio_byron-24
+1 difference
+# text = Byron spent three years at Trinity College, engaging in sexual escapades, boxing, horse riding and gambling. [28[1;32;4m][0m
+# TEXT = Byron spent three years at Trinity College, engaging in sexual escapades, boxing, horse riding and gambling. [ 28[1;32;4m ].[0m
+---
+76: GUM_bio_byron-25
+## non projective
+6 differences
+# text = Also while at Cambridge he formed lifelong friendships with men such as John[1;34;47m Cam Hobhouse[0m, who initiated him into the Cambridge Whig Club, which endorsed liberal politics[1;32;4m, [28] [0mand Francis[1;34;47m Hodgson[0m, a Fellow at King's College, with [1;32;4mwhom[0m he corresponded on literary and other matters until the end of his life[1;31m•[0m[1;32;4m.[0m
+# TEXT = Also while at Cambridge he formed lifelong friendships with men such as John, who initiated him into the Cambridge Whig Club, which endorsed liberal politics[1;32;4m, Hodgson [0mand Francis, a Fellow at King 's College, with [1;32;4mwho[0m he corresponded on literary and other matters until the end of his life[1;31m Cam Hobhouse [ 28[0m[1;32;4m ].[0m
+---
+77: GUM_bio_emperor-1
+# text = Emperor Norton
+# TEXT = Emperor Norton
+---
+78:in GUM_bio_emperor-2
+4 errors: GUM_bio_emperor-2
+Adv('c.'):: not found in lexicon.
+Pro('himself'):: not found in lexicon.
+NO('I'):: the parameter should be number, not string.
+NO('I'):: option n is applied to NO, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+79:in GUM_bio_emperor-3
+2 errors: GUM_bio_emperor-3
+N('pretense'):: not found in lexicon.
+C('by'):: not found in lexicon.
+---
+80: GUM_bio_emperor-4
+2 differences
+# text = [1;32;4mBorn[0m in England, Norton spent most [1;31m•[0mof his early life in South Africa.
+# TEXT = [1;32;4mBorne[0m in England, Norton spent most [1;31mmost [0mof his early life in South Africa.
+---
+81: GUM_bio_emperor-5
+## non projective
+7 differences
+# text = After the death of his mother [1;32;4min[0m [1;32;4m1846[0m [1;32;4mand[0m [1;32;4mhis[0m [1;32;4mfather[0m [1;32;4min[0m [1;32;4m1848[0m, he sailed west, arriving in San Francisco possibly in November 1849.
+# TEXT = After the death of his mother [1;32;4mand[0m [1;32;4mhis[0m [1;32;4mfather[0m [1;32;4min[0m [1;32;4min[0m [1;32;4m1848[0m [1;32;4m1846[0m, he sailed west, arriving in San Francisco possibly in November 1849.
+---
+82: GUM_bio_emperor-6
+# text = Norton initially made a living as a businessman, but he lost his fortune investing in Peruvian rice.
+# TEXT = Norton initially made a living as a businessman, but he lost his fortune investing in Peruvian rice. 
+---
+83:in GUM_bio_emperor-7
+1 error: GUM_bio_emperor-7
+N('lawsuit'):: not found in lexicon.
+---
+84:in GUM_bio_emperor-8
+2 errors: GUM_bio_emperor-8
+V('reemerge'):: not found in lexicon.
+V('reemerge'):: morphology error: conjugate_en:tab :V(reemerge) : {"pe":3,"n":"s","t":"ps"}.
+---
+85:in GUM_bio_emperor-9
+2 errors: GUM_bio_emperor-9
+V('humor'):: not found in lexicon.
+V('humor'):: morphology error: conjugate_en:tab :V(humor) : {"pe":3,"n":"s","t":"pp"}.
+---
+86:in GUM_bio_emperor-10
+2 errors: GUM_bio_emperor-10
+V('honor'):: not found in lexicon.
+V('honor'):: morphology error: conjugate_en:tab :V(honor) : {"pe":3,"n":"s","t":"pp"}.
+---
+87:in GUM_bio_emperor-11
+1 error: GUM_bio_emperor-11
+Pro('some'):: not found in lexicon.
+---
+88: GUM_bio_emperor-12
+6 differences
+# text = Long after his death, similar structures [1;32;4mwere[0m built in the form of the San[1;32;4m [0mFrancisco [1;34;47m– [0mOakland Bay Bridge and the Transbay Tube, and there [1;32;4mhave[0m been campaigns to rename the bridge[1;32;4m "[0mThe Emperor Norton Bridge[1;32;4m".[0m
+# TEXT = long after his death, similar structures [1;32;4mwas[0m built in the form of the San[1;32;4m-[0mFrancisco Oakland Bay Bridge and the Transbay Tube, and there [1;32;4mhas[0m been campaigns to rename the bridge[1;32;4m ''[0mthe Emperor Norton Bridge[1;32;4m ''.[0m
+---
+89: GUM_bio_emperor-13
+# text = On January 8, 1880, Norton collapsed at the corner of California and Dupont (now Grant) streets and died before he could be given medical treatment.
+# TEXT = on January 8, 1880, Norton collapsed at the corner of California and Dupont (now Grant) streets and died before he could be given medical treatment. 
+---
+90: GUM_bio_emperor-14
+2 differences
+# text = Nearly [1;34;47m30,[0m[1;32;4m000[0m people packed the streets of San Francisco to pay him homage at his funeral.
+# TEXT = Nearly [1;32;4m30000[0m people packed the streets of San Francisco to pay him homage at his funeral.
+---
+91: GUM_bio_emperor-15
+7 differences
+# text = Norton has been immortalized as the basis of characters in the literature of writers Mark [1;32;4mTwain, Robert[0m [1;32;4mLouis[0m [1;31m•[0m[1;32;4mStevenson[0m, [1;32;4mChristopher Moore[0m, Morris and Goscinny, Selma[1;34;47m Lagerlöf[0m, and Neil [1;32;4mGaiman[0m.
+# TEXT = Norton has been immortalized as the basis of characters in the literature of writers Mark [1;32;4mLouis Stevenson[0m [1;32;4mMoore[0m [1;31mLagerlöf [0m[1;32;4mGaiman[0m, [1;32;4mRobert, Christopher[0m, Morris and Goscinny, Selma, and Neil [1;32;4mTwain[0m.
+---
+92:in GUM_bio_emperor-16
+2 errors: GUM_bio_emperor-16
+NO('I'):: the parameter should be number, not string.
+NO('I'):: option n is applied to NO, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+93:in GUM_bio_emperor-17
+3 errors: GUM_bio_emperor-17
+V('Declare'):: not found in lexicon.
+Pro('himself'):: not found in lexicon.
+V('Declare'):: morphology error: conjugate_en:tab :V(Declare) : {"pe":3,"n":"s","t":"p"}.
+---
+94: GUM_bio_emperor-18
+# text = Emperor Joshua Norton, in full military regalia, circa 1880 or earlier
+# TEXT = Emperor Joshua Norton, in full military regalia, circa 1880 or earlier
+---
+95: GUM_bio_emperor-19
+# text = By 1859, Norton had become completely disgruntled with what he considered the inadequacies of the legal and political structures of the United States.
+# TEXT = By 1859, Norton had become completely disgruntled with what he considered the inadequacies of the legal and political structures of the United States. 
+---
+96:in GUM_bio_emperor-20
+1 error: GUM_bio_emperor-20
+Pro('himself'):: not found in lexicon.
+---
+97: GUM_bio_emperor-21
+## non projective
+16 differences
+# text = At the peremptory request [1;34;47mand desire [0mof a large majority of the citizens of these United States[1;34;47m, I, Joshua[0m [1;34;47mNorton, [0m[1;32;4mformerly[0m [1;32;4mof[0m [1;34;47mAlgoa [0m[1;32;4mBay[0m, [1;32;4mCape[0m [1;32;4mof Good[0m [1;32;4mHope[0m, and now for the last 9 [1;31m•[0myears and 10 months [1;34;47mpast [0mof S.F., Cal[1;31m•[0m[1;32;4m., [0mdeclare and [1;32;4mproclaim[0m myself Emperor of these U.S[1;32;4m.;[0m
+# TEXT = At the peremptory request of a large majority of the citizens of these United States [1;32;4mand[0m [1;32;4mdesire[0m [1;32;4mI[0m, [1;32;4mJoshua[0m [1;32;4mNorton, formerly[0m [1;32;4mof[0m, and now for the last 9 [1;31mpast [0myears and 10 months of S.F., Cal[1;31m. Algoa Bay, Cape of Good Hope[0m[1;32;4m, [0mdeclare and [1;32;4mproclaims[0m myself Emperor of these U.S[1;32;4m. ;[0m
+---
+98:in GUM_bio_emperor-22
+## non projective
+4 errors: GUM_bio_emperor-22
+A('1st'):: not found in lexicon.
+V('existing'):: not found in lexicon.
+N('abroad'):: not found in lexicon.
+V('existing'):: morphology error: conjugate_en:tab :V(existing) : {"pe":3,"n":"s","t":"pr"}.
+---
+99:in GUM_bio_emperor-23
+2 errors: GUM_bio_emperor-23
+NO('I'):: the parameter should be number, not string.
+NO('I'):: option n is applied to NO, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+100: GUM_bio_emperor-24
+2 differences
+# text = The announcement [1;32;4mwas[0m [1;32;4mfirst[0m reprinted for humorous effect by the editor of the San Francisco Bulletin.
+# TEXT = The announcement [1;32;4mfirst[0m [1;32;4mwas[0m reprinted for humorous effect by the editor of the San Francisco Bulletin.
+---
+101: GUM_bio_emperor-25
+4 differences
+# text = Norton [1;32;4mwould[0m [1;32;4mlater[0m add[1;32;4m "[0mProtector of Mexico[1;32;4m" [0mto this title.
+# TEXT = Norton [1;32;4mlater[0m [1;32;4mwill[0m add[1;32;4m ''[0mProtector of Mexico[1;32;4m ''[0mto this title.
+---
+102:in GUM_bio_emperor-26
+1 error: GUM_bio_emperor-26
+A('21-year'):: not found in lexicon.
+---
+103: GUM_bio_emperor-27
+# text = One of Norton's undated proclamations
+# TEXT = One of Norton 's undated proclamations
+---
+104: GUM_bio_emperor-28
+# text = In his self-appointed role of emperor, Norton issued numerous decrees on matters of the state.
+# TEXT = In his self-appointed role of emperor, Norton issued numerous decrees on matters of the state. 
+---
+105: GUM_bio_emperor-29
+1 difference
+# text = After assuming absolute control over the country, he saw no [1;31m•[0mfurther need for a legislature, and on October 12, 1859, he issued a decree formally abolishing the United States Congress.
+# TEXT = after assuming absolute control over the country, he saw no [1;31mmore [0mfurther need for a legislature, and on October 12, 1859, he issued a decree formally abolishing the United States Congress.
+---
+106: GUM_bio_emperor-30
+# text = In it, Norton observed:
+# TEXT = In it, Norton observed:
+---
+107: GUM_bio_emperor-31
+# text = ... fraud and corruption prevent a fair and proper expression of the public voice;
+# TEXT = ... Fraud and corruption prevent a fair and proper expression of the public voice ;
+---
+108: GUM_bio_emperor-32
+1 difference
+# text = that open violation of the laws [1;32;4mare[0m constantly occurring, caused by mobs, parties, factions and undue influence of political sects;
+# TEXT = That open violation of the laws [1;32;4mis[0m constantly occurring, caused by mobs, parties, factions and undue influence of political sects ;
+---
+109: GUM_bio_emperor-33
+2 differences
+# text = that the citizen [1;32;4mhas[0m not [1;31m•[0mthat protection of person and property which he is entitled.
+# TEXT = That the citizen [1;32;4mdoes[0m not [1;31mhave [0mthat protection of person and property which he is entitled.
+---
+110: GUM_bio_emperor-34
+2 differences
+# text = Norton ordered all interested parties to assemble at Platt's Music Hall in San Francisco in February 1860 to[1;32;4m "[0mremedy the evil complained of[1;32;4m".[0m
+# TEXT = Norton ordered all interested parties to assemble at Platt 's Music Hall in San Francisco in February 1860 to[1;32;4m ''[0mremedy the evil complained of[1;32;4m ''.[0m
+---
+111: GUM_bio_emperor-35
+# text = In an imperial decree the following month, Norton summoned the Army to depose the elected officials of the U.S. Congress:
+# TEXT = In an imperial decree the following month, Norton summoned the Army to depose the elected officials of the U.S. Congress:
+---
+112:in GUM_bio_emperor-36
+3 errors: GUM_bio_emperor-36
+Pro('themselves'):: not found in lexicon.
+A('Imperial'):: not found in lexicon.
+A('12th'):: not found in lexicon.
+---
+113:in GUM_bio_emperor-37
+## non projective
+1 error: GUM_bio_emperor-37
+C('WHEREAS'):: not found in lexicon.
+---
+114:in GUM_bio_emperor-38
+7 errors: GUM_bio_emperor-38
+V('Order'):: not found in lexicon.
+V('Direct'):: not found in lexicon.
+N('Command-in-Chief'):: not found in lexicon.
+N('Decree'):: not found in lexicon.
+N('Halls'):: not found in lexicon.
+V('Order'):: morphology error: conjugate_en:tab :V(Order) : {"pe":1,"n":"p","t":"b"}.
+V('Direct'):: morphology error: conjugate_en:tab :V(Direct) : {"pe":3,"n":"s","t":"b"}.
+---
+115: GUM_fiction_beast-1
+# text = The Beast
+# TEXT = the beast
+---
+116: GUM_fiction_beast-2
+# text = I was thirteen.
+# TEXT = I was thirteen. 
+---
+117:in GUM_fiction_beast-3
+## non projective
+2 errors: GUM_fiction_beast-3
+Pro('yourself'):: not found in lexicon.
+A('drowned'):: not found in lexicon.
+---
+118:in GUM_fiction_beast-4
+1 error: GUM_fiction_beast-4
+N('something'):: not found in lexicon.
+---
+119: GUM_fiction_beast-5
+# text = I was wearing a yellow linen dress which my mother had picked out and which I therefore disliked although I knew it flattered me.
+# TEXT = I was wearing a yellow linen dress which my mother had picked out and which I therefore disliked although I knew it flattered me. 
+---
+120:in GUM_fiction_beast-6
+1 error: GUM_fiction_beast-6
+C('on'):: not found in lexicon.
+---
+121: GUM_fiction_beast-7
+2 differences
+# text = My father and I [1;32;4mwere[0m going to mass — my mother [1;32;4mdid[0m not go; she was Protestant.
+# TEXT = My father and I [1;32;4mwas[0m going to mass — my mother [1;32;4mdo[0m not go ; she was Protestant.
+---
+122: GUM_fiction_beast-8
+## non projective
+9 differences
+# text = My father put his hand[1;32;4m on[0m [1;32;4mtop[0m [1;32;4mof[0m my [1;32;4mhair, his[0m [1;32;4mpalm[0m [1;32;4mon[0m my [1;32;4mhead[0m, and I could feel the bone of my skull[1;34;47m and[0m[1;32;4m [0mmy skin and his hot palm, so dry and strong.
+# TEXT = my father put his hand[1;32;4m, his[0m [1;32;4mpalm[0m [1;32;4mon[0m my [1;32;4mhead on[0m [1;32;4mtop[0m [1;32;4mof[0m my [1;32;4mhair[0m, and I could feel the bone of my skull[1;32;4m, [0mmy skin and his hot palm, so dry and strong.
+---
+123: GUM_fiction_beast-9
+# text = When I was a little girl, he did that often, and called me Muscles.
+# TEXT = when I was a little girl, he did that often, and called me Muscles. 
+---
+124: GUM_fiction_beast-10
+13 differences
+# text = He [1;32;4mhad[0m not [1;31m•[0mcalled me Muscles [1;32;4mor[0m [1;32;4mput[0m [1;32;4mhis[0m [1;32;4mhand[0m [1;32;4mon[0m [1;32;4mmy[0m [1;32;4mhead[0m [1;32;4mfor[0m [1;32;4ma[0m [1;32;4mlong[0m [1;32;4mtime[0m.
+# TEXT = he [1;32;4mdid[0m not [1;31mhave [0mcalled me Muscles [1;32;4mfor[0m [1;32;4ma[0m [1;32;4mlong[0m [1;32;4mtime[0m [1;32;4mor[0m [1;32;4mput[0m [1;32;4mhis[0m [1;32;4mhand[0m [1;32;4mon[0m [1;32;4mmy[0m [1;32;4mhead[0m.
+---
+125:in GUM_fiction_beast-11
+2 errors: GUM_fiction_beast-11
+C('with'):: not found in lexicon.
+A('half-understood'):: not found in lexicon.
+---
+126: GUM_fiction_beast-12
+# text = I wanted to feel the rough edge of the pocket of his coat against my cheek, but I was too tall.
+# TEXT = I wanted to feel the rough edge of the pocket of his coat against my cheek, but I was too tall. 
+---
+127: GUM_fiction_beast-13
+# text = I wanted to be seven again, and safe.
+# TEXT = I wanted to be seven again, and safe. 
+---
+128:in GUM_fiction_beast-14
+1 error: GUM_fiction_beast-14
+A('palmed'):: not found in lexicon.
+---
+129: GUM_fiction_beast-15
+# text = Instead I went into the church, took a Bulletin, dipped my finger in Holy Water and genuflected.
+# TEXT = instead I went into the church, took a bulletin, dipped my finger in holy water and genuflected. 
+---
+130:in GUM_fiction_beast-16
+1 error: GUM_fiction_beast-16
+NP(Q(','),A('alive'),NP(P('at'),Pro('all'))):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+131: GUM_fiction_beast-17
+2 differences
+# text = My father took off his coat[1;34;47m and[0m[1;32;4m [0mdraped it over the edge of the pew and when I came back from communion I stole his glove.
+# TEXT = my father took off his coat[1;32;4m, [0mdraped it over the edge of the pew and when I came back from communion I stole his glove.
+---
+132: GUM_fiction_beast-18
+# text = The paper taste of the wafer was still in my mouth and I took a deep breath of the leather.
+# TEXT = The paper taste of the wafer was still in my mouth and I took a deep breath of the leather. 
+---
+133: GUM_fiction_beast-19
+# text = It smelled like March.
+# TEXT = It smelled like March. 
+---
+134:in GUM_fiction_beast-20
+1 error: GUM_fiction_beast-20
+A('navy'):: not found in lexicon.
+---
+135: GUM_fiction_beast-21
+1 difference
+# text = There [1;32;4mwere[0m two classes of each grade, starting at the sixth and going down to the first.
+# TEXT = There [1;32;4mwas[0m two classes of each grade, starting at the sixth and going down to the first.
+---
+136:in GUM_fiction_beast-22
+2 errors: GUM_fiction_beast-22
+N('T'):: not found in lexicon.
+N('bleacher'):: not found in lexicon.
+---
+137:in GUM_fiction_beast-23
+1 error: GUM_fiction_beast-23
+N('bleacher'):: not found in lexicon.
+---
+138:in GUM_fiction_beast-24
+3 errors: GUM_fiction_beast-24
+N('softball'):: not found in lexicon.
+V('camping'):: not found in lexicon.
+V('camping'):: morphology error: conjugate_en:tab :V(camping) : {"pe":3,"n":"s","t":"pr"}.
+---
+139: GUM_fiction_beast-25
+# text = He stood rocked back on his heels with his coat thrown over his shoulders and his hands in his pockets.
+# TEXT = He stood rocked back on his heels with his coat thrown over his shoulders and his hands in his pockets. 
+---
+140: GUM_fiction_beast-26
+1 difference
+# text = I thought of bacon[1;32;4m and eggs, [0mtoast with peach jam out of the jar.
+# TEXT = I thought of bacon[1;32;4m, eggs, and [0mtoast with peach jam out of the jar.
+---
+141: GUM_fiction_beast-27
+# text = I was so hungry.
+# TEXT = I was so hungry. 
+---
+142:in GUM_fiction_beast-28
+1 error: GUM_fiction_beast-28
+N('bleacher'):: not found in lexicon.
+---
+143: GUM_fiction_beast-29
+## non projective
+3 differences
+# text = There [1;32;4mwere[0m things[1;34;47m in the shadows[0m; a metal pail, a mop, rags[1;31m•[0m.
+# TEXT = There [1;32;4mwas[0m things ; a metal pail, a mop, rags[1;31m in the shadows[0m.
+---
+144:in GUM_fiction_beast-30
+1 error: GUM_fiction_beast-30
+A('wrought-iron'):: not found in lexicon.
+---
+145: GUM_fiction_beast-31
+# text = There was no holder and the end was jagged.
+# TEXT = there was no holder and the end was jagged. 
+---
+146: GUM_fiction_beast-32
+# text = On the floor was a wrapper from a French Chew.
+# TEXT = On the floor was a wrapper from a French Chew. 
+---
+147:in GUM_fiction_beast-33
+1 error: GUM_fiction_beast-33
+N('eighth-grade'):: not found in lexicon.
+---
+148:in GUM_fiction_beast-34
+1 error: GUM_fiction_beast-34
+N('bleacher'):: not found in lexicon.
+---
+149: GUM_fiction_beast-35
+# text = I heard the rain and the faint rustle of paper and smelled damp concrete.
+# TEXT = I heard the rain and the faint rustle of paper and smelled damp concrete. 
+---
+150: GUM_fiction_beast-36
+1 difference
+# text = I [1;32;4mdid[0m not go near my father but kept my hand in my pocket, feeling the soft leather glove.
+# TEXT = I [1;32;4mdo[0m not go near my father but kept my hand in my pocket, feeling the soft leather glove.
+---
+151: GUM_fiction_beast-37
+# text = There was a rustling on the concrete and the drizzle of soft rain.
+# TEXT = There was a rustling on the concrete and the drizzle of soft rain. 
+---
+152:in GUM_fiction_beast-38
+2 errors: GUM_fiction_beast-38
+N('anyone'):: not found in lexicon.
+N('bleacher'):: not found in lexicon.
+---
+153: GUM_fiction_beast-39
+# text = The rustling might have been mice.
+# TEXT = The rustling might have been mice. 
+---
+154: GUM_fiction_beast-40
+# text = I wished the rain would stop.
+# TEXT = I wished the rain would stop. 
+---
+155: GUM_fiction_beast-41
+# text = I wanted to go home.
+# TEXT = I wanted to go home. 
+---
+156: GUM_fiction_beast-42
+# text = I made noises with my heels but they were too loud so I stopped.
+# TEXT = I made noises with my heels but they were too loud so I stopped. 
+---
+157:in GUM_fiction_beast-43
+2 errors: GUM_fiction_beast-43
+N('something'):: not found in lexicon.
+N('anything'):: not found in lexicon.
+---
+158: GUM_fiction_beast-44
+1 difference
+# text = It [1;32;4mwasn't[0m as loud as my heels.
+# TEXT = It [1;32;4mwas not[0m as loud as my heels.
+---
+159: GUM_fiction_beast-45
+# text = My father cleared his throat, looking out the door.
+# TEXT = My father cleared his throat, looking out the door. 
+---
+160: GUM_fiction_beast-46
+# text = I imagined a man down there in the dark, an escaped convict or a madman.
+# TEXT = I imagined a man down there in the dark, an escaped convict or a madman. 
+---
+161: GUM_fiction_beast-47
+# text = It had nearly stopped raining.
+# TEXT = It had nearly stopped raining. 
+---
+162: GUM_fiction_beast-48
+# text = In fifteen minutes we would be home and my mother would fry eggs.
+# TEXT = In fifteen minutes we would be home and my mother would fry eggs. 
+---
+163: GUM_fiction_beast-49
+# text = I heard a noise like paper.
+# TEXT = I heard a noise like paper. 
+---
+164:in GUM_fiction_beast-50
+2 errors: GUM_fiction_beast-50
+Adv('at'):: not found in lexicon.
+VP(Q('to')):: no V found in VP.
+---
+165: GUM_fiction_beast-51
+# text = And there was a heavier sound, a rasp, like a box pulled over concrete.
+# TEXT = And there was a heavier sound, a rasp, like a box pulled over concrete. 
+---
+166: GUM_fiction_beast-52
+1 difference
+# text = I looked at my father but he [1;32;4mdidn't[0m turn his head.
+# TEXT = I looked at my father but he [1;32;4mdo not[0m turn his head.
+---
+167: GUM_fiction_beast-53
+# text = I wished he would turn his head.
+# TEXT = I wished he would turn his head. 
+---
+168: GUM_fiction_beast-54
+# text = There was a click again and the rustle, and I could not think of what it could be.
+# TEXT = there was a click again and the rustle, and I could not think of what it could be. 
+---
+169: GUM_fiction_beast-55
+# text = I had no explanation for the particular combination of sounds.
+# TEXT = I had no explanation for the particular combination of sounds. 
+---
+170: GUM_fiction_beast-56
+# text = No doubt there was, some two things that happened to be making noises at the same time.
+# TEXT = No doubt there was, some two things that happened to be making noises at the same time. 
+---
+171:in GUM_fiction_beast-57
+1 error: GUM_fiction_beast-57
+Pro('themselves'):: not found in lexicon.
+---
+172: GUM_fiction_lunre-1
+# text = Chapter Two: Master Lunre
+# TEXT = chapter Two: Master Lunre
+---
+173: GUM_fiction_lunre-2
+1 difference
+# text = My father's actions [1;32;4mwere[0m largely incomprehensible to me, guided by his own secret and labyrinthine calculations.
+# TEXT = My father 's actions [1;32;4mwas[0m largely incomprehensible to me, guided by his own secret and labyrinthine calculations.
+---
+174: GUM_fiction_lunre-3
+# text = He dwelt in another world, a world of intrigue, bargains, contracts and clandestine purchases of land all over the island.
+# TEXT = He dwelt in another world, a world of intrigue, bargains, contracts and clandestine purchases of land all over the island. 
+---
+175:in GUM_fiction_lunre-4
+1 error: GUM_fiction_lunre-4
+Pro('himself'):: not found in lexicon.
+---
+176: GUM_fiction_lunre-5
+1 difference
+# text = No doubt his decisions [1;32;4mwere[0m perfectly logical in his own eyes — even the one that prompted him, a patriotic islander, to bring me a tutor from Bain: Master Lunre, an Olondrian.
+# TEXT = No doubt his decisions [1;32;4mwas[0m perfectly logical in his own eyes — even the one that prompted him, a patriotic islander, to bring me a tutor from Bain: Master Lunre, an Olondrian.
+---
+177: GUM_fiction_lunre-6
+# text = The day began as it usually did when my father was expected home from his travels, the house festooned with flowers and stocked with coconut liquor.
+# TEXT = The day began as it usually did when my father was expected home from his travels, the house festooned with flowers and stocked with coconut liquor. 
+---
+178: GUM_fiction_lunre-7
+# text = We stood by the gate, washed and perfumed and arrayed in our brightest clothes, my mother twisting her hands in her skirt, my father’s wife with red eyes.
+# TEXT = We stood by the gate, washed and perfumed and arrayed in our brightest clothes, my mother twisting her hands in her skirt, my father ’s wife with red eyes. 
+---
+179:in GUM_fiction_lunre-8
+1 error: GUM_fiction_lunre-8
+Pro('himself'):: not found in lexicon.
+---
+180: GUM_fiction_lunre-9
+3 differences
+# text = We scanned the deep blue valley for the first sign of the company, but before we saw them we heard the children shouting[1;32;4m: “A[0m yellow man[1;34;47m!”[0m[1;32;4m[0m
+# TEXT = we scanned the deep blue valley for the first sign of the company, but before we saw them we heard the children shouting[1;32;4m: ''a[0m yellow man[1;32;4m! ''[0m
+---
+181: GUM_fiction_lunre-10
+# text = A yellow man!
+# TEXT = a yellow man!
+---
+182: GUM_fiction_lunre-11
+# text = We glanced at one another in confusion.
+# TEXT = We glanced at one another in confusion. 
+---
+183: GUM_fiction_lunre-12
+# text = My mother bit her lower lip; Jom gave a groan of alarm.
+# TEXT = My mother bit her lower lip ; Jom gave a groan of alarm. 
+---
+184:in GUM_fiction_lunre-13
+4 errors: GUM_fiction_lunre-13
+N('color'):: not found in lexicon.
+N('night-monkey'):: not found in lexicon.
+N('council-member'):: not found in lexicon.
+V('will'):: morphology error: conjugate_en: unrecognized tense :V(will) : {"pe":3,"n":"s","t":"pp"}.
+---
+185:in GUM_fiction_lunre-14
+## non projective
+1 error: GUM_fiction_lunre-14
+A('Olondrian'):: not found in lexicon.
+---
+186:in GUM_fiction_lunre-15
+2 errors: GUM_fiction_lunre-15
+A('well-received'):: not found in lexicon.
+N('tree-cuttings'):: not found in lexicon.
+---
+187:in GUM_fiction_lunre-16
+1 error: GUM_fiction_lunre-16
+N('house-servant'):: not found in lexicon.
+---
+188: GUM_fiction_lunre-17
+# text = And there they were: a chain of riders weaving among the trees.
+# TEXT = And there they were: a chain of riders weaving among the trees. 
+---
+189: GUM_fiction_lunre-18
+# text = My father’s plaited umbrella appeared, his still, imposing figure, and beside him another man, tall and lean, astride an island mule.
+# TEXT = My father ’s plaited umbrella appeared, his still, imposing figure, and beside him another man, tall and lean, astride an island mule. 
+---
+190:in GUM_fiction_lunre-19
+1 error: GUM_fiction_lunre-19
+P('that'):: not found in lexicon.
+---
+191: GUM_fiction_lunre-20
+# text = As they approached I saw that my father’s face was shining with pride, and his bearing had in it a new hauteur, like that of the old island kings.
+# TEXT = as they approached I saw that my father ’s face was shining with pride, and his bearing had in it a new hauteur, like that of the old island kings. 
+---
+192: GUM_fiction_lunre-21
+# text = The man who rode beside him, looking uncomfortable with his long legs, kept his gaze lowered and fixed between the ears of his plodding mule.
+# TEXT = The man who rode beside him, looking uncomfortable with his long legs, kept his gaze lowered and fixed between the ears of his plodding mule. 
+---
+193:in GUM_fiction_lunre-22
+3 errors: GUM_fiction_lunre-22
+A('silver'):: not found in lexicon.
+P('that'):: not found in lexicon.
+N('color'):: not found in lexicon.
+---
+194:in GUM_fiction_lunre-23
+3 errors: GUM_fiction_lunre-23
+A('leaf-collecting'):: not found in lexicon.
+A('silver'):: not found in lexicon.
+A('fine-knuckled'):: not found in lexicon.
+---
+195: GUM_fiction_lunre-24
+3 differences
+# text = As he dismounted in front of the house I heard my mother whispering[1;32;4m: “Protect[0m us, God with the Black-and-White Tail, from that which is not of this earth[1;34;47m.”[0m[1;32;4m[0m
+# TEXT = As he dismounted in front of the house I heard my mother whispering[1;32;4m: ''protect[0m us, God with the Black-and-White Tail, from that which is not of this earth[1;32;4m. ''.[0m
+---
+196: GUM_fiction_lunre-25
+# text = My father dismounted from his mule and strutted toward us, grinning.
+# TEXT = my father dismounted from his mule and strutted toward us, grinning. 
+---
+197:in GUM_fiction_lunre-26
+## non projective
+1 error: GUM_fiction_lunre-26
+N('odor'):: not found in lexicon.
+---
+198: GUM_fiction_lunre-27
+1 difference
+# text = We [1;32;4mknelt[0m and stared down at the bald ground, murmuring ritual greetings, until he touched the tops of our heads with the palm of his fleshy hand.
+# TEXT = We [1;32;4mkneeled[0m and stared down at the bald ground, murmuring ritual greetings, until he touched the tops of our heads with the palm of his fleshy hand.
+---
+199:in GUM_fiction_lunre-28
+2 errors: GUM_fiction_lunre-28
+C('from'):: not found in lexicon.
+Adv('half-smiling'):: not found in lexicon.
+---
+200: GUM_interview_cyclone-1
+1 difference
+# text = Wikinews interviews meteorological experts on Cyclone Phalin[1;32;4m[0m
+# TEXT = Wikinews interviews meteorological experts on Cyclone Phalin[1;32;4m.[0m
+---
+201:in GUM_interview_cyclone-2
+2 errors: GUM_interview_cyclone-2
+N('File'):: not found in lexicon.
+N('interviewee'):: not found in lexicon.
+---
+202: GUM_interview_cyclone-3
+# text = Image: David Titley.
+# TEXT = image: David Titley. 
+---
+203:in GUM_interview_cyclone-4
+2 errors: GUM_interview_cyclone-4
+N('km'):: not found in lexicon.
+N('h'):: not found in lexicon.
+---
+204: GUM_interview_cyclone-5
+1 difference
+# text = Yes, all tropical cyclones [1;32;4mare[0m driven by high heat content waters.
+# TEXT = Yes, all tropical cyclones [1;32;4mis[0m driven by high heat content waters.
+---
+205:in GUM_interview_cyclone-6
+1 error: GUM_interview_cyclone-6
+C('once'):: not found in lexicon.
+---
+206:in GUM_interview_cyclone-7
+3 errors: GUM_interview_cyclone-7
+N('advisory'):: not found in lexicon.
+N('kilometer'):: not found in lexicon.
+A('northwest'):: not found in lexicon.
+---
+207: GUM_interview_cyclone-8
+# text = That is a Category 3 storm.
+# TEXT = That is a category 3 storm. 
+---
+208:in GUM_interview_cyclone-9
+2 errors: GUM_interview_cyclone-9
+V('continued'):: not found in lexicon.
+V('continued'):: morphology error: conjugate_en:tab :V(continued) : {"pe":3,"n":"s","t":"pp"}.
+---
+209: GUM_interview_cyclone-10
+# text = However, there will be very heavy rains and flooding along its path.
+# TEXT = However, there will be very heavy rains and flooding along its path. 
+---
+210:in GUM_interview_cyclone-11
+3 errors: GUM_interview_cyclone-11
+V('swirling'):: not found in lexicon.
+C('from'):: not found in lexicon.
+V('swirling'):: morphology error: conjugate_en:tab :V(swirling) : {"pe":3,"n":"s","t":"pr"}.
+---
+211: GUM_interview_cyclone-12
+# text = This occurs for two reasons:
+# TEXT = This occurs for two reasons:
+---
+212:in GUM_interview_cyclone-13
+1 error: GUM_interview_cyclone-13
+C('from'):: not found in lexicon.
+---
+213: GUM_interview_cyclone-14
+# text = Increased friction - the ocean surface is much, much smoother than the land surface.
+# TEXT = increased friction-the ocean surface is much, much smoother than the land surface. 
+---
+214: GUM_interview_cyclone-15
+# text = Tropical cyclones are sustained by a form of energy called latent heat, which is released by moisture evaporated from the ocean that condenses to form rain.
+# TEXT = Tropical cyclones are sustained by a form of energy called latent heat, which is released by moisture evaporated from the ocean that condenses to form rain. 
+---
+215:in GUM_interview_cyclone-16
+2 errors: GUM_interview_cyclone-16
+V('cut-off'):: not found in lexicon.
+V('cut-off'):: morphology error: conjugate_en:tab :V(cut-off) : {"pe":3,"n":"s","t":"pp"}.
+---
+216: GUM_interview_cyclone-17
+# text = Yes, the Cyclone is almost certain to lose strength as it surges over land.
+# TEXT = Yes, the Cyclone is almost certain to lose strength as it surges over land. 
+---
+217:in GUM_interview_cyclone-18
+1 error: GUM_interview_cyclone-18
+C('through'):: not found in lexicon.
+---
+218: GUM_interview_cyclone-19
+# text = In the mean time, much stronger friction over land quickly reduces their strength.
+# TEXT = In the mean time, much stronger friction over land quickly reduces their strength. 
+---
+219: GUM_interview_cyclone-20
+# text = Yes.
+# TEXT = Yes. 
+---
+220:in GUM_interview_cyclone-21
+1 error: GUM_interview_cyclone-21
+C('once'):: not found in lexicon.
+---
+221:in GUM_interview_cyclone-22
+1 error: GUM_interview_cyclone-22
+N('flooding'):: not found in lexicon.
+---
+222: GUM_interview_cyclone-23
+2 differences
+# text = Phailin's winds [1;32;4mwill[0m [1;32;4mrapidly[0m weaken as it pushes inland.
+# TEXT = Phailin 's winds [1;32;4mrapidly[0m [1;32;4mwill[0m weaken as it pushes inland.
+---
+223:in GUM_interview_cyclone-24
+1 error: GUM_interview_cyclone-24
+C('once'):: not found in lexicon.
+---
+224:in GUM_interview_cyclone-25
+1 error: GUM_interview_cyclone-25
+A('almost'):: not found in lexicon.
+---
+225:in GUM_interview_cyclone-26
+1 error: GUM_interview_cyclone-26
+N('interviewee'):: not found in lexicon.
+---
+226: GUM_interview_cyclone-27
+# text = Image: R Saravanan.
+# TEXT = image: R Saravanan. 
+---
+227: GUM_interview_cyclone-28
+2 differences
+# text = A previous cyclone in 1999 in the Bay of Bengal area of India left [1;34;47m10,[0m[1;32;4m000[0m people dead.
+# TEXT = A previous cyclone in 1999 in the Bay of Bengal area of India left [1;32;4m10000[0m people dead.
+---
+228: GUM_interview_cyclone-29
+2 differences
+# text = [1;34;47mIs [0mthe Indian government well [1;31m•[0mprepared to deal with this cyclone?
+# TEXT = The Indian government well [1;31mis [0mprepared to deal with this cyclone?
+---
+229:in GUM_interview_cyclone-30
+1 error: GUM_interview_cyclone-30
+A('societal'):: not found in lexicon.
+---
+230:in GUM_interview_cyclone-31
+1 error: GUM_interview_cyclone-31
+A('societal'):: not found in lexicon.
+---
+231: GUM_interview_cyclone-32
+# text = Hopefully, we all learn from past mistakes.
+# TEXT = Hopefully, we all learn from past mistakes. 
+---
+232:in GUM_interview_cyclone-33
+## non projective
+3 errors: GUM_interview_cyclone-33
+Adv('at'):: not found in lexicon.
+A('estimated'):: not found in lexicon.
+N('US$'):: not found in lexicon.
+---
+233: GUM_interview_cyclone-34
+1 difference
+# text = I [1;32;4mdon't[0m have enough information to answer this question, one way or the other.
+# TEXT = I [1;32;4mdo not[0m have enough information to answer this question, one way or the other.
+---
+234: GUM_interview_cyclone-35
+1 difference
+# text = From all the press reports that I [1;32;4mhave[0m read, the Indian government appears to have taken the threat of Cyclone Phailin very seriously indeed.
+# TEXT = From all the press reports that I [1;32;4mhas[0m read, the Indian government appears to have taken the threat of Cyclone Phailin very seriously indeed.
+---
+235:in GUM_interview_cyclone-36
+2 errors: GUM_interview_cyclone-36
+A('pro-active'):: not found in lexicon.
+C('in'):: not found in lexicon.
+---
+236: GUM_interview_cyclone-37
+# text = The forecasts of cyclone track and intensity have been fairly accurate.
+# TEXT = The forecasts of cyclone track and intensity have been fairly accurate. 
+---
+237:in GUM_interview_cyclone-38
+1 error: GUM_interview_cyclone-38
+A('mass'):: not found in lexicon.
+---
+238: GUM_interview_cyclone-39
+# text = Unfortunately, extensive property damage is bound to occur even with the best preparation.
+# TEXT = Unfortunately, extensive property damage is bound to occur even with the best preparation. 
+---
+239:in GUM_interview_cyclone-40
+1 error: GUM_interview_cyclone-40
+N('responsiveness'):: not found in lexicon.
+---
+240: GUM_interview_cyclone-41
+# text = I heard that they orchestrated the largest people evacuation to a natural disaster in Indian history.
+# TEXT = I heard that they orchestrated the largest people evacuation to a natural disaster in Indian history. 
+---
+241: GUM_interview_cyclone-42
+4 differences
+# text = This shall be applauded given the size [1;32;4mand[0m [1;32;4mstrength[0m [1;32;4mof[0m [1;32;4mPhailin[0m.
+# TEXT = This shall be applauded given the size [1;32;4mof[0m [1;32;4mPhailin[0m [1;32;4mand[0m [1;32;4mstrength[0m.
+---
+242:in GUM_interview_cyclone-43
+1 error: GUM_interview_cyclone-43
+A('damaged'):: not found in lexicon.
+---
+243: GUM_interview_cyclone-44
+6 differences
+# text = Given the living standard and residence of people living near the coastal areas in this region[1;32;4m, [0mthe evacuation is certainly necessary [1;32;4mand[0m [1;32;4messential[0m [1;32;4mto[0m [1;32;4msave[0m [1;32;4mlives[0m.
+# TEXT = Given the living standard and residence of people living near the coastal areas in this region[1;32;4m [0mthe evacuation is certainly necessary [1;32;4mto[0m [1;32;4msave[0m [1;32;4mlives[0m [1;32;4mand[0m [1;32;4messential[0m.
+---
+244: GUM_interview_cyclone-45
+2 differences
+# text = I can [1;32;4mnotcomment[0m [1;31m•[0mdirectly on how the Indian government was prepared for this cyclone.
+# TEXT = I can [1;32;4mnot[0m [1;31mcomment [0mdirectly on how the Indian government was prepared for this cyclone.
+---
+245:in GUM_interview_cyclone-46
+## non projective
+3 errors: GUM_interview_cyclone-46
+C('in'):: not found in lexicon.
+C('from'):: not found in lexicon.
+N('flooding'):: not found in lexicon.
+---
+246: GUM_interview_cyclone-47
+# text = Water is the main killer in these storms.
+# TEXT = Water is the main killer in these storms. 
+---
+247: GUM_interview_cyclone-48
+3 differences
+# text = From all reports that I [1;32;4mhave[0m seen, the government [1;32;4mwas[0m [1;32;4mwell[0m prepared for this cyclone.
+# TEXT = From all reports that I [1;32;4mhas[0m seen, the government [1;32;4mwell[0m [1;32;4mwas[0m prepared for this cyclone.
+---
+248:in GUM_interview_cyclone-49
+2 errors: GUM_interview_cyclone-49
+Pro('the'):: not found in lexicon.
+N("gov't"):: not found in lexicon.
+---
+249: GUM_interview_gaming-1
+## non projective
+7 differences
+# text = Wikinews interviews Mario [1;32;4mJ. Lucero[0m [1;32;4mand[0m [1;32;4mIsabel[0m [1;32;4mRuiz[0m [1;32;4mof[0m [1;32;4mHeaven[0m [1;32;4mSent Gaming[0m
+# TEXT = Wikinews interviews Mario [1;32;4mRuiz Heaven[0m [1;32;4mSent[0m [1;32;4mof[0m [1;32;4mGaming[0m [1;32;4mand[0m [1;32;4mIsabel[0m [1;32;4mJ. Lucero.[0m
+---
+250: GUM_interview_gaming-2
+# text = General questions
+# TEXT = general questions
+---
+251:in GUM_interview_gaming-3
+1 error: GUM_interview_gaming-3
+Pro('What'):: not found in lexicon.
+---
+252: GUM_interview_gaming-4
+6 differences
+# text = [1;32;4mHeaven[0m [1;32;4mSent[0m [1;32;4mGaming[0m is basically me[1;34;47m and Isabel[0m, I[1;32;4m'm[0m Mario J. Lucero[1;31m•[0m.
+# TEXT = [1;32;4mSent[0m [1;32;4mGaming[0m [1;32;4mHeaven[0m is basically me, I[1;32;4m am[0m Mario J. Lucero[1;31m and Isabel[0m.
+---
+253: GUM_interview_gaming-5
+1 difference
+# text = And, I[1;32;4m'm[0m Isabel Ruiz.
+# TEXT = And, I[1;32;4m is[0m Isabel Ruiz.
+---
+254: GUM_interview_gaming-6
+1 difference
+# text = And, together we formed this thing, it[1;32;4m's[0m sort of like an entertainment team.
+# TEXT = And, together we formed this thing, it[1;32;4m is[0m sort of like an entertainment team.
+---
+255: GUM_interview_gaming-7
+# text = We started it basically, because I wanted to - I wanted to work with Isabel on a lot of projects that we had going on together.
+# TEXT = We started it basically, because I wanted to-I wanted to work with Isabel on a lot of projects that we had going on together. 
+---
+256: GUM_interview_gaming-8
+4 differences
+# text = We [1;32;4mwere[0m coming with comics, like, left and right, we [1;32;4mwere[0m coming up with things like Karis, in high school she came up with that one, I came up with an individual story called Thad's World Destruction and[1;32;4m, [0mshe wanted to illustrate it, and so, that[1;32;4m's[0m the way we ended up doing it.
+# TEXT = we [1;32;4mwas[0m coming with comics, like, left and right, we [1;32;4mwas[0m coming up with things like Karis, in high school she came up with that one, I came up with an individual story called Thad 's World Destruction and[1;32;4m [0mshe wanted to illustrate it, and so, that[1;32;4m is[0m the way we ended up doing it.
+---
+257: GUM_interview_gaming-9
+## non projective
+5 differences
+# text = Yep, we [1;32;4mlike[0m to just make our own original content, and[1;32;4m, [0myep, that[1;34;47m's[0m [1;32;4mwhat[0m we wanted [1;31m•[0mto do.
+# TEXT = Yep, we [1;32;4mlikes[0m to just make our own original content, and[1;32;4m [0myep, that [1;32;4mis[0m we wanted [1;31mwhat [0mto do.
+---
+258: GUM_interview_gaming-10
+1 difference
+# text = How [1;31m•[0mdid you two meet?
+# TEXT = How [1;31mdo [0mdid you two meet?
+---
+259: GUM_interview_gaming-11
+# text = We met back in high school.
+# TEXT = We met back in high school. 
+---
+260:in GUM_interview_gaming-12
+1 error: GUM_interview_gaming-12
+A('tiny-tiny'):: not found in lexicon.
+---
+261:in GUM_interview_gaming-13
+## non projective
+1 error: GUM_interview_gaming-13
+A('middle'):: not found in lexicon.
+---
+262:in GUM_interview_gaming-14
+2 errors: GUM_interview_gaming-14
+N('everyone'):: not found in lexicon.
+S(VP(C('and'),Q(',')),NP(N('everyone'),CP(C('and'),NP(Q(','),Pro('all'),NP(P('of'),D('my'),N('friend'))),NP(Pro('all'),NP(P('of'),D('my'),N('acquaintance'))))),VP(V('say'),S(Q(','),Q("''"),VP(Q('Hey'),Q(',')),Pro('you'),VP(V('get'),P('along'),NP(P('with'),Pro('him')),AdvP(Adv('really'),Adv('well')),Q('.'),Q("''"))))):: no V found in VP.
+---
+263: GUM_interview_gaming-15
+# text = So before hand I kinda knew about him, but I never met him.
+# TEXT = so before hand I kinda knew about him, but I never met him. 
+---
+264:in GUM_interview_gaming-16
+## non projective
+1 error: GUM_interview_gaming-16
+Adv('kind'):: not found in lexicon.
+---
+265: GUM_interview_gaming-17
+1 difference
+# text = It[1;32;4m's[0m true.
+# TEXT = It[1;32;4m is[0m true.
+---
+266: GUM_interview_gaming-18
+# text = Who else is involved in this project?
+# TEXT = Who else is involved in this project?
+---
+267: GUM_interview_gaming-19
+1 difference
+# text = Currently, we[1;32;4m 're[0m in talks with people.
+# TEXT = Currently, we[1;32;4m are[0m in talks with people.
+---
+268: GUM_interview_gaming-20
+5 differences
+# text = There[1;32;4m's[0m Jeff[1;34;47m [Drake[0m[1;32;4m], [0mwho is behind the camera[1;31m•[0m[1;32;4m.[0m
+# TEXT = There[1;32;4m is[0m Jeff[1;32;4m, [0mwho is behind the camera[1;31m [ Drake[0m[1;32;4m ].[0m
+---
+269: GUM_interview_gaming-21
+1 difference
+# text = Right now, yeah, he[1;32;4m's[0m helping us right now.
+# TEXT = Right now, yeah, he[1;32;4m is[0m helping us right now.
+---
+270:in GUM_interview_gaming-22
+2 errors: GUM_interview_gaming-22
+C('about'):: not found in lexicon.
+A('video'):: not found in lexicon.
+---
+271:in GUM_interview_gaming-23
+1 error: GUM_interview_gaming-23
+N('gaming'):: not found in lexicon.
+---
+272: GUM_interview_gaming-24
+2 differences
+# text = There[1;32;4m's[0m of course Jason, who is our editor and he[1;32;4m's[0m the one who writes dD.
+# TEXT = there[1;32;4m is[0m of course Jason, who is our editor and he[1;32;4m is[0m the one who writes dD.
+---
+273: GUM_interview_gaming-25
+# text = Digital Domain
+# TEXT = Digital Domain
+---
+274:in GUM_interview_gaming-26
+1 error: GUM_interview_gaming-26
+Pro('What'):: not found in lexicon.
+---
+275: GUM_interview_gaming-27
+4 differences
+# text = Well, back in college, back in Collins College, Isabel[1;31m•[0m and I[1;34;47m, we[0m had met like she said at Sandia View Academy[1;32;4m, [0mand we went off to college together in Arizona[1;32;4m;[0m
+# TEXT = Well, back in college, back in Collins College, Isabel[1;31m, we[0m and I had met like she said at Sandia View Academy[1;32;4m ;, [0mand we went off to college together in Arizona[1;32;4m[0m
+---
+276: GUM_interview_gaming-28
+1 difference
+# text = and ... (how do I best explain this[1;32;4m?)[0m
+# TEXT = And... (how do I best explain this[1;32;4m?).[0m
+---
+277: GUM_interview_gaming-29
+2 differences
+# text = Basically, she came up with a few class projects[1;32;4m, [0mand I came up with a few class projects[1;32;4m;[0m
+# TEXT = basically, she came up with a few class projects[1;32;4m ;, [0mand I came up with a few class projects[1;32;4m[0m
+---
+278:in GUM_interview_gaming-30
+1 error: GUM_interview_gaming-30
+N('whatnot'):: not found in lexicon.
+---
+279: GUM_interview_gaming-31
+4 differences
+# text = [1;32;4mThose[0m included Drew [1;32;4mCass[0m, Devin[1;34;47m Thurlow[0m, people like that[1;31m•[0m.
+# TEXT = [1;32;4mThese[0m included Drew [1;32;4mThurlow[0m, Devin, people like that[1;31m Cass[0m.
+---
+280:in GUM_interview_gaming-32
+## non projective
+3 errors: GUM_interview_gaming-32
+N('sketchbook'):: not found in lexicon.
+N('sketchbook'):: not found in lexicon.
+N('whatnot'):: not found in lexicon.
+---
+281: GUM_interview_gaming-33
+## non projective
+2 differences
+# text = [1;34;47mand [0mshe was always really shy to show that off to people, and [1;31m•[0mI wanted to help her show that stuff, and I wanted to bring it out to the world.
+# TEXT = She was always really shy to show that off to people, and [1;31mand [0mI wanted to help her show that stuff, and I wanted to bring it out to the world.
+---
+282:in GUM_interview_gaming-34
+1 error: GUM_interview_gaming-34
+Pro('both'):: not found in lexicon.
+---
+283: GUM_interview_gaming-35
+## non projective
+7 differences
+# text = And for me, [1;32;4mwhat[0m [1;32;4mI[0m [1;32;4mwant[0m [1;32;4mthe[0m [1;32;4mpurpose[0m [1;32;4mto[0m [1;32;4mbe[0m, is to inspire people.
+# TEXT = And for me, [1;32;4mthe[0m [1;32;4mpurpose[0m [1;32;4mbe[0m [1;32;4mwhat[0m [1;32;4mto[0m [1;32;4mI[0m [1;32;4mwant[0m, is to inspire people.
+---
+284: GUM_interview_gaming-36
+1 difference
+# text = To bring a little more light to the world is what I [1;32;4mwant[0m, out of all of this.
+# TEXT = To bring a little more light to the world is what I [1;32;4mwants[0m, out of all of this.
+---
+285: GUM_interview_gaming-37
+8 differences
+# text = [1;32;4mAnd[0m [1;32;4mwhat[0m [1;32;4mwas[0m [1;32;4mthe[0m [1;32;4mverse[0m [1;32;4mthat[0m [1;32;4mwe[0m [1;32;4mhave[0m?
+# TEXT = [1;32;4mThe[0m [1;32;4mverse[0m [1;32;4mthat[0m [1;32;4mwe[0m [1;32;4mhas[0m [1;32;4mwas[0m [1;32;4mand[0m [1;32;4mwhat[0m?
+---
+286: GUM_interview_gaming-38
+# text = First Corinthians 9: 25?
+# TEXT = First Corinthians 9: 25?
+---
+287: GUM_interview_gaming-39
+# text = Yes.
+# TEXT = Yes. 
+---
+288: GUM_interview_gaming-40
+# text = Yeah, exactly.
+# TEXT = Yeah, exactly. 
+---
+289: GUM_interview_gaming-41
+## non projective
+13 differences
+# text = We just want to be able to bring, [1;32;4mlike[0m [1;32;4mshe[0m [1;34;47msaid, [0m[1;32;4mbring[0m [1;32;4mlight[0m into the [1;32;4mentertainment[0m [1;32;4mand[0m [1;32;4minto[0m [1;32;4mthe[0m [1;32;4mmedia[0m [1;31m•[0m[1;32;4mindustry[0m, specifically is what we [1;32;4mdo[0m.
+# TEXT = We just want to be able to bring, [1;32;4mbring[0m [1;32;4mlight[0m [1;32;4minto[0m [1;32;4mand[0m into the [1;32;4mmediums[0m [1;32;4mindustry[0m [1;32;4mthe[0m [1;32;4mentertainment[0m [1;32;4mlike[0m [1;31mshe [0m[1;32;4msaid[0m, specifically is what we [1;32;4mdoes[0m.
+---
+290: GUM_interview_gaming-42
+# text = Yeah.
+# TEXT = Yeah. 
+---
+291: GUM_interview_peres-1
+# text = The future of the peace process in Israel
+# TEXT = the future of the peace process in Israel
+---
+292: GUM_interview_peres-2
+## non projective
+8 differences
+# text = [1;32;4m"[0mThe future is only peace. The problem [1;32;4mis[0m [1;32;4mhow[0m [1;32;4mlong[0m [1;32;4mwill[0m it take and how many victims [1;32;4mwill[0m it [1;32;4mcall[0m [1;32;4mfor."[0m
+# TEXT = [1;32;4m''[0mthe future is only peace. the problem [1;32;4mwill[0m [1;32;4mbe[0m [1;32;4mhow[0m [1;32;4mlong[0m it take and how many victims [1;32;4mfor[0m it [1;32;4mwill[0m [1;32;4mcall. ''.[0m
+---
+293: GUM_interview_peres-3
+# text = Shimon Peres image: David Shankbone.
+# TEXT = Shimon Peres image: David Shankbone. 
+---
+294: GUM_interview_peres-4
+## non projective
+7 differences
+# text = [1;34;47mMr. President, [0m[1;32;4mas[0m [1;32;4ma Nobel[0m [1;32;4mPeace[0m [1;34;47mPrize recipient [0mand as one of the fathers of the modern peace process in Israel[1;32;4m, do[0m [1;31m•[0myou still think that there is a future to the peace process?
+# TEXT = [1;32;4mDo[0m [1;32;4mMr., President[0m [1;32;4mas[0m and as one of the fathers of the modern peace process in Israel[1;32;4m a[0m [1;31mNobel Peace Prize recipient, [0myou still think that there is a future to the peace process?
+---
+295: GUM_interview_peres-5
+# text = The future is only peace.
+# TEXT = The future is only peace. 
+---
+296: GUM_interview_peres-6
+## non projective
+7 differences
+# text = The problem [1;32;4mis[0m [1;32;4mhow[0m [1;32;4mlong[0m [1;32;4mwill[0m it take and how many victims [1;32;4mwill[0m it [1;32;4mcall[0m [1;32;4mfor[0m.
+# TEXT = The problem [1;32;4mwill[0m [1;32;4mbe[0m [1;32;4mhow[0m [1;32;4mlong[0m it take and how many victims [1;32;4mfor[0m it [1;32;4mwill[0m [1;32;4mcall[0m.
+---
+297: GUM_interview_peres-7
+1 difference
+# text = Why do [1;31m•[0mI say peace?
+# TEXT = Why do [1;31mdoes [0mI say peace?
+---
+298: GUM_interview_peres-8
+2 differences
+# text = Because when you look historically, at the development of humanity, most [1;31m•[0mof our lives we [1;32;4mare[0m living on the land.
+# TEXT = Because when you look historically, at the development of humanity, most [1;31mmost [0mof our lives we [1;32;4mis[0m living on the land.
+---
+299: GUM_interview_peres-9
+# text = The history is written with red ink.
+# TEXT = The history is written with red ink. 
+---
+300: GUM_interview_peres-10
+1 difference
+# text = The reason for it is because people [1;32;4mwere[0m fighting for our land, either defending it or extending it, because that was the main source.
+# TEXT = The reason for it is because people [1;32;4mwas[0m fighting for our land, either defending it or extending it, because that was the main source.
+---
+301: GUM_interview_peres-11
+2 differences
+# text = The land, the natural resources, the markets[1;32;4m, [0mall these [1;32;4mgo[0m together.
+# TEXT = The land, the natural resources, the markets[1;32;4m [0mall these [1;32;4mgoes[0m together.
+---
+302: GUM_interview_peres-12
+# text = The minute the land was replaced by science, what is there to fight about?
+# TEXT = The minute the land was replaced by science, what is there to fight about?
+---
+303: GUM_interview_peres-13
+2 differences
+# text = Armies can [1;32;4mnotconquer[0m [1;31m•[0mscience.
+# TEXT = Armies can [1;32;4mnot[0m [1;31mconquer [0mscience.
+---
+304:in GUM_interview_peres-14
+2 errors: GUM_interview_peres-14
+NP(Pro('what')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+A('uncontrolled'):: not found in lexicon.
+---
+305:in GUM_interview_peres-15
+2 errors: GUM_interview_peres-15
+C('of'):: not found in lexicon.
+S(VP(C('when'),Q(',')),NP(P('in'),D('the'),N('end'),Q(',')),Pro('them'),VP(V('want'),Q('Israel'),VP(V('exist')))):: no V found in VP.
+---
+306: GUM_interview_peres-16
+3 differences
+# text = How do [1;31m•[0myou come to an understanding to make [1;32;4mpeace[0m [1;32;4mpossible[0m?
+# TEXT = How do [1;31mdoes [0myou come to an understanding to make [1;32;4mpossible[0m [1;32;4mpeace[0m?
+---
+307: GUM_interview_peres-17
+# text = Well, what is the problem?
+# TEXT = Well, what is the problem?
+---
+308: GUM_interview_peres-18
+6 differences
+# text = I mean, [1;32;4mis[0m [1;32;4mthe[0m [1;32;4mproblem[0m national, say between Jews and Arabs[1;32;4m; [0mor[1;32;4m is[0m [1;32;4mit[0m a matter of generations between an old age and a new age?
+# TEXT = I mean, [1;32;4mthe[0m [1;32;4mproblem[0m [1;32;4mis[0m national, say between Jews and Arabs[1;32;4m [0mor[1;32;4m ; it[0m [1;32;4mis[0m a matter of generations between an old age and a new age?
+---
+309: GUM_interview_peres-19
+1 difference
+# text = You see, the terrorists [1;32;4mare[0m protesting against modernity.
+# TEXT = You see, the terrorists [1;32;4mis[0m protesting against modernity.
+---
+310: GUM_interview_peres-20
+# text = They think that modernity may endanger their tradition.
+# TEXT = They think that modernity may endanger their tradition. 
+---
+311: GUM_interview_peres-21
+1 difference
+# text = They are simply afraid and [1;32;4mhate[0m modernity.
+# TEXT = They are simply afraid and [1;32;4mhates[0m modernity.
+---
+312: GUM_interview_peres-22
+1 difference
+# text = They [1;32;4mconsider[0m modernity as their enemy, but then they have two problems.
+# TEXT = they [1;32;4mconsiders[0m modernity as their enemy, but then they have two problems.
+---
+313: GUM_interview_peres-23
+2 differences
+# text = First of all, [1;32;4mcan[0m [1;32;4mthey[0m exist on tradition?
+# TEXT = First of all, [1;32;4mthey[0m [1;32;4mcan[0m exist on tradition?
+---
+314: GUM_interview_peres-24
+2 differences
+# text = They [1;34;47mcan [0m[1;32;4mnot[0m.
+# TEXT = They [1;32;4mcannot[0m.
+---
+315: GUM_interview_peres-25
+# text = Sooner or later they will have to enter the new age.
+# TEXT = Sooner or later they will have to enter the new age. 
+---
+316:in GUM_interview_peres-26
+1 error: GUM_interview_peres-26
+Pro('All'):: not found in lexicon.
+---
+317: GUM_interview_peres-27
+# text = History is becoming more and more irrelevant.
+# TEXT = History is becoming more and more irrelevant. 
+---
+318: GUM_interview_peres-28
+1 difference
+# text = How do [1;31m•[0myou feel about that?
+# TEXT = How do [1;31mdoes [0myou feel about that?
+---
+319: GUM_interview_peres-29
+1 difference
+# text = Well, I [1;32;4mdistinguish[0m between two histories, the spiritual and the material.
+# TEXT = Well, I [1;32;4mdistinguishes[0m between two histories, the spiritual and the material.
+---
+320: GUM_interview_peres-30
+## non projective
+2 differences
+# text = [1;34;47mOr [0mthe history of events [1;31m•[0mand the history of values.
+# TEXT = the history of events [1;31mor [0mand the history of values.
+---
+321: GUM_interview_peres-31
+1 difference
+# text = The history of values is okay because wisdom is ageless; it [1;32;4mdoesn't[0m grow old, like material.
+# TEXT = The history of values is okay because wisdom is ageless ; it [1;32;4mdo not[0m grow old, like material.
+---
+322:in GUM_interview_peres-32
+1 error: GUM_interview_peres-32
+A('unimportant'):: not found in lexicon.
+---
+323:in GUM_interview_peres-33
+1 error: GUM_interview_peres-33
+A('unimportant'):: not found in lexicon.
+---
+324:in GUM_interview_peres-34
+1 error: GUM_interview_peres-34
+C('such'):: not found in lexicon.
+---
+325: GUM_interview_peres-35
+# text = Why should I bother my children with all this nonsense?
+# TEXT = Why should I bother my children with all this nonsense? 
+---
+326:in GUM_interview_peres-36
+1 error: GUM_interview_peres-36
+D('What'):: not found in lexicon.
+---
+327: GUM_interview_peres-37
+1 difference
+# text = God, I [1;32;4mdon't[0m know!
+# TEXT = God, I [1;32;4mdo not[0m know!
+---
+328:in GUM_interview_peres-38
+1 error: GUM_interview_peres-38
+Pro('any'):: not found in lexicon.
+---
+329: GUM_interview_peres-39
+1 difference
+# text = On the other hand, there [1;32;4mare[0m already machines that can replace our memory.
+# TEXT = On the other hand, there [1;32;4mis[0m already machines that can replace our memory.
+---
+330:in GUM_interview_peres-40
+1 error: GUM_interview_peres-40
+N('everything'):: not found in lexicon.
+---
+331: GUM_interview_peres-41
+# text = The waning importance of history
+# TEXT = the waning importance of history
+---
+332: GUM_interview_peres-42
+2 differences
+# text = [1;34;47mIsn't [0mthe answer to that question [1;31m•[0mthat wise decisions are made with a basis from memory?
+# TEXT = The answer to that question [1;31mis not [0mthat wise decisions are made with a basis from memory?
+---
+333: GUM_interview_peres-43
+2 differences
+# text = Although a computer can have[1;34;47m …[0m[1;32;4m[0m
+# TEXT = Although a computer can have[1;32;4m...[0m
+---
+334: GUM_interview_peres-44
+# text = No, no.
+# TEXT = No, no. 
+---
+335: GUM_interview_peres-45
+# text = Forget memory.
+# TEXT = forget memory. 
+---
+336: GUM_interview_peres-46
+# text = Look, the new age is unprecedented.
+# TEXT = Look, the new age is unprecedented. 
+---
+337:in GUM_interview_peres-47
+1 error: GUM_interview_peres-47
+N('something'):: not found in lexicon.
+---
+338: GUM_interview_peres-48
+2 differences
+# text = It[1;32;4m's[0m [1;32;4mtotally[0m oriented on the future.
+# TEXT = It[1;32;4m totally[0m [1;32;4mis[0m oriented on the future.
+---
+339: GUM_interview_peres-49
+## non projective
+3 differences
+# text = And whoever dwells in the past, [1;32;4mdoesn't[0m understand the future because the past is full of[1;34;47m prejudices[0m, of commitments[1;31m•[0m.
+# TEXT = And whoever dwells in the past, [1;32;4mdo not[0m understand the future because the past is full of, of commitments[1;31m prejudices[0m.
+---
+340: GUM_interview_peres-50
+# text = It arrests us.
+# TEXT = It arrests us. 
+---
+341: GUM_interview_peres-51
+2 differences
+# text = And then you say you [1;32;4mwon't[0m commit a mistake, so you[1;32;4m'll[0m commit new mistakes.
+# TEXT = And then you say you [1;32;4mwill not[0m commit a mistake, so you[1;32;4m will[0m commit new mistakes.
+---
+342: GUM_interview_peres-52
+1 difference
+# text = It [1;32;4mdoesn't[0m matter.
+# TEXT = It [1;32;4mdo not[0m matter.
+---
+343:in GUM_interview_peres-53
+1 error: GUM_interview_peres-53
+NP(Q(','),N('oil')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+344:in GUM_interview_peres-54
+1 error: GUM_interview_peres-54
+N('GNP'):: not found in lexicon.
+---
+345: GUM_interview_peres-55
+# text = So they are 3 times larger than us and they have all the oil in the world.
+# TEXT = So they are 3 times larger than us and they have all the oil in the world. 
+---
+346: GUM_interview_peres-56
+1 difference
+# text = We have brains[1;32;4m."[0m
+# TEXT = We have brains[1;32;4m. ''.[0m
+---
+347:in GUM_interview_peres-57
+2 errors: GUM_interview_peres-57
+C('on'):: not found in lexicon.
+A('Arab'):: not found in lexicon.
+---
+348:in GUM_interview_peres-58
+1 error: GUM_interview_peres-58
+Pro('What'):: not found in lexicon.
+---
+349: GUM_interview_peres-59
+# text = So they will make new mistakes.
+# TEXT = So they will make new mistakes. 
+---
+350: GUM_interview_peres-60
+1 difference
+# text = Mistake is inevitable as long as there [1;32;4mare[0m human beings.
+# TEXT = Mistake is inevitable as long as there [1;32;4mis[0m human beings.
+---
+351: GUM_interview_peres-61
+4 differences
+# text = But you can [1;32;4mnotrepeat[0m [1;31m•[0mmistakes because the world is not built on repetition[1;32;4m; [0mit[1;32;4m's[0m built on mutation.
+# TEXT = But you can [1;32;4mnot[0m [1;31mrepeat [0mmistakes because the world is not built on repetition[1;32;4m, ; [0mit[1;32;4m is[0m built on mutation.
+---
+352: GUM_interview_peres-62
+2 differences
+# text = [1;32;4mDon't[0m [1;32;4myou[0m think Darfur is repetition?
+# TEXT = [1;32;4mYou do[0m [1;32;4mnot[0m think Darfur is repetition?
+---
+353: GUM_interview_peres-63
+2 differences
+# text = I think Darfur is[1;32;4m, [0magain, the last, or among the last battles between old and new[1;32;4m.[0m
+# TEXT = I think Darfur is[1;32;4m [0magain, the last, or among the last battles between old and new[1;32;4m,.[0m
+---
+354:in GUM_interview_peres-64
+## non projective
+1 error: GUM_interview_peres-64
+Pro('What'):: not found in lexicon.
+---
+355:in GUM_interview_peres-65
+## non projective
+3 errors: GUM_interview_peres-65
+Pro('What'):: not found in lexicon.
+V('killing'):: not found in lexicon.
+V('killing'):: morphology error: conjugate_en:tab :V(killing) : {"pe":3,"n":"s","t":"pr"}.
+---
+356: GUM_interview_peres-66
+1 difference
+# text = They [1;32;4mdon't[0m carry futures.
+# TEXT = They [1;32;4mdo not[0m carry futures.
+---
+357: GUM_interview_peres-67
+1 difference
+# text = It[1;32;4m's[0m not a mistake.
+# TEXT = It[1;32;4m is[0m not a mistake.
+---
+358: GUM_interview_peres-68
+# text = It belongs to a past.
+# TEXT = It belongs to a past. 
+---
+359: GUM_interview_peres-69
+1 difference
+# text = It [1;32;4mdoesn't[0m have a moment.
+# TEXT = It [1;32;4mdo not[0m have a moment.
+---
+360: GUM_interview_peres-70
+3 differences
+# text = I am sure that the reasons for war are over, even though still there [1;32;4mare[0m wars which [1;32;4mare[0m an inertia from the past, a continuation that [1;32;4mdoesn't[0m make sense.
+# TEXT = I am sure that the reasons for war are over, even though still there [1;32;4mis[0m wars which [1;32;4mis[0m an inertia from the past, a continuation that [1;32;4mdo not[0m make sense.
+---
+361: GUM_interview_peres-71
+1 difference
+# text = I[1;32;4m'm[0m answering your question.
+# TEXT = I[1;32;4m is[0m answering your question.
+---
+362: GUM_interview_peres-72
+## non projective
+7 differences
+# text = The problem is how to enable the whole world[1;32;4m to[0m [1;32;4menter[0m [1;32;4mthe[0m [1;32;4mnew[0m [1;32;4mfuture, including[0m [1;32;4mthe[0m [1;32;4mArabs[0m.
+# TEXT = The problem is how to enable the whole world[1;32;4m, including[0m [1;32;4mthe[0m [1;32;4mArabs[0m [1;32;4mto[0m [1;32;4menter the[0m [1;32;4mnew[0m [1;32;4mfuture[0m.
+---
+363: GUM_interview_peres-73
+1 difference
+# text = And there [1;32;4mare[0m already Arabs who did it.
+# TEXT = And there [1;32;4mis[0m already Arabs who did it.
+---
+364: GUM_interview_peres-74
+# text = Look at Turkey, who is knocking on the doors of the united Europe.
+# TEXT = look at Turkey, who is knocking on the doors of the united Europe. 
+---
+365:in GUM_interview_peres-75
+1 error: GUM_interview_peres-75
+C('why'):: not found in lexicon.
+---
+366:in GUM_interview_peres-76
+1 error: GUM_interview_peres-76
+A('geographic'):: not found in lexicon.
+---
+367:in GUM_interview_peres-77
+1 error: GUM_interview_peres-77
+A('Muslim'):: not found in lexicon.
+---
+368: GUM_news_defector-1
+1 difference
+# text = Scientology defector arrested after attempting to leave organization[1;32;4m[0m
+# TEXT = Scientology defector arrested after attempting to leave organization[1;32;4m.[0m
+---
+369: GUM_news_defector-2
+# text = Saturday, October 9, 2010
+# TEXT = Saturday, October 9, 2010
+---
+370:in GUM_news_defector-3
+1 error: GUM_news_defector-3
+A('Recent'):: not found in lexicon.
+---
+371: GUM_news_defector-4
+# text = Daniel Montalvo in September 2010, after having left the elite group within Scientology called the Sea Org.
+# TEXT = Daniel Montalvo in September 2010, after having left the elite group within Scientology called the Sea Org. 
+---
+372: GUM_news_defector-5
+# text = Montalvo is holding a copy of the book Blown for Good critical of Scientology, written by Marc Headley.
+# TEXT = Montalvo is holding a copy of the book Blown for Good critical of Scientology, written by Marc Headley. 
+---
+373: GUM_news_defector-6
+# text = Image: Mark Rathbun.
+# TEXT = image: Mark Rathbun. 
+---
+374: GUM_news_defector-7
+2 differences
+# text = Daniel[1;34;47m Montalvo[0m, 19, a member of Scientology all his life, [1;31m•[0mwas arrested after leaving its elite group the Sea Org.
+# TEXT = Daniel, 19, a member of Scientology all his life, [1;31mMontalvo [0mwas arrested after leaving its elite group the Sea Org.
+---
+375:in GUM_news_defector-8
+1 error: GUM_news_defector-8
+N('US$'):: not found in lexicon.
+---
+376:in GUM_news_defector-9
+1 error: GUM_news_defector-9
+C('with'):: not found in lexicon.
+---
+377:in GUM_news_defector-10
+1 error: GUM_news_defector-10
+N('billion-year-contract'):: not found in lexicon.
+---
+378: GUM_news_defector-11
+2 differences
+# text = Members of the Sea Org live a strict lifestyle[1;34;47m –[0m[1;32;4m [0mwith little income, small diet provided and significant time invested in work per day.
+# TEXT = Members of the Sea Org live a strict lifestyle[1;32;4m-[0mwith little income, small diet provided and significant time invested in work per day.
+---
+379: GUM_news_defector-12
+2 differences
+# text = Montalvo had read an article in the Scientology propaganda publication Freedom Magazine, which attacked high-ranking defectors from the organization including Tom [1;32;4mDevocht[0m and Mark [1;32;4mRathbun[0m.
+# TEXT = Montalvo had read an article in the Scientology propaganda publication Freedom Magazine, which attacked high-ranking defectors from the organization including Tom [1;32;4mRathbun[0m and Mark [1;32;4mDevocht[0m.
+---
+380: GUM_news_defector-13
+# text = Montalvo had known Devocht personally, and came to the conclusion that the claims made about him in the Freedom article were lies.
+# TEXT = Montalvo had known Devocht personally, and came to the conclusion that the claims made about him in the Freedom article were lies. 
+---
+381:in GUM_news_defector-14
+1 error: GUM_news_defector-14
+N('blog'):: not found in lexicon.
+---
+382: GUM_news_defector-15
+# text = Montalvo contacted former members of Scientology, who helped him leave the organization and get in touch with Devocht.
+# TEXT = Montalvo contacted former members of Scientology, who helped him leave the organization and get in touch with Devocht. 
+---
+383: GUM_news_defector-16
+1 difference
+# text = He [1;32;4mtraveled[0m to Florida to meet with Devocht, who had told Montalvo he would assist him with future employment and housing.
+# TEXT = He [1;32;4mtravelled[0m to Florida to meet with Devocht, who had told Montalvo he would assist him with future employment and housing.
+---
+384:in GUM_news_defector-17
+1 error: GUM_news_defector-17
+C('accord'):: not found in lexicon.
+---
+385: GUM_news_defector-18
+4 differences
+# text = Scientology officials [1;32;4mhave[0m stated they [1;32;4mhave[0m [1;31m•[0mnot [1;32;4mreceived[0m the materials.
+# TEXT = Scientology officials [1;32;4mhas[0m stated they [1;32;4mhas[0m [1;31mdone [0mnot [1;32;4mreceive[0m the materials.
+---
+386: GUM_news_defector-19
+2 differences
+# text = After calling the Scientology organization by phone to attempt to speak with his mother, Montalvo [1;32;4mwas[0m [1;32;4minstead[0m put through to a Scientology attorney, Kendrick Moxon.
+# TEXT = After calling the Scientology organization by phone to attempt to speak with his mother, Montalvo [1;32;4minstead[0m [1;32;4mwas[0m put through to a Scientology attorney, Kendrick Moxon.
+---
+387:in GUM_news_defector-20
+3 errors: GUM_news_defector-20
+NP(Q('('),A('difficult'),VP(V('do'),NP(P('with'),D('a'),NP(NO('19'),N('year')),A('old'),S(Pro('who'),Adv('even'),VP(V('know'),NP(D('the'),NO(3),N('branch'),NP(P('of'),N('government'))))))),Q(')')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+V('cooperate'):: not found in lexicon.
+V('cooperate'):: morphology error: conjugate_en:tab :V(cooperate) : {"pe":3,"n":"s","t":"ps"}.
+---
+388:in GUM_news_defector-21
+2 errors: GUM_news_defector-21
+V('proceeding'):: not found in lexicon.
+V('proceeding'):: morphology error: conjugate_en:tab :V(proceeding) : {"pe":3,"n":"s","t":"pr"}.
+---
+389:in GUM_news_defector-22
+1 error: GUM_news_defector-22
+C('accord'):: not found in lexicon.
+---
+390: GUM_news_defector-23
+1 difference
+# text = Rathbun stated[1;32;4m,[0m
+# TEXT = Rathbun stated[1;32;4m,.[0m
+---
+391: GUM_news_defector-24
+1 difference
+# text = [1;32;4m"[0mDaniel was picked up by an investigator in a black car with blacked out windows.
+# TEXT = [1;32;4m''[0mDaniel was picked up by an investigator in a black car with blacked out windows.
+---
+392:in GUM_news_defector-25
+1 error: GUM_news_defector-25
+C('instead'):: not found in lexicon.
+---
+393:in GUM_news_defector-26
+2 errors: GUM_news_defector-26
+A('33rd'):: not found in lexicon.
+A('pricy'):: not found in lexicon.
+---
+394:in GUM_news_defector-27
+1 error: GUM_news_defector-27
+N('anti-christ'):: not found in lexicon.
+---
+395: GUM_news_defector-28
+4 differences
+# text = Steve[1;34;47m Whitmore[0m, a representative for the LA[1;34;47m Sheriff[0m's [1;31m•[0moffice, [1;31m•[0mtold LA Weekly in a statement that the case involving Montalvo was being dealt with as charges relating to grand theft.
+# TEXT = Steve, a representative for the LA 's [1;31mSheriff [0moffice, [1;31mWhitmore [0mtold LA Weekly in a statement that the case involving Montalvo was being dealt with as charges relating to grand theft.
+---
+396:in GUM_news_defector-29
+1 error: GUM_news_defector-29
+A('Scientology-related'):: not found in lexicon.
+---
+397: GUM_news_defector-30
+2 differences
+# text = On September 29, Scientology officials went to the East Los Angeles sheriff's station where they claimed Montalvo allegedly left the organization with [1;32;4mcomputer[0m [1;32;4mhard[0m drives.
+# TEXT = On September 29, Scientology officials went to the East Los Angeles sheriff 's station where they claimed Montalvo allegedly left the organization with [1;32;4mhard[0m [1;32;4mcomputer[0m drives.
+---
+398:in GUM_news_defector-31
+2 errors: GUM_news_defector-31
+Pro('himself'):: not found in lexicon.
+N('everything'):: not found in lexicon.
+---
+399:in GUM_news_defector-32
+2 errors: GUM_news_defector-32
+A('alleged'):: not found in lexicon.
+Pro('each'):: not found in lexicon.
+---
+400: GUM_news_defector-33
+4 differences
+# text = Montalvo has been assisted by former members of Scientology, including musician [1;32;4mTiziano[0m [1;32;4mLugli[0m and actor [1;32;4mJason[0m [1;32;4mBeghe[0m.
+# TEXT = Montalvo has been assisted by former members of Scientology, including musician [1;32;4mJason[0m [1;32;4mBeghe[0m and actor [1;32;4mTiziano[0m [1;32;4mLugli[0m.
+---
+401:in GUM_news_defector-34
+3 errors: GUM_news_defector-34
+N('blog'):: not found in lexicon.
+C('in'):: not found in lexicon.
+N('financing'):: not found in lexicon.
+---
+402:in GUM_news_defector-35
+4 errors: GUM_news_defector-35
+N('thank'):: not found in lexicon.
+N('lifehood'):: not found in lexicon.
+V('refusing'):: not found in lexicon.
+V('refusing'):: morphology error: conjugate_en:tab :V(refusing) : {"pe":3,"n":"s","t":"pr"}.
+---
+403:in GUM_news_homeopathic-1
+1 error: GUM_news_homeopathic-1
+A('homeopathic'):: not found in lexicon.
+---
+404: GUM_news_homeopathic-2
+# text = Friday, May 8, 2009
+# TEXT = Friday, May 8, 2009
+---
+405:in GUM_news_homeopathic-3
+1 error: GUM_news_homeopathic-3
+A('nine-month-old'):: not found in lexicon.
+---
+406:in GUM_news_homeopathic-4
+2 errors: GUM_news_homeopathic-4
+N('homeopathy'):: not found in lexicon.
+N('pseudoscience'):: not found in lexicon.
+---
+407:in GUM_news_homeopathic-5
+2 errors: GUM_news_homeopathic-5
+A('peer-reviewed'):: not found in lexicon.
+N('homeopathy'):: not found in lexicon.
+---
+408: GUM_news_homeopathic-6
+# text = An example of severe eczema.
+# TEXT = an example of severe eczema. 
+---
+409: GUM_news_homeopathic-7
+# text = Image: Jambula.
+# TEXT = image: Jambula. 
+---
+410: GUM_news_homeopathic-8
+# text = Gloria developed severe eczema at the age of four months and the parents were advised to send the child to a skin specialist.
+# TEXT = Gloria developed severe eczema at the age of four months and the parents were advised to send the child to a skin specialist. 
+---
+411:in GUM_news_homeopathic-9
+1 error: GUM_news_homeopathic-9
+Pro('himself'):: not found in lexicon.
+---
+412:in GUM_news_homeopathic-10
+## non projective
+1 error: GUM_news_homeopathic-10
+N('breaking'):: not found in lexicon.
+---
+413: GUM_news_homeopathic-11
+3 differences
+# text = By the end, Gloria's eczema was so severe that her skin broke every time her parents changed her clothes or nappy, [1;34;47mand [0min the words of the Crown prosecutor, Mark Tedeschi, QC[1;32;4m, "[0mGloria spent a lot of the last five months of her life crying, irritable, scratching and the only thing that gave her solace was to suck on her mother's breast[1;32;4m."[0m
+# TEXT = By the end, Gloria 's eczema was so severe that her skin broke every time her parents changed her clothes or nappy, in the words of the Crown prosecutor, Mark Tedeschi, QC[1;32;4m, ''[0mGloria spent a lot of the last five months of her life crying, irritable, scratching and the only thing that gave her solace was to suck on her mother 's breast[1;32;4m. ''.[0m
+---
+414: GUM_news_homeopathic-12
+# text = Gloria also became unable to move her legs.
+# TEXT = Gloria also became unable to move her legs. 
+---
+415:in GUM_news_homeopathic-13
+1 error: GUM_news_homeopathic-13
+A('devastating'):: not found in lexicon.
+---
+416:in GUM_news_homeopathic-14
+1 error: GUM_news_homeopathic-14
+N('naturopaths'):: not found in lexicon.
+---
+417:in GUM_news_homeopathic-15
+1 error: GUM_news_homeopathic-15
+N('homeopathy'):: not found in lexicon.
+---
+418: GUM_news_homeopathic-16
+2 differences
+# text = Allegedly, Thomas' sister pleaded with him to send Gloria to a conventional medical doctor, but he replied[1;32;4m "[0mI am not able to do that[1;32;4m".[0m
+# TEXT = allegedly, Thomas 'sister pleaded with him to send Gloria to a conventional medical doctor, but he replied[1;32;4m ''[0mI am not able to do that[1;32;4m ''.[0m
+---
+419:in GUM_news_homeopathic-17
+2 errors: GUM_news_homeopathic-17
+C('of'):: not found in lexicon.
+A('homeopathic'):: not found in lexicon.
+---
+420: GUM_news_homeopathic-18
+2 differences
+# text = Gloria [1;32;4mwas[0m [1;32;4mfinally[0m taken to the emergency department shortly before her death.
+# TEXT = Gloria [1;32;4mfinally[0m [1;32;4mwas[0m taken to the emergency department shortly before her death.
+---
+421:in GUM_news_homeopathic-19
+3 errors: GUM_news_homeopathic-19
+A('malnourished'):: not found in lexicon.
+V('melting'):: not found in lexicon.
+V('melting'):: morphology error: conjugate_en:tab :V(melting) : {"pe":3,"n":"p","t":"pr"}.
+---
+422:in GUM_news_homeopathic-20
+3 errors: GUM_news_homeopathic-20
+N('homeopathy'):: not found in lexicon.
+NP(A('guilty')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+S(VP(C('that'),Q(',')),S(C('as'),NP(D('the'),N('parent')),VP(V('come'),NP(P('from'),Q('India')),S(Q(','),C('where'),N('homeopathy'),VP(V('be'),P('in'),A('common'),N('use'))),Q(','))),Pro('them'),VP(V('be'),V('declare'),NP(A('guilty')),NP(A('due'),NP(P('to'),A('cultural'),N('difference'))))):: no V found in VP.
+---
+423:in GUM_news_homeopathic-21
+3 errors: GUM_news_homeopathic-21
+N('homeopathy'):: not found in lexicon.
+A('undiluted'):: not found in lexicon.
+S(VP(C('that'),Q(',')),S(C('if'),VP(V('give'),NP(P('to'),D('a'),A('healthy'),A('undiluted'),N('person')),Q(','))),VP(V('cause'),N('symptom'),NP(A('similar'),NP(P('to'),D('the'),N('disease'))))):: no V found in VP.
+---
+424:in GUM_news_homeopathic-22
+5 errors: GUM_news_homeopathic-22
+C('with'):: not found in lexicon.
+V('ritualise'):: not found in lexicon.
+A('homeopathic'):: not found in lexicon.
+A('well-understood'):: not found in lexicon.
+V('ritualise'):: morphology error: conjugate_en:tab :V(ritualise) : {"pe":3,"n":"s","t":"pp"}.
+---
+425:in GUM_news_homeopathic-23
+1 error: GUM_news_homeopathic-23
+N('homeopathy'):: not found in lexicon.
+---
+426: GUM_news_iodine-1
+1 difference
+# text = Australian children suffering from iodine deficiency[1;32;4m[0m
+# TEXT = Australian children suffering from iodine deficiency[1;32;4m.[0m
+---
+427: GUM_news_iodine-2
+# text = Thursday, February 23, 2006
+# TEXT = Thursday, February 23, 2006
+---
+428: GUM_news_iodine-3
+1 difference
+# text = Almost half of all Australian primary school children [1;32;4mare[0m mild to moderately iodine deficient, researchers say.
+# TEXT = Almost half of all Australian primary school children [1;32;4mis[0m mild to moderately iodine deficient, researchers say.
+---
+429:in GUM_news_iodine-4
+1 error: GUM_news_iodine-4
+A('nutritional'):: not found in lexicon.
+---
+430: GUM_news_iodine-5
+3 differences
+# text = The report's authors [1;32;4msay[0m iodine deficiency is[1;32;4m "[0mthe sleeper health issue in Australia[1;32;4m", [0mand potentially a very serious one.
+# TEXT = The report 's authors [1;32;4msays[0m iodine deficiency is[1;32;4m ''[0mthe sleeper health issue in Australia[1;32;4m '', [0mand potentially a very serious one.
+---
+431:in GUM_news_iodine-6
+2 errors: GUM_news_iodine-6
+A('mainland'):: not found in lexicon.
+Adv('borderline'):: not found in lexicon.
+---
+432:in GUM_news_iodine-7
+2 errors: GUM_news_iodine-7
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+433:in GUM_news_iodine-8
+1 error: GUM_news_iodine-8
+C('of'):: not found in lexicon.
+---
+434:in GUM_news_iodine-9
+2 errors: GUM_news_iodine-9
+A('cross-sectional'):: not found in lexicon.
+N('schoolchild'):: not found in lexicon.
+---
+435:in GUM_news_iodine-10
+## non projective
+2 errors: GUM_news_iodine-10
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+436: GUM_news_iodine-11
+# text = The authors say the results confirm the existence of inadequate iodine intake in the Australian population.
+# TEXT = The authors say the results confirm the existence of inadequate iodine intake in the Australian population. 
+---
+437:in GUM_news_iodine-12
+1 error: GUM_news_iodine-12
+N('iodisation'):: not found in lexicon.
+---
+438:in GUM_news_iodine-13
+2 errors: GUM_news_iodine-13
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+439: GUM_news_iodine-14
+7 differences
+# text = Professor[1;34;47m Cres Eastman[0m, Director of the National Iodine Nutrition study, and Chairman of the Australian Centre for Control of Iodine Deficiency Disorders, [1;31m•[0msays it is crucial that children [1;32;4mand[0m [1;32;4mpregnant[0m [1;32;4mwomen[0m [1;32;4min[0m [1;32;4mparticular[0m have an adequate intake of iodine.
+# TEXT = Professor, Director of the National Iodine Nutrition study, and Chairman of the Australian Centre for Control of Iodine Deficiency Disorders, [1;31mCres Eastman [0msays it is crucial that children [1;32;4min[0m [1;32;4mparticular[0m [1;32;4mand[0m [1;32;4mpregnant[0m [1;32;4mwomen[0m have an adequate intake of iodine.
+---
+440: GUM_news_iodine-15
+# text = Iodine deficiency can lead to serious health problems including brain damage, stunted growth and deafness.
+# TEXT = Iodine deficiency can lead to serious health problems including brain damage, stunted growth and deafness. 
+---
+441:in GUM_news_iodine-16
+3 errors: GUM_news_iodine-16
+C('by'):: not found in lexicon.
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+442:in GUM_news_iodine-17
+2 errors: GUM_news_iodine-17
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+443:in GUM_news_iodine-18
+4 errors: GUM_news_iodine-18
+A('chlorine-containing'):: not found in lexicon.
+N('sanitisers'):: not found in lexicon.
+A('iodine-containing'):: not found in lexicon.
+N('sanitisers'):: not found in lexicon.
+---
+444:in GUM_news_iodine-19
+1 error: GUM_news_iodine-19
+Adv('at'):: not found in lexicon.
+---
+445:in GUM_news_iodine-20
+2 errors: GUM_news_iodine-20
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+446:in GUM_news_iodine-21
+3 errors: GUM_news_iodine-21
+Pro('any'):: not found in lexicon.
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+447:in GUM_news_iodine-22
+2 errors: GUM_news_iodine-22
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+448:in GUM_news_iodine-23
+2 errors: GUM_news_iodine-23
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"pp"}.
+---
+449: GUM_news_iodine-24
+4 differences
+# text = [1;32;4m"[0mThe effects of iodine deficiency are dependent upon how [1;32;4msevere[0m [1;32;4mit[0m [1;32;4mis[0m and when it occurs.
+# TEXT = [1;32;4m''[0mthe effects of iodine deficiency are dependent upon how [1;32;4mit[0m [1;32;4mis[0m [1;32;4msevere[0m and when it occurs.
+---
+450:in GUM_news_iodine-25
+2 errors: GUM_news_iodine-25
+N('IQ'):: not found in lexicon.
+A('neurological'):: not found in lexicon.
+---
+451:in GUM_news_iodine-26
+3 errors: GUM_news_iodine-26
+N('goiter'):: not found in lexicon.
+V('should'):: not found in lexicon.
+V('should'):: morphology error: conjugate_en:tab :V(should) : {"pe":3,"n":"s","t":"p"}.
+---
+452: GUM_news_iodine-27
+4 differences
+# text = More [1;31m•[0mthan two billion people around the world [1;32;4mlive[0m in areas prone to iodine deficiency, and yet the problem [1;32;4mis[0m [1;32;4measily[0m fixed.
+# TEXT = more [1;31mmore [0mthan two billion people around the world [1;32;4mlives[0m in areas prone to iodine deficiency, and yet the problem [1;32;4measily[0m [1;32;4mis[0m fixed.
+---
+453:in GUM_news_iodine-28
+4 errors: GUM_news_iodine-28
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"b"}.
+V('iodise'):: not found in lexicon.
+V('iodise'):: morphology error: conjugate_en:tab :V(iodise) : {"pe":3,"n":"s","t":"b"}.
+---
+454:in GUM_news_iodine-29
+4 errors: GUM_news_iodine-29
+N('goiter'):: not found in lexicon.
+N('cretinism'):: not found in lexicon.
+V('characterise'):: not found in lexicon.
+V('characterise'):: morphology error: conjugate_en:tab :V(characterise) : {"pe":3,"n":"s","t":"pp"}.
+---
+455: GUM_news_iodine-30
+1 difference
+# text = WHO [1;32;4msay[0m Iodine deficiency is the world's most prevalent, yet easily preventable, cause of brain damage.
+# TEXT = WHO [1;32;4msays[0m iodine deficiency is the world 's most prevalent, yet easily preventable, cause of brain damage.
+---
+456: GUM_news_iodine-31
+# text = Professor Eastman said he is alarmed by what they found.
+# TEXT = Professor Eastman said he is alarmed by what they found. 
+---
+457:in GUM_news_iodine-32
+2 errors: GUM_news_iodine-32
+NO('half'):: the parameter should be number, not string.
+NO('half'):: option n is applied to NO, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+458: GUM_news_iodine-33
+14 differences
+# text = So that alarms me, because there[1;32;4m's[0m quite serious potential for adverse effects [1;32;4mand[0m [1;32;4mbrain[0m [1;32;4mdamage[0m [1;32;4min[0m [1;32;4mthe[0m [1;32;4mnext[0m [1;32;4mgeneration[0m [1;32;4mof[0m [1;32;4mchildren[0m [1;32;4mborn[0m [1;32;4min[0m [1;32;4mthis[0m [1;32;4mcountry," [0mhe said.
+# TEXT = So that alarms me, because there[1;32;4m is[0m quite serious potential for adverse effects [1;32;4min[0m [1;32;4mthe[0m [1;32;4mnext[0m [1;32;4mgeneration[0m [1;32;4mof[0m [1;32;4mchildren[0m [1;32;4mborne[0m [1;32;4min[0m [1;32;4mthis[0m [1;32;4mcountry[0m [1;32;4mand[0m [1;32;4mbrain[0m [1;32;4mdamage, ''[0mhe said.
+---
+459:in GUM_news_iodine-34
+1 error: GUM_news_iodine-34
+N('IQ'):: not found in lexicon.
+---
+460:in GUM_news_iodine-35
+1 error: GUM_news_iodine-35
+N('anyone'):: not found in lexicon.
+---
+461: GUM_news_iodine-36
+3 differences
+# text = Lydia [1;34;47mBuchtmann [0mfor Food Standards Australia New Zealand, [1;31m•[0msays they [1;32;4mare[0m looking at mandatory guidelines on iodine by the end of the year.
+# TEXT = Lydia for Food Standards Australia New Zealand, [1;31mBuchtmann [0msays they [1;32;4mis[0m looking at mandatory guidelines on iodine by the end of the year.
+---
+462: GUM_news_iodine-37
+# text = She says the issue is complicated and will take time to get right.
+# TEXT = She says the issue is complicated and will take time to get right. 
+---
+463: GUM_news_iodine-38
+3 differences
+# text = We need to[1;32;4m "[0mmake sure there[1;32;4m's[0m sufficient iodine added into the food supply, to help [1;32;4mthose[0m people with a deficiency.
+# TEXT = We need to[1;32;4m [0mmake sure there[1;32;4m is[0m sufficient iodine added into the food supply, to help [1;32;4mthese[0m people with a deficiency.
+---
+464:in GUM_news_iodine-39
+1 error: GUM_news_iodine-39
+N('overdose'):: not found in lexicon.
+---
+465:in GUM_news_iodine-40
+1 error: GUM_news_iodine-40
+N('eating'):: not found in lexicon.
+---
+466:in GUM_news_iodine-41
+2 errors: GUM_news_iodine-41
+A('Senior'):: not found in lexicon.
+A('neuropsychological'):: not found in lexicon.
+---
+467: GUM_voyage_athens-1
+# text = Athens (Greek: Αθήνα, Athína), is the capital city of Greece with a metropolitan population of 3.7 million inhabitants.
+# TEXT = Athens (Greek: Αθήνα, Athína), is the capital city of Greece with a metropolitan population of 3.7 million inhabitants. 
+---
+468:in GUM_voyage_athens-2
+## non projective
+1 error: GUM_voyage_athens-2
+A('Western'):: not found in lexicon.
+---
+469: GUM_voyage_athens-3
+# text = Understand
+# TEXT = understand
+---
+470: GUM_voyage_athens-4
+# text = Old Athens
+# TEXT = old Athens
+---
+471:in GUM_voyage_athens-5
+2 errors: GUM_voyage_athens-5
+A('pre-historic'):: not found in lexicon.
+Adv('BC'):: not found in lexicon.
+---
+472:in GUM_voyage_athens-6
+2 errors: GUM_voyage_athens-6
+P('c.'):: not found in lexicon.
+Adv('BC'):: not found in lexicon.
+---
+473: GUM_voyage_athens-7
+4 differences
+# text = This process of synoikismos[1;34;47m –[0m[1;32;4m [0mbringing together in one home[1;34;47m –[0m[1;32;4m [0mcreated the largest and wealthiest state on the Greek mainland, but it also created a larger class of people excluded from political life by the nobility.
+# TEXT = this process of synoikismos[1;32;4m-[0mbringing together in one home[1;32;4m-[0mcreated the largest and wealthiest state on the Greek mainland, but it also created a larger class of people excluded from political life by the nobility.
+---
+474:in GUM_voyage_athens-8
+2 errors: GUM_voyage_athens-8
+A('7th'):: not found in lexicon.
+Adv('BC'):: not found in lexicon.
+---
+475: GUM_voyage_athens-9
+# text = When this failed, they appointed Solon, with a mandate to create a new constitution (594).
+# TEXT = When this failed, they appointed Solon, with a mandate to create a new constitution (594). 
+---
+476:in GUM_voyage_athens-10
+1 error: GUM_voyage_athens-10
+Adv('BC'):: not found in lexicon.
+---
+477:in GUM_voyage_athens-11
+3 errors: GUM_voyage_athens-11
+V('re-emerged'):: not found in lexicon.
+A('Byzantian'):: not found in lexicon.
+V('re-emerged'):: morphology error: conjugate_en:tab :V(re-emerged) : {"pe":3,"n":"s","t":"ps"}.
+---
+478:in GUM_voyage_athens-12
+1 error: GUM_voyage_athens-12
+A('thriving'):: not found in lexicon.
+---
+479:in GUM_voyage_athens-13
+1 error: GUM_voyage_athens-13
+A('19th'):: not found in lexicon.
+---
+480: GUM_voyage_athens-14
+# text = Modern Olympic Games
+# TEXT = modern Olympic Games
+---
+481: GUM_voyage_athens-15
+# text = Athens hosted the 2004 Summer Olympic Games.
+# TEXT = Athens hosted the 2004 Summer Olympic Games. 
+---
+482:in GUM_voyage_athens-16
+1 error: GUM_voyage_athens-16
+N('sporting'):: not found in lexicon.
+---
+483:in GUM_voyage_athens-17
+1 error: GUM_voyage_athens-17
+N('center'):: not found in lexicon.
+---
+484:in GUM_voyage_athens-18
+4 errors: GUM_voyage_athens-18
+V('pedestrianize'):: not found in lexicon.
+A('neoclassical'):: not found in lexicon.
+N('facelift'):: not found in lexicon.
+V('pedestrianize'):: morphology error: conjugate_en:tab :V(pedestrianize) : {"pe":3,"n":"s","t":"pp"}.
+---
+485:in GUM_voyage_athens-19
+2 errors: GUM_voyage_athens-19
+Adv('BCE'):: not found in lexicon.
+Adv('AD'):: not found in lexicon.
+---
+486: GUM_voyage_athens-20
+# text = It is a lengthy day trip from Athens to visit Olympia, but quite interesting.
+# TEXT = It is a lengthy day trip from Athens to visit Olympia, but quite interesting. 
+---
+487:in GUM_voyage_athens-21
+1 error: GUM_voyage_athens-21
+N('Architecture'):: not found in lexicon.
+---
+488:in GUM_voyage_athens-22
+1 error: GUM_voyage_athens-22
+N('1830s'):: not found in lexicon.
+---
+489: GUM_voyage_athens-23
+# text = Although it had a prestigious past, the city's political, economic, and cultural importance had declined over the centuries, leaving behind only its classical ruins as a reminder of better times.
+# TEXT = Although it had a prestigious past, the city 's political, economic, and cultural importance had declined over the centuries, leaving behind only its classical ruins as a reminder of better times. 
+---
+490:in GUM_voyage_athens-24
+## non projective
+1 error: GUM_voyage_athens-24
+A('neoclassical'):: not found in lexicon.
+---
+491:in GUM_voyage_athens-25
+1 error: GUM_voyage_athens-25
+A('neoclassical'):: not found in lexicon.
+---
+492:in GUM_voyage_athens-26
+1 error: GUM_voyage_athens-26
+A('20th'):: not found in lexicon.
+---
+493:in GUM_voyage_athens-27
+3 errors: GUM_voyage_athens-27
+N('planning'):: not found in lexicon.
+V('industrialize'):: not found in lexicon.
+V('industrialize'):: morphology error: conjugate_en:tab :V(industrialize) : {"pe":3,"n":"s","t":"ps"}.
+---
+494:in GUM_voyage_athens-28
+4 errors: GUM_voyage_athens-28
+N('1960s'):: not found in lexicon.
+N('1970s'):: not found in lexicon.
+A('19th'):: not found in lexicon.
+A('neoclassical'):: not found in lexicon.
+---
+495:in GUM_voyage_athens-29
+2 errors: GUM_voyage_athens-29
+C('by'):: not found in lexicon.
+N('job-seeker'):: not found in lexicon.
+---
+496:in GUM_voyage_athens-30
+3 errors: GUM_voyage_athens-30
+C('without'):: not found in lexicon.
+N('gridlock'):: not found in lexicon.
+N('1980s'):: not found in lexicon.
+---
+497:in GUM_voyage_athens-31
+3 errors: GUM_voyage_athens-31
+N('1980s'):: not found in lexicon.
+N('1990s'):: not found in lexicon.
+Pro('some'):: not found in lexicon.
+---
+498:in GUM_voyage_athens-32
+3 errors: GUM_voyage_athens-32
+A('neoclassical'):: not found in lexicon.
+N('gentrification'):: not found in lexicon.
+N('center'):: not found in lexicon.
+---
+499:in GUM_voyage_athens-33
+4 errors: GUM_voyage_athens-33
+A('neoclassical'):: not found in lexicon.
+N('center'):: not found in lexicon.
+A('post-modern'):: not found in lexicon.
+Pro('both'):: not found in lexicon.
+---
+500:in GUM_voyage_athens-34
+1 error: GUM_voyage_athens-34
+A('21st'):: not found in lexicon.
+---
+501: GUM_voyage_athens-35
+# text = Climate
+# TEXT = climate
+---
+502: GUM_voyage_athens-36
+# text = Spring and late autumn are the best times to visit Athens.
+# TEXT = Spring and late autumn are the best times to visit Athens. 
+---
+503: GUM_voyage_athens-37
+2 differences
+# text = Summer can be extremely hot [1;34;47mand dry [0mduring heatwaves, [1;31m•[0mbut this rarely happens.
+# TEXT = Summer can be extremely hot during heatwaves, [1;31mdry, [0mbut this rarely happens.
+---
+504:in GUM_voyage_athens-38
+1 error: GUM_voyage_athens-38
+N('traveler'):: not found in lexicon.
+---
+505:in GUM_voyage_athens-39
+2 errors: GUM_voyage_athens-39
+C('whilst'):: not found in lexicon.
+A('smoggy'):: not found in lexicon.
+---
+506: GUM_voyage_athens-40
+1 difference
+# text = The main reason attributed for the pollution of Athens is because the city is enclosed by mountains in a basin which [1;32;4mdoes[0m not let the smog leave.
+# TEXT = The main reason attributed for the pollution of Athens is because the city is enclosed by mountains in a basin which [1;32;4mdo[0m not let the smog leave.
+---
+507:in GUM_voyage_athens-41
+1 error: GUM_voyage_athens-41
+N('1990s'):: not found in lexicon.
+---
+508: GUM_voyage_coron-1
+# text = Coron
+# TEXT = Coron
+---
+509: GUM_voyage_coron-2
+# text = Coron is in the province of Palawan, Philippines on Busuanga Island.
+# TEXT = Coron is in the province of Palawan, Philippines on Busuanga Island. 
+---
+510: GUM_voyage_coron-3
+# text = It is the largest town on the island and has the largest share of accommodations.
+# TEXT = It is the largest town on the island and has the largest share of accommodations. 
+---
+511: GUM_voyage_coron-4
+# text = Background
+# TEXT = background
+---
+512:in GUM_voyage_coron-5
+1 error: GUM_voyage_coron-5
+Adv('offshore'):: not found in lexicon.
+---
+513:in GUM_voyage_coron-6
+1 error: GUM_voyage_coron-6
+N('diving'):: not found in lexicon.
+---
+514:in GUM_voyage_coron-7
+1 error: GUM_voyage_coron-7
+N('harbor'):: not found in lexicon.
+---
+515: GUM_voyage_coron-8
+2 differences
+# text = The result [1;34;47mis [0maround ten well [1;31m•[0mpreserved underwater shipwrecks surrounded with coral reef.
+# TEXT = The result around ten well [1;31mis [0mpreserved underwater shipwrecks surrounded with coral reef.
+---
+516:in GUM_voyage_coron-9
+1 error: GUM_voyage_coron-9
+Pro('itself'):: not found in lexicon.
+---
+517:in GUM_voyage_coron-10
+1 error: GUM_voyage_coron-10
+N('wildlife'):: not found in lexicon.
+---
+518:in GUM_voyage_coron-11
+## non projective
+3 errors: GUM_voyage_coron-11
+V('snorkel'):: not found in lexicon.
+Adv('offshore'):: not found in lexicon.
+V('snorkel'):: morphology error: conjugate_en:tab :V(snorkel) : {"pe":3,"n":"s","t":"pr"}.
+---
+519: GUM_voyage_coron-12
+# text = History
+# TEXT = history
+---
+520:in GUM_voyage_coron-13
+1 error: GUM_voyage_coron-13
+Adv('some'):: not found in lexicon.
+---
+521:in GUM_voyage_coron-14
+3 errors: GUM_voyage_coron-14
+C('by'):: not found in lexicon.
+V('fishing'):: not found in lexicon.
+V('fishing'):: morphology error: conjugate_en:tab :V(fishing) : {"pe":3,"n":"s","t":"pr"}.
+---
+522: GUM_voyage_coron-15
+# text = Although they are now sedentary (with the young using cell phones, etc.), they maintain many of their old customs, traditions and beliefs.
+# TEXT = Although they are now sedentary (with the young using cell phones, etc.), they maintain many of their old customs, traditions and beliefs. 
+---
+523:in GUM_voyage_coron-16
+1 error: GUM_voyage_coron-16
+NP(C('if'),A('entire')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+524: GUM_voyage_coron-17
+2 differences
+# text = In 1902 that Coron was registered as a town and the name of the town [1;32;4mwas[0m [1;32;4mofficially[0m changed from Penon de Coron to Coron.
+# TEXT = in 1902 that Coron was registered as a town and the name of the town [1;32;4mofficially[0m [1;32;4mwas[0m changed from Penon de Coron to Coron.
+---
+525: GUM_voyage_coron-18
+# text = From 1939 to the outbreak of World War II, the municipality experienced the mining boom.
+# TEXT = From 1939 to the outbreak of World War II, the municipality experienced the mining boom. 
+---
+526:in GUM_voyage_coron-19
+2 errors: GUM_voyage_coron-19
+N('Labor'):: not found in lexicon.
+N('farming'):: not found in lexicon.
+---
+527: GUM_voyage_coron-20
+# text = In July 1942 the Japanese occupied the mining camps and resumed operation of the manganese mines.
+# TEXT = in July 1942 the Japanese occupied the mining camps and resumed operation of the manganese mines. 
+---
+528:in GUM_voyage_coron-21
+1 error: GUM_voyage_coron-21
+N('warplane'):: not found in lexicon.
+---
+529:in GUM_voyage_coron-22
+1 error: GUM_voyage_coron-22
+P('To'):: not found in lexicon.
+---
+530: GUM_voyage_coron-23
+# text = In 1947, large scale deep sea fishing was introduced to Coron, and the town experienced another boom, a fishing boom.
+# TEXT = in 1947, large scale deep sea fishing was introduced to Coron, and the town experienced another boom, a fishing boom. 
+---
+531: GUM_voyage_coron-24
+## non projective
+2 differences
+# text = The population increased, as many people from [1;34;47mLuzon [0mand the Visayas [1;31m•[0mcame to work either as fishermen or miners.
+# TEXT = The population increased, as many people from and the Visayas [1;31mLuzon [0mcame to work either as fishermen or miners.
+---
+532: GUM_voyage_coron-25
+2 differences
+# text = On June 17, 1950, Busuanga was officially created as a separate municipality from Coron and in 1954, Coron [1;32;4mwas[0m [1;32;4mfurther[0m reduced by the official creation of the Municipality of Linapacan.
+# TEXT = on June 17, 1950, Busuanga was officially created as a separate municipality from Coron and in 1954, Coron [1;32;4mfarther[0m [1;32;4mwas[0m reduced by the official creation of the municipality of Linapacan.
+---
+533: GUM_voyage_coron-26
+2 differences
+# text = On September 12, 1992, Coron [1;32;4mwas[0m [1;32;4mfinally[0m reduced by the official creation of the Municipality of Culion.
+# TEXT = On September 12, 1992, Coron [1;32;4mfinally[0m [1;32;4mwas[0m reduced by the official creation of the municipality of Culion.
+---
+534: GUM_voyage_coron-27
+# text = In the past, Coron was virtually unknown outside of Palawan.
+# TEXT = In the past, Coron was virtually unknown outside of Palawan. 
+---
+535: GUM_voyage_coron-28
+2 differences
+# text = It remains a small, quaint fishing town with laid back charm but with increasing [1;32;4mmedia[0m exposure it is growing, slowly but steadily[1;32;4m,[0m
+# TEXT = it remains a small, quaint fishing town with laid back charm but with increasing [1;32;4mmediums[0m exposure it is growing, slowly but steadily[1;32;4m[0m
+---
+536: GUM_voyage_coron-29
+# text = Coron has taken an important position in the tourism industry.
+# TEXT = Coron has taken an important position in the tourism industry. 
+---
+537:in GUM_voyage_coron-30
+## non projective
+1 error: GUM_voyage_coron-30
+N('scuba'):: not found in lexicon.
+---
+538: GUM_voyage_isfahan-1
+# text = Isfahan
+# TEXT = Isfahan
+---
+539: GUM_voyage_isfahan-2
+# text = Isfahan (Persian: اصفهان, also known as Esfahan) is a city in central Iran, south of Tehran and is the capital of Isfahan Province.
+# TEXT = Isfahan (Persian: اصفهان, also known as Esfahan) is a city in central Iran, south of Tehran and is the capital of Isfahan Province. 
+---
+540:in GUM_voyage_isfahan-3
+2 errors: GUM_voyage_isfahan-3
+Pro('half'):: not found in lexicon.
+N('World'):: not found in lexicon.
+---
+541:in GUM_voyage_isfahan-4
+2 errors: GUM_voyage_isfahan-4
+A('hand-painted'):: not found in lexicon.
+N('tiling'):: not found in lexicon.
+---
+542: GUM_voyage_isfahan-5
+## non projective
+5 differences
+# text = An ancient town[1;31m•[0m and capital of Persia [1;32;4mfrom[0m [1;32;4m1598[0m to 1722[1;32;4m, it[0m was [1;34;47mlong [0mnoted for its fine carpets and silver filigree.
+# TEXT = An ancient town[1;31m, it[0m and capital of Persia [1;32;4m1598[0m [1;32;4mfrom[0m to 1722[1;32;4m long[0m was noted for its fine carpets and silver filigree.
+---
+543: GUM_voyage_isfahan-6
+1 difference
+# text = Today, textile and steel mills [1;32;4mtake[0m their place.
+# TEXT = Today, textile and steel mills [1;32;4mtakes[0m their place.
+---
+544:in GUM_voyage_isfahan-7
+1 error: GUM_voyage_isfahan-7
+A('tree-lined'):: not found in lexicon.
+---
+545: GUM_voyage_isfahan-8
+# text = Understand
+# TEXT = understand
+---
+546:in GUM_voyage_isfahan-9
+3 errors: GUM_voyage_isfahan-9
+A('430'):: not found in lexicon.
+N('km'):: not found in lexicon.
+N('foothill'):: not found in lexicon.
+---
+547: GUM_voyage_isfahan-10
+# text = The city enjoys a temperate climate and regular seasons.
+# TEXT = The city enjoys a temperate climate and regular seasons. 
+---
+548:in GUM_voyage_isfahan-11
+2 errors: GUM_voyage_isfahan-11
+A('north-south'):: not found in lexicon.
+A('east-west'):: not found in lexicon.
+---
+549:in GUM_voyage_isfahan-12
+3 errors: GUM_voyage_isfahan-12
+A('Armenian'):: not found in lexicon.
+A('I'):: not found in lexicon.
+A('Armenian'):: not found in lexicon.
+---
+550:in GUM_voyage_isfahan-13
+2 errors: GUM_voyage_isfahan-13
+A('key'):: not found in lexicon.
+A('Armenian'):: not found in lexicon.
+---
+551:in GUM_voyage_isfahan-14
+3 errors: GUM_voyage_isfahan-14
+A('Armenian'):: not found in lexicon.
+A('Armenian'):: not found in lexicon.
+A('Armenian'):: not found in lexicon.
+---
+552: GUM_voyage_isfahan-15
+# text = Get in
+# TEXT = get in
+---
+553: GUM_voyage_isfahan-16
+# text = By plane
+# TEXT = by plane
+---
+554: GUM_voyage_isfahan-17
+4 differences
+# text = Isfahan International Airport[1;31m•[0m[1;32;4m [0mor Isfahan Shahid Beheshti[1;34;47m (IATA: IFN[0m[1;32;4m) [0mwas a military air base before the revolution.
+# TEXT = Isfahan International Airport[1;31m (IATA: IFN[0m[1;32;4m) [0mor Isfahan Shahid Beheshti[1;32;4m [0mwas a military air base before the revolution.
+---
+555: GUM_voyage_isfahan-18
+1 difference
+# text = There [1;32;4mare[0m daily flights to Tehran and Mashhad in Iran.
+# TEXT = There [1;32;4mis[0m daily flights to Tehran and Mashhad in Iran.
+---
+556: GUM_voyage_isfahan-19
+1 difference
+# text = There [1;32;4mare[0m also flights to Damascus, Dubai, Kuwait and Istanbul.
+# TEXT = There [1;32;4mis[0m also flights to Damascus, Dubai, Kuwait and Istanbul.
+---
+557:in GUM_voyage_isfahan-20
+## non projective
+1 error: GUM_voyage_isfahan-20
+Adv('c.'):: not found in lexicon.
+---
+558: GUM_voyage_isfahan-21
+4 differences
+# text = Since most [1;31m•[0mpeople [1;32;4mare[0m going there anyway, you [1;32;4mcan[0m [1;32;4malways[0m ask people to share taxi.
+# TEXT = Since most [1;31mmost [0mpeople [1;32;4mis[0m going there anyway, you [1;32;4malways[0m [1;32;4mcan[0m ask people to share taxi.
+---
+559: GUM_voyage_isfahan-22
+# text = See
+# TEXT = see
+---
+560: GUM_voyage_isfahan-23
+# text = Squares and streets
+# TEXT = squares and streets
+---
+561: GUM_voyage_isfahan-24
+# text = Naqsh-e Jahan Square
+# TEXT = Naqsh-e Jahan Square
+---
+562: GUM_voyage_isfahan-25
+# text = 1 Naqsh-e Jahan Square.
+# TEXT = 1 Naqsh-e Jahan Square. 
+---
+563: GUM_voyage_isfahan-26
+# text = Also known as shah square or imam square - 1602 (Meidan Emam).
+# TEXT = Also known as shah square or imam square-1602 (Meidan Emam). 
+---
+564: GUM_voyage_isfahan-27
+# text = The square contains two mosques, a palace, and the bazaar.
+# TEXT = The square contains two mosques, a palace, and the bazaar. 
+---
+565: GUM_voyage_isfahan-28
+1 difference
+# text = The square is the largest historical public square in the world after Tiananmen Square in Beijing and it is [1;32;4ma[0m UNESCO World Heritage Site.
+# TEXT = The square is the largest historical public square in the world after Tiananmen Square in Beijing and it is [1;32;4man[0m UNESCO World Heritage Site.
+---
+566: GUM_voyage_isfahan-29
+# text = The square is surrounded by buildings from the Safavid era.
+# TEXT = The square is surrounded by buildings from the Safavid era. 
+---
+567: GUM_voyage_isfahan-30
+# text = This a very popular place for locals to picnic on Friday and holiday evenings.
+# TEXT = this a very popular place for locals to picnic on Friday and holiday evenings. 
+---
+568: GUM_voyage_isfahan-31
+# text = 2 Chaharbagh Boulevard.
+# TEXT = 2 Chaharbagh Boulevard. 
+---
+569: GUM_voyage_isfahan-32
+# text = 1596, dating from the Saffavid era, the avenue is the most historically famous in all of Persia.
+# TEXT = 1596, dating from the Saffavid era, the avenue is the most historically famous in all of Persia. 
+---
+570: GUM_voyage_isfahan-33
+# text = Meydan Kohne.
+# TEXT = Meydan Kohne. 
+---
+571: GUM_voyage_isfahan-34
+# text = Shahshahan Square.
+# TEXT = Shahshahan Square. 
+---
+572: GUM_voyage_isfahan-35
+# text = Mosques
+# TEXT = mosques
+---
+573: GUM_voyage_isfahan-36
+# text = Shah Mosque
+# TEXT = Shah Mosque
+---
+574: GUM_voyage_isfahan-37
+# text = Sheikh Lotfollah Mosque, interior of the dome
+# TEXT = Sheikh Lotfollah Mosque, interior of the dome
+---
+575: GUM_voyage_isfahan-38
+5 differences
+# text = The stunning mosques of Isfahan are among the most beautiful [1;32;4mand[0m [1;32;4minteresting[0m [1;32;4min[0m [1;32;4mthe[0m [1;32;4mworld[0m.
+# TEXT = The stunning mosques of Isfahan are among the most beautiful [1;32;4min[0m [1;32;4mthe[0m [1;32;4mworld[0m [1;32;4mand[0m [1;32;4minteresting[0m.
+---
+576:in GUM_voyage_isfahan-39
+1 error: GUM_voyage_isfahan-39
+A('south'):: not found in lexicon.
+---
+577:in GUM_voyage_isfahan-40
+1 error: GUM_voyage_isfahan-40
+N('Architecture'):: not found in lexicon.
+---
+578: GUM_voyage_isfahan-41
+1 difference
+# text = It is registered as [1;32;4ma[0m UNESCO World Heritage Site.
+# TEXT = It is registered as [1;32;4man[0m UNESCO World Heritage Site.
+---
+579:in GUM_voyage_isfahan-42
+2 errors: GUM_voyage_isfahan-42
+N('seven-colour'):: not found in lexicon.
+A('calligraphic'):: not found in lexicon.
+---
+580:in GUM_voyage_isfahan-43
+1 error: GUM_voyage_isfahan-43
+A('east'):: not found in lexicon.
+---
+581: GUM_voyage_isfahan-44
+# text = One of the architectural masterpieces of Safavid Iranian architecture, this mosque is considered to be the most beautiful in Iran.
+# TEXT = One of the architectural masterpieces of Safavid Iranian architecture, this mosque is considered to be the most beautiful in Iran. 
+---
+582:in GUM_voyage_isfahan-45
+1 error: GUM_voyage_isfahan-45
+A('I'):: not found in lexicon.
+---
+583: GUM_voyage_isfahan-46
+1 difference
+# text = The mosque was designed to be a private mosque for the royal family and therefore it [1;32;4mdoes[0m not have any minarets.
+# TEXT = the mosque was designed to be a private mosque for the royal family and therefore it [1;32;4mdo[0m not have any minarets.
+---
+584: GUM_voyage_isfahan-47
+# text = There is a tunnel from the mosque to the Royal Palace, across the square.
+# TEXT = There is a tunnel from the mosque to the Royal Palace, across the square. 
+---
+585: GUM_voyage_isfahan-48
+6 differences
+# text = 5 Masjed-e Jāmé of Isfahan, north of Naqsh-e [1;32;4mJahan[0m [1;32;4mSquare[0m [1;32;4min[0m [1;32;4mthe[0m [1;32;4mold[0m [1;32;4mquarter[0m.
+# TEXT = 5 Masjed-e Jāmé of Isfahan, north of Naqsh-e [1;32;4min[0m [1;32;4mthe[0m [1;32;4mold[0m [1;32;4mquarter[0m [1;32;4mJahan[0m [1;32;4mSquare[0m.
+---
+586:in GUM_voyage_isfahan-49
+1 error: GUM_voyage_isfahan-49
+N('four-courtyard'):: not found in lexicon.
+---
+587: GUM_voyage_isfahan-50
+2 differences
+# text = 6 Hakim Mosque, Hakim (north of Naqsh-e [1;34;47mJahan [0min the old quarter[1;31m•[0m).
+# TEXT = 6 Hakim Mosque, Hakim (north of Naqsh-e in the old quarter[1;31m Jahan[0m).
+---
+588: GUM_voyage_isfahan-51
+# text = One of the oldest mosques in Isfahan.
+# TEXT = One of the oldest mosques in Isfahan. 
+---
+589:in GUM_voyage_isfahan-52
+1 error: GUM_voyage_isfahan-52
+A('II'):: not found in lexicon.
+---
+590:in GUM_voyage_isfahan-53
+1 error: GUM_voyage_isfahan-53
+A('10th'):: not found in lexicon.
+---
+591: GUM_voyage_isfahan-54
+# text = The portal was covered in mud until it was discovered in 1956.
+# TEXT = The portal was covered in mud until it was discovered in 1956. 
+---
+592: GUM_voyage_isfahan-55
+# text = Palaces
+# TEXT = palaces
+---
+593: GUM_voyage_isfahan-56
+# text = Ali Qapu Palace
+# TEXT = Ali Qapu Palace
+---
+594: GUM_voyage_isfahan-57
+# text = Chehel Sotoun
+# TEXT = Chehel Sotoun
+---
+595: GUM_voyage_isfahan-58
+# text = 7 Ālī Qāpū (The Royal Palace).
+# TEXT = 7 Ālī Qāpū (the Royal Palace). 
+---
+596:in GUM_voyage_isfahan-59
+1 error: GUM_voyage_isfahan-59
+A('17th'):: not found in lexicon.
+---
+597:in GUM_voyage_isfahan-60
+2 errors: GUM_voyage_isfahan-60
+N('meter'):: not found in lexicon.
+Pro('each'):: not found in lexicon.
+---
+598:in GUM_voyage_isfahan-61
+1 error: GUM_voyage_isfahan-61
+AdvP(Adv('only')):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
+---
+599:in GUM_voyage_isfahan-62
+1 error: GUM_voyage_isfahan-62
+A('I'):: not found in lexicon.
+---
+600: GUM_voyage_isfahan-63
+1 difference
+# text = There [1;32;4mare[0m floral, animal and bird motifs.
+# TEXT = There [1;32;4mis[0m floral, animal and bird motifs.
+---
+601: GUM_voyage_isfahan-64
+# text = 8 Hasht Behesht (The Palace of Eight Paradises).
+# TEXT = 8 Hasht Behesht (the palace of Eight paradises). 
+---
+602: GUM_voyage_isfahan-65
+# text = 1669, reportedly built for residence purposes of the king's harem.
+# TEXT = 1669, reportedly built for residence purposes of the king 's harem. 
+---
+603: GUM_voyage_isfahan-66
+2 differences
+# text = Set within lush gardens which [1;32;4mare[0m free to roam if you [1;32;4mdon't[0m want to go inside the building.
+# TEXT = set within lush gardens which [1;32;4mis[0m free to roam if you [1;32;4mdo not[0m want to go inside the building.
+---
+604: GUM_voyage_isfahan-67
+# text = 9 Chehel Sotoun (The Palace of Forty Columns).
+# TEXT = 9 Chehel Sotoun (the Palace of forty Columns). 
+---
+605: GUM_voyage_isfahan-68
+1 difference
+# text = 1647: It is called Palace of forty columns, as there [1;32;4mare[0m many columns, and in Iranian, 40 means many.
+# TEXT = 1647: it is called palace of forty columns, as there [1;32;4mis[0m many columns, and in Iranian, 40 means many.
+---
+606: GUM_voyage_isfahan-69
+4 differences
+# text = Incidentally, there [1;32;4mare[0m twenty columns, and these [1;32;4mare[0m reflected in the pool in front, which [1;32;4mmight[0m [1;32;4malso[0m account for its name.
+# TEXT = incidentally, there [1;32;4mis[0m twenty columns, and these [1;32;4mis[0m reflected in the pool in front, which [1;32;4malso[0m [1;32;4mmight[0m account for its name.
+---
+607:in GUM_voyage_isfahan-70
+## non projective
+1 error: GUM_voyage_isfahan-70
+A('religious-national'):: not found in lexicon.
+---
+608:in GUM_voyage_isfahan-71
+1 error: GUM_voyage_isfahan-71
+Pro('its'):: not found in lexicon.
+---
+609: GUM_voyage_isfahan-72
+# text = Contains some spectacular battle murals.
+# TEXT = contains some spectacular battle murals. 
+---
+610: GUM_whow_joke-1
+1 difference
+# text = How to Tell a Joke[1;32;4m[0m
+# TEXT = How to tell a joke[1;32;4m.[0m
+---
+611: GUM_whow_joke-2
+# text = Two Parts:
+# TEXT = Two parts:
+---
+612: GUM_whow_joke-3
+# text = Getting the Material Right
+# TEXT = getting the material right
+---
+613: GUM_whow_joke-4
+# text = Getting the Delivery Right
+# TEXT = getting the delivery right
+---
+614:in GUM_whow_joke-5
+4 errors: GUM_whow_joke-5
+N('one-liner'):: not found in lexicon.
+N('three-liners'):: not found in lexicon.
+A('one-minute'):: not found in lexicon.
+N('everyone'):: not found in lexicon.
+---
+615:in GUM_whow_joke-6
+1 error: GUM_whow_joke-6
+N('joke-telling'):: not found in lexicon.
+---
+616: GUM_whow_joke-7
+4 differences
+# text = That [1;31m•[0m[1;32;4mis, [0mof course, if you [1;34;47mcan [0mget a laugh[1;32;4m.[0m
+# TEXT = That [1;31mcan [0m[1;32;4mbe [0mof course, if you get a laugh[1;32;4m,.[0m
+---
+617:in GUM_whow_joke-8
+1 error: GUM_whow_joke-8
+N('other'):: not found in lexicon.
+---
+618: GUM_whow_joke-9
+# text = Part 1 of 2:
+# TEXT = part 1 of 2:
+---
+619: GUM_whow_joke-10
+# text = Getting the Material Right
+# TEXT = getting the material right
+---
+620: GUM_whow_joke-11
+# text = Know your audience.
+# TEXT = know your audience. 
+---
+621: GUM_whow_joke-12
+# text = All aspects of the joke you tell, from the content to the length, need to be suited to your audience.
+# TEXT = All aspects of the joke you tell, from the content to the length, need to be suited to your audience. 
+---
+622:in GUM_whow_joke-13
+3 errors: GUM_whow_joke-13
+Pro('What'):: not found in lexicon.
+N('20-year'):: not found in lexicon.
+N('70-year'):: not found in lexicon.
+---
+623:in GUM_whow_joke-14
+1 error: GUM_whow_joke-14
+N('Everyone'):: not found in lexicon.
+---
+624: GUM_whow_joke-15
+1 difference
+# text = But, unless you personally know the members of your audience, here [1;32;4mare[0m some good rules of thumb to follow:
+# TEXT = But, unless you personally know the members of your audience, here [1;32;4mis[0m some good rules of thumb to follow:
+---
+625: GUM_whow_joke-16
+1 difference
+# text = elderly people [1;32;4mwon't[0m like crude jokes;
+# TEXT = Elderly people [1;32;4mwill not[0m like crude jokes ;
+---
+626:in GUM_whow_joke-17
+1 error: GUM_whow_joke-17
+A('misogynist'):: not found in lexicon.
+---
+627: GUM_whow_joke-18
+1 difference
+# text = people of a specific ethnic or racial group [1;32;4mwon't[0m enjoy jokes making fun of their group;
+# TEXT = People of a specific ethnic or racial group [1;32;4mwill not[0m enjoy jokes making fun of their group ;
+---
+628:in GUM_whow_joke-19
+1 error: GUM_whow_joke-19
+A('specialized'):: not found in lexicon.
+---
+629: GUM_whow_joke-20
+2 differences
+# text = The more [1;31m•[0myou know about your audience the better you[1;32;4m'll[0m be able to tailor your jokes to them.
+# TEXT = the more [1;31mmore [0myou know about your audience the better you[1;32;4m will[0m be able to tailor your jokes to them.
+---
+630: GUM_whow_joke-21
+# text = Choose great material.
+# TEXT = choose great material. 
+---
+631:in GUM_whow_joke-22
+4 errors: GUM_whow_joke-22
+Adv('online'):: not found in lexicon.
+C('by'):: not found in lexicon.
+V('repurposing'):: not found in lexicon.
+V('repurposing'):: morphology error: conjugate_en:tab :V(repurposing) : {"pe":3,"n":"s","t":"pr"}.
+---
+632: GUM_whow_joke-23
+# text = You may want to start your own joke file.
+# TEXT = You may want to start your own joke file. 
+---
+633: GUM_whow_joke-24
+4 differences
+# text = You can write your jokes down on index cards to keep them handy[1;31m•[0m[1;32;4m [0mor use a document file on your computer[1;34;47m. [1[0m[1;32;4m][0m
+# TEXT = you can write your jokes down on index cards to keep them handy[1;31m. [ 1[0m[1;32;4m ] [0mor use a document file on your computer[1;32;4m[0m
+---
+634: GUM_whow_joke-25
+# text = The latter option may allow for easier revision.
+# TEXT = The latter option may allow for easier revision. 
+---
+635: GUM_whow_joke-26
+# text = Decide on a target.
+# TEXT = decide on a target. 
+---
+636: GUM_whow_joke-27
+4 differences
+# text = Every joke has a[1;34;47m “target[0m[1;32;4m,” [0mwhich is [1;34;47mwhat [0mthe joke is [1;31m•[0mabout.
+# TEXT = Every joke has a[1;32;4m ''target, ''[0mwhich is the joke is [1;31mwhat [0mabout.
+---
+637: GUM_whow_joke-28
+1 difference
+# text = It[1;32;4m's[0m important that the joke's target (the most basic element of your material) be suited to your audience.
+# TEXT = It[1;32;4m is[0m important that the joke 's target (the most basic element of your material) be suited to your audience.
+---
+638:in GUM_whow_joke-29
+1 error: GUM_whow_joke-29
+N('something'):: not found in lexicon.
+---
+639:in GUM_whow_joke-30
+2 errors: GUM_whow_joke-30
+A('vice'):: not found in lexicon.
+Adv('versa'):: not found in lexicon.
+---
+640: GUM_whow_joke-31
+2 differences
+# text = students [1;32;4mwill[0m [1;32;4mtypically[0m find jokes about school and teachers humorous.
+# TEXT = Students [1;32;4mtypically[0m [1;32;4mwill[0m find jokes about school and teachers humorous.
+---
+641:in GUM_whow_joke-32
+2 errors: GUM_whow_joke-32
+A('exaggerated'):: not found in lexicon.
+N('setup'):: not found in lexicon.
+---
+642:in GUM_whow_joke-33
+1 error: GUM_whow_joke-33
+N('setup'):: not found in lexicon.
+---
+643:in GUM_whow_joke-34
+1 error: GUM_whow_joke-34
+N('setup'):: not found in lexicon.
+---
+644: GUM_whow_joke-35
+1 difference
+# text = It[1;32;4m's[0m a fundamental part of the joke;
+# TEXT = It[1;32;4m is[0m a fundamental part of the joke ;
+---
+645:in GUM_whow_joke-36
+1 error: GUM_whow_joke-36
+N('punchline'):: not found in lexicon.
+---
+646:in GUM_whow_joke-37
+3 errors: GUM_whow_joke-37
+N('setup'):: not found in lexicon.
+A('exaggerated'):: not found in lexicon.
+C('in'):: not found in lexicon.
+---
+647: GUM_whow_joke-38
+4 differences
+# text = it[1;32;4m's[0m placing these two incongruous elements side by side that makes the [1;32;4mjoke[0m [1;32;4mfunny[0m. [4[1;32;4m][0m
+# TEXT = It[1;32;4m is[0m placing these two incongruous elements side by side that makes the [1;32;4mfunny[0m [1;32;4mjoke[0m. [ 4[1;32;4m ].[0m
+---
+648: GUM_whow_joke-39
+3 differences
+# text = The exaggeration can be slight [1;32;4mor[0m [1;32;4mconsiderable[0m [1;32;4m—[0m
+# TEXT = The exaggeration can be slight [1;32;4m—[0m [1;32;4mor[0m [1;32;4mconsiderable.[0m
+---
+649: GUM_whow_joke-40
+# text = it just depends on the individual joke.
+# TEXT = It just depends on the individual joke. 
+---
+650:in GUM_whow_joke-41
+1 error: GUM_whow_joke-41
+N('punchline'):: not found in lexicon.
+---
+651: GUM_whow_joke-42
+# text = The ending of the joke is obviously crucial.
+# TEXT = The ending of the joke is obviously crucial. 
+---
+652:in GUM_whow_joke-43
+1 error: GUM_whow_joke-43
+N('payoff'):: not found in lexicon.
+---
+653:in GUM_whow_joke-44
+1 error: GUM_whow_joke-44
+N('punchline'):: not found in lexicon.
+---
+654:in GUM_whow_joke-45
+1 error: GUM_whow_joke-45
+N('punchline'):: not found in lexicon.
+---
+655:in GUM_whow_joke-46
+1 error: GUM_whow_joke-46
+N('punchline'):: not found in lexicon.
+---
+656: GUM_whow_joke-47
+# text = Make the joke your own.
+# TEXT = make the joke your own. 
+---
+657: GUM_whow_joke-48
+2 differences
+# text = Lots of jokes [1;32;4mrehash[0m the same ground and sometimes they retell a story countless other jokes [1;32;4mhave[0m told.
+# TEXT = lots of jokes [1;32;4mrehashes[0m the same ground and sometimes they retell a story countless other jokes [1;32;4mhas[0m told.
+---
+658: GUM_whow_joke-49
+3 differences
+# text = For [1;32;4myour[0m [1;32;4mjoke[0m [1;32;4mto[0m be funny, it has to surprise the audience in some way, which means it has to seem original or new.
+# TEXT = For [1;32;4mto[0m [1;32;4myour[0m [1;32;4mjoke[0m be funny, it has to surprise the audience in some way, which means it has to seem original or new.
+---
+659: GUM_whow_joke-50
+1 difference
+# text = One way to personalize a joke is to change the ending. [5[1;32;4m][0m
+# TEXT = One way to personalize a joke is to change the ending. [ 5[1;32;4m ].[0m
+---
+660: GUM_whow_joke-51
+# text = Another option is to dress the joke up as a story about your own life.
+# TEXT = Another option is to dress the joke up as a story about your own life. 
+---
+661:in GUM_whow_joke-52
+1 error: GUM_whow_joke-52
+A('unrecognizable'):: not found in lexicon.
+---
+662: GUM_whow_joke-53
+5 differences
+# text = It [1;32;4mmay[0m [1;32;4malso[0m make it particularly interesting if your audience is your [1;34;47mfriend([0m[1;32;4ms). [[0m6[1;32;4m][0m
+# TEXT = It [1;32;4malso[0m [1;32;4mmay[0m make it particularly interesting if your audience is your [1;32;4mfriends. [ [0m6[1;32;4m ].[0m
+---
+663: GUM_whow_joke-54
+# text = Know your material.
+# TEXT = know your material. 
+---
+664:in GUM_whow_joke-55
+2 errors: GUM_whow_joke-55
+V('practice'):: not found in lexicon.
+V('practice'):: morphology error: conjugate_en:tab :V(practice) : {"pe":3,"n":"s","t":"pr"}.
+---
+665:in GUM_whow_joke-56
+3 errors: GUM_whow_joke-56
+C('with'):: not found in lexicon.
+V('sidetrack'):: not found in lexicon.
+V('sidetrack'):: morphology error: conjugate_en:tab :V(sidetrack) : {"pe":3,"n":"s","t":"pp"}.
+---
+666:in GUM_whow_joke-57
+1 error: GUM_whow_joke-57
+C('instead'):: not found in lexicon.
+---
+667: GUM_whow_joke-58
+4 differences
+# text = Good jokes have a lot of details and personality, so [1;34;47mdon'[0m[1;32;4mt[0m [1;32;4mbe[0m afraid to embellish. [7[1;32;4m][0m
+# TEXT = Good jokes have a lot of details and personality, so [1;32;4mbe[0m [1;32;4mnot[0m afraid to embellish. [ 7[1;32;4m ].[0m
+---
+668: GUM_whow_joke-59
+# text = Try different things out and see what feels right, what sounds best.
+# TEXT = try different things out and see what feels right, what sounds best. 
+---
+669: GUM_whow_joke-60
+2 differences
+# text = [1;32;4mDon't[0m use a joke until you[1;32;4m 're[0m completely comfortable with it.
+# TEXT = [1;32;4mdo not[0m use a joke until you[1;32;4m are[0m completely comfortable with it.
+---
+670:in GUM_whow_joke-61
+1 error: GUM_whow_joke-61
+Pro('yourself'):: not found in lexicon.
+---
+671:in GUM_whow_joke-62
+3 errors: GUM_whow_joke-62
+N('um'):: not found in lexicon.
+V('practice'):: not found in lexicon.
+V('practice'):: morphology error: conjugate_en:tab :V(practice) : {"pe":3,"n":"s","t":"b"}.
+---
+672:in GUM_whow_joke-63
+3 errors: GUM_whow_joke-63
+V('practice'):: not found in lexicon.
+C('once'):: not found in lexicon.
+V('practice'):: morphology error: conjugate_en:tab :V(practice) : {"pe":3,"n":"s","t":"pr"}.
+---
+673: GUM_whow_overalls-1
+1 difference
+# text = How to Wash Overalls in a Washing Machine[1;32;4m[0m
+# TEXT = How to wash overalls in a washing machine[1;32;4m.[0m
+---
+674:in GUM_whow_overalls-2
+1 error: GUM_whow_overalls-2
+N('cutie'):: not found in lexicon.
+---
+675:in GUM_whow_overalls-3
+3 errors: GUM_whow_overalls-3
+A('twisted'):: not found in lexicon.
+A('fashion'):: not found in lexicon.
+N('washboard'):: not found in lexicon.
+---
+676: GUM_whow_overalls-4
+1 difference
+# text = Your appliances are also murder on the straps, which [1;32;4mare[0m almost always the first things to wear out on your overalls.
+# TEXT = Your appliances are also murder on the straps, which [1;32;4mis[0m almost always the first things to wear out on your overalls.
+---
+677: GUM_whow_overalls-5
+# text = This article will show you how to save time and prevent wear, extending the life of your overalls until they are so soft you could wear them to bed.
+# TEXT = This article will show you how to save time and prevent wear, extending the life of your overalls until they are so soft you could wear them to bed. 
+---
+678: GUM_whow_overalls-6
+# text = Steps
+# TEXT = steps
+---
+679: GUM_whow_overalls-7
+2 differences
+# text = Wash alone or with[1;32;4m "[0mlike[1;32;4m" [0mclothing.
+# TEXT = wash alone or with[1;32;4m ''[0mlike[1;32;4m ''[0mclothing.
+---
+680: GUM_whow_overalls-8
+## non projective
+3 differences
+# text = It[1;32;4m's[0m best to wash adults' overalls[1;34;47m alone[0m, especially men's[1;31m•[0m.
+# TEXT = It[1;32;4m is[0m best to wash adults ' overalls, especially men 's[1;31m alone[0m.
+---
+681: GUM_whow_overalls-9
+## non projective
+5 differences
+# text = However, it is okay to wash just [1;34;47ma [0mfew items[1;32;4m with[0m [1;32;4mthem, like[0m [1;32;4mblue[0m [1;32;4mjeans[0m.
+# TEXT = However, it is okay to wash just few items[1;32;4m, like[0m [1;32;4mblue jean[0m [1;32;4mwith[0m [1;32;4mthem[0m.
+---
+682:in GUM_whow_overalls-10
+## non projective
+2 errors: GUM_whow_overalls-10
+N('anything'):: not found in lexicon.
+V('can'):: morphology error: conjugate_en: unrecognized tense :V(can) : {"pe":3,"n":"s","t":"pp"}.
+---
+683:in GUM_whow_overalls-11
+2 errors: GUM_whow_overalls-11
+C('minus'):: not found in lexicon.
+N('twisty-ness'):: not found in lexicon.
+---
+684: GUM_whow_overalls-12
+1 difference
+# text = Just [1;32;4mdo[0m the denim and canvas stuff together.
+# TEXT = Just [1;32;4mdoes[0m the denim and canvas stuff together.
+---
+685: GUM_whow_overalls-13
+# text = Fasten the straps to the bib.
+# TEXT = fasten the straps to the bib. 
+---
+686: GUM_whow_overalls-14
+1 difference
+# text = If you [1;32;4mdidn't[0m know already, the bib is the top front part with the breast pockets.
+# TEXT = If you [1;32;4mdo not[0m know already, the bib is the top front part with the breast pockets.
+---
+687: GUM_whow_overalls-15
+# text = Go ahead and fasten both straps before you wash.
+# TEXT = go ahead and fasten both straps before you wash. 
+---
+688:in GUM_whow_overalls-16
+1 error: GUM_whow_overalls-16
+C('from'):: not found in lexicon.
+---
+689: GUM_whow_overalls-17
+# text = Use twist ties to keep the straps fastened.
+# TEXT = use twist ties to keep the straps fastened. 
+---
+690:in GUM_whow_overalls-18
+2 errors: GUM_whow_overalls-18
+V('reapportion'):: not found in lexicon.
+V('reapportion'):: morphology error: conjugate_en:tab :V(reapportion) : {"pe":3,"n":"s","t":"f"}.
+---
+691: GUM_whow_overalls-19
+1 difference
+# text = [1;32;4mDon't[0m skip it.
+# TEXT = [1;32;4mdo not[0m skip it.
+---
+692: GUM_whow_overalls-20
+1 difference
+# text = Take the 20 seconds to use a couple twist ties on the fasteners to make sure they [1;32;4mdon't[0m come loose.
+# TEXT = take the 20 seconds to use a couple twist ties on the fasteners to make sure they [1;32;4mdo not[0m come loose.
+---
+693: GUM_whow_overalls-21
+1 difference
+# text = If your washing machine is worth its salt, it will undo [1;32;4mthose[0m straps in a heartbeat and tie them in a sheet bend unless you prevent it.
+# TEXT = if your washing machine is worth its salt, it will undo [1;32;4mthese[0m straps in a heartbeat and tie them in a sheet bend unless you prevent it.
+---
+694: GUM_whow_overalls-22
+1 difference
+# text = All it takes is two twist ties and [1;34;47ma [0mfew seconds of patience.
+# TEXT = All it takes is two twist ties and few seconds of patience.
+---
+695: GUM_whow_overalls-23
+# text = Empty the pockets.
+# TEXT = empty the pockets. 
+---
+696: GUM_whow_overalls-24
+1 difference
+# text = Overalls have more [1;31m•[0mpockets than pants.
+# TEXT = Overalls have more [1;31mmore [0mpockets than pants.
+---
+697: GUM_whow_overalls-25
+# text = The bib has a wallet pocket and a watch pocket.
+# TEXT = The bib has a wallet pocket and a watch pocket. 
+---
+698: GUM_whow_overalls-26
+# text = Kids put rocks, candy, and bugs in these.
+# TEXT = Kids put rocks, candy, and bugs in these. 
+---
+699: GUM_whow_overalls-27
+# text = Men put cell phones and small tools in them.
+# TEXT = Men put cell phones and small tools in them. 
+---
+700:in GUM_whow_overalls-28
+1 error: GUM_whow_overalls-28
+N('purse-space'):: not found in lexicon.
+---
+701:in GUM_whow_overalls-29
+1 error: GUM_whow_overalls-29
+P('sure'):: not found in lexicon.
+---
+702: GUM_whow_overalls-30
+# text = Move the strap adjusters around.
+# TEXT = move the strap adjusters around. 
+---
+703:in GUM_whow_overalls-31
+2 errors: GUM_whow_overalls-31
+V('got'):: not found in lexicon.
+V('got'):: morphology error: conjugate_en:tab :V(got) : {"pe":3,"n":"s","t":"b"}.
+---
+704:in GUM_whow_overalls-32
+1 error: GUM_whow_overalls-32
+C('depend'):: not found in lexicon.
+---
+705: GUM_whow_overalls-33
+2 differences
+# text = The straps wear out fastest around the adjusters over the course of numerous wash and dry cycles ([1;32;4mnot[0m [1;32;4mto[0m mention being out in the elements if they are work clothes).
+# TEXT = The straps wear out fastest around the adjusters over the course of numerous wash and dry cycles ([1;32;4mdo[0m [1;32;4mnot[0m mention being out in the elements if they are work clothes).
+---
+706:in GUM_whow_overalls-34
+1 error: GUM_whow_overalls-34
+C('of'):: not found in lexicon.
+---
+707: GUM_whow_overalls-35
+# text = This is the same idea as rotating tires.
+# TEXT = This is the same idea as rotating tires. 
+---
+708:in GUM_whow_overalls-36
+1 error: GUM_whow_overalls-36
+C('about'):: not found in lexicon.
+---
+709: GUM_whow_overalls-37
+# text = Tips
+# TEXT = tips
+---
+710:in GUM_whow_overalls-38
+2 errors: GUM_whow_overalls-38
+Pro('half'):: not found in lexicon.
+A('less'):: not found in lexicon.
+---
+711:in GUM_whow_overalls-39
+2 errors: GUM_whow_overalls-39
+V('twist-tie'):: not found in lexicon.
+V('twist-tie'):: morphology error: conjugate_en:tab :V(twist-tie) : {"pe":3,"n":"s","t":"pp"}.
+---
+712:in GUM_whow_overalls-40
+1 error: GUM_whow_overalls-40
+Pro('some'):: not found in lexicon.
+---
+713: GUM_whow_overalls-41
+# text = Warnings
+# TEXT = warnings
+---
+714:in GUM_whow_overalls-42
+2 errors: GUM_whow_overalls-42
+N('paper-type'):: not found in lexicon.
+N('fallout'):: not found in lexicon.
+---
+715:in GUM_whow_overalls-43
+1 error: GUM_whow_overalls-43
+N('Plastic-type'):: not found in lexicon.
+---
+716: GUM_whow_overalls-44
+# text = Use with caution.
+# TEXT = use with caution. 
+---
+717: GUM_whow_skittles-1
+1 difference
+# text = How to Make Skittles Vodka[1;32;4m[0m
+# TEXT = How to make Skittles vodka[1;32;4m.[0m
+---
+718:in GUM_whow_skittles-2
+1 error: GUM_whow_skittles-2
+N('mL'):: not found in lexicon.
+---
+719: GUM_whow_skittles-3
+2 differences
+# text = Bottles of[1;32;4m "[0mSkittled[1;32;4m"[0m
+# TEXT = bottles of[1;32;4m ''[0mskittled[1;32;4m ''[0m
+---
+720: GUM_whow_skittles-4
+# text = Vodka Dishwasher Bottle Method
+# TEXT = vodka dishwasher bottle method
+---
+721:in GUM_whow_skittles-5
+3 errors: GUM_whow_skittles-5
+A('fun'):: not found in lexicon.
+N('flavor'):: not found in lexicon.
+N('color'):: not found in lexicon.
+---
+722: GUM_whow_skittles-6
+4 differences
+# text = All you need to do is place your favorite combination of Skittles candies into a glass [1;32;4mor[0m [1;32;4mbottle[0m [1;32;4mof[0m [1;32;4mvodka[0m and wait for it to infuse.
+# TEXT = All you need to do is place your favorite combination of Skittles candies into a glass [1;32;4mof[0m [1;32;4mvodka[0m [1;32;4mor[0m [1;32;4mbottle[0m and wait for it to infuse.
+---
+723:in GUM_whow_skittles-7
+1 error: GUM_whow_skittles-7
+A('brightly-colored'):: not found in lexicon.
+---
+724: GUM_whow_skittles-8
+6 differences
+# text = Find multiple methods for making Skittles vodka after the jump[1;32;4m -- [0mand[1;32;4m [0msoon you[1;32;4m'll[0m [1;32;4mbe[0m [1;32;4mtasting[0m the rainbow[1;32;4m![0m
+# TEXT = find multiple methods for making Skittles vodka after the jump[1;32;4m! [0mand[1;32;4m--[0msoon you[1;32;4m be[0m [1;32;4mwill[0m [1;32;4mtaste[0m the rainbow[1;32;4m[0m
+---
+725: GUM_whow_skittles-9
+# text = Ingredients
+# TEXT = ingredients
+---
+726:in GUM_whow_skittles-10
+3 errors: GUM_whow_skittles-10
+N('liter'):: not found in lexicon.
+NO('half'):: the parameter should be number, not string.
+NO('half'):: option n is applied to NO, but it should be to D, Pro, N, NP, A, AP, V, VP, S, SP or CP
+---
+727: GUM_whow_skittles-11
+2 differences
+# text = A large bag of Skittles candy (the[1;32;4m "[0mmovie size[1;32;4m" [0mbag)
+# TEXT = a large bag of Skittles candy (the[1;32;4m ''[0mmovie size[1;32;4m ''[0mbag)
+---
+728:in GUM_whow_skittles-12
+1 error: GUM_whow_skittles-12
+N('mL'):: not found in lexicon.
+---
+729:in GUM_whow_skittles-13
+## non projective
+3 errors: GUM_whow_skittles-13
+N('color'):: not found in lexicon.
+V('flavor'):: not found in lexicon.
+V('flavor'):: morphology error: conjugate_en:tab :V(flavor) : {"pe":3,"n":"s","t":"b"}.
+---
+730:in GUM_whow_skittles-14
+3 errors: GUM_whow_skittles-14
+A('lime'):: not found in lexicon.
+A('less'):: not found in lexicon.
+N('color'):: not found in lexicon.
+---
+731: GUM_whow_skittles-15
+# text = However, you can put them in if you want.
+# TEXT = However, you can put them in if you want. 
+---
+732:in GUM_whow_skittles-16
+1 error: GUM_whow_skittles-16
+N('flavor'):: not found in lexicon.
+---
+733:in GUM_whow_skittles-17
+1 error: GUM_whow_skittles-17
+N('ml'):: not found in lexicon.
+---
+734: GUM_whow_skittles-18
+3 differences
+# text = Keep swirling the mixture until the Skittles [1;32;4mare[0m [1;32;4malmost[0m [1;32;4mcompletely[0m dissolved.
+# TEXT = keep swirling the mixture until the Skittles [1;32;4malmost[0m [1;32;4mcompletely[0m [1;32;4mis[0m dissolved.
+---
+735: GUM_whow_skittles-19
+# text = Note that the ratio of Skittles to vodka varies from recipe to recipe.
+# TEXT = note that the ratio of Skittles to vodka varies from recipe to recipe. 
+---
+736: GUM_whow_skittles-20
+# text = You should experiment to find your preferred mix before making larger bottles.
+# TEXT = You should experiment to find your preferred mix before making larger bottles. 
+---
+737: GUM_whow_skittles-21
+2 differences
+# text = Filter out the remaining Skittle[1;32;4m "[0minsides[1;32;4m".[0m
+# TEXT = filter out the remaining Skittle[1;32;4m ''[0minsides[1;32;4m ''.[0m
+---
+738:in GUM_whow_skittles-22
+1 error: GUM_whow_skittles-22
+N('flavor'):: not found in lexicon.
+---
+739: GUM_whow_skittles-23
+2 differences
+# text = Method 2 of 3: Bottles of[1;32;4m "[0mSkittled[1;32;4m" [0mVodka
+# TEXT = method 2 of 3: bottles of[1;32;4m ''[0mskittled[1;32;4m ''[0mvodka
+---
+740: GUM_whow_skittles-24
+# text = Pour out some vodka from a bottle to make room for Skittles.
+# TEXT = pour out some vodka from a bottle to make room for Skittles. 
+---
+741:in GUM_whow_skittles-25
+1 error: GUM_whow_skittles-25
+N('color'):: not found in lexicon.
+---
+742:in GUM_whow_skittles-26
+3 errors: GUM_whow_skittles-26
+N('ml'):: not found in lexicon.
+A('fl'):: not found in lexicon.
+N('oz'):: not found in lexicon.
+---
+743: GUM_whow_skittles-27
+# text = Let the mixture sit for a day or two.
+# TEXT = let the mixture sit for a day or two. 
+---
+744: GUM_whow_skittles-28
+# text = Shake occasionally so the flavour mixes well.
+# TEXT = shake occasionally so the flavour mixes well. 
+---
+745: GUM_whow_skittles-29
+# text = Strain out the Skittles using a filter, such as a paper coffee filter or a clean t-shirt.
+# TEXT = strain out the Skittles using a filter, such as a paper coffee filter or a clean T-shirt. 
+---
+746: GUM_whow_skittles-30
+# text = Refrigerate overnight.
+# TEXT = refrigerate overnight. 
+---
+747: GUM_whow_skittles-31
+# text = Method 3 of 3: Dishwasher Bottle Method
+# TEXT = method 3 of 3: dishwasher bottle method
+---
+748:in GUM_whow_skittles-32
+2 errors: GUM_whow_skittles-32
+N('color'):: not found in lexicon.
+N('g'):: not found in lexicon.
+---
+749:in GUM_whow_skittles-33
+6 errors: GUM_whow_skittles-33
+N('ml'):: not found in lexicon.
+A('fl'):: not found in lexicon.
+N('oz'):: not found in lexicon.
+N('ml'):: not found in lexicon.
+A('fl'):: not found in lexicon.
+N('oz'):: not found in lexicon.
+---
+750: GUM_whow_skittles-34
+# text = Place the bottles in your dishwasher and put on an intensive cycle.
+# TEXT = place the bottles in your dishwasher and put on an intensive cycle. 
+---
+751: GUM_whow_skittles-35
+# text = One third of of the way through the cycle, shake all bottles vigorously.
+# TEXT = One third of of the way through the cycle, shake all bottles vigorously. 
+---
+752: GUM_whow_skittles-36
+# text = Two thirds of the way through the cycle, shake all bottles vigorously.
+# TEXT = Two thirds of the way through the cycle, shake all bottles vigorously. 
+---
+753:in GUM_whow_skittles-37
+1 error: GUM_whow_skittles-37
+C('once'):: not found in lexicon.
+---
+754: GUM_whow_skittles-38
+# text = Then place in the freezer for 2 hours.
+# TEXT = Then place in the freezer for 2 hours. 
+---
+755:in GUM_whow_skittles-39
+1 error: GUM_whow_skittles-39
+C('once'):: not found in lexicon.
+---
+756:in GUM_whow_skittles-40
+1 error: GUM_whow_skittles-40
+N('cheesecloth'):: not found in lexicon.
+---
+757:in GUM_whow_skittles-41
+1 error: GUM_whow_skittles-41
+C('once'):: not found in lexicon.
+---
+758:in GUM_whow_skittles-42
+3 errors: GUM_whow_skittles-42
+A('above'):: not found in lexicon.
+N('everything'):: not found in lexicon.
+N('color'):: not found in lexicon.
+---
+759: GUM_whow_skittles-43
+# text = Place all of the bottles in the freezer until you are ready to drink.
+# TEXT = place all of the bottles in the freezer until you are ready to drink. 
+---
+760: GUM_whow_skittles-44
+2 differences
+# text = [1;32;4mDon't[0m worry, the vodka [1;32;4mwon't[0m freeze.
+# TEXT = [1;32;4mdo not[0m worry, the vodka [1;32;4mwill not[0m freeze.
+---
+761: GUM_whow_skittles-45
+# text = You are finished.
+# TEXT = You are finished. 
+---
+762: GUM_whow_skittles-46
+# text = Enjoy your tasty creation.
+# TEXT = enjoy your tasty creation. 
+---
+763: GUM_whow_skittles-47
+# text = Tips.
+# TEXT = tips. 
+---
+764: GUM_whow_skittles-48
+# text = If you want to make it more quickly, cut the skittles in half before putting them into vodka.
+# TEXT = If you want to make it more quickly, cut the skittles in half before putting them into vodka. 
+---
+765: GUM_whow_skittles-49
+# text = Shake every 15 minutes.
+# TEXT = shake every 15 minutes. 
+---
+766: GUM_whow_skittles-50
+1 difference
+# text = They[1;32;4m'll[0m dissolve in an hour instead of a day.
+# TEXT = They[1;32;4m will[0m dissolve in an hour instead of a day.
+---
+767:in GUM_whow_skittles-51
+1 error: GUM_whow_skittles-51
+N('color'):: not found in lexicon.
+---
+768: GUM_whow_skittles-52
+# text = Start with small amount of vodka and Skittles at first to experiment which combination of taste suits you best.
+# TEXT = start with small amount of vodka and Skittles at first to experiment which combination of taste suits you best. 
+---
+769:in GUM_whow_skittles-53
+1 error: GUM_whow_skittles-53
+C('once'):: not found in lexicon.
+---
+770:in GUM_whow_skittles-54
+1 error: GUM_whow_skittles-54
+A('lime'):: not found in lexicon.
+---
+771: GUM_whow_skittles-55
+# text = Another approach is to buy five bottles of vodka and five bags of Skittles.
+# TEXT = Another approach is to buy five bottles of vodka and five bags of Skittles. 
+---
+772:in GUM_whow_skittles-56
+1 error: GUM_whow_skittles-56
+N('flavor'):: not found in lexicon.
+---
+773: GUM_whow_skittles-57
+1 difference
+# text = (Or get four bottles and an empty, to allow room for the skittles[1;32;4m.)[0m
+# TEXT = (Or get four bottles and an empty, to allow room for the skittles[1;32;4m.).[0m
+---
+774:in GUM_whow_skittles-58
+2 errors: GUM_whow_skittles-58
+A('unwanted'):: not found in lexicon.
+N('flavoring'):: not found in lexicon.
+---
+775: GUM_whow_skittles-59
+# text = Warnings
+# TEXT = warnings
+---
+776: GUM_whow_skittles-60
+# text = Drink responsibly.
+# TEXT = drink responsibly. 
+---
+777: GUM_whow_skittles-61
+# text = Never drink and drive.
+# TEXT = Never drink and drive. 
+---
+778: GUM_whow_skittles-62
+# text = Know your limits, and do not drink to the extent of intoxication.
+# TEXT = know your limits, and do not drink to the extent of intoxication. 
+---
+779:in GUM_whow_skittles-63
+1 error: GUM_whow_skittles-63
+A('underage'):: not found in lexicon.
+---
+780: GUM_whow_skittles-64
+1 difference
+# text = Things You[1;32;4m'll[0m Need
+# TEXT = things you[1;32;4m will[0m need
+---
+781:in GUM_whow_skittles-65
+4 errors: GUM_whow_skittles-65
+N('liter'):: not found in lexicon.
+C('on'):: not found in lexicon.
+N('flavor'):: not found in lexicon.
+A('flavorful'):: not found in lexicon.
+---
+782:in GUM_whow_skittles-66
+1 error: GUM_whow_skittles-66
+N('cheesecloth'):: not found in lexicon.
+---
+783: GUM_whow_skittles-67
+5 differences
+# text = Large funnel [1;32;4mor[0m [1;32;4mstrainer[0m [1;32;4mto[0m [1;32;4mhold[0m [1;32;4mfilter[0m
+# TEXT = large funnel [1;32;4mto[0m [1;32;4mhold[0m [1;32;4mfilter[0m [1;32;4mor[0m [1;32;4mstrainer[0m
+---
+784 UD dependencies processed
+0 modified

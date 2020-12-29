@@ -5,7 +5,6 @@
 "use strict";
 
 // global variables 
-var exceptionOnWarning=false;  // throw an exception on Warning instead of only writing on the console
 var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
@@ -427,8 +426,12 @@ Constituent.prototype.doElisionFr = function(cList){
         if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
-            var lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
-            if (typeof lexiconInfo == "undefined") return true; // elide when unknown
+            let lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
+            if (typeof lexiconInfo == "undefined"){ 
+                lexiconInfo=getLemma(lemma.toLowerCase()); // check with lower case
+                if (typeof lexiconInfo == "undefined")return true; // elide when unknown
+            } 
+            if (!(pos in lexiconInfo))pos=Object.keys(lexiconInfo)[0]; // try the first pos if current not found
             if (pos in lexiconInfo && lexiconInfo[pos].h==1) return false; // h aspiré found
             return true;
         }

@@ -29,6 +29,8 @@ exports.getLanguage=getLanguage;
 exports.getLexicon=getLexicon;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
+exports.resetSavedWarnings=resetSavedWarnings;
+exports.getSavedWarnings=getSavedWarnings;
 // JSON
 exports.fromJSON=fromJSON;
 exports.ppJSON=ppJSON;

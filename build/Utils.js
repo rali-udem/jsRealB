@@ -112,11 +112,6 @@ var oneOf = function(elems){
     return typeof e=='function'?e():e;
 }
 
-// set the flag so that a warning generates an exception
-function setExceptionOnWarning(val){
-    exceptionOnWarning=val;
-}
-
 // version and date informations
 var jsRealB_version="3.6";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

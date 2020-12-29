@@ -2449,7 +2449,7 @@ var lexiconEn = //========== lexicon-en.js
  "golden":{"A":{"tab":["a1"]}},
  "golf":{"N":{"tab":["n5"]}},
  "good":{"A":{"tab":["a15"]},
-         "N":{"tab":["n5"]}},
+         "N":{"tab":["n1"]}},
  "goodness":{"N":{"tab":["n5"]}},
  "gospel":{"N":{"tab":["n1"]}},
  "gossip":{"N":{"tab":["n1"]}},

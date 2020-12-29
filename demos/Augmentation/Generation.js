@@ -93,10 +93,8 @@ function maManiere(){
 }
 
 loadFr();
-// Attention: d3.json ne semble pas fonctionner avec des uri avec des fichiers locaux (file://....) 
-//     alors que jQuery $.getJSON y arrive...
+// Pour tester en local, lancer un serveur web local dans le répertoire jsRealB, p.e. python -m SimpleHTTPServer
 d3.json("../../data/lexicon-dmf.json").then(function(data){
-// d3.json("http://localhost/~lapalme/Augmentation/lexicon-dmf.json").then(function(data){
     updateLexicon(data);
     // console.log("dmf chargé: %d entrées",Object.keys(getLexicon()).length)
     addToLexicon({snack: { N: { g: 'm', tab: [ 'n3' ] } }});

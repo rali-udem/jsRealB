@@ -547,7 +547,7 @@ Phrase.prototype.processVP = function(types,key,action){
             }
         }
         const idxV=vp.getIndex("V");
-        if (idxV!==undefined){
+        if (idxV>=0){
             const v=vp.elements[idxV];
             action(vp,idxV,v,val);
         }

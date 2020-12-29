@@ -33,7 +33,7 @@
     </span>
     <span id="langSelect">[<span lang="en">FR</span><span lang="fr">EN</span>]</span>
 <!-- start of page  -->
-    <h1><span class="jsr">jsRealB (Version 3.6)</span> - Documentation</h1>
+    <h1><span class="jsr">jsRealB (Version <span id="version-no">3.6</span>)</span> - Documentation</h1>
     <p lang="fr"><span class="jsr">jsRealB</span> est un réalisateur de texte pour l'anglais et le français écrit en Javascript. Il peut être utilisé soit à l'intérieur d'une page web comme celle-ci dont tous les exemples sont réalisés dynamiquement, ou comme module <code>Node.js</code>.</p>
     <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in Javascript. It can be used either within a web page such as this one whose examples are dynamically realized or as a <code>Node.js</code> module.</p>
 
@@ -326,11 +326,24 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
 
 
-<h2 lang="fr" id="traitementsJSON">Traitements en JSON</h2><h2 lang="en" id="JSONprocessing">JSON processing</h2>
+<h2 lang="fr" id="traitementsJSON">Traitement en JSON</h2><h2 lang="en" id="JSONprocessing">JSON processing</h2>
 <p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealB-jsonInput.html">décrit dans ce document (en anglais)</a>. Il est également possible d"obtenir une expression JSON correspondant à une expression <code>jsRealB</code>.
 </p>
 <p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealB-jsonInput.html">It is described in this document.</a>. It is also possible to obtain the JSON expression corresponding to a given <code>jsRealB</code> expression.
 </p>
+
+<h2 lang="fr" id="Gestion des avertissements">Gestion des avertissements</h2><h2 lang="en" id="Warning management">Warning Management</h2>
+<p lang="fr">Lorsque <code>jsRealB</code> détecte une erreur de réalisation, un avertissement est écrit sur la console avec la fonction <code>console.warn()</code>. Le système réalise alors le lemme courant entouré de doubles crochets. Il est possible de modifier ce comportement afin de lever une exception au premier avertissement ou pour récupérer la liste des avertissements générés. Les fonctions suivantes permettent de gérer ces avertissements</p>
+<p lang="en">When <code>jsRealB</code> detects a realization error, a warning is written on the JavaScript console using  <code>console.warn()</code>. The lemma is then wrapped within double brackets. This behavior can be modified for raising an exception at the first warning or for keeping a list of warnings. The following functions handle the warnings:</p>
+<h3><code>setExceptionOnWarning(val)</code></h3>
+<p lang="fr"><code>val</code> est un booléen qui indique si oui ou non, une exception sera levée lors de l'émission d'un avertissement</p>
+<p lang="en"><code>val</code> is a boolean indicating if an exception is raised when a warning is emitted.</p>
+<h3><code>resetSavedWarnings()</code></h3>
+<p lang=fr>Réinitialiser la liste des avertissements.</p>
+<p lang=en>Reset the list of warnings.</p>
+<h3><code>getSavedWarnings()</code></h3>
+<p lang="fr">Récupérer la liste des avertissements, depuis le dernier appel à <code>resetSavedWarnings</code> sans modifier la liste. Une liste vide indique qu'aucun avertissement n'a été émis.</p>
+<p lang="en">Get the list of warnings since the last call to <code>resetSavedWarnings</code> without changing the list. An empty list indicates that no warnings were emitted.</p>
 <!-- *** Informations complémentaires *** -->
     <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>

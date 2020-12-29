@@ -1,0 +1,543 @@
+0: fr_partut-ud-2
+3 différences
+# text = [1;31m•[0mCreative Commons [1;34;47mn'[0mest pas un cabinet d'avocats et ne fournit pas [1;32;4mde[0m services de conseil juridique.
+# TEXT = [1;31mN'[0mCreative Commons est pas un cabinet d'avocats et ne fournit pas [1;32;4mdes[0m services de conseil juridique.
+---
+1: fr_partut-ud-7
+4 différences
+# text = L'oeuvre (telle que définie ci-dessous) est mise à disposition selon les termes du présent contrat appelé Contrat Public Creative Commons (dénommé ici [1;32;4m«CPCC»[0m [1;31m•[0mou [1;31m•[0m[1;32;4m«Contrat»[0m).
+# TEXT = L'oeuvre (telle que définie ci-dessous) est mise à disposition selon les termes du présent contrat appelé Contrat Public Creative Commons ( dénommé ici [1;32;4m«[0m [1;31mCPCC » [0mou [1;31m« contrat [0m[1;32;4m»[0m ).
+---
+2: fr_partut-ud-12
+# text = 1) Définitions.
+# TEXT = 1) définitions. 
+---
+3: fr_partut-ud-27
+# text = 4) Restrictions.
+# TEXT = 4) restrictions. 
+---
+4: fr_partut-ud-49
+# text = 7) Résiliation.
+# TEXT = 7) Résiliation. 
+---
+5: fr_partut-ud-72
+# text = Vous avez souhaité un débat à ce sujet dans les prochains jours, au cours de cette période de session.
+# TEXT = Vous avez souhaité un débat à ce sujet dans les prochains jours, au cours de cette période de session. 
+---
+6: fr_partut-ud-85
+# text = Le paragraphe 6 du rapport Cunha sur les programmes d'orientation pluriannuels, qui sera soumis au parlement ce jeudi, propose d'introduire des sanctions applicables aux pays qui ne respectent pas les objectifs annuels de réduction de leur flotte.
+# TEXT = Le paragraphe 6 du rapport Cunha sur les programmes d'orientation pluriannuels, qui sera soumis au parlement ce jeudi, propose d'introduire des sanctions applicables aux pays qui ne respectent pas les objectifs annuels de réduction de leur flotte. 
+---
+7: fr_partut-ud-118
+# text = Cher collègue nous allons vérifier tout cela.
+# TEXT = Cher collègue nous allons vérifier tout cela. 
+---
+8: fr_partut-ud-179
+# text = Je voudrais encore aborder un dernier point:
+# TEXT = Je voudrais encore aborder un dernier point:
+---
+9: fr_partut-ud-264
+1 différence
+# text = Tout en sachant que [1;32;4mce n[0m'est là qu'un petit pas vers une plus grande sécurité en matière de transport, je vous prie d'approuver ce rapport.
+# TEXT = Tout en sachant que [1;32;4mn'c[0m'est là qu'un petit pas vers une plus grande sécurité en matière de transport, je vous prie d'approuver ce rapport.
+---
+10:in fr_partut-ud-266
+2 erreurs: fr_partut-ud-266
+N('plénière'):: absent du lexique.
+P('comme'):: absent du lexique.
+---
+11:in fr_partut-ud-285
+2 erreurs: fr_partut-ud-285
+D('nos'):: absent du lexique.
+A('divers'):: absent du lexique.
+---
+12:in fr_partut-ud-291
+1 erreur: fr_partut-ud-291
+Adv('parce'):: absent du lexique.
+---
+13:in fr_partut-ud-294
+## non projective
+3 erreurs: fr_partut-ud-294
+V('réitèrer'):: absent du lexique.
+D('certain'):: absent du lexique.
+V('réitèrer'):: erreur de morphologie : conjugate_fr:tab :V(réitèrer) : {"pe":1,"n":"s","t":"p"}.
+---
+14:in fr_partut-ud-341
+2 erreurs: fr_partut-ud-341
+P('presque'):: absent du lexique.
+A('cinquieme'):: absent du lexique.
+---
+15: fr_partut-ud-374
+# text = Nous sommes maintenant très en retard.
+# TEXT = Nous sommes maintenant très en retard. 
+---
+16:in fr_partut-ud-382
+2 erreurs: fr_partut-ud-382
+V('incrustée'):: absent du lexique.
+V('incrustée'):: erreur de morphologie : conjugate_fr:tab :V(incrustée) : {"pe":3,"n":"s","t":"pp"}.
+---
+17:in fr_partut-ud-409
+5 erreurs: fr_partut-ud-409
+A('urbaine'):: absent du lexique.
+A('peripherique'):: absent du lexique.
+N('routes'):: absent du lexique.
+N('réseaux'):: absent du lexique.
+N('eau'):: erreur de morphologie : genre différent de celui du lexique :N(eau) : {"g":"m","lexique":"f"}.
+---
+18: fr_partut-ud-434
+1 différence
+# text = [1;32;4mcomment[0m pouvons-nous faire en sorte que la politique de l'union s'articule avec les politiques nationales subsidiaires d'aménagement du territoire.
+# TEXT = [1;32;4mComme[0m pouvons-nous faire en sorte que la politique de l'union s'articule avec les politiques nationales subsidiaires d'aménagement du territoire.
+---
+19:in fr_partut-ud-444
+1 erreur: fr_partut-ud-444
+N('intérieur'):: erreur de morphologie : genre différent de celui du lexique :N(intérieur) : {"g":"f","lexique":"m"}.
+---
+20:in fr_partut-ud-465
+1 erreur: fr_partut-ud-465
+N('téléphone'):: erreur de morphologie : genre différent de celui du lexique :N(téléphone) : {"g":"f","lexique":"m"}.
+---
+21:in fr_partut-ud-485
+1 erreur: fr_partut-ud-485
+N('anniversaire'):: erreur de morphologie : genre différent de celui du lexique :N(anniversaire) : {"g":"f","lexique":"m"}.
+---
+22: fr_partut-ud-506
+# text = Publicités Facebook.
+# TEXT = publicités Facebook. 
+---
+23:in fr_partut-ud-513
+1 erreur: fr_partut-ud-513
+D('vos'):: absent du lexique.
+---
+24:in fr_partut-ud-531
+1 erreur: fr_partut-ud-531
+N('visites'):: absent du lexique.
+---
+25:in fr_partut-ud-610
+1 erreur: fr_partut-ud-610
+N('écoconception'):: absent du lexique.
+---
+26:in fr_partut-ud-724
+1 erreur: fr_partut-ud-724
+N('ateliers'):: absent du lexique.
+---
+27: fr_partut-ud-739
+# text = Considérant que la reconnaissance de la dignité inhérente à tous les membres de la famille humaine et de leurs droits égaux et inaliénables constitue le fondement de la liberté, de la justice et de la paix dans le monde.
+# TEXT = considérant que la reconnaissance de la dignité inhérente à tous les membres de la famille humaine et de leurs droits égaux et inaliénables constitue le fondement de la liberté, de la justice et de la paix dans le monde. 
+---
+28: fr_partut-ud-771
+# text = 1. Tout individu a droit à une nationalité.
+# TEXT = 1. tout individu a droit à une nationalité. 
+---
+29: fr_partut-ud-828
+# text = C'est cette pyramide.
+# TEXT = C'est cette pyramide. 
+---
+30: fr_partut-ud-845
+# text = Et de quelle façon?
+# TEXT = et de quelle façon?
+---
+31:in fr_partut-ud-853
+1 erreur: fr_partut-ud-853
+Adv('sûr'):: absent du lexique.
+---
+32: fr_partut-ud-871
+2 différences
+# text = J'aime les défis, et sauver la Terre est probablement un [1;32;4mbon[0m [1;32;4mdéfi[0m.
+# TEXT = j'aime les défis, et sauver la Terre est probablement un [1;32;4mdéfis[0m [1;32;4mbon[0m.
+---
+33: fr_partut-ud-872
+# text = Nous savons tous que la Terre est en danger.
+# TEXT = Nous savons tous que la Terre est en danger. 
+---
+34:in fr_partut-ud-873
+2 erreurs: fr_partut-ud-873
+V('entrés'):: absent du lexique.
+V('entrés'):: erreur de morphologie : conjugate_fr:tab :V(entrés) : {"pe":1,"n":"p","t":"pp"}.
+---
+35: fr_partut-ud-874
+# text = la sixième grande extinction de la planète.
+# TEXT = la sixième grande extinction de la planète. 
+---
+36: fr_partut-ud-875
+# text = Je pense que ce vote se déroule en ce moment même.
+# TEXT = Je pense que ce vote se déroule en ce moment même. 
+---
+37:in fr_partut-ud-876
+1 erreur: fr_partut-ud-876
+A('mycologique'):: absent du lexique.
+---
+38:in fr_partut-ud-877
+3 erreurs: fr_partut-ud-877
+A('mycelium'):: absent du lexique.
+N('paysages'):: absent du lexique.
+N('sols'):: absent du lexique.
+---
+39: fr_partut-ud-878
+# text = Celui-ci retient jusqu'à 30000 fois sa masse.
+# TEXT = Celui-ci retient jusqu'à 30000 fois sa masse. 
+---
+40:in fr_partut-ud-879
+3 erreurs: fr_partut-ud-879
+N('désassembleurs'):: absent du lexique.
+N('magiciens'):: absent du lexique.
+N('sol'):: erreur de morphologie : genre différent de celui du lexique :N(sol) : {"g":"f","lexique":"m"}.
+---
+41:in fr_partut-ud-880
+4 erreurs: fr_partut-ud-880
+V('génèrent'):: absent du lexique.
+N('continents'):: absent du lexique.
+V('génèrent'):: erreur de morphologie : conjugate_fr:tab :V(génèrent) : {"pe":3,"n":"p","t":"ps"}.
+N('humus'):: erreur de morphologie : genre différent de celui du lexique :N(humus) : {"g":"f","lexique":"m"}.
+---
+42:in fr_partut-ud-881
+3 erreurs: fr_partut-ud-881
+V('plaisons'):: absent du lexique.
+V('plaisons'):: erreur de morphologie : conjugate_fr:tab :V(plaisons) : {"pe":1,"n":"p","t":"p"}.
+N('dimanche'):: erreur de morphologie : genre différent de celui du lexique :N(dimanche) : {"g":"f","lexique":"m"}.
+---
+43:in fr_partut-ud-882
+2 erreurs: fr_partut-ud-882
+N('forêts'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+---
+44:in fr_partut-ud-883
+1 erreur: fr_partut-ud-883
+N('plupart'):: absent du lexique.
+---
+45:in fr_partut-ud-884
+1 erreur: fr_partut-ud-884
+A('face'):: absent du lexique.
+---
+46:in fr_partut-ud-885
+1 erreur: fr_partut-ud-885
+N('préjuggé'):: absent du lexique.
+---
+47:in fr_partut-ud-886
+2 erreurs: fr_partut-ud-886
+N('mycophobie'):: absent du lexique.
+A('irrationnelle'):: absent du lexique.
+---
+48: fr_partut-ud-887
+# text = Les champignons ont une croissance très rapide.
+# TEXT = Les champignons ont une croissance très rapide. 
+---
+49:in fr_partut-ud-888
+2 erreurs: fr_partut-ud-888
+N('puissants'):: absent du lexique.
+N('antibiotiques'):: absent du lexique.
+---
+50:in fr_partut-ud-889
+3 erreurs: fr_partut-ud-889
+V('proches'):: absent du lexique.
+P('que'):: absent du lexique.
+V('proches'):: erreur de morphologie : conjugate_fr:tab :V(proches) : {"pe":2,"n":"s","t":"p"}.
+---
+51:in fr_partut-ud-890
+1 erreur: fr_partut-ud-890
+N('agents'):: absent du lexique.
+---
+52:in fr_partut-ud-891
+3 erreurs: fr_partut-ud-891
+A('pourrir'):: absent du lexique.
+D('nos'):: absent du lexique.
+N('antibiotiques'):: absent du lexique.
+---
+53:in fr_partut-ud-892
+1 erreur: fr_partut-ud-892
+A('champignon'):: absent du lexique.
+---
+54:in fr_partut-ud-893
+3 erreurs: fr_partut-ud-893
+V('sporulé'):: absent du lexique.
+N('pourrissent'):: absent du lexique.
+V('sporulé'):: erreur de morphologie : conjugate_fr:tab :V(sporulé) : {"pe":3,"n":"s","t":"pp"}.
+---
+55:in fr_partut-ud-894
+4 erreurs: fr_partut-ud-894
+V('postule'):: absent du lexique.
+N('microbes'):: absent du lexique.
+A('pourrir'):: absent du lexique.
+V('postule'):: erreur de morphologie : conjugate_fr:tab :V(postule) : {"pe":1,"n":"p","t":"p"}.
+---
+56:in fr_partut-ud-895
+4 erreurs: fr_partut-ud-895
+N('arbres'):: absent du lexique.
+A('débris'):: absent du lexique.
+V('nourrissent'):: absent du lexique.
+V('nourrissent'):: erreur de morphologie : conjugate_fr:tab :V(nourrissent) : {"pe":3,"n":"p","t":"p"}.
+---
+57: fr_partut-ud-896
+# text = Et donc, nous voyons ici un champignon en train de sporuler.
+# TEXT = Et donc, nous voyons ici un champignon en train de sporuler. 
+---
+58:in fr_partut-ud-897
+2 erreurs: fr_partut-ud-897
+N('spores'):: absent du lexique.
+N('germinent'):: absent du lexique.
+---
+59:in fr_partut-ud-898
+4 erreurs: fr_partut-ud-898
+A('cube'):: absent du lexique.
+A('sol'):: absent du lexique.
+N('miles'):: absent du lexique.
+N('cellules'):: absent du lexique.
+---
+60:in fr_partut-ud-899
+2 erreurs: fr_partut-ud-899
+A('pied'):: absent du lexique.
+N('miles'):: absent du lexique.
+---
+61: fr_partut-ud-900
+# text = Voici des microphotographies de Nick Read et Patrick Hickey.
+# TEXT = voici des microphotographies de Nick Read et Patrick Hickey. 
+---
+62:in fr_partut-ud-901
+3 erreurs: fr_partut-ud-901
+V('développe'):: absent du lexique.
+A('réseau'):: absent du lexique.
+V('développe'):: erreur de morphologie : conjugate_fr:tab :V(développe) : {"pe":3,"n":"s","t":"p"}.
+---
+63:in fr_partut-ud-902
+2 erreurs: fr_partut-ud-902
+V('expirons'):: absent du lexique.
+V('expirons'):: erreur de morphologie : conjugate_fr:tab :V(expirons) : {"pe":1,"n":"p","t":"p"}.
+---
+64:in fr_partut-ud-903
+4 erreurs: fr_partut-ud-903
+V('inhale'):: absent du lexique.
+P('comme'):: absent du lexique.
+V('inhale'):: erreur de morphologie : conjugate_fr:tab :V(inhale) : {"pe":3,"n":"s","t":"p"}.
+N('oxygène'):: erreur de morphologie : genre différent de celui du lexique :N(oxygène) : {"g":"f","lexique":"m"}.
+---
+65:in fr_partut-ud-904
+4 erreurs: fr_partut-ud-904
+N('estomacs'):: absent du lexique.
+N('poumons'):: absent du lexique.
+V('externaliser'):: absent du lexique.
+V('externaliser'):: erreur de morphologie : conjugate_fr:tab :V(externaliser) : {"pe":3,"n":"p","t":"pp"}.
+---
+66:in fr_partut-ud-905
+1 erreur: fr_partut-ud-905
+N('membranes'):: absent du lexique.
+---
+67:in fr_partut-ud-906
+7 erreurs: fr_partut-ud-906
+N('cavités'):: absent du lexique.
+N('microcavités'):: absent du lexique.
+P('que'):: absent du lexique.
+V('fusionnent'):: absent du lexique.
+N('sols'):: absent du lexique.
+V('fusionnent'):: erreur de morphologie : conjugate_fr:tab :V(fusionnent) : {"pe":3,"n":"p","t":"p"}.
+N('eau'):: erreur de morphologie : genre différent de celui du lexique :N(eau) : {"g":"m","lexique":"f"}.
+---
+68:in fr_partut-ud-907
+1 erreur: fr_partut-ud-907
+N('puit'):: absent du lexique.
+---
+69:in fr_partut-ud-908
+1 erreur: fr_partut-ud-908
+N('intérieur'):: erreur de morphologie : genre différent de celui du lexique :N(intérieur) : {"g":"f","lexique":"m"}.
+---
+70:in fr_partut-ud-909
+1 erreur: fr_partut-ud-909
+N('internet'):: absent du lexique.
+---
+71: fr_partut-ud-910
+# text = Quand vous regardez le mycélium, il est très ramifié.
+# TEXT = Quand vous regardez le mycélium, il est très ramifié. 
+---
+72:in fr_partut-ud-911
+1 erreur: fr_partut-ud-911
+N('sensations'):: absent du lexique.
+---
+73: fr_partut-ud-912
+# text = Il sait que vous êtes là.
+# TEXT = Il sait que vous êtes là. 
+---
+74:in fr_partut-ud-913
+7 erreurs: fr_partut-ud-913
+V('promenez'):: absent du lexique.
+N('paysages'):: absent du lexique.
+A('bondit'):: absent du lexique.
+N('traces'):: absent du lexique.
+D('vos'):: absent du lexique.
+V('promenez'):: erreur de morphologie : conjugate_fr:tab :V(promenez) : {"pe":2,"n":"p","t":"p"}.
+N('débris'):: erreur de morphologie : genre différent de celui du lexique :N(débris) : {"g":"f","lexique":"m"}.
+---
+75:in fr_partut-ud-914
+4 erreurs: fr_partut-ud-914
+N('internet'):: absent du lexique.
+A('ordinateurs'):: absent du lexique.
+Adv('biologiquement'):: absent du lexique.
+N('modèle'):: erreur de morphologie : genre différent de celui du lexique :N(modèle) : {"g":"f","lexique":"m"}.
+---
+76:in fr_partut-ud-915
+5 erreurs: fr_partut-ud-915
+V('pousse'):: absent du lexique.
+A('mycéliaire'):: absent du lexique.
+V('pousse'):: erreur de morphologie : conjugate_fr:tab :V(pousse) : {"pe":3,"n":"s","t":"p"}.
+N('extrême'):: erreur de morphologie : genre différent de celui du lexique :N(extrême) : {"g":"f","lexique":"m"}.
+N('archétype'):: erreur de morphologie : genre différent de celui du lexique :N(archétype) : {"g":"f","lexique":"m"}.
+---
+77:in fr_partut-ud-916
+2 erreurs: fr_partut-ud-916
+N('paradigme'):: erreur de morphologie : genre différent de celui du lexique :N(paradigme) : {"g":"f","lexique":"m"}.
+N('univers'):: erreur de morphologie : genre différent de celui du lexique :N(univers) : {"g":"f","lexique":"m"}.
+---
+78:in fr_partut-ud-917
+1 erreur: fr_partut-ud-917
+N('plupart'):: absent du lexique.
+---
+79:in fr_partut-ud-918
+5 erreurs: fr_partut-ud-918
+N('milliards'):: absent du lexique.
+N('plantes'):: absent du lexique.
+D('plusieurs'):: absent du lexique.
+N('centaines'):: absent du lexique.
+N('millions'):: absent du lexique.
+---
+80: fr_partut-ud-919
+2 différences
+# text = Comment[1;34;47m est[0m-ce [1;31m•[0mpossible?
+# TEXT = Comment-ce [1;31mest [0mpossible?
+---
+81:in fr_partut-ud-920
+2 erreurs: fr_partut-ud-920
+N('rochers'):: absent du lexique.
+A('sol'):: absent du lexique.
+---
+82:in fr_partut-ud-921
+1 erreur: fr_partut-ud-921
+N('acide'):: erreur de morphologie : genre différent de celui du lexique :N(acide) : {"g":"f","lexique":"m"}.
+---
+83:in fr_partut-ud-922
+3 erreurs: fr_partut-ud-922
+A('mycelium'):: absent du lexique.
+N('dioxyde'):: erreur de morphologie : genre différent de celui du lexique :N(dioxyde) : {"g":"f","lexique":"m"}.
+N('carbone'):: erreur de morphologie : genre différent de celui du lexique :N(carbone) : {"g":"f","lexique":"m"}.
+---
+84:in fr_partut-ud-923
+3 erreurs: fr_partut-ud-923
+A('rocheuse'):: absent du lexique.
+N('dioxyde'):: erreur de morphologie : genre différent de celui du lexique :N(dioxyde) : {"g":"f","lexique":"m"}.
+N('carbone'):: erreur de morphologie : genre différent de celui du lexique :N(carbone) : {"g":"f","lexique":"m"}.
+---
+85:in fr_partut-ud-924
+2 erreurs: fr_partut-ud-924
+V('découvert'):: absent du lexique.
+V('découvert'):: erreur de morphologie : conjugate_fr:tab :V(découvert) : {"pe":3,"n":"s","t":"pp"}.
+---
+86: fr_partut-ud-925
+# text = Voici une photographie de Franz Hueber.
+# TEXT = voici une photographie de Franz Hueber. 
+---
+87: fr_partut-ud-926
+2 différences
+# text = Cette photographie [1;32;4ma[0m [1;34;47mété [0mprise en 1950 en Arabie Saoudite.
+# TEXT = Cette photographie [1;32;4mest[0m prise en 1950 en Arabie Saoudite.
+---
+88:in fr_partut-ud-927
+1 erreur: fr_partut-ud-927
+N('millions'):: absent du lexique.
+---
+89: fr_partut-ud-928
+# text = On l'a appelé Prototaxites.
+# TEXT = On l'a appelé Prototaxites. 
+---
+90:in fr_partut-ud-929
+3 erreurs: fr_partut-ud-929
+N('mesurait'):: absent du lexique.
+N('cm'):: absent du lexique.
+A('hauteur'):: absent du lexique.
+---
+91:in fr_partut-ud-930
+3 erreurs: fr_partut-ud-930
+N('plantes'):: absent du lexique.
+N('mesuraient'):: absent du lexique.
+N('cm'):: absent du lexique.
+---
+92:in fr_partut-ud-931
+2 erreurs: fr_partut-ud-931
+V('disséminés'):: absent du lexique.
+V('disséminés'):: erreur de morphologie : conjugate_fr:tab :V(disséminés) : {"pe":3,"n":"p","t":"pp"}.
+---
+93:in fr_partut-ud-932
+2 erreurs: fr_partut-ud-932
+N('plupart'):: absent du lexique.
+N('terres'):: absent du lexique.
+---
+94:in fr_partut-ud-933
+2 erreurs: fr_partut-ud-933
+N('dizaines'):: absent du lexique.
+N('millions'):: absent du lexique.
+---
+95:in fr_partut-ud-934
+5 erreurs: fr_partut-ud-934
+V('frappée'):: absent du lexique.
+A('débris'):: absent du lexique.
+V('larguée'):: absent du lexique.
+V('frappée'):: erreur de morphologie : conjugate_fr:tab :V(frappée) : {"pe":3,"n":"s","t":"pp"}.
+V('larguée'):: erreur de morphologie : conjugate_fr:tab :V(larguée) : {"pe":3,"n":"s","t":"pp"}.
+---
+96:in fr_partut-ud-935
+3 erreurs: fr_partut-ud-935
+V('hérité'):: absent du lexique.
+N('soleil'):: erreur de morphologie : genre différent de celui du lexique :N(soleil) : {"g":"f","lexique":"m"}.
+V('hérité'):: erreur de morphologie : conjugate_fr:tab :V(hérité) : {"pe":3,"n":"s","t":"pp"}.
+---
+97:in fr_partut-ud-936
+3 erreurs: fr_partut-ud-936
+V('récompensés'):: absent du lexique.
+Adv('parce'):: absent du lexique.
+V('récompensés'):: erreur de morphologie : conjugate_fr:tab :V(récompensés) : {"pe":3,"n":"p","t":"pp"}.
+---
+98:in fr_partut-ud-937
+2 erreurs: fr_partut-ud-937
+D('autre'):: absent du lexique.
+N('planètes'):: absent du lexique.
+---
+99: fr_partut-ud-938
+1 différence
+# text = Au moins dans [1;32;4mmon[0m esprit.
+# TEXT = au moins dans [1;32;4mson[0m esprit.
+---
+100: fr_partut-ud-939
+# text = Le plus grand organisme au monde est dans l'est de l'Oregon.
+# TEXT = Le plus grand organisme au monde est dans l'est de l'Oregon. 
+---
+101:in fr_partut-ud-940
+2 erreurs: fr_partut-ud-940
+N('acres'):: absent du lexique.
+N('age'):: erreur de morphologie : genre différent de celui du lexique :N(age) : {"g":"f","lexique":"m"}.
+---
+102:in fr_partut-ud-941
+3 erreurs: fr_partut-ud-941
+A('myceliaire'):: absent du lexique.
+A('épaisseur'):: absent du lexique.
+A('planète'):: absent du lexique.
+---
+103:in fr_partut-ud-942
+4 erreurs: fr_partut-ud-942
+V('traverse'):: absent du lexique.
+A('sol'):: absent du lexique.
+V('traverse'):: erreur de morphologie : conjugate_fr:tab :V(traverse) : {"pe":3,"n":"s","t":"p"}.
+N('asphalte'):: erreur de morphologie : genre différent de celui du lexique :N(asphalte) : {"g":"f","lexique":"m"}.
+---
+104:in fr_partut-ud-943
+2 erreurs: fr_partut-ud-943
+D('plusieurs'):: absent du lexique.
+N('expériences'):: absent du lexique.
+---
+105: fr_partut-ud-944
+## non projective
+2 différences
+# text = Je vais vous montrer [1;34;47msix, [0msi je le peux, [1;31m•[0msolutions pour aider à sauver le monde.
+# TEXT = Je vais vous montrer si je le peux, [1;31msix, [0msolutions pour aider à sauver le monde.
+---
+106: fr_partut-ud-945
+# text = Les laboratoires Battelle et moi-même avons travaillé ensemble à Bellingham, dans l'état de Washington.
+# TEXT = Les laboratoires Battelle et moi-même avons travaillé ensemble à Bellingham, dans l'état de Washington. 
+---
+107 UD dépendences traitées
+0 modifiées
