@@ -6,6 +6,8 @@ RALI-DIRO, Université de Montréal
 April 2020
 ```
 
+*You might be interested by an [extended version of this document](https://arxiv.org/pdf/2012.15425.pdf)*
+
 This document describes the design principles behind [jsRealB](http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser), a system written in *Javascript* that can produce English or French sentences from a specification inspired by the *constituent syntax* formalism. It can be used either within a web page or as a `node.js` module.
 
 The text realizer is at the very end of a text generation pipeline. Important decisions about *What to say* have already been made. Sentence structure and most content word choices must also have been decided. 

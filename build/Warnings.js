@@ -210,6 +210,13 @@ Constituent.prototype.warnings = {
          fr:(termType,number)=> // $termType accepte un seul paramètre, mais en a $number.
              S(Q(termType),VP(V("accepter"),NP(D("un"),A("seul").pos("pre"),N("paramètre"))).a(","),
                SP(C("mais"),Pro("je"),VP(VP(Pro("en"),V("avoir"),NO(number)))))},
+    "bad lexicon table":
+        {en:(lemma,ending)=> // error in lexicon table number: $lemma should end with $ending
+            S(NP(N("error"),P("in"),N("lexicon"),N("table"),N("number")).a(":"),
+              SP(Q(lemma),VP(V("end"),PP(P("with"),Q(ending)))).typ({neg:true})),
+         fr:(lemma,ending)=> // erreur de numéro de table dans le lexique: $lemma devrait terminer par $ending
+            S(NP(N("erreur"),P("de"),N("numéro"),P("de"),N("table"),P("dans"),NP(D("le"),N("lexique"))).a(":"),
+              SP(Q(lemma),VP(V("terminer"),PP(P("par"),Q(ending)))).typ({neg:true}))},
 }
 
 // show all warnings with dummy parameters in the console : useful for debugging

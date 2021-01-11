@@ -121,6 +121,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                             this.stem=lemma.substring(0,lemma.length-ending.length);
                         } else {
                             this.tab=null
+                            if (!this.isOneOf(["Adv","C","P"]))
+                                this.warn("bad lexicon table",lemma,ending);
                         }
                     } else { // copy other key as property
                         let info=lexInfo[key]

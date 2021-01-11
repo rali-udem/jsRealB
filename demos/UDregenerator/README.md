@@ -40,6 +40,7 @@
 * `UDregenerator-node.js` : `node.js` module
 * `UDregenerator.css` : style file for the web page
 * `UDregenerator.js` : main file which starts the program or the web page
+* `UDregenerator.pdf` : paper describing the system with results from experiments
 * `utils.js` : utility functions
 
 ### data

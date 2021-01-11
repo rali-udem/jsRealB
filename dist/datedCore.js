@@ -1786,6 +1786,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                             this.stem=lemma.substring(0,lemma.length-ending.length);
                         } else {
                             this.tab=null
+                            if (!this.isOneOf(["Adv","C","P"]))
+                                this.warn("bad lexicon table",lemma,ending);
                         }
                     } else { // copy other key as property
                         let info=lexInfo[key]
@@ -23904,6 +23906,13 @@ Constituent.prototype.warnings = {
          fr:(termType,number)=> // $termType accepte un seul paramètre, mais en a $number.
              S(Q(termType),VP(V("accepter"),NP(D("un"),A("seul").pos("pre"),N("paramètre"))).a(","),
                SP(C("mais"),Pro("je"),VP(VP(Pro("en"),V("avoir"),NO(number)))))},
+    "bad lexicon table":
+        {en:(lemma,ending)=> // error in lexicon table number: $lemma should end with $ending
+            S(NP(N("error"),P("in"),N("lexicon"),N("table"),N("number")).a(":"),
+              SP(Q(lemma),VP(V("end"),PP(P("with"),Q(ending)))).typ({neg:true})),
+         fr:(lemma,ending)=> // erreur de numéro de table dans le lexique: $lemma devrait terminer par $ending
+            S(NP(N("erreur"),P("de"),N("numéro"),P("de"),N("table"),P("dans"),NP(D("le"),N("lexique"))).a(":"),
+              SP(Q(lemma),VP(V("terminer"),PP(P("par"),Q(ending)))).typ({neg:true}))},
 }
 
 // show all warnings with dummy parameters in the console : useful for debugging
@@ -23916,4 +23925,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-12-28 11:05"
+jsRealB_dateCreated="2021-01-09 14:10"
