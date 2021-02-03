@@ -1,5 +1,5 @@
 // example of use of the npm jsrealb 
-//   after have executed
+//   after having executed
 //   npm install jsrealb 
 var jsRealB=require("jsrealb")
 // import exports in current scope

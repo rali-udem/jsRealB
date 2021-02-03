@@ -203,7 +203,7 @@ Constituent.prototype.warnings = {
          fr:(rank,type)=> // le $rank paramètre n'est pas Constituent.
             S(NP(D("le"),Q(rank),N("paramètre")),
               VP(V("être"),Q("Constituent"),Adv("mais"),Q(type))).typ({neg:true})},
-    "too many parameters":
+    "bad number of parameters":
         {en:(termType,number)=> // $termType accepts one parameter, but has $number.
              S(Q(termType),VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
                SP(C("but"),Pro("I"),VP(VP(V("have"),NO(number))))),

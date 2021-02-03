@@ -117,15 +117,15 @@ Constituent.prototype.getTonicPro = function(case_){
         }
         return this;
     } else { // generate the string corresponding to the tonic form
-        let pro=Pro(this.isFr()?"moi":"me");
+        let pro=Pro(this.isFr()?"moi":"me",this.lang);
         const g = this.getProp("g");
         if (g!==undefined)pro.g(g);
         const n = this.getProp("n");
         if (n!==undefined)pro.n(n);
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
-        if (case_===undefined) return Pro(pro.toString()).tn("");
-        return Pro(pro.toString()).c(case_) 
+        if (case_===undefined) return Pro(pro.toString(),this.lang).tn("");
+        return Pro(pro.toString(),this.lang).c(case_) 
     }
 }
 
@@ -215,7 +215,8 @@ genOptionListFunc("en"); // "entourer": old name for before-after
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined || Object.keys(attrs).length==0){
+    // HACK: attrs == instead of === to check also for null 
+    if (attrs == undefined || Object.keys(attrs).length==0){
         this.addOptSource("tag",name)
         attrs={};
     } else {

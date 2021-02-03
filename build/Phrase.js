@@ -337,10 +337,10 @@ Phrase.prototype.pronominalize_fr = function(){
                     pro=np.getTonicPro("dat");
                     moveBeforeVerb=true;
                 } else if (prep.lemma == "de") {
-                    pro=Pro("en")
+                    pro=Pro("en","fr")
                     moveBeforeVerb=true;
                 } else if (contains(["sur","vers","dans"],prep.lemma)){
-                    pro=Pro("y")
+                    pro=Pro("y","fr")
                     moveBeforeVerb=true;
                 } else { // change only the NP within the PP
                     let pro=np.getTonicPro();
@@ -481,7 +481,7 @@ Phrase.prototype.passivate = function(){
                 this.linkPengWithSubject("VP","V",newSubject);
             } 
             if (subject!=null){   // insert subject where the object was
-                vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by"),subject)); 
+                vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by",this.lang),subject)); 
                 subject.parentConst=vp; // adjust parentConst
             }
         } else if (subject !=null){ // no object, but with a subject that we keep as is
@@ -492,7 +492,7 @@ Phrase.prototype.passivate = function(){
             } else { 
                 //create a dummy subject with a "il" unless it is at the imperative tense
                 if (vp.getProp("t")!=="ip"){
-                    subject=(this.isFr()?Pro("lui"):Pro("it")).c("nom");
+                    subject=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
                 }
             }
             this.elements.unshift(subject);
@@ -503,7 +503,7 @@ Phrase.prototype.passivate = function(){
             // change verbe into an "être" auxiliary and make it agree with the newSubject
             const verbeIdx=vp.getIndex("V")
             const verbe=vp.elements.splice(verbeIdx,1)[0];
-            const aux=V("être");
+            const aux=V("être","fr");
             aux.parentConst=vp;
             aux.taux=verbe.taux;
             if (newSubject!==undefined) // this can happen when a subject is Q
@@ -590,7 +590,7 @@ Phrase.prototype.processTyp_fr = function(types){
         v.neg2=neg; // HACK: to be used when conjugating at the realization time
         while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
         // insert "ne" before the verb or before possible pronouns preceding the verb
-        vp.elements.splice(idxV,0,Adv("ne"));
+        vp.elements.splice(idxV,0,Adv("ne","fr"));
     })
 }
 
@@ -679,15 +679,15 @@ Phrase.prototype.processTyp_en = function(types){
                 if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(vAux).t(t))
-                    words.push(Adv("not"))
+                    words.push(V(vAux,"en").t(t))
+                    words.push(Adv("not","en"))
                 }
             } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
                 words.push(V(vAux).t(t));
-                words.push(Adv("not"));
+                words.push(Adv("not","en"));
             } else {
-                words.push(V("do").t(t));
-                words.push(Adv("not"));
+                words.push(V("do","en").t(t));
+                words.push(Adv("not","en"));
                 if (vAux != "do") words.push(V(vAux).t("b")); 
             }
         } else { // must only set necessary options, so that shared properties will work ok
@@ -755,10 +755,10 @@ Phrase.prototype.invertSubject = function(){
         if (subj.isA("Pro"))
             pro = this.elements.splice(subjIdx,1)[0]; // remove subject pronoun 
         else if (subj.isA("CP")){
-            pro=Pro("moi").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
+            pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
             subj.pronoun=pro;  // add a flag to be processed by cpReal
         } else 
-            pro=Pro("moi").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
+            pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
         let idxCtx = this.getIdxCtx("VP","V");
         if (idxCtx!==undefined) {
             let vp=this.getConst("VP");

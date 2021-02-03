@@ -68,7 +68,7 @@ Phrase.fromJSON = function(constType,json,lang){
         const elements=json["elements"];
         if (Array.isArray(elements)){
             const args=elements.map(json => fromJSON(json,lang));
-            let phrase=new Phrase(args,constType);
+            let phrase=new Phrase(args,constType,lang);
             setJSONprops(phrase,json);
             return phrase;
         } else {

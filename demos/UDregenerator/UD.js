@@ -47,7 +47,7 @@ function UD(fileName,multiLine,startLine){
                 line=line.trim();
                 fields=line.split("\t");
                 if(fields.length<10){
-                    window.alert("CoNLL-U too short:"+(i+startline)+":\n"+line);
+                    window.alert("CoNLL-U too short:"+(i+startLine)+":\n"+line);
                     return;
                 }
                 fields.unshift("dummy"); // pour avoir les indices à partir de 1

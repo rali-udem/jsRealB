@@ -172,7 +172,7 @@
         <p><strong>Attention:</strong> Le comportement de l'objet <code>Date()</code> diffère selon le navigateur. Il est fortement conseillé de fixer le fuseau horaire sinon il sera déterminé par le navigateur (voir ci-dessous). </p>
     </div>
     <div lang="en">
-        <p><code>DT(...)</code> takes as parameter either a date as a <code>String</code> or a <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date"><code>Date</code> javascript object</a>.The input string must be a recognized format by <code>Date.parse()</code>: either <a href="https://tools.ietf.org/html/rfc2822#page-14">IETF-compliant RFC 2822</a> or <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15">ISO8601</a> format.</p>
+        <p><code>DT(...)</code> takes as parameter either a date as a <code>String</code> or a <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date"><code>Date</code> JavaScript object</a>.The input string must be a recognized format by <code>Date.parse()</code>: either <a href="https://tools.ietf.org/html/rfc2822#page-14">IETF-compliant RFC 2822</a> or <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15">ISO8601</a> format.</p>
         <p><strong>Warning:</strong> The behavior of <code>Date()</code> depends on the browser. The timezone should be specified otherwise it might be given a different value according to the browser. </p>
     </div>
 
@@ -242,8 +242,8 @@
 
 <!-- *** Module  *** -->
     <h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
-    <p lang="fr">Les versions de <span class="jsr">jsRealB</span> décrites à la section précédente peuvent aussi être utilisées avec <code>node.js</code> en utilisant une instruction de la forme <code>jsRealB=require("...")</code></p>
-    <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>node.js</code> with an instruction like <code>jsRealB=require("...")</code></p>
+    <p lang="fr">Les versions de <span class="jsr">jsRealB</span> décrites à la section précédente peuvent aussi être utilisées avec <code>node.js</code> en utilisant une instruction de la forme <code>jsRealB=require("...")</code>. La chaîne dans l'appel à <code>require</code> est le chemin vers le fichier <code>jsRealB.js</code> ou <code>jsRealB.min.js</code>. On peut aussi accéder au module <em>npm</em> <code>jsrealb</code> (attention à la casse différente), avec <code>require("jsrealb")</code> si, au préalable, on l'a installé avec <code>npm install jsrealb</code></p>
+    <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>node.js</code> with an instruction like <code>jsRealB=require("...")</code>. The string in the call to <code>require</code> is the path to <code>jsRealB.js</code> or <code>jsRealB.min.js</code>. It is also possible to use the <em>npm</em> <code>jsrealb</code> (check capitalization), with <code>require("jsrealb")</code> if, beforehand, it has been installed on your machine with <code>npm install jsrealb</code></p>
     <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
     <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realization.</p>
     <p lang="fr"><strong>Trucs pratiques</strong>:</p> 
@@ -255,8 +255,8 @@
     for (var v in jsRealB)
         eval(v+"=jsRealB."+v);
 </pre>
-    <li lang="fr">Un script javascript peut vérifier s'il est utilisé comme module <code>node.js</code> avec le test suivant:</li>
-    <li lang="en">A javascript script can check if it used as <code>node.js</code> module with the following:</li>
+    <li lang="fr">Un script JavaScript peut vérifier s'il est utilisé comme module <code>node.js</code> avec le test suivant:</li>
+    <li lang="en">A JavaScript script can check if it used as <code>node.js</code> module with the following:</li>
     <pre>
     if (typeof module !== 'undefined' && module.exports) {
         ...
@@ -344,6 +344,15 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 <h3><code>getSavedWarnings()</code></h3>
 <p lang="fr">Récupérer la liste des avertissements, depuis le dernier appel à <code>resetSavedWarnings</code> sans modifier la liste. Une liste vide indique qu'aucun avertissement n'a été émis.</p>
 <p lang="en">Get the list of warnings since the last call to <code>resetSavedWarnings</code> without changing the list. An empty list indicates that no warnings were emitted.</p>
+
+<h2 lang="fr" id="implantation">Informations sur l'implantation</h2><h2 lang="en" id="implementation">Informations about the implementation</h2>
+<h3><code>jsRealB_version</code></h3>
+<p lang=fr>Indique le numéro de version de <code>jsRealB</code>.</p>
+<p lang=en>Gives the version number of <code>jsRealB</code>.</p>
+
+<h3><code>jsRealB_dateCreated</code></h3>
+<p lang="fr">Indique la date de la création de la version courante de <code>jsRealB</code>.</p>
+<p lang="en">Gives the creation date of the current <code>jsRealB</code>.</p>
 <!-- *** Informations complémentaires *** -->
     <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>

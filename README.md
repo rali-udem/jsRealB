@@ -63,8 +63,8 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `datedCore.js`: intermediary file used during the makefile for saving the date the makefile was created. This file should probably be deleted after the makefile 
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.  
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory:  
-      `npm version {major|minor|patch}
-       npm publish`  
+      `npm version {major|minor|patch}`  
+      `npm publish`  
     Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` and `jsRealB.min.js` are published.
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
@@ -102,8 +102,8 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
       This table is now part of the documentation
 * User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [*RandomGeneration*](demos/randomGeneration/) 
-      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/English.html) 
-      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/French.html)
+      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
+      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
 * `jsRealB` is also available an an `npm` package:
     * `use-npm.js` is a simple example of its use (after it is *install*ed on the system)
 

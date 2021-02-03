@@ -62,14 +62,6 @@ http.createServer(function (request, response) {
                      if (exp.startsWith("{")){
                          errorType="JSON";
                          jsonExp=JSON.parse(exp);
-                         if (jsonExp["lang"]){ // check specified language in the JSON
-                             if (jsonExp["lang"]!=lang){
-                                 response.end("specified language should be "+lang+" not "+jsonExp["lang"]);
-                                 jsonExp["lang"]=lang;
-                             } else {
-                                 jsonExp["lang"]=lang;
-                             }
-                         }
                          sentence=fromJSON(jsonExp).toString();
                      } else {
                          errorType="jsRealB expression";

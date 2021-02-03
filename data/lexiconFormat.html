@@ -10,7 +10,7 @@
 <body>
     <h1>Format of a <span class="jsr">jsRealB</span> lexicon</h1>
     
-    <p>The json format of the lexicons of <span class="jsr">jsRealB</span> is derived from an internal format Lisp inspired format developed at RALI many years ago. These lexicons were originally created by a python script from the original version and then manually <em>patched</em>. </p>
+    <p>The JSON format of the lexicons of <span class="jsr">jsRealB</span> is derived from an internal format Lisp inspired format developed at RALI many years ago. These lexicons were originally created using a Python script from the original version and then manually <em>patched</em>. </p>
     <p>The declension or conjugation information is associated with tables that in principle should cover most English and French use cases. They a defined in the files <code>rule-en.js</code> and <code>rule-fr.js</code>.</p>
     <p>We now give the <a href="https://github.com/rali-udem/json-rnc" title="GitHub - rali-udem/json-rnc: JSON validation with a RELAX-NG compact syntax">json-rnc</a> format used to validate the entries.
 It is an object with whose keys are lemma for which the value is itself an object (of type <code>lexInfo</code>) whose key is a part of speech and the value is the declension or conjugation information. All keys in a <code>lexInfo</code> are optional but there must be at least one present.
@@ -19,26 +19,27 @@ It is an object with whose keys are lemma for which the value is itself an objec
 ## validation of jsRealB dictionary lexical information
 start = {*:lexInfo}
 
-lexInfo={
-    N?:  noun,
-    A?:  adjective,
-    Pro?:pronoun,
-    V?:  verb, 
-    D?:  determiner, 
-    Adv?:other, 
-    P?:  other,
-    C?:  other,
-    Pc?: punct
-}@(minProperties=1)
+lexInfo={N?:  noun,
+         A?:  adjective,
+         Pro?:pronoun,
+         V?:  verb, 
+         D?:  determiner, 
+         Adv?:other, 
+         P?:  other,
+         C?:  other,
+         Pc?: punct,
+         basic?:boolean
+    }@(minProperties=1)
 
 noun      = {tab:[string], g?:string,     hAn?:one, h?:one }
 adjective = {tab:[string], hAn?:number,   h?:one,   pos?:/pre|post/, value?:number}
-pronoun   = {tab:[string], g?:/m|f|n|x/}
+pronoun   = {tab:[string], g?:/m|f|n|x/, n?:/s|p/, pe?:oneTwoThree}
 verb      = {tab:string,   aux?:[string], h?:one}
 determiner= {tab:[string], n?:/s|p/,      value?:number}
 other     = {tab:[string], h?:one}
-punct     = {tab:[string], compl?:string}
 one       = number@(minimum=1, maximum=1)
+oneTwoThree  = number@(minimum=1, maximum=3)
+punct     = {tab:[string], compl?:string}
     </code></pre>
 <h2>Remarks</h2>
 <ul>

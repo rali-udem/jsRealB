@@ -113,5 +113,5 @@ var oneOf = function(elems){
 }
 
 // version and date informations
-var jsRealB_version="3.6";
+var jsRealB_version="3.7";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

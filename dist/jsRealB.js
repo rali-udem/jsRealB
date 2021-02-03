@@ -122,15 +122,15 @@ Constituent.prototype.getTonicPro = function(case_){
         }
         return this;
     } else { // generate the string corresponding to the tonic form
-        let pro=Pro(this.isFr()?"moi":"me");
+        let pro=Pro(this.isFr()?"moi":"me",this.lang);
         const g = this.getProp("g");
         if (g!==undefined)pro.g(g);
         const n = this.getProp("n");
         if (n!==undefined)pro.n(n);
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
-        if (case_===undefined) return Pro(pro.toString()).tn("");
-        return Pro(pro.toString()).c(case_) 
+        if (case_===undefined) return Pro(pro.toString(),this.lang).tn("");
+        return Pro(pro.toString(),this.lang).c(case_) 
     }
 }
 
@@ -220,7 +220,8 @@ genOptionListFunc("en"); // "entourer": old name for before-after
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined || Object.keys(attrs).length==0){
+    // HACK: attrs == instead of === to check also for null 
+    if (attrs == undefined || Object.keys(attrs).length==0){
         this.addOptSource("tag",name)
         attrs={};
     } else {
@@ -981,10 +982,10 @@ Phrase.prototype.pronominalize_fr = function(){
                     pro=np.getTonicPro("dat");
                     moveBeforeVerb=true;
                 } else if (prep.lemma == "de") {
-                    pro=Pro("en")
+                    pro=Pro("en","fr")
                     moveBeforeVerb=true;
                 } else if (contains(["sur","vers","dans"],prep.lemma)){
-                    pro=Pro("y")
+                    pro=Pro("y","fr")
                     moveBeforeVerb=true;
                 } else { // change only the NP within the PP
                     let pro=np.getTonicPro();
@@ -1125,7 +1126,7 @@ Phrase.prototype.passivate = function(){
                 this.linkPengWithSubject("VP","V",newSubject);
             } 
             if (subject!=null){   // insert subject where the object was
-                vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by"),subject)); 
+                vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by",this.lang),subject)); 
                 subject.parentConst=vp; // adjust parentConst
             }
         } else if (subject !=null){ // no object, but with a subject that we keep as is
@@ -1136,7 +1137,7 @@ Phrase.prototype.passivate = function(){
             } else { 
                 //create a dummy subject with a "il" unless it is at the imperative tense
                 if (vp.getProp("t")!=="ip"){
-                    subject=(this.isFr()?Pro("lui"):Pro("it")).c("nom");
+                    subject=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
                 }
             }
             this.elements.unshift(subject);
@@ -1147,7 +1148,7 @@ Phrase.prototype.passivate = function(){
             // change verbe into an "être" auxiliary and make it agree with the newSubject
             const verbeIdx=vp.getIndex("V")
             const verbe=vp.elements.splice(verbeIdx,1)[0];
-            const aux=V("être");
+            const aux=V("être","fr");
             aux.parentConst=vp;
             aux.taux=verbe.taux;
             if (newSubject!==undefined) // this can happen when a subject is Q
@@ -1234,7 +1235,7 @@ Phrase.prototype.processTyp_fr = function(types){
         v.neg2=neg; // HACK: to be used when conjugating at the realization time
         while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
         // insert "ne" before the verb or before possible pronouns preceding the verb
-        vp.elements.splice(idxV,0,Adv("ne"));
+        vp.elements.splice(idxV,0,Adv("ne","fr"));
     })
 }
 
@@ -1323,15 +1324,15 @@ Phrase.prototype.processTyp_en = function(types){
                 if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(vAux).t(t))
-                    words.push(Adv("not"))
+                    words.push(V(vAux,"en").t(t))
+                    words.push(Adv("not","en"))
                 }
             } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
                 words.push(V(vAux).t(t));
-                words.push(Adv("not"));
+                words.push(Adv("not","en"));
             } else {
-                words.push(V("do").t(t));
-                words.push(Adv("not"));
+                words.push(V("do","en").t(t));
+                words.push(Adv("not","en"));
                 if (vAux != "do") words.push(V(vAux).t("b")); 
             }
         } else { // must only set necessary options, so that shared properties will work ok
@@ -1399,10 +1400,10 @@ Phrase.prototype.invertSubject = function(){
         if (subj.isA("Pro"))
             pro = this.elements.splice(subjIdx,1)[0]; // remove subject pronoun 
         else if (subj.isA("CP")){
-            pro=Pro("moi").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
+            pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
             subj.pronoun=pro;  // add a flag to be processed by cpReal
         } else 
-            pro=Pro("moi").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
+            pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
         let idxCtx = this.getIdxCtx("VP","V");
         if (idxCtx!==undefined) {
             let vp=this.getConst("VP");
@@ -1678,11 +1679,24 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 // Terminal
 function Terminal(lemmaArr,terminalType,lang){
     Constituent.call(this,terminalType);
-    this.lang=lang || currentLanguage;
-    if (terminalType!="DT" && lemmaArr.length!=1){
-        this.warn("too many parameters",terminalType,lemmaArr.length)
-    } else
+    if (lemmaArr.length==0 && terminalType!="DT"){
+        this.lang=lang||currentLanguage; // useful for error message
+        this.setLemma("",terminalType);
+        this.warn("bad number of parameters",terminalType,0);
+        return
+    }
+    if (lemmaArr.length==1){
+        this.lang=lang || currentLanguage
         this.setLemma(lemmaArr[0],terminalType);
+    } else if (lemmaArr.length==2 && (lemmaArr[1]=="en" || lemmaArr[1]=="fr")){
+        this.lang=lemmaArr[1]
+        this.setLemma(lemmaArr[0],terminalType);
+    } else {
+        this.lang=lang||currentLanguage;
+        this.setLemma(lemmaArr[0],terminalType);
+        if (terminalType!="DT")
+            this.warn("bad number of parameters",terminalType,lemmaArr.length)
+    }
 }
 extend(Constituent,Terminal)
 
@@ -2037,7 +2051,7 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         // const aux=this.getProp("aux");
         // const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        const aux=V("avoir");
+        const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
         aux.parentConst=this.parentConst;
         aux.peng=this.peng;
         aux.taux=this.taux;
@@ -2055,7 +2069,8 @@ Terminal.prototype.conjugate_fr = function(){
                 n=cod.getProp("n");
             }
         }
-        let pp=constReal(V(this.lemma).t("pp").g(g).n(n));
+        // const vLemma=new Terminal([this.lemma],"V","fr")
+        let pp=constReal(V(this.lemma,"fr").t("pp").g(g).n(n));
         neg=this.neg2;
         aux.realization=aux+"";
         if (this.props["lier"] !== undefined ){
@@ -2063,13 +2078,15 @@ Terminal.prototype.conjugate_fr = function(){
             const nextWord=this.removeNextConstInSentence();
             if (neg!==undefined && neg !== ""){
                 delete this.neg2;
-                return [aux,nextWord,constReal(Adv(neg)),pp];
+                // const negFr=new Terminal([neg],"Adv","fr");
+                return [aux,nextWord,constReal(Adv(neg,"fr")),pp];
             } else {
                 return [aux,nextWord,pp]
             }
         }
         if (neg!==undefined && neg !== ""){
-            return [aux,constReal(Adv(neg)),pp];
+            // const negFr=new Terminal([neg],"Adv","fr");
+            return [aux,constReal(Adv(neg,"fr")),pp];
         }
         return [aux,pp];
         // return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
@@ -2095,13 +2112,15 @@ Terminal.prototype.conjugate_fr = function(){
                 if (this.props["lier"]!==undefined){
                     const nextWord=this.removeNextConstInSentence();
                     if (neg!==undefined && neg !== ""){
-                        return [this, nextWord,constReal(Adv(neg))];
+                        // const negFr=new Terminal([neg],"Adv","fr");
+                        return [this, nextWord,constReal(Adv(neg,"fr"))];
                     } else {
                         return [this,nextWord]
                     }
                 } 
                 if (neg !== undefined && neg !== ""){
-                    return [this,constReal(Adv(neg))]
+                    // const negFr=new Terminal([neg],"Adv","fr");
+                    return [this,constReal(Adv(neg,"fr"))]
                 }
                 return [this];
             case "b": case "pr": case "pp":
@@ -2166,7 +2185,7 @@ Terminal.prototype.conjugate_en = function(){
         }
     case "f":
         this.realization=this.lemma;
-        return [constReal(V("will").t("b")),this];
+        return [constReal(V("will","en").t("b")),this];
     case "ip":
         this.realization=this.lemma;
         return [this];
@@ -2429,7 +2448,7 @@ Phrase.fromJSON = function(constType,json,lang){
         const elements=json["elements"];
         if (Array.isArray(elements)){
             const args=elements.map(json => fromJSON(json,lang));
-            let phrase=new Phrase(args,constType);
+            let phrase=new Phrase(args,constType,lang);
             setJSONprops(phrase,json);
             return phrase;
         } else {
@@ -2880,7 +2899,7 @@ var oneOf = function(elems){
 }
 
 // version and date informations
-var jsRealB_version="3.6";
+var jsRealB_version="3.7";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
@@ -16603,8 +16622,8 @@ var lexiconFr = //========== lexicon-fr.js
  "navire":{"N":{"g":"m",
                 "tab":["n3"]}},
  "ne":{"Adv":{"tab":["ave"]}},
- "néanmoins":{"Adv":{"C":{"tab":["cj"]},
-                     "tab":["av"]}},
+ "néanmoins":{"Adv":{"tab":["av"]},
+              "C":{"tab":["cj"]}},
  "nécessaire":{"A":{"tab":["n25"]}},
  "négligence":{"N":{"g":"f",
                     "tab":["n17"]}},
@@ -23904,7 +23923,7 @@ Constituent.prototype.warnings = {
          fr:(rank,type)=> // le $rank paramètre n'est pas Constituent.
             S(NP(D("le"),Q(rank),N("paramètre")),
               VP(V("être"),Q("Constituent"),Adv("mais"),Q(type))).typ({neg:true})},
-    "too many parameters":
+    "bad number of parameters":
         {en:(termType,number)=> // $termType accepts one parameter, but has $number.
              S(Q(termType),VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
                SP(C("but"),Pro("I"),VP(VP(V("have"),NO(number))))),
@@ -23930,7 +23949,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-01-09 14:10"
+jsRealB_dateCreated="2021-02-02 20:48"
 //  Terminals
 exports.N=N;
 exports.A=A;
