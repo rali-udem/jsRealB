@@ -113,12 +113,10 @@ Phrase.prototype.linkProperties	 = function(){
                         // gender agreement between a French number and subject
                         e.peng["g"]=this.peng["g"]; 
                     } else if (e.isOneOf(["D","A"])){
-                        // propagate gender and number of the noun to the determiners and adjectives
-                        // but unfortunately this will not be propagated if the NP is modified afterward...
+                        // link gender and number of the noun to the determiners and adjectives
                         // in English possessive determiner should not depend on the noun but on the "owner"
-                        if (!e.isA("D") || e.getProp("own") === undefined){
-                            e.peng["g"]=this.peng["g"];
-                            e.peng["n"]=this.peng["n"];
+                        if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
+                            e.peng=this.peng
                         }
                     }
                 }
