@@ -311,6 +311,9 @@ The <a href="../IDE/index.html">jsRealB IDE</a> provides access to the lexicon i
 <p lang="fr">Retourne le lexique courant.</p>
 <p lang="en">Returns the current lexicon.</p>
 
+<h3><code>setQuoteOOV(value)</code></h3>
+<p lang="fr">Lorsque cet identificateur est mis à <code>true</code>, les mots absents du lexique sont considérés comme des chaînes verbatim (i.e. <code>Q(...)</code> au lieu de susciter un avertissement et d'être affichés entre double crochets. Comme ceci empêche toute lemmatisation, accord ou transformation de phrases, il faut utiliser cet indicateur avec parcimonie.</p>
+<p lang="en">When this flag is set to <code>true</code>, words that are not in the lexicon are considered as quoted strings (i.e. <code>Q(...)</code> instead of raising an warning and be displayed between double square brackets. As this prevents any lemmatization, agreement or sentence transformations, this flag should be used sparingly.</p>
 <!-- *** Sélection de variantes *** -->
     <h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
 <p lang="fr">

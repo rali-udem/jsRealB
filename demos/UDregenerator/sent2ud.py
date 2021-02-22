@@ -23,12 +23,13 @@ processors='tokenize,pos,lemma,depparse'
 if lang=="fr":processors+=',mwt'
 nlp = stanza.Pipeline(lang,processors=processors,verbose=False)
 
-def lang2ud(id,sentence):
+def lang2ud(id,text):
     res=[]
-    doc=nlp(sentence)
-    for ud in CoNLL.convert_dict(doc.to_dict()):
-        res.append("# id = %s"%id)
-        res.append("# text = %s"%sentence)
+    doc=nlp(text)
+    sentences=doc.sentences    
+    for i,ud in enumerate(CoNLL.convert_dict(doc.to_dict())):
+        res.append("# id = %s-%d"%(id,i))
+        res.append("# text = %s"%sentences[i].text)
         for l in ud:
             l[9]="_"    # ignore last field (start_char,end_char)
             res.append("\t".join(l))
@@ -38,6 +39,7 @@ def lang2ud(id,sentence):
 def showUD(id,sentence):
     print("\n".join(lang2ud(id,sentence)))
 
+# showUD("test","Barack Obama was born in Hawaii." + "He was elected president in 2008.")
 # showUD("test-1","Barack Obama was born in Hawaii.")
 # showUD("test-2","He was elected president in 2008.")
 

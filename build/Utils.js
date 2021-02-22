@@ -101,6 +101,12 @@ var getLexicon = function(lang){
     return lang=="fr"?lexiconFr:lexiconEn;    
 }
 
+// Flag for quoting out of vocabulary tokens
+var quoteOOV=false;
+var setQuoteOOV = function(qOOV){
+    quoteOOV=qOOV
+}
+
 //// select a random element in a list useful to have some variety in the generated text
 //  if the first argument is a list, selection is done within the list
 //  otherwise the selection is among the arguements 

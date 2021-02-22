@@ -173,6 +173,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
+            if (quoteOOV && this.isA("Q")) return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
@@ -1763,15 +1764,25 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }
         let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
-            this.tab=null;
-            this.realization =`[[${lemma}]]`;
-            this.warn("not in lexicon");
+            if (quoteOOV){
+                this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                this.constType="Q";
+            } else {
+                this.tab=null;
+                this.realization =`[[${lemma}]]`;
+                this.warn("not in lexicon");
+            }
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                this.tab=null;
-                this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                if (quoteOOV){
+                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                    this.constType="Q";
+                } else {
+                    this.tab=null;
+                    this.realization =`[[${lemma}]]`;
+                    this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                }
             } else {
                 const keys=Object.keys(lexInfo);
                 const rules=this.getRules();
@@ -2883,6 +2894,12 @@ var getLanguage = function(){
 var getLexicon = function(lang){
     if (lang===undefined)lang=currentLanguage;
     return lang=="fr"?lexiconFr:lexiconEn;    
+}
+
+// Flag for quoting out of vocabulary tokens
+var quoteOOV=false;
+var setQuoteOOV = function(qOOV){
+    quoteOOV=qOOV
 }
 
 //// select a random element in a list useful to have some variety in the generated text
@@ -23947,7 +23964,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-02-06 22:42"
+jsRealB_dateCreated="2021-02-21 14:55"
 //  Terminals
 exports.N=N;
 exports.A=A;
@@ -23977,6 +23994,7 @@ exports.updateLexicon=updateLexicon;
 exports.getLemma=getLemma;
 exports.getLanguage=getLanguage;
 exports.getLexicon=getLexicon;
+exports.setQuoteOOV=setQuoteOOV;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
 exports.resetSavedWarnings=resetSavedWarnings;

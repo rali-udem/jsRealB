@@ -27,6 +27,7 @@ exports.updateLexicon=updateLexicon;
 exports.getLemma=getLemma;
 exports.getLanguage=getLanguage;
 exports.getLexicon=getLexicon;
+exports.setQuoteOOV=setQuoteOOV;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
 exports.resetSavedWarnings=resetSavedWarnings;
