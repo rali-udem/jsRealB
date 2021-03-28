@@ -305,7 +305,7 @@ Constituent.prototype.typ = function(types){
       "perf":[false,true],
       "contr":[false,true],
       "mod": [false,"poss","perm","nece","obli","will"],
-      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
+      "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
     }
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){

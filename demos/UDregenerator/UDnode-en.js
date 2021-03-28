@@ -264,6 +264,12 @@ UDnode.prototype.toPhrase = function(){
             vp.children.unshift(be);
         }
         let s=new JSR("S",this.left.map(c=>c.toConstituent()));
+        // change a VP(V(..).t("pr"),...) to a SP(V(...).t("pr"),...)
+        if (s.children.length>0 && s.children[0].isA("VP")){
+            const vp=s.children[0];
+            if (vp.children[0].isA("V") && vp.children[0].options.indexOf('t("pr")')>=0)
+                vp.constName="SP";
+        }
         s.children.push(vp)
         return s.addOptions(sentOptions);
     }

@@ -661,7 +661,7 @@ Phrase.prototype.processTyp_en = function(types){
         } else if (interro !==undefined && interro !== false && 
                    auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
             // add auxiliary for interrogative if not already there
-            if (interro!="wos"){
+            if (interro!="wos" && interro!="was"){
                 auxils.push("do");
                 affixes.push("b");
             }
@@ -718,7 +718,7 @@ Phrase.prototype.getIdxCtx = function(cst1,cst2){
         var cst=this.getConst(cst1);
         if (cst!==undefined)return cst.getIdxCtx(cst1,cst2);
     }
-    return undefined
+    return [undefined,undefined]
 }
 
 Phrase.prototype.moveAuxToFront = function(){
@@ -757,17 +757,32 @@ Phrase.prototype.invertSubject = function(){
             subj.pronoun=pro;  // add a flag to be processed by cpReal
         } else 
             pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
-        let idxCtx = this.getIdxCtx("VP","V");
-        if (idxCtx!==undefined) {
+        let [idx,vpElems] = this.getIdxCtx("VP","V");
+        if (idx!==undefined) {
             let vp=this.getConst("VP");
-            let vpElems=idxCtx[1];
-            let v=idxCtx[1][idxCtx[0]];
-            vpElems.splice(idxCtx[0]+1,0,pro); // add pronoun after verb
+            let v=vpElems[idx];
+            vpElems.splice(idx+1,0,pro); // add pronoun after verb
             pro.parentConst=vp;
             v.lier() // add - after verb
         }
     } 
 }
+
+// all prepositions from lexicon-en|fr.js (used for implementing int:"woi|wai|whn|whe"
+// tail +2 lexicon-en|fr.js | jq 'to_entries | map(select(.value|has("P"))|.key )'
+const prepositionsList = {
+    "en":{
+        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
+        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past","toward", "towards", "under", "underneath","until","via","within",  ]),
+        "whn":new Set(["after", "before", "during","since",  "till", ]),
+    },
+    "fr":{
+        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
+        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors","près","sous", "sur", "vers", "via",]),
+        "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
+    }
+}
+
 
 // modify sentence structure according to the content of the "typ" property
 Phrase.prototype.processTyp = function(types){
@@ -785,14 +800,16 @@ Phrase.prototype.processTyp = function(types){
     }
     const int=types["int"];
     if (int !== undefined && int !== false){
-        const sentenceTypeInt=this.getRules().sentence_type.int;
-        const prefix=sentenceTypeInt.prefix;
+        const sentenceTypeInt=this.getRules().sentence_type.int
+        const intPrefix=sentenceTypeInt.prefix;
+        let prefix; // to be filled later
         switch (int) {
-        case "yon":case "whe": case "how": case "whn": case "why": case "muc": 
+        case "yon": case "how": case "why": case "muc": 
             if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            prefix=intPrefix[int];
             break;
         // remove a part of the sentence 
-        case "wos":// remove subject (first NP,N, Pro or SP)
+        case "wos": case "was":// remove subject (first NP,N, Pro or SP)
             if (this.isOneOf(["S","SP"])){
                 const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
                 if (subjIdx!==undefined){
@@ -806,32 +823,49 @@ Phrase.prototype.processTyp = function(types){
                     }
                 }
             }
+            prefix=intPrefix[int];
             break;
         case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
             if (this.isOneOf(["S","SP"])){
-                const objIdxCtx=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
-                if (objIdxCtx!==undefined){
-                    objIdxCtx[1].splice(objIdxCtx[0],1);
+                const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
+                if (idx!==undefined){
+                    obj.splice(idx,1);
                 } else if (this.isFr()){// check for passive subject starting with par
-                    const ppIdxCtx=this.getIdxCtx("VP","PP");
-                    if (ppIdxCtx!==undefined){
-                        pp=ppIdxCtx[1][ppIdxCtx[0]].getConst("P");
+                    const [idx,ppElems]=this.getIdxCtx("VP","PP");
+                    if (idx!==undefined){
+                        pp=ppElems[idx].getConst("P");
                         if (pp!==undefined && pp.lemma=="par"){
-                            ppIdxCtx[1].splice(ppIdxCtx[0],1); // remove the passive subject
+                            ppElems.splice(idx,1); // remove the passive subject
                         } else {
                             pp=undefined;
                         }
-                        
                     }
                 }
+                prefix=intPrefix[int];
                 if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             }
             break;
-        case "woi": // remove direct object (first PP in the first VP)
+        case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
             if (this.isOneOf(["S","SP"])){
-                const objIdxCtx=this.getIdxCtx("VP","PP");
-                if (objIdxCtx!==undefined){
-                    objIdxCtx[1].splice(objIdxCtx[0],1);
+                const [idx,ppElems]=this.getIdxCtx("VP","PP");
+                prefix=intPrefix[int];  // get default prefix
+                if (idx!==undefined){ 
+                    // try to find a more appropriate prefix by looking at preposition in the structure
+                    let prep=ppElems[idx].elements[0];
+                    if (prep.isA("P")){
+                        prep=prep.lemma;
+                        const preps=prepositionsList[this.isEn()?"en":"fr"];
+                        if (int=="whe"){
+                            if (preps["whe"].has(prep))ppElems.splice(idx,1);
+                        } else if (int=="whn"){
+                            if (preps["whn"].has(prep))ppElems.splice(idx,1);
+                        } else if (preps["all"].has(prep)){ // "woi" | "wai"
+                            // add the preposition in front of the prefix (should be in the table...)
+                            prefix=prep+" "+(this.isEn()?(int=="woi"?"whom":"what")
+                                                        :(int=="woi"?"qui" :"quoi"));
+                            ppElems.splice(idx,1);
+                        }
+                    }
                 }
                 if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             }
@@ -840,8 +874,7 @@ Phrase.prototype.processTyp = function(types){
             this.warn("not implemented","int:"+int)
         }
         if(this.isFr() || int !="yon") {// add the interrogative prefix
-            const pref=prefix[int];
-            this.elements.splice(0,0,Q(pref));
+            this.elements.splice(0,0,Q(prefix));
             if (pp !== undefined){ // add "par" in front of some French passive interrogative
                 this.elements.splice(0,0,pp);
                 if (int=="wad"){ // replace "que" by "quoi" for French passive wad

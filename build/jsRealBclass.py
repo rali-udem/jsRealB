@@ -287,13 +287,23 @@ class SP(Phrase):
 
 from urllib.parse import urlencode
 from urllib.request import urlopen
+from urllib.error import URLError
 
 serverURL = "http://127.0.0.1:8081"
 
 
 def jsRealB(exp, lang="en"):
     params = urlencode({"lang":lang, "exp":exp})
-    return urlopen(serverURL + '?' + params).read().decode()
+    try:
+        url=urlopen(serverURL + '?' + params)
+        response=url.read().decode()
+        if "Erroneous realization from jsRealB expression" in response:
+            return "@@@:"+response
+        return response
+    except URLError:
+        print(len(exp))
+        print(exp)
+        print("@@@:jsRealB server not found at %s\nLaunch it with node .../jsRealB-server-dme.js"%serverURL)
 
 
 ## some unit tests
