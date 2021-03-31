@@ -125,6 +125,10 @@ UDnode.prototype.getFeature=function(key){
     return this.feats[key];
 }
 
+UDnode.prototype.setFeature=function(key,value){
+    return this.feats[key]=value;
+}
+
 UDnode.prototype.deleteFeature=function(key){
     delete this.feats[key];
 }

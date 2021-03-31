@@ -117,7 +117,8 @@ UD.prototype.toJSR = function(){
     }
     clonedRoot.processFixedFlat();
     let jsr=clonedRoot.toConstituent();
-    if (addPunct!==null)jsr.addOptions([`a("${addPunct}")`]);
+    if (addPunct!==null && !jsr.isA("S"))
+        jsr.addOptions([`a("${addPunct}")`]);
     return jsr;
 }
 

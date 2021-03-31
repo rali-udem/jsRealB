@@ -167,8 +167,8 @@ UDnode.prototype.toPhrase = function(){
     // find the sentence type 
     //   must be called before because it might change the structure
     let sentOptions=this.getSentOptions();
+    let typOptions=[];
     if (sentOptions.length>0){
-        let typOptions=[];
         let otherOptions=[];
         for (const op of sentOptions){ // separate two kinds of sentence options
             if (/\w+:"?\w"?/.test(op))
@@ -186,9 +186,12 @@ UDnode.prototype.toPhrase = function(){
     // it must be done before anything else...
     // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
     // having a noun or an adjective as root
-    [dep,idx]=this.findDeprelUpos("cop","AUX");
+    const copUpos=typOptions.length>0?"VERB":"AUX"; // with a modal, the UPOS is VERB
+    [dep,idx]=this.findDeprelUpos("cop",copUpos);
     if (idx>=0){
         let [newAux]=dep.splice(idx,1);
+        if (newAux.hasFeature("VerbForm","Inf")) // ensure verb is conjugated
+            newAux.deleteFeature("VerbForm");
         let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 
         if (idx1>=0){
             const [subj]=dep1.splice(idx1,1);

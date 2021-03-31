@@ -810,23 +810,24 @@ Phrase.prototype.processTyp = function(types){
             break;
         // remove a part of the sentence 
         case "wos": case "was":// remove subject (first NP,N, Pro or SP)
-            if (this.isOneOf(["S","SP"])){
+            if (this.isOneOf(["S","SP","VP"])){
                 const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
                 if (subjIdx!==undefined){
-                    this.elements.splice(subjIdx,1);
-                    // insure that the verb at the third person singular, 
-                    // because now the subject has been removed
-                    const v=this.getFromPath(["VP","V"])
-                    if (v!==undefined){
+                    const vbIdx=this.getIndex(["VP","V"]);
+                    if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
+                        // insure that the verb at the third person singular, 
+                        // because now the subject has been removed
+                        const v=this.elements[vbIdx];
                         v.setProp("n","s");
                         v.setProp("pe",3);
+                        this.elements.splice(subjIdx,1);
                     }
                 }
             }
             prefix=intPrefix[int];
             break;
         case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
-            if (this.isOneOf(["S","SP"])){
+            if (this.isOneOf(["S","SP","VP"])){
                 const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
                 if (idx!==undefined){
                     obj.splice(idx,1);
@@ -846,7 +847,7 @@ Phrase.prototype.processTyp = function(types){
             }
             break;
         case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
-            if (this.isOneOf(["S","SP"])){
+            if (this.isOneOf(["S","SP","VP"])){
                 const [idx,ppElems]=this.getIdxCtx("VP","PP");
                 prefix=intPrefix[int];  // get default prefix
                 if (idx!==undefined){ 
