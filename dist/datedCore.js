@@ -5,7 +5,6 @@
 "use strict";
 
 // global variables 
-var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage;
@@ -796,8 +795,11 @@ Phrase.prototype.linkProperties	 = function(){
         break;
     case "S": case "SP":
         let vpv = this.getFromPath([["","VP"],"V"]);
-        if (vpv !== undefined && vpv.getProp("t")=="ip")
-            return this; // do not search for subject for an imperative verb
+        if (vpv !== undefined){
+            this.taux=vpv.taux;        // share tense and auxiliary of the verb
+            if (vpv.getProp("t")=="ip")// do not search for subject for an imperative verb
+                return this; 
+        }
         let iSubj=this.getIndex(["NP","N","CP","Pro"]);
         // determine subject
         if (iSubj>=0){
@@ -1366,9 +1368,8 @@ Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
-            let idxCtx=this.getIdxCtx("VP","V");
-            if (idxCtx!==undefined){
-                let vpElems=idxCtx[1]
+            let [idx,vpElems]=this.getIdxCtx("VP","V");
+            if (idx!==undefined){
                 const v=vpElems.splice(0,1)[0]; // remove first V
                 // check if V is followed by a negation, if so move it also
                 if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
@@ -2929,6 +2930,13 @@ var getLexicon = function(lang){
 var quoteOOV=false;
 var setQuoteOOV = function(qOOV){
     quoteOOV=qOOV
+}
+
+// reorder VP complements by increasing length
+//  undocumented feature, seems "useful" for AMR to text generation
+var reorderVPcomplements=false;
+var setReorderVPcomplements = function(reorder){
+    reorderVPcomplements=reorder;
 }
 
 //// select a random element in a list useful to have some variety in the generated text
@@ -24006,4 +24014,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-03-31 11:22"
+jsRealB_dateCreated="2021-04-03 11:01"

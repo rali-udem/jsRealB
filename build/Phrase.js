@@ -155,8 +155,11 @@ Phrase.prototype.linkProperties	 = function(){
         break;
     case "S": case "SP":
         let vpv = this.getFromPath([["","VP"],"V"]);
-        if (vpv !== undefined && vpv.getProp("t")=="ip")
-            return this; // do not search for subject for an imperative verb
+        if (vpv !== undefined){
+            this.taux=vpv.taux;        // share tense and auxiliary of the verb
+            if (vpv.getProp("t")=="ip")// do not search for subject for an imperative verb
+                return this; 
+        }
         let iSubj=this.getIndex(["NP","N","CP","Pro"]);
         // determine subject
         if (iSubj>=0){
@@ -725,9 +728,8 @@ Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
-            let idxCtx=this.getIdxCtx("VP","V");
-            if (idxCtx!==undefined){
-                let vpElems=idxCtx[1]
+            let [idx,vpElems]=this.getIdxCtx("VP","V");
+            if (idx!==undefined){
                 const v=vpElems.splice(0,1)[0]; // remove first V
                 // check if V is followed by a negation, if so move it also
                 if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){

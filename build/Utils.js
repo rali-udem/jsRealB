@@ -107,6 +107,13 @@ var setQuoteOOV = function(qOOV){
     quoteOOV=qOOV
 }
 
+// reorder VP complements by increasing length
+//  undocumented feature, seems "useful" for AMR to text generation
+var reorderVPcomplements=false;
+var setReorderVPcomplements = function(reorder){
+    reorderVPcomplements=reorder;
+}
+
 //// select a random element in a list useful to have some variety in the generated text
 //  if the first argument is a list, selection is done within the list
 //  otherwise the selection is among the arguements 
