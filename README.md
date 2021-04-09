@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.6 - November 2020*
+*Version 3.7 - April 2021*
 
 **Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -26,7 +26,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
     * `Date.js` : utility functions for dealing with date formatting
     * `IO-json.js` : functions for dealing with the JSON input format
-    * `jsRealBclass.py` : Python classes and function to generate the JSON input format
+    * `jsRealBclass.py` : Python classes and functions to generate the JSON input format and use jsRealB from Python
     * `module-end.js` : lines to add at the end when creating a module from js files
     * `module-exports.js` : list of exported identifiers when creating a module from the js files
     * `module-start.js` : line to add at the start when creating a module from js files
@@ -104,6 +104,10 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
+* Generate spelling and grammar exercises from a simple sentence structure in both English and French.
+    * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
+      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 
+      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-fr.html)
 * `jsRealB` is also available an an `npm` package:
     * `use-npm.js` is a simple example of its use (after it is *install*ed on the system)
 
@@ -145,7 +149,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
 ## Design of the system
-The current version (3.6) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
+The current version (3.7) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 

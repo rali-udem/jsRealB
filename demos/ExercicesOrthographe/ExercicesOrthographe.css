@@ -1,0 +1,26 @@
+.bravo {
+    color: green;
+}
+.spacer{
+   height:2px;
+   border-width: 0px;
+}
+.rep {
+    color: #008000; /*clover*/
+    text-decoration: underline;
+}
+.ins {color: red;}
+.del {
+    text-decoration: line-through;
+    color:#00F;
+}
+
+#instructions {
+    margin:2px;
+    border: 2px solid #999;
+    padding:3px;
+}
+#change-lang{
+    float:right;
+    margin-right:5px;
+}
