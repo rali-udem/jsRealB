@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.6 - November 2020*
+*Version 3.7 - April 2021*
 
 **Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -26,7 +26,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
     * `Date.js` : utility functions for dealing with date formatting
     * `IO-json.js` : functions for dealing with the JSON input format
-    * `jsRealBclass.py` : Python classes and function to generate the JSON input format
+    * `jsRealBclass.py` : Python classes and functions to generate the JSON input format and use jsRealB from Python
     * `module-end.js` : lines to add at the end when creating a module from js files
     * `module-exports.js` : list of exported identifiers when creating a module from the js files
     * `module-start.js` : line to add at the start when creating a module from js files
@@ -63,8 +63,8 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `datedCore.js`: intermediary file used during the makefile for saving the date the makefile was created. This file should probably be deleted after the makefile 
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.  
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory:  
-      `npm version {major|minor|patch}
-       npm publish`  
+      `npm version {major|minor|patch}`  
+      `npm publish`  
     Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` and `jsRealB.min.js` are published.
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
@@ -102,8 +102,12 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
       This table is now part of the documentation
 * User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [*RandomGeneration*](demos/randomGeneration/) 
-      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/English.html) 
-      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/French.html)
+      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
+      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
+* Generate spelling and grammar exercises from a simple sentence structure in both English and French.
+    * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
+      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 
+      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-fr.html)
 * `jsRealB` is also available an an `npm` package:
     * `use-npm.js` is a simple example of its use (after it is *install*ed on the system)
 
@@ -145,7 +149,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
 ## Design of the system
-The current version (3.6) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
+The current version (3.7) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 

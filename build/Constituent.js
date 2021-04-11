@@ -5,7 +5,6 @@
 "use strict";
 
 // global variables 
-var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage;
@@ -117,15 +116,15 @@ Constituent.prototype.getTonicPro = function(case_){
         }
         return this;
     } else { // generate the string corresponding to the tonic form
-        let pro=Pro(this.isFr()?"moi":"me");
+        let pro=Pro(this.isFr()?"moi":"me",this.lang);
         const g = this.getProp("g");
         if (g!==undefined)pro.g(g);
         const n = this.getProp("n");
         if (n!==undefined)pro.n(n);
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
-        if (case_===undefined) return Pro(pro.toString()).tn("");
-        return Pro(pro.toString()).c(case_) 
+        if (case_===undefined) return Pro(pro.toString(),this.lang).tn("");
+        return Pro(pro.toString(),this.lang).c(case_) 
     }
 }
 
@@ -168,6 +167,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
+            if (quoteOOV && this.isA("Q")) return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
@@ -215,7 +215,8 @@ genOptionListFunc("en"); // "entourer": old name for before-after
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined || Object.keys(attrs).length==0){
+    // HACK: attrs == instead of === to check also for null 
+    if (attrs == undefined || Object.keys(attrs).length==0){
         this.addOptSource("tag",name)
         attrs={};
     } else {
@@ -303,7 +304,7 @@ Constituent.prototype.typ = function(types){
       "perf":[false,true],
       "contr":[false,true],
       "mod": [false,"poss","perm","nece","obli","will"],
-      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
+      "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
     }
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){

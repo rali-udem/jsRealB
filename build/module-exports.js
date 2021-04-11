@@ -27,8 +27,10 @@ exports.updateLexicon=updateLexicon;
 exports.getLemma=getLemma;
 exports.getLanguage=getLanguage;
 exports.getLexicon=getLexicon;
+exports.setQuoteOOV=setQuoteOOV;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
+exports.setReorderVPcomplements=setReorderVPcomplements;
 exports.resetSavedWarnings=resetSavedWarnings;
 exports.getSavedWarnings=getSavedWarnings;
 // JSON

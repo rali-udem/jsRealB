@@ -125,6 +125,10 @@ UDnode.prototype.getFeature=function(key){
     return this.feats[key];
 }
 
+UDnode.prototype.setFeature=function(key,value){
+    return this.feats[key]=value;
+}
+
 UDnode.prototype.deleteFeature=function(key){
     delete this.feats[key];
 }
@@ -301,6 +305,8 @@ UDnode.prototype.processNominal = function(headTerm,sentOptions){
     np.addChildren(this.left.map(c=>c.toConstituent(true)));
     np.addChildren(headTerm);
     np.addChildren(this.right.map(c=>c.toConstituent(false)));
+    // if NP first child is P, then changeit to PP
+    if (np.children[0].isA("P"))np.constName="PP";
     return np.addOptions(sentOptions);
 }
 

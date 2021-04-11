@@ -167,8 +167,8 @@ UDnode.prototype.toPhrase = function(){
     // find the sentence type 
     //   must be called before because it might change the structure
     let sentOptions=this.getSentOptions();
+    let typOptions=[];
     if (sentOptions.length>0){
-        let typOptions=[];
         let otherOptions=[];
         for (const op of sentOptions){ // separate two kinds of sentence options
             if (/\w+:"?\w"?/.test(op))
@@ -186,9 +186,12 @@ UDnode.prototype.toPhrase = function(){
     // it must be done before anything else...
     // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
     // having a noun or an adjective as root
-    [dep,idx]=this.findDeprelUpos("cop","AUX");
+    const copUpos=typOptions.length>0?"VERB":"AUX"; // with a modal, the UPOS is VERB
+    [dep,idx]=this.findDeprelUpos("cop",copUpos);
     if (idx>=0){
         let [newAux]=dep.splice(idx,1);
+        if (newAux.hasFeature("VerbForm","Inf")) // ensure verb is conjugated
+            newAux.deleteFeature("VerbForm");
         let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 
         if (idx1>=0){
             const [subj]=dep1.splice(idx1,1);
@@ -264,6 +267,12 @@ UDnode.prototype.toPhrase = function(){
             vp.children.unshift(be);
         }
         let s=new JSR("S",this.left.map(c=>c.toConstituent()));
+        // change a VP(V(..).t("pr"),...) to a SP(V(...).t("pr"),...)
+        if (s.children.length>0 && s.children[0].isA("VP")){
+            const vp=s.children[0];
+            if (vp.children[0].isA("V") && vp.children[0].options.indexOf('t("pr")')>=0)
+                vp.constName="SP";
+        }
         s.children.push(vp)
         return s.addOptions(sentOptions);
     }

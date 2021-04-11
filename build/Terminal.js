@@ -8,11 +8,24 @@
 // Terminal
 function Terminal(lemmaArr,terminalType,lang){
     Constituent.call(this,terminalType);
-    this.lang=lang || currentLanguage;
-    if (terminalType!="DT" && lemmaArr.length!=1){
-        this.warn("too many parameters",terminalType,lemmaArr.length)
-    } else
+    if (lemmaArr.length==0 && terminalType!="DT"){
+        this.lang=lang||currentLanguage; // useful for error message
+        this.setLemma("",terminalType);
+        this.warn("bad number of parameters",terminalType,0);
+        return
+    }
+    if (lemmaArr.length==1){
+        this.lang=lang || currentLanguage
         this.setLemma(lemmaArr[0],terminalType);
+    } else if (lemmaArr.length==2 && (lemmaArr[1]=="en" || lemmaArr[1]=="fr")){
+        this.lang=lemmaArr[1]
+        this.setLemma(lemmaArr[0],terminalType);
+    } else {
+        this.lang=lang||currentLanguage;
+        this.setLemma(lemmaArr[0],terminalType);
+        if (terminalType!="DT")
+            this.warn("bad number of parameters",terminalType,lemmaArr.length)
+    }
 }
 extend(Constituent,Terminal)
 
@@ -81,15 +94,25 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }
         let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
-            this.tab=null;
-            this.realization =`[[${lemma}]]`;
-            this.warn("not in lexicon");
+            if (quoteOOV){
+                this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                this.constType="Q";
+            } else {
+                this.tab=null;
+                this.realization =`[[${lemma}]]`;
+                this.warn("not in lexicon");
+            }
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                this.tab=null;
-                this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                if (quoteOOV){
+                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                    this.constType="Q";
+                } else {
+                    this.tab=null;
+                    this.realization =`[[${lemma}]]`;
+                    this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                }
             } else {
                 const keys=Object.keys(lexInfo);
                 const rules=this.getRules();
@@ -121,6 +144,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                             this.stem=lemma.substring(0,lemma.length-ending.length);
                         } else {
                             this.tab=null
+                            if (!this.isOneOf(["Adv","C","P"]))
+                                this.warn("bad lexicon table",lemma,ending);
                         }
                     } else { // copy other key as property
                         let info=lexInfo[key]
@@ -365,7 +390,7 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         // const aux=this.getProp("aux");
         // const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        const aux=V("avoir");
+        const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
         aux.parentConst=this.parentConst;
         aux.peng=this.peng;
         aux.taux=this.taux;
@@ -383,7 +408,8 @@ Terminal.prototype.conjugate_fr = function(){
                 n=cod.getProp("n");
             }
         }
-        let pp=constReal(V(this.lemma).t("pp").g(g).n(n));
+        // const vLemma=new Terminal([this.lemma],"V","fr")
+        let pp=constReal(V(this.lemma,"fr").t("pp").g(g).n(n));
         neg=this.neg2;
         aux.realization=aux+"";
         if (this.props["lier"] !== undefined ){
@@ -391,13 +417,15 @@ Terminal.prototype.conjugate_fr = function(){
             const nextWord=this.removeNextConstInSentence();
             if (neg!==undefined && neg !== ""){
                 delete this.neg2;
-                return [aux,nextWord,constReal(Adv(neg)),pp];
+                // const negFr=new Terminal([neg],"Adv","fr");
+                return [aux,nextWord,constReal(Adv(neg,"fr")),pp];
             } else {
                 return [aux,nextWord,pp]
             }
         }
         if (neg!==undefined && neg !== ""){
-            return [aux,constReal(Adv(neg)),pp];
+            // const negFr=new Terminal([neg],"Adv","fr");
+            return [aux,constReal(Adv(neg,"fr")),pp];
         }
         return [aux,pp];
         // return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
@@ -423,13 +451,15 @@ Terminal.prototype.conjugate_fr = function(){
                 if (this.props["lier"]!==undefined){
                     const nextWord=this.removeNextConstInSentence();
                     if (neg!==undefined && neg !== ""){
-                        return [this, nextWord,constReal(Adv(neg))];
+                        // const negFr=new Terminal([neg],"Adv","fr");
+                        return [this, nextWord,constReal(Adv(neg,"fr"))];
                     } else {
                         return [this,nextWord]
                     }
                 } 
                 if (neg !== undefined && neg !== ""){
-                    return [this,constReal(Adv(neg))]
+                    // const negFr=new Terminal([neg],"Adv","fr");
+                    return [this,constReal(Adv(neg,"fr"))]
                 }
                 return [this];
             case "b": case "pr": case "pp":
@@ -494,7 +524,7 @@ Terminal.prototype.conjugate_en = function(){
         }
     case "f":
         this.realization=this.lemma;
-        return [constReal(V("will").t("b")),this];
+        return [constReal(V("will","en").t("b")),this];
     case "ip":
         this.realization=this.lemma;
         return [this];

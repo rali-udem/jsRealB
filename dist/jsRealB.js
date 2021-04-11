@@ -10,7 +10,6 @@
 "use strict";
 
 // global variables 
-var reorderVPcomplements=false; // reorder VP complements by increasing length (experimental flag)
 var defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
                     fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 var currentLanguage;
@@ -122,15 +121,15 @@ Constituent.prototype.getTonicPro = function(case_){
         }
         return this;
     } else { // generate the string corresponding to the tonic form
-        let pro=Pro(this.isFr()?"moi":"me");
+        let pro=Pro(this.isFr()?"moi":"me",this.lang);
         const g = this.getProp("g");
         if (g!==undefined)pro.g(g);
         const n = this.getProp("n");
         if (n!==undefined)pro.n(n);
         const pe = this.getProp("pe");
         if (pe!==undefined)pro.pe(pe);
-        if (case_===undefined) return Pro(pro.toString()).tn("");
-        return Pro(pro.toString()).c(case_) 
+        if (case_===undefined) return Pro(pro.toString(),this.lang).tn("");
+        return Pro(pro.toString(),this.lang).c(case_) 
     }
 }
 
@@ -173,6 +172,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
+            if (quoteOOV && this.isA("Q")) return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
@@ -220,7 +220,8 @@ genOptionListFunc("en"); // "entourer": old name for before-after
 
 // HTML tags
 Constituent.prototype.tag = function(name,attrs){
-    if (attrs === undefined || Object.keys(attrs).length==0){
+    // HACK: attrs == instead of === to check also for null 
+    if (attrs == undefined || Object.keys(attrs).length==0){
         this.addOptSource("tag",name)
         attrs={};
     } else {
@@ -308,7 +309,7 @@ Constituent.prototype.typ = function(types){
       "perf":[false,true],
       "contr":[false,true],
       "mod": [false,"poss","perm","nece","obli","will"],
-      "int": [false,"yon","wos","wod","wad","woi","whe","why","whn","how","muc"]
+      "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
     }
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
@@ -757,12 +758,10 @@ Phrase.prototype.linkProperties	 = function(){
                         // gender agreement between a French number and subject
                         e.peng["g"]=this.peng["g"]; 
                     } else if (e.isOneOf(["D","A"])){
-                        // propagate gender and number of the noun to the determiners and adjectives
-                        // but unfortunately this will not be propagated if the NP is modified afterward...
+                        // link gender and number of the noun to the determiners and adjectives
                         // in English possessive determiner should not depend on the noun but on the "owner"
-                        if (!e.isA("D") || e.getProp("own") === undefined){
-                            e.peng["g"]=this.peng["g"];
-                            e.peng["n"]=this.peng["n"];
+                        if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
+                            e.peng=this.peng
                         }
                     }
                 }
@@ -801,8 +800,11 @@ Phrase.prototype.linkProperties	 = function(){
         break;
     case "S": case "SP":
         let vpv = this.getFromPath([["","VP"],"V"]);
-        if (vpv !== undefined && vpv.getProp("t")=="ip")
-            return this; // do not search for subject for an imperative verb
+        if (vpv !== undefined){
+            this.taux=vpv.taux;        // share tense and auxiliary of the verb
+            if (vpv.getProp("t")=="ip")// do not search for subject for an imperative verb
+                return this; 
+        }
         let iSubj=this.getIndex(["NP","N","CP","Pro"]);
         // determine subject
         if (iSubj>=0){
@@ -981,10 +983,10 @@ Phrase.prototype.pronominalize_fr = function(){
                     pro=np.getTonicPro("dat");
                     moveBeforeVerb=true;
                 } else if (prep.lemma == "de") {
-                    pro=Pro("en")
+                    pro=Pro("en","fr")
                     moveBeforeVerb=true;
                 } else if (contains(["sur","vers","dans"],prep.lemma)){
-                    pro=Pro("y")
+                    pro=Pro("y","fr")
                     moveBeforeVerb=true;
                 } else { // change only the NP within the PP
                     let pro=np.getTonicPro();
@@ -1125,7 +1127,7 @@ Phrase.prototype.passivate = function(){
                 this.linkPengWithSubject("VP","V",newSubject);
             } 
             if (subject!=null){   // insert subject where the object was
-                vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by"),subject)); 
+                vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by",this.lang),subject)); 
                 subject.parentConst=vp; // adjust parentConst
             }
         } else if (subject !=null){ // no object, but with a subject that we keep as is
@@ -1136,7 +1138,7 @@ Phrase.prototype.passivate = function(){
             } else { 
                 //create a dummy subject with a "il" unless it is at the imperative tense
                 if (vp.getProp("t")!=="ip"){
-                    subject=(this.isFr()?Pro("lui"):Pro("it")).c("nom");
+                    subject=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
                 }
             }
             this.elements.unshift(subject);
@@ -1147,7 +1149,7 @@ Phrase.prototype.passivate = function(){
             // change verbe into an "être" auxiliary and make it agree with the newSubject
             const verbeIdx=vp.getIndex("V")
             const verbe=vp.elements.splice(verbeIdx,1)[0];
-            const aux=V("être");
+            const aux=V("être","fr");
             aux.parentConst=vp;
             aux.taux=verbe.taux;
             if (newSubject!==undefined) // this can happen when a subject is Q
@@ -1234,7 +1236,7 @@ Phrase.prototype.processTyp_fr = function(types){
         v.neg2=neg; // HACK: to be used when conjugating at the realization time
         while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
         // insert "ne" before the verb or before possible pronouns preceding the verb
-        vp.elements.splice(idxV,0,Adv("ne"));
+        vp.elements.splice(idxV,0,Adv("ne","fr"));
     })
 }
 
@@ -1307,7 +1309,7 @@ Phrase.prototype.processTyp_en = function(types){
         } else if (interro !==undefined && interro !== false && 
                    auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
             // add auxiliary for interrogative if not already there
-            if (interro!="wos"){
+            if (interro!="wos" && interro!="was"){
                 auxils.push("do");
                 affixes.push("b");
             }
@@ -1323,15 +1325,15 @@ Phrase.prototype.processTyp_en = function(types){
                 if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
-                    words.push(V(vAux).t(t))
-                    words.push(Adv("not"))
+                    words.push(V(vAux,"en").t(t))
+                    words.push(Adv("not","en"))
                 }
             } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
                 words.push(V(vAux).t(t));
-                words.push(Adv("not"));
+                words.push(Adv("not","en"));
             } else {
-                words.push(V("do").t(t));
-                words.push(Adv("not"));
+                words.push(V("do","en").t(t));
+                words.push(Adv("not","en"));
                 if (vAux != "do") words.push(V(vAux).t("b")); 
             }
         } else { // must only set necessary options, so that shared properties will work ok
@@ -1364,16 +1366,15 @@ Phrase.prototype.getIdxCtx = function(cst1,cst2){
         var cst=this.getConst(cst1);
         if (cst!==undefined)return cst.getIdxCtx(cst1,cst2);
     }
-    return undefined
+    return [undefined,undefined]
 }
 
 Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
-            let idxCtx=this.getIdxCtx("VP","V");
-            if (idxCtx!==undefined){
-                let vpElems=idxCtx[1]
+            let [idx,vpElems]=this.getIdxCtx("VP","V");
+            if (idx!==undefined){
                 const v=vpElems.splice(0,1)[0]; // remove first V
                 // check if V is followed by a negation, if so move it also
                 if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
@@ -1399,21 +1400,36 @@ Phrase.prototype.invertSubject = function(){
         if (subj.isA("Pro"))
             pro = this.elements.splice(subjIdx,1)[0]; // remove subject pronoun 
         else if (subj.isA("CP")){
-            pro=Pro("moi").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
+            pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
             subj.pronoun=pro;  // add a flag to be processed by cpReal
         } else 
-            pro=Pro("moi").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
-        let idxCtx = this.getIdxCtx("VP","V");
-        if (idxCtx!==undefined) {
+            pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
+        let [idx,vpElems] = this.getIdxCtx("VP","V");
+        if (idx!==undefined) {
             let vp=this.getConst("VP");
-            let vpElems=idxCtx[1];
-            let v=idxCtx[1][idxCtx[0]];
-            vpElems.splice(idxCtx[0]+1,0,pro); // add pronoun after verb
+            let v=vpElems[idx];
+            vpElems.splice(idx+1,0,pro); // add pronoun after verb
             pro.parentConst=vp;
             v.lier() // add - after verb
         }
     } 
 }
+
+// all prepositions from lexicon-en|fr.js (used for implementing int:"woi|wai|whn|whe"
+// tail +2 lexicon-en|fr.js | jq 'to_entries | map(select(.value|has("P"))|.key )'
+const prepositionsList = {
+    "en":{
+        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
+        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past","toward", "towards", "under", "underneath","until","via","within",  ]),
+        "whn":new Set(["after", "before", "during","since",  "till", ]),
+    },
+    "fr":{
+        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
+        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors","près","sous", "sur", "vers", "via",]),
+        "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
+    }
+}
+
 
 // modify sentence structure according to the content of the "typ" property
 Phrase.prototype.processTyp = function(types){
@@ -1431,53 +1447,73 @@ Phrase.prototype.processTyp = function(types){
     }
     const int=types["int"];
     if (int !== undefined && int !== false){
-        const sentenceTypeInt=this.getRules().sentence_type.int;
-        const prefix=sentenceTypeInt.prefix;
+        const sentenceTypeInt=this.getRules().sentence_type.int
+        const intPrefix=sentenceTypeInt.prefix;
+        let prefix; // to be filled later
         switch (int) {
-        case "yon":case "whe": case "how": case "whn": case "why": case "muc": 
+        case "yon": case "how": case "why": case "muc": 
             if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            prefix=intPrefix[int];
             break;
         // remove a part of the sentence 
-        case "wos":// remove subject (first NP,N, Pro or SP)
-            if (this.isOneOf(["S","SP"])){
+        case "wos": case "was":// remove subject (first NP,N, Pro or SP)
+            if (this.isOneOf(["S","SP","VP"])){
                 const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
                 if (subjIdx!==undefined){
-                    this.elements.splice(subjIdx,1);
-                    // insure that the verb at the third person singular, 
-                    // because now the subject has been removed
-                    const v=this.getFromPath(["VP","V"])
-                    if (v!==undefined){
+                    const vbIdx=this.getIndex(["VP","V"]);
+                    if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
+                        // insure that the verb at the third person singular, 
+                        // because now the subject has been removed
+                        const v=this.elements[vbIdx];
                         v.setProp("n","s");
                         v.setProp("pe",3);
+                        this.elements.splice(subjIdx,1);
                     }
                 }
             }
+            prefix=intPrefix[int];
             break;
         case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
-            if (this.isOneOf(["S","SP"])){
-                const objIdxCtx=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
-                if (objIdxCtx!==undefined){
-                    objIdxCtx[1].splice(objIdxCtx[0],1);
+            if (this.isOneOf(["S","SP","VP"])){
+                const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
+                if (idx!==undefined){
+                    obj.splice(idx,1);
                 } else if (this.isFr()){// check for passive subject starting with par
-                    const ppIdxCtx=this.getIdxCtx("VP","PP");
-                    if (ppIdxCtx!==undefined){
-                        pp=ppIdxCtx[1][ppIdxCtx[0]].getConst("P");
+                    const [idx,ppElems]=this.getIdxCtx("VP","PP");
+                    if (idx!==undefined){
+                        pp=ppElems[idx].getConst("P");
                         if (pp!==undefined && pp.lemma=="par"){
-                            ppIdxCtx[1].splice(ppIdxCtx[0],1); // remove the passive subject
+                            ppElems.splice(idx,1); // remove the passive subject
                         } else {
                             pp=undefined;
                         }
-                        
                     }
                 }
+                prefix=intPrefix[int];
                 if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             }
             break;
-        case "woi": // remove direct object (first PP in the first VP)
-            if (this.isOneOf(["S","SP"])){
-                const objIdxCtx=this.getIdxCtx("VP","PP");
-                if (objIdxCtx!==undefined){
-                    objIdxCtx[1].splice(objIdxCtx[0],1);
+        case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
+            if (this.isOneOf(["S","SP","VP"])){
+                const [idx,ppElems]=this.getIdxCtx("VP","PP");
+                prefix=intPrefix[int];  // get default prefix
+                if (idx!==undefined){ 
+                    // try to find a more appropriate prefix by looking at preposition in the structure
+                    let prep=ppElems[idx].elements[0];
+                    if (prep.isA("P")){
+                        prep=prep.lemma;
+                        const preps=prepositionsList[this.isEn()?"en":"fr"];
+                        if (int=="whe"){
+                            if (preps["whe"].has(prep))ppElems.splice(idx,1);
+                        } else if (int=="whn"){
+                            if (preps["whn"].has(prep))ppElems.splice(idx,1);
+                        } else if (preps["all"].has(prep)){ // "woi" | "wai"
+                            // add the preposition in front of the prefix (should be in the table...)
+                            prefix=prep+" "+(this.isEn()?(int=="woi"?"whom":"what")
+                                                        :(int=="woi"?"qui" :"quoi"));
+                            ppElems.splice(idx,1);
+                        }
+                    }
                 }
                 if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
             }
@@ -1486,8 +1522,7 @@ Phrase.prototype.processTyp = function(types){
             this.warn("not implemented","int:"+int)
         }
         if(this.isFr() || int !="yon") {// add the interrogative prefix
-            const pref=prefix[int];
-            this.elements.splice(0,0,Q(pref));
+            this.elements.splice(0,0,Q(prefix));
             if (pp !== undefined){ // add "par" in front of some French passive interrogative
                 this.elements.splice(0,0,pp);
                 if (int=="wad"){ // replace "que" by "quoi" for French passive wad
@@ -1678,11 +1713,24 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 // Terminal
 function Terminal(lemmaArr,terminalType,lang){
     Constituent.call(this,terminalType);
-    this.lang=lang || currentLanguage;
-    if (terminalType!="DT" && lemmaArr.length!=1){
-        this.warn("too many parameters",terminalType,lemmaArr.length)
-    } else
+    if (lemmaArr.length==0 && terminalType!="DT"){
+        this.lang=lang||currentLanguage; // useful for error message
+        this.setLemma("",terminalType);
+        this.warn("bad number of parameters",terminalType,0);
+        return
+    }
+    if (lemmaArr.length==1){
+        this.lang=lang || currentLanguage
         this.setLemma(lemmaArr[0],terminalType);
+    } else if (lemmaArr.length==2 && (lemmaArr[1]=="en" || lemmaArr[1]=="fr")){
+        this.lang=lemmaArr[1]
+        this.setLemma(lemmaArr[0],terminalType);
+    } else {
+        this.lang=lang||currentLanguage;
+        this.setLemma(lemmaArr[0],terminalType);
+        if (terminalType!="DT")
+            this.warn("bad number of parameters",terminalType,lemmaArr.length)
+    }
 }
 extend(Constituent,Terminal)
 
@@ -1751,15 +1799,25 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }
         let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
-            this.tab=null;
-            this.realization =`[[${lemma}]]`;
-            this.warn("not in lexicon");
+            if (quoteOOV){
+                this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                this.constType="Q";
+            } else {
+                this.tab=null;
+                this.realization =`[[${lemma}]]`;
+                this.warn("not in lexicon");
+            }
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                this.tab=null;
-                this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                if (quoteOOV){
+                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                    this.constType="Q";
+                } else {
+                    this.tab=null;
+                    this.realization =`[[${lemma}]]`;
+                    this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                }
             } else {
                 const keys=Object.keys(lexInfo);
                 const rules=this.getRules();
@@ -1791,6 +1849,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                             this.stem=lemma.substring(0,lemma.length-ending.length);
                         } else {
                             this.tab=null
+                            if (!this.isOneOf(["Adv","C","P"]))
+                                this.warn("bad lexicon table",lemma,ending);
                         }
                     } else { // copy other key as property
                         let info=lexInfo[key]
@@ -2035,7 +2095,7 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         // const aux=this.getProp("aux");
         // const v=V("avoir").pe(pe).n(n).t(tempsAux);
-        const aux=V("avoir");
+        const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
         aux.parentConst=this.parentConst;
         aux.peng=this.peng;
         aux.taux=this.taux;
@@ -2053,7 +2113,8 @@ Terminal.prototype.conjugate_fr = function(){
                 n=cod.getProp("n");
             }
         }
-        let pp=constReal(V(this.lemma).t("pp").g(g).n(n));
+        // const vLemma=new Terminal([this.lemma],"V","fr")
+        let pp=constReal(V(this.lemma,"fr").t("pp").g(g).n(n));
         neg=this.neg2;
         aux.realization=aux+"";
         if (this.props["lier"] !== undefined ){
@@ -2061,13 +2122,15 @@ Terminal.prototype.conjugate_fr = function(){
             const nextWord=this.removeNextConstInSentence();
             if (neg!==undefined && neg !== ""){
                 delete this.neg2;
-                return [aux,nextWord,constReal(Adv(neg)),pp];
+                // const negFr=new Terminal([neg],"Adv","fr");
+                return [aux,nextWord,constReal(Adv(neg,"fr")),pp];
             } else {
                 return [aux,nextWord,pp]
             }
         }
         if (neg!==undefined && neg !== ""){
-            return [aux,constReal(Adv(neg)),pp];
+            // const negFr=new Terminal([neg],"Adv","fr");
+            return [aux,constReal(Adv(neg,"fr")),pp];
         }
         return [aux,pp];
         // return VP(v,V(this.lemma).t("pp").g(g).n(n))+"";
@@ -2093,13 +2156,15 @@ Terminal.prototype.conjugate_fr = function(){
                 if (this.props["lier"]!==undefined){
                     const nextWord=this.removeNextConstInSentence();
                     if (neg!==undefined && neg !== ""){
-                        return [this, nextWord,constReal(Adv(neg))];
+                        // const negFr=new Terminal([neg],"Adv","fr");
+                        return [this, nextWord,constReal(Adv(neg,"fr"))];
                     } else {
                         return [this,nextWord]
                     }
                 } 
                 if (neg !== undefined && neg !== ""){
-                    return [this,constReal(Adv(neg))]
+                    // const negFr=new Terminal([neg],"Adv","fr");
+                    return [this,constReal(Adv(neg,"fr"))]
                 }
                 return [this];
             case "b": case "pr": case "pp":
@@ -2164,7 +2229,7 @@ Terminal.prototype.conjugate_en = function(){
         }
     case "f":
         this.realization=this.lemma;
-        return [constReal(V("will").t("b")),this];
+        return [constReal(V("will","en").t("b")),this];
     case "ip":
         this.realization=this.lemma;
         return [this];
@@ -2427,7 +2492,7 @@ Phrase.fromJSON = function(constType,json,lang){
         const elements=json["elements"];
         if (Array.isArray(elements)){
             const args=elements.map(json => fromJSON(json,lang));
-            let phrase=new Phrase(args,constType);
+            let phrase=new Phrase(args,constType,lang);
             setJSONprops(phrase,json);
             return phrase;
         } else {
@@ -2866,6 +2931,19 @@ var getLexicon = function(lang){
     return lang=="fr"?lexiconFr:lexiconEn;    
 }
 
+// Flag for quoting out of vocabulary tokens
+var quoteOOV=false;
+var setQuoteOOV = function(qOOV){
+    quoteOOV=qOOV
+}
+
+// reorder VP complements by increasing length
+//  undocumented feature, seems "useful" for AMR to text generation
+var reorderVPcomplements=false;
+var setReorderVPcomplements = function(reorder){
+    reorderVPcomplements=reorder;
+}
+
 //// select a random element in a list useful to have some variety in the generated text
 //  if the first argument is a list, selection is done within the list
 //  otherwise the selection is among the arguements 
@@ -2878,7 +2956,7 @@ var oneOf = function(elems){
 }
 
 // version and date informations
-var jsRealB_version="3.6";
+var jsRealB_version="3.7";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 
 var lexiconEn = //========== lexicon-en.js
 {" ":{"Pc":{"tab":["pc1"]}},
@@ -3072,7 +3150,7 @@ var lexiconEn = //========== lexicon-en.js
  "alive":{"A":{"tab":["a1"]}},
  "all":{"Adv":{"tab":["b1"]},
         "D":{"tab":["d4"]},
-        "Pro":{"tab":["b1"]}},
+        "Pro":{"tab":["pn6"]}},
  "allegation":{"N":{"tab":["n1"]}},
  "allege":{"V":{"tab":"v3"}},
  "allegedly":{"Adv":{"tab":["b1"]}},
@@ -3715,6 +3793,8 @@ var lexiconEn = //========== lexicon-en.js
  "cellar":{"N":{"tab":["n1"]}},
  "cemetery":{"N":{"tab":["n3"]}},
  "census":{"N":{"tab":["n2"]}},
+ "center":{"N":{"tab":["n1"]},
+           "V":{"tab":"v3"}},
  "central":{"A":{"tab":["a1"]}},
  "centre":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
@@ -4193,7 +4273,7 @@ var lexiconEn = //========== lexicon-en.js
  "cover":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
  "coverage":{"N":{"tab":["n5"]}},
- "cow":{"N":{"tab":["n69"]}},
+ "cow":{"N":{"tab":["n1"]}},
  "crack":{"N":{"tab":["n1"]},
           "V":{"tab":"v1"}},
  "craft":{"N":{"tab":["n1"]}},
@@ -5583,7 +5663,8 @@ var lexiconEn = //========== lexicon-en.js
  "housing":{"N":{"tab":["n5"]}},
  "hover":{"V":{"tab":"v1"}},
  "how":{"Adv":{"tab":["b1"]},
-        "Pro":{"tab":["pn6"]}},
+        "Pro":{"tab":["pn6"]},
+         "C":{"tab":["cc"]}},
  "however":{"Adv":{"tab":["b1"]}},
  "hug":{"V":{"tab":"v7"}},
  "huge":{"A":{"tab":["a1"]}},
@@ -6648,7 +6729,8 @@ var lexiconEn = //========== lexicon-en.js
        "P":{"tab":["pp"]}},
  "once":{"Adv":{"tab":["b1"]}},
  "one":{"D":{"tab":["d4"],"value":1},
-        "Pro":{"tab":["pn0"]}},
+        "N":{"tab":["n1"]},
+        "Pro":{"tab":["pn6"]}},
  "onion":{"N":{"tab":["n1"]}},
  "only":{"A":{"tab":["a1"]},
          "Adv":{"tab":["b1"]}},
@@ -6735,7 +6817,8 @@ var lexiconEn = //========== lexicon-en.js
  "overwhelm":{"V":{"tab":"v1"}},
  "owe":{"V":{"tab":"v3"}},
  "owl":{"N":{"tab":["n1"]}},
- "own":{"V":{"tab":"v1"}},
+ "own":{"V":{"tab":"v1"},
+        "A":{"tab":["a1"]}},
  "owner":{"N":{"g":"x",
                "tab":["n1"]}},
  "ownership":{"N":{"tab":["n5"]}},
@@ -8469,10 +8552,13 @@ var lexiconEn = //========== lexicon-en.js
  "therapist":{"N":{"tab":["n1"]}},
  "therapy":{"N":{"tab":["n3"]}},
  "there":{"Adv":{"tab":["b1"]},
+          "Pro":{"tab":["pn6"]},
           "N":{"tab":["n5"]}},
  "thereafter":{"Adv":{"tab":["b1"]}},
  "thereby":{"Adv":{"tab":["b1"]}},
- "therefore":{"Adv":{"tab":["b1"]}}, "thesis":{"N":{"tab":["n8"]}},
+ "therefore":{"Adv":{"tab":["b1"]}}, 
+ "thesis":{"N":{"tab":["n8"]}},
+ "these":{"D":{"n":"p","tab":["d4"]}},
  "thick":{"A":{"tab":["a3"]},
           "Adv":{"tab":["b1"]}},
  "thief":{"N":{"g":"x",
@@ -8949,7 +9035,8 @@ var lexiconEn = //========== lexicon-en.js
  "wheel":{"N":{"tab":["n1"]}},
  "when":{"C":{"tab":["cs"]}},
  "whenever":{"Adv":{"tab":["b1"]}},
- "where":{"Pro":{"tab":["pn6"]}},
+ "where":{"Pro":{"tab":["pn6"]},
+          "C":{"tab":["cc"]}},
  "which":{"D":{"tab":["d4"]}},
  "whichever":{"D":{"tab":["d4"]}},
  "while":{"N":{"tab":["n5"]}},
@@ -12188,7 +12275,9 @@ var ruleEn = //========== rule-en.js
                 "wos": "who",
                 "wod": "who",
                 "woi": "to whom",
+                "was": "what",
                 "wad": "what",
+                "wai": "to what",
                 "whe": "where",
                 "how": "how",
                 "whn": "when",
@@ -16601,8 +16690,8 @@ var lexiconFr = //========== lexicon-fr.js
  "navire":{"N":{"g":"m",
                 "tab":["n3"]}},
  "ne":{"Adv":{"tab":["ave"]}},
- "néanmoins":{"Adv":{"C":{"tab":["cj"]},
-                     "tab":["av"]}},
+ "néanmoins":{"Adv":{"tab":["av"]},
+              "C":{"tab":["cj"]}},
  "nécessaire":{"A":{"tab":["n25"]}},
  "négligence":{"N":{"g":"f",
                     "tab":["n17"]}},
@@ -23538,7 +23627,9 @@ var ruleFr = //========== rule-fr.js
                 "wos":  "qui",                       //"qui est-ce qui",
                 "wod":  "qui",                       //"qui est-ce que",
                 "woi":  "à qui",                       //"à qui est-ce que",
+                "was":  "qu'est-ce qui",
                 "wad":  "que",                       //"qu'est-ce que",
+                "wai":  "à quoi",
                 "whe":  "où",                       //"où est-ce que",
                 "how":  "comment",                       //"comment est-ce que",
                 "whn":  "quand",                       //"quand est-ce que",
@@ -23902,13 +23993,20 @@ Constituent.prototype.warnings = {
          fr:(rank,type)=> // le $rank paramètre n'est pas Constituent.
             S(NP(D("le"),Q(rank),N("paramètre")),
               VP(V("être"),Q("Constituent"),Adv("mais"),Q(type))).typ({neg:true})},
-    "too many parameters":
+    "bad number of parameters":
         {en:(termType,number)=> // $termType accepts one parameter, but has $number.
              S(Q(termType),VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
                SP(C("but"),Pro("I"),VP(VP(V("have"),NO(number))))),
          fr:(termType,number)=> // $termType accepte un seul paramètre, mais en a $number.
              S(Q(termType),VP(V("accepter"),NP(D("un"),A("seul").pos("pre"),N("paramètre"))).a(","),
                SP(C("mais"),Pro("je"),VP(VP(Pro("en"),V("avoir"),NO(number)))))},
+    "bad lexicon table":
+        {en:(lemma,ending)=> // error in lexicon table number: $lemma should end with $ending
+            S(NP(N("error"),P("in"),N("lexicon"),N("table"),N("number")).a(":"),
+              SP(Q(lemma),VP(V("end"),PP(P("with"),Q(ending)))).typ({neg:true})),
+         fr:(lemma,ending)=> // erreur de numéro de table dans le lexique: $lemma devrait terminer par $ending
+            S(NP(N("erreur"),P("de"),N("numéro"),P("de"),N("table"),P("dans"),NP(D("le"),N("lexique"))).a(":"),
+              SP(Q(lemma),VP(V("terminer"),PP(P("par"),Q(ending)))).typ({neg:true}))},
 }
 
 // show all warnings with dummy parameters in the console : useful for debugging
@@ -23921,7 +24019,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2020-12-28 11:05"
+jsRealB_dateCreated="2021-04-03 11:01"
 //  Terminals
 exports.N=N;
 exports.A=A;
@@ -23951,8 +24049,10 @@ exports.updateLexicon=updateLexicon;
 exports.getLemma=getLemma;
 exports.getLanguage=getLanguage;
 exports.getLexicon=getLexicon;
+exports.setQuoteOOV=setQuoteOOV;
 exports.oneOf=oneOf;
 exports.setExceptionOnWarning=setExceptionOnWarning;
+exports.setReorderVPcomplements=setReorderVPcomplements;
 exports.resetSavedWarnings=resetSavedWarnings;
 exports.getSavedWarnings=getSavedWarnings;
 // JSON

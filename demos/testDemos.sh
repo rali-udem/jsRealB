@@ -33,6 +33,7 @@ allDemos=(  99BottlesOfBeer/index.html \
             Evaluation/index.html \
             Evenements/index.html \
             ExercicesDeStyle/index.html \
+            ExercicesOrthographe/index-fr.html\
             Inflection/index.html \
             KilometresAPied/index.html \
             PetitChaperonRouge/LittleRedRidingHood.html \

@@ -47,7 +47,7 @@ function UD(fileName,multiLine,startLine){
                 line=line.trim();
                 fields=line.split("\t");
                 if(fields.length<10){
-                    window.alert("CoNLL-U too short:"+(i+startline)+":\n"+line);
+                    window.alert("CoNLL-U too short:"+(i+startLine)+":\n"+line);
                     return;
                 }
                 fields.unshift("dummy"); // pour avoir les indices à partir de 1
@@ -117,7 +117,8 @@ UD.prototype.toJSR = function(){
     }
     clonedRoot.processFixedFlat();
     let jsr=clonedRoot.toConstituent();
-    if (addPunct!==null)jsr.addOptions([`a("${addPunct}")`]);
+    if (addPunct!==null && !jsr.isA("S"))
+        jsr.addOptions([`a("${addPunct}")`]);
     return jsr;
 }
 

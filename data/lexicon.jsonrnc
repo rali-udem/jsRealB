@@ -9,14 +9,16 @@ lexInfo={N?:  noun,
          Adv?:other, 
          P?:  other,
          C?:  other,
-         Pc?: punct
+         Pc?: punct,
+         basic?:boolean
     }@(minProperties=1)
 
 noun      = {tab:[string], g?:string,     hAn?:one, h?:one }
 adjective = {tab:[string], hAn?:number,   h?:one,   pos?:/pre|post/, value?:number}
-pronoun   = {tab:[string], g?:/m|f|n|x/}
+pronoun   = {tab:[string], g?:/m|f|n|x/, n?:/s|p/, pe?:oneTwoThree}
 verb      = {tab:string,   aux?:[string], h?:one}
 determiner= {tab:[string], n?:/s|p/,      value?:number}
 other     = {tab:[string], h?:one}
 one       = number@(minimum=1, maximum=1)
+oneTwoThree  = number@(minimum=1, maximum=3)
 punct     = {tab:[string], compl?:string}

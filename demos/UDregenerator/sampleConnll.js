@@ -1,4 +1,4 @@
-const udDir="/Users/lapalme/Dropbox/UDregenerator/UD-2.7/"
+const udDir="UD-2.7/"
 const sampleSize=10
 
 // taken from https://javascript.info/task/shuffle
@@ -14,24 +14,7 @@ const ud=require("./UD.js");
 UD=ud.UD;
 const UDnode=require(`./UDnode-${language}.js`)
 const glob = require("glob")
-// ////////
-// //  load JSrealB
-// var jsrealb=require('./jsRealB-node.js');
-// // eval exports
-// for (var v in jsrealb){
-//     eval("var "+v+"=jsrealb."+v);
-// }
-// const enfr=require(`./UDregenerator-${language}.js`);
-// const util=require("util");
-// const lvs=require("./levenshtein.js");
 const UDregenerator=require("./UDregenerator.js");
-
-// update dictionary
-// enfr.addNewWords()
-
-// const fmt="# %s = %s";
-// UDregenerator execution
-
 
 for (const lang of ["en","fr"]){
     let nbFiles=0
@@ -46,7 +29,7 @@ for (const lang of ["en","fr"]){
         let uds=UDregenerator.parseUDs(conlluFile,fileName);
         const n0=uds.length;
         total0+=n0;
-        uds=uds.filter(ud=>ud.nodes.length>5);
+        uds=uds.filter(ud=>ud.nodes.length>5); // keep only UD with 5 tokens or more (counting the dummy 0 element)
         const n=uds.length;
         total+=n;
         shuffle(uds); // permute the uds
