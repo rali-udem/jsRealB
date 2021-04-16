@@ -23,10 +23,12 @@
 # text = et tu arrives à la fontaine euh[1;32;4m [0mplace Notre-Dame[1;32;4m[0m
 # TEXT = Et tu arrives à la fontaine euh[1;32;4m, [0mplace Notre-Dame[1;32;4m.[0m
 ---
-5:in Rhap_M0001-14
-2 erreurs: Rhap_M0001-14
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+5: Rhap_M0001-14
+1 différence
+# text = et ben voilà[1;32;4m[0m
+# TEXT = Et ben voilà[1;32;4m.[0m
+1 erreur: Rhap_M0001-14
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 6: Rhap_D2011-1
 ## non projective
@@ -34,7 +36,10 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 # text = il y a des produits qui [1;32;4mvous[0m changent tellement [1;34;47mla vie [0mqu' on se dit mais pourquoi on ne les a pas [1;32;4minventés[0m plus tôt[1;31m•[0m
 # TEXT = Il y a des produits qui [1;32;4mil[0m changent tellement qu'on se dit mais pourquoi on ne les a pas [1;32;4minvente[0m plus tôt [1;31mla vie.[0m
 ---
-7:in Rhap_D2011-2
+7: Rhap_D2011-2
+2 différences
+# text = eh bien c' est le cas aujourd'[1;34;47mhui [0mde ce produit vraiment révolutionnaire[1;32;4m[0m
+# TEXT = Eh bien c'est le cas aujourd'de ce produit vraiment révolutionnaire[1;32;4m.[0m
 1 erreur: Rhap_D2011-2
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -43,26 +48,33 @@ Adv("aujourd'"):: absent du lexique.
 # text = alors au début on n' y croyait pas trop avec toute l' équipe de la boutique Valérie[1;32;4m[0m
 # TEXT = Alors au début on n'y croyait pas trop avec toute l'équipe de la boutique Valérie[1;32;4m.[0m
 ---
-9:in Rhap_D2011-4
+9: Rhap_D2011-4
+2 différences
+# text = et pourtant aujourd'[1;34;47mhui [0mon y croit dur comme fer[1;32;4m[0m
+# TEXT = Et pourtant aujourd'on y croit dur comme fer[1;32;4m.[0m
 2 erreurs: Rhap_D2011-4
 Adv("aujourd'"):: absent du lexique.
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
-10:in Rhap_D2011-5
+10: Rhap_D2011-5
 ## non projective
-2 erreurs: Rhap_D2011-5
-Pro('rien'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+6 différences
+# text = il s' agit tout simplement de ceci une boule de lavage [1;32;4mque[0m [1;32;4mvous[0m [1;32;4mallez[0m placer au coeur de [1;32;4mvotre[0m linge sans rien d' autre avant de mettre [1;32;4mvotre[0m machine en route[1;32;4m[0m
+# TEXT = Il s'agit tout simplement de ceci une boule de lavage [1;32;4mvous[0m [1;32;4mallez[0m [1;32;4mque[0m placer au coeur de [1;32;4mson[0m linge sans rien d'autre avant de mettre [1;32;4msa[0m machine en route[1;32;4m.[0m
+1 erreur: Rhap_D2011-5
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 11: Rhap_D2011-6
 2 différences
 # text = ensuite [1;32;4madmirez[0m le résultat[1;32;4m[0m
 # TEXT = Ensuite [1;32;4madmire[0m le résultat[1;32;4m.[0m
 ---
-12:in Rhap_D2011-7
-2 erreurs: Rhap_D2011-7
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+12: Rhap_D2011-7
+1 différence
+# text = voilà c' est ça qui est incroyable effectivement[1;32;4m[0m
+# TEXT = Voilà c'est ça qui est incroyable effectivement[1;32;4m.[0m
+1 erreur: Rhap_D2011-7
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 13: Rhap_D2011-8
 2 différences
@@ -97,7 +109,7 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 19: Rhap_D2011-14
 5 différences
 # text = [1;32;4mnous [0mallons [1;32;4mvous[0m prouver l' efficacité de [1;32;4mnotre[0m boule magique [1;32;4mnotre[0m boule de lavage en compagnie de maître Vendiste huissier de justice[1;32;4m[0m
-# TEXT = [1;32;4mJ'[0mallons [1;32;4mil[0m prouver l'efficacité de [1;32;4msa[0m boule magique [1;32;4msa[0m boule de lavage en compagnie de maître Vendiste huissier de justice[1;32;4m.[0m
+# TEXT = [1;32;4mJ'[0mallons [1;32;4mil[0m prouver l'efficacité de [1;32;4mson[0m boule magique [1;32;4msa[0m boule de lavage en compagnie de maître Vendiste huissier de justice[1;32;4m.[0m
 ---
 20: Rhap_D2011-15
 # text = bonjour maître
@@ -110,7 +122,7 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 22: Rhap_D2011-17
 3 différences
 # text = alors voulez -[1;32;4mvous[0m bien vérifier qu' il n' y ait pas de lessive à l' intérieur de [1;32;4mnotre[0m machine à laver dans le tambour et également dans le tiroir[1;32;4m[0m
-# TEXT = Alors voulez-[1;32;4mje[0m bien vérifier qu'il n'y ait pas de lessive à l'intérieur de [1;32;4msa[0m machine à laver dans le tambour et également dans le tiroir[1;32;4m.[0m
+# TEXT = Alors voulez-[1;32;4mje[0m bien vérifier qu'il n'y ait pas de lessive à l'intérieur de [1;32;4mson[0m machine à laver dans le tambour et également dans le tiroir[1;32;4m.[0m
 ---
 23: Rhap_D2011-18
 1 différence
@@ -146,14 +158,17 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 # text = je le mets également à l' intérieur[1;32;4m[0m
 # TEXT = Je le mets également à l'intérieur[1;32;4m.[0m
 ---
-30:in Rhap_D2011-25
+30: Rhap_D2011-25
+3 différences
+# text = et puis on a [1;32;4mnotre[0m paire de [1;32;4mbaskets[0m également très [1;32;4msalie[0m
+# TEXT = Et puis on a [1;32;4msa[0m paire de [1;32;4mbasket[0m également très [1;32;4msalit.[0m
 1 erreur: Rhap_D2011-25
 N('basket'):: absent du lexique.
 ---
 31: Rhap_D2011-26
 2 différences
 # text = [1;32;4mallez[0m dans [1;32;4mnotre[0m machine
-# TEXT = [1;32;4mva[0m dans [1;32;4msa[0m machine
+# TEXT = [1;32;4mva[0m dans [1;32;4mson[0m machine
 ---
 32: Rhap_D2011-27
 4 différences
@@ -190,23 +205,30 @@ N('basket'):: absent du lexique.
 # text = et c' est parti donc pour une heure quarante-cinq de lavage[1;32;4m[0m
 # TEXT = Et c'est parti donc pour une heure quarante-cinq de lavage[1;32;4m.[0m
 ---
-39:in Rhap_D2011-34
+39: Rhap_D2011-34
+1 différence
+# text = et on se retrouve juste après[1;32;4m[0m
+# TEXT = Et on se retrouve juste après[1;32;4m.[0m
 1 erreur: Rhap_D2011-34
-Adv('après'):: absent du lexique.
+Adv('après'):: absent du lexique mais existe comme P.
 ---
-40:in Rhap_D2011-35
+40: Rhap_D2011-35
+1 différence
+# text = le cycle de lavage est [1;32;4mterminé[0m
+# TEXT = Le cycle de lavage est [1;32;4mterminer.[0m
 1 erreur: Rhap_D2011-35
-A('terminer'):: absent du lexique.
+A('terminer'):: absent du lexique mais existe comme V.
 ---
 41: Rhap_D2011-36
 3 différences
 # text = je vais [1;32;4mvous[0m demander maître de briser le scellé sur [1;32;4mnotre[0m hublot[1;32;4m[0m
 # TEXT = Je vais [1;32;4mil[0m demander maître de briser le scellé sur [1;32;4mson[0m hublot[1;32;4m.[0m
 ---
-42:in Rhap_D2011-37
-2 erreurs: Rhap_D2011-37
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+42: Rhap_D2011-37
+# text = voilà qui est fait
+# TEXT = voilà qui est fait
+1 erreur: Rhap_D2011-37
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 43: Rhap_D2011-38
 1 différence
@@ -223,15 +245,22 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 # text = alors ici [1;32;4mnous [0mavions [1;32;4mnotre[0m pantalon avec des taches de [1;32;4mgrenadine[0m
 # TEXT = Alors ici [1;32;4mj'[0mavions [1;32;4mson[0m pantalon avec des taches de [1;32;4mgrenadin.[0m
 ---
-46:in Rhap_D2011-41
-1 erreur: Rhap_D2011-41
-Pro('rien'):: absent du lexique.
+46: Rhap_D2011-41
+1 différence
+# text = il y a plus rien là hein[1;32;4m[0m
+# TEXT = Il y a plus rien là hein[1;32;4m.[0m
 ---
-47:in Rhap_D2011-42
+47: Rhap_D2011-42
+1 différence
+# text = vous constatez maître comme [1;32;4mmoi[0m
+# TEXT = Vous constatez maître comme [1;32;4mil.[0m
 1 erreur: Rhap_D2011-42
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
-48:in Rhap_D2011-43
+48: Rhap_D2011-43
+2 différences
+# text = je ne vois plus [1;32;4mde[0m taches[1;32;4m[0m
+# TEXT = Je ne vois plus [1;32;4mUN[0m taches[1;32;4m.[0m
 1 erreur: Rhap_D2011-43
 D('UN'):: absent du lexique.
 ---
@@ -245,9 +274,11 @@ D('UN'):: absent du lexique.
 # text = [1;32;4mnous [0mavions également ici [1;32;4mnotre[0m chemisier alors avec sur le col du fond de teint[1;32;4m[0m
 # TEXT = [1;32;4mJ'[0mavions également ici [1;32;4mson[0m chemisier alors avec sur le col du fond de teint[1;32;4m.[0m
 ---
-51:in Rhap_D2011-46
-2 erreurs: Rhap_D2011-46
-Pro('rien'):: absent du lexique.
+51: Rhap_D2011-46
+2 différences
+# text = là il y a plus rien et également sur le côté plus [1;32;4mde[0m traces de café[1;32;4m[0m
+# TEXT = Là il y a plus rien et également sur le côté plus [1;32;4mUN[0m traces de café[1;32;4m.[0m
+1 erreur: Rhap_D2011-46
 D('UN'):: absent du lexique.
 ---
 52: Rhap_D2011-47
@@ -271,22 +302,28 @@ D('UN'):: absent du lexique.
 # TEXT = Elles sont blanches[1;32;4m.[0m
 ---
 56: Rhap_D2011-51
+# text = blanc immaculé pour les chaussures
+# TEXT = blanc immaculé pour les chaussures
+---
+57: Rhap_D2011-52
 1 différence
-# text = blanc [1;32;4mimmaculé[0m pour les chaussures
-# TEXT = blanc [1;32;4mimmaculées[0m pour les chaussures
----
-57:in Rhap_D2011-52
+# text = et tout cela grâce à [1;32;4mnotre[0m boule de lavage maître
+# TEXT = et tout cela grâce à [1;32;4mson[0m boule de lavage maître
 1 erreur: Rhap_D2011-52
-Adv('grâce'):: absent du lexique.
+Adv('grâce'):: absent du lexique mais existe comme N.
 ---
-58:in Rhap_D2011-53
+58: Rhap_D2011-53
 ## non projective
+4 différences
+# text = [1;32;4malors[0m [1;32;4mqu' est -[0mce [1;34;47mqu' [0mon peut [1;31m•[0mdire en conclusion
+# TEXT = [1;32;4mest[0m [1;32;4malors qu'-[0mce on peut [1;31mqu'[0mdire en conclusion
 1 erreur: Rhap_D2011-53
 Pro("qu'"):: absent du lexique.
 ---
-59:in Rhap_D2011-53bis
-1 erreur: Rhap_D2011-53bis
-Pro('rien'):: absent du lexique.
+59: Rhap_D2011-53bis
+2 différences
+# text = eh bien que sans savon rien qu' avec la boule tous ces [1;32;4mlinges[0m sont propres[1;32;4m[0m
+# TEXT = Eh bien que sans savon rien qu'avec la boule tous ces [1;32;4mlinge[0m sont propres[1;32;4m.[0m
 ---
 60: Rhap_D2011-54
 # text = merci beaucoup maître
@@ -308,7 +345,10 @@ Pro('rien'):: absent du lexique.
 # text = [1;32;4meh[0m [1;32;4mbien[0m [1;32;4mle[0m [1;32;4msecret[0m [1;32;4mil[0m [1;32;4mest[0m là dans [1;32;4mce[0m eh oui petit bruit que l' on entend[1;32;4m[0m
 # TEXT = [1;32;4mLe[0m [1;32;4msecret[0m [1;32;4mil[0m [1;32;4mest[0m [1;32;4meh[0m [1;32;4mbien[0m là dans [1;32;4mcet[0m eh oui petit bruit que l'on entend[1;32;4m.[0m
 ---
-64:in Rhap_D2011-58
+64: Rhap_D2011-58
+3 différences
+# text = [1;32;4mqu' est -[0mce [1;34;47mque [0mc' est[1;31m•[0m
+# TEXT = [1;32;4mest qu'-[0mce c'est [1;31mque[0m
 1 erreur: Rhap_D2011-58
 Pro("qu'"):: absent du lexique.
 ---
@@ -317,18 +357,24 @@ Pro("qu'"):: absent du lexique.
 # text = alors eh bah tout simplement[1;32;4m[0m
 # TEXT = Alors eh bah tout simplement[1;32;4m.[0m
 ---
-66:in Rhap_D2011-60
+66: Rhap_D2011-60
+2 différences
+# text = Pierre à l' intérieur de la boule magique il y a des billes en céramique qui ont [1;32;4mchacune[0m une efficacité de lavage tout à fait différents[1;32;4m[0m
+# TEXT = Pierre à l'intérieur de la boule magique il y a des billes en céramique qui ont [1;32;4mchacun[0m une efficacité de lavage tout à fait différents[1;32;4m.[0m
 1 erreur: Rhap_D2011-60
-Pro('chacun'):: absent du lexique.
+Pro('chacun'):: absent du lexique mais existe comme Adv.
 ---
 67: Rhap_D2011-61
 4 différences
 # text = et là ce que [1;32;4mje vous[0m propose c' est d' écouter bien sûr le spécialiste [1;32;4mnous[0m expliquer comment ça marche [1;32;4mnotre[0m boule magique[1;32;4m[0m
 # TEXT = Et là ce que [1;32;4mj'il[0m propose c'est d'écouter bien sûr le spécialiste [1;32;4mil[0m expliquer comment ça marche [1;32;4msa[0m boule magique[1;32;4m.[0m
 ---
-68:in Rhap_D2011-62
+68: Rhap_D2011-62
+1 différence
+# text = grâce au rayonnement à infra rouge la boule magique accroît le mouvement moléculaire de l' eau et renforce donc son pouvoir [1;32;4mnettoyant[0m
+# TEXT = grâce au rayonnement à infra rouge la boule magique accroît le mouvement moléculaire de l'eau et renforce donc son pouvoir [1;32;4mnettoie[0m
 1 erreur: Rhap_D2011-62
-N('infra'):: absent du lexique.
+N('infra'):: absent du lexique mais existe comme Adv.
 ---
 69: Rhap_D2011-63
 1 différence
@@ -362,9 +408,12 @@ N('infra'):: absent du lexique.
 # text = ce qui écarte tout risque d' irritation ou d' allergie
 # TEXT = ce qui écarte tout risque d'irritation ou d'allergie
 ---
-76:in Rhap_D2011-70
+76: Rhap_D2011-70
+2 différences
+# text = et vous allez faire en plus [1;32;4md' [0ménormes économies[1;32;4m[0m
+# TEXT = Et vous allez faire en plus [1;32;4mUN [0ménormes économies[1;32;4m.[0m
 2 erreurs: Rhap_D2011-70
-N('plus'):: absent du lexique.
+N('plus'):: absent du lexique mais existe comme Adv.
 D('UN'):: absent du lexique.
 ---
 77: Rhap_D2011-71
@@ -394,7 +443,10 @@ D('UN'):: absent du lexique.
 # text = alors dites -[1;32;4mnous[0m [1;32;4mcomment[0m [1;32;4mest[0m [1;32;4mvotre[0m [1;32;4mlinge[0m
 # TEXT = Alors dites-[1;32;4mje[0m [1;32;4mson[0m [1;32;4mlinge[0m [1;32;4mest[0m [1;32;4mcomment.[0m
 ---
-82:in Rhap_D2011-76
+82: Rhap_D2011-76
+1 différence
+# text = [1;32;4mqu' est -[0mce que vous en pensez de la boule magique
+# TEXT = [1;32;4mest qu'-[0mce que vous en pensez de la boule magique
 1 erreur: Rhap_D2011-76
 Pro("qu'"):: absent du lexique.
 ---
@@ -403,9 +455,12 @@ Pro("qu'"):: absent du lexique.
 # text = c' est génial[1;32;4m[0m
 # TEXT = C'est génial[1;32;4m.[0m
 ---
-84:in Rhap_D2011-78
+84: Rhap_D2011-78
+2 différences
+# text = [1;32;4mmon[0m linge est super propre[1;32;4m[0m
+# TEXT = [1;32;4mSon[0m linge est super propre[1;32;4m.[0m
 1 erreur: Rhap_D2011-78
-Adv('super'):: absent du lexique.
+Adv('super'):: absent du lexique mais existe comme A, N ou V.
 ---
 85: Rhap_D2011-79
 1 différence
@@ -431,7 +486,10 @@ Adv('super'):: absent du lexique.
 # text = et et au niveau
 # TEXT = et et au niveau
 ---
-90:in Rhap_D2011-84
+90: Rhap_D2011-84
+2 différences
+# text = et puis je crois que vous avez un garçon qui salit en plus hein tout à fait un garçon qui se salit et qui faisait des [1;32;4mallergies[0m auparavant et qui n' en fait plus grace à la boule magique[1;32;4m[0m
+# TEXT = Et puis je crois que vous avez un garçon qui salit en plus hein tout à fait un garçon qui se salit et qui faisait des [1;32;4mallergie[0m auparavant et qui n'en fait plus grace à la boule magique[1;32;4m.[0m
 1 erreur: Rhap_D2011-84
 Adv('grace'):: absent du lexique.
 ---
@@ -495,18 +553,25 @@ Adv('grace'):: absent du lexique.
 # text = et en plus eh bien vous allez préserver la planète avec la boule magique[1;32;4m[0m
 # TEXT = Et en plus eh bien vous allez préserver la planète avec la boule magique[1;32;4m.[0m
 ---
-103:in Rhap_D2011-97
+103: Rhap_D2011-97
+3 différences
+# text = puisque quand on sait euh la quantité euh le nombre de kilos de[1;32;4m litres [0meffectivement de produits de nettoyage qui sont [1;32;4mdéversés[0m partout euh dans le monde par an eh bien là vous allez vraiment faire un joli geste[1;32;4m[0m
+# TEXT = Puisque quand on sait euh la quantité euh le nombre de kilos de[1;32;4m [[litre]] [0meffectivement de produits de nettoyage qui sont [1;32;4mdéverse[0m partout euh dans le monde par an eh bien là vous allez vraiment faire un joli geste[1;32;4m.[0m
 1 erreur: Rhap_D2011-97
 N('litre'):: erreur de morphologie : genre différent de celui du lexique :N(litre) : {"g":"m","lexique":"f"}.
 ---
-104:in Rhap_D2011-98
+104: Rhap_D2011-98
+2 différences
+# text = je suis sûr que vous allez être convaincus par [1;32;4mnotre[0m boule magique tout comme Magalie[1;32;4m[0m
+# TEXT = Je suis sûr que vous allez être convaincus par [1;32;4mson[0m boule magique tout comme Magalie[1;32;4m.[0m
 1 erreur: Rhap_D2011-98
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
-105:in Rhap_D2011-99
+105: Rhap_D2011-99
 ## non projective
-1 erreur: Rhap_D2011-99
-Pro('beaucoup'):: absent du lexique.
+4 différences
+# text = merci beaucoup d' être venue [1;32;4mmerci[0m [1;32;4mMagalie[0m [1;32;4msur notre[0m [1;32;4mplateau[0m
+# TEXT = merci beaucoup d'être venue [1;32;4msur[0m [1;32;4mson[0m [1;32;4mplateau, merci[0m [1;32;4mMagalie[0m
 ---
 106: Rhap_D2011-100
 1 différence
@@ -518,9 +583,12 @@ Pro('beaucoup'):: absent du lexique.
 # text = et maintenant effectivement la boule magique vous n' [1;32;4mutiliserez[0m plus que cela[1;32;4m[0m
 # TEXT = Et maintenant effectivement la boule magique vous n'[1;32;4mutilisez[0m plus que cela[1;32;4m.[0m
 ---
-108:in Rhap_D2010-1
+108: Rhap_D2010-1
+2 différences
+# text = alors je sais bien Marguerite Duras que v~ c' est vrai vous avez obtenu d' [1;32;4mautres[0m succès[1;32;4m[0m
+# TEXT = Alors je sais bien Marguerite Duras que v~ c'est vrai vous avez obtenu d'[1;32;4mautre[0m succès[1;32;4m.[0m
 1 erreur: Rhap_D2010-1
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 109: Rhap_D2010-2
 2 différences
@@ -532,9 +600,12 @@ Pro('autre'):: absent du lexique.
 # text = mais quand même celui[1;32;4m -[0mlà cent mille exemplaires en quatre semaines c' est absolument fabuleux[1;32;4m[0m
 # TEXT = Mais quand même celui[1;32;4m [0mlà cent mille exemplaires en quatre semaines c'est absolument fabuleux[1;32;4m.[0m
 ---
-111:in Rhap_D2010-4
+111: Rhap_D2010-4
+6 différences
+# text = [1;34;47mest -[0m[1;32;4mce[0m [1;34;47mque votre [0msensibilité qui est très aiguë très pointue [1;31m•[0mavait un peu [1;32;4mpressenti[0m ce succès[1;32;4m[0m
+# TEXT = [1;32;4mSa[0m sensibilité qui est très aiguë très pointue [1;31mest-ce qu'[0mavait un peu [1;32;4mpressent[0m ce succès[1;32;4m.[0m
 1 erreur: Rhap_D2010-4
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 112: Rhap_D2010-5
 # text = non non
@@ -544,7 +615,10 @@ N('peu'):: absent du lexique.
 # text = tout au contraire
 # TEXT = tout au contraire
 ---
-114:in Rhap_D2010-7
+114: Rhap_D2010-7
+2 différences
+# text = après le le succès de La Maladie de la mort [1;32;4mj' [0mj' avais peur pour ce livre enfin une peur relative [1;32;4mremarquez[0m
+# TEXT = Après le le succès de la Maladie de la mort [1;32;4mje [0mj'avais peur pour ce livre enfin une peur relative [1;32;4mremarque.[0m
 2 erreurs: Rhap_D2010-7
 N('Maladie'):: absent du lexique.
 A('relative'):: absent du lexique.
@@ -554,20 +628,25 @@ A('relative'):: absent du lexique.
 # text = mais j' avais peur [1;31m•[0m[1;32;4mqu[0m' il [1;34;47mne [0msoit pas celui que les gens attendaient [1;32;4mde moi[0m
 # TEXT = Mais j'avais peur [1;31mque [0m[1;32;4mn[0m'il soit pas celui que les gens attendaient [1;32;4md'il.[0m
 ---
-116:in Rhap_D2010-9
-3 erreurs: Rhap_D2010-9
-C('puis'):: absent du lexique.
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+116: Rhap_D2010-9
+1 différence
+# text = puis voilà[1;32;4m[0m
+# TEXT = Puis voilà[1;32;4m.[0m
+2 erreurs: Rhap_D2010-9
+C('puis'):: absent du lexique mais existe comme Adv.
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 117: Rhap_D2010-10
 2 différences
 # text = et alors la critique [1;32;4mdéferlante[0m c' est une vague incroyable[1;32;4m[0m
 # TEXT = Et alors la critique [1;32;4mdéferlant[0m c'est une vague incroyable[1;32;4m.[0m
 ---
-118:in Rhap_D2010-11
+118: Rhap_D2010-11
+1 différence
+# text = ah quelqu'un a dit du mal quand même de c~[1;32;4m[0m
+# TEXT = Ah quelqu'un a dit du mal quand même de c~[1;32;4m.[0m
 1 erreur: Rhap_D2010-11
-Pro("quelqu'un"):: absent du lexique.
+Pro("quelqu'un"):: absent du lexique mais existe comme Adv.
 ---
 119: Rhap_D2010-12
 1 différence
@@ -579,10 +658,13 @@ Pro("quelqu'un"):: absent du lexique.
 # text = vraiment il doit être[1;32;4m[0m
 # TEXT = Vraiment il doit être[1;32;4m.[0m
 ---
-121:in Rhap_D2010-14
+121: Rhap_D2010-14
 ## non projective
+4 différences
+# text = il [1;32;4men[0m [1;32;4mfaut[0m [1;32;4mbien[0m un[1;32;4m[0m
+# TEXT = Il [1;32;4mfaut[0m [1;32;4mbien[0m [1;32;4men[0m un[1;32;4m.[0m
 1 erreur: Rhap_D2010-14
-Pro('un'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
 ---
 122: Rhap_D2010-15
 3 différences
@@ -594,9 +676,12 @@ Pro('un'):: absent du lexique.
 # text = ah oui bon[1;32;4m[0m
 # TEXT = Ah oui bon[1;32;4m.[0m
 ---
-124:in Rhap_D2010-17
+124: Rhap_D2010-17
+2 différences
+# text = quelqu'un a dit euh on n~ on ne comprend pas qu' un éditeur laisse passer des [1;32;4mfautes[0m de grammaire pareilles[1;32;4m[0m
+# TEXT = Quelqu'un a dit euh on n~ on ne comprend pas qu'un éditeur laisse passer des [1;32;4mfaute[0m de grammaire pareilles[1;32;4m.[0m
 2 erreurs: Rhap_D2010-17
-Pro("quelqu'un"):: absent du lexique.
+Pro("quelqu'un"):: absent du lexique mais existe comme Adv.
 Adv('n~'):: absent du lexique.
 ---
 125: Rhap_D2010-18
@@ -609,10 +694,13 @@ Adv('n~'):: absent du lexique.
 # text = alors c' est vrai que[1;32;4m[0m
 # TEXT = Alors c'est vrai que[1;32;4m.[0m
 ---
-127:in Rhap_D2010-20
+127: Rhap_D2010-20
+3 différences
+# text = alors les [1;32;4mcritiques[0m qui vous avaient [1;32;4mboudée[0m d' ailleurs un peu depuis [1;32;4mquelques[0m années
+# TEXT = alors les [1;32;4mcritique[0m qui vous avaient [1;32;4mboude[0m d'ailleurs un peu depuis [1;32;4mquelque[0m années
 2 erreurs: Rhap_D2010-20
-N('peu'):: absent du lexique.
-A('quelque'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
+A('quelque'):: absent du lexique mais existe comme Adv ou D.
 ---
 128: Rhap_D2010-21
 1 différence
@@ -638,13 +726,19 @@ A('quelque'):: absent du lexique.
 # text = hein ça vous a fait plaisir[1;32;4m[0m
 # TEXT = Hein ça vous a fait plaisir[1;32;4m.[0m
 ---
-133:in Rhap_D2010-26
+133: Rhap_D2010-26
+1 différence
+# text = c' est un peu gênant aussi[1;32;4m[0m
+# TEXT = C'est un peu gênant aussi[1;32;4m.[0m
 1 erreur: Rhap_D2010-26
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
-134:in Rhap_D2010-27
+134: Rhap_D2010-27
+1 différence
+# text = c' est un peu gênant[1;32;4m[0m
+# TEXT = C'est un peu gênant[1;32;4m.[0m
 1 erreur: Rhap_D2010-27
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 135: Rhap_D2010-28
 1 différence
@@ -660,18 +754,24 @@ N('peu'):: absent du lexique.
 # text = [1;32;4mça [0ma duré dix ans le silence autour [1;32;4mde moi[0m
 # TEXT = [1;32;4mÇ'[0ma duré dix ans le silence autour [1;32;4md'il.[0m
 ---
-138:in Rhap_D2010-31
+138: Rhap_D2010-31
+1 différence
+# text = et là évidemment euh c' est un peu dur[1;32;4m[0m
+# TEXT = Et là évidemment euh c'est un peu dur[1;32;4m.[0m
 1 erreur: Rhap_D2010-31
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 139: Rhap_D2010-32
 1 différence
 # text = je peux pas ouvrir le journal[1;32;4m[0m
 # TEXT = Je peux pas ouvrir le journal[1;32;4m.[0m
 ---
-140:in Rhap_D2010-33
+140: Rhap_D2010-33
+1 différence
+# text = c' est un peu[1;32;4m[0m
+# TEXT = C'est un peu[1;32;4m.[0m
 1 erreur: Rhap_D2010-33
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 141: Rhap_D2010-34
 1 différence
@@ -683,21 +783,30 @@ N('peu'):: absent du lexique.
 # text = c' est toujours un un temps très difficile que que le temps de la parution d' un livre[1;32;4m[0m
 # TEXT = C'est toujours un un temps très difficile que que le temps de la parution d'un livre[1;32;4m.[0m
 ---
-143:in Rhap_D2010-36
+143: Rhap_D2010-36
+1 différence
+# text = c' est un peu[1;32;4m[0m
+# TEXT = C'est un peu[1;32;4m.[0m
 1 erreur: Rhap_D2010-36
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 144: Rhap_D2010-37
 1 différence
 # text = trop c' est trop peut-être là non[1;32;4m[0m
 # TEXT = Trop c'est trop peut-être là non[1;32;4m.[0m
 ---
-145:in Rhap_D2010-38
+145: Rhap_D2010-38
+2 différences
+# text = ben c' est l' habitude de la critique qui fait [1;32;4mque [0mun livre est toujours pris un peu comme une certaine culpabilité[1;32;4m[0m
+# TEXT = Ben c'est l'habitude de la critique qui fait [1;32;4mqu'[0mun livre est toujours pris un peu comme une certaine culpabilité[1;32;4m.[0m
 2 erreurs: Rhap_D2010-38
-N('peu'):: absent du lexique.
-P('comme'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
-146:in Rhap_D2010-39
+146: Rhap_D2010-39
+1 différence
+# text = vous êtes d' accord[1;32;4m[0m
+# TEXT = Vous êtes d'accord[1;32;4m.[0m
 1 erreur: Rhap_D2010-39
 P("d'"):: absent du lexique.
 ---
@@ -706,10 +815,12 @@ P("d'"):: absent du lexique.
 # text = mh c' est certainement vrai pour pour les auteurs[1;32;4m[0m
 # TEXT = Mh c'est certainement vrai pour pour les auteurs[1;32;4m.[0m
 ---
-148:in Rhap_D2010-41
-2 erreurs: Rhap_D2010-41
+148: Rhap_D2010-41
+1 différence
+# text = mais ouais ouais euh di~ euh[1;32;4m[0m
+# TEXT = Mais ouais ouais euh di~ euh[1;32;4m.[0m
+1 erreur: Rhap_D2010-41
 V('di~'):: absent du lexique.
-V('di~'):: erreur de morphologie : conjugate_fr:tab :V(di~) : {"pe":3,"n":"s","t":"p"}.
 ---
 149: Rhap_D2010-42
 # text = et puis alors je
@@ -725,11 +836,17 @@ V('di~'):: erreur de morphologie : conjugate_fr:tab :V(di~) : {"pe":3,"n":"s","t
 # text = certains membres de l' Académie Goncourt auraient [1;32;4mdit[0m mais pourquoi [1;32;4mlui[0m donnerait -on pas le prix Goncourt[1;32;4m[0m
 # TEXT = Certains membres de l'Académie Goncourt auraient [1;32;4mdisent[0m mais pourquoi [1;32;4mil[0m donnerait-on pas le prix Goncourt[1;32;4m.[0m
 ---
-152:in Rhap_D2010-45
+152: Rhap_D2010-45
+1 différence
+# text = alors j' ai regardé un petit peu dans les statistiques[1;32;4m[0m
+# TEXT = Alors j'ai regardé un petit peu dans les statistiques[1;32;4m.[0m
 1 erreur: Rhap_D2010-45
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
-153:in Rhap_D2010-46
+153: Rhap_D2010-46
+6 différences
+# text = en mille [1;34;47mneuf cent cinquante [0mquand vous avez fait paraître ce ce chef[1;34;47m -d' oeuvre[0m pour [1;32;4mmoi[0m c' est un chef[1;32;4m -[0md' oeuvre qui s' appelle Un Barrage contre le Pacifique [1;31m•[0mvous l' avez raté de peu[1;32;4m[0m
+# TEXT = En mille quand vous avez fait paraître ce ce chef pour [1;32;4mil[0m c'est un chef[1;32;4m [0md'oeuvre qui s'appelle Un Barrage contre le Pacifique [1;31md'oeuvre neuf cent cinquante [0mvous l'avez raté de peu[1;32;4m.[0m
 3 erreurs: Rhap_D2010-46
 D('Un'):: absent du lexique.
 N('Barrage'):: absent du lexique.
@@ -745,23 +862,31 @@ P("d'"):: absent du lexique.
 # text = enfin ce sont pas les mêmes hein[1;32;4m[0m
 # TEXT = Enfin ce sont pas les mêmes hein[1;32;4m.[0m
 ---
-156:in Rhap_D2010-49
+156: Rhap_D2010-49
+1 différence
+# text = c' était d' [1;32;4mautres[0m
+# TEXT = C'était d'[1;32;4mautre.[0m
 1 erreur: Rhap_D2010-49
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 157: Rhap_D2010-50
 1 différence
 # text = c' était en cinquante[1;32;4m[0m
 # TEXT = C'était en cinquante[1;32;4m.[0m
 ---
-158:in Rhap_D2010-51
+158: Rhap_D2010-51
 ## non projective
-3 erreurs: Rhap_D2010-51
-Adv('en'):: absent du lexique.
-Pro('aucun'):: absent du lexique.
+4 différences
+# text = donc il y [1;32;4men[0m [1;32;4mavait[0m aucun de ceux d' aujourd[1;34;47m'hui[0m[1;32;4m[0m
+# TEXT = Donc il y [1;32;4mavait[0m [1;32;4men[0m aucun de ceux d'aujourd[1;32;4m'.[0m
+2 erreurs: Rhap_D2010-51
+Adv('en'):: absent du lexique mais existe comme P ou Pro.
 Adv("aujourd'"):: absent du lexique.
 ---
-159:in Rhap_D2010-52
+159: Rhap_D2010-52
+1 différence
+# text = parce qu' ils ont non[1;32;4m[0m
+# TEXT = Parce qu'ils ont non[1;32;4m.[0m
 1 erreur: Rhap_D2010-52
 C('parce'):: absent du lexique.
 ---
@@ -795,7 +920,10 @@ C('parce'):: absent du lexique.
 # text = c' est[1;32;4m[0m
 # TEXT = C'est[1;32;4m.[0m
 ---
-166:in Rhap_D2010-59
+166: Rhap_D2010-59
+1 différence
+# text = ils voulaient pas le donner à au Barrage parce que j' étais de gauche[1;32;4m[0m
+# TEXT = Ils voulaient pas le donner à au Barrage parce que j'étais de gauche[1;32;4m.[0m
 2 erreurs: Rhap_D2010-59
 N('Barrage'):: absent du lexique.
 C('parce'):: absent du lexique.
@@ -810,16 +938,25 @@ C('parce'):: absent du lexique.
 # text = enfin j' étais membre du PC[1;32;4m[0m
 # TEXT = Enfin j'étais membre du PC[1;32;4m.[0m
 ---
-169:in Rhap_D2010-62
+169: Rhap_D2010-62
 ## non projective
+11 différences
+# text = ce qui fait que le Barrage ça [1;32;4ma[0m [1;34;47mété [0mune expérience épouvantable pour la famille[1;32;4m [0mpour [1;32;4mma[0m mère et que j' en [1;32;4mai[0m [1;34;47mété [0mpunie par ailleurs quand [1;31m•[0mj' en ai [1;32;4mparlé[0m [1;32;4mquand[0m j' en ai [1;32;4mécrit[0m [1;34;47menfin[0m
+# TEXT = ce qui fait que le Barrage ça [1;32;4mest[0m une expérience épouvantable pour la famille[1;32;4m, [0mpour [1;32;4msa[0m mère et que j'en [1;32;4mest[0m punie par ailleurs quand [1;31mquand [0mj'en ai [1;32;4mécris[0m [1;32;4menfin[0m j'en ai [1;32;4mparlé[0m
 1 erreur: Rhap_D2010-62
 N('Barrage'):: absent du lexique.
 ---
-170:in Rhap_D2010-63
+170: Rhap_D2010-63
+1 différence
+# text = alors venons à L' Amant[1;32;4m[0m
+# TEXT = Alors venons à l'Amant[1;32;4m.[0m
 1 erreur: Rhap_D2010-63
 N('Amant'):: absent du lexique.
 ---
-171:in Rhap_D2010-64
+171: Rhap_D2010-64
+3 différences
+# text = L' Amant [1;32;4mnous[0m sommes à [1;32;4mnous[0m sommes à Saigon entre les deux guerres dans les années vingt euh[1;32;4m[0m
+# TEXT = L'Amant [1;32;4mje[0m sommes à [1;32;4mje[0m sommes à Saigon entre les deux guerres dans les années vingt euh[1;32;4m.[0m
 1 erreur: Rhap_D2010-64
 N('Amant'):: absent du lexique.
 ---
@@ -829,9 +966,10 @@ N('Amant'):: absent du lexique.
 # text = vous avez quinze [1;32;4mans[0m [1;32;4met[0m [1;32;4mdemi[0m
 # TEXT = Vous avez quinze [1;32;4met[0m [1;32;4mdemi[0m [1;32;4mans.[0m
 ---
-173:in Rhap_D2010-66
-1 erreur: Rhap_D2010-66
-C("c'est-à-dire"):: absent du lexique.
+173: Rhap_D2010-66
+1 différence
+# text = et vous êtes sur un bac qui traverse le fleuve c'est-à-dire le Mekong[1;32;4m[0m
+# TEXT = Et vous êtes sur un bac qui traverse le fleuve c'est-à-dire le Mekong[1;32;4m.[0m
 ---
 174: Rhap_D2010-67
 2 différences
@@ -868,7 +1006,10 @@ C("c'est-à-dire"):: absent du lexique.
 # text = vraiment je l' ai eu aux pieds[1;32;4m[0m
 # TEXT = Vraiment je l'ai eu aux pieds[1;32;4m.[0m
 ---
-181:in Rhap_D2010-74
+181: Rhap_D2010-74
+5 différences
+# text = j' ai des des [1;32;4mlamés[0m or [1;32;4mdes[0m [1;34;47mdes des [0msouliers de pour [1;32;4mdanser[0m oui alors [1;32;4mdanser[0m
+# TEXT = J'ai des des [1;32;4mlamé[0m or [1;32;4mde+le[0m souliers de pour [1;32;4mdanse[0m oui alors [1;32;4mdanse.[0m
 1 erreur: Rhap_D2010-74
 D('de+le'):: absent du lexique.
 ---
@@ -883,7 +1024,10 @@ D('de+le'):: absent du lexique.
 # text = on doit vous remarquer[1;32;4m[0m
 # TEXT = On doit vous remarquer[1;32;4m.[0m
 ---
-184:in Rhap_D2010-77
+184: Rhap_D2010-77
+3 différences
+# text = aujourd'[1;34;47mhui [0mon vous [1;32;4mremarquerait[0m à peine parce que c' est une mode qui se porte couramment chez les jeunes filles hein[1;32;4m[0m
+# TEXT = Aujourd'on vous [1;32;4mremarque[0m à peine parce que c'est une mode qui se porte couramment chez les jeunes filles hein[1;32;4m.[0m
 2 erreurs: Rhap_D2010-77
 Adv("aujourd'"):: absent du lexique.
 C('parce'):: absent du lexique.
@@ -897,7 +1041,10 @@ C('parce'):: absent du lexique.
 # text = c' est vrai[1;32;4m[0m
 # TEXT = C'est vrai[1;32;4m.[0m
 ---
-187:in Rhap_D2010-80
+187: Rhap_D2010-80
+3 différences
+# text = aujourd'[1;34;47mhui [0mon ne vous [1;32;4mremarquerait[0m pas[1;32;4m[0m
+# TEXT = Aujourd'on ne vous [1;32;4mremarque[0m pas[1;32;4m.[0m
 1 erreur: Rhap_D2010-80
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -906,10 +1053,13 @@ Adv("aujourd'"):: absent du lexique.
 # text = mais à cette époque on vous [1;32;4mremarquerait[0m
 # TEXT = Mais à cette époque on vous [1;32;4mremarque.[0m
 ---
-189:in Rhap_D2010-82
+189: Rhap_D2010-82
 ## non projective
+10 différences
+# text = et d' ailleurs quelqu'un [1;32;4mvous[0m [1;32;4ma[0m [1;32;4mremarquée[0m [1;32;4mqui[0m [1;32;4mest[0m [1;32;4mdans[0m [1;32;4mune[0m [1;32;4mgrande[0m [1;32;4mlimousine[0m [1;32;4mnoire[0m
+# TEXT = Et d'ailleurs quelqu'un [1;32;4mqui[0m [1;32;4mest[0m [1;32;4mdans[0m [1;32;4mune[0m [1;32;4mgrande[0m [1;32;4mlimousine[0m [1;32;4mnoire[0m [1;32;4mvous[0m [1;32;4ma[0m [1;32;4mremarquée.[0m
 1 erreur: Rhap_D2010-82
-Pro("quelqu'un"):: absent du lexique.
+Pro("quelqu'un"):: absent du lexique mais existe comme Adv.
 ---
 190: Rhap_D2010-83
 2 différences
@@ -946,10 +1096,12 @@ Pro("quelqu'un"):: absent du lexique.
 # text = c' était celle[1;32;4m -[0mlà cet instant[1;32;4m -[0mlà du bac[1;32;4m[0m
 # TEXT = C'était celle[1;32;4m [0mlà cet instant[1;32;4m [0mlà du bac[1;32;4m.[0m
 ---
-197:in Rhap_D2010-90
+197: Rhap_D2010-90
 ## non projective
-2 erreurs: Rhap_D2010-90
-Pro('rien'):: absent du lexique.
+9 différences
+# text = on n' avait rien[1;34;47m vu[0m[1;32;4m [0mqu' un homme[1;32;4m [0mune[1;32;4m [0mauto[1;32;4m [0mnoire[1;34;47m et[0m[1;32;4m [0mune jeune fille et [1;34;47met [0mdes cars pour indigènes[1;31m•[0m
+# TEXT = On n'avait rien[1;32;4m, [0mqu'un homme[1;32;4m, [0mune[1;32;4m [[[0mauto[1;32;4m]] [0mnoire[1;32;4m, [0mune jeune fille et des cars pour indigènes [1;31mvu.[0m
+1 erreur: Rhap_D2010-90
 N('auto'):: erreur de morphologie : genre différent de celui du lexique :N(auto) : {"g":"m","lexique":"f"}.
 ---
 198: Rhap_D2010-91
@@ -978,7 +1130,10 @@ N('auto'):: erreur de morphologie : genre différent de celui du lexique :N(auto
 # text = mais je n' en vois plus de ces autos[1;32;4m -[0mlà[1;32;4m[0m
 # TEXT = Mais je n'en vois plus de ces autos[1;32;4m [0mlà[1;32;4m.[0m
 ---
-203:in Rhap_D2010-96
+203: Rhap_D2010-96
+1 différence
+# text = ah oui non de toute façon il y a bien longtemps[1;32;4m[0m
+# TEXT = Ah oui non de toute façon il y a bien longtemps[1;32;4m.[0m
 1 erreur: Rhap_D2010-96
 D('toute'):: absent du lexique.
 ---
@@ -987,10 +1142,13 @@ D('toute'):: absent du lexique.
 # text = c' était qu' elles sont dans les musées hein[1;32;4m[0m
 # TEXT = C'était qu'elles sont dans les musées hein[1;32;4m.[0m
 ---
-205:in Rhap_D2010-98
+205: Rhap_D2010-98
+6 différences
+# text = je pense que si on s' était [1;32;4massis[0m l' un devant l' autre on aurait été à c~ à cette distance[1;32;4m -[0mlà dans cette[1;32;4m [0mauto[1;32;4m [0mavec dans cette[1;32;4m [0mauto[1;32;4m[0m
+# TEXT = Je pense que si on s'était [1;32;4massied[0m l'un devant l'autre on aurait été à c~ à cette distance[1;32;4m [0mlà dans cette[1;32;4m [[[0mauto[1;32;4m]] [0mavec dans cette[1;32;4m [[[0mauto[1;32;4m]].[0m
 4 erreurs: Rhap_D2010-98
-Pro('un'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 N('auto'):: erreur de morphologie : genre différent de celui du lexique :N(auto) : {"g":"m","lexique":"f"}.
 N('auto'):: erreur de morphologie : genre différent de celui du lexique :N(auto) : {"g":"m","lexique":"f"}.
 ---
@@ -1019,9 +1177,12 @@ N('auto'):: erreur de morphologie : genre différent de celui du lexique :N(auto
 # text = je le sais à l' automobile ah ouais et puis au chauffeur[1;32;4m[0m
 # TEXT = Je le sais à l'automobile ah ouais et puis au chauffeur[1;32;4m.[0m
 ---
-211:in Rhap_D2010-104
+211: Rhap_D2010-104
+1 différence
+# text = je sais les choses comme ça[1;32;4m[0m
+# TEXT = Je sais les choses comme ça[1;32;4m.[0m
 1 erreur: Rhap_D2010-104
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 212: Rhap_D2010-105
 ## non projective
@@ -1049,25 +1210,33 @@ P('comme'):: absent du lexique.
 # text = et vous savez on a l' impression que vous savez qu' il va devenir [1;32;4mvotre[0m amant [1;32;4mvotre[0m premier amant tout de suite[1;32;4m[0m
 # TEXT = Et vous savez on a l'impression que vous savez qu'il va devenir [1;32;4mson[0m amant [1;32;4mson[0m premier amant tout de suite[1;32;4m.[0m
 ---
-217:in Rhap_D2010-110
-2 erreurs: Rhap_D2010-110
-C("c'est-à-dire"):: absent du lexique.
-Adv('après'):: absent du lexique.
+217: Rhap_D2010-110
+2 différences
+# text = c'est-à-dire que j' ai su après qu' il [1;32;4mm' [0mavait pas déplu sur le bac[1;32;4m[0m
+# TEXT = C'est-à-dire que j'ai su après qu'il [1;32;4mil [0mavait pas déplu sur le bac[1;32;4m.[0m
+1 erreur: Rhap_D2010-110
+Adv('après'):: absent du lexique mais existe comme P.
 ---
 218: Rhap_D2010-111
 1 différence
 # text = mais sur le moment je n' avais pas d' avis[1;32;4m[0m
 # TEXT = Mais sur le moment je n'avais pas d'avis[1;32;4m.[0m
 ---
-219:in Rhap_D2010-112
+219: Rhap_D2010-112
+2 différences
+# text = sauf que j' étais assez [1;32;4métonnée[0m par tout cet attirail de milliardaire[1;32;4m[0m
+# TEXT = Sauf que j'étais assez [1;32;4métonner[0m par tout cet attirail de milliardaire[1;32;4m.[0m
 2 erreurs: Rhap_D2010-112
-C('sauf'):: absent du lexique.
-A('étonner'):: absent du lexique.
+C('sauf'):: absent du lexique mais existe comme A ou P.
+A('étonner'):: absent du lexique mais existe comme V.
 ---
-220:in Rhap_D2010-113
+220: Rhap_D2010-113
+3 différences
+# text = j' étais un peu étonnée un peu [1;32;4mépatée[0m enfin et [1;32;4mattirée[0m aussi bien sûr[1;32;4m[0m
+# TEXT = J'étais un peu étonnée un peu [1;32;4mépate[0m enfin et [1;32;4mattire[0m aussi bien sûr[1;32;4m.[0m
 2 erreurs: Rhap_D2010-113
-N('peu'):: absent du lexique.
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 221: Rhap_D2012-1
 2 différences
@@ -1079,8 +1248,11 @@ N('peu'):: absent du lexique.
 # text = vous n' avez pas choisi Yudina euh par hasard Didier Von Moere[1;32;4m[0m
 # TEXT = Vous n'avez pas choisi Yudina euh par hasard Didier Von Moere[1;32;4m.[0m
 ---
-223:in Rhap_D2012-3
+223: Rhap_D2012-3
 ## non projective
+5 différences
+# text = je l' ai choisie parce que c' était une une élève de Blumenfeld de Felix [1;34;47mBlumenfeld [0ml' oncle de Szymanoski [1;32;4mdont[0m [1;32;4mon[0m [1;32;4mva[0m parler tout à l' heure[1;31m•[0m
+# TEXT = Je l'ai choisie parce que c'était une une élève de Blumenfeld de Felix l'oncle de Szymanoski [1;32;4mon[0m [1;32;4mva[0m [1;32;4mdont[0m parler tout à l'heure [1;31mBlumenfeld.[0m
 1 erreur: Rhap_D2012-3
 C('parce'):: absent du lexique.
 ---
@@ -1090,28 +1262,43 @@ C('parce'):: absent du lexique.
 # text = [1;32;4mdonc[0m [1;32;4mon[0m [1;32;4mpeut[0m penser que c' est une tradition euh ici qui est représentée[1;32;4m[0m
 # TEXT = [1;32;4mOn[0m [1;32;4mpeut[0m [1;32;4mdonc[0m penser que c'est une tradition euh ici qui est représentée[1;32;4m.[0m
 ---
-225:in Rhap_D2012-5
+225: Rhap_D2012-5
+4 différences
+# text = on peut penser [1;32;4mque [0meuh à l' époque de Szymanoski on jouait ces [1;32;4mpréludes[0m comme ça[1;32;4m [0mque par exemple Neuhaus le cousin de Szymanoski les jouait euh de cette façon aussi[1;32;4m[0m
+# TEXT = On peut penser [1;32;4mqu'[0meuh à l'époque de Szymanoski on jouait ces [1;32;4mprélude[0m comme ça[1;32;4m, [0mque par exemple Neuhaus le cousin de Szymanoski les jouait euh de cette façon aussi[1;32;4m.[0m
 1 erreur: Rhap_D2012-5
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 226: Rhap_D2012-6
 1 différence
 # text = alors c' est à la fois euh comment dire[1;32;4m[0m
 # TEXT = Alors c'est à la fois euh comment dire[1;32;4m.[0m
 ---
-227:in Rhap_D2012-7
+227: Rhap_D2012-7
+1 différence
+# text = parce que prélude ça fait penser à évidemment à Frédéric Chopin[1;32;4m[0m
+# TEXT = Parce que prélude ça fait penser à évidemment à Frédéric Chopin[1;32;4m.[0m
 1 erreur: Rhap_D2012-7
 C('parce'):: absent du lexique.
 ---
-228:in Rhap_D2012-8
+228: Rhap_D2012-8
+2 différences
+# text = mais [1;32;4mmoi[0m je trouve pas ça chopinien du tout[1;32;4m[0m
+# TEXT = Mais [1;32;4mil[0m je trouve pas ça chopinien du tout[1;32;4m.[0m
 1 erreur: Rhap_D2012-8
 A('chopinien'):: absent du lexique.
 ---
-229:in Rhap_D2012-9
+229: Rhap_D2012-9
+1 différence
+# text = je trouve ça plutôt dans une mouvance [1;32;4mwagnérienne[0m
+# TEXT = Je trouve ça plutôt dans une mouvance [1;32;4mwagnérien.[0m
 1 erreur: Rhap_D2012-9
-N('wagnérien'):: absent du lexique.
+N('wagnérien'):: absent du lexique mais existe comme A.
 ---
-230:in Rhap_D2012-10
+230: Rhap_D2012-10
+1 différence
+# text = ben le premier qu' on a entendu est très tristanien[1;32;4m[0m
+# TEXT = Ben le premier qu'on a entendu est très tristanien[1;32;4m.[0m
 1 erreur: Rhap_D2012-10
 A('tristanien'):: absent du lexique.
 ---
@@ -1140,25 +1327,29 @@ A('tristanien'):: absent du lexique.
 # text = il entend Lohengrin[1;32;4m[0m
 # TEXT = Il entend Lohengrin[1;32;4m.[0m
 ---
-236:in Rhap_D2012-16
-1 erreur: Rhap_D2012-16
-D('plusieurs'):: absent du lexique.
+236: Rhap_D2012-16
+1 différence
+# text = et il l' a dit euh ensuite à plusieurs reprises[1;32;4m[0m
+# TEXT = Et il l'a dit euh ensuite à plusieurs reprises[1;32;4m.[0m
 ---
 237: Rhap_D2012-17
 4 différences
 # text = ça [1;32;4ma[0m [1;34;47mété [0mvraiment pour [1;32;4mlui[0m une une révélation[1;32;4m[0m
 # TEXT = Ça [1;32;4mest[0m vraiment pour [1;32;4mil[0m une une révélation[1;32;4m.[0m
 ---
-238:in Rhap_D2012-18
+238: Rhap_D2012-18
 ## non projective
+9 différences
+# text = je n~ me demande d' ailleurs si euh l' [1;32;4marrivée[0m du berger [1;34;47mdans Le roi Roger [0mce berger qui euh amène d' [1;32;4mautres[0m d' [1;32;4mautres[0m valeurs d' [1;32;4mautres[0m YYY si vous voulez dans un monde qui est [1;32;4mfigé[0m euh [1;31m•[0mne rappelle pas un peu l' [1;32;4marrivée[0m de Lohengrin[1;32;4m[0m
+# TEXT = Je n~ me demande d'ailleurs si euh l'[1;32;4marrivé[0m du berger ce berger qui euh amène d'[1;32;4mautre[0m d'[1;32;4mautre[0m valeurs d'[1;32;4mautre[0m YYY si vous voulez dans un monde qui est [1;32;4mfige[0m euh [1;31mdans le roi Roger [0mne rappelle pas un peu l'[1;32;4marrivé[0m de Lohengrin[1;32;4m.[0m
 7 erreurs: Rhap_D2012-18
 Adv('n~'):: absent du lexique.
-N('arrivé'):: absent du lexique.
-Pro('autre'):: absent du lexique.
-Pro('autre'):: absent du lexique.
-Pro('autre'):: absent du lexique.
-N('peu'):: absent du lexique.
-N('arrivé'):: absent du lexique.
+N('arrivé'):: absent du lexique mais existe comme A.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
+N('peu'):: absent du lexique mais existe comme Adv.
+N('arrivé'):: absent du lexique mais existe comme A.
 ---
 239: Rhap_D2012-19
 1 différence
@@ -1175,9 +1366,12 @@ N('arrivé'):: absent du lexique.
 # text = ça pourrait être Lohengrin oui et Parsifal effectivement[1;32;4m[0m
 # TEXT = Ça pourrait être Lohengrin oui et Parsifal effectivement[1;32;4m.[0m
 ---
-242:in Rhap_D2012-22
+242: Rhap_D2012-22
+4 différences
+# text = alors page cent douze de [1;32;4mvotre[0m ouvrage donc cette cette monumentale biographie de Szymanoski je lis son le portrait de [1;32;4mnotre[0m de [1;32;4mvotre[0m héros vers vingt-six ans à peu près euh fait par un ami qui l' attend à la gare[1;32;4m[0m
+# TEXT = Alors page cent douze de [1;32;4mson[0m ouvrage donc cette cette monumentale biographie de Szymanoski je lis son le portrait de [1;32;4mson[0m de [1;32;4mson[0m héros vers vingt-six ans à peu près euh fait par un ami qui l'attend à la gare[1;32;4m.[0m
 1 erreur: Rhap_D2012-22
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 243: Rhap_D2012-23
 ## non projective
@@ -1200,19 +1394,25 @@ N('peu'):: absent du lexique.
 # text = et [1;32;4mtout[0m [1;32;4mcela[0m [1;32;4mn' [0métait qu' une sorte d' accompagnement pour le charme qui [1;32;4mémanait[0m de la personne de l' artiste par lequel il attirait aussitôt[1;32;4m[0m
 # TEXT = Et [1;32;4mne[0m [1;32;4mtout[0m [1;32;4mcela [0métait qu'une sorte d'accompagnement pour le charme qui [1;32;4mémane[0m de la personne de l'artiste par lequel il attirait aussitôt[1;32;4m.[0m
 ---
-247:in Rhap_D2012-27
+247: Rhap_D2012-27
+1 différence
+# text = il était visible dans la douceur du regard de ses grands yeux vert [1;32;4mfoncé[0m
+# TEXT = Il était visible dans la douceur du regard de ses grands yeux vert [1;32;4mfoncer.[0m
 2 erreurs: Rhap_D2012-27
 N('yeux'):: absent du lexique.
-A('foncer'):: absent du lexique.
+A('foncer'):: absent du lexique mais existe comme V.
 ---
 248: Rhap_D2012-28
 1 différence
 # text = alors effectivement euh Szymanoski était un homme très élégant[1;32;4m[0m
 # TEXT = Alors effectivement euh Szymanoski était un homme très élégant[1;32;4m.[0m
 ---
-249:in Rhap_D2012-29
+249: Rhap_D2012-29
+1 différence
+# text = il avait un côté aristocrate un côté dandy un côté esthète qu' il gardera jusqu' à la fin de sa vie[1;32;4m[0m
+# TEXT = Il avait un côté aristocrate un côté dandy un côté esthète qu'il gardera jusqu'à la fin de sa vie[1;32;4m.[0m
 1 erreur: Rhap_D2012-29
-A('aristocrate'):: absent du lexique.
+A('aristocrate'):: absent du lexique mais existe comme N.
 ---
 250: Rhap_D2012-30
 1 différence
@@ -1223,12 +1423,15 @@ A('aristocrate'):: absent du lexique.
 # text = ce qui euh explique que ben il aimait bien descendre dans les beaux hôtels les grands dans les grands hôtels
 # TEXT = ce qui euh explique que ben il aimait bien descendre dans les beaux hôtels les grands dans les grands hôtels
 ---
-252:in Rhap_D2012-32
+252: Rhap_D2012-32
 ## non projective
+6 différences
+# text = et à la fin de sa vie euh quand il est en France d' ailleurs pour essayer de soigner en vain euh sa tuberculose euh il dira euh si si je dois aller dans un bouiboui euh je caricature un [1;32;4mpetit[0m [1;32;4mpeu[0m [1;32;4mmais[0m [1;32;4menfin[0m [1;32;4meuh[0m si je dois descendre dans un hôtel de troisième catégorie alors ça ne vaut plus la peine[1;32;4m[0m
+# TEXT = Et à la fin de sa vie euh quand il est en France d'ailleurs pour essayer de soigner en vain euh sa tuberculose euh il dira euh si si je dois aller dans un bouiboui euh je caricature un [1;32;4menfin[0m [1;32;4meuh[0m [1;32;4mpetit[0m [1;32;4mpeu[0m [1;32;4mmais[0m si je dois descendre dans un hôtel de troisième catégorie alors ça ne vaut plus la peine[1;32;4m.[0m
 3 erreurs: Rhap_D2012-32
-N('vain'):: absent du lexique.
+N('vain'):: absent du lexique mais existe comme A.
 N('bouiboui'):: absent du lexique.
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 253: Rhap_D2012-33
 ## non projective
@@ -1242,9 +1445,10 @@ N('peu'):: absent du lexique.
 # text = mais [1;32;4mlà[0m [1;32;4mnous[0m [1;32;4msommes[0m encore avant guerre[1;32;4m[0m
 # TEXT = Mais [1;32;4mje[0m [1;32;4msommes[0m [1;32;4mlà[0m encore avant guerre[1;32;4m.[0m
 ---
-255:in Rhap_D2012-35
-1 erreur: Rhap_D2012-35
-C("c'est-à-dire"):: absent du lexique.
+255: Rhap_D2012-35
+2 différences
+# text = c'est-à-dire [1;32;4mnous[0m sommes dans cette Pologne euh encore occupée mais où euh la la vie artistique est est très importante et où se coalise en quelque sorte le le le mouvement de la jeune Pologne[1;32;4m[0m
+# TEXT = C'est-à-dire [1;32;4mje[0m sommes dans cette Pologne euh encore occupée mais où euh la la vie artistique est est très importante et où se coalise en quelque sorte le le le mouvement de la jeune Pologne[1;32;4m.[0m
 ---
 256: Rhap_D2012-36
 1 différence
@@ -1276,22 +1480,31 @@ C("c'est-à-dire"):: absent du lexique.
 # text = et puis il y a euh Szeluto[1;32;4m[0m
 # TEXT = Et puis il y a euh Szeluto[1;32;4m.[0m
 ---
-262:in Rhap_D2012-42
+262: Rhap_D2012-42
+4 différences
+# text = alors c' est un groupe qui va très vite se [1;32;4mdésunir[0m parce qu' il y a des des [1;32;4mjalousies[0m il y a des [1;32;4minimitiés[0m euh[1;32;4m[0m
+# TEXT = Alors c'est un groupe qui va très vite se [1;32;4mdésunit[0m parce qu'il y a des des [1;32;4mjalousie[0m il y a des [1;32;4minimitié[0m euh[1;32;4m.[0m
 1 erreur: Rhap_D2012-42
 C('parce'):: absent du lexique.
 ---
-263:in Rhap_D2012-43
+263: Rhap_D2012-43
+1 différence
+# text = les uns ont plus de succès que les [1;32;4mautres[0m
+# TEXT = Les uns ont plus de succès que les [1;32;4mautre.[0m
 3 erreurs: Rhap_D2012-43
 D('les'):: absent du lexique.
-Pro('uns'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+Pro('uns'):: absent du lexique mais existe comme Adv.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 264: Rhap_D2012-44
 2 différences
 # text = donc ce n' est pas fait pour [1;32;4mcimenter[0m ce groupe[1;32;4m[0m
 # TEXT = Donc ce n'est pas fait pour [1;32;4mcimente[0m ce groupe[1;32;4m.[0m
 ---
-265:in Rhap_D2012-45
+265: Rhap_D2012-45
+3 différences
+# text = mais enfin euh c' est intéressant parce qu' on a là si vous voulez quatre mousquetaires [1;32;4mde [0meuh la jeune musique polonaise qui veulent en [1;32;4mdécoudre[0m avec le conservatisme de Varsovie et qui euh fondent une société d' édition dont le siège est à Berlin[1;32;4m[0m
+# TEXT = Mais enfin euh c'est intéressant parce qu'on a là si vous voulez quatre mousquetaires [1;32;4md'[0meuh la jeune musique polonaise qui veulent en [1;32;4mdécoud[0m avec le conservatisme de Varsovie et qui euh fondent une société d'édition dont le siège est à Berlin[1;32;4m.[0m
 1 erreur: Rhap_D2012-45
 C('parce'):: absent du lexique.
 ---
@@ -1337,10 +1550,11 @@ C('parce'):: absent du lexique.
 # text = et Rozyski dit on ne pouvait pas s' empêcher [1;32;4mà[0m [1;32;4mla[0m [1;32;4mfin[0m [1;32;4mde[0m [1;32;4mMort[0m [1;32;4met[0m [1;32;4mtransfiguration[0m [1;32;4mde[0m [1;32;4mfaire[0m [1;32;4mrésonner[0m [1;32;4mrésonner[0m [1;32;4met résonner[0m [1;32;4met[0m [1;32;4mencore[0m [1;32;4mces[0m [1;32;4maccords[0m [1;32;4mqui[0m [1;32;4mnous[0m [1;32;4menchantaient[0m
 # TEXT = Et Rozyski dit on ne pouvait pas s'empêcher [1;32;4mde[0m [1;32;4mfaire[0m [1;32;4mrésonne[0m [1;32;4mrésonne[0m [1;32;4met[0m [1;32;4mrésonne[0m [1;32;4met[0m [1;32;4mencore[0m [1;32;4mces[0m [1;32;4maccords[0m [1;32;4mqui[0m [1;32;4mm'enchantent[0m [1;32;4mà[0m [1;32;4mla[0m [1;32;4mfin[0m [1;32;4mde[0m [1;32;4mMort[0m [1;32;4met[0m [1;32;4mtransfiguration.[0m
 ---
-274:in Rhap_D2012-54
-2 erreurs: Rhap_D2012-54
-V('voici'):: absent du lexique.
-V('voici'):: erreur de morphologie : conjugate_fr:tab :V(voici) : {"pe":3,"n":"s","t":"p"}.
+274: Rhap_D2012-54
+# text = voici un extrait de cette ouverture de concert interprété par l' orchestre national de la radio polonaise direction Casimir Kord
+# TEXT = voici un extrait de cette ouverture de concert interprété par l'orchestre national de la radio polonaise direction Casimir Kord
+1 erreur: Rhap_D2012-54
+V('voici'):: absent du lexique mais existe comme P.
 ---
 275: Rhap_D2008-1
 # text = bonsoir à tous
@@ -1366,27 +1580,38 @@ V('voici'):: erreur de morphologie : conjugate_fr:tab :V(voici) : {"pe":3,"n":"s
 # text = mais les déclarations des spécialistes et de l' OMS euh ont effectivement de quoi [1;32;4malarmer[0m
 # TEXT = Mais les déclarations des spécialistes et de l'OMS euh ont effectivement de quoi [1;32;4malarme.[0m
 ---
-280:in Rhap_D2008-6
+280: Rhap_D2008-6
+2 différences
+# text = c' est comme un très mauvais rendez[1;34;47m-vous[0m à venir[1;32;4m[0m
+# TEXT = C'est comme un très mauvais rendez à venir[1;32;4m.[0m
 2 erreurs: Rhap_D2008-6
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 N('rendez'):: absent du lexique.
 ---
-281:in Rhap_D2008-7
+281: Rhap_D2008-7
+1 différence
+# text = rappelons euh qu' il y a moins d' une semaine le numéro deux de l' organisation mondiale de la santé estimait qu' un tiers de la population mondiale pourrait être [1;32;4mcontaminé[0m
+# TEXT = rappelons euh qu'il y a moins d'une semaine le numéro deux de l'organisation mondiale de la santé estimait qu'un tiers de la population mondiale pourrait être [1;32;4mcontamine[0m
 1 erreur: Rhap_D2008-7
-N('moins'):: absent du lexique.
+N('moins'):: absent du lexique mais existe comme Adv.
 ---
 282: Rhap_D2008-8
 2 différences
 # text = [1;32;4mnous [0mavons intitulé cette émission grippe A les chiffres [1;32;4malarmistes[0m
 # TEXT = [1;32;4mJ'[0mavons intitulé cette émission grippe A les chiffres [1;32;4malarmiste.[0m
 ---
-283:in Rhap_D2008-9
-3 erreurs: Rhap_D2008-9
-V('voici'):: absent du lexique.
-P('comme'):: absent du lexique.
-V('voici'):: erreur de morphologie : conjugate_fr:tab :V(voici) : {"pe":3,"n":"s","t":"p"}.
+283: Rhap_D2008-9
+1 différence
+# text = et voici les invités qui ont accepté d' y participer en direct comme chaque soir[1;32;4m[0m
+# TEXT = Et voici les invités qui ont accepté d'y participer en direct comme chaque soir[1;32;4m.[0m
+2 erreurs: Rhap_D2008-9
+V('voici'):: absent du lexique mais existe comme P.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
-284:in Rhap_D2008-10
+284: Rhap_D2008-10
+3 différences
+# text = [1;32;4mAntoine[0m [1;32;4mFlahault[0m est épidémiologiste spécialiste de la grippe[1;32;4m[0m
+# TEXT = [1;32;4mFlahault[0m [1;32;4mAntoine[0m est épidémiologiste spécialiste de la grippe[1;32;4m.[0m
 1 erreur: Rhap_D2008-10
 N('épidémiologiste'):: absent du lexique.
 ---
@@ -1400,7 +1625,10 @@ N('épidémiologiste'):: absent du lexique.
 # text = [1;32;4mnous [0mavons tous entendu parler de [1;32;4mvotre[0m scénario [1;32;4menvisageant[0m trente mille morts dans [1;32;4mnotre[0m pays l' an prochain pour cause de grippe AH1N1[1;32;4m[0m
 # TEXT = [1;32;4mJ'[0mavons tous entendu parler de [1;32;4mson[0m scénario [1;32;4menvisage[0m trente mille morts dans [1;32;4mson[0m pays l'an prochain pour cause de grippe AH1N1[1;32;4m.[0m
 ---
-287:in Rhap_D2008-13
+287: Rhap_D2008-13
+2 différences
+# text = euh je rappelle que [1;32;4mvotre[0m livre Des épidémies et des Hommes vient de paraître aux éditions de la Martinière[1;32;4m[0m
+# TEXT = Euh je rappelle que [1;32;4mson[0m livre Des épidémies et des Hommes vient de paraître aux éditions de la Martinière[1;32;4m.[0m
 2 erreurs: Rhap_D2008-13
 D('Des'):: absent du lexique.
 N('Hommes'):: absent du lexique.
@@ -1416,20 +1644,26 @@ N('Hommes'):: absent du lexique.
 # TEXT = Vous êtes expert auprès de l'OMS et ancien chercheur à l'institut Pasteur[1;32;4m.[0m
 ---
 290: Rhap_D2008-16
-2 différences
-# text = vous êtes par ailleurs responsable du développement des [1;32;4mvaccins[0m contre les maladies virales émergentes dans un laboratoire[1;32;4m[0m
-# TEXT = Vous êtes par ailleurs responsable du développement des [1;32;4mvaccin[0m contre les maladies virales émergentes dans un laboratoire[1;32;4m.[0m
+3 différences
+# text = vous êtes par ailleurs responsable du développement des [1;32;4mvaccins[0m contre les maladies [1;32;4mvirales[0m émergentes dans un laboratoire[1;32;4m[0m
+# TEXT = Vous êtes par ailleurs responsable du développement des [1;32;4mvaccin[0m contre les maladies [1;32;4mviral[0m émergentes dans un laboratoire[1;32;4m.[0m
 ---
 291: Rhap_D2008-17
 3 différences
 # text = [1;32;4mvotre[0m dernier livre À la conquête des virus euh vient [1;32;4mlui[0m de paraître chez Belin[1;32;4m[0m
 # TEXT = [1;32;4mSon[0m dernier livre à la conquête des virus euh vient [1;32;4mil[0m de paraître chez Belin[1;32;4m.[0m
 ---
-292:in Rhap_D2008-18
+292: Rhap_D2008-18
+16 différences
+# text = [1;32;4mChristian[0m [1;32;4mPerronne[0m est infectiologue [1;32;4mchef[0m [1;32;4mdu service[0m [1;32;4mdes[0m [1;32;4mmaladies[0m [1;32;4minfectieuses[0m [1;32;4met[0m [1;32;4mtropicales[0m [1;32;4mà[0m [1;32;4ml' hôpital Raymond Poincaré[0m [1;32;4mde[0m [1;32;4mGarches[0m [1;32;4mdans[0m [1;32;4mles[0m [1;32;4mHauts-de-Seine[0m
+# TEXT = [1;32;4mPerronne[0m [1;32;4mChristian[0m est infectiologue [1;32;4mà[0m [1;32;4ml'hôpital[0m [1;32;4mRaymond[0m [1;32;4mPoincaré[0m [1;32;4mde[0m [1;32;4mGarches[0m [1;32;4mdans[0m [1;32;4mles[0m [1;32;4mHauts-de-Seine, chef[0m [1;32;4mdu[0m [1;32;4mservice[0m [1;32;4mdes[0m [1;32;4mmaladies[0m [1;32;4minfectieux et tropicales.[0m
 1 erreur: Rhap_D2008-18
 N('infectiologue'):: absent du lexique.
 ---
-293:in Rhap_D2008-19
+293: Rhap_D2008-19
+2 différences
+# text = vous présidez par ailleurs la commission maladies [1;32;4mtransmissibles[0m euh du Haut Conseil de la santé publique[1;32;4m[0m
+# TEXT = Vous présidez par ailleurs la commission maladies [1;32;4mtransmissible[0m euh du Haut Conseil de la santé publique[1;32;4m.[0m
 1 erreur: Rhap_D2008-19
 A('Haut'):: absent du lexique.
 ---
@@ -1453,23 +1687,30 @@ A('Haut'):: absent du lexique.
 # text = c' est[1;32;4m[0m
 # TEXT = C'est[1;32;4m.[0m
 ---
-298:in Rhap_D2008-24
-2 erreurs: Rhap_D2008-24
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+298: Rhap_D2008-24
+6 différences
+# text = voilà [1;31m•[0mest -ce que [1;34;47mvous [0mmaintenez [1;32;4mvos[0m [1;32;4mprévisions[0m si je [1;32;4mpuis[0m dire[1;32;4m[0m
+# TEXT = Voilà [1;31mvous [0mest-ce que maintenez [1;32;4mses[0m [1;32;4mprévision[0m si je [1;32;4mpeux[0m dire[1;32;4m.[0m
+1 erreur: Rhap_D2008-24
+V('voilà'):: absent du lexique mais existe comme P.
 ---
-299:in Rhap_D2008-25
+299: Rhap_D2008-25
+1 différence
+# text = enfin sauf que là on n' est pas dans la météo[1;32;4m[0m
+# TEXT = Enfin sauf que là on n'est pas dans la météo[1;32;4m.[0m
 1 erreur: Rhap_D2008-25
-C('sauf'):: absent du lexique.
+C('sauf'):: absent du lexique mais existe comme A ou P.
 ---
 300: Rhap_D2008-26
 # text = donc euh
 # TEXT = donc euh
 ---
-301:in Rhap_D2008-27
-2 erreurs: Rhap_D2008-27
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+301: Rhap_D2008-27
+1 différence
+# text = oui euh voilà[1;32;4m[0m
+# TEXT = Oui euh voilà[1;32;4m.[0m
+1 erreur: Rhap_D2008-27
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 302: Rhap_D2008-28
 1 différence
@@ -1486,54 +1727,71 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 # text = vous l' avez m~ peut-être mieux euh [1;32;4mexplicité[0m en disant c' est un scénario[1;32;4m[0m
 # TEXT = Vous l'avez m~ peut-être mieux euh [1;32;4mexplicite[0m en disant c'est un scénario[1;32;4m.[0m
 ---
-305:in Rhap_D2008-31
+305: Rhap_D2008-31
+2 différences
+# text = c' est un un des [1;32;4mscénarios[0m possibles euh[1;32;4m[0m
+# TEXT = C'est un un des [1;32;4mscénario[0m possibles euh[1;32;4m.[0m
 2 erreurs: Rhap_D2008-31
-Pro('un'):: absent du lexique.
-Pro('un'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
 ---
-306:in Rhap_D2008-32
-2 erreurs: Rhap_D2008-32
-C("c'est-à-dire"):: absent du lexique.
+306: Rhap_D2008-32
+2 différences
+# text = c'est-à-dire que si vraiment euh l' activité que l'on constate aujourd'[1;34;47mhui [0men en Amérique du Nord oui euh devient l' activité d' une pandémie alors euh[1;32;4m[0m
+# TEXT = C'est-à-dire que si vraiment euh l'activité que l'on constate aujourd'en en Amérique du Nord oui euh devient l'activité d'une pandémie alors euh[1;32;4m.[0m
+1 erreur: Rhap_D2008-32
 Adv("aujourd'"):: absent du lexique.
 ---
 307: Rhap_D2008-33
 1 différence
-# text = on n' a jamais vraiment su jusqu' à présent arrêter les épidémies de grippe saisonnière[1;32;4m[0m
-# TEXT = On n'a jamais vraiment su jusqu'à présent arrêter les épidémies de grippe saisonnière[1;32;4m.[0m
+# text = on n' a jamais vraiment su jusqu' à présent arrêter les épidémies de grippe [1;32;4msaisonnière[0m
+# TEXT = On n'a jamais vraiment su jusqu'à présent arrêter les épidémies de grippe [1;32;4msaisonnier.[0m
 ---
-308:in Rhap_D2008-34
-1 erreur: Rhap_D2008-34
-Pro('beaucoup'):: absent du lexique.
+308: Rhap_D2008-34
+1 différence
+# text = et euh on n' a pas beaucoup d' expérience[1;32;4m[0m
+# TEXT = Et euh on n'a pas beaucoup d'expérience[1;32;4m.[0m
 ---
 309: Rhap_D2008-35
-1 différence
-# text = mais on a quand même de l' expérience de trois pandémies passées[1;32;4m[0m
-# TEXT = Mais on a quand même de l'expérience de trois pandémies passées[1;32;4m.[0m
+2 différences
+# text = mais on a quand même de l' expérience de trois [1;32;4mpandémies[0m passées[1;32;4m[0m
+# TEXT = Mais on a quand même de l'expérience de trois [1;32;4mpandémie[0m passées[1;32;4m.[0m
 ---
-310:in Rhap_D2008-36
-2 erreurs: Rhap_D2008-36
-Pro('aucun'):: absent du lexique.
+310: Rhap_D2008-36
+1 différence
+# text = et aucun des pays n' a su pour l' instant arrêter la vague pandémique dans son pays[1;32;4m[0m
+# TEXT = Et aucun des pays n'a su pour l'instant arrêter la vague pandémique dans son pays[1;32;4m.[0m
+1 erreur: Rhap_D2008-36
 A('pandémique'):: absent du lexique.
 ---
-311:in Rhap_D2008-37
+311: Rhap_D2008-37
 ## non projective
+9 différences
+# text = alors il est possible [1;32;4mque dans[0m [1;32;4mle[0m [1;32;4mvingt-et-unième[0m siècle dans [1;32;4mcertains[0m pays mieux [1;34;47mdotés [0mque d' [1;32;4mautres[0m [1;32;4mon[0m [1;34;47mpuisse [0mfreiner arrêter atténuer la vague[1;32;4m[0m
+# TEXT = Alors il est possible [1;32;4mqu'on[0m [1;32;4mpuisse[0m [1;32;4mdans le NUM[0m siècle dans [1;32;4mcertain[0m pays mieux que d'[1;32;4mautre[0m [1;32;4mdotés[0m freiner arrêter atténuer la vague[1;32;4m.[0m
 3 erreurs: Rhap_D2008-37
 A('NUM'):: absent du lexique.
-D('certain'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+D('certain'):: absent du lexique mais existe comme A ou Adv.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
-312:in Rhap_D2008-38
+312: Rhap_D2008-38
 ## non projective
+4 différences
+# text = mais si elle se déroule de façon je dirais euh un peu comme dans les les fois passées c' est les [1;32;4mscénarios[0m [1;34;47mque [0ml' on peut [1;31m•[0mimaginer[1;32;4m[0m
+# TEXT = Mais si elle se déroule de façon je dirais euh un peu comme dans les les fois passées c'est les [1;32;4mscénario[0m l'on peut [1;31mqu'[0mimaginer[1;32;4m.[0m
 1 erreur: Rhap_D2008-38
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 313: Rhap_D2008-39
 # text = alors je je je
 # TEXT = alors je je je
 ---
-314:in Rhap_D2008-40
+314: Rhap_D2008-40
+3 différences
+# text = c' est très bien que vous [1;32;4mnous[0m [1;32;4mprécisiez[0m les choses comme ça[1;32;4m[0m
+# TEXT = C'est très bien que vous [1;32;4mil[0m [1;32;4mprécisez[0m les choses comme ça[1;32;4m.[0m
 1 erreur: Rhap_D2008-40
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 315: Rhap_D2008-41
 ## non projective
@@ -1551,16 +1809,21 @@ P('comme'):: absent du lexique.
 # text = c' est exactement cela[1;32;4m[0m
 # TEXT = C'est exactement cela[1;32;4m.[0m
 ---
-318:in Rhap_D2008-44
+318: Rhap_D2008-44
+# text = un petit peu
+# TEXT = un petit peu
 1 erreur: Rhap_D2008-44
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 319: Rhap_D2008-45
 2 différences
 # text = vous [1;32;4mparliez[0m de la météo[1;32;4m[0m
 # TEXT = Vous [1;32;4mparlez[0m de la météo[1;32;4m.[0m
 ---
-320:in Rhap_D2008-46
+320: Rhap_D2008-46
+3 différences
+# text = mais dans le fond quand on veut prédire un cyclone au jour d' aujourd'[1;34;47mhui [0mon se rapporte au catalogue des [1;32;4mcyclones[0m passés[1;32;4m[0m
+# TEXT = Mais dans le fond quand on veut prédire un cyclone au jour d'aujourd'on se rapporte au catalogue des [1;32;4mcyclone[0m passés[1;32;4m.[0m
 1 erreur: Rhap_D2008-46
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -1570,10 +1833,13 @@ Adv("aujourd'"):: absent du lexique.
 # text = et on regarde c~ le plus proche [1;32;4mcyclone[0m [1;32;4meuh[0m [1;32;4mou[0m [1;32;4membryon de[0m [1;32;4mcyclone[0m [1;32;4mde[0m [1;32;4mce[0m [1;32;4mque[0m [1;32;4ml' on[0m [1;32;4mvoit[0m [1;32;4meuh[0m [1;32;4mactuellement[0m
 # TEXT = Et on regarde c~ le plus proche [1;32;4mde[0m [1;32;4mce[0m [1;32;4mque[0m [1;32;4ml'on[0m [1;32;4mvoit[0m [1;32;4meuh[0m [1;32;4mactuellement[0m [1;32;4mcyclone[0m [1;32;4meuh ou[0m [1;32;4membryon[0m [1;32;4mde[0m [1;32;4mcyclone.[0m
 ---
-322:in Rhap_D2008-48
+322: Rhap_D2008-48
 ## non projective
+7 différences
+# text = [1;32;4meh[0m [1;32;4mbien[0m [1;32;4mon[0m [1;32;4mpeut[0m dire un peu de la même façon qu' aujourd'hui ce [1;34;47mque [0m[1;32;4ml[0m'on voit c' est un prémice de démarrage de pandémie euh[1;32;4m[0m
+# TEXT = [1;32;4mOn[0m [1;32;4mpeut[0m [1;32;4meh[0m [1;32;4mbien[0m dire un peu de la même façon qu'aujourd'hui ce [1;32;4mqu[0m'on voit c'est un prémice de démarrage de pandémie euh[1;32;4m.[0m
 2 erreurs: Rhap_D2008-48
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 N('prémice'):: absent du lexique.
 ---
 323: Rhap_D2008-49
@@ -1591,15 +1857,19 @@ N('prémice'):: absent du lexique.
 # text = on imagine des [1;32;4mscénarios[0m
 # TEXT = On imagine des [1;32;4mscénario.[0m
 ---
-326:in Rhap_D2008-52
-1 erreur: Rhap_D2008-52
-D('plusieurs'):: absent du lexique.
+326: Rhap_D2008-52
+2 différences
+# text = et il y a plusieurs [1;32;4mscénarios[0m possibles[1;32;4m[0m
+# TEXT = Et il y a plusieurs [1;32;4mscénario[0m possibles[1;32;4m.[0m
 ---
 327: Rhap_D2008-53
 # text = mais celui qui est le plus grave le plus pour la Fran~ non pas le plus grave
 # TEXT = mais celui qui est le plus grave le plus pour la Fran~ non pas le plus grave
 ---
-328:in Rhap_D2008-54
+328: Rhap_D2008-54
+1 différence
+# text = pa~ parce [1;32;4mque [0mà trente mille vous êtes dans dans encore dans le dans le raison~ enfin dans l~
+# TEXT = pa~ parce [1;32;4mqu'[0mà trente mille vous êtes dans dans encore dans le dans le raison~ enfin dans l~
 3 erreurs: Rhap_D2008-54
 C('pa~'):: absent du lexique.
 C('parce'):: absent du lexique.
@@ -1608,8 +1878,8 @@ N('raison~'):: absent du lexique.
 329: Rhap_D2008-55
 ## non projective
 6 différences
-# text = [1;32;4mà[0m [1;32;4mtrente[0m [1;32;4mmille[0m [1;32;4mon[0m [1;32;4mest[0m dans quelque chose où la mortalité est très voisine de la mortalité de la grippe saisonnière[1;32;4m[0m
-# TEXT = [1;32;4mOn[0m [1;32;4mest[0m [1;32;4mà[0m [1;32;4mtrente[0m [1;32;4mmille[0m dans quelque chose où la mortalité est très voisine de la mortalité de la grippe saisonnière[1;32;4m.[0m
+# text = [1;32;4mà[0m [1;32;4mtrente[0m [1;32;4mmille[0m [1;32;4mon[0m [1;32;4mest[0m dans quelque chose où la mortalité est très voisine de la mortalité de la grippe [1;32;4msaisonnière[0m
+# TEXT = [1;32;4mOn[0m [1;32;4mest[0m [1;32;4mà[0m [1;32;4mtrente[0m [1;32;4mmille[0m dans quelque chose où la mortalité est très voisine de la mortalité de la grippe [1;32;4msaisonnier.[0m
 ---
 330: Rhap_D2008-56
 1 différence
@@ -1620,7 +1890,10 @@ N('raison~'):: absent du lexique.
 # text = la grippe saisonnière
 # TEXT = la grippe saisonnière
 ---
-332:in Rhap_D2008-58
+332: Rhap_D2008-58
+2 différences
+# text = mais enfin entre cinq mille morts par an et trente mille v~ [1;32;4mje [0mil y a six fois plus de cas[1;32;4m[0m
+# TEXT = Mais enfin entre cinq mille morts par an et trente mille v~ [1;32;4mj'[0mil y a six fois plus de cas[1;32;4m.[0m
 1 erreur: Rhap_D2008-58
 N('v~'):: absent du lexique.
 ---
@@ -1634,7 +1907,10 @@ N('v~'):: absent du lexique.
 # text = s' il y a six fois plus de cas simplement de cas de gens infectés par le virus alors mécaniquement il y a une chance un risque qu' il y ait six fois plus de de décès[1;32;4m[0m
 # TEXT = S'il y a six fois plus de cas simplement de cas de gens infectés par le virus alors mécaniquement il y a une chance un risque qu'il y ait six fois plus de de décès[1;32;4m.[0m
 ---
-335:in Rhap_D2008-61
+335: Rhap_D2008-61
+1 différence
+# text = j~ j~ je suis pas pervers[1;32;4m[0m
+# TEXT = J~ j~ je suis pas pervers[1;32;4m.[0m
 2 erreurs: Rhap_D2008-61
 Pro('j~'):: absent du lexique.
 Pro('j~'):: absent du lexique.
@@ -1643,9 +1919,12 @@ Pro('j~'):: absent du lexique.
 # text = mais enfin de~
 # TEXT = mais enfin de~
 ---
-337:in Rhap_D2008-63
+337: Rhap_D2008-63
+4 différences
+# text = [1;32;4mpardonnez[0m -[1;32;4mmoi[0m si ça c' était on va dire [1;32;4mune[0m des estimations à euh potentiel raisonnable le le l' estimation inquiétante c' est quoi[1;32;4m[0m
+# TEXT = [1;32;4mPardonne[0m-[1;32;4mje[0m si ça c'était on va dire [1;32;4mun[0m des estimations à euh potentiel raisonnable le le l'estimation inquiétante c'est quoi[1;32;4m.[0m
 1 erreur: Rhap_D2008-63
-Pro('un'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
 ---
 338: Rhap_D2008-64
 # text = les estimations inquiétantes euh
@@ -1661,18 +1940,21 @@ Pro('un'):: absent du lexique.
 # text = les estimations inquiétantes euh elles [1;32;4mne me[0m semblent pas [1;32;4mbeau~[0m pas très probables[1;32;4m[0m
 # TEXT = Les estimations inquiétantes euh elles [1;32;4mn'il[0m semblent pas [1;32;4mbeaucoup[0m pas très probables[1;32;4m.[0m
 ---
-341:in Rhap_D2008-67
+341: Rhap_D2008-67
+2 différences
+# text = [1;32;4mune[0m des estimations inquiétantes c' est celle de mille neuf cent dix-huit[1;32;4m[0m
+# TEXT = [1;32;4mUn[0m des estimations inquiétantes c'est celle de mille neuf cent dix-huit[1;32;4m.[0m
 1 erreur: Rhap_D2008-67
-Pro('un'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
 ---
 342: Rhap_D2008-68
 1 différence
 # text = il y a eu en mille neuf cent dix-huit sur l' ensemble de la planète on dit quarante millions de décès[1;32;4m[0m
 # TEXT = Il y a eu en mille neuf cent dix-huit sur l'ensemble de la planète on dit quarante millions de décès[1;32;4m.[0m
 ---
-343:in Rhap_D2008-69
-1 erreur: Rhap_D2008-69
-C("c'est-à-dire"):: absent du lexique.
+343: Rhap_D2008-69
+# text = c'est-à-dire une mortalité effroyable
+# TEXT = c'est-à-dire une mortalité effroyable
 ---
 344: Rhap_D2008-70
 # text = mais pourquoi
@@ -1684,7 +1966,10 @@ C("c'est-à-dire"):: absent du lexique.
 # text = mais [1;32;4men[0m [1;32;4mmille[0m [1;32;4mneuf[0m [1;32;4mcent[0m [1;32;4mdix[0m-[1;32;4mhuit[0m [1;32;4mà[0m [1;32;4mRennes[0m [1;32;4mpar[0m [1;32;4mexemple[0m [1;32;4msoixante-dix[0m [1;32;4mmille habitants[0m en mille neuf cent dix-huit il y avait trente [1;32;4mbaignoires[0m
 # TEXT = Mais [1;32;4mà[0m [1;32;4mRennes[0m [1;32;4mpar[0m [1;32;4mexemple[0m [1;32;4msoixante[0m-[1;32;4mdix[0m [1;32;4mmille[0m [1;32;4mhabitants[0m [1;32;4men[0m [1;32;4mmille[0m [1;32;4mneuf cent[0m [1;32;4mdix-huit[0m en mille neuf cent dix-huit il y avait trente [1;32;4mbaignoire.[0m
 ---
-346:in Rhap_D2008-72
+346: Rhap_D2008-72
+3 différences
+# text = en mille neuf cent dix-huit il y avait pas [1;32;4mde[0m [1;32;4mde[0m [1;32;4mde[0m
+# TEXT = En mille neuf cent dix-huit il y avait pas [1;32;4mUN[0m [1;32;4mUN[0m [1;32;4mUN.[0m
 3 erreurs: Rhap_D2008-72
 D('UN'):: absent du lexique.
 D('UN'):: absent du lexique.
@@ -1695,20 +1980,29 @@ D('UN'):: absent du lexique.
 # text = la moitié des des des [1;32;4mdomiciles[0m parisiens n' avait pas le le raccord à l' égout euh[1;32;4m[0m
 # TEXT = La moitié des des des [1;32;4mdomicile[0m parisiens n'avait pas le le raccord à l'égout euh[1;32;4m.[0m
 ---
-348:in Rhap_D2008-74
+348: Rhap_D2008-74
+2 différences
+# text = vous [1;32;4maviez[0m donc euh pas d' antibiotiques bien [1;32;4mentendu[0m
+# TEXT = Vous [1;32;4mavez[0m donc euh pas d'antibiotiques bien [1;32;4mentendre.[0m
 1 erreur: Rhap_D2008-74
-A('entendre'):: absent du lexique.
+A('entendre'):: absent du lexique mais existe comme V.
 ---
 349: Rhap_D2008-75
 5 différences
 # text = on ne savait pas [1;32;4mce[0m [1;32;4mqu' était[0m [1;32;4mun[0m [1;32;4mvirus [0men mille neuf cent dix-huit[1;32;4m[0m
 # TEXT = On ne savait pas [1;32;4mcet[0m [1;32;4mun virus[0m [1;32;4métait[0m [1;32;4mqu'[0men mille neuf cent dix-huit[1;32;4m.[0m
 ---
-350:in Rhap_D2008-76
+350: Rhap_D2008-76
+1 différence
+# text = on est au Moyen Âge de la santé en mille neuf cent dix-huit[1;32;4m[0m
+# TEXT = On est au Moyen Âge de la santé en mille neuf cent dix-huit[1;32;4m.[0m
 1 erreur: Rhap_D2008-76
 A('Moyen'):: absent du lexique.
 ---
-351:in Rhap_D2008-77
+351: Rhap_D2008-77
+1 différence
+# text = il y a pas de d' anti-viraux[1;32;4m[0m
+# TEXT = Il y a pas de d'anti-viraux[1;32;4m.[0m
 1 erreur: Rhap_D2008-77
 A('anti-viraux'):: absent du lexique.
 ---
@@ -1717,7 +2011,10 @@ A('anti-viraux'):: absent du lexique.
 # text = il y a pas de [1;32;4mvaccins[0m
 # TEXT = Il y a pas de [1;32;4mvaccin.[0m
 ---
-353:in Rhap_D2008-79
+353: Rhap_D2008-79
+4 différences
+# text = je pense [1;32;4mque [0maujourd'[1;34;47mhui [0meuh s~ euh même une grippe aussi virulente que celle de mille neuf cent dix-huit n' [1;32;4mentraînerait[0m pas une mortalité aussi effroyable[1;32;4m[0m
+# TEXT = Je pense [1;32;4mqu'[0maujourd'euh s~ euh même une grippe aussi virulente que celle de mille neuf cent dix-huit n'[1;32;4mentraîne[0m pas une mortalité aussi effroyable[1;32;4m.[0m
 1 erreur: Rhap_D2008-79
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -1746,12 +2043,13 @@ Adv("aujourd'"):: absent du lexique.
 # text = c' est[1;32;4m[0m
 # TEXT = C'est[1;32;4m.[0m
 ---
-359:in Rhap_D2008-85
-4 erreurs: Rhap_D2008-85
-V('voilà'):: absent du lexique.
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+359: Rhap_D2008-85
+1 différence
+# text = est -ce que vous [1;32;4mnous[0m dites voilà si ça tourne mal c' est euh dans l' année à venir euh voilà
+# TEXT = est-ce que vous [1;32;4mil[0m dites voilà si ça tourne mal c'est euh dans l'année à venir euh voilà
+2 erreurs: Rhap_D2008-85
+V('voilà'):: absent du lexique mais existe comme P.
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 360: Rhap_D2008-86
 4 différences
@@ -1764,11 +2062,17 @@ V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":
 # text = alors euh oui c' est c' est une c' est une question[1;32;4m[0m
 # TEXT = Alors euh oui c'est c'est une c'est une question[1;32;4m.[0m
 ---
-362:in Rhap_D2008-88
+362: Rhap_D2008-88
+4 différences
+# text = vous vous savez [1;32;4mon[0m [1;32;4ma[0m [1;32;4mtous[0m été frai~ très frappés[1;32;4m[0m
+# TEXT = Vous vous savez [1;32;4ma[0m [1;32;4mtous[0m [1;32;4mon[0m été frai~ très frappés[1;32;4m.[0m
 1 erreur: Rhap_D2008-88
 A('frai~'):: absent du lexique.
 ---
-363:in Rhap_D2008-89
+363: Rhap_D2008-89
+3 différences
+# text = par exemple [1;32;4mnotre[0m [1;32;4mnotre[0m ministre de la santé Roselyne Bachelot elle a géré cette crise on va dire au minimum en trois temps en termes de communication perçue par[1;32;4m[0m
+# TEXT = Par exemple [1;32;4mson[0m [1;32;4mson[0m ministre de la santé Roselyne Bachelot elle a géré cette crise on va dire au minimum en trois temps en termes de communication perçue par[1;32;4m.[0m
 1 erreur: Rhap_D2008-89
 N('termes'):: absent du lexique.
 ---
@@ -1777,9 +2081,12 @@ N('termes'):: absent du lexique.
 # text = elle a commencé par [1;32;4mnous[0m dire euh on est aux affaires[1;32;4m[0m
 # TEXT = Elle a commencé par [1;32;4mil[0m dire euh on est aux affaires[1;32;4m.[0m
 ---
-365:in Rhap_D2008-91
+365: Rhap_D2008-91
+1 différence
+# text = après elle a dit on est aux affaires[1;32;4m[0m
+# TEXT = Après elle a dit on est aux affaires[1;32;4m.[0m
 1 erreur: Rhap_D2008-91
-Adv('après'):: absent du lexique.
+Adv('après'):: absent du lexique mais existe comme P.
 ---
 366: Rhap_D2008-92
 1 différence
@@ -1811,17 +2118,21 @@ Adv('après'):: absent du lexique.
 # text = donc il y il y a eu des [1;32;4mgradations[0m
 # TEXT = Donc il y il y a eu des [1;32;4mgradation.[0m
 ---
-372:in Rhap_D2008-98
-2 erreurs: Rhap_D2008-98
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+372: Rhap_D2008-98
+# text = voilà euh
+# TEXT = voilà euh
+1 erreur: Rhap_D2008-98
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 373: Rhap_D2008-99
 3 différences
 # text = mais surtout elle [1;32;4mnous[0m a dit faut se [1;32;4mméfier[0m du retour de balancier[1;32;4m[0m
 # TEXT = Mais surtout elle [1;32;4mil[0m a dit faut se [1;32;4mméfie[0m du retour de balancier[1;32;4m.[0m
 ---
-374:in Rhap_D2008-100
+374: Rhap_D2008-100
+3 différences
+# text = [1;31m•[0men gros de passer l' été qu[1;34;47m' est[0m[1;32;4m -[0mce qu' il va se passer l' hiver prochain
+# TEXT = [1;31mest [0men gros de passer l'été qu[1;32;4m'-[0mce qu'il va se passer l'hiver prochain
 1 erreur: Rhap_D2008-100
 Pro("qu'"):: absent du lexique.
 ---
@@ -1830,11 +2141,14 @@ Pro("qu'"):: absent du lexique.
 # text = dans le cadre déjà de la grippe traditionnelle [1;31m•[0mest -ce que ce chiffre de trente mille [1;34;47mil [0ms' applique à ça[1;32;4m[0m
 # TEXT = Dans le cadre déjà de la grippe traditionnelle [1;31mil [0mest-ce que ce chiffre de trente mille s'applique à ça[1;32;4m.[0m
 ---
-376:in Rhap_D2008-102
-1 erreur: Rhap_D2008-102
-C("c'est-à-dire"):: absent du lexique.
+376: Rhap_D2008-102
+# text = c'est-à-dire que la grippe ce qu' on connaît de la grippe
+# TEXT = c'est-à-dire que la grippe ce qu'on connaît de la grippe
 ---
-377:in Rhap_D2008-103
+377: Rhap_D2008-103
+1 différence
+# text = parce que la grippe est une maladie qu' on connaît bien[1;32;4m[0m
+# TEXT = Parce que la grippe est une maladie qu'on connaît bien[1;32;4m.[0m
 1 erreur: Rhap_D2008-103
 C('parce'):: absent du lexique.
 ---
@@ -1895,11 +2209,17 @@ C('parce'):: absent du lexique.
 # text = on va donc avoir [1;32;4mnos[0m regards [1;32;4mbraqués[0m sur l' hémisphère sud et notamment sur les pays de la zone [1;32;4mtempérée[0m de l' hémisphère sud dans les mois à venir[1;32;4m[0m
 # TEXT = On va donc avoir [1;32;4mses[0m regards [1;32;4mbraque[0m sur l'hémisphère sud et notamment sur les pays de la zone [1;32;4mtempère[0m de l'hémisphère sud dans les mois à venir[1;32;4m.[0m
 ---
-389:in Rhap_D2008-115
+389: Rhap_D2008-115
+1 différence
+# text = et puis après si jamais ces épidémies euh surviennent dans l' hémisphère sud on aura une chance encore plus renforcée[1;32;4m[0m
+# TEXT = Et puis après si jamais ces épidémies euh surviennent dans l'hémisphère sud on aura une chance encore plus renforcée[1;32;4m.[0m
 1 erreur: Rhap_D2008-115
-Adv('après'):: absent du lexique.
+Adv('après'):: absent du lexique mais existe comme P.
 ---
-390:in Rhap_D2008-116
+390: Rhap_D2008-116
+3 différences
+# text = ce qui peut comprendre le le discours de [1;32;4mnos[0m autorités de santé qui vont se voir euh non pas [1;32;4mréconfortées[0m hein mais euh plutôt euh euh vigilan~ avec une vigilance encore [1;32;4maccrue[0m sur euh l' hiver qui qui arrive
+# TEXT = ce qui peut comprendre le le discours de [1;32;4mses[0m autorités de santé qui vont se voir euh non pas [1;32;4mréconforte[0m hein mais euh plutôt euh euh vigilan~ avec une vigilance encore [1;32;4maccrûe[0m sur euh l'hiver qui qui arrive
 1 erreur: Rhap_D2008-116
 N('vigilan~'):: absent du lexique.
 ---
@@ -1913,10 +2233,12 @@ N('vigilan~'):: absent du lexique.
 # text = c' est euh[1;32;4m[0m
 # TEXT = C'est euh[1;32;4m.[0m
 ---
-393:in Rhap_D2008-119
-2 erreurs: Rhap_D2008-119
-P('comme'):: absent du lexique.
-C("c'est-à-dire"):: absent du lexique.
+393: Rhap_D2008-119
+1 différence
+# text = si ça se passe comme ça c'est-à-dire de façon euh inquiétante on le sait quand[1;32;4m[0m
+# TEXT = Si ça se passe comme ça c'est-à-dire de façon euh inquiétante on le sait quand[1;32;4m.[0m
+1 erreur: Rhap_D2008-119
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 394: Rhap_D2008-120
 1 différence
@@ -1954,18 +2276,24 @@ C("c'est-à-dire"):: absent du lexique.
 # text = [1;34;47meuh [0mmais je veux [1;31m•[0mdire[1;32;4m[0m
 # TEXT = Mais je veux [1;31meuh [0mdire[1;32;4m.[0m
 ---
-401:in Rhap_D2008-127
+401: Rhap_D2008-127
+2 différences
+# text = à qu~ à quel moment dans l' année euh à l' automne[1;32;4m [0mà l' hiver on sait qu' on est dedans et que ça va s~ ça sera pas la grippe traditionnelle mais autre chose[1;32;4m[0m
+# TEXT = À qu~ à quel moment dans l'année euh à l'automne[1;32;4m, [0mà l'hiver on sait qu'on est dedans et que ça va s~ ça sera pas la grippe traditionnelle mais autre chose[1;32;4m.[0m
 2 erreurs: Rhap_D2008-127
 A('qu~'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 402: Rhap_D2008-128
 1 différence
 # text = alors les la probabilité ne fait qu' augmenter avec le temps[1;32;4m[0m
 # TEXT = Alors les la probabilité ne fait qu'augmenter avec le temps[1;32;4m.[0m
 ---
-403:in Rhap_D2008-129
+403: Rhap_D2008-129
 ## non projective
+6 différences
+# text = déjà la probabilité [1;31m•[0mqu' on [1;32;4mn~[0m [1;32;4mqu' [0mon [1;32;4msoit[0m [1;34;47mdedans [0mpar exemple enfin ne fait qu' augmenter[1;32;4m[0m
+# TEXT = Déjà la probabilité [1;31mque [0mqu'on [1;32;4msoit[0m [1;32;4mdedans [0mon [1;32;4mn~[0m par exemple enfin ne fait qu'augmenter[1;32;4m.[0m
 1 erreur: Rhap_D2008-129
 Adv('n~'):: absent du lexique.
 ---
@@ -1974,11 +2302,17 @@ Adv('n~'):: absent du lexique.
 # text = donc je pars en vacances de bonne humeur[1;32;4m[0m
 # TEXT = Donc je pars en vacances de bonne humeur[1;32;4m.[0m
 ---
-405:in Rhap_D2008-131
+405: Rhap_D2008-131
+3 différences
+# text = je reviens au milieu de l' été en [1;32;4mme[0m disant [1;32;4mqu' est -[0mce qu' il va se passer à l' automne[1;32;4m[0m
+# TEXT = Je reviens au milieu de l'été en [1;32;4mil[0m disant [1;32;4mest qu'-[0mce qu'il va se passer à l'automne[1;32;4m.[0m
 1 erreur: Rhap_D2008-131
 Pro("qu'"):: absent du lexique.
 ---
-406:in Rhap_D2008-132
+406: Rhap_D2008-132
+5 différences
+# text = et quand je reçois le bulletin trimestrimel [1;32;4mde[0m [1;34;47mle [0mpremier bulletin trimestriel de [1;32;4mma[0m de [1;32;4mma[0m fille je j' appelle les pompes funèbres[1;32;4m[0m
+# TEXT = Et quand je reçois le bulletin trimestrimel [1;32;4mdu[0m premier bulletin trimestriel de [1;32;4msa[0m de [1;32;4msa[0m fille je j'appelle les pompes funèbres[1;32;4m.[0m
 2 erreurs: Rhap_D2008-132
 A('trimestrimel'):: absent du lexique.
 N('pompes'):: absent du lexique.
@@ -1989,39 +2323,49 @@ N('pompes'):: absent du lexique.
 # text = [1;31m•[0m[1;32;4mce[0m [1;32;4mque[0m je veux [1;32;4mdire[0m [1;32;4mc' [0mest que [1;34;47mc' [0m[1;32;4mest[0m cumulatif[1;32;4m[0m
 # TEXT = [1;31mC'[0m[1;32;4mest[0m [1;32;4mce[0m je veux [1;32;4mque[0m [1;32;4mdire [0mest que [1;32;4mce[0m cumulatif[1;32;4m.[0m
 ---
-408:in Rhap_D2008-134
+408: Rhap_D2008-134
 ## non projective
+6 différences
+# text = aujourd'[1;34;47mhui [0mon sait que la petite souche qui a [1;32;4mémergé[0m au Mexique est quand même un peu plus [1;34;47mcontagieuse que [0m[1;32;4meuh [0mon aurait pu [1;31m•[0ml' espérer[1;31m•[0m
+# TEXT = Aujourd'on sait que la petite souche qui a [1;32;4mémerge[0m au Mexique est quand même un peu plus [1;32;4mqu'[0mon aurait pu [1;31meuh [0ml'espérer [1;31mcontagieuse.[0m
 2 erreurs: Rhap_D2008-134
 Adv("aujourd'"):: absent du lexique.
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 409: Rhap_D2008-135
 1 différence
 # text = elle est plus contagieuse[1;32;4m[0m
 # TEXT = Elle est plus contagieuse[1;32;4m.[0m
 ---
-410:in Rhap_D2008-136
+410: Rhap_D2008-136
 ## non projective
-2 erreurs: Rhap_D2008-136
+13 différences
+# text = elle [1;34;47ms' [0mest ren~ [1;32;4mrépandue[0m [1;31m•[0massez rapidement quand même [1;32;4maux[0m [1;32;4mÉtats-Unis[0m [1;31m•[0m[1;32;4mau Canada[0m [1;32;4men en[0m [1;32;4mGrande[0m-[1;32;4mBretagne[0m [1;32;4mau[0m [1;32;4mau Royaume-Uni[0m[1;31m•[0m
+# TEXT = Elle est ren~ [1;32;4mse[0m [1;31mrépand [0massez rapidement quand même [1;32;4mà[0m [1;32;4men en[0m [1;31mGrande-[0m[1;32;4mBretagne, à[0m [1;32;4ml'au[0m [1;32;4mRoyaume[0m-[1;32;4mUni[0m [1;32;4mles[0m [1;32;4mÉtats-Unis, au[0m [1;31mCanada.[0m
+1 erreur: Rhap_D2008-136
 V('ren~'):: absent du lexique.
-V('ren~'):: erreur de morphologie : conjugate_fr:tab :V(ren~) : {"pe":3,"n":"s","t":"p"}.
 ---
 411: Rhap_D2008-137
 2 différences
 # text = dans tous ces endroits[1;32;4m -[0mlà il y a des chaînes de transmission locale[1;32;4m[0m
 # TEXT = Dans tous ces endroits[1;32;4m [0mlà il y a des chaînes de transmission locale[1;32;4m.[0m
 ---
-412:in Rhap_D2008-138
-2 erreurs: Rhap_D2008-138
-C("c'est-à-dire"):: absent du lexique.
+412: Rhap_D2008-138
+1 différence
+# text = c'est-à-dire que le m~ le le virus sait faire sa propre besogne de lui-même sur place[1;32;4m[0m
+# TEXT = C'est-à-dire que le m~ le le virus sait faire sa propre besogne de lui-même sur place[1;32;4m.[0m
+1 erreur: Rhap_D2008-138
 Pro('lui-même'):: absent du lexique.
 ---
-413:in Rhap_D2008-139
+413: Rhap_D2008-139
 ## non projective
-1 erreur: Rhap_D2008-139
-C("c'est-à-dire"):: absent du lexique.
+8 différences
+# text = ce que je crois c' est qu' à la fin de l' été si on sait qu' il y a eu des très fortes épidémies dans l' hémisphère sud la probabilité [1;34;47msera très renforcée [0mque ça [1;32;4mnous[0m [1;32;4mnous[0m [1;32;4mnous[0m [1;32;4mrevienne[0m pendant [1;32;4mnotre[0m hiver à [1;32;4mnous[0m et peut-être même pendant l' automne c'est-à-dire peut-être assez précocement[1;31m•[0m
+# TEXT = Ce que je crois c'est qu'à la fin de l'été si on sait qu'il y a eu des très fortes épidémies dans l'hémisphère sud la probabilité que ça [1;32;4mme[0m [1;32;4mje[0m [1;32;4mje[0m [1;32;4mrevient[0m pendant [1;32;4mson[0m hiver à [1;32;4mil[0m et peut-être même pendant l'automne c'est-à-dire peut-être assez précocement [1;31msera très renforcée.[0m
 ---
-414:in Rhap_D2008-140
+414: Rhap_D2008-140
+# text = alors j~
+# TEXT = alors j~
 1 erreur: Rhap_D2008-140
 Pro('j~'):: absent du lexique.
 ---
@@ -2051,7 +2395,10 @@ Pro('j~'):: absent du lexique.
 # text = visite à l' épicentre de la peur avec Sophie [1;32;4mPagès[0m [1;32;4met[0m [1;32;4mDominique[0m [1;32;4mLe[0m [1;32;4mMarchant[0m
 # TEXT = visite à l'épicentre de la peur avec Sophie [1;32;4mle[0m [1;32;4mMarchant[0m [1;32;4met[0m [1;32;4mDominique[0m [1;32;4mPagès[0m
 ---
-420:in Rhap_M2003-1
+420: Rhap_M2003-1
+6 différences
+# text = c' est la première journée de Jésus que [1;32;4mnous[0m venons d' entendre la première journée où il manifeste son autorité[1;34;47m et[0m[1;32;4m [0mla nouveauté[1;32;4m [0mla bonne nouvelle [1;31m•[0ml' évangile qui arrive avec [1;32;4mlui[0m
+# TEXT = C'est la première journée de Jésus que [1;32;4mje[0m venons d'entendre la première journée où il manifeste son autorité[1;32;4m, [0mla nouveauté[1;32;4m, [0mla bonne nouvelle [1;31met [0ml'évangile qui arrive avec [1;32;4mil.[0m
 1 erreur: Rhap_M2003-1
 N('nouvelle'):: absent du lexique.
 ---
@@ -2060,9 +2407,10 @@ N('nouvelle'):: absent du lexique.
 # text = et vous l' avez remarqué en [1;32;4mécoutant[0m l' évangile[1;32;4m[0m
 # TEXT = Et vous l'avez remarqué en [1;32;4mécoute[0m l'évangile[1;32;4m.[0m
 ---
-422:in Rhap_M2003-3
-1 erreur: Rhap_M2003-3
-Pro('rien'):: absent du lexique.
+422: Rhap_M2003-3
+1 différence
+# text = Jésus ne dit rien avant la fin de l' épisode[1;32;4m[0m
+# TEXT = Jésus ne dit rien avant la fin de l'épisode[1;32;4m.[0m
 ---
 423: Rhap_M2003-4
 1 différence
@@ -2079,14 +2427,19 @@ Pro('rien'):: absent du lexique.
 # text = et sa fièvre la quitte[1;32;4m[0m
 # TEXT = Et sa fièvre la quitte[1;32;4m.[0m
 ---
-426:in Rhap_M2003-7
+426: Rhap_M2003-7
 ## non projective
+4 différences
+# text = il guérit ensuite toutes sortes de malades comme plus tard dans l' évangile il acceptera de [1;32;4mse[0m [1;32;4mlaisser[0m toucher ou de [1;32;4mbénir[0m en imposant les mains[1;32;4m[0m
+# TEXT = Il guérit ensuite toutes sortes de malades comme plus tard dans l'évangile il acceptera de [1;32;4mlaisser[0m [1;32;4mse[0m toucher ou de [1;32;4mbénit[0m en imposant les mains[1;32;4m.[0m
 1 erreur: Rhap_M2003-7
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
-427:in Rhap_M2003-8
-2 erreurs: Rhap_M2003-8
-Pro('beaucoup'):: absent du lexique.
+427: Rhap_M2003-8
+1 différence
+# text = il chasse beaucoup d' esprits ce qui fait du mal aux gens[1;32;4m[0m
+# TEXT = Il chasse beaucoup d'esprits ce qui fait du mal aux gens[1;32;4m.[0m
+1 erreur: Rhap_M2003-8
 N('esprits'):: absent du lexique.
 ---
 428: Rhap_M2003-9
@@ -2105,32 +2458,44 @@ N('esprits'):: absent du lexique.
 # text = en fait tout l' évangile [1;32;4mnous[0m montre un Jésus qui remet l' humanité debout[1;32;4m[0m
 # TEXT = En fait tout l'évangile [1;32;4mil[0m montre un Jésus qui remet l'humanité debout[1;32;4m.[0m
 ---
-431:in Rhap_M2003-12
+431: Rhap_M2003-12
+3 différences
+# text = et aujourd'[1;34;47mhui [0mdans sa première journée il fait de la belle-mère de Pierre [1;32;4mune[0m des toutes premières disciples[1;32;4m[0m
+# TEXT = Et aujourd'dans sa première journée il fait de la belle-mère de Pierre [1;32;4mun[0m des toutes premières disciples[1;32;4m.[0m
 2 erreurs: Rhap_M2003-12
 Adv("aujourd'"):: absent du lexique.
-Pro('un'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
 ---
-432:in Rhap_M2003-13
+432: Rhap_M2003-13
 ## non projective
+15 différences
+# text = l' évangile la bonne nouvelle [1;32;4mcomme[0m [1;32;4mle[0m [1;32;4mrépète[0m [1;32;4ml' apôtre[0m [1;32;4mPaul[0m [1;32;4mla[0m [1;32;4mbonne[0m [1;32;4mnouvelle[0m [1;32;4men[0m [1;32;4mla[0m [1;32;4mpersonne de[0m [1;32;4mJésus[0m c' est d' abord une action une action pour restaurer la dignité de la personne humaine une action pour rétablir la personne en sa qualité de sujet de parole une action pour rétablir les uns et les [1;32;4mautres[0m dans les relations avec [1;32;4mle uns[0m et avec les [1;32;4mautres[0m
+# TEXT = L'évangile la bonne nouvelle [1;32;4mla[0m [1;32;4mbonne[0m [1;32;4mnouvelle[0m [1;32;4men la[0m [1;32;4mpersonne[0m [1;32;4mde[0m [1;32;4mJésus[0m [1;32;4mcomme[0m [1;32;4mle[0m [1;32;4mrépète[0m [1;32;4ml'apôtre[0m [1;32;4mPaul[0m c'est d'abord une action une action pour restaurer la dignité de la personne humaine une action pour rétablir la personne en sa qualité de sujet de parole une action pour rétablir les uns et les [1;32;4mautre[0m dans les relations avec [1;32;4ml'un[0m et avec les [1;32;4mautre.[0m
 7 erreurs: Rhap_M2003-13
 N('nouvelle'):: absent du lexique.
 N('nouvelle'):: absent du lexique.
 D('les'):: absent du lexique.
-Pro('uns'):: absent du lexique.
-Pro('autre'):: absent du lexique.
-N('un'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+Pro('uns'):: absent du lexique mais existe comme Adv.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
+N('un'):: absent du lexique mais existe comme Adv ou D.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
-433:in Rhap_M2003-14
+433: Rhap_M2003-14
+1 différence
+# text = Jésus ne pose même pas ses gestes de bonté comme des appels à la foi[1;32;4m[0m
+# TEXT = Jésus ne pose même pas ses gestes de bonté comme des appels à la foi[1;32;4m.[0m
 1 erreur: Rhap_M2003-14
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 434: Rhap_M2003-15
 3 différences
 # text = en ses gestes dans ce premier jour il inaugure en sa personne la [1;32;4mvenue[0m de Dieu parmi les Hommes la [1;32;4mvenue[0m définitive de Dieu pour rétablir l' humanité dans sa vocation et dans sa dignité[1;32;4m[0m
 # TEXT = En ses gestes dans ce premier jour il inaugure en sa personne la [1;32;4mvenu[0m de Dieu parmi les Hommes la [1;32;4mvenu[0m définitive de Dieu pour rétablir l'humanité dans sa vocation et dans sa dignité[1;32;4m.[0m
 ---
-435:in Rhap_M2003-16
+435: Rhap_M2003-16
+5 différences
+# text = son message initial au tout début de l' évangile [1;32;4mconvertissez[0m -[1;32;4mvous [0mle royaume de Dieu est proche [1;32;4mde vous[0m son message s' inscrit aujourd'[1;34;47mhui [0mdans sa personne[1;32;4m[0m
+# TEXT = Son message initial au tout début de l'évangile [1;32;4mconvertit[0m-[1;32;4mje, [0mle royaume de Dieu est proche [1;32;4md'il[0m son message s'inscrit aujourd'dans sa personne[1;32;4m.[0m
 1 erreur: Rhap_M2003-16
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -2139,7 +2504,10 @@ Adv("aujourd'"):: absent du lexique.
 # text = il trouve sa traduction en action dans ses gestes de libération[1;32;4m[0m
 # TEXT = Il trouve sa traduction en action dans ses gestes de libération[1;32;4m.[0m
 ---
-437:in Rhap_M2003-18
+437: Rhap_M2003-18
+2 différences
+# text = plus encore dans l' évangile d' aujourd'[1;34;47mhui [0mJésus s' accorde le pouvoir de guérir et de chasser les esprits mauvais[1;32;4m[0m
+# TEXT = Plus encore dans l'évangile d'aujourd'Jésus s'accorde le pouvoir de guérir et de chasser les esprits mauvais[1;32;4m.[0m
 2 erreurs: Rhap_M2003-18
 Adv("aujourd'"):: absent du lexique.
 N('esprits'):: absent du lexique.
@@ -2190,24 +2558,32 @@ N('esprits'):: absent du lexique.
 # text = c' est désormais en son propre nom que Jésus chasse les démons[1;32;4m[0m
 # TEXT = C'est désormais en son propre nom que Jésus chasse les démons[1;32;4m.[0m
 ---
-447:in Rhap_M2003-28
+447: Rhap_M2003-28
+1 différence
+# text = il enseigne avec autorité pas comme les pharisiens et les [1;32;4mscribes[0m
+# TEXT = Il enseigne avec autorité pas comme les pharisiens et les [1;32;4mscribe.[0m
 1 erreur: Rhap_M2003-28
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 448: Rhap_M2003-29
 1 différence
 # text = il guérit en donnant la vie en donnant sa propre vie[1;32;4m[0m
 # TEXT = Il guérit en donnant la vie en donnant sa propre vie[1;32;4m.[0m
 ---
-449:in Rhap_M2003-30
-2 erreurs: Rhap_M2003-30
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+449: Rhap_M2003-30
+1 différence
+# text = mais voilà le mal est toujours présent au milieu [1;32;4mde nous[0m
+# TEXT = Mais voilà le mal est toujours présent au milieu [1;32;4md'il.[0m
+1 erreur: Rhap_M2003-30
+V('voilà'):: absent du lexique mais existe comme P.
 ---
-450:in Rhap_M2003-31
+450: Rhap_M2003-31
 ## non projective
+5 différences
+# text = depuis le temps de Jésus il y a le mal [1;34;47mdans l' humanité [0mle mal moral celui que l' on fait en faisant du mal aux [1;32;4mautres [0mle mal physique [1;31m•[0mquand [1;32;4msurviennent[0m aussi des catastrophes naturelles[1;32;4m[0m
+# TEXT = Depuis le temps de Jésus il y a le mal le mal moral celui que l'on fait en faisant du mal aux [1;32;4mautre, [0mle mal physique [1;31mdans l'humanité [0mquand [1;32;4msurvient[0m aussi des catastrophes naturelles[1;32;4m.[0m
 1 erreur: Rhap_M2003-31
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 451: Rhap_M2003-32
 3 différences
@@ -2224,13 +2600,15 @@ Pro('autre'):: absent du lexique.
 # text = il fait des journées de manoeuvre[1;32;4m[0m
 # TEXT = Il fait des journées de manoeuvre[1;32;4m.[0m
 ---
-454:in Rhap_M2003-35
+454: Rhap_M2003-35
 ## non projective
-5 erreurs: Rhap_M2003-35
-P('comme'):: absent du lexique.
-N('peu'):: absent du lexique.
-P('comme'):: absent du lexique.
-Pro('rien'):: absent du lexique.
+6 différences
+# text = comme l' esclave qui désire un [1;31m•[0mpeu [1;32;4md' ombre [0mcomme le manoeuvre qui attend sa paye depuis des mois [1;34;47mdit Job [0mje n' y ai rien [1;34;47mgagné [0msinon que [1;32;4mdu[0m néant[1;31m•[0m
+# TEXT = Comme l'esclave qui désire un [1;31md'ombre [0mpeu [1;32;4mdit Job, [0mcomme le manoeuvre qui attend sa paye depuis des mois je n'y ai rien sinon que [1;32;4mde+le[0m néant [1;31mgagné.[0m
+4 erreurs: Rhap_M2003-35
+P('comme'):: absent du lexique mais existe comme Adv ou C.
+N('peu'):: absent du lexique mais existe comme Adv.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 D('de+le'):: absent du lexique.
 ---
 455: Rhap_M2003-36
@@ -2243,22 +2621,27 @@ D('de+le'):: absent du lexique.
 # text = que de nuits de souffrance dans [1;32;4mnotre[0m humanité
 # TEXT = que de nuits de souffrance dans [1;32;4mson[0m humanité
 ---
-457:in Rhap_M2003-38
-2 erreurs: Rhap_M2003-38
-Pro('beaucoup'):: absent du lexique.
-Pro('beaucoup'):: absent du lexique.
+457: Rhap_M2003-38
+1 différence
+# text = et beaucoup il faut l' avouer beaucoup s' éloignent de la foi à cause de ce mal à cause de cette souffrance sans répit[1;32;4m[0m
+# TEXT = Et beaucoup il faut l'avouer beaucoup s'éloignent de la foi à cause de ce mal à cause de cette souffrance sans répit[1;32;4m.[0m
 ---
-458:in Rhap_M2003-39
+458: Rhap_M2003-39
 ## non projective
-2 erreurs: Rhap_M2003-39
-C("c'est-à-dire"):: absent du lexique.
-Pro('chacun'):: absent du lexique.
+3 différences
+# text = aussi à l' approche de la journée des malades voulue par Jean-Paul deux [1;32;4mle [0monze février [1;32;4men la[0m fête de Notre-Dame de Lourdes en ce jour de la pastorale de la santé la puissance de guérison de Jésus le don de la vie qu' il communique interroge vraiment vraiment la responsabilité de l' Église c'est-à-dire la responsabilité de chacun d' entre [1;32;4mnous[0m
+# TEXT = Aussi à l'approche de la journée des malades voulue par Jean-Paul deux [1;32;4ml'[0monze février [1;32;4ml'en[0m fête de Notre-Dame de Lourdes en ce jour de la pastorale de la santé la puissance de guérison de Jésus le don de la vie qu'il communique interroge vraiment vraiment la responsabilité de l'Église c'est-à-dire la responsabilité de chacun d'entre [1;32;4mil.[0m
+1 erreur: Rhap_M2003-39
+Pro('chacun'):: absent du lexique mais existe comme Adv.
 ---
-459:in Rhap_M2003-40
+459: Rhap_M2003-40
 ## non projective
+19 différences
+# text = pour que la parole des chrétiens soit [1;32;4mentendue[0m [1;32;4mcomme[0m [1;32;4mla[0m parole [1;32;4mdu[0m [1;32;4mChrist[0m [1;32;4mqui donne[0m [1;32;4mla[0m [1;32;4mvie[0m [1;32;4mpour[0m [1;32;4mque[0m [1;32;4mnotre[0m [1;32;4mparole[0m [1;32;4msoit[0m [1;32;4mentendue[0m [1;32;4mpour[0m [1;32;4mqu' elle[0m [1;32;4msoit[0m [1;32;4mcomprise[0m ne faut -il pas comme pour Jésus que d' abord [1;32;4mnous agissions[0m
+# TEXT = Pour que la parole des chrétiens soit [1;32;4mpour[0m [1;32;4mque[0m [1;32;4msa[0m parole [1;32;4msoit[0m [1;32;4mpour[0m [1;32;4mqu'elle[0m [1;32;4msoit[0m [1;32;4mcomprise[0m [1;32;4mentend[0m [1;32;4mentend[0m [1;32;4mcomme[0m [1;32;4mla[0m [1;32;4mparole[0m [1;32;4mdu[0m [1;32;4mChrist[0m [1;32;4mqui donne[0m [1;32;4mla[0m [1;32;4mvie[0m ne faut-il pas comme pour Jésus que d'abord [1;32;4mj'agissons.[0m
 2 erreurs: Rhap_M2003-40
-P('comme'):: absent du lexique.
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 460: Rhap_M1001-1
 2 différences
@@ -2280,21 +2663,31 @@ P('comme'):: absent du lexique.
 # text = c' est un bac euh SMS donc technologique[1;32;4m[0m
 # TEXT = C'est un bac euh SMS donc technologique[1;32;4m.[0m
 ---
-464:in Rhap_M1001-5
+464: Rhap_M1001-5
+1 différence
+# text = c' est sciences médico-sociales[1;32;4m[0m
+# TEXT = C'est sciences médico-sociales[1;32;4m.[0m
 1 erreur: Rhap_M1001-5
 A('médico-sociales'):: absent du lexique.
 ---
-465:in Rhap_M1001-6
-1 erreur: Rhap_M1001-6
-Pro('rien'):: absent du lexique.
+465: Rhap_M1001-6
+1 différence
+# text = ça n' a rien à voir avec euh la littérature[1;32;4m[0m
+# TEXT = Ça n'a rien à voir avec euh la littérature[1;32;4m.[0m
 ---
-466:in Rhap_M1001-7
+466: Rhap_M1001-7
+1 différence
+# text = parce qu' en fait euh j' aime la biologie[1;32;4m[0m
+# TEXT = Parce qu'en fait euh j'aime la biologie[1;32;4m.[0m
 1 erreur: Rhap_M1001-7
 C('parce'):: absent du lexique.
 ---
-467:in Rhap_M1001-8
+467: Rhap_M1001-8
+1 différence
+# text = et je suis plus euh vers la biologie et euh le social donc euh sciences médico-sociales[1;32;4m[0m
+# TEXT = Et je suis plus euh vers la biologie et euh le social donc euh sciences médico-sociales[1;32;4m.[0m
 2 erreurs: Rhap_M1001-8
-N('social'):: absent du lexique.
+N('social'):: absent du lexique mais existe comme A.
 A('médico-sociales'):: absent du lexique.
 ---
 468: Rhap_M1001-9
@@ -2307,7 +2700,10 @@ A('médico-sociales'):: absent du lexique.
 # text = [1;32;4mmon[0m premier choix euh c' était euh psychologie[1;32;4m[0m
 # TEXT = [1;32;4mSon[0m premier choix euh c'était euh psychologie[1;32;4m.[0m
 ---
-470:in Rhap_M1001-11
+470: Rhap_M1001-11
+1 différence
+# text = et en fait euh j' ai pas été acceptée parce qu' il y avait un entretien oral[1;32;4m[0m
+# TEXT = Et en fait euh j'ai pas été acceptée parce qu'il y avait un entretien oral[1;32;4m.[0m
 1 erreur: Rhap_M1001-11
 C('parce'):: absent du lexique.
 ---
@@ -2316,18 +2712,23 @@ C('parce'):: absent du lexique.
 # text = et je le savais pas[1;32;4m[0m
 # TEXT = Et je le savais pas[1;32;4m.[0m
 ---
-472:in Rhap_M1001-13
-2 erreurs: Rhap_M1001-13
-V('voilà'):: absent du lexique.
-V('voilà'):: erreur de morphologie : conjugate_fr:tab :V(voilà) : {"pe":3,"n":"s","t":"p"}.
+472: Rhap_M1001-13
+1 différence
+# text = donc euh en fait euh voilà[1;32;4m[0m
+# TEXT = Donc euh en fait euh voilà[1;32;4m.[0m
+1 erreur: Rhap_M1001-13
+V('voilà'):: absent du lexique mais existe comme P.
 ---
 473: Rhap_M1001-14
 1 différence
 # text = c' est c' est trop enfin s~ stupide[1;32;4m[0m
 # TEXT = C'est c'est trop enfin s~ stupide[1;32;4m.[0m
 ---
-474:in Rhap_M1001-15
+474: Rhap_M1001-15
 ## non projective
+5 différences
+# text = donc j' ai pris italien en deuxième choix [1;32;4mparce[0m [1;32;4mque[0m [1;32;4maussi[0m [1;32;4meuh[0m j' ai des facilités en italien[1;32;4m[0m
+# TEXT = Donc j'ai pris italien en deuxième choix [1;32;4maussi[0m [1;32;4meuh[0m [1;32;4mparce[0m [1;32;4mque[0m j'ai des facilités en italien[1;32;4m.[0m
 1 erreur: Rhap_M1001-15
 C('parce'):: absent du lexique.
 ---
@@ -2366,8 +2767,11 @@ C('parce'):: absent du lexique.
 # text = enfin je vais finir l' année là euh en un an[1;32;4m[0m
 # TEXT = Enfin je vais finir l'année là euh en un an[1;32;4m.[0m
 ---
-482:in Rhap_M1001-23
+482: Rhap_M1001-23
 ## non projective
+4 différences
+# text = et euh si euh je réussis pas ben je pense que je vais en psychologie parce que c' est plus euh ce [1;32;4mque[0m [1;32;4mje[0m [1;32;4mveux[0m faire la [1;32;4mpsycho[0m
+# TEXT = Et euh si euh je réussis pas ben je pense que je vais en psychologie parce que c'est plus euh ce [1;32;4mje[0m [1;32;4mveux[0m [1;32;4mque[0m faire la [1;32;4mpsychologie.[0m
 1 erreur: Rhap_M1001-23
 C('parce'):: absent du lexique.
 ---
@@ -2382,12 +2786,17 @@ C('parce'):: absent du lexique.
 # text = s~ si je passe je [1;32;4mpasserai[0m [1;32;4men[0m [1;32;4mdeuxième[0m année en troisième année[1;32;4m[0m
 # TEXT = S~ si je passe je [1;32;4mpasse[0m [1;32;4mdeuxième[0m [1;32;4men[0m année en troisième année[1;32;4m.[0m
 ---
-485:in Rhap_M1001-26
-2 erreurs: Rhap_M1001-26
+485: Rhap_M1001-26
+4 différences
+# text = je fini~ je [1;32;4mfinirai[0m [1;32;4mma[0m licence pour avoir [1;32;4mma[0m licence[1;32;4m[0m
+# TEXT = Je fini~ je [1;32;4mfinis[0m [1;32;4msa[0m licence pour avoir [1;32;4msa[0m licence[1;32;4m.[0m
+1 erreur: Rhap_M1001-26
 V('fini~'):: absent du lexique.
-V('fini~'):: erreur de morphologie : conjugate_fr:tab :V(fini~) : {"pe":1,"n":"s","t":"p"}.
 ---
-486:in Rhap_M1001-27
+486: Rhap_M1001-27
+1 différence
+# text = mais si je la passe pas enfin je c' est j' ai beau~ j' ai appris beaucoup de choses[1;32;4m[0m
+# TEXT = Mais si je la passe pas enfin je c'est j'ai beau~ j'ai appris beaucoup de choses[1;32;4m.[0m
 1 erreur: Rhap_M1001-27
 Adv('beau~'):: absent du lexique.
 ---
@@ -2396,7 +2805,10 @@ Adv('beau~'):: absent du lexique.
 # text = et euh c' est très intéressant[1;32;4m[0m
 # TEXT = Et euh c'est très intéressant[1;32;4m.[0m
 ---
-488:in Rhap_M1001-29
+488: Rhap_M1001-29
+3 différences
+# text = mais je pense que [1;32;4mje me[0m [1;32;4mréorienterai[0m en psychologie parce que ça m' intéresse plus[1;32;4m[0m
+# TEXT = Mais je pense que [1;32;4mj'il[0m [1;32;4mréoriente[0m en psychologie parce que ça m'intéresse plus[1;32;4m.[0m
 1 erreur: Rhap_M1001-29
 C('parce'):: absent du lexique.
 ---
@@ -2436,14 +2848,20 @@ C('parce'):: absent du lexique.
 # text = euh deux petites phrases deux vraies options qui dessinent [1;32;4mvotre[0m route une route qui témoigne d' une certaine d' une bonne d' une très bonne conduite
 # TEXT = euh deux petites phrases deux vraies options qui dessinent [1;32;4msa[0m route une route qui témoigne d'une certaine d'une bonne d'une très bonne conduite
 ---
-496:in Rhap_D2001-4
+496: Rhap_D2001-4
+3 différences
+# text = Françoise Giroud vous occupez un poste d' observation que des gens haut [1;32;4mplacés[0m [1;32;4mvous[0m [1;32;4menvient[0m
+# TEXT = Françoise Giroud vous occupez un poste d'observation que des gens haut [1;32;4mplacer[0m [1;32;4mil[0m [1;32;4menvie.[0m
 1 erreur: Rhap_D2001-4
-A('placer'):: absent du lexique.
+A('placer'):: absent du lexique mais existe comme V.
 ---
-497:in Rhap_D2001-5
+497: Rhap_D2001-5
 ## non projective
+11 différences
+# text = si je ne [1;32;4mcraignais[0m pas d' entrer dans le jeu de [1;32;4mcertains[0m hommes qui [1;32;4mabusent[0m de [1;32;4mleur[0m condition je dirais que vous avez donné quelque chose de plus [1;32;4mà[0m [1;32;4mla[0m [1;32;4mfemme[0m [1;32;4mdes[0m [1;32;4marmes[0m [1;32;4mde[0m [1;32;4mpersuasion[0m
+# TEXT = Si je ne [1;32;4mcrains[0m pas d'entrer dans le jeu de [1;32;4mcertain[0m hommes qui [1;32;4mabuse[0m de [1;32;4mson[0m condition je dirais que vous avez donné quelque chose de plus [1;32;4mdes[0m [1;32;4marmes[0m [1;32;4mde[0m [1;32;4mpersuasion[0m [1;32;4mà[0m [1;32;4mla[0m [1;32;4mfemme.[0m
 1 erreur: Rhap_D2001-5
-D('certain'):: absent du lexique.
+D('certain'):: absent du lexique mais existe comme A ou Adv.
 ---
 498: Rhap_D2001-6
 2 différences
@@ -2485,7 +2903,10 @@ D('certain'):: absent du lexique.
 # text = eh bien je crois que je ne me suis pas [1;32;4mconduit[0m d' une façon conforme à ce qu' on attend euh d' une [1;31m•[0mjeune [1;32;4mfille[0m d' abord [1;34;47met [0md' une femme ensuite d' une jeune [1;32;4mbourgeoise[0m dans la disons d' une jeune [1;32;4mbourgeoise[0m
 # TEXT = Eh bien je crois que je ne me suis pas [1;32;4mconduis[0m d'une façon conforme à ce qu'on attend euh d'une [1;31mfille [0mjeune [1;32;4met[0m d'abord d'une femme ensuite d'une jeune [1;32;4mbourgeois[0m dans la disons d'une jeune [1;32;4mbourgeois.[0m
 ---
-506:in Rhap_D2001-14
+506: Rhap_D2001-14
+2 différences
+# text = vous le regrettez aujourd[1;34;47m'hui[0m[1;32;4m[0m
+# TEXT = Vous le regrettez aujourd[1;32;4m'.[0m
 1 erreur: Rhap_D2001-14
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -2499,7 +2920,10 @@ Adv("aujourd'"):: absent du lexique.
 # text = je voudrais reprendre euh des phrases de Marcel Achard[1;32;4m[0m
 # TEXT = Je voudrais reprendre euh des phrases de Marcel Achard[1;32;4m.[0m
 ---
-509:in Rhap_D2001-17
+509: Rhap_D2001-17
+3 différences
+# text = et vous [1;32;4mme[0m [1;32;4mdirez[0m si vous êtes d' accord[1;32;4m[0m
+# TEXT = Et vous [1;32;4mil[0m [1;32;4mdites[0m si vous êtes d'accord[1;32;4m.[0m
 1 erreur: Rhap_D2001-17
 P("d'"):: absent du lexique.
 ---
@@ -2523,17 +2947,26 @@ P("d'"):: absent du lexique.
 # text = on s' en aperçoit tout de suite[1;32;4m[0m
 # TEXT = On s'en aperçoit tout de suite[1;32;4m.[0m
 ---
-514:in Rhap_D2001-22
+514: Rhap_D2001-22
+3 différences
+# text = mais on l' oublie dès qu' on a regardé ses yeux des yeux qui sont en même temps et c' est difficile profonds[1;32;4m et[0m [1;32;4mperçants[0m pleins de curiosité et de mystère des yeux qui enregistrent chaque détail avec l' implacable précision d' une caméra[1;32;4m[0m
+# TEXT = Mais on l'oublie dès qu'on a regardé ses yeux des yeux qui sont en même temps et c'est difficile profonds[1;32;4m, perçants[0m [1;32;4met[0m pleins de curiosité et de mystère des yeux qui enregistrent chaque détail avec l'implacable précision d'une caméra[1;32;4m.[0m
 3 erreurs: Rhap_D2001-22
 N('yeux'):: absent du lexique.
 N('yeux'):: absent du lexique.
 N('yeux'):: absent du lexique.
 ---
-515:in Rhap_D2001-23
+515: Rhap_D2001-23
+2 différences
+# text = et j' ai l' impression que c' est avec ces yeux que vous avez dessiné [1;32;4mvotre[0m route Françoise Giroud[1;32;4m[0m
+# TEXT = Et j'ai l'impression que c'est avec ces yeux que vous avez dessiné [1;32;4msa[0m route Françoise Giroud[1;32;4m.[0m
 1 erreur: Rhap_D2001-23
 N('yeux'):: absent du lexique.
 ---
-516:in Rhap_D2001-24
+516: Rhap_D2001-24
+3 différences
+# text = [1;32;4mécoutez[0m vous [1;32;4mm' [0mavez demandé si je suis d' accord avec Marcel Achard[1;32;4m[0m
+# TEXT = [1;32;4mÉcoute[0m vous [1;32;4mil [0mavez demandé si je suis d'accord avec Marcel Achard[1;32;4m.[0m
 1 erreur: Rhap_D2001-24
 P("d'"):: absent du lexique.
 ---
@@ -2542,17 +2975,22 @@ P("d'"):: absent du lexique.
 # text = je suppose que vous connaissez Marcel Achard[1;32;4m[0m
 # TEXT = Je suppose que vous connaissez Marcel Achard[1;32;4m.[0m
 ---
-518:in Rhap_D2001-26
-2 erreurs: Rhap_D2001-26
-V('soit'):: absent du lexique.
-V('soit'):: erreur de morphologie : conjugate_fr:tab :V(soit) : {"pe":3,"n":"s","t":"p"}.
+518: Rhap_D2001-26
+1 différence
+# text = c' est un homme incapable de dire quoi que ce soit de désagréable sur qui que ce soit[1;32;4m[0m
+# TEXT = C'est un homme incapable de dire quoi que ce soit de désagréable sur qui que ce soit[1;32;4m.[0m
+1 erreur: Rhap_D2001-26
+V('soit'):: absent du lexique mais existe comme Adv ou C.
 ---
 519: Rhap_D2001-27
 1 différence
 # text = je ne vois pas pourquoi j' aurais fait exception à cette règle[1;32;4m[0m
 # TEXT = Je ne vois pas pourquoi j'aurais fait exception à cette règle[1;32;4m.[0m
 ---
-520:in Rhap_D2001-28
+520: Rhap_D2001-28
+1 différence
+# text = et est -ce que c' est avec ces yeux si vous voulez dire que je sais regarder[1;32;4m[0m
+# TEXT = Et est-ce que c'est avec ces yeux si vous voulez dire que je sais regarder[1;32;4m.[0m
 1 erreur: Rhap_D2001-28
 N('yeux'):: absent du lexique.
 ---
@@ -2571,9 +3009,12 @@ N('yeux'):: absent du lexique.
 # text = ce qui [1;32;4mvous[0m a toujours intéressée c' était chez les gens le mécanisme de la carrière le mécanisme tout simplement pas spécialement de la carrière et la personnalité aussi[1;32;4m[0m
 # TEXT = Ce qui [1;32;4mil[0m a toujours intéressée c'était chez les gens le mécanisme de la carrière le mécanisme tout simplement pas spécialement de la carrière et la personnalité aussi[1;32;4m.[0m
 ---
-524:in Rhap_D2001-32
+524: Rhap_D2001-32
+1 différence
+# text = j' aime bien comprendre comment ça marche les [1;32;4mautres[0m
+# TEXT = J'aime bien comprendre comment ça marche les [1;32;4mautre.[0m
 1 erreur: Rhap_D2001-32
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 525: Rhap_D2001-33
 1 différence
@@ -2585,35 +3026,50 @@ Pro('autre'):: absent du lexique.
 # text = bon je l' ai toujours eu je crois[1;32;4m[0m
 # TEXT = Bon je l'ai toujours eu je crois[1;32;4m.[0m
 ---
-527:in Rhap_D2001-35
+527: Rhap_D2001-35
+1 différence
+# text = par conséquent j' ai eu envie de savoir un petit peu mieux comment ça [1;32;4mmarchait[0m
+# TEXT = Par conséquent j'ai eu envie de savoir un petit peu mieux comment ça [1;32;4mmarche.[0m
 1 erreur: Rhap_D2001-35
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
-528:in Rhap_D2001-36
+528: Rhap_D2001-36
+2 différences
+# text = et puis je suis toujours [1;32;4métonnée[0m maintenant plus[1;32;4m[0m
+# TEXT = Et puis je suis toujours [1;32;4métonner[0m maintenant plus[1;32;4m.[0m
 1 erreur: Rhap_D2001-36
-A('étonner'):: absent du lexique.
+A('étonner'):: absent du lexique mais existe comme V.
 ---
 529: Rhap_D2001-37
 1 différence
 # text = et je précise d' ailleurs que quand Marcel Achard a écrit ce texte il y avait déjà presque dix-sept ans[1;32;4m[0m
 # TEXT = Et je précise d'ailleurs que quand Marcel Achard a écrit ce texte il y avait déjà presque dix-sept ans[1;32;4m.[0m
 ---
-530:in Rhap_D2001-38
+530: Rhap_D2001-38
+7 différences
+# text = et mais ensuite [1;34;47mj' [0mai toujours [1;31m•[0mété [1;32;4métonnée[0m de voir que les gens ne voyaient pas des choses qui [1;32;4mme[0m [1;32;4mparaissaient[0m évidentes dans le comportement des [1;32;4mautres[0m je veux dire[1;32;4m[0m
+# TEXT = Et mais ensuite ai toujours [1;31mj'[0mété [1;32;4métonner[0m de voir que les gens ne voyaient pas des choses qui [1;32;4mil[0m [1;32;4mparaissent[0m évidentes dans le comportement des [1;32;4mautre[0m je veux dire[1;32;4m.[0m
 2 erreurs: Rhap_D2001-38
-A('étonner'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+A('étonner'):: absent du lexique mais existe comme V.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
-531:in Rhap_D2001-39
+531: Rhap_D2001-39
 ## non projective
+15 différences
+# text = j' ai toujours l' impression que [1;34;47mc' [0m[1;32;4mest[0m c' est [1;32;4ménorme[0m [1;32;4mque[0m [1;32;4mc' est[0m [1;32;4mlà[0m [1;32;4men[0m [1;32;4mnoir[0m [1;32;4msur[0m [1;32;4mblanc[0m [1;32;4met[0m [1;32;4met[0m [1;32;4mles autres[0m [1;32;4mne voient[0m [1;32;4mpas[0m
+# TEXT = J'ai toujours l'impression que [1;32;4mque[0m c'est [1;32;4mlà[0m [1;32;4men[0m [1;32;4mnoir sur[0m [1;32;4mblanc[0m [1;32;4met[0m [1;32;4mles[0m [1;32;4mautre[0m [1;32;4mne[0m [1;32;4mvoient[0m [1;32;4mpas[0m [1;32;4mc'est[0m [1;32;4mc'est[0m [1;32;4ménorme.[0m
 1 erreur: Rhap_D2001-39
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 532: Rhap_D2001-40
 1 différence
 # text = ça m' étonne[1;32;4m[0m
 # TEXT = Ça m'étonne[1;32;4m.[0m
 ---
-533:in Rhap_D2001-41
+533: Rhap_D2001-41
+4 différences
+# text = [1;31m•[0mest -ce [1;34;47mque [0m[1;32;4mvous [0mavez eu un desc~ un destin exceptionnel[1;32;4m[0m
+# TEXT = [1;31mVous [0mest-ce [1;32;4mqu'[0mavez eu un desc~ un destin exceptionnel[1;32;4m.[0m
 1 erreur: Rhap_D2001-41
 N('desc~'):: absent du lexique.
 ---
@@ -2622,9 +3078,12 @@ N('desc~'):: absent du lexique.
 # text = ou[1;34;47m est[0m -ce [1;31m•[0msimplement la réussite qui devait venir[1;32;4m[0m
 # TEXT = Ou-ce [1;31mest [0msimplement la réussite qui devait venir[1;32;4m.[0m
 ---
-535:in Rhap_D2001-43
+535: Rhap_D2001-43
+2 différences
+# text = ou s' est -il passé tout à fait autre chose dans [1;32;4mvotre[0m vie[1;32;4m[0m
+# TEXT = Ou s'est-il passé tout à fait autre chose dans [1;32;4mson[0m vie[1;32;4m.[0m
 1 erreur: Rhap_D2001-43
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 536: Rhap_D2001-44
 2 différences
@@ -2636,9 +3095,12 @@ Pro('autre'):: absent du lexique.
 # text = euh exceptionnel [1;32;4mme[0m paraît un grand mot[1;32;4m[0m
 # TEXT = Euh exceptionnel [1;32;4mil[0m paraît un grand mot[1;32;4m.[0m
 ---
-538:in Rhap_D2001-46
+538: Rhap_D2001-46
+3 différences
+# text = disons que j' ai eu un destin un peu différent euh parce que les conditions objectives de [1;32;4mma[0m vie [1;32;4mont[0m [1;34;47mété [0men effet différentes euh
+# TEXT = disons que j'ai eu un destin un peu différent euh parce que les conditions objectives de [1;32;4msa[0m vie [1;32;4mest[0m en effet différentes euh
 2 erreurs: Rhap_D2001-46
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 C('parce'):: absent du lexique.
 ---
 539: Rhap_D2001-47
@@ -2662,7 +3124,9 @@ C('parce'):: absent du lexique.
 # text = les circonstances disons qui [1;32;4mm' [0mont [1;32;4mconduit[0m à être obligée de gagner [1;32;4mma[0m vie très tôt
 # TEXT = les circonstances disons qui [1;32;4mil [0mont [1;32;4mconduisent[0m à être obligée de gagner [1;32;4msa[0m vie très tôt
 ---
-543:in Rhap_D2001-51
+543: Rhap_D2001-51
+# text = peut-être que je me serais mariée et et que j' aurais trouvé plus commode d' épouser un monsieur avec de l' argent
+# TEXT = peut-être que je me serais mariée et et que j'aurais trouvé plus commode d'épouser un Monsieur avec de l'argent
 1 erreur: Rhap_D2001-51
 N('Monsieur'):: absent du lexique.
 ---
@@ -2686,8 +3150,11 @@ N('Monsieur'):: absent du lexique.
 # text = alors il y a tout de même des circonstances objectives[1;32;4m[0m
 # TEXT = Alors il y a tout de même des circonstances objectives[1;32;4m.[0m
 ---
-548:in Rhap_D2001-56
+548: Rhap_D2001-56
 ## non projective
+14 différences
+# text = euh pourquoi [1;32;4mj' ai fait[0m [1;32;4mdu[0m [1;32;4mjournalisme[0m [1;32;4mparce[0m [1;32;4mque[0m [1;32;4meuh[0m [1;32;4mça[0m [1;32;4mse[0m [1;32;4mpassait[0m [1;32;4mtout[0m [1;32;4mde suite[0m [1;32;4maprès[0m [1;32;4mla[0m [1;32;4mguerre[0m
+# TEXT = Euh pourquoi [1;32;4mparce qu'euh[0m [1;32;4mça[0m [1;32;4mse[0m [1;32;4mpassait[0m [1;32;4mtout[0m [1;32;4mde[0m [1;32;4msuite[0m [1;32;4maprès[0m [1;32;4mla[0m [1;32;4mguerre[0m [1;32;4mj'ai[0m [1;32;4mfait[0m [1;32;4mdu[0m [1;32;4mjournalisme.[0m
 1 erreur: Rhap_D2001-56
 C('parce'):: absent du lexique.
 ---
@@ -2696,37 +3163,46 @@ C('parce'):: absent du lexique.
 # text = et euh je n' avais aucune raison d' aller faire ce métier[1;32;4m[0m
 # TEXT = Et euh je n'avais aucune raison d'aller faire ce métier[1;32;4m.[0m
 ---
-550:in Rhap_D2001-58
-1 erreur: Rhap_D2001-58
-Pro('beaucoup'):: absent du lexique.
+550: Rhap_D2001-58
+2 différences
+# text = je [1;32;4mgagnais[0m beaucoup d' argent dans le cinéma euh[1;32;4m[0m
+# TEXT = Je [1;32;4mgagne[0m beaucoup d'argent dans le cinéma euh[1;32;4m.[0m
 ---
 551: Rhap_D2001-59
 1 différence
 # text = j' y avais un bon nom[1;32;4m[0m
 # TEXT = J'y avais un bon nom[1;32;4m.[0m
 ---
-552:in Rhap_D2001-60
+552: Rhap_D2001-60
+2 différences
+# text = je ne s~ n' aurais certainement pas débuté à ce moment[1;32;4m -[0mlà comme euh une jeune journaliste[1;32;4m[0m
+# TEXT = Je ne s~ n'aurais certainement pas débuté à ce moment[1;32;4m [0mlà comme euh une jeune journaliste[1;32;4m.[0m
 1 erreur: Rhap_D2001-60
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 553: Rhap_D2001-61
 1 différence
 # text = il se trouve qu' il y a eu la guerre[1;32;4m[0m
 # TEXT = Il se trouve qu'il y a eu la guerre[1;32;4m.[0m
 ---
-554:in Rhap_D2001-62
+554: Rhap_D2001-62
+7 différences
+# text = il se trouve que tout [1;32;4ma[0m [1;32;4mété[0m [1;34;47mbouleversé [0mqu' il n' y avait plus un journaliste à Paris [1;32;4mpuisque [0mils avaient tous plus ou moins collaboré et [1;32;4mque [0mau moment de faire un journal on [1;32;4mm' [0ma proposé d' y entrer comme directrice ce qui est incroyable comme directrice de la rédaction[1;32;4m[0m
+# TEXT = Il se trouve que tout [1;32;4mest[0m [1;32;4mbouleverse[0m qu'il n'y avait plus un journaliste à Paris [1;32;4mpuisqu'[0mils avaient tous plus ou moins collaboré et [1;32;4mqu'[0mau moment de faire un journal on [1;32;4mil [0ma proposé d'y entrer comme directrice ce qui est incroyable comme directrice de la rédaction[1;32;4m.[0m
 2 erreurs: Rhap_D2001-62
-P('comme'):: absent du lexique.
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 555: Rhap_D2001-63
 1 différence
 # text = euh tout ça ce sont des conditions objectives[1;32;4m[0m
 # TEXT = Euh tout ça ce sont des conditions objectives[1;32;4m.[0m
 ---
-556:in Rhap_D2001-64
+556: Rhap_D2001-64
+# text = faudrait quand même revenir un peu au début
+# TEXT = faudrait quand même revenir un peu au début
 1 erreur: Rhap_D2001-64
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 557: Rhap_D2001-65
 2 différences
@@ -2748,7 +3224,10 @@ N('peu'):: absent du lexique.
 # text = mais enfin disons qu' il appartenait à cette bourgeoisie euh qui n' a pas de problèmes d' argent[1;32;4m[0m
 # TEXT = Mais enfin disons qu'il appartenait à cette bourgeoisie euh qui n'a pas de problèmes d'argent[1;32;4m.[0m
 ---
-561:in Rhap_D2001-69
+561: Rhap_D2001-69
+3 différences
+# text = ensuite euh disons les mots comme ils sont vous [1;32;4mavez[0m [1;34;47mété [0m[1;32;4mruinée[0m
+# TEXT = Ensuite euh disons les mots comme ils sont vous [1;32;4mes[0m [1;32;4mruine.[0m
 1 erreur: Rhap_D2001-69
 N('mots'):: absent du lexique.
 ---
@@ -2812,7 +3291,10 @@ N('mots'):: absent du lexique.
 # text = je n' ai pas pris des cours de sténodactylo[1;32;4m[0m
 # TEXT = Je n'ai pas pris des cours de sténodactylo[1;32;4m.[0m
 ---
-574:in Rhap_D2001-82
+574: Rhap_D2001-82
+6 différences
+# text = la vérité est [1;32;4mque [0meuh au moment où il a fallu vraiment que je gagne [1;32;4mma[0m vie [1;32;4mje vous[0m dirais que c' est la seule décision de [1;32;4mma[0m vie dont [1;32;4mje sois fière[0m euh au lieu d' accepter de prendre tout de suite un emploi du type vendeuse du type je me suis dit ce qu' il faut c' est avoir un métier[1;32;4m[0m
+# TEXT = La vérité est [1;32;4mqu'[0meuh au moment où il a fallu vraiment que je gagne [1;32;4msa[0m vie [1;32;4mj'il[0m dirais que c'est la seule décision de [1;32;4msa[0m vie dont [1;32;4mj'[[être]] fier[0m euh au lieu d'accepter de prendre tout de suite un emploi du type vendeuse du type je me suis dit ce qu'il faut c'est avoir un métier[1;32;4m.[0m
 1 erreur: Rhap_D2001-82
 V('être'):: erreur de morphologie : conjugate_fr :V(être) : {"pe":1,"n":"s","t":"ip"}.
 ---
@@ -2826,17 +3308,21 @@ V('être'):: erreur de morphologie : conjugate_fr :V(être) : {"pe":1,"n":"s","t
 # text = il faut que je sache faire quelque chose[1;32;4m[0m
 # TEXT = Il faut que je sache faire quelque chose[1;32;4m.[0m
 ---
-577:in Rhap_D2001-85
-1 erreur: Rhap_D2001-85
-Pro('rien'):: absent du lexique.
+577: Rhap_D2001-85
+1 différence
+# text = et pour le moment je ne sais rien faire[1;32;4m[0m
+# TEXT = Et pour le moment je ne sais rien faire[1;32;4m.[0m
 ---
 578: Rhap_D2001-86
 1 différence
 # text = je sais ce qu' on apprend aux jeunes filles bien élevées[1;32;4m[0m
 # TEXT = Je sais ce qu'on apprend aux jeunes filles bien élevées[1;32;4m.[0m
 ---
-579:in Rhap_D2001-86bis
+579: Rhap_D2001-86bis
 ## non projective
+4 différences
+# text = [1;32;4mdonc[0m [1;32;4mqu' est -[0mce [1;34;47mqu' [0mje peux [1;31m•[0mapprendre
+# TEXT = [1;32;4mest[0m [1;32;4mdonc qu'-[0mce je peux [1;31mqu'[0mapprendre
 1 erreur: Rhap_D2001-86bis
 Pro("qu'"):: absent du lexique.
 ---
@@ -2864,9 +3350,12 @@ Pro("qu'"):: absent du lexique.
 # text = euh oui
 # TEXT = euh oui
 ---
-585:in Rhap_D2001-92
+585: Rhap_D2001-92
+2 différences
+# text = enfin c' est comme ça que j' ai commencé à gagner [1;32;4mma[0m vie[1;32;4m[0m
+# TEXT = Enfin c'est comme ça que j'ai commencé à gagner [1;32;4msa[0m vie[1;32;4m.[0m
 1 erreur: Rhap_D2001-92
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 586: Rhap_D2001-93
 1 différence
@@ -2878,9 +3367,10 @@ P('comme'):: absent du lexique.
 # text = c' est dans cette librairie que je crois [1;32;4mque [0mAllégret vous a trouvée[1;32;4m[0m
 # TEXT = C'est dans cette librairie que je crois [1;32;4mqu'[0mAllégret vous a trouvée[1;32;4m.[0m
 ---
-588:in Rhap_D2001-95
-1 erreur: Rhap_D2001-95
-C("c'est-à-dire"):: absent du lexique.
+588: Rhap_D2001-95
+1 différence
+# text = euh c'est-à-dire que je connaissais Allégret très bien[1;32;4m[0m
+# TEXT = Euh c'est-à-dire que je connaissais Allégret très bien[1;32;4m.[0m
 ---
 589: Rhap_D2001-96
 1 différence
@@ -2948,7 +3438,10 @@ C("c'est-à-dire"):: absent du lexique.
 # text = il est entré un jour dans cette librairie[1;32;4m[0m
 # TEXT = Il est entré un jour dans cette librairie[1;32;4m.[0m
 ---
-602:in Rhap_D2001-109
+602: Rhap_D2001-109
+4 différences
+# text = il [1;32;4mm' [0ma dit [1;32;4mmais[0m [1;32;4mqu' est -[0mce que tu fais là très surpris[1;32;4m[0m
+# TEXT = Il [1;32;4mil [0ma dit [1;32;4mest[0m [1;32;4mmais qu'-[0mce que tu fais là très surpris[1;32;4m.[0m
 2 erreurs: Rhap_D2001-109
 Pro("qu'"):: absent du lexique.
 A('surpris'):: absent du lexique.
@@ -2958,7 +3451,10 @@ A('surpris'):: absent du lexique.
 # text = [1;32;4mje lui[0m ai [1;32;4mdit[0m ben tu vois je vends des [1;32;4mlivres[0m
 # TEXT = [1;32;4mJ'il[0m ai [1;32;4mdis[0m ben tu vois je vends des [1;32;4mlivre.[0m
 ---
-604:in Rhap_D2001-111
+604: Rhap_D2001-111
+3 différences
+# text = il [1;32;4mm' [0ma dit [1;32;4mqu' est -[0mce que tu gagnes[1;32;4m[0m
+# TEXT = Il [1;32;4mil [0ma dit [1;32;4mest qu'-[0mce que tu gagnes[1;32;4m.[0m
 1 erreur: Rhap_D2001-111
 Pro("qu'"):: absent du lexique.
 ---
@@ -2982,16 +3478,22 @@ Pro("qu'"):: absent du lexique.
 # text = j' [1;32;4mhabitais[0m avec [1;32;4mma[0m mère[1;32;4m[0m
 # TEXT = J'[1;32;4mhabite[0m avec [1;32;4msa[0m mère[1;32;4m.[0m
 ---
-609:in Rhap_D2001-116
+609: Rhap_D2001-116
+3 différences
+# text = mais enfin je [1;32;4mgagnais[0m un [1;34;47mpeu [0md' argent[1;31m•[0m
+# TEXT = Mais enfin je [1;32;4mgagne[0m un d'argent [1;31mpeu.[0m
 1 erreur: Rhap_D2001-116
-N('peu'):: absent du lexique.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 610: Rhap_D2001-117
 5 différences
 # text = et il [1;32;4mm' [0ma dit écoute [1;32;4mtout[0m [1;32;4mça[0m [1;32;4mn' [0mest pas sérieux[1;32;4m[0m
 # TEXT = Et il [1;32;4mil [0ma dit écoute [1;32;4mne[0m [1;32;4mtout[0m [1;32;4mça [0mest pas sérieux[1;32;4m.[0m
 ---
-611:in Rhap_D2001-117bis
+611: Rhap_D2001-117bis
+2 différences
+# text = il faut que tu [1;32;4mdeviennes[0m script girl par exemple[1;32;4m[0m
+# TEXT = Il faut que tu [1;32;4mdeviens[0m script girl par exemple[1;32;4m.[0m
 2 erreurs: Rhap_D2001-117bis
 N('script'):: absent du lexique.
 N('girl'):: absent du lexique.
@@ -3001,18 +3503,27 @@ N('girl'):: absent du lexique.
 # text = [1;32;4mviens[0m travailler avec [1;32;4mmoi[0m
 # TEXT = [1;32;4mvient[0m travailler avec [1;32;4mil[0m
 ---
-613:in Rhap_D2001-118
+613: Rhap_D2001-118
+1 différence
+# text = c' était une autre époque où on pouvait faire ça[1;32;4m[0m
+# TEXT = C'était une autre époque où on pouvait faire ça[1;32;4m.[0m
 1 erreur: Rhap_D2001-118
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
-614:in Rhap_D2001-119
+614: Rhap_D2001-119
+2 différences
+# text = aujourd'[1;34;47mhui [0meuh je ne crois pas que ce serait possible[1;32;4m[0m
+# TEXT = Aujourd'euh je ne crois pas que ce serait possible[1;32;4m.[0m
 1 erreur: Rhap_D2001-119
 Adv("aujourd'"):: absent du lexique.
 ---
-615:in Rhap_D2001-120
+615: Rhap_D2001-120
+2 différences
+# text = mais à l' époque euh personne ne savait que je n' avais jamais [1;32;4mfait[0m ce métier sauf [1;32;4mlui[0m
+# TEXT = Mais à l'époque euh personne ne savait que je n'avais jamais [1;32;4mfais[0m ce métier sauf [1;32;4mil.[0m
 2 erreurs: Rhap_D2001-120
-Pro('personne'):: absent du lexique.
-C('sauf'):: absent du lexique.
+Pro('personne'):: absent du lexique mais existe comme Adv ou N.
+C('sauf'):: absent du lexique mais existe comme A ou P.
 ---
 616: Rhap_D2001-121
 2 différences
@@ -3024,13 +3535,19 @@ C('sauf'):: absent du lexique.
 # text = il était metteur en scène[1;32;4m[0m
 # TEXT = Il était metteur en scène[1;32;4m.[0m
 ---
-618:in Rhap_D2001-123
+618: Rhap_D2001-123
+4 différences
+# text = le cinéma était beaucoup moins euh n' était pas une organisation rigide [1;34;47mcomme [0melle [1;32;4ml' est[0m [1;32;4maujourd[0m'[1;32;4mhui[0m
+# TEXT = Le cinéma était beaucoup moins euh n'était pas une organisation rigide elle [1;32;4mest comme[0m [1;32;4ml[0m'[1;32;4maujourd'.[0m
 1 erreur: Rhap_D2001-123
 Adv("aujourd'"):: absent du lexique.
 ---
-619:in Rhap_D2001-124
+619: Rhap_D2001-124
+2 différences
+# text = c' est peut-être à ce moment[1;32;4m -[0mlà que vous avez raté une autre carrière[1;32;4m[0m
+# TEXT = C'est peut-être à ce moment[1;32;4m [0mlà que vous avez raté une autre carrière[1;32;4m.[0m
 1 erreur: Rhap_D2001-124
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 620: Rhap_D2001-125
 2 différences
@@ -3058,19 +3575,27 @@ Pro('autre'):: absent du lexique.
 # text = vous [1;32;4métiez[0m normalement entraînée[1;32;4m[0m
 # TEXT = Vous [1;32;4mest[0m normalement entraînée[1;32;4m.[0m
 ---
-625:in Rhap_D2001-130
-2 erreurs: Rhap_D2001-130
+625: Rhap_D2001-130
+1 différence
+# text = je ne r~ serais pas devenue une vedette[1;32;4m[0m
+# TEXT = Je ne r~ serais pas devenue une vedette[1;32;4m.[0m
+1 erreur: Rhap_D2001-130
 V('r~'):: absent du lexique.
-V('r~'):: erreur de morphologie : conjugate_fr:tab :V(r~) : {"pe":1,"n":"s","t":"p"}.
 ---
-626:in Rhap_D2001-131
+626: Rhap_D2001-131
 ## non projective
+8 différences
+# text = je crois véritablement que [1;32;4mje[0m [1;32;4mn[0m' étais pas [1;32;4mdouée[0m [1;32;4mpour[0m [1;32;4mça[0m [1;32;4mpas[0m [1;32;4mdu[0m [1;32;4mtout[0m
+# TEXT = Je crois véritablement que [1;32;4mne[0m [1;32;4mj[0m'étais pas [1;32;4mpas[0m [1;32;4mdu[0m [1;32;4mtout[0m [1;32;4mdouer[0m [1;32;4mpour[0m [1;32;4mça.[0m
 1 erreur: Rhap_D2001-131
-A('douer'):: absent du lexique.
+A('douer'):: absent du lexique mais existe comme V.
 ---
-627:in Rhap_D2001-132
+627: Rhap_D2001-132
+3 différences
+# text = [1;32;4mje[0m [1;32;4mne[0m suis pas du tout quelqu'un de d' [1;32;4mextraverti[0m
+# TEXT = [1;32;4mNe[0m [1;32;4mje[0m suis pas du tout quelqu'un de d'[1;32;4mextravertir.[0m
 2 erreurs: Rhap_D2001-132
-Pro("quelqu'un"):: absent du lexique.
+Pro("quelqu'un"):: absent du lexique mais existe comme Adv.
 A('extravertir'):: absent du lexique.
 ---
 628: Rhap_D2001-133
@@ -3078,10 +3603,12 @@ A('extravertir'):: absent du lexique.
 # text = [1;32;4met je[0m [1;32;4mne[0m [1;32;4ml' étais[0m surtout pas euh à cet âge[1;32;4m -[0mlà[1;32;4m[0m
 # TEXT = [1;32;4mJ'étais[0m [1;32;4met[0m [1;32;4mne le[0m surtout pas euh à cet âge[1;32;4m [0mlà[1;32;4m.[0m
 ---
-629:in Rhap_D2001-134
-2 erreurs: Rhap_D2001-134
+629: Rhap_D2001-134
+2 différences
+# text = et j~ je [1;32;4mcrois[0m que je n' avais aucune des qualités ni des défauts qui font euh une bonne comédienne[1;32;4m[0m
+# TEXT = Et j~ je [1;32;4mcroit[0m que je n'avais aucune des qualités ni des défauts qui font euh une bonne comédienne[1;32;4m.[0m
+1 erreur: Rhap_D2001-134
 Pro('j~'):: absent du lexique.
-Pro('aucun'):: absent du lexique.
 ---
 630: Rhap_D2001-135
 2 différences
@@ -3107,23 +3634,30 @@ Pro('aucun'):: absent du lexique.
 # text = il y avait Jacques Becker[1;32;4m[0m
 # TEXT = Il y avait Jacques Becker[1;32;4m.[0m
 ---
-635:in Rhap_D2001-140
+635: Rhap_D2001-140
+1 différence
+# text = Jacques Becker ensuite c' était autre chose[1;32;4m[0m
+# TEXT = Jacques Becker ensuite c'était autre chose[1;32;4m.[0m
 1 erreur: Rhap_D2001-140
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 636: Rhap_D2001-141
 1 différence
 # text = car vous avez travaillé travaillé directement avec [1;32;4mlui[0m
 # TEXT = Car vous avez travaillé travaillé directement avec [1;32;4mil.[0m
 ---
-637:in Rhap_D2001-142
-1 erreur: Rhap_D2001-142
-C("c'est-à-dire"):: absent du lexique.
+637: Rhap_D2001-142
+3 différences
+# text = c'est-à-dire [1;32;4mnous [0mavons été tous les deux euh [1;32;4mnous [0mavons tous les deux collaboré avec euh avec Renoir[1;32;4m[0m
+# TEXT = C'est-à-dire [1;32;4mj'[0mavons été tous les deux euh [1;32;4mj'[0mavons tous les deux collaboré avec euh avec Renoir[1;32;4m.[0m
 ---
-638:in Rhap_D2001-143
+638: Rhap_D2001-143
+4 différences
+# text = et [1;32;4mnous[0m [1;32;4mnous[0m [1;32;4mnous [0mavons eu beaucoup d' amitié l' un pour l' autre à pendant La grande illusion pour des raisons que j' ai j' ai déjà dites une fois[1;32;4m[0m
+# TEXT = Et [1;32;4mje[0m [1;32;4mje[0m [1;32;4mj'[0mavons eu beaucoup d'amitié l'un pour l'autre à pendant la grande illusion pour des raisons que j'ai j'ai déjà dites une fois[1;32;4m.[0m
 2 erreurs: Rhap_D2001-143
-Pro('un'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 639: Rhap_D2001-144
 6 différences
@@ -3135,11 +3669,13 @@ Pro('autre'):: absent du lexique.
 # text = euh c' est [1;32;4mque [0mil y avait beaucoup de choses communes entre [1;32;4mnous[0m
 # TEXT = Euh c'est [1;32;4mqu'[0mil y avait beaucoup de choses communes entre [1;32;4mil.[0m
 ---
-641:in Rhap_D2001-146
-3 erreurs: Rhap_D2001-146
-N('peu'):: absent du lexique.
-C("c'est-à-dire"):: absent du lexique.
-N('peu'):: absent du lexique.
+641: Rhap_D2001-146
+3 différences
+# text = [1;32;4mnous [0métions tous les deux d' origine bourgeoise[1;32;4m élevés[0m un peu de la même manière euh c'est-à-dire disons d' une façon un peu britannique dans le comportement n' est -ce pas[1;32;4m[0m
+# TEXT = [1;32;4mJ'[0métions tous les deux d'origine bourgeoise[1;32;4m, élève[0m un peu de la même manière euh c'est-à-dire disons d'une façon un peu britannique dans le comportement n'est-ce pas[1;32;4m.[0m
+2 erreurs: Rhap_D2001-146
+N('peu'):: absent du lexique mais existe comme Adv.
+N('peu'):: absent du lexique mais existe comme Adv.
 ---
 642: Rhap_D2001-147
 1 différence
@@ -3157,7 +3693,10 @@ N('peu'):: absent du lexique.
 # text = euh vous voyez ce [1;32;4mque[0m [1;32;4mje[0m [1;32;4mveux[0m dire[1;32;4m[0m
 # TEXT = Euh vous voyez ce [1;32;4mje[0m [1;32;4mveux[0m [1;32;4mque[0m dire[1;32;4m.[0m
 ---
-645:in Rhap_D2001-150
+645: Rhap_D2001-150
+2 différences
+# text = un~ un~ une [1;32;4mé~[0m [1;32;4médu~[0m une éducation un petit peu rigide à cet égard
+# TEXT = un~ un~ une [1;32;4méducation[0m [1;32;4méducation[0m une éducation un petit peu rigide à cet égard
 3 erreurs: Rhap_D2001-150
 D('un~'):: absent du lexique.
 D('un~'):: absent du lexique.
@@ -3233,15 +3772,21 @@ D('cet'):: absent du lexique.
 # text = et vous tombez sur la gare[1;32;4m[0m
 # TEXT = Et vous tombez sur la gare[1;32;4m.[0m
 ---
-660:in Rhap_M2001-1
+660: Rhap_M2001-1
+4 différences
+# text = [1;32;4mmesdames[0m et [1;32;4mmessieurs[0m je suis heureux [1;32;4mde me[0m retrouver ce soir parmi [1;32;4mvous[0m
+# TEXT = [1;32;4mMonsieur[0m et [1;32;4mMonsieur[0m je suis heureux [1;32;4md'il[0m retrouver ce soir parmi [1;32;4mil.[0m
 2 erreurs: Rhap_M2001-1
 N('Monsieur'):: absent du lexique.
 N('Monsieur'):: absent du lexique.
 ---
-661:in Rhap_M2001-2
+661: Rhap_M2001-2
+4 différences
+# text = après [1;32;4mma[0m visite à Landivisiau et à l' île Longue ce matin c' est donc une journée entière que j' [1;32;4maurai[0m passée avec [1;32;4mnos[0m forces [1;32;4marmées[0m
+# TEXT = Après [1;32;4msa[0m visite à Landivisiau et à l'île Longue ce matin c'est donc une journée entière que j'[1;32;4mai[0m passée avec [1;32;4mses[0m forces [1;32;4marmer.[0m
 2 erreurs: Rhap_M2001-2
 A('Longue'):: absent du lexique.
-A('armer'):: absent du lexique.
+A('armer'):: absent du lexique mais existe comme V.
 ---
 662: Rhap_M2001-3
 4 différences
@@ -3251,9 +3796,12 @@ A('armer'):: absent du lexique.
 663: Rhap_M2001-4
 2 différences
 # text = c' est pour cela que je tenais à vous rencontrer la veille de [1;32;4mnotre[0m fête nationale[1;32;4m[0m
-# TEXT = C'est pour cela que je tenais à vous rencontrer la veille de [1;32;4msa[0m fête nationale[1;32;4m.[0m
+# TEXT = C'est pour cela que je tenais à vous rencontrer la veille de [1;32;4mson[0m fête nationale[1;32;4m.[0m
 ---
-664:in Rhap_M2001-5
+664: Rhap_M2001-5
+3 différences
+# text = le quatorze juillet lors [1;32;4mde[0m traditionnel défilé c' est la nation toute entière qui [1;32;4mvous[0m rend hommage[1;32;4m[0m
+# TEXT = Le quatorze juillet lors [1;32;4mUN[0m traditionnel défilé c'est la nation toute entière qui [1;32;4mil[0m rend hommage[1;32;4m.[0m
 2 erreurs: Rhap_M2001-5
 D('UN'):: absent du lexique.
 Adv('toute'):: absent du lexique.
@@ -3263,11 +3811,14 @@ Adv('toute'):: absent du lexique.
 # text = elle salue le courage[1;32;4m [0melle salue la loyauté[1;32;4m [0melle salue le dévouement[1;32;4m [0melle salue l' esprit de sacrifice de ceux qui ont choisi de servir sa défense[1;32;4m [0mses intérêts et ses valeurs à travers le monde
 # TEXT = elle salue le courage[1;32;4m, [0melle salue la loyauté[1;32;4m, [0melle salue le dévouement[1;32;4m, [0melle salue l'esprit de sacrifice de ceux qui ont choisi de servir sa défense[1;32;4m, [0mses intérêts et ses valeurs à travers le monde
 ---
-666:in Rhap_M2001-7
+666: Rhap_M2001-7
+4 différences
+# text = et c' est la raison pour laquelle au nom de la république j' [1;32;4mhonorerai[0m certains d' entre [1;32;4mvous[0m dans [1;32;4mquelques[0m instants[1;32;4m[0m
+# TEXT = Et c'est la raison pour laquelle au nom de la république j'[1;32;4mhonore[0m certains d'entre [1;32;4mil[0m dans [1;32;4mquelque[0m instants[1;32;4m.[0m
 3 erreurs: Rhap_M2001-7
 Pro('certains'):: absent du lexique.
 P("d'"):: absent du lexique.
-A('quelque'):: absent du lexique.
+A('quelque'):: absent du lexique mais existe comme Adv ou D.
 ---
 667: Rhap_M2001-8
 1 différence
@@ -3289,24 +3840,36 @@ A('quelque'):: absent du lexique.
 # text = [1;32;4mje leur[0m adresse un salut très amical[1;32;4m[0m
 # TEXT = [1;32;4mJ'il[0m adresse un salut très amical[1;32;4m.[0m
 ---
-671:in Rhap_M2001-12
+671: Rhap_M2001-12
+9 différences
+# text = c' est l' image d' une Europe qui repart d' un même pas une Europe [1;32;4mrésolue[0m à se remettre en mouvement après deux années d' immobilisme[1;32;4m [0mune Europe vigilante qui n' oublie pas l' impératif de protection dans un monde plus instable et moins prévisible[1;32;4m [0mune Europe prête à assumer ses responsabilités et [1;32;4mau[0m [1;32;4msein[0m [1;32;4mde[0m [1;32;4mlaquelle[0m [1;31m•[0mla France a bien l' intention de tenir son rang[1;32;4m[0m
+# TEXT = C'est l'image d'une Europe qui repart d'un même pas une Europe [1;32;4mrésoudre[0m à se remettre en mouvement après deux années d'immobilisme[1;32;4m, [0mune Europe vigilante qui n'oublie pas l'impératif de protection dans un monde plus instable et moins prévisible[1;32;4m, [0mune Europe prête à assumer ses responsabilités et [1;32;4mà[0m [1;32;4mde[0m [1;32;4mlaquelle[0m [1;32;4mle[0m [1;31msein [0mla France a bien l'intention de tenir son rang[1;32;4m.[0m
 1 erreur: Rhap_M2001-12
-A('résoudre'):: absent du lexique.
+A('résoudre'):: absent du lexique mais existe comme V.
 ---
 672: Rhap_M2001-13
 1 différence
 # text = les bases d' une défense européenne existent[1;32;4m[0m
 # TEXT = Les bases d'une défense européenne existent[1;32;4m.[0m
 ---
-673:in Rhap_M2001-14
+673: Rhap_M2001-14
+1 différence
+# text = il faut les faire grandir en quittant le terrain des mots pour gagner celui de l' action[1;32;4m[0m
+# TEXT = Il faut les faire grandir en quittant le terrain des mots pour gagner celui de l'action[1;32;4m.[0m
 1 erreur: Rhap_M2001-14
 N('mots'):: absent du lexique.
 ---
-674:in Rhap_M2001-15
+674: Rhap_M2001-15
+2 différences
+# text = demain davantage qu' aujourd'[1;34;47mhui [0mje souhaite que l' Europe soit capable d' assurer sa sécurité de façon autonome[1;32;4m[0m
+# TEXT = Demain davantage qu'aujourd'je souhaite que l'Europe soit capable d'assurer sa sécurité de façon autonome[1;32;4m.[0m
 1 erreur: Rhap_M2001-15
 Adv("aujourd'"):: absent du lexique.
 ---
-675:in Rhap_M2001-16
+675: Rhap_M2001-16
+3 différences
+# text = alors si la France pèse aujourd'[1;34;47mhui [0msur la scène internationale il [1;32;4mlui[0m faut un outil de défense adapté à la hauteur de ses ambitions[1;32;4m[0m
+# TEXT = Alors si la France pèse aujourd'sur la scène internationale il [1;32;4mil[0m faut un outil de défense adapté à la hauteur de ses ambitions[1;32;4m.[0m
 1 erreur: Rhap_M2001-16
 Adv("aujourd'"):: absent du lexique.
 ---
@@ -3315,10 +3878,13 @@ Adv("aujourd'"):: absent du lexique.
 # text = c' est aussi là l' intérêt fondamental de l' Europe et de [1;32;4mnos[0m partenaires[1;32;4m[0m
 # TEXT = C'est aussi là l'intérêt fondamental de l'Europe et de [1;32;4mses[0m partenaires[1;32;4m.[0m
 ---
-677:in Rhap_M2001-18
+677: Rhap_M2001-18
+2 différences
+# text = aujourd'[1;34;47mhui [0mplus que jamais et vous le savez mieux que personne c' est sur le terrain que se gagne ou se perd le combat[1;32;4m[0m
+# TEXT = Aujourd'plus que jamais et vous le savez mieux que personne c'est sur le terrain que se gagne ou se perd le combat[1;32;4m.[0m
 2 erreurs: Rhap_M2001-18
 Adv("aujourd'"):: absent du lexique.
-Pro('personne'):: absent du lexique.
+Pro('personne'):: absent du lexique mais existe comme Adv ou N.
 ---
 678: Rhap_M2001-19
 ## non projective
@@ -3342,7 +3908,10 @@ Pro('personne'):: absent du lexique.
 # text = je sais également ce que cela signifie pour [1;32;4mvos[0m familles [1;34;47mque [0mje veux [1;32;4msaluer[0m [1;32;4mparticulièrement[0m dont j' imagine qu' elles sont souvent [1;32;4mconfrontées[0m à l' absence et parfois l' angoisse[1;31m•[0m
 # TEXT = Je sais également ce que cela signifie pour [1;32;4mses[0m familles je veux [1;32;4mque[0m [1;32;4msaluer[0m dont j'imagine qu'elles sont souvent [1;32;4mconfrontent[0m à l'absence et parfois l'angoisse [1;31mparticulièrement.[0m
 ---
-682:in Rhap_M2001-23
+682: Rhap_M2001-23
+2 différences
+# text = je sais aussi hélas le lourd tribut payé par certains de [1;32;4mvos[0m compagnons d' armes tribut qui peut aller jusqu' au sacrifice ultime[1;32;4m[0m
+# TEXT = Je sais aussi hélas le lourd tribut payé par certains de [1;32;4mses[0m compagnons d'armes tribut qui peut aller jusqu'au sacrifice ultime[1;32;4m.[0m
 1 erreur: Rhap_M2001-23
 Pro('certains'):: absent du lexique.
 ---
@@ -3356,9 +3925,10 @@ Pro('certains'):: absent du lexique.
 # text = on dit [1;32;4mque [0mil y a la région de Beauce[1;32;4m[0m
 # TEXT = On dit [1;32;4mqu'[0mil y a la région de Beauce[1;32;4m.[0m
 ---
-685:in Rhap_D1001-3
-1 erreur: Rhap_D1001-3
-Pro('beaucoup'):: absent du lexique.
+685: Rhap_D1001-3
+1 différence
+# text = dans la région de Beauce on dit que la culture est une culture euh qui rend bien mais qui demande beaucoup de travail[1;32;4m[0m
+# TEXT = Dans la région de Beauce on dit que la culture est une culture euh qui rend bien mais qui demande beaucoup de travail[1;32;4m.[0m
 ---
 686: Rhap_D1001-4
 1 différence
@@ -3385,18 +3955,24 @@ Pro('beaucoup'):: absent du lexique.
 # text = alors on dit que le tempérament des Beaucerons est un tempérament euh volontaire[1;32;4m travailleur[0m mais [1;32;4mfidèle[0m
 # TEXT = Alors on dit que le tempérament des Beaucerons est un tempérament euh volontaire[1;32;4m, fidèle[0m mais [1;32;4mtravailleur.[0m
 ---
-691:in Rhap_D1001-9
+691: Rhap_D1001-9
+1 différence
+# text = et quand il a donné sa sa foi à quelqu'un c' est durable euh[1;32;4m[0m
+# TEXT = Et quand il a donné sa sa foi à quelqu'un c'est durable euh[1;32;4m.[0m
 1 erreur: Rhap_D1001-9
-Pro("quelqu'un"):: absent du lexique.
+Pro("quelqu'un"):: absent du lexique mais existe comme Adv.
 ---
 692: Rhap_D1001-10
 2 différences
 # text = [1;32;4mnous[0m le ressentons certainement euh dans le comportement religieux[1;32;4m[0m
 # TEXT = [1;32;4mJe[0m le ressentons certainement euh dans le comportement religieux[1;32;4m.[0m
 ---
-693:in Rhap_D1001-11
+693: Rhap_D1001-11
+6 différences
+# text = il y a des des traditions de famille qui se transmettent dans le domaine religieux[1;32;4m [0mcomme dans tout le domaine du travail[1;32;4m [0mdu sérieux[1;32;4m [0mde l' économie[1;32;4m [0mde la résistance[1;32;4m [0mdes cultures euh[1;32;4m[0m
+# TEXT = Il y a des des traditions de famille qui se transmettent dans le domaine religieux[1;32;4m, [0mcomme dans tout le domaine du travail[1;32;4m, [0mdu sérieux[1;32;4m, [0mde l'économie[1;32;4m, [0mde la résistance[1;32;4m, [0mdes cultures euh[1;32;4m.[0m
 1 erreur: Rhap_D1001-11
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 ---
 694: Rhap_D1001-12
 1 différence
@@ -3423,8 +3999,11 @@ P('comme'):: absent du lexique.
 # text = mais on sent aussi que le Beauceron n' accorde sa fidélité [1;32;4mque [0maprès avoir bien connu[1;32;4m[0m
 # TEXT = Mais on sent aussi que le Beauceron n'accorde sa fidélité [1;32;4mqu'[0maprès avoir bien connu[1;32;4m.[0m
 ---
-699:in Rhap_D1001-17
+699: Rhap_D1001-17
 ## non projective
+2 différences
+# text = il faut avoir fait ses preuves [1;34;47msoi-même [0md' attachement au pays[1;31m•[0m
+# TEXT = Il faut avoir fait ses preuves d'attachement au pays [1;31mlui-même.[0m
 1 erreur: Rhap_D1001-17
 Pro('lui-même'):: absent du lexique.
 ---
@@ -3436,15 +4015,21 @@ Pro('lui-même'):: absent du lexique.
 701: Rhap_D1001-19
 9 différences
 # text = mais [1;32;4mnos[0m prêtres de Beauce qui sont les [1;32;4mcurés[0m de campagne euh ont en général avec [1;32;4mleur[0m population euh cet euh ce ce lien si vous voulez [1;32;4mqui[0m [1;32;4mn' [0mest pas superficiel[1;34;47m mais[0m[1;32;4m [0men profondeur euh [1;31m•[0mqui correspond bien à la fidélité d' une d' une race[1;32;4m[0m
-# TEXT = Mais [1;32;4mses[0m prêtres de Beauce qui sont les [1;32;4mcuré[0m de campagne euh ont en général avec [1;32;4msa[0m population euh cet euh ce ce lien si vous voulez [1;32;4mne[0m [1;32;4mqui [0mest pas superficiel[1;32;4m, [0men profondeur euh [1;31mmais [0mqui correspond bien à la fidélité d'une d'une race[1;32;4m.[0m
+# TEXT = Mais [1;32;4mses[0m prêtres de Beauce qui sont les [1;32;4mcuré[0m de campagne euh ont en général avec [1;32;4mson[0m population euh cet euh ce ce lien si vous voulez [1;32;4mne[0m [1;32;4mqui [0mest pas superficiel[1;32;4m, [0men profondeur euh [1;31mmais [0mqui correspond bien à la fidélité d'une d'une race[1;32;4m.[0m
 ---
-702:in Rhap_D1001-20
+702: Rhap_D1001-20
+2 différences
+# text = et puis [1;32;4mnous [0mavons une autre région qui est le Gâtinais[1;32;4m[0m
+# TEXT = Et puis [1;32;4mj'[0mavons une autre région qui est le Gâtinais[1;32;4m.[0m
 1 erreur: Rhap_D1001-20
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
-703:in Rhap_D1001-21
+703: Rhap_D1001-21
+3 différences
+# text = le Gâtinais [1;32;4mlui[0m c' est une région beaucoup plus euh [1;32;4mboisée[0m d' une part et puis beaucoup plus euh vouée à à l' élevage[1;32;4m[0m
+# TEXT = Le Gâtinais [1;32;4mil[0m c'est une région beaucoup plus euh [1;32;4mboiser[0m d'une part et puis beaucoup plus euh vouée à à l'élevage[1;32;4m.[0m
 1 erreur: Rhap_D1001-21
-A('boiser'):: absent du lexique.
+A('boiser'):: absent du lexique mais existe comme V.
 ---
 704: Rhap_D1001-22
 1 différence
@@ -3492,10 +4077,13 @@ A('boiser'):: absent du lexique.
 # text = [1;32;4meuh[0m [1;32;4mje[0m [1;32;4mpourrais[0m vous dire que [1;32;4mcertainement[0m [1;32;4meuh[0m [1;32;4mla[0m [1;32;4mmorale[0m [1;32;4mchrétienne[0m [1;32;4mparaît[0m [1;32;4mplus[0m [1;32;4mdifficile[0m [1;32;4mà[0m [1;32;4mnos[0m [1;32;4mgens[0m [1;32;4mdu[0m [1;32;4mGâtinais[0m [1;32;4mque[0m [1;32;4mdans[0m [1;32;4mla[0m [1;32;4mBeauce[0m euh[1;32;4m[0m
 # TEXT = [1;32;4mJe[0m [1;32;4mpourrais[0m [1;32;4meuh[0m vous dire que [1;32;4mla[0m [1;32;4mmorale[0m [1;32;4mchrétienne[0m [1;32;4mparaît[0m [1;32;4mplus[0m [1;32;4mque[0m [1;32;4mdans[0m [1;32;4mla[0m [1;32;4mBeauce[0m [1;32;4meuh[0m [1;32;4mdifficile[0m [1;32;4mà[0m [1;32;4mses[0m [1;32;4mgens[0m [1;32;4mdu[0m [1;32;4mGâtinais[0m [1;32;4mcertainement[0m euh[1;32;4m.[0m
 ---
-713:in Rhap_D1001-31
+713: Rhap_D1001-31
 ## non projective
+6 différences
+# text = c' est aussi [1;32;4mune[0m des raisons [1;32;4mpour lesquelles[0m [1;32;4meuh[0m [1;32;4ml' attachement[0m [1;32;4mest[0m peut-être moins en profondeur[1;32;4m[0m
+# TEXT = C'est aussi [1;32;4mun[0m des raisons [1;32;4ml'attachement[0m [1;32;4mest[0m [1;32;4mpour lesquelles[0m [1;32;4meuh[0m peut-être moins en profondeur[1;32;4m.[0m
 1 erreur: Rhap_D1001-31
-Pro('un'):: absent du lexique.
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
 ---
 714: Rhap_D1001-32
 ## non projective
@@ -3503,21 +4091,29 @@ Pro('un'):: absent du lexique.
 # text = mais il gagne tellement [1;34;47men spontanéité en en amabilité en gentillesse mh [0mqu' ils euh qu' ils ont peut-être davantage si vous voulez de l' évangile la la caractéristique de la sympathie[1;32;4m [0mde l' accueil et de la charité mais [1;32;4mque [0mil faudrait peut-être moins moins chercher du côté [1;34;47mdu [0m[1;32;4mrenoncement [0mou [1;32;4mde [0mou de l' austérité[1;31m•[0m
 # TEXT = Mais il gagne tellement qu'ils euh qu'ils ont peut-être davantage si vous voulez de l'évangile la la caractéristique de la sympathie[1;32;4m, [0mde l'accueil et de la charité mais [1;32;4mqu'[0mil faudrait peut-être moins moins chercher du côté [1;32;4md'[0mou [1;32;4md'[0mou de l'austérité [1;31mle renoncement en spontanéité en en amabilité en gentillesse mh.[0m
 ---
-715:in Rhap_D1001-33
+715: Rhap_D1001-33
+4 différences
+# text = est -ce qu' il y a une différence nette parmi l~ les différentes couches sociales dans la mesure où vous arrivez à [1;32;4mà[0m [1;34;47mles [0mtoucher et [1;32;4mà[0m [1;34;47mles [0mattacher à l' église
+# TEXT = est-ce qu'il y a une différence nette parmi l~ les différentes couches sociales dans la mesure où vous arrivez à [1;32;4maux[0m toucher et [1;32;4maux[0m attacher à l'église
 1 erreur: Rhap_D1001-33
 D('l~'):: absent du lexique.
 ---
-716:in Rhap_D1001-34
+716: Rhap_D1001-34
 ## non projective
-3 erreurs: Rhap_D1001-34
-C("c'est-à-dire"):: absent du lexique.
+5 différences
+# text = c'est-à-dire [1;32;4mque [0mest -ce qu' il y a des couches sociales qui plus [1;32;4mque d' autres[0m disons dans Orléans même où évidemment la la société est plus [1;32;4mstratifiée[0m et peut-être plus [1;34;47mvariée [0mque qu' à la campagne[1;31m•[0m
+# TEXT = C'est-à-dire [1;32;4mqu'[0mest-ce qu'il y a des couches sociales qui plus [1;32;4mqu'UN autre[0m disons dans Orléans même où évidemment la la société est plus [1;32;4mstratifié[0m et peut-être plus que qu'à la campagne [1;31mvariée.[0m
+2 erreurs: Rhap_D1001-34
 D('UN'):: absent du lexique.
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
-717:in Rhap_D1001-35
+717: Rhap_D1001-35
 ## non projective
+3 différences
+# text = oui alors là on aborde l' autre point de vue [1;32;4mqui[0m [1;32;4mn' [0mest plus le point de vue géographique mais qui est le point de vue sociologique oui n' est -ce pas les différentes couches de la société[1;32;4m[0m
+# TEXT = Oui alors là on aborde l'autre point de vue [1;32;4mne[0m [1;32;4mqui [0mest plus le point de vue géographique mais qui est le point de vue sociologique oui n'est-ce pas les différentes couches de la société[1;32;4m.[0m
 1 erreur: Rhap_D1001-35
-Pro('autre'):: absent du lexique.
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
 ---
 718: Rhap_D1001-36
 ## non projective
@@ -3525,8 +4121,11 @@ Pro('autre'):: absent du lexique.
 # text = il est bien vrai que [1;32;4mdans[0m [1;32;4mles[0m [1;32;4mcampagnes[0m [1;32;4mle[0m [1;32;4mprêtre[0m [1;32;4mest[0m à [1;34;47mmême [0mde côtoyer tout le monde mh n' est -ce pas[1;31m•[0m
 # TEXT = Il est bien vrai que [1;32;4mle[0m [1;32;4mprêtre[0m [1;32;4mest[0m [1;32;4mdans[0m [1;32;4mles[0m [1;32;4mcampagnes[0m à de côtoyer tout le monde mh n'est-ce pas [1;31mmême.[0m
 ---
-719:in Rhap_D1001-37
+719: Rhap_D1001-37
 ## non projective
+7 différences
+# text = il y a beaucoup moins de dis~ de distinction entre les contacts [1;32;4mque[0m [1;32;4mpeut [0mavoir le prêtre[1;34;47m et[0m[1;32;4m [0mpuis les classes dirigeantes[1;34;47m et[0m[1;32;4m [0mle prêtre et le monde ouvrier[1;32;4m[0m
+# TEXT = Il y a beaucoup moins de dis~ de distinction entre les contacts [1;32;4mpeut[0m [1;32;4mqu'[0mavoir le prêtre[1;32;4m, [0mpuis les classes dirigeantes[1;32;4m, [0mle prêtre et le monde ouvrier[1;32;4m.[0m
 1 erreur: Rhap_D1001-37
 N('dis~'):: absent du lexique.
 ---
@@ -3540,24 +4139,36 @@ N('dis~'):: absent du lexique.
 # text = et il est en contact avec tout le monde dans un petit pays[1;32;4m[0m
 # TEXT = Et il est en contact avec tout le monde dans un petit pays[1;32;4m.[0m
 ---
-722:in Rhap_D1001-40
+722: Rhap_D1001-40
 ## non projective
+6 différences
+# text = lorsqu' il s' agit d' une grande ville comme Orléans le prêtre est bien plus en contact avec ceux qui [1;32;4mviennent[0m le voir parce qu' il [1;32;4mne[0m [1;32;4mpeut[0m [1;32;4mpas[0m [1;32;4mêtre[0m en contact avec tout le monde[1;32;4m[0m
+# TEXT = Lorsqu'il s'agit d'une grande ville comme Orléans le prêtre est bien plus en contact avec ceux qui [1;32;4mvient[0m le voir parce qu'il [1;32;4mpeut[0m [1;32;4mêtre[0m [1;32;4mne[0m [1;32;4mpas[0m en contact avec tout le monde[1;32;4m.[0m
 2 erreurs: Rhap_D1001-40
-P('comme'):: absent du lexique.
+P('comme'):: absent du lexique mais existe comme Adv ou C.
 C('parce'):: absent du lexique.
 ---
-723:in Rhap_D1001-41
+723: Rhap_D1001-41
+16 différences
+# text = alors ceux qui [1;32;4mviennent[0m le voir ce sont les les hommes qui ont une formation chrétienne[1;34;47m et[0m[1;32;4m [0mqui font partie de la paroisse[1;34;47m et[0m[1;32;4m [0mqui [1;32;4mviennent[0m à l' occasion de l' éducation des enfants[1;32;4m [0mà l' occasion des offices[1;32;4m [0mà l' occasion des cérémonies religieuses euh[1;32;4m [0mqui [1;32;4mviennent[0m pour les baptêmes[1;32;4m [0mpour les mariages[1;32;4m [0mles enterrements euh [1;31m•[0mqui [1;32;4mviennent[0m toujours pour un but euh précis qui a trait à [1;32;4mla [0mà la vie chrétienne[1;32;4m[0m
+# TEXT = Alors ceux qui [1;32;4mvient[0m le voir ce sont les les hommes qui ont une formation chrétienne[1;32;4m, [0mqui font partie de la paroisse[1;32;4m, [0mqui [1;32;4mvient[0m à l'occasion de l'éducation des enfants[1;32;4m, [0mà l'occasion des offices[1;32;4m, [0mà l'occasion des cérémonies religieuses euh[1;32;4m, [0mqui [1;32;4mvient[0m pour les baptêmes[1;32;4m, [0mpour les mariages[1;32;4m, [0mles enterrements euh [1;31met [0mqui [1;32;4mvient[0m toujours pour un but euh précis qui a trait à [1;32;4ml'[0mà la vie chrétienne[1;32;4m.[0m
 1 erreur: Rhap_D1001-41
 N('offices'):: absent du lexique.
 ---
-724:in Rhap_D1001-42
+724: Rhap_D1001-42
+2 différences
+# text = mais euh les contacts du prêtre avec euh les couches avec les problèmes directs des hommes qui sont le le travail sous tous ses aspects euh ces ces problèmes[1;32;4m -[0mlà sont certainement plus difficiles à aborder parce que le nombre des prêtres en ville est quand même très petit par rapport à la proportion de la campagne[1;32;4m[0m
+# TEXT = Mais euh les contacts du prêtre avec euh les couches avec les problèmes directs des hommes qui sont le le travail sous tous ses aspects euh ces ces problèmes[1;32;4m [0mlà sont certainement plus difficiles à aborder parce que le nombre des prêtres en ville est quand même très petit par rapport à la proportion de la campagne[1;32;4m.[0m
 1 erreur: Rhap_D1001-42
 C('parce'):: absent du lexique.
 ---
-725:in Rhap_D1001-43
+725: Rhap_D1001-43
 ## non projective
+9 différences
+# text = alors vous abordez là tout tout cet aspect de l' effort de l' église actuelle pour [1;34;47mn' [0mêtre pas [1;31m•[0msimplement en contact avec ceux [1;32;4mqui[0m [1;32;4mtraditionnellement[0m sont chrétiens mais le problème de l' église du contact avec [1;32;4mtous[0m [1;32;4mles[0m [1;32;4mhommes[0m et en particulier avec ceux qui qui sont plus plus [1;32;4méprouvés[0m quoi dans le travail[1;32;4m[0m
+# TEXT = Alors vous abordez là tout tout cet aspect de l'effort de l'église actuelle pour être pas [1;31mne [0msimplement en contact avec ceux [1;32;4mtraditionnellement[0m [1;32;4mqui[0m sont chrétiens mais le problème de l'église du contact avec [1;32;4mles[0m [1;32;4mhommes[0m [1;32;4mtous[0m et en particulier avec ceux qui qui sont plus plus [1;32;4méprouver[0m quoi dans le travail[1;32;4m.[0m
 1 erreur: Rhap_D1001-43
-A('éprouver'):: absent du lexique.
+A('éprouver'):: absent du lexique mais existe comme V.
 ---
 726: Rhap_D1001-44
 1 différence
@@ -3570,7 +4181,10 @@ A('éprouver'):: absent du lexique.
 # text = je n' ai pas l' intention en ce moment de pouvoir [1;32;4mvous[0m exposer [1;34;47mquelles sont [0mles difficultés de contact [1;34;47mqu' [0mil peut [1;31m•[0my avoir entre les églises que ce soit l' église catholique[1;32;4m [0ml' église protestante[1;32;4m [0ml' église orthodoxe toutes les églises et le monde des travailleurs[1;31m•[0m
 # TEXT = Je n'ai pas l'intention en ce moment de pouvoir [1;32;4mil[0m exposer les difficultés de contact il peut [1;31mqu'[0my avoir entre les églises que ce soit l'église catholique[1;32;4m, [0ml'église protestante[1;32;4m, [0ml'église orthodoxe toutes les églises et le monde des travailleurs [1;31msont quel.[0m
 ---
-728:in Rhap_D1001-46
+728: Rhap_D1001-46
+4 différences
+# text = [1;32;4mnous[0m connaissons tous n' est -ce pas comment le monde des travailleurs depuis un siècle [1;32;4ma[0m [1;34;47mété [0mtravaillé par le théo~ les théories du marxisme[1;32;4m[0m
+# TEXT = [1;32;4mJe[0m connaissons tous n'est-ce pas comment le monde des travailleurs depuis un siècle [1;32;4mest[0m travaillé par le théo~ les théories du marxisme[1;32;4m.[0m
 1 erreur: Rhap_D1001-46
 N('théo~'):: absent du lexique.
 ---
@@ -3579,5 +4193,5 @@ N('théo~'):: absent du lexique.
 # text = et [1;32;4mnous[0m savons très bien [1;32;4mquelle[0m [1;34;47mque soit [0ml' église à laquelle [1;32;4mnous [0mappartenons[1;31m•[0m
 # TEXT = Et [1;32;4mje[0m savons très bien [1;32;4mquel[0m l'église à laquelle [1;32;4mj'[0mappartenons [1;31msoit que.[0m
 ---
-730 UD dépendences traitées
-0 modifiées
+730 UD traitées
+689 UD différentes

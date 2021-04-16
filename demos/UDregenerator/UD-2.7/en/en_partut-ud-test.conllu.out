@@ -3,31 +3,27 @@
 # text = Attribution-ShareAlike 2.[1;34;47m0.[0m
 # TEXT = attribution-ShareAlike 2.
 ---
-1:in en_partut-ud-9
-1 error: en_partut-ud-9
-N('license'):: not found in lexicon.
+1: en_partut-ud-9
+# text = Any use of the work other than as authorized under this license or copyright law is prohibited.
+# TEXT = Any use of the work other than as authorized under this license or copyright law is prohibited.
 ---
-2:in en_partut-ud-46
-4 errors: en_partut-ud-46
-N('licensor'):: not found in lexicon.
-N('merchantibility'):: not found in lexicon.
-N('noninfringement'):: not found in lexicon.
-A('discoverable'):: not found in lexicon.
+2: en_partut-ud-46
+3 differences
+# text = UNLESS OTHERWISE AGREED [1;34;47mTO [0mBY THE PARTIES IN WRITING, [1;31m•[0mLICENSOR OFFERS THE WORK AS-IS AND MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE MATERIALS, EXPRESS, IMPLIED, STATUTORY OR OTHERWISE, INCLUDING, WITHOUT LIMITATION, WARRANTIES OF TITLE, MERCHANTIBILITY, FITNESS FOR A PARTICULAR PURPOSE, NONINFRINGEMENT, [1;34;47mOR [0mTHE ABSENCE OF LATENT OR OTHER DEFECTS, ACCURACY, OR THE PRESENCE OF ABSENCE OF ERRORS, WHETHER OR not DISCOVERABLE.
+# TEXT = unless otherwise agreed by the parties in writing, [1;31mto [0mlicensor offers the work as-is and makes no representations or warranties of any kind concerning the materials, express, implied, statutory or otherwise, including, without limitation, warranties of title, merchantibility, fitness for a particular purpose, noninfringement, the absence of latent or other defects, accuracy, or the presence of absence of errors, whether or not discoverable.
 ---
 3:in en_partut-ud-64
-2 errors: en_partut-ud-64
-N('license'):: not found in lexicon.
-A('whatsoever'):: not found in lexicon.
+1 error: en_partut-ud-64
+NP(Q('Creative'),Q('Commons'),V('be'),D('a'),N('party'),PP(P('to'),D('this'),Q('license'))):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
 4: en_partut-ud-80
 3 differences
 # text = Yes, [1;32;4mMr [0mEvans[1;32;4m, [0mI feel an initiative of the type you have just suggested [1;32;4mwould[0m be entirely appropriate.
 # TEXT = Yes, [1;32;4mmister, [0mEvans[1;32;4m [0mI feel an initiative of the type you have just suggested [1;32;4mwill[0m be entirely appropriate.
 ---
-5: en_partut-ud-116
-1 difference
-# text = I [1;32;4mwould[0m ask that they reconsider, since this is not the case.
-# TEXT = I [1;32;4mwill[0m ask that they reconsider, since this is not the case.
+5:in en_partut-ud-116
+1 error: en_partut-ud-116
+NP(C('since'),Pro('this'),V('be'),D('the'),N('case')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
 6: en_partut-ud-184
 4 differences
@@ -36,8 +32,7 @@ A('whatsoever'):: not found in lexicon.
 ---
 7:in en_partut-ud-193
 ## non projective
-2 errors: en_partut-ud-193
-N('advisor'):: not found in lexicon.
+1 error: en_partut-ud-193
 V('shall'):: morphology error: conjugate_en: unrecognized tense :V(shall) : {"pe":3,"t":"pp"}.
 ---
 8:in en_partut-ud-218
@@ -51,37 +46,39 @@ Adv('more'):: morphology error: adjective declension :Adv(more) : {"f":"co"}.
 # TEXT = I can live with these minimum standards, but I [1;32;4mwill[0m ask the commission to monitor the situation very carefully.
 ---
 10: en_partut-ud-227
-2 differences
-# text = But I believe that we [1;32;4mshould[0m do all we can to keep the transport of dangerous [1;32;4mgoods[0m to a minimum, in all countries, whether they are transit countries or not.
-# TEXT = But I believe that we [1;32;4mshall[0m do all we can to keep the transport of dangerous [1;32;4mgood[0m to a minimum, in all countries, whether they are transit countries or not.
+1 difference
+# text = But I believe that we [1;32;4mshould[0m do all we can to keep the transport of dangerous goods to a minimum, in all countries, whether they are transit countries or not.
+# TEXT = But I believe that we [1;32;4mshall[0m do all we can to keep the transport of dangerous goods to a minimum, in all countries, whether they are transit countries or not.
 ---
 11: en_partut-ud-275
 4 differences
 # text = I [1;32;4mhope[0m my proposal [1;32;4mwill[0m [1;32;4mbe[0m [1;32;4mtaken[0m into consideration in tomorrow's vote.
 # TEXT = I [1;32;4mhopes[0m my proposal [1;32;4mbe[0m [1;32;4mwill[0m [1;32;4mtake[0m into consideration in tomorrow 's vote.
 ---
-12:in en_partut-ud-292
-1 error: en_partut-ud-292
-N('organisation'):: not found in lexicon.
+12: en_partut-ud-292
+7 differences
+# text = I [1;32;4mwould[0m like to ask the Vice-President if she is in a position to tell [1;32;4mus[0m today [1;34;47mwhat [0mthe state of play is [1;31m•[0mwith regard to the efforts towards [1;32;4mharmonisation[0m being made by these two [1;32;4morganisations[0m, and whether the EU is in a position to hasten these [1;32;4mharmonisation[0m efforts, in accordance with principles that are as simple as possible.
+# TEXT = I [1;32;4mwill[0m like to ask the vice-president if she is in a position to tell [1;32;4mwe[0m today the state of play is [1;31mwhat [0mwith regard to the efforts towards [1;32;4mharmonization[0m being made by these two [1;32;4morganisation[0m, and whether the EU is in a position to hasten these [1;32;4mharmonization[0m efforts, in accordance with principles that are as simple as possible.
 ---
-13:in en_partut-ud-323
-2 errors: en_partut-ud-323
-N('mrs'):: not found in lexicon.
-N('mrs'):: not found in lexicon.
+13: en_partut-ud-323
+6 differences
+# text = [1;32;4mMr[0m President, I [1;32;4mwould[0m [1;32;4mvery[0m [1;32;4mmuch[0m like to thank Mrs Schroedter for the work she has done on this and to explain to colleagues that I am speaking for my colleague, Mrs[1;34;47m Flautre[0m, who followed this for the Committee on Employment and Social Affairs but who is unfortunately ill[1;31m•[0m.
+# TEXT = [1;32;4mMister[0m president, I [1;32;4mvery[0m [1;32;4mmuch[0m [1;32;4mwill[0m like to thank mrs Schroedter for the work she has done on this and to explain to colleagues that I am speaking for my colleague, mrs, who followed this for the committee on employment and social affairs but who is unfortunately ill[1;31m Flautre[0m.
 ---
 14: en_partut-ud-331
 2 differences
 # text = But the lack of specific guidelines here is particularly to be regretted, as the idea of linking Social Fund assistance to the employment strategy [1;32;4mwill[0m [1;32;4mbe[0m put into effect for the first time during the 2000-2006 programme.
 # TEXT = But the lack of specific guidelines here is particularly to be regretted, as the idea of linking social fund assistance to the employment strategy [1;32;4mbe[0m [1;32;4mwill[0m put into effect for the first time during the 2000-2006 programme.
 ---
-15:in en_partut-ud-351
-2 errors: en_partut-ud-351
-A('interim'):: not found in lexicon.
-N('Directive'):: not found in lexicon.
+15: en_partut-ud-351
+8 differences
+# text = [1;31m•[0mThe truth of the matter though [1;34;47mis [0mthat we believe - and this [1;32;4mis[0m [1;32;4malso[0m [1;32;4mshown[0m in the way the conclusions [1;32;4mhave[0m [1;32;4mbeen[0m drafted - that the Commission must take account of what is adopted by this Parliament, particularly in the face of an interim revision of these [1;32;4mDirectives[0m.
+# TEXT = [1;31mis [0mthe truth of the matter though that we believe-and this [1;32;4malso[0m [1;32;4mis[0m [1;32;4mshowed[0m in the way the conclusions [1;32;4mis[0m [1;32;4mhad[0m drafted-that the commission must take account of what is adopted by this parliament, particularly in the face of an interim revision of these [1;32;4mDirective[0m.
 ---
-16:in en_partut-ud-371
-1 error: en_partut-ud-371
-N('mrs'):: not found in lexicon.
+16: en_partut-ud-371
+2 differences
+# text = [1;32;4mMr[0m President, Commissioner, I [1;32;4mwould[0m like to thank Mrs Schroedter for an excellent report.
+# TEXT = [1;32;4mMister[0m president, commissioner, I [1;32;4mwill[0m like to thank mrs Schroedter for an excellent report.
 ---
 17: en_partut-ud-372
 1 difference
@@ -90,41 +87,41 @@ N('mrs'):: not found in lexicon.
 ---
 18: en_partut-ud-377
 # text = It contained details and issues that had already been raised in previous reports.
-# TEXT = It contained details and issues that had already been raised in previous reports. 
+# TEXT = It contained details and issues that had already been raised in previous reports.
 ---
-19: en_partut-ud-421
-1 difference
-# text = This has been an ongoing concern for the five years that I [1;32;4mhave[0m been a Member of this Parliament, and I have raised the issue time and time again.
-# TEXT = This has been an ongoing concern for the five years that I [1;32;4mhas[0m been a member of this parliament, and I have raised the issue time and time again.
+19:in en_partut-ud-421
+2 errors: en_partut-ud-421
+NP(Pro('that'),Pro('me'),V('be'),D('a'),N('member'),PP(P('of'),D('this'),N('parliament'))):: .typ({"perf":true}) should be applied to S, SP or VP, not to NP.
+NP(Pro('this'),V('be'),D('a'),A('ongoing'),N('concern'),PP(P('for'),D('the'),NO(5),N('year'),NP(Pro('that'),Pro('me'),V('be'),D('a'),N('member'),PP(P('of'),D('this'),N('parliament'))))):: .typ({"perf":true}) should be applied to S, SP or VP, not to NP.
 ---
-20:in en_partut-ud-429
-1 error: en_partut-ud-429
-N('programming'):: not found in lexicon.
+20: en_partut-ud-429
+2 differences
+# text = Consequently, I feel we must look to the future[1;34;47m and[0m[1;32;4m [0mestablish guidelines for the mid-term review in 2003, and thus have an influence on the second phase of programming set to follow 2003.
+# TEXT = Consequently, I feel we must look to the future[1;32;4m, [0mestablish guidelines for the mid-term review in 2003, and thus have an influence on the second phase of programming set to follow 2003.
 ---
-21:in en_partut-ud-447
-1 error: en_partut-ud-447
-N('redistribution'):: not found in lexicon.
+21: en_partut-ud-447
+2 differences
+# text = Its implementation [1;32;4mwould[0m [1;32;4mcertainly[0m require extending the scope of redistribution instruments such as the Structural Funds.
+# TEXT = Its implementation [1;32;4mcertainly[0m [1;32;4mwill[0m require extending the scope of redistribution instruments such as the structural funds.
 ---
-22:in en_partut-ud-452
-1 error: en_partut-ud-452
-N('rapporteur'):: not found in lexicon.
+22: en_partut-ud-452
+2 differences
+# text = [1;32;4mMr[0m President, I too [1;32;4mwould[0m like to congratulate the rapporteur on her excellent work.
+# TEXT = [1;32;4mMister[0m president, I too [1;32;4mwill[0m like to congratulate the rapporteur on her excellent work.
 ---
 23: en_partut-ud-459
 3 differences
 # text = I will conclude, [1;32;4mMr[0m President, by saying that the failure of the Commission's communication to focus on territorial pacts[1;32;4m [0mand[1;32;4m, [0mespecially, methods of combating unemployment among women and young people, is cause for serious concern.
 # TEXT = I will conclude, [1;32;4mmister[0m president, by saying that the failure of the commission 's communication to focus on territorial pacts[1;32;4m, [0mand[1;32;4m [0mespecially, methods of combating unemployment among women and young people, is cause for serious concern.
 ---
-24:in en_partut-ud-537
-4 errors: en_partut-ud-537
-N('grouping'):: not found in lexicon.
-N('keywords'):: not found in lexicon.
-N('advertiing'):: not found in lexicon.
-N('creative'):: not found in lexicon.
+24: en_partut-ud-537
+1 difference
+# text = ANA used a creative grouping of keywords to target [1;32;4madvertising[0m to users specifically interested in traveling and Japanese culture and developed advert creative that resonated with their audience.
+# TEXT = ANA used a creative grouping of keywords to target [1;32;4madvertiing[0m to users specifically interested in traveling and Japanese culture and developed advert creative that resonated with their audience.
 ---
-25: en_partut-ud-542
-2 differences
-# text = Now you can hear from people you[1;32;4m're[0m interested in, even if you[1;32;4m're[0m not friends.
-# TEXT = Now you can hear from people you[1;32;4m are[0m interested in, even if you[1;32;4m are[0m not friends.
+25:in en_partut-ud-542
+1 error: en_partut-ud-542
+NP(Adv('even'),C('if'),Pro('you'),V('be'),N('friend')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
 26: en_partut-ud-557
 2 differences
@@ -136,30 +133,27 @@ N('creative'):: not found in lexicon.
 # text = [1;32;4mDo[0m you [1;34;47mhave [0ma Facebook Page?
 # TEXT = [1;32;4mHave[0m you a Facebook page?
 ---
-28:in en_partut-ud-596
-2 errors: en_partut-ud-596
-N('stand-by'):: not found in lexicon.
-N('functioning'):: not found in lexicon.
+28: en_partut-ud-596
+1 difference
+# text = (14) As a general principle, the energy consumption of EUPs in stand-by or off-mode [1;32;4mshould[0m be reduced to the minimum necessary for their proper functioning.
+# TEXT = (14) as a general principle, the energy consumption of EUPs in stand-by or off-mode [1;32;4mshall[0m be reduced to the minimum necessary for their proper functioning.
 ---
 29:in en_partut-ud-673
-3 errors: en_partut-ud-673
-Adv('at'):: not found in lexicon.
-N('euro'):: not found in lexicon.
+1 error: en_partut-ud-673
 Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
 ---
 30: en_partut-ud-768
 # text = (2) Everyone has the right to leave any country, including his own, and to return to his country.
-# TEXT = (2) everyone has the right to leave any country, including his own, and to return to his country. 
+# TEXT = (2) everyone has the right to leave any country, including his own, and to return to his country.
 ---
-31:in en_partut-ud-773
-3 errors: en_partut-ud-773
-N('men'):: not found in lexicon.
-N('women'):: not found in lexicon.
-C('to'):: not found in lexicon.
+31: en_partut-ud-773
+1 difference
+# text = (1) Men and women of full age, without any limitation due to race, nationality or religion[1;32;4m, [0mhave the right to marry and to found a family.
+# TEXT = (1) men and women of full age, without any limitation due to race, nationality or religion[1;32;4m [0mhave the right to marry and to found a family.
 ---
 32: en_partut-ud-785
 # text = (2) Everyone has the right of equal access to public service in his country.
-# TEXT = (2) everyone has the right of equal access to public service in his country. 
+# TEXT = (2) everyone has the right of equal access to public service in his country.
 ---
 33: en_partut-ud-791
 1 difference
@@ -167,102 +161,99 @@ C('to'):: not found in lexicon.
 # TEXT = (3) everyone who works has the right to just and favourable remuneration ensuring for [1;32;4mhe[0m and his family an existence worthy of human dignity, and supplemented, if necessary, by other means of social protection.
 ---
 34:in en_partut-ud-812
-1 error: en_partut-ud-812
-N('momma'):: not found in lexicon.
+2 errors: en_partut-ud-812
+NP(C('if'),Q('momma'),V('be'),A('happy'),Q(',')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+NP(NP(C('if'),Q('momma'),V('be'),A('happy'),Q(',')),Pro('nobody'),V('be'),A('happy')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
 35: en_partut-ud-946
 # text = The Republic of Bulgaria and Romania hereby become members of the European Union.
-# TEXT = The republic of Bulgaria and Romania hereby become members of the European Union. 
+# TEXT = The republic of Bulgaria and Romania hereby become members of the European Union.
 ---
 36: en_partut-ud-947
 # text = The conditions and arrangements for admission are set out in the Protocol annexed to this Treaty.
-# TEXT = The conditions and arrangements for admission are set out in the protocol annexed to this treaty. 
+# TEXT = The conditions and arrangements for admission are set out in the protocol annexed to this treaty.
 ---
 37: en_partut-ud-948
 # text = The provisions of that Protocol shall form an integral part of this Treaty.
-# TEXT = The provisions of that protocol shall form an integral part of this treaty. 
+# TEXT = The provisions of that protocol shall form an integral part of this treaty.
 ---
 38: en_partut-ud-949
 # text = The provisions of that Act shall form an integral part of this Treaty.
-# TEXT = The provisions of that act shall form an integral part of this treaty. 
+# TEXT = The provisions of that act shall form an integral part of this treaty.
 ---
 39: en_partut-ud-950
 # text = This Treaty shall be ratified by the High Contracting Parties in accordance with their respective constitutional requirements.
-# TEXT = This treaty shall be ratified by the high Contracting Parties in accordance with their respective constitutional requirements. 
+# TEXT = This treaty shall be ratified by the high Contracting Parties in accordance with their respective constitutional requirements.
 ---
-40:in en_partut-ud-951
-1 error: en_partut-ud-951
-A('latest'):: not found in lexicon.
+40: en_partut-ud-951
+# text = The instruments of ratification shall be deposited with the Government of the Italian Republic by 31 December 2006 at the latest.
+# TEXT = The instruments of ratification shall be deposited with the government of the italian republic by 31 December 2006 at the latest.
 ---
 41: en_partut-ud-952
 # text = This Treaty shall enter into force on 1 January 2007 provided that all the instruments of ratification have been deposited before that date.
-# TEXT = This treaty shall enter into force on 1 January 2007 provided that all the instruments of ratification have been deposited before that date. 
+# TEXT = This treaty shall enter into force on 1 January 2007 provided that all the instruments of ratification have been deposited before that date.
 ---
 42: en_partut-ud-953
 # text = If such a decision is taken with respect to only one of the acceding States this Treaty shall enter into force for that State on 1 January 2008.
-# TEXT = If such a decision is taken with respect to only one of the acceding states this treaty shall enter into force for that state on 1 January 2008. 
+# TEXT = If such a decision is taken with respect to only one of the acceding states this treaty shall enter into force for that state on 1 January 2008.
 ---
 43: en_partut-ud-954
 # text = These measures shall enter into force only subject to and on the date of the entry into force of this Treaty.
-# TEXT = These measures shall enter into force only subject to and on the date of the entry into force of this treaty. 
+# TEXT = These measures shall enter into force only subject to and on the date of the entry into force of this treaty.
 ---
 44: en_partut-ud-955
 # text = The text of the Treaty establishing a Constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this Treaty.
-# TEXT = The text of the treaty establishing a constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this treaty. 
+# TEXT = The text of the treaty establishing a constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this treaty.
 ---
 45: en_partut-ud-956
 # text = Protocol Concerning the conditions and arrangements for admission of the republic of Bulgaria and Romania to the European Union.
 # TEXT = protocol concerning the conditions and arrangements for admission of the republic of Bulgaria and Romania to the European Union. 
 ---
-46:in en_partut-ud-957
-1 error: en_partut-ud-957
-N('Council'):: not found in lexicon.
+46: en_partut-ud-957
+# text = Bulgaria and Romania accede to the decisions and agreements adopted by the Representatives of the Governments of the Member States meeting within the Council.
+# TEXT = Bulgaria and Romania accede to the decisions and agreements adopted by the representatives of the governments of the member states meeting within the Council.
 ---
 47: en_partut-ud-958
 1 difference
 # text = The particular instruments mentioned in this Article include those referred to in Article [1;32;4mIV[0m-438 of the Constitution.
 # TEXT = The particular instruments mentioned in this article include those referred to in article [1;32;4mfourth[0m-438 of the constitution.
 ---
-48:in en_partut-ud-959
-1 error: en_partut-ud-959
-N('Council'):: not found in lexicon.
+48: en_partut-ud-959
+# text = It shall submit a draft of the protocols for conclusion to the Council.
+# TEXT = It shall submit a draft of the protocols for conclusion to the Council.
 ---
-49:in en_partut-ud-960
-1 error: en_partut-ud-960
-N('Council'):: not found in lexicon.
+49: en_partut-ud-960
+# text = The Council shall act unanimously after consulting the European Parliament.
+# TEXT = The Council shall act unanimously after consulting the European parliament.
 ---
-50: en_partut-ud-961
-4 differences
-# text = [1;31m•[0mThe application of the Constitution and acts adopted by the institutions shall[1;34;47m, as[0m [1;34;47ma transitional measure, [0mbe subject to the [1;32;4mderogations[0m provided for in this Protocol.
-# TEXT = [1;31mAs a transitional measure, [0mthe application of the constitution and acts adopted by the institutions shall be subject to the [1;32;4mderogation[0m provided for in this protocol.
+50:in en_partut-ud-961
+1 error: en_partut-ud-961
+NP(NP(D('the'),N('application'),CP(C('and'),NP(P('of'),D('the'),N('constitution')),NP(N('act'),VP(V('adopt'),PP(P('by'),D('the'),N('institution')))))),PP(P('as'),D('a'),A('transitional'),N('measure'),Q(',')),V('be'),A('subject'),PP(P('to'),D('the'),N('derogation'),VP(V('provide'),Adv('for'),PP(P('in'),D('this'),N('protocol'))))):: .typ({"mod":"nece"}) should be applied to S, SP or VP, not to NP.
 ---
-51:in en_partut-ud-962
-1 error: en_partut-ud-962
-N('provisions'):: not found in lexicon.
+51: en_partut-ud-962
+# text = Notwithstanding this, public procurement procedures initiated after accession shall be carried out in accordance with the relevant Union provisions.
+# TEXT = Notwithstanding this, public procurement procedures initiated after accession shall be carried out in accordance with the relevant union provisions.
 ---
-52:in en_partut-ud-963
-2 errors: en_partut-ud-963
-N('programming'):: not found in lexicon.
-A('pre'):: not found in lexicon.
+52: en_partut-ud-963
+# text = The last programming exercise for the pre-accession assistance referred to in paragraph 1 shall take place in the last year preceding accession.
+# TEXT = The last programming exercise for the pre-accession assistance referred to in paragraph 1 shall take place in the last year preceding accession.
 ---
 53: en_partut-ud-964
 # text = Actions under these programmes will have to be contracted within the following two years.
-# TEXT = Actions under these programmes will have to be contracted within the following two years. 
+# TEXT = Actions under these programmes will have to be contracted within the following two years.
 ---
 54: en_partut-ud-965
 # text = No extensions shall be granted for the contracting period.
-# TEXT = No extensions shall be granted for the contracting period. 
+# TEXT = No extensions shall be granted for the contracting period.
 ---
-55:in en_partut-ud-966
-2 errors: en_partut-ud-966
-A('justified'):: not found in lexicon.
-A('limited'):: not found in lexicon.
+55: en_partut-ud-966
+# text = Exceptionally and in duly justified cases, limited extensions in terms of duration may be granted for execution of contracts.
+# TEXT = Exceptionally and in duly justified cases, limited extensions in terms of duration may be granted for execution of contracts.
 ---
-56:in en_partut-ud-967
-3 errors: en_partut-ud-967
-N('costs'):: not found in lexicon.
-A('pre'):: not found in lexicon.
-N('funds'):: not found in lexicon.
+56: en_partut-ud-967
+1 difference
+# text = For audit and evaluation costs[1;32;4m, [0mpre-accession funds may be committed up to five years after accession.
+# TEXT = For audit and evaluation costs[1;32;4m [0mpre-accession funds may be committed up to five years after accession.
 ---
 57: en_partut-ud-968
 1 difference
@@ -271,84 +262,82 @@ N('funds'):: not found in lexicon.
 ---
 58: en_partut-ud-969
 # text = The Commission may adopt rules for implementation of the assistance referred to in paragraph 2.
-# TEXT = The commission may adopt rules for implementation of the assistance referred to in paragraph 2. 
+# TEXT = The commission may adopt rules for implementation of the assistance referred to in paragraph 2.
 ---
 59: en_partut-ud-970
 # text = To this end, the Commission shall be assisted by a committee.
-# TEXT = To this end, the commission shall be assisted by a committee. 
+# TEXT = To this end, the commission shall be assisted by a committee.
 ---
 60: en_partut-ud-971
 # text = The committee shall adopt its rules of procedure.
-# TEXT = The committee shall adopt its rules of procedure. 
+# TEXT = The committee shall adopt its rules of procedure.
 ---
-61:in en_partut-ud-972
-2 errors: en_partut-ud-972
-A('limited'):: not found in lexicon.
-A('small-scale'):: not found in lexicon.
+61: en_partut-ud-972
+2 differences
+# text = This assistance shall fund institution-building projects and limited small-scale [1;32;4minvestments[0m [1;32;4mancillary[0m thereto.
+# TEXT = This assistance shall fund institution-building projects and limited small-scale [1;32;4mancillary[0m [1;32;4minvestments[0m thereto.
 ---
 62: en_partut-ud-973
 1 difference
 # text = The appropriations shall be [1;32;4mauthorised[0m by the budgetary authority within the limits of the financial perspective.
 # TEXT = The appropriations shall be [1;32;4mauthorized[0m by the budgetary authority within the limits of the financial perspective.
 ---
-63: en_partut-ud-974
-# text = One twelfth of each annual amount shall be payable to Bulgaria and Romania on the first working day of each month in the corresponding year.
-# TEXT = One twelfth of each annual amount shall be payable to Bulgaria and Romania on the first working day of each month in the corresponding year. 
+63:in en_partut-ud-974
+1 error: en_partut-ud-974
+NP(NP(NO(1),A('twelfth'),PP(P('of'),D('each'),A('annual'),N('amount'))),V('be'),A('payable'),CP(C('and'),NP(P('to'),Q('Bulgaria')),Q('Romania')),PP(P('on'),D('the'),NP(A('first'),N('working')),N('day'),PP(P('of'),D('each'),N('month'))),PP(P('in'),D('the'),A('corresponding'),N('year'))):: .typ({"mod":"nece"}) should be applied to S, SP or VP, not to NP.
 ---
 64: en_partut-ud-975
 # text = The lump-sum payments shall be used within three years from the first payment.
-# TEXT = The lump-sum payments shall be used within three years from the first payment. 
+# TEXT = The lump-sum payments shall be used within three years from the first payment.
 ---
-65:in en_partut-ud-976
-1 error: en_partut-ud-976
-Adv('unjustifiably'):: not found in lexicon.
+65: en_partut-ud-976
+# text = Any unused or unjustifiably spent funds shall be recovered by the Commission.
+# TEXT = Any unused or unjustifiably spent funds shall be recovered by the commission.
 ---
 66: en_partut-ud-977
 # text = The Commission may adopt any technical provisions necessary for the operation of the temporary Cash-flow and Schengen Facility.
-# TEXT = The commission may adopt any technical provisions necessary for the operation of the temporary cash-flow and Schengen facility. 
+# TEXT = The commission may adopt any technical provisions necessary for the operation of the temporary cash-flow and Schengen facility.
 ---
-67: en_partut-ud-978
-# text = The measures thus decided on shall be applicable forthwith, shall take account of the interest of all parties concerned and shall not entail frontier controls.
-# TEXT = The measures thus decided on shall be applicable forthwith, shall take account of the interest of all parties concerned and shall not entail frontier controls. 
+67:in en_partut-ud-978
+1 error: en_partut-ud-978
+NP(NP(D('the'),N('measure'),NP(Adv('thus'),A('decided'),P('on'))),V('be'),A('applicable'),Adv('forthwith')):: .typ({"mod":"nece"}) should be applied to S, SP or VP, not to NP.
 ---
 68:in en_partut-ud-979
-2 errors: en_partut-ud-979
-N('functioning'):: not found in lexicon.
+1 error: en_partut-ud-979
 Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
 ---
-69:in en_partut-ud-980
-1 error: en_partut-ud-980
-N('means'):: not found in lexicon.
+69: en_partut-ud-980
+# text = Such safeguard measures shall not be invoked as a means of arbitrary discrimination or a disguised restriction on trade between Member States.
+# TEXT = Such safeguard measures shall not be invoked as a means of arbitrary discrimination or a disguised restriction on trade between member states.
 ---
 70:in en_partut-ud-981
 2 errors: en_partut-ud-981
 Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
 V('shall'):: morphology error: conjugate_en: unrecognized tense :V(shall) : {"pe":3,"n":"s","t":"pp"}.
 ---
-71:in en_partut-ud-982
-2 errors: en_partut-ud-982
-V('fulfil'):: not found in lexicon.
-V('fulfil'):: morphology error: conjugate_en:tab :V(fulfil) : {"pe":3,"n":"s","t":"pp"}.
+71: en_partut-ud-982
+3 differences
+# text = They [1;32;4mmay[0m [1;32;4mhowever[0m be applied beyond the period specified in the first paragraph as long as the relevant commitments have not been [1;32;4mfulfilled[0m.
+# TEXT = They [1;32;4mhowever[0m [1;32;4mmay[0m be applied beyond the period specified in the first paragraph as long as the relevant commitments have not been [1;32;4mfulfil[0m.
 ---
-72:in en_partut-ud-983
-2 errors: en_partut-ud-983
-V('fulfil'):: not found in lexicon.
-V('fulfil'):: morphology error: conjugate_en:tab :V(fulfil) : {"pe":3,"n":"s","t":"pr"}.
+72: en_partut-ud-983
+1 difference
+# text = In response to progress made by the new Member State concerned in [1;32;4mfulfilling[0m its commitments, the Commission may adapt the measures as appropriate.
+# TEXT = In response to progress made by the new member state concerned in [1;32;4mfulfil[0m its commitments, the commission may adapt the measures as appropriate.
 ---
 73:in en_partut-ud-984
-3 errors: en_partut-ud-984
-N('shortcomings'):: not found in lexicon.
+2 errors: en_partut-ud-984
 Adv('longer'):: morphology error: adjective declension :Adv(longer) : {"f":"co"}.
 V('shall'):: morphology error: conjugate_en: unrecognized tense :V(shall) : {"pe":3,"n":"s","t":"pp"}.
 ---
 74:in en_partut-ud-985
-2 errors: en_partut-ud-985
-N('shortcomings'):: not found in lexicon.
+1 error: en_partut-ud-985
 V('may'):: morphology error: conjugate_en: unrecognized tense :V(may) : {"pe":3,"n":"p","t":"pp"}.
 ---
-75:in en_partut-ud-986
-1 error: en_partut-ud-986
-N('Council'):: not found in lexicon.
+75: en_partut-ud-986
+1 difference
+# text = [1;32;4mA[0m European law of the Council may extend this period.
+# TEXT = [1;32;4mAn[0m European law of the Council may extend this period.
 ---
 76: en_partut-ud-987
 # text = These measures shall be taken during a period of three years following the date of accession and their application shall be limited to that period.
@@ -356,75 +345,76 @@ N('Council'):: not found in lexicon.
 ---
 77: en_partut-ud-988
 # text = The European Parliament shall make such adaptations to its Rules of Procedure as are rendered necessary by accession.
-# TEXT = The European parliament shall make such adaptations to its rules of procedure as are rendered necessary by accession. 
+# TEXT = The European parliament shall make such adaptations to its rules of procedure as are rendered necessary by accession.
 ---
-78:in en_partut-ud-989
-1 error: en_partut-ud-989
-N('Council'):: not found in lexicon.
+78: en_partut-ud-989
+# text = The Council shall make such adaptations to its Rules of Procedure as are rendered necessary by accession.
+# TEXT = The Council shall make such adaptations to its rules of procedure as are rendered necessary by accession.
 ---
 79: en_partut-ud-990
 # text = A national of each new Member State shall be appointed to the Commission as from the date of accession.
-# TEXT = A national of each new member state shall be appointed to the commission as from the date of accession. 
+# TEXT = A national of each new member state shall be appointed to the commission as from the date of accession.
 ---
-80:in en_partut-ud-991
-1 error: en_partut-ud-991
-A('appointed'):: not found in lexicon.
+80: en_partut-ud-991
+# text = The terms of office of the Members thus appointed shall expire at the same time as those of the Members in office at the time of accession.
+# TEXT = The terms of office of the members thus appointed shall expire at the same time as those of the members in office at the time of accession.
 ---
 81: en_partut-ud-992
 # text = Two Judges shall be appointed to the Court of Justice and two Judges shall be appointed to the General Court.
 # TEXT = two judges shall be appointed to the court of Justice and two judges shall be appointed to the General court. 
 ---
-82:in en_partut-ud-993
-1 error: en_partut-ud-993
-A('appointed'):: not found in lexicon.
+82: en_partut-ud-993
+# text = The term of office of one of the Judges of the Court of Justice appointed in accordance with paragraph 1 shall expire on 6 October 2009.
+# TEXT = The term of office of one of the judges of the court of justice appointed in accordance with paragraph 1 shall expire on 6 October 2009.
 ---
 83: en_partut-ud-994
 # text = This Judge shall be chosen by lot.
-# TEXT = This judge shall be chosen by lot. 
+# TEXT = This judge shall be chosen by lot.
 ---
 84: en_partut-ud-995
 # text = The term of office of the other Judge shall expire on 6 October 2012.
-# TEXT = The term of office of the other judge shall expire on 6 October 2012. 
+# TEXT = The term of office of the other judge shall expire on 6 October 2012.
 ---
-85:in en_partut-ud-996
-1 error: en_partut-ud-996
-A('appointed'):: not found in lexicon.
+85: en_partut-ud-996
+# text = The term of office of one of the Judges of the General Court appointed in accordance with paragraph 1 shall expire on 31 August 2007.
+# TEXT = The term of office of one of the judges of the General court appointed in accordance with paragraph 1 shall expire on 31 August 2007.
 ---
 86: en_partut-ud-997
 # text = The term of office of the other Judge shall expire on 31 August 2010.
-# TEXT = The term of office of the other judge shall expire on 31 August 2010. 
+# TEXT = The term of office of the other judge shall expire on 31 August 2010.
 ---
 87: en_partut-ud-998
 # text = The Court of Justice shall make such adaptations to its Rules of Procedure as are rendered necessary by accession.
-# TEXT = The court of Justice shall make such adaptations to its rules of procedure as are rendered necessary by accession. 
+# TEXT = The court of Justice shall make such adaptations to its rules of procedure as are rendered necessary by accession.
 ---
 88: en_partut-ud-999
 # text = The General Court, in agreement with the Court of Justice, shall make such adaptations to its Rules of Procedure as are rendered necessary by accession.
-# TEXT = The General court, in agreement with the court of Justice, shall make such adaptations to its rules of procedure as are rendered necessary by accession. 
+# TEXT = The General court, in agreement with the court of Justice, shall make such adaptations to its rules of procedure as are rendered necessary by accession.
 ---
-89:in en_partut-ud-1000
-1 error: en_partut-ud-1000
-N('Council'):: not found in lexicon.
+89: en_partut-ud-1000
+# text = The Rules of Procedure as adapted shall require the consent of the Council.
+# TEXT = The rules of procedure as adapted shall require the consent of the Council.
 ---
 90: en_partut-ud-1001
 # text = A national of each new Member State shall be appointed to the Court of Auditors as from the date of accession for a term of office of six years.
-# TEXT = A national of each new member state shall be appointed to the court of auditors as from the date of accession for a term of office of six years. 
+# TEXT = A national of each new member state shall be appointed to the court of auditors as from the date of accession for a term of office of six years.
 ---
-91:in en_partut-ud-1002
-1 error: en_partut-ud-1002
-A('appointed'):: not found in lexicon.
+91: en_partut-ud-1002
+# text = The terms of office of the members thus appointed shall expire at the same time as those of the members in office at the time of accession.
+# TEXT = The terms of office of the members thus appointed shall expire at the same time as those of the members in office at the time of accession.
 ---
-92:in en_partut-ud-1003
-1 error: en_partut-ud-1003
-A('appointed'):: not found in lexicon.
+92: en_partut-ud-1003
+# text = The terms of office of the newly appointed members shall expire at the same time as those of the members in office at the time of accession.
+# TEXT = The terms of office of the newly appointed members shall expire at the same time as those of the members in office at the time of accession.
 ---
-93:in en_partut-ud-1004
-1 error: en_partut-ud-1004
-Adv('later'):: not found in lexicon.
+93: en_partut-ud-1004
+2 differences
+# text = They shall communicate those measures to the Commission by the date of accession[1;32;4m [0mor[1;32;4m, [0mwhere later, by the time limit provided for in this Protocol.
+# TEXT = They shall communicate those measures to the commission by the date of accession[1;32;4m, [0mor[1;32;4m [0mwhere later, by the time limit provided for in this protocol.
 ---
-94:in en_partut-ud-1005
-1 error: en_partut-ud-1005
-N('voting'):: not found in lexicon.
+94: en_partut-ud-1005
+# text = The measures shall be adopted according to the voting rules governing the adoption of the act from which a temporary derogation is sought.
+# TEXT = The measures shall be adopted according to the voting rules governing the adoption of the act from which a temporary derogation is sought.
 ---
 95: en_partut-ud-1006
 1 difference
@@ -447,11 +437,11 @@ V('may'):: morphology error: conjugate_en: unrecognized tense :V(may) : {"pe":3,
 ---
 99: en_partut-ud-1010
 # text = The text of that Treaty, drawn up in the Bulgarian and Romanian languages, shall be annexed to this Protocol.
-# TEXT = The text of that treaty, drawn up in the Bulgarian and Romanian languages, shall be annexed to this protocol. 
+# TEXT = The text of that treaty, drawn up in the Bulgarian and Romanian languages, shall be annexed to this protocol.
 ---
-100: en_partut-ud-1011
-# text = Those texts shall be authentic under the same conditions as the texts of the Treaty referred to in the first paragraph, drawn up in the present languages.
-# TEXT = Those texts shall be authentic under the same conditions as the texts of the treaty referred to in the first paragraph, drawn up in the present languages. 
+100:in en_partut-ud-1011
+1 error: en_partut-ud-1011
+NP(NP(D('that'),N('text')),V('be'),A('authentic'),PP(P('under'),D('the'),A('same'),N('condition')),PP(P('as'),D('the'),N('text'),PP(P('of'),D('the'),N('treaty')),VP(V('refer'),P('to'),PP(P('in'),D('the'),A('first'),N('paragraph'),Q(','),VP(V('draw'),P('up'),PP(P('in'),D('the'),A('present'),N('language'))))))):: .typ({"mod":"nece"}) should be applied to S, SP or VP, not to NP.
 ---
 101: en_partut-ud-1012
 3 differences
@@ -465,7 +455,7 @@ V('may'):: morphology error: conjugate_en: unrecognized tense :V(may) : {"pe":3,
 ---
 103: en_partut-ud-1014
 # text = However, for France two base areas are established.
-# TEXT = However, for France two base areas are established. 
+# TEXT = However, for France two base areas are established.
 ---
 104: en_partut-ud-1015
 2 differences
@@ -479,51 +469,52 @@ V('may'):: morphology error: conjugate_en: unrecognized tense :V(may) : {"pe":3,
 ---
 106: en_partut-ud-1017
 # text = the aid measures shall be communicated to the Commission within four months of the date of accession.
-# TEXT = The aid measures shall be communicated to the commission within four months of the date of accession. 
+# TEXT = The aid measures shall be communicated to the commission within four months of the date of accession.
 ---
 107: en_partut-ud-1018
 # text = This communication shall include information on the legal basis for each measure.
-# TEXT = This communication shall include information on the legal basis for each measure. 
+# TEXT = This communication shall include information on the legal basis for each measure.
 ---
 108: en_partut-ud-1019
+2 differences
+# text = After that date, any aid [1;32;4mfound[0m to [1;32;4mbe[0m incompatible with those guidelines shall be considered as new aid.
+# TEXT = After that date, any aid [1;32;4mfounded[0m to [1;32;4mis[0m incompatible with those guidelines shall be considered as new aid.
+---
+109: en_partut-ud-1020
+# text = The stocks referred to in paragraph 1 shall be deducted from the quantity exceeding the normal carryover of stocks.
+# TEXT = The stocks referred to in paragraph 1 shall be deducted from the quantity exceeding the normal carryover of stocks.
+---
+110: en_partut-ud-1068
 1 difference
-# text = After that date, any aid [1;32;4mfound[0m to be incompatible with those guidelines shall be considered as new aid.
-# TEXT = After that date, any aid [1;32;4mfounded[0m to be incompatible with those guidelines shall be considered as new aid.
----
-109:in en_partut-ud-1020
-1 error: en_partut-ud-1020
-N('carryover'):: not found in lexicon.
----
-110:in en_partut-ud-1068
-1 error: en_partut-ud-1068
-Adv('technologically'):: not found in lexicon.
+# text = Such companies bring technologically advanced imports and new management techniques that [1;32;4mfoster[0m growth in domestic firms, while spurring industrial modernization.
+# TEXT = Such companies bring technologically advanced imports and new management techniques that [1;32;4mfosters[0m growth in domestic firms, while spurring industrial modernization.
 ---
 111: en_partut-ud-1081
 # text = Medicine, however affordable, is of no value if no one is available to prescribe or administer it.
-# TEXT = Medicine, however affordable, is of no value if no one is available to prescribe or administer it. 
+# TEXT = Medicine, however affordable, is of no value if no one is available to prescribe or administer it.
 ---
 112: en_partut-ud-1168
 1 difference
 # text = Here, too, Germany [1;32;4mshould[0m take the lead.
 # TEXT = Here, too, Germany [1;32;4mshall[0m take the lead.
 ---
-113:in en_partut-ud-1191
-1 error: en_partut-ud-1191
-N('competitiveness'):: not found in lexicon.
+113: en_partut-ud-1191
+# text = And China relied heavily on the US dollar to anchor its undervalued currency, allowing it to boost its export competitiveness.
+# TEXT = And China relied heavily on the US dollar to anchor its undervalued currency, allowing it to boost its export competitiveness.
 ---
 114:in en_partut-ud-1194
 1 error: en_partut-ud-1194
-N('codependency'):: not found in lexicon.
+NP(PP(P('in'),D('the'),N('end'),Q(',')),AdvP(Adv('however'),Q(',')),NP(D('this'),Q('codependency')),V('be'),D('a'),N('marriage'),PP(P('of'),N('convenience')),Q(','),PP(P('of'),N('love'))):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
-115:in en_partut-ud-1201
-2 errors: en_partut-ud-1201
-A('higher'):: not found in lexicon.
-A('weaker'):: not found in lexicon.
+115: en_partut-ud-1201
+2 differences
+# text = If America remains stuck in its under-saving ways but finds [1;32;4mitself[0m without Chinese goods and capital[1;32;4m, [0mit will suffer higher inflation, rising interest rates, and a weaker dollar.
+# TEXT = If America remains stuck in its under-saving ways but finds [1;32;4mit[0m without Chinese goods and capital[1;32;4m [0mit will suffer higher inflation, rising interest rates, and a weaker dollar.
 ---
-116:in en_partut-ud-1212
-2 errors: en_partut-ud-1212
-N('downside'):: not found in lexicon.
-A('higher'):: not found in lexicon.
+116: en_partut-ud-1212
+1 difference
+# text = Though the likely answer is yes, the downside risks seem higher than they did [1;34;47ma [0mfew decades ago.
+# TEXT = Though the likely answer is yes, the downside risks seem higher than they did few decades ago.
 ---
 117:in en_partut-ud-1238
 1 error: en_partut-ud-1238
@@ -533,54 +524,53 @@ Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
 1 error: en_partut-ud-1256
 Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
 ---
-119:in en_partut-ud-1302
-2 errors: en_partut-ud-1302
-Pro('most'):: not found in lexicon.
-N('wellbeing'):: not found in lexicon.
+119: en_partut-ud-1302
+# text = It is telling that most of the symposium's 47 participants – influential public- and private-sector figures from around the world – were unaware of the extent to which a mother's nutrition affects her offspring's wellbeing.
+# TEXT = It is telling that most of the symposium 's 47 participants – influential public-and private-sector figures from around the world – were unaware of the extent to which a mother 's nutrition affects her offspring 's wellbeing.
 ---
 120: en_partut-ud-1304
 # text = This reflects a fundamental failing on the part of the scientific community to relay relevant data to decision-makers.
-# TEXT = This reflects a fundamental failing on the part of the scientific community to relay relevant data to decision-makers. 
+# TEXT = This reflects a fundamental failing on the part of the scientific community to relay relevant data to decision-makers.
 ---
-121:in en_partut-ud-1356
-2 errors: en_partut-ud-1356
-N('women'):: not found in lexicon.
-N('labor'):: not found in lexicon.
+121: en_partut-ud-1356
+6 differences
+# text = In South[1;34;47m Korea[0m, Japan, and elsewhere[1;31m•[0m[1;32;4m, [0mdeveloping and maximizing women's potential will require comprehensive education[1;34;47m and[0m[1;32;4m [0mlabor-market reforms, [1;31m•[0mas well as structural change, particularly on the services side of the economy.
+# TEXT = In South, Japan, and elsewhere[1;31m Korea[0m[1;32;4m [0mdeveloping and maximizing women 's potential will require comprehensive education[1;32;4m, [0mlabor-market reforms, [1;31mand [0mas well as structural change, particularly on the services side of the economy.
 ---
 122: en_partut-ud-1392
 # text = In the realm of international economics, being perceived as boring confers power to the extent that it allows major decisions to be made without a great deal of external scrutiny.
-# TEXT = In the realm of international economics, being perceived as boring confers power to the extent that it allows major decisions to be made without a great deal of external scrutiny. 
+# TEXT = In the realm of international economics, being perceived as boring confers power to the extent that it allows major decisions to be made without a great deal of external scrutiny.
 ---
 123:in en_partut-ud-1403
 1 error: en_partut-ud-1403
-AdvP(Adv('certainly'),NP(P('for'),D('the'),Q('US'))):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
+AdvP(Adv('certainly'),PP(P('for'),D('the'),Q('US'))):: .typ({"neg":true}) should be applied to S, SP or VP, not to AdvP.
 ---
 124: en_partut-ud-1410
 # text = These countries' global economic and financial significance has grown rapidly, yet they have relatively little representation at the Fund.
-# TEXT = These countries 'global economic and financial significance has grown rapidly, yet they have relatively little representation at the fund. 
+# TEXT = These countries 'global economic and financial significance has grown rapidly, yet they have relatively little representation at the fund.
 ---
 125: en_partut-ud-1411
 # text = A package of reforms has been agreed.
-# TEXT = A package of reforms has been agreed. 
+# TEXT = A package of reforms has been agreed.
 ---
 126:in en_partut-ud-1417
 1 error: en_partut-ud-1417
 Adv('more'):: morphology error: adjective declension :Adv(more) : {"f":"co"}.
 ---
-127:in en_partut-ud-1418
-1 error: en_partut-ud-1418
-A('latest'):: not found in lexicon.
+127: en_partut-ud-1418
+7 differences
+# text = [1;31m•[0mThe latest indications [1;34;47mare [0mthat the Republicans [1;32;4mwill[0m [1;32;4mnot[0m [1;32;4mbe[0m [1;32;4mso[0m [1;32;4menticed[0m.
+# TEXT = [1;31mare [0mthe latest indications that the republicans [1;32;4mbe[0m [1;32;4mso[0m [1;32;4mwill[0m [1;32;4mnot[0m [1;32;4mentice[0m.
 ---
 128:in en_partut-ud-1458
 1 error: en_partut-ud-1458
 NP(D('a'),N('inch')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
 strange possessive determiner:us
-129:in en_partut-ud-1461
-3 errors: en_partut-ud-1461
-N('Ukrainian'):: not found in lexicon.
-D('us'):: not found in lexicon.
-A('soviet'):: not found in lexicon.
+129: en_partut-ud-1461
+4 differences
+# text = And yet, as [1;32;4mUkrainians[0m work to rebuild [1;32;4mour[0m country after Viktor[1;34;47m Yanukovych[0m's [1;31m•[0mpredatory rule, we are facing a new threat, in the form of a "peace offensive" – that old staple of Soviet diplomacy designed to undermine Western resolve.
+# TEXT = And yet, as [1;32;4mUkrainian[0m work to rebuild [1;32;4mus[0m country after Viktor 's [1;31mYanukovych [0mpredatory rule, we are facing a new threat, in the form of a " peace offensive " – that old staple of soviet diplomacy designed to undermine western resolve.
 ---
 130: en_partut-ud-1485
 1 difference
@@ -591,13 +581,15 @@ A('soviet'):: not found in lexicon.
 1 error: en_partut-ud-1514
 Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
 ---
-132:in en_partut-ud-1530
-1 error: en_partut-ud-1530
-N('legwork'):: not found in lexicon.
+132: en_partut-ud-1530
+2 differences
+# text = After all, establishing a genuine fiscal union [1;32;4mwould[0m require strong [1;32;4mpolitical[0m commitment – and considerable legwork.
+# TEXT = After all, establishing a genuine fiscal union [1;32;4mwill[0m require strong [1;32;4mpolitic[0m commitment – and considerable legwork.
 ---
-133:in en_partut-ud-1578
-1 error: en_partut-ud-1578
-A('oratorian'):: not found in lexicon.
+133: en_partut-ud-1578
+2 differences
+# text = His time at Vendôme is reflected in Louis[1;34;47m Lambert[0m, his 1832 novel about a young boy studying at an Oratorian grammar school at Vendôme[1;31m•[0m.
+# TEXT = His time at Vendôme is reflected in Louis, his 1832 novel about a young boy studying at an oratorian grammar school at Vendôme[1;31m Lambert[0m.
 ---
 134: en_partut-ud-1648
 # text = as Robb explained:
@@ -609,20 +601,21 @@ A('oratorian'):: not found in lexicon.
 ---
 136: en_partut-ud-1657
 # text = In the end, his health fails and he is consumed by his own confusion.
-# TEXT = In the end, his health fails and he is consumed by his own confusion. 
+# TEXT = In the end, his health fails and he is consumed by his own confusion.
 ---
 137: en_partut-ud-1681
 # text = Their length was not predetermined.
-# TEXT = Their length was not predetermined. 
+# TEXT = Their length was not predetermined.
 ---
 138: en_partut-ud-1683
 2 differences
 # text = [1;31m•[0mHis preferred method [1;34;47mwas [0mto eat a light meal at five or six in the afternoon, then sleep until midnight.
 # TEXT = [1;31mwas [0mhis preferred method to eat a light meal at five or six in the afternoon, then sleep until midnight.
 ---
-139:in en_partut-ud-1691
-1 error: en_partut-ud-1691
-A('connect'):: not found in lexicon.
+139: en_partut-ud-1691
+3 differences
+# text = Although Balzac was "by turns a hermit[1;32;4m [0mand a vagrant[1;32;4m", [0mhe managed to stay [1;32;4mconnected[0m to the social world which nourished his writing.
+# TEXT = Although Balzac was " by turns a hermit[1;32;4m " [0mand a vagrant[1;32;4m [0mhe managed to stay [1;32;4mconnect[0m to the social world which nourished his writing.
 ---
 140: en_partut-ud-1719
 # text = His health deteriorated on the way, and Ewelina wrote to her daughter about Balzac being "in a state of extreme weakness" and "sweating profusely".
@@ -648,43 +641,41 @@ A('connect'):: not found in lexicon.
 # text = "Balzac has received high praise from critics as diverse as Walter [1;32;4mBenjamin[0m and Camille [1;32;4mPaglia[0m.
 # TEXT = " Balzac has received high praise from critics as diverse as Walter [1;32;4mPaglia[0m and Camille [1;32;4mBenjamin[0m.
 ---
-145:in en_partut-ud-1848
-1 error: en_partut-ud-1848
-Pro('several'):: not found in lexicon.
+145: en_partut-ud-1848
+# text = It is not known exactly when Shakespeare began writing, but contemporary allusions and records of performances show that several of his plays were on the London stage by 1592.
+# TEXT = it is not known exactly when Shakespeare began writing, but contemporary allusions and records of performances show that several of his plays were on the London stage by 1592. 
 ---
 146: en_partut-ud-1900
 # text = Shakespeare was buried in the chancel of the Holy Trinity Church two days after his death.
-# TEXT = Shakespeare was buried in the chancel of the holy Trinity church two days after his death. 
+# TEXT = Shakespeare was buried in the chancel of the holy Trinity church two days after his death.
 ---
-147:in en_partut-ud-1901
-3 errors: en_partut-ud-1901
-A('stone'):: not found in lexicon.
-V('moving'):: not found in lexicon.
-V('moving'):: morphology error: conjugate_en:tab :V(moving) : {"pe":3,"n":"s","t":"pr"}.
+147: en_partut-ud-1901
+2 differences
+# text = The epitaph carved into the stone slab covering his grave includes a curse against moving his bones, which [1;32;4mwas[0m [1;32;4mcarefully[0m avoided during restoration of the church in 2008.
+# TEXT = The epitaph carved into the stone slab covering his grave includes a curse against moving his bones, which [1;32;4mcarefully[0m [1;32;4mwas[0m avoided during restoration of the church in 2008.
 ---
-148:in en_partut-ud-1939
-1 error: en_partut-ud-1939
-A('eigth'):: not found in lexicon.
+148: en_partut-ud-1939
+2 differences
+# text = Shakespeare collaborated on two further surviving plays, Henry [1;34;47mVIII [0mand The Two Noble Kinsmen[1;31m•[0m, probably with John Fletcher.
+# TEXT = Shakespeare collaborated on two further surviving plays, Henry and the two Noble Kinsmen[1;31m eigth[0m, probably with John Fletcher.
 ---
 149:in en_partut-ud-2005
 1 error: en_partut-ud-2005
 Adv('more'):: morphology error: adjective declension :Adv(more) : {"f":"co"}.
 ---
 150:in en_partut-ud-2018
-2 errors: en_partut-ud-2018
-N('emphasised'):: not found in lexicon.
+1 error: en_partut-ud-2018
 Adv('more'):: morphology error: adjective declension :Adv(more) : {"f":"co"}.
 ---
-151:in en_partut-ud-2050
-2 errors: en_partut-ud-2050
-A('th'):: not found in lexicon.
-A('th'):: not found in lexicon.
+151: en_partut-ud-2050
+4 differences
+# text = In the [1;32;4m18th[0m [1;31m•[0mand [1;32;4m19th[0m [1;31m•[0mcenturies, his reputation also spread abroad.
+# TEXT = In the [1;32;4m18[0m [1;31mth [0mand [1;32;4m19[0m [1;31mth [0mcenturies, his reputation also spread abroad.
 ---
-152:in en_partut-ud-2070
-3 errors: en_partut-ud-2070
-N('academics'):: not found in lexicon.
-A('Oxfordian'):: not found in lexicon.
-A('st'):: not found in lexicon.
+152: en_partut-ud-2070
+2 differences
+# text = Only a small minority of academics believe there is reason to question the traditional attribution, but interest in the subject, particularly the Oxfordian theory of Shakespeare authorship, continues into the [1;32;4m21st[0m [1;31m•[0mcentury.
+# TEXT = only a small minority of academics believe there is reason to question the traditional attribution, but interest in the subject, particularly the Oxfordian theory of Shakespeare authorship, continues into the [1;32;4m21[0m [1;31mst [0mcentury.
 ---
 153 UD dependencies processed
 0 modified

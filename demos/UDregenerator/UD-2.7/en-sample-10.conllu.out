@@ -5,15 +5,15 @@
 ---
 1: 241
 # text = The dealer waited at hers.
-# TEXT = The dealer waited at hers. 
+# TEXT = The dealer waited at hers.
 ---
 2: 235
 # text = The dealer drove using yours.
-# TEXT = The dealer drove using yours. 
+# TEXT = The dealer drove using yours.
 ---
 3: 187
 # text = One of his was cleaned.
-# TEXT = One of his was cleaned. 
+# TEXT = One of his was cleaned.
 ---
 4: 120
 1 difference
@@ -21,21 +21,23 @@
 # TEXT = The dealers liked that yours cleaned [1;32;4measy[0m.
 ---
 5: 61
-1 difference
-# text = The car [1;32;4misn't[0m hers.
-# TEXT = The car [1;32;4mis not[0m hers.
+2 differences
+# text = The car [1;34;47misn'[0m[1;32;4mt[0m hers.
+# TEXT = the car [1;32;4mis[0m hers.
+1 error: 61
+NP(NP(D('the'),N('car')),V('be'),Pro('her')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
 6: 162
 # text = After his, the dealer cleaned the car.
-# TEXT = After his, the dealer cleaned the car. 
+# TEXT = After his, the dealer cleaned the car.
 ---
 7: 254
 # text = The dealer came from mine.
-# TEXT = The dealer came from mine. 
+# TEXT = The dealer came from mine.
 ---
 8: 150
 # text = The dealer's cars and yours sell quickly.
-# TEXT = The dealer 's cars and yours sell quickly. 
+# TEXT = The dealer 's cars and yours sell quickly.
 ---
 9: 208
 2 differences
@@ -44,9 +46,12 @@
 ---
 10: en_partut-ud-997
 # text = The term of office of the other Judge shall expire on 31 August 2010.
-# TEXT = The term of office of the other judge shall expire on 31 August 2010. 
+# TEXT = The term of office of the other judge shall expire on 31 August 2010.
 ---
-11:in en_partut-ud-1256
+11: en_partut-ud-1256
+2 differences
+# text = Or perhaps this innovation is[1;32;4m [0mless[1;32;4m [0msignificant than its enthusiasts believe.
+# TEXT = Or perhaps this innovation is[1;32;4m [[[0mless[1;32;4m]] [0msignificant than its enthusiasts believe.
 1 error: en_partut-ud-1256
 Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
 ---
@@ -55,58 +60,84 @@ Adv('less'):: morphology error: adjective declension :Adv(less) : {"f":"co"}.
 # text = But the lack of specific guidelines here is particularly to be regretted, as the idea of linking Social Fund assistance to the employment strategy [1;32;4mwill[0m [1;32;4mbe[0m put into effect for the first time during the 2000-2006 programme.
 # TEXT = But the lack of specific guidelines here is particularly to be regretted, as the idea of linking social fund assistance to the employment strategy [1;32;4mbe[0m [1;32;4mwill[0m put into effect for the first time during the 2000-2006 programme.
 ---
-13:in en_partut-ud-812
-1 error: en_partut-ud-812
+13: en_partut-ud-812
+4 differences
+# text = If momma [1;34;47main'[0m[1;32;4mt[0m happy, nobody [1;34;47main'[0m[1;32;4mt[0m happy.
+# TEXT = if momma [1;32;4mis[0m happy, nobody [1;32;4mis[0m happy.
+3 errors: en_partut-ud-812
 N('momma'):: not found in lexicon.
+NP(C('if'),Q('momma'),V('be'),A('happy'),Q(',')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+NP(NP(C('if'),Q('momma'),V('be'),A('happy'),Q(',')),Pro('nobody'),V('be'),A('happy')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
 ---
-14:in en_partut-ud-967
+14: en_partut-ud-967
+1 difference
+# text = For audit and evaluation costs[1;32;4m, [0mpre-accession funds may be committed up to five years after accession.
+# TEXT = For audit and evaluation costs[1;32;4m [0mpre-accession funds may be committed up to five years after accession.
 3 errors: en_partut-ud-967
 N('costs'):: not found in lexicon.
 A('pre'):: not found in lexicon.
 N('funds'):: not found in lexicon.
 ---
-15:in en_partut-ud-673
+15: en_partut-ud-673
+3 differences
+# text = - The programme [1;32;4mshould[0m continue for a further 4 years at[1;32;4m [0mleast[1;32;4m [0mwith the same budget (1 million euro per year) and with the same measures and target groups.
+# TEXT = -the programme [1;32;4mshall[0m continue for a further 4 years at[1;32;4m [[[0mleast[1;32;4m]] [0mwith the same budget (1 million euro per year) and with the same measures and target groups.
 3 errors: en_partut-ud-673
-Adv('at'):: not found in lexicon.
+Adv('at'):: not found in lexicon but exists as P.
 N('euro'):: not found in lexicon.
 Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
 ---
 16: en_partut-ud-955
 # text = The text of the Treaty establishing a Constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this Treaty.
-# TEXT = The text of the treaty establishing a constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this treaty. 
+# TEXT = The text of the treaty establishing a constitution for Europe drawn up in the Bulgarian and Romanian languages shall be annexed to this treaty.
 ---
-17:in en_partut-ud-1020
+17: en_partut-ud-1020
+# text = The stocks referred to in paragraph 1 shall be deducted from the quantity exceeding the normal carryover of stocks.
+# TEXT = The stocks referred to in paragraph 1 shall be deducted from the quantity exceeding the normal carryover of stocks.
 1 error: en_partut-ud-1020
 N('carryover'):: not found in lexicon.
 ---
 strange possessive determiner:us
-18:in en_partut-ud-1461
+18: en_partut-ud-1461
+4 differences
+# text = And yet, as [1;32;4mUkrainians[0m work to rebuild [1;32;4mour[0m country after Viktor[1;34;47m Yanukovych[0m's [1;31m•[0mpredatory rule, we are facing a new threat, in the form of a "peace offensive" – that old staple of Soviet diplomacy designed to undermine Western resolve.
+# TEXT = And yet, as [1;32;4mUkrainian[0m work to rebuild [1;32;4mus[0m country after Viktor 's [1;31mYanukovych [0mpredatory rule, we are facing a new threat, in the form of a " peace offensive " – that old staple of soviet diplomacy designed to undermine western resolve.
 3 errors: en_partut-ud-1461
 N('Ukrainian'):: not found in lexicon.
-D('us'):: not found in lexicon.
-A('soviet'):: not found in lexicon.
+D('us'):: not found in lexicon but exists as Pro.
+A('soviet'):: not found in lexicon but exists as N.
 ---
-19:in en_partut-ud-1901
-3 errors: en_partut-ud-1901
-A('stone'):: not found in lexicon.
-V('moving'):: not found in lexicon.
-V('moving'):: morphology error: conjugate_en:tab :V(moving) : {"pe":3,"n":"s","t":"pr"}.
+19: en_partut-ud-1901
+2 differences
+# text = The epitaph carved into the stone slab covering his grave includes a curse against moving his bones, which [1;32;4mwas[0m [1;32;4mcarefully[0m avoided during restoration of the church in 2008.
+# TEXT = The epitaph carved into the stone slab covering his grave includes a curse against moving his bones, which [1;32;4mcarefully[0m [1;32;4mwas[0m avoided during restoration of the church in 2008.
+2 errors: en_partut-ud-1901
+A('stone'):: not found in lexicon but exists as N or V.
+V('moving'):: not found in lexicon but exists as A.
 ---
 20: n01024010
 2 differences
 # text = Just over 70% of the plants grown from Earth seeds [1;32;4mwere[0m alive after 17 days - just slightly more [1;31m•[0mthan the plants grown from space seeds - just over 66%.
 # TEXT = Just over 70% of the plants grown from Earth seeds [1;32;4mwas[0m alive after 17 days-just slightly more [1;31mmore [0mthan the plants grown from space seeds-just over 66%.
 ---
-21:in n01046057
+21: n01046057
+# text = He also pointed out that Rogers recently introduced a new app tool that helps customers monitor their data usage.
+# TEXT = He also pointed out that Rogers recently introduced a new app tool that helps customers monitor their data usage.
 1 error: n01046057
 N('app'):: not found in lexicon.
 ---
-22:in w01035080
+22: w01035080
+1 difference
+# text = On the other hand, a healthy ecosystem with good management practices will reduce the chance of these events happening, or [1;32;4mwill at least[0m mitigate adverse impacts.
+# TEXT = on the other hand, a healthy ecosystem with good management practices will reduce the chance of these events happening, or [1;32;4mat [[least]] will[0m mitigate adverse impacts.
 2 errors: w01035080
-C('of'):: not found in lexicon.
+C('of'):: not found in lexicon but exists as P or Adv.
 Adv('least'):: morphology error: adjective declension :Adv(least) : {"f":"su"}.
 ---
-23:in n01001013
+23: n01001013
+1 difference
+# text = For those who [1;32;4mfollow[0m social media transitions on Capitol Hill, this will be a little different.
+# TEXT = For those who [1;32;4mfollows[0m social media transitions on Capitol Hill, this will be a little different.
 2 errors: n01001013
 Pro('those'):: not found in lexicon.
 N('media'):: not found in lexicon.
@@ -120,22 +151,32 @@ N('media'):: not found in lexicon.
 # text = The cost will change monthly and the price is expected to rise in winter as usage increases.
 # TEXT = the cost will change monthly and the price is expected to rise in winter as usage increases. 
 ---
-26:in w02018030
-2 errors: w02018030
+26: w02018030
+1 difference
+# text = Weiss was [1;32;4mhonored[0m with the literature prizes from the cities of Cologne and Bremen.
+# TEXT = Weiss was [1;32;4mhonor[0m with the literature prizes from the cities of Cologne and Bremen.
+1 error: w02018030
 V('honor'):: not found in lexicon.
-V('honor'):: morphology error: conjugate_en:tab :V(honor) : {"pe":3,"n":"s","t":"pp"}.
 ---
-27:in w01075037
+27: w01075037
+# text = Specifically, a male secondary school enrollment 10% above the average reduced the chance of a conflict by about 3%, while a growth rate 1% higher than the study average resulted in a decline in the chance of a civil war of about 1%.
+# TEXT = Specifically, a male secondary school enrollment 10% above the average reduced the chance of a conflict by about 3%, while a growth rate 1% higher than the study average resulted in a decline in the chance of a civil war of about 1%.
 2 errors: w01075037
 N('enrollment'):: not found in lexicon.
 A('higher'):: not found in lexicon.
 ---
-28:in w01036044
+28: w01036044
+2 differences
+# text = Papua New Guinea [1;32;4mis[0m [1;32;4moften[0m labelled as potentially the worst place in the world for gender violence.
+# TEXT = Papua New Guinea [1;32;4moften[0m [1;32;4mis[0m labelled as potentially the worst place in the world for gender violence.
 1 error: w01036044
-A('worst'):: not found in lexicon.
+A('worst'):: not found in lexicon but exists as N or V.
 ---
-29:in n01029014
+29: n01029014
 ## non projective
+4 differences
+# text = Earlier this year Seagal was given Serbian nationality after offering to set up [1;34;47ma [0mmartial arts school [1;32;4min[0m [1;32;4mthe[0m [1;32;4mcapital[0m Belgrade.
+# TEXT = Earlier this year Seagal was given serbian nationality after offering to set up martial arts school [1;32;4mthe[0m [1;32;4mcapital[0m [1;32;4min[0m Belgrade.
 2 errors: n01029014
 Adv('earlier'):: not found in lexicon.
 A('serbian'):: not found in lexicon.
@@ -168,12 +209,13 @@ A('serbian'):: not found in lexicon.
 # text = the camera only begins to work again when i [1;32;4mtake[0m out the battery and [1;32;4mput[0m it back in.
 # TEXT = The camera only begins to work again when I [1;32;4mtakes[0m out the battery and [1;32;4mputs[0m it back in.
 ---
-36:in email-enronsent21_02-0047
-4 errors: email-enronsent21_02-0047
+36: email-enronsent21_02-0047
+1 difference
+# text = [1;34;47mcould [0myou also CC me the first few times you send it?
+# TEXT = You also cc me the first few times you send it?
+2 errors: email-enronsent21_02-0047
 V('cc'):: not found in lexicon.
-V('cc'):: morphology error: conjugate_en:tab :V(cc) : {"pe":2,"n":"s","t":"b"}.
-V('cc'):: not found in lexicon.
-V('cc'):: morphology error: conjugate_en:tab :V(cc) : {"pe":3,"n":"s","t":"b"}.
+S(Pro('you'),Adv('also'),VP(Q('cc'),Pro('me'),NP(D('the'),A('first'),A('few'),N('time'),S(Pro('you'),VP(V('send'),Pro('it')))),Q('?'))):: no V found in VP.
 ---
 37: answers-20081218053636AA9vV0u_ans-0008
 # text = A Look at Slogans - http://www.small-business-software.net/look-at-slogans.htm
@@ -189,12 +231,13 @@ V('cc'):: morphology error: conjugate_en:tab :V(cc) : {"pe":3,"n":"s","t":"b"}.
 # TEXT = n3td3v saw this story on BBC News Online and thought you should see it. 
 ---
 40: GUM_whow_cactus-14
-# text = Be aware that growing Beavertail cactus from seeds takes much longer than growing one from a cutting.
-# TEXT = be aware that growing Beavertail cactus from seeds takes much longer than growing one from a cutting. 
+1 difference
+# text = [1;32;4mBe[0m aware that growing Beavertail cactus from seeds takes much longer than growing one from a cutting.
+# TEXT = [1;32;4mis[0m aware that growing Beavertail cactus from seeds takes much longer than growing one from a cutting.
 ---
 41: GUM_voyage_oakland-25
 # text = It has lots of local boutiques and a diverse range of food at all prices and styles.
-# TEXT = It has lots of local boutiques and a diverse range of food at all prices and styles. 
+# TEXT = It has lots of local boutiques and a diverse range of food at all prices and styles.
 ---
 42: GUM_interview_libertarian-17
 4 differences
@@ -203,31 +246,39 @@ V('cc'):: morphology error: conjugate_en:tab :V(cc) : {"pe":3,"n":"s","t":"b"}.
 ---
 43: GUM_bio_jespersen-15
 # text = He advanced the theories of Rank and Nexus in Danish in two papers: Sprogets logik (1913) and De to hovedarter af grammatiske forbindelser (1921).
-# TEXT = He advanced the theories of rank and nexus in Danish in two papers: Sprogets logik (1913) and De to hovedarter af grammatiske forbindelser ( 1921 ). 
+# TEXT = He advanced the theories of rank and nexus in Danish in two papers: Sprogets logik (1913) and De to hovedarter af grammatiske forbindelser ( 1921 ).
 ---
 44: GUM_interview_mcguire-49
-1 difference
-# text = While Pride and Prejudice will attract many readers, I [1;32;4mdon't[0m know about O'Reilly's latest tome on XML ... though I might be wrong.
-# TEXT = While Pride and Prejudice will attract many readers, I [1;32;4mdo not[0m know about O'Reilly 's latest tome on XML... though I might be wrong.
+2 differences
+# text = While Pride and Prejudice will attract many readers, I [1;32;4mdon't[0m know about O'Reilly's latest tome on XML ... though I [1;34;47mmight [0mbe wrong.
+# TEXT = While Pride and Prejudice will attract many readers, I [1;32;4mdo not[0m know about O'Reilly 's latest tome on XML... though I be wrong.
+2 errors: GUM_interview_mcguire-49
+NP(Q('...'),C('though'),Pro('me'),V('be'),A('wrong')):: option t is applied to NP, but it should be to V, VP, S, SP or CP
+NP(Q('...'),C('though'),Pro('me'),V('be'),A('wrong')):: .typ({"mod":"perm"}) should be applied to S, SP or VP, not to NP.
 ---
-45:in GUM_fiction_falling-60
+45: GUM_fiction_falling-60
+# text = The upside-down trading floor is deserted.
+# TEXT = The upside-down trading floor is deserted.
 1 error: GUM_fiction_falling-60
-A('upside-down'):: not found in lexicon.
+A('upside-down'):: not found in lexicon but exists as Adv.
 ---
 46: GUM_voyage_vavau-37
 # text = This is some 35 minutes from Neiafu Harbour and provides the main concentration of humpback whales.
-# TEXT = This is some 35 minutes from Neiafu Harbour and provides the main concentration of humpback whales. 
+# TEXT = This is some 35 minutes from Neiafu Harbour and provides the main concentration of humpback whales.
 ---
 47: GUM_whow_mice-13
 # text = Peppermint oil is a natural deterrent.
-# TEXT = Peppermint oil is a natural deterrent. 
+# TEXT = Peppermint oil is a natural deterrent.
 ---
 48: GUM_interview_hill-6
 # text = I understood it was an Oath to ALL of our people.
-# TEXT = I understood it was an oath to all of our people. 
+# TEXT = I understood it was an oath to all of our people.
 ---
-49:in GUM_news_nasa-41
+49: GUM_news_nasa-41
 ## non projective
+5 differences
+# text = [1;32;4m"[0mHowever, the full fuselage trainer, that [1;31m•[0mevery astronaut including [former Museum of Flight CEO] Bonnie Dunbar has been trained[1;34;47m on[0m, [1;32;4mwill[0m [1;32;4msoon[0m call the Museum of Flight home.
+# TEXT = [1;32;4m''[0mhowever, the full fuselage trainer, that [1;31mon [0mevery astronaut including [ former Museum of Flight CEO ] Bonnie Dunbar has been trained, [1;32;4msoon[0m [1;32;4mwill[0m call the Museum of Flight home.
 1 error: GUM_news_nasa-41
 N('CEO'):: not found in lexicon.
 ---
@@ -235,39 +286,51 @@ N('CEO'):: not found in lexicon.
 # text = Data access page with two group levels
 # TEXT = data access page with two group levels
 ---
-51:in en_lines-ud-test-doc1-4275
-5 errors: en_lines-ud-test-doc1-4275
-P('prior'):: not found in lexicon.
+51: en_lines-ud-test-doc1-4275
+5 differences
+# text = Dates prior to [1;34;47m01-Jul-[0m[1;32;4m1999[0m are grouped into a single group [1;32;4mtitled[0m [1;34;47m01-Jul-[0m[1;32;4m1999[0m.
+# TEXT = Dates prior to [1;32;4m0[0m are grouped into a single group [1;32;4mtitle[0m [1;32;4m0[0m.
+4 errors: en_lines-ud-test-doc1-4275
+P('prior'):: not found in lexicon but exists as A or N.
 NO('01-jul-1999'):: the parameter should be number, not string.
-V('title'):: not found in lexicon.
+V('title'):: not found in lexicon but exists as N.
 NO('01-jul-1999'):: the parameter should be number, not string.
-V('title'):: morphology error: conjugate_en:tab :V(title) : {"pe":3,"n":"s","t":"pp"}.
 ---
-52:in en_lines-ud-test-doc3-4573
-2 errors: en_lines-ud-test-doc3-4573
-V('undeveloped'):: not found in lexicon.
-V('undeveloped'):: morphology error: conjugate_en:tab :V(undeveloped) : {"pe":3,"n":"s","t":"pp"}.
+52: en_lines-ud-test-doc3-4573
+9 differences
+# text = We are first cousins[1;34;47m but[0m[1;32;4m [0mhe is Russian, I am an American, and in his Russian eyes an American is amiable[1;32;4m, good-natured, attractive[0m [1;32;4mperhaps, but[0m [1;32;4mundeveloped, helpless: all[0m [1;32;4mthat[0m [1;32;4mDostoevski was to his[0m [1;32;4mfellow convict the[0m [1;32;4mmurderer[0m.
+# TEXT = We are first cousins[1;32;4m, [0mhe is russian, I am an american, and in his russian eyes an american is amiable[1;32;4m: all that Dostoevski[0m [1;32;4mwas to[0m [1;32;4mhis fellow convict[0m [1;32;4mthe[0m [1;32;4mmurderer, good-natured, attractive[0m [1;32;4mperhaps, undeveloped, but[0m [1;32;4mhelpless[0m.
+1 error: en_lines-ud-test-doc3-4573
+V('undeveloped'):: not found in lexicon but exists as A.
 ---
-53:in en_lines-ud-test-doc4-4721
+53: en_lines-ud-test-doc4-4721
 ## non projective
+3 differences
+# text = It was on a back water surrounded by scrub and forest, with a pretty border of smelly mud on one side, and on the three [1;32;4mothers[0m inclosed by a crazy fence of rushes[1;32;4m. [0mA neglected gap was all the gate it had[1;32;4m,[0m
+# TEXT = it was on a back water surrounded by scrub and forest, with a pretty border of smelly mud on one side, and on the three [1;32;4mother[0m inclosed by a crazy fence of rushes[1;32;4m, [0ma neglected gap was all the gate it had[1;32;4m,.[0m
 2 errors: en_lines-ud-test-doc4-4721
-A('back'):: not found in lexicon.
+A('back'):: not found in lexicon but exists as Adv, N, P or V.
 A('neglected'):: not found in lexicon.
 ---
-54:in en_lines-ud-test-doc5-4776
+54: en_lines-ud-test-doc5-4776
+2 differences
+# text = If that facility is available to Vice-President – and good luck to him – [1;32;4mis[0m [1;32;4mit[0m available to other Members?
+# TEXT = If that facility is available to vice-president – and good luck to him – [1;32;4mit[0m [1;32;4mis[0m available to other members?
 1 error: en_lines-ud-test-doc5-4776
 N('vice-president'):: not found in lexicon.
 ---
 55: en_lines-ud-test-doc5-4732
 # text = The proposal put forward by the Commission is to be welcomed from the consumers' point of view.
-# TEXT = The proposal put forward by the commission is to be welcomed from the consumers 'point of view. 
+# TEXT = The proposal put forward by the commission is to be welcomed from the consumers 'point of view.
 ---
-56:in en_lines-ud-test-doc6-4869
-4 errors: en_lines-ud-test-doc6-4869
+56: en_lines-ud-test-doc6-4869
+2 differences
+# text = A young black man with sunglasses and a thick, springy mat of hair shaped to a crew-cut by topiary rather than [1;32;4mbarbering[0m had cut through the crowd with the [1;32;4mencircling[0m movement of authority.
+# TEXT = A young black man with sunglasses and a thick, springy mat of hair shaped to a crew-cut by topiary rather than [1;32;4mbarber[0m had cut through the crowd with the [1;32;4mencircle[0m movement of authority.
+3 errors: en_lines-ud-test-doc6-4869
 N('sunglasses'):: not found in lexicon.
-V('barber'):: not found in lexicon.
-A('encircle'):: not found in lexicon.
-V('barber'):: morphology error: conjugate_en:tab :V(barber) : {"pe":3,"n":"s","t":"pr"}.
+V('barber'):: not found in lexicon but exists as N.
+A('encircle'):: not found in lexicon but exists as V.
 ---
 57: en_lines-ud-test-doc1-4222
 2 differences
@@ -275,14 +338,16 @@ V('barber'):: morphology error: conjugate_en:tab :V(barber) : {"pe":3,"n":"s","t
 # TEXT = For[1;32;4m, [0mexample[1;32;4m [0mwhen you move a Product field to the filter area, you can have the chart display category and series values for one product at a time.
 ---
 58: en_lines-ud-test-doc5-4734
-# text = Ultimately that would be a disadvantage for the consumer.
-# TEXT = Ultimately that would be a disadvantage for the consumer. 
+1 difference
+# text = Ultimately that [1;34;47mwould [0mbe a disadvantage for the consumer.
+# TEXT = ultimately that be a disadvantage for the consumer.
+2 errors: en_lines-ud-test-doc5-4734
+NP(Adv('ultimately'),Pro('that'),V('be'),D('a'),N('disadvantage'),PP(P('for'),D('the'),N('consumer'))):: option t is applied to NP, but it should be to V, VP, S, SP or CP
+NP(Adv('ultimately'),Pro('that'),V('be'),D('a'),N('disadvantage'),PP(P('for'),D('the'),N('consumer'))):: .typ({"mod":"will"}) should be applied to S, SP or VP, not to NP.
 ---
-59:in en_lines-ud-test-doc3-4522
-3 errors: en_lines-ud-test-doc3-4522
-N('french'):: not found in lexicon.
-N('english'):: not found in lexicon.
-N('hebrew'):: not found in lexicon.
+59: en_lines-ud-test-doc3-4522
+# text = In French, in English, in Hebrew, and occasionally in Russian.
+# TEXT = in french, in english, in hebrew, and occasionally in russian. 
 ---
-60 UD dependencies processed
-0 modified
+60 UD processed
+35 UD different found

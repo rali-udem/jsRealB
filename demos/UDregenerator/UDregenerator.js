@@ -135,6 +135,19 @@ function parseUDs(groupVal,fileName){
     return uds;
 }
 
+function getFile(){
+	let file = d3.select("#file-input").node().files[0];
+    if (file !== undefined){
+    	let reader = new FileReader();
+    	reader.addEventListener('load', function(e) {
+        	d3.select("#input").text(e.target.result);
+            parseTextArea();
+    	});
+    	reader.readAsText(file);
+    } else {
+        parseTextArea();
+    }
+}
 // parse all uds in the textarea and build the menu of sentences
 function parseTextArea(){
     const sentLength=100;
@@ -279,7 +292,7 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
             lineHeight=parseInt(d3.select("textarea").style('line-height'));
             dependencies=d3.select("#dependencies");
             tree=d3.select("#tree");
-            d3.selectAll("#parse,#onlyDiffs").on("click",parseTextArea);
+            d3.selectAll("#parse,#onlyDiffs").on("click",getFile);
             d3.select("#showHideInstructions").on("click",toggleInstructions);
             d3.select("#showHideContituentTree").on("click",toggleConstituentTree);
             d3.select("#displayType").on("change",function(){
@@ -298,6 +311,9 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
                 letterSpacing=+this.value;
                 showSentenceParse(currentUD);
             });
+            d3.select("#quoteOOV").on("change",function(){
+                setQuoteOOV(d3.select(this).property("checked"))
+            })
             // pour l'éditeur
             editor = ace.edit("jsrStructure");
             editor.setTheme("ace/theme/textmate");
@@ -310,6 +326,8 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
             editor.setFontSize("16px"); // grandeur de police de défaut
 
             d3.select("#realize").on("click",updateRealization);
+            d3.select("#load-file").on("click",getFile);
+            
         });     
 }
  

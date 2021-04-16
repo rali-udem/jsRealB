@@ -427,7 +427,7 @@ Constituent.prototype.doElisionFr = function(cList){
         if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
-            let lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
+            let lexiconInfo=getLemma(typeof lemma == "string" ? lemma:realization); // get the lemma with the right pos
             if (typeof lexiconInfo == "undefined"){ 
                 lexiconInfo=getLemma(lemma.toLowerCase()); // check with lower case
                 if (typeof lexiconInfo == "undefined")return true; // elide when unknown
@@ -1794,24 +1794,24 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }
         let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
+            this.tab=null;
+            this.realization =`[[${lemma}]]`;
+            this.warn("not in lexicon");
             if (quoteOOV){
                 this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                 this.constType="Q";
-            } else {
-                this.tab=null;
-                this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon");
+                this.realization=this.lemma
             }
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                if (quoteOOV){
-                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
-                    this.constType="Q";
-                } else {
                     this.tab=null;
                     this.realization =`[[${lemma}]]`;
                     this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                if (quoteOOV){
+                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                    this.constType="Q";
+                    this.realization=this.lemma
                 }
             } else {
                 const keys=Object.keys(lexInfo);
@@ -24014,4 +24014,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-04-03 11:01"
+jsRealB_dateCreated="2021-04-15 16:38"

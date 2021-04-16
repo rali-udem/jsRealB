@@ -27,8 +27,10 @@
 	<input type="button" value="Afficher les instructions" id="showHideInstructions"/> [<a href="UDregenerator-en.html">English version</a>]
 <div>
     <ul id="instructions" style="display:none">
-        <li>Copier une ou plusieurs structures de dépendances en <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">format CONLLU</a></li>
+        <li>Copier dans le champ de texte une ou plusieurs structures de dépendances en <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">format CONLLU</a>. <br/>
+			Il est aussi possible de charger un fichier local en appuyant sur le bouton sous le champ de texte.</li>
     	<li>Cliquer sur le bouton <code>Analyser</code> pour créer le menu. Si <code>Que les différentes</code> est coché, seules les phrases dont la regénération est différente du texte original apparaissent dans le menu.</li> 
+		<li>Si l'indicateur <em>Tolérer les mots inconnus</em> est coché, alors <em>jsRealB</em> les considérera comme des éléments <code>Q(...)</code> et ils seront recopiés tels quels dans la sortie. Toutefois, l'affichage dans la section éditeur conserve les constructeurs originaux, car cette modification est effectuée au niveau de <em>jsRealB</em>. <strong>Cette option peut être pratique, mais il faut l'utiliser avec parcimonie</strong>. Il faut appuyer sur <code>Analyser</code> pour qu'elle soit prise en compte. </li>
     	<li>Choisir une phrase du menu. Une phrase débutant par une astérisque indique une structure de dépendance <em>non projective</em>.</li>
         <li>Le graphe ou l'arbre de dépendances sera affiché. Le mot <em>racine</em> est affiché en rouge. En plaçant le curseur sur un mot, les informations sur le mot sont affichées dans une info-bulle.</li>
         <li>Une phrase en français sera regénérée en utilisant <em>jsRealB</em></li>
@@ -73,132 +75,7 @@
 28	viande	viande	NOUN	_	Gender=Fem|Number=Sing	8	conj	_	_
 29	salée	saler	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	28	acl	_	SpaceAfter=No
 30	.	.	PUNCT	_	_	8	punct	_	_
-# jsRealB-start
-##
-# jsRealB-end
 
-// # file = fr/fr_sequoia-ud-test.conllu
-// # sent_id = frwiki_50.1000_00293
-// # text = Dans la pratique, la direction du G.O. (le Conseil de l'Ordre) fait passer une circulaire aux vénérables maîtres (présidents) de chaque loge de cette obédience pour leur demander de rassembler à leur niveau le plus d'informations possibles sur les officiers des garnisons de leurs villes ou départements.
-// # gl = à vérifier, plusieurs problèmes avec les pronoms
-// 1	Dans	dans	ADP	_	_	3	case	_	_
-// 2	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
-// 3	pratique	pratique	NOUN	_	Gender=Fem|Number=Sing	18	obl:mod	_	SpaceAfter=No
-// 4	,	,	PUNCT	_	_	18	punct	_	_
-// 5	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
-// 6	direction	direction	NOUN	_	Gender=Fem|Number=Sing	18	nsubj:caus	_	_
-// 7	de	de	ADP	_	_	9	case	_	_
-// 8	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
-// 9	G.O.	G.O.	PROPN	_	_	6	nmod	_	_
-// 10	(	(	PUNCT	_	_	6	punct	_	SpaceAfter=No
-// 11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
-// 12	Conseil	conseil	NOUN	_	Gender=Masc|Number=Sing	6	appos	_	_
-// 13	de	de	ADP	_	_	15	case	_	_
-// 14	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	15	det	_	SpaceAfter=No
-// 15	Ordre	ordre	NOUN	_	Gender=Masc|Number=Sing	12	nmod	_	SpaceAfter=No
-// 16	)	)	PUNCT	_	_	6	punct	_	_
-// 17	fait	faire	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	aux:caus	_	_
-// 18	passer	passer	VERB	_	VerbForm=Inf	0	root	_	_
-// 19	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	20	det	_	_
-// 20	circulaire	circulaire	NOUN	_	Gender=Fem|Number=Sing	18	obj	_	_
-// 21	à	à	ADP	_	_	24	case	_	_
-// 22	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	24	det	_	_
-// 23	vénérables	vénérable	ADJ	_	Number=Plur	24	amod	_	_
-// 24	maîtres	maître	NOUN	_	Gender=Masc|Number=Plur	18	obl:arg	_	_
-// 25	(	(	PUNCT	_	_	24	punct	_	SpaceAfter=No
-// 26	présidents	président	NOUN	_	Gender=Masc|Number=Plur	24	appos	_	SpaceAfter=No
-// 27	)	)	PUNCT	_	_	24	punct	_	_
-// 28	de	de	ADP	_	_	30	case	_	_
-// 29	chaque	chaque	DET	_	Number=Sing	30	det	_	_
-// 30	loge	loge	NOUN	_	Gender=Fem|Number=Sing	24	nmod	_	_
-// 31	de	de	ADP	_	_	33	case	_	_
-// 32	cette	ce	DET	_	Gender=Fem|Number=Sing|PronType=Dem	33	det	_	_
-// 33	obédience	obédience	NOUN	_	Gender=Fem|Number=Sing	30	nmod	_	_
-// 34	pour	pour	ADP	_	_	36	mark	_	_
-// 35	leur	eux	PRON	_	Number=Plur|Person=3|Case=Dat	36	iobj	_	_
-// 36	demander	demander	VERB	_	VerbForm=Inf	18	advcl	_	_
-// 37	de	de	ADP	_	_	38	mark	_	_
-// 38	rassembler	rassembler	VERB	_	VerbForm=Inf	36	xcomp	_	_
-// 39	à	à	ADP	_	_	41	case	_	_
-// 40	leur	son	DET	_	Number=Sing|Poss=Yes|Number[psor]=Plur	41	det	_	_
-// 41	niveau	niveau	NOUN	_	Gender=Masc|Number=Sing	38	obl:mod	_	_
-// 42	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	45	det	_	_
-// 43	plus	plus	ADV	_	_	42	advmod	_	_
-// 44	d'	de	ADP	_	_	43	fixed	_	SpaceAfter=No
-// 45	informations	information	NOUN	_	Gender=Fem|Number=Plur	38	obj	_	_
-// 46	possibles	possible	ADJ	_	Number=Plur	45	amod	_	_
-// 47	sur	sur	ADP	_	_	49	case	_	_
-// 48	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	49	det	_	_
-// 49	officiers	officier	NOUN	_	Number=Plur	45	nmod	_	_
-// 50	de	de	ADP	_	_	52	case	_	_
-// 51	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	52	det	_	_
-// 52	garnisons	garnison	NOUN	_	Gender=Fem|Number=Plur	49	nmod	_	_
-// 53	de	de	ADP	_	_	55	case	_	_
-// 54	leurs	son	DET	_	Number=Plur|Poss=Yes|Number[psor]=Plur	55	det	_	_
-// 55	villes	ville	NOUN	_	Gender=Fem|Number=Plur	52	nmod	_	_
-// 56	ou	ou	CCONJ	_	_	57	cc	_	_
-// 57	départements	département	NOUN	_	Gender=Masc|Number=Plur	55	conj	_	SpaceAfter=No
-// 58	.	.	PUNCT	_	_	18	punct	_	_
-// # jsRealB-start
-// S(NP(P("dans"),
-//      D("le").g("f").n("s"),
-//      N("pratique").g("f").n("s")),
-//   Q(","),
-//   NP(D("le").g("f").n("s"),
-//      N("direction").g("f").n("s"),
-//      NP(P("de"),
-//         D("le").g("m").n("s"),
-//         Q("G.O.")),
-//      Q("("),
-//      NP(D("le").g("m").n("s"),
-//         N("conseil").g("m").n("s"),
-//         NP(P("de"),
-//            D("le").n("s"),
-//            N("ordre").g("m").n("s"))),
-//      Q(")")),
-//   V("faire").t("p").pe("3").n("s"),
-//   VP(V("passer").t("b"),
-//      NP(D("un").g("f").n("s"),
-//         N("circulaire").g("f").n("s")),
-//      NP(P("à"),
-//         D("le").n("p"),
-//         A("vénérable").pos("pre").n("p"),
-//         N("maître").g("m").n("p"),
-//         Q("("),
-//         N("président").g("m").n("p"),
-//         Q(")"),
-//         NP(P("de"),
-//            D("chaque").n("s"),
-//            N("loge").g("f").n("s"),
-//            NP(P("de"),
-//               D("ce").g("f").n("s"),
-//               N("obédience").g("f").n("s")))),
-//      S(P("pour"),
-//        Pro("leur").c("dat").pe("3").n("s"),
-//        VP(V("demander").t("b"),
-//           S(P("de"),
-//             VP(V("rassembler").t("b"),
-//                NP(P("à"),
-//                   D("notre").n("s"),
-//                   N("niveau").g("m").n("s")),
-//                NP(VP(D("le").g("m").n("s"),
-//                      VP(Adv("plus"),
-//                         P("de"))),
-//                   N("information").g("f").n("p"),
-//                   A("possible").pos("post").n("p"),
-//                   NP(P("sur"),
-//                      D("le").n("p"),
-//                      N("officier").n("p"),
-//                      NP(P("de"),
-//                         D("le").n("p"),
-//                         N("garnison").g("f").n("p"),
-//                         CP(C("ou"),
-//                            NP(P("de"),
-//                               D("notre").n("p").ow("p"),
-//                               N("ville").g("f").n("p")),
-//                            N("département").g("m").n("p"))))))))))).a(".")
-// # jsRealB-end
-// 
 # file = fr/fr_pud-ud-test.conllu
 # sent_id = n01095004
 # text = De notre temps, il n’y en avait aucun, et les gens sans enfants manifestaient leur propre désapprobation et, par conséquence, leur haine, des parents modernes.
@@ -396,7 +273,10 @@ S(NP(P("dans"),
 </textarea>
 </div>
 <div>	
+	<input type="file" id="file-input" />
 	<input type="button" value="Analyser" id="parse"/>
+	<label for="quoteOOV" class="left-spacing" title="Considérer les mots inconnus comme du texte 'canné'">Tolérer les mots inconnus</label><input type="checkbox" name="quoteOOV" id="quoteOOV">
+	<br/>
     <span id="nbSent"></span> 
     <select id="sentences"></select>
     <label for="onlyDiffs">Que les différentes</label><input type="checkbox" name="onlyDiffs" id="onlyDiffs">
@@ -409,7 +289,7 @@ S(NP(P("dans"),
         <option value="hide">Masqué</option>
     </select>
     </span>
-    <span>Espacement en pixels:</span>
+    <span class="left-spacing">Espacement en pixels:</span>
     <label for="wordSpacing">Mot</label> <input type="number" name="wordSpacing" value="5" min="3" max="25" id="wordSpacing">
     <label for="letterSpacing">Lettre</label> <input type="number" name="letterSpacing" value="0" min="0" max="5" id="letterSpacing" step="0.5">
 </div>
