@@ -94,24 +94,24 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         }
         let lexInfo=this.getLexicon()[lemma];
         if (lexInfo==undefined){
+            this.tab=null;
+            this.realization =`[[${lemma}]]`;
+            this.warn("not in lexicon");
             if (quoteOOV){
                 this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                 this.constType="Q";
-            } else {
-                this.tab=null;
-                this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon");
+                this.realization=this.lemma
             }
         } else {
             lexInfo=lexInfo[terminalType];
             if (lexInfo===undefined){
-                if (quoteOOV){
-                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
-                    this.constType="Q";
-                } else {
                     this.tab=null;
                     this.realization =`[[${lemma}]]`;
                     this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                if (quoteOOV){
+                    this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                    this.constType="Q";
+                    this.realization=this.lemma
                 }
             } else {
                 const keys=Object.keys(lexInfo);

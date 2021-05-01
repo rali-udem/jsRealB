@@ -26,9 +26,11 @@
 	<input type="button" value="Show instructions" id="showHideInstructions"/> [<a href="UDregenerator-fr.html">Version française</a>]
 <div >
     <ul id="instructions" style="display:none">
-        <li>Copy one or many dependency structures in the text box in <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">CONLLU format</a></li>
+        <li>Copy one or many dependency structures in the text box in <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">CONLLU format</a><br/>
+		A local file can also be loaded by clicking on the button under the text field.</li>
     	<li>Click on the <code>Parse</code> button to build the menu. If <code>Only different</code> is checked, then only sentences whose realisation is different from the original text appear in the menu.</li> 
-    	<li>Select a sentence from the menu. A starting asterisk indicates a <em>non-projective</em> dependency structure.</li>
+    	<li>If the checkbox <em>Allow out of vocabulary words</em> is checked, then <em>jsRealB</em> will consider them as <code>Q(...)</code> and they will be copied verbatim in the output. Unfortunately the display in the editor shows the original constructors because this modification is handled at the level of <em>jsRealB</em>. <strong>This flag can be convenient but it should be used sparingly</strong>. <code>Parse</code> must be clicked so that this option takes effect.</li>
+		<li>Select a sentence from the menu. A starting asterisk indicates a <em>non-projective</em> dependency structure.</li>
         <li>The graph or tree of dependencies will be shown. The <em>root</em> word is shown in red. By hovering over a word, infos about this words will appear in a tooltip.</li>
         <li>An English sentence will be regenerated from the dependencies by <em>jsRealB</em></li>
         <li>A table shows the edit operations to transform the re generated sentence to the original text of the UD: <span class="rep">replacement</span>, <span class="ins">insertion</span>, <span class="del">deletion</span>. Differences in spacing are ignored.</li>
@@ -522,8 +524,10 @@
 17	.	.	PUNCT	Period	_	4	punct	_	_ 
 </textarea>
 </div>
-<div>	
+<div>
+	<input type="file" id="file-input" />	
 	<input type="button" value="Parse" id="parse"/>
+	<label for="quoteOOV" class="left-spacing" title="Consider unknown words as 'canned text'">Allow out of vocabulary words</label><input type="checkbox" name="quoteOOV" id="quoteOOV">
     <span id="nbSent"></span> 
     <select id="sentences"></select>
     <label for="onlyDiffs">Only differences</label><input type="checkbox" name="onlyDiffs" id="onlyDiffs">

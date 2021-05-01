@@ -427,7 +427,7 @@ Constituent.prototype.doElisionFr = function(cList){
         if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
-            let lexiconInfo=getLemma(lemma);                    // get the lemma with the right pos
+            let lexiconInfo=getLemma(typeof lemma == "string" ? lemma:realization); // get the lemma with the right pos
             if (typeof lexiconInfo == "undefined"){ 
                 lexiconInfo=getLemma(lemma.toLowerCase()); // check with lower case
                 if (typeof lexiconInfo == "undefined")return true; // elide when unknown

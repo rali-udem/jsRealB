@@ -5,9 +5,11 @@
 * **English** : visit `UDregenerator-en.html`
 * **French** : visit `UDregenerator-fr.html`
 
+When testing in local mode, start a web server (e.g. `python3 -m http.server`) at the root of `jsRealB` directory. This is needed to load the *big* English or French lexicons.
+
 ## Use a `node.js` module
 
-`node UDregenerato-node.js` *lang* *conllu-file* *options*  
+`node UDregenerator-node.js` *lang* *conllu-file* *options*  
 
 * *lang*: `en` or `fr`
 * *conllu-file* : file to process
@@ -32,7 +34,7 @@
 * `UD2jsr.js` : Mapping between UD features and jsRealB options
 * `UDnode-en.js` : English specific transformation 
 * `UDnode-fr.js` : French specific transformation
-* `UDnode.js` : JavaScript class for create a node of the UD tree (language independant)
+* `UDnode.js` : JavaScript class for create a node of the UD tree (language independent)
 * `UDregenerator-en.html` : web page for using UDgenerator in English
 * `UDregenerator-en.js` : code for interacting with the UDgenerator in English (dictionary loading)
 * `UDregenerator-fr.html` : web page for using UDgenerator in French

@@ -38,6 +38,10 @@ textarea#jsrStructure {
     font-size: 80%;
 }
 
+.left-spacing{
+    margin-left:100px;
+}
+
 .rep {
     color: #008000; /*clover*/
     text-decoration: underline;
