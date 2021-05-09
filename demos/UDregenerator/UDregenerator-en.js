@@ -83,9 +83,4 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
     addNewWords(lexiconDME);
     exports.language=language;
     exports.addNewWords=addNewWords;
-} else {
-    d3.json("../../data/lexicon-dme.json").then(function(lexiconDME){
-        addNewWords(lexiconDME);
-        parseTextArea();
-    })
 }

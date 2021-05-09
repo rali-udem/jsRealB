@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -17,307 +17,98 @@
 	<script src="Tokenizer.js"></script>
 	<script src="drawDependencies.js"></script>
     <script src="UDregenerator.js"></script>
+    <script src="initUD-fr.js"></script>
     <script src="UDregenerator-fr.js"></script>
 	<link rel="stylesheet" href="UDregenerator.css"/>
 	<title>Affichage d'un graphe/arbre de Universal Dependencies et regénération</title>
 </head>
 <body>
 	<h1>Affichage du graphe/arbre de <a href="https://universaldependencies.org">Universal Dependencies</a> avec regénération avec <a href="http://github.com/rali-udem/jsRealB">jsRealB</a></h1>
-    
-	<input type="button" value="Afficher les instructions" id="showHideInstructions"/> [<a href="UDregenerator-en.html">English version</a>]
-<div>
+	<input type="button" value="Afficher les instructions" id="showHideInstructions"/> 
+	<!--  Customize file button, taken from
+		 https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file/47950538#47950538 -->
+	<button onclick="document.getElementById('file-input').click()">Choisir un fichier UD</button>
+	<input type='file' id="file-input" style="display:none">
+	<span id="fileName"></span>
+    <span class='right'><a href="UDregenerator-en.html">English version</a></span>
     <ul id="instructions" style="display:none">
-        <li>Copier dans le champ de texte une ou plusieurs structures de dépendances en <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">format CONLLU</a>. <br/>
-			Il est aussi possible de charger un fichier local en appuyant sur le bouton sous le champ de texte.</li>
-    	<li>Cliquer sur le bouton <code>Analyser</code> pour créer le menu. Si <code>Que les différentes</code> est coché, seules les phrases dont la regénération est différente du texte original apparaissent dans le menu.</li> 
-		<li>Si l'indicateur <em>Tolérer les mots inconnus</em> est coché, alors <em>jsRealB</em> les considérera comme des éléments <code>Q(...)</code> et ils seront recopiés tels quels dans la sortie. Toutefois, l'affichage dans la section éditeur conserve les constructeurs originaux, car cette modification est effectuée au niveau de <em>jsRealB</em>. <strong>Cette option peut être pratique, mais il faut l'utiliser avec parcimonie</strong>. Il faut appuyer sur <code>Analyser</code> pour qu'elle soit prise en compte. </li>
-    	<li>Choisir une phrase du menu. Une phrase débutant par une astérisque indique une structure de dépendance <em>non projective</em>.</li>
-        <li>Le graphe ou l'arbre de dépendances sera affiché. Le mot <em>racine</em> est affiché en rouge. En plaçant le curseur sur un mot, les informations sur le mot sont affichées dans une info-bulle.</li>
-        <li>Une phrase en français sera regénérée en utilisant <em>jsRealB</em></li>
-        <li>La table indique les opérations d'édition pour transformer la phrase regénérée en la phrase originale: <span class="rep">remplacement</span>, <span class="ins">insertion</span>, <span class="del">délétion</span>. Les différences d'espace sont ignorées.</li>
+        <li>Charger un fichier local contenant une ou plusieurs structures en <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">format CONLLU</a>.
+         Un fichier initial est chargé au lancement de la page. Même s'il n'y acucune limite a priori sur le nombre de structures qui peuvent être chargées, le système peut devenir lent et le menu de phrase trop long avec plus de 1000 structures.</li>
+    	<li>Cliquer sur le bouton <code>Analyser</code> pour créer le menu.</li> 
+    	<li>Choisir une phrase du menu. Une phrase débutant par une astérisque indique une structure de dépendance <em>non projective</em>. Une phrase avec un point d'exclamation au début signale que jsRealB a généré des avertissements. </li>
+		<li>Des cases à cocher permettent de limiter les phrases du menu aux seules structures dont les phrases diffèrent de la phrase de référence, à celles qui ont donné lieu à des avertissements ou aux structures non-projectives.</li>
+        <li>Lors de la sélection d'une phrase du menu:
+            <ul>
+                <li>Les valeurs des champs de la structure sont affichés dans le tableau au-dessus du menu;</li>
+                <li>Le graphe ou l'arbre de dépendances est affiché sous le menu, la <em>racine</em> est indiquée en rouge; en plaçant la souris sur un mot, les valeurs des champs LEMMA UPOS et FEATS apparaissent dans une info-bulle; en cliquant sur le mot, la ligne correspondant à ce token est mise en évidence.</li>
+                <li>Une table montrant le numéro de ligne et l'ID de la structure UD, la phrase de référence et la phrase française regénérée par <em>jsRealB</em>.</li>
+            </ul>
+        </li>
+        <li>Lorsque la phrase de référence et celle regénérée diffèrent, la table indique les opérations d'édition pour transformer la phrase regénérée en la phrase originale avec la convention suivante: <span class="rep">remplacement</span>, <span class="ins">insertion</span>, <span class="del">délétion</span>. Les différences d'espace sont ignorées.</li>
         <li>L'expression <em>jsRealB</em> apparaît dans la fenêtre d'édition qui permet de la modifier et de réaliser l'expression modifiée en cliquant sur le bouton  <code>Réaliser</code></li>
+        <li>Un clic dans une cellule de la table des tokens met à jour le numéro de ligne, ce qui peut être pratique pour accéder directement à ce token dans un éditeur de texte.</li>
 	</ul>
-	<textarea cols="120" rows="10" id="input" wrap="off" style="tab-size:20; line-height:13px">
-# file = fr/fr_gsd-ud-test.conllu
-# sent_id = fr-ud-dev_01485
-# text = Les produits échangés sont essentiellement du sel, de l'ambre, de l'huile, des céréales, du vin et de la viande salée.
-# gl = OK
-1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	wordform=les
-2	produits	produit	NOUN	_	Gender=Masc|Number=Plur	8	nsubj	_	_
-3	échangés	échanger	VERB	_	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	2	acl	_	_
-4	sont	être	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	_
-5	essentiellement	essentiellement	ADV	_	_	8	advmod	_	_
-6-7	du	_	_	_	_	_	_	_	_
-6	de	de	ADP	_	_	8	det	_	ExtPos=DET|PhraseType=Idiom
-7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	6	fixed	_	_
-8	sel	sel	NOUN	_	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
-9	,	,	PUNCT	_	_	12	punct	_	_
-10	de	de	ADP	_	_	12	det	_	ExtPos=DET|PhraseType=Idiom
-11	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	10	fixed	_	SpaceAfter=No
-12	ambre	ambre	NOUN	_	Gender=Masc|Number=Sing	8	conj	_	SpaceAfter=No
-13	,	,	PUNCT	_	_	16	punct	_	_
-14	de	de	ADP	_	_	16	det	_	ExtPos=DET|PhraseType=Idiom
-15	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	14	fixed	_	SpaceAfter=No
-16	huile	huile	NOUN	_	Gender=Fem|Number=Sing	8	conj	_	SpaceAfter=No
-17	,	,	PUNCT	_	_	20	punct	_	_
-18-19	des	_	_	_	_	_	_	_	_
-18	de	de	ADP	_	_	20	det	_	ExtPos=DET|PhraseType=Idiom
-19	les	le	DET	_	Definite=Def|Gender=Masc|Number=Plur|PronType=Art	18	fixed	_	_
-20	céréales	céréale	NOUN	_	Gender=Fem|Number=Plur	8	conj	_	SpaceAfter=No
-21	,	,	PUNCT	_	_	24	punct	_	_
-22-23	du	_	_	_	_	_	_	_	_
-22	de	de	ADP	_	_	24	det	_	ExtPos=DET|PhraseType=Idiom
-23	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	22	fixed	_	_
-24	vin	vin	NOUN	_	Gender=Masc|Number=Sing	8	conj	_	_
-25	et	et	CCONJ	_	_	28	cc	_	_
-26	de	de	ADP	_	_	28	det	_	ExtPos=DET|PhraseType=Idiom
-27	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	26	fixed	_	_
-28	viande	viande	NOUN	_	Gender=Fem|Number=Sing	8	conj	_	_
-29	salée	saler	VERB	_	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	28	acl	_	SpaceAfter=No
-30	.	.	PUNCT	_	_	8	punct	_	_
-
-# file = fr/fr_pud-ud-test.conllu
-# sent_id = n01095004
-# text = De notre temps, il n’y en avait aucun, et les gens sans enfants manifestaient leur propre désapprobation et, par conséquence, leur haine, des parents modernes.
-# gl = ouf, à revoir car l'ordre est bizarre et Pers=1 n'a pas été pris en compte
-1	De	de	ADP	IN	_	3	case	_	wordform=de
-2	notre	son	DET	DTP$	Gender=Masc|Number=Sing|Number[psor]=Plur|Person=1|Poss=Yes|PronType=Prs	3	det	_	_
-3	temps	temps	NOUN	NN	Gender=Masc|Number=Sing	9	obl	_	SpaceAfter=No
-4	,	,	PUNCT	,	_	3	punct	_	_
-5	il	il	PRON	PRP	Gender=Masc|Number=Sing|Person=3	9	expl:subj	_	_
-6	n’	ne	ADV	RB	Polarity=Neg	9	advmod	_	SpaceAfter=No|wordform=n'
-7	y	y	PRON	PRP	Person=3	9	obl	_	_
-8	en	en	PRON	PRP	Person=3	9	iobj	_	_
-9	avait	avoir	VERB	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	0	root	_	_
-10	aucun	aucun	DET	_	Gender=Masc|Number=Sing|Polarity=Neg|PronType=Neg	9	obj	_	SpaceAfter=No
-11	,	,	PUNCT	,	_	17	punct	_	_
-12	et	et	CCONJ	CC	_	17	cc	_	_
-13	les	le	DET	DT	Gender=Masc|Number=Plur	14	det	_	_
-14	gens	gens	NOUN	NN	Gender=Masc|Number=Plur	17	nsubj	_	_
-15	sans	sans	ADP	IN	_	16	case	_	_
-16	enfants	enfant	NOUN	NN	Gender=Masc|Number=Plur	14	nmod	_	_
-17	manifestaient	manifester	VERB	VBC	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	9	conj	_	_
-18	leur	son	DET	DTP$	Gender=Fem|Number=Sing|Number[psor]=Plur|Person=3|Poss=Yes|PronType=Prs	20	det	_	_
-19	propre	propre	ADJ	JJ	Gender=Fem|Number=Sing	20	amod	_	_
-20	désapprobation	désapprobation	NOUN	NN	Gender=Fem|Number=Sing	17	obj	_	_
-21	et	et	CCONJ	CC	_	27	cc	_	SpaceAfter=No
-22	,	,	PUNCT	,	_	23	punct	_	_
-23	par	par	ADP	IN	_	27	advmod	_	_
-24	conséquence	conséquence	NOUN	NN	Gender=Fem|Number=Sing	23	fixed	_	SpaceAfter=No
-25	,	,	PUNCT	,	_	23	punct	_	_
-26	leur	son	DET	DTP$	Gender=Fem|Number=Sing|Number[psor]=Plur|Person=3|Poss=Yes|PronType=Prs	27	det	_	_
-27	haine	haine	NOUN	NN	Gender=Fem|Number=Sing	20	conj	_	SpaceAfter=No
-28	,	,	PUNCT	,	_	31	punct	_	_
-29	de	de	ADP	INDT	_	31	case	_	_
-30	les	le	DET	_	Gender=Masc|Number=Plur	31	det	_	_
-31	parents	parent	NOUN	NN	Gender=Masc|Number=Plur	20	nmod	_	_
-32	modernes	moderne	ADJ	JJ	Gender=Masc|Number=Plur	31	amod	_	SpaceAfter=No
-33	.	.	PUNCT	.	_	9	punct	_	_
-# jsRealB-start
-CP(C("et"),
-   VP(PP(P("de"),
-         D("notre").pe(1).g("m").n("s").ow("p"),
-         N("temps").g("m").n("s"),
-         Q(",")),
-      Pro("moi").c("nom").pe("3").g("m").n("s"),
-      Adv("ne"),
-      Pro("y").c("nom").pe("3"),
-      Pro("en").c("nom").pe("3"),
-      V("avoir").t("i").pe("3").n("s"),
-      D("aucun").g("m").n("s")),
-   S(NP(D("le").g("m").n("p"),
-        N("gens").g("m").n("p"),
-        PP(P("sans"),
-           N("enfant").g("m").n("p"))),
-     VP(V("manifester").t("i").pe("3").n("p"),
-        CP(C("et"),
-           NP(D("notre").pe(3).g("f").n("s").ow("p"),
-              A("propre").pos("pre").g("f").n("s"),
-              N("désapprobation").g("f").n("s")),
-           PP(S(Q(","),
-                VP(P("par"),
-                   N("conséquence").g("f").n("s"),
-                   Q(","))),
-              D("notre").pe(3).g("f").n("s").ow("p"),
-              N("haine").g("f").n("s"),
-              NP(Q(","),
-                 P("de"),
-                 D("le").g("m").n("p"),
-                 N("parent").g("m").n("p"),
-                 A("moderne").pos("post").g("m").n("p"))))))).a(".")
-# jsRealB-end
-
-
-# file = fr/fr_sequoia-ud-test.conllu
-# sent_id = frwiki_50.1000_00293
-# text = Dans la pratique, la direction du G.O. (le Conseil de l'Ordre) fait passer une circulaire aux vénérables maîtres (présidents) de chaque loge de cette obédience pour leur demander de rassembler à leur niveau le plus d'informations possibles sur les officiers des garnisons de leurs villes ou départements.
-# gl = à vérifier, plusieurs problèmes avec les pronoms
-1	Dans	dans	ADP	_	_	3	case	_	_
-2	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
-3	pratique	pratique	NOUN	_	Gender=Fem|Number=Sing	18	obl:mod	_	SpaceAfter=No
-4	,	,	PUNCT	_	_	18	punct	_	_
-5	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
-6	direction	direction	NOUN	_	Gender=Fem|Number=Sing	18	nsubj:caus	_	_
-7	de	de	ADP	_	_	9	case	_	_
-8	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
-9	G.O.	G.O.	PROPN	_	_	6	nmod	_	_
-10	(	(	PUNCT	_	_	6	punct	_	SpaceAfter=No
-11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
-12	Conseil	conseil	NOUN	_	Gender=Masc|Number=Sing	6	appos	_	_
-13	de	de	ADP	_	_	15	case	_	_
-14	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	15	det	_	SpaceAfter=No
-15	Ordre	ordre	NOUN	_	Gender=Masc|Number=Sing	12	nmod	_	SpaceAfter=No
-16	)	)	PUNCT	_	_	6	punct	_	_
-17	fait	faire	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	aux:caus	_	_
-18	passer	passer	VERB	_	VerbForm=Inf	0	root	_	_
-19	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	20	det	_	_
-20	circulaire	circulaire	NOUN	_	Gender=Fem|Number=Sing	18	obj	_	_
-21	à	à	ADP	_	_	24	case	_	_
-22	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	24	det	_	_
-23	vénérables	vénérable	ADJ	_	Number=Plur	24	amod	_	_
-24	maîtres	maître	NOUN	_	Gender=Masc|Number=Plur	18	obl:arg	_	_
-25	(	(	PUNCT	_	_	24	punct	_	SpaceAfter=No
-26	présidents	président	NOUN	_	Gender=Masc|Number=Plur	24	appos	_	SpaceAfter=No
-27	)	)	PUNCT	_	_	24	punct	_	_
-28	de	de	ADP	_	_	30	case	_	_
-29	chaque	chaque	DET	_	Number=Sing	30	det	_	_
-30	loge	loge	NOUN	_	Gender=Fem|Number=Sing	24	nmod	_	_
-31	de	de	ADP	_	_	33	case	_	_
-32	cette	ce	DET	_	Gender=Fem|Number=Sing|PronType=Dem	33	det	_	_
-33	obédience	obédience	NOUN	_	Gender=Fem|Number=Sing	30	nmod	_	_
-34	pour	pour	ADP	_	_	36	mark	_	_
-35	leur	lui	PRON	_	Number=Plur|Person=3	36	iobj	_	_
-36	demander	demander	VERB	_	VerbForm=Inf	18	advcl	_	_
-37	de	de	ADP	_	_	38	mark	_	_
-38	rassembler	rassembler	VERB	_	VerbForm=Inf	36	xcomp	_	_
-39	à	à	ADP	_	_	41	case	_	_
-40	leur	son	DET	_	Number=Sing|Poss=Yes	41	det	_	_
-41	niveau	niveau	NOUN	_	Gender=Masc|Number=Sing	38	obl:mod	_	_
-42	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	45	det	_	_
-43	plus	plus	ADV	_	_	42	advmod	_	_
-44	d'	de	ADP	_	_	43	fixed	_	SpaceAfter=No
-45	informations	information	NOUN	_	Gender=Fem|Number=Plur	38	obj	_	_
-46	possibles	possible	ADJ	_	Number=Plur	45	amod	_	_
-47	sur	sur	ADP	_	_	49	case	_	_
-48	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	49	det	_	_
-49	officiers	officier	NOUN	_	Number=Plur	45	nmod	_	_
-50	de	de	ADP	_	_	52	case	_	_
-51	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	52	det	_	_
-52	garnisons	garnison	NOUN	_	Gender=Fem|Number=Plur	49	nmod	_	_
-53	de	de	ADP	_	_	55	case	_	_
-54	leurs	son	DET	_	Number=Plur|Poss=Yes	55	det	_	_
-55	villes	ville	NOUN	_	Gender=Fem|Number=Plur	52	nmod	_	_
-56	ou	ou	CCONJ	_	_	57	cc	_	_
-57	départements	département	NOUN	_	Gender=Masc|Number=Plur	55	conj	_	SpaceAfter=No
-58	.	.	PUNCT	_	_	18	punct	_	_
-# jsRealB-start
-S(NP(P("dans"),
-     D("le").g("f").n("s"),
-     N("pratique").g("f").n("s")),
-  Q(","),
-  NP(D("le").g("f").n("s"),
-     N("direction").g("f").n("s"),
-     NP(P("de"),
-        D("le").g("m").n("s"),
-        Q("G.O.")),
-     Q("("),
-     NP(D("le").g("m").n("s"),
-        N("conseil").g("m").n("s"),
-        NP(P("de"),
-           D("le").n("s"),
-           N("ordre").g("m").n("s"))),
-     Q(")")),
-  V("faire").t("p").pe("3").n("s"),
-  VP(V("passer").t("b"),
-     NP(D("un").g("f").n("s"),
-        N("circulaire").g("f").n("s")),
-     NP(P("à"),
-        D("le").n("p"),
-        A("vénérable").pos("pre").n("p"),
-        N("maître").g("m").n("p"),
-        Q("("),
-        N("président").g("m").n("p"),
-        Q(")"),
-        NP(P("de"),
-           D("chaque").n("s"),
-           N("loge").g("f").n("s"),
-           NP(P("de"),
-              D("ce").g("f").n("s"),
-              N("obédience").g("f").n("s")))),
-     S(P("pour"),
-       Pro("leur").c("dat").pe("3").n("s"),
-       VP(V("demander").t("b"),
-          S(P("de"),
-            VP(V("rassembler").t("b"),
-               NP(P("à"),
-                  D("notre").n("s"),
-                  N("niveau").g("m").n("s")),
-               NP(VP(D("le").g("m").n("s"),
-                     VP(Adv("plus"),
-                        P("de"))),
-                  N("information").g("f").n("p"),
-                  A("possible").pos("post").n("p"),
-                  NP(P("sur"),
-                     D("le").n("p"),
-                     N("officier").n("p"),
-                     NP(P("de"),
-                        D("le").n("p"),
-                        N("garnison").g("f").n("p"),
-                        CP(C("ou"),
-                           NP(P("de"),
-                              D("notre").n("p").ow("p"),
-                              N("ville").g("f").n("p")),
-                           N("département").g("m").n("p"))))))))))).a(".")
-# jsRealB-end
-
-</textarea>
-</div>
-<div>	
-	<input type="file" id="file-input" />
-	<input type="button" value="Analyser" id="parse"/>
-	<label for="quoteOOV" class="left-spacing" title="Considérer les mots inconnus comme du texte 'canné'">Tolérer les mots inconnus</label><input type="checkbox" name="quoteOOV" id="quoteOOV">
-	<br/>
-    <span id="nbSent"></span> 
-    <select id="sentences"></select>
-    <label for="onlyDiffs">Que les différentes</label><input type="checkbox" name="onlyDiffs" id="onlyDiffs">
-</div>
-<div>
-    <span>Afficher comme
-    <select id="displayType">
-        <option value="links">Graphe</option>
-        <option value="tree">Arbre</option>
-        <option value="hide">Masqué</option>
-    </select>
-    </span>
-    <span class="left-spacing">Espacement en pixels:</span>
-    <label for="wordSpacing">Mot</label> <input type="number" name="wordSpacing" value="5" min="3" max="25" id="wordSpacing">
-    <label for="letterSpacing">Lettre</label> <input type="number" name="letterSpacing" value="0" min="0" max="5" id="letterSpacing" step="0.5">
-</div>
-<svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="dependencies" style="border: 1px solid #999">
-    <defs>
-        <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3"
-        orient="auto" markerUnits="userSpaceOnUse">
-        <path d="M0,0 L0,6 L6,3 z" fill="black" />
-    </marker>
-    </defs>
-    <g></g>
-</svg>
-<svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="tree" style="border: 1px solid #999">
-    <g></g>
-</svg>
-<table id="realisations">
-    <tr><td><strong>UD text</strong></td><td id="text"></td></tr>
-    <tr><td><strong>jsRealB</strong></td><td id="jsrSentence"></td></tr>
-    <tr><td></td><td id="nbDiffs"></td></tr>
-</table>
-<div id="jsrStructure"></div>
-<div>
-    <input type="button" name="realize" value="Réaliser" id="realize">
-    <input type="button" name="realize" value="Afficher l'arbre de constituents" id="showHideContituentTree">
-</div>
-<svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="constTree" style="border: 1px solid #999;display:none">
-    <g></g>
-</svg>
+    <div id="container">
+        <table id="tokens">
+            <thead></thead>
+            <tbody></tbody> 
+            <tfoot></tfoot>
+        </table>
+    </div>    
+    <div>
+        <fieldset>
+            <legend>Ne montrer que</legend>
+            <label for="onlyDiffs">Différences</label><input type="checkbox" name="onlyDiffs" id="onlyDiffs">
+            <label for="onlyWarnings">Avertissements</label><input type="checkbox" name="onlyWarnings" id="onlyWarnings">
+            <label for="onlyNonProj">Non projectives</label><input type="checkbox" name="onlyNonProj" id="onlyNonProj">
+        </fieldset>
+	    <input type="button" value="Analyser" id="parse"/>
+        <span id="nbSent"></span> 
+        <select id="sentences"></select>
+    </div>
+    <div>
+        <span>Affichage
+        <select id="displayType">
+            <option value="links">Liens</option>
+            <option value="tree">Arbre</option>
+            <option value="hide">Masqué</option>
+        </select>
+        </span>
+        <span class="right">Espacement en pixels:
+            <label for="wordSpacing">Mot</label> <input type="number" name="wordSpacing" value="5" min="3" max="25" id="wordSpacing">
+            <label for="letterSpacing">Lettre</label> <input type="number" name="letterSpacing" value="0" min="0" max="5" id="letterSpacing" step="0.5">
+        </span>
+    </div>
+    <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="dependencies" style="border: 1px solid #999">
+        <defs>
+            <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3"
+            orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L0,6 L6,3 z" fill="black" />
+        </marker>
+        </defs>
+        <g></g>
+    </svg>
+    <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="tree" style="border: 1px solid #999">
+        <g></g>
+    </svg>
+    <table id="realisations">
+		<tr><th>No ligne</th><td id='lineNo'></td></tr>
+        <tr><th>sent-id</th><td id="sentId"></td></tr>
+        <tr><th>UD text</th><td id="text"></td></tr>
+        <tr><th>jsRealB</th><td id="jsrSentence"></td></tr>
+        <tr><th></th><td id="nbDiffs"></td></tr>
+    </table>
+	<input type="button" value="Masquer l'éditeur jsRealB" id="showHide-jsrEditor"/>
+    <div id="jsrEditor" style="display:block">
+        <div id="jsrStructure"></div>
+        <div>
+            <input type="button" name="realize" value="Realize" id="realize">
+            <input type="button" name="realize" value="Afficher l'arbre de constituents" id="showHideContituentTree">
+        </div>
+        <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="constTree" style="border: 1px solid #999;display:none">
+            <g></g>
+        </svg>
+    </div>
 <p><em>Informations:<a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></em></p>
 </body>
 </html>

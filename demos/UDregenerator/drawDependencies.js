@@ -19,7 +19,7 @@ var fontSizeLabel="10pt";
 var lineHeight=13; // reset at the start of the program
 
 // draw a word at x,y and return its length in the drawing
-function addWord(display,x,y,mot,tooltip,isRoot,isDiff){
+function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
     var word=display.append("text")
         .attr("x",x).attr("y",y)
         .attr("fill",isRoot?"red":"black")
@@ -28,9 +28,14 @@ function addWord(display,x,y,mot,tooltip,isRoot,isDiff){
         .attr("font-family",fontFamilyWord)
         .attr("font-size",fontSizeWord)
         .attr("letter-spacing",letterSpacing+"px")
+        .text(mot);
+    if (i!=null)word
         .attr("cursor","pointer")
-        .text(mot)
-    ;
+        .on("click",function(){
+                const tr=d3.selectAll("#tokens tbody tr").nodes()[i-1]
+                selectRow(tr);
+                tr.scrollIntoView(false);
+            });
     if (isDiff){
         word.attr("text-decoration","underline overline")
             // .attr("text-decoration-color","blue")    // does not work in Safari...
@@ -47,7 +52,7 @@ function drawSentence(display,ud){
     // draw the words of the sentence and update width and x in deps
     for (var i = 1; i < ud.nodes.length; i++) {
         var udn=ud.nodes[i];
-        var width=addWord(display,endX,startY,udn.form,
+        var width=addWord(display,i,endX,startY,udn.form,
                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
                           i==ud.root.id,udn.form!=ud.tokens[i]);
         udn.x=endX;

@@ -65,12 +65,9 @@ JSR.prototype.isTerminal = function(){
 JSR.prototype.realize=function(){
     resetSavedWarnings();
     const expr=this.pp(0);
-    const realization=eval(expr).toString();
-    const warnings=getSavedWarnings();
-    if (warnings.length>0)
-        return warnings;
-    else
-        return fixPunctuation(realization);
+    const jsrExpr=eval(expr)
+    const realization=jsrExpr.toString();
+    return [getSavedWarnings(),fixPunctuation(realization)];
 }
 
 

@@ -1,3 +1,7 @@
+body {
+    font-family: Arial, "MS Trebuchet", sans-serif;
+}
+
 #input {
     height:3in;
     background:white;
@@ -7,6 +11,81 @@
 input[type=button]{
     font-weight: bold;
 }
+.right {
+    float:right;
+    padding:2px;
+}
+
+fieldset {
+    display:inline;
+    font-size:smaller;
+    margin-bottom:10px;
+}
+
+/* token table */
+div#container {
+    overflow: auto; height: 300px;
+    margin:10px 0;
+    border: 1px solid #999;
+}
+
+table {
+    border-collapse:collapse;
+}
+table#tokens thead th{
+    position: sticky; top: 0; z-index: 1;
+    border: 2px solid #999;
+}
+
+table#tokens td, table#tokens th {
+    border: 1px solid #999;
+    padding:0px 2px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+table#tokens th {
+    background-color: white;
+}
+
+table#tokens {
+    table-layout:fixed;
+    overflow:clip;
+    width:100%;
+}
+table#tokens tbody {
+    font-size: 90%;
+    cursor: pointer;
+}
+
+/* classes for tokens */
+.ID     {width:5%; }
+.FORM   {width:10%;}
+.LEMMA  {width:10%;}
+.UPOS   {width:5%; }
+.XPOS   {width:5%; }
+.FEATS  {width:25%;}
+.HEAD   {width:5%;}
+.DEPREL {width:7%;}
+.DEPS   {width:8%;}
+.MISC   {width:15%;}
+
+
+td.ID    {text-align:right;}
+td.FORM  {text-align:left; }
+td.LEMMA {text-align:left; }
+td.UPOS  {text-align:left; }
+td.XPOS  {text-align:left; }
+td.FEATS {text-align:left; }
+td.HEAD  {text-align:right;}
+td.DEPREL{text-align:left; }
+td.DEPS  {text-align:left; }
+td.MISC  {text-align:left; }
+
+.selected-row{
+    background-color:#EEE;
+}
+
 svg {
     display:block;
     margin:5pt;
@@ -20,13 +99,14 @@ svg {
 #nbSent {
     margin-right:20px;
 }
-td {
+td,th {
     border: 1px solid #999;
     margin: 2px;
 }
-#sentences {
+th {
     vertical-align:top;
 }
+
 #langChoice, #doc {padding-left:30px;}
 .emphase {color: #FC6405; }
 textarea#jsrStructure {
