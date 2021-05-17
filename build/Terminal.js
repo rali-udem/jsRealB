@@ -475,7 +475,7 @@ Terminal.prototype.conjugate_fr = function(){
                 if (neg !== undefined && neg !== ""){
                     const qNeg=Q(neg);
                     qNeg.realization=neg;
-                    if (t=="b"){
+                    if (t=="b" || t=="pp"){
                         return [qNeg,this]
                     }
                     else return[this,qNeg];

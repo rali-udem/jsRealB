@@ -344,7 +344,13 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
         function (){
             dependencies=d3.select("#dependencies");
             tree=d3.select("#tree");
-            d3.select("#file-input").on("change",getFile);
+            d3.select("#file-input")
+                .on("click", 
+                    // ensure that the same file can reloaded on the "change" event called after the file selection 
+                    // adapted from https://stackoverflow.com/questions/4109276/how-to-detect-input-type-file-change-for-the-same-file/4118320#4118320
+                    ()=>d3.select(d3.event.target).property("value","")
+                )
+                .on("change",getFile);
             const thead=d3.select("#tokens thead");
             
             // create headers of the table

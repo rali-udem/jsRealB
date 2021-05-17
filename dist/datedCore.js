@@ -1230,7 +1230,8 @@ Phrase.prototype.processTyp_fr = function(types){
         v.neg2=neg; // HACK: to be used when conjugating at the realization time
         while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
         // insert "ne" before the verb or before possible pronouns preceding the verb
-        vp.elements.splice(idxV,0,Adv("ne","fr"));
+        if (v.getProp("t")!="pp")
+            vp.elements.splice(idxV,0,Adv("ne","fr"));
     })
 }
 
@@ -1315,7 +1316,10 @@ Phrase.prototype.processTyp_en = function(types){
         let words=[];
         // conjugate the first verb
         if (neg) { // negate the first verb
-            if (vAux in negMod){
+            if (t=="pp" || t=="pr"){ // special case for these tenses
+                words.push(Adv("not","en"));
+                words.push(V(vAux,"en").t(t));
+            } else if (vAux in negMod){
                 if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
@@ -2174,7 +2178,7 @@ Terminal.prototype.conjugate_fr = function(){
                 if (neg !== undefined && neg !== ""){
                     const qNeg=Q(neg);
                     qNeg.realization=neg;
-                    if (t=="b"){
+                    if (t=="b" || t=="pp"){
                         return [qNeg,this]
                     }
                     else return[this,qNeg];
@@ -24013,4 +24017,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-05-09 16:38"
+jsRealB_dateCreated="2021-05-11 17:11"
