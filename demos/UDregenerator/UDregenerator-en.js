@@ -72,4 +72,7 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
     addNewWords(lexiconDME);
     exports.language=language;
     exports.addNewWords=addNewWords;
+} else {
+    // after loading the web page
+    d3.select(window).on("load",UDregeneratorLoad);     
 }

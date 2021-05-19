@@ -167,6 +167,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
+            if (quoteOOV && this.isA("Q"))return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }

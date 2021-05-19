@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="UD.js"></script>
+  <script src="UDnode.js"></script>
+  <script src="UDgrep.js"></script>
+  <script src="UDregenerator.js"></script>
+  <script src="initUD.js"></script>
+  <link rel="stylesheet" href="UDgrep.css">
+  <title>Search Universal Dependencies tokens</title>
+</head>
+<body>
+    <h1>Search tokens in a <a href="https://universaldependencies.org/" title="Universal Dependencies">Universal Dependency</a> file</h1>
+	<input type="button" value="Show instructions" id="showHideInstructions"/> 
+	<!--  Customize file button, taken from
+		 https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file/47950538#47950538 -->
+	<button onclick="document.getElementById('file-input').click()">Select an UD file</button>
+	<input type='file' id="file-input" style="display:none">
+	<span id="fileName"></span>
+	<div>
+    <ul id="instructions" style="display:none">
+        <li>Select a local file containing one or many dependency structures in <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">CoNLL-U format</a>. An initial UD file is insert at the beginning of the program.</li>
+		<li>Select the fields used to filter the content of the file that will be inserted in the table by clicking on its conventional name
+            <ul>
+                <li>When shown in blue, a text field then appears in which a regular expression can be typed. This expression is used as a case-insensitive filtering when parsing the text field, it is ignored when no regex is typed.</li>
+                <li>Clicking on a blue field puts a bar over it to indicate that the regex is <em>complemented</em>, similar to <code>-v</code> in grep.</li>
+                <li>Clicking on a complemented blue field deselects it, so its value is not used in filtering.</li>
+            </ul>  
+        </li>
+		<li>The checkbox between <code>FORM</code> and <code>LEMMA</code> allows selecting tokens for which their form and lemma are the same, ignoring case. When the checkbox is <em>indeterminate</em> (i.e. it shows "<code>-</code>"), it selects tokens for which their form and lemma differ.</li>
+    	<li>Click on the <code>reParse</code> button to fill the table with the tokens that match the filters. To keep the browser responsive, only the first <span id="maxTokens"></span> tokens with fields matching the corresponding regex are displayed as rows in the table. <br/>
+			The <code>reParse</code> button can be clicked anytime when the field selection has been changed to refill the table from the last UD file read.</li>
+		<li>The table can be scrolled vertically and columns can be sorted by clicking in the header.</li>
+		<li>
+			Further information:
+			<ul>
+				<li><a href="https://universaldependencies.org/u/feat/index.html" target="_blank" >UD Features</a></li>
+				<li><a href="https://universaldependencies.org/u/pos/index.html" target="_blank" >UD POS tags</a></li>
+				<li><a href="https://cs.nyu.edu/~grishman/jet/guide/PennPOS.html" target="_blank" >XPOS tags</a></li>
+				<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet" title="Regular expression syntax cheatsheet - JavaScript | MDN" target="_blank">Regular expression syntax cheatsheet</a></li>
+			</ul>
+		</li>
+	</ul>
+	</div>
+    <fieldset id="fieldSelect">
+        <legend>Filters</legend>
+    </fieldset>
+    <input type="button" id="parse" name="parse" value="reParse">
+    <p id="message"></p>
+    <div id="container">
+        <table id="tokens">
+                <thead></thead>
+                <tbody></tbody> 
+                <tfoot></tfoot>
+        </table>
+    </div>
+    <table id="id-text">
+		<tr><th>line</th><td id='lineNo'></td></tr>
+        <tr><th>sent_id</th><td id="sentId"></td></tr>
+		<tr><th>ID</th><td id="tokenId"></td></tr>
+        <tr><th>text</th><td id="text"></td></tr>
+    </table>
+    <div>
+        <span>Display as
+        <select id="displayType">
+            <option value="links">Links</option>
+            <option value="tree">Tree</option>
+            <option value="hide">Hidden</option>
+        </select>
+        </span>
+        <span class="right">Spacing in pixels:
+            <label for="wordSpacing">Word</label> <input type="number" name="wordSpacing" value="5" min="3" max="25" id="wordSpacing">
+            <label for="letterSpacing">Letter</label> <input type="number" name="letterSpacing" value="0" min="0" max="5" id="letterSpacing" step="0.5">
+        </span>
+    </div>
+    <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="dependencies" style="border: 1px solid #999">
+        <defs>
+            <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3"
+            orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0 L0,6 L6,3 z" fill="black" />
+        </marker>
+        </defs>
+        <g></g>
+    </svg>
+    <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="tree" style="border: 1px solid #999">
+        <g></g>
+    </svg>
+<p><a href="mailto:lapalme@iro.umontreal.ca"><em>Guy Lapalme</em></a></p>
+</body>
+</html>

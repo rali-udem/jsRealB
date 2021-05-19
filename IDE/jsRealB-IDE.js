@@ -167,6 +167,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
+            if (quoteOOV && this.isA("Q"))return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
@@ -24017,7 +24018,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-05-11 17:11"
+jsRealB_dateCreated="2021-05-19 10:59"
 //  Terminals
 exports.N=N;
 exports.A=A;

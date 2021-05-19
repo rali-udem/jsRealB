@@ -185,7 +185,7 @@ UDnode.prototype.options2feats = function(options){
         const val=options[key];
         if (key=="Number_")key="Number";
         else if (key.endsWith("_psor"))key=key.substring(0,key.length-5)+"[psor]"
-        res.push(key+"="+val)
+        res.push(key+(val===undefined?"":("="+val))) //some misc values are undefined
     }
     return res.join("|");
 }

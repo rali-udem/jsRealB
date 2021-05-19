@@ -336,72 +336,71 @@ function toggleJsrEditor(){
     }
 }
 
+function UDregeneratorLoad(){
+    dependencies=d3.select("#dependencies");
+    tree=d3.select("#tree");
+    d3.select("#file-input")
+        .on("click", 
+            // ensure that the same file can reloaded on the "change" event called after the file selection 
+            // adapted from https://stackoverflow.com/questions/4109276/how-to-detect-input-type-file-change-for-the-same-file/4118320#4118320
+            ()=>d3.select(d3.event.target).property("value","")
+        )
+        .on("change",getFile);
+    const thead=d3.select("#tokens thead");
+    
+    // create headers of the table
+    let tr=thead.append("tr");
+    for (var j = 0; j < nbFields; j++) {
+        tr.append("th")
+            .classed(fieldNames[j],true)
+            .text(fieldNames[j]);
+    }
+    d3.selectAll("#parse").on("click",()=>parse(udContent,currentFile));
+    d3.select("#showHideInstructions").on("click",toggleInstructions);
+    d3.select("#showHideContituentTree").on("click",toggleConstituentTree);
+    d3.select("#showHide-jsrEditor").on("click",toggleJsrEditor);
+    d3.select("#displayType").on("change",function(){
+        showSentenceParse(currentUD);
+    });
+    d3.select("#sentences").on("change",function(){
+        currentUD=uds[+d3.select("#sentences").property("value")];
+        showUDtable(currentUD);
+        showSentenceParse(currentUD);
+        showRealization(currentUD,true);
+    })
+    d3.select("#wordSpacing").on("change",function(){
+        wordSpacing=+this.value;
+        showSentenceParse(currentUD);
+    });
+    d3.select("#letterSpacing").on("change",function(){
+        letterSpacing=+this.value;
+        showSentenceParse(currentUD);
+    });
+    // pour l'éditeur
+    editor = ace.edit("jsrStructure");
+    editor.setTheme("ace/theme/textmate");
+    // editor.getSession().setMode("ace/mode/JSreal");
+    editor.getSession().setMode("ace/mode/javascript");
+    editor.setShowPrintMargin(false);
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setOption("minLines", 10);
+    editor.setOption("maxLines", 20);
+    editor.setFontSize("16px"); // grandeur de police de défaut
+
+    d3.select("#realize").on("click",updateRealization);
+    setQuoteOOV(true);
+    udContent=initUD;
+    fileName="initialUDs";
+    d3.select("#fileName").text(fileName);
+    const largeLexicon=language=="en"?"../../data/lexicon-dme.json":"../../data/lexicon-dmf.json"
+    d3.json(largeLexicon).then(function(lexiconDME){
+        addNewWords(lexiconDME);
+        parse(udContent,fileName);
+    })
+}
+
+
 if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
     exports.parseUDs=parseUDs;
-} else {
-    // after loading the web page
-    d3.select(window).on("load",
-        function (){
-            dependencies=d3.select("#dependencies");
-            tree=d3.select("#tree");
-            d3.select("#file-input")
-                .on("click", 
-                    // ensure that the same file can reloaded on the "change" event called after the file selection 
-                    // adapted from https://stackoverflow.com/questions/4109276/how-to-detect-input-type-file-change-for-the-same-file/4118320#4118320
-                    ()=>d3.select(d3.event.target).property("value","")
-                )
-                .on("change",getFile);
-            const thead=d3.select("#tokens thead");
-            
-            // create headers of the table
-            let tr=thead.append("tr");
-            for (var j = 0; j < nbFields; j++) {
-                tr.append("th")
-                    .classed(fieldNames[j],true)
-                    .text(fieldNames[j]);
-            }
-            d3.selectAll("#parse").on("click",()=>parse(udContent,currentFile));
-            d3.select("#showHideInstructions").on("click",toggleInstructions);
-            d3.select("#showHideContituentTree").on("click",toggleConstituentTree);
-            d3.select("#showHide-jsrEditor").on("click",toggleJsrEditor);
-            d3.select("#displayType").on("change",function(){
-                showSentenceParse(currentUD);
-            });
-            d3.select("#sentences").on("change",function(){
-                currentUD=uds[+d3.select("#sentences").property("value")];
-                showUDtable(currentUD);
-                showSentenceParse(currentUD);
-                showRealization(currentUD,true);
-            })
-            d3.select("#wordSpacing").on("change",function(){
-                wordSpacing=+this.value;
-                showSentenceParse(currentUD);
-            });
-            d3.select("#letterSpacing").on("change",function(){
-                letterSpacing=+this.value;
-                showSentenceParse(currentUD);
-            });
-            // pour l'éditeur
-            editor = ace.edit("jsrStructure");
-            editor.setTheme("ace/theme/textmate");
-            // editor.getSession().setMode("ace/mode/JSreal");
-            editor.getSession().setMode("ace/mode/javascript");
-            editor.setShowPrintMargin(false);
-            editor.setAutoScrollEditorIntoView(true);
-            editor.setOption("minLines", 10);
-            editor.setOption("maxLines", 20);
-            editor.setFontSize("16px"); // grandeur de police de défaut
-
-            d3.select("#realize").on("click",updateRealization);
-            setQuoteOOV(true);
-            udContent=initUD;
-            fileName="initialUDs";
-            d3.select("#fileName").text(fileName);
-            const largeLexicon=language=="en"?"../../data/lexicon-dme.json":"../../data/lexicon-dmf.json"
-            d3.json(largeLexicon).then(function(lexiconDME){
-                addNewWords(lexiconDME);
-                parse(udContent,fileName);
-            })
-        });     
-}
+} 
  
