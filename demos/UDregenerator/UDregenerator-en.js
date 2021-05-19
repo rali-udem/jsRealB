@@ -7,18 +7,7 @@ function addNewWords(lexiconDME){
     updateLexicon(lexiconDME);
     // add some words to the lexicon some taken from 
     //    /Users/lapalme/Dropbox/AMR/jsRealB/addLexicon-dme.js    
-    addToLexicon({"there":{"Pro":{"tab":["pn6"]}}})   // invariable pronoun
-    addToLexicon({"all":{"Pro":{"tab":["pn6"]}}})
-    addToLexicon({"one":{"Pro":{"tab":["pn6"]},"N":{"tab":["n1"]}}})
-    addToLexicon({"other":{"Pro":{"tab":["pn6"]}}})
     addToLexicon("responsively",{ Adv: { tab: [ 'b1' ] } });
-
-    addToLexicon("this",{"D":{"tab":["d5"]}})
-    addToLexicon("these",{"D":{"n":"p","tab":["d4"]}})  // should use lemma this
-    addToLexicon("own",{ A: { tab: [ 'a1' ] } });
-    
-    addToLexicon("how",{"C":{"tab":["cc"]}})
-    addToLexicon("where",{"C":{"tab":["cc"]}})
     
     const prepositions=[
         "as","not","than","because","due"

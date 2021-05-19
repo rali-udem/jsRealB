@@ -1,4 +1,4 @@
-// arguments : lang file [typ]
+// arguments : lang file.conllu
 const argv=process.argv.slice(2);
 if (argv.length==0 || argv[0].startsWith("-h")){
     console.log("usage: node UDregenerator-node.js lang inputFile\n"+
@@ -34,22 +34,20 @@ enfr.addNewWords()
 setQuoteOOV(true)
 
 const fmt="# %s = %s";
+let nbDiffs=0, nbWarnings=0, nbNonProjective=0;
 // UDregenerator execution
 uds=UDregenerator.parseUDs(conlluFile);
-let nbDiffs=0,nbModifs=0;
 uds.forEach(function (ud,i){
-    const text=ud.text;
+    console.log("%d: %s",i,ud.sent_id);
     const jsr=ud.toJSR();
     const jsRealBexpr=jsr.pp(0);
-    const isNotProjective=ud.root.project()==null;
-    resetSavedWarnings();
-    let jsrReal=eval(jsRealBexpr).toString();
-    const warnings=getSavedWarnings();
-    jsrReal=utils.fixPunctuation(jsrReal);
-    const diffs=lvs.computeDiffs(text,jsrReal);
+    const [jsRealBsent,warnings]=jsr.realize();
+    const diffs=lvs.computeDiffs(ud.text,jsRealBsent);
+    if (!ud.isProjective){
+        nbNonProjective++;
+        console.log("## non projective");
+    }
     let nb=diffs[3];
-    console.log("%d: %s",i,ud.sent_id);
-    if (isNotProjective) console.log("## non projective");
     if (nb>0){
         nbDiffs++;
         const [d1,d2]=lvs.showDiffs(diffs);
@@ -57,15 +55,20 @@ uds.forEach(function (ud,i){
         console.log(fmt, "text",d1);
         console.log(fmt, "TEXT",d2);
     } else {
-        console.log(fmt, "text",text);
-        console.log(fmt, "TEXT",jsrReal);
+        console.log(fmt, "text",ud.text);
+        console.log(fmt, "TEXT",jsRealBsent);
     }
     nb=warnings.length;
     if (nb>0){
-        console.log("%d %s%s: %s",nb,language=="en"?"error":"erreur",nb>1?"s":"",ud.sent_id);
+        nbWarnings++;
+        console.log("%d %s%s: %s",nb,language=="en"?"warnings":"avertissements",nb>1?"s":"",ud.sent_id);
         console.log(warnings.join("\n"));
     }
     console.log("---");
-});    
+});
+
+// output global statistics    
 console.log(language=="en"?"%d UD processed":"%d UD traitées",uds.length)
+console.log(language=="en"?"%d UD non projective found":"%d UD non projectives",nbNonProjective);
 console.log(language=="en"?"%d UD different found":"%d UD différentes",nbDiffs);
+console.log(language=="en"?"%d UD with warnings found":"%d UD avec avertissements",nbWarnings);

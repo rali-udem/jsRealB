@@ -179,7 +179,7 @@ function parse(udContent,fileName){
     uds.forEach(function (ud,i){
         const jsr=ud.toJSR();
         ud.jsRealBexpr=jsr.pp(0);
-        [ud.warnings,ud.jsRealBsent]=jsr.realize();
+        [ud.jsRealBsent,ud.warnings]=jsr.realize();
         ud.textInMenu=(ud.warnings.length>0?"!":" ")+ud.textInMenu;
         ud.diffs=computeDiffs(ud.text,ud.jsRealBsent);
         if (shouldAddToMenu(ud)){
