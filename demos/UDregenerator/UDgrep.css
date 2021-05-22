@@ -30,6 +30,10 @@ body{font: normal normal normal 1em Arial, sans-serif;}
     padding:2px;
 }
 
+.selected-row {
+    background-color:#EEE;
+}
+
 div#container {
     overflow: auto; height: 300px;
     margin:10px 0;

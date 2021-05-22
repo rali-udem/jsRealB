@@ -28,9 +28,9 @@ function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
         .attr("font-family",fontFamilyWord)
         .attr("font-size",fontSizeWord)
         .attr("letter-spacing",letterSpacing+"px")
+        .attr("cursor","pointer")
         .text(mot);
     if (i!=null)word
-        .attr("cursor","pointer")
         .on("click",function(){
                 const tr=d3.selectAll("#tokens tbody tr").nodes()[i-1]
                 selectRow(tr);
