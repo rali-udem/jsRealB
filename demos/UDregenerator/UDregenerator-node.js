@@ -11,6 +11,10 @@ if (language!="en" && language!="fr"){
     console.log('only "en" or "fr" implemented');
     process.exit(1)
 }
+if (argv.length<2){
+    console.log("missing input file")
+    process.exit(1);
+}
 const fileName=argv[1];
 const fs = require('fs');
 let conlluFile = fs.readFileSync(fileName,{encoding:'utf8', flag:'r'});

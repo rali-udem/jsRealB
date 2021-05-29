@@ -49,9 +49,9 @@ JSR.prototype.getOption=function(opt){
     } else {
         for (var i = 0; i < options.length; i++) {
             const m=optRE.exec(options[i]);
-            return m==null ? undefined : m[1];
-            
+            if (m!=null) return m[1];
         }
+        return undefined;
     }
 }
 

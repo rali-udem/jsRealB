@@ -44,20 +44,21 @@ function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
     // var wordLength=word.node().getComputedTextLength();
     var wordLength=word.node().getBBox().width; // so that letter-spacing is taken into account
     word.append("title").text(tooltip) 
-    return wordLength;
+    return [wordLength,word];
 }
 
 function drawSentence(display,ud){
-    var endX=startX;
+    let endX=startX;
     // draw the words of the sentence and update width and x in deps
-    for (var i = 1; i < ud.nodes.length; i++) {
-        var udn=ud.nodes[i];
-        var width=addWord(display,i,endX,startY,udn.form,
+    for (let i = 1; i < ud.nodes.length; i++) {
+        let udn=ud.nodes[i];
+        let [width,word]=addWord(display,i,endX,startY,udn.form,
                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
                           i==ud.root.id,udn.form!=ud.tokens[i]);
         udn.x=endX;
         udn.width=width;
         udn.mid=endX+width/2;
+        udn.wordInTree=udn.wordInlinks=word;
         endX+=width+wordSpacing;
     }
     return endX;

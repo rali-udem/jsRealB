@@ -13,9 +13,9 @@ function drawSentenceCT(display,deps){
     for (var i = 1; i < deps.length; i++) {
         var dep=deps[i];
         var tooltip="";
-        var width=addWord(display,null,endX,startY,dep.form,
-                          "",
-                          false,false);
+        var [width,word]=addWord(display,null,endX,startY,dep.form,
+                                 "",
+                                 false,false);
         deps[i].x=endX;
         deps[i].width=width;
         deps[i].mid=endX+width/2;

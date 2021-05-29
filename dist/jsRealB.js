@@ -362,7 +362,7 @@ Constituent.prototype.doElisionEn = function(cList){
         "let+us":"let’s",
         "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
         "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
-        "he+will":"he’ll", "he+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
+        "he+will":"he’ll", "she+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
         "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
         "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
         "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",
@@ -3798,7 +3798,7 @@ var lexiconEn = //========== lexicon-en.js
  "cemetery":{"N":{"tab":["n3"]}},
  "census":{"N":{"tab":["n2"]}},
  "center":{"N":{"tab":["n1"]},
-           "V":{"tab":"v3"}},
+           "V":{"tab":"v1"}},
  "central":{"A":{"tab":["a1"]}},
  "centre":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
@@ -4922,6 +4922,7 @@ var lexiconEn = //========== lexicon-en.js
  "ethical":{"A":{"tab":["a1"]}},
  "ethics":{"N":{"tab":["n5"]}},
  "ethnic":{"A":{"tab":["a1"]}},
+ "euro":{"N":{"tab":["n1"]}},
  "evaluate":{"V":{"tab":"v3"}},
  "evaluation":{"N":{"tab":["n1"]}},
  "even":{"Adv":{"tab":["b1"]}},
@@ -6139,8 +6140,10 @@ var lexiconEn = //========== lexicon-en.js
  "librarian":{"N":{"g":"x",
                    "tab":["n1"]}},
  "library":{"N":{"tab":["n3"]}},
- "licence":{"N":{"tab":["n1"]}},
- "license":{"V":{"tab":"v3"}},
+ "licence":{"N":{"tab":["n1"]},
+            "V":{"tab":"v3"}},
+ "license":{"N":{"tab":["n1"]},
+            "V":{"tab":"v3"}},
  "lick":{"V":{"tab":"v1"}},
  "lid":{"N":{"tab":["n1"]}},
  "lie":{"N":{"tab":["n1"]},
@@ -24023,7 +24026,7 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-05-19 10:59"
+jsRealB_dateCreated="2021-05-29 11:30"
 //  Terminals
 exports.N=N;
 exports.A=A;

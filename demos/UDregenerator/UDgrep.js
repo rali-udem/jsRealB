@@ -19,15 +19,16 @@ function loadTokens(uds){
     for (var j = 0; j < nbFields; j++) {
         const fn=fieldNames[j];
         const jj=j; // save current j for internal closures
+        const ignoreCase=d3.select("#ignoreCase").property("checked")?"i":""
         if (d3.select("#"+fn).classed("checked")){
             if (d3.select("#search-"+fn).property("value")!=""){
                 filters.push( (fields)=>
-                   new RegExp(d3.select("#search-"+fn).property("value"),"i").test(fields[jj]) )
+                   new RegExp(d3.select("#search-"+fn).property("value"),ignoreCase).test(fields[jj]) )
             }
         } else if (d3.select("#"+fn).classed("inv-checked")){
             if (d3.select("#search-"+fn).property("value")!=""){
                 filters.push( (fields)=>
-                    !new RegExp(d3.select("#search-"+fn).property('value'),"i").test(fields[jj]) ) // negated regex
+                    !new RegExp(d3.select("#search-"+fn).property('value'),ignoreCase).test(fields[jj]) ) // negated regex
             }
         }
     }
@@ -81,13 +82,13 @@ function parse(){
     fillTable(d3.select("#tokens"));
 }
 
-function matchForm(form,text){
-    const formREw=new RegExp(`\\b${form}\\b`);
-    const formRE=new RegExp(form)
-    // search before as word otherwise search as a string
-    return formREw.exec(currentUD.text)||formRE.exec(currentUD.text)
-    
-}
+// function matchForm(form,text){
+//     const formREw=new RegExp(`\\b${form}\\b`);
+//     const formRE=new RegExp(form)
+//     // search before as word otherwise search as a string
+//     return formREw.exec(currentUD.text)||formRE.exec(currentUD.text)
+//
+// }
 
 function showSentenceFromRow(tr){
     // change selection
@@ -95,29 +96,31 @@ function showSentenceFromRow(tr){
     let tbody=d3.select("#tokens tbody");
     tbody.selectAll("td").classed("selected-row",false);
     d3.select(tr).selectAll("td").classed("selected-row",true);
-    d3.select("#tokenId").text(d3.select(tr).select("td").text());
-    let form=d3.select(tr).selectAll("td").nodes()[1].textContent;
-    let m;
-    if (currentUD!=null){
-        m=matchForm(form,currentUD.text);
-        if (m!=null)
-            d3.select("#text")
-                .html(currentUD.text.substr(0,m.index)+
-                    '<b>'+form+'</b>'+currentUD.text.substr(m.index+form.length));
-    }
     // update sentence info
     const trUD=d3.select(tr).datum();
-    if(trUD==currentUD)return; // no need to update
-    currentUD=trUD;
-    d3.select("#sentId").text(currentUD.sent_id);
-    d3.select("#lineNo").text(currentUD.startLine);
-    // update with new currentUD
-    form=d3.select(tr).selectAll("td").nodes()[1].textContent;
-    m=matchForm(form,currentUD.text)
+    if(trUD!=currentUD){
+        currentUD=trUD;
+        d3.select("#sentId").text(currentUD.sent_id);
+        d3.select("#lineNo").text(currentUD.startLine);
+        showSentenceParse(currentUD);
+    }
+    // highlight the form in the text
+    let id=d3.select(tr).select("td").text()
+    d3.select("#tokenId").text(id);
+    let form=d3.select(tr).selectAll("td").nodes()[1].textContent;
+    // let m=matchForm(form,currentUD.text);
+    // d3.select("#text")
+    //     .html(currentUD.text.substr(0,m.index)+
+    //         '<b>'+form+'</b>'+currentUD.text.substr(m.index+form.length));
+    let selectedNode=currentUD.nodes[+id];
     d3.select("#text")
-        .html(currentUD.text.substr(0,m.index)+
-              '<b>'+form+'</b>'+currentUD.text.substr(m.index+form.length));
-    showSentenceParse(currentUD);
+        .html(currentUD.text.substr(0,selectedNode.indexInText)+
+            '<b>'+form+'</b>'+currentUD.text.substr(selectedNode.indexInText+form.length));
+    
+    // highlight word in the link and tree displays
+    d3.selectAll("svg .selected-word").classed("selected-word",false);
+    selectedNode.wordInLinks.classed("selected-word",true);
+    selectedNode.wordInTree.classed("selected-word",true);
 }
 
 // fill the table 
@@ -247,7 +250,17 @@ function createFilters(){
                 .property("indeterminate",false).
                 on("click",threeStatesCB);
         }
-    }    
+    }
+    fieldSelect.append("input")
+        .classed("right",true)
+        .attr("type","checkbox")
+        .attr("id","ignoreCase")
+        .attr("checked",true);
+    fieldSelect.append("label")
+        .classed("right",true)
+        .attr("for","ignoreCase")
+        .attr("title","Are regexps case-insensitive?")
+        .text("Ignore Case")
 }
 
 function initTable(){
@@ -269,21 +282,26 @@ function initTable(){
         )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
     // do the work...
     document.querySelectorAll('#tokens th').forEach(th => th.addEventListener('click', (() => {
-        const noCol=Array.from(th.parentNode.children).indexOf(th)
-        // var cmp=lt;
+        const noCol=Array.from(th.parentNode.children).indexOf(th);
+        let ascending;
         let th1=table.select(`thead th:nth-child(${noCol+1})`);
         if (th1.classed("colTri")){        // changer l'ordre de tri
-            // cmp=th$.hasClass("croissant")?gt:lt;
-            th1.classed("croissant",!th1.classed("croissant"));
-            th1.classed("decroissant",!th1.classed("decroissant"));
+            if (th1.classed("croissant")){
+               th1.classed("croissant",ascending=false);
+               th1.classed("decroissant",true);
+            } else {
+                th1.classed("croissant",ascending=true);
+                th1.classed("decroissant",false);
+            }
         } else {
             table.selectAll("thead th").classed("colTri croissant decroissant",false);
             th1.classed("colTri",true).classed("croissant",true);
+            ascending=true;
         }
         const tableNode=table.node();
         const tbody = document.querySelector("tbody",tableNode);
         Array.from(tableNode.querySelectorAll('tbody tr:nth-child(n+1)'))
-            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), ascending))
             .forEach(tr => tbody.appendChild(tr) );
     })));    
 }
@@ -311,12 +329,13 @@ function drawSentence(display,ud){
     // draw the words of the sentence and update width and x in deps
     for (var i = 1; i < ud.nodes.length; i++) {
         var udn=ud.nodes[i];
-        var width=addWord(display,null,endX,startY,udn.form,
+        var [width,word]=addWord(display,null,endX,startY,udn.form,
                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
                           i==ud.root.id,udn.form!=ud.tokens[i]);
         udn.x=endX;
         udn.width=width;
         udn.mid=endX+width/2;
+        udn.wordInTree=udn.wordInLinks=word;
         endX+=width+wordSpacing;
     }
     return endX;

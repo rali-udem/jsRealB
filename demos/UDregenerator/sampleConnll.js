@@ -1,4 +1,4 @@
-const udDir="UD-2.7/"
+const udDir="/Users/lapalme/Dropbox/UDregenerator/UD-2.8/"
 const sampleSize=10
 
 // taken from https://javascript.info/task/shuffle
@@ -8,7 +8,6 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-let language="en";
 const fs = require('fs');
 const ud=require("./UD.js");
 UD=ud.UD;

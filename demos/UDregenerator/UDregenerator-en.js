@@ -34,6 +34,8 @@ function addNewWords(lexiconDME){
     })
     
     addToLexicon("layout",{ N: { tab: [ 'n1' ] } });
+    addToLexicon("am",{ N: { tab: [ 'n5' ] } });
+    addToLexicon("pm",{ N: { tab: [ 'n5' ] } });
     addToLexicon("moving",{ A: { tab: [ 'a1' ] } });
     addToLexicon("last",{ A: { tab: [ 'a1' ] } });
     

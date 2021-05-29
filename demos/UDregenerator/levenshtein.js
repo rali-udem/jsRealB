@@ -1,5 +1,4 @@
-
-// compute edit distance and return list of edit commands
+// compute edit distance between str1 and str2 and return list of edit commands 
 function levenshtein(str1,str2) {
    function minimum(a,b,c) {
        if (a<=b && a<=c)return a;
@@ -41,7 +40,6 @@ function levenshtein(str1,str2) {
             while(i>0 && j>0 && distance[i-1][j-1]==min-1){
                 i=i-1; j=j-1; min=min-1;
             }
-            edits.push(["REP",i,iStart,j,jStart]);
         } else if (j>0 && distance[i][j-1]==min){
             jStart=j=j-1;
             while(j>0 && distance[i][j-1]==min-1){
@@ -65,17 +63,20 @@ function levenshtein(str1,str2) {
 // return the tokens of both strings, the list edit commands and number of differences between two strings  
 function computeDiffs(str1,str2){
     function normalize(str){
-        //        ligature, single right quotation mark (U+2019)
-        return str.replace(/œ/g,"oe").replace(/’/g,"'") 
+        // ligature, single right quotation mark (U+2019)
+        let res=str.replace(/œ/g,"oe").replace(/’/g,"'"); 
+        if (res.endsWith("."))return res.substr(0,res.length-1); // ignore last full stop
+        return res;
     }
     str1=normalize(str1.trim());
     str2=normalize(str2.trim());
     // tokenize by separating at spaces and punctuation and keeping all tokens by capturing ()
-    const wordRegex=/([^-\s.,:;!$()'"?[\]]+)/;  
+    const wordRegex=/([^-\s.,:;!$()"?[\]]+)/;  
     const toks1=str1.split(wordRegex);
     const toks2=str2.split(wordRegex);
     return [toks1,toks2].concat(levenshtein(toks1,toks2));
 }
+
 
 
 function addHTMLStr(toks,i,j,editType){

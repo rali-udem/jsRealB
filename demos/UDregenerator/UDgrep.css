@@ -33,6 +33,9 @@ body{font: normal normal normal 1em Arial, sans-serif;}
 .selected-row {
     background-color:#EEE;
 }
+.selected-word {
+    font-weight:bold;
+}
 
 div#container {
     overflow: auto; height: 300px;
@@ -64,6 +67,11 @@ table#tokens {
 }
 table#tokens:hover {
     cursor: pointer;
+}
+
+table#tokens td {
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 /* classes for tokens */
