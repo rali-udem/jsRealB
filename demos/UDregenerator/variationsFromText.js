@@ -15,7 +15,7 @@ function usage(){
     console.log(
 `usage: node variationsFromText.js [-l en|fr] [-q] [-n] [-h] file.txt 
  where -l: language (en default)
-       -q: generate questions (default true) 
+       -q: generate questions (default false) 
        -n: generation negation (default false)
        -h: this message
         file.txt: text file with sentences on a single line

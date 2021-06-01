@@ -40,6 +40,7 @@ function levenshtein(str1,str2) {
             while(i>0 && j>0 && distance[i-1][j-1]==min-1){
                 i=i-1; j=j-1; min=min-1;
             }
+            edits.push(["REP",i,iStart,j,jStart]);
         } else if (j>0 && distance[i][j-1]==min){
             jStart=j=j-1;
             while(j>0 && distance[i][j-1]==min-1){
