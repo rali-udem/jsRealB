@@ -13,9 +13,9 @@ function drawSentenceCT(display,deps){
     for (var i = 1; i < deps.length; i++) {
         var dep=deps[i];
         var tooltip="";
-        var width=addWord(display,endX,startY,dep.form,
-                          "",
-                          false,false);
+        var [width,word]=addWord(display,null,endX,startY,dep.form,
+                                 "",
+                                 false,false);
         deps[i].x=endX;
         deps[i].width=width;
         deps[i].mid=endX+width/2;
@@ -100,6 +100,7 @@ function showConstituents(jsRealBstruct){
 
 /////  user interface functions
 let currentUD,uds;
+let udContent,currentFile;
 
 // Separates a single string into UDs separated at a blank line
 // returns a list of dependencies
@@ -121,13 +122,13 @@ function parseUDs(groupVal,fileName){
             startLine+=ud.nbLines;
             return;
         }
-        let isProjective=ud.root.project()!=null;
-        if (!isProjective)
-            ud.sentence="*"+ud.text;
+        ud.isProjective=ud.root.project()!=null;
+        if (!ud.isProjective)
+            ud.textInMenu="*"+ud.text;
         else
-            ud.sentence=" "+ud.text;
-        if (ud.sentence.length>100){
-            ud.sentence=ud.sentence.substring(0,97)+"..."
+            ud.textInMenu=" "+ud.text;
+        if (ud.textInMenu.length>100){
+            ud.textInMenu=ud.textInMenu.substring(0,97)+"..."
         }
         uds.push(ud);
         startLine+=ud.nbLines+1;
@@ -135,24 +136,42 @@ function parseUDs(groupVal,fileName){
     return uds;
 }
 
+
+const fieldNames=["ID","FORM","LEMMA","UPOS","XPOS","FEATS","HEAD","DEPREL","DEPS","MISC"];
+const nbFields=fieldNames.length;
+
 function getFile(){
-	let file = d3.select("#file-input").node().files[0];
-    if (file !== undefined){
+    let file = d3.select("#file-input").node().files[0];
+    if (file!==undefined){
+        currentFile=file.name
+        d3.select("#fileName").text(file.name);
+        // read the local file
     	let reader = new FileReader();
+        // $("*").css("cursor","wait");
     	reader.addEventListener('load', function(e) {
-        	d3.select("#input").text(e.target.result);
-            parseTextArea();
+            udContent=e.target.result
+            parse(udContent,file.name);
+            // $("*").css("cursor","auto");
     	});
     	reader.readAsText(file);
-    } else {
-        parseTextArea();
     }
 }
+
+
 // parse all uds in the textarea and build the menu of sentences
-function parseTextArea(){
-    const sentLength=100;
-    var showOnlyDiffs=d3.select("#onlyDiffs").property("checked");
-    uds=parseUDs(d3.select("textarea").property("value"));
+function parse(udContent,fileName){
+    // check options set by checkboxes
+    const showOnlyDiffs=d3.select("#onlyDiffs").property("checked");
+    const showOnlyWarnings=d3.select("#onlyWarnings").property("checked");
+    const showOnlyNonProj=d3.select("#onlyNonProj").property("checked");
+    function shouldAddToMenu(ud){
+        let add=true;
+        if (showOnlyDiffs && ud.diffs[3]==0)add=false;
+        if (showOnlyWarnings && ud.warnings.length==0)add=false;
+        if (showOnlyNonProj && ud.isProjective)add=false;
+        return add;
+    }
+    uds=parseUDs(udContent,fileName);
     let sentences=d3.select("#sentences");
     let currentUDno=sentences.node().value||"0"; // save position in the sentence menu
     sentences.selectAll("*").remove();
@@ -160,49 +179,76 @@ function parseTextArea(){
     uds.forEach(function (ud,i){
         const jsr=ud.toJSR();
         ud.jsRealBexpr=jsr.pp(0);
-        ud.jsrRealBsent=jsr.realize();
-        const text=ud.text;
-        ud.diffs=computeDiffs(text,ud.jsrRealBsent);
-        if (!showOnlyDiffs || ud.diffs[3]!=0){
-            sentences.append("option").attr("value",i).text(ud.sentence);
+        [ud.jsRealBsent,ud.warnings]=jsr.realize();
+        ud.textInMenu=(ud.warnings.length>0?"!":" ")+ud.textInMenu;
+        ud.diffs=computeDiffs(ud.text,ud.jsRealBsent);
+        if (shouldAddToMenu(ud)){
+            sentences.append("option").attr("value",i).text(ud.textInMenu);
         }
     })
     var nb=sentences.selectAll("option").size()
     d3.select("#nbSent").html(nb+(language=="en"?" sentence":" phrase")+(nb>1?"s":""));
-    if (d3.select(`#sentences option[value="${currentUDno}"]`).size()==0) 
-        // if previous currentUDno appears in the menu does not appear set it to the first
-        currentUDno=d3.select("#sentences option").node().value;
-    sentences.node().value=currentUDno;
-    currentUD=uds[+currentUDno];
-    showSentenceParse(currentUD);
-    showRealization(currentUD,true);
+    if (nb>0){ // if menu is not empty, update current UD
+        if (d3.select(`#sentences option[value="${currentUDno}"]`).size()==0){
+            // if previous currentUDno appears in the menu does not appear set it to the first
+            currentUDno=d3.select("#sentences option").node().value;
+        }
+        sentences.node().value=currentUDno; // set the appropriate menu item
+        currentUD=uds[+currentUDno];
+        showUDtable(currentUD);
+        showRealization(currentUD,true);
+        showSentenceParse(currentUD);
+    }
 }
 
 function htmlWarnings(warnings){
     if (warnings.length==1){
-        return `<b style="color:red">1 ${language=="en"?"error":"erreur"}</b>:`+warnings[0];
+        return `<b style="color:red">1 ${language=="en"?"warning":"avertissement"}</b>:`+warnings[0];
     } else {
-        return `<b style="color:red">${warnings.length} ${language=="en"?"errors":"erreurs"}</b>:<br/>`+
+        return `<b style="color:red">${warnings.length} ${language=="en"?"warnings":"avertissements"}</b>:<br/>`+
                 warnings.map(w=>'&nbsp;• '+w+'<br/>').join("")
     }
 }
 
+function selectRow(tr){
+    let tbody=d3.select("#tokens tbody");
+    tbody.selectAll("td").classed("selected-row",false);
+    d3.select(tr).selectAll("td").classed("selected-row",true);
+    d3.select("#lineNo").text(currentUD.nodes[tr.children[0].textContent].lineNumber);
+}
+
+function showUDtable(ud){
+    d3.select("#lineNo").text(ud.nodes[1].lineNumber);
+    d3.select("#sentId").text(ud.sent_id);
+    let tbody=d3.select("#tokens tbody");
+    tbody.selectAll("tr").remove()
+    for (var i = 1; i < ud.nodes.length; i++) {
+        const fields=ud.nodes[i].conll().split("\t");
+        let tr=tbody.append("tr");
+        for (var j = 0; j < fields.length; j++) {
+            tr.append("td")
+                .classed(fieldNames[j],true)
+                .text(fields[j])
+        }
+    }
+    tbody.on("click",function(e){ // row selection on a cell of the table body
+        const tgt=d3.event.target;
+        selectRow(d3.select(tgt).node().parentNode);
+    })
+}
+
 function showRealization(ud,updateEditor){
     const nbDiffs=ud.diffs[3];
-    if (nbDiffs==-1){ 
-        // realization error : show error message without any formatting
-        d3.select("#text").text(ud.text);
-        d3.select("#jsrSentence").html(htmlWarnings(ud.jsrRealBsent));
-        d3.select("#nbDiffs").text("")
-    } else {
-        const [sent1,sent2]=showDiffs(ud.diffs,addHTMLStr);
-        d3.select("#text").html(sent1);
-        d3.select("#jsrSentence").html(sent2);
-        if (nbDiffs==0)
-            d3.select("#nbDiffs").text("");
-        else
-            d3.select("#nbDiffs").text(`${nbDiffs} ${language=="en"?"difference":"différence"}${nbDiffs>1?"s":""}` )
-    }
+    let sent1,sent2;
+    [sent1,sent2]=showDiffs(ud.diffs,addHTMLStr);
+    if (ud.warnings.length>0)
+        sent2+="<br/>"+htmlWarnings(ud.warnings);
+    d3.select("#text").html(sent1);
+    d3.select("#jsrSentence").html(sent2);
+    if (nbDiffs==0)
+        d3.select("#nbDiffs").text(language=="en"?"no differences":"aucune différence");
+    else
+        d3.select("#nbDiffs").text(`${nbDiffs} ${language=="en"?"difference":"différence"}${nbDiffs>1?"s":""}` )
     if (updateEditor){
         // put expression in editor 
         editor.setValue(ud.jsRealBexpr);
@@ -211,23 +257,20 @@ function showRealization(ud,updateEditor){
         editor.gotoLine(1,1,false);
         editor.scrollToLine(1,true,false,function(){});
     }
+    const jsrEditor=d3.select("#jsrEditor");
+    const savedJsrEditorDisplay=jsrEditor.style("display");
     const svgConstTree=d3.select("#constTree");
-    const savedDisplayStyle=svgConstTree.style("display");
+    const savedCstTreeDisplay=svgConstTree.style("display");
     // ensure that the display is visible so that the width is computed correctly
+    jsrEditor.style("display","block");
     svgConstTree.style("display","block");
     showConstituents(ud.jsRealBexpr);
     // reset to the original value
-    svgConstTree.style("display",savedDisplayStyle);
-    // const jsr=ud.toJSR();
-    // const savedDisplayStyle=svgConstTree.style("display");
-    // svgConstTree.style("display","block");
-    // jsr.showConstituents(svgConstTree);
-    
-    // svgConstTree.style("display",savedDisplayStyle);
+    jsrEditor.style("display",savedJsrEditorDisplay);
+    svgConstTree.style("display",savedCstTreeDisplay);
 }
 
 function showSentenceParse(ud){
-    d3.select("textarea").node().scrollTop=ud.startLine*lineHeight;
     const displayType=d3.select("#displayType").property("value");
     if (displayType=="hide"){
         tree.style("display","none");
@@ -250,12 +293,8 @@ function updateRealization(){
     const content=editor.getValue();
     currentUD.jsRealBexpr=content;
     let realization=eval(content).toString();
-    const warnings=getSavedWarnings();
-    if (warnings.length>0){
-        currentUD.jsrRealBsent=warnings;
-        realization=warnings;
-    } else
-        currentUD.jsrRealBsent=fixPunctuation(realization);
+    currentUD.warnings=getSavedWarnings();
+    currentUD.jsRealBsent=fixPunctuation(realization);
     currentUD.diffs=computeDiffs(currentUD.text,realization);
     showRealization(currentUD,false);
 }
@@ -271,6 +310,8 @@ function toggleInstructions(){
         me.property("value",language=="en"?"Hide instructions":"Masquer les instructions");                
     }
 }
+
+
 function toggleConstituentTree(){
     const me=d3.select(this);
     const val=me.property("value");
@@ -283,51 +324,83 @@ function toggleConstituentTree(){
     }
 }
 
+function toggleJsrEditor(){
+    const me=d3.select(this);
+    const val=me.property("value");
+    if (val=="Hide jsRealB editor" || val=="Masquer l'éditeur jsRealB"){
+        d3.select("#jsrEditor").style("display","none");
+        me.property("value",language=="en"?"Show jsRealB editor":"Afficher l'éditeur jsRealB");
+    } else {
+        d3.select("#jsrEditor").style("display","block");
+        me.property("value",language=="en"?"Hide jsRealB editor":"Masquer l'éditeur jsRealB");                
+    }
+}
+
+function UDregeneratorLoad(){
+    dependencies=d3.select("#dependencies");
+    tree=d3.select("#tree");
+    d3.select("#file-input")
+        .on("click", 
+            // ensure that the same file can reloaded on the "change" event called after the file selection 
+            // adapted from https://stackoverflow.com/questions/4109276/how-to-detect-input-type-file-change-for-the-same-file/4118320#4118320
+            ()=>d3.select(d3.event.target).property("value","")
+        )
+        .on("change",getFile);
+    const thead=d3.select("#tokens thead");
+    
+    // create headers of the table
+    let tr=thead.append("tr");
+    for (var j = 0; j < nbFields; j++) {
+        tr.append("th")
+            .classed(fieldNames[j],true)
+            .text(fieldNames[j]);
+    }
+    d3.selectAll("#parse").on("click",()=>parse(udContent,currentFile));
+    d3.select("#showHideInstructions").on("click",toggleInstructions);
+    d3.select("#showHideContituentTree").on("click",toggleConstituentTree);
+    d3.select("#showHide-jsrEditor").on("click",toggleJsrEditor);
+    d3.select("#displayType").on("change",function(){
+        showSentenceParse(currentUD);
+    });
+    d3.select("#sentences").on("change",function(){
+        currentUD=uds[+d3.select("#sentences").property("value")];
+        showUDtable(currentUD);
+        showSentenceParse(currentUD);
+        showRealization(currentUD,true);
+    })
+    d3.select("#wordSpacing").on("change",function(){
+        wordSpacing=+this.value;
+        showSentenceParse(currentUD);
+    });
+    d3.select("#letterSpacing").on("change",function(){
+        letterSpacing=+this.value;
+        showSentenceParse(currentUD);
+    });
+    // pour l'éditeur
+    editor = ace.edit("jsrStructure");
+    editor.setTheme("ace/theme/textmate");
+    // editor.getSession().setMode("ace/mode/JSreal");
+    editor.getSession().setMode("ace/mode/javascript");
+    editor.setShowPrintMargin(false);
+    editor.setAutoScrollEditorIntoView(true);
+    editor.setOption("minLines", 10);
+    editor.setOption("maxLines", 20);
+    editor.setFontSize("16px"); // grandeur de police de défaut
+
+    d3.select("#realize").on("click",updateRealization);
+    setQuoteOOV(true);
+    udContent=initUD;
+    fileName="initialUDs";
+    d3.select("#fileName").text(fileName);
+    const largeLexicon=language=="en"?"../../data/lexicon-dme.json":"../../data/lexicon-dmf.json"
+    d3.json(largeLexicon).then(function(lexiconDME){
+        addNewWords(lexiconDME);
+        parse(udContent,fileName);
+    })
+}
+
+
 if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
     exports.parseUDs=parseUDs;
-} else {
-    // after loading the web page
-    d3.select(window).on("load",
-        function (){
-            lineHeight=parseInt(d3.select("textarea").style('line-height'));
-            dependencies=d3.select("#dependencies");
-            tree=d3.select("#tree");
-            d3.selectAll("#parse,#onlyDiffs").on("click",getFile);
-            d3.select("#showHideInstructions").on("click",toggleInstructions);
-            d3.select("#showHideContituentTree").on("click",toggleConstituentTree);
-            d3.select("#displayType").on("change",function(){
-                showSentenceParse(currentUD);
-            });
-            d3.select("#sentences").on("change",function(){
-                currentUD=uds[+d3.select("#sentences").property("value")];
-                showSentenceParse(currentUD);
-                showRealization(currentUD,true);
-            })
-            d3.select("#wordSpacing").on("change",function(){
-                wordSpacing=+this.value;
-                showSentenceParse(currentUD);
-            });
-            d3.select("#letterSpacing").on("change",function(){
-                letterSpacing=+this.value;
-                showSentenceParse(currentUD);
-            });
-            d3.select("#quoteOOV").on("change",function(){
-                setQuoteOOV(d3.select(this).property("checked"))
-            })
-            // pour l'éditeur
-            editor = ace.edit("jsrStructure");
-            editor.setTheme("ace/theme/textmate");
-            // editor.getSession().setMode("ace/mode/JSreal");
-            editor.getSession().setMode("ace/mode/javascript");
-            editor.setShowPrintMargin(false);
-            editor.setAutoScrollEditorIntoView(true);
-            editor.setOption("minLines", 10);
-            editor.setOption("maxLines", 20);
-            editor.setFontSize("16px"); // grandeur de police de défaut
-
-            d3.select("#realize").on("click",updateRealization);
-            d3.select("#load-file").on("click",getFile);
-            
-        });     
-}
+} 
  

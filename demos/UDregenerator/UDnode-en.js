@@ -222,6 +222,7 @@ UDnode.prototype.toPhrase = function(){
     if (n>0 && this.left[n-1].getLemma()=="to" && headTerm.isA("V")){
         this.left.splice(n-1,1);
         headTerm.addOptions('b("to ")');
+        headTerm.addOptions('t("b")');
     }
     // process nominals (other cases to process...)
     const nominals=["NOUN","PROPN","PRON","NUM","ADJ"];

@@ -7,18 +7,7 @@ function addNewWords(lexiconDME){
     updateLexicon(lexiconDME);
     // add some words to the lexicon some taken from 
     //    /Users/lapalme/Dropbox/AMR/jsRealB/addLexicon-dme.js    
-    addToLexicon({"there":{"Pro":{"tab":["pn6"]}}})   // invariable pronoun
-    addToLexicon({"all":{"Pro":{"tab":["pn6"]}}})
-    addToLexicon({"one":{"Pro":{"tab":["pn6"]},"N":{"tab":["n1"]}}})
-    addToLexicon({"other":{"Pro":{"tab":["pn6"]}}})
     addToLexicon("responsively",{ Adv: { tab: [ 'b1' ] } });
-
-    addToLexicon("this",{"D":{"tab":["d5"]}})
-    addToLexicon("these",{"D":{"n":"p","tab":["d4"]}})  // should use lemma this
-    addToLexicon("own",{ A: { tab: [ 'a1' ] } });
-    
-    addToLexicon("how",{"C":{"tab":["cc"]}})
-    addToLexicon("where",{"C":{"tab":["cc"]}})
     
     const prepositions=[
         "as","not","than","because","due"
@@ -45,6 +34,8 @@ function addNewWords(lexiconDME){
     })
     
     addToLexicon("layout",{ N: { tab: [ 'n1' ] } });
+    addToLexicon("am",{ N: { tab: [ 'n5' ] } });
+    addToLexicon("pm",{ N: { tab: [ 'n5' ] } });
     addToLexicon("moving",{ A: { tab: [ 'a1' ] } });
     addToLexicon("last",{ A: { tab: [ 'a1' ] } });
     
@@ -84,8 +75,6 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
     exports.language=language;
     exports.addNewWords=addNewWords;
 } else {
-    d3.json("../../data/lexicon-dme.json").then(function(lexiconDME){
-        addNewWords(lexiconDME);
-        parseTextArea();
-    })
+    // after loading the web page
+    d3.select(window).on("load",UDregeneratorLoad);     
 }

@@ -19,7 +19,7 @@ var fontSizeLabel="10pt";
 var lineHeight=13; // reset at the start of the program
 
 // draw a word at x,y and return its length in the drawing
-function addWord(display,x,y,mot,tooltip,isRoot,isDiff){
+function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
     var word=display.append("text")
         .attr("x",x).attr("y",y)
         .attr("fill",isRoot?"red":"black")
@@ -29,8 +29,13 @@ function addWord(display,x,y,mot,tooltip,isRoot,isDiff){
         .attr("font-size",fontSizeWord)
         .attr("letter-spacing",letterSpacing+"px")
         .attr("cursor","pointer")
-        .text(mot)
-    ;
+        .text(mot);
+    if (i!=null)word
+        .on("click",function(){
+                const tr=d3.selectAll("#tokens tbody tr").nodes()[i-1]
+                selectRow(tr);
+                tr.scrollIntoView(false);
+            });
     if (isDiff){
         word.attr("text-decoration","underline overline")
             // .attr("text-decoration-color","blue")    // does not work in Safari...
@@ -39,20 +44,21 @@ function addWord(display,x,y,mot,tooltip,isRoot,isDiff){
     // var wordLength=word.node().getComputedTextLength();
     var wordLength=word.node().getBBox().width; // so that letter-spacing is taken into account
     word.append("title").text(tooltip) 
-    return wordLength;
+    return [wordLength,word];
 }
 
 function drawSentence(display,ud){
-    var endX=startX;
+    let endX=startX;
     // draw the words of the sentence and update width and x in deps
-    for (var i = 1; i < ud.nodes.length; i++) {
-        var udn=ud.nodes[i];
-        var width=addWord(display,endX,startY,udn.form,
+    for (let i = 1; i < ud.nodes.length; i++) {
+        let udn=ud.nodes[i];
+        let [width,word]=addWord(display,i,endX,startY,udn.form,
                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
                           i==ud.root.id,udn.form!=ud.tokens[i]);
         udn.x=endX;
         udn.width=width;
         udn.mid=endX+width/2;
+        udn.wordInTree=udn.wordInlinks=word;
         endX+=width+wordSpacing;
     }
     return endX;

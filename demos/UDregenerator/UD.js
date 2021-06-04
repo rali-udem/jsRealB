@@ -24,6 +24,7 @@ function UD(fileName,multiLine,startLine){
     this.nodes=[{}]; // dummy node at index 0 to ease indexing
     this.sent_id="";
     this.text="";
+    let lastIndexInText=0;
     this.nbLines=lines.length;
     let jsrLines=[];
     // build a list of nodes keeping the head index info
@@ -51,7 +52,11 @@ function UD(fileName,multiLine,startLine){
                     return;
                 }
                 fields.unshift("dummy"); // pour avoir les indices à partir de 1
-                this.nodes.push(new UDnode(i+startLine,fields))
+                const udNode=new UDnode(i+startLine,fields);
+                udNode.conllLine=line; // save original line
+                udNode.indexInText=this.text.indexOf(fields[2],lastIndexInText);
+                lastIndexInText+=fields[2].length;
+                this.nodes.push(udNode);
             } else if (!line.match(/^\d+(-|\.)\d+\t/)){// ignore range (indicated by -) and empty nodes (decimal number)
                 console.log("strange line:%d\n  %s\n=>%s\n  %s",i,lines[i-1],lines[i],lines[i+1]);
             }

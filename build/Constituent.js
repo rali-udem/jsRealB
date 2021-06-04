@@ -167,7 +167,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
-            if (quoteOOV && this.isA("Q")) return this;
+            if (quoteOOV && this.isA("Q"))return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
@@ -357,7 +357,7 @@ Constituent.prototype.doElisionEn = function(cList){
         "let+us":"let’s",
         "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
         "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
-        "he+will":"he’ll", "he+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
+        "he+will":"he’ll", "she+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
         "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
         "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
         "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",

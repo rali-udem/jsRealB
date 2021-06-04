@@ -469,8 +469,6 @@ var numberFormat={"fr":"Formatage d'un nombre","en":"Number formatting",
                                 "en":["number in words",'NO("125").dOpt({nat: true})']},
         {"pattern":"{ord:true}","fr":["nombre ordinal",'NO("10").dOpt({ord: true})'],
                                 "en":["ordinal number",'NO("10").dOpt({ord: true})']},
-        {"pattern":"<i>natural</i> input","fr":["",''],
-                                "en":["ordinal number",'NO("eleven").dOpt({nat:false})']},
 ]}; 
 
 var numberAgreement={"fr":"Accord du nom selon le nombre","en":"Noun agreement in number",

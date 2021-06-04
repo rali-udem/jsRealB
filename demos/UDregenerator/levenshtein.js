@@ -1,5 +1,4 @@
-
-// compute edit distance and return list of edit commands
+// compute edit distance between str1 and str2 and return list of edit commands 
 function levenshtein(str1,str2) {
    function minimum(a,b,c) {
        if (a<=b && a<=c)return a;
@@ -11,8 +10,8 @@ function levenshtein(str1,str2) {
    }
     // console.log("source:"+source);
     var out="";
-    distance = new Array(str1.length+1);
-    var i; var j; var iStart; var jStart;
+    let distance = new Array(str1.length+1);
+    let i,j,iStart,jStart;
     for(i=0; i<=str1.length; i++){
         distance[i] = new Array(str2.length+1);
         distance[i][0] = i;
@@ -30,7 +29,7 @@ function levenshtein(str1,str2) {
     //out += outDist(str1,str2,distance);
     
     // retrouver la liste des editions                              
-    edits = [];
+    let edits = [];
     i=str1.length;
     j=str2.length;
     while(i>0 || j>0){
@@ -63,23 +62,22 @@ function levenshtein(str1,str2) {
 }
 
 // return the tokens of both strings, the list edit commands and number of differences between two strings  
-//  when the second string is an Array of warnings: returns -1 as number of differences
 function computeDiffs(str1,str2){
     function normalize(str){
-        //        ligature, single right quotation mark (U+2019)
-        return str.replace(/œ/g,"oe").replace(/’/g,"'") 
-    }
-    if (Array.isArray(str2)){ 
-        return [[],[],[],-1];
+        // ligature, single right quotation mark (U+2019)
+        let res=str.replace(/œ/g,"oe").replace(/’/g,"'"); 
+        if (res.endsWith("."))return res.substr(0,res.length-1); // ignore last full stop
+        return res;
     }
     str1=normalize(str1.trim());
     str2=normalize(str2.trim());
     // tokenize by separating at spaces and punctuation and keeping all tokens by capturing ()
-    const wordRegex=/([^-\s.,:;!$()'"?[\]]+)/;  
+    const wordRegex=/([^-\s.,:;!$()"?[\]]+)/;  
     const toks1=str1.split(wordRegex);
     const toks2=str2.split(wordRegex);
     return [toks1,toks2].concat(levenshtein(toks1,toks2));
 }
+
 
 
 function addHTMLStr(toks,i,j,editType){
@@ -97,8 +95,8 @@ function showDiffs(diffs,addStr){
     let out2="";
     let lastI=0,lastJ=0;
     let i,j;
-    while(edits.length>0){
-        es = edits.pop();
+    for (let iEdit = edits.length - 1; iEdit >= 0; iEdit--) {
+        const es = edits[iEdit]
         switch (es[0]) {
         case "REP": // replacement
             i=es[1];

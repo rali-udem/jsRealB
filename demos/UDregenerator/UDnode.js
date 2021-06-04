@@ -148,6 +148,7 @@ UDnode.prototype.hasNoSpaceAfter = function (){
 UDnode.prototype.toConstituent = function(isLeft){
     if (this.isTerminal())
         return this.toTerminal(isLeft);
+    this.processFixedFlat();
     return this.toPhrase(isLeft)
 }
 
@@ -185,15 +186,16 @@ UDnode.prototype.options2feats = function(options){
         const val=options[key];
         if (key=="Number_")key="Number";
         else if (key.endsWith("_psor"))key=key.substring(0,key.length-5)+"[psor]"
-        res.push(key+"="+val)
+        res.push(key+(val===undefined?"":("="+val))) //some misc values are undefined
     }
     return res.join("|");
 }
 
 // regenerate CONLLU format
 UDnode.prototype.conll = function(){
-    return [this.id,this.form,this.lemma,this.upos,this.xpos,this.options2feats(this.feats),
-            this.head,this.deprel,this.deps,this.options2feats(this.misc)].join("\t")
+    return this.conllLine;
+    // return [this.id,this.form,this.lemma,this.upos,this.xpos,this.options2feats(this.feats),
+    //         this.head,this.deprel,this.deps,this.options2feats(this.misc)].join("\t")
 }
 
 // Phrase processing (language independent)

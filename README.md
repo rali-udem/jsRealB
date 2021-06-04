@@ -102,8 +102,8 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
       This table is now part of the documentation
 * User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [*RandomGeneration*](demos/randomGeneration/) 
-      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/English.html) 
-      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/French.html)
+      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
+      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
 * Generate spelling and grammar exercises from a simple sentence structure in both English and French.
     * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 

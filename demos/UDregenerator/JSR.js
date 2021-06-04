@@ -39,6 +39,22 @@ JSR.prototype.options2string = function(){
     return this.options.map(o=>"."+o).join("");
 }
 
+JSR.prototype.getOption=function(opt){
+    const options=this.options;
+    if (options==undefined || options.length==0)return undefined;
+    const optRE=new RegExp(`${opt}["']\\((.*)\\)["']`);
+    if (typeof options=="string"){
+        const m=optRE.exec(options);
+        return m==null ? undefined : m[1];
+    } else {
+        for (var i = 0; i < options.length; i++) {
+            const m=optRE.exec(options[i]);
+            if (m!=null) return m[1];
+        }
+        return undefined;
+    }
+}
+
 JSR.prototype.pp = function(indent){
     indent=indent || 0;
     let res;
@@ -62,15 +78,45 @@ JSR.prototype.isTerminal = function(){
     return typeof this.children == "string";
 }
 
+JSR.prototype.isOneOf = function(types){
+    return types.indexOf(this.constName)>=0;
+}
+
+// find the index of a Constituent type (or one of the constituents) in the list of elements
+JSR.prototype.getIndex = function(constNames){
+    if (typeof constNames == "string")constNames=[constNames];
+    return this.children.findIndex(e => e.isOneOf(constNames),this);
+}
+
+// find a given constituent type (or one of the constituent) in the list of elements
+JSR.prototype.getConst = function(constNames){
+    const idx=this.getIndex(constNames);
+    if (idx < 0) return undefined;
+    return this.children[idx]
+}
+// get a given constituent with a path starting at this
+//   path is a list of node type , or list of node types (an empty string in this list means optional)
+//   returns undefined if any node does not exist on the path
+JSR.prototype.getFromPath = function(path){
+    if (path.length==0) return this;
+    const current=path[0];
+    const c=this.getConst(current);
+    if (c===undefined){
+        if (typeof current == "object" && current.indexOf("")>=0 && path.length>0){// optional
+            return this.getFromPath(path.slice(1));
+        }
+        return undefined;
+    }
+    return c.getFromPath(path.slice(1));
+}
+
+
 JSR.prototype.realize=function(){
     resetSavedWarnings();
     const expr=this.pp(0);
     const realization=eval(expr).toString();
     const warnings=getSavedWarnings();
-    if (warnings.length>0)
-        return warnings;
-    else
-        return fixPunctuation(realization);
+    return [realization,warnings]
 }
 
 

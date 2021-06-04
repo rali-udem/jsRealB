@@ -27,8 +27,6 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
     exports.language=language;
     exports.addNewWords=addNewWords;
 } else {
-    d3.json("../../data/lexicon-dmf.json").then(function(lexiconDMF){
-        addNewWords(lexiconDMF);
-        parseTextArea();
-    })
+    // after loading the web page
+    d3.select(window).on("load",UDregeneratorLoad);     
 }

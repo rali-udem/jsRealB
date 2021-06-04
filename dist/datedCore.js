@@ -167,7 +167,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
-            if (quoteOOV && this.isA("Q")) return this;
+            if (quoteOOV && this.isA("Q"))return this;
             return this.warn("bad const for option",option,this.constType,allowedConsts)
         }
     }
@@ -357,7 +357,7 @@ Constituent.prototype.doElisionEn = function(cList){
         "let+us":"let’s",
         "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
         "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
-        "he+will":"he’ll", "he+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
+        "he+will":"he’ll", "she+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
         "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
         "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
         "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",
@@ -1231,7 +1231,8 @@ Phrase.prototype.processTyp_fr = function(types){
         v.neg2=neg; // HACK: to be used when conjugating at the realization time
         while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
         // insert "ne" before the verb or before possible pronouns preceding the verb
-        vp.elements.splice(idxV,0,Adv("ne","fr"));
+        if (v.getProp("t")!="pp")
+            vp.elements.splice(idxV,0,Adv("ne","fr"));
     })
 }
 
@@ -1316,7 +1317,10 @@ Phrase.prototype.processTyp_en = function(types){
         let words=[];
         // conjugate the first verb
         if (neg) { // negate the first verb
-            if (vAux in negMod){
+            if (t=="pp" || t=="pr"){ // special case for these tenses
+                words.push(Adv("not","en"));
+                words.push(V(vAux,"en").t(t));
+            } else if (vAux in negMod){
                 if (vAux=="can" && t=="p"){
                     words.push(Q("cannot"))
                 } else {
@@ -2175,7 +2179,7 @@ Terminal.prototype.conjugate_fr = function(){
                 if (neg !== undefined && neg !== ""){
                     const qNeg=Q(neg);
                     qNeg.realization=neg;
-                    if (t=="b"){
+                    if (t=="b" || t=="pp"){
                         return [qNeg,this]
                     }
                     else return[this,qNeg];
@@ -3789,7 +3793,7 @@ var lexiconEn = //========== lexicon-en.js
  "cemetery":{"N":{"tab":["n3"]}},
  "census":{"N":{"tab":["n2"]}},
  "center":{"N":{"tab":["n1"]},
-           "V":{"tab":"v3"}},
+           "V":{"tab":"v1"}},
  "central":{"A":{"tab":["a1"]}},
  "centre":{"N":{"tab":["n1"]},
            "V":{"tab":"v3"}},
@@ -4913,6 +4917,7 @@ var lexiconEn = //========== lexicon-en.js
  "ethical":{"A":{"tab":["a1"]}},
  "ethics":{"N":{"tab":["n5"]}},
  "ethnic":{"A":{"tab":["a1"]}},
+ "euro":{"N":{"tab":["n1"]}},
  "evaluate":{"V":{"tab":"v3"}},
  "evaluation":{"N":{"tab":["n1"]}},
  "even":{"Adv":{"tab":["b1"]}},
@@ -6130,8 +6135,10 @@ var lexiconEn = //========== lexicon-en.js
  "librarian":{"N":{"g":"x",
                    "tab":["n1"]}},
  "library":{"N":{"tab":["n3"]}},
- "licence":{"N":{"tab":["n1"]}},
- "license":{"V":{"tab":"v3"}},
+ "licence":{"N":{"tab":["n1"]},
+            "V":{"tab":"v3"}},
+ "license":{"N":{"tab":["n1"]},
+            "V":{"tab":"v3"}},
  "lick":{"V":{"tab":"v1"}},
  "lid":{"N":{"tab":["n1"]}},
  "lie":{"N":{"tab":["n1"]},
@@ -24014,4 +24021,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-04-15 16:38"
+jsRealB_dateCreated="2021-05-29 11:30"

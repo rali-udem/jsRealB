@@ -37,7 +37,7 @@ function nouvellePhrase(){
     $table.append($tr)
     
     $tr=$("<tr/>")
-    $tr.append(`<td colspan="7"><input type="text" name="reponse" value="" id="reponse" placeholder="${taperLaPhrase}"  class="form-control" autocomplete="off"></td>`);
+    $tr.append(`<td colspan="7"><input type="text" name="reponse" value="" id="reponse" placeholder="${taperLaPhrase}"  class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></td>`);
     $table.append($tr);
     $("#reponse").change(verifier)
 
