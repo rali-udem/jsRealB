@@ -1,0 +1,2239 @@
+# sent_id = fr_partut-ud-2
+# text = Creative Commons n'est pas un cabinet d'avocats et ne fournit pas de services de conseil juridique.
+1	Creative	Creative	PROPN	SP	_	7	nsubj	_	_
+2	Commons	Commons	PROPN	SP	_	1	flat:name	_	_
+3	n'	ne	PART	PART	Polarity=Neg	7	advmod	_	SpaceAfter=No
+4	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	cop	_	_
+5	pas	pas	ADV	BN	Polarity=Neg	7	advmod	_	_
+6	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	cabinet	cabinet	NOUN	S	Gender=Masc|Number=Sing	0	root	_	_
+8	d'	de	ADP	E	_	9	case	_	SpaceAfter=No
+9	avocats	avocat	NOUN	S	Gender=Masc|Number=Plur	7	nmod	_	_
+10	et	et	CCONJ	CC	_	12	cc	_	_
+11	ne	ne	PART	PART	Polarity=Neg	12	advmod	_	_
+12	fournit	fournir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	7	conj	_	_
+13	pas	pas	ADV	BN	Polarity=Neg	12	advmod	_	_
+14	de	un	DET	RI	Definite=Ind|Gender=Masc|Number=Plur|PronType=Dem	15	det	_	_
+15	services	service	NOUN	S	Gender=Masc|Number=Plur	12	obj	_	_
+16	de	de	ADP	E	_	17	case	_	_
+17	conseil	conseil	NOUN	S	Gender=Masc|Number=Sing	15	nmod	_	_
+18	juridique	juridique	ADJ	A	Number=Sing	17	amod	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	7	punct	_	_
+
+# sent_id = fr_partut-ud-7
+# text = L'oeuvre (telle que définie ci-dessous) est mise à disposition selon les termes du présent contrat appelé Contrat Public Creative Commons (dénommé ici «CPCC» ou «Contrat»).
+1	L'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	2	det	_	SpaceAfter=No
+2	oeuvre	oeuvre	NOUN	S	Gender=Fem|Number=Sing	10	nsubj:pass	_	_
+3	(	(	PUNCT	FB	_	6	punct	_	SpaceAfter=No
+4	telle	tel	ADJ	A	Gender=Fem|Number=Sing	6	mark	_	_
+5	que	que	SCONJ	CS	_	4	fixed	_	_
+6	définie	définir	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	2	acl	_	_
+7	ci-dessous	ci-dessous	ADV	B	_	6	advmod	_	SpaceAfter=No
+8	)	)	PUNCT	FB	_	6	punct	_	_
+9	est	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	10	aux:pass	_	_
+10	mise	mettre	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+11	à	à	ADP	E	_	12	case	_	_
+12	disposition	disposition	NOUN	S	Gender=Fem|Number=Sing	10	obl	_	_
+13	selon	selon	ADP	E	_	15	case	_	_
+14	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	15	det	_	_
+15	termes	terme	NOUN	S	Gender=Masc|Number=Plur	10	obl	_	_
+16-17	du	_	_	_	_	_	_	_	_
+16	de	de	ADP	E	_	19	case	_	_
+17	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	19	det	_	_
+18	présent	présent	ADJ	A	Gender=Masc|Number=Sing	19	amod	_	_
+19	contrat	contrat	NOUN	S	Gender=Masc|Number=Sing	15	nmod	_	_
+20	appelé	appeler	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	19	acl	_	_
+21	Contrat	Contrat	PROPN	SP	_	20	xcomp	_	_
+22	Public	Public	PROPN	SP	_	21	flat:name	_	_
+23	Creative	Creative	PROPN	SP	_	21	flat:name	_	_
+24	Commons	Commons	PROPN	SP	_	23	flat:name	_	_
+25	(	(	PUNCT	FB	_	26	punct	_	SpaceAfter=No
+26	dénommé	dénommer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	21	acl	_	_
+27	ici	ici	ADV	B	_	26	advmod	_	_
+28	«	«	PUNCT	FB	_	29	punct	_	SpaceAfter=No
+29	CPCC	CPCC	PROPN	SP	_	26	xcomp	_	SpaceAfter=No
+30	»	»	PUNCT	FB	_	29	punct	_	_
+31	ou	ou	CCONJ	CC	_	33	cc	_	_
+32	«	«	PUNCT	FB	_	33	punct	_	SpaceAfter=No
+33	Contrat	contrat	NOUN	S	Gender=Masc|Number=Sing	29	conj	_	SpaceAfter=No
+34	»	»	PUNCT	FB	_	33	punct	_	SpaceAfter=No
+35	)	)	PUNCT	FB	_	26	punct	_	SpaceAfter=No
+36	.	.	PUNCT	FS	_	10	punct	_	_
+
+# sent_id = fr_partut-ud-12
+# text = 1) Définitions.
+1	1	1	NUM	N	NumType=Card	3	nummod	_	SpaceAfter=No
+2	)	)	PUNCT	FF	_	1	punct	_	_
+3	Définitions	définition	NOUN	S	Gender=Fem|Number=Plur	0	root	_	SpaceAfter=No
+4	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-27
+# text = 4) Restrictions.
+1	4	4	NUM	N	NumType=Card	3	nummod	_	SpaceAfter=No
+2	)	)	PUNCT	FF	_	1	punct	_	_
+3	Restrictions	restriction	NOUN	S	Gender=Fem|Number=Plur	0	root	_	SpaceAfter=No
+4	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-49
+# text = 7) Résiliation.
+1	7	7	NUM	N	NumType=Card	3	nummod	_	SpaceAfter=No
+2	)	)	PUNCT	FF	_	1	punct	_	_
+3	Résiliation	Résiliation	PROPN	SP	_	0	root	_	SpaceAfter=No
+4	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-72
+# text = Vous avez souhaité un débat à ce sujet dans les prochains jours, au cours de cette période de session.
+1	Vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	3	nsubj	_	_
+2	avez	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	souhaité	souhaiter	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+4	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	5	det	_	_
+5	débat	débat	NOUN	S	Gender=Masc|Number=Sing	3	obj	_	_
+6	à	à	ADP	E	_	8	case	_	_
+7	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	8	det	_	_
+8	sujet	sujet	NOUN	S	Gender=Masc|Number=Sing	5	nmod	_	_
+9	dans	dans	ADP	E	_	12	case	_	_
+10	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+11	prochains	prochain	ADJ	A	Gender=Masc|Number=Plur	12	amod	_	_
+12	jours	jour	NOUN	S	Gender=Masc|Number=Plur	3	obl	_	SpaceAfter=No
+13	,	,	PUNCT	FF	_	3	punct	_	_
+14-15	au	_	_	_	_	_	_	_	_
+14	à	à	ADP	E	_	16	case	_	_
+15	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	16	det	_	_
+16	cours	cours	NOUN	S	Gender=Masc|Number=Sing	3	obl	_	_
+17	de	de	ADP	E	_	19	case	_	_
+18	cette	ce	DET	DD	Gender=Fem|Number=Sing|PronType=Dem	19	det	_	_
+19	période	période	NOUN	S	Gender=Fem|Number=Sing	16	nmod	_	_
+20	de	de	ADP	E	_	21	case	_	_
+21	session	session	NOUN	S	Gender=Fem|Number=Sing	19	nmod	_	SpaceAfter=No
+22	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-85
+# text = Le paragraphe 6 du rapport Cunha sur les programmes d'orientation pluriannuels, qui sera soumis au parlement ce jeudi, propose d'introduire des sanctions applicables aux pays qui ne respectent pas les objectifs annuels de réduction de leur flotte.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	paragraphe	paragraphe	NOUN	S	Gender=Masc|Number=Sing	24	nsubj	_	_
+3	6	6	NUM	N	NumType=Card	2	nummod	_	_
+4-5	du	_	_	_	_	_	_	_	_
+4	de	de	ADP	E	_	6	case	_	_
+5	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	6	det	_	_
+6	rapport	rapport	NOUN	S	Gender=Masc|Number=Sing	2	nmod	_	_
+7	Cunha	Cunha	PROPN	SP	_	6	nmod	_	_
+8	sur	sur	ADP	E	_	10	case	_	_
+9	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	10	det	_	_
+10	programmes	programme	NOUN	S	Gender=Masc|Number=Plur	6	nmod	_	_
+11	d'	de	ADP	E	_	12	case	_	SpaceAfter=No
+12	orientation	orientation	NOUN	S	Gender=Fem|Number=Sing	10	nmod	_	_
+13	pluriannuels	pluriannuel	ADJ	A	Gender=Masc|Number=Plur	10	amod	_	SpaceAfter=No
+14	,	,	PUNCT	FF	_	6	punct	_	_
+15	qui	qui	PRON	PR	PronType=Rel	17	nsubj:pass	_	_
+16	sera	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Fut|VerbForm=Fin	17	aux:pass	_	_
+17	soumis	soumettre	VERB	V	Gender=Masc|Tense=Past|VerbForm=Part	6	acl:relcl	_	_
+18-19	au	_	_	_	_	_	_	_	_
+18	à	à	ADP	E	_	20	case	_	_
+19	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	20	det	_	_
+20	parlement	parlement	NOUN	S	Gender=Masc|Number=Sing	17	obl	_	_
+21	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	22	det	_	_
+22	jeudi	jeudi	NOUN	S	Gender=Masc|Number=Sing	17	obl	_	SpaceAfter=No
+23	,	,	PUNCT	FF	_	17	punct	_	_
+24	propose	proposer	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+25	d'	de	ADP	E	_	26	mark	_	SpaceAfter=No
+26	introduire	introduire	VERB	V	VerbForm=Inf	24	ccomp	_	_
+27	des	un	DET	RI	Definite=Ind|Gender=Fem|Number=Plur|PronType=Art	28	det	_	_
+28	sanctions	sanction	NOUN	S	Gender=Fem|Number=Plur	26	obj	_	_
+29	applicables	applicable	ADJ	A	Number=Plur	28	amod	_	_
+30-31	aux	_	_	_	_	_	_	_	_
+30	à	à	ADP	E	_	32	case	_	_
+31	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	32	det	_	_
+32	pays	pays	NOUN	S	Gender=Masc	29	obl	_	_
+33	qui	qui	PRON	PR	PronType=Rel	35	nsubj	_	_
+34	ne	ne	PART	PART	Polarity=Neg	35	advmod	_	_
+35	respectent	respecter	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	32	acl:relcl	_	_
+36	pas	pas	ADV	BN	Polarity=Neg	35	advmod	_	_
+37	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	38	det	_	_
+38	objectifs	objectif	NOUN	S	Gender=Masc|Number=Plur	35	obj	_	_
+39	annuels	annuel	ADJ	A	Gender=Masc|Number=Plur	38	amod	_	_
+40	de	de	ADP	E	_	41	case	_	_
+41	réduction	réduction	NOUN	S	Gender=Fem|Number=Sing	38	nmod	_	_
+42	de	de	ADP	E	_	44	case	_	_
+43	leur	leur	DET	AP	Gender=Fem|Number=Sing|PronType=Prs	44	det	_	_
+44	flotte	flotte	NOUN	S	Gender=Fem|Number=Sing	41	nmod	_	SpaceAfter=No
+45	.	.	PUNCT	FS	_	24	punct	_	_
+
+# sent_id = fr_partut-ud-118
+# text = Cher collègue nous allons vérifier tout cela.
+1	Cher	cher	ADJ	A	Gender=Masc|Number=Sing	2	amod	_	_
+2	collègue	collègue	NOUN	S	Gender=Masc|Number=Sing	5	vocative	_	_
+3	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	5	nsubj	_	_
+4	allons	aller	AUX	VA	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	5	aux	_	_
+5	vérifier	vérifier	VERB	V	VerbForm=Inf	0	root	_	_
+6	tout	tout	DET	T	Gender=Masc|Number=Sing|PronType=Tot	7	det	_	_
+7	cela	cela	PRON	PD	Number=Sing|Person=3|PronType=Dem	5	obj	_	SpaceAfter=No
+8	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-179
+# text = Je voudrais encore aborder un dernier point:
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	4	nsubj	_	_
+2	voudrais	vouloir	AUX	VM	Mood=Cnd|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	aux	_	_
+3	encore	encore	ADV	B	_	4	advmod	_	_
+4	aborder	aborder	VERB	V	VerbForm=Inf	0	root	_	_
+5	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+6	dernier	dernier	ADJ	NO	Gender=Masc|Number=Sing|NumType=Ord	7	amod	_	_
+7	point	point	NOUN	S	Gender=Masc|Number=Sing	4	obj	_	SpaceAfter=No
+8	:	:	PUNCT	FC	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-264
+# text = Tout en sachant que ce n'est là qu'un petit pas vers une plus grande sécurité en matière de transport, je vous prie d'approuver ce rapport.
+1	Tout	tout	ADV	B	_	3	advmod	_	_
+2	en	en	ADP	E	_	3	case	_	_
+3	sachant	savoir	VERB	V	VerbForm=Ger	25	advcl	_	_
+4	que	que	SCONJ	CS	_	12	mark	_	_
+5	ce	ce	PRON	PD	Number=Sing|Person=3|PronType=Dem	12	nsubj	_	_
+6	n'	ne	PART	PART	Polarity=Neg	12	advmod	_	SpaceAfter=No
+7	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	cop	_	_
+8	là	là	ADV	B	_	12	advmod	_	_
+9	qu'	que	SCONJ	ADV	_	12	mark	_	SpaceAfter=No
+10	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+11	petit	petit	ADJ	A	Gender=Masc|Number=Sing	12	amod	_	_
+12	pas	pas	NOUN	S	Gender=Masc	3	ccomp	_	_
+13	vers	vers	ADP	E	_	17	case	_	_
+14	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	17	det	_	_
+15	plus	plus	ADV	B	_	16	advmod	_	_
+16	grande	grand	ADJ	A	Gender=Fem|Number=Sing	17	amod	_	_
+17	sécurité	sécurité	NOUN	S	Gender=Fem|Number=Sing	12	nmod	_	_
+18	en	en	ADP	E	_	19	case	_	_
+19	matière	matière	NOUN	S	Gender=Fem|Number=Sing	17	nmod	_	_
+20	de	de	ADP	E	_	21	case	_	_
+21	transport	transport	NOUN	S	Gender=Masc|Number=Sing	19	nmod	_	SpaceAfter=No
+22	,	,	PUNCT	FF	_	3	punct	_	_
+23	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	25	nsubj	_	_
+24	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	25	obj	_	_
+25	prie	prier	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+26	d'	de	ADP	E	_	27	mark	_	SpaceAfter=No
+27	approuver	approuver	VERB	V	VerbForm=Inf	25	xcomp	_	_
+28	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	29	det	_	_
+29	rapport	rapport	NOUN	S	Gender=Masc|Number=Sing	27	obj	_	SpaceAfter=No
+30	.	.	PUNCT	FS	_	25	punct	_	_
+
+# sent_id = fr_partut-ud-266
+# text = C'est la première fois que je prends la parole en plénière, il y a donc de quoi être un peu nerveux, un peu comme avec le premier amour, mais le premier amour a quand même duré heureusement plus de deux minutes.
+1	C'	ce	PRON	PD	PronType=Dem	5	nsubj	_	SpaceAfter=No
+2	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	5	det	_	_
+4	première	premier	ADJ	NO	Gender=Fem|Number=Sing|NumType=Ord	5	amod	_	_
+5	fois	foi	NOUN	S	Gender=Fem|Number=Plur	0	root	_	_
+6	que	que	SCONJ	CS	_	8	mark	_	_
+7	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	8	nsubj	_	_
+8	prends	prendre	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	5	acl	_	_
+9	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	10	det	_	_
+10	parole	parole	NOUN	S	Gender=Fem|Number=Sing	8	obj	_	_
+11	en	en	ADP	E	_	12	case	_	_
+12	plénière	plénière	NOUN	S	Gender=Fem|Number=Sing	8	obl	_	SpaceAfter=No
+13	,	,	PUNCT	FF	_	8	punct	_	_
+14	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	16	expl	_	_
+15	y	y	PRON	P	PronType=Prs	16	expl	_	_
+16	a	avoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	advcl	_	_
+17	donc	donc	ADV	B	_	16	advmod	_	_
+18	de	de	ADP	E	_	19	case	_	_
+19	quoi	quoi	PRON	PR	PronType=Rel	16	obj	_	_
+20	être	être	AUX	V	VerbForm=Inf	23	cop	_	_
+21	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	22	det	_	_
+22	peu	peu	ADV	B	_	23	advmod	_	_
+23	nerveux	nerveux	ADJ	A	Gender=Masc	19	acl:relcl	_	SpaceAfter=No
+24	,	,	PUNCT	FF	_	23	punct	_	_
+25	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	26	det	_	_
+26	peu	peu	ADV	B	_	27	advmod	_	_
+27	comme	comme	ADP	E	_	31	case	_	_
+28	avec	avec	ADP	E	_	31	case	_	_
+29	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	31	det	_	_
+30	premier	premier	ADJ	NO	Gender=Masc|Number=Sing|NumType=Ord	31	amod	_	_
+31	amour	amour	NOUN	S	Gender=Masc|Number=Sing	23	obl	_	SpaceAfter=No
+32	,	,	PUNCT	FF	_	40	punct	_	_
+33	mais	mais	CCONJ	CC	_	40	cc	_	_
+34	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	36	det	_	_
+35	premier	premier	ADJ	NO	Gender=Masc|Number=Sing|NumType=Ord	36	amod	_	_
+36	amour	amour	NOUN	S	Gender=Masc|Number=Sing	40	nsubj	_	_
+37	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	40	aux	_	_
+38	quand	quand	SCONJ	CS	_	40	advmod	_	_
+39	même	même	ADV	B	_	38	fixed	_	_
+40	duré	durer	VERB	V	Number=Sing|Tense=Past|VerbForm=Part	31	conj	_	_
+41	heureusement	heureusement	ADV	B	_	40	advmod	_	_
+42	plus	plus	ADV	B	_	45	advmod	_	_
+43	de	de	ADP	E	_	42	fixed	_	_
+44	deux	deux	NUM	N	NumType=Card	45	nummod	_	_
+45	minutes	minute	NOUN	S	Gender=Fem|Number=Plur	40	obl	_	SpaceAfter=No
+46	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-285
+# text = Le contexte que connaissent nos différents états membres est, à bien des égards, divers.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	contexte	contexte	NOUN	S	Gender=Masc|Number=Sing	17	nsubj	_	_
+3	que	que	PRON	PR	PronType=Rel	4	obj	_	_
+4	connaissent	connaître	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	2	acl:relcl	_	_
+5	nos	nos	DET	AP	Gender=Masc|Number=Plur|PronType=Prs	7	det	_	_
+6	différents	différent	ADJ	A	Gender=Masc|Number=Plur	7	amod	_	_
+7	états	état	NOUN	S	Gender=Masc|Number=Plur	4	nsubj	_	_
+8	membres	membre	NOUN	S	Gender=Masc|Number=Plur	7	compound	_	_
+9	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	cop	_	SpaceAfter=No
+10	,	,	PUNCT	FF	_	9	punct	_	_
+11	à	à	ADP	E	_	12	case	_	_
+12	bien	bien	NOUN	S	Gender=Masc|Number=Sing	17	obl	_	_
+13-14	des	_	_	_	_	_	_	_	_
+13	de	de	ADP	E	_	15	case	_	_
+14	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	15	det	_	_
+15	égards	égard	NOUN	S	Gender=Masc|Number=Plur	12	nmod	_	SpaceAfter=No
+16	,	,	PUNCT	FF	_	12	punct	_	_
+17	divers	divers	ADJ	A	Gender=Masc	0	root	_	SpaceAfter=No
+18	.	.	PUNCT	FS	_	17	punct	_	_
+
+# sent_id = fr_partut-ud-291
+# text = Si M. Koch a rédigé son bon rapport, c'est parce que le travail n'a pas été exécuté de manière trop rapide au sein du CEN et de la commission économique des Nations Unies.
+1	Si	si	SCONJ	CS	_	5	mark	_	_
+2	M.	monsieur	NOUN	S	Gender=Masc|Number=Sing	5	nsubj	_	_
+3	Koch	Koch	PROPN	SP	_	2	flat	_	_
+4	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+5	rédigé	rédiger	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	11	advcl	_	_
+6	son	son	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	8	det	_	_
+7	bon	bon	ADJ	A	Gender=Masc|Number=Sing	8	amod	_	_
+8	rapport	rapport	NOUN	S	Gender=Masc|Number=Sing	5	obj	_	SpaceAfter=No
+9	,	,	PUNCT	FF	_	5	punct	_	_
+10	c'	ce	PRON	PD	PronType=Dem	11	nsubj	_	SpaceAfter=No
+11	est	être	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+12	parce	parce	ADV	B	_	20	mark	_	_
+13	que	que	SCONJ	CS	_	12	fixed	_	_
+14	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	15	det	_	_
+15	travail	travail	NOUN	S	Gender=Masc|Number=Sing	20	nsubj:pass	_	_
+16	n'	ne	PART	PART	Polarity=Neg	20	advmod	_	SpaceAfter=No
+17	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	20	aux	_	_
+18	pas	pas	ADV	BN	Polarity=Neg	20	advmod	_	_
+19	été	être	AUX	VA	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	20	aux:pass	_	_
+20	exécuté	exécuter	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	11	advcl	_	_
+21	de	de	ADP	E	_	22	case	_	_
+22	manière	manière	NOUN	S	Gender=Fem|Number=Sing	20	obl	_	_
+23	trop	trop	ADV	B	_	24	advmod	_	_
+24	rapide	rapide	ADJ	A	Number=Sing	22	amod	_	_
+25-26	au	_	_	_	_	_	_	_	_
+25	à	à	ADP	E	_	27	case	_	_
+26	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	27	det	_	_
+27	sein	sein	NOUN	S	Gender=Masc|Number=Sing	20	obl	_	_
+28-29	du	_	_	_	_	_	_	_	_
+28	de	de	ADP	E	_	30	case	_	_
+29	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	30	det	_	_
+30	CEN	CEN	PROPN	SP	_	27	nmod	_	_
+31	et	et	CCONJ	CC	_	34	cc	_	_
+32	de	de	ADP	E	_	34	case	_	_
+33	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	34	det	_	_
+34	commission	commission	NOUN	S	Gender=Fem|Number=Sing	30	conj	_	_
+35	économique	économique	ADJ	A	Number=Sing	34	amod	_	_
+36-37	des	_	_	_	_	_	_	_	_
+36	de	de	ADP	E	_	38	case	_	_
+37	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	38	det	_	_
+38	Nations	Nations	PROPN	SP	_	34	nmod	_	_
+39	Unies	Unies	PROPN	SP	_	38	flat:name	_	SpaceAfter=No
+40	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-294
+# text = Monsieur le président, je réitère de nouveau mes félicitations à M. Koch du travail qu'il a accompli pour cet autre rapport, qui vient compléter d'une certaine manière le débat que nous avons eu au mois d'octobre sur le transport par rail.
+1	Monsieur	monsieur	NOUN	S	Gender=Masc|Number=Sing	6	vocative	_	_
+2	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	3	det	_	_
+3	président	président	NOUN	S	Gender=Masc|Number=Sing	1	nmod	_	SpaceAfter=No
+4	,	,	PUNCT	FF	_	1	punct	_	_
+5	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	6	nsubj	_	_
+6	réitère	réitèrer	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	de	de	ADP	E	_	8	case	_	_
+8	nouveau	nouveau	ADJ	A	Gender=Masc|Number=Sing	6	obl	_	_
+9	mes	mon	DET	AP	Gender=Fem|Number=Plur|PronType=Prs	10	det	_	_
+10	félicitations	félicitation	NOUN	S	Gender=Fem|Number=Plur	6	obj	_	_
+11	à	à	ADP	E	_	12	case	_	_
+12	M.	monsieur	NOUN	S	Gender=Masc|Number=Sing	6	obl	_	_
+13	Koch	Koch	PROPN	SP	_	12	flat	_	_
+14-15	du	_	_	_	_	_	_	_	_
+14	de	de	ADP	E	_	16	case	_	_
+15	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	16	det	_	_
+16	travail	travail	NOUN	S	Gender=Masc|Number=Sing	10	nmod	_	_
+17	qu'	que	PRON	PR	PronType=Rel	20	obj	_	SpaceAfter=No
+18	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	20	nsubj	_	_
+19	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	20	aux	_	_
+20	accompli	accomplir	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	16	acl:relcl	_	_
+21	pour	pour	ADP	E	_	24	case	_	_
+22	cet	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	24	det	_	_
+23	autre	autre	ADJ	A	Number=Sing	24	amod	_	_
+24	rapport	rapport	NOUN	S	Gender=Masc|Number=Sing	20	obl	_	SpaceAfter=No
+25	,	,	PUNCT	FF	_	24	punct	_	_
+26	qui	qui	PRON	PR	PronType=Rel	27	nsubj	_	_
+27	vient	venir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	24	acl:relcl	_	_
+28	compléter	compléter	VERB	V	VerbForm=Inf	27	xcomp	_	_
+29	d'	de	ADP	E	_	32	case	_	SpaceAfter=No
+30	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	32	det	_	_
+31	certaine	certain	DET	DI	Gender=Fem|Number=Sing|PronType=Ind	32	det	_	_
+32	manière	manière	NOUN	S	Gender=Fem|Number=Sing	28	obl	_	_
+33	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	34	det	_	_
+34	débat	débat	NOUN	S	Gender=Masc|Number=Sing	28	obj	_	_
+35	que	que	PRON	PR	PronType=Rel	38	obj	_	_
+36	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	38	nsubj	_	_
+37	avons	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	38	aux	_	_
+38	eu	avoir	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	34	acl:relcl	_	_
+39-40	au	_	_	_	_	_	_	_	_
+39	à	à	ADP	E	_	41	case	_	_
+40	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	41	det	_	_
+41	mois	mois	NOUN	S	Gender=Masc|Number=Plur	38	obl	_	_
+42	d'	de	ADP	E	_	43	case	_	SpaceAfter=No
+43	octobre	octobre	NOUN	S	Gender=Masc|Number=Sing	41	nmod	_	_
+44	sur	sur	ADP	E	_	46	case	_	_
+45	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	46	det	_	_
+46	transport	transport	NOUN	S	Gender=Masc|Number=Sing	34	nmod	_	_
+47	par	par	ADP	E	_	48	case	_	_
+48	rail	rail	NOUN	S	Gender=Masc|Number=Sing	46	nmod	_	SpaceAfter=No
+49	.	.	PUNCT	FS	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-341
+# text = Il faut tenir compte du fait que l'espace rural représente presque quatre cinquièmes du territoire de l'Union Européenne.
+1	Il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	2	nsubj	_	_
+2	faut	falloir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	tenir	tenir	VERB	V	VerbForm=Inf	2	xcomp	_	_
+4	compte	compte	NOUN	S	Gender=Masc|Number=Sing	3	obj	_	_
+5-6	du	_	_	_	_	_	_	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	7	det	_	_
+7	fait	fait	NOUN	S	Gender=Masc|Number=Sing	4	nmod	_	_
+8	que	que	SCONJ	CS	_	12	mark	_	_
+9	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	10	det	_	SpaceAfter=No
+10	espace	espace	NOUN	S	Gender=Masc|Number=Sing	12	nsubj	_	_
+11	rural	rural	ADJ	A	Gender=Masc|Number=Sing	10	amod	_	_
+12	représente	représenter	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	acl	_	_
+13	presque	presque	ADP	E	_	15	case	_	_
+14	quatre	quatre	NUM	N	NumType=Card	15	nummod	_	_
+15	cinquièmes	cinquieme	ADJ	NO	Number=Plur|NumType=Ord	12	obl	_	_
+16-17	du	_	_	_	_	_	_	_	_
+16	de	de	ADP	E	_	18	case	_	_
+17	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	18	det	_	_
+18	territoire	territoire	NOUN	S	Gender=Masc|Number=Sing	15	nmod	_	_
+19	de	de	ADP	E	_	21	case	_	_
+20	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	21	det	_	SpaceAfter=No
+21	Union	Union	PROPN	SP	_	18	nmod	_	_
+22	Européenne	Européenne	PROPN	SP	_	21	flat:name	_	SpaceAfter=No
+23	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-374
+# text = Nous sommes maintenant très en retard.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	6	nsubj	_	_
+2	sommes	être	AUX	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	6	cop	_	_
+3	maintenant	maintenant	ADV	B	_	6	advmod	_	_
+4	très	très	ADV	B	_	6	advmod	_	_
+5	en	en	ADP	E	_	6	case	_	_
+6	retard	retard	NOUN	S	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-382
+# text = Nous nous opposons à l'interventionnisme de l'administration centrale de l'union et de celle des états membres et nous demandons une réduction de la bureaucratie qui s'est incrustée dans l'élaboration et la réalisation des programmes.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	3	nsubj	_	_
+2	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	3	obj	_	_
+3	opposons	opposer	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	à	à	ADP	E	_	6	case	_	_
+5	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	6	det	_	SpaceAfter=No
+6	interventionnisme	interventionnisme	NOUN	S	Gender=Masc|Number=Sing	3	obl	_	_
+7	de	de	ADP	E	_	9	case	_	_
+8	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	9	det	_	SpaceAfter=No
+9	administration	administration	NOUN	S	Gender=Fem|Number=Sing	6	nmod	_	_
+10	centrale	central	ADJ	A	Gender=Fem|Number=Sing	9	amod	_	_
+11	de	de	ADP	E	_	13	case	_	_
+12	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	13	det	_	SpaceAfter=No
+13	union	union	NOUN	S	Gender=Fem|Number=Sing	9	nmod	_	_
+14	et	et	CCONJ	CC	_	16	cc	_	_
+15	de	de	ADP	E	_	16	case	_	_
+16	celle	celui	PRON	PD	Gender=Fem|Number=Sing|Person=3|PronType=Dem	13	conj	_	_
+17-18	des	_	_	_	_	_	_	_	_
+17	de	de	ADP	E	_	19	case	_	_
+18	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	19	det	_	_
+19	états	état	NOUN	S	Gender=Masc|Number=Plur	16	nmod	_	_
+20	membres	membre	NOUN	S	Gender=Masc|Number=Plur	19	compound	_	_
+21	et	et	CCONJ	CC	_	23	cc	_	_
+22	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	23	nsubj	_	_
+23	demandons	demander	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	3	conj	_	_
+24	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	25	det	_	_
+25	réduction	réduction	NOUN	S	Gender=Fem|Number=Sing	23	obj	_	_
+26	de	de	ADP	E	_	28	case	_	_
+27	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	28	det	_	_
+28	bureaucratie	bureaucratie	NOUN	S	Gender=Fem|Number=Sing	25	nmod	_	_
+29	qui	qui	PRON	PR	PronType=Rel	32	nsubj	_	_
+30	s'	se	PRON	P	PronType=Prs	32	obj	_	SpaceAfter=No
+31	est	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	32	aux	_	_
+32	incrustée	incrustée	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	28	acl:relcl	_	_
+33	dans	dans	ADP	E	_	35	case	_	_
+34	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	35	det	_	SpaceAfter=No
+35	élaboration	élaboration	NOUN	S	Gender=Fem|Number=Sing	32	obl	_	_
+36	et	et	CCONJ	CC	_	38	cc	_	_
+37	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	38	det	_	_
+38	réalisation	réalisation	NOUN	S	Gender=Fem|Number=Sing	35	conj	_	_
+39-40	des	_	_	_	_	_	_	_	_
+39	de	de	ADP	E	_	41	case	_	_
+40	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	41	det	_	_
+41	programmes	programme	NOUN	S	Gender=Masc|Number=Plur	38	nmod	_	SpaceAfter=No
+42	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-409
+# text = Les fonds structurels ont joué un rôle fondamental dans le développement des zones urbaines et rurales des pays périphériques, principalement par l'amélioration des routes, du traitement de l'eau et des réseaux de transports afférents.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	fonds	fond	NOUN	S	Gender=Masc|Number=Plur	5	nsubj	_	_
+3	structurels	structurel	ADJ	A	Gender=Masc|Number=Plur	2	amod	_	_
+4	ont	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+5	joué	jouer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+6	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	rôle	rôle	NOUN	S	Gender=Masc|Number=Sing	5	obj	_	_
+8	fondamental	fondamental	ADJ	A	Gender=Masc|Number=Sing	7	amod	_	_
+9	dans	dans	ADP	E	_	11	case	_	_
+10	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	11	det	_	_
+11	développement	développement	NOUN	S	Gender=Masc|Number=Sing	5	obl	_	_
+12-13	des	_	_	_	_	_	_	_	_
+12	de	de	ADP	E	_	14	case	_	_
+13	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	14	det	_	_
+14	zones	zone	NOUN	S	Gender=Fem|Number=Plur	11	nmod	_	_
+15	urbaines	urbaine	ADJ	A	Number=Plur	14	amod	_	_
+16	et	et	CCONJ	CC	_	17	cc	_	_
+17	rurales	rural	ADJ	A	Gender=Fem|Number=Plur	15	conj	_	_
+18-19	des	_	_	_	_	_	_	_	_
+18	de	de	ADP	E	_	20	case	_	_
+19	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	20	det	_	_
+20	pays	pays	NOUN	S	Gender=Masc	14	nmod	_	_
+21	périphériques	peripherique	ADJ	A	Number=Plur	20	amod	_	SpaceAfter=No
+22	,	,	PUNCT	FF	_	5	punct	_	_
+23	principalement	principalement	ADV	B	_	26	advmod	_	_
+24	par	par	ADP	E	_	26	case	_	_
+25	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	26	det	_	SpaceAfter=No
+26	amélioration	amélioration	NOUN	S	Gender=Fem|Number=Sing	5	obl	_	_
+27-28	des	_	_	_	_	_	_	_	_
+27	de	de	ADP	E	_	29	case	_	_
+28	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	29	det	_	_
+29	routes	routes	NOUN	S	Gender=Fem|Number=Plur	26	nmod	_	SpaceAfter=No
+30	,	,	PUNCT	FF	_	33	punct	_	_
+31-32	du	_	_	_	_	_	_	_	_
+31	de	de	ADP	E	_	33	case	_	_
+32	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	33	det	_	_
+33	traitement	traitement	NOUN	S	Gender=Masc|Number=Sing	29	conj	_	_
+34	de	de	ADP	E	_	36	case	_	_
+35	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	36	det	_	SpaceAfter=No
+36	eau	eau	NOUN	S	Gender=Masc|Number=Sing	33	nmod	_	_
+37	et	et	CCONJ	CC	_	40	cc	_	_
+38-39	des	_	_	_	_	_	_	_	_
+38	de	de	ADP	E	_	40	case	_	_
+39	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	40	det	_	_
+40	réseaux	réseaux	NOUN	S	Gender=Masc	36	conj	_	_
+41	de	de	ADP	E	_	42	case	_	_
+42	transports	transport	NOUN	S	Gender=Masc|Number=Plur	40	nmod	_	_
+43	afférents	afférent	ADJ	A	Gender=Masc|Number=Plur	42	amod	_	SpaceAfter=No
+44	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-434
+# text = comment pouvons-nous faire en sorte que la politique de l'union s'articule avec les politiques nationales subsidiaires d'aménagement du territoire.
+1	comment	comme	SCONJ	CS	_	4	mark	_	_
+2	pouvons	pouvoir	AUX	VM	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	4	aux	_	SpaceAfter=No
+3	-nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	4	nsubj	_	_
+4	faire	faire	VERB	V	VerbForm=Inf	0	root	_	_
+5	en	en	ADP	E	_	6	case	_	_
+6	sorte	sorte	NOUN	S	Gender=Fem|Number=Sing	4	obl	_	_
+7	que	que	SCONJ	CS	_	14	mark	_	_
+8	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	politique	politique	NOUN	S	Gender=Fem|Number=Sing	14	nsubj	_	_
+10	de	de	ADP	E	_	12	case	_	_
+11	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	12	det	_	SpaceAfter=No
+12	union	union	NOUN	S	Gender=Fem|Number=Sing	9	nmod	_	_
+13	s'	se	PRON	P	Person=3|PronType=Prs	14	obj	_	SpaceAfter=No
+14	articule	articuler	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	acl	_	_
+15	avec	avec	ADP	E	_	17	case	_	_
+16	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	17	det	_	_
+17	politiques	politique	NOUN	S	Gender=Fem|Number=Plur	14	obl	_	_
+18	nationales	national	ADJ	A	Gender=Fem|Number=Plur	17	amod	_	_
+19	subsidiaires	subsidiaire	ADJ	A	Number=Plur	17	amod	_	_
+20	d'	de	ADP	E	_	21	case	_	SpaceAfter=No
+21	aménagement	aménagement	NOUN	S	Gender=Masc|Number=Sing	17	nmod	_	_
+22-23	du	_	_	_	_	_	_	_	_
+22	de	de	ADP	E	_	24	case	_	_
+23	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	24	det	_	_
+24	territoire	territoire	NOUN	S	Gender=Masc|Number=Sing	21	nmod	_	SpaceAfter=No
+25	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-444
+# text = Pour les experts du plan français, par exemple, le scénario le plus probable est aujourd'hui un creusement des différenciations régionales à l'intérieur de chaque pays.
+1	Pour	pour	ADP	E	_	3	case	_	_
+2	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	3	det	_	_
+3	experts	expert	NOUN	S	Gender=Masc|Number=Plur	20	nmod	_	_
+4-5	du	_	_	_	_	_	_	_	_
+4	de	de	ADP	E	_	6	case	_	_
+5	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	6	det	_	_
+6	plan	plan	NOUN	S	Gender=Masc|Number=Sing	3	nmod	_	_
+7	français	français	ADJ	A	Gender=Masc	6	amod	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	3	punct	_	_
+9	par	par	ADP	E	_	10	case	_	_
+10	exemple	exemple	NOUN	S	Gender=Masc|Number=Sing	3	nmod	_	SpaceAfter=No
+11	,	,	PUNCT	FF	_	3	punct	_	_
+12	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	13	det	_	_
+13	scénario	scénario	NOUN	S	Gender=Masc|Number=Sing	20	nsubj	_	_
+14	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	15	det	_	_
+15	plus	plus	ADV	B	_	16	advmod	_	_
+16	probable	probable	ADJ	A	Number=Sing	13	amod	_	_
+17	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	20	cop	_	_
+18	aujourd'hui	aujourd'hui	ADV	B	_	20	advmod	_	_
+19	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	20	det	_	_
+20	creusement	creusement	NOUN	S	Gender=Masc|Number=Sing	0	root	_	_
+21-22	des	_	_	_	_	_	_	_	_
+21	de	de	ADP	E	_	23	case	_	_
+22	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	23	det	_	_
+23	différenciations	différenciation	NOUN	S	Gender=Fem|Number=Plur	20	nmod	_	_
+24	régionales	régional	ADJ	A	Gender=Fem|Number=Plur	23	amod	_	_
+25	à	à	ADP	E	_	27	case	_	_
+26	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	27	det	_	SpaceAfter=No
+27	intérieur	intérieur	NOUN	S	Gender=Fem|Number=Sing	23	nmod	_	_
+28	de	de	ADP	E	_	30	case	_	_
+29	chaque	chaque	DET	DI	Number=Sing|PronType=Ind	30	det	_	_
+30	pays	pays	NOUN	S	Gender=Masc	27	nmod	_	SpaceAfter=No
+31	.	.	PUNCT	FS	_	20	punct	_	_
+
+# sent_id = fr_partut-ud-465
+# text = De plus, si vous choisissez d'utiliser Facebook à partir de votre téléphone mobile, notez que vous êtes responsable des frais associés à l'utilisation d'Internet et/ou aux SMS, selon les termes de votre opérateur de téléphonie mobile.
+1	De	de	ADP	E	_	17	advmod	_	_
+2	plus	plus	ADV	B	_	1	fixed	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	1	punct	_	_
+4	si	si	SCONJ	CS	_	6	mark	_	_
+5	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	6	nsubj	_	_
+6	choisissez	choisir	VERB	V	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	17	advcl	_	_
+7	d'	de	ADP	E	_	8	mark	_	SpaceAfter=No
+8	utiliser	utiliser	VERB	V	VerbForm=Inf	6	xcomp	_	_
+9	Facebook	Facebook	PROPN	SP	_	8	obj	_	_
+10	à	à	ADP	E	_	11	mark	_	_
+11	partir	partir	VERB	V	VerbForm=Inf	8	advcl	_	_
+12	de	de	ADP	E	_	14	case	_	_
+13	votre	votre	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	14	det	_	_
+14	téléphone	téléphone	NOUN	S	Gender=Fem|Number=Sing	11	obl	_	_
+15	mobile	mobile	ADJ	A	Number=Sing	14	amod	_	SpaceAfter=No
+16	,	,	PUNCT	FF	_	6	punct	_	_
+17	notez	noter	VERB	V	Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	_
+18	que	que	SCONJ	CS	_	21	mark	_	_
+19	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	21	nsubj	_	_
+20	êtes	être	AUX	V	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	21	cop	_	_
+21	responsable	responsable	ADJ	A	Number=Sing	17	ccomp	_	_
+22-23	des	_	_	_	_	_	_	_	_
+22	de	de	ADP	E	_	24	case	_	_
+23	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	24	det	_	_
+24	frais	frais	NOUN	S	Gender=Fem|Number=Plur	21	obl	_	_
+25	associés	associer	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	24	acl	_	_
+26	à	à	ADP	E	_	28	case	_	_
+27	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	28	det	_	SpaceAfter=No
+28	utilisation	utilisation	NOUN	S	Gender=Fem|Number=Sing	25	obl	_	_
+29	d'	de	ADP	E	_	30	case	_	SpaceAfter=No
+30	Internet	Internet	PROPN	SP	_	28	nmod	_	_
+31	et	et	CCONJ	CC	_	36	cc	_	SpaceAfter=No
+32	/	/	PUNCT	FF	_	33	punct	_	SpaceAfter=No
+33	ou	ou	CCONJ	CC	_	31	conj	_	_
+34-35	aux	_	_	_	_	_	_	_	_
+34	à	à	ADP	E	_	36	case	_	_
+35	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	36	det	_	_
+36	SMS	SMS	PROPN	SP	_	28	conj	_	SpaceAfter=No
+37	,	,	PUNCT	FF	_	21	punct	_	_
+38	selon	selon	ADP	E	_	40	case	_	_
+39	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	40	det	_	_
+40	termes	terme	NOUN	S	Gender=Masc|Number=Plur	21	obl	_	_
+41	de	de	ADP	E	_	43	case	_	_
+42	votre	votre	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	43	det	_	_
+43	opérateur	opérateur	NOUN	S	Gender=Fem|Number=Sing	40	nmod	_	_
+44	de	de	ADP	E	_	45	case	_	_
+45	téléphonie	téléphonie	NOUN	S	Gender=Fem|Number=Sing	43	nmod	_	_
+46	mobile	mobile	ADJ	A	Number=Sing	45	amod	_	SpaceAfter=No
+47	.	.	PUNCT	FS	_	17	punct	_	_
+
+# sent_id = fr_partut-ud-485
+# text = Pour vous inscrire et créer un tout nouveau compte, saisissez votre nom, votre date d'anniversaire, votre sexe et votre adresse électronique au format.
+1	Pour	pour	ADP	E	_	3	mark	_	_
+2	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	3	obj	_	_
+3	inscrire	inscrire	VERB	V	VerbForm=Inf	11	advcl	_	_
+4	et	et	CCONJ	CC	_	5	cc	_	_
+5	créer	créer	VERB	V	VerbForm=Inf	3	conj	_	_
+6	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
+7	tout	tout	ADV	B	_	8	advmod	_	_
+8	nouveau	nouveau	ADJ	A	Gender=Masc|Number=Sing	9	amod	_	_
+9	compte	compte	NOUN	S	Gender=Masc|Number=Sing	5	obj	_	SpaceAfter=No
+10	,	,	PUNCT	FF	_	3	punct	_	_
+11	saisissez	saisir	VERB	V	Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	_
+12	votre	votre	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	13	det	_	_
+13	nom	nom	NOUN	S	Gender=Masc|Number=Sing	11	obj	_	SpaceAfter=No
+14	,	,	PUNCT	FF	_	16	punct	_	_
+15	votre	votre	DET	AP	Gender=Fem|Number=Sing|PronType=Prs	16	det	_	_
+16	date	date	NOUN	S	Gender=Fem|Number=Sing	13	conj	_	_
+17	d'	de	ADP	E	_	18	case	_	SpaceAfter=No
+18	anniversaire	anniversaire	NOUN	S	Gender=Fem|Number=Sing	16	nmod	_	SpaceAfter=No
+19	,	,	PUNCT	FF	_	21	punct	_	_
+20	votre	votre	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	21	det	_	_
+21	sexe	sexe	NOUN	S	Gender=Masc|Number=Sing	13	conj	_	_
+22	et	et	CCONJ	CC	_	24	cc	_	_
+23	votre	votre	DET	AP	Gender=Fem|Number=Sing|PronType=Prs	24	det	_	_
+24	adresse	adresse	NOUN	S	Gender=Fem|Number=Sing	13	conj	_	_
+25	électronique	électronique	ADJ	A	Number=Sing	24	amod	_	_
+26-27	au	_	_	_	_	_	_	_	_
+26	à	à	ADP	E	_	28	case	_	_
+27	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	28	det	_	_
+28	format	format	NOUN	S	Gender=Masc|Number=Sing	11	obl	_	SpaceAfter=No
+29	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-506
+# text = Publicités Facebook.
+1	Publicités	publicité	NOUN	S	Gender=Fem|Number=Plur	0	root	_	_
+2	Facebook	Facebook	PROPN	SP	_	1	nmod	_	SpaceAfter=No
+3	.	.	PUNCT	FS	_	1	punct	_	_
+
+# sent_id = fr_partut-ud-513
+# text = Approfondissez vos relations.
+1	Approfondissez	approfondir	VERB	V	Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	_
+2	vos	vos	DET	AP	Gender=Fem|Number=Plur|PronType=Prs	3	det	_	_
+3	relations	relation	NOUN	S	Gender=Fem|Number=Plur	1	obj	_	SpaceAfter=No
+4	.	.	PUNCT	FS	_	1	punct	_	_
+
+# sent_id = fr_partut-ud-531
+# text = un taux de conversion de 10% des visites provenant des publicités Facebook.
+1	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	taux	taux	NOUN	S	Gender=Masc	0	root	_	_
+3	de	de	ADP	E	_	4	case	_	_
+4	conversion	conversion	NOUN	S	Gender=Fem|Number=Sing	2	nmod	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	10	10	NUM	N	NumType=Card	7	nummod	_	SpaceAfter=No
+7	%	%	SYM	X	_	4	nmod	_	_
+8-9	des	_	_	_	_	_	_	_	_
+8	de	de	ADP	E	_	10	case	_	_
+9	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	10	det	_	_
+10	visites	visites	NOUN	S	Gender=Fem|Number=Plur	4	nmod	_	_
+11	provenant	provenir	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	2	acl	_	_
+12-13	des	_	_	_	_	_	_	_	_
+12	de	de	ADP	E	_	14	case	_	_
+13	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	14	det	_	_
+14	publicités	publicité	NOUN	S	Gender=Fem|Number=Plur	11	obl	_	_
+15	Facebook	Facebook	PROPN	SP	_	14	nmod	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-610
+# text = (21) Les produits consommateurs d'énergie conformes aux exigences d'écoconception établies dans les mesures d'exécution de la présente directive doivent porter le marquage CE et les informations associées, afin de pouvoir être mis sur le marché intérieur et y circuler librement.
+1	(	(	PUNCT	FB	_	2	punct	_	SpaceAfter=No
+2	21	21	NUM	N	NumType=Card	26	nummod	_	SpaceAfter=No
+3	)	)	PUNCT	FB	_	2	punct	_	_
+4	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	5	det	_	_
+5	produits	produit	NOUN	S	Gender=Masc|Number=Plur	26	nsubj	_	_
+6	consommateurs	consommateur	NOUN	S	Gender=Masc|Number=Plur	5	nmod	_	_
+7	d'	de	ADP	E	_	8	case	_	SpaceAfter=No
+8	énergie	énergie	NOUN	S	Gender=Fem|Number=Sing	6	nmod	_	_
+9	conformes	conforme	ADJ	A	Gender=Fem|Number=Plur	8	amod	_	_
+10-11	aux	_	_	_	_	_	_	_	_
+10	à	à	ADP	E	_	12	case	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	exigences	exigence	NOUN	S	Gender=Fem|Number=Plur	9	obl	_	_
+13	d'	de	ADP	E	_	14	case	_	SpaceAfter=No
+14	écoconception	écoconception	NOUN	S	Gender=Fem|Number=Sing	12	nmod	_	_
+15	établies	établir	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	12	acl	_	_
+16	dans	dans	ADP	E	_	18	case	_	_
+17	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	18	det	_	_
+18	mesures	mesure	NOUN	S	Gender=Fem|Number=Plur	15	obl	_	_
+19	d'	de	ADP	E	_	20	case	_	SpaceAfter=No
+20	exécution	exécution	NOUN	S	Gender=Fem|Number=Sing	18	nmod	_	_
+21	de	de	ADP	E	_	24	case	_	_
+22	la	le	DET	RD	Gender=Fem|Number=Sing|PronType=Art	24	det	_	_
+23	présente	présent	ADJ	A	Gender=Fem|Number=Sing	24	amod	_	_
+24	directive	directive	NOUN	S	Gender=Fem|Number=Sing	20	nmod	_	_
+25	doivent	devoir	AUX	VM	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	26	aux	_	_
+26	porter	porter	VERB	V	VerbForm=Inf	0	root	_	_
+27	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	28	det	_	_
+28	marquage	marquage	NOUN	S	Gender=Masc|Number=Sing	26	obj	_	_
+29	CE	CE	PROPN	SP	_	28	nmod	_	_
+30	et	et	CCONJ	CC	_	32	cc	_	_
+31	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	32	det	_	_
+32	informations	information	NOUN	S	Gender=Fem|Number=Plur	28	conj	_	_
+33	associées	associer	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	32	acl	_	SpaceAfter=No
+34	,	,	PUNCT	FF	_	26	punct	_	_
+35	afin	afin	ADP	E	_	39	mark	_	_
+36	de	de	ADP	E	_	35	fixed	_	_
+37	pouvoir	pouvoir	AUX	VM	VerbForm=Inf	39	aux	_	_
+38	être	être	AUX	VA	VerbForm=Inf	39	aux:pass	_	_
+39	mis	mettre	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	26	advcl	_	_
+40	sur	sur	ADP	E	_	42	case	_	_
+41	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	42	det	_	_
+42	marché	marché	NOUN	S	Gender=Masc|Number=Sing	39	obl	_	_
+43	intérieur	intérieur	ADJ	A	Gender=Masc|Number=Sing	42	amod	_	_
+44	et	et	CCONJ	CC	_	46	cc	_	_
+45	y	y	PRON	P	PronType=Prs	46	iobj	_	_
+46	circuler	circuler	VERB	V	VerbForm=Inf	39	conj	_	_
+47	librement	librement	ADV	B	_	46	advmod	_	SpaceAfter=No
+48	.	.	PUNCT	FS	_	26	punct	_	_
+
+# sent_id = fr_partut-ud-724
+# text = et l'un des ateliers a abouti à une proposition de recommandation du conseil de la part des états membres.
+1	et	et	CCONJ	CC	_	8	cc	_	_
+2	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	3	det	_	SpaceAfter=No
+3	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	8	nsubj	_	_
+4-5	des	_	_	_	_	_	_	_	_
+4	de	de	ADP	E	_	6	case	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	ateliers	ateliers	NOUN	S	Gender=Fem|Number=Plur	3	nmod	_	_
+7	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	aux	_	_
+8	abouti	aboutir	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+9	à	à	ADP	E	_	11	case	_	_
+10	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	11	det	_	_
+11	proposition	proposition	NOUN	S	Gender=Fem|Number=Sing	8	obl	_	_
+12	de	de	ADP	E	_	13	case	_	_
+13	recommandation	recommandation	NOUN	S	Gender=Fem|Number=Sing	11	nmod	_	_
+14-15	du	_	_	_	_	_	_	_	_
+14	de	de	ADP	E	_	16	case	_	_
+15	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	16	det	_	_
+16	conseil	conseil	NOUN	S	Gender=Masc|Number=Sing	13	nmod	_	_
+17	de	de	ADP	E	_	19	case	_	_
+18	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	19	det	_	_
+19	part	part	NOUN	S	Gender=Fem|Number=Sing	11	nmod	_	_
+20-21	des	_	_	_	_	_	_	_	_
+20	de	de	ADP	E	_	22	case	_	_
+21	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	22	det	_	_
+22	états	état	NOUN	S	Gender=Masc|Number=Plur	19	nmod	_	_
+23	membres	membre	NOUN	S	Gender=Masc|Number=Plur	22	compound	_	SpaceAfter=No
+24	.	.	PUNCT	FS	_	8	punct	_	_
+
+# sent_id = fr_partut-ud-739
+# text = Considérant que la reconnaissance de la dignité inhérente à tous les membres de la famille humaine et de leurs droits égaux et inaliénables constitue le fondement de la liberté, de la justice et de la paix dans le monde.
+1	Considérant	considérer	VERB	V	VerbForm=Ger	0	root	_	_
+2	que	que	SCONJ	CS	_	24	mark	_	_
+3	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	4	det	_	_
+4	reconnaissance	reconnaissance	NOUN	S	Gender=Fem|Number=Sing	24	nsubj	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	dignité	dignité	NOUN	S	Gender=Fem|Number=Sing	4	nmod	_	_
+8	inhérente	inhérent	ADJ	A	Gender=Fem|Number=Sing	7	amod	_	_
+9	à	à	ADP	E	_	12	case	_	_
+10	tous	tout	DET	T	Gender=Masc|Number=Plur|PronType=Tot	12	det	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	membres	membre	NOUN	S	Gender=Masc|Number=Plur	8	obl	_	_
+13	de	de	ADP	E	_	15	case	_	_
+14	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	15	det	_	_
+15	famille	famille	NOUN	S	Gender=Fem|Number=Sing	12	nmod	_	_
+16	humaine	humain	ADJ	A	Gender=Fem|Number=Sing	15	amod	_	_
+17	et	et	CCONJ	CC	_	20	cc	_	_
+18	de	de	ADP	E	_	20	case	_	_
+19	leurs	leur	DET	AP	Gender=Masc|Number=Plur|PronType=Prs	20	det	_	_
+20	droits	droit	NOUN	S	Gender=Masc|Number=Plur	7	conj	_	_
+21	égaux	égal	ADJ	A	Gender=Masc|Number=Plur	20	amod	_	_
+22	et	et	CCONJ	CC	_	23	cc	_	_
+23	inaliénables	inaliénable	ADJ	A	Gender=Fem|Number=Plur	21	conj	_	_
+24	constitue	constituer	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	ccomp	_	_
+25	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	26	det	_	_
+26	fondement	fondement	NOUN	S	Gender=Masc|Number=Sing	24	xcomp	_	_
+27	de	de	ADP	E	_	29	case	_	_
+28	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	29	det	_	_
+29	liberté	liberté	NOUN	S	Gender=Fem|Number=Sing	26	nmod	_	SpaceAfter=No
+30	,	,	PUNCT	FF	_	33	punct	_	_
+31	de	de	ADP	E	_	33	case	_	_
+32	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	33	det	_	_
+33	justice	justice	NOUN	S	Gender=Fem|Number=Sing	29	conj	_	_
+34	et	et	CCONJ	CC	_	37	cc	_	_
+35	de	de	ADP	E	_	37	case	_	_
+36	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	37	det	_	_
+37	paix	paix	NOUN	S	Gender=Fem|Number=Sing	29	conj	_	_
+38	dans	dans	ADP	E	_	40	case	_	_
+39	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	40	det	_	_
+40	monde	monde	NOUN	S	Gender=Masc|Number=Sing	37	nmod	_	SpaceAfter=No
+41	.	.	PUNCT	FS	_	1	punct	_	_
+
+# sent_id = fr_partut-ud-771
+# text = 1. Tout individu a droit à une nationalité.
+1	1	1	NUM	N	NumType=Card	5	nummod	_	SpaceAfter=No
+2	.	.	PUNCT	FF	_	1	punct	_	_
+3	Tout	tout	DET	DI	Gender=Masc|Number=Sing|PronType=Ind	4	det	_	_
+4	individu	individu	NOUN	S	Gender=Masc|Number=Sing	5	nsubj	_	_
+5	a	avoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	droit	droit	NOUN	S	Gender=Masc|Number=Sing	5	obj	_	_
+7	à	à	ADP	E	_	9	case	_	_
+8	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	nationalité	nationalité	NOUN	S	Gender=Fem|Number=Sing	5	obl	_	SpaceAfter=No
+10	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-828
+# text = C'est cette pyramide.
+1	C'	ce	PRON	PD	PronType=Dem	4	nsubj	_	SpaceAfter=No
+2	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	cette	ce	DET	DD	Gender=Fem|Number=Sing|PronType=Dem	4	det	_	_
+4	pyramide	pyramide	NOUN	S	Gender=Fem|Number=Sing	0	root	_	SpaceAfter=No
+5	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-845
+# text = Et de quelle façon?
+1	Et	et	CCONJ	CC	_	4	cc	_	_
+2	de	de	ADP	E	_	4	case	_	_
+3	quelle	quel	DET	DQ	Gender=Fem|Number=Sing|PronType=Int	4	det	_	_
+4	façon	façon	NOUN	S	Gender=Fem|Number=Sing	0	root	_	SpaceAfter=No
+5	?	?	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-853
+# text = Et ce prédateur suprême, c'est nous bien sûr.
+1	Et	et	CCONJ	CC	_	8	cc	_	_
+2	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	3	det	_	_
+3	prédateur	prédateur	NOUN	S	Gender=Masc|Number=Sing	8	dislocated	_	_
+4	suprême	suprême	ADJ	A	Number=Sing	3	amod	_	SpaceAfter=No
+5	,	,	PUNCT	FF	_	3	punct	_	_
+6	c'	ce	PRON	PD	PronType=Dem	8	nsubj	_	SpaceAfter=No
+7	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	_
+8	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	0	root	_	_
+9	bien	bien	ADV	B	_	10	advmod	_	_
+10	sûr	sûr	ADV	B	_	8	advmod	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	8	punct	_	_
+
+# sent_id = fr_partut-ud-871
+# text = J'aime les défis, et sauver la Terre est probablement un bon défi.
+1	J'	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	SpaceAfter=No
+2	aime	aimer	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	les	le	DET	RD	Definite=Def|Gender=Masc|Number=Plur|PronType=Art	4	det	_	_
+4	défis	défi	NOUN	S	Gender=Masc|Number=Plur	2	obj	_	SpaceAfter=No
+5	,	,	PUNCT	FF	_	14	punct	_	_
+6	et	et	CCONJ	CC	_	14	cc	_	_
+7	sauver	sauver	VERB	V	VerbForm=Inf	14	csubj	_	_
+8	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	Terre	Terre	PROPN	SP	_	7	obj	_	_
+10	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	cop	_	_
+11	probablement	probablement	ADV	B	_	14	advmod	_	_
+12	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
+13	bon	bon	ADJ	A	Gender=Masc|Number=Sing	14	amod	_	_
+14	défi	défi	NOUN	S	Gender=Masc|Number=Plur	2	conj	_	SpaceAfter=No
+15	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-872
+# text = Nous savons tous que la Terre est en danger.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	2	nsubj	_	_
+2	savons	savoir	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	tous	tout	PRON	PI	Gender=Masc|Number=Plur|PronType=Ind	2	obl	_	_
+4	que	que	SCONJ	CS	_	9	mark	_	_
+5	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
+6	Terre	Terre	PROPN	SP	_	9	nsubj	_	_
+7	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	cop	_	_
+8	en	en	ADP	E	_	9	case	_	_
+9	danger	danger	NOUN	S	Gender=Masc|Number=Sing	2	ccomp	_	SpaceAfter=No
+10	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-873
+# text = Nous sommes entrés dans le sixième X:
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	3	nsubj	_	_
+2	sommes	être	AUX	VA	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	entrés	entrés	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	0	root	_	_
+4	dans	dans	ADP	E	_	7	case	_	_
+5	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+6	sixième	sixième	ADJ	NO	Number=Sing|NumType=Ord	7	amod	_	_
+7	X	X	X	X	_	3	obl	_	SpaceAfter=No
+8	:	:	PUNCT	FC	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-874
+# text = la sixième grande extinction de la planète.
+1	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	4	det	_	_
+2	sixième	sixième	ADJ	NO	Number=Sing|NumType=Ord	4	amod	_	_
+3	grande	grand	ADJ	A	Gender=Fem|Number=Sing	4	amod	_	_
+4	extinction	extinction	NOUN	S	Gender=Fem|Number=Sing	0	root	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	planète	planète	NOUN	S	Gender=Fem|Number=Sing	4	nmod	_	SpaceAfter=No
+8	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-875
+# text = Je pense que ce vote se déroule en ce moment même.
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	pense	penser	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	que	que	SCONJ	CS	_	7	mark	_	_
+4	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	5	det	_	_
+5	vote	vote	NOUN	S	Gender=Masc|Number=Sing	7	nsubj	_	_
+6	se	se	PRON	P	Person=3|PronType=Prs	7	obj	_	_
+7	déroule	dérouler	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	ccomp	_	_
+8	en	en	ADP	E	_	10	case	_	_
+9	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	10	det	_	_
+10	moment	moment	NOUN	S	Gender=Masc|Number=Sing	7	obl	_	_
+11	même	même	ADJ	A	Number=Sing	10	amod	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-876
+# text = Je tiens à vous présenter une série de six solutions mycologiques qui utilisent les champignons, et ces solutions sont fondées sur le mycélium.
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	tiens	tenir	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	à	à	ADP	E	_	5	mark	_	_
+4	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	5	iobj	_	_
+5	présenter	présenter	VERB	V	VerbForm=Inf	2	xcomp	_	_
+6	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	série	série	NOUN	S	Gender=Fem|Number=Sing	5	obj	_	_
+8	de	de	ADP	E	_	10	case	_	_
+9	six	six	NUM	N	NumType=Card	10	nummod	_	_
+10	solutions	solution	NOUN	S	Gender=Fem|Number=Plur	7	nmod	_	_
+11	mycologiques	mycologique	ADJ	A	Number=Plur	10	amod	_	_
+12	qui	qui	PRON	PR	PronType=Rel	13	nsubj	_	_
+13	utilisent	utiliser	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	10	acl:relcl	_	_
+14	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	15	det	_	_
+15	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	13	obj	_	SpaceAfter=No
+16	,	,	PUNCT	FF	_	21	punct	_	_
+17	et	et	CCONJ	CC	_	21	cc	_	_
+18	ces	ce	DET	DD	Number=Plur|PronType=Dem	19	det	_	_
+19	solutions	solution	NOUN	S	Gender=Fem|Number=Plur	21	nsubj:pass	_	_
+20	sont	être	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	21	aux:pass	_	_
+21	fondées	fonder	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	5	conj	_	_
+22	sur	sur	ADP	E	_	24	case	_	_
+23	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	24	det	_	_
+24	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	21	obl	_	SpaceAfter=No
+25	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-877
+# text = Le mycelium est présent dans tous les paysages, il retient les sols, il est extrêmement tenace.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	mycelium	mycelium	ADJ	A	Number=Sing	4	nsubj	_	_
+3	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+4	présent	présent	ADJ	A	Gender=Masc|Number=Sing	0	root	_	_
+5	dans	dans	ADP	E	_	8	case	_	_
+6	tous	tout	DET	T	Gender=Masc|Number=Plur|PronType=Tot	8	det	_	_
+7	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
+8	paysages	paysages	NOUN	S	Gender=Fem|Number=Plur	4	obl	_	SpaceAfter=No
+9	,	,	PUNCT	FF	_	11	punct	_	_
+10	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	11	nsubj	_	_
+11	retient	retenir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	conj	_	_
+12	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	13	det	_	_
+13	sols	sols	NOUN	S	Gender=Fem|Number=Plur	11	obj	_	SpaceAfter=No
+14	,	,	PUNCT	FF	_	18	punct	_	_
+15	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	18	nsubj	_	_
+16	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	cop	_	_
+17	extrêmement	extrêmement	ADV	B	_	18	advmod	_	_
+18	tenace	tenace	ADJ	A	Gender=Fem|Number=Sing	11	conj	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-878
+# text = Celui-ci retient jusqu'à 30000 fois sa masse.
+1	Celui-ci	celui-ci	PRON	PD	Gender=Masc|Number=Sing|Person=3|PronType=Dem	2	nsubj	_	_
+2	retient	retenir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	jusqu'	jusque	ADP	E	_	8	case	_	SpaceAfter=No
+4	à	à	ADP	E	_	3	fixed	_	_
+5	30000	30000	NUM	N	NumType=Card	6	nummod	_	_
+6	fois	foi	NOUN	S	Gender=Fem|Number=Plur	8	nmod	_	_
+7	sa	son	DET	AP	Gender=Fem|Number=Sing|PronType=Prs	8	det	_	_
+8	masse	masse	NOUN	S	Gender=Fem|Number=Sing	2	obj	_	SpaceAfter=No
+9	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-879
+# text = Ce sont les grands désassembleurs moléculaires de la nature - les magiciens du sol.
+1	Ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	5	nsubj	_	_
+2	sont	être	AUX	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	5	det	_	_
+4	grands	grand	ADJ	A	Gender=Masc|Number=Plur	5	amod	_	_
+5	désassembleurs	désassembleurs	NOUN	S	Gender=Masc|Number=Plur	0	root	_	_
+6	moléculaires	moléculaire	ADJ	A	Number=Plur	5	amod	_	_
+7	de	de	ADP	E	_	9	case	_	_
+8	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	nature	nature	NOUN	S	Gender=Fem|Number=Sing	5	nmod	_	_
+10	-	-	PUNCT	FF	_	5	punct	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	magiciens	magiciens	NOUN	S	Gender=Fem|Number=Plur	5	conj	_	_
+13-14	du	_	_	_	_	_	_	_	_
+13	de	de	ADP	E	_	15	case	_	_
+14	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	15	det	_	_
+15	sol	sol	NOUN	S	Gender=Fem|Number=Sing	12	nmod	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-880
+# text = Ils génèrent l'humus sur tous les continents de la Terre.
+1	Ils	il	PRON	PE	Gender=Masc|Number=Plur|Person=3|PronType=Prs	2	nsubj	_	_
+2	génèrent	génèrent	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	4	det	_	SpaceAfter=No
+4	humus	humus	NOUN	S	Gender=Fem|Number=Sing	2	obj	_	_
+5	sur	sur	ADP	E	_	8	case	_	_
+6	tous	tout	DET	T	Gender=Masc|Number=Plur|PronType=Tot	8	det	_	_
+7	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
+8	continents	continents	NOUN	S	Gender=Fem|Number=Plur	2	obl	_	_
+9	de	de	ADP	E	_	11	case	_	_
+10	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	11	det	_	_
+11	Terre	Terre	PROPN	SP	_	8	nmod	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-881
+# text = Dusty et moi, nous nous plaisons à dire que le dimanche, c'est là que nous allons à l'église.
+1	Dusty	Dusty	PROPN	SP	_	7	dislocated	_	_
+2	et	et	CCONJ	CC	_	3	cc	_	_
+3	moi	moi	PRON	PE	Number=Sing|Person=1|PronType=Prs	1	conj	_	SpaceAfter=No
+4	,	,	PUNCT	FF	_	1	punct	_	_
+5	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	7	nsubj	_	_
+6	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	7	obj	_	_
+7	plaisons	plaisons	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+8	à	à	ADP	E	_	9	case	_	_
+9	dire	dire	VERB	V	VerbForm=Inf	7	xcomp	_	_
+10	que	que	SCONJ	CS	_	15	mark	_	_
+11	le	le	DET	RD	Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+12	dimanche	dimanche	NOUN	S	Gender=Fem|Number=Sing	15	dislocated	_	SpaceAfter=No
+13	,	,	PUNCT	FF	_	12	punct	_	_
+14	c'	ce	PRON	PD	PronType=Dem	15	nsubj	_	SpaceAfter=No
+15	est	être	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	ccomp	_	_
+16	là	là	ADV	B	_	15	advmod	_	_
+17	que	que	SCONJ	CS	_	19	mark	_	_
+18	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	19	nsubj	_	_
+19	allons	aller	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	15	ccomp	_	_
+20	à	à	ADP	E	_	22	case	_	_
+21	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	22	det	_	SpaceAfter=No
+22	église	église	NOUN	S	Gender=Fem|Number=Sing	19	obl	_	SpaceAfter=No
+23	.	.	PUNCT	FS	_	7	punct	_	_
+
+# sent_id = fr_partut-ud-882
+# text = Je suis amoureux des forêts anciennes, et je suis un patriote américain parce que nous en avons.
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	_
+2	suis	être	AUX	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	amoureux	amoureux	ADJ	A	Number=Sing	0	root	_	_
+4-5	des	_	_	_	_	_	_	_	_
+4	de	de	ADP	E	_	6	case	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	forêts	forêts	NOUN	S	Gender=Fem|Number=Plur	3	obl	_	_
+7	anciennes	ancien	ADJ	A	Gender=Fem|Number=Plur	6	amod	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	13	punct	_	_
+9	et	et	CCONJ	CC	_	13	cc	_	_
+10	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	13	nsubj	_	_
+11	suis	être	AUX	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	13	cop	_	_
+12	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	13	det	_	_
+13	patriote	patriote	NOUN	S	Gender=Fem|Number=Sing	3	conj	_	_
+14	américain	américain	ADJ	A	Number=Sing	13	amod	_	_
+15	parce	parce	ADV	B	_	19	mark	_	_
+16	que	que	SCONJ	CS	_	15	fixed	_	_
+17	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	19	nsubj	_	_
+18	en	en	ADP	E	_	19	obl	_	_
+19	avons	avoir	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	13	advcl	_	SpaceAfter=No
+20	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-883
+# text = La plupart d'entre vous connaissez bien les champignons de Paris.
+1	La	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
+2	plupart	plupart	NOUN	S	Gender=Fem|Number=Sing	6	nsubj	_	_
+3	d'	de	ADP	E	_	5	case	_	SpaceAfter=No
+4	entre	entre	ADP	E	_	3	fixed	_	_
+5	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	2	nmod	_	_
+6	connaissez	connaître	VERB	V	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	bien	bien	ADV	B	_	6	advmod	_	_
+8	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	9	det	_	_
+9	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	6	obj	_	_
+10	de	de	ADP	E	_	11	case	_	_
+11	Paris	Paris	PROPN	SP	_	9	nmod	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-884
+# text = Et franchement, je seuis face à un obstacle majeur:
+1	Et	et	CCONJ	CC	_	6	cc	_	_
+2	franchement	franchement	ADV	B	_	6	advmod	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	2	punct	_	_
+4	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	6	nsubj	_	_
+5	seuis	être	AUX	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	6	cop	_	_
+6	face	face	ADJ	A	Number=Sing	0	root	_	_
+7	à	à	ADP	E	_	9	case	_	_
+8	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
+9	obstacle	obstacle	NOUN	S	Gender=Masc|Number=Sing	6	obl	_	_
+10	majeur	majeur	ADJ	A	Gender=Masc|Number=Sing	9	amod	_	SpaceAfter=No
+11	:	:	PUNCT	FC	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-885
+# text = J'espère donc faire éclater ce préjugé une fois pour toute avec votre groupe.
+1	J'	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	SpaceAfter=No
+2	espère	espérer	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	donc	donc	ADV	B	_	5	advmod	_	_
+4	faire	faire	AUX	V	VerbForm=Inf	5	aux:caus	_	_
+5	éclater	éclater	VERB	V	VerbForm=Inf	2	ccomp	_	_
+6	ce	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	7	det	_	_
+7	préjugé	préjuggé	NOUN	S	Gender=Masc|Number=Sing	5	obj	_	_
+8	une	un	DET	RI	Gender=Fem|Number=Sing|Person=3|PronType=Prs	9	det	_	_
+9	fois	foi	NOUN	S	Gender=Fem|Number=Plur	5	obl	_	_
+10	pour	pour	ADP	E	_	11	case	_	_
+11	toute	tout	PRON	PI	Gender=Fem|Number=Plur|PronType=Ind	9	nmod	_	_
+12	avec	avec	ADP	E	_	14	case	_	_
+13	votre	votre	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	14	det	_	_
+14	groupe	groupe	NOUN	S	Gender=Masc|Number=Sing	5	obl	_	SpaceAfter=No
+15	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-886
+# text = Nous appelons ça la mycophobie, la peur irrationnelle de l'inconnu quand il s'agit de champignons.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	2	nsubj	_	_
+2	appelons	appeler	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	ça	ce	PRON	PD	PronType=Dem	2	obj	_	_
+4	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	5	det	_	_
+5	mycophobie	mycophobie	NOUN	S	Gender=Fem|Number=Sing	2	xcomp	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	5	punct	_	_
+7	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	8	det	_	_
+8	peur	peur	NOUN	S	Gender=Fem|Number=Sing	5	appos	_	_
+9	irrationnelle	irrationnelle	ADJ	A	Gender=Fem|Number=Sing	8	amod	_	_
+10	de	de	ADP	E	_	12	case	_	_
+11	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	12	det	_	SpaceAfter=No
+12	inconnu	inconnu	ADJ	A	Gender=Masc|Number=Sing	8	nmod	_	_
+13	quand	quand	SCONJ	CS	_	16	mark	_	_
+14	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	16	expl	_	_
+15	s'	se	PRON	P	PronType=Prs	16	expl	_	SpaceAfter=No
+16	agit	agir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	8	acl	_	_
+17	de	de	ADP	E	_	18	case	_	_
+18	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	16	nsubj	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-887
+# text = Les champignons ont une croissance très rapide.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	3	nsubj	_	_
+3	ont	avoir	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	5	det	_	_
+5	croissance	croissance	NOUN	S	Gender=Fem|Number=Sing	3	obj	_	_
+6	très	très	ADV	B	_	7	advmod	_	_
+7	rapide	rapide	ADJ	A	Number=Sing	5	amod	_	SpaceAfter=No
+8	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-888
+# text = Les champignons produisent de puissants antibiotiques.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	3	nsubj	_	_
+3	produisent	produire	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	de	de	ADP	E	_	5	case	_	_
+5	puissants	puissants	NOUN	S	Gender=Fem|Number=Plur	3	obl	_	_
+6	antibiotiques	antibiotiques	NOUN	S	Gender=Fem|Number=Plur	3	obj	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-889
+# text = En fait, nous sommes plus proches des champignons que de tout autre règne.
+1	En	en	ADP	E	_	7	advmod	_	_
+2	fait	faire	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	fixed	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	2	punct	_	_
+4	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	7	nsubj	_	_
+5	sommes	être	AUX	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	7	cop	_	_
+6	plus	plus	ADV	B	_	7	advmod	_	_
+7	proches	proches	VERB	V	Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	_
+8-9	des	_	_	_	_	_	_	_	_
+8	de	de	ADP	E	_	10	case	_	_
+9	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	10	det	_	_
+10	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	7	obl	_	_
+11	que	que	ADP	E	_	15	case	_	_
+12	de	de	ADP	E	_	15	case	_	_
+13	tout	tout	DET	T	Gender=Masc|Number=Sing|PronType=Tot	15	det	_	_
+14	autre	autre	ADJ	A	Number=Sing	15	amod	_	_
+15	règne	règne	NOUN	S	Gender=Masc|Number=Sing	7	obl	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	7	punct	_	_
+
+# sent_id = fr_partut-ud-890
+# text = Nous partageons les mêmes agents pathogènes.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	2	nsubj	_	_
+2	partageons	partager	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	5	det	_	_
+4	mêmes	même	ADJ	A	Number=Plur	5	amod	_	_
+5	agents	agents	NOUN	S	Gender=Fem|Number=Plur	2	obj	_	_
+6	pathogènes	pathogène	ADJ	A	Number=Plur	5	amod	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-891
+# text = Les champignons n'aiment pas pourrir à cause de bactéries, et donc nos meilleurs antibiotiques viennent des champignons.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	4	nsubj	_	_
+3	n'	ne	PART	PART	Polarity=Neg	4	advmod	_	SpaceAfter=No
+4	aiment	aimer	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	pas	pas	ADV	BN	Polarity=Neg	4	advmod	_	_
+6	pourrir	pourrir	ADJ	A	Number=Sing	4	xcomp	_	_
+7	à	à	ADP	E	_	8	case	_	_
+8	cause	cause	NOUN	S	Gender=Fem|Number=Sing	6	obl	_	_
+9	de	de	ADP	E	_	10	case	_	_
+10	bactéries	bactérie	NOUN	S	Gender=Fem|Number=Plur	8	nmod	_	SpaceAfter=No
+11	,	,	PUNCT	FF	_	17	punct	_	_
+12	et	et	CCONJ	CC	_	17	cc	_	_
+13	donc	donc	ADV	B	_	17	advmod	_	_
+14	nos	nos	DET	AP	Gender=Masc|Number=Plur|PronType=Prs	16	det	_	_
+15	meilleurs	meilleur	ADJ	A	Gender=Masc|Number=Plur	16	amod	_	_
+16	antibiotiques	antibiotiques	NOUN	S	Gender=Fem|Number=Plur	17	nsubj	_	_
+17	viennent	venir	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	4	conj	_	_
+18-19	des	_	_	_	_	_	_	_	_
+18	de	de	ADP	E	_	20	case	_	_
+19	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	20	det	_	_
+20	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	17	obl	_	SpaceAfter=No
+21	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-892
+# text = Mais voici un champignon qui n'est plus de première jeunesse.
+1	Mais	mais	CCONJ	CC	_	4	cc	_	_
+2	voici	voici	ADP	E	_	4	discourse	_	_
+3	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	4	det	_	_
+4	champignon	champignon	ADJ	A	Number=Sing	0	root	_	_
+5	qui	qui	PRON	PR	PronType=Rel	11	nsubj	_	_
+6	n'	ne	PART	PART	Polarity=Neg	11	advmod	_	SpaceAfter=No
+7	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	cop	_	_
+8	plus	plus	ADV	B	_	11	advmod	_	_
+9	de	de	ADP	E	_	11	case	_	_
+10	première	premier	ADJ	NO	Gender=Fem|Number=Sing|NumType=Ord	11	amod	_	_
+11	jeunesse	jeunesse	NOUN	S	Gender=Fem|Number=Sing	4	acl:relcl	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-893
+# text = Après avoir sporulé, ils pourrissent.
+1	Après	après	ADP	E	_	3	mark	_	_
+2	avoir	avoir	AUX	VA	VerbForm=Inf	3	aux	_	_
+3	sporulé	sporulé	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	6	acl	_	SpaceAfter=No
+4	,	,	PUNCT	FF	_	3	punct	_	_
+5	ils	il	PRON	PE	Gender=Masc|Number=Plur|Person=3|PronType=Prs	6	nsubj	_	_
+6	pourrissent	pourrissent	NOUN	S	Gender=Fem|Number=Sing	0	root	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-894
+# text = Mais je postule que la série de microbes qui apparaissent sur les champignons en train de pourrir sont essentiels pour la santé de la forêt.
+1	Mais	mais	CCONJ	CC	_	3	cc	_	_
+2	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	_
+3	postule	postule	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	que	que	SCONJ	CS	_	19	mark	_	_
+5	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
+6	série	série	NOUN	S	Gender=Fem|Number=Sing	19	nsubj	_	_
+7	de	de	ADP	E	_	8	case	_	_
+8	microbes	microbes	NOUN	S	Gender=Fem|Number=Plur	6	nmod	_	_
+9	qui	qui	PRON	PR	PronType=Rel	10	nsubj	_	_
+10	apparaissent	apparaître	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	8	acl:relcl	_	_
+11	sur	sur	ADP	E	_	13	case	_	_
+12	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	13	det	_	_
+13	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	10	obl	_	_
+14	en	en	ADP	E	_	17	mark	_	_
+15	train	train	NOUN	_	Gender=Masc|Number=Sing	14	fixed	_	_
+16	de	de	ADP	E	_	14	fixed	_	_
+17	pourrir	pourrir	ADJ	A	Number=Sing	13	acl	_	_
+18	sont	être	AUX	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	19	cop	_	_
+19	essentiels	essentiel	ADJ	A	Gender=Masc|Number=Plur	3	ccomp	_	_
+20	pour	pour	ADP	E	_	22	case	_	_
+21	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	22	det	_	_
+22	santé	santé	NOUN	S	Gender=Fem|Number=Sing	19	obl	_	_
+23	de	de	ADP	E	_	25	case	_	_
+24	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	25	det	_	_
+25	forêt	forêt	NOUN	S	Gender=Fem|Number=Sing	22	nmod	_	SpaceAfter=No
+26	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-895
+# text = Ils permettent aux arbres de pousser, ils créent les champs de débris qui nourrissent le mycélium.
+1	Ils	il	PRON	PE	Gender=Masc|Number=Plur|Person=3|PronType=Prs	2	nsubj	_	_
+2	permettent	permettre	VERB	V	Mood=Sub|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3-4	aux	_	_	_	_	_	_	_	_
+3	à	à	ADP	E	_	5	case	_	_
+4	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	5	det	_	_
+5	arbres	arbres	NOUN	S	Gender=Fem|Number=Plur	2	obl	_	_
+6	de	de	ADP	E	_	7	mark	_	_
+7	pousser	pousser	VERB	V	VerbForm=Inf	2	xcomp	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	10	punct	_	_
+9	ils	il	PRON	PE	Gender=Masc|Number=Plur|Person=3|PronType=Prs	10	nsubj	_	_
+10	créent	créer	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	2	conj	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	champs	champ	NOUN	S	Gender=Masc|Number=Plur	10	obj	_	_
+13	de	de	ADP	E	_	14	case	_	_
+14	débris	débris	ADJ	A	Number=Plur	12	nmod	_	_
+15	qui	qui	PRON	PR	PronType=Rel	16	nsubj	_	_
+16	nourrissent	nourrissent	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	14	acl:relcl	_	_
+17	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
+18	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	16	obj	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-896
+# text = Et donc, nous voyons ici un champignon en train de sporuler.
+1	Et	et	CCONJ	CC	_	5	cc	_	_
+2	donc	donc	ADV	B	_	5	advmod	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	2	punct	_	_
+4	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	5	nsubj	_	_
+5	voyons	voir	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	ici	ici	ADV	B	_	5	advmod	_	_
+7	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
+8	champignon	champignon	NOUN	S	Gender=Masc|Number=Sing	5	obj	_	_
+9	en	en	ADP	E	_	12	mark	_	_
+10	train	train	NOUN	_	Gender=Masc|Number=Sing	9	fixed	_	_
+11	de	de	ADP	E	_	9	fixed	_	_
+12	sporuler	sporuler	VERB	V	VerbForm=Inf	8	acl	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-897
+# text = Et les spores germinent, et le mycélium se forme et va dans le sous-sol.
+1	Et	et	CCONJ	CC	_	4	cc	_	_
+2	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	3	det	_	_
+3	spores	spores	NOUN	S	Gender=Fem|Number=Plur	4	nsubj	_	_
+4	germinent	germinent	NOUN	S	Gender=Fem|Number=Sing	0	root	_	SpaceAfter=No
+5	,	,	PUNCT	FF	_	10	punct	_	_
+6	et	et	CCONJ	CC	_	10	cc	_	_
+7	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
+8	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	10	nsubj	_	_
+9	se	se	PRON	P	Person=3|PronType=Prs	10	obj	_	_
+10	forme	former	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	conj	_	_
+11	et	et	CCONJ	CC	_	12	cc	_	_
+12	va	aller	VERB	V	Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin	10	conj	_	_
+13	dans	dans	ADP	E	_	15	case	_	_
+14	le	le	DET	RD	Gender=Masc|Number=Sing|PronType=Art	15	det	_	_
+15	sous-sol	sous-sol	NOUN	S	Gender=Masc|Number=Sing	12	obl	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-898
+# text = Dans un seul pouce cube de sol, il peut y avoir plus de huit miles de ces cellules.
+1	Dans	dans	ADP	E	_	4	case	_	_
+2	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	4	det	_	_
+3	seul	seul	ADJ	A	Gender=Masc|Number=Sing	4	amod	_	_
+4	pouce	pouce	NOUN	S	Gender=Masc|Number=Sing	12	obl	_	_
+5	cube	cube	ADJ	A	Gender=Masc|Number=Sing	4	amod	_	_
+6	de	de	ADP	E	_	7	case	_	_
+7	sol	sol	ADJ	A	Number=Sing	4	nmod	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	4	punct	_	_
+9	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	12	expl	_	_
+10	peut	pouvoir	AUX	VM	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	aux	_	_
+11	y	y	PRON	P	PronType=Prs	12	expl	_	_
+12	avoir	avoir	VERB	V	VerbForm=Inf	0	root	_	_
+13	plus	plus	ADV	B	_	15	advmod	_	_
+14	de	de	ADP	E	_	13	fixed	_	_
+15	huit	huit	NUM	N	NumType=Card	16	nummod	_	_
+16	miles	miles	NOUN	S	Gender=Fem|Number=Sing	12	obj	_	_
+17	de	de	ADP	E	_	19	case	_	_
+18	ces	ce	DET	DD	Number=Plur|PronType=Dem	19	det	_	_
+19	cellules	cellules	NOUN	S	Gender=Fem|Number=Plur	16	nmod	_	SpaceAfter=No
+20	.	.	PUNCT	FS	_	12	punct	_	_
+
+# sent_id = fr_partut-ud-899
+# text = Mon pied couvre environ 300 miles de mycélium.
+1	Mon	mon	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	2	det	_	_
+2	pied	pied	ADJ	A	Number=Sing	3	nsubj	_	_
+3	couvre	couvrir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	environ	environ	ADV	B	_	3	advmod	_	_
+5	300	300	NUM	N	NumType=Card	6	nummod	_	_
+6	miles	miles	NOUN	S	Gender=Fem|Number=Plur	3	obj	_	_
+7	de	de	ADP	E	_	8	case	_	_
+8	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	6	nmod	_	SpaceAfter=No
+9	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-900
+# text = Voici des microphotographies de Nick Read et Patrick Hickey.
+1	Voici	voici	ADP	E	_	3	discourse	_	_
+2	des	un	DET	RI	Definite=Ind|Gender=Fem|Number=Plur|PronType=Art	3	det	_	_
+3	microphotographies	microphotographie	NOUN	S	Gender=Fem|Number=Plur	0	root	_	_
+4	de	de	ADP	E	_	5	case	_	_
+5	Nick	Nick	PROPN	SP	_	3	nmod	_	_
+6	Read	Read	PROPN	SP	_	5	flat:name	_	_
+7	et	et	CCONJ	CC	_	8	cc	_	_
+8	Patrick	Patrick	PROPN	SP	_	5	conj	_	_
+9	Hickey	Hickey	PROPN	SP	_	8	flat:name	_	SpaceAfter=No
+10	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-901
+# text = Et remarquez que pendant que le mycélium se développe, il conquiert le territoire et puis il commence à former un réseau.
+1	Et	et	CCONJ	CC	_	2	cc	_	_
+2	remarquez	remarquer	VERB	V	Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	que	que	SCONJ	CS	_	12	mark	_	_
+4	pendant	pendant	ADP	E	_	9	mark	_	_
+5	que	que	SCONJ	CS	_	9	mark	_	_
+6	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	9	nsubj	_	_
+8	se	se	PRON	P	Person=3|PronType=Prs	9	obj	_	_
+9	développe	développe	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	SpaceAfter=No
+10	,	,	PUNCT	FF	_	9	punct	_	_
+11	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	12	nsubj	_	_
+12	conquiert	conquérir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	ccomp	_	_
+13	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
+14	territoire	territoire	NOUN	S	Gender=Masc|Number=Sing	12	obj	_	_
+15	et	et	CCONJ	CC	_	18	cc	_	_
+16	puis	puis	ADV	_	_	18	advcl	_	_
+17	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	18	nsubj	_	_
+18	commence	commencer	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	conj	_	_
+19	à	à	ADP	E	_	20	mark	_	_
+20	former	former	VERB	V	VerbForm=Inf	18	xcomp	_	_
+21	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	20	obj	_	_
+22	réseau	réseau	ADJ	A	Number=Sing	20	amod	_	SpaceAfter=No
+23	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-902
+# text = Nous expirons du dioxyde de carbone, le mycélium aussi.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	2	nsubj	_	_
+2	expirons	expirons	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	du	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	4	det	_	_
+4	dioxyde	dioxyde	NOUN	S	Gender=Masc|Number=Sing	2	obj	_	_
+5	de	de	ADP	E	_	6	case	_	_
+6	carbone	carbone	NOUN	S	Gender=Masc|Number=Sing	4	nmod	_	SpaceAfter=No
+7	,	,	PUNCT	FF	_	9	punct	_	_
+8	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
+9	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	2	conj	_	_
+10	aussi	aussi	ADV	B	_	9	orphan	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-903
+# text = Il inhale de l'oxygène, tout comme nous.
+1	Il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	2	nsubj	_	_
+2	inhale	inhale	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	de	de	ADP	E	_	5	case	_	_
+4	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	5	det	_	SpaceAfter=No
+5	oxygène	oxygène	NOUN	S	Gender=Fem|Number=Sing	2	obj	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	2	punct	_	_
+7	tout	tout	ADV	_	_	9	advmod	_	_
+8	comme	comme	ADP	E	_	9	case	_	_
+9	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	2	obl	_	SpaceAfter=No
+10	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-904
+# text = Mais ce sont essentiellement des estomacs et des poumons externalisés.
+1	Mais	mais	CCONJ	CC	_	6	cc	_	_
+2	ce	ce	PRON	P	Number=Sing|Person=3|PronType=Dem	6	nsubj	_	_
+3	sont	être	AUX	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+4	essentiellement	essentiellement	ADV	B	_	6	advmod	_	_
+5	des	de	DET	_	Definite=Ind|Number=Plur|PronType=Art	6	det	_	_
+6	estomacs	estomacs	NOUN	S	Gender=Masc|Number=Plur	0	root	_	_
+7	et	et	CCONJ	CC	_	9	cc	_	_
+8	des	de	DET	_	Definite=Ind|Number=Plur|PronType=Art	9	det	_	_
+9	poumons	poumons	NOUN	S	Gender=Masc|Number=Plur	6	conj	_	_
+10	externalisés	externaliser	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	9	acl	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-905
+# text = Et je vous présente un concept selon lequel ce sont des membranes neurologiques étendues.
+1	Et	et	CCONJ	CC	_	4	cc	_	_
+2	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	4	nsubj	_	_
+3	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	4	iobj	_	_
+4	présente	présenter	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	6	det	_	_
+6	concept	concept	NOUN	S	Gender=Masc|Number=Sing	4	obj	_	_
+7	selon	selon	ADP	E	_	8	case	_	_
+8	lequel	lequel	PRON	PR	Gender=Masc|Number=Sing|PronType=Rel	12	obl	_	_
+9	ce	ce	PRON	P	Number=Sing|Person=3|PronType=Dem	12	nsubj	_	_
+10	sont	être	AUX	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	cop	_	_
+11	des	de	DET	_	Definite=Ind|Number=Plur|PronType=Art	12	det	_	_
+12	membranes	membranes	NOUN	S	Gender=Fem|Number=Plur	6	acl:relcl	_	_
+13	neurologiques	neurologique	ADJ	A	Gender=Fem|Number=Plur	12	amod	_	_
+14	étendues	étendu	ADJ	A	Gender=Fem|Number=Plur	12	amod	_	SpaceAfter=No
+15	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-906
+# text = Et dans ces cavités, ces microcavités se forment, et alors qu'elles fusionnent les sols, elles absorbent de l'eau.
+1	Et	et	CCONJ	CC	_	9	cc	_	_
+2	dans	dans	ADP	E	_	4	case	_	_
+3	ces	ce	DET	DD	Number=Plur|PronType=Dem	4	det	_	_
+4	cavités	cavités	NOUN	S	Gender=Fem|Number=Plur	9	obl	_	SpaceAfter=No
+5	,	,	PUNCT	FF	_	4	punct	_	_
+6	ces	ce	DET	DD	Number=Plur|PronType=Dem	7	det	_	_
+7	microcavités	microcavités	NOUN	S	Gender=Fem|Number=Plur	9	nsubj	_	_
+8	se	se	PRON	P	Person=3|PronType=Prs	9	obj	_	_
+9	forment	former	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	SpaceAfter=No
+10	,	,	PUNCT	FF	_	20	punct	_	_
+11	et	et	CCONJ	CC	_	20	cc	_	_
+12	alors	alors	ADV	B	_	15	mark	_	_
+13	qu'	que	ADP	E	_	12	fixed	_	SpaceAfter=No
+14	elles	elle	PRON	PE	Gender=Fem|Number=Plur|Person=3|PronType=Prs	15	nsubj	_	_
+15	fusionnent	fusionnent	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	20	advcl	_	_
+16	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	17	det	_	_
+17	sols	sols	NOUN	S	Gender=Masc|Number=Plur	15	obj	_	SpaceAfter=No
+18	,	,	PUNCT	FF	_	15	punct	_	_
+19	elles	elle	PRON	PE	Gender=Fem|Number=Plur|Person=3|PronType=Prs	20	nsubj	_	_
+20	absorbent	absorber	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	9	conj	_	_
+21	de	de	ADP	E	_	23	case	_	_
+22	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	23	det	_	SpaceAfter=No
+23	eau	eau	NOUN	S	Gender=Masc|Number=Sing	20	obj	_	SpaceAfter=No
+24	.	.	PUNCT	FS	_	9	punct	_	_
+
+# sent_id = fr_partut-ud-907
+# text = Ce sont de petits puits.
+1	Ce	ce	PRON	P	Number=Sing|Person=3|PronType=Dem	5	nsubj	_	_
+2	sont	être	AUX	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	de	de	ADP	E	_	5	case	_	_
+4	petits	petit	ADJ	A	Gender=Masc|Number=Plur	5	amod	_	_
+5	puits	puit	NOUN	S	Gender=Masc|Number=Plur	0	root	_	SpaceAfter=No
+6	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-908
+# text = Et à l'intérieur de ces puits, des communautés microbiennes commencent à se former ensuite.
+1	Et	et	CCONJ	CC	_	13	cc	_	_
+2	à	à	ADP	E	_	4	case	_	_
+3	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	4	det	_	SpaceAfter=No
+4	intérieur	intérieur	NOUN	S	Gender=Fem|Number=Sing	13	obl	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	ces	ce	DET	DD	Number=Plur|PronType=Dem	7	det	_	_
+7	puits	puits	NOUN	S	Gender=Masc|Number=Plur	4	nmod	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	4	punct	_	_
+9-10	des	_	_	_	_	_	_	_	_
+9	de	de	ADP	E	_	11	case	_	_
+10	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	11	det	_	_
+11	communautés	communauté	NOUN	S	Gender=Fem|Number=Plur	13	nsubj	_	_
+12	microbiennes	microbien	ADJ	A	Gender=Fem|Number=Plur	11	amod	_	_
+13	commencent	commencer	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+14	à	à	ADP	E	_	16	mark	_	_
+15	se	se	PRON	P	Person=3|PronType=Prs	16	obj	_	_
+16	former	former	VERB	V	VerbForm=Inf	13	xcomp	_	_
+17	ensuite	ensuite	ADV	B	_	16	advmod	_	SpaceAfter=No
+18	.	.	PUNCT	FS	_	13	punct	_	_
+
+# sent_id = fr_partut-ud-909
+# text = J'ai d'abord avancé, au début des années 1990, que le mycélium est l'internet naturel de la planète.
+1	J'	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	5	nsubj	_	SpaceAfter=No
+2	ai	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	5	aux	_	_
+3	d'	de	ADP	E	_	4	case	_	SpaceAfter=No
+4	abord	abord	NOUN	S	Gender=Masc|Number=Sing	5	obl	_	_
+5	avancé	avancer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	5	punct	_	_
+7-8	au	_	_	_	_	_	_	_	_
+7	à	à	ADP	E	_	9	case	_	_
+8	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
+9	début	début	NOUN	S	Gender=Masc|Number=Sing	5	obl	_	_
+10-11	des	_	_	_	_	_	_	_	_
+10	de	de	ADP	E	_	12	case	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	années	année	NOUN	S	Gender=Fem|Number=Plur	9	nmod	_	_
+13	1990	1990	NUM	N	NumType=Card	12	nummod	_	SpaceAfter=No
+14	,	,	PUNCT	FF	_	5	punct	_	_
+15	que	que	SCONJ	CS	_	20	mark	_	_
+16	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	17	det	_	_
+17	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	20	nsubj	_	_
+18	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	20	cop	_	_
+19	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	20	det	_	SpaceAfter=No
+20	internet	internet	NOUN	S	Gender=Masc	5	ccomp	_	_
+21	naturel	naturel	ADJ	A	Gender=Masc|Number=Sing	20	amod	_	_
+22	de	de	ADP	E	_	24	case	_	_
+23	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	24	det	_	_
+24	planète	planète	NOUN	S	Gender=Fem|Number=Sing	20	nmod	_	SpaceAfter=No
+25	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-910
+# text = Quand vous regardez le mycélium, il est très ramifié.
+1	Quand	quand	SCONJ	CS	_	3	mark	_	_
+2	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	3	nsubj	_	_
+3	regardez	regarder	VERB	V	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	10	advcl	_	_
+4	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	5	det	_	_
+5	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	3	obj	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	3	punct	_	_
+7	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	10	nsubj	_	_
+8	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	10	cop	_	_
+9	très	très	ADV	B	_	10	advmod	_	_
+10	ramifié	ramifié	ADJ	_	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	10	punct	_	_
+
+# sent_id = fr_partut-ud-911
+# text = Le mycélium est doué de sensations.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	4	nsubj:pass	_	_
+3	est	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	doué	douer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+5	de	de	ADP	E	_	6	case	_	_
+6	sensations	sensations	NOUN	S	Gender=Fem|Number=Plur	4	obl	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-912
+# text = Il sait que vous êtes là.
+1	Il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	2	nsubj	_	_
+2	sait	savoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	que	que	SCONJ	CS	_	6	mark	_	_
+4	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	6	nsubj	_	_
+5	êtes	être	AUX	V	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	6	cop	_	_
+6	là	là	ADV	B	_	2	ccomp	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-913
+# text = Lorsque vous vous promenez à travers les paysages, il bondit dans les traces de vos pas en essayant de récupérer des débris.
+1	Lorsque	lorsque	SCONJ	CS	_	4	mark	_	_
+2	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	4	nsubj	_	_
+3	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	4	expl	_	_
+4	promenez	promenez	VERB	V	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	11	advcl	_	_
+5	à	à	ADP	E	_	6	case	_	_
+6	travers	travers	NOUN	S	Gender=Masc	4	obl	_	_
+7	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
+8	paysages	paysages	NOUN	S	Gender=Fem|Number=Plur	6	nmod	_	SpaceAfter=No
+9	,	,	PUNCT	FF	_	4	punct	_	_
+10	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	11	nsubj	_	_
+11	bondit	bondit	ADJ	A	Number=Sing	0	root	_	_
+12	dans	dans	ADP	E	_	14	case	_	_
+13	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	14	det	_	_
+14	traces	traces	NOUN	S	Gender=Fem|Number=Plur	11	obl	_	_
+15	de	de	ADP	E	_	17	case	_	_
+16	vos	vos	DET	AP	Gender=Masc|Number=Plur|PronType=Prs	17	det	_	_
+17	pas	pas	NOUN	S	Gender=Masc	14	nmod	_	_
+18	en	en	ADP	E	_	19	mark	_	_
+19	essayant	essayer	VERB	V	VerbForm=Ger	11	advcl	_	_
+20	de	de	ADP	E	_	21	mark	_	_
+21	récupérer	récupérer	VERB	V	VerbForm=Inf	19	xcomp	_	_
+22	des	un	DET	RI	Definite=Ind|Gender=Fem|Number=Plur|PronType=Art	23	det	_	_
+23	débris	débris	NOUN	S	Gender=Fem|Number=Plur	21	obj	_	SpaceAfter=No
+24	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-914
+# text = Je pense donc que l'invention de l'internet des ordinateurs est une conséquence inévitable d'un modèle abouti antérieurement et biologiquement prouvé.
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	pense	penser	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	donc	donc	ADV	B	_	2	advmod	_	_
+4	que	que	SCONJ	CS	_	15	mark	_	_
+5	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	6	det	_	SpaceAfter=No
+6	invention	invention	NOUN	S	Gender=Fem|Number=Sing	15	nsubj	_	_
+7	de	de	ADP	E	_	9	case	_	_
+8	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	9	det	_	SpaceAfter=No
+9	internet	internet	NOUN	S	Gender=Masc	6	nmod	_	_
+10-11	des	_	_	_	_	_	_	_	_
+10	de	de	ADP	E	_	12	case	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	ordinateurs	ordinateurs	ADJ	A	Number=Plur	9	nmod	_	_
+13	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	15	cop	_	_
+14	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	15	det	_	_
+15	conséquence	conséquence	NOUN	S	Gender=Fem|Number=Sing	2	ccomp	_	_
+16	inévitable	inévitable	ADJ	A	Number=Sing	15	amod	_	_
+17	d'	de	ADP	E	_	19	case	_	SpaceAfter=No
+18	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	19	det	_	_
+19	modèle	modèle	NOUN	S	Gender=Fem|Number=Sing	15	nmod	_	_
+20	abouti	aboutir	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	19	acl	_	_
+21	antérieurement	antérieurement	ADV	B	_	20	advmod	_	_
+22	et	et	CCONJ	CC	_	24	cc	_	_
+23	biologiquement	biologiquement	ADV	B	_	24	advmod	_	_
+24	prouvé	prouver	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	20	conj	_	SpaceAfter=No
+25	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-915
+# text = Si on pousse à l'extrême, la matière noire suit le même archétype mycéliaire.
+1	Si	si	SCONJ	CS	_	3	mark	_	_
+2	on	on	PRON	P	Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	nsubj	_	_
+3	pousse	pousse	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	advcl	_	_
+4	à	à	ADP	E	_	6	case	_	_
+5	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	6	det	_	SpaceAfter=No
+6	extrême	extrême	NOUN	S	Gender=Fem|Number=Sing	3	obl	_	SpaceAfter=No
+7	,	,	PUNCT	FF	_	3	punct	_	_
+8	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	matière	matière	NOUN	S	Gender=Fem|Number=Sing	11	nsubj	_	_
+10	noire	noir	ADJ	A	Gender=Fem|Number=Sing	9	amod	_	_
+11	suit	suivre	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+12	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
+13	même	même	ADJ	A	Number=Sing	14	amod	_	_
+14	archétype	archétype	NOUN	S	Gender=Fem|Number=Sing	11	obj	_	_
+15	mycéliaire	mycéliaire	ADJ	A	Number=Sing	14	amod	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-916
+# text = Et c'est le paradigme que nous voyons dans tout l'univers.
+1	Et	et	CCONJ	CC	_	5	cc	_	_
+2	c'	ce	PRON	PD	PronType=Dem	5	nsubj	_	SpaceAfter=No
+3	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+4	le	le	DET	RD	Gender=Masc|Number=Sing|PronType=Art	5	det	_	_
+5	paradigme	paradigme	NOUN	S	Gender=Fem|Number=Sing	0	root	_	_
+6	que	que	PRON	PR	PronType=Rel	8	obj	_	_
+7	nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	8	nsubj	_	_
+8	voyons	voir	VERB	V	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	5	acl:relcl	_	_
+9	dans	dans	ADP	E	_	12	case	_	_
+10	tout	tout	DET	T	Gender=Masc|Number=Sing|PronType=Tot	12	det	_	_
+11	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	12	det	_	SpaceAfter=No
+12	univers	univers	NOUN	S	Gender=Fem|Number=Sing	8	obl	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-917
+# text = La plupart d'entre vous ne savent peut-être pas que les champignons ont été les premiers organismes à venir sur la terre.
+1	La	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
+2	plupart	plupart	NOUN	S	Gender=Fem|Number=Sing	7	nsubj	_	_
+3	d'	de	ADP	E	_	5	case	_	SpaceAfter=No
+4	entre	entre	ADP	E	_	3	fixed	_	_
+5	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	2	nmod	_	_
+6	ne	ne	PART	PART	Polarity=Neg	7	advmod	_	_
+7	savent	savoir	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+8	peut-être	peut-être	ADV	_	_	7	advmod	_	_
+9	pas	pas	ADV	BN	Polarity=Neg	7	advmod	_	_
+10	que	que	SCONJ	CS	_	17	mark	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	17	nsubj	_	_
+13	ont	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	17	aux	_	_
+14	été	être	AUX	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	17	cop	_	_
+15	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	17	det	_	_
+16	premiers	premier	ADJ	NO	Gender=Masc|Number=Plur|NumType=Ord	17	amod	_	_
+17	organismes	organisme	NOUN	S	Gender=Masc|Number=Plur	7	ccomp	_	_
+18	à	à	ADP	E	_	19	mark	_	_
+19	venir	venir	VERB	V	VerbForm=Inf	17	acl	_	_
+20	sur	sur	ADP	E	_	22	case	_	_
+21	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	22	det	_	_
+22	terre	terre	NOUN	S	Gender=Fem|Number=Sing	19	obl	_	SpaceAfter=No
+23	.	.	PUNCT	FS	_	7	punct	_	_
+
+# sent_id = fr_partut-ud-918
+# text = Ils sont venus sur la terre il y a 1,3 milliards d'années, et les plantes ont suivi plusieurs centaines de millions d'années plus tard.
+1	Ils	il	PRON	PE	Gender=Masc|Number=Plur|Person=3|PronType=Prs	3	nsubj	_	_
+2	sont	être	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	venus	venir	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	0	root	_	_
+4	sur	sur	ADP	E	_	6	case	_	_
+5	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
+6	terre	terre	NOUN	S	Gender=Fem|Number=Sing	3	obl	_	_
+7	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	11	case	_	_
+8	y	y	PRON	P	PronType=Prs	7	fixed	_	_
+9	a	avoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	fixed	_	_
+10	1,3	1,3	NUM	N	NumType=Card	11	nummod	_	_
+11	milliards	milliards	NOUN	S	Gender=Fem|Number=Plur	3	obl	_	_
+12	d'	de	ADP	E	_	13	case	_	SpaceAfter=No
+13	années	année	NOUN	S	Gender=Fem|Number=Plur	11	nmod	_	SpaceAfter=No
+14	,	,	PUNCT	FF	_	19	punct	_	_
+15	et	et	CCONJ	CC	_	19	cc	_	_
+16	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	17	det	_	_
+17	plantes	plantes	NOUN	S	Gender=Fem|Number=Plur	19	nsubj	_	_
+18	ont	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	19	aux	_	_
+19	suivi	suivre	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	3	conj	_	_
+20	plusieurs	plusieurs	DET	DI	Number=Plur|PronType=Ind	21	det	_	_
+21	centaines	centaines	NOUN	S	Gender=Fem|Number=Plur	19	obj	_	_
+22	de	de	ADP	E	_	23	case	_	_
+23	millions	millions	NOUN	S	Gender=Fem|Number=Plur	21	nmod	_	_
+24	d'	de	ADP	E	_	25	case	_	SpaceAfter=No
+25	années	année	NOUN	S	Gender=Fem|Number=Plur	23	nmod	_	_
+26	plus	plus	ADV	B	_	27	advmod	_	_
+27	tard	tard	ADV	B	_	19	advmod	_	SpaceAfter=No
+28	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-919
+# text = Comment est-ce possible?
+1	Comment	comment	ADV	B	_	4	advmod	_	_
+2	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	SpaceAfter=No
+3	-ce	ce	PRON	PD	Number=Sing|Person=3|PronType=Dem	4	nsubj	_	_
+4	possible	possible	ADJ	A	Number=Sing	0	root	_	SpaceAfter=No
+5	?	?	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-920
+# text = Il fait s'effriter les rochers, et c'est la première étape dans la production de sol.
+1	Il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	4	nsubj:caus	_	_
+2	fait	faire	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:caus	_	_
+3	s'	se	PRON	P	PronType=Prs	4	expl	_	SpaceAfter=No
+4	effriter	effriter	VERB	V	VerbForm=Inf	0	root	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	rochers	rochers	NOUN	S	Gender=Fem|Number=Plur	4	obj:agent	_	SpaceAfter=No
+7	,	,	PUNCT	FF	_	13	punct	_	_
+8	et	et	CCONJ	CC	_	13	cc	_	_
+9	c'	ce	PRON	PD	PronType=Dem	13	nsubj	_	SpaceAfter=No
+10	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	cop	_	_
+11	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	13	det	_	_
+12	première	premier	ADJ	NO	Gender=Fem|Number=Sing|NumType=Ord	13	amod	_	_
+13	étape	étape	NOUN	S	Gender=Fem|Number=Sing	4	conj	_	_
+14	dans	dans	ADP	E	_	16	case	_	_
+15	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	16	det	_	_
+16	production	production	NOUN	S	Gender=Fem|Number=Sing	13	nmod	_	_
+17	de	de	ADP	E	_	18	case	_	_
+18	sol	sol	ADJ	A	Number=Sing	16	nmod	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-921
+# text = L'acide oxalique est fait de deux molécules de dioxyde de carbone assemblées.
+1	L'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	2	det	_	SpaceAfter=No
+2	acide	acide	NOUN	S	Gender=Fem|Number=Sing	5	nsubj	_	_
+3	oxalique	oxalique	ADJ	A	Number=Sing	2	amod	_	_
+4	est	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+5	fait	faire	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+6	de	de	ADP	E	_	8	case	_	_
+7	deux	deux	NUM	N	NumType=Card	8	nummod	_	_
+8	molécules	molécule	NOUN	S	Gender=Fem|Number=Plur	5	obl	_	_
+9	de	de	ADP	E	_	10	case	_	_
+10	dioxyde	dioxyde	NOUN	S	Gender=Masc|Number=Sing	8	nmod	_	_
+11	de	de	ADP	E	_	12	case	_	_
+12	carbone	carbone	NOUN	S	Gender=Masc|Number=Sing	10	nmod	_	_
+13	assemblées	assembler	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	8	acl	_	SpaceAfter=No
+14	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-922
+# text = Ainsi, les champignons et le mycelium renferment du dioxyde de carbone sous la forme d'oxalates de calcium.
+1	Ainsi	ainsi	ADV	B	_	8	advmod	_	SpaceAfter=No
+2	,	,	PUNCT	FF	_	1	punct	_	_
+3	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	4	det	_	_
+4	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	8	nsubj	_	_
+5	et	et	CCONJ	CC	_	7	cc	_	_
+6	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	mycelium	mycelium	ADJ	A	Number=Sing	4	conj	_	_
+8	renferment	renfermer	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+9-10	du	_	_	_	_	_	_	_	_
+9	de	de	ADP	E	_	11	case	_	_
+10	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	11	det	_	_
+11	dioxyde	dioxyde	NOUN	S	Gender=Fem|Number=Sing	8	obl	_	_
+12	de	de	ADP	E	_	13	case	_	_
+13	carbone	carbone	NOUN	S	Gender=Fem|Number=Sing	11	nmod	_	_
+14	sous	sous	ADP	E	_	16	case	_	_
+15	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	16	det	_	_
+16	forme	forme	NOUN	S	Gender=Fem|Number=Sing	8	obl	_	_
+17	d'	de	ADP	E	_	18	case	_	SpaceAfter=No
+18	oxalates	oxalate	NOUN	S	Gender=Masc|Number=Plur	16	nmod	_	_
+19	de	de	ADP	E	_	20	case	_	_
+20	calcium	calcium	NOUN	S	Gender=Masc|Number=Sing	18	nmod	_	SpaceAfter=No
+21	.	.	PUNCT	FS	_	8	punct	_	_
+
+# sent_id = fr_partut-ud-923
+# text = Et toutes sortes d'autres oxalates renferment aussi du dioxyde de carbone par le biais des minéraux qui sont formés et sortis de la matrice rocheuse.
+1	Et	et	CCONJ	CC	_	7	cc	_	_
+2	toutes	tout	DET	DI	Gender=Fem|Number=Plur|PronType=Ind	3	det	_	_
+3	sortes	sorte	NOUN	S	Gender=Fem|Number=Plur	7	nsubj	_	_
+4	d'	de	ADP	E	_	6	case	_	SpaceAfter=No
+5	autres	autre	ADJ	A	Number=Plur	6	amod	_	_
+6	oxalates	oxalate	NOUN	S	Gender=Masc|Number=Plur	3	nmod	_	_
+7	renferment	renfermer	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+8	aussi	aussi	ADV	B	_	7	advmod	_	_
+9-10	du	_	_	_	_	_	_	_	_
+9	de	de	ADP	E	_	11	case	_	_
+10	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	11	det	_	_
+11	dioxyde	dioxyde	NOUN	S	Gender=Fem|Number=Sing	7	obl	_	_
+12	de	de	ADP	E	_	13	case	_	_
+13	carbone	carbone	NOUN	S	Gender=Fem|Number=Sing	11	nmod	_	_
+14	par	par	ADP	E	_	16	case	_	_
+15	le	le	DET	RD	Gender=Masc|Number=Sing|PronType=Art	16	det	_	_
+16	biais	biais	NOUN	S	Gender=Masc|Number=Sing	7	obl	_	_
+17-18	des	_	_	_	_	_	_	_	_
+17	de	de	ADP	E	_	19	case	_	_
+18	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	19	det	_	_
+19	minéraux	minéral	NOUN	S	Gender=Masc|Number=Plur	16	nmod	_	_
+20	qui	qui	PRON	PR	PronType=Rel	22	nsubj	_	_
+21	sont	être	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	22	aux	_	_
+22	formés	former	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	19	acl:relcl	_	_
+23	et	et	CCONJ	CC	_	24	cc	_	_
+24	sortis	sortir	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	22	conj	_	_
+25	de	de	ADP	E	_	27	case	_	_
+26	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	27	det	_	_
+27	matrice	matrice	NOUN	S	Gender=Fem|Number=Sing	24	obl	_	_
+28	rocheuse	rocheuse	ADJ	A	Gender=Fem|Number=Sing	27	amod	_	SpaceAfter=No
+29	.	.	PUNCT	FS	_	7	punct	_	_
+
+# sent_id = fr_partut-ud-924
+# text = On a découvert cela pour la première fois en 1859.
+1	On	on	PRON	P	Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	nsubj	_	_
+2	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	découvert	découvert	VERB	V	Tense=Past|VerbForm=Part	0	root	_	_
+4	cela	cela	PRON	PD	Number=Sing|Person=3|PronType=Dem	3	obj	_	_
+5	pour	pour	ADP	E	_	8	case	_	_
+6	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	8	det	_	_
+7	première	premier	ADJ	NO	Gender=Fem|Number=Sing|NumType=Ord	8	amod	_	_
+8	fois	foi	NOUN	S	Gender=Fem|Number=Plur	3	obl	_	_
+9	en	en	ADP	E	_	10	case	_	_
+10	1859	1859	NUM	N	NumType=Card	3	nummod	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-925
+# text = Voici une photographie de Franz Hueber.
+1	Voici	voici	ADP	E	_	3	discourse	_	_
+2	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
+3	photographie	photographie	NOUN	S	Gender=Fem|Number=Sing	0	root	_	_
+4	de	de	ADP	E	_	5	case	_	_
+5	Franz	Franz	PROPN	SP	_	3	nmod	_	_
+6	Hueber	Hueber	PROPN	SP	_	5	flat:name	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-926
+# text = Cette photographie a été prise en 1950 en Arabie Saoudite.
+1	Cette	ce	DET	DD	Gender=Fem|Number=Sing|PronType=Dem	2	det	_	_
+2	photographie	photographie	NOUN	S	Gender=Fem|Number=Sing	5	nsubj:pass	_	_
+3	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+4	été	être	AUX	VA	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	5	aux:pass	_	_
+5	prise	prendre	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+6	en	en	ADP	E	_	7	case	_	_
+7	1950	1950	NUM	N	NumType=Card	5	obl	_	_
+8	en	en	ADP	E	_	9	case	_	_
+9	Arabie	Arabie	PROPN	SP	_	5	obl	_	_
+10	Saoudite	Saoudite	PROPN	SP	_	9	flat:name	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-927
+# text = Il y a 420 millions d'années, cet organisme existait.
+1	Il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	5	case	_	_
+2	y	y	PRON	P	PronType=Prs	1	fixed	_	_
+3	a	avoir	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	fixed	_	_
+4	420	420	NUM	N	NumType=Card	5	nummod	_	_
+5	millions	millions	NOUN	S	Gender=Fem|Number=Plur	11	obl	_	_
+6	d'	de	ADP	E	_	7	case	_	SpaceAfter=No
+7	années	année	NOUN	S	Gender=Fem|Number=Plur	5	nmod	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	5	punct	_	_
+9	cet	ce	DET	DD	Gender=Masc|Number=Sing|PronType=Dem	10	det	_	_
+10	organisme	organisme	NOUN	S	Gender=Masc|Number=Sing	11	nsubj	_	_
+11	existait	exister	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	0	root	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-928
+# text = On l'a appelé Prototaxites.
+1	On	on	PRON	P	Gender=Masc|Number=Sing|Person=3|PronType=Prs	4	nsubj	_	_
+2	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	4	obj	_	SpaceAfter=No
+3	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	appelé	appeler	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+5	Prototaxites	Prototaxites	PROPN	SP	_	4	xcomp	_	SpaceAfter=No
+6	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-929
+# text = Prototaxites, couché, mesurait environ 90 cm de hauteur.
+1	Prototaxites	Prototaxites	PROPN	SP	_	5	nsubj	_	SpaceAfter=No
+2	,	,	PUNCT	FF	_	1	punct	_	_
+3	couché	coucher	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	5	xcomp	_	SpaceAfter=No
+4	,	,	PUNCT	FF	_	3	punct	_	_
+5	mesurait	mesurait	NOUN	S	Gender=Fem|Number=Sing	0	root	_	_
+6	environ	environ	ADV	B	_	5	advmod	_	_
+7	90	90	NUM	N	NumType=Card	8	nummod	_	_
+8	cm	cm	NOUN	S	Gender=Fem|Number=Sing	5	xcomp	_	_
+9	de	de	ADP	E	_	10	case	_	_
+10	hauteur	hauteur	ADJ	A	Number=Sing	8	nmod	_	SpaceAfter=No
+11	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-930
+# text = Les plus grandes plantes sur la Terre à l'époque mesuraient moins de 60 cm.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	4	det	_	_
+2	plus	plus	ADV	B	_	3	advmod	_	_
+3	grandes	grand	ADJ	A	Gender=Fem|Number=Plur	4	amod	_	_
+4	plantes	plantes	NOUN	S	Gender=Fem|Number=Plur	11	nsubj	_	_
+5	sur	sur	ADP	E	_	7	case	_	_
+6	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	Terre	Terre	PROPN	SP	_	4	nmod	_	_
+8	à	à	ADP	E	_	10	case	_	_
+9	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	10	det	_	SpaceAfter=No
+10	époque	époque	NOUN	S	Gender=Fem|Number=Sing	11	nmod	_	_
+11	mesuraient	mesuraient	NOUN	S	Gender=Fem|Number=Sing	0	root	_	_
+12	moins	moins	ADV	B	_	14	advmod	_	_
+13	de	de	ADP	E	_	12	fixed	_	_
+14	60	60	NUM	N	NumType=Card	15	nummod	_	_
+15	cm	cm	NOUN	S	Gender=Fem|Number=Sing	11	xcomp	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-931
+# text = Ces champignons géants étaient disséminés sur toute la Terre.
+1	Ces	ce	DET	DD	Number=Plur|PronType=Dem	2	det	_	_
+2	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	5	nsubj:pass	_	_
+3	géants	géant	ADJ	A	Gender=Masc|Number=Plur	2	amod	_	_
+4	étaient	être	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	5	aux:pass	_	_
+5	disséminés	disséminés	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	0	root	_	_
+6	sur	sur	ADP	E	_	9	case	_	_
+7	toute	tout	DET	T	Gender=Fem|Number=Sing|PronType=Tot	9	det	_	_
+8	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
+9	Terre	Terre	PROPN	SP	_	5	obl	_	SpaceAfter=No
+10	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-932
+# text = Sur la plupart des terres émergées.
+1	Sur	sur	ADP	E	_	3	case	_	_
+2	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	3	det	_	_
+3	plupart	plupart	NOUN	S	Gender=Fem|Number=Sing	0	root	_	_
+4-5	des	_	_	_	_	_	_	_	_
+4	de	de	ADP	E	_	6	case	_	_
+5	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	terres	terres	NOUN	S	Gender=Fem|Number=Plur	3	nmod	_	_
+7	émergées	émerger	VERB	V	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	6	acl	_	SpaceAfter=No
+8	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-933
+# text = Et ils ont existé pendant des dizaines de millions d'années.
+1	Et	et	CCONJ	CC	_	4	cc	_	_
+2	ils	il	PRON	PE	Gender=Masc|Number=Plur|Person=3|PronType=Prs	4	nsubj	_	_
+3	ont	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	existé	exister	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+5	pendant	pendant	ADP	E	_	7	case	_	_
+6	des	un	DET	RI	Definite=Ind|Gender=Fem|Number=Plur|PronType=Art	7	det	_	_
+7	dizaines	dizaines	NOUN	S	Gender=Fem|Number=Plur	4	obl	_	_
+8	de	de	ADP	E	_	9	case	_	_
+9	millions	millions	NOUN	S	Gender=Fem|Number=Plur	7	nmod	_	_
+10	d'	de	ADP	E	_	11	case	_	SpaceAfter=No
+11	années	année	NOUN	S	Gender=Fem|Number=Plur	9	nmod	_	SpaceAfter=No
+12	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-934
+# text = La terre a été frappée par un astéroïde, une énorme quantité de débris a été larguée dans l'atmosphère.
+1	La	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
+2	terre	terre	NOUN	S	Gender=Fem|Number=Sing	5	nsubj:pass	_	_
+3	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+4	été	être	AUX	VA	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	5	aux:pass	_	_
+5	frappée	frappée	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+6	par	par	ADP	E	_	8	case	_	_
+7	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
+8	astéroïde	astéroïde	NOUN	S	Gender=Masc|Number=Sing	5	obl:agent	_	SpaceAfter=No
+9	,	,	PUNCT	FF	_	17	punct	_	_
+10	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	12	det	_	_
+11	énorme	énorme	ADJ	A	Number=Sing	12	amod	_	_
+12	quantité	quantité	NOUN	S	Gender=Fem|Number=Sing	17	nsubj:pass	_	_
+13	de	de	ADP	E	_	14	case	_	_
+14	débris	débris	ADJ	A	Number=Plur	12	nmod	_	_
+15	a	avoir	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	aux	_	_
+16	été	être	AUX	VA	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	17	aux:pass	_	_
+17	larguée	larguée	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	5	conj	_	_
+18	dans	dans	ADP	E	_	20	case	_	_
+19	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	20	det	_	SpaceAfter=No
+20	atmosphère	atmosphère	NOUN	S	Gender=Fem|Number=Sing	17	obl	_	SpaceAfter=No
+21	.	.	PUNCT	FS	_	5	punct	_	_
+
+# sent_id = fr_partut-ud-935
+# text = La lumière du soleil n'arrivait plus, et les champignons ont hérité de la Terre.
+1	La	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
+2	lumière	lumière	NOUN	S	Gender=Fem|Number=Sing	7	nsubj	_	_
+3-4	du	_	_	_	_	_	_	_	_
+3	de	de	ADP	E	_	5	case	_	_
+4	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	5	det	_	_
+5	soleil	soleil	NOUN	S	Gender=Fem|Number=Sing	2	nmod	_	_
+6	n'	ne	PART	PART	Polarity=Neg	7	advmod	_	SpaceAfter=No
+7	arrivait	arriver	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	0	root	_	_
+8	plus	plus	ADV	B	_	7	advmod	_	SpaceAfter=No
+9	,	,	PUNCT	FF	_	14	punct	_	_
+10	et	et	CCONJ	CC	_	14	cc	_	_
+11	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
+12	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	14	nsubj	_	_
+13	ont	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	14	aux	_	_
+14	hérité	hérité	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	7	conj	_	_
+15	de	de	ADP	E	_	17	case	_	_
+16	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	17	det	_	_
+17	Terre	Terre	PROPN	SP	_	14	obl	_	SpaceAfter=No
+18	.	.	PUNCT	FS	_	7	punct	_	_
+
+# sent_id = fr_partut-ud-936
+# text = Les organismes qui s'étaient associés avec des champignons ont été récompensés, parce que les champignons n'ont pas besoin de lumière.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	organismes	organisme	NOUN	S	Gender=Masc|Number=Plur	12	nsubj:pass	_	_
+3	qui	qui	PRON	PR	PronType=Rel	6	nsubj	_	_
+4	s'	se	PRON	P	PronType=Prs	6	expl	_	SpaceAfter=No
+5	étaient	être	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Imp|VerbForm=Fin	6	aux	_	_
+6	associés	associer	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	2	acl:relcl	_	_
+7	avec	avec	ADP	E	_	9	case	_	_
+8	des	un	DET	RI	Definite=Ind|Gender=Masc|Number=Plur|PronType=Art	9	det	_	_
+9	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	6	obl	_	_
+10	ont	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	aux	_	_
+11	été	être	AUX	VA	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	12	aux:pass	_	_
+12	récompensés	récompensés	VERB	V	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	0	root	_	SpaceAfter=No
+13	,	,	PUNCT	FF	_	12	punct	_	_
+14	parce	parce	ADV	B	_	19	mark	_	_
+15	que	que	SCONJ	CS	_	14	fixed	_	_
+16	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	17	det	_	_
+17	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	19	nsubj	_	_
+18	n'	ne	PART	PART	Polarity=Neg	19	advmod	_	SpaceAfter=No
+19	ont	avoir	VERB	V	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	_
+20	pas	pas	ADV	BN	Polarity=Neg	19	advmod	_	_
+21	besoin	besoin	NOUN	S	Gender=Masc|Number=Sing	19	obj	_	_
+22	de	de	ADP	E	_	23	case	_	_
+23	lumière	lumière	NOUN	S	Gender=Fem|Number=Sing	21	nmod	_	SpaceAfter=No
+24	.	.	PUNCT	FS	_	12	punct	_	_
+
+# sent_id = fr_partut-ud-937
+# text = Ainsi, la perspective de champignons existant ailleurs sur d'autres planètes, est, je crois, courue d'avance;
+1	Ainsi	ainsi	ADV	B	_	19	advmod	_	SpaceAfter=No
+2	,	,	PUNCT	FF	_	1	punct	_	_
+3	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	4	det	_	_
+4	perspective	perspective	NOUN	S	Gender=Fem|Number=Sing	19	nsubj	_	_
+5	de	de	ADP	E	_	6	case	_	_
+6	champignons	champignon	NOUN	S	Gender=Masc|Number=Plur	4	nmod	_	_
+7	existant	exister	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	6	acl	_	_
+8	ailleurs	ailleurs	ADV	B	_	7	advmod	_	_
+9	sur	sur	ADP	E	_	12	case	_	_
+10	d'	de	ADP	E	_	12	case	_	SpaceAfter=No
+11	autres	autre	DET	RI	Gender=Masc|Number=Plur|PronType=Ind	12	det	_	_
+12	planètes	planètes	NOUN	S	Gender=Fem|Number=Plur	7	obl	_	SpaceAfter=No
+13	,	,	PUNCT	FF	_	4	punct	_	_
+14	est	être	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	19	aux	_	SpaceAfter=No
+15	,	,	PUNCT	FF	_	14	punct	_	_
+16	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	17	nsubj	_	_
+17	crois	croire	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	19	parataxis	_	SpaceAfter=No
+18	,	,	PUNCT	FF	_	17	punct	_	_
+19	courue	courir	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+20	d'	de	ADP	E	_	21	case	_	SpaceAfter=No
+21	avance	avance	NOUN	N	Gender=Fem|Number=Sing	19	obl	_	SpaceAfter=No
+22	;	;	PUNCT	FC	_	19	punct	_	_
+
+# sent_id = fr_partut-ud-938
+# text = Au moins dans mon esprit.
+1-2	Au	_	_	_	_	_	_	_	_
+1	à	à	ADP	E	_	3	case	_	_
+2	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	3	det	_	_
+3	moins	moins	ADV	B	_	6	advmod	_	_
+4	dans	dans	ADP	E	_	6	case	_	_
+5	mon	mon	DET	AP	Gender=Masc|Number=Sing|PronType=Prs	6	det	_	_
+6	esprit	esprit	NOUN	S	Gender=Masc|Number=Sing	0	root	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	6	punct	_	_
+
+# sent_id = fr_partut-ud-939
+# text = Le plus grand organisme au monde est dans l'est de l'Oregon.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	4	det	_	_
+2	plus	plus	ADV	B	_	3	advmod	_	_
+3	grand	grand	ADJ	A	Gender=Masc|Number=Sing	4	amod	_	_
+4	organisme	organisme	NOUN	S	Gender=Masc|Number=Sing	11	nsubj	_	_
+5-6	au	_	_	_	_	_	_	_	_
+5	à	à	ADP	E	_	7	case	_	_
+6	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
+7	monde	monde	NOUN	S	Gender=Masc|Number=Sing	4	nmod	_	_
+8	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	cop	_	_
+9	dans	dans	ADP	E	_	11	case	_	_
+10	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	11	det	_	SpaceAfter=No
+11	est	est	NOUN	S	Gender=Masc|Number=Sing	0	root	_	_
+12	de	de	ADP	E	_	14	case	_	_
+13	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	14	det	_	SpaceAfter=No
+14	Oregon	Oregon	PROPN	SP	_	11	nmod	_	SpaceAfter=No
+15	.	.	PUNCT	FS	_	11	punct	_	_
+
+# sent_id = fr_partut-ud-940
+# text = 2200 acres de superficie, 2000 ans d'age.
+1	2200	2200	NUM	N	NumType=Card	2	nummod	_	_
+2	acres	acres	NOUN	S	Gender=Fem|Number=Plur	0	root	_	_
+3	de	de	ADP	E	_	4	case	_	_
+4	superficie	superficie	NOUN	S	Gender=Fem|Number=Sing	2	nmod	_	SpaceAfter=No
+5	,	,	PUNCT	FF	_	7	punct	_	_
+6	2000	2000	NUM	N	NumType=Card	7	nummod	_	_
+7	ans	an	NOUN	S	Gender=Masc|Number=Plur	2	conj	_	_
+8	d'	de	ADP	E	_	9	case	_	SpaceAfter=No
+9	age	age	NOUN	S	Gender=Fem|Number=Sing	7	nmod	_	SpaceAfter=No
+10	.	.	PUNCT	FS	_	2	punct	_	_
+
+# sent_id = fr_partut-ud-941
+# text = Le plus grand organisme de la planète est un tapis myceliaire, une paroi avec une seule cellule d'épaisseur.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	4	det	_	_
+2	plus	plus	ADV	B	_	3	advmod	_	_
+3	grand	grand	ADJ	A	Gender=Masc|Number=Sing	4	amod	_	_
+4	organisme	organisme	NOUN	S	Gender=Masc|Number=Sing	0	root	_	_
+5	de	de	ADP	E	_	7	case	_	_
+6	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	7	det	_	_
+7	planète	planète	ADJ	A	Number=Sing	4	nmod	_	_
+8	est	être	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+9	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	10	det	_	_
+10	tapis	tapis	NOUN	S	Gender=Masc|Number=Sing	4	nsubj	_	_
+11	myceliaire	myceliaire	ADJ	A	Gender=Masc|Number=Sing	10	amod	_	SpaceAfter=No
+12	,	,	PUNCT	FF	_	10	punct	_	_
+13	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	14	det	_	_
+14	paroi	paroi	NOUN	S	Gender=Fem|Number=Sing	10	appos	_	_
+15	avec	avec	ADP	E	_	18	case	_	_
+16	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	18	det	_	_
+17	seule	seul	ADJ	A	Gender=Fem|Number=Sing	18	amod	_	_
+18	cellule	cellule	NOUN	S	Gender=Fem|Number=Sing	14	nmod	_	_
+19	d'	de	ADP	E	_	20	case	_	SpaceAfter=No
+20	épaisseur	épaisseur	ADJ	A	Number=Sing	18	nmod	_	SpaceAfter=No
+21	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-942
+# text = Le mycélium, dans de bonnes conditions, produit un champignon - il traverse le sol avec une férocité telle qu'il peut briser l'asphalte.
+1	Le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	_
+2	mycélium	mycélium	NOUN	S	Gender=Masc|Number=Sing	9	nsubj	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	2	punct	_	_
+4	dans	dans	ADP	E	_	7	case	_	_
+5	de	un	DET	RI	Definite=Ind|Number=Sing|PronType=Dem	7	det	_	_
+6	bonnes	bon	ADJ	A	Gender=Fem|Number=Plur	7	amod	_	_
+7	conditions	condition	NOUN	S	Gender=Fem|Number=Plur	9	obl	_	SpaceAfter=No
+8	,	,	PUNCT	FF	_	7	punct	_	_
+9	produit	produire	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	11	det	_	_
+11	champignon	champignon	NOUN	S	Gender=Masc|Number=Sing	9	obj	_	_
+12	-	-	PUNCT	FF	_	9	punct	_	_
+13	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	14	nsubj	_	_
+14	traverse	traverse	VERB	V	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	conj	_	_
+15	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	16	det	_	_
+16	sol	sol	ADJ	A	Number=Sing	14	obj	_	_
+17	avec	avec	ADP	E	_	19	case	_	_
+18	une	un	DET	RI	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	19	det	_	_
+19	férocité	férocité	NOUN	S	Gender=Fem|Number=Sing	14	obl	_	_
+20	telle	tel	ADJ	A	Gender=Fem|Number=Sing	19	amod	_	_
+21	qu'	que	SCONJ	CS	_	24	mark	_	SpaceAfter=No
+22	il	il	PRON	PE	Gender=Masc|Number=Sing|Person=3|PronType=Prs	24	nsubj	_	_
+23	peut	pouvoir	AUX	VM	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	24	aux	_	_
+24	briser	briser	VERB	V	VerbForm=Inf	19	acl	_	_
+25	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	26	det	_	SpaceAfter=No
+26	asphalte	asphalte	NOUN	S	Gender=Fem|Number=Sing	24	obj	_	SpaceAfter=No
+27	.	.	PUNCT	FS	_	9	punct	_	_
+
+# sent_id = fr_partut-ud-943
+# text = Nous avons participé à plusieurs expériences.
+1	Nous	nous	PRON	PE	Number=Plur|Person=1|PronType=Prs	3	nsubj	_	_
+2	avons	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	3	aux	_	_
+3	participé	participer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+4	à	à	ADP	E	_	6	case	_	_
+5	plusieurs	plusieurs	DET	DI	Number=Plur|PronType=Ind	6	det	_	_
+6	expériences	expériences	NOUN	S	Gender=Fem|Number=Plur	3	obl	_	SpaceAfter=No
+7	.	.	PUNCT	FS	_	3	punct	_	_
+
+# sent_id = fr_partut-ud-944
+# text = Je vais vous montrer six, si je le peux, solutions pour aider à sauver le monde.
+1	Je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	4	nsubj	_	_
+2	vais	aller	AUX	VA	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	aux	_	_
+3	vous	vous	PRON	PE	Number=Plur|Person=2|PronType=Prs	4	iobj	_	_
+4	montrer	montrer	VERB	V	VerbForm=Inf	0	root	_	_
+5	six	six	NUM	N	NumType=Card	12	nummod	_	SpaceAfter=No
+6	,	,	PUNCT	FF	_	5	punct	_	_
+7	si	si	SCONJ	CS	_	10	mark	_	_
+8	je	je	PRON	PE	Number=Sing|Person=1|PronType=Prs	10	nsubj	_	_
+9	le	le	PRON	P	Gender=Masc|Number=Sing|Person=3|PronType=Prs	10	obj	_	_
+10	peux	pouvoir	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	advcl	_	SpaceAfter=No
+11	,	,	PUNCT	FF	_	10	punct	_	_
+12	solutions	solution	NOUN	S	Gender=Fem|Number=Plur	4	obj	_	_
+13	pour	pour	ADP	E	_	14	mark	_	_
+14	aider	aider	VERB	V	VerbForm=Inf	12	acl	_	_
+15	à	à	ADP	E	_	16	mark	_	_
+16	sauver	sauver	VERB	V	VerbForm=Inf	14	xcomp	_	_
+17	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
+18	monde	monde	NOUN	S	Gender=Masc|Number=Sing	16	obj	_	SpaceAfter=No
+19	.	.	PUNCT	FS	_	4	punct	_	_
+
+# sent_id = fr_partut-ud-945
+# text = Les laboratoires Battelle et moi-même avons travaillé ensemble à Bellingham, dans l'état de Washington.
+1	Les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	2	det	_	_
+2	laboratoires	laboratoire	NOUN	S	Number=Plur	7	nsubj	_	_
+3	Battelle	Battelle	PROPN	SP	_	2	nmod	_	_
+4	et	et	CCONJ	CC	_	5	cc	_	_
+5	moi-même	moi-même	PRON	PE	Number=Sing|Person=1|PronType=Prs	2	conj	_	_
+6	avons	avoir	AUX	VA	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	7	aux	_	_
+7	travaillé	travailler	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	_
+8	ensemble	ensemble	ADV	B	_	7	advmod	_	_
+9	à	à	ADP	E	_	10	case	_	_
+10	Bellingham	Bellingham	PROPN	SP	_	7	obl	_	SpaceAfter=No
+11	,	,	PUNCT	FF	_	7	punct	_	_
+12	dans	dans	ADP	E	_	14	case	_	_
+13	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	14	det	_	SpaceAfter=No
+14	état	état	NOUN	S	Gender=Masc|Number=Sing	7	obl	_	_
+15	de	de	ADP	E	_	16	case	_	_
+16	Washington	Washington	PROPN	SP	_	14	nmod	_	SpaceAfter=No
+17	.	.	PUNCT	FS	_	7	punct	_	_
+

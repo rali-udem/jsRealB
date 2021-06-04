@@ -1,0 +1,1177 @@
+0: 1
+# text = It is hers.
+# TEXT = It is hers.
+---
+1: 2
+# text = It is his.
+# TEXT = It is his.
+---
+2: 3
+# text = It is theirs.
+# TEXT = It is theirs.
+---
+3: 4
+# text = It is mine.
+# TEXT = It is mine.
+---
+4: 5
+# text = It is yours.
+# TEXT = It is yours.
+---
+5: 6
+1 difference
+# text = It[1;32;4m's[0m hers.
+# TEXT = It[1;32;4m is[0m hers.
+---
+6: 7
+1 difference
+# text = It[1;32;4m's[0m his.
+# TEXT = It[1;32;4m is[0m his.
+---
+7: 8
+1 difference
+# text = It[1;32;4m's[0m theirs.
+# TEXT = It[1;32;4m is[0m theirs.
+---
+8: 9
+1 difference
+# text = It[1;32;4m's[0m mine.
+# TEXT = It[1;32;4m is[0m mine.
+---
+9: 10
+1 difference
+# text = It[1;32;4m's[0m yours.
+# TEXT = It[1;32;4m is[0m yours.
+---
+10: 11
+1 difference
+# text = It[1;32;4m's[0m all hers!
+# TEXT = It[1;32;4m is[0m all hers!
+---
+11: 12
+1 difference
+# text = It[1;32;4m's[0m all his!
+# TEXT = It[1;32;4m is[0m all his!
+---
+12: 13
+1 difference
+# text = It[1;32;4m's[0m all theirs!
+# TEXT = It[1;32;4m is[0m all theirs!
+---
+13: 14
+1 difference
+# text = It[1;32;4m's[0m all mine!
+# TEXT = It[1;32;4m is[0m all mine!
+---
+14: 15
+1 difference
+# text = It[1;32;4m's[0m all yours!
+# TEXT = It[1;32;4m is[0m all yours!
+---
+15: 16
+1 difference
+# text = It[1;32;4m's[0m mostly hers.
+# TEXT = It[1;32;4m is[0m mostly hers.
+---
+16: 17
+1 difference
+# text = It[1;32;4m's[0m mostly his.
+# TEXT = It[1;32;4m is[0m mostly his.
+---
+17: 18
+1 difference
+# text = It[1;32;4m's[0m mostly theirs.
+# TEXT = It[1;32;4m is[0m mostly theirs.
+---
+18: 19
+1 difference
+# text = It[1;32;4m's[0m mostly mine.
+# TEXT = It[1;32;4m is[0m mostly mine.
+---
+19: 20
+1 difference
+# text = It[1;32;4m's[0m mostly yours.
+# TEXT = It[1;32;4m is[0m mostly yours.
+---
+20:in 21
+1 error: 21
+NP(Pro('it'),V('be'),Pro('her'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+21:in 22
+1 error: 22
+NP(Pro('it'),V('be'),Pro('him'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+22:in 23
+1 error: 23
+NP(Pro('it'),V('be'),Pro('them'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+23:in 24
+1 error: 24
+NP(Pro('it'),V('be'),Pro('me'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+24:in 25
+1 error: 25
+NP(Pro('it'),V('be'),Pro('you'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+25:in 26
+1 error: 26
+NP(Pro('it'),V('be'),Pro('her')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+26:in 27
+1 error: 27
+NP(Pro('it'),V('be'),Pro('him')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+27:in 28
+1 error: 28
+NP(Pro('it'),V('be'),Pro('them')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+28:in 29
+1 error: 29
+NP(Pro('it'),V('be'),Pro('me')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+29:in 30
+1 error: 30
+NP(Pro('it'),V('be'),Pro('you')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+30:in 31
+1 error: 31
+NP(Pro('it'),V('be'),Pro('her')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+31:in 32
+1 error: 32
+NP(Pro('it'),V('be'),Pro('him')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+32:in 33
+1 error: 33
+NP(Pro('it'),V('be'),Pro('them')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+33:in 34
+1 error: 34
+NP(Pro('it'),V('be'),Pro('me')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+34:in 35
+1 error: 35
+NP(Pro('it'),V('be'),Pro('you')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+35: 36
+# text = The car is hers.
+# TEXT = The car is hers.
+---
+36: 37
+# text = The car is his.
+# TEXT = The car is his.
+---
+37: 38
+# text = The car is theirs.
+# TEXT = The car is theirs.
+---
+38: 39
+# text = The car is mine.
+# TEXT = The car is mine.
+---
+39: 40
+# text = The car is yours.
+# TEXT = The car is yours.
+---
+40: 41
+1 difference
+# text = The car[1;32;4m's[0m hers.
+# TEXT = The car[1;32;4m is[0m hers.
+---
+41: 42
+1 difference
+# text = The car[1;32;4m's[0m his.
+# TEXT = The car[1;32;4m is[0m his.
+---
+42: 43
+1 difference
+# text = The car[1;32;4m's[0m theirs.
+# TEXT = The car[1;32;4m is[0m theirs.
+---
+43: 44
+1 difference
+# text = The car[1;32;4m's[0m mine.
+# TEXT = The car[1;32;4m is[0m mine.
+---
+44: 45
+1 difference
+# text = The car[1;32;4m's[0m yours.
+# TEXT = The car[1;32;4m is[0m yours.
+---
+45: 46
+1 difference
+# text = The car[1;32;4m's[0m all hers!
+# TEXT = The car[1;32;4m is[0m all hers!
+---
+46: 47
+1 difference
+# text = The car[1;32;4m's[0m all his!
+# TEXT = The car[1;32;4m is[0m all his!
+---
+47: 48
+1 difference
+# text = The car[1;32;4m's[0m all theirs!
+# TEXT = The car[1;32;4m is[0m all theirs!
+---
+48: 49
+1 difference
+# text = The car[1;32;4m's[0m all mine!
+# TEXT = The car[1;32;4m is[0m all mine!
+---
+49: 50
+1 difference
+# text = The car[1;32;4m's[0m all yours!
+# TEXT = The car[1;32;4m is[0m all yours!
+---
+50: 51
+1 difference
+# text = The car[1;32;4m's[0m mostly hers.
+# TEXT = The car[1;32;4m is[0m mostly hers.
+---
+51: 52
+1 difference
+# text = The car[1;32;4m's[0m mostly his.
+# TEXT = The car[1;32;4m is[0m mostly his.
+---
+52: 53
+1 difference
+# text = The car[1;32;4m's[0m mostly theirs.
+# TEXT = The car[1;32;4m is[0m mostly theirs.
+---
+53: 54
+1 difference
+# text = The car[1;32;4m's[0m mostly mine.
+# TEXT = The car[1;32;4m is[0m mostly mine.
+---
+54: 55
+1 difference
+# text = The car[1;32;4m's[0m mostly yours.
+# TEXT = The car[1;32;4m is[0m mostly yours.
+---
+55:in 56
+1 error: 56
+NP(NP(D('the'),N('car')),V('be'),Pro('her'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+56:in 57
+1 error: 57
+NP(NP(D('the'),N('car')),V('be'),Pro('him'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+57:in 58
+1 error: 58
+NP(NP(D('the'),N('car')),V('be'),Pro('them'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+58:in 59
+1 error: 59
+NP(NP(D('the'),N('car')),V('be'),Pro('me'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+59:in 60
+1 error: 60
+NP(NP(D('the'),N('car')),V('be'),Pro('you'),Q('!')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+60:in 61
+1 error: 61
+NP(NP(D('the'),N('car')),V('be'),Pro('her')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+61:in 62
+1 error: 62
+NP(NP(D('the'),N('car')),V('be'),Pro('him')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+62:in 63
+1 error: 63
+NP(NP(D('the'),N('car')),V('be'),Pro('them')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+63:in 64
+1 error: 64
+NP(NP(D('the'),N('car')),V('be'),Pro('me')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+64:in 65
+1 error: 65
+NP(NP(D('the'),N('car')),V('be'),Pro('you')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+65:in 66
+1 error: 66
+NP(NP(D('the'),N('car')),V('be'),Pro('her')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+66:in 67
+1 error: 67
+NP(NP(D('the'),N('car')),V('be'),Pro('him')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+67:in 68
+1 error: 68
+NP(NP(D('the'),N('car')),V('be'),Pro('them')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+68:in 69
+1 error: 69
+NP(NP(D('the'),N('car')),V('be'),Pro('me')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+69:in 70
+1 error: 70
+NP(NP(D('the'),N('car')),V('be'),Pro('you')):: .typ({"neg":true}) should be applied to S, SP or VP, not to NP.
+---
+70: 71
+# text = Any car of hers sells quickly.
+# TEXT = Any car of hers sells quickly.
+---
+71: 72
+# text = Any car of his sells quickly.
+# TEXT = Any car of his sells quickly.
+---
+72: 73
+# text = Any car of theirs sells quickly.
+# TEXT = Any car of theirs sells quickly.
+---
+73: 74
+# text = Any car of mine sells quickly.
+# TEXT = Any car of mine sells quickly.
+---
+74: 75
+# text = Any car of yours sells quickly.
+# TEXT = Any car of yours sells quickly.
+---
+75: 76
+# text = There is hers.
+# TEXT = There is hers.
+---
+76: 77
+# text = There is his.
+# TEXT = There is his.
+---
+77: 78
+# text = There is theirs.
+# TEXT = There is theirs.
+---
+78: 79
+# text = There is mine.
+# TEXT = There is mine.
+---
+79: 80
+# text = There is yours.
+# TEXT = There is yours.
+---
+80: 81
+# text = The car is at hers.
+# TEXT = The car is at hers.
+---
+81: 82
+# text = The car is at his.
+# TEXT = The car is at his.
+---
+82: 83
+# text = The car is at theirs.
+# TEXT = The car is at theirs.
+---
+83: 84
+# text = The car is at mine.
+# TEXT = The car is at mine.
+---
+84: 85
+# text = The car is at yours.
+# TEXT = The car is at yours.
+---
+85: 86
+# text = Hers is nice.
+# TEXT = Hers is nice.
+---
+86: 87
+# text = His is nice.
+# TEXT = His is nice.
+---
+87: 88
+# text = Theirs is nice.
+# TEXT = Theirs is nice.
+---
+88: 89
+# text = Mine is nice.
+# TEXT = Mine is nice.
+---
+89: 90
+# text = Yours is nice.
+# TEXT = Yours is nice.
+---
+90: 91
+# text = Hers drove responsively.
+# TEXT = Hers drove responsively.
+---
+91: 92
+# text = His drove responsively.
+# TEXT = His drove responsively.
+---
+92: 93
+# text = Theirs drove responsively.
+# TEXT = Theirs drove responsively.
+---
+93: 94
+# text = Mine drove responsively.
+# TEXT = Mine drove responsively.
+---
+94: 95
+# text = Yours drove responsively.
+# TEXT = Yours drove responsively.
+---
+95: 96
+# text = Hers accelerated.
+# TEXT = Hers accelerated.
+---
+96: 97
+# text = His accelerated.
+# TEXT = His accelerated.
+---
+97: 98
+# text = Theirs accelerated.
+# TEXT = Theirs accelerated.
+---
+98: 99
+# text = Mine accelerated.
+# TEXT = Mine accelerated.
+---
+99: 100
+# text = Yours accelerated.
+# TEXT = Yours accelerated.
+---
+100: 101
+# text = Hers hit bumps.
+# TEXT = Hers hit bumps.
+---
+101: 102
+# text = His hit bumps.
+# TEXT = His hit bumps.
+---
+102: 103
+# text = Theirs hit bumps.
+# TEXT = Theirs hit bumps.
+---
+103: 104
+# text = Mine hit bumps.
+# TEXT = Mine hit bumps.
+---
+104: 105
+# text = Yours hit bumps.
+# TEXT = Yours hit bumps.
+---
+105: 106
+# text = The dealer gave hers fresh paint.
+# TEXT = The dealer gave hers fresh paint.
+---
+106: 107
+# text = The dealer gave his fresh paint.
+# TEXT = The dealer gave his fresh paint.
+---
+107: 108
+# text = The dealer gave theirs fresh paint.
+# TEXT = The dealer gave theirs fresh paint.
+---
+108: 109
+# text = The dealer gave mine fresh paint.
+# TEXT = The dealer gave mine fresh paint.
+---
+109: 110
+# text = The dealer gave yours fresh paint.
+# TEXT = The dealer gave yours fresh paint.
+---
+110: 111
+# text = Dealers saw hers.
+# TEXT = Dealers saw hers.
+---
+111: 112
+# text = Dealers saw his.
+# TEXT = Dealers saw his.
+---
+112: 113
+# text = Dealers saw theirs.
+# TEXT = Dealers saw theirs.
+---
+113: 114
+# text = Dealers saw mine.
+# TEXT = Dealers saw mine.
+---
+114: 115
+# text = Dealers saw yours.
+# TEXT = Dealers saw yours.
+---
+115: 116
+# text = The dealers liked that hers cleaned easily.
+# TEXT = The dealers liked that hers cleaned easily.
+---
+116: 117
+# text = The dealers liked that his cleaned easily.
+# TEXT = The dealers liked that his cleaned easily.
+---
+117: 118
+# text = The dealers liked that theirs cleaned easily.
+# TEXT = The dealers liked that theirs cleaned easily.
+---
+118: 119
+# text = The dealers liked that mine cleaned easily.
+# TEXT = The dealers liked that mine cleaned easily.
+---
+119: 120
+# text = The dealers liked that yours cleaned easily.
+# TEXT = The dealers liked that yours cleaned easily.
+---
+120: 121
+# text = The dealers liked that hers sold quickly.
+# TEXT = The dealers liked that hers sold quickly.
+---
+121: 122
+# text = The dealers liked that his sold quickly.
+# TEXT = The dealers liked that his sold quickly.
+---
+122: 123
+# text = The dealers liked that theirs sold quickly.
+# TEXT = The dealers liked that theirs sold quickly.
+---
+123: 124
+# text = The dealers liked that mine sold quickly.
+# TEXT = The dealers liked that mine sold quickly.
+---
+124: 125
+# text = The dealers liked that yours sold quickly.
+# TEXT = The dealers liked that yours sold quickly.
+---
+125: 126
+# text = The dealers knew that hers cleaned easily.
+# TEXT = The dealers knew that hers cleaned easily.
+---
+126: 127
+# text = The dealers knew that his cleaned easily.
+# TEXT = The dealers knew that his cleaned easily.
+---
+127: 128
+# text = The dealers knew that theirs cleaned easily.
+# TEXT = The dealers knew that theirs cleaned easily.
+---
+128: 129
+# text = The dealers knew that mine cleaned easily.
+# TEXT = The dealers knew that mine cleaned easily.
+---
+129: 130
+# text = The dealers knew that yours cleaned easily.
+# TEXT = The dealers knew that yours cleaned easily.
+---
+130: 131
+# text = The dealers knew that hers sold quickly.
+# TEXT = The dealers knew that hers sold quickly.
+---
+131: 132
+# text = The dealers knew that his sold quickly.
+# TEXT = The dealers knew that his sold quickly.
+---
+132: 133
+# text = The dealers knew that theirs sold quickly.
+# TEXT = The dealers knew that theirs sold quickly.
+---
+133: 134
+# text = The dealers knew that mine sold quickly.
+# TEXT = The dealers knew that mine sold quickly.
+---
+134: 135
+# text = The dealers knew that yours sold quickly.
+# TEXT = The dealers knew that yours sold quickly.
+---
+135: 136
+# text = Dealers like seeing hers.
+# TEXT = Dealers like seeing hers.
+---
+136: 137
+# text = Dealers like seeing his.
+# TEXT = Dealers like seeing his.
+---
+137: 138
+# text = Dealers like seeing theirs.
+# TEXT = Dealers like seeing theirs.
+---
+138: 139
+# text = Dealers like seeing mine.
+# TEXT = Dealers like seeing mine.
+---
+139: 140
+# text = Dealers like seeing yours.
+# TEXT = Dealers like seeing yours.
+---
+140: 141
+# text = Dealers like cleaning hers.
+# TEXT = Dealers like cleaning hers.
+---
+141: 142
+# text = Dealers like cleaning his.
+# TEXT = Dealers like cleaning his.
+---
+142: 143
+# text = Dealers like cleaning theirs.
+# TEXT = Dealers like cleaning theirs.
+---
+143: 144
+# text = Dealers like cleaning mine.
+# TEXT = Dealers like cleaning mine.
+---
+144: 145
+# text = Dealers like cleaning yours.
+# TEXT = Dealers like cleaning yours.
+---
+145: 146
+# text = The dealer's cars and hers sell quickly.
+# TEXT = The dealer 's cars and hers sell quickly.
+---
+146: 147
+# text = The dealer's cars and his sell quickly.
+# TEXT = The dealer 's cars and his sell quickly.
+---
+147: 148
+# text = The dealer's cars and theirs sell quickly.
+# TEXT = The dealer 's cars and theirs sell quickly.
+---
+148: 149
+# text = The dealer's cars and mine sell quickly.
+# TEXT = The dealer 's cars and mine sell quickly.
+---
+149: 150
+# text = The dealer's cars and yours sell quickly.
+# TEXT = The dealer 's cars and yours sell quickly.
+---
+150: 151
+# text = Hers and the dealer's sold quickly.
+# TEXT = Hers and the dealer 's sold quickly.
+---
+151: 152
+# text = His and the dealer's sold quickly.
+# TEXT = His and the dealer 's sold quickly.
+---
+152: 153
+# text = Theirs and the dealer's sold quickly.
+# TEXT = Theirs and the dealer 's sold quickly.
+---
+153: 154
+# text = Mine and the dealer's sold quickly.
+# TEXT = Mine and the dealer 's sold quickly.
+---
+154: 155
+# text = Yours and the dealer's sold quickly.
+# TEXT = Yours and the dealer 's sold quickly.
+---
+155: 156
+# text = The dealer cleaned the car before hers.
+# TEXT = The dealer cleaned the car before hers.
+---
+156: 157
+# text = The dealer cleaned the car before his.
+# TEXT = The dealer cleaned the car before his.
+---
+157: 158
+# text = The dealer cleaned the car before theirs.
+# TEXT = The dealer cleaned the car before theirs.
+---
+158: 159
+# text = The dealer cleaned the car before mine.
+# TEXT = The dealer cleaned the car before mine.
+---
+159: 160
+# text = The dealer cleaned the car before yours.
+# TEXT = The dealer cleaned the car before yours.
+---
+160: 161
+# text = After hers, the dealer cleaned the car.
+# TEXT = After hers, the dealer cleaned the car.
+---
+161: 162
+# text = After his, the dealer cleaned the car.
+# TEXT = After his, the dealer cleaned the car.
+---
+162: 163
+# text = After theirs, the dealer cleaned the car.
+# TEXT = After theirs, the dealer cleaned the car.
+---
+163: 164
+# text = After mine, the dealer cleaned the car.
+# TEXT = After mine, the dealer cleaned the car.
+---
+164: 165
+# text = After yours, the dealer cleaned the car.
+# TEXT = After yours, the dealer cleaned the car.
+---
+165: 166
+# text = Hers was cleaned.
+# TEXT = Hers was cleaned.
+---
+166: 167
+# text = His was cleaned.
+# TEXT = His was cleaned.
+---
+167: 168
+# text = Theirs was cleaned.
+# TEXT = Theirs was cleaned.
+---
+168: 169
+# text = Mine was cleaned.
+# TEXT = Mine was cleaned.
+---
+169: 170
+# text = Yours was cleaned.
+# TEXT = Yours was cleaned.
+---
+170: 171
+# text = The car of hers drove responsively.
+# TEXT = The car of hers drove responsively.
+---
+171: 172
+# text = The car of his drove responsively.
+# TEXT = The car of his drove responsively.
+---
+172: 173
+# text = The car of theirs drove responsively.
+# TEXT = The car of theirs drove responsively.
+---
+173: 174
+# text = The car of mine drove responsively.
+# TEXT = The car of mine drove responsively.
+---
+174: 175
+# text = The car of yours drove responsively.
+# TEXT = The car of yours drove responsively.
+---
+175: 176
+# text = The dealer cleaned the car of hers.
+# TEXT = The dealer cleaned the car of hers.
+---
+176: 177
+# text = The dealer cleaned the car of his.
+# TEXT = The dealer cleaned the car of his.
+---
+177: 178
+# text = The dealer cleaned the car of theirs.
+# TEXT = The dealer cleaned the car of theirs.
+---
+178: 179
+# text = The dealer cleaned the car of mine.
+# TEXT = The dealer cleaned the car of mine.
+---
+179: 180
+# text = The dealer cleaned the car of yours.
+# TEXT = The dealer cleaned the car of yours.
+---
+180: 181
+# text = The car, hers, was cleaned.
+# TEXT = The car, hers, was cleaned.
+---
+181: 182
+# text = The car, his, was cleaned.
+# TEXT = The car, his, was cleaned.
+---
+182: 183
+# text = The car, theirs, was cleaned.
+# TEXT = The car, theirs, was cleaned.
+---
+183: 184
+# text = The car, mine, was cleaned.
+# TEXT = The car, mine, was cleaned.
+---
+184: 185
+# text = The car, yours, was cleaned.
+# TEXT = The car, yours, was cleaned.
+---
+185: 186
+# text = One of hers was cleaned.
+# TEXT = One of hers was cleaned.
+---
+186: 187
+# text = One of his was cleaned.
+# TEXT = One of his was cleaned.
+---
+187: 188
+# text = One of theirs was cleaned.
+# TEXT = One of theirs was cleaned.
+---
+188: 189
+# text = One of mine was cleaned.
+# TEXT = One of mine was cleaned.
+---
+189: 190
+# text = One of yours was cleaned.
+# TEXT = One of yours was cleaned.
+---
+190: 191
+# text = The car of hers was cleaned.
+# TEXT = The car of hers was cleaned.
+---
+191: 192
+# text = The car of his was cleaned.
+# TEXT = The car of his was cleaned.
+---
+192: 193
+# text = The car of theirs was cleaned.
+# TEXT = The car of theirs was cleaned.
+---
+193: 194
+# text = The car of mine was cleaned.
+# TEXT = The car of mine was cleaned.
+---
+194: 195
+# text = The car of yours was cleaned.
+# TEXT = The car of yours was cleaned.
+---
+195: 196
+# text = Hers, the dealer cleaned.
+# TEXT = Hers, the dealer cleaned.
+---
+196: 197
+# text = His, the dealer cleaned.
+# TEXT = His, the dealer cleaned.
+---
+197: 198
+# text = Theirs, the dealer cleaned.
+# TEXT = Theirs, the dealer cleaned.
+---
+198: 199
+# text = Mine, the dealer cleaned.
+# TEXT = Mine, the dealer cleaned.
+---
+199: 200
+# text = Yours, the dealer cleaned.
+# TEXT = Yours, the dealer cleaned.
+---
+200: 201
+# text = Dealers like seeing cars, especially hers.
+# TEXT = dealers like seeing cars, especially hers. 
+---
+201: 202
+# text = Dealers like seeing cars, especially his.
+# TEXT = dealers like seeing cars, especially his. 
+---
+202: 203
+# text = Dealers like seeing cars, especially theirs.
+# TEXT = dealers like seeing cars, especially theirs. 
+---
+203: 204
+# text = Dealers like seeing cars, especially mine.
+# TEXT = dealers like seeing cars, especially mine. 
+---
+204: 205
+# text = Dealers like seeing cars, especially yours.
+# TEXT = dealers like seeing cars, especially yours. 
+---
+205: 206
+# text = Dealers like seeing cars, hers especially.
+# TEXT = dealers like seeing cars, hers especially. 
+---
+206: 207
+# text = Dealers like seeing cars, his especially.
+# TEXT = dealers like seeing cars, his especially. 
+---
+207: 208
+# text = Dealers like seeing cars, theirs especially.
+# TEXT = dealers like seeing cars, theirs especially. 
+---
+208: 209
+# text = Dealers like seeing cars, mine especially.
+# TEXT = dealers like seeing cars, mine especially. 
+---
+209: 210
+# text = Dealers like seeing cars, yours especially.
+# TEXT = dealers like seeing cars, yours especially. 
+---
+210: 211
+# text = The dealer cleaned the car: it was hers.
+# TEXT = The dealer cleaned the car: it was hers.
+---
+211: 212
+# text = The dealer cleaned the car: it was his.
+# TEXT = The dealer cleaned the car: it was his.
+---
+212: 213
+# text = The dealer cleaned the car: it was theirs.
+# TEXT = The dealer cleaned the car: it was theirs.
+---
+213: 214
+# text = The dealer cleaned the car: it was mine.
+# TEXT = The dealer cleaned the car: it was mine.
+---
+214: 215
+# text = The dealer cleaned the car: it was yours.
+# TEXT = The dealer cleaned the car: it was yours.
+---
+215: 216
+1 difference
+# text = Hers[1;32;4m'll[0m do.
+# TEXT = Hers[1;32;4m will[0m do.
+---
+216: 217
+1 difference
+# text = His[1;32;4m'll[0m do.
+# TEXT = His[1;32;4m will[0m do.
+---
+217: 218
+1 difference
+# text = Theirs[1;32;4m'll[0m do.
+# TEXT = Theirs[1;32;4m will[0m do.
+---
+218: 219
+1 difference
+# text = Mine[1;32;4m'll[0m do.
+# TEXT = Mine[1;32;4m will[0m do.
+---
+219: 220
+1 difference
+# text = Yours[1;32;4m'll[0m do.
+# TEXT = Yours[1;32;4m will[0m do.
+---
+220: 221
+# text = The dealer gave fresh paint to hers.
+# TEXT = The dealer gave fresh paint to hers.
+---
+221: 222
+# text = The dealer gave fresh paint to his.
+# TEXT = The dealer gave fresh paint to his.
+---
+222: 223
+# text = The dealer gave fresh paint to theirs.
+# TEXT = The dealer gave fresh paint to theirs.
+---
+223: 224
+# text = The dealer gave fresh paint to mine.
+# TEXT = The dealer gave fresh paint to mine.
+---
+224: 225
+# text = The dealer gave fresh paint to yours.
+# TEXT = The dealer gave fresh paint to yours.
+---
+225: 226
+# text = The dealer walked to hers.
+# TEXT = The dealer walked to hers.
+---
+226: 227
+# text = The dealer walked to his.
+# TEXT = The dealer walked to his.
+---
+227: 228
+# text = The dealer walked to theirs.
+# TEXT = The dealer walked to theirs.
+---
+228: 229
+# text = The dealer walked to mine.
+# TEXT = The dealer walked to mine.
+---
+229: 230
+# text = The dealer walked to yours.
+# TEXT = The dealer walked to yours.
+---
+230: 231
+# text = The dealer drove using hers.
+# TEXT = The dealer drove using hers.
+---
+231: 232
+# text = The dealer drove using his.
+# TEXT = The dealer drove using his.
+---
+232: 233
+# text = The dealer drove using theirs.
+# TEXT = The dealer drove using theirs.
+---
+233: 234
+# text = The dealer drove using mine.
+# TEXT = The dealer drove using mine.
+---
+234: 235
+# text = The dealer drove using yours.
+# TEXT = The dealer drove using yours.
+---
+235: 236
+# text = The dealer went with hers.
+# TEXT = The dealer went with hers.
+---
+236: 237
+# text = The dealer went with his.
+# TEXT = The dealer went with his.
+---
+237: 238
+# text = The dealer went with theirs.
+# TEXT = The dealer went with theirs.
+---
+238: 239
+# text = The dealer went with mine.
+# TEXT = The dealer went with mine.
+---
+239: 240
+# text = The dealer went with yours.
+# TEXT = The dealer went with yours.
+---
+240: 241
+# text = The dealer waited at hers.
+# TEXT = The dealer waited at hers.
+---
+241: 242
+# text = The dealer waited at his.
+# TEXT = The dealer waited at his.
+---
+242: 243
+# text = The dealer waited at theirs.
+# TEXT = The dealer waited at theirs.
+---
+243: 244
+# text = The dealer waited at mine.
+# TEXT = The dealer waited at mine.
+---
+244: 245
+# text = The dealer waited at yours.
+# TEXT = The dealer waited at yours.
+---
+245: 246
+# text = The dealer got into hers.
+# TEXT = The dealer got into hers.
+---
+246: 247
+# text = The dealer got into his.
+# TEXT = The dealer got into his.
+---
+247: 248
+# text = The dealer got into theirs.
+# TEXT = The dealer got into theirs.
+---
+248: 249
+# text = The dealer got into mine.
+# TEXT = The dealer got into mine.
+---
+249: 250
+# text = The dealer got into yours.
+# TEXT = The dealer got into yours.
+---
+250: 251
+# text = The dealer came from hers.
+# TEXT = The dealer came from hers.
+---
+251: 252
+# text = The dealer came from his.
+# TEXT = The dealer came from his.
+---
+252: 253
+# text = The dealer came from theirs.
+# TEXT = The dealer came from theirs.
+---
+253: 254
+# text = The dealer came from mine.
+# TEXT = The dealer came from mine.
+---
+254: 255
+# text = The dealer came from yours.
+# TEXT = The dealer came from yours.
+---
+255: 256
+# text = The dealer sat on hers.
+# TEXT = The dealer sat on hers.
+---
+256: 257
+# text = The dealer sat on his.
+# TEXT = The dealer sat on his.
+---
+257: 258
+# text = The dealer sat on theirs.
+# TEXT = The dealer sat on theirs.
+---
+258: 259
+# text = The dealer sat on mine.
+# TEXT = The dealer sat on mine.
+---
+259: 260
+# text = The dealer sat on yours.
+# TEXT = The dealer sat on yours.
+---
+260: 261
+# text = The dealer recommended that hers get painted.
+# TEXT = The dealer recommended that hers get painted.
+---
+261: 262
+# text = The dealer recommended that his get painted.
+# TEXT = The dealer recommended that his get painted.
+---
+262: 263
+# text = The dealer recommended that theirs get painted.
+# TEXT = The dealer recommended that theirs get painted.
+---
+263: 264
+# text = The dealer recommended that mine get painted.
+# TEXT = The dealer recommended that mine get painted.
+---
+264: 265
+# text = The dealer recommended that yours get painted.
+# TEXT = The dealer recommended that yours get painted.
+---
+265: 266
+# text = Take hers.
+# TEXT = take hers. 
+---
+266: 267
+# text = Take his.
+# TEXT = take his. 
+---
+267: 268
+# text = Take theirs.
+# TEXT = take theirs. 
+---
+268: 269
+# text = Take mine.
+# TEXT = take mine. 
+---
+269: 270
+# text = Take yours.
+# TEXT = take yours. 
+---
+270: 271
+# text = Hers is easy to clean.
+# TEXT = Hers is easy to clean.
+---
+271: 272
+# text = His is easy to clean.
+# TEXT = His is easy to clean.
+---
+272: 273
+# text = Theirs is easy to clean.
+# TEXT = Theirs is easy to clean.
+---
+273: 274
+# text = Mine is easy to clean.
+# TEXT = Mine is easy to clean.
+---
+274: 275
+# text = Yours is easy to clean.
+# TEXT = Yours is easy to clean.
+---
+275: 276
+# text = Hers parks.
+# TEXT = Hers parks.
+---
+276: 277
+# text = His parks.
+# TEXT = His parks.
+---
+277: 278
+# text = Theirs parks.
+# TEXT = Theirs parks.
+---
+278: 279
+# text = Mine parks.
+# TEXT = Mine parks.
+---
+279: 280
+# text = Yours parks.
+# TEXT = Yours parks.
+---
+280: 281
+# text = Hers broke.
+# TEXT = Hers broke.
+---
+281: 282
+# text = His broke.
+# TEXT = His broke.
+---
+282: 283
+# text = Theirs broke.
+# TEXT = Theirs broke.
+---
+283: 284
+# text = Mine broke.
+# TEXT = Mine broke.
+---
+284: 285
+# text = Yours broke.
+# TEXT = Yours broke.
+---
+285 UD dependencies processed
+0 modified
