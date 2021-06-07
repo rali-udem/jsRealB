@@ -1,0 +1,2491 @@
+# file = en/en_ewt-ud-test.conllu
+# sent_id = answers-20090717131703AARh8u2_ans-0002
+# gl = 11:feats>Person=3|Number=Plur
+# text = Well, they have a variety of sports that they play like basketball, soccer, etc.
+1	Well	well	INTJ	UH	_	4	discourse	4:discourse	SpaceAfter=No
+2	,	,	PUNCT	,	_	4	punct	4:punct	_
+3	they	they	PRON	PRP	Case=Nom|Number=Plur|Person=3|PronType=Prs	4	nsubj	4:nsubj	_
+4	have	have	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	0:root	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	6:det	_
+6	variety	variety	NOUN	NN	Number=Sing	4	obj	4:obj|11:obj	_
+7	of	of	ADP	IN	_	8	case	8:case	_
+8	sports	sport	NOUN	NNS	Number=Plur	6	nmod	6:nmod:of	_
+9	that	that	PRON	WDT	PronType=Rel	11	obj	6:ref	_
+10	they	they	PRON	PRP	Case=Nom|Number=Plur|Person=3|PronType=Prs	11	nsubj	11:nsubj	_
+11	play	play	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	6	acl:relcl	6:acl:relcl	_
+12	like	like	ADP	IN	_	13	case	13:case	_
+13	basketball	basketball	NOUN	NN	Number=Sing	6	nmod	6:nmod:like	SpaceAfter=No
+14	,	,	PUNCT	,	_	15	punct	15:punct	_
+15	soccer	soccer	NOUN	NN	Number=Sing	13	conj	6:nmod:like|13:conj	SpaceAfter=No
+16	,	,	PUNCT	,	_	17	punct	17:punct	_
+17	etc	etc	X	FW	_	13	conj	6:nmod:like|13:conj	SpaceAfter=No
+18	.	.	PUNCT	.	_	4	punct	4:punct	_
+# jsRealB-start
+S(Q("Well"),
+  Q(","),
+  Pro("them").c("nom").pe("3").n("p"),
+  VP(V("have").t("p"),
+     NP(D("a"),
+        N("variety").n("s"),
+        PP(P("of"),
+           N("sport").n("p")),
+        S(Pro("that").c("nom"),
+          Pro("them").c("nom").pe("3").n("p"),
+          VP(V("play").t("p").pe("3").n("p"))),
+        CP(NP(P("like"),
+              N("basketball").n("s")),
+           N("soccer").n("s"),
+           Q("etc")))))
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = answers-20110320195750AAkPbFG_ans-0004
+# gl = 6:feats>Person=2|Number=Sing
+# text = Okay, FIRST, you have posted a question about an American movie, set in Mexico, in the Dining Out in Argentina category.
+1	Okay	okay	INTJ	UH	_	7	discourse	7:discourse	SpaceAfter=No
+2	,	,	PUNCT	,	_	7	punct	7:punct	_
+3	FIRST	first	ADV	RB	_	7	advmod	7:advmod	SpaceAfter=No
+4	,	,	PUNCT	,	_	7	punct	7:punct	_
+5	you	you	PRON	PRP	Case=Nom|Person=2|PronType=Prs	7	nsubj	7:nsubj	_
+6	have	have	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	7	aux	7:aux	_
+7	posted	post	VERB	VBN	Tense=Past|VerbForm=Part	0	root	0:root	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	9:det	_
+9	question	question	NOUN	NN	Number=Sing	7	obj	7:obj	_
+10	about	about	ADP	IN	_	13	case	13:case	_
+11	an	a	DET	DT	Definite=Ind|PronType=Art	13	det	13:det	_
+12	American	American	ADJ	JJ	Degree=Pos	13	amod	13:amod	_
+13	movie	movie	NOUN	NN	Number=Sing	9	nmod	9:nmod:about	SpaceAfter=No
+14	,	,	PUNCT	,	_	13	punct	13:punct	_
+15	set	set	VERB	VBN	Tense=Past|VerbForm=Part	13	acl	13:acl	_
+16	in	in	ADP	IN	_	17	case	17:case	_
+17	Mexico	Mexico	PROPN	NNP	Number=Sing	15	obl	15:obl:in	SpaceAfter=No
+18	,	,	PUNCT	,	_	7	punct	7:punct	_
+19	in	in	ADP	IN	_	25	case	25:case	_
+20	the	the	DET	DT	Definite=Def|PronType=Art	25	det	25:det	_
+21	Dining	dine	VERB	VBG	VerbForm=Ger	25	compound	25:compound	_
+22	Out	out	ADV	RB	_	21	advmod	21:advmod	_
+23	in	in	ADP	IN	_	24	case	24:case	_
+24	Argentina	Argentina	PROPN	NNP	Number=Sing	21	obl	21:obl:in	_
+25	category	category	NOUN	NN	Number=Sing	7	obl	7:obl:in	SpaceAfter=No
+26	.	.	PUNCT	.	_	7	punct	7:punct	_
+# jsRealB-start
+S(Q("Okay"),
+  Q(","),
+  Adv("first"),
+  Q(","),
+  Pro("you").c("nom").pe("2"),
+  V("have").t("p").pe("2"),
+  VP(V("post").t("pp"),
+     NP(D("a"),
+        N("question").n("s"),
+        PP(P("about"),
+           D("a"),
+           A("American"),
+           N("movie").n("s"),
+           Q(","),
+           VP(V("set").t("pp"),
+              PP(P("in"),
+                 Q("Mexico"))))),
+     Q(","),
+     PP(P("in"),
+        D("the"),
+        VP(V("dine").t("pr"),
+           Adv("out"),
+           PP(P("in"),
+              Q("Argentina"))),
+        N("category").n("s"))))
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = email-enronsent21_02-0034
+# gl = 1:upos:NOUN>X
+# gl = 3:upos:NOUN>X (date?)
+# text = EY4106.6 PERFORMANCE 01-Feb-02 P -1,993,045 -$ 32,387
+1	EY4106.6	ey4106.6	NOUN	NN	Number=Sing	0	root	0:root	_
+2	PERFORMANCE	performance	NOUN	NN	Number=Sing	1	list	1:list	_
+3	01-Feb-02	01-feb-02	NOUN	NN	Number=Sing	1	list	1:list	_
+4	P	P	PROPN	NNP	Number=Sing	1	list	1:list	_
+5	-	-	PUNCT	:	_	1	punct	1:punct	SpaceAfter=No
+6	1,993,045	1993045	NUM	CD	NumType=Card	1	list	1:list	_
+7	-	-	PUNCT	:	_	1	punct	1:punct	SpaceAfter=No
+8	$	$	SYM	$	_	1	list	1:list	_
+9	32,387	32387	NUM	CD	NumType=Card	8	nummod	8:nummod	_
+# jsRealB-start
+NP(Q("ey4106.6"),
+   N("performance").n("s"),
+   Q("01-feb-02"),
+   Q("P"),
+   Q("-"),
+   NO("1993045"),
+   Q("-"),
+   VP(Q("$"),
+      NO("32387")))
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = reviews-130647-0001
+# gl = :: bad ordering :: will never use
+# text = Will never use again.
+1	Will	will	AUX	MD	VerbForm=Fin	3	aux	3:aux	_
+2	never	never	ADV	RB	_	3	advmod	3:advmod	_
+3	use	use	VERB	VB	VerbForm=Inf	0	root	0:root	_
+4	again	again	ADV	RB	_	3	advmod	3:advmod	SpaceAfter=No
+5	.	.	PUNCT	.	_	3	punct	3:punct	_
+# jsRealB-start
+S(Adv("never"),
+  VP(V("use").t("b").t("f"),
+     Adv("again")))
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = weblog-juancole.com_juancole_20030914114200_ENG_20030914_114200-0002
+# gl = 5::unknown adjective Sunni
+# text = Reuters reported that "Sunni clerics in the town issued a 'Declaration by the people of Fallujah' condemning the deaths of the security guards and police, announcing three days of mourning, and calling for a general strike today."
+1	Reuters	Reuters	PROPN	NNP	Number=Sing	2	nsubj	2:nsubj	_
+2	reported	report	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	0:root	_
+3	that	that	SCONJ	IN	_	10	mark	10:mark	_
+4	"	"	PUNCT	``	_	10	punct	10:punct	SpaceAfter=No
+5	Sunni	Sunni	ADJ	JJ	Degree=Pos	6	amod	6:amod	_
+6	clerics	cleric	NOUN	NNS	Number=Plur	10	nsubj	10:nsubj	_
+7	in	in	ADP	IN	_	9	case	9:case	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	9:det	_
+9	town	town	NOUN	NN	Number=Sing	6	nmod	6:nmod:in	_
+10	issued	issue	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	2	ccomp	2:ccomp	_
+11	a	a	DET	DT	Definite=Ind|PronType=Art	13	det	13:det	_
+12	'	'	PUNCT	``	_	13	punct	13:punct	SpaceAfter=No
+13	Declaration	declaration	NOUN	NN	Number=Sing	10	obj	10:obj	_
+14	by	by	ADP	IN	_	16	case	16:case	_
+15	the	the	DET	DT	Definite=Def|PronType=Art	16	det	16:det	_
+16	people	people	NOUN	NNS	Number=Plur	13	nmod	13:nmod:by	_
+17	of	of	ADP	IN	_	18	case	18:case	_
+18	Fallujah	Fallujah	PROPN	NNP	Number=Sing	16	nmod	16:nmod:of	SpaceAfter=No
+19	'	'	PUNCT	''	_	13	punct	13:punct	_
+20	condemning	condemn	VERB	VBG	VerbForm=Ger	13	acl	13:acl	_
+21	the	the	DET	DT	Definite=Def|PronType=Art	22	det	22:det	_
+22	deaths	death	NOUN	NNS	Number=Plur	20	obj	20:obj	_
+23	of	of	ADP	IN	_	26	case	26:case	_
+24	the	the	DET	DT	Definite=Def|PronType=Art	26	det	26:det	_
+25	security	security	NOUN	NN	Number=Sing	26	compound	26:compound	_
+26	guards	guard	NOUN	NNS	Number=Plur	22	nmod	22:nmod:of	_
+27	and	and	CCONJ	CC	_	28	cc	28:cc	_
+28	police	police	NOUN	NNS	Number=Plur	26	conj	22:nmod:of|26:conj:and	SpaceAfter=No
+29	,	,	PUNCT	,	_	30	punct	30:punct	_
+30	announcing	announce	VERB	VBG	VerbForm=Ger	20	conj	13:acl|20:conj:and	_
+31	three	three	NUM	CD	NumType=Card	32	nummod	32:nummod	_
+32	days	day	NOUN	NNS	Number=Plur	30	obj	30:obj	_
+33	of	of	ADP	IN	_	34	case	34:case	_
+34	mourning	mourning	NOUN	NN	Number=Sing	32	nmod	32:nmod:of	SpaceAfter=No
+35	,	,	PUNCT	,	_	37	punct	37:punct	_
+36	and	and	CCONJ	CC	_	37	cc	37:cc	_
+37	calling	call	VERB	VBG	VerbForm=Ger	20	conj	13:acl|20:conj:and	_
+38	for	for	ADP	IN	_	41	case	41:case	_
+39	a	a	DET	DT	Definite=Ind|PronType=Art	41	det	41:det	_
+40	general	general	ADJ	JJ	Degree=Pos	41	amod	41:amod	_
+41	strike	strike	NOUN	NN	Number=Sing	37	obl	37:obl:for	_
+42	today	today	NOUN	NN	Number=Sing	41	nmod:tmod	41:nmod:tmod	SpaceAfter=No
+43	.	.	PUNCT	.	_	2	punct	2:punct	SpaceAfter=No
+44	"	"	PUNCT	''	_	2	punct	2:punct	_
+# jsRealB-start
+S(Q("Reuters"),
+  VP(V("report").t("ps"),
+     S(C("that"),
+       Q("\""),
+       NP(Q("Sunni"),
+          N("cleric").n("p"),
+          PP(P("in"),
+             D("the"),
+             N("town").n("s"))),
+       VP(V("issue").t("ps"),
+          NP(D("a"),
+             Q("'"),
+             N("declaration").n("s"),
+             PP(P("by"),
+                D("the"),
+                N("people").n("p"),
+                PP(P("of"),
+                   Q("Fallujah"))),
+             Q("'"),
+             CP(C("and").b(","),
+                VP(V("condemn").t("pr"),
+                   NP(D("the"),
+                      N("death").n("p"),
+                      CP(C("and"),
+                         NP(P("of"),
+                            D("the"),
+                            N("security").n("s"),
+                            N("guard").n("p")),
+                         N("police").n("p")))),
+                VP(V("announce").t("pr"),
+                   NP(NO(3).dOpt({nat:true}),
+                      N("day").n("p"),
+                      PP(P("of"),
+                         N("mourning").n("s")))),
+                VP(V("call").t("pr"),
+                   PP(P("for"),
+                      D("a"),
+                      A("general"),
+                      N("strike").n("s"),
+                      N("today").n("s"))))))),
+     Q("."),
+     Q("\"")))
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = weblog-juancole.com_juancole_20040722101300_ENG_20040722_101300-0026
+# gl = 46:upos:ADJ>VERB, feats:Degree=Pos>Tense=Past|VerbForm=Part
+# gl = :: bad ordering :: could never therafter
+# text = Dick could never thereafter get any real cooperation from the cabinet officers, who outranked him, and he could not convince them to go to battle stations in the summer of 2001 when George Tenet's hair was "on fire" about the excited chatter the CIA was picking up from radical Islamist terrorists.
+1	Dick	Dick	PROPN	NNP	Number=Sing	5	nsubj	5:nsubj	_
+2	could	could	AUX	MD	VerbForm=Fin	5	aux	5:aux	_
+3	never	never	ADV	RB	_	5	advmod	5:advmod	_
+4	thereafter	thereafter	ADV	RB	_	5	advmod	5:advmod	_
+5	get	get	VERB	VB	VerbForm=Inf	0	root	0:root	_
+6	any	any	DET	DT	_	8	det	8:det	_
+7	real	real	ADJ	JJ	Degree=Pos	8	amod	8:amod	_
+8	cooperation	cooperation	NOUN	NN	Number=Sing	5	obj	5:obj	_
+9	from	from	ADP	IN	_	12	case	12:case	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	12	det	12:det	_
+11	cabinet	cabinet	NOUN	NN	Number=Sing	12	compound	12:compound	_
+12	officers	officer	NOUN	NNS	Number=Plur	8	nmod	8:nmod:from|15:nsubj	SpaceAfter=No
+13	,	,	PUNCT	,	_	12	punct	12:punct	_
+14	who	who	PRON	WP	PronType=Rel	15	nsubj	12:ref	_
+15	outranked	outrank	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	12	acl:relcl	12:acl:relcl	_
+16	him	he	PRON	PRP	Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs	15	obj	15:obj	SpaceAfter=No
+17	,	,	PUNCT	,	_	22	punct	22:punct	_
+18	and	and	CCONJ	CC	_	22	cc	22:cc	_
+19	he	he	PRON	PRP	Case=Nom|Gender=Masc|Number=Sing|Person=3|PronType=Prs	22	nsubj	22:nsubj	_
+20	could	could	AUX	MD	VerbForm=Fin	22	aux	22:aux	_
+21	not	not	PART	RB	_	22	advmod	22:advmod	_
+22	convince	convince	VERB	VB	VerbForm=Inf	5	conj	5:conj:and	_
+23	them	they	PRON	PRP	Case=Acc|Number=Plur|Person=3|PronType=Prs	22	obj	22:obj|25:nsubj:xsubj	_
+24	to	to	PART	TO	_	25	mark	25:mark	_
+25	go	go	VERB	VB	VerbForm=Inf	22	xcomp	22:xcomp	_
+26	to	to	ADP	IN	_	28	case	28:case	_
+27	battle	battle	NOUN	NN	Number=Sing	28	compound	28:compound	_
+28	stations	station	NOUN	NNS	Number=Plur	25	obl	25:obl:to	_
+29	in	in	ADP	IN	_	31	case	31:case	_
+30	the	the	DET	DT	Definite=Def|PronType=Art	31	det	31:det	_
+31	summer	summer	NOUN	NN	Number=Sing	25	obl	25:obl:in	_
+32	of	of	ADP	IN	_	33	case	33:case	_
+33	2001	2001	NUM	CD	NumType=Card	31	nmod	31:nmod:of	_
+34	when	when	SCONJ	WRB	PronType=Int	42	mark	42:mark	_
+35	George	George	PROPN	NNP	Number=Sing	38	nmod:poss	38:nmod:poss	_
+36	Tenet	Tenet	PROPN	NNP	Number=Sing	35	flat	35:flat	_
+37	's	's	PART	POS	_	35	case	35:case	_
+38	hair	hair	NOUN	NN	Number=Sing	42	nsubj	42:nsubj	_
+39	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	42	cop	42:cop	_
+40	"	"	PUNCT	``	_	42	punct	42:punct	SpaceAfter=No
+41	on	on	ADP	IN	_	42	case	42:case	_
+42	fire	fire	NOUN	NN	Number=Sing	22	advcl	22:advcl:on	SpaceAfter=No
+43	"	"	PUNCT	''	_	42	punct	42:punct	_
+44	about	about	ADP	IN	_	47	case	47:case	_
+45	the	the	DET	DT	Definite=Def|PronType=Art	47	det	47:det	_
+46	excited	excited	ADJ	JJ	Degree=Pos	47	amod	47:amod	_
+47	chatter	chatter	NOUN	NN	Number=Sing	42	nmod	42:nmod:about	_
+48	the	the	DET	DT	Definite=Def|PronType=Art	49	det	49:det	_
+49	CIA	CIA	PROPN	NNP	Number=Sing	51	nsubj	51:nsubj	_
+50	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	51	aux	51:aux	_
+51	picking	pick	VERB	VBG	Tense=Pres|VerbForm=Part	47	acl:relcl	47:acl:relcl	_
+52	up	up	ADP	RP	_	51	compound:prt	51:compound:prt	_
+53	from	from	ADP	IN	_	56	case	56:case	_
+54	radical	radical	ADJ	JJ	Degree=Pos	56	amod	56:amod	_
+55	Islamist	Islamist	PROPN	NNP	Number=Sing	56	compound	56:compound	_
+56	terrorists	terrorist	NOUN	NNS	Number=Plur	51	obl	51:obl:from	SpaceAfter=No
+57	.	.	PUNCT	.	_	5	punct	5:punct	_
+# jsRealB-start
+CP(C("and").b(","),
+   VP(Q("Dick"),
+      Adv("never"),
+      Adv("thereafter"),
+      V("get").t("b"),
+      NP(D("any"),
+         A("real"),
+         N("cooperation").n("s"),
+         PP(P("from"),
+            D("the"),
+            N("cabinet").n("s"),
+            N("officer").n("p"),
+            Q(","),
+            S(Pro("who").c("nom"),
+              VP(V("outrank").t("ps"),
+                 Pro("him").c("acc").pe("3").g("m").n("s")))))).t("ps").typ({mod:"poss"}),
+   S(Pro("him").c("nom").pe("3").g("m").n("s"),
+     VP(V("convince").t("b"),
+        Pro("them").c("acc").pe("3").n("p"),
+        VP(V("go").t("b").b("to "),
+           PP(P("to"),
+              N("battle").n("s"),
+              N("station").n("p")),
+           PP(P("in"),
+              D("the"),
+              N("summer").n("s"),
+              PP(P("of"),
+                 NO("2001").dOpt({raw:true})))),
+        S(C("when"),
+          NP(NP(Q("George"),Q("Tenet"),
+                Q("'s")),            
+             N("hair").n("s")),
+          VP(V("be").t("ps").pe("3").n("s"),
+             Q("\""),
+             P("on"),
+             NP(N("fire").n("s"),
+                Q("\""),
+                PP(P("about"),
+                   D("the"),
+                   V("excite").t("pp"),
+                   N("chatter").n("s"),
+                   S(NP(D("the"),
+                        Q("CIA")),
+                     V("be").t("ps").pe("3").n("s"),
+                     VP(V("pick").t("pr"),
+                        P("up"),
+                        PP(P("from"),
+                           A("radical"),
+                           Q("Islamist"),
+                           N("terrorist").n("p")))))))))).t("ps").typ({neg:true,mod:"poss"})).a(".")
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = email-enronsent18_02-0073
+# gl = no changes
+# text = Al Arfsten 713 965 2158
+1	Al	Al	PROPN	NNP	Number=Sing	0	root	0:root	_
+2	Arfsten	Arfsten	PROPN	NNP	Number=Sing	1	flat	1:flat	_
+3	713	713	NUM	CD	NumType=Card	5	nummod	5:nummod	_
+4	965	965	NUM	CD	NumType=Card	5	nummod	5:nummod	_
+5	2158	2158	NUM	CD	NumType=Card	1	list	1:list	_
+# jsRealB-start
+NP(Q("Al"),
+   Q("Arfsten"),
+   NP(NO("713").dOpt({raw:true}),
+      NO("965").dOpt({raw:true}),
+      NO("2158").dOpt({raw:true})))
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = reviews-235190-0004
+# gl = no changes
+# text = Thanks again, Directv.
+1	Thanks	thanks	NOUN	NN	Number=Sing	0	root	0:root	_
+2	again	again	ADV	RB	_	1	advmod	1:advmod	SpaceAfter=No
+3	,	,	PUNCT	,	_	1	punct	1:punct	_
+4	Directv	Directv	PROPN	NNP	Number=Sing	1	vocative	1:vocative	SpaceAfter=No
+5	.	.	PUNCT	.	_	1	punct	1:punct	_
+# jsRealB-start
+NP(N("thanks").n("s"),
+   Adv("again"),
+   Q(","),
+   Q("Directv")).a(".")
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = email-enronsent23_05-0005
+# gl = :: spurious do generated by jsRealB
+# text = why do you think i should get one of those?
+1	why	why	ADV	WRB	PronType=Int	4	advmod	4:advmod	_
+2	do	do	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	aux	4:aux	_
+3	you	you	PRON	PRP	Case=Nom|Person=2|PronType=Prs	4	nsubj	4:nsubj	_
+4	think	think	VERB	VB	VerbForm=Inf	0	root	0:root	_
+5	i	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	7	nsubj	7:nsubj	_
+6	should	should	AUX	MD	VerbForm=Fin	7	aux	7:aux	_
+7	get	get	VERB	VB	VerbForm=Inf	4	ccomp	4:ccomp	_
+8	one	one	NUM	CD	NumType=Card	7	obj	7:obj	_
+9	of	of	ADP	IN	_	10	case	10:case	_
+10	those	that	PRON	DT	Number=Plur|PronType=Dem	8	nmod	8:nmod:of	SpaceAfter=No
+11	?	?	PUNCT	.	_	4	punct	4:punct	_
+# jsRealB-start
+S(
+  Pro("you").c("nom").pe("2"),
+  VP(V("think").t("b"),
+     S(Pro("me").pe("1").c("nom").pe("1").n("s"),
+       VP(V("get").t("b"),
+          NP(NO(1).dOpt({nat:true}),
+             PP(P("of"),
+                Pro("that").c("nom").n("p"))))).t("ps").typ({mod:"nece"}))).typ({int:"why"})
+# jsRealB-end
+
+# file = en/en_ewt-ud-test.conllu
+# sent_id = reviews-005760-0003
+# gl = :: 2 : unknown NOUN: thali
+# gl = :: 11: unknown NOUN: saag 
+# text = Their Thali was not brought out as described (no saag).
+1	Their	they	PRON	PRP$	Number=Plur|Person=3|Poss=Yes|PronType=Prs	2	nmod:poss	2:nmod:poss	_
+2	Thali	thali	NOUN	NN	Number=Sing	5	nsubj:pass	5:nsubj:pass	_
+3	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	5	aux:pass	5:aux:pass	_
+4	not	not	PART	RB	_	5	advmod	5:advmod	_
+5	brought	bring	VERB	VBN	Tense=Past|VerbForm=Part	0	root	0:root	_
+6	out	out	ADV	RB	_	5	advmod	5:advmod	_
+7	as	as	SCONJ	IN	_	8	mark	8:mark	_
+8	described	describe	VERB	VBN	Tense=Past|VerbForm=Part	5	advcl	5:advcl:as	_
+9	(	(	PUNCT	-LRB-	_	11	punct	11:punct	SpaceAfter=No
+10	no	no	DET	DT	_	11	det	11:det	_
+11	saag	saag	NOUN	NN	Number=Sing	8	appos	8:appos	SpaceAfter=No
+12	)	)	PUNCT	-RRB-	_	11	punct	11:punct	SpaceAfter=No
+13	.	.	PUNCT	.	_	5	punct	5:punct	_
+# jsRealB-start
+S(NP(D("my").pe(3).ow("p"),
+     Q("thali")),
+  VP(V("be").t("ps").pe("3").n("s"),
+     V("bring").t("pp"),
+     Adv("out"),
+     S(C("as"),
+       VP(V("describe").t("pp"),
+          NP(Q("("),
+             D("no"),
+             Q("saag"),
+             Q(")")))))).typ({neg:true})
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_voyage_vavau-18
+# gl = contraction: doesn't ~> does not
+# text = It doesn't have a beach but boats to one of the nearby coral atolls with superb sandy beaches are easily available.
+1	It	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	4	nsubj	4:nsubj	Discourse=concession:36->37|Entity=(place-8-Neiafu_%28Vavaʻu%29)
+2	does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux	4:aux	_
+3	n't	not	PART	RB	Polarity=Neg	4	advmod	4:advmod	_
+4	have	have	VERB	VB	VerbForm=Inf	0	root	0:root	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	6:det	Entity=(place-69
+6	beach	beach	NOUN	NN	Number=Sing	4	obj	4:obj	Entity=place-69)
+7	but	but	CCONJ	CC	_	22	cc	22:cc	Discourse=joint:37->33
+8	boats	boat	NOUN	NNS	Number=Plur	22	nsubj	22:nsubj	Entity=(object-70
+9	to	to	ADP	IN	_	10	case	10:case	_
+10	one	one	NUM	CD	NumForm=Word|NumType=Card	8	nmod	8:nmod:to	_
+11	of	of	ADP	IN	_	15	case	15:case	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	15	det	15:det	Entity=(place-71
+13	nearby	nearby	ADJ	JJ	Degree=Pos	15	amod	15:amod	_
+14	coral	coral	ADJ	JJ	Degree=Pos	15	amod	15:amod	Entity=(substance-72)
+15	atolls	atoll	NOUN	NNS	Number=Plur	10	nmod	10:nmod:of	Entity=place-71)
+16	with	with	ADP	IN	_	19	case	19:case	_
+17	superb	superb	ADJ	JJ	Degree=Pos	19	amod	19:amod	Entity=(place-73
+18	sandy	sandy	ADJ	JJ	Degree=Pos	19	amod	19:amod	_
+19	beaches	beach	NOUN	NNS	Number=Plur	15	nmod	15:nmod:with	Entity=object-70)place-73)
+20	are	be	AUX	VBP	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	22	cop	22:cop	_
+21	easily	easily	ADV	RB	Degree=Pos	22	advmod	22:advmod	_
+22	available	available	ADJ	JJ	Degree=Pos	4	conj	4:conj:but	SpaceAfter=No
+23	.	.	PUNCT	.	_	4	punct	4:punct	_
+# jsRealB-start
+CP(C("but"),
+   VP(Pro("it").c("nom").pe("3").g("n").n("s"),
+      V("have").t("b"),
+      NP(D("a"),
+         N("beach").n("s"))).typ({neg:true}),
+   S(NP(N("boat").n("p"),
+        PP(P("to"),
+           NO(1).dOpt({nat:true}),
+           PP(P("of"),
+              D("the"),
+              A("nearby"),
+              A("coral"),
+              N("atoll").n("p"),
+              PP(P("with"),
+                 A("superb"),
+                 A("sandy"),
+                 N("beach").n("p"))))),
+     VP(V("be").t("p").pe("3").n("p"),
+        Adv("easily"),
+        A("available")))).a(".")
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_news_nasa-15
+# gl = :: bad word ordering : will be sent ~> be will sent 
+# text = Space Shuttle Endeavour, which will launch on STS-134 at the end of the month on April 29, will be sent to the California Science Center in Los Angeles, California following its retirement.
+1	Space	Space	PROPN	NNP	Number=Sing	2	compound	2:compound	Bridge=object-6<object-51-Space_Shuttle_Endeavour|Discourse=joint:33->22|Entity=(object-51-Space_Shuttle_Endeavour
+2	Shuttle	Shuttle	PROPN	NNP	Number=Sing	3	compound	3:compound	_
+3	Endeavour	Endeavour	PROPN	NNP	Number=Sing	22	nsubj:pass	7:nsubj|22:nsubj:pass	SpaceAfter=No
+4	,	,	PUNCT	,	_	7	punct	7:punct	_
+5	which	which	PRON	WDT	PronType=Rel	7	nsubj	3:ref	Discourse=elaboration:34->33
+6	will	will	AUX	MD	VerbForm=Fin	7	aux	7:aux	_
+7	launch	launch	VERB	VB	VerbForm=Inf	3	acl:relcl	3:acl:relcl	_
+8	on	on	ADP	IN	_	9	case	9:case	_
+9	STS-134	STS-134	PROPN	NNP	Abbr=Yes|Number=Sing	7	obl	7:obl:on	Entity=(event-52-STS-134)
+10	at	at	ADP	IN	_	12	case	12:case	_
+11	the	the	DET	DT	Definite=Def|PronType=Art	12	det	12:det	Entity=(time-53
+12	end	end	NOUN	NN	Number=Sing	7	obl	7:obl:at	_
+13	of	of	ADP	IN	_	15	case	15:case	_
+14	the	the	DET	DT	Definite=Def|PronType=Art	15	det	15:det	Entity=(time-54
+15	month	month	NOUN	NN	Number=Sing	12	nmod	12:nmod:of	Entity=time-53)time-54)
+16	on	on	ADP	IN	_	18	case	18:case	_
+17	April	April	PROPN	NNP	Number=Sing	18	nmod:tmod	18:nmod:tmod	Entity=(time-55(time-54)
+18	29	29	NUM	CD	NumForm=Digit|NumType=Card	7	obl	7:obl:on	Entity=object-51-Space_Shuttle_Endeavour)time-55)|SpaceAfter=No
+19	,	,	PUNCT	,	_	3	punct	3:punct	_
+20	will	will	AUX	MD	VerbForm=Fin	22	aux	22:aux	Discourse=same-unit:35->33
+21	be	be	AUX	VB	VerbForm=Inf	22	aux:pass	22:aux:pass	_
+22	sent	send	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	0:root	_
+23	to	to	ADP	IN	_	27	case	27:case	_
+24	the	the	DET	DT	Definite=Def|PronType=Art	27	det	27:det	Entity=(place-56-California_Science_Center
+25	California	California	PROPN	NNP	Number=Sing	27	compound	27:compound	_
+26	Science	Science	PROPN	NNP	Number=Sing	27	compound	27:compound	_
+27	Center	Center	PROPN	NNP	Number=Sing	22	obl	22:obl:to	_
+28	in	in	ADP	IN	_	29	case	29:case	_
+29	Los	Los	PROPN	NNP	Number=Sing	27	nmod	27:nmod:in	Entity=(place-57-Los_Angeles
+30	Angeles	Angeles	PROPN	NNP	Number=Sing	29	flat	29:flat	SpaceAfter=No
+31	,	,	PUNCT	,	_	32	punct	32:punct	_
+32	California	California	PROPN	NNP	Number=Sing	29	appos	29:appos	Entity=(place-58-California)place-56-California_Science_Center)place-57-Los_Angeles)
+33	following	follow	VERB	VBG	VerbForm=Ger	35	case	35:case	Discourse=circumstance:36->35
+34	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	35	nmod:poss	35:nmod:poss	Entity=(event-59(object-51-Space_Shuttle_Endeavour)
+35	retirement	retirement	NOUN	NN	Number=Sing	22	obl	22:obl:following	Entity=event-59)|SpaceAfter=No
+36	.	.	PUNCT	.	_	22	punct	22:punct	_
+# jsRealB-start
+S(NP(NP(Q("Space"),
+        Q("Shuttle")),
+     Q("Endeavour"),
+     S(Q(","),
+       Pro("which").c("nom"),
+       VP(V("launch").t("b").t("f"),
+          PP(P("on"),
+             Q("STS-134")),
+          PP(P("at"),
+             D("the"),
+             N("end").n("s"),
+             PP(P("of"),
+                D("the"),
+                N("month").n("s"))),
+          PP(P("on"),
+             Q("April"),
+             NO("29").dOpt({raw:true})))),
+     Q(",")),
+  VP(V("be").t("b"),
+     V("send").t("pp").t("f"),
+     PP(P("to"),
+        D("the"),
+        Q("California"),
+        Q("Science"),
+        Q("Center"),
+        PP(P("in"),
+           Q("Los"),
+        Q("Angeles"),
+           NP(Q(","),
+              Q("California")))),
+     NP(V("follow").t("pr"),
+        Pro("me").c("gen").pe("3").g("n").n("s"),
+        N("retirement").n("s"))))
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_speech_austria-5
+# gl = no changes
+# text = Pressure for change is driven by the wish of women and men to choose their own fate and to improve their chances for a better life.
+1	Pressure	pressure	NOUN	NN	Number=Sing	5	nsubj:pass	5:nsubj:pass	Discourse=background:8->5|Entity=(abstract-32
+2	for	for	ADP	IN	_	3	case	3:case	_
+3	change	change	NOUN	NN	Number=Sing	1	nmod	1:nmod:for	Entity=(event-33)abstract-32)
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:pass	5:aux:pass	_
+5	driven	drive	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	0:root	_
+6	by	by	ADP	IN	_	8	case	8:case	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	8:det	Entity=(abstract-34
+8	wish	wish	NOUN	NN	Number=Sing	5	obl	5:obl:by	_
+9	of	of	ADP	IN	_	10	case	10:case	_
+10	women	woman	NOUN	NNS	Number=Plur	8	nmod	8:nmod:of	Entity=(person-35(person-36)
+11	and	and	CCONJ	CC	_	12	cc	12:cc	_
+12	men	man	NOUN	NNS	Number=Plur	10	conj	8:nmod:of|10:conj:and	Entity=(person-37)person-35)
+13	to	to	PART	TO	_	14	mark	14:mark	Discourse=elaboration:9->8|Entity=(abstract-38
+14	choose	choose	VERB	VB	VerbForm=Inf	8	acl	8:acl:to	_
+15	their	their	PRON	PRP$	Number=Plur|Person=3|Poss=Yes|PronType=Prs	17	nmod:poss	17:nmod:poss	Entity=(abstract-39(person-35)
+16	own	own	ADJ	JJ	Degree=Pos	17	amod	17:amod	_
+17	fate	fate	NOUN	NN	Number=Sing	14	obj	14:obj	Entity=abstract-39)
+18	and	and	CCONJ	CC	_	20	cc	20:cc	Discourse=joint:10->9
+19	to	to	PART	TO	_	20	mark	20:mark	_
+20	improve	improve	VERB	VB	Person=2|VerbForm=Inf	14	conj	8:acl:to|14:conj:and	_
+21	their	their	PRON	PRP$	Number=Plur|Person=3|Poss=Yes|PronType=Prs	22	nmod:poss	22:nmod:poss	Entity=(abstract-40(person-35)
+22	chances	chance	NOUN	NNS	Number=Plur	20	obj	20:obj	_
+23	for	for	ADP	IN	_	26	case	26:case	_
+24	a	a	DET	DT	Definite=Ind|PronType=Art	26	det	26:det	Entity=(abstract-41
+25	better	good	ADJ	JJR	Degree=Cmp	26	amod	26:amod	_
+26	life	life	NOUN	NN	Number=Sing	22	nmod	22:nmod:for	Entity=abstract-34)abstract-38)abstract-40)abstract-41)|SpaceAfter=No
+27	.	.	PUNCT	.	_	5	punct	5:punct	_
+# jsRealB-start
+S(NP(N("pressure").n("s"),
+     PP(P("for"),
+        N("change").n("s"))),
+  VP(V("be").t("p").pe("3").n("s"),
+     V("drive").t("pp"),
+     PP(P("by"),
+        D("the"),
+        N("wish").n("s"),
+        CP(C("and"),
+           NP(P("of"),
+              N("woman").n("p")),
+           N("man").n("p")),
+        CP(C("and"),
+           VP(V("choose").t("b").b("to "),
+              NP(D("my").pe(3).ow("p"),
+                 A("own"),
+                 N("fate").n("s"))),
+           VP(V("improve").t("b").pe("2").b("to "),
+              NP(D("my").pe(3).ow("p"),
+                 N("chance").n("p"),
+                 PP(P("for"),
+                    D("a"),
+                    A("good").f("co"),
+                    N("life").n("s"))))))))
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_whow_cactus-35
+# gl = no changes
+# text = Too much water might cause rot.
+1	Too	too	ADV	RB	Degree=Pos	2	advmod	2:advmod	Discourse=antithesis:75->72|Entity=(substance-73
+2	much	much	ADJ	JJ	Degree=Pos	3	amod	3:amod	_
+3	water	water	NOUN	NN	Number=Sing	5	nsubj	5:nsubj	Entity=substance-73)
+4	might	might	AUX	MD	VerbForm=Fin	5	aux	5:aux	_
+5	cause	cause	VERB	VB	VerbForm=Inf	0	root	0:root	_
+6	rot	rot	NOUN	NN	Number=Sing	5	obj	5:obj	Entity=(event-44)|SpaceAfter=No
+7	.	.	PUNCT	.	_	5	punct	5:punct	_
+# jsRealB-start
+S(NP(NP(Adv("too"),
+        A("much")),
+     N("water").n("s")),
+  VP(V("cause").t("b"),
+     N("rot").n("s"))).t("ps").typ({mod:"perm"})
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_interview_libertarian-18
+# gl = :: bad ordering : (bad processing of flat)
+# text = McDonnell did well early in his term pushing back against Senate Democrats who wanted huge tax increases in response to major revenue shortfalls during the recession.
+1	McDonnell	McDonnell	PROPN	NNP	Number=Sing	2	nsubj	2:nsubj	Discourse=joint:42->19|Entity=(event-73(person-30-Bob_McDonnell)
+2	did	do	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	0:root	_
+3	well	well	ADV	RB	Degree=Pos	2	advmod	2:advmod	_
+4	early	early	ADV	RB	Degree=Pos	7	advmod	7:advmod	_
+5	in	in	ADP	IN	_	7	case	7:case	_
+6	his	his	PRON	PRP$	Gender=Masc|Number=Sing|Person=3|Poss=Yes|PronType=Prs	7	nmod:poss	7:nmod:poss	Entity=(time-48(person-30-Bob_McDonnell)
+7	term	term	NOUN	NN	Number=Sing	2	obl	2:obl:in	Entity=time-48)
+8	pushing	push	VERB	VBG	VerbForm=Ger	2	advcl	2:advcl	Discourse=elaboration:43->42
+9	back	back	ADP	RP	_	8	compound:prt	8:compound:prt	_
+10	against	against	ADP	IN	_	11	case	11:case	_
+11	Senate	Senate	PROPN	NNP	Number=Sing	8	obl	8:obl:against|14:nsubj	Entity=(person-74
+12	Democrats	Democrat	PROPN	NNPS	Number=Plur	11	flat	11:flat	_
+13	who	who	PRON	WP	PronType=Rel	14	nsubj	11:ref	Discourse=elaboration:44->43
+14	wanted	want	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	11	acl:relcl	11:acl:relcl	_
+15	huge	huge	ADJ	JJ	Degree=Pos	17	amod	17:amod	Entity=(abstract-75(event-76
+16	tax	tax	NOUN	NN	Number=Sing	17	compound	17:compound	Entity=(abstract-38)
+17	increases	increase	NOUN	NNS	Number=Plur	14	obj	14:obj	Entity=event-76)
+18	in	in	ADP	IN	_	19	case	19:case	_
+19	response	response	NOUN	NN	Number=Sing	14	obl	14:obl:in	_
+20	to	to	ADP	IN	_	23	case	23:case	_
+21	major	major	ADJ	JJ	Degree=Pos	23	amod	23:amod	Entity=(abstract-77
+22	revenue	revenue	NOUN	NN	Number=Sing	23	compound	23:compound	_
+23	shortfalls	shortfall	NOUN	NNS	Number=Plur	19	nmod	19:nmod:to	_
+24	during	during	ADP	IN	_	26	case	26:case	_
+25	the	the	DET	DT	Definite=Def|PronType=Art	26	det	26:det	Entity=(event-78
+26	recession	recession	NOUN	NN	Number=Sing	23	nmod	23:nmod:during	Entity=person-74)abstract-75)abstract-77)event-78)|SpaceAfter=No
+27	.	.	PUNCT	.	_	2	punct	2:punct	Entity=event-73)
+# jsRealB-start
+S(Q("McDonnell"),
+  VP(V("do").t("ps").pe("3").n("s"),
+     Adv("well"),
+     NP(Adv("early"),
+        P("in"),
+        Pro("him").c("gen").pe("3").g("m").n("s"),
+        N("term").n("s")),
+     VP(V("push").t("pr"),
+        P("back"),
+        PP(P("against"),
+           Q("Senate"),Q("Democrats"),
+           S(Pro("who").c("nom"),
+             VP(V("want").t("ps").pe("3").n("s"),
+                NP(A("huge"),
+                   N("tax").n("s"),
+                   N("increase").n("p")),
+                PP(P("in"),
+                   N("response").n("s"),
+                   PP(P("to"),
+                      A("major"),
+                      N("revenue").n("s"),
+                      N("shortfall").n("p"),
+                      PP(P("during"),
+                         D("the"),
+                         N("recession").n("s")))))))
+       )))
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_fiction_teeth-2
+# gl = no changes
+# text = Steven wanted to be a dentist.
+1	Steven	Steven	PROPN	NNP	Number=Sing	2	nsubj	2:nsubj|6:nsubj:xsubj	Discourse=ROOT:2|Entity=(abstract-2(person-3)
+2	wanted	want	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	0:root	_
+3	to	to	PART	TO	_	6	mark	6:mark	_
+4	be	be	AUX	VB	VerbForm=Inf	6	cop	6:cop	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	6:det	Entity=(person-4
+6	dentist	dentist	NOUN	NN	Number=Sing	2	xcomp	2:xcomp	Entity=abstract-2)person-4)|SpaceAfter=No
+7	.	.	PUNCT	.	_	2	punct	2:punct	_
+# jsRealB-start
+S(Q("Steven"),
+  VP(V("want").t("ps").pe("3").n("s"),
+     VP(V("be").t("p").b("to ").t("b"),
+        D("a"),
+        N("dentist").n("s"))))
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_academic_discrimination-10
+# gl = 20:upos:SCONJ>PREP
+# text = What also should not be lost in discussion of discrimination is the growing push to implement social policy aimed at reducing the occurrence of discriminatory practices.
+1	What	what	PRON	WP	PronType=Int	6	nsubj:pass	6:nsubj:pass	Discourse=background:19->38|Entity=(event-38
+2	also	also	ADV	RB	_	6	advmod	6:advmod	_
+3	should	should	AUX	MD	VerbForm=Fin	6	aux	6:aux	_
+4	not	not	PART	RB	Polarity=Neg	6	advmod	6:advmod	_
+5	be	be	AUX	VB	VerbForm=Inf	6	aux:pass	6:aux:pass	_
+6	lost	lose	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	14	csubj	14:csubj	_
+7	in	in	ADP	IN	_	8	case	8:case	_
+8	discussion	discussion	NOUN	NN	Number=Sing	6	obl	6:obl:in	Entity=(abstract-39
+9	of	of	ADP	IN	_	10	case	10:case	_
+10	discrimination	discrimination	NOUN	NN	Number=Sing	8	nmod	8:nmod:of	Entity=(abstract-2)event-38)abstract-39)
+11	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	cop	14:cop	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	14	det	14:det	Entity=(event-38
+13	growing	grow	VERB	VBG	VerbForm=Ger	14	amod	14:amod	_
+14	push	push	NOUN	NN	Number=Sing	0	root	0:root	_
+15	to	to	PART	TO	_	16	mark	16:mark	Discourse=purpose:20->19
+16	implement	implement	VERB	VB	VerbForm=Inf	14	acl	14:acl:to	_
+17	social	social	ADJ	JJ	Degree=Pos	18	amod	18:amod	Entity=(abstract-40
+18	policy	policy	NOUN	NN	Number=Sing	16	obj	16:obj	_
+19	aimed	aim	VERB	VBN	Tense=Past|VerbForm=Part	18	acl	18:acl	Discourse=purpose:21->20
+20	at	at	SCONJ	IN	_	21	mark	21:mark	_
+21	reducing	reduce	VERB	VBG	VerbForm=Ger	19	advcl	19:advcl:at	_
+22	the	the	DET	DT	Definite=Def|PronType=Art	23	det	23:det	Entity=(event-41
+23	occurrence	occurrence	NOUN	NN	Number=Sing	21	obj	21:obj	_
+24	of	of	ADP	IN	_	26	case	26:case	_
+25	discriminatory	discriminatory	ADJ	JJ	Degree=Pos	26	amod	26:amod	Entity=(abstract-42
+26	practices	practice	NOUN	NNS	Number=Plur	23	nmod	23:nmod:of	Entity=event-38)abstract-40)event-41)abstract-42)|SpaceAfter=No
+27	.	.	PUNCT	.	_	14	punct	14:punct	_
+# jsRealB-start
+S(S(Pro("what").c("nom"),
+    Adv("also"),
+    VP(V("be").t("b"),
+       V("lose").t("pp"),
+       PP(P("in"),
+          N("discussion").n("s"),
+          PP(P("of"),
+             N("discrimination").n("s"))))).t("ps").typ({neg:true,mod:"nece"}),
+  VP(V("be").t("p").pe("3").n("s"),
+     D("the"),
+     V("grow").t("pr"),
+     NP(N("push").n("s"),
+        VP(V("implement").t("b").b("to ").t("b"),
+           NP(A("social"),
+              N("policy").n("s"),
+              VP(V("aim").t("pp"),
+                 S(P("at"),
+                   VP(V("reduce").t("pr"),
+                      NP(D("the"),
+                         N("occurrence").n("s"),
+                         PP(P("of"),
+                            A("discriminatory"),
+                            N("practice").n("p")))))))))))
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_bio_jespersen-29
+# gl = :: small spacing differences
+# text = While in the U.S., he took occasion to study the country's educational system.
+1	While	while	SCONJ	IN	_	4	mark	4:mark	Discourse=circumstance:80->81
+2	in	in	ADP	IN	_	4	case	4:case	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	4:det	Entity=(place-156-United_States
+4	U.S.	U.S.	PROPN	NNP	Abbr=Yes|Number=Sing	7	advcl	7:advcl:while	Entity=place-156-United_States)|SpaceAfter=No
+5	,	,	PUNCT	,	_	4	punct	4:punct	_
+6	he	he	PRON	PRP	Case=Nom|Gender=Masc|Number=Sing|Person=3|PronType=Prs	7	nsubj	7:nsubj	Discourse=elaboration:81->77|Entity=(person-1-Otto_Jespersen)
+7	took	take	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	0:root	_
+8	occasion	occasion	NOUN	NN	Number=Sing	7	obj	7:obj|10:nsubj:xsubj	_
+9	to	to	PART	TO	_	10	mark	10:mark	Discourse=purpose:82->81
+10	study	study	VERB	VB	VerbForm=Inf	7	xcomp	7:xcomp	_
+11	the	the	DET	DT	Definite=Def|PronType=Art	12	det	12:det	Entity=(abstract-167
+12	country	country	NOUN	NN	Number=Sing	15	nmod:poss	15:nmod:poss	Entity=(place-156-United_States
+13	's	's	PART	POS	_	12	case	12:case	Entity=place-156-United_States)
+14	educational	educational	ADJ	JJ	Degree=Pos	15	amod	15:amod	_
+15	system	system	NOUN	NN	Number=Sing	10	obj	10:obj	Entity=abstract-167)|SpaceAfter=No
+16	.	.	PUNCT	.	_	7	punct	7:punct	_
+# jsRealB-start
+S(NP(C("while"),
+     P("in"),
+     D("the"),
+     Q("U.S."),
+     Q(",")),
+  Pro("him").c("nom").pe("3").g("m").n("s"),
+  VP(V("take").t("ps").pe("3").n("s"),
+     N("occasion").n("s"),
+     VP(V("study").t("b").b("to ").t("b"),
+        NP(NP(D("the"),
+              N("country").n("s").a("'s")
+              ),
+           A("educational"),
+           N("system").n("s")))))
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_whow_cactus-15
+# gl = no changes
+# text = It can take as long as 4 to 4 years before you get flowers.
+1	It	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	3	nsubj	3:nsubj	Discourse=elaboration:34->32|Entity=(event-30)
+2	can	can	AUX	MD	VerbForm=Fin	3	aux	3:aux	_
+3	take	take	VERB	VB	VerbForm=Inf	0	root	0:root	_
+4	as	as	ADV	RB	_	5	advmod	5:advmod	_
+5	long	long	ADV	RB	Degree=Pos	3	advmod	3:advmod	_
+6	as	as	ADP	IN	_	10	case	10:case	_
+7	4	4	NUM	CD	NumForm=Digit|NumType=Card|Typo=Yes	10	nummod	10:nummod	Entity=(time-32
+8	to	to	ADP	IN	_	9	case	9:case	_
+9	4	4	NUM	CD	NumForm=Digit|NumType=Card	7	nmod	7:nmod:to	_
+10	years	year	NOUN	NNS	Number=Plur	5	obl	5:obl:as	Entity=time-32)
+11	before	before	SCONJ	IN	_	13	mark	13:mark	Discourse=circumstance:35->34
+12	you	you	PRON	PRP	Case=Nom|Number=Sing|Person=2|PronType=Prs	13	nsubj	13:nsubj	Entity=(person-26)
+13	get	get	VERB	VBP	Mood=Ind|Number=Sing|Person=2|Tense=Pres|VerbForm=Fin	3	advcl	3:advcl:before	_
+14	flowers	flower	NOUN	NNS	Number=Plur	13	obj	13:obj	Entity=(plant-33)|SpaceAfter=No
+15	.	.	PUNCT	.	_	3	punct	3:punct	_
+# jsRealB-start
+S(Pro("it").c("nom").pe("3").g("n").n("s"),
+  VP(V("take").t("b"),
+     AdvP(Adv("as"),
+          Adv("long"),
+          PP(P("as"),
+             NP(NO("4").dOpt({raw:true}),
+                PP(P("to"),
+                   NO("4").dOpt({raw:true}))),
+             N("year").n("p"))),
+     S(C("before"),
+       Pro("you").c("nom").pe("2").n("s"),
+       VP(V("get").t("p").pe("2").n("s"),
+          N("flower").n("p"))))).typ({mod:"poss"})
+# jsRealB-end
+
+# file = en/en_gum-ud-test.conllu
+# sent_id = GUM_news_sensitive-10
+# gl = :: bad ordering : because of flat
+# text = Environment Canada spokesperson Julie Hahn said they apply to letters of complaint, criticism or injury, research or scientific notes and findings that don`t have any conclusion, and Treasury Board letters, agendas and minutes that don`t deal with subjects of national interest.
+1	Environment	Environment	PROPN	NNP	Number=Sing	6	nsubj	6:nsubj	Discourse=attribution:18->19|Entity=(person-29(organization-6-Environment_and_Climate_Change_Canada
+2	Canada	Canada	PROPN	NNP	Number=Sing	1	flat	1:flat	Entity=organization-6-Environment_and_Climate_Change_Canada)
+3	spokesperson	spokesperson	NOUN	NN	Number=Sing	1	compound	1:compound	_
+4	Julie	Julie	PROPN	NNP	Number=Sing	1	flat	1:flat	_
+5	Hahn	Hahn	PROPN	NNP	Number=Sing	1	flat	1:flat	Entity=person-29)
+6	said	say	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	0:root	_
+7	they	they	PRON	PRP	Case=Nom|Number=Plur|Person=3|PronType=Prs	8	nsubj	8:nsubj	Discourse=elaboration:19->17|Entity=(object-28)
+8	apply	apply	VERB	VBP	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	6	ccomp	6:ccomp	_
+9	to	to	ADP	IN	_	10	case	10:case	_
+10	letters	letter	NOUN	NNS	Number=Plur	8	obl	8:obl:to	Entity=(object-30
+11	of	of	ADP	IN	_	12	case	12:case	_
+12	complaint	complaint	NOUN	NN	Number=Sing	10	nmod	10:nmod:of	SpaceAfter=No
+13	,	,	PUNCT	,	_	14	punct	14:punct	_
+14	criticism	criticism	NOUN	NN	Number=Sing	12	conj	10:nmod:of|12:conj:or	_
+15	or	or	CCONJ	CC	_	16	cc	16:cc	_
+16	injury	injury	NOUN	NN	Number=Sing	12	conj	10:nmod:of|12:conj:or	Entity=object-30)|SpaceAfter=No
+17	,	,	PUNCT	,	_	18	punct	18:punct	_
+18	research	research	NOUN	NN	Number=Sing	10	conj	8:obl:to|10:conj:and|27:nsubj	Entity=(abstract-31
+19	or	or	CCONJ	CC	_	21	cc	21:cc	_
+20	scientific	scientific	ADJ	JJ	Degree=Pos	21	amod	21:amod	_
+21	notes	note	NOUN	NNS	Number=Plur	18	conj	10:conj|18:conj:or	_
+22	and	and	CCONJ	CC	_	23	cc	23:cc	_
+23	findings	finding	NOUN	NNS	Number=Plur	21	conj	18:conj|21:conj:and	_
+24	that	that	PRON	WDT	PronType=Rel	27	nsubj	18:ref	Discourse=elaboration:20->19
+25	do	do	AUX	VBP	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	27	aux	27:aux	_
+26	n`t	not	PART	RB	Polarity=Neg	27	advmod	27:advmod	_
+27	have	have	VERB	VB	VerbForm=Inf	18	acl:relcl	18:acl:relcl	_
+28	any	any	DET	DT	_	29	det	29:det	Entity=(abstract-32
+29	conclusion	conclusion	NOUN	NN	Number=Sing	27	obj	27:obj	Entity=abstract-31)abstract-32)|SpaceAfter=No
+30	,	,	PUNCT	,	_	34	punct	34:punct	_
+31	and	and	CCONJ	CC	_	34	cc	34:cc	Discourse=same-unit:21->19
+32	Treasury	Treasury	PROPN	NNP	Number=Sing	34	compound	34:compound	Entity=(object-33(organization-34-Treasury_Board_of_Canada
+33	Board	Board	PROPN	NNP	Number=Sing	34	compound	34:compound	Entity=organization-34-Treasury_Board_of_Canada)
+34	letters	letter	NOUN	NNS	Number=Plur	10	conj	8:obl:to|10:conj:and	SpaceAfter=No
+35	,	,	PUNCT	,	_	36	punct	36:punct	_
+36	agendas	agenda	NOUN	NNS	Number=Plur	34	conj	10:conj|34:conj|42:nsubj	_
+37	and	and	CCONJ	CC	_	38	cc	38:cc	_
+38	minutes	minute	NOUN	NNS	Number=Plur	36	conj	34:conj|36:conj:and	_
+39	that	that	PRON	WDT	PronType=Rel	42	nsubj	36:ref	Discourse=elaboration:22->21
+40	do	do	AUX	VBP	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	42	aux	42:aux	_
+41	n`t	not	PART	RB	Polarity=Neg	42	advmod	42:advmod	_
+42	deal	deal	VERB	VB	VerbForm=Inf	36	acl:relcl	36:acl:relcl	_
+43	with	with	ADP	IN	_	44	case	44:case	_
+44	subjects	subject	NOUN	NNS	Number=Plur	42	obl	42:obl:with	Entity=(abstract-35
+45	of	of	ADP	IN	_	47	case	47:case	_
+46	national	national	ADJ	JJ	Degree=Pos	47	amod	47:amod	Entity=(abstract-36
+47	interest	interest	NOUN	NN	Number=Sing	44	nmod	44:nmod:of	Entity=object-33)abstract-35)abstract-36)|SpaceAfter=No
+48	.	.	PUNCT	.	_	6	punct	6:punct	_
+# jsRealB-start
+S(NP(Q("Environment"),
+     N("spokesperson").n("s")),
+  Q("Canada"),
+  Q("Julie"),
+  Q("Hahn"),
+  VP(V("say").t("ps").pe("3").n("s"),
+     S(Pro("them").c("nom").pe("3").n("p"),
+       VP(V("apply").t("p").pe("3").n("p"),
+          CP(C("and").b(","),
+             NP(P("to"),
+                N("letter").n("p"),
+                CP(C("or"),
+                   NP(P("of"),
+                      N("complaint").n("s")),
+                   N("criticism").n("s"),
+                   N("injury").n("s"))),
+             CP(C("or"),
+                NP(N("research").n("s"),
+                   S(Pro("that").c("nom"),
+                     VP(V("have").t("b"),
+                        NP(D("any"),
+                           N("conclusion").n("s")))).typ({neg:true})),
+                CP(C("and"),
+                   NP(A("scientific"),
+                      N("note").n("p")),
+                   N("finding").n("p"))),
+             CP(NP(Q("Treasury"),
+                   Q("Board"),
+                   N("letter").n("p")),
+                CP(C("and"),
+                   NP(N("agenda").n("p"),
+                      S(Pro("that").c("nom"),
+                        VP(V("deal").t("b"),
+                           PP(P("with"),
+                              N("subject").n("p"),
+                              PP(P("of"),
+                                 A("national"),
+                                 N("interest").n("s"))))).typ({neg:true})),
+                   N("minute").n("p"))))))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc2-4459
+# gl = 4:feats>Number=Sing|Person=1
+# gl = contraction I've ~> I have
+# text = Still, I've always suspected that Cervantes devoured those old romances.
+1	Still	still	ADV	_	_	6	advmod	_	SpaceAfter=No
+2	,	,	PUNCT	Comma	_	1	punct	_	_
+3	I	I	PRON	PERS-P1SG-NOM	Case=Nom|Number=Sing|Person=1|PronType=Prs	6	nsubj	_	SpaceAfter=No
+4	've	have	AUX	PRES-AUX	Mood=Ind|Tense=Pres|VerbForm=Fin	6	aux	_	_
+5	always	always	ADV	_	_	6	advmod	_	_
+6	suspected	suspect	VERB	PERF	Tense=Past|VerbForm=Part	0	root	_	_
+7	that	that	SCONJ	_	_	9	mark	_	_
+8	Cervantes	Cervantes	PROPN	SG-NOM	Number=Sing	9	nsubj	_	_
+9	devoured	devour	VERB	PAST	Mood=Ind|Tense=Past|VerbForm=Fin	6	ccomp	_	_
+10	those	that	DET	DEM-PL	Number=Plur|PronType=Dem	12	det	_	_
+11	old	old	ADJ	POS	Degree=Pos	12	amod	_	_
+12	romances	romance	NOUN	PL-NOM	Number=Plur	9	obj	_	SpaceAfter=No
+13	.	.	PUNCT	Period	_	6	punct	_	_
+# jsRealB-start
+S(AdvP(Adv("still"),
+       Q(",")),
+  Pro("me").pe("1").c("nom").pe("1").n("s"),
+  V("have").t("p").pe("1").n("s"),
+  Adv("always"),
+  VP(V("suspect").t("pp"),
+     S(C("that"),
+       Q("Cervantes"),
+       VP(V("devour").t("ps"),
+          NP(D("that").n("p"),
+             A("old"),
+             N("romance").n("p"))))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc4-4727
+# gl = no changes
+# text = Oh, it was all right.
+1	Oh	oh	INTJ	_	_	5	discourse	_	SpaceAfter=No
+2	,	,	PUNCT	Comma	_	1	punct	_	_
+3	it	it	PRON	PERS-SG	_	5	nsubj	_	_
+4	was	be	AUX	PAST	Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin	5	cop	_	_
+5	all	all	ADV	TOT	_	0	root	_	_
+6	right	right	ADJ	TOT	Degree=Pos	5	fixed	_	SpaceAfter=No
+7	.	.	PUNCT	Period	_	5	punct	_	_
+# jsRealB-start
+S(VP(Q("Oh"),
+     Q(",")),
+  Pro("it").c("nom"),
+  VP(V("be").t("ps").pe("1").n("s"),
+     AdvP(Adv("all"),
+          A("right"))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc1-4273
+# gl = 22 : lemma:follow>following, feats:Case=Nom>Degree=Pos
+# gl = 15 : upos:NOUN>X
+# gl = 11 : upos:NUM>X (date)
+# text = For example, if you specify the start range as 01-Jul-1999 while grouping the ShippedDate field in weekly intervals, the following groups will be created:
+1	For	for	ADV	_	Case=Nom	26	advmod	_	_
+2	example	example	NOUN	_	Number=Sing	1	fixed	_	SpaceAfter=No
+3	,	,	PUNCT	Comma	_	1	punct	_	_
+4	if	if	SCONJ	_	_	6	mark	_	_
+5	you	you	PRON	PERS-P2	_	6	nsubj	_	_
+6	specify	specify	VERB	PRES	Mood=Ind|Tense=Pres|VerbForm=Fin	26	advcl	_	_
+7	the	the	DET	DEF	Definite=Def|PronType=Art	9	det	_	_
+8	start	start	NOUN	SG-NOM	Number=Sing	9	compound	_	_
+9	range	range	NOUN	SG-NOM	Number=Sing	6	obj	_	_
+10	as	as	ADP	_	_	11	case	_	_
+11	01-Jul-1999	01-jul-1999	NUM	ID	_	6	obl	_	_
+12	while	while	SCONJ	_	_	13	mark	_	_
+13	grouping	group	VERB	ING	Tense=Pres|VerbForm=Part	6	advcl	_	_
+14	the	the	DET	DEF	Definite=Def|PronType=Art	16	det	_	_
+15	ShippedDate	shippeddate	NOUN	SG-NOM	Number=Sing	16	compound	_	_
+16	field	field	NOUN	SG-NOM	Number=Sing	13	obj	_	_
+17	in	in	ADP	_	_	19	case	_	_
+18	weekly	weekly	ADJ	POS	Degree=Pos	19	amod	_	_
+19	intervals	interval	NOUN	PL-NOM	Number=Plur	13	obl	_	SpaceAfter=No
+20	,	,	PUNCT	Comma	_	6	punct	_	_
+21	the	the	DET	DEF	Definite=Def|PronType=Art	23	det	_	_
+22	following	follow	ADJ	ING	Case=Nom	23	amod	_	_
+23	groups	group	NOUN	PL-NOM	Number=Plur	26	nsubj:pass	_	_
+24	will	will	AUX	PRES-AUX	VerbForm=Fin	26	aux:pass	_	_
+25	be	be	AUX	INF	VerbForm=Inf	26	aux:pass	_	_
+26	created	create	VERB	PASS	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	SpaceAfter=No
+27	:	:	PUNCT	Colon	_	26	punct	_	_
+# jsRealB-start
+S(AdvP(Adv("for"),
+       Q(",")),
+  N("example").n("s"),
+  S(C("if"),
+    Pro("you").c("nom"),
+    VP(V("specify").t("p"),
+       NP(D("the"),
+          N("start").n("s"),
+          N("range").n("s")),
+       PP(P("as"),
+          Q("01-jul-1999")),
+       S(C("while"),
+         VP(V("group").t("pr"),
+            NP(D("the"),
+               Q("shippeddate"),
+               N("field").n("s")),
+            PP(P("in"),
+               A("weekly"),
+               N("interval").n("p")))),
+       Q(","))),
+  NP(D("the"),
+     A("following"),
+     N("group").n("p")),
+  V("will").t("p"),
+  V("be").t("b"),
+  VP(V("create").t("pp"),
+     Q(":")))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc2-4337
+# gl = :: unknown NOUN luncheonette
+# text = Once, when he had been in the luncheonette, they had talked about baseball, and now, each time Quinn came in, they continued to talk about it.
+1	Once	once	ADV	_	NumType=Mult	13	advmod	_	SpaceAfter=No
+2	,	,	PUNCT	Comma	_	6	punct	_	_
+3	when	when	SCONJ	_	Case=Nom	6	mark	_	_
+4	he	he	PRON	PERS-P3SG-NOM	Case=Nom|Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	nsubj	_	_
+5	had	have	AUX	PAST	Mood=Ind|Tense=Past|VerbForm=Fin	6	aux	_	_
+6	been	be	AUX	PERF	Tense=Past|VerbForm=Part	13	advcl	_	_
+7	in	in	ADP	_	_	9	case	_	_
+8	the	the	DET	DEF	Definite=Def|PronType=Art	9	det	_	_
+9	luncheonette	luncheonette	NOUN	SG-NOM	Number=Sing	6	obl	_	SpaceAfter=No
+10	,	,	PUNCT	Comma	_	6	punct	_	_
+11	they	they	PRON	PERS-PL-NOM	Case=Nom|Number=Plur|Person=3|PronType=Prs	13	nsubj	_	_
+12	had	have	AUX	PAST	Mood=Ind|Tense=Past|VerbForm=Fin	13	aux	_	_
+13	talked	talk	VERB	PERF	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+14	about	about	ADP	_	_	15	case	_	_
+15	baseball	baseball	NOUN	SG-NOM	Number=Sing	13	obl	_	SpaceAfter=No
+16	,	,	PUNCT	Comma	_	27	punct	_	_
+17	and	and	CCONJ	_	_	27	cc	_	_
+18	now	now	ADV	_	_	27	advmod	_	SpaceAfter=No
+19	,	,	PUNCT	Comma	_	18	punct	_	_
+20	each	each	DET	TOT-SG	_	21	det	_	_
+21	time	time	NOUN	SG-NOM	Number=Sing	27	obl	_	_
+22	Quinn	Quinn	PROPN	SG-NOM	Number=Sing	23	nsubj	_	_
+23	came	come	VERB	PAST	Mood=Ind|Tense=Past|VerbForm=Fin	21	acl:relcl	_	_
+24	in	in	ADV	_	_	23	advmod	_	SpaceAfter=No
+25	,	,	PUNCT	Comma	_	23	punct	_	_
+26	they	they	PRON	PERS-PL-NOM	Case=Nom|Number=Plur|Person=3|PronType=Prs	27	nsubj	_	_
+27	continued	continue	VERB	PAST	Mood=Ind|Tense=Past|VerbForm=Fin	13	conj	_	_
+28	to	to	PART	_	_	29	mark	_	_
+29	talk	talk	VERB	INF	VerbForm=Inf	27	xcomp	_	_
+30	about	about	ADP	_	_	31	case	_	_
+31	it	it	PRON	PERS-SG	_	29	obl	_	SpaceAfter=No
+32	.	.	PUNCT	Period	_	13	punct	_	_
+# jsRealB-start
+CP(C("and").b(","),
+   VP(Adv("once"),
+      S(Q(","),
+        C("when"),
+        Pro("him").c("nom").pe("3").g("m").n("s"),
+        V("have").t("ps"),
+        VP(V("be").t("pp"),
+           PP(P("in"),
+              D("the"),
+              Q("luncheonette")),
+           Q(","))),
+      Pro("them").c("nom").pe("3").n("p"),
+      V("have").t("ps"),
+      V("talk").t("ps"),
+      PP(P("about"),
+         N("baseball").n("s"))),
+   S(AdvP(Adv("now"),
+          Q(",")),
+     NP(D("each"),
+        N("time").n("s"),
+        S(Q("Quinn"),
+          VP(V("come").t("ps"),
+             Adv("in"),
+             Q(",")))),
+     Pro("them").c("nom").pe("3").n("p"),
+     VP(V("continue").t("ps"),
+        VP(V("talk").t("b").b("to ").t("b"),
+           PP(P("about"),
+              Pro("it").c("nom")))))).a(".")
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc3-4492
+# gl = :: unknown NOUN: head-culture
+# gl = :: unknown ADJ : busy-minded
+# gl = 5:feats>Number=Plur|Person=3|Poss=Yes|PronType=Prs
+# gl = 12:feats>Number=Sing|Person=3
+# text = Busy-minded people, with their head-culture that touches all surfaces, have heard of Einstein.
+1	Busy-minded	busy-minded	ADJ	POS	Degree=Pos	2	amod	_	_
+2	people	people	NOUN	PL-NOM	Number=Plur	13	nsubj	_	SpaceAfter=No
+3	,	,	PUNCT	Comma	_	6	punct	_	_
+4	with	with	ADP	_	_	6	case	_	_
+5	their	they	PRON	P3PL-GEN	_	6	nmod:poss	_	_
+6	head-culture	head-culture	NOUN	SG-NOM	Number=Sing	2	nmod	_	_
+7	that	that	PRON	REL	PronType=Rel	8	nsubj	_	_
+8	touches	touch	VERB	PRES	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	acl:relcl	_	_
+9	all	all	DET	TOT-PL	_	10	det	_	_
+10	surfaces	surface	NOUN	PL-NOM	Number=Plur	8	obj	_	SpaceAfter=No
+11	,	,	PUNCT	Comma	_	6	punct	_	_
+12	have	have	AUX	PRES-AUX	Mood=Ind|Tense=Pres|VerbForm=Fin	13	aux	_	_
+13	heard	hear	VERB	PERF	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+14	of	of	ADP	_	_	15	case	_	_
+15	Einstein	Einstein	PROPN	SG-NOM	Number=Sing	13	obl	_	SpaceAfter=No
+16	.	.	PUNCT	Period	_	13	punct	_	_
+# jsRealB-start
+S(NP(Q("busy-minded"),
+     N("people").n("p"),
+     NP(Q(","),
+        P("with"),
+        D("my").pe(3).n("p").ow("p"),
+        Q("head-culture"),
+        S(Pro("that").c("nom"),
+          VP(V("touch").t("p").pe("3").n("s"),
+             NP(D("all"),
+                N("surface").n("p")))),
+        Q(","))),
+  V("have").t("p").n("p").pe(3),
+  VP(V("hear").t("ps"),
+     PP(P("of"),
+        Q("Einstein"))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc6-4865
+# gl = 8:lemma:much>more
+# text = This country can do with a few more white people like you, take it from me.
+1	This	this	DET	DEM-SG	Number=Sing|PronType=Dem	2	det	_	_
+2	country	country	NOUN	SG-NOM	Number=Sing	4	nsubj	_	_
+3	can	can	AUX	PRES-AUX	VerbForm=Fin	4	aux	_	_
+4	do	do	VERB	INF	VerbForm=Inf	0	root	_	_
+5	with	with	ADP	_	_	10	case	_	_
+6	a	a	DET	IND-SG	Definite=Ind|PronType=Art	7	det	_	_
+7	few	few	ADJ	IND-PL	Degree=Pos	8	amod	_	_
+8	more	much	ADJ	CMP	Degree=Cmp	10	amod	_	_
+9	white	white	ADJ	POS	Degree=Pos	10	amod	_	_
+10	people	people	NOUN	PL-NOM	Number=Plur	4	obl	_	_
+11	like	like	ADP	_	_	12	case	_	_
+12	you	you	PRON	PERS-P2	_	10	nmod	_	SpaceAfter=No
+13	,	,	PUNCT	Comma	_	14	punct	_	_
+14	take	take	VERB	IMP	Mood=Imp|VerbForm=Fin	4	parataxis	_	_
+15	it	it	PRON	PERS-SG	_	14	obj	_	_
+16	from	from	ADP	_	_	17	case	_	_
+17	me	I	PRON	PERS-P1SG-ACC	Case=Acc|Number=Sing|Person=1|PronType=Prs	14	obl	_	SpaceAfter=No
+18	.	.	PUNCT	Period	_	4	punct	_	_
+# jsRealB-start
+S(NP(D("this").n("s"),
+     N("country").n("s")),
+  VP(V("do").t("b"),
+     PP(P("with"),
+        NP(NP(D("a"),
+              A("few")),
+           Q("more")),
+        A("white"),
+        N("people").n("p"),
+        PP(P("like"),
+           Pro("you").c("nom"))),
+     S(Q(","),
+       VP(V("take").t("ip"),
+          Pro("it").c("nom"),
+          PP(P("from"),
+             Pro("me").pe("1").c("acc").pe("1").n("s")))))).typ({mod:"poss"})
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc1-4264
+# gl = no changes
+# text = About enabling the System Administrator (SA) user name in an Access project
+1	About	about	ADP	_	_	2	mark	_	_
+2	enabling	enable	VERB	ING	Tense=Pres|VerbForm=Part	0	root	_	_
+3	the	the	DET	DEF	Definite=Def|PronType=Art	5	det	_	_
+4	System	system	NOUN	SG-NOM	Number=Sing	5	compound	_	_
+5	Administrator	administrator	NOUN	SG-NOM	Number=Sing	10	compound	_	_
+6	(	(	PUNCT	LeftParenthesis	_	7	punct	_	SpaceAfter=No
+7	SA	sa	X	NOM	_	5	appos	_	SpaceAfter=No
+8	)	)	PUNCT	RightParenthesis	_	7	punct	_	_
+9	user	user	NOUN	SG-NOM	Number=Sing	10	compound	_	_
+10	name	name	NOUN	SG-NOM	Number=Sing	2	obj	_	_
+11	in	in	ADP	_	_	14	case	_	_
+12	an	an	DET	IND-SG	Definite=Ind|PronType=Art	14	det	_	_
+13	Access	Access	PROPN	SG-NOM	Case=Nom	14	compound	_	_
+14	project	project	NOUN	SG-NOM	Number=Sing	2	obl	_	_
+# jsRealB-start
+S(P("about"),
+  VP(V("enable").t("pr"),
+     NP(NP(D("the"),
+           N("system").n("s"),
+           N("administrator").n("s"),
+           S(Q("("),
+             VP(Q("SA"),
+                Q(")")))),
+        N("user").n("s"),
+        N("name").n("s")),
+     PP(P("in"),
+        D("a"),
+        Q("Access"),
+        N("project").n("s"))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc5-4748
+# gl = 4: unknown NOUN : sine-qua-non
+# text = This is a sine-qua-non, and it would seem unnecessary to keep stressing it.
+1	This	this	PRON	DEM-SG	Number=Sing|PronType=Dem	4	nsubj	_	_
+2	is	be	AUX	PRES	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	IND-SG	Definite=Ind|PronType=Art	4	det	_	_
+4	sine-qua-non	sine-qua-non	NOUN	SG-NOM	Number=Sing	0	root	_	SpaceAfter=No
+5	,	,	PUNCT	Comma	_	9	punct	_	_
+6	and	and	CCONJ	_	_	9	cc	_	_
+7	it	it	PRON	PERS-SG	_	9	expl	_	_
+8	would	would	AUX	PAST-AUX	VerbForm=Fin	9	aux	_	_
+9	seem	seem	VERB	INF	VerbForm=Inf	4	conj	_	_
+10	unnecessary	unnecessary	ADJ	POS	Degree=Pos	9	xcomp	_	_
+11	to	to	PART	_	_	12	mark	_	_
+12	keep	keep	VERB	INF	VerbForm=Inf	9	csubj	_	_
+13	stressing	stress	VERB	ING	Tense=Pres|VerbForm=Part	12	xcomp	_	_
+14	it	it	PRON	PERS-SG	_	13	obj	_	SpaceAfter=No
+15	.	.	PUNCT	Period	_	4	punct	_	_
+# jsRealB-start
+S(Pro("this").c("nom").n("s"),
+  VP(V("be").t("p").pe("3").n("s"),
+     D("a"),
+     CP(C("and").b(","),
+        NP(Q("sine-qua-non")),
+        S(Pro("it").c("nom"),
+          VP(V("seem").t("b"),
+             A("unnecessary"),
+             VP(V("keep").t("b").b("to ").t("b"),
+                VP(V("stress").t("pr"),
+                   Pro("it").c("nom"))))).t("ps").typ({mod:"will"}))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc7-5015
+# gl = 9: unknown NOUN : Sir
+# text = They lets Dobby get on with it, sir.
+1	They	they	PRON	PERS-PL-NOM	Case=Nom|Number=Plur|Person=3|PronType=Prs	2	nsubj	_	_
+2	lets	let	VERB	PRES	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	Dobby	Dobby	PROPN	SG-NOM	Number=Sing	2	obj	_	_
+4	get	get	VERB	INF	VerbForm=Inf	2	xcomp	_	_
+5	on	on	ADV	_	_	4	compound:prt	_	_
+6	with	with	ADP	_	_	7	case	_	_
+7	it	it	PRON	PERS-SG	_	4	obl	_	SpaceAfter=No
+8	,	,	PUNCT	Comma	_	9	punct	_	_
+9	sir	Sir	NOUN	SG-NOM	Case=Nom	2	vocative	_	SpaceAfter=No
+10	.	.	PUNCT	Period	_	2	punct	_	_
+# jsRealB-start
+S(Pro("them").c("nom").pe("3").n("p"),
+  VP(V("let").t("p").pe("3").n("s"),
+     Q("Dobby"),
+     VP(V("get").t("b"),
+        Adv("on"),
+        PP(P("with"),
+           Pro("it").c("nom"))),
+     NP(Q(","),
+        N("sir"))))
+# jsRealB-end
+
+# file = en/en_lines-ud-test.conllu
+# sent_id = en_lines-ud-test-doc6-4985
+# gl = :: spacing problems: heaven's, else's
+# gl = contraction it's ~> it is
+# text = For heaven's sake, let them have it, it's someone else's turn to burn the midnight oil there, now...
+1	For	for	ADP	_	_	4	case	_	_
+2	heaven	heaven	NOUN	SG	Number=Sing	4	nmod:poss	_	SpaceAfter=No
+3	's	's	PART	GEN	_	2	case	_	_
+4	sake	sake	NOUN	SG-NOM	Number=Sing	6	discourse	_	SpaceAfter=No
+5	,	,	PUNCT	Comma	_	4	punct	_	_
+6	let	let	VERB	IMP	Mood=Imp|VerbForm=Fin	0	root	_	_
+7	them	they	PRON	PERS-P3PL-ACC	Case=Acc|Number=Plur|Person=3|PronType=Prs	6	obj	_	_
+8	have	have	VERB	INF	VerbForm=Inf	6	xcomp	_	_
+9	it	it	PRON	PERS-SG	_	8	obj	_	SpaceAfter=No
+10	,	,	PUNCT	Comma	_	16	punct	_	_
+11	it	it	PRON	PERS-SG	_	16	nsubj	_	SpaceAfter=No
+12	's	be	AUX	PRES	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	16	cop	_	_
+13	someone	someone	PRON	IND-SG-NOM	Number=Sing	16	nmod:poss	_	_
+14	else	else	ADJ	_	Degree=Pos	13	amod	_	SpaceAfter=No
+15	's	's	PART	IND-SG	_	13	case	_	_
+16	turn	turn	NOUN	SG-NOM	Number=Sing	6	parataxis	_	_
+17	to	to	PART	_	_	18	mark	_	_
+18	burn	burn	VERB	INF	VerbForm=Inf	16	csubj	_	_
+19	the	the	DET	DEF	Definite=Def|PronType=Art	21	det	_	_
+20	midnight	midnight	NOUN	SG-NOM	Number=Sing	21	compound	_	_
+21	oil	oil	NOUN	SG-NOM	Number=Sing	18	obj	_	_
+22	there	there	ADV	_	PronType=Dem	18	advmod	_	SpaceAfter=No
+23	,	,	PUNCT	Comma	_	24	punct	_	_
+24	now	now	ADV	_	_	18	advmod	_	SpaceAfter=No
+25	...	...	PUNCT	Dots	_	6	punct	_	_
+# jsRealB-start
+S(PP(P("for"),
+     NP(N("heaven").n("s"),
+        Q("'s")),
+     N("sake").n("s"),
+     Q(",")),
+  VP(V("let").t("ip"),
+     Pro("them").c("acc").pe("3").n("p"),
+     VP(V("have").t("b"),
+        Pro("it").c("nom")),
+     S(Q(","),
+       Pro("it").c("nom"),
+       VP(V("be").t("p").pe("3").n("s"),
+          NP(Pro("someone").c("nom").n("s"),
+             A("else"),
+             Q("'s")),
+          NP(N("turn").n("s"),
+             VP(V("burn").t("b").b("to ").t("b"),
+                NP(D("the"),
+                   N("midnight").n("s"),
+                   N("oil").n("s")),
+                Adv("there"),
+                AdvP(Q(","),
+                     Adv("now")))))),
+     Q("..."))) 
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-452
+# gl = contraction : Mr~>Mister
+# gl = :: would => will
+# gl = :: 11:unknown NOUN : rapporteur
+# text = Mr President, I too would like to congratulate the rapporteur on her excellent work.
+1	Mr	mister	NOUN	S	Gender=Masc|Number=Sing	7	vocative	_	_
+2	President	president	NOUN	S	Number=Sing	1	compound	_	SpaceAfter=No
+3	,	,	PUNCT	FF	_	1	punct	_	_
+4	I	I	PRON	PE	Number=Sing|Person=1|PronType=Prs	7	nsubj	_	_
+5	too	too	ADV	B	_	7	advmod	_	_
+6	would	will	AUX	VM	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	7	aux	_	_
+7	like	like	VERB	V	VerbForm=Inf	0	root	_	_
+8	to	to	PART	PART	_	9	mark	_	_
+9	congratulate	congratulate	VERB	V	VerbForm=Inf	7	xcomp	_	_
+10	the	the	DET	RD	Definite=Def|PronType=Art	11	det	_	_
+11	rapporteur	rapporteur	NOUN	S	Number=Sing	9	obj	_	_
+12	on	on	ADP	E	_	15	case	_	_
+13	her	her	DET	AP	Poss=Yes|PronType=Prs	15	nmod:poss	_	_
+14	excellent	excellent	ADJ	A	Degree=Pos	15	amod	_	_
+15	work	work	NOUN	S	Number=Sing	9	obl	_	SpaceAfter=No
+16	.	.	PUNCT	FS	_	7	punct	_	_
+# jsRealB-start
+S(NP(N("mister").g("m").n("s"),
+     N("president").n("s"),
+     Q(",")),
+  Pro("me").pe("1").c("nom").pe("1").n("s"),
+  Adv("too"),
+  VP(V("like").t("b").t("f"),
+     VP(V("congratulate").t("b").b("to ").t("b"),
+        NP(D("the"),
+           Q("rapporteur")),
+        PP(P("on"),
+           D("my").pe(3).ow("s").g("f"),
+           A("excellent"),
+           N("work").n("s")))))
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-227
+# gl = 6: should => shall
+# text = But I believe that we should do all we can to keep the transport of dangerous goods to a minimum, in all countries, whether they are transit countries or not.
+1	But	but	CCONJ	CC	_	3	cc	_	_
+2	I	I	PRON	PE	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	_
+3	believe	believe	VERB	V	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	that	that	SCONJ	CS	_	7	mark	_	_
+5	we	we	PRON	PE	Number=Plur|Person=1|PronType=Prs	7	nsubj	_	_
+6	should	shall	AUX	VM	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	7	aux	_	_
+7	do	do	VERB	V	VerbForm=Inf	3	ccomp	_	_
+8	all	all	PRON	PI	PronType=Ind	7	obj	_	_
+9	we	we	PRON	PE	Number=Plur|Person=1|PronType=Prs	10	nsubj	_	_
+10	can	can	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	8	acl:relcl	_	_
+11	to	to	PART	PART	_	12	mark	_	_
+12	keep	keep	VERB	V	VerbForm=Inf	7	advcl	_	_
+13	the	the	DET	RD	Definite=Def|PronType=Art	14	det	_	_
+14	transport	transport	NOUN	S	Number=Sing	12	obj	_	_
+15	of	of	ADP	E	_	17	case	_	_
+16	dangerous	dangerous	ADJ	A	Degree=Pos	17	amod	_	_
+17	goods	good	NOUN	S	Number=Plur	14	nmod	_	_
+18	to	to	ADP	E	_	20	case	_	_
+19	a	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	20	det	_	_
+20	minimum	minimum	NOUN	S	Gender=Masc|Number=Sing	12	obl	_	SpaceAfter=No
+21	,	,	PUNCT	FF	_	12	punct	_	_
+22	in	in	ADP	E	_	24	case	_	_
+23	all	all	DET	T	PronType=Tot	24	det	_	_
+24	countries	country	NOUN	S	Number=Plur	12	obl	_	SpaceAfter=No
+25	,	,	PUNCT	FF	_	12	punct	_	_
+26	whether	whether	SCONJ	CS	_	30	mark	_	_
+27	they	they	PRON	PE	Number=Plur|Person=3|PronType=Prs	30	nsubj	_	_
+28	are	be	AUX	V	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	30	cop	_	_
+29	transit	transit	NOUN	S	Number=Sing	30	nmod	_	_
+30	countries	country	NOUN	S	Number=Plur	12	advcl	_	_
+31	or	or	CCONJ	CC	_	32	cc	_	_
+32	not	not	PART	PART	Polarity=Neg	30	conj	_	SpaceAfter=No
+33	.	.	PUNCT	FS	_	3	punct	_	_
+# jsRealB-start
+S(C("but"),
+  Pro("me").pe("1").c("nom").pe("1").n("s"),
+  VP(V("believe").t("p").pe("1").n("s"),
+     S(C("that"),
+       Pro("us").c("nom").pe("1").n("p"),
+       VP(V("do").t("b"),
+          NP(Pro("all").c("nom"),
+             S(Pro("us").c("nom").pe("1").n("p"),
+               VP(V("can").t("p").pe("3")))),
+          VP(V("keep").t("b").b("to ").t("b"),
+             NP(D("the"),
+                N("transport").n("s"),
+                PP(P("of"),
+                   A("dangerous"),
+                   N("good").n("p"))),
+             PP(P("to"),
+                D("a").n("s"),
+                N("minimum").g("m").n("s")),
+             Q(","),
+             PP(P("in"),
+                D("all"),
+                N("country").n("p")),
+             Q(","),
+             S(C("whether"),
+               Pro("them").c("nom").pe("3").n("p"),
+               VP(V("be").t("p").n("p"),
+                  N("transit").n("s"),
+                  CP(C("or"),
+                     NP(N("country").n("p")),
+                     Q("not"))))))).typ({mod:"nece"})))
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-1013
+# gl = 3 : upos: ADJ>NOUN
+# gl = :: bad ordering : hereby established > established hereby
+# text = A national base area for each producing Member State is hereby established.
+1	A	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	4	det	_	_
+2	national	national	NOUN	S	Number=Sing	4	nmod	_	_
+3	base	base	ADJ	A	Degree=Pos	4	amod	_	_
+4	area	area	NOUN	S	Number=Sing	12	nsubj:pass	_	_
+5	for	for	ADP	E	_	9	case	_	_
+6	each	each	DET	DI	Number=Sing|PronType=Ind	9	det	_	_
+7	producing	produce	VERB	V	Number=Sing|Tense=Pres|VerbForm=Part	9	acl	_	_
+8	Member	member	NOUN	S	Number=Sing	9	compound	_	_
+9	State	state	NOUN	S	Number=Sing	4	nmod	_	_
+10	is	be	AUX	VA	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	aux:pass	_	_
+11	hereby	hereby	ADV	B	_	12	advmod	_	_
+12	established	establish	VERB	V	Tense=Past|VerbForm=Part	0	root	_	SpaceAfter=No
+13	.	.	PUNCT	FS	_	12	punct	_	_
+# jsRealB-start
+S(NP(D("a").n("s"),
+     N("national").n("s"),
+     N("base"),
+     N("area").n("s"),
+     PP(P("for"),
+        D("each").n("s"),
+        V("produce").t("pr").n("s"),
+        N("member").n("s"),
+        N("state").n("s"))),
+  VP(V("be").t("p").pe("3").n("s"),
+     Adv("hereby"),
+     V("establish").t("pp")))
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-1683
+# gl :: bad ordering of start of sentence
+# text = His preferred method was to eat a light meal at five or six in the afternoon, then sleep until midnight.
+1	His	his	DET	AP	Poss=Yes|PronType=Prs	3	nmod:poss	_	_
+2	preferred	prefer	VERB	V	Tense=Past|VerbForm=Part	3	acl	_	_
+3	method	method	NOUN	S	Number=Sing	0	root	_	_
+4	was	be	AUX	V	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	3	cop	_	_
+5	to	to	PART	PART	_	6	mark	_	_
+6	eat	eat	VERB	V	VerbForm=Inf	3	csubj	_	_
+7	a	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	9	det	_	_
+8	light	light	ADJ	A	Degree=Pos	9	amod	_	_
+9	meal	meal	NOUN	S	Number=Sing	6	obj	_	_
+10	at	at	ADP	E	_	11	case	_	_
+11	five	five	NUM	N	NumType=Card	6	nummod	_	_
+12	or	or	CCONJ	CC	_	13	cc	_	_
+13	six	six	NUM	N	NumType=Card	11	conj	_	_
+14	in	in	ADP	E	_	16	case	_	_
+15	the	the	DET	RD	Definite=Def|PronType=Art	16	det	_	_
+16	afternoon	afternoon	NOUN	S	Number=Sing	6	obl	_	SpaceAfter=No
+17	,	,	PUNCT	FF	_	19	punct	_	_
+18	then	then	ADV	B	_	19	advmod	_	_
+19	sleep	sleep	VERB	V	VerbForm=Inf	6	conj	_	_
+20	until	until	SCONJ	CS	_	21	case	_	_
+21	midnight	midnight	NOUN	S	Number=Sing	19	obl	_	SpaceAfter=No
+22	.	.	PUNCT	FS	_	3	punct	_	_
+# jsRealB-start
+VP(NP(D("my").pe(3).ow("s").g("m"),
+      V("prefer").t("pp"),
+      N("method").n("s"),
+      V("be").t("ps").pe("3").n("s"),
+   
+      CP(VP(V("eat").t("b").b("to ").t("b"),
+            NP(D("a").n("s"),
+               A("light"),
+               N("meal").n("s")),
+            CP(C("or"),
+               NP(P("at"),
+                  NO(5).dOpt({nat:true})),
+               NO(6).dOpt({nat:true})),
+            PP(P("in"),
+               D("the"),
+               N("afternoon").n("s"))),
+         S(Adv("then"),
+           VP(V("sleep").t("b"),
+              NP(C("until"),
+                 N("midnight").n("s"))))))).a(".")
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-949
+# gl = no changes
+# text = The provisions of that Act shall form an integral part of this Treaty.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	provisions	provision	NOUN	S	Number=Plur	7	nsubj	_	_
+3	of	of	ADP	E	_	5	case	_	_
+4	that	that	DET	DD	Number=Sing|PronType=Dem	5	det	_	_
+5	Act	act	NOUN	S	Number=Sing	2	nmod	_	_
+6	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	7	aux	_	_
+7	form	form	VERB	V	VerbForm=Inf	0	root	_	_
+8	an	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	10	det	_	_
+9	integral	integral	ADJ	A	Degree=Pos	10	amod	_	_
+10	part	part	ADV	B	_	7	obj	_	_
+11	of	of	ADP	E	_	13	case	_	_
+12	this	this	DET	DD	Number=Sing|PronType=Dem	13	det	_	_
+13	Treaty	treaty	NOUN	S	Number=Sing	10	obl	_	SpaceAfter=No
+14	.	.	PUNCT	FS	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("provision").n("p"),
+     PP(P("of"),
+        D("that").n("s"),
+        N("act").n("s"))),
+  VP(V("form").t("b"),
+     AdvP(D("a").n("s"),
+          A("integral"),
+          Adv("part"),
+          PP(P("of"),
+             D("this").n("s"),
+             N("treaty").n("s"))))).typ({mod:"nece"})
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-989
+# gl = :: 2: unknown NOUN : Council
+# text = The Council shall make such adaptations to its Rules of Procedure as are rendered necessary by accession.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	Council	Council	NOUN	S	Number=Sing	4	nsubj	_	_
+3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	make	make	VERB	V	VerbForm=Inf	0	root	_	_
+5	such	such	DET	DD	PronType=Dem	6	det	_	_
+6	adaptations	adaptation	NOUN	S	Number=Plur	4	obj	_	_
+7	to	to	ADP	E	_	9	case	_	_
+8	its	its	DET	AP	Number=Sing|Poss=Yes|PronType=Prs	9	nmod:poss	_	_
+9	Rules	rule	NOUN	S	Number=Plur	4	obl	_	_
+10	of	of	ADP	E	_	11	case	_	_
+11	Procedure	procedure	NOUN	S	Number=Sing	9	nmod	_	_
+12	as	as	ADP	E	_	14	case	_	_
+13	are	be	AUX	VA	Mood=Ind|Number=Plur|Tense=Pres|VerbForm=Fin	14	aux	_	_
+14	rendered	render	VERB	V	Tense=Past|VerbForm=Part	4	advcl	_	_
+15	necessary	necessary	ADJ	A	Degree=Pos	14	xcomp	_	_
+16	by	by	ADP	E	_	17	case	_	_
+17	accession	accession	NOUN	S	Number=Sing	14	obl	_	SpaceAfter=No
+18	.	.	PUNCT	FS	_	4	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("council").n("s")),
+  VP(V("make").t("b"),
+     NP(D("such"),
+        N("adaptation").n("p")),
+     PP(P("to"),
+        D("my").pe(3).ow("s").g("n"),
+        N("rule").n("p"),
+        PP(P("of"),
+           N("procedure").n("s"))),
+     S(P("as"),
+       V("be").t("p").n("p"),
+       VP(V("render").t("pp"),
+          A("necessary"),
+          PP(P("by"),
+             N("accession").n("s")))))).typ({mod:"nece"})
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-948
+# gl = no changes
+# text = The provisions of that Protocol shall form an integral part of this Treaty.
+1	The	the	DET	RD	Definite=Def|PronType=Art	2	det	_	_
+2	provisions	provision	NOUN	S	Number=Plur	7	nsubj	_	_
+3	of	of	ADP	E	_	5	case	_	_
+4	that	that	DET	DD	Number=Sing|PronType=Dem	5	det	_	_
+5	Protocol	protocol	NOUN	S	Number=Sing	2	nmod	_	_
+6	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	7	aux	_	_
+7	form	form	VERB	V	VerbForm=Inf	0	root	_	_
+8	an	a	DET	RI	Definite=Ind|Number=Sing|PronType=Art	10	det	_	_
+9	integral	integral	ADJ	A	Degree=Pos	10	amod	_	_
+10	part	part	ADV	B	_	7	obj	_	_
+11	of	of	ADP	E	_	13	case	_	_
+12	this	this	DET	DD	Number=Sing|PronType=Dem	13	det	_	_
+13	Treaty	treaty	NOUN	S	Number=Sing	10	obl	_	SpaceAfter=No
+14	.	.	PUNCT	FS	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("provision").n("p"),
+     PP(P("of"),
+        D("that").n("s"),
+        N("protocol").n("s"))),
+  VP(V("form").t("b"),
+     AdvP(D("a").n("s"),
+          A("integral"),
+          Adv("part"),
+          PP(P("of"),
+             D("this").n("s"),
+             N("treaty").n("s"))))).typ({mod:"nece"})
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-1741
+# gl = :: missing nor
+# text = Balzac sought to present his characters as real people, neither fully good nor fully evil, but fully human.
+1	Balzac	Balzac	PROPN	SP	_	2	nsubj	_	_
+2	sought	seek	VERB	V	Mood=Ind|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	to	to	PART	PART	_	4	mark	_	_
+4	present	present	VERB	V	VerbForm=Inf	2	xcomp	_	_
+5	his	his	DET	AP	Poss=Yes|PronType=Prs	6	nmod:poss	_	_
+6	characters	character	NOUN	S	Number=Plur	4	obj	_	_
+7	as	as	ADP	E	_	9	case	_	_
+8	real	real	ADJ	A	Degree=Pos	9	amod	_	_
+9	people	people	NOUN	S	Number=Plur	4	obl	_	SpaceAfter=No
+10	,	,	PUNCT	FF	_	9	punct	_	_
+11	neither	neither	CCONJ	CC	_	13	cc	_	_
+12	fully	fully	ADV	B	_	13	advmod	_	_
+13	good	good	ADJ	A	Degree=Pos	9	amod	_	_
+14	nor	nor	CCONJ	CC	_	16	cc	_	_
+15	fully	fully	ADV	B	_	16	advmod	_	_
+16	evil	evil	ADJ	A	Degree=Pos	13	conj	_	SpaceAfter=No
+17	,	,	PUNCT	FF	_	20	punct	_	_
+18	but	but	CCONJ	CC	_	20	cc	_	_
+19	fully	fully	ADV	B	_	20	advmod	_	_
+20	human	human	ADJ	A	Degree=Pos	13	conj	_	SpaceAfter=No
+21	.	.	PUNCT	FS	_	2	punct	_	_
+# jsRealB-start
+S(Q("Balzac"),
+  VP(V("seek").t("ps").pe("3"),
+     VP(V("present").t("b").b("to ").t("b"),
+        NP(D("my").pe(3).ow("s").g("m"),
+           N("character").n("p")),
+        PP(P("as"),
+           A("real"),
+           N("people").n("p"),
+           Q(","),
+           CP(C("but").b(","),
+              NP(C("neither"),
+                 Adv("fully"),
+                 A("good")),
+              NP(Adv("fully"),
+                 A("evil")),
+              NP(Adv("fully"),
+                 A("human")))))))
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-954
+# gl = no changes
+# text = These measures shall enter into force only subject to and on the date of the entry into force of this Treaty.
+1	These	this	DET	DD	Number=Plur|PronType=Dem	2	det	_	_
+2	measures	measure	NOUN	S	Number=Plur	4	nsubj	_	_
+3	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+4	enter	enter	VERB	V	VerbForm=Inf	0	root	_	_
+5	into	into	ADP	E	_	6	case	_	_
+6	force	force	NOUN	S	Number=Sing	4	obl	_	_
+7	only	only	ADV	B	_	8	advmod	_	_
+8	subject	subject	ADJ	A	Degree=Pos	4	amod	_	_
+9	to	to	ADP	E	_	8	obl	_	_
+10	and	and	CCONJ	CC	_	13	cc	_	_
+11	on	on	ADP	E	_	13	case	_	_
+12	the	the	DET	RD	Definite=Def|PronType=Art	13	det	_	_
+13	date	date	NOUN	S	Number=Sing	9	conj	_	_
+14	of	of	ADP	E	_	16	case	_	_
+15	the	the	DET	RD	Definite=Def|PronType=Art	16	det	_	_
+16	entry	entry	NOUN	S	Number=Sing	13	nmod	_	_
+17	into	into	ADP	E	_	18	case	_	_
+18	force	force	NOUN	S	Number=Sing	16	nmod	_	_
+19	of	of	ADP	E	_	21	case	_	_
+20	this	this	DET	DD	Number=Sing|PronType=Dem	21	det	_	_
+21	Treaty	treaty	NOUN	S	Number=Sing	16	nmod	_	SpaceAfter=No
+22	.	.	PUNCT	FS	_	4	punct	_	_
+# jsRealB-start
+S(NP(D("this").n("p"),
+     N("measure").n("p")),
+  VP(V("enter").t("b"),
+     PP(P("into"),
+        N("force").n("s")),
+     NP(Adv("only"),
+        A("subject"),
+        VP(P("to"),
+           NP(C("and"),
+              P("on"),
+              D("the"),
+              N("date").n("s"),
+              PP(P("of"),
+                 D("the"),
+                 N("entry").n("s"),
+                 PP(P("into"),
+                    N("force").n("s")),
+                 PP(P("of"),
+                    D("this").n("s"),
+                    N("treaty").n("s")))))))).typ({mod:"nece"})
+# jsRealB-end
+
+# file = en/en_partut-ud-test.conllu
+# sent_id = en_partut-ud-974
+# gl = :: .typ({"mod":"nece"}) should be applied to S, SP or VP, not to NP (missing be)
+# text = One twelfth of each annual amount shall be payable to Bulgaria and Romania on the first working day of each month in the corresponding year.
+1	One	one	NUM	N	NumType=Card	2	nummod	_	_
+2	twelfth	twelfth	ADJ	NO	Degree=Pos|NumType=Ord	9	nsubj	_	_
+3	of	of	ADP	E	_	6	case	_	_
+4	each	each	DET	DI	Number=Sing|PronType=Ind	6	det	_	_
+5	annual	annual	ADJ	A	Degree=Pos	6	amod	_	_
+6	amount	amount	NOUN	S	Number=Sing	2	obl	_	_
+7	shall	shall	AUX	VM	Mood=Ind|Person=3|Tense=Pres|VerbForm=Fin	9	aux	_	_
+8	be	be	AUX	V	VerbForm=Inf	9	cop	_	_
+9	payable	payable	ADJ	A	Degree=Pos	0	root	_	_
+10	to	to	ADP	E	_	11	case	_	_
+11	Bulgaria	Bulgaria	PROPN	SP	_	9	obl	_	_
+12	and	and	CCONJ	CC	_	13	cc	_	_
+13	Romania	Romania	PROPN	SP	_	11	conj	_	_
+14	on	on	ADP	E	_	18	case	_	_
+15	the	the	DET	RD	Definite=Def|PronType=Art	18	det	_	_
+16	first	first	ADJ	NO	Degree=Pos|NumType=Ord	17	amod	_	_
+17	working	working	NOUN	S	Number=Sing	18	nmod	_	_
+18	day	day	NOUN	S	Number=Sing	9	obl	_	_
+19	of	of	ADP	E	_	21	case	_	_
+20	each	each	DET	DI	Number=Sing|PronType=Ind	21	det	_	_
+21	month	month	NOUN	S	Number=Sing	18	nmod	_	_
+22	in	in	ADP	E	_	25	case	_	_
+23	the	the	DET	RD	Definite=Def|PronType=Art	25	det	_	_
+24	corresponding	corresponding	ADJ	A	Degree=Pos	25	amod	_	_
+25	year	year	NOUN	S	Number=Sing	9	obl	_	SpaceAfter=No
+26	.	.	PUNCT	FS	_	9	punct	_	_
+# jsRealB-start
+NP(NP(NO(1).dOpt({nat:true}),
+      A("twelfth"),
+      PP(P("of"),
+         D("each").n("s"),
+         A("annual"),
+         N("amount").n("s"))),
+   V("be").t("b"),
+   A("payable"),
+   CP(C("and"),
+      NP(P("to"),
+         Q("Bulgaria")),
+      Q("Romania")),
+   PP(P("on"),
+      D("the"),
+      NP(A("first"),
+         N("working").n("s")),
+      N("day").n("s"),
+      PP(P("of"),
+         D("each").n("s"),
+         N("month").n("s"))),
+   PP(P("in"),
+      D("the"),
+      A("corresponding"),
+      N("year").n("s"))).typ({mod:"nece"}).a(".")
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 244
+# gl = no changes
+# text = The dealer waited at mine.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	dealer	dealer	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	waited	wait	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+4	at	at	ADP	IN	_	3	case	_	_
+5	mine	mine	PRON	PRP	Gender=Neut|Number=Sing|Person=1|Poss=Yes|PronType=Prs	3	obl	_	SpaceAfter=No
+6	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("dealer").n("s")),
+  VP(V("wait").t("ps"),
+     P("at"),
+     Pro("me").c("gen").pe(1).pe("1").g("n").n("s")))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 272
+# gl = no changes
+# text = His is easy to clean.
+1	His	his	PRON	PRP	Gender=Masc|Number=Sing|Person=3|Poss=Yes|PronType=Prs	3	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	easy	easy	ADJ	JJ	Degree=Pos	0	root	_	_
+4	to	to	PART	TO	_	5	mark	_	_
+5	clean	clean	VERB	VB	VerbForm=Inf	3	csubj	_	SpaceAfter=No
+6	.	.	PUNCT	.	_	5	punct	_	_
+# jsRealB-start
+S(Pro("him").c("gen").pe("3").g("m").n("s"),
+  VP(V("be").t("p").pe("3").n("s"),
+     NP(A("easy"),
+        VP(V("clean").t("b").b("to ").t("b"),
+           Q(".")))))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 261
+# gl = no changes
+# text = The dealer recommended that hers get painted.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	dealer	dealer	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	recommended	recommend	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+4	that	that	SCONJ	IN	_	6	mark	_	_
+5	hers	hers	PRON	PRP	Gender=Fem|Number=Sing|Person=3|Poss=Yes|PronType=Prs	6	nsubj	_	_
+6	get	get	VERB	VBP	Mood=Sub|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	ccomp	_	_
+7	painted	paint	VERB	VBN	Tense=Past|VerbForm=Part	6	xcomp	_	SpaceAfter=No
+8	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("dealer").n("s")),
+  VP(V("recommend").t("ps"),
+     S(C("that"),
+       Pro("her").c("gen").pe("3").g("f").n("s"),
+       VP(V("get").t("s").pe("3").n("s"),
+          V("paint").t("pp")))))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 174
+# gl = no changes
+# text = The car of mine drove responsively.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	car	car	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	mine	mine	PRON	PRP	Gender=Neut|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	nmod	_	_
+5	drove	drive	VERB	VBD	Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin	0	root	_	_
+6	responsively	responsively	ADV	RB	_	5	advmod	_	SpaceAfter=No
+7	.	.	PUNCT	.	_	6	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("car").n("s"),
+     PP(P("of"),
+        Pro("me").c("gen").pe(1).pe("1").g("n").n("s"))),
+  VP(V("drive").t("ps").pe("1").n("s"),
+     AdvP(Adv("responsively"),
+          Q("."))))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 128
+# gl = no changes
+# text = The dealers knew that theirs cleaned easily.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	dealers	dealer	NOUN	NNS	Number=Plur	3	nsubj	_	_
+3	knew	know	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+4	that	that	SCONJ	IN	_	6	mark	_	_
+5	theirs	theirs	PRON	PRP	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	6	nsubj	_	_
+6	cleaned	clean	VERB	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	3	ccomp	_	_
+7	easily	easily	ADV	RB	_	6	advmod	_	SpaceAfter=No
+8	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("dealer").n("p")),
+  VP(V("know").t("ps"),
+     S(C("that"),
+       Pro("them").c("gen").pe("3").g("n").n("s"),
+       VP(V("clean").t("ps").pe("3").n("s"),
+          Adv("easily")))))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 239
+# gl = no changes
+# text = The dealer went with mine.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	dealer	dealer	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	went	go	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+4	with	with	ADP	IN	_	3	case	_	_
+5	mine	mine	PRON	PRP	Gender=Neut|Number=Sing|Person=1|Poss=Yes|PronType=Prs	3	obl	_	SpaceAfter=No
+6	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("dealer").n("s")),
+  VP(V("go").t("ps"),
+     P("with"),
+     Pro("me").c("gen").pe(1).pe("1").g("n").n("s")))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 234
+# gl = no changes
+# text = The dealer drove using mine.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	dealer	dealer	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	drove	drive	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	_	_
+4	using	use	VERB	VBG	VerbForm=Ger	3	advcl	_	_
+5	mine	mine	PRON	PRP	Gender=Neut|Number=Sing|Person=1|Poss=Yes|PronType=Prs	3	obl	_	SpaceAfter=No
+6	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("dealer").n("s")),
+  VP(V("drive").t("ps"),
+     V("use").t("pr"),
+     Pro("me").c("gen").pe(1).pe("1").g("n").n("s")))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 72
+# gl = no changes
+# text = Any car of his sells quickly.
+1	Any	any	DET	DT	PronType=Ind	2	det	_	_
+2	car	car	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	his	his	PRON	PRP	Gender=Masc|Number=Sing|Person=3|Poss=Yes|PronType=Prs	2	nmod	_	_
+5	sells	sell	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	quickly	quickly	ADV	RB	_	5	advmod	_	SpaceAfter=No
+7	.	.	PUNCT	.	_	5	punct	_	_
+# jsRealB-start
+S(NP(D("any"),
+     N("car").n("s"),
+     PP(P("of"),
+        Pro("him").c("gen").pe("3").g("m").n("s"))),
+  VP(V("sell").t("p").pe("3").n("s"),
+     Adv("quickly")))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 84
+# gl = no changes
+# text = The car is at mine.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	car	car	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	at	at	ADP	IN	_	5	case	_	_
+5	mine	mine	PRON	PRP	Gender=Neut|Number=Sing|Person=1|Poss=Yes|PronType=Prs	3	xcomp	_	SpaceAfter=No
+6	.	.	PUNCT	.	_	3	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("car").n("s")),
+  VP(V("be").t("p").n("s"),
+     PP(P("at"),
+        Pro("me").c("gen").pe(1).pe("1").g("n").n("s"))))
+# jsRealB-end
+
+# file = en/en_pronouns-ud-test.conllu
+# sent_id = 183
+# gl = no changes
+# text = The car, theirs, was cleaned.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	car	car	NOUN	NN	Number=Sing	7	nsubj	_	SpaceAfter=No
+3	,	,	PUNCT	,	_	2	punct	_	_
+4	theirs	theirs	PRON	PRP	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	2	appos	_	SpaceAfter=No
+5	,	,	PUNCT	,	_	2	punct	_	_
+6	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	7	aux:pass	_	_
+7	cleaned	clean	VERB	VBN	Tense=Past|VerbForm=Part	0	root	_	SpaceAfter=No
+8	.	.	PUNCT	.	_	7	punct	_	_
+# jsRealB-start
+S(NP(D("the"),
+     N("car").n("s"),
+     Q(","),
+     Pro("them").c("gen").pe("3").g("n").n("s"),
+     Q(",")),
+  VP(V("be").t("ps").pe("3").n("s"),
+     V("clean").t("pp")))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = w01141077
+# gl = no changes
+# text = She next faced defending champion and top seed Sara Errani, but was defeated.
+1	She	she	PRON	PRP	Case=Nom|Gender=Fem|Number=Sing|Person=3|PronType=Prs	3	nsubj	3:nsubj|14:nsubj:pass	_
+2	next	next	ADV	RB	_	3	advmod	3:advmod	_
+3	faced	face	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	0:root	_
+4	defending	defend	VERB	VBG	VerbForm=Ger	5	amod	5:amod	_
+5	champion	champion	NOUN	NN	Number=Sing	3	obj	3:obj	_
+6	and	and	CCONJ	CC	_	8	cc	8:cc	_
+7	top	top	ADJ	JJ	Degree=Pos	8	amod	8:amod	_
+8	seed	seed	NOUN	NN	Number=Sing	5	conj	3:obj|5:conj:and	_
+9	Sara	Sara	PROPN	NNP	Number=Sing	8	flat	8:flat	_
+10	Errani	Errani	PROPN	NNP	Number=Sing	8	flat	8:flat	SpaceAfter=No
+11	,	,	PUNCT	,	_	14	punct	14:punct	_
+12	but	but	CCONJ	CC	_	14	cc	14:cc	_
+13	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	14	aux:pass	14:aux:pass	_
+14	defeated	defeat	VERB	VBN	Tense=Past|VerbForm=Part	3	conj	3:conj:but	SpaceAfter=No
+15	.	.	PUNCT	.	_	3	punct	3:punct	_
+# jsRealB-start
+CP(C("but").b(","),
+   VP(Pro("her").c("nom").pe("3").g("f").n("s"),
+      Adv("next"),
+      V("face").t("ps"),
+      CP(C("and"),
+         NP(V("defend").t("pr"),
+            N("champion").n("s"),
+            Q("Sara"),
+            Q("Errani")),
+         NP(A("top"),
+            N("seed").n("s")))),
+   S(VP(V("be").t("ps").pe("3").n("s"),
+        V("defeat").t("pp")))).a(".")
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = n01125030
+# gl = 14:UPOS:SCONJ>PREP
+# text = Of course, the tactile trend is closely linked to our growing obsession with making things.
+1	Of	of	ADP	IN	_	9	advmod	9:advmod	_
+2	course	course	NOUN	NN	Number=Sing	1	fixed	1:fixed	SpaceAfter=No
+3	,	,	PUNCT	,	_	9	punct	9:punct	_
+4	the	the	DET	DT	Definite=Def|PronType=Art	6	det	6:det	_
+5	tactile	tactile	ADJ	JJ	Degree=Pos	6	amod	6:amod	_
+6	trend	trend	NOUN	NN	Number=Sing	9	nsubj	9:nsubj	_
+7	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	cop	9:cop	_
+8	closely	closely	ADV	RB	_	9	advmod	9:advmod	_
+9	linked	link	VERB	VBN	Tense=Past|VerbForm=Part	0	root	0:root	_
+10	to	to	ADP	IN	_	13	case	13:case	_
+11	our	we	PRON	PRP$	Number=Plur|Person=1|Poss=Yes|PronType=Prs	13	nmod:poss	13:nmod:poss	_
+12	growing	grow	VERB	VBG	VerbForm=Ger	13	amod	13:amod	_
+13	obsession	obsession	NOUN	NN	Number=Sing	9	obl	9:obl:to	_
+14	with	with	SCONJ	IN	_	15	mark	15:mark	_
+15	making	make	VERB	VBG	VerbForm=Ger	13	acl	13:acl:with	_
+16	things	thing	NOUN	NNS	Number=Plur	15	obj	15:obj	SpaceAfter=No
+17	.	.	PUNCT	.	_	9	punct	9:punct	_
+# jsRealB-start
+S(P("of"),
+  N("course").n("s"),
+  Q(","),
+  NP(D("the"),
+     A("tactile"),
+     N("trend").n("s")),
+  VP(V("be").t("p").pe("3").n("s"),
+     Adv("closely"),
+     VP(V("link").t("pp"),
+        PP(P("to"),
+           D("my").pe(1).ow("p"),
+           V("grow").t("pr"),
+           N("obsession").n("s"),
+           S(P("with"),
+             VP(V("make").t("pr"),
+                N("thing").n("p")))))))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = w02015085
+# gl = no changes
+# text = Today, expansive ruins can be viewed there.
+1	Today	today	NOUN	NN	Number=Sing	7	nmod:tmod	7:nmod:tmod	SpaceAfter=No
+2	,	,	PUNCT	,	_	7	punct	7:punct	_
+3	expansive	expansive	ADJ	JJ	Degree=Pos	4	amod	4:amod	_
+4	ruins	ruin	NOUN	NNS	Number=Plur	7	nsubj:pass	7:nsubj:pass	_
+5	can	can	AUX	MD	VerbForm=Fin	7	aux	7:aux	_
+6	be	be	AUX	VB	VerbForm=Inf	7	aux:pass	7:aux:pass	_
+7	viewed	view	VERB	VBN	Tense=Past|VerbForm=Part	0	root	0:root	_
+8	there	there	ADV	RB	PronType=Dem	7	advmod	7:advmod	SpaceAfter=No
+9	.	.	PUNCT	.	_	7	punct	7:punct	_
+# jsRealB-start
+S(N("today").n("s"),
+  Q(","),
+  NP(A("expansive"),
+     N("ruin").n("p")),
+  VP(V("be").t("b"),
+     V("view").t("pp"),
+     Adv("there"))).typ({mod:"poss"})
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = n01136010
+# gl = 5:upos:SCONJ>PREP
+# gl = :: "would have been interesting" not generated because option cannot be applied to NP
+# text = "Loving" opens with Richard and Mildred already a couple, eliding over a courtship that would have been interesting to see, if only in brief.
+1	"	"	PUNCT	``	_	4	punct	4:punct	SpaceAfter=No
+2	Loving	Loving	PROPN	NNP	Number=Sing	4	nsubj	4:nsubj	SpaceAfter=No
+3	"	"	PUNCT	''	_	4	punct	4:punct	_
+4	opens	open	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	0:root	_
+5	with	with	SCONJ	IN	_	11	mark	11:mark	_
+6	Richard	Richard	PROPN	NNP	Number=Sing	11	nsubj	11:nsubj	_
+7	and	and	CCONJ	CC	_	8	cc	8:cc	_
+8	Mildred	Mildred	PROPN	NNP	Number=Sing	6	conj	6:conj:and|11:nsubj	_
+9	already	already	ADV	RB	_	11	advmod	11:advmod	_
+10	a	a	DET	DT	Definite=Ind|PronType=Art	11	det	11:det	_
+11	couple	couple	NOUN	NN	Number=Sing	4	advcl	4:advcl:with	SpaceAfter=No
+12	,	,	PUNCT	,	_	4	punct	4:punct	_
+13	eliding	elide	VERB	VBG	VerbForm=Ger	4	advcl	4:advcl	_
+14	over	over	ADP	IN	_	16	case	16:case	_
+15	a	a	DET	DT	Definite=Ind|PronType=Art	16	det	16:det	_
+16	courtship	courtship	NOUN	NN	Number=Sing	13	obl	13:obl:over|21:nsubj	_
+17	that	that	PRON	WDT	PronType=Rel	21	nsubj	16:ref	_
+18	would	would	AUX	MD	VerbForm=Fin	21	aux	21:aux	_
+19	have	have	AUX	VB	VerbForm=Inf	21	aux	21:aux	_
+20	been	be	AUX	VBN	Tense=Past|VerbForm=Part	21	cop	21:cop	_
+21	interesting	interesting	ADJ	JJ	Degree=Pos	16	acl:relcl	16:acl:relcl	_
+22	to	to	PART	TO	_	23	mark	23:mark	_
+23	see	see	VERB	VB	VerbForm=Inf	21	ccomp	21:ccomp	SpaceAfter=No
+24	,	,	PUNCT	,	_	23	punct	23:punct	_
+25	if	if	SCONJ	IN	_	28	mark	28:mark	_
+26	only	only	ADV	RB	_	28	advmod	28:advmod	_
+27	in	in	ADP	IN	_	28	case	28:case	_
+28	brief	brief	NOUN	NN	Number=Sing	23	advcl	23:advcl:in	SpaceAfter=No
+29	.	.	PUNCT	.	_	4	punct	4:punct	_
+# jsRealB-start
+S(Q("\""),
+  Q("Loving"),
+  Q("\""),
+  VP(V("open").t("p").pe("3").n("s"),
+     NP(P("with"),
+        CP(C("and"),
+           NP(Q("Richard")),
+           Q("Mildred")),
+        Adv("already"),
+        D("a"),
+        N("couple").n("s")),
+     Q(","),
+     VP(V("elide").t("pr"),
+        PP(P("over"),
+           D("a"),
+           N("courtship").n("s"),
+           NP(Pro("that").c("nom"),
+              V("be").t("p"),
+              A("interesting"),
+              VP(V("see").t("b").b("to ").t("b"),
+                 Q(","),
+                 NP(C("if"),
+                    Adv("only"),
+                    P("in"),
+                    N("brief").n("s"))))))))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = w04001037
+# gl = no changes
+# text = Furthermore, the occurrence of hurricanes on the island is possible during the summer.
+1	Furthermore	furthermore	ADV	RB	_	11	advmod	11:advmod	SpaceAfter=No
+2	,	,	PUNCT	,	_	11	punct	11:punct	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	4:det	_
+4	occurrence	occurrence	NOUN	NN	Number=Sing	11	nsubj	11:nsubj	_
+5	of	of	ADP	IN	_	6	case	6:case	_
+6	hurricanes	hurricane	NOUN	NNS	Number=Plur	4	nmod	4:nmod:of	_
+7	on	on	ADP	IN	_	9	case	9:case	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	9:det	_
+9	island	island	NOUN	NN	Number=Sing	4	nmod	4:nmod:on	_
+10	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	cop	11:cop	_
+11	possible	possible	ADJ	JJ	Degree=Pos	0	root	0:root	_
+12	during	during	ADP	IN	_	14	case	14:case	_
+13	the	the	DET	DT	Definite=Def|PronType=Art	14	det	14:det	_
+14	summer	summer	NOUN	NN	Number=Sing	11	obl	11:obl:during	SpaceAfter=No
+15	.	.	PUNCT	.	_	11	punct	11:punct	_
+# jsRealB-start
+S(Adv("furthermore"),
+  Q(","),
+  NP(D("the"),
+     N("occurrence").n("s"),
+     PP(P("of"),
+        N("hurricane").n("p")),
+     PP(P("on"),
+        D("the"),
+        N("island").n("s"))),
+  VP(V("be").t("p").pe("3").n("s"),
+     NP(A("possible"),
+        PP(P("during"),
+           D("the"),
+           N("summer").n("s")))))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = n01034033
+# gl = 23:upos:DET>PRON
+# gl = :: bad ordering: still will  have instead of will still have
+# text = "If Donald Trump becomes president, the government here will still have to work with him to advance whatever shared agenda there is, to ensure that Canadian businesses and interests are represented in Washington."
+1	"	"	PUNCT	``	_	13	punct	13:punct	SpaceAfter=No
+2	If	if	SCONJ	IN	_	5	mark	5:mark	_
+3	Donald	Donald	PROPN	NNP	Number=Sing	5	nsubj	5:nsubj|6:nsubj:xsubj	_
+4	Trump	Trump	PROPN	NNP	Number=Sing	3	flat	3:flat	_
+5	becomes	become	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	advcl	13:advcl:if	_
+6	president	president	NOUN	NN	Number=Sing	5	xcomp	5:xcomp	SpaceAfter=No
+7	,	,	PUNCT	,	_	13	punct	13:punct	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	9:det	_
+9	government	government	NOUN	NN	Number=Sing	13	nsubj	13:nsubj|15:nsubj:xsubj	_
+10	here	here	ADV	RB	PronType=Dem	9	advmod	9:advmod	_
+11	will	will	AUX	MD	VerbForm=Fin	13	aux	13:aux	_
+12	still	still	ADV	RB	_	13	advmod	13:advmod	_
+13	have	have	VERB	VB	VerbForm=Inf	0	root	0:root	_
+14	to	to	PART	TO	_	15	mark	15:mark	_
+15	work	work	VERB	VB	VerbForm=Inf	13	xcomp	13:xcomp	_
+16	with	with	ADP	IN	_	17	case	17:case	_
+17	him	he	PRON	PRP	Case=Acc|Gender=Masc|Number=Sing|Person=3|PronType=Prs	15	obl	15:obl:with	_
+18	to	to	PART	TO	_	19	mark	19:mark	_
+19	advance	advance	VERB	VB	VerbForm=Inf	15	advcl	15:advcl:to	_
+20	whatever	whatever	DET	WDT	PronType=Int	22	det	22:det	_
+21	shared	share	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	22	amod	22:amod	_
+22	agenda	agenda	NOUN	NN	Number=Sing	24	nsubj	24:nsubj	_
+23	there	there	DET	EX	_	24	expl	24:expl	_
+24	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	19	ccomp	19:ccomp	SpaceAfter=No
+25	,	,	PUNCT	,	_	15	punct	15:punct	_
+26	to	to	PART	TO	_	27	mark	27:mark	_
+27	ensure	ensure	VERB	VB	VerbForm=Inf	15	advcl	15:advcl:to	_
+28	that	that	SCONJ	IN	_	34	mark	34:mark	_
+29	Canadian	Canadian	ADJ	JJ	Degree=Pos	30	amod	30:amod	Proper=True
+30	businesses	business	NOUN	NNS	Number=Plur	34	nsubj:pass	34:nsubj:pass	_
+31	and	and	CCONJ	CC	_	32	cc	32:cc	_
+32	interests	interest	NOUN	NNS	Number=Plur	30	conj	30:conj:and|34:nsubj:pass	_
+33	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	34	aux:pass	34:aux:pass	_
+34	represented	represent	VERB	VBN	Tense=Past|VerbForm=Part	27	ccomp	27:ccomp	_
+35	in	in	ADP	IN	_	36	case	36:case	_
+36	Washington	Washington	PROPN	NNP	Number=Sing	34	obl	34:obl:in	SpaceAfter=No
+37	.	.	PUNCT	.	_	13	punct	13:punct	SpaceAfter=No
+38	"	"	PUNCT	''	_	13	punct	13:punct	_
+# jsRealB-start
+S(Q("\""),
+  S(C("if"),
+    Q("Donald"),
+    Q("Trump"),
+    VP(V("become").t("p").pe("3").n("s"),
+       N("president").n("s"))),
+  Q(","),
+  NP(D("the"),
+     N("government").n("s"),
+     Adv("here")),
+  Adv("still"),
+  VP(V("have").t("b").t("f"),
+     VP(V("work").t("b").b("to ").t("b"),
+        PP(P("with"),
+           Pro("him").c("acc").pe("3").g("m").n("s")),
+        VP(V("advance").t("b").b("to ").t("b"),
+           S(NP(D("whatever"),
+                V("share").t("ps"),
+                N("agenda").n("s")),
+             Pro("there"),
+             VP(V("be").t("p").pe("3").n("s")))),
+        Q(","),
+        VP(V("ensure").t("b").b("to ").t("b"),
+           S(C("that"),
+             CP(C("and"),
+                NP(A("Canadian"),
+                   N("business").n("p")),
+                N("interest").n("p")),
+             VP(V("be").t("p"),
+                V("represent").t("pp"),
+                PP(P("in"),
+                   Q("Washington")))))),
+     Q("."),
+     Q("\"")))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = w01107013
+# gl = :: spacing problem with 's
+# text = Failing health reduced Hitchcock's output during the last two decades of his life.
+1	Failing	fail	VERB	VBG	VerbForm=Ger	2	amod	2:amod	_
+2	health	health	NOUN	NN	Number=Sing	3	nsubj	3:nsubj	_
+3	reduced	reduce	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	0	root	0:root	_
+4	Hitchcock	Hitchcock	PROPN	NNP	Number=Sing	6	nmod:poss	6:nmod:poss	SpaceAfter=No
+5	's	's	PART	POS	_	4	case	4:case	_
+6	output	output	NOUN	NN	Number=Sing	3	obj	3:obj	_
+7	during	during	ADP	IN	_	11	case	11:case	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	11	det	11:det	_
+9	last	last	ADJ	JJ	Degree=Pos	11	amod	11:amod	_
+10	two	two	NUM	CD	NumType=Card	11	nummod	11:nummod	_
+11	decades	decade	NOUN	NNS	Number=Plur	3	obl	3:obl:during	_
+12	of	of	ADP	IN	_	14	case	14:case	_
+13	his	he	PRON	PRP$	Gender=Masc|Number=Sing|Person=3|Poss=Yes|PronType=Prs	14	nmod:poss	14:nmod:poss	_
+14	life	life	NOUN	NN	Number=Sing	11	nmod	11:nmod:of	SpaceAfter=No
+15	.	.	PUNCT	.	_	3	punct	3:punct	_
+# jsRealB-start
+S(NP(V("fail").t("pr"),
+     N("health").n("s")),
+  VP(V("reduce").t("ps"),
+     NP(NP(Q("Hitchcock"),
+           Q("'s")),
+        N("output").n("s")),
+     PP(P("during"),
+        D("the"),
+        A("last"),
+        NO(2).dOpt({nat:true}),
+        N("decade").n("p"),
+        PP(P("of"),
+           D("my").pe(3).ow("s").g("m"),
+           N("life").n("s")))))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = w01122031
+# gl = :: bad ordering of conj "and reach the top 50"
+# text = Really Really Love You was released in August and reach the top 50; "Shaky Ground", the related single, appeared in September but Geyer was already in the US.
+1	Really	really	ADV	RB	_	3	advmod	3:advmod	_
+2	Really	really	ADV	RB	_	3	advmod	3:advmod	Proper=True
+3	Love	love	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	6	nsubj:pass	6:nsubj:pass|10:nsubj:pass	_
+4	You	you	PRON	PRP	Case=Acc|Person=2|PronType=Prs	3	obj	3:obj	_
+5	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	6	aux:pass	6:aux:pass	_
+6	released	release	VERB	VBN	Tense=Past|VerbForm=Part	0	root	0:root	_
+7	in	in	ADP	IN	_	8	case	8:case	_
+8	August	August	PROPN	NNP	Number=Sing	6	obl	6:obl:in	_
+9	and	and	CCONJ	CC	_	10	cc	10:cc	_
+10	reach	reach	VERB	VB	VerbForm=Inf	6	conj	6:conj:and	_
+11	the	the	DET	DT	Definite=Def|PronType=Art	13	det	13:det	_
+12	top	top	ADJ	JJ	Degree=Pos	13	amod	13:amod	_
+13	50	50	NUM	CD	NumType=Card	10	obj	10:obj	SpaceAfter=No
+14	;	;	PUNCT	:	_	6	punct	6:punct	_
+15	"	"	PUNCT	``	_	17	punct	17:punct	SpaceAfter=No
+16	Shaky	shaky	ADJ	JJ	Degree=Pos	17	amod	17:amod	_
+17	Ground	ground	PROPN	NN	Number=Sing	24	nsubj	24:nsubj	SpaceAfter=No
+18	"	"	PUNCT	''	_	17	punct	17:punct	SpaceAfter=No
+19	,	,	PUNCT	,	_	22	punct	22:punct	_
+20	the	the	DET	DT	Definite=Def|PronType=Art	22	det	22:det	_
+21	related	related	ADJ	JJ	Degree=Pos	22	amod	22:amod	_
+22	single	single	ADJ	JJ	Degree=Pos	17	appos	17:appos	SpaceAfter=No
+23	,	,	PUNCT	,	_	22	punct	22:punct	_
+24	appeared	appear	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	6	parataxis	6:parataxis	_
+25	in	in	ADP	IN	_	26	case	26:case	_
+26	September	September	PROPN	NNP	Number=Sing	24	obl	24:obl:in	_
+27	but	but	CCONJ	CC	_	33	cc	33:cc	_
+28	Geyer	Geyer	PROPN	NNP	Number=Sing	33	nsubj	33:nsubj	_
+29	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	33	cop	33:cop	_
+30	already	already	ADV	RB	_	33	advmod	33:advmod	_
+31	in	in	ADP	IN	_	33	case	33:case	_
+32	the	the	DET	DT	Definite=Def|PronType=Art	33	det	33:det	_
+33	US	US	PROPN	NNP	Number=Sing	24	conj	24:conj:but	SpaceAfter=No
+34	.	.	PUNCT	.	_	6	punct	6:punct	_
+# jsRealB-start
+CP(C("and"),
+   VP(S(Adv("really"),
+        Adv("really"),
+        VP(V("love").t("p").pe("1"),
+           Pro("you").c("acc").pe("2"))),
+      V("be").t("ps").pe("3").n("s"),
+      V("release").t("pp"),
+      PP(P("in"),
+         Q("August")),
+      Q(";"),
+      CP(C("but"),
+         VP(NP(Q("\""),
+               A("shaky"),
+               Q("Ground"),
+               Q("\""),
+               NP(Q(","),
+                  D("the"),
+                  V("relate").t("pp"),
+                  A("single"),
+                  Q(","))),
+            V("appear").t("ps"),
+            PP(P("in"),
+               Q("September"))),
+         S(Q("Geyer"),
+           VP(V("be").t("ps").pe("3").n("s"),
+              Adv("already"),
+              P("in"),
+              D("the"),
+              Q("US"))))),
+   VP(V("reach").t("b"),
+      NP(D("the"),
+         A("top"),
+         NO("50").dOpt({raw:true})))).a(".")
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = w04003054
+# gl = 2:unknown NOUN: issuing
+# gl = 7:unknown ADJ : numismatic
+# gl = 14:upos:SCONJ>PREP
+# text = The issuing of coinage is predominantly numismatic in nature, with the intention of being sold mainly to collectors.
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	2:det	_
+2	issuing	issuing	NOUN	NN	Number=Sing	7	nsubj	7:nsubj	_
+3	of	of	ADP	IN	_	4	case	4:case	_
+4	coinage	coinage	NOUN	NN	Number=Sing	2	nmod	2:nmod:of	_
+5	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	cop	7:cop	_
+6	predominantly	predominantly	ADV	RB	_	7	advmod	7:advmod	_
+7	numismatic	numismatic	ADJ	JJ	Degree=Pos	0	root	0:root	_
+8	in	in	ADP	IN	_	9	case	9:case	_
+9	nature	nature	NOUN	NN	Number=Sing	7	obl	7:obl:in	SpaceAfter=No
+10	,	,	PUNCT	,	_	7	punct	7:punct	_
+11	with	with	ADP	IN	_	13	case	13:case	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	13:det	_
+13	intention	intention	NOUN	NN	Number=Sing	7	obl	7:obl:with	_
+14	of	of	SCONJ	IN	_	16	mark	16:mark	_
+15	being	be	AUX	VBG	VerbForm=Ger	16	aux:pass	16:aux:pass	_
+16	sold	sell	VERB	VBN	Tense=Past|VerbForm=Part	13	acl	13:acl:of	_
+17	mainly	mainly	ADV	RB	_	16	advmod	16:advmod	_
+18	to	to	ADP	IN	_	19	case	19:case	_
+19	collectors	collector	NOUN	NNS	Number=Plur	16	obl	16:obl:to	SpaceAfter=No
+20	.	.	PUNCT	.	_	7	punct	7:punct	_
+# jsRealB-start
+S(NP(D("the"),
+     V("issue").t("pr"),
+     PP(P("of"),
+        N("coinage").n("s"))),
+  VP(V("be").t("p").pe("3").n("s"),
+     Adv("predominantly"),
+     NP(Q("numismatic"),
+        PP(P("in"),
+           N("nature").n("s")),
+        Q(","),
+        PP(P("with"),
+           D("the"),
+           N("intention").n("s"),
+           S(P("of"),
+             VP(V("be").t("pr"),
+                V("sell").t("pp"),
+                Adv("mainly"),
+                PP(P("to"),
+                   N("collector").n("p"))))))))
+# jsRealB-end
+
+# file = en/en_pud-ud-test.conllu
+# sent_id = n01145034
+# gl = contraction 2-3: it's ~> it is
+# text = So it's wonderful to be able to rescue that and bring it to a new format and a new tradition for Mexicans.
+1	So	so	ADV	RB	_	4	advmod	4:advmod	_
+2	it	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	4	nsubj	4:nsubj|7:nsubj:xsubj|9:nsubj:xsubj|12:nsubj:xsubj	SpaceAfter=No
+3	's	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	4:cop	_
+4	wonderful	wonderful	ADJ	JJ	Degree=Pos	0	root	0:root	_
+5	to	to	PART	TO	_	7	mark	7:mark	_
+6	be	be	AUX	VB	VerbForm=Inf	7	cop	7:cop	_
+7	able	able	ADJ	JJ	Degree=Pos	4	xcomp	4:xcomp	_
+8	to	to	PART	TO	_	9	mark	9:mark	_
+9	rescue	rescue	VERB	VB	VerbForm=Inf	7	xcomp	7:xcomp	_
+10	that	that	PRON	DT	Number=Sing|PronType=Dem	9	obj	9:obj	_
+11	and	and	CCONJ	CC	_	12	cc	12:cc	_
+12	bring	bring	VERB	VB	VerbForm=Inf	9	conj	7:xcomp|9:conj:and	_
+13	it	it	PRON	PRP	Case=Acc|Gender=Neut|Number=Sing|Person=3|PronType=Prs	12	obj	12:obj	_
+14	to	to	ADP	IN	_	17	case	17:case	_
+15	a	a	DET	DT	Definite=Ind|PronType=Art	17	det	17:det	_
+16	new	new	ADJ	JJ	Degree=Pos	17	amod	17:amod	_
+17	format	format	NOUN	NN	Number=Sing	12	obl	12:obl:to	_
+18	and	and	CCONJ	CC	_	21	cc	21:cc	_
+19	a	a	DET	DT	Definite=Ind|PronType=Art	21	det	21:det	_
+20	new	new	ADJ	JJ	Degree=Pos	21	amod	21:amod	_
+21	tradition	tradition	NOUN	NN	Number=Sing	17	conj	12:obl:to|17:conj:and	_
+22	for	for	ADP	IN	_	23	case	23:case	_
+23	Mexicans	Mexicans	PROPN	NNPS	Number=Plur	21	nmod	21:nmod:for	SpaceAfter=No
+24	.	.	PUNCT	.	_	4	punct	4:punct	_
+# jsRealB-start
+S(Adv("so"),
+  Pro("it").c("nom").pe("3").g("n").n("s"),
+  VP(V("be").t("p").pe("3").n("s"),
+     NP(A("wonderful"),
+        VP(V("be").t("p").b("to ").t("b"),
+           NP(A("able"),
+              CP(C("and"),
+                 VP(V("rescue").t("b").b("to ").t("b"),
+                    Pro("that").c("nom").n("s")),
+                 VP(V("bring").t("b"),
+                    Pro("it").c("acc").pe("3").g("n").n("s"),
+                    CP(C("and"),
+                       NP(P("to"),
+                          D("a"),
+                          A("new"),
+                          N("format").n("s")),
+                       NP(D("a"),
+                          A("new"),
+                          N("tradition").n("s"),
+                          PP(P("for"),
+                             Q("Mexicans")))))))))))
+# jsRealB-end
+

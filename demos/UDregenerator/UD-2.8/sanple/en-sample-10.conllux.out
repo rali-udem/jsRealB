@@ -1,0 +1,318 @@
+0: answers-20090717131703AARh8u2_ans-0002
+1 difference
+# text = Well, they have a variety of sports that they [1;32;4mplay[0m like basketball, soccer, etc
+# TEXT = Well , they have a variety of sports that they [1;32;4mplays[0m like basketball, soccer, etc
+---
+1: answers-20110320195750AAkPbFG_ans-0004
+1 difference
+# text = Okay, FIRST, you [1;32;4mhave[0m posted a question about an American movie, set in Mexico, in the Dining Out in Argentina category
+# TEXT = Okay , first , you [1;32;4mhas[0m posted a question about an American movie , set in Mexico , in the dining out in Argentina category
+---
+2: email-enronsent21_02-0034
+4 differences
+# text = EY4106.6 PERFORMANCE 01-Feb-02 P -[1;34;47m1,993,[0m[1;32;4m045[0m -$ [1;34;47m32,[0m[1;32;4m387[0m
+# TEXT = ey4106.6 performance 01-feb-02 P -[1;32;4m1993045[0m -$ [1;32;4m32387[0m
+2 warningss: email-enronsent21_02-0034
+N('ey4106.6'):: not found in lexicon.
+N('01-feb-02'):: not found in lexicon.
+---
+3: reviews-130647-0001
+2 differences
+# text = [1;32;4mWill[0m [1;32;4mnever[0m use again
+# TEXT = [1;32;4mNever[0m [1;32;4mwill[0m use again
+---
+4: weblog-juancole.com_juancole_20030914114200_ENG_20030914_114200-0002
+3 differences
+# text = Reuters reported that "Sunni clerics in the town issued a 'Declaration by the people of [1;32;4mFallujah'[0m [1;32;4mcondemning[0m the deaths of the security guards and police, announcing three days of mourning, and calling for a general strike today[1;32;4m."[0m
+# TEXT = Reuters reported that " Sunni clerics in the town issued a 'declaration by the people of [1;32;4mFallujah[0m [1;32;4m'condemning[0m the deaths of the security guards and police, announcing three days of mourning , and calling for a general strike today[1;32;4m . "[0m
+1 warnings: weblog-juancole.com_juancole_20030914114200_ENG_20030914_114200-0002
+A('Sunni'):: not found in lexicon.
+---
+5: weblog-juancole.com_juancole_20040722101300_ENG_20040722_101300-0026
+5 differences
+# text = Dick [1;32;4mcould[0m [1;32;4mnever[0m [1;32;4mthereafter[0m get any real cooperation from the cabinet officers, who outranked him, and he could not convince them to go to battle stations in the summer of 2001 when George [1;32;4mTenet's[0m [1;31m•[0mhair was "on fire" about the excited chatter the CIA was picking up from radical Islamist terrorists
+# TEXT = Dick [1;32;4mnever[0m [1;32;4mthereafter[0m [1;32;4mcould[0m get any real cooperation from the cabinet officers , who outranked him , and he could not convince them to go to battle stations in the summer of 2001 when George [1;32;4m's[0m [1;31mTenet [0mhair was " on fire " about the excited chatter the CIA was picking up from radical Islamist terrorists
+1 warnings: weblog-juancole.com_juancole_20040722101300_ENG_20040722_101300-0026
+A('excited'):: not found in lexicon.
+---
+6: email-enronsent18_02-0073
+# text = Al Arfsten 713 965 2158
+# TEXT = Al Arfsten 713 965 2158
+---
+7: reviews-235190-0004
+# text = Thanks again, Directv.
+# TEXT = thanks again , Directv. 
+---
+8: email-enronsent23_05-0005
+1 difference
+# text = why do [1;31m•[0myou think i should get one of those?
+# TEXT = Why do [1;31mdoes [0myou think I should get one of those?
+---
+9: reviews-005760-0003
+# text = Their Thali was not brought out as described (no saag).
+# TEXT = Their thali was not brought out as described ( no saag ).
+2 warningss: reviews-005760-0003
+N('thali'):: not found in lexicon.
+N('saag'):: not found in lexicon.
+---
+10: GUM_voyage_vavau-18
+2 differences
+# text = It [1;32;4mdoesn't[0m [1;31m•[0mhave a beach but boats to one of the nearby coral atolls with superb sandy beaches are easily available
+# TEXT = it [1;32;4mdo[0m [1;31mnot [0mhave a beach but boats to one of the nearby coral atolls with superb sandy beaches are easily available
+---
+11: GUM_news_nasa-15
+5 differences
+# text = Space Shuttle Endeavour, which will launch on STS-134 at the end of the month on April 29, [1;32;4mwill[0m [1;32;4mbe[0m [1;32;4msent[0m to the California Science Center in Los[1;34;47m Angeles[0m, California [1;31m•[0mfollowing its retirement
+# TEXT = Space Shuttle Endeavour , which will launch on STS-134 at the end of the month on April 29 , [1;32;4mbe[0m [1;32;4mwill[0m [1;32;4msend[0m to the California Science Center in Los , California [1;31mAngeles [0mfollowing its retirement
+---
+12: GUM_speech_austria-5
+# text = Pressure for change is driven by the wish of women and men to choose their own fate and to improve their chances for a better life.
+# TEXT = Pressure for change is driven by the wish of women and men to choose their own fate and to improve their chances for a better life.
+---
+13: GUM_whow_cactus-35
+# text = Too much water might cause rot.
+# TEXT = Too much water might cause rot.
+---
+14: GUM_interview_libertarian-18
+2 differences
+# text = McDonnell did well early in his term pushing back against Senate [1;34;47mDemocrats [0mwho wanted huge tax increases in response to major revenue shortfalls during the recession[1;31m•[0m
+# TEXT = McDonnell did well early in his term pushing back against Senate who wanted huge tax increases in response to major revenue shortfalls during the recession [1;31mDemocrats[0m
+---
+15: GUM_fiction_teeth-2
+# text = Steven wanted to be a dentist.
+# TEXT = Steven wanted to be a dentist.
+---
+16: GUM_academic_discrimination-10
+# text = What also should not be lost in discussion of discrimination is the growing push to implement social policy aimed at reducing the occurrence of discriminatory practices.
+# TEXT = What also should not be lost in discussion of discrimination is the growing push to implement social policy aimed at reducing the occurrence of discriminatory practices.
+1 warnings: GUM_academic_discrimination-10
+C('at'):: not found in lexicon but exists as P.
+---
+17: GUM_bio_jespersen-29
+3 differences
+# text = While in the U.S[1;32;4m., [0mhe took occasion to study the [1;32;4mcountry's[0m [1;31m•[0meducational system
+# TEXT = While in the U.S[1;32;4m. , [0mhe took occasion to study the [1;32;4mcountry[0m [1;31m's [0meducational system
+---
+18: GUM_whow_cactus-15
+# text = It can take as long as 4 to 4 years before you get flowers.
+# TEXT = It can take as long as 4 to 4 years before you get flowers.
+---
+19: GUM_news_sensitive-10
+18 differences
+# text = Environment [1;32;4mCanada[0m [1;32;4mspokesperson[0m Julie Hahn said they apply to letters of complaint, criticism or injury, research [1;32;4mor[0m [1;32;4mscientific[0m [1;32;4mnotes[0m [1;32;4mand[0m [1;32;4mfindings[0m [1;32;4mthat[0m [1;32;4mdon`t[0m [1;32;4mhave[0m [1;32;4many[0m [1;31m•[0m[1;32;4mconclusion[0m, and Treasury Board letters, agendas [1;32;4mand[0m [1;32;4mminutes[0m [1;32;4mthat[0m [1;34;47mdon`t [0mdeal with subjects of national interest[1;31m•[0m
+# TEXT = Environment [1;32;4mspokesperson[0m [1;32;4mCanada[0m Julie Hahn said they apply to letters of complaint, criticism or injury, research [1;32;4mthat[0m [1;32;4mdo[0m [1;32;4mnot[0m [1;32;4mhave[0m [1;32;4many[0m [1;32;4mconclusion[0m [1;32;4mor[0m [1;32;4mscientific[0m [1;32;4mnotes[0m [1;31mand [0m[1;32;4mfindings[0m , and Treasury Board letters, agendas [1;32;4mthat[0m [1;32;4mdo[0m [1;32;4mnot[0m deal with subjects of national interest [1;31mand minutes[0m
+---
+20: en_lines-ud-test-doc2-4459
+2 differences
+# text = Still, [1;32;4mI've[0m [1;31m•[0malways suspected that Cervantes devoured those old romances
+# TEXT = Still , [1;32;4mI[0m [1;31mhas [0malways suspected that Cervantes devoured those old romances
+---
+21: en_lines-ud-test-doc4-4727
+# text = Oh, it was all right.
+# TEXT = Oh , it was all right.
+---
+22: en_lines-ud-test-doc1-4273
+5 differences
+# text = For[1;32;4m [0mexample[1;32;4m, [0mif you specify the start range as [1;34;47m01-Jul-[0m[1;32;4m1999[0m while grouping the ShippedDate field in weekly intervals, the [1;32;4mfollowing[0m groups will be created:
+# TEXT = For[1;32;4m , [0mexample[1;32;4m [0mif you specify the start range as [1;32;4m0[0m while grouping the shippeddate field in weekly intervals , the [1;32;4mfollow[0m groups will be created :
+3 warningss: en_lines-ud-test-doc1-4273
+NO('01-jul-1999'):: the parameter should be number, not string.
+N('shippeddate'):: not found in lexicon.
+A('follow'):: not found in lexicon but exists as V.
+---
+23: en_lines-ud-test-doc2-4337
+# text = Once, when he had been in the luncheonette, they had talked about baseball, and now, each time Quinn came in, they continued to talk about it.
+# TEXT = once , when he had been in the luncheonette , they had talked about baseball , and now , each time Quinn came in , they continued to talk about it. 
+1 warnings: en_lines-ud-test-doc2-4337
+N('luncheonette'):: not found in lexicon.
+---
+24: en_lines-ud-test-doc3-4492
+2 differences
+# text = Busy-minded people, with [1;32;4mtheir[0m head-culture that touches all surfaces, [1;32;4mhave[0m heard of Einstein
+# TEXT = Busy-minded people , with [1;32;4mthey[0m head-culture that touches all surfaces , [1;32;4mhas[0m heard of Einstein
+2 warningss: en_lines-ud-test-doc3-4492
+A('busy-minded'):: not found in lexicon.
+N('head-culture'):: not found in lexicon.
+---
+25: en_lines-ud-test-doc6-4865
+1 difference
+# text = This country can do with a few more [1;31m•[0mwhite people like you, take it from me
+# TEXT = This country can do with a few more [1;31mmuch [0mwhite people like you , take it from me
+---
+26: en_lines-ud-test-doc1-4264
+# text = About enabling the System Administrator (SA) user name in an Access project
+# TEXT = About enabling the system administrator ( SA ) user name in an Access project.
+---
+27: en_lines-ud-test-doc5-4748
+# text = This is a sine-qua-non, and it would seem unnecessary to keep stressing it.
+# TEXT = This is a sine-qua-non , and it would seem unnecessary to keep stressing it.
+1 warnings: en_lines-ud-test-doc5-4748
+N('sine-qua-non'):: not found in lexicon.
+---
+28: en_lines-ud-test-doc7-5015
+# text = They lets Dobby get on with it, sir.
+# TEXT = They lets Dobby get on with it , Sir.
+1 warnings: en_lines-ud-test-doc7-5015
+N('Sir'):: not found in lexicon.
+---
+29: en_lines-ud-test-doc6-4985
+6 differences
+# text = For [1;32;4mheaven's[0m [1;31m•[0msake, let them have it, [1;32;4mit's[0m [1;31m•[0msomeone [1;32;4melse's[0m [1;31m•[0mturn to burn the midnight oil there, now..
+# TEXT = For [1;32;4mheaven[0m [1;31m's [0msake , let them have it , [1;32;4mit[0m [1;31mis [0msomeone [1;32;4melse[0m [1;31m's [0mturn to burn the midnight oil there , now ..
+---
+30: en_partut-ud-452
+2 differences
+# text = [1;32;4mMr[0m President, I too [1;32;4mwould[0m like to congratulate the rapporteur on her excellent work
+# TEXT = [1;32;4mMister[0m president , I too [1;32;4mwill[0m like to congratulate the rapporteur on her excellent work
+1 warnings: en_partut-ud-452
+N('rapporteur'):: not found in lexicon.
+---
+31: en_partut-ud-227
+1 difference
+# text = But I believe that we [1;32;4mshould[0m do all we can to keep the transport of dangerous goods to a minimum, in all countries, whether they are transit countries or not
+# TEXT = But I believe that we [1;32;4mshall[0m do all we can to keep the transport of dangerous goods to a minimum , in all countries , whether they are transit countries or not
+---
+32: en_partut-ud-1013
+4 differences
+# text = A [1;32;4mnational[0m [1;32;4mbase[0m area for each producing Member State [1;32;4mis[0m [1;32;4mhereby[0m established
+# TEXT = A [1;32;4mbase[0m [1;32;4mnational[0m area for each producing member state [1;32;4mhereby[0m [1;32;4mis[0m established
+---
+33: en_partut-ud-1683
+2 differences
+# text = [1;31m•[0mHis preferred method [1;34;47mwas [0mto eat a light meal at five or six in the afternoon, then sleep until midnight
+# TEXT = [1;31mwas [0mhis preferred method to eat a light meal at five or six in the afternoon, then sleep until midnight
+---
+34: en_partut-ud-949
+# text = The provisions of that Act shall form an integral part of this Treaty.
+# TEXT = The provisions of that act shall form an integral part of this treaty.
+---
+35: en_partut-ud-989
+# text = The Council shall make such adaptations to its Rules of Procedure as are rendered necessary by accession.
+# TEXT = The Council shall make such adaptations to its rules of procedure as are rendered necessary by accession.
+1 warnings: en_partut-ud-989
+N('Council'):: not found in lexicon.
+---
+36: en_partut-ud-948
+# text = The provisions of that Protocol shall form an integral part of this Treaty.
+# TEXT = The provisions of that protocol shall form an integral part of this treaty.
+---
+37: en_partut-ud-1741
+2 differences
+# text = Balzac sought to present his characters as real people, neither fully good[1;34;47m nor[0m[1;32;4m [0mfully evil, but fully human
+# TEXT = Balzac sought to present his characters as real people , neither fully good[1;32;4m, [0mfully evil , but fully human
+---
+38: en_partut-ud-954
+# text = These measures shall enter into force only subject to and on the date of the entry into force of this Treaty.
+# TEXT = These measures shall enter into force only subject to and on the date of the entry into force of this treaty.
+---
+39: en_partut-ud-974
+1 difference
+# text = One twelfth of each annual amount [1;34;47mshall [0mbe payable to Bulgaria and Romania on the first working day of each month in the corresponding year
+# TEXT = one twelfth of each annual amount be payable to Bulgaria and Romania on the first working day of each month in the corresponding year
+1 warnings: en_partut-ud-974
+NP(NP(NO(1),A('twelfth'),PP(P('of'),D('each'),A('annual'),N('amount'))),V('be'),A('payable'),CP(C('and'),NP(P('to'),Q('Bulgaria')),Q('Romania')),PP(P('on'),D('the'),NP(A('first'),N('working')),N('day'),PP(P('of'),D('each'),N('month'))),PP(P('in'),D('the'),A('corresponding'),N('year'))):: .typ({"mod":"nece"}) should be applied to S, SP or VP, not to NP.
+---
+40: 244
+# text = The dealer waited at mine.
+# TEXT = The dealer waited at mine.
+---
+41: 272
+# text = His is easy to clean.
+# TEXT = His is easy to clean .
+---
+42: 261
+# text = The dealer recommended that hers get painted.
+# TEXT = The dealer recommended that hers get painted.
+---
+43: 174
+# text = The car of mine drove responsively.
+# TEXT = The car of mine drove responsively .
+---
+44: 128
+# text = The dealers knew that theirs cleaned easily.
+# TEXT = The dealers knew that theirs cleaned easily.
+---
+45: 239
+# text = The dealer went with mine.
+# TEXT = The dealer went with mine.
+---
+46: 234
+# text = The dealer drove using mine.
+# TEXT = The dealer drove using mine.
+---
+47: 72
+# text = Any car of his sells quickly.
+# TEXT = Any car of his sells quickly.
+---
+48: 84
+# text = The car is at mine.
+# TEXT = The car is at mine.
+---
+49: 183
+# text = The car, theirs, was cleaned.
+# TEXT = The car , theirs , was cleaned.
+---
+50: w01141077
+5 differences
+# text = She next faced defending champion [1;32;4mand[0m [1;32;4mtop[0m [1;32;4mseed[0m [1;32;4mSara[0m [1;32;4mErrani[0m, but was defeated
+# TEXT = she next faced defending champion [1;32;4mSara[0m [1;32;4mErrani[0m [1;32;4mand[0m [1;32;4mtop[0m [1;32;4mseed[0m , but was defeated
+---
+51: n01125030
+# text = Of course, the tactile trend is closely linked to our growing obsession with making things.
+# TEXT = Of course , the tactile trend is closely linked to our growing obsession with making things.
+1 warnings: n01125030
+C('with'):: not found in lexicon but exists as P.
+---
+52: w02015085
+# text = Today, expansive ruins can be viewed there.
+# TEXT = Today , expansive ruins can be viewed there.
+---
+53: n01136010
+2 differences
+# text = "Loving" opens with Richard and Mildred already a couple, eliding over a courtship that [1;32;4mwould[0m [1;34;47mhave been [0minteresting to see, if only in brief
+# TEXT = " Loving " opens with Richard and Mildred already a couple , eliding over a courtship that [1;32;4mis[0m interesting to see , if only in brief
+3 warningss: n01136010
+C('with'):: not found in lexicon but exists as P.
+NP(Pro('that'),V('be'),A('interesting'),VP(V('see'),Q(','),NP(C('if'),Adv('only'),P('in'),N('brief')))):: option t is applied to NP, but it should be to V, VP, S, SP or CP
+NP(Pro('that'),V('be'),A('interesting'),VP(V('see'),Q(','),NP(C('if'),Adv('only'),P('in'),N('brief')))):: .typ({"perf":true,"mod":"will"}) should be applied to S, SP or VP, not to NP.
+---
+54: w04001037
+# text = Furthermore, the occurrence of hurricanes on the island is possible during the summer.
+# TEXT = Furthermore , the occurrence of hurricanes on the island is possible during the summer.
+---
+55: n01034033
+3 differences
+# text = "If Donald Trump becomes president, the government here [1;32;4mwill[0m [1;32;4mstill[0m have to work with him to advance whatever shared agenda there is, to ensure that Canadian businesses and interests are represented in Washington[1;32;4m."[0m
+# TEXT = " If Donald Trump becomes president , the government here [1;32;4mstill[0m [1;32;4mwill[0m have to work with him to advance whatever shared agenda there is , to ensure that Canadian businesses and interests are represented in Washington[1;32;4m . "[0m
+1 warnings: n01034033
+D('there'):: not found in lexicon but exists as Adv or Pro.
+---
+56: w01107013
+2 differences
+# text = Failing health reduced [1;32;4mHitchcock's[0m [1;31m•[0moutput during the last two decades of his life
+# TEXT = Failing health reduced [1;32;4mHitchcock[0m [1;31m's [0moutput during the last two decades of his life
+---
+57: w01122031
+4 differences
+# text = Really Really [1;32;4mLove[0m You was released in August[1;34;47m and reach the top 50[0m; "Shaky Ground[1;32;4m", [0mthe related single, appeared in September but Geyer was already in the US[1;31m•[0m
+# TEXT = really really [1;32;4mloves[0m you was released in August ; " shaky Ground[1;32;4m " , [0mthe related single , appeared in September but Geyer was already in the US [1;31mand reach the top 50[0m
+1 warnings: w01122031
+A('related'):: not found in lexicon.
+---
+58: w04003054
+# text = The issuing of coinage is predominantly numismatic in nature, with the intention of being sold mainly to collectors.
+# TEXT = The issuing of coinage is predominantly numismatic in nature , with the intention of being sold mainly to collectors.
+3 warningss: w04003054
+N('issuing'):: not found in lexicon.
+A('numismatic'):: not found in lexicon.
+C('of'):: not found in lexicon but exists as P or Adv.
+---
+59: n01145034
+2 differences
+# text = So [1;32;4mit's[0m [1;31m•[0mwonderful to be able to rescue that and bring it to a new format and a new tradition for Mexicans
+# TEXT = So [1;32;4mit[0m [1;31mis [0mwonderful to be able to rescue that and bring it to a new format and a new tradition for Mexicans
+---
+60 UD processed
+0 UD non projective found
+29 UD different found
+18 UD with warnings found

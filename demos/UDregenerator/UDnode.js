@@ -217,7 +217,7 @@ UDnode.prototype.processCoordination = function(phrase,headTerm,sentOptions){
     }
     conjs.reverse();
     // process first 
-    appendTo(ph.children,this.left.map(c=>c.toConstituent()));
+    appendTo(ph.children,this.left.map(c=>c.toConstituent(true)));
     ph.children.push(headTerm);
     // remove punct
     if (this.right.length>0){
@@ -225,7 +225,7 @@ UDnode.prototype.processCoordination = function(phrase,headTerm,sentOptions){
         if (last.getDeprel()=="punct" && last.getUpos()=="PUNCT" && last.getLemma()==",")
             this.right.splice(-1,1);
     }
-    appendTo(ph.children,this.right.map(c=>c.toConstituent()));
+    appendTo(ph.children,this.right.map(c=>c.toConstituent(false)));
     let childrenJSR=[ph.addOptions(sentOptions)];  // add options to the first child
     // process other children and pick the conjunction
     // we conjecture that NP take their argument to the left and VP to the right
@@ -246,7 +246,7 @@ UDnode.prototype.processCoordination = function(phrase,headTerm,sentOptions){
                 if (i==n-1)hasOxfordComma=true;
             }
         }
-        childrenJSR.push(ci.toConstituent());
+        childrenJSR.push(ci.toConstituent(false));
     }
     if (c!==undefined) childrenJSR.unshift(new JSR("C",c,hasOxfordComma?['b(",")']:[]));
     let res=new JSR("CP",childrenJSR);
