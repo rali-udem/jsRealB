@@ -1,0 +1,63 @@
+  28 # gl = no changes
+   1 # gl = very strange sentence...
+   1 # gl = :: significativement not in lexicon
+   1 # gl = :: peux-je instead of puis-je (limitation of jsr)
+   1 # gl = :: jsr: N("serpillière"), but "serpillère" is also OK
+   1 # gl = :: ex-bras  not in lexicon
+   1 # gl = :: bad word ordering but cause by strange non projective dependencies (incomplete sentence)
+   1 # gl = :: bad word ordering because of non-projective dependencies
+   1 # gl = :: bad word ordering (temps) with "fixed"
+   1 # gl = :: 9-16 : bad word ordering, probably caused by bad links (to be checked) 
+   1 # gl = :: 3: quiconque should be Pro but only as Adv
+   1 # gl = :: 2:bad word ordering ("ne")
+   1 # gl = :: 26 déclassifier not in dictionay
+   1 # gl = :: 13-16:bad word ordering (because of unusual conj coding) 
+   1 # gl = :: 1 : personne should also be a pronoun
+   1 # gl = 8:upos:ADP>ADV
+   1 # gl = 8:lemma:son>mon
+   1 # gl = 8:lemma:Dr.>docteur 
+   1 # gl = 7:upos:APD>SCONJ
+   1 # gl = 7:upos:ADP>ADV
+   1 # gl = 7:upos:ADJ>NOUN
+   1 # gl = 7:lemma:expire>expirer,upos:NOUN>VERB,feats=Gender=Fem>Person=3|Tense=Pres|VerbForm=Fin|Mood=Ind
+   1 # gl = 6:lemma:lui>moi,feats:Case=Dat
+   1 # gl = 6:lemma:le/lui>lui
+   1 # gl = 5:lemma:son>notre
+   1 # gl = 54:lemma:son>notre,feats>Person=3
+   1 # gl = 4:upos:PRON>ADJ
+   1 # gl = 4:lemma:travaille>travailler
+   1 # gl = 40:lemma:son>notre,feats>Person=3
+   1 # gl = 3:lemma:le/lui>lui
+   1 # gl = 3:lemma:il>nous,feats=Number=Plur|Person=3
+   1 # gl = 38:upos:DET>ADJ
+   1 # gl = 38 upos:VERB>X ??
+   1 # gl = 37 upos:NOUN>X ??
+   1 # gl = 35:lemma:lui>moi,feats>Case=Dat
+   1 # gl = 34:upos:ADP>ADV
+   1 # gl = 31:upos:PRON>DET,feats:>Definite=Ind|Gender=Masc|Number=Sing|PronType=Art
+   1 # gl = 31 lemma:douanes>douane,feats:Masc>Plr
+   1 # gl = 30:lemma:soi>moi
+   1 # gl = 2:upos:NOUN>PRON
+   1 # gl = 2:feats:Masc>Fem
+   1 # gl = 29:feats:Masc>Fem,Sing>Plur
+   1 # gl = 28:lemma:complétér>compléter
+   1 # gl = 25:feats>Typo=Yes,misc>CorrectForm=avant-gardiste
+   1 # gl = 25:feats:Fem>Masc
+   1 # gl = 23:feats:Fem=Masc
+   1 # gl = 20:lemma:expire>expirer,upos:NOUN>VERB,feats=Gender=Fem>Person=3|Tense=Pres|VerbForm=Fin|Mood=Ind
+   1 # gl = 19:lemma:persistent>persister,upos=NOUN>VERB,feats=Gender=Fem>Person=3|Tense=Pres|VerbForm=Fin|Mood=Ind
+   1 # gl = 18:lemma:expire>expirer,upos:NOUN>VERB,feats=Gender=Fem>Person=3|Tense=Pres|VerbForm=Fin|Mood=Ind
+   1 # gl = 18:lemma:Etats-Unis>États-Unis,feats>Typo=Yes,misc>ProperForm=États-Unis
+   1 # gl = 18:feats:>Typo=Yes,misc:>CorrectForm=assorti
+   1 # gl = 17:lemma:lui>moi  (.tn("")) 
+   1 # gl = 15:lemma:lui>moi,feats:Case=Dat
+   1 # gl = 15:feats>Gender=Fem|Number=Sing
+   1 # gl = 14:lemma:boxeuse>boxeur
+   1 # gl = 14:feats:Sing>Plur
+   1 # gl = 14:feats:Fem>Masc
+   1 # gl = 14-19: bad ordering (because of "correct" non-projective dependencies)
+   1 # gl = 12:feats:Sing>Plur
+   1 # gl = 12: feats:>Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part
+   1 # gl = 11:lemma:grenadin>grenadine
+   1 # gl = 10:feats>Typo=Yes,misc>CorrectForm=district
+   1 # gl = 10:feats:Fem=Masc

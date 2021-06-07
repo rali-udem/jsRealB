@@ -66,13 +66,13 @@ For creating questions or negation from an affirmative sentence. This first pars
 * `variationFromText.js` : node.js program to create questions and negation for a sentence
 
 ### data
-* `UD-2.7`
-    * `en-sample-10.conllu` : English sample 
-    * `en-sample-10.conllu.out` : Output of processing the English sample with the node.js module
+* `UD-2.8/sample`
     * `en-sample-10.conllux` : English sample with the corresponding jsRealB expression, and comments starting "# gl ="
-    * `fr-sample-10.conllu` : French sample
-    * `fr-sample-10.conllu.out` : Output of processing the French sample with the node.js module
+    * `en-sample-10.conllu.out` : Output of processing the English sample with the node.js module
+    * `en-samplee-10.stats` : sorted list of all suggested modifications or errors found in the English sample
     * `fr-sample-10.conllux` : French sample with the corresponding jsRealB expression and comments starting by "# gl ="
+    * `fr-sample-10.conllu.out` : Output of processing the French sample with the node.js module
+    * `fr-samplee-10.stats` : sorted list of all suggested modifications or errors found in the French sample
 
 ### Documentation
 * `UDregenerator.pdf` : paper describing the system with results from experiments

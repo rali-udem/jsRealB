@@ -1,0 +1,343 @@
+0: FQB_TREC-fr-1841
+3 différences
+# text = [1;34;47mQuelle est [0mla dernière strophe du poème d'Edgar Allen Poe intitulé "The Raven[1;31m•[0m[1;32;4m" ?[0m
+# TEXT = La dernière strophe du poème d'Edgar Allen Poe intitulé " The Raven[1;31m " est quelle[0m[1;32;4m ?[0m
+---
+1: FQB_TREC-fr-145
+# text = Qu'a fait John Hinckley pour impressionner Jodie Foster ?
+# TEXT = Qu'a fait John Hinckley pour impressionner Jodie Foster ?
+---
+2: FQB_TREC-fr-186
+# text = Où a eu lieu la bataille de la Bulge ?
+# TEXT = Où a eu lieu la bataille de la Bulge ?
+---
+3: FQB_TREC-fr-1299
+2 différences
+# text = Le journal de quelle ville [1;32;4ms'appelle[0m [1;31m•[0mThe Star ?
+# TEXT = Le journal de quelle ville [1;32;4ml'/lui[0m [1;31mappelle [0mThe Star ?
+1 avertissements: FQB_TREC-fr-1299
+Pro('le/lui'):: absent du lexique.
+---
+4: FQB_TREC-fr-297
+# text = Que mangeait le brontosaure ?
+# TEXT = Que mangeait le brontosaure ?
+---
+5: FQB_CAF-4
+## non projective
+2 différences
+# text = [1;31m•[0mPour quel type de logement [1;34;47mpuis-je [0mbénéficier d'une aide au logement ?
+# TEXT = [1;31mpeux -je [0mpour quel type de logement bénéficier d'une aide au logement ?
+---
+6: FQB_TREC-fr-1590
+1 différence
+# text = De quoi [1;32;4mse[0m nourrissent les sauterelles ?
+# TEXT = De quoi [1;32;4mle/lui[0m nourrissent les sauterelles ?
+1 avertissements: FQB_TREC-fr-1590
+Pro('le/lui'):: absent du lexique.
+---
+7: FQB_TREC-fr-1786
+2 différences
+# text = [1;34;47mQuel est [0mle plus haut nombre de points que Michael Jordan ait marqués en une seule partie[1;31m•[0m ?
+# TEXT = Le plus haut nombre de points que Michael Jordan ait marqués en une seule partie[1;31m est quel[0m ?
+---
+8: FQB_TREC-fr-1515
+2 différences
+# text = [1;34;47mQuel était [0mle véritable nom du Dr. Seuss[1;31m•[0m ?
+# TEXT = Le véritable nom du Dr. Seuss[1;31m était quel[0m ?
+1 avertissements: FQB_TREC-fr-1515
+N('Dr.'):: absent du lexique.
+---
+9: FQB_TREC-fr-1120
+6 différences
+# text = [1;32;4mQuelle[0m [1;32;4mest[0m [1;32;4mla[0m [1;32;4mpopulation[0m [1;32;4mdu[0m [1;32;4mNigeria[0m ?
+# TEXT = [1;32;4mLa[0m [1;32;4mpopulation[0m [1;32;4mdu[0m [1;32;4mNigeria[0m [1;32;4mest[0m [1;32;4mquelle[0m ?
+---
+10: fr-ud-test_00178
+7 différences
+# text = [1;32;4mQuel[0m [1;32;4mest[0m [1;32;4mle[0m [1;32;4mcoût[0m [1;32;4md'un[0m [1;32;4mtel[0m [1;32;4mprojet[0m ?
+# TEXT = [1;32;4mLe[0m [1;32;4mcoût[0m [1;32;4md'un[0m [1;32;4mtel[0m [1;32;4mprojet[0m [1;32;4mest[0m [1;32;4mquel[0m ?
+---
+11: fr-ud-test_00209
+4 différences
+# text = Aussitôt après le dessert on [1;32;4mnous[0m passe la serpillère entre les jambes, pour [1;32;4mnous[0m faire comprendre qu'il était [1;34;47mtemps [0mde quitter l'endroit[1;31m•[0m
+# TEXT = Aussitôt après le dessert on [1;32;4mil[0m passe la serpillère entre les jambes , pour [1;32;4mil[0m faire comprendre qu'il était de quitter l'endroit [1;31mtemps[0m
+1 avertissements: fr-ud-test_00209
+N('serpillère'):: absent du lexique.
+---
+12: fr-ud-test_00274
+2 différences
+# text = [1;32;4mPetits[0m [1;32;4mcoups[0m de vin à boire au verre, pour 2-4 €, bière du Montblanc accompagne un repas succulent qui se déguste aussi à la carte
+# TEXT = [1;32;4mCoups[0m [1;32;4mpetits[0m de vin à boire au verre , pour 2-4 €, bière du Montblanc accompagne un repas succulent qui se déguste aussi à la carte
+---
+13: fr-ud-test_00015
+# text = Belle, grande, claire, séduisante à souhait, elle est pourtant déjà à la retraite.
+# TEXT = Belle, grande, claire, séduisante à souhait , elle est pourtant déjà à la retraite.
+---
+14: fr-ud-dev_01490
+1 différence
+# text = Chen Xitong (né en juin 1930 dans le [1;32;4mdisctict[0m d'Anyue, Sichuan--) est un homme politique de la République populaire de Chine, qui fut l'un des hauts dirigeants du Parti communiste chinois avant de connaître la disgrâce, et fut maire de Pékin de 1983 à 1993
+# TEXT = Chen Xitong ( né en juin 1930 dans le [1;32;4mdistrict[0m d'Anyue , Sichuan --) est un homme politique de la république populaire de Chine , qui fut l'un des hauts dirigeants du parti communiste chinois avant de connaître la disgrâce , et fut maire de Pékin de 1983 à 1993
+1 avertissements: fr-ud-dev_01490
+Pro('un'):: absent du lexique mais existe comme Adv ou D.
+---
+15: fr-ud-test_00282
+2 différences
+# text = Que ce soit à titre professionnel (pour [1;32;4mma[0m société) ou à titre personnel pour [1;32;4mmoi, [0mje vais chez Bureau Vallée Toulouse Montaudran
+# TEXT = Que ce soit à titre professionnel ( pour [1;32;4msa[0m société ) ou à titre personnel pour [1;32;4mil [0mje vais chez Bureau Vallée Toulouse Montaudran
+---
+16: fr-ud-test_00051
+4 différences
+# text = Retenu au « Forum » de la Berlinale, Territoire perdu s'inscrit pleinement dans l'esprit de cette section « expérimentale[1;31m•[0m, [1;31m•[0m[1;32;4mavantgardiste[0m et politiquement engagée [1;34;47m»[0m
+# TEXT = Retenu au « Forum » de la Berlinale , Territoire perdu s'inscrit pleinement dans l'esprit de cette section « expérimentale[1;31m »[0m, [1;31mavant-[0m[1;32;4mgardiste[0m et politiquement engagée
+---
+17: fr-ud-dev_01596
+# text = Anne-Sophie Mathis, née le 13 juin 1977 à Nancy, est une boxeuse française.
+# TEXT = Anne-Sophie Mathis , née le 13 juin 1977 à Nancy , est une boxeuse française.
+1 avertissements: fr-ud-dev_01596
+N('boxeuse'):: absent du lexique.
+---
+18: fr-ud-test_00247
+# text = J'ai rencontré par hasard Lionel en cherchant sur Google un coiffeur à domicile... le hasard fait bien les choses !
+# TEXT = J'ai rencontré par hasard Lionel en cherchant sur Google un coiffeur à domicile ... le hasard fait bien les choses !
+---
+19: fr-ud-test_00112
+# text = Des visites commentées permettront au public de découvrir les collections, avec aussi différentes animations.
+# TEXT = Des visites commentées permettront au public de découvrir les collections , avec aussi différentes animations.
+---
+20: fr_partut-ud-537
+1 différence
+# text = ANA a utilisé une série de [1;32;4mmots[0m clés pour cibler les utilisateurs spécialement intéressés par le voyage et la culture japonaise
+# TEXT = ANA a utilisé une série de [1;32;4mmot[0m clés pour cibler les utilisateurs spécialement intéressés par le voyage et la culture japonaise
+1 avertissements: fr_partut-ud-537
+A('mot'):: absent du lexique mais existe comme N.
+---
+21: fr_partut-ud-985
+2 différences
+# text = Elles peuvent cependant être appliquées au-delà de la période visée au premier[1;32;4m [0malinéa[1;32;4m [0mtant que ces manquements persistent
+# TEXT = Elles peuvent cependant être appliquées au-delà de la période visée au premier[1;32;4m [[[0malinéa[1;32;4m]] [0mtant que ces manquements persistent
+2 avertissementss: fr_partut-ud-985
+N('persistent'):: absent du lexique.
+N('alinéa'):: erreur de morphologie : genre différent de celui du lexique :N(alinéa) : {"g":"f","lexique":"m"}.
+---
+22: fr_partut-ud-993
+3 différences
+# text = Le mandat de l'un des juges de la Cour de justice [1;32;4mnommés[0m conformément au paragraphe 1 expire le 6[1;32;4m [0moctobre[1;32;4m [0m2009
+# TEXT = le mandat de l'un des juges de la Cour de justice [1;32;4mnommé[0m conformément au paragraphe 1 expire le 6[1;32;4m [[[0moctobre[1;32;4m]] [0m2009
+2 avertissementss: fr_partut-ud-993
+N('expire'):: absent du lexique.
+N('octobre'):: erreur de morphologie : genre différent de celui du lexique :N(octobre) : {"g":"f","lexique":"m"}.
+---
+23: fr_partut-ud-995
+2 différences
+# text = Le mandat de l'autre juge expire le 6[1;32;4m [0moctobre[1;32;4m [0m2012
+# TEXT = le mandat de l'autre juge expire le 6[1;32;4m [[[0moctobre[1;32;4m]] [0m2012
+2 avertissementss: fr_partut-ud-995
+N('expire'):: absent du lexique.
+N('octobre'):: erreur de morphologie : genre différent de celui du lexique :N(octobre) : {"g":"f","lexique":"m"}.
+---
+24: fr_partut-ud-969
+# text = La commission peut arrêter les modalités de mise en œuvre de l'assistance visée au paragraphe 2.
+# TEXT = La commission peut arrêter les modalités de mise en oeuvre de l'assistance visée au paragraphe 2.
+---
+25: fr_partut-ud-80
+2 différences
+# text = Oui, monsieur[1;32;4m [0mEvans[1;32;4m, [0mje pense qu'une initiative dans le sens que vous venez de suggérer serait tout à fait appropriée
+# TEXT = Oui , monsieur[1;32;4m , [0mEvans[1;32;4m [0mje pense qu'une initiative dans le sens que vous venez de suggérer serait tout à fait appropriée
+---
+26: fr_partut-ud-996
+1 différence
+# text = Le mandat de l'un des juges du tribunal [1;32;4mnommés[0m conformément au paragraphe 1 expire le 31 août 2007
+# TEXT = le mandat de l'un des juges du tribunal [1;32;4mnommé[0m conformément au paragraphe 1 expire le 31 août 2007
+1 avertissements: fr_partut-ud-996
+N('expire'):: absent du lexique.
+---
+27: fr_partut-ud-966
+# text = À titre exceptionnel et dans des cas dûment justifiés, une prolongation limitée de la durée peut être accordée pour l'exécution des contrats.
+# TEXT = À titre exceptionnel et dans des cas dûment justifiés , une prolongation limitée de la durée peut être accordée pour l'exécution des contrats.
+---
+28: fr_partut-ud-673
+5 différences
+# text = - le programme doit être reconduit pour une nouvelle période d'au moins quatre ans[1;32;4m, assortie[0m d'un budget équivalent (1[1;32;4m [0mmillion[1;32;4m [0md'euros par an) et doit porter sur les [1;32;4mmêmes[0m [1;32;4mmesures[0m et les mêmes destinataires;
+# TEXT = -le programme doit être reconduit pour une nouvelle période d'au moins quatre ans[1;32;4m ,, assorti[0m d'un budget équivalent ( 1[1;32;4m [[[0mmillion[1;32;4m]] [0md'euros par an ) et doit porter sur les [1;32;4mmesures[0m [1;32;4mmêmes[0m et les mêmes destinataires ;
+1 avertissements: fr_partut-ud-673
+N('million'):: erreur de morphologie : genre différent de celui du lexique :N(million) : {"g":"f","lexique":"m"}.
+---
+29: fr_partut-ud-791
+## non projective
+5 différences
+# text = 3. Quiconque travaille a droit à une rémunération équitable et satisfaisante [1;34;47mlui [0m[1;32;4massurant [0mainsi qu'à sa famille [1;31m•[0mune existence conforme à la dignité humaine et [1;32;4mcomplétée[0m, s'il y a lieu, par tous [1;32;4mautres[0m moyens de protection sociale
+# TEXT = 3 . quiconque travaille a droit à une rémunération équitable et satisfaisante [1;32;4mil, [0mainsi qu'à sa famille [1;31massurant [0mune existence conforme à la dignité humaine et [1;32;4mcomplétér[0m , s'il y a lieu , par tous [1;32;4mautre[0m moyens de protection sociale
+4 avertissementss: fr_partut-ud-791
+Pro('quiconque'):: absent du lexique mais existe comme Adv.
+V('travaille'):: absent du lexique.
+V('complétér'):: absent du lexique.
+D('autre'):: absent du lexique mais existe comme A, Adv ou N.
+---
+30: w02017046
+# text = La censure avait empêché toute opinion considérée comme indésirable, la participation aux affaires publiques devint quasiment impossible.
+# TEXT = la censure avait empêché toute opinion considérée comme indésirable, la participation aux affaires publiques devint quasiment impossible. 
+1 avertissements: w02017046
+P('comme'):: absent du lexique mais existe comme Adv ou C.
+---
+31: n02043008
+# text = Et maintenant, il est également champion du monde.
+# TEXT = Et maintenant , il est également champion du monde.
+---
+32: w05003050
+1 différence
+# text = Sous son administration, le vote des femmes a été approuvé, les partis politiques ont été légalisés, tous les exilés ont été autorisés à rentrer chez [1;32;4meux[0m et les prisonniers politiques restants ont été libérés
+# TEXT = Sous son administration , le vote des femmes a été approuvé , les partis politiques ont été légalisés , tous les exilés ont été autorisés à rentrer chez [1;32;4msoi[0m et les prisonniers politiques restants ont été libérés
+1 avertissements: w05003050
+Pro('soi'):: absent du lexique mais existe comme N.
+---
+33: n01097098
+1 différence
+# text = [1;32;4mMon[0m étape suivante était à Bellingham, tout près de la frontière canadienne
+# TEXT = [1;32;4mSon[0m étape suivante était à Bellingham , tout près de la frontière canadienne
+---
+34: n04008007
+# text = Les étudiants de l’université LUISS ont été informés au cours d’une réunion qui a eu lieu à Rome.
+# TEXT = Les étudiants de l'université LUISS ont été informés au cours d'une réunion qui a eu lieu à Rome.
+---
+35: n01144041
+2 différences
+# text = [1;32;4mJe[0m [1;32;4mn'étais[0m qu'un garçon avec les chaussures couvertes de boue
+# TEXT = [1;32;4mNe[0m [1;32;4mj'étais[0m qu'un garçon avec les chaussures couvertes de boue
+---
+36: n01003007
+# text = 5000 dollars par personne, le maximum autorisé.
+# TEXT = 5000 dollars par personne , le maximum autorisé. 
+---
+37: n01059054
+1 différence
+# text = Il y a plus de différences que de similitudes entre Sulla[1;32;4m et Trump, [0mRome et les Etats-Unis, mais cela ne remet pas en cause les ressemblances
+# TEXT = il y a plus de différences que de similitudes entre Sulla[1;32;4m, Trump , et [0mRome et les Etats-Unis , mais cela ne remet pas en cause les ressemblances
+2 avertissementss: n01059054
+P('que'):: absent du lexique mais existe comme C, Pro ou Adv.
+N('Etats-Unis'):: absent du lexique.
+---
+38: w01132081
+9 différences
+# text = Les[1;32;4m voiles [0mne sont pas représentées dans l'iconographie [1;32;4mou[0m [1;32;4mles[0m [1;32;4mtextes[0m [1;32;4mpréhistoriques[0m [1;32;4mde[0m [1;32;4mla[0m [1;32;4mMésoamérique[0m, au lieu de cela, il est théorisé que les anciens [1;32;4mMayas[0m utilisaient les pirogues comme le principal mode de transport pour se déplacer sur l'eau
+# TEXT = les[1;32;4m [[voile]] [0mne sont pas représentées dans l'iconographie [1;32;4mde[0m [1;32;4mla[0m [1;32;4mMésoamérique[0m [1;32;4mou[0m [1;32;4mles[0m [1;32;4mtextes[0m [1;32;4mpréhistoriques[0m , au lieu de cela, il est théorisé que les anciens [1;32;4mMaya[0m utilisaient les pirogues comme le principal mode de transport pour se déplacer sur l'eau
+2 avertissementss: w01132081
+P('comme'):: absent du lexique mais existe comme Adv ou C.
+N('voile'):: erreur de morphologie : genre différent de celui du lexique :N(voile) : {"g":"m","lexique":"f"}.
+---
+39: w01136074
+# text = Joseph Schenck souhaitait que sa femme, Norma Talmadge, donne la réplique à Valentino dans une version de Romeo et Juliette.
+# TEXT = Joseph Schenck souhaitait que sa femme , Norma Talmadge , donne la réplique à Valentino dans une version de Romeo et Juliette.
+---
+40: emea-fr-dev_00255
+1 différence
+# text = Un saignement mineur a été défini comme étant [1;32;4mtout[0m événement hémorragique observé qui ne répondait pas aux critères de saignement majeur
+# TEXT = Un saignement mineur a été défini comme étant [1;32;4mun[0m événement hémorragique observé qui ne répondait pas aux critères de saignement majeur
+1 avertissements: emea-fr-dev_00255
+P('comme'):: absent du lexique mais existe comme Adv ou C.
+---
+41: Europar.550_00108
+# text = Personne n'aide cette femme à sortir de prison.
+# TEXT = Personne n'aide cette femme à sortir de prison.
+1 avertissements: Europar.550_00108
+Pro('personne'):: absent du lexique mais existe comme Adv ou N.
+---
+42: emea-fr-test_00252
+# text = Aclasta a également réduit significativement le nombre moyen de jours d'activité limitée et de jours d'alitement du fait de fractures de 2,9 jours par rapport à 0,5 jours dans le groupe placebo (p < 0,01 pour toutes les valeurs).
+# TEXT = Aclasta a également réduit significativement le nombre moyen de jours d'activité limitée et de jours d'alitement du fait de fractures de 2,9 jours par rapport à 0,5 jours dans le groupe placebo ( p < 0,01 pour toutes les valeurs ).
+3 avertissementss: emea-fr-test_00252
+Adv('significativement'):: absent du lexique.
+N('p'):: absent du lexique.
+V('<'):: absent du lexique.
+---
+43: Europar.550_00538
+# text = La commission juridique recommande à cette Assemblée de ne pas lever l'immunité dans cette affaire.
+# TEXT = La commission juridique recommande à cette assemblée de ne pas lever l'immunité dans cette affaire.
+---
+44: emea-fr-test_00403
+# text = Aclasta est administré en une seule perfusion intraveineuse par un médecin ou une infirmière.
+# TEXT = Aclasta est administré en une seule perfusion intraveineuse par un médecin ou une infirmière.
+---
+45: emea-fr-test_00048
+1 différence
+# text = La plupart des effets indésirables associés à Aclasta ont tendance à se produire dans les trois jours suivant la perfusion et ils deviennent moins fréquents lors [1;32;4mdes[0m perfusions réitérées
+# TEXT = la plupart des effets indésirables associés à Aclasta ont tendance à se produire dans les trois jours suivant la perfusion et ils deviennent moins fréquents lors [1;32;4mdu[0m perfusions réitérées
+1 avertissements: emea-fr-test_00048
+N('plupart'):: absent du lexique mais existe comme Pro.
+---
+46: frwiki_50.1000_00736
+# text = - Michel Roussin, ex-bras droit de Jacques Chirac à la mairie de Paris.
+# TEXT = -Michel Roussin , ex-bras droit de Jacques Chirac à la mairie de Paris. 
+1 avertissements: frwiki_50.1000_00736
+N('ex-bras'):: absent du lexique.
+---
+47: frwiki_50.1000_00452
+1 différence
+# text = Le 4 octobre 2006 et pour la quatrième fois depuis 2001, le ministre de [1;32;4ml'Economie[0m Thierry Breton a une nouvelle fois refusé de déclassifier les documents des douanes dans l'affaire des frégates de Taïwan
+# TEXT = Le 4 octobre 2006 et pour la quatrième fois depuis 2001 , le ministre de [1;32;4ml'économie[0m Thierry Breton a une nouvelle fois refusé de déclassifier les documents des douanes dans l'affaire des frégates de Taïwan
+2 avertissementss: frwiki_50.1000_00452
+V('déclassifier'):: absent du lexique.
+N('douanes'):: absent du lexique.
+---
+48: frwiki_50.1000_00293
+3 différences
+# text = Dans la pratique, la direction du G.O. (le Conseil de l'Ordre) fait passer une circulaire aux vénérables maîtres (présidents) de chaque loge de cette obédience pour [1;32;4mleur[0m demander de rassembler à [1;32;4mleur[0m niveau le plus d'informations possibles sur les officiers des garnisons de [1;32;4mleurs[0m villes ou départements
+# TEXT = Dans la pratique , la direction du G.O. ( le conseil de l'ordre ) fait passer une circulaire aux vénérables maîtres ( présidents ) de chaque loge de cette obédience pour [1;32;4mil[0m demander de rassembler à [1;32;4mson[0m niveau le plus d'informations possibles sur les officiers des garnisons de [1;32;4mses[0m villes ou départements
+---
+49: Europar.550_00280
+# text = Je le répète, nous n'avons pas à parler d'aidées de grandeur ".
+# TEXT = Je le répète , nous n'avons pas à parler d'aidées de grandeur ".
+---
+50: Rhap_M1001-31
+## non projective
+6 différences
+# text = enfin on dit [1;31m•[0mque je suis à [1;32;4ml'[0m [1;34;47mécoute [0mdes personnes[1;32;4m [0mje suis [1;32;4mcompréhensive[0m [1;34;47met que[0m
+# TEXT = Enfin on dit [1;31mqu'et [0mque je suis à [1;32;4ml'écoute[0m des personnes[1;32;4m, [0mje suis [1;32;4mcompréhensif[0m
+---
+51: Rhap_D1001-18
+# text = le Beauceron sait observer longtemps
+# TEXT = Le Beauceron sait observer longtemps.
+---
+52: Rhap_M2003-20
+# text = il guérit de son propre chef les malades
+# TEXT = Il guérit de son propre chef les malades.
+---
+53: Rhap_D2001-140
+2 différences
+# text = Jacques Becker ensuite [1;32;4mc'[0m [1;34;47métait [0mautre chose
+# TEXT = Jacques Becker ensuite [1;32;4mc'était[0m autre chose
+1 avertissements: Rhap_D2001-140
+Pro('autre'):: absent du lexique mais existe comme A, Adv ou N.
+---
+54: Rhap_D2008-60
+4 différences
+# text = [1;32;4ms'[0m [1;34;47mil [0my a six fois plus de cas simplement de cas de gens infectés par le virus alors mécaniquement il y a une chance un risque [1;32;4mqu'[0m [1;34;47mil [0my ait six fois plus de de décès
+# TEXT = [1;32;4mS'il[0m y a six fois plus de cas simplement de cas de gens infectés par le virus alors mécaniquement il y a une chance un risque [1;32;4mqu'il[0m y ait six fois plus de de décès
+---
+55: Rhap_D2010-47
+7 différences
+# text = alors [1;32;4ml'[0m [1;34;47mAcadémie [0mGoncourt [1;32;4ms'[0m [1;34;47mest [0mcomplètement euh [1;32;4ms'[0m [1;34;47mest [0mben [1;32;4mmisé[0m à côté
+# TEXT = alors [1;32;4ml'Académie[0m Goncourt [1;32;4ms'est[0m complètement euh [1;32;4ms'est[0m ben [1;32;4mmise[0m à côté
+---
+56: Rhap_D1001-2
+2 différences
+# text = on dit [1;32;4mque[0m [1;34;47mil [0my a la région de Beauce
+# TEXT = On dit [1;32;4mqu'il[0m y a la région de Beauce
+---
+57: Rhap_D1001-5
+2 différences
+# text = [1;32;4mc'[0m [1;34;47mest [0mune terre forte
+# TEXT = [1;32;4mC'est[0m une terre forte
+---
+58: Rhap_D2001-147
+# text = euh on ne pleure pas
+# TEXT = Euh on ne pleure pas.
+---
+59: Rhap_D2011-40
+4 différences
+# text = alors ici [1;32;4mnous[0m [1;32;4mavions[0m [1;34;47mnotre [0mpantalon avec des taches de [1;32;4mgrenadine[0m
+# TEXT = Alors ici [1;32;4mj'avions[0m [1;32;4mson[0m pantalon avec des taches de [1;32;4mgrenadin[0m
+---
+60 UD traitées
+3 UD non projectives
+37 UD différentes
+24 UD avec avertissements

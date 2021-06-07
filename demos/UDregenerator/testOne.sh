@@ -2,7 +2,9 @@
 LANG=${1:-en}
 # LANG=${1:-fr}
 f=$2
-
+if f=="";
+then  echo "no file given"; exit;
+fi
 echo $f
 time ( node UDregenerator-node.js $LANG $f >$f.out ) 2>/tmp/xyz
 grep real /tmp/xyz 

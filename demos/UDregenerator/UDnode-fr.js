@@ -124,12 +124,12 @@ UDnode.prototype.toTerminal = function(isLeft){
     case "DET":
         if (this.hasFeature("Poss","Yes")){
             return possessiveDeterminer(this.getLemma(),this.hasFeature("Number_psor","Plur"))
-                       .addOptions(this.feats2options(["Gender","Number"]));
+                       .addOptions(this.feats2options(["Person","Gender","Number"]));
         }
         const definite=this.getFeature("Definite");
         if (definite != undefined){
-            return new JSR("D",definite=="Def"?"le":"un")
-                       .addOptions(this.feats2options(["Gender","Number"]));
+            return new JSR("D",this.getLemma())
+                       .addOptions(this.feats2options(["Person","Gender","Number"]));
         }
         break;
     case "PUNCT":
@@ -164,35 +164,39 @@ UDnode.prototype.toPhrase = function(toLeft){
         sentOptions=[`typ({${sentOptions.join(",")}})`];
     // let headOptions=[];
     
-    // change a cop upos to an aux (caution delicate HACK...)
+    // change a cop upos to an aux (caution delicate HACK...) 
+    //   unless it is a question (its root is interrogative adjective)
     // it must be done before anything else...
     // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
     // having a noun or an adjective as root
-    [dep,idx]=this.findDeprelUpos("cop","AUX");
-    if (idx>=0){
-        let [newAux]=dep.splice(idx,1);
-        let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 
-        if (idx1>=0){
-            const [subj]=dep1.splice(idx1,1);
-            newAux.left.push(subj);  // add as subject of the new auxiliary
-        }
-        newAux.deprel="aux";
-        this.deprel="xcomp"; // change this to the complement of the new auxiliary
-        newAux.right.unshift(this);
-        // push what was before the "old" auxiliary to the front of the new auxiliary
-        // as the subject and auxiliary hAve been removed, idx must have been at least 2...
-        if (idx>=1 && dep==this.left){
-            const auxId=newAux.id;
-            while (this.left.length>0){
-                const x=this.left.pop();
-                if (x.id<newAux.id)
-                    newAux.left.unshift(x);
-                else
-                    newAux.right.unshift(x)
+    const isQuestion = this.matches("root","ADJ") && this.lemma.startsWith("qu");
+    if (!isQuestion){
+        [dep,idx]=this.findDeprelUpos("cop","AUX");
+        if (idx>=0){
+            let [newAux]=dep.splice(idx,1);
+            let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 
+            if (idx1>=0){
+                const [subj]=dep1.splice(idx1,1);
+                newAux.left.push(subj);  // add as subject of the new auxiliary
             }
-            // newAux.left=dep.splice(0,idx).concat(newAux.left);
+            newAux.deprel="aux";
+            this.deprel="xcomp"; // change this to the complement of the new auxiliary
+            newAux.right.unshift(this);
+            // push what was before the "old" auxiliary to the front of the new auxiliary
+            // as the subject and auxiliary hAve been removed, idx must have been at least 2...
+            if (idx>=1 && dep==this.left){
+                const auxId=newAux.id;
+                while (this.left.length>0){
+                    const x=this.left.pop();
+                    if (x.id<newAux.id)
+                        newAux.left.unshift(x);
+                    else
+                        newAux.right.unshift(x)
+                }
+                // newAux.left=dep.splice(0,idx).concat(newAux.left);
+            }
+            return newAux.toPhrase().addOptions(sentOptions);
         }
-        return newAux.toPhrase().addOptions(sentOptions);
     }
      
     let headTerm=this.toTerminal(toLeft);
