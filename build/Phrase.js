@@ -514,7 +514,7 @@ Phrase.prototype.passivate = function(){
             if (vp.getProp("t")=="ip"){
                 aux.t("s") // set subjonctive present tense for an imperative
             }
-            const pp = V(verbe.lemma).t("pp");
+            const pp = V(verbe.lemma,"fr").t("pp");
             if (newSubject!==undefined) // this can happen when a subject is Q
                 pp.peng=newSubject.peng;
             pp.parentConst=vp;

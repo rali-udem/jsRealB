@@ -13,7 +13,7 @@
 //   right: list of UDnode
 //   parent: UDnode (null if root)
 //   position: "l" or "r"
-
+//   indexInText: character position in the sentence (text)  of the start of this token [set in UD.js]
 
 // parse a dependency line
 // https://universaldependencies.org/format.html

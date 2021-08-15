@@ -96,7 +96,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         if (lexInfo==undefined){
             this.tab=null;
             this.realization =`[[${lemma}]]`;
-            this.warn("not in lexicon");
+            this.warn("not in lexicon",this.lang);
             if (quoteOOV){
                 this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                 this.constType="Q";
@@ -107,7 +107,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             if (lexInfo===undefined){
                     this.tab=null;
                     this.realization =`[[${lemma}]]`;
-                    this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                    this.warn("not in lexicon",this.lang,Object.keys(this.getLexicon()[lemma]));
                 if (quoteOOV){
                     this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                     this.constType="Q";

@@ -176,7 +176,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 // shared properties 
 //   pe,n and g : can be applied to compoennts of NP and Sentences
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
-genOptionFunc("n",["s","p"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
@@ -1154,7 +1154,7 @@ Phrase.prototype.passivate = function(){
             if (vp.getProp("t")=="ip"){
                 aux.t("s") // set subjonctive present tense for an imperative
             }
-            const pp = V(verbe.lemma).t("pp");
+            const pp = V(verbe.lemma,"fr").t("pp");
             if (newSubject!==undefined) // this can happen when a subject is Q
                 pp.peng=newSubject.peng;
             pp.parentConst=vp;
@@ -1800,7 +1800,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
         if (lexInfo==undefined){
             this.tab=null;
             this.realization =`[[${lemma}]]`;
-            this.warn("not in lexicon");
+            this.warn("not in lexicon",this.lang);
             if (quoteOOV){
                 this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                 this.constType="Q";
@@ -1811,7 +1811,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             if (lexInfo===undefined){
                     this.tab=null;
                     this.realization =`[[${lemma}]]`;
-                    this.warn("not in lexicon",Object.keys(this.getLexicon()[lemma]));
+                    this.warn("not in lexicon",this.lang,Object.keys(this.getLexicon()[lemma]));
                 if (quoteOOV){
                     this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                     this.constType="Q";
@@ -2534,7 +2534,7 @@ Terminal.prototype.toJSON = function(){
 }
 
 // compact pretty-print of json (JSON.stringify(.,null,n) is hard to work with as it uses too many lines)
-//  adaptation of ppJson.oy (in project json-rnc)
+//  adaptation of ppJson.py (in project json-rnc)
 //  only useful for debugging, not necessary for using jsRealB
 function ppJSON(obj,level,str){
     function out(s){str+=s}
@@ -23836,10 +23836,13 @@ addToLexicon("morphologie",{ N: { g: 'f', tab: [ 'n17' ] } })
 addToLexicon("ordinal",{ A: { tab: [ 'n47' ] }, N: { g: 'm', tab: [ 'n5' ] } })
 addToLexicon("paramètre",{ N: { g: 'm', tab: [ 'n3' ] } })
 addToLexicon("pronom",{N: {g: "m", tab: ["n3"]}});
+addToLexicon("anglais",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
+addToLexicon("français",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
 
 loadEn();
 addToLexicon("as",{ Adv: { tab: [ 'b1' ]}})
 addToLexicon("French",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n5' ] } })
+addToLexicon("English",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n5' ] } })
 addToLexicon("implement",{ N: { tab: [ 'n1' ] }, V: { tab: 'v1' } })
 addToLexicon("lexicon",{ N: { tab: [ 'n1' ] } })
 addToLexicon("morphology",{ N: { tab: [ 'n5' ] } })
@@ -23969,11 +23972,11 @@ Constituent.prototype.warnings = {
          fr:(info)=> // $info n'est pas implémenté.
             S(Q(info),VP(V("implémenter"))).typ({neg:true,pas:true})},
     "not in lexicon":
-        {en:(altPos)=> // not found in lexicon.
-            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon")),
+        {en:(lang,altPos)=> // not found in lexicon.
+            S(Adv("not"),V("find").t("pp"),PP(P("in"),A(lang=="en"?"English":"French"),N("lexicon")),
               altPos!==undefined?AdvP(Adv("but"),V("exist"),Adv("as"),makeDisj("or",altPos)):Q("")),
-         fr:(altPos)=> // absent du lexique.
-            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))),
+         fr:(lang,altPos)=> // absent du lexique.
+            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique"),A(lang=="en"?"anglais":"français")))),
               altPos!==undefined?AdvP(Adv("mais"),V("exister"),Adv("comme"),makeDisj("ou",altPos)):Q(""))},
     "no appropriate pronoun":
         {en:()=>S(VP(V("find").t("ps"),NP(D("a"),A("appropriate"),N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),
@@ -24021,4 +24024,4 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-jsRealB_dateCreated="2021-05-29 11:30"
+jsRealB_dateCreated="2021-08-15 17:50"

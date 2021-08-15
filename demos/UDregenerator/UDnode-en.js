@@ -44,7 +44,7 @@ UDnode.prototype.toTerminal = function(){
         };
         if (udLemma in ppTable){
             let options=['c("gen")'];
-            if (udLemma=="mine")options.push("pe(1)");
+            if (udLemma=="mine")options.push('pe("1")');
             return new JSR("Pro",ppTable[udLemma],options);
         }
     }
@@ -52,21 +52,21 @@ UDnode.prototype.toTerminal = function(){
     function possessiveDeterminer(udLemma){
         // in some UD the lemma is the nominative pronoun...
         const options ={
-             "my":   ["pe(1)",'ow("s")'],
-             "I":    ["pe(1)",'ow("s")'],
-             "your": ["pe(2)",'ow("s")'],
-             "his":  ["pe(3)",'ow("s")','g("m")'],
-             "he":   ["pe(3)",'ow("s")','g("m")'],
-             "her":  ["pe(3)",'ow("s")','g("f")'],
-             "she":  ["pe(3)",'ow("s")','g("f")'],
-             "its":  ["pe(3)",'ow("s")','g("n")'],
-             "it":   ["pe(3)",'ow("s")','g("n")'],
-             "our":  ["pe(1)",'ow("p")'],
-             "we":   ["pe(1)",'ow("p")'],
-             "your": ["pe(2)",'ow("p")'],
-             "you":  ["pe(2)",'ow("p")'],
-             "their":["pe(3)",'ow("p")'],
-             "they": ["pe(3)",'ow("p")'],
+             "my":   ['pe("1")','ow("s")'],
+             "I":    ['pe("1")','ow("s")'],
+             "your": ['pe("2")','ow("s")'],
+             "his":  ['pe("3")','ow("s")','g("m")'],
+             "he":   ['pe("3")','ow("s")','g("m")'],
+             "her":  ['pe("3")','ow("s")','g("f")'],
+             "she":  ['pe("3")','ow("s")','g("f")'],
+             "its":  ['pe("3")','ow("s")','g("n")'],
+             "it":   ['pe("3")','ow("s")','g("n")'],
+             "our":  ['pe("1")','ow("p")'],
+             "we":   ['pe("1")','ow("p")'],
+             "your": ['pe("2")','ow("p")'],
+             "you":  ['pe("2")','ow("p")'],
+             "their":['pe("3")','ow("p")'],
+             "they": ['pe("3")','ow("p")'],
         }
         if (udLemma in options)
             return new JSR("D","my",options[udLemma]);
@@ -186,8 +186,7 @@ UDnode.prototype.toPhrase = function(){
     // it must be done before anything else...
     // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
     // having a noun or an adjective as root
-    const copUpos=typOptions.length>0?"VERB":"AUX"; // with a modal, the UPOS is VERB
-    [dep,idx]=this.findDeprelUpos("cop",copUpos);
+    [dep,idx]=this.findDeprelUpos("cop",_);
     if (idx>=0){
         let [newAux]=dep.splice(idx,1);
         if (newAux.hasFeature("VerbForm","Inf")) // ensure verb is conjugated
@@ -213,7 +212,9 @@ UDnode.prototype.toPhrase = function(){
             }
             // newAux.left=dep.splice(0,idx).concat(newAux.left);
         }
-        return newAux.toPhrase().addOptions(sentOptions);
+        let newS=newAux.toPhrase().addOptions(sentOptions);
+        newS.constName="S"; // ensure a S as root
+        return newS;
     }
     
     let headTerm=this.toTerminal();

@@ -18,7 +18,7 @@
 ##     Constructors ignore None values and flatten embedded lists to create a single parameter list
 ##
 ## HACK: some constructors and methods are defined dynamically using "exec" and "setattr".
-import json
+import json,datetime
 ## example import
 # from jsRealBclass import N,A,Pro,D,Adv,V,C,P,DT,NO,Q,  NP,AP,AdvP,VP,CP,PP,S,SP,  Constituent, Terminal, Phrase
 
@@ -28,9 +28,9 @@ def q(s):return '"' + s + '"'  # quote
 def kv(k, v):
     def val(v):
         if v == None: return "null"
-        if v == False: return "false"
-        if v == True: return "true"
+        if isinstance(v,bool): return "true" if v else "false"
         if isinstance(v, str): return q(v)
+        if isinstance(v, datetime.datetime):return q(str(v).replace(" ","T")) # create JS iso formated date
         if isinstance(v, list): 
             return '[' + ','.join([val(v0) for v0 in v]) + ']'
         if isinstance(v, dict):
@@ -62,8 +62,12 @@ class Constituent():
     #   which is a more compact ad-hoc version ignoring empty props
     #   output properties (not called by subclasses when no props are defined)    
     def pp(self):
-        langProp = f',"lang":"{self.lang}"' if "lang" in self.__dict__ else ""        
-        return langProp +","+ q("props") + ':{' + ','.join([kv(k, v) for (k, v) in self.props.items()]) + '}'
+        res=""
+        if "lang" in self.__dict__: 
+            res+=f',"lang":"{self.lang}"'
+        if len(self.props)>0:
+            res+=","+q("props") + ':{' + ','.join([kv(k, v) for (k, v) in self.props.items()]) + '}'    
+        return res
     
     def show(self):  # show properties in jsRealB like format
         def showAttrs(attrs):
@@ -133,8 +137,7 @@ class Terminal(Constituent):
     # prettier-print of JSON
     def pp(self, n=0):
         res = '{' + kv("terminal", self.terminal) + ',' + kv("lemma", self.lemma)
-        if len(self.props) > 0:
-            res += super().pp()
+        res += super().pp()
         return res + '}'
 
 # insert a list of elements that are not None flattening an embedded list
@@ -166,8 +169,7 @@ class Phrase(Constituent):
     # prettier-print of JSON
     def pp(self, n=0):
         res = '{' + kv("phrase", self.phrase)
-        if (len(self.props) > 0):
-            res += super().pp()
+        res += super().pp()
         res += self.indent(n + 1) + q("elements") + ':[' + \
              self.indent(n + 13).join([e.pp(n + 13) for e in self.elements]) + ']'
         return res + "}"

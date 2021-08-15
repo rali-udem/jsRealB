@@ -111,7 +111,7 @@ Terminal.prototype.toJSON = function(){
 }
 
 // compact pretty-print of json (JSON.stringify(.,null,n) is hard to work with as it uses too many lines)
-//  adaptation of ppJson.oy (in project json-rnc)
+//  adaptation of ppJson.py (in project json-rnc)
 //  only useful for debugging, not necessary for using jsRealB
 function ppJSON(obj,level,str){
     function out(s){str+=s}

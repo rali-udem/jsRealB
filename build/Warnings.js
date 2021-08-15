@@ -44,10 +44,13 @@ addToLexicon("morphologie",{ N: { g: 'f', tab: [ 'n17' ] } })
 addToLexicon("ordinal",{ A: { tab: [ 'n47' ] }, N: { g: 'm', tab: [ 'n5' ] } })
 addToLexicon("paramètre",{ N: { g: 'm', tab: [ 'n3' ] } })
 addToLexicon("pronom",{N: {g: "m", tab: ["n3"]}});
+addToLexicon("anglais",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
+addToLexicon("français",{ A: { tab: [ 'n27' ] }, N: { g: 'm', tab: [ 'n35' ] } })
 
 loadEn();
 addToLexicon("as",{ Adv: { tab: [ 'b1' ]}})
 addToLexicon("French",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n5' ] } })
+addToLexicon("English",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n5' ] } })
 addToLexicon("implement",{ N: { tab: [ 'n1' ] }, V: { tab: 'v1' } })
 addToLexicon("lexicon",{ N: { tab: [ 'n1' ] } })
 addToLexicon("morphology",{ N: { tab: [ 'n5' ] } })
@@ -177,11 +180,11 @@ Constituent.prototype.warnings = {
          fr:(info)=> // $info n'est pas implémenté.
             S(Q(info),VP(V("implémenter"))).typ({neg:true,pas:true})},
     "not in lexicon":
-        {en:(altPos)=> // not found in lexicon.
-            S(Adv("not"),V("find").t("pp"),PP(P("in"),N("lexicon")),
+        {en:(lang,altPos)=> // not found in lexicon.
+            S(Adv("not"),V("find").t("pp"),PP(P("in"),A(lang=="en"?"English":"French"),N("lexicon")),
               altPos!==undefined?AdvP(Adv("but"),V("exist"),Adv("as"),makeDisj("or",altPos)):Q("")),
-         fr:(altPos)=> // absent du lexique.
-            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique")))),
+         fr:(lang,altPos)=> // absent du lexique.
+            S(AP(A("absent"),PP(P("de"),NP(D("le"),N("lexique"),A(lang=="en"?"anglais":"français")))),
               altPos!==undefined?AdvP(Adv("mais"),V("exister"),Adv("comme"),makeDisj("ou",altPos)):Q(""))},
     "no appropriate pronoun":
         {en:()=>S(VP(V("find").t("ps"),NP(D("a"),A("appropriate"),N("pronoun")))).typ({neg:true,pas:true,mod:"poss"}),

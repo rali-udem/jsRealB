@@ -26,7 +26,6 @@ function usage(){
 if (process.argv.length==2) usage();
 for (let i = 2; i < process.argv.length; i++) {
     const arg = process.argv[i];
-    console.log(i,arg);
     if (arg == "-h")usage();
     else if (arg=="-l"){
         i++;
@@ -196,7 +195,7 @@ if (!fs.existsSync(conlluFileName) || fs.statSync(conlluFileName).mtime<fs.statS
     console.error("*** Creating %s",conlluFileName)
     // create conllu file
     const { spawn } = require('child_process');
-    const child = spawn("./text2ud.py",[lang, textFileName])
+    const child = spawn("./text2ud.py",[language, textFileName])
     child.on("exit",function(code,signal){
         if (code==0){
             console.error("*** Wrote  %s",conlluFileName);

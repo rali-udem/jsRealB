@@ -3,13 +3,11 @@ const maxTokensDisplayed=2000;
 const fieldNames=["ID","FORM","LEMMA","UPOS","XPOS","FEATS","HEAD","DEPREL","DEPS","MISC"];
 const nbFields=fieldNames.length;
 
-let tokens,      // tokens must be global to get sentence info not in the table
-    selectedTR,  // current selected if !=null (useful for arrow navigation)
-    currentUD,   // current UD
-    uds;         // all UDs read from the file
+let tokens,           // tokens must be global to get sentence info not in the table
+    selectedTR,       // current selected if !=null (useful for arrow navigation)
+    currentUD,        // current UD
+    uds;             // all UDs read from the file
 
-// parse the content of the textbox "multiLine" as lines in conllu format
-//  which starts at line "startLine" in file "fileName" 
 // this applies the initial filters 
 function loadTokens(uds){
     tokens=[]
@@ -108,10 +106,6 @@ function showSentenceFromRow(tr){
     let id=d3.select(tr).select("td").text()
     d3.select("#tokenId").text(id);
     let form=d3.select(tr).selectAll("td").nodes()[1].textContent;
-    // let m=matchForm(form,currentUD.text);
-    // d3.select("#text")
-    //     .html(currentUD.text.substr(0,m.index)+
-    //         '<b>'+form+'</b>'+currentUD.text.substr(m.index+form.length));
     let selectedNode=currentUD.nodes[+id];
     d3.select("#text")
         .html(currentUD.text.substr(0,selectedNode.indexInText)+
@@ -167,7 +161,6 @@ function threeStatesCB() {
 // Separates a single string into UDs separated at a blank line
 // returns a list of dependencies
 function parseUDs(groupVal,fileName){
-    fileName = fileName;
     let udsStrings=groupVal.split("\n\n");
     let uds=[];
     let startLine=1;
@@ -188,6 +181,8 @@ function parseUDs(groupVal,fileName){
     return uds;
 }
 
+
+
 function getFile(){
     let file = d3.select("#file-input").node().files[0];
     if (file!==undefined){
@@ -198,6 +193,7 @@ function getFile(){
     	reader.addEventListener('load', function(e) {
             uds=parseUDs(e.target.result,file.name)
             parse();
+            d3.select("#file-input").property("value",""); // so that we can reload the last file...
     	});
     	reader.readAsText(file);
     }
@@ -381,6 +377,28 @@ function UDgrepLoad(){
             }
         }
     })
+    // allow file selection via drag and drop
+    // adapted from https://stackoverflow.com/questions/47515232/how-to-set-file-input-value-when-dropping-file-on-page/47522812#47522812
+
+    let docElem = document.documentElement;
+    let body = document.body;
+    let fileInput = document.querySelector('#file-input');
+
+    docElem.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      body.classList.add('dragging');
+    });
+
+    docElem.addEventListener('dragleave', () => {
+      body.classList.remove('dragging');
+    });
+
+    docElem.addEventListener('drop', (e) => {
+      e.preventDefault();
+      body.classList.remove('dragging');
+  
+      fileInput.files = e.dataTransfer.files;
+    });
 }
 
 d3.select(window).on("load",UDgrepLoad);
