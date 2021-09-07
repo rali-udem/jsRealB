@@ -6,7 +6,7 @@ The system is started by typing
 
     node jsRealB-IDE-repl.js en
 
-which displays a prompt indicating the version and the date the system was compiled, it also loads a default language lexicon and rule set. The second parameter is either `en`, `dme` or `fr` (the default) which indicates the initial realization language, `dme` is a larger English lexicon. 
+which displays a prompt indicating the version and the date the system was compiled, it also loads a default language lexicon and rule set. The second parameter is either `en` or `fr` (the default) which indicates the initial realization language. 
  
      ** jsRealB 2.0 (2019-11-25 21:17) Development Environment [help() for info]**
      English lexicon and rules loaded

@@ -92,11 +92,8 @@ function maManiere(){
     chemin.allonger();    
 }
 
-loadFr();
-// Pour tester en local, lancer un serveur web local dans le répertoire jsRealB, p.e. python -m SimpleHTTPServer
-d3.json("../../data/lexicon-dmf.json").then(function(data){
-    updateLexicon(data);
-    // console.log("dmf chargé: %d entrées",Object.keys(getLexicon()).length)
+document.addEventListener("DOMContentLoaded", function(e) { 
+    loadFr();
     addToLexicon({snack: { N: { g: 'm', tab: [ 'n3' ] } }});
     addToLexicon({prétexte: { A: { tab: [ 'n25' ] }, N: { g: 'x', tab: [ 'n17' ] } }});
     addToLexicon({cheffe: { N: { g: 'f', tab: [ 'n17' ]}}});

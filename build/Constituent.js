@@ -240,7 +240,18 @@ Constituent.prototype.dOpt = function(dOptions){
             const key = keys[i];
             if (allowedKeys.indexOf(key)>=0){
                 const val = dOptions[key];
-                if (typeof val == "boolean"){
+                if (key == "rtime"){
+                    if (typeof val=="boolean"){
+                        this.props["dOpt"]["rtime"]=val?new Date():false;
+                    } else if (typeof val=="string"){
+                        this.props["dOpt"]["rtime"]=new Date(val)
+                    } else if (val instanceof Date){
+                        this.props["dOpt"]["rtime"]=val
+                    } else {
+                        return this.warn("bad application",".dOpt('rtime')",
+                                         ["boolean","string","Date"],val);
+                    }
+                } else if (typeof val == "boolean"){
                         this.props["dOpt"][key]=val
                 } else {
                     return this.warn("bad application",".dOpt("+key+")","boolean",val);

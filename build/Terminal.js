@@ -590,11 +590,11 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
     const dateFields = ["year","month","date","day"]
     const timeFields = ["hour","minute","second"]
     let res;
-    if (dOpts["rtime"]==true){
-        // find the number of days of difference between today and the current date
-        const today=new Date()
-        const diffDays=Math.ceil((dateObj.getTime()-today.getTime())/(24*60*60*1000));
-        today.setDate(today+diffDays);
+    if (dOpts["rtime"]){
+        // find the number of days of difference between relDay and the current date
+        const relDay=dOpts["rtime"]
+        const diffDays=Math.ceil((dateObj.getTime()-relDay.getTime())/(24*60*60*1000));
+        relDay.setDate(relDay+diffDays);
         const res=relativeDate[""+diffDays];
         if (res!==undefined) return this.interpretDateFmt(dateObj,relativeDate,""+diffDays,false);
         const sign=diffDays<0?"-":"+";

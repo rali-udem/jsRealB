@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.7 - April 2021*
+*Version 3.8 - September 2021*
 
 **Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -37,12 +37,14 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `Utils.js` : useful functions that do not belong to the *constituent*s
     * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
 * [`data`](data/):
-    * `lexicon-en.js` : basic English lexicon (5238 entries) [preloaded]
+    * `lexicon-en-basic.js` : basic English lexicon (5238 entries) [was preloaded in previous versions]
+    * `lexicon-en.js` : a *comprehensive* English lexicon (33926 entries) in js format [preloaded]
+    * `lexicon-en.json` : a *comprehensive* English lexicon (33926 entries) in json format
     * `rule-en.js` : English conjugation and declension tables [preloaded]
-    * `lexicon-fr.js` : basic French lexicon (3720 entries) [preloaded]
-    * `rule-fr.js` : French conjugation and declension tables [preloaded]
-    * `lexicon-dme.json` : a *comprehensive* English lexicon (33926 entries) in json format
-    * `lexicon-dmf.json` : a *comprehensive* French lexicon (52512 entries) in json format
+    * `lexicon-fr-basic.js` : basic French lexicon (3720 entries) [was preloaded in previous versions]
+    * `rule-fr.js` : French conjugation and declension tables 
+    * `lexicon-fr.js` : a *comprehensive* French lexicon (52512 entries) in js format [preloaded]
+    * `lexicon-fr.json` : a *comprehensive* French lexicon (52512 entries) in json format
     * `lexicon.jsonrnc` : JSON-RNC file for validating a lexicon
     * `lexiconFormat.html` : documentation of the format of the lexicon
     * `jsRealB.jsonrnc` : JSON-RNC file for validating the JSON input specification
@@ -114,10 +116,10 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 ### Text realization
 * Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
 * Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
-* Regenerate a sentences from the information contained in its Universal Dependencies structure:
+<!-- * Regenerate a sentences from the information contained in its Universal Dependencies structure:
     * in English : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-en.html)
     * in French  : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-fr.html)
-	* [Paper describing the approach](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator.pdf)
+    * [Paper describing the approach](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator.pdf) -->
 * Reproduce a classical fairy tale in which hovering over a sentence, shows the underlying `jsRealB` expression 
     * in French : *Le petit chaperon rouge*   [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/PetitChaperonRouge.html)
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)
@@ -149,7 +151,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
 ## Design of the system
-The current version (3.7) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
+The current version (3.8) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 

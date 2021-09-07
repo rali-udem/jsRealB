@@ -446,12 +446,12 @@ var dateOption={"fr":"Formatage d'une date (défaut <code>.nat()</code>)",
                             "en":["Display hour and minutes as digits",'DT().dOpt({year: false, month: false, date: false, day: false, second: false, nat:false})']},
         {"pattern":'{det:false}',"fr":["Non affichage des déterminants de la date",'DT(new Date()).dOpt({det: false})'],
                             "en":["Do not display determiner",'DT(new Date()).dOpt({det: false})']},
-        {"pattern":'{rtime:true}',"fr":["Date relative",'DT(new Date()).dOpt({rtime: true})'],
-                            "en":["Relative date",'DT(new Date()).dOpt({rtime: true})']},
-        {"pattern":'{rtime:true}',"fr":["Date relative avant",'var d = new Date(); d.setDate(d.getDate()-4); DT(d).dOpt({rtime: true});'],
-                            "en":["Relative date before",'var d = new Date(); d.setDate(d.getDate()-4); DT(d).dOpt({rtime: true});']},
-        {"pattern":'{rtime:true}',"fr":["Date relative après",'var d = new Date(); d.setDate(d.getDate()+10); DT(d).dOpt({rtime: true});'],
-                            "en":["Relative date after",'var d = new Date(); d.setDate(d.getDate()+10); DT(d).dOpt({rtime: true});']},
+        {"pattern":'{rtime:true}',"fr":["Date relative par rapport à aujourd'hui",'DT(new Date()).dOpt({rtime: true})'],
+                            "en":["Relative date compared with today",'DT(new Date()).dOpt({rtime: true})']},
+        {"pattern":'{rtime:".." or Date}',"fr":["Date relative après une autre",'DT("2021/09/01").dOpt({rtime: "2021/08/27"});'],
+                            "en":["Relative date after another one",'DT("2021/09/01").dOpt({rtime: "2021/08/27"});']},
+        {"pattern":'{rtime:".." or Date}',"fr":["Date relative avant une autre date",'DT("2021/09/01").dOpt({rtime: new Date("2021/09/10")});'],
+                            "en":["Relative date before another one",'DT("2021/09/01").dOpt({rtime: new Date("2021/09/10")});']},
         
 ]}; 
 
