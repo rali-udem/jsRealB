@@ -1,5 +1,5 @@
-import sys
-sys.path.append("../../build")
+# import sys  
+# sys.path.append("../../build")  ## unfortunately this confuses Eclipse... so jsRealBclass is copied in hte local directory...
 from jsRealBclass import *
 
 
@@ -52,9 +52,7 @@ dayPeriods=[(0,5,{"en":lambda:NP(N("night")),"fr":lambda:NP(N("nuit"))}),
             (18,24,{"en":lambda:NP(N("tonight")),"fr":lambda:NP(N("soir"))}),
             ]
 
-def jsrDayPeriod(data,lang,hour):
-    # print("hour",hour)
-    hour=hour-data.tzH;
+def jsrDayPeriod(hour,lang):
     isTomorrow=hour>23
     for (s,e,jsrExp) in dayPeriods:
         if hour in range(s,e):
@@ -273,41 +271,42 @@ def show_all_sky_conditions():
                 print(jsRealB(jsrExpr.lang(lang).pp()))
 
 def sky_condition(mc,period,lang):
-    def addNoRepeat(list,newVal): # avoid generating same sentence twice
-        if newVal not in list:
-            list.append(newVal)
+    previous_conditions=[]
+    jsrExprs=[]
+
+    def addNoRepeat(c,dn,period=None): # avoid generating same sentence twice
+        if (c,dn) not in previous_conditions:
+            jsrExpr=sky_condition_terminology[c][lang][dn]
+            if period!=None:jsrExpr.add(period)
+            jsrExprs.append(jsrExpr)
+            
     """ Section 2.3.6 and 5.8"""
     ### ciel: start end neb-start neb-end {ceiling-height}
-    sc_terms=mc.get_sky_condition(period)
+    sc_terms=mc.get_sky_cover(period)
     if sc_terms==None: return None
-    sents=[]
-    delta=mc.get_delta_with_utc()
     for sc_term in sc_terms:
         valStart=sc_term[2]
         valEnd  =sc_term[3]
         dayNight = 0 if period in ["today","tomorrow"] else 1
         if valStart==valEnd:
             if valStart in [0,1]:
-                addNoRepeat(sents,sky_condition_terminology["r1"][lang][dayNight])
+                addNoRepeat("c1",dayNight)
             if valStart in [2,3]:
-                addNoRepeat(sents,sky_condition_terminology["r2"][lang][dayNight])
+                addNoRepeat("c2",dayNight)
             if valStart in [4,5,6]:
-                addNoRepeat(sents, sky_condition_terminology["r3"][lang][dayNight])
+                addNoRepeat("c3",dayNight)
             if valStart in [7,8]:
-                addNoRepeat(sents,sky_condition_terminology["r4"][lang][dayNight])
+                addNoRepeat("c4",dayNight)
             if valStart in [9]:
-                addNoRepeat(sents,sky_condition_terminology["r5"][lang][dayNight])
+                addNoRepeat("c5",dayNight)
             if valStart in [10]:
-                addNoRepeat(sents,sky_condition_terminology["r6"][lang][dayNight])
+                addNoRepeat("c6",dayNight)
         elif valStart in [0,1,2,3] and valEnd in [7,8,9,10]:
-            addNoRepeat(sents,sky_condition_terminology["r7"][lang][dayNight]+
-                         " "+get_time_period_name((sc_term[0]-delta)%24, lang))
+            addNoRepeat("c7",dayNight,jsrDayPeriod(sc_term[0],lang))
         elif (valStart in [7,8,9,10] and valEnd in [0,1,2,3]) or \
              (valStart in [5,6]      and valEnd in [0,1]):
-            addNoRepeat(sents,sky_condition_terminology["r8"][lang][dayNight]+
-                         " "+get_time_period_name((sc_term[0]-delta)%24, lang))
-    return " ".join(make_sentence(sent) for sent in sents)
-    return None
+            addNoRepeat("c8",dayNight,lang,jsrDayPeriod(sc_term[0],lang))
+    return "".join(jsRealB(S(jsrExpr).lang(lang).pp()) for jsrExpr in jsrExprs)
 
 def precipitation(wInfo,period,lang):
     return None
@@ -323,11 +322,11 @@ def uv_index(wInfo,period,lang):
 
 
 def forecast_period(mc,period,lang):
-    jsrExprs=filter(lambda l:l!=None,[
+    sents=filter(lambda l:l!=None,[
         sky_condition(mc, period, lang),
         precipitation(mc, period, lang),
         wind(mc, period, lang),
         temperature(mc, period, lang),
         uv_index(mc, period, lang)
     ])
-    return "".join([jsRealB(jsrExpr.lang(lang).pp()) for jsrExpr in jsrExprs])
+    return "".join(sents)

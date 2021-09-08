@@ -35,14 +35,14 @@ def generate_bulletin(wInfo,lang):
         forecast_regions(wInfo,lang),
         forecast_text(wInfo,lang),
         end_statement(lang),
-     ]    
+    ]    
     return "\n".join([textwrap.fill(line,width=70, subsequent_indent=" ") 
                    for line in text if line!=None])
     
 
 
 if __name__ == '__main__':
-    show_all_sky_conditions()
-    # wInfo=WeatherInfo(json.load(open("weather-data.json","r",encoding="utf-8")))
-    # print(generate_bulletin(wInfo,"en"))
-    # print(generate_bulletin(wInfo,"fr"))
+    # show_all_sky_conditions()
+    wInfo=WeatherInfo(json.load(open("weather-data.json","r",encoding="utf-8")))
+    print(generate_bulletin(wInfo,"en"))
+    print(generate_bulletin(wInfo,"fr"))

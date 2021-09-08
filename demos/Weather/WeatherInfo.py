@@ -58,7 +58,7 @@ class WeatherInfo:
         return self.delta
     
     def get_time_interval(self,period):
-        periodKey=f"{self.issue_date().hour:02d}:{self.issue_date():02d}"
+        periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
         return periods[periodKey][period]
         
     ### show all info for a given period
