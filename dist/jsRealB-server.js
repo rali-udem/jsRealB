@@ -5,7 +5,7 @@ var fs = require('fs');
 
 ///////// 
 //  load jsRealB file
-const path=__dirname+'/jsRealB.js'
+const path=__dirname+'/jsRealB-node.js'
 var jsRealB=require(path);
 
 // "evaluate" the exports (Constructors for terminals and non-terminal) in the current context
@@ -15,46 +15,44 @@ for (var v in jsRealB){
 }
 
 loadEn(true);
-// eval(fs.readFileSync(__dirname+'/addLexicon-dme.js').toString());
+
+// load auxiliary js file (usually additions to the lexicons)
+const args=process.argv
+if (args.length>2){
+    eval(fs.readFileSync(args[2]).toString());
+    console.log(args[2]+": loaded")
+}
 
 http.createServer(function (request, response) {
    response.writeHead(200, {'Content-Type': 'text/plain; charset=UTF-8'});
    var req = url.parse(request.url, true);
    var query = req.query;
-   var lang  = query.lang
-   var exp   = query.exp
+   var lang = query.lang
+   var exp = query.exp
    if (lang=="en"){
-        let errorType,sentence;
-        try {        
-            if (exp.startsWith("{")){
-                errorType="JSON";
-                jsonExp=JSON.parse(exp);
-                if (jsonExp["lang"]){ // check specified language in the JSON
-                    if (jsonExp["lang"]!=lang){
-                        response.end("specified language should be "+lang+" not "+jsonExp["lang"]);
-                        jsonExp["lang"]=lang;
-                    } else {
-                        jsonExp["lang"]=lang;
-                    }
-                }
-                sentence=fromJSON(jsonExp).toString();
-            } else {
-                errorType="jsRealB expression";
-                sentence=eval(exp).toString();
-            }
-            response.end(sentence)
-        } catch (e) {
-            response.end(`${e}\nErroneous realization from ${errorType}`)
-            if (errorType=="JSON"){
-                try { // pretty-print if possible... i.e. not a JSON error
-                    response.end(ppJSON(JSON.parse(input)))
-                } catch(e){ // print line as is
-                    response.end(input);
-                }
-            } else {
-                response.end(input)
-            }
-        }
+       let errorType,sentence;
+       try {        
+           if (exp.startsWith("{")){
+               errorType="JSON";
+               jsonExp=JSON.parse(exp);
+               sentence=fromJSON(jsonExp).toString();
+           } else {
+               errorType="jsRealB expression";
+               sentence=eval(exp).toString();
+           }
+           response.end(sentence)
+       } catch (e) {
+           mess=`${e}\nErroneous realization from ${errorType}\n`
+           if (errorType=="JSON"){
+               try { // pretty-print if possible... i.e. not a JSON error
+                   response.end(mess+ppJSON(JSON.parse(exp)))
+               } catch(e){ // print line as is
+                   response.end(mess+exp);
+               }
+           } else {
+               response.end(mess+exp)
+           }
+       }
    } else {
        response.end('Language should be "en", but '+lang+' received\n')
    }
@@ -63,7 +61,7 @@ http.createServer(function (request, response) {
 console.log('jsRealB server [built on %s] running at http://127.0.0.1:8081/',jsRealB_dateCreated);
 
 /* 
-start server with : node dist/jsRealB-server.js
+start server with : node dist/jsRealB-server-dme.js
 try these examples in a browser
 http://127.0.0.1:8081/?lang=en&exp=S(NP(D("the"),N("man")),VP(V("love")))
 that should display:
