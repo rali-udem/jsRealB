@@ -38,6 +38,13 @@ extend(Constituent,Phrase)
 
 // add a new constituent, set agreement links
 Phrase.prototype.add = function(constituent,position,prog){
+    function allAorN(elems,start,end){
+        if (start>end) {[end,start]=[start,end]}
+        for (var k=start;k<=end;k++){
+            if (!elems[k].isOneOf(["A","N"]))return false;
+        }
+        return true
+    }
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
@@ -68,8 +75,10 @@ Phrase.prototype.add = function(constituent,position,prog){
             const pos=this.isFr()?(e.props["pos"]||"post"):"pre"; // all English adjective are pre
             if (idx >= 0){
                 if ((pos=="pre" && i>idx)||(pos=="post" && i<idx)){
-                    const adj=this.elements.splice(i,1)[0];
-                    this.elements.splice(idx,0,adj);
+                    if (allAorN(this.elements,i,idx)){
+                        const adj=this.elements.splice(i,1)[0];
+                        this.elements.splice(idx,0,adj);
+                    }
                 }
             }
         }

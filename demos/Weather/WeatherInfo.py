@@ -40,7 +40,6 @@ class WeatherInfo:
             sys.exit()
         self.issue_date=datetime(hdr[1],hdr[2],hdr[3],hour=hdr[4],minute=hdr[5])
         self.next_issue_date=datetime(hdr[7],hdr[8],hdr[9],hour=hdr[10],minute=hdr[11]) 
-        self.delta=5 # delta with UTC, should be date and region dependent...
     
     def get_header(self):
         return self.data["header"]
@@ -54,9 +53,10 @@ class WeatherInfo:
     def get_next_issue_date(self):
         return self.next_issue_date
     
-    def get_delta_with_utc(self):
-        return self.delta
-    
+    def get_periods(self):
+        periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
+        return periods[periodKey].keys()
+        
     def get_time_interval(self,period):
         periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
         return periods[periodKey][period]
@@ -66,17 +66,16 @@ class WeatherInfo:
     ignoredFields=set(["header","names-en","names-fr","regions","en","fr","id"])
     def show_data(self,period):
         def hour(h): ##  hour string in more readable manner suffixed with "h"
-            h=h-self.delta
             if h<24: return str(h)+"h" # negative numbers are output as is
             h24=h//24 # output with a prefix indicating the day
             return (["","+","⧺","⧻"][h24] if h24<4 else "%d*"%h24)+str(h%24)+"h"
         def show_terms(terms):
             return ", ".join(["(%4s,%4s):[%s]"%(hour(term[0]),hour(term[1])," ".join(map(str,term[2:]))) for term in terms])
             
-        periodKey=f"{self.issue_date().hour:02d}:{self.issue_date():02d}"
-        (beginHour,endHour)=periods[periodKey]
-        print("%s (%4s,%4s):[%d,%d) delta=%d  :: %s :: %s"%(
-                period,hour(beginHour),hour(endHour), beginHour,endHour,self.delta,self.data["id"],self.get_issue_date()))
+        periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
+        (beginHour,endHour)=periods[periodKey][period]
+        print("%s (%4s,%4s) :: %s :: %s"%(
+                period,hour(beginHour),hour(endHour), self.data["id"],self.issue_date))
         for field in self.data:
             if field not in self.ignoredFields:
                 terms=self.extract_terms(period,field)

@@ -15,8 +15,8 @@ demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Da
 		Tutorial/tutorial.html \
 		Tests/testAll.html
 
-en   := data/lexicon-en.json data/rule-en.js 
-fr   := data/lexicon-fr.json data/rule-fr.js 
+en   := data/lexicon-en.js data/rule-en.js 
+fr   := data/lexicon-fr.js data/rule-fr.js 
 core := build/Constituent.js build/Phrase.js build/Terminal.js build/IO-json.js build/Date.js \
         build/Number.js build/Utils.js $(en) $(fr) build/Warnings.js
 
