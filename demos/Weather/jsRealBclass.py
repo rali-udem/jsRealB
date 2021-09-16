@@ -347,7 +347,7 @@ if __name__ == '__main__':
     
     the = D("the")
     cat = N("cat")
-    the3cats = NP(the, NO(3).dOpt({"nat":True}), cat).lang("en")
+    the3cats = NP(the, NO(3).dOpt({"nat":True}), cat).set_lang("en")
     printEval("""the3cats""")
         
     printEval("""S(the3cats, VP(V("eat"), NP(D("a"), N("mouse")))).typ({"pas":True, "neg":True})""")
@@ -387,7 +387,10 @@ if __name__ == '__main__':
     printEval(
     """S(Pro("lui").c("nom"),
       VP(V("donner").t("pc"),
-         NP(D("un"), N("pomme")).pro())).typ({"neg":True}).lang("fr")""",
+         NP(D("un"), N("pomme")).pro())).typ({"neg":True}).set_lang("fr")""",
+    json=True)
+    
+    printEval("""NP(N("température").n("p"),PP(P("à"),NP(D("le"),N("hausse")))).set_lang("fr")""",
     json=True)
     
     ## test error messages for bad Phrase or Terminal parameters with embedded lists

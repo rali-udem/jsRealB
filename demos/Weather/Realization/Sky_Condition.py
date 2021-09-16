@@ -70,7 +70,7 @@ def sky_condition(mc,period,lang):
             addNoRepeat("c7",dayNight,jsrDayPeriod(sc_term[0],lang))
         elif (valStart in [7,8,9,10] and valEnd in [0,1,2,3]) or \
              (valStart in [5,6]      and valEnd in [0,1]):
-            addNoRepeat("c8",dayNight,lang,jsrDayPeriod(sc_term[0],lang))
+            addNoRepeat("c8",dayNight,jsrDayPeriod(sc_term[0],lang))
     return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
 
 

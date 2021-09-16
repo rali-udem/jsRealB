@@ -63,11 +63,8 @@ def generate_bulletin(wInfo,lang):
     ]    
     return "\n".join(line for line in text if line!=None)
     
-
-
 if __name__ == '__main__':
-    # from forecast import show_all_sky_conditions
-    # show_all_sky_conditions()
-    wInfo=WeatherInfo(json.load(open("weather-data-1-pp.json","r",encoding="utf-8")))
-    print(generate_bulletin(wInfo,"en"),"\n")
-    print(generate_bulletin(wInfo,"fr"),"\n")
+    for line in open("weather-data.jsonl","r",encoding="utf-8"):
+        wInfo=WeatherInfo(json.loads(line))
+        print(generate_bulletin(wInfo,"en"),"\n")
+        print(generate_bulletin(wInfo,"fr"),"\n")

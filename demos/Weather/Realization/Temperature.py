@@ -127,7 +127,7 @@ def temperature(wInfo,period,lang):
                         return realize(jsrAbnormal[dn]["e"][lang](t1,periodName),lang,False)
                 else:
                     # b) low temperature after the beginning (but no special case)
-                    return realize(jsrAbnormal[dn]["b"][lang](t2,t1,periodName),lang,False)
+                    return realize(jsrAbnormal[dn]["b"][lang](t2,t1),lang,False)
     except ValueError:
         print(tempVals)
         print(temperature_terms)
