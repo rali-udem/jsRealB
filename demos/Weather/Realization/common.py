@@ -5,6 +5,9 @@ Created on 14 sept. 2021
 '''
 from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 
+## the jsRealB server should be launched from the jsRealB directory with
+##    node dist/jsRealB-server.js demos/Weather/weatherLexicon.js
+
 def realize(jsrExpr,lang,addS=True):
     if addS:jsrExpr=S(jsrExpr)
     return jsRealB(jsrExpr.set_lang(lang).pp())

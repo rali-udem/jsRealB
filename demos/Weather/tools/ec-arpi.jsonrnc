@@ -1,0 +1,40 @@
+## JSON-RNC schema for json files for ec-arpi
+##    for info about the formalism: https://github.com/rali-udem/json-rnc
+start = bulletin
+
+bulletin = {
+    # infos from the meteocode
+    "header":       [info],      # [bulletinName,emitter,tz,bType,issueYear,issueMonth,issueDay,issueTime,
+                                 #  _,_,nextYear,nextMonth,nextDay,nextTime,_]
+    "names-en":     [string],    # list of English region names
+    "names-fr":     [string],    # list of French region names
+    "regions":      [string],    # list of region codes
+    "accum"?:       [[info]],    # start end type code certainty value-start value-end? [precipitation accumulation]
+    "avert"?:       [avert],     # start end type status code [warning]
+    "ciel":         [[info]],    # start end neb-start neb-end {ceiling-height} [cloud cover]
+    "climat_temp":  [[info]],    # start end type value [climatological data for temperature]
+    "indice_uv":    [[info]],    # start end value [UV-index]
+    "niveau_neige"?:[[info]]     # start end code value [level for solid precipitation]
+    "pcpn"?:        [pcpn],      # start end certainty code type intensity frequency exception? [precipitations]
+    "prob":         [prob],      # "seuil" value [start end prob]+ [precipitation probability]
+    "rosee":        [[info]],    # start end trend value [dew point]
+    "temp":         [[info]],    # start end trend value [temperature]
+    "vents":        [vents],     # start end direction modif? speed value exception? [winds]
+    "visib"?:       [[info]],    # start end type freq [visibility]
+    # infos from the bulletins
+    "en":lang,                   # English bulletin
+    "fr":lang,                   # French bulletin
+    "id":string                  # id ...
+}
+
+info     = string|number
+avert    = [info|avert]
+pcpn     = [info|pcpn]
+prob     = [info|prob]
+vents    = [info|vents]
+sentences= [string]
+lang     = {orig:string,
+            tok :{today?:[sentences],
+                  tonight:[sentences],
+                  tomorrow:[sentences],
+                  tomorrow_night?:[sentences]}}
