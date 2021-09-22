@@ -64,7 +64,7 @@ def generate_bulletin(wInfo,lang):
     return "\n".join(line for line in text if line!=None)
     
 if __name__ == '__main__':
-    for line in open("weather-data.jsonl","r",encoding="utf-8"):
+    for line in open("tools/weather-data.jsonl","r",encoding="utf-8"):
         wInfo=WeatherInfo(json.loads(line))
         print(generate_bulletin(wInfo,"en"),"\n")
         print(generate_bulletin(wInfo,"fr"),"\n")
