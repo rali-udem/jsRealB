@@ -23,7 +23,7 @@ def uv_index(wInfo,period,lang):
         return None
     uvi_terms=wInfo.get_uv_index(period)
     if uvi_terms==None:return None 
-    uvVal=uvi_terms[0][2] # consider only the first uvi_term
+    uvVal=uvi_terms[0].infos[0] # consider only the first uvi_term
     if uvVal<1: return None  ## too low
     uvVal=round(uvVal)
     if uvVal==0:return None

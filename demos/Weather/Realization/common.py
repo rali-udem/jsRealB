@@ -29,12 +29,12 @@ def jsrDayPeriod(hour,lang):
             elif s!=18:
                 return exp.add(D("this" if lang=="en" else "ce"),0)
 
-
+dayOnly={"day":True,"year": False, "month": False, "date": False,"hour":False,"minute":False, "second": False,"det":False}
 periodNames = {
-    "today":{"en":lambda:N("today"),"fr":lambda:Adv("aujourd'hui")},
-    "tonight":{"en":lambda:N("tonight"),"fr":lambda:NP(D("ce"),N("soir"))},
-    "tomorrow":{"en":lambda:N("tomorrow"),"fr":lambda:N("demain")},
-    "tomorrow_night":{"en":lambda:NP(N("tomorrow"),N("night")),"fr":lambda:NP(N("demain"),N("soir"))}
+    "today":{"en":lambda _:N("today"),"fr":lambda _:Adv("aujourd'hui")},
+    "tonight":{"en":lambda _:N("tonight"),"fr":lambda _:CP(C("et"),NP(D("ce"),N("soir")),NP(D("ce"),N("nuit")))},
+    "tomorrow":{"en":lambda d:DT(d).dOpt(dayOnly),"fr":lambda d:DT(d).dOpt(dayOnly)},
+    "tomorrow_night":{"en":lambda d:NP(DT(d).dOpt(dayOnly),N("night")),"fr":lambda d:NP(DT(d).dOpt(dayOnly),N("soir"))}
 }
 
 ### time generation
@@ -59,7 +59,7 @@ def jsrHour(h,lang):
 def get_term_at(terms,hour):
     if terms==None or len(terms)==0:return None  
     for term in terms:
-        if hour<=term[1]:
+        if hour<=term.end:
             return term
     return None
     # print("should never happen: get_value_at(%d) not found\n%s"%(hour,terms))
@@ -70,7 +70,7 @@ def get_fn_term(terms,idx,cmp):
     if terms==None or len(terms)==0 :return None 
     maxTerm=terms[0]
     for i in range(1,len(terms)):
-        if cmp(terms[i][idx],maxTerm[idx]):
+        if cmp(terms[i].infos[idx],maxTerm.infos[idx]):
             maxTerm=terms[i]
     return maxTerm
 

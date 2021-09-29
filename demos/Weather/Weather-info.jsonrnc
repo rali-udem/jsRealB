@@ -4,19 +4,17 @@ start = bulletin
 
 bulletin = {
     # infos from the meteocode
-    "header":       infos,        # ["regular",issueDatetime,"next", nextDatetime]
-    "names-en":     [string],     # list of English region names
-    "names-fr":     [string],     # list of French region names
-    "climatology" ?:  [infos],    # start end type value
-    "precipitation" : {
-    	"type"?:         [type],  # start end type exception?
-    	"accumulation"?: [infos], # start end type level-start level-end?
-    	"probability"?:  [infos]  # start end value (percentage)
-    }
-    "sky-cover"?:    [infos],     # start end neb-start neb-end 
-    "temperatures"?: [infos],     # start end trend value [temperature]
-    "uv_index"?:     [infos],     # start end value [UV-index]
-    "wind"?:         wind,        # start end direction type value exception?
+    "header":                      infos,   # ["regular",issueDatetime,"next", nextDatetime]
+    "names-en":                    [string],# list of English region names
+    "names-fr":                    [string],# list of French region names
+    "climatology" ?:               [infos], # start end type value
+    "precipitation-type"?:         type,    # start end type exception?
+    "precipitation-accumulation"?: [infos], # start end type level-start level-end?
+    "precipitation-probability"?:  [infos]  # start end value (percentage)
+    "sky-cover"?:                  [infos], # start end neb-start neb-end 
+    "temperatures"?:               [infos], # start end trend value [temperature]
+    "uv-index"?:                   [infos], # start end value [UV-index]
+    "wind"?:                       wind,    # start end direction type value exception?
     ## auxiliary infos
     "en":string,                  # English bulletin
     "fr":string,                  # French bulletin
@@ -26,3 +24,9 @@ bulletin = {
 infos = [string|number]
 type = [string|number|type]
 wind = [string|number|wind]
+
+## example call
+# python ~/Documents/GitHub/json-rnc/Src/ValidateJsonRnc.py /Users/lapalme/Documents/GitHub/jsRealB/demos/Weather/Weather-info.jsonrnc /Users/lapalme/Documents/GitHub/jsRealB/demos/Weather/tools/weather-data.jsonl
+
+## pretty-print a sample line of jsonl
+#  head -1 /Users/lapalme/Documents/GitHub/jsRealB/demos/Weather/tools/weather-data.jsonl | python3 /Users/lapalme/Documents/GitHub/jsRealB/demos/Weather/ppJson.py

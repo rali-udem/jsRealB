@@ -147,7 +147,8 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             val=null;
         }
-        if (this.isA("CP")){// propagate an option through the children of a CP
+        if (this.isA("CP") && !contains(["cap","lier"],option)){
+            // propagate an option through the children of a CP except for "cap" and "lier"
             if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];

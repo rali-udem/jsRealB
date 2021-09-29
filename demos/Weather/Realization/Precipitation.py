@@ -9,95 +9,93 @@ from Realization.common import realize, jsrDayPeriod, jsrHour, get_max_term, get
 
 
 precipitationTypes = {
-    "averses":{"en":N("shower").n("p"), 
+    "showers":{"en":N("shower").n("p"), 
                "fr":N("averse").n("p")},
-    "averses_neige":{"en":N("flurry").n("p"), 
+    "flurries":{"en":N("flurry").n("p"), 
                      "fr":NP(N("averse").n("p"),PP(P("de"),N("neige")))},
-    "averses_neige_fondante":{"en":NP(A("wet"),N("flurry").n("p")), 
+    "wet-flurries":{"en":NP(A("wet"),N("flurry").n("p")), 
                               "fr":NP(N("averse").n("p"),PP(P("de"),N("neige"),A("fondant")))},
     "blizzard":{"en":N("blizzard"), 
                 "fr":N("blizzard")},
-    "bourrasques_neige":{"en":NP(N("snow"),N("squall").n("p")), 
+    "snow-squalls":{"en":NP(N("snow"),N("squall").n("p")), 
                          "fr":NP(N("bourrasque").n("p"),PP(P("de"),N("neige")))},
-    "bruine":{"en":N("drizzle"), 
+    "drizzle":{"en":N("drizzle"), 
               "fr":N("bruine")},
-    "bruine_verglacante" :{"en":NP(V("freeze").t("pr"),N("drizzle")), 
+    "freezing-drizzle" :{"en":NP(V("freeze").t("pr"),N("drizzle")), 
                            "fr":NP(N("bruine"),A("verglaçant"))},
-    "cristaux_glace" :{"en":NP(N("ice"),N("crystal").n("p")), 
+    "ice-crystals" :{"en":NP(N("ice"),N("crystal").n("p")), 
                        "fr":NP(N("cristal").n("p"),PP(P("de"),N("glace")))},
-    "grele":{"en":N("hail"), 
+    "hail":{"en":N("hail"), 
              "fr":N("grêle")},
-    "gresil":{"en":NP(N("ice"),N("pellet").n("p")), 
+    "ice-pellets":{"en":NP(N("ice"),N("pellet").n("p")), 
               "fr":N("grésil")},
-    "neige":{"en":N("snow"), 
+    "snow":{"en":N("snow"), 
              "fr":N("neige")},
-    "neige_fondante" :{"en":NP(A("wet"),N("snow")), 
+    "wet-snow" :{"en":NP(A("wet"),N("snow")), 
                        "fr":NP(N("neige"),N("fondant"))},
-    "orages":{"en":N("thunderstorm"), 
+    "thunderstorm":{"en":N("thunderstorm"), 
               "fr":N("orage").n("p")},
-    "pluie":{"en":N("rain"), 
+    "rain":{"en":N("rain"), 
              "fr":N("pluie")},
-    "pluie_verglacante":{"en":NP(V("freeze").t("pr"),N("rain")), 
+    "freezing-rain":{"en":NP(V("freeze").t("pr"),N("rain")), 
                          "fr":NP(N("pluie"),A("verglaçant"))},
-    "poudrerie" :{"en":NP(V("blow").t("pr"),N("snow")), 
+    "blowing-snow" :{"en":NP(V("blow").t("pr"),N("snow")), 
                   "fr":N("poudrerie")},
 }
 
 def precipitation_at(prob,pcpn_term,amount_terms,lang):
     jsrExprs=[]
-    pCode=pcpn_term[3]
-    pType=pcpn_term[4]
+    pType=pcpn_term.infos[0]
     amount_term=None
     timePeriod=None
-    if pCode.startswith("debut"):
-        tp=jsrHour(pcpn_term[0]%24,lang)
-        if tp!=None:
-            if lang=="en":
-                timePeriod=VP(V("begin").t("pr"),tp)
-            else:
-                timePeriod=VP(V("débuter").t("pr"),tp)
-            amount_term=get_term_at(amount_terms,pcpn_term[0])
-    elif pCode=="fin":
-        tp=jsrHour(pcpn_term[1]%24,lang)
-        if tp!=None:
-            if lang=="en":
-                timePeriod=VP(V("end").t("pr"),tp)
-            else:
-                timePeriod=VP(V("finir").t("pr"),tp)
-            amount_term=get_term_at(amount_terms,pcpn_term[0])
+    tp=jsrHour(pcpn_term.start%24,lang)
+    if tp!=None:
+        if lang=="en":
+            timePeriod=VP(V("begin").t("pr"),tp)
+        else:
+            timePeriod=VP(V("débuter").t("pr"),tp)
+        amount_term=get_term_at(amount_terms,pcpn_term.start)
+    tp=jsrHour(pcpn_term.end%24,lang)
+    if tp!=None:
+        if lang=="en":
+            timePeriod=VP(V("end").t("pr"),tp)
+        else:
+            timePeriod=VP(V("finir").t("pr"),tp)
+        amount_term=get_term_at(amount_terms,pcpn_term.start)
     if pType in precipitationTypes:
         jsrExprs.append(NP(prob,precipitationTypes[pType][lang],timePeriod))
     else:
         jsrExprs.append(Q("[["+pType+"]]."))
     ## add amount
     if amount_term!=None:
-        pcpnType=amount_term[2]
-        if pcpnType=="pluie":
-            if amount_term[5]>20:
+        pcpnType=amount_term.infos[0]
+        amount=amount_term.infos[1]
+        if pcpnType=="rain":
+            if amount>20:
                 if lang=="en":
-                    jsrExprs.append(NP(N("amount"),NO(round(amount_term[5])),Q("mm")))
+                    jsrExprs.append(NP(N("amount"),NO(round(amount)),Q("mm")))
                 else:
-                    jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount_term[5])),Q("mm")))
-        elif pcpnType=="neige":
-            if amount_term[5]>2:
+                    jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount)),Q("mm")))
+        elif pcpnType=="snow":
+            if amount>2:
                 if lang=="en":
-                    jsrExprs.append(NP(N("amount"),NO(round(amount_term[5])),Q("cm")))
+                    jsrExprs.append(NP(N("amount"),NO(round(amount)),Q("cm")))
                 else:
-                    jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount_term[5])),Q("cm")))
+                    jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount)),Q("cm")))
     return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
     
 
 def precipitation(wInfo,period,lang):
-    pcpn_terms=wInfo.get_precipitation(period)
+    pcpn_terms=wInfo.get_precipitation_type(period)
     if pcpn_terms==None: return None
     prob_terms=wInfo.get_precipitation_probabilities(period)
-    maxProbTerm=get_max_term(prob_terms,2)
-    if maxProbTerm!=None and maxProbTerm[2]<=10:
+    maxProbTerm=get_max_term(prob_terms,0)
+    if maxProbTerm!=None and maxProbTerm.infos[0]<=10:
         maxProbTerm=None
     amount_terms=wInfo.get_precipitation_accumulation(period)
     if maxProbTerm != None:
         ## output information associated with maxProb
-        maxProbVal=maxProbTerm[2]
+        maxProbVal=maxProbTerm.infos[0]
         if maxProbVal < 100:
             if lang=="en":
                 prob=NP(NO(maxProbVal),Q("percent"),N("chance"),P("of"))
@@ -105,7 +103,7 @@ def precipitation(wInfo,period,lang):
                 prob=NP(NO(maxProbVal),Q("pour cent"),P("de"),N("probabilité"),P("de"))
         else:
             prob=None
-        pcpn_term=get_term_at(pcpn_terms, maxProbTerm[0])
+        pcpn_term=get_term_at(pcpn_terms, maxProbTerm.start)
         return precipitation_at(prob,pcpn_term,amount_terms,lang)
     else:
         ## show information associated with all precipitation values

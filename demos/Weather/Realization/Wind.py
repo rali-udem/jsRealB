@@ -10,23 +10,23 @@ from Realization.common import realize, jsrDayPeriod, jsrHour, get_max_term, get
 ## vents : start end direction modif? speed value exception?
 # e | nil | n | ne | nw | w | ely | nly | nely | nwly | wly | sly| sely | swly | sly | sely | sw | vrbl
 jsrWindDirection = {
-    "e":    {"en":Adv("east"),       "fr":NP(D("le"),N("est")), "deg":90},
-    "n":    {"en":Adv("north"),      "fr":NP(D("le"),N("nord")),  "deg":0},
-    "ne":   {"en":Adv("northeast"),  "fr":NP(D("le"),N("nord-est")), "deg":45},
-    "nw":   {"en":Adv("northwest"),  "fr":NP(D("le"),N("nord-ouest")),"deg":315},
-    "w":    {"en":Adv("west"),       "fr":NP(D("le"),N("ouest")),"deg":290},
-    "ely":  {"en":Adv("easterly"),   "fr":NP(D("le"),N("secteur"),N("est")), "deg":90},
-    "nly":  {"en":Adv("northerly"),  "fr":NP(D("le"),N("secteur"),N("nord")),  "deg":0},
-    "nely": {"en":A("northeasterly"),"fr":NP(D("le"),N("secteur"),N("nord-est")), "deg":45},
+    "e":    {"en":Adv("east"),       "fr":NP(D("le"),N("est")),                    "deg":90},
+    "n":    {"en":Adv("north"),      "fr":NP(D("le"),N("nord")),                   "deg":0},
+    "ne":   {"en":Adv("northeast"),  "fr":NP(D("le"),N("nord-est")),               "deg":45},
+    "nw":   {"en":Adv("northwest"),  "fr":NP(D("le"),N("nord-ouest")),             "deg":315},
+    "w":    {"en":Adv("west"),       "fr":NP(D("le"),N("ouest")),                  "deg":290},
+    "ely":  {"en":Adv("easterly"),   "fr":NP(D("le"),N("secteur"),N("est")),       "deg":90},
+    "nly":  {"en":Adv("northerly"),  "fr":NP(D("le"),N("secteur"),N("nord")),      "deg":0},
+    "nely": {"en":A("northeasterly"),"fr":NP(D("le"),N("secteur"),N("nord-est")),  "deg":45},
     "nwly": {"en":A("northwesterly"),"fr":NP(D("le"),N("secteur"),N("nord-ouest")),"deg":315},
-    "wly":  {"en":Adv("westerly"),   "fr":NP(D("le"),N("secteur"),N("ouest")),"deg":270},
-    "sly":  {"en":Adv("southerly"),  "fr":NP(D("le"),N("secteur"),N("sud")),"deg":180},
-    "sely": {"en":A("southeasterly"),"fr":NP(D("le"),N("secteur"),N("sud-est")),"deg":135},
-    "swly": {"en":A("southwesterly"),"fr":NP(D("le"),N("secteur"),N("sud-ouest")),"deg":225},
-    "sly":  {"en":Adv("southerly"),  "fr":NP(D("le"),N("secteur"),N("sud")),"deg":180},
-    "se":   {"en":Adv("southeast"),  "fr":NP(D("le"),N("sud-est")),"deg":135},
-    "s":    {"en":Adv("south"),      "fr":NP(D("le"),N("sud")),"deg":180},
-    "sw":   {"en":Adv("southwest"),  "fr":NP(D("le"),N("sud-ouest")),"deg":225},
+    "wly":  {"en":Adv("westerly"),   "fr":NP(D("le"),N("secteur"),N("ouest")),     "deg":270},
+    "sly":  {"en":Adv("southerly"),  "fr":NP(D("le"),N("secteur"),N("sud")),       "deg":180},
+    "sely": {"en":A("southeasterly"),"fr":NP(D("le"),N("secteur"),N("sud-est")),   "deg":135},
+    "swly": {"en":A("southwesterly"),"fr":NP(D("le"),N("secteur"),N("sud-ouest")), "deg":225},
+    "sly":  {"en":Adv("southerly"),  "fr":NP(D("le"),N("secteur"),N("sud")),       "deg":180},
+    "se":   {"en":Adv("southeast"),  "fr":NP(D("le"),N("sud-est")),                "deg":135},
+    "s":    {"en":Adv("south"),      "fr":NP(D("le"),N("sud")),                    "deg":180},
+    "sw":   {"en":Adv("southwest"),  "fr":NP(D("le"),N("sud-ouest")),              "deg":225},
     # "vrbl": {"en":A("variable"),     "fr":A("variable")},
 }
 
@@ -49,8 +49,8 @@ def wind(wInfo,period,lang):
     lastDir=None
     jsrExprs=[]
     for wind_term in wind_terms:
-        wSpeed = wind_term[4]
-        wDir= wind_term[2]
+        wSpeed = wind_term.infos[2]
+        wDir= wind_term.infos[0]
         jsrExpr=S()
         if wSpeed>=15 and wDir in jsrWindDirection:
             if lastSpeed!=None and abs(wSpeed-lastSpeed)>=20:
@@ -63,7 +63,7 @@ def wind(wInfo,period,lang):
                 if lang=="en":
                     jsrExpr.add(VP(V("become").t("pr"),jsrWindDirection[wDir][lang]))
                 else:
-                    jsrExpr.add(VP(V("devenir").t("pr"),jsrWindDirection[wDir][lang]))
+                    jsrExpr.add(VP(V("devenir").t("pr"),PP(P("de"),jsrWindDirection[wDir][lang])))
                 lastDir=wDir
             else:
                 lastSpeed=wSpeed
@@ -73,15 +73,15 @@ def wind(wInfo,period,lang):
                 else:
                     jsrExpr.add(NP(N("vent").n("p"),PP(P("de"),jsrWindDirection[wDir][lang])))
             # show gust or time
-            if len(wind_term)>5:
-                gust=wind_term[5]
-                if gust[2]=='rafales':
+            if len(wind_term.infos)>3:
+                gust=wind_term.infos[3]
+                if gust[2]=='gust':
                     if lang=="en":
                         jsrExpr.add(VP(V("gust").t("pr"),PP(P("to"),NO(gust[3]))))
                     else:
                         jsrExpr.add(PP(P("avec"),NP(N("rafale").n("p"),P("à"),NO(gust[3]))))
             else:
-                jsrExpr.add(jsrHour(wind_term[0],lang))
+                jsrExpr.add(jsrHour(wind_term.start,lang))
             jsrExprs.append(jsrExpr)
     return " ".join(realize(jsrExpr,lang,False) for jsrExpr in jsrExprs)
 

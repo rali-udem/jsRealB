@@ -9,10 +9,14 @@ import sys
 from datetime import datetime
 from ppJson import ppJson
 
-periods = {
-    "05:00":{"today":(5,18),"tonight":(18,30),"tomorrow":(30,42)},
+issue_time_to_periods = {
+    "morning":{"today":(5,18),"tonight":(18,30),"tomorrow":(30,42)},
+    "05:30":{"today":(5,18),"tonight":(18,30),"tomorrow":(30,42)},
+    "midday":{"today":(12,18),"tonight":(18,30),"tomorrow":(30,42)},
     "11:30":{"today":(12,18),"tonight":(18,30),"tomorrow":(30,42)},
-    "15:45":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)}
+    "evening":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)},
+    "15:45":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)},
+    "16:00":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)}
 }
 
 def hour(h): ##  hour string in more readable manner suffixed with "h"
@@ -22,7 +26,7 @@ def hour(h): ##  hour string in more readable manner suffixed with "h"
 
 
 class WeatherTerm:
-    def __init__(self,vals,delta):
+    def __init__(self,vals):
         self.start=vals[0]
         self.end=vals[1]
         self.infos=vals[2:]
@@ -47,7 +51,6 @@ class WeatherInfo:
         '''
         self.data=json
         hdr=json["header"]
-        print(hdr)
         isoFormat="%Y-%m-%dT%H:%M:%S"
         self.issue_date=datetime.strptime(hdr[1],isoFormat)
         self.next_issue_date=datetime.strptime(hdr[3],isoFormat)
@@ -64,13 +67,15 @@ class WeatherInfo:
     def get_next_issue_date(self):
         return self.next_issue_date
     
-    def get_periods(self):
-        periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
-        return periods[periodKey].keys()
+    def get_issue_type(self):
+        hour=self.issue_date.hour
+        return "morning" if hour<=5 else "midday" if hour<=11 else "evening"
+    
+    def get_periods(self):    
+        return issue_time_to_periods[self.get_issue_type()].keys()
         
     def get_time_interval(self,period):
-        periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
-        return periods[periodKey][period]
+        return issue_time_to_periods[self.get_issue_type()][period]
         
     ### show all info for a given period
     ###    times (ending with h) are shown in local time 
@@ -79,8 +84,7 @@ class WeatherInfo:
         def show_terms(terms):
             return ", ".join([str(term) for term in terms])
             
-        periodKey=f"{self.issue_date.hour:02d}:{self.issue_date.minute:02d}"
-        (beginHour,endHour)=periods[periodKey][period]
+        (beginHour,endHour)=self.get_time_interval(period)
         print("%s (%4s,%4s) :: %s :: %s"%(
                 period,hour(beginHour),hour(endHour), self.data["id"],self.issue_date))
         for field in self.data:
@@ -104,7 +108,18 @@ class WeatherInfo:
         terms=terms[startI:i]
         return [WeatherTerm(term) for term in terms]
     
-
+    ## merge consecutive terms with same info by adjusting the end time
+    def merge_terms(self,terms):
+        if terms==None or len(terms)==1:return terms
+        res=[terms[0]]
+        for i in range(1,len(terms)):
+            if terms[i].infos==res[-1].infos and terms[i].start==res[-1].end:
+                res[-1].end=terms[i].end
+            else:
+                res.append(terms[i])
+        return res
+            
+    
     # ## expand value given at idx in tuples for each hour for all hours within a range
     # def expand_range(self,tuples,idx,beginHour,endHour):
     #     if len(tuples)==1: # all in the first tuple
@@ -120,17 +135,17 @@ class WeatherInfo:
     def build_table(self,period,field,col):
         (beginHour,endHour)=self.get_time_interval(period)
         if field not in self.data: return None
-        terms=self.select_terms(period, field)
+        terms=self.select_terms(period, self.data[field])
         nb=len(terms)
         if nb==0: return None
         if nb==1:
-            return [terms[0][col]]*(endHour-beginHour)
-        res=[terms[0][col]]*(terms[0][1]-beginHour)
+            return [terms[0].infos[col]]*(endHour-beginHour)
+        res=[terms[0].infos[col]]*(terms[0].end-beginHour)
         i=1
         while i<nb-1:
-            res.extend([terms[i][col]]*(terms[i][1]-terms[i][0]))
+            res.extend([terms[i].infos[col]]*(terms[i].end-terms[i].start))
             i+=1
-        res.extend([terms[i][col]]*(endHour-terms[i][0]))
+        res.extend([terms[i].infos[col]]*(endHour-terms[i].start))
         return res
         
     def get_climatology(self,period):
@@ -138,43 +153,44 @@ class WeatherInfo:
             return None
         return self.select_terms(period,self.data["climatology"])
     
-    def get_precipitation(self,period):
-        if "precipitation" not in self.data or "type" not in self.data["precipitation"]:
+    def get_precipitation_type(self,period):
+        if "precipitation-type" not in self.data:
             return None
-        return self.select_terms(period, self.data["precipitation"]["type"])
+        pcpn_terms=self.select_terms(period, self.data["precipitation-type"])
+        return self.merge_terms(pcpn_terms)
 
     def get_precipitation_probabilities(self,period):
-        if "precipitation" not in self.data or "probability" not in self.data["precipitation"]:
+        if "precipitation-probability" not in self.data:
             return None
-        return self.select_terms(period, self.data["precipitation"]["probability"])
+        return self.select_terms(period, self.data["precipitation-probability"])
     
     def get_precipitation_accumulation(self,period):
-        if "precipitation" not in self.data or "accumulation" not in self.data["precipitation"]:
+        if "precipitation-accumulation" not in self.data:
             return None
-        return self.select_terms(period, self.data["precipitation"]["accumulation"])
+        return self.select_terms(period, self.data["precipitation-accumulation"])
     
-    def get_temperature(self,period):
-        if "temperature" not in self.data:
-            return None
-        return self.select_terms(period,self.data["temperature"])
-        
-    def get_temperature_values(self,period):
-        return self.build_table(period,"temp",3)
-                
     def get_sky_cover(self,period):
         if "sky-cover" not in self.data:
             return None
         return self.select_terms(period,self.data["sky-cover"])
     
-    def get_wind(self,period):
-        if "wind" not in self.data:
+    def get_temperature(self,period):
+        if "temperatures" not in self.data:
             return None
-        return self.select_terms(period,self.data["wind"])
-    
+        return self.select_terms(period,self.data["temperatures"])
+        
+    def get_temperature_values(self,period):
+        return self.build_table(period,"temperatures",0)
+                
     def get_uv_index(self,period):
         if "uv-index" not in self.data:
             return None
         return self.select_terms(period,self.data["uv-index"])
 
+    def get_wind(self,period):
+        if "wind" not in self.data:
+            return None
+        return self.select_terms(period,self.data["wind"])
+    
     def get_ref_bulletin(self,lang):
         return self.data[lang]

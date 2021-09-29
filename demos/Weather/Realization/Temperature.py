@@ -94,14 +94,14 @@ jsrAbnormal = {
 def temperature(wInfo,period,lang):
     temperature_terms=wInfo.get_temperature(period)
     if temperature_terms == None : return None
-    maxTemp=get_max_term(temperature_terms,3)[3]
-    minTemp=get_min_term(temperature_terms,3)[3]
+    maxTemp=get_max_term(temperature_terms,0).infos[0]
+    minTemp=get_min_term(temperature_terms,0).infos[0]
     # for climat_term in climat_terms:
         # if climat_term[2]=="max":maxTemp=climat_term[3]
         # elif climat_term[2]=="min":minTemp=climat_term[3]
     dn= "night" if period in ["tonight","tomorrow_night"] else "day"
     tempVals=wInfo.get_temperature_values(period)
-    periodName=periodNames[period][lang]()
+    periodName=periodNames[period][lang](wInfo.get_issue_date())
     if isinstance(tempVals,int):
         print("tempVals",tempVals)
         print(period)

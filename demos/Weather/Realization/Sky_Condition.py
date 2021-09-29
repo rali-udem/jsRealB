@@ -13,8 +13,8 @@ from Realization.common import realize, jsrDayPeriod
 ## sky condition
 
 sky_condition_terminology = { ## row numbers in the table of section 5.8
-    "c1":{"en":(A("sunny"),A("clear")),
-          "fr":(A("ensoleillé"),A("dégagé"))},
+    "c1":{"en":(AP(A("sunny")),AP(A("clear"))),
+          "fr":(AP(A("ensoleillé")),AP(A("dégagé")))},
     "c2":{"en":(AP(Adv("mainly"),A("sunny")),NP(Q("a"),D("few"),N("cloud").n("p"))),
           "fr":(AP(Adv("généralement"),A("ensoleillé")),NP(D("quelque"),N("nuage").n("p")))},
     "c3":{"en":(NP(D("a"),N("mix"),PP(P("of"),CP(C("and"),N("sun"),N("cloud").n("p")))),
@@ -23,14 +23,14 @@ sky_condition_terminology = { ## row numbers in the table of section 5.8
                 AP(Adv("partiellement"),A("couvert")))},
     "c4":{"en":(AP(Adv("mainly"),A("cloudy")),),
           "fr":(AP(Adv("généralement"),A("nuageux")),)},
-    "c5":{"en":(A("cloudy"),),
-          "fr":(A("nuageux"),)},
-    "r6":{"en":(A("overcast"),),
-          "fr":(A("couvert"),)},
+    "c5":{"en":(AP(A("cloudy")),),
+          "fr":(AP(A("nuageux")),)},
+    "c6":{"en":(AP(A("overcast")),),
+          "fr":(AP(A("couvert")),)},
     "c7":{"en":(NP(V("increase").t("pr"),N("cloudiness")),),
-          "fr":(N("ennuagement"),)},
-    "c8":{"en":(N("clearing"),),
-          "fr":(N("dégagement"),)},
+          "fr":(NP(N("ennuagement")),)},
+    "c8":{"en":(NP(N("clearing")),),
+          "fr":(NP(N("dégagement")),)},
 }
 
 def sky_condition(mc,period,lang):
@@ -50,8 +50,8 @@ def sky_condition(mc,period,lang):
     sc_terms=mc.get_sky_cover(period)
     if sc_terms==None: return None
     for sc_term in sc_terms:
-        valStart=sc_term[2]
-        valEnd  =sc_term[3]
+        valStart=sc_term.infos[0]
+        valEnd  =sc_term.infos[1]
         dayNight = 0 if period in ["today","tomorrow"] else 1
         if valStart==valEnd:
             if valStart in [0,1]:
@@ -67,10 +67,10 @@ def sky_condition(mc,period,lang):
             if valStart in [10]:
                 addNoRepeat("c6",dayNight)
         elif valStart in [0,1,2,3] and valEnd in [7,8,9,10]:
-            addNoRepeat("c7",dayNight,jsrDayPeriod(sc_term[0],lang))
+            addNoRepeat("c7",dayNight,jsrDayPeriod(sc_term.start,lang))
         elif (valStart in [7,8,9,10] and valEnd in [0,1,2,3]) or \
              (valStart in [5,6]      and valEnd in [0,1]):
-            addNoRepeat("c8",dayNight,jsrDayPeriod(sc_term[0],lang))
+            addNoRepeat("c8",dayNight,jsrDayPeriod(sc_term.start,lang))
     return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
 
 
