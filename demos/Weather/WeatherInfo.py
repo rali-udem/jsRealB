@@ -11,12 +11,8 @@ from ppJson import ppJson
 
 issue_time_to_periods = {
     "morning":{"today":(5,18),"tonight":(18,30),"tomorrow":(30,42)},
-    "05:30":{"today":(5,18),"tonight":(18,30),"tomorrow":(30,42)},
     "midday":{"today":(12,18),"tonight":(18,30),"tomorrow":(30,42)},
-    "11:30":{"today":(12,18),"tonight":(18,30),"tomorrow":(30,42)},
     "evening":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)},
-    "15:45":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)},
-    "16:00":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)}
 }
 
 def hour(h): ##  hour string in more readable manner suffixed with "h"

@@ -31,7 +31,7 @@ jsrWindDirection = {
 }
 
 
-# find the difference between compass direction differences
+# find the difference between compass directions 
 # adapted from https://www.mrexcel.com/board/threads/compass-direction-differences.213199
 def dir_diff(dir1,dir2):
     dir1=jsrWindDirection[dir1]["deg"]

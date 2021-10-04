@@ -1,12 +1,5 @@
-'''
-Created on 14 sept. 2021
-
-@author: lapalme
-'''
-
 from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 from Realization.common import realize, jsrDayPeriod, jsrHour, get_max_term, get_min_term, get_term_at
-
 
 precipitationTypes = {
     "showers":{"en":N("shower").n("p"), 

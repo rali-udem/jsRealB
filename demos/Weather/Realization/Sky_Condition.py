@@ -6,13 +6,7 @@ Created on 14 sept. 2021
 from jsRealBclass import N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 from Realization.common import realize, jsrDayPeriod
 
-
-## these functions return a jsrExpression to be realized
-
-### Pubpro: section 2.3.6, 5.8
-## sky condition
-
-sky_condition_terminology = { ## row numbers in the table of section 5.8
+sky_condition_terminology = { ## types of sky conditions
     "c1":{"en":(AP(A("sunny")),AP(A("clear"))),
           "fr":(AP(A("ensoleillé")),AP(A("dégagé")))},
     "c2":{"en":(AP(Adv("mainly"),A("sunny")),NP(Q("a"),D("few"),N("cloud").n("p"))),
@@ -45,8 +39,6 @@ def sky_condition(mc,period,lang):
             jsrExprs.append(jsrExpr)
             previous_conditions.append(c)
             
-    """ Section 2.3.6 and 5.8"""
-    ### ciel: start end neb-start neb-end {ceiling-height}
     sc_terms=mc.get_sky_cover(period)
     if sc_terms==None: return None
     for sc_term in sc_terms:
