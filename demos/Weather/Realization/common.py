@@ -31,10 +31,14 @@ def jsrDayPeriod(hour,lang):
 
 dayOnly={"day":True,"year": False, "month": False, "date": False,"hour":False,"minute":False, "second": False,"det":False}
 periodNames = {
-    "today":{"en":lambda _:N("today"),"fr":lambda _:Adv("aujourd'hui")},
-    "tonight":{"en":lambda _:N("tonight"),"fr":lambda _:CP(C("et"),NP(D("ce"),N("soir")),NP(D("ce"),N("nuit")))},
-    "tomorrow":{"en":lambda d:DT(d).dOpt(dayOnly),"fr":lambda d:DT(d).dOpt(dayOnly)},
-    "tomorrow_night":{"en":lambda d:NP(DT(d).dOpt(dayOnly),N("night")),"fr":lambda d:NP(DT(d).dOpt(dayOnly),N("soir"))}
+    "today":{"en":lambda _:N("today"),
+             "fr":lambda _:Adv("aujourd'hui")},
+    "tonight":{"en":lambda _:N("tonight"),
+               "fr":lambda _:CP(C("et"),NP(D("ce"),N("soir")),NP(D("ce"),N("nuit")))},
+    "tomorrow":{"en":lambda d:DT(d).dOpt(dayOnly),
+                "fr":lambda d:DT(d).dOpt(dayOnly)},
+    "tomorrow_night":{"en":lambda d:NP(DT(d).dOpt(dayOnly),N("night")),
+                      "fr":lambda d:CP(C("et"),NP(DT(d).dOpt(dayOnly),N("soir")),NP(N("nuit")))}
 }
 
 ### time generation
