@@ -9,7 +9,8 @@ from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 ##    node dist/jsRealB-server.js demos/Weather/weatherLexicon.js
 
 def realize(jsrExpr,lang,addS=True):
-    if addS:jsrExpr=S(jsrExpr)
+    if addS and not isinstance(jsrExpr,S):
+        jsrExpr=S(jsrExpr)
     return jsRealB(jsrExpr.set_lang(lang).pp())
 
 dayPeriods=[(0,5,{"en":lambda:NP(N("night")),"fr":lambda:NP(N("nuit"))}),
@@ -21,6 +22,7 @@ dayPeriods=[(0,5,{"en":lambda:NP(N("night")),"fr":lambda:NP(N("nuit"))}),
 
 def jsrDayPeriod(hour,lang):
     isTomorrow=hour>23
+    hour=hour%24
     for (s,e,jsrExp) in dayPeriods:
         if hour in range(s,e):
             exp=jsrExp[lang]()
