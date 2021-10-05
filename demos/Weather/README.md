@@ -4,11 +4,75 @@
 
 The input of the application is set of meteorological information (e.g precipitations, temperature, wind, UV index,...) provided by [Environment and Climate Change Canada](https://www.canada.ca/en/environment-climate-change.html "Environment and Climate Change Canada - Canada.ca") (ECCC). Unlike usual data-to-text applications, this information is machine generated: it is created by a numerical weather model which outputs data for ranges of hours after the time the bulletin is expected to be issued. ECCC emits three *regular* bulletins each day (morning, midday and evening) for each of the NNN regions of Canada. A bulletin gives the predictions for the current day or evening and the next day. These bulletins are generated in both English and French.
 
+Here is an example of an evening bulletin realized by **jsRealB** in English and French.
+
+<!--
+tonight ( 16h, +6h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+precipitation-type        : [20h,+5h):[showers, [20h,+5h):[thunderstorm]]
+precipitation-probability : [15h,20h):[10], [20h,+5h):[30], [+5h,+15h):[10]
+sky-cover                 : [-1h,18h):[1, 1], [18h,20h):[3, 3], [20h,+5h):[5, 5], [+5h,+11h):[2, 2]
+temperatures              : [16h,18h):[28], [18h,20h):[26], [20h,23h):[20], [23h,+2h):[14], [+2h,+5h):[14], [+5h,+8h):[15]
+wind                      : [12h,20h):[w, speed, 20], [20h,+0h):[sw, speed, 15], [+0h,+12h):[sw, speed, 10]
+----
+tomorrow ( +6h,+18h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
+precipitation-probability : [+5h,+15h):[10], [+15h,+18h):[30]
+sky-cover                 : [+5h,+11h):[2, 2], [+11h,+15h):[2, 8], [+15h,+18h):[8, 8]
+temperatures              : [+5h,+8h):[15], [+8h,+11h):[23], [+11h,+14h):[28], [+14h,+17h):[25], [+17h,+20h):[23]
+uv-index                  : [+12h,+14h):[7.7]
+wind                      : [+0h,+12h):[sw, speed, 10], [+12h,+20h):[sw, speed, 20]
+----
+tomorrow_night (+18h, ⧺6h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
+precipitation-probability : [+18h,⧺0h):[30], [⧺0h,⧺6h):[20]
+sky-cover                 : [+18h,⧺0h):[8, 8], [⧺0h,⧺6h):[7, 7]
+temperatures              : [+17h,+20h):[23], [+20h,+23h):[18], [+23h,⧺2h):[15], [⧺2h,⧺5h):[14], [⧺5h,⧺8h):[15]
+wind                      : [+12h,+20h):[sw, speed, 20], [+20h,⧺0h):[sw, speed, 10], [⧺0h,⧺8h):[nil, speed, 5]
+-->
+
+    WEATHER BULLETIN: regular
+    Forecasts issued by jsRealB on Wednesday, July 18, 2018 at 4:00 p.m. for today and tomorrow.
+    The next scheduled forecasts will be issued on Thursday, July 19, 2018 at 5:30 a.m.
+    Armstrong - Auden - Wabakimi Park
+    Nakina - Aroland - Pagwa
+
+    Tonight : Clear. A few clouds. Partly cloudy. 30 percent chances of
+     showers ending during the night. Wind west around noon. Becoming
+     southwest in the evening. Temperature rising to 28 by morning.
+    Thursday : Mainly sunny. Increasing cloudiness tomorrow morning.
+     Mainly cloudy. 30 percent chances of showers ending during the night.
+     Wind southwest. High 28. Low 15. UV index 8 or very high.
+    Thursday night : Mainly cloudy. 30 percent chances of showers ending
+     during the night. Wind southwest. Temperature rising to 23 by
+     morning.
+    END 
+
+    BULLETIN MÉTÉOROLOGIQUE: régulier
+    Prévisions émises par jsRealB le mercredi 18 juillet 2018 à 16 h 0 pour aujourd'hui et demain.
+    Les prochaines prévisions seront émises le jeudi 19 juillet 2018 à 5 h 30.
+    Armstrong - Auden - parc Wabakimi
+    Nakina - Aroland - Pagwa
+
+    Ce soir et cette nuit : Dégagé. Quelques nuages. Partiellement
+     couvert. 30 pour cent de probabilités d'averses finissant durant la
+     nuit. Vents de l'ouest vers midi. Devenant du sud-ouest dans la
+     soirée. Températures à la hausse pour atteindre 28 en matinée.
+    Jeudi : Généralement ensoleillé. Ennuagement demain matin.
+     Généralement nuageux. 30 pour cent de probabilités d'averses
+     finissant durant la nuit. Vents du sud-ouest. Minimum 28. Minimum 15.
+     Indice UV 8 ou très élevé.
+    Jeudi soir et nuit : Généralement nuageux. 30 pour cent de
+     probabilités d'averses finissant durant la nuit. Vents du sud-ouest.
+     Températures à la hausse pour atteindre 23 en matinée.
+    FIN 
+
+
+
 For the purpose of this demo, we extracted a subset of the global information for regions of Ontario and Québec for 2018 and 2019 which is nevertheless illustrative of the natural language generation problems encountered in this context.  We converted the Meteocode, an internal data format of ECCC, to [JSON](https://www.json.org/json-en.html "JSON") in which all time indications are *shifted*, so that they appear in local time while, in the original, they were in UTC. 
 
-This demonstration program does not try to reproduce verbatim the output of the system used by ECCC because it is highly simplified. The goal is to illustrate a use of the **jsRealB** realizer in an interesting context, in fact [weather information is one of the most successful application of Natural Language Generation (NLG)](https://ehudreiter.com/2017/05/09/weathergov/ "You Need to Understand your Corpora! The Weathergov Example &#8211; Ehud Reiter&#039;s Blog"). 
+This demonstration program does not try to reproduce verbatim the output of the system used by ECCC because we highly simplified it for didactic purposes. Our goal is to illustrate a use of the **jsRealB** realizer in an interesting context, in fact [weather information is one of the most successful *real life* application of Natural Language Generation (NLG)](https://ehudreiter.com/2017/05/09/weathergov/ "You Need to Understand your Corpora! The Weathergov Example &#8211; Ehud Reiter&#039;s Blog"). 
 
-This document outlines the organization of the system and should be read in conjunction with the source code.  Only excerpts are shown here to emphasize some of the aspects of the text generation system that seem to us more challenging.
+This document outlines the organization of the system and should be read in conjunction with the source code.  Only excerpts are shown here to emphasize the aspects of text generation that are more challenging.
 
 ## Data organization
 
@@ -19,7 +83,6 @@ We now outline the JSON data organization in terms of Python data structures:
     * `names-en`: list of English region names to which the forecast applies
     * `names-fr`: list of French region names to which the forecast applies
 * weather information : list of values of which the first two are the *starting hour* and *ending hour*  relative to 0h of the issue datetime, when they are negative, they refer to historical data; the other values (described below depend on the type of information). For `precipitation-type` and `wind`, a value can be a list of values which describes an exceptional phenomenon (e.g. gust within a wind period) that occurs during this period.
-    * `climatology` : values over the past years: type (e.g. min or max) value
     * `precipitation-type`: e.g. rain, snow, ...
     * `precipitation-accumulation` : type (e.g. rain, snow), amount (in cm for `snow` or mm for `rain`) 
     * `precipitation-probability` : type (e.g. rain, snow), value of prob in percentage
@@ -32,11 +95,12 @@ We now outline the JSON data organization in terms of Python data structures:
     * `en` : original bulletin in English to ease comparison of generated text with the issued forecast
     * `fr` : original bulletin in French to ease comparison of generated text with the issued forecast
     * `id` : id of the original data, to ease debugging of the data conversion program.
+    
 
 ## Bulletin generation
 This demonstration program is a data-to-text application that generates bilingual (English and French) weather bulletins. The core of the data manipulation and text organization is in Python and the final text realization is performed by **jsRealB**.
 
-A weather bulletin is composed of standardized block of informations some of which are created using simple format statements (`communication_header`,`forecast_regions` and `end_statement`), but others (`title_block` and `forecast_text`) must be generated as they use natural language text. All these functions return a string that forms a single line or `None` in which case it is ignored.
+As shown in the sample given above, a weather bulletin is composed of standardized block of informations some of which are created using simple format statements (`communication_header`,`forecast_regions` and `end_statement`), but others (`title_block` and `forecast_text`) must be generated as they use natural language text. All these functions return a string that forms a single line or `None` in which case it is ignored in the output.
 
     def generate_bulletin(wInfo,lang):
         text=[
@@ -48,8 +112,7 @@ A weather bulletin is composed of standardized block of informations some of whi
         ]    
         return "\n".join(line for line in text if line!=None)
 
-To illustrate interesting NLG issues, we decribe`forecast_text` which creates 3 paragraphs for each forecasting period.
-A paragraph starts with the name of the period (which will be explained later) and then the text realized by `forecast_period`. The string is formatted similarly to the original bulletin to ease comparison.
+To illustrate interesting NLG issues, we describe `forecast_text` which creates 3 paragraphs for each forecasting period. A paragraph starts with the name of the period (which will be explained later) and then the text realized by `forecast_period`. The string is formatted similarly to the original bulletin to ease comparison.
 
     def forecast_text(wInfo,lang):
         paragraphs=[]
@@ -63,7 +126,7 @@ A paragraph starts with the name of the period (which will be explained later) a
                 )  
         return "\n".join(paragraphs)
 
-A period is described a list of sentences dealing with different weather aspects when they are relevant according to the data for the given period: conditions of the sky (clear, cloudy, etc.), precipitations (quantity of snow or rain), wind (direction and speed), temperature (levels, variations within the period) and the value of the UV index. When the data is not *interesting* for the period, these functions return `None` which is ignored.
+A period is described as a list of sentences dealing with different weather aspects when they are relevant according to the data for the given period: conditions of the sky (clear, cloudy, etc.), precipitations (quantity of snow or rain), wind (direction and speed), temperature (levels, variations within the period) and the value of the UV index. When the data is not *interesting* for the period, these functions return `None` which is ignored.
 
     def forecast_period(wInfo,period,lang):
         sents=filter(lambda l:l!=None,[
@@ -135,7 +198,7 @@ A **jsRealB** expression is realized using the following function which specifie
             jsrExpr=S(jsrExpr)
         return jsRealB(jsrExpr.set_lang(lang).pp())
 
-The last line sets the realization language and `pp()` creates a string in JSON that is given to the `jsRealB` function which calls the **jsRealB** server and returns the realized string.
+The last line sets the realization language and `pp()` creates a JSON serialization string passed as parameter to the `jsRealB` function which calls the **jsRealB** server and returns the realized string.
 
 ### Access to the weather information
 
@@ -147,21 +210,32 @@ The `WeatherInfo` class gives access to the content of the JSON file. Its constr
         "evening":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)},
     }
 
-For example, for the `tonight` period of the `midday` bulletin, only terms that have a ending time greater than 18 and a starting time less than 30 are returned. If a given information is not found or if not values intersect the given range, `None` is returned.
+For example, for the `tomorrow` period of an `evening` bulletin, only terms that have an ending time greater or equal than 30 and a starting time less than 42 are returned. If a given information is not found or if not values intersect the given range, `None` is returned.
 
-Access to the information is performed with functions such as these:
+For the tomorrow period of the above bulletin, these terms can be visualized as follows:
 
-    def get_climatology(self,period):
-        if "climatology" not in self.data: return None
-        return self.select_terms(period,self.data["climatology"])
+    tomorrow ( +6h,+18h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+    precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
+    precipitation-probability : [+5h,+15h):[10], [+15h,+18h):[30]
+    sky-cover                 : [+5h,+11h):[2, 2], [+11h,+15h):[2, 8], [+15h,+18h):[8, 8]
+    temperatures              : [+5h,+8h):[15], [+8h,+11h):[23], [+11h,+14h):[28], [+14h,+17h):[25], [+17h,+20h):[23]
+    uv-index                  : [+12h,+14h):[7.7]
+    wind                      : [+0h,+12h):[sw, speed, 10], [+12h,+20h):[sw, speed, 20]
+    
+The semi-open time intervals are indicated by hour modulo 24 prefixed with + for the next day and ⧺ for the day after tomorrow. The first line give the period name, its time interval, its id and the issue time. Then are given the (non `None`) field names with the terms with time intervals that intersect the period interval. Each term is shows with its time interval followed by its lists of values, some of which can be terms themselves (e.g. `thunderstorm` in `precipitation-type`)
+
+Access to the information in `WeatherInfo` is performed with functions such as the following which returns only relevant terms for the period:
     
     def get_precipitation_probabilities(self,period):
         if "precipitation-probability" not in self.data: return None
         return self.select_terms(period, self.data["precipitation-probability"])
     
+## Sky condition
 
-
-### Sky condition
+This indicates the general weather conditions, such as :
+    
+    Mainly sunny. Increasing cloudiness tomorrow morning.
+    Généralement ensoleillé. Ennuagement demain matin.
 
 Different ways of realizing sky conditions are given in the following table: condition is associated with a pair whose first component expresses this condition during the day and the second during the night. For example, no cover will correspond to `sunny` during the day, but `clear` during the night. If only one value is given for the tuple, then the first value is always used; e.g. `cloudy` is used for both the day and the night. As these expressions are never modified, there is no need to enclose them in a `lambda`.
 
@@ -207,6 +281,11 @@ This table is used in the context of the following function which loops over the
 
 
 ## Precipitation
+
+For information about rain or snow, for example:
+
+    30 percent chances of showers ending during the night.
+    30 pour cent de probabilités d'averses finissant durant la nuit.
 
 The French and English realizations of the many precipitation types are given in a table.
 
@@ -298,14 +377,19 @@ To realize the precipitation information for a given term, the start and end tim
 
 ## Wind
 
+Information about the wind speed and directions are realized as follows:
+
+    Wind west around noon. Becoming southwest in the evening.
+    Vents de l'ouest vers midi. Devenant du sud-ouest dans la soirée.
+
 The realization of wind directions are given in a table with the corresponding compass degree which used to compute significant wind directions changes.
 
     jsrWindDirection = {
-        "e":    {"en":Adv("east"),       "fr":NP(D("le"),N("est")),                    "deg":90},
-        "n":    {"en":Adv("north"),      "fr":NP(D("le"),N("nord")),                   "deg":0},
-        ...
-        "sw":   {"en":Adv("southwest"),  "fr":NP(D("le"),N("sud-ouest")),              "deg":225},
-        # "vrbl": {"en":A("variable"),     "fr":A("variable")},
+        "e":    {"en":Adv("east"),       "fr":NP(D("le"),N("est")),       "deg":90},
+        "n":    {"en":Adv("north"),      "fr":NP(D("le"),N("nord")),      "deg":0},
+        ...                                                               
+        "sw":   {"en":Adv("southwest"),  "fr":NP(D("le"),N("sud-ouest")), "deg":225},
+        # "vrbl": {"en":A("variable"),   "fr":A("variable")},
     }
 
 
@@ -313,7 +397,7 @@ The realization of wind directions are given in a table with the corresponding c
     def dir_diff(dir1,dir2):
         ...
 
-Wind terms are scanned and an when a wind speed of more than 15 km/h is encountered, it is realized. When a wind speed changes by more than 20 km/h or if it changes direction then an appropriate realization is emitted. If a gust is detected during the period, it is also expressed. The expression is built incrementally by starting with an empty `S()` to which an `NP` and possibly a `VP` or an indication of the time are added.   
+Wind terms are scanned to realize the ones with wind speed of more than 15 km/h. When a wind speed changes by more than 20 km/h or if it changes direction then an appropriate realization is emitted. If a gust is detected during the period, it is also expressed. The expression is built incrementally by starting with an empty `S()` to which an `NP` and possibly a `VP` or an indication of the time are added.   
 
     def wind(wInfo,period,lang):
         wind_terms=wInfo.get_wind(period)
@@ -324,44 +408,177 @@ Wind terms are scanned and an when a wind speed of more than 15 km/h is encounte
         for wind_term in wind_terms:
             wSpeed = wind_term.infos[2]
             wDir= wind_term.infos[0]
-            jsrExpr=S()
+            jsrExpr=S()                                           # current expression
             if wSpeed>=15 and wDir in jsrWindDirection:
-                if lastSpeed!=None and abs(wSpeed-lastSpeed)>=20:
+                if lastSpeed!=None and abs(wSpeed-lastSpeed)>=20: # significant speed change
                     lastSpeed=wSpeed
                     if lang=="en":
                         jsrExpr.add(VP(V("increase").t("pr"),PP(P("to"),NO(wSpeed))))
                     else:
                         jsrExpr.add(VP(V("augmenter").t("pr"),PP(P("à"),NO(wSpeed))))    
-                elif lastDir!=None and dir_diff(wDir, lastDir):
+                elif lastDir!=None and dir_diff(wDir, lastDir):  # significant direction change
                     if lang=="en":
                         jsrExpr.add(VP(V("become").t("pr"),jsrWindDirection[wDir][lang]))
                     else:
                         jsrExpr.add(VP(V("devenir").t("pr"),PP(P("de"),jsrWindDirection[wDir][lang])))
                     lastDir=wDir
-                else:
+                else:                                            # realize wind and direction
                     lastSpeed=wSpeed
                     lastDir=wDir
                     if lang=="en":
                         jsrExpr.add(NP(N("wind"),jsrWindDirection[wDir][lang]))
                     else:
                         jsrExpr.add(NP(N("vent").n("p"),PP(P("de"),jsrWindDirection[wDir][lang])))
-                # show gust or time
-                if len(wind_term.infos)>3:
+                if len(wind_term.infos)>3:                       # add gusting information
                     gust=wind_term.infos[3]
                     if gust[2]=='gust':
                         if lang=="en":
                             jsrExpr.add(VP(V("gust").t("pr"),PP(P("to"),NO(gust[3]))))
                         else:
                             jsrExpr.add(PP(P("avec"),NP(N("rafale").n("p"),P("à"),NO(gust[3]))))
-                else:
+                else:                                           # add time information
                     jsrExpr.add(jsrHour(wind_term.start,lang))
-                jsrExprs.append(jsrExpr)
-        return " ".join(realize(jsrExpr,lang,False) for jsrExpr in jsrExprs)
+                jsrExprs.append(jsrExpr)                        # add built expression to the list
+            return " ".join(realize(jsrExpr,lang,False) for jsrExpr in jsrExprs)
 
 
 
 ## Temperature
 
+Temperatures can be described very simply such as:
+    
+    High 28. Low 15.
+    Maximum 28. Minimum 15.
+
+or with a trend when there is a significant difference in temperatures during the day or night:
+
+    Temperature rising to 28 by morning.
+    Températures à la hausse pour atteindre 28 en matinée.
+
+This achieved with this 
+
+    def temperature(wInfo,period,lang):
+        temperature_terms=wInfo.get_temperature(period)
+        if temperature_terms == None : return None
+        maxTemp=get_max_term(temperature_terms,0).infos[0]
+        minTemp=get_min_term(temperature_terms,0).infos[0]
+        dn= "night" if period in ["tonight","tomorrow_night"] else "day"
+        tempVals=wInfo.get_temperature_values(period)
+        periodName=periodNames[period][lang](wInfo.get_issue_date())
+        # checking for an abnormal temperature trend
+        (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(maxTemp)) if dn=="night" else\
+                   (minTemp,maxTemp,tempVals.index(minTemp))
+        if t1 >= t2+3:                       # abnormal change time
+            if i1 <=1 :
+                return realize(jsrAbnormal[dn]["a"][lang](t1, periodName),lang,False)
+            else:
+                if i1 < 6:
+                    rest=tempVals[i1:]
+                    if all([abs(t-t1)<=2 for t in rest]):
+                        # c) remains +/- 2 for the rest of the period
+                        return realize(jsrAbnormal[dn]["c"][lang](t1,periodName),lang,False)
+                    elif any([t-t1>2 for t in rest]):
+                        # d) rises more than 2 for the rest 
+                        return realize(jsrAbnormal[dn]["d"][lang](t1,periodName),lang,False)
+                    elif any([t1-t>2 for t in rest]):
+                        # e) falls more than 2 for the rest (this should never happen!!!)
+                        return realize(jsrAbnormal[dn]["e"][lang](t1,periodName),lang,False)
+                else:
+                    # b) low temperature after the beginning (but no special case)
+                    return realize(jsrAbnormal[dn]["b"][lang](t2,t1),lang,False)
+        # normal case 
+        res=[]                             
+        if lang=="en":                      # output maximum temperature   
+            res.append(realize(S(Adv("high"),jsrTemp(maxTemp,"en")),"en",False))
+        else:
+            res.append(realize(S(N("maximum"),jsrTemp(maxTemp,"fr")),"fr",False))
+        if minTemp < maxTemp-2:             # output minimum if it differs significantly from the maximum 
+            if lang=="en":
+                res.append(realize(S(Adv("low"),jsrTemp(minTemp,"en")),"en",False))
+            else:
+                res.append(realize(S(N("minimum"),jsrTemp(minTemp,"fr")),"fr",False))
+        return " ".join(res)
+
+The value of the temperature is indicated as follows:
+
+    def jsrTemp(val,lang):
+        if val==0: return N("zero") if lang=="en" else N("zéro")
+        if val<0 : return AdvP(A("minus") if lang=="en" else Adv("moins"),NO(abs(val)))
+        if val<=5 : return AP(A("plus"), NO(val)) if lang=="en" else AdvP(Adv("plus"),NO(val))
+        return NO(val)
+
+The trend expression is built using the following function:
+
+    def temp_trend(lang,trend,goalTemp,when):
+        if lang=="en":
+            return S(N("temperature"),
+                    VP(V(trend).t("pr"),
+                       PP(P("to"),jsrTemp(goalTemp,lang)),
+                       when))
+        else:
+            return S(NP(N("température").n("p"),
+                        PP(P("à"),NP(D("le"),N(trend)))),
+                        PP(P("pour"),V("atteindre").t("b"),jsrTemp(goalTemp,lang),
+                        when))
+
+The *abnormal* situation is encoded using the following table:
+
+    jsrAbnormal = {  
+        "night":{ 
+            "a":{
+                "en":lambda t,_:temp_trend("en","rise",t,PP(P("by"),N("morning"))),
+                "fr":lambda t,_:temp_trend("fr","hausse",t,PP(P("en"),N("matinée")))
+            },
+            ...
+            "e":{
+                "en":lambda t,p:temp_trend("en","rise",t,p).add(AdvP(Adv("then"),V("fall").t("pr"))),
+                "fr":lambda t,p:temp_trend("fr","hausse",t,p).add(PP(P("pour"),Adv("ensuite"),
+                                                                      V("être").t("b"),PP(P("à"),
+                                                                                          NP(D("le"),N("baisse")))))
+            },
+        },
+        "day":{ 
+            ...
+        }
+    }                
+
 
 ## UV index
+
+UV index information, a number which ranges from a low of zero to a high of 11+, is only given for bulletin during a day period in the following way:
+
+    UV index 8 or very high.
+    Indice UV 8 ou très élevé.
+
+Its realization is simple matter of outputting its rounded value and if it is greater than 0. The English or French realization is obtained by searching a table [according to the guidelines of ECCC](https://www.canada.ca/en/environment-climate-change/services/weather-health/uv-index-sun-safety/about.html "About the UV index - Canada.ca").
+
+    uv_ranges= [(2,   {"en":A("low"),                     "fr":A("bas")}), 
+                (5,   {"en":A("moderate"),                "fr":A("modéré")}), 
+                (7,   {"en":A("high"),                    "fr":A("élevé")}), 
+                (10,  {"en":AP(Adv("very"), A("high")),   "fr":AP(Adv("très"),A("élevé"))}), 
+                (1000,{"en":A("extreme"),                 "fr":A("extrême")})]
+
+    def uv_index(wInfo,period,lang):
+        if period in ["tonight","tomorrow_night"]:      # no UV index in the night
+            return None
+        uvi_terms=wInfo.get_uv_index(period)
+        if uvi_terms==None:return None 
+        uvVal=uvi_terms[0].infos[0]                     # consider only the first uvi_term
+        if uvVal<1: return None                         # too low
+        uvVal=round(uvVal)
+        if uvVal==0:return None
+        for high,expr in uv_ranges:
+            if uvVal<=high:
+                if lang=="en": 
+                    return realize(NP(Q("UV"),N("index"),NO(uvVal),C("or"),expr[lang]),lang)
+                else:
+                    return realize(NP(N("indice"),Q("UV"),NO(uvVal),C("ou"),expr[lang]),lang)
+        return None
+
+
+## Conclusion
+
+This document shows how to generate bilingual documents from a single source of information using **jsRealB**. Although the input data and the generated documents are somewhat simpler than what would be used in a real life context, the essential organization of the system would stay much of the same as the framework is extensible. 
+
+[Guy Lapalme](mailto:lapalme@iro.umontreal.ca)
 

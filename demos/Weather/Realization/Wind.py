@@ -51,38 +51,37 @@ def wind(wInfo,period,lang):
     for wind_term in wind_terms:
         wSpeed = wind_term.infos[2]
         wDir= wind_term.infos[0]
-        jsrExpr=S()
+        jsrExpr=S()                                           # current expression
         if wSpeed>=15 and wDir in jsrWindDirection:
-            if lastSpeed!=None and abs(wSpeed-lastSpeed)>=20:
+            if lastSpeed!=None and abs(wSpeed-lastSpeed)>=20: # significant speed change
                 lastSpeed=wSpeed
                 if lang=="en":
                     jsrExpr.add(VP(V("increase").t("pr"),PP(P("to"),NO(wSpeed))))
                 else:
                     jsrExpr.add(VP(V("augmenter").t("pr"),PP(P("à"),NO(wSpeed))))    
-            elif lastDir!=None and dir_diff(wDir, lastDir):
+            elif lastDir!=None and dir_diff(wDir, lastDir):  # significant direction change
                 if lang=="en":
                     jsrExpr.add(VP(V("become").t("pr"),jsrWindDirection[wDir][lang]))
                 else:
                     jsrExpr.add(VP(V("devenir").t("pr"),PP(P("de"),jsrWindDirection[wDir][lang])))
                 lastDir=wDir
-            else:
+            else:                                            # realize wind and direction
                 lastSpeed=wSpeed
                 lastDir=wDir
                 if lang=="en":
                     jsrExpr.add(NP(N("wind"),jsrWindDirection[wDir][lang]))
                 else:
                     jsrExpr.add(NP(N("vent").n("p"),PP(P("de"),jsrWindDirection[wDir][lang])))
-            # show gust or time
-            if len(wind_term.infos)>3:
+            if len(wind_term.infos)>3:                       # add gusting information
                 gust=wind_term.infos[3]
-                if gust[2]=='gust':
+                if gust.infos[0]=='gust':
                     if lang=="en":
-                        jsrExpr.add(VP(V("gust").t("pr"),PP(P("to"),NO(gust[3]))))
+                        jsrExpr.add(VP(V("gust").t("pr"),PP(P("to"),NO(gust.infos[1]))))
                     else:
-                        jsrExpr.add(PP(P("avec"),NP(N("rafale").n("p"),P("à"),NO(gust[3]))))
-            else:
+                        jsrExpr.add(PP(P("avec"),NP(N("rafale").n("p"),P("à"),NO(gust.infos[1]))))
+            else:                                           # add time information
                 jsrExpr.add(jsrHour(wind_term.start,lang))
-            jsrExprs.append(jsrExpr)
+            jsrExprs.append(jsrExpr)                        # add current expression to the list
     return " ".join(realize(jsrExpr,lang,False) for jsrExpr in jsrExprs)
 
 

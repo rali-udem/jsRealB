@@ -64,13 +64,13 @@ def precipitation_at(prob,pcpn_term,amount_terms,lang):
         pcpnType=amount_term.infos[0]
         amount=amount_term.infos[1]
         if pcpnType=="rain":
-            if amount>20:
+            if amount>=25:
                 if lang=="en":
                     jsrExprs.append(NP(N("amount"),NO(round(amount)),Q("mm")))
                 else:
                     jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount)),Q("mm")))
         elif pcpnType=="snow":
-            if amount>2:
+            if amount>=2:
                 if lang=="en":
                     jsrExprs.append(NP(N("amount"),NO(round(amount)),Q("cm")))
                 else:
@@ -78,10 +78,68 @@ def precipitation_at(prob,pcpn_term,amount_terms,lang):
     return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
     
 
+# chance of precipitation (COP) is expressed in increment of 10% when between 30% and 70% (but different than 50%...)
+# when 80% or more, indicated beginning or ending
+# only one reference to COP except when
+#          a 6 hour break in precipitation
+#          two types of precipitation
+#          more than 30% difference
+
+# precipitation amount is indicated if 
+#          snow >= 2cm 
+#          rain >= 25mm 
+
+
 def precipitation(wInfo,period,lang):
+    last_cop=None
+    last_time=None
+    jsrExprs=[]
+    prob_terms=wInfo.get_precipitation_probabilities(period)
+    type_terms=wInfo.get_precipitation_type(period)
+    accum_terms=wInfo.get_precipitation_accumulation(period)
+    for prob_term in prob_terms:
+        prob_val=round(prob_term.infos[0]/10)*10
+        if prob_val>=30:
+            if prob_val <= 70 and prob_val!=50:
+                if lang=="en":
+                    prob=NP(NO(prob_val),Q("percent"),N("chance"),P("of"))
+                else:
+                    prob=NP(NO(prob_val),Q("pour cent"),P("de"),N("probabilité"),P("de"))
+                timePeriod=None
+            else:
+                # check the time of
+                start=prob_term.start
+                end=prob_term.end
+                if wInfo.is_in_period(start,period):
+                    time=get_term_at(type_terms,start)
+                    if lang=="en":
+                        timePeriod=VP(V("begin").t("pr"),jsrHour(start%24,lang))
+                    else:
+                        timePeriod=VP(V("débuter").t("pr"),jsrHour(start%24,lang))
+                elif wInfo.is_in_period(end,period):
+                    time=get_term_at(type_terms,end)
+                    if lang=="en":
+                        timePeriod=VP(V("end").t("pr"),jsrHour(end%24,lang))
+                    else:
+                        timePeriod=VP(V("finir").t("pr"),jsrHour(end%24,lang))
+                else:
+                    timePeriod=None
+                    
+        amount_term=get_term_at(amount_terms,pcpn_term.start)
+
+        else:
+            prob=None
+            time=None
+            
+           
+            
+            
+            
+            
+    
+    
     pcpn_terms=wInfo.get_precipitation_type(period)
     if pcpn_terms==None: return None
-    prob_terms=wInfo.get_precipitation_probabilities(period)
     maxProbTerm=get_max_term(prob_terms,0)
     if maxProbTerm!=None and maxProbTerm.infos[0]<=10:
         maxProbTerm=None

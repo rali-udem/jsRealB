@@ -102,3 +102,4 @@ if __name__ == '__main__':
         else:
             print(generate_bulletin(wInfo,"en"),"\n")
             print(generate_bulletin(wInfo,"fr"),"\n")
+        break

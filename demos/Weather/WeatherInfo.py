@@ -25,10 +25,10 @@ class WeatherTerm:
     def __init__(self,vals):
         self.start=vals[0]
         self.end=vals[1]
-        self.infos=vals[2:]
+        self.infos=[(WeatherTerm(val) if isinstance(val,list) else val) for val in vals[2:]]
     
     def __str__(self):
-        return "(%4s,%4s):[%s]"%(hour(self.start),hour(self.end)," ".join(map(str,self.infos)))
+        return "[%s,%s):[%s]"%(hour(self.start),hour(self.end),", ".join(map(str,self.infos)))
                                                                            
 class WeatherInfo:
 
@@ -73,6 +73,10 @@ class WeatherInfo:
     def get_time_interval(self,period):
         return issue_time_to_periods[self.get_issue_type()][period]
         
+    def is_in_period(self,hour,period):
+        (start,end)=self.get_time_interval(period)
+        return start<=hour<end
+        
     ### show all info for a given period
     ###    times (ending with h) are shown in local time 
     ignoredFields=set(["header","names-en","names-fr","regions","en","fr","id"])
@@ -87,7 +91,7 @@ class WeatherInfo:
             if field not in self.ignoredFields and  field in self.data:
                 terms=self.select_terms(period,self.data[field])
                 if terms!=None:
-                    print("%-11s : %s"%(field,show_terms(terms)))
+                    print("%-25s : %s"%(field,show_terms(terms)))
         print("----")
             
     ### query information

@@ -15,16 +15,15 @@ uv_ranges= [(2,   {"en":A("low"),                     "fr":A("bas")}),
             (5,   {"en":A("moderate"),                "fr":A("modéré")}), 
             (7,   {"en":A("high"),                    "fr":A("élevé")}), 
             (10,  {"en":AP(Adv("very"), A("high")),   "fr":AP(Adv("très"),A("élevé"))}), 
-            (1000,{"en":A("extreme"),                 "fr":A("extrême")})
-           ]
+            (1000,{"en":A("extreme"),                 "fr":A("extrême")})]
 
 def uv_index(wInfo,period,lang):
-    if period in ["tonight","tomorrow_night"]: # no UV index in the night
+    if period in ["tonight","tomorrow_night"]:      # no UV index in the night
         return None
     uvi_terms=wInfo.get_uv_index(period)
     if uvi_terms==None:return None 
-    uvVal=uvi_terms[0].infos[0] # consider only the first uvi_term
-    if uvVal<1: return None  ## too low
+    uvVal=uvi_terms[0].infos[0]                     # consider only the first uvi_term
+    if uvVal<1: return None                         # too low
     uvVal=round(uvVal)
     if uvVal==0:return None
     for high,expr in uv_ranges:

@@ -15,9 +15,6 @@ def jsrTemp(val,lang):
     if val<=5 : return AP(A("plus"), NO(val)) if lang=="en" else AdvP(Adv("plus"),NO(val))
     return NO(val)
 
-def pVal(p):    
-    return "this" if p in ["today","tonight"] else "in the"
-
 def temp_trend(lang,trend,goalTemp,when):
     if lang=="en":
         return S(N("temperature"),
@@ -30,15 +27,7 @@ def temp_trend(lang,trend,goalTemp,when):
                     PP(P("pour"),V("atteindre").t("b"),jsrTemp(goalTemp,lang),
                     when))
 
-dayPeriods=[(0,5,{"en":lambda:NP(N("night")),"fr":lambda:NP(N("nuit"))}),
-            (5,9,{"en":lambda:NP(Adv("early"),N("morning")),"fr":lambda:NP(N("début"),PP(P("de"),N("matinée")))}),
-            (9,12,{"en":lambda:NP(N("morning")),"fr":lambda:NP(N("matin"))}),
-            (12,18,{"en":lambda:NP(N("afternoon")),"fr":lambda:NP(N("après-midi"))}),
-            (18,24,{"en":lambda:NP(N("tonight")),"fr":lambda:NP(N("soir"))}),
-            ]
-
-
-jsrAbnormal = {
+jsrAbnormal = {  
     "night":{ 
         "a":{
             "en":lambda t,_:temp_trend("en","rise",t,PP(P("by"),N("morning"))),
@@ -71,7 +60,7 @@ jsrAbnormal = {
         },
         "b":{
             "en":lambda t,u:S(Adv("high"),NO(u).a(","),P("with"),temp_trend("en","fall",t,PP(P("by"),N("afternoon")))),
-            "fr":lambda t,u:S(N("maximum"),NO(u).a(","),temp_trend("fr","hausse",t,PP(P("en"),N("matinée"))))
+            "fr":lambda t,u:S(N("maximum"),NO(u).a(","),temp_trend("fr","hausse",t,PP(P("en"),N("après-midi"))))
         },
         "c":{
             "en":lambda t,p:temp_trend("en","fall",t,p).add(AdvP(Adv("then"),A("steady"))),
@@ -96,49 +85,37 @@ def temperature(wInfo,period,lang):
     if temperature_terms == None : return None
     maxTemp=get_max_term(temperature_terms,0).infos[0]
     minTemp=get_min_term(temperature_terms,0).infos[0]
-    # for climat_term in climat_terms:
-        # if climat_term[2]=="max":maxTemp=climat_term[3]
-        # elif climat_term[2]=="min":minTemp=climat_term[3]
     dn= "night" if period in ["tonight","tomorrow_night"] else "day"
     tempVals=wInfo.get_temperature_values(period)
     periodName=periodNames[period][lang](wInfo.get_issue_date())
-    if isinstance(tempVals,int):
-        print("tempVals",tempVals)
-        print(period)
-        print(temperature_terms)
-    try:
-        (t1,t2,i1,i2)=(maxTemp,minTemp,tempVals.index(maxTemp),tempVals.index(minTemp)) if dn=="night" else\
-                      (minTemp,maxTemp,tempVals.index(minTemp),tempVals.index(maxTemp))
-        if t1 >= t2+3:
-            # abnormal change time
-            if i1 <=1 :
-                return realize(jsrAbnormal[dn]["a"][lang](t1, periodName),lang,False)
+    # checking for an abnormal temperature trend
+    (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(maxTemp)) if dn=="night" else\
+               (minTemp,maxTemp,tempVals.index(minTemp))
+    if t1 >= t2+3:                       # abnormal change time
+        if i1 <=1 :
+            return realize(jsrAbnormal[dn]["a"][lang](t1, periodName),lang,False)
+        else:
+            if i1 < 6:        # abnormality occurs during the first 6 hours of the period
+                rest=tempVals[i1:]
+                if all([abs(t-t1)<=2 for t in rest]):
+                    # c) remains +/- 2 for the rest of the period
+                    return realize(jsrAbnormal[dn]["c"][lang](t1,periodName),lang,False)
+                elif any([t-t1>2 for t in rest]):
+                    # d) rises more than 2 for the rest 
+                    return realize(jsrAbnormal[dn]["d"][lang](t1,periodName),lang,False)
+                elif any([t1-t>2 for t in rest]):
+                    # e) falls more than 2 for the rest (this should never happen!!!)
+                    return realize(jsrAbnormal[dn]["e"][lang](t1,periodName),lang,False)
             else:
-                if i1 < 6:
-                    rest=tempVals[i1:]
-                    if all([abs(t-t1)<=2 for t in rest]):
-                        # c) remains +/- 2 for the rest
-                        return realize(jsrAbnormal[dn]["c"][lang](t1,periodName),lang,False)
-                    elif any([t-t1>2 for t in rest]):
-                        # d) rises more than 2 for the rest 
-                        return realize(jsrAbnormal[dn]["d"][lang](t1,periodName),lang,False)
-                    elif any([t1-t>2 for t in rest]):
-                        # e) falls more than 2 for the rest (this should never happen!!!)
-                        return realize(jsrAbnormal[dn]["e"][lang](t1,periodName),lang,False)
-                else:
-                    # b) low temperature after the beginning (but no special case)
-                    return realize(jsrAbnormal[dn]["b"][lang](t2,t1),lang,False)
-    except ValueError:
-        print(tempVals)
-        print(temperature_terms)
-        tb = sys.exc_info()[2]
-        raise Exception().with_traceback(tb)
-    res=[]
-    if lang=="en":
+                # b) low temperature after the beginning (but no special case)
+                return realize(jsrAbnormal[dn]["b"][lang](t2,t1),lang,False)
+    # normal case 
+    res=[]                             
+    if lang=="en":                      # output maximum temperature   
         res.append(realize(S(Adv("high"),jsrTemp(maxTemp,"en")),"en",False))
     else:
-        res.append(realize(S(N("minimum"),jsrTemp(maxTemp,"fr")),"fr",False))
-    if minTemp < maxTemp-2:
+        res.append(realize(S(N("maximum"),jsrTemp(maxTemp,"fr")),"fr",False))
+    if minTemp < maxTemp-2:             # output minimum if it differs significantly from the maximum 
         if lang=="en":
             res.append(realize(S(Adv("low"),jsrTemp(minTemp,"en")),"en",False))
         else:

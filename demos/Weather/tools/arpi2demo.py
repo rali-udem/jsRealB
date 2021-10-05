@@ -38,14 +38,14 @@ def shiftTZ(delta,terms):
 #     else: return [15,45]
 
 
-def convertTerm(convertDict,terms):
+def convertTerm(delta,convertDict,terms):
     res=[]
     for term in terms:
         if isinstance(term,str):
             if term in convertDict:
                 res.append(convertDict[term])
-        elif isinstance(term,list):
-            res.append(convertTerm(convertDict,term))
+        elif isinstance(term,list):            
+            res.append(convertTerm(delta,convertDict,[term[0]-delta,term[1]-delta]+term[2:]))
         else:
             res.append(term)
     return res
@@ -116,22 +116,22 @@ def convert(jsonIn):
     jsonOut["header"]       = ["regular",issueDate.isoformat(),"next",nextDate.isoformat()]
     jsonOut["names-en"]     = jsonIn["names-en"]
     jsonOut["names-fr"]     = jsonIn["names-fr"]
-    if "climat_temp" in jsonIn:
-        jsonOut["climatology"]  = shiftTZ(delta,jsonIn["climat_temp"])
+    # if "climat_temp" in jsonIn:
+    #     jsonOut["climatology"]  = shiftTZ(delta,jsonIn["climat_temp"])
     if "pcpn" in jsonIn:
-        jsonOut["precipitation-type"]=[convertTerm(pcpnDict,term) for term in  shiftTZ(delta,jsonIn["pcpn"])]
+        jsonOut["precipitation-type"]=[convertTerm(delta,pcpnDict,term) for term in  shiftTZ(delta,jsonIn["pcpn"])]
     if "accum" in jsonIn:   
-        jsonOut["precipitation-accumulation"]=[convertTerm(accumDict,term) for term in  shiftTZ(delta,jsonIn["accum"])]
+        jsonOut["precipitation-accumulation"]=[convertTerm(delta,accumDict,term) for term in  shiftTZ(delta,jsonIn["accum"])]
     if "prob" in jsonIn:
         jsonOut["precipitation-probability"]= shiftTZ(delta,jsonIn["prob"][0][2:])
     if "ciel" in jsonIn:
         jsonOut["sky-cover"]    = [term[0:4] for term in  shiftTZ(delta,jsonIn["ciel"])]
     if "temp" in jsonIn:
-        jsonOut["temperatures"] = [convertTerm({},term) for term in  shiftTZ(delta,jsonIn["temp"])]
+        jsonOut["temperatures"] = [convertTerm(delta,{},term) for term in  shiftTZ(delta,jsonIn["temp"])]
     if "indice_uv" in jsonIn:
         jsonOut["uv-index"]     =  shiftTZ(delta,jsonIn["indice_uv"])
     if "vents" in jsonIn:
-        jsonOut["wind"]         = [convertTerm(ventsDict,term) for term in  shiftTZ(delta,jsonIn["vents"])]
+        jsonOut["wind"]         = [convertTerm(delta,ventsDict,term) for term in  shiftTZ(delta,jsonIn["vents"])]
     jsonOut["en"]           = jsonIn["en"]["orig"].replace(".."," : ")
     jsonOut["fr"]           = jsonIn["fr"]["orig"].replace(".."," : ")
     jsonOut["id"]           = jsonIn["id"]
