@@ -6,28 +6,27 @@ The input of the application is set of meteorological information (e.g precipita
 
 Here is an example of an evening bulletin realized by **jsRealB** in English and French.
 
-<!--
-tonight ( 16h, +6h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
-precipitation-type        : [20h,+5h):[showers, [20h,+5h):[thunderstorm]]
-precipitation-probability : [15h,20h):[10], [20h,+5h):[30], [+5h,+15h):[10]
-sky-cover                 : [-1h,18h):[1, 1], [18h,20h):[3, 3], [20h,+5h):[5, 5], [+5h,+11h):[2, 2]
-temperatures              : [16h,18h):[28], [18h,20h):[26], [20h,23h):[20], [23h,+2h):[14], [+2h,+5h):[14], [+5h,+8h):[15]
-wind                      : [12h,20h):[w, speed, 20], [20h,+0h):[sw, speed, 15], [+0h,+12h):[sw, speed, 10]
-----
-tomorrow ( +6h,+18h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
-precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
-precipitation-probability : [+5h,+15h):[10], [+15h,+18h):[30]
-sky-cover                 : [+5h,+11h):[2, 2], [+11h,+15h):[2, 8], [+15h,+18h):[8, 8]
-temperatures              : [+5h,+8h):[15], [+8h,+11h):[23], [+11h,+14h):[28], [+14h,+17h):[25], [+17h,+20h):[23]
-uv-index                  : [+12h,+14h):[7.7]
-wind                      : [+0h,+12h):[sw, speed, 10], [+12h,+20h):[sw, speed, 20]
-----
-tomorrow_night (+18h, ⧺6h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
-precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
-precipitation-probability : [+18h,⧺0h):[30], [⧺0h,⧺6h):[20]
-sky-cover                 : [+18h,⧺0h):[8, 8], [⧺0h,⧺6h):[7, 7]
-temperatures              : [+17h,+20h):[23], [+20h,+23h):[18], [+23h,⧺2h):[15], [⧺2h,⧺5h):[14], [⧺5h,⧺8h):[15]
-wind                      : [+12h,+20h):[sw, speed, 20], [+20h,⧺0h):[sw, speed, 10], [⧺0h,⧺8h):[nil, speed, 5]
+<!-- tonight ( 16h, +6h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+    precipitation-type        : [20h,+5h):[showers, [20h,+5h):[thunderstorm]]
+    precipitation-probability : [15h,20h):[10], [20h,+5h):[30], [+5h,+15h):[10]
+    sky-cover                 : [-1h,18h):[1, 1], [18h,20h):[3, 3], [20h,+5h):[5, 5], [+5h,+11h):[2, 2]
+    temperatures              : [16h,18h):[28], [18h,20h):[26], [20h,23h):[20], [23h,+2h):[14], [+2h,+5h):[14], [+5h,+8h):[15]
+    wind                      : [12h,20h):[w, speed, 20], [20h,+0h):[sw, speed, 15], [+0h,+12h):[sw, speed, 10]
+    ----
+    tomorrow ( +6h,+18h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+    precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
+    precipitation-probability : [+5h,+15h):[10], [+15h,+18h):[30]
+    sky-cover                 : [+5h,+11h):[2, 2], [+11h,+15h):[2, 8], [+15h,+18h):[8, 8]
+    temperatures              : [+5h,+8h):[15], [+8h,+11h):[23], [+11h,+14h):[28], [+14h,+17h):[25], [+17h,+20h):[23]
+    uv-index                  : [+12h,+14h):[7.7]
+    wind                      : [+0h,+12h):[sw, speed, 10], [+12h,+20h):[sw, speed, 20]
+    ----
+    tomorrow_night (+18h, ⧺6h) :: fpto12-2018-07-18-2000-r1209c :: 2018-07-18 16:00:00
+    precipitation-type        : [+15h,⧺0h):[showers, [+15h,⧺0h):[thunderstorm]]
+    precipitation-probability : [+18h,⧺0h):[30], [⧺0h,⧺6h):[20]
+    sky-cover                 : [+18h,⧺0h):[8, 8], [⧺0h,⧺6h):[7, 7]
+    temperatures              : [+17h,+20h):[23], [+20h,+23h):[18], [+23h,⧺2h):[15], [⧺2h,⧺5h):[14], [⧺5h,⧺8h):[15]
+    wind                      : [+12h,+20h):[sw, speed, 20], [+20h,⧺0h):[sw, speed, 10], [⧺0h,⧺8h):[nil, speed, 5]
 -->
 
     WEATHER BULLETIN: regular
@@ -37,14 +36,13 @@ wind                      : [+12h,+20h):[sw, speed, 20], [+20h,⧺0h):[sw, speed
     Nakina - Aroland - Pagwa
 
     Tonight : Clear. A few clouds. Partly cloudy. 30 percent chances of
-     showers ending during the night. Wind west around noon. Becoming
-     southwest in the evening. Temperature rising to 28 by morning.
+     showers. Wind west around noon. Becoming southwest in the evening.
+     Low 28, with temperature rising to 14 by morning.
     Thursday : Mainly sunny. Increasing cloudiness tomorrow morning.
-     Mainly cloudy. 30 percent chances of showers ending during the night.
-     Wind southwest. High 28. Low 15. UV index 8 or very high.
-    Thursday night : Mainly cloudy. 30 percent chances of showers ending
-     during the night. Wind southwest. Temperature rising to 23 by
-     morning.
+     Mainly cloudy. 30 percent chances of showers. Wind southwest. High
+     28. Low 15. UV index 8 or very high.
+    Thursday night : Mainly cloudy. 30 percent chances of showers. Wind
+     southwest. Low 23, with temperature rising to 14 by morning.
     END 
 
     BULLETIN MÉTÉOROLOGIQUE: régulier
@@ -54,18 +52,16 @@ wind                      : [+12h,+20h):[sw, speed, 20], [+20h,⧺0h):[sw, speed
     Nakina - Aroland - Pagwa
 
     Ce soir et cette nuit : Dégagé. Quelques nuages. Partiellement
-     couvert. 30 pour cent de probabilités d'averses finissant durant la
-     nuit. Vents de l'ouest vers midi. Devenant du sud-ouest dans la
-     soirée. Températures à la hausse pour atteindre 28 en matinée.
+     couvert. 30 pour cent de probabilités d'averses. Vents de l'ouest
+     vers midi. Devenant du sud-ouest dans la soirée. Minimum 28,
+     températures à la hausse pour atteindre 14 en matinée.
     Jeudi : Généralement ensoleillé. Ennuagement demain matin.
-     Généralement nuageux. 30 pour cent de probabilités d'averses
-     finissant durant la nuit. Vents du sud-ouest. Minimum 28. Minimum 15.
-     Indice UV 8 ou très élevé.
+     Généralement nuageux. 30 pour cent de probabilités d'averses. Vents
+     du sud-ouest. Maximum 28. Minimum 15. Indice UV 8 ou très élevé.
     Jeudi soir et nuit : Généralement nuageux. 30 pour cent de
-     probabilités d'averses finissant durant la nuit. Vents du sud-ouest.
-     Températures à la hausse pour atteindre 23 en matinée.
+     probabilités d'averses. Vents du sud-ouest. Minimum 23, températures
+     à la hausse pour atteindre 14 en matinée.
     FIN 
-
 
 
 For the purpose of this demo, we extracted a subset of the global information for regions of Ontario and Québec for 2018 and 2019 which is nevertheless illustrative of the natural language generation problems encountered in this context.  We converted the Meteocode, an internal data format of ECCC, to [JSON](https://www.json.org/json-en.html "JSON") in which all time indications are *shifted*, so that they appear in local time while, in the original, they were in UTC. 
@@ -100,7 +96,7 @@ We now outline the JSON data organization in terms of Python data structures:
 ## Bulletin generation
 This demonstration program is a data-to-text application that generates bilingual (English and French) weather bulletins. The core of the data manipulation and text organization is in Python and the final text realization is performed by **jsRealB**.
 
-As shown in the sample given above, a weather bulletin is composed of standardized block of informations some of which are created using simple format statements (`communication_header`,`forecast_regions` and `end_statement`), but others (`title_block` and `forecast_text`) must be generated as they use natural language text. All these functions return a string that forms a single line or `None` in which case it is ignored in the output.
+As shown in the sample given above, a weather bulletin is composed of standardized block of informations some of which are created using simple format statements (`communication_header`,`forecast_regions` and `end_statement`), but others (`title_block` and `forecast_text`) must be generated as they use natural language text. All these functions return a string that can be split over many lines if it is too long or `None` in which case it is ignored in the output.
 
     def generate_bulletin(wInfo,lang):
         text=[
@@ -112,7 +108,7 @@ As shown in the sample given above, a weather bulletin is composed of standardiz
         ]    
         return "\n".join(line for line in text if line!=None)
 
-To illustrate interesting NLG issues, we describe `forecast_text` which creates 3 paragraphs for each forecasting period. A paragraph starts with the name of the period (which will be explained later) and then the text realized by `forecast_period`. The string is formatted similarly to the original bulletin to ease comparison.
+To illustrate interesting NLG issues, we describe `forecast_text` which creates 3 paragraphs for each forecasting period. A paragraph starts with the name of the period (which will be explained later) and then the text realized by `forecast_period`. The string is formatted similarly to the original bulletin.
 
     def forecast_text(wInfo,lang):
         paragraphs=[]
@@ -126,7 +122,7 @@ To illustrate interesting NLG issues, we describe `forecast_text` which creates 
                 )  
         return "\n".join(paragraphs)
 
-A period is described as a list of sentences dealing with different weather aspects when they are relevant according to the data for the given period: conditions of the sky (clear, cloudy, etc.), precipitations (quantity of snow or rain), wind (direction and speed), temperature (levels, variations within the period) and the value of the UV index. When the data is not *interesting* for the period, these functions return `None` which is ignored.
+A period is described as a list of sentences dealing with different weather aspects when they are relevant according to the data for the given period: conditions of the sky (clear, cloudy, etc.), precipitations (quantity of snow or rain), wind (direction and speed), temperature (levels, variations within the period) and the value of the UV index. When the data is not *relevant* for the period, these functions return `None` which is ignored in the final realization.
 
     def forecast_period(wInfo,period,lang):
         sents=filter(lambda l:l!=None,[
@@ -210,7 +206,7 @@ The `WeatherInfo` class gives access to the content of the JSON file. Its constr
         "evening":{"tonight":(16,30),"tomorrow":(30,42),"tomorrow_night":(42,54)},
     }
 
-For example, for the `tomorrow` period of an `evening` bulletin, only terms that have an ending time greater or equal than 30 and a starting time less than 42 are returned. If a given information is not found or if not values intersect the given range, `None` is returned.
+For example, in an `evening` bulletin, for the `tomorrow` period only terms that have an ending time greater or equal than 30 and a starting time less than 42 are returned. If a given information is not found or if not values intersect the given range, `None` is returned.
 
 For the tomorrow period of the above bulletin, these terms can be visualized as follows:
 
@@ -299,77 +295,50 @@ The French and English realizations of the many precipitation types are given in
                          "fr":N("poudrerie")},
     }
 
-For precipitation, we focus on the event with the maximum probability if it greater than 10% by building an expression that gives its value. This term is then added in front the realization of the type and amount of accumulation in the call to `precipitation_at`. When no significant probability is found, then all precipitation terms are output as different sentences.
+A precipitation amount is realized when the probability, in increment of 10%, is between 30% and 70%, but different than 50%. When it is 80% or more, the beginning or ending is given. The amount is given when it is significant (at least 2cm of snow or at least 25mm of rain). Only probability terms that are more than 30% are realized.
 
     def precipitation(wInfo,period,lang):
-        pcpn_terms=wInfo.get_precipitation_type(period)
-        if pcpn_terms==None: return None
-        prob_terms=wInfo.get_precipitation_probabilities(period)
-        maxProbTerm=get_max_term(prob_terms,0)
-        if maxProbTerm!=None and maxProbTerm.infos[0]<=10:
-            maxProbTerm=None
-        amount_terms=wInfo.get_precipitation_accumulation(period)
-        if maxProbTerm != None:
-            ## output information associated with maxProb
-            maxProbVal=maxProbTerm.infos[0]
-            if maxProbVal < 100:
-                if lang=="en":
-                    prob=NP(NO(maxProbVal),Q("percent"),N("chance"),P("of"))
-                else:
-                    prob=NP(NO(maxProbVal),Q("pour cent"),P("de"),N("probabilité"),P("de"))
-            else:
-                prob=None
-            pcpn_term=get_term_at(pcpn_terms, maxProbTerm.start)
-            return precipitation_at(prob,pcpn_term,amount_terms,lang)
-        else:
-            ## show information associated with all precipitation values
-            strings=[]
-            for pcpn_term in pcpn_terms:
-                strings.append(precipitation_at(None,pcpn_term,amount_terms,lang))
-        return " ".join(strings)
-
-To realize the precipitation information for a given term, the start and end time are first determined...
- %%% à réorganiser %%% 
-
-    def precipitation_at(prob,pcpn_term,amount_terms,lang):
         jsrExprs=[]
-        pType=pcpn_term.infos[0]
-        amount_term=None
-        timePeriod=None
-        tp=jsrHour(pcpn_term.start%24,lang)
-        if tp!=None:
-            if lang=="en":
-                timePeriod=VP(V("begin").t("pr"),tp)
-            else:
-                timePeriod=VP(V("débuter").t("pr"),tp)
-            amount_term=get_term_at(amount_terms,pcpn_term.start)
-        tp=jsrHour(pcpn_term.end%24,lang)
-        if tp!=None:
-            if lang=="en":
-                timePeriod=VP(V("end").t("pr"),tp)
-            else:
-                timePeriod=VP(V("finir").t("pr"),tp)
-            amount_term=get_term_at(amount_terms,pcpn_term.start)
-        if pType in precipitationTypes:
-            jsrExprs.append(NP(prob,precipitationTypes[pType][lang],timePeriod))
-        else:
-            jsrExprs.append(Q("[["+pType+"]]."))
-        ## add amount
-        if amount_term!=None:
-            pcpnType=amount_term.infos[0]
-            amount=amount_term.infos[1]
-            if pcpnType=="rain":
-                if amount>20:
+        prob_terms=wInfo.get_precipitation_probabilities(period)
+        type_terms=wInfo.get_precipitation_type(period)
+        accum_terms=wInfo.get_precipitation_accumulation(period)
+        for prob_term in prob_terms:
+            prob_val=round(prob_term.infos[0]/10)*10
+            type_term=get_term_at(type_terms,prob_term.start)
+            if type_term!=None and prob_val>=30:     # interesting precipitation
+                if prob_val <= 70 and prob_val!=50:  # show probability
                     if lang=="en":
-                        jsrExprs.append(NP(N("amount"),NO(round(amount)),Q("mm")))
+                        prob=NP(NO(prob_val),Q("percent"),N("chance"),P("of"))
                     else:
-                        jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount)),Q("mm")))
-            elif pcpnType=="snow":
-                if amount>2:
-                    if lang=="en":
-                        jsrExprs.append(NP(N("amount"),NO(round(amount)),Q("cm")))
+                        prob=NP(NO(prob_val),Q("pour cent"),P("de"),N("probabilité"),P("de"))
+                    timePeriod=None
+                else:                                # probability >= 80% 
+                    prob=None                        # indicate beginning or ending
+                    start=prob_term.start
+                    end=prob_term.end
+                    if wInfo.is_in_period(start,period):  
+                        timePeriod=VP(V("begin" if lang=="en" else "débuter").t("pr"),jsrHour(start%24,lang))
+                    elif wInfo.is_in_period(end,period):
+                        timePeriod=VP(V("end" if lang=="en" else "finir").t("pr"),jsrHour(end%24,lang))
                     else:
-                        jsrExprs.append(NP(N("accumulation"),P("de"),NO(round(amount)),Q("cm")))
+                        timePeriod=None
+                jsrExpr=NP(prob,precipitationTypes[type_term.infos[0]][lang],timePeriod)            
+                amount_term=get_term_at(accum_terms,prob_term.start)
+                if amount_term!=None:                 # check for significant amount
+                    pcpnType=amount_term.infos[0]
+                    amount=amount_term.infos[1]
+                    jsrAmount=None
+                    if pcpnType=="rain" and amount>=25:
+                        jsrAmount=NP(NO(round(amount)),Q("mm"))
+                    elif pcpnType=="snow" and amount>=2:
+                        jsrAmount=NP(NO(round(amount)),Q("cm"))
+                    if jsrAmount!=None:
+                        if lang=="en":
+                            jsrAmount.add(N("amount"),0)
+                        else:
+                            jsrAmount.add(N("accumulation"),0).add(P("de"),1)
+                        jsrExpr=SP(jsrExpr.a(","),jsrAmount)   
+                jsrExprs.append(jsrExpr)
         return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
     
 
@@ -377,19 +346,18 @@ To realize the precipitation information for a given term, the start and end tim
 
 ## Wind
 
-Information about the wind speed and directions are realized as follows:
+Information about the wind speed and directions are realized such as the following:
 
     Wind west around noon. Becoming southwest in the evening.
     Vents de l'ouest vers midi. Devenant du sud-ouest dans la soirée.
 
-The realization of wind directions are given in a table with the corresponding compass degree which used to compute significant wind directions changes.
+Wind direction realizations are given in a table with the corresponding compass degree which used to compute significant wind directions changes.
 
     jsrWindDirection = {
         "e":    {"en":Adv("east"),       "fr":NP(D("le"),N("est")),       "deg":90},
         "n":    {"en":Adv("north"),      "fr":NP(D("le"),N("nord")),      "deg":0},
         ...                                                               
         "sw":   {"en":Adv("southwest"),  "fr":NP(D("le"),N("sud-ouest")), "deg":225},
-        # "vrbl": {"en":A("variable"),   "fr":A("variable")},
     }
 
 
@@ -450,7 +418,7 @@ Temperatures can be described very simply such as:
     High 28. Low 15.
     Maximum 28. Minimum 15.
 
-or with a trend when there is a significant difference in temperatures during the day or night:
+or with a trend when there is a significant difference in temperatures: negative change of at least 3°C during daytime or a positive change of at least 3°C during nighttime:
 
     Temperature rising to 28 by morning.
     Températures à la hausse pour atteindre 28 en matinée.
@@ -465,14 +433,16 @@ This achieved with this
         dn= "night" if period in ["tonight","tomorrow_night"] else "day"
         tempVals=wInfo.get_temperature_values(period)
         periodName=periodNames[period][lang](wInfo.get_issue_date())
-        # checking for an abnormal temperature trend
-        (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(maxTemp)) if dn=="night" else\
-                   (minTemp,maxTemp,tempVals.index(minTemp))
+        # checking for an abnormal temperature trend, either
+        #     positive change of least 3°C during the night
+        #     negative change of last 3°C during the day
+        (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(minTemp)) if dn=="night" else\
+                   (minTemp,maxTemp,tempVals.index(maxTemp))
         if t1 >= t2+3:                       # abnormal change time
             if i1 <=1 :
                 return realize(jsrAbnormal[dn]["a"][lang](t1, periodName),lang,False)
             else:
-                if i1 < 6:
+                if i1 < 6:        # abnormality occurs during the first 6 hours of the period
                     rest=tempVals[i1:]
                     if all([abs(t-t1)<=2 for t in rest]):
                         # c) remains +/- 2 for the rest of the period
@@ -499,7 +469,7 @@ This achieved with this
                 res.append(realize(S(N("minimum"),jsrTemp(minTemp,"fr")),"fr",False))
         return " ".join(res)
 
-The value of the temperature is indicated as follows:
+The value of a temperature is indicated using the conventions of ECCC, add a qualifier `plus` when it is less or equal to 5, and `minus` when it is below 0:
 
     def jsrTemp(val,lang):
         if val==0: return N("zero") if lang=="en" else N("zéro")
@@ -521,7 +491,7 @@ The trend expression is built using the following function:
                         PP(P("pour"),V("atteindre").t("b"),jsrTemp(goalTemp,lang),
                         when))
 
-The *abnormal* situation is encoded using the following table:
+*abnormal* situations are encoded using the following table:
 
     jsrAbnormal = {  
         "night":{ 
@@ -578,7 +548,7 @@ Its realization is simple matter of outputting its rounded value and if it is gr
 
 ## Conclusion
 
-This document shows how to generate bilingual documents from a single source of information using **jsRealB**. Although the input data and the generated documents are somewhat simpler than what would be used in a real life context, the essential organization of the system would stay much of the same as the framework is extensible. 
+This document has shown how to generate bilingual documents from a single source of information using **jsRealB** using the Python API as the data manipulation is performed in Python. Although the input data and the generated documents are simpler than what would be used in a real life context, the essential organization of the system should stay the same as the framework is extensible. 
 
 [Guy Lapalme](mailto:lapalme@iro.umontreal.ca)
 

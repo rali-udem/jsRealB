@@ -92,14 +92,14 @@ def compare_with_orig(wInfo,lang):
                 res.append(fmt%(genL[i],""))
     return "\n"+"\n".join(res)
 
-compare=True   
+compare=False   
 if __name__ == '__main__':
     for line in open("tools/weather-data.jsonl","r",encoding="utf-8"):
         wInfo=WeatherInfo(json.loads(line))
+        # if wInfo.data["id"]!="fpto11-2019-01-26-1600-r1116d":continue
         if compare:
             print(compare_with_orig(wInfo,"en"),"\n")
             print(compare_with_orig(wInfo,"fr"),"\n")
         else:
             print(generate_bulletin(wInfo,"en"),"\n")
             print(generate_bulletin(wInfo,"fr"),"\n")
-        break

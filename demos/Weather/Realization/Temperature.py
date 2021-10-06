@@ -88,9 +88,11 @@ def temperature(wInfo,period,lang):
     dn= "night" if period in ["tonight","tomorrow_night"] else "day"
     tempVals=wInfo.get_temperature_values(period)
     periodName=periodNames[period][lang](wInfo.get_issue_date())
-    # checking for an abnormal temperature trend
-    (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(maxTemp)) if dn=="night" else\
-               (minTemp,maxTemp,tempVals.index(minTemp))
+    # checking for an abnormal temperature trend, either
+    #     positive change of least 3°C during the night
+    #     negative change of last 3°C during the day
+    (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(minTemp)) if dn=="night" else\
+               (minTemp,maxTemp,tempVals.index(maxTemp))
     if t1 >= t2+3:                       # abnormal change time
         if i1 <=1 :
             return realize(jsrAbnormal[dn]["a"][lang](t1, periodName),lang,False)
