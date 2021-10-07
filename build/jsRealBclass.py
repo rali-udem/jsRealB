@@ -3,7 +3,7 @@
 ##    It allows
 ##    the "usual" jsRealB constructors and method names to create the structure
 ##       .add(..) to add a Constituent to an existing Phrase
-##       .lang("en"|"fr") to set the current language
+##       .set_lang("en"|"fr") to set the current language
 ##    the structure can be shown as string using
 ##       str(S) [i.e. .__str__()] to display the JSON structure
 ##       .pp()  to display a pretty-printed JSON structure
@@ -18,19 +18,25 @@
 ##     Constructors ignore None values and flatten embedded lists to create a single parameter list
 ##
 ## HACK: some constructors and methods are defined dynamically using "exec" and "setattr".
-import json
+##       and it allows customization of error messages for DT and NO
+
+import json,datetime,sys
+from datetime import date
 ## example import
 # from jsRealBclass import N,A,Pro,D,Adv,V,C,P,DT,NO,Q,  NP,AP,AdvP,VP,CP,PP,S,SP,  Constituent, Terminal, Phrase
 
 ## auxiliary functions for pretty-printing
-def q(s):return '"' + s + '"'  # quote
+def q(s):
+    if not isinstance(s,str):return s
+    if '"' in s: s=s.replace('"','\\"')
+    return '"' + s + '"'  # quote
 
 def kv(k, v):
     def val(v):
         if v == None: return "null"
-        if v == False: return "false"
-        if v == True: return "true"
+        if isinstance(v,bool): return "true" if v else "false"
         if isinstance(v, str): return q(v)
+        if isinstance(v, datetime.datetime):return q(str(v).replace(" ","T")) # create JS iso formated date
         if isinstance(v, list): 
             return '[' + ','.join([val(v0) for v0 in v]) + ']'
         if isinstance(v, dict):
@@ -62,8 +68,12 @@ class Constituent():
     #   which is a more compact ad-hoc version ignoring empty props
     #   output properties (not called by subclasses when no props are defined)    
     def pp(self):
-        langProp = f',"lang":"{self.lang}"' if "lang" in self.__dict__ else ""        
-        return langProp +","+ q("props") + ':{' + ','.join([kv(k, v) for (k, v) in self.props.items()]) + '}'
+        res=""
+        if "lang" in self.__dict__: 
+            res+=f',"lang":"{self.lang}"'
+        if len(self.props)>0:
+            res+=","+q("props") + ':{' + ','.join([kv(k, v) for (k, v) in self.props.items()]) + '}'    
+        return res
     
     def show(self):  # show properties in jsRealB like format
         def showAttrs(attrs):
@@ -72,7 +82,7 @@ class Constituent():
             if k == "tag":
                 return "".join([f'.tag({q(tag)+showAttrs(attrs)})' for (tag, attrs) in v])
             if k in optionListMethods:
-                return "".join([f'.{k}("{v0}")' for v0 in v])
+                return "".join([f'.{k}({q(v0)})' for v0 in v])
             return f".{k}({'' if v==None else json.dumps(v)})"
         return "".join([showProp(k, v) for (k, v) in self.props.items()])
                         
@@ -80,7 +90,7 @@ class Constituent():
         if that == None: return False
         return self.__dict__ == that.__dict__
     
-    def lang(self, enfr):
+    def set_lang(self, enfr):
         self.lang = enfr
         return self
     
@@ -124,17 +134,18 @@ class Terminal(Constituent):
     def __init__(self, name, lemma):
         super().__init__()
         self.terminal = name
+        if not isinstance(lemma,str):
+            lemma=str(lemma)
         self.lemma = lemma
         
     # show a jsRealB like indented expression    
     def show(self, n=0):
-        return f"{self.terminal}(\"{self.lemma}\")" + super().show()
+        return f"{self.terminal}({q(self.lemma)})" + super().show()
     
     # prettier-print of JSON
     def pp(self, n=0):
         res = '{' + kv("terminal", self.terminal) + ',' + kv("lemma", self.lemma)
-        if len(self.props) > 0:
-            res += super().pp()
+        res += super().pp()
         return res + '}'
 
 # insert a list of elements that are not None flattening an embedded list
@@ -142,8 +153,13 @@ def _getElems(es):
     res = []
     for e in es:
         if e != None:
-            if isinstance(e, list):res.extend([e0 for e0 in e if e0 != None])
-            else:res.append(e)
+            if isinstance(e, list):
+                res.extend([e0 for e0 in _getElems(e)])
+            elif isinstance(e,Constituent):
+                res.append(e)
+            else:
+                print("Phrase parameter is not a Constituent: %s, it is quoted"%e,file=sys.stderr)
+                res.append(Q(str(e)))
     return res
 
 class Phrase(Constituent):
@@ -166,8 +182,7 @@ class Phrase(Constituent):
     # prettier-print of JSON
     def pp(self, n=0):
         res = '{' + kv("phrase", self.phrase)
-        if (len(self.props) > 0):
-            res += super().pp()
+        res += super().pp()
         res += self.indent(n + 1) + q("elements") + ':[' + \
              self.indent(n + 13).join([e.pp(n + 13) for e in self.elements]) + ']'
         return res + "}"
@@ -226,11 +241,17 @@ class C(Terminal):
 
 class DT(Terminal):
     def __init__(self, lemma):
-        super().__init__("DT", lemma)
-
+        super().__init__("DT", str(lemma).replace("-","/")) # replace to get date in local time
+        if not isinstance(lemma, (str,datetime.date, datetime.time, datetime.datetime)):
+            print("DT parameter %s is a %s. It should be a string or a date, it's string value is used."%\
+                  (lemma, type(lemma).__name__), file=sys.stderr)
+            
 class NO(Terminal):
     def __init__(self, lemma):
         super().__init__("NO", lemma)
+        if not isinstance(lemma, (str,int,float)):
+            print("NO parameter %s is a %s. It should be a string or a number, it's string value is used."%\
+                  (lemma, type(lemma).__name__), file=sys.stderr)
 
 class Q(Terminal):
     def __init__(self, lemma):
@@ -303,64 +324,74 @@ def jsRealB(exp, lang="en"):
     except URLError:
         print(len(exp))
         print(exp)
-        print("@@@:jsRealB server not found at %s\nLaunch it with node .../jsRealB-server-dme.js"%serverURL)
+        print("@@@:jsRealB server not found at %s\nLaunch it with node .../jsRealB-server.js"%serverURL)
 
 
 ## some unit tests
 if __name__ == '__main__':
 
-    def printEval(exp, json=False, lang="en"):
-        print("**str()\n" + str(exp))
-        print("**pp()\n" + exp.pp())
+    def printEval(expS, json=False, lang="en"):
+        print("** jsRealB expression:\n",expS)
+        exp=eval(expS)
+        print("**str()\n",str(exp))
+        print("**pp()\n",exp.pp())
 #         print("**pp0()\n"+exp.pp0())
-        print("**show()\n" + exp.show())
-        print("**jsReal\n" + jsRealB(exp.pp() if json else exp.show(-1), lang=lang))
+        print("**show()\n",exp.show())
+        print("**jsRealB realization\n",jsRealB(exp.pp() if json else exp.show(-1), lang=lang))
         print("---")
+    
+    s1=Q("* à venir")
+    s2=s1
+    s3="S(s1,s2)"
+    printEval(s3)
     
     the = D("the")
     cat = N("cat")
     the3cats = NP(the, NO(3).dOpt({"nat":True}), cat).lang("en")
-    printEval(the3cats)
+    printEval("""the3cats""")
         
-    printEval(S(the3cats, VP(V("eat"), NP(D("a"), N("mouse")))).typ({"pas":True, "neg":True}))
-    printEval(CP([C("and"), N("dog"), cat]))
+    printEval("""S(the3cats, VP(V("eat"), NP(D("a"), N("mouse")))).typ({"pas":True, "neg":True})""")
+    printEval("""CP([C("and"), N("dog"), cat])""")
     
     np = NP(N("cat").tag(("a", {"href":"http://wikipedia/cat", "class":"important"})).ba("*").ba("/"))
     np.add(D("a"), 0)
     np.add([A("grey"), A("black")], 1)
-    printEval(np)
+    printEval("""np""")
 
     printEval(
-    S(# Sentence
+    """S(# Sentence
       Pro("him").c("nom"),  # Pronoun (citation form), nominative case
       VP(V("eat"),  # Verb at present tense by default
          NP(D("a"),  # Noun Phrase, Determiner
             N("apple").n("p")  # Noun plural
            ).tag("em")  # add an <em> tag around the NP
-        ))
-    )
+        ))""")
 
     printEval(
-    S(Q("Alan Shepard"),
+    """S(Q("Alan Shepard"),
        VP(V("be").t("ps"),
           V("born").t("pp"),
           PP(P("on"),
-             DT("1923-11-18")),
+             DT(datetime.date(1923,11,18)).dOpt({"hour":False,"minute":False,"second":False})),
           PP(P("in"),
-             Q("New Hampshire"))))
-    )
+             Q("New Hampshire"))))""")
 
     # test copy with lambda
     n = lambda:N("cat")
-    printEval(CP(C("or"),
+    printEval("""CP(C("or"),
                  n().n("p"),
-                 n()))
+                 n())""")
     
     # a French example (must use json to set the language) because 
     # currently the server is set to English
     printEval(
-    S(Pro("lui").c("nom"),
+    """S(Pro("lui").c("nom"),
       VP(V("donner").t("pc"),
-         NP(D("un"), N("pomme")).pro())).typ({"neg":True}).lang("fr"),
+         NP(D("un"), N("pomme")).pro())).typ({"neg":True}).lang("fr")""",
     json=True)
+    
+    ## test error messages for bad Phrase or Terminal parameters with embedded lists
+    printEval("""S("string",[1,[2,[True]]])""")
+    printEval("""N(True)""")
+    printEval("""N(N("test"))""")
     

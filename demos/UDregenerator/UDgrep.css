@@ -112,3 +112,17 @@ td.MISC  {text-align:left; }
 .decroissant {
     background-image:url(decroissant.svg);    
 }
+
+/*  drag and drop of file */
+body.dragging::before {
+  content: "Drop the file anywhere on this page";
+  position: fixed;
+  left: 0; width: 100%;
+  top: 0; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  background-color: rgba(255, 255, 0, .3);
+  pointer-events: none;
+}

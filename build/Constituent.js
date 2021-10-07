@@ -147,7 +147,8 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             val=null;
         }
-        if (this.isA("CP")){// propagate an option through the children of a CP
+        if (this.isA("CP") && !contains(["cap","lier"],option)){
+            // propagate an option through the children of a CP except for "cap" and "lier"
             if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
@@ -176,7 +177,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 // shared properties 
 //   pe,n and g : can be applied to compoennts of NP and Sentences
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
-genOptionFunc("n",["s","p"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
@@ -240,7 +241,18 @@ Constituent.prototype.dOpt = function(dOptions){
             const key = keys[i];
             if (allowedKeys.indexOf(key)>=0){
                 const val = dOptions[key];
-                if (typeof val == "boolean"){
+                if (key == "rtime"){
+                    if (typeof val=="boolean"){
+                        this.props["dOpt"]["rtime"]=val?new Date():false;
+                    } else if (typeof val=="string"){
+                        this.props["dOpt"]["rtime"]=new Date(val)
+                    } else if (val instanceof Date){
+                        this.props["dOpt"]["rtime"]=val
+                    } else {
+                        return this.warn("bad application",".dOpt('rtime')",
+                                         ["boolean","string","Date"],val);
+                    }
+                } else if (typeof val == "boolean"){
                         this.props["dOpt"][key]=val
                 } else {
                     return this.warn("bad application",".dOpt("+key+")","boolean",val);
@@ -427,7 +439,7 @@ Constituent.prototype.doElisionFr = function(cList){
         if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
         if (/^h/i.exec(realization)){
             //  check for a French "h aspiré" for which no elision should be done
-            let lexiconInfo=getLemma(typeof lemma == "string" ? lemma:realization); // get the lemma with the right pos
+            let lexiconInfo=getLemma(typeof lemma == "string" ? lemma:realization,"fr"); // get the lemma with the right pos
             if (typeof lexiconInfo == "undefined"){ 
                 lexiconInfo=getLemma(lemma.toLowerCase()); // check with lower case
                 if (typeof lexiconInfo == "undefined")return true; // elide when unknown

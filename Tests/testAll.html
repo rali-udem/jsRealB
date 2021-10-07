@@ -5,34 +5,6 @@
     <title>JS Unit testing - jsRealB - Tests Unitaires</title>
     <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
     <script src="https://code.jquery.com/qunit/qunit-2.9.2.js"></script>
-    <script>
-        // this implies that "local file loading" is allowed which is not by default
-        function loadJSON(jsonFile,callback) {
-            var xobj = new XMLHttpRequest();
-            xobj.overrideMimeType("application/json");
-            xobj.open('GET',jsonFile, false); // synchronous...
-            xobj.send(null);
-            if (xobj.responseText!=null) {
-                callback(xobj.responseText);
-            } else {
-                console.log("status:"+xobj.status)
-            }
-        }
-        function loadDMF(){
-            loadFr();
-            loadJSON("../data/lexicon-dmf.json",function(jsonData){
-                updateLexicon(JSON.parse(jsonData));
-                console.log("dmf chargé:"+Object.keys(lexiconFr).length+" entrées");
-            })
-        }
-        function loadDME(){
-            loadEn();
-            loadJSON("../data/lexicon-dme.json",function(jsonData){
-                updateLexicon(JSON.parse(jsonData));
-                console.log("dme loaded:"+Object.keys(lexiconEn).length+" entries");
-            })
-        }
-    </script>
 <!-- to ease debugging we load each file separately -->
         <script src="../data/lexicon-en.js"></script>
         <script src="../data/rule-en.js"></script>

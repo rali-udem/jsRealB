@@ -12,10 +12,10 @@
 <h1>Calling <span class="jsr">jsRealB</span> from Python</h1>
 
 <h2>Motivation</h2> 
-<p> The input notation to <span class="jsr">jsRealB</span> realizer was originally designed to be a valid JavaScript program  reflecting the traditional constituent syntax formalism which is quite convenient when the NLG system is written in Javascript. Given the fact that Python has become the <em>lingua franca</em> of NLP, we have developed an <a href="../data/jsRealB-jsoninput.html">alternative JSON input format</a> for <span class="jsr">jsRealB</span> that can be built using the <a href="https://docs.python.org/3/library/json.html" title="json — JSON encoder and decoder &#8212; Python 3.8.5 documentation">standard Python JSON API</a>.</p>
+<p> The input notation to <span class="jsr">jsRealB</span> realizer was originally designed to be a valid JavaScript program  reflecting the traditional constituent syntax formalism which is quite convenient when the NLG system is written in Javascript. Given the fact that Python has become the <em>lingua franca</em> of NLP, we have developed an <a href="../data/jsRealB-jsonInput.html">alternative JSON input format</a> for <span class="jsr">jsRealB</span> that can be built using the <a href="https://docs.python.org/3/library/json.html" title="json — JSON encoder and decoder &#8212; Python 3.8.5 documentation">standard Python JSON API</a>.</p>
 
 <h2>JSON creation using the standard API</h2>
-<p>The following table shows how JSON values are mapped to Python values. Using the JSON API, it is relatively easy to create in Python a value that can be serialized into JSON that can be sent to a <span class="jsr">jsRealB</span> HTTP server using the <a href="../data/jsRealB-jsoninput.html">JSON input format</a>.</p>
+<p>The following table shows how JSON values are mapped to Python values. Using the JSON API, it is relatively easy to create in Python a value that can be serialized into JSON that can be sent to a <span class="jsr">jsRealB</span> HTTP server using the <a href="../data/jsRealB-jsonInput.html">JSON input format</a>.</p>
 <table style="width:200px;margin:auto">
     <thead>
         <tr>
@@ -87,13 +87,13 @@ boy = NP(D("the"),N("boy"))
 <pre><code>'The boys love an apple.'</code></pre>
 
 <h2>Lists as <code>Phrase</code> parameter</h2>
-<p>It can be convenient to generate <code>Phrase</code> parameters systematically using lists with possibly <code>None</code> values that should be ignored when creating the parameters. So Python phrase constructors will insert the values within a list as parameter and ignore <code>None</code> values. For example:</p>
+<p>It can be convenient to generate <code>Phrase</code> parameters systematically using lists with possibly <code>None</code> values that should be ignored when creating the parameters. So Python phrase constructors will insert the values within a list as parameter and ignore <code>None</code> values; it will also <i>flatten</i> any embedded list. For example:</p>
 
 <p><code>NP(D("the"),[A("nice"),None,A("little")],[N("cat")])</code> is equivalent to 
 	<code>NP(D("the"),A("nice"),A("little"),N("cat"))</code></p>
 
 <h2>Dynamically changing the realization language</h2>
-<p>Initially, the realization language is set by the server. The option <code>lang("<em>en|fr</em>")</code> can set the realization language for an expression and its children. This facility for <em>bilingual</em> realization is only available when JSON is sent to the server.</p>
+<p>Initially, the realization language is set by the server. The option <code>set_lang("<em>en|fr</em>")</code> can set the realization language for an expression and its children. This facility for <em>bilingual</em> realization is only available when JSON is sent to the server.</p>
 
 <h2>Usage</h2>
 <p>To add these functions to a Python 3 program. First copy <a href="../build/jsRealBclass.py">this file</a> in your directory, then add this to your program</p>

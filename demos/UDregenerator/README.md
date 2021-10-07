@@ -6,7 +6,7 @@ To regenerate a sentence from its UD and comparing it with the original. Useful 
 * **English** : visit `UDregenerator-en.html`
 * **French** : visit `UDregenerator-fr.html`
 
-When testing in local mode, start a web server (e.g. `python3 -m http.server`) at the root of `jsRealB` directory. This is needed to load the *big* English or French lexicons.
+**When testing in local mode**: start a web server (e.g. `python3 -m http.server`) at the root of `jsRealB` directory. This is needed to load the *big* English or French lexicons.
 
 ## `UDregenerator` as a `node.js` module
 

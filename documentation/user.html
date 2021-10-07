@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>jsRealB (V 3.6) - Documentation</title>
+    <title>jsRealB - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- <script src="../dist/jsRealB.js"></script> -->
@@ -267,10 +267,10 @@
 <!-- *** Gestion des lexiques *** -->
     <h2 lang="fr" id="extensionVoc">Gestion des lexiques</h2><h2 lang="en" id="vocExtension">Lexicon Management</h2>
 <p lang="fr"> <span class="jsr">jsRealB</span> 
-intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 200 entrées) qu'il est possible de consulter et de modifier à l'aide des fonctions suivantes. Lorsque <code>lang</code> (<code>"en"</code> ou <code>"fr"</code>) est spécifié, la fonction s'applique au lexique de cette langue, sinon au lexique courant, celui du dernier appel à <code>loadEn()</code> ou <code>loadFr()</code>.
+intègre déjà deux lexiques assez détaillés: français (plus de 52 500 entrées) et anglais (plus de 33 900 entrées) qu'il est possible de consulter et de modifier à l'aide des fonctions suivantes. Lorsque <code>lang</code> (<code>"en"</code> ou <code>"fr"</code>) est spécifié, la fonction s'applique au lexique de cette langue, sinon au lexique courant, celui du dernier appel à <code>loadEn()</code> ou <code>loadFr()</code>.
 </p>
 <p lang="en"> <span class="jsr">jsRealB</span> 
-has already two basic lexicons: French (3 700 entries) and English (5 200 entries) that can be queried and modified with the following functions. When <code>lang</code> (<code>"en"</code> or <code>"fr"</code>) is specified, the function is applied to the lexicon of this language, otherwise it applies to the current lexicon, the one of the last call to <code>loadEn()</code> o <code>loadFr()</code>.
+provides already two comprehensive lexicons: French (more than 52 500 entries) and English (more than 33 900 entries) that can be queried and modified with the following functions. When <code>lang</code> (<code>"en"</code> or <code>"fr"</code>) is specified, the function is applied to the lexicon of this language, otherwise it applies to the current lexicon, the one of the last call to <code>loadEn()</code> o <code>loadFr()</code>.
 </p>
 
 <h3><code>addToLexicon(lemma[,newInfos][,lang])</code></h3>
@@ -330,9 +330,9 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 
 
 <h2 lang="fr" id="traitementsJSON">Traitement en JSON</h2><h2 lang="en" id="JSONprocessing">JSON processing</h2>
-<p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealB-jsonInput.html">décrit dans ce document (en anglais)</a>. Il est également possible d"obtenir une expression JSON correspondant à une expression <code>jsRealB</code>.
+<p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealB-jsonInput.html">décrit dans ce document (en anglais)</a> où sont décrites deux API permettant d'appeler un serveur <code>jsRealB</code> <a href="jsRealBfromPython.html">depuis un programme Python</a> ou Prolog. Il est également possible d"obtenir une expression JSON correspondant à une expression <code>jsRealB</code>.
 </p>
-<p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealB-jsonInput.html">It is described in this document.</a>. It is also possible to obtain the JSON expression corresponding to a given <code>jsRealB</code> expression.
+<p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealB-jsonInput.html">It is described in this document.</a> in which two APIs are described for calling a <code>jsRealB</code> server <a href="jsRealBfromPython.html">from Python</a> or Prolog. It is also possible to obtain the JSON expression corresponding to a given <code>jsRealB</code> expression.
 </p>
 
 <h2 lang="fr" id="Gestion des avertissements">Gestion des avertissements</h2><h2 lang="en" id="Warning management">Warning Management</h2>
