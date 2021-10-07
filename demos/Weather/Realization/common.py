@@ -1,8 +1,3 @@
-'''
-Created on 14 sept. 2021
-
-@author: lapalme
-'''
 from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 
 ## the jsRealB server should be launched from the jsRealB directory with

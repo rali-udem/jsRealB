@@ -1,12 +1,5 @@
-'''
-Created on 14 sept. 2021
-
-@author: lapalme
-'''
-
 from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 from Realization.common import realize, jsrDayPeriod, jsrHour, get_max_term, get_min_term, get_term_at
-
 
 #### UV_index values: info taken from
 #  https://www.canada.ca/en/environment-climate-change/services/weather-health/uv-index-sun-safety/about.html
@@ -18,7 +11,7 @@ uv_ranges= [(2,   {"en":A("low"),                     "fr":A("bas")}),
             (1000,{"en":A("extreme"),                 "fr":A("extrême")})]
 
 def uv_index(wInfo,period,lang):
-    if period in ["tonight","tomorrow_night"]:      # no UV index in the night
+    if period in ["tonight","tomorrow_night"]:      # no UV index during the night
         return None
     uvi_terms=wInfo.get_uv_index(period)
     if uvi_terms==None:return None 
@@ -28,10 +21,9 @@ def uv_index(wInfo,period,lang):
     if uvVal==0:return None
     for high,expr in uv_ranges:
         if uvVal<=high:
-            if lang=="en": 
-                return realize(NP(Q("UV"),N("index"),NO(uvVal),C("or"),expr[lang]),lang)
-            else:
-                return realize(NP(N("indice"),Q("UV"),NO(uvVal),C("ou"),expr[lang]),lang)
+            return realize(NP(Q("UV index" if lang=="en" else "indice UV"),
+                              NO(uvVal),C("or" if lang=="en" else "ou"),expr[lang]),
+                           lang)
     return None
 
 

@@ -1,9 +1,3 @@
-'''
-Created on 6 sept. 2021
-
-@author: lapalme
-'''
-
 ## the jsRealB server should be launched from the jsRealB directory with
 ##    node dist/jsRealB-server.js demos/Weather/weatherLexicon.js
 
@@ -94,7 +88,7 @@ def compare_with_orig(wInfo,lang):
 
 compare=False   
 if __name__ == '__main__':
-    for line in open("tools/weather-data.jsonl","r",encoding="utf-8"):
+    for line in open("Data preparation/weather-data.jsonl","r",encoding="utf-8"):
         wInfo=WeatherInfo(json.loads(line))
         # if wInfo.data["id"]!="fpto11-2019-01-26-1600-r1116d":continue
         if compare:

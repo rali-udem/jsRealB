@@ -1,10 +1,3 @@
-'''
-Created on 6 sept. 2021
-
-@author: lapalme
-
-    access to the weather information
-'''
 import sys
 from datetime import datetime
 from ppJson import ppJson

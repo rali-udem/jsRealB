@@ -68,7 +68,7 @@ For the purpose of this demo, we extracted a subset of the global information fo
 
 This demonstration program does not try to reproduce verbatim the output of the system used by ECCC because we highly simplified it for didactic purposes. Our goal is to illustrate a use of the **jsRealB** realizer in an interesting context, in fact [weather information is one of the most successful *real life* application of Natural Language Generation (NLG)](https://ehudreiter.com/2017/05/09/weathergov/ "You Need to Understand your Corpora! The Weathergov Example &#8211; Ehud Reiter&#039;s Blog"). 
 
-This document outlines the organization of the system and should be read in conjunction with the source code.  Only excerpts are shown here to emphasize the aspects of text generation that are more challenging.
+This document outlines the organization of the system and should be read in conjunction with the Python source code.  Only excerpts are shown here to emphasize the aspects of text generation that are more challenging. It takes for granted that the reader can understand Python code and is familiar with the constituent notation used as input for **jsRealB**.
 
 ## Data organization
 
@@ -93,7 +93,7 @@ We now outline the JSON data organization in terms of Python data structures:
     * `id` : id of the original data, to ease debugging of the data conversion program.
     
 
-## Bulletin generation
+## Bulletin generation (`Bulletin.py`)
 This demonstration program is a data-to-text application that generates bilingual (English and French) weather bulletins. The core of the data manipulation and text organization is in Python and the final text realization is performed by **jsRealB**.
 
 As shown in the sample given above, a weather bulletin is composed of standardized block of informations some of which are created using simple format statements (`communication_header`,`forecast_regions` and `end_statement`), but others (`title_block` and `forecast_text`) must be generated as they use natural language text. All these functions return a string that can be split over many lines if it is too long or `None` in which case it is ignored in the output.
@@ -136,7 +136,7 @@ A period is described as a list of sentences dealing with different weather aspe
 
 For realization, these functions use **jsRealB** templates for each type of information. The templates are defined using the [Python API for **jaRealB**](http://rali.iro.umontreal.ca/JSrealB/current/documentation/jsRealBfromPython.html "Using jsRealB from Python"). We now give a detailed example of such generation template and how it is used for realizing a a string in either French or English.
 
-### Bilingual patterns generation
+### Bilingual patterns generation (`Realization.common.py`)
 
 The Python data structure that will be serialized into JSON for realization by the **jsRealB** server is built using class constructors such for `Phrase` (e.g `NP`, `PP`, `S`...) or `Terminal` (e.g. `N`, `P`, `Adv`) using a notation that is very similar to the one used in Javascript although the internal mechanism is quite different.
 
@@ -153,7 +153,7 @@ As modifications to a data structure are permanent, it is important to create a 
                 (18,24,{"en":lambda:NP(N("tonight")),
                         "fr":lambda:NP(N("soir"))})]
 
-This `dict` is used in the following function (in `Realization.common`)
+This `dict` is used in the following function:
 
     def jsrDayPeriod(hour,lang):
         isTomorrow=hour>23
@@ -196,7 +196,7 @@ A **jsRealB** expression is realized using the following function which specifie
 
 The last line sets the realization language and `pp()` creates a JSON serialization string passed as parameter to the `jsRealB` function which calls the **jsRealB** server and returns the realized string.
 
-### Access to the weather information
+### Access to the weather information (`WeatherInfo.py`)
 
 The `WeatherInfo` class gives access to the content of the JSON file. Its constructor reads the JSON file from which is extracted a list of `WeatherTerm` instances having three fields: `start` hour, `end` hour and `infos` a  list of values. The list of terms only contains terms that intersect the appropriate period according to the following table: 
 
@@ -226,7 +226,7 @@ Access to the information in `WeatherInfo` is performed with functions such as t
         if "precipitation-probability" not in self.data: return None
         return self.select_terms(period, self.data["precipitation-probability"])
     
-## Sky condition
+## Sky condition (`Realization.Sky_Condition.py`)
 
 This indicates the general weather conditions, such as :
     
@@ -276,7 +276,7 @@ This table is used in the context of the following function which loops over the
         return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
 
 
-## Precipitation
+## Precipitation (`Realization.Precipitation.py`)
 
 For information about rain or snow, for example:
 
@@ -342,9 +342,7 @@ A precipitation amount is realized when the probability, in increment of 10%, is
         return " ".join(realize(jsrExpr,lang) for jsrExpr in jsrExprs)
     
 
-
-
-## Wind
+## Wind (`Realization.Wind.py`)
 
 Information about the wind speed and directions are realized such as the following:
 
@@ -411,7 +409,7 @@ Wind terms are scanned to realize the ones with wind speed of more than 15 km/h.
 
 
 
-## Temperature
+## Temperature (`Realization.Temperature.py`)
 
 Temperatures can be described very simply such as:
     
@@ -513,7 +511,7 @@ The trend expression is built using the following function:
     }                
 
 
-## UV index
+## UV index (`Realization.UV_index.py`)
 
 UV index information, a number which ranges from a low of zero to a high of 11+, is only given for bulletin during a day period in the following way:
 
@@ -529,7 +527,7 @@ Its realization is simple matter of outputting its rounded value and if it is gr
                 (1000,{"en":A("extreme"),                 "fr":A("extrême")})]
 
     def uv_index(wInfo,period,lang):
-        if period in ["tonight","tomorrow_night"]:      # no UV index in the night
+        if period in ["tonight","tomorrow_night"]:      # no UV index during the night
             return None
         uvi_terms=wInfo.get_uv_index(period)
         if uvi_terms==None:return None 
@@ -539,10 +537,9 @@ Its realization is simple matter of outputting its rounded value and if it is gr
         if uvVal==0:return None
         for high,expr in uv_ranges:
             if uvVal<=high:
-                if lang=="en": 
-                    return realize(NP(Q("UV"),N("index"),NO(uvVal),C("or"),expr[lang]),lang)
-                else:
-                    return realize(NP(N("indice"),Q("UV"),NO(uvVal),C("ou"),expr[lang]),lang)
+                return realize(NP(Q("UV index" if lang=="en" else "indice UV"),
+                                  NO(uvVal),C("or" if lang=="en" else "ou"),expr[lang]),
+                               lang)
         return None
 
 
