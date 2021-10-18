@@ -378,20 +378,20 @@ Constituent.prototype.doElisionEn = function(cList){
     var last=cList.length-1;
     if (last==0)return; // do not try to elide a single word
     for (var i = 0; i < last; i++) {
-        var m1=sepWordREfr.exec(cList[i].realization)
+        var m1=sepWordREen.exec(cList[i].realization)
         if (m1 === undefined || m1[2]===undefined) continue;
-        var m2=sepWordREfr.exec(cList[i+1].realization)
+        var m2=sepWordREen.exec(cList[i+1].realization)
         if (m2 === undefined || m2[2]===undefined) continue;
         // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
         // for a single word 
         var w1=m1[2];
         var w2=m2[2];
-        if (w1=="a" && cList[i].isA("D")){
+        if ((w1=="a"||w1=="A") && cList[i].isA("D")){
             if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
                 (/^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
                 hAnRE.exec(w2) ||       // silent h
                 acronymRE.exec(w2)) {   // is an acronym
-                    cList[i].realization=m1[1]+"an"+m1[3];
+                    cList[i].realization=m1[1]+w1+"n"+m1[3];
                     i++;                     // skip next word
                 }
         } else if (this.contraction !== undefined && this.contraction === true) {

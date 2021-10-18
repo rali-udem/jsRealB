@@ -31,17 +31,18 @@ def q(s):
     if '"' in s: s=s.replace('"','\\"')
     return '"' + s + '"'  # quote
 
+def val(v):
+    if v == None: return "null"
+    if isinstance(v,bool): return "true" if v else "false"
+    if isinstance(v, str): return q(v)
+    if isinstance(v, datetime.datetime):return q(str(v).replace(" ","T")) # create JS iso formated date
+    if isinstance(v, list): 
+        return '[' + ','.join([val(v0) for v0 in v]) + ']'
+    if isinstance(v, dict):
+        return "{" + ','.join([kv(k0, v[k0]) for k0 in v]) + "}"
+    return str(v)
+
 def kv(k, v):
-    def val(v):
-        if v == None: return "null"
-        if isinstance(v,bool): return "true" if v else "false"
-        if isinstance(v, str): return q(v)
-        if isinstance(v, datetime.datetime):return q(str(v).replace(" ","T")) # create JS iso formated date
-        if isinstance(v, list): 
-            return '[' + ','.join([val(v0) for v0 in v]) + ']'
-        if isinstance(v, dict):
-            return "{" + ','.join([kv(k0, v[k0]) for k0 in v]) + "}"
-        return str(v)
     return q(k) + ':' + val(v)
 
 optionMethods = ('pe', 'n', 'g', 't', 'aux', 'f', 'tn', 'c', 'pos', "pro", 'ow', 'cap', 'lier', 'dOpt', 'nat')
@@ -62,7 +63,7 @@ class Constituent():
     
     # # using the standard Python pp which is too long and difficult to follow 
     def pp0(self):
-        return json.dumps(self.__dict__, default=lambda o:o.__dict__, indent=3)
+        return json.dumps(self.__dict__, default=lambda o:o.__dict__, indent=3,ensure_ascii=False)
     
     # so we define a prettier-print of JSON 
     #   which is a more compact ad-hoc version ignoring empty props
@@ -77,13 +78,13 @@ class Constituent():
     
     def show(self):  # show properties in jsRealB like format
         def showAttrs(attrs):
-            return "" if attrs == None else  "," + json.dumps(attrs)           
+            return "" if attrs == None else  "," + json.dumps(attrs)
         def showProp(k, v):
             if k == "tag":
                 return "".join([f'.tag({q(tag)+showAttrs(attrs)})' for (tag, attrs) in v])
             if k in optionListMethods:
                 return "".join([f'.{k}({q(v0)})' for v0 in v])
-            return f".{k}({'' if v==None else json.dumps(v)})"
+            return f".{k}({val(v)})"
         return "".join([showProp(k, v) for (k, v) in self.props.items()])
                         
     def __eq__(self, that):
@@ -331,13 +332,13 @@ def jsRealB(exp, lang="en"):
 if __name__ == '__main__':
 
     def printEval(expS, json=False, lang="en"):
-        print("** jsRealB expression:\n",expS)
+        print("** jsRealB expression:\n"+expS)
         exp=eval(expS)
-        print("**str()\n",str(exp))
-        print("**pp()\n",exp.pp())
-#         print("**pp0()\n"+exp.pp0())
-        print("**show()\n",exp.show())
-        print("**jsRealB realization\n",jsRealB(exp.pp() if json else exp.show(-1), lang=lang))
+        print("**str()\n"+str(exp))
+        print("**pp()\n"+exp.pp())
+        # print("**pp0()\n"+exp.pp0())
+        print("**show()\n"+exp.show())
+        print("**jsRealB realization\n"+jsRealB(exp.pp() if json else exp.show(-1), lang=lang))
         print("---")
     
     s1=Q("* à venir")

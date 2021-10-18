@@ -64,9 +64,11 @@ def wind(wInfo,period,lang):
                 lastSpeed=wSpeed
                 lastDir=wDir
                 if lang=="en":
-                    jsrExpr.add(NP(N("wind"),jsrWindDirection[wDir][lang]))
+                    jsrExpr.add(NP(N("wind"),jsrWindDirection[wDir][lang],NO(wSpeed),Q("km/h")))
                 else:
-                    jsrExpr.add(NP(N("vent").n("p"),PP(P("de"),jsrWindDirection[wDir][lang])))
+                    jsrExpr.add(NP(N("vent").n("p"),
+                                   PP(P("de"),jsrWindDirection[wDir][lang]),
+                                   PP(P("de"),NO(wSpeed),Q("km/h"))))
             if len(wind_term.infos)>3:                       # add gusting information
                 gust=wind_term.infos[3]
                 if gust.infos[0]=='gust':

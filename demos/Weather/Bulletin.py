@@ -5,7 +5,7 @@ import json,textwrap,re
 from datetime import datetime, timedelta
 from WeatherInfo import WeatherInfo
 
-from Realization.common import realize, periodNames
+from Realization.common import realize, periodNames, clearSavedJsrIO, getSavedJsrIO
 from Realization.Title_Block import title_block
 
 from Realization.Sky_Condition import sky_condition
@@ -39,12 +39,17 @@ def forecast_text(wInfo,lang):
     paragraphs=[]
     for period in wInfo.get_periods():
         if lang=="en" : wInfo.show_data(period)
+        clearSavedJsrIO()
         paragraphs.append(
             textwrap.fill(
                 realize(periodNames[period][lang](wInfo.get_issue_date()+timedelta(days=1)).cap(True),lang,False)
                           +" : "+forecast_period(wInfo, period, lang)
                         ,width=70,subsequent_indent=" ")
-            )  
+            )
+        for (jsrInput,realization) in getSavedJsrIO():
+            print(jsrInput)
+            print(realization)
+            print(" ---")
     return "\n".join(paragraphs)
 
 def end_statement(lang):
@@ -86,9 +91,10 @@ def compare_with_orig(wInfo,lang):
                 res.append(fmt%(genL[i],""))
     return "\n"+"\n".join(res)
 
-compare=False   
+compare=True   
 if __name__ == '__main__':
-    for line in open("Data preparation/weather-data.jsonl","r",encoding="utf-8"):
+    for line in open("/Users/lapalme/Documents/GitHub/jsRealB/demos/Weather/Data preparation/weather-data.jsonl","r",encoding="utf-8"):
+    # for line in open("Data preparation/weather-data.jsonl","r",encoding="utf-8"):
         wInfo=WeatherInfo(json.loads(line))
         # if wInfo.data["id"]!="fpto11-2019-01-26-1600-r1116d":continue
         if compare:
@@ -97,3 +103,4 @@ if __name__ == '__main__':
         else:
             print(generate_bulletin(wInfo,"en"),"\n")
             print(generate_bulletin(wInfo,"fr"),"\n")
+        break
