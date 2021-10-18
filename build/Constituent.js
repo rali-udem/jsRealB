@@ -49,7 +49,6 @@ Constituent.prototype.getProp = function(propName){
     if (propName=="t" || propName=="aux"){
         return this.taux===undefined ? undefined : this.taux[propName];
     }
-    // return this.props[propName];
     return undefined;
 }
 
@@ -58,8 +57,6 @@ Constituent.prototype.setProp = function(propName,val){
         if (this.peng!==undefined) this.peng[propName]=val;
     } else if (propName=="t" || propName=="aux"){
         if (this.taux!==undefined) this.taux[propName]=val;
-    // } else
-        // this.props[propName]=val;
     }
     this.props[propName]=val;
 }
