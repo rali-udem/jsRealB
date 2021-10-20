@@ -6,7 +6,7 @@
 
 ////// Creates a Terminal (subclass of Constituent)
 // Terminal
-function Terminal(lemmaArr,terminalType,lang){
+function Terminal(lemmaArr,terminalType,lang){ // lang parameter used calls in IO-json.js
     Constituent.call(this,terminalType);
     if (lemmaArr.length==0 && terminalType!="DT"){
         this.lang=lang||currentLanguage; // useful for error message

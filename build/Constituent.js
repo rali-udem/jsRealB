@@ -356,7 +356,6 @@ Constituent.prototype.doElisionEn = function(cList){
     //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
     const uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
     const acronymRE=/^[A-Z]+$/
-    const punctuationRE=/^\s*[,:\.\[\]\(\)\?]+\s*$/
     // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
     const contractionEnTable={
         "are+not":"aren’t", "can+not":"can’t", "did+not":"didn’t", "do+not":"don’t", "does+not":"doesn’t", 
