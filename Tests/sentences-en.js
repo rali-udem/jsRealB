@@ -2,8 +2,8 @@ QUnit.test( "Sentence EN", function( assert ) {
     loadEn();
     var sentences = [
         // 1
-        {expression:S( NP(D("the"), N("cat")), VP(V("sit").t("ps"), PP(P("on"), NP(D("the"), N("coach"))))),
-         expected:"The cat sat on the coach.",
+        {expression:S( NP(D("the"), N("cat")), VP(V("sit").t("ps"), PP(P("on"), NP(D("the"), N("couch"))))),
+         expected:"The cat sat on the couch.",
          message:"Full sentence"},
         // 2
         {expression:S(N("gift").n("p")).cap(),

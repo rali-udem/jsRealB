@@ -21,7 +21,7 @@
 </head>
 <body class="markdown-body">
 
-<h1 id="generation_weather_bulletins_in_french_and_english">Generation weather bulletins in French and English</h1>
+<h1 id="generation_of_weather_bulletins_in_french_and_english">Generation of weather bulletins in French and English</h1>
 
 <h2 id="context_of_the_application">Context of the application</h2>
 
@@ -58,14 +58,14 @@ The next scheduled forecasts will be issued on Thursday, July 19, 2018 at 5:30 a
 Armstrong - Auden - Wabakimi Park
 Nakina - Aroland - Pagwa
 
-Tonight : Clear. A few clouds. Partly cloudy. 30 percent chances of
- showers. Wind west around noon. Becoming southwest in the evening.
- Low 28, with temperature rising to 14 by morning.
+Tonight : Clear. A few clouds. Partly cloudy. 30 percent chance of
+ showers. Wind west 20 km/h around noon. Becoming southwest in the
+ evening. Low 14, with temperature rising to 28 by morning.
 Thursday : Mainly sunny. Increasing cloudiness tomorrow morning.
- Mainly cloudy. 30 percent chances of showers. Wind southwest. High
- 28. Low 15. UV index 8 or very high.
-Thursday night : Mainly cloudy. 30 percent chances of showers. Wind
- southwest. Low 23, with temperature rising to 14 by morning.
+ Mainly cloudy. 30 percent chance of showers. Wind southwest 20 km/h.
+ High 28. Low 15. UV index 8 or very high.
+Thursday night : Mainly cloudy. 30 percent chance of showers. Wind
+ southwest 20 km/h. Low 14, with temperature rising to 23 by morning.
 END 
 
 BULLETIN MÉTÉOROLOGIQUE: régulier
@@ -75,15 +75,16 @@ Armstrong - Auden - parc Wabakimi
 Nakina - Aroland - Pagwa
 
 Ce soir et cette nuit : Dégagé. Quelques nuages. Partiellement
- couvert. 30 pour cent de probabilités d'averses. Vents de l'ouest
- vers midi. Devenant du sud-ouest dans la soirée. Minimum 28,
- températures à la hausse pour atteindre 14 en matinée.
+ couvert. 30 pour cent de probabilité d'averses. Vents de l'ouest de
+ 20 km/h vers midi. Devenant du sud-ouest dans la soirée. Minimum 14,
+ températures à la hausse pour atteindre 28 en matinée.
 Jeudi : Généralement ensoleillé. Ennuagement demain matin.
- Généralement nuageux. 30 pour cent de probabilités d'averses. Vents
- du sud-ouest. Maximum 28. Minimum 15. Indice UV 8 ou très élevé.
-Jeudi soir et nuit : Généralement nuageux. 30 pour cent de
- probabilités d'averses. Vents du sud-ouest. Minimum 23, températures
- à la hausse pour atteindre 14 en matinée.
+ Généralement nuageux. 30 pour cent de probabilité d'averses. Vents du
+ sud-ouest de 20 km/h. Maximum 28. Minimum 15. Indice UV 8 ou très
+ élevé.
+Jeudi soir et nuit : Généralement nuageux. 30 pour cent de probabilité
+ d'averses. Vents du sud-ouest de 20 km/h. Minimum 14, températures à
+ la hausse pour atteindre 23 en matinée.
 FIN
 </code></pre>
 
@@ -93,9 +94,57 @@ FIN
 
 <p>This document outlines the organization of the system and should be read in conjunction with the <a href="https://github.com/rali-udem/jsRealB/tree/master/demos/Weather" title="jsRealB/demos/Weather at master · rali-udem/jsRealB · GitHub">Python source code on the RALI GitHub</a>.  Only excerpts are shown here to emphasize the aspects of the text generation that are more challenging. We take for granted that the reader can understand Python code and is familiar with the constituent notation used as input for <strong>jsRealB</strong>.</p>
 
+<h2 id="separation">Separating information processing from linguistic realization</h3>
+
+<p>One advantage of using <strong>jsRealB</strong> is to allow a clear separation between <em>What to say</em> and <em>How to say it</em> through the use of syntactic constructions that can be built incrementally by program and easily parameterized. The syntactic patterns are then realized and formatted into syntactically correct English and French taking care of subject-verb agreements, verb conjugation, noun declension and proper spacing between punctuation.</p>  
+
+<p>Internally, the notation used as input specification calls Python class constructors. The Python data structure built by these calls are then serialized into JSON for realization by a <strong>jsRealB</strong> server written in Javascript. But this mechanism is transparent for the user who only has to focus on the specification.</p>
+
+<p>For example, the following Python expression creates a data structure which is <em>realized</em> using <code>str()</code> to produce
+<code>Flurries begin in the morning, amount 2 feet.</code>
+<pre><code>S(N("flurry").n("p"),                              # type of precipitation
+  VP(V("begin").t("p"),                            # action
+     CP(PP(P("in"),NP(D("the"),N("morning")))),    # moment of action
+        NP(N("amount"),NP(NO("2"),N("foot")))))    # quantity
+</code></pre>
+
+<p>The notation mimics the conventional constituent syntactic notation for syntactic trees for <em>phrases</em> such as <code>S</code> for sentence, <code>VP</code> for Verb Phrase, etc. or <em>terminals</em> such as <code>N</code> for Noun, <code>V</code> for verbs, etc. The dot notation is used for modifiers (<code>n</code> for number, <code>t</code> for tense). See the <a href="http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html" title="jsRealB tutorial">jsRealB tutorial</a> and <a href="http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html" title="jsRealB - Documentation">documentation</a> for more details.</p>
+
+<p>As can be seen in this example, each word is specified with its lemma, i.e. the basic form found in a dictionary. The realization process takes care of the grammatical <em>details</em> which are nevertheless important for readers: plural forms, verb conjugation, agreement between the subject and the verb and between a number and the noun, proper punctuation between parts of a coordination, if present. 
+</p>
+<p>It might be argued that the <code>jsRealB</code> notation is more verbose than the realized sentence, but this expression can be modularized into a function with parameters that can be called in different contexts to produce many grammatically correct variations. For example, the above example can be <em>abstracted</em> into the following function:
+<pre><code>def pcpn(type,action,tense,moment,quantity=None,unit=None):
+        return S(type,
+                 VP(V(action).t(tense),
+                    CP(PP(P("in"),NP(D("the"),N(moment))),
+                       None if quantity==None else NP(N("amount"),NP(NO(quantity),unit)))))
+</code></pre>
+</p>
+<p>which can be called in various ways, as is shown in this table (the first line is equivalent to our example):</p>
+<table>
+	<tr>
+		<td><code>pcpn(N("flurry").n("p"),"begin","p","morning",2,N("foot"))</code></td>
+		<td><code>Flurries begin in the morning, amount 2 feet.</code></td>
+	</tr>
+	<tr>
+		<td><code>pcpn(N("rain"),"begin","f","evening",10,"mm")</code></td>
+		<td><code>Rain begins in the evening, amount 1 inch.</code></td>
+	</tr>
+	<tr>
+		<td><code>pcpn(N("snow"),"stop","pr","evening"),"en")</code></td>
+		<td><code>Snow stopping in the evening.</code></td>
+	</tr>
+	<tr>
+		<td><code>pcpn(NP(V("freeze").t("pr"),N("drizzle")),"start","f","morning")</code></td>
+		<td><code>Freezing drizzle will start in the morning.</code></td>
+	</tr>
+</table>
+
+<p>In a way, the <strong>jsRealB</strong> notation might be viewed as an intelligent formatting specification language that can not only format strings and numbers, but which also takes care of grammatical features that are essential for producing publication quality texts. As we will show later, <strong>jsRealB</strong> can also realize French sentences when the appropriate French lemma are given.  It can also deal with the proper wording of numbers and dates. Although not shown here, <strong>jsRealB</strong> can also produce HTML tags so that it  can be embedded in web pages, the <strong>jsRealB</strong> demos shows many use cases of HTML formatting combined with graphics. It is even possible to realize bilingual texts in which some parts are in English and others in French.</p>
+
 <h2 id="data_organization">Data organization</h2>
 
-<p>We now outline the JSON data organization in terms of Python data structures:</p>
+<p>We now outline the JSON data organization for a given weather bulletin used as input for our demonstration program in terms of Python data structures:</p>
 
 <ul>
 <li>administrative information:
@@ -135,7 +184,7 @@ FIN
         communication_header(wInfo,lang),
         title_block(wInfo,lang),
         forecast_regions(wInfo,lang),
-        forecast_text(wInfo,lang),
+        <strong>forecast_text(wInfo,lang),</strong>
         end_statement(lang),
     ]    
     return "\n".join(line for line in text if line!=None)
@@ -150,7 +199,7 @@ FIN
         paragraphs.append(
             textwrap.fill(
                 realize(periodNames[period][lang](wInfo.get_issue_date()+timedelta(days=1)).cap(True),lang,False)
-                          +" : "+forecast_period(wInfo, period, lang)
+                          +" : "+<strong>forecast_period(wInfo, period, lang)</strong>
                         ,width=70,subsequent_indent=" ")
             )  
     return "\n".join(paragraphs)
@@ -160,20 +209,19 @@ FIN
 
 <pre><code>def forecast_period(wInfo,period,lang):
     sents=filter(lambda l:l!=None,[
-        sky_condition(wInfo, period, lang),
-        precipitation(wInfo, period, lang),
-        wind(wInfo, period, lang),
-        temperature(wInfo, period, lang),
-        uv_index(wInfo, period, lang)
+        <strong>sky_condition(wInfo, period, lang)</strong>,
+        <strong>precipitation(wInfo, period, lang)</strong>,
+        <strong>wind(wInfo, period, lang)</strong>,
+        <strong>temperature(wInfo, period, lang)</strong>,
+        <strong>uv_index(wInfo, period, lang)</strong>
     ])
     return " ".join(sents)
 </code></pre>
 
 <p>For realization, these functions use <strong>jsRealB</strong> templates for each type of information. The templates are defined using the <a href="http://rali.iro.umontreal.ca/JSrealB/current/documentation/jsRealBfromPython.html" title="Using jsRealB from Python">Python API for <strong>jaRealB</strong></a>. We now give a detailed example of such generation template and how it is used for realizing a string in either French or English.</p>
 
-<h3 id="bilingual_patterns_generation_realizationcommonpy">Bilingual patterns generation (<code>Realization.common.py</code>)</h3>
 
-<p>The Python data structure that will be serialized into JSON for realization by the <strong>jsRealB</strong> server is built using class constructors such for <code>Phrase</code> (e.g., <code>NP</code>, <code>PP</code>, <code>S</code>, ...) or <code>Terminal</code> (e.g., <code>N</code>, <code>P</code>, <code>Adv</code>) using a notation that is very similar to the one used in JavaScript although the internal mechanism is quite different.</p>
+<h3 id="bilingual_patterns_generation_realizationcommonpy">Bilingual patterns generation (<code>Realization.common.py</code>)</h3>
 
 <p>As modifications to a data structure are permanent, it is important to create a new data structure at each use. The simplest way to achieve this is to create a function (e.g., a <code>lambda</code> in Python) that returns a new structure at each call. The following shows a <code>dict</code> to realize in English and French a period of the day depending on the hour (e.g., <code>morning</code> or <code>matinée</code> when the hour is between 9 and 12 excluded). </p>
 
