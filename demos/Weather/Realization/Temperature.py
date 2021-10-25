@@ -29,8 +29,8 @@ jsrAbnormal = {
             "fr":lambda t,_:temp_trend("fr","hausse",t,PP(P("en"),N("matinée")))
         },
         "b":{
-            "en":lambda t,u:S(Adv("low"),NO(u).a(","),P("with"),temp_trend("en","rise",t,PP(P("by"),N("morning")))),
-            "fr":lambda t,u:S(N("minimum"),NO(u).a(","),temp_trend("fr","hausse",t,PP(P("en"),N("matinée"))))
+            "en":lambda t,u:S(Adv("low"),u.a(","),P("with"),temp_trend("en","rise",t,PP(P("by"),N("morning")))),
+            "fr":lambda t,u:S(N("minimum"),u.a(","),temp_trend("fr","hausse",t,PP(P("en"),N("matinée"))))
         },
         "c":{
             "en":lambda t,p:temp_trend("en","rise",t,p).add(AdvP(Adv("then"),A("steady"))),
@@ -54,8 +54,8 @@ jsrAbnormal = {
             "fr":lambda t,_:temp_trend("fr","baisse",t,PP(P("en"),N("après-midi")))
         },
         "b":{
-            "en":lambda t,u:S(Adv("high"),NO(u).a(","),P("with"),temp_trend("en","fall",t,PP(P("by"),N("afternoon")))),
-            "fr":lambda t,u:S(N("maximum"),NO(u).a(","),temp_trend("fr","hausse",t,PP(P("en"),N("après-midi"))))
+            "en":lambda t,u:S(Adv("high"),u.a(","),P("with"),temp_trend("en","fall",t,PP(P("by"),N("afternoon")))),
+            "fr":lambda t,u:S(N("maximum"),u.a(","),temp_trend("fr","baisse",t,PP(P("en"),N("après-midi"))))
         },
         "c":{
             "en":lambda t,p:temp_trend("en","fall",t,p).add(AdvP(Adv("then"),A("steady"))),
@@ -88,6 +88,7 @@ def temperature(wInfo,period,lang):
     #     negative change of last 3°C during the day
     (t1,t2,i1)=(maxTemp,minTemp,tempVals.index(minTemp)) if dn=="night" else\
                (minTemp,maxTemp,tempVals.index(maxTemp))
+    # print("dn=",dn,"t1=",t1,"t2=",t2)
     if t1 >= t2+3:                       # abnormal change time
         if i1 <=1 :
             return realize(jsrAbnormal[dn]["a"][lang](t1, periodName),lang,False)
@@ -105,7 +106,8 @@ def temperature(wInfo,period,lang):
                     return realize(jsrAbnormal[dn]["e"][lang](t1,periodName),lang,False)
             else:
                 # b) low temperature after the beginning (but no special case)
-                return realize(jsrAbnormal[dn]["b"][lang](t2,t1),lang,False)
+                
+                return realize(jsrAbnormal[dn]["b"][lang](t1,jsrTemp(t2,lang)),lang,False)
     # normal case 
     res=[]                             
     if lang=="en":                      # output maximum temperature   

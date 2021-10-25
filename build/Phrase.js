@@ -7,7 +7,7 @@
 ////// Constructor for a Phrase (a subclass of Constituent)
 
 // phrase (non-terminal)
-function Phrase(elements,constType,lang){
+function Phrase(elements,constType,lang){ // lang parameter used calls in IO-json.js
     Constituent.call(this,constType); // super constructor
     this.lang = lang || currentLanguage;
     this.elements=[];

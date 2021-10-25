@@ -62,9 +62,9 @@ def precipitation(wInfo,period,lang):
         if type_term!=None and prob_val>=30:     # interesting precipitation
             if prob_val <= 70 and prob_val!=50:  # show probability
                 if lang=="en":
-                    prob=NP(NO(prob_val),Q("percent"),N("chance"),P("of"))
+                    prob=NP(NO(prob_val),Q("percent"),N("chance").n("s"),P("of"))
                 else:
-                    prob=NP(NO(prob_val),Q("pour cent"),P("de"),N("probabilité"),P("de"))
+                    prob=NP(NO(prob_val),Q("pour cent"),P("de"),N("probabilité").n("s"),P("de"))
                 timePeriod=None
             else:                                # probability >= 80% 
                 prob=None                        # indicate beginning or ending

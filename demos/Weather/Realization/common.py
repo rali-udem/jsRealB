@@ -2,11 +2,21 @@ from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,PP,CP
 
 ## the jsRealB server should be launched from the jsRealB directory with
 ##    node dist/jsRealB-server.js demos/Weather/weatherLexicon.js
+savedJsrIO=None
+
+def clearSavedJsrIO():
+    savedJsrIO=[]
+
+def getSavedJsrIO():
+    return savedJsrIO
 
 def realize(jsrExpr,lang,addS=True):
     if addS and not isinstance(jsrExpr,S):
         jsrExpr=S(jsrExpr)
-    return jsRealB(jsrExpr.set_lang(lang).pp())
+    realization=jsRealB(jsrExpr.set_lang(lang).pp())
+    if savedJsrIO!=None:
+        savedJsrIO.append((jsrExpr.show(),realization))
+    return realization
 
 dayPeriods=[(0,5,{"en":lambda:NP(N("night")),"fr":lambda:NP(N("nuit"))}),
             (5,9,{"en":lambda:NP(Adv("early"),N("morning")),"fr":lambda:NP(N("début"),PP(P("de"),N("matinée")))}),
@@ -69,11 +79,11 @@ def get_term_at(terms,hour):
         
 def get_fn_term(terms,idx,cmp):
     if terms==None or len(terms)==0 :return None 
-    maxTerm=terms[0]
+    term=terms[0]
     for i in range(1,len(terms)):
-        if cmp(terms[i].infos[idx],maxTerm.infos[idx]):
-            maxTerm=terms[i]
-    return maxTerm
+        if cmp(terms[i].infos[idx],term.infos[idx]):
+            term=terms[i]
+    return term
 
 def get_max_term(terms,idx):
     return get_fn_term(terms,idx,lambda x,y:x>y)
