@@ -103,9 +103,9 @@ function makeOptions(opts){
 
 function $makeCell(Const,terminal,options){
     var exp=`${Const}("${terminal}")`+options;
-    // console.log(exp);
-    return $("<td><span class='realisation'>"+eval(exp)+"</span><br/>\
-    <span class='pattern'>"+exp+"</span></td>");
+    console.log(exp);
+    return $("<td><span class='realisation'>"+eval(exp)+"</span><br/>"+
+                 "<span class='pattern'>"+exp+"</span></td>");
 }
 
 
@@ -126,7 +126,10 @@ function pronomsPersonnels($t,pro,opts,tnC){
         const citation=pro=="on"?"on":eval(exp);
         $tr.append($makeCell("Pro",pro,os))
         for (var j = 1; j < tnC.length; j++) {
-            $tr.append($makeCell("Pro",citation,tnC[j]+(i==0 && opts.length>1?".pe(1)":"")));
+            let x=tnC[j];
+            if (i==0 && opts.length>1)x+=".pe(1)";       // ensure pe for first line
+            if (os=='.pe(1).g("f").n("s")' && pro=="me")x+='.g("f")'; // HACK: very special case of English pronouns
+            $tr.append($makeCell("Pro",citation,x));
         }
         $t.append($tr);
     }
@@ -189,8 +192,7 @@ function englishPossessiveDeterminers($t){
             if (pe==3 && o=="s"){
                 for (var k = 0; k < genres.length; k++) {
                     var g=genres[k];
-                    opts+=`.g("${g}")`
-                    $t.append($("<tr/>").append($makeCell("D","my",opts)))
+                    $t.append($("<tr/>").append($makeCell("D","my",opts+`.g("${g}")`)))
                 }
             } else {
                 $t.append($("<tr/>").append($makeCell("D","my",opts)))
@@ -214,17 +216,10 @@ function englishTable(){
 
     let $possDet=$("#possDet")
     $t=$("<table/>");
-    const gn=makeOptions(["n","g"]);
-    gn.unshift("")
     ajouterTitre($t,["Possessive determiner"]);
-    
     englishPossessiveDeterminers($t)
     $possDet.append($t);
 }
-
-
-///
-
 
 $(document).ready(function() {
     $("#jsRealB-en").append(jsRealBdir+"jsRealB-en.min.js");
@@ -247,7 +242,6 @@ $(document).ready(function() {
     // add pronoun section
     tableauFrancais();
     englishTable();
-    //
     
     var lang=$.urlParam("lang");
     // console.log("lang="+lang);

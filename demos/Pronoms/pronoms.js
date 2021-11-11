@@ -49,7 +49,10 @@ function pronomsPersonnels($t,pro,opts,tnC){
         const citation=pro=="on"?"on":eval(exp);
         $tr.append($makeCell("Pro",pro,os))
         for (var j = 1; j < tnC.length; j++) {
-            $tr.append($makeCell("Pro",citation,tnC[j]+(i==0 && opts.length>1?".pe(1)":"")))
+            let x=tnC[j];
+            if (i==0 && opts.length>1)x+=".pe(1)";       // ensure pe for first line
+            if (os=='.pe(1).g("f").n("s")' && pro=="me")x+='.g("f")'; // HACK: very special case of English pronouns
+            $tr.append($makeCell("Pro",citation,x))
         }
         $t.append($tr);
     }

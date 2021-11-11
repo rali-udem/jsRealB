@@ -70,11 +70,10 @@ var addToLexicon = function(lemma,newInfos,lang){
             infos[ni]=newInfos[ni]
         }
         lexicon[lemma]=infos
-        return infos
     } else {
         lexicon[lemma]=newInfos
-        return newInfos
     }
+    return lexicon[lemma]
 }
 
 /// update current lexicon by "merging" the new lexicon with the current one
@@ -116,7 +115,7 @@ var setReorderVPcomplements = function(reorder){
 
 //// select a random element in a list useful to have some variety in the generated text
 //  if the first argument is a list, selection is done within the list
-//  otherwise the selection is among the arguements 
+//  otherwise the selection is among the arguments 
 //   (if the selected element is a function, evaluate it with no parameter)
 var oneOf = function(elems){
     if (!Array.isArray(elems))
@@ -126,5 +125,5 @@ var oneOf = function(elems){
 }
 
 // version and date informations
-var jsRealB_version="3.8";
+var jsRealB_version="3.9";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

@@ -69,14 +69,15 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     case "NO":
         if (lemmaType != "string" && lemmaType != "number"){
             this.warn("bad parameter","string, number",lemmaType);
+            this.lemma=lemma=0
         }
         if (lemmaType == "string"){
             // check if this looks like a legal number...
-            if (!/^[-+]?[0-9]+([.,][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
+            if (!/^[-+]?[0-9]+([., ][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
                 this.warn("bad parameter","number",lemmaType);
-                lemma=0;
+                this.lemma=0;
             } else {
-                lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+                this.lemma=lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
             }
         }
         this.value=+lemma; // this parses the number if it is a string
@@ -137,8 +138,14 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                                     }
                                 }
                             }
-                        } else {
-                            ending = rules.conjugation[this.tab].ending;
+                        } else { // looking for a conjugation
+                            const conjTable = rules.conjugation[this.tab];
+                            if (conjTable !== undefined){
+                                ending=conjTable.ending
+                            } else {// this can happen when a wrong lexicon entry has been added
+                                ending=""
+                                this.warn("bad lexicon table",lemma,ending);
+                            }
                         }
                         if (lemma.endsWith(ending)){
                             this.stem=lemma.substring(0,lemma.length-ending.length);
@@ -271,7 +278,8 @@ Terminal.prototype.decline = function(setPerson){
                             declension=rules.declension[adjAdv["tab"][0]].declension;
                             const ending=rules.declension[adjAdv["tab"][0]].ending;
                             stem=stem.slice(0,stem.length-ending.length);
-                        }
+                        } else // adverb without adjective
+                            return res
                     } 
                     // look in the adjective declension table
                     const ending=this.bestMatch("adjective declension",declension,{f:f})
@@ -567,78 +575,61 @@ Terminal.prototype.numberToOrdinal = function(number,lang,gender){
 
 Terminal.prototype.dateFormat = function(dateObj,dOpts){
     // useful abbreviations for date format access
+    const fmtRE=/(.*?)\[(.+?)\]|(.+$)/g
     const dateRule = this.getRules().date
-    const naturalDate = dateRule.format.natural
-    const nonNaturalDate =dateRule.format.non_natural
-    const relativeDate = dateRule.format.relative_time
-
-    // name of fields to be used in date formats
-    const dateFields = ["year","month","date","day"]
-    const timeFields = ["hour","minute","second"]
-    let res;
+    const fmts=dateRule.format[dOpts["nat"]?"natural":"non_natural"]
+    
+    function interpret(fields){
+        if (fields.length==0)return "";
+        let res="";
+        let fmt=fmts[fields];
+        if (!dOpts["det"])fmt=fmt.slice(fmt.indexOf("[")); // remove determineer before first left bracket
+        for (const m of fmt.matchAll(fmtRE)){
+            if (m[1]==undefined)
+                res+=m[3];
+            else {
+                const z=(n=>(n<10?"0":"")+n);
+                res+=m[1];
+                switch (m[2]) {
+                    case "Y" : res+=dateObj.getFullYear(); break;
+                    case "F" : res+=dateRule["text"]["month"][""+(dateObj.getMonth()+1)]; break;
+                    case "M0": res+=z(dateObj.getMonth()+1); break;
+                    case "M" : res+=dateObj.getMonth()+1; break;
+                    case "d0": res+=z(dateObj.getDate()); break;
+                    case "d" : res+=dateObj.getDate(); break;
+                    case "l" : res+=dateRule["text"]["weekday"][""+dateObj.getDay()]; break;
+                    case "A" : res+=dateRule["text"]["meridiem"][dateObj.getHours()<12 ? 0 : 1]; break;
+                    case "h" : res+=dateObj.getHours()%12; break;
+                    case "H0": res+=z(dateObj.getHours()); break;
+                    case "H" : res+=dateObj.getHours(); break;
+                    case "m0": res+=z(dateObj.getMinutes()); break;
+                    case "m" : res+=dateObj.getMinutes(); break;
+                    case "s0": res+=z(dateObj.getSeconds()); break;
+                    case "s" : res+=dateObj.getSeconds(); break;
+                    break;
+                default:
+                    console.log("strange field:"+m[2])
+                }
+            }    
+        }
+        return res;
+    }
     if (dOpts["rtime"]){
+        const relativeDate = dateRule["format"]["relative_time"]
         // find the number of days of difference between relDay and the current date
         const relDay=dOpts["rtime"]
         const diffDays=Math.ceil((dateObj.getTime()-relDay.getTime())/(24*60*60*1000));
         relDay.setDate(relDay+diffDays);
         const res=relativeDate[""+diffDays];
-        if (res!==undefined) return this.interpretDateFmt(dateObj,relativeDate,""+diffDays,false);
+        if (res!==undefined) 
+            return relativeDate[""+diffDays].replace("[l]",dateRule["text"]["weekday"][dateObj.getDay()])
         const sign=diffDays<0?"-":"+";
         return relativeDate[sign].replace("[x]",Math.abs(diffDays))
     }
-    const dfs = dateFields.filter(function(field){return dOpts[field]==true}).join("-");
-    const tfs = timeFields.filter(function(field){return dOpts[field]==true}).join(":");
-    if (dOpts["nat"]==true){
-        res=this.interpretDateFmt(dateObj,naturalDate,dfs,dOpts["det"]==false);
-        const hms=this.interpretDateFmt(dateObj,naturalDate,tfs);
-        if (res=="")return hms;
-        if (hms != "")return res+" "+hms;
-        return res;
-    }
-    if (dOpts["nat"]==false){
-        res=this.interpretDateFmt(dateObj,nonNaturalDate,dfs,dOpts["det"]==false);
-        const hms=this.interpretDateFmt(dateObj,nonNaturalDate,tfs);
-        if (res=="")return hms;
-        if (hms != "")return res+" "+hms;
-        return res;
-    }
-    this.warn("not implemented",JSON.stringify(dOpts));
-    return "[["+dateObj+"]]"
-}
-
-Terminal.prototype.interpretDateFmt = function(dateObj,table,spec,removeDet){
-    // fields: 1 what is before [..] 2: its content, 3=content if no [..] found
-    const dateRE = /(.*?)\[([^\]]+)\]|(.*)/y;
-    if (spec=="") return "";
-    let res="";
-    let fmt=table[spec];
-    if (fmt!==undefined){
-        if (removeDet){ // remove determinant at the start of the string
-            var idx=fmt.indexOf("[")
-            if (idx>=0)fmt=fmt.substring(idx);
-        }
-        dateRE.lastIndex=0;
-        let match=dateRE.exec(fmt);
-        while (match[0].length>0){ // loop over all fields
-            if (match[1]!==undefined){
-                res+=match[1];
-                const pf=dateFormats[match[2]];
-                if (pf!==undefined){
-                    const val=pf.param.call(dateObj); // call function to get the value
-                    res+=pf.func.call(this,val)       // format the value as a string
-                }
-            } else if (match[3]!==undefined){
-                res+=match[3]      // copy the string
-            } else {
-                return this.error("bad match: should never happen:"+fmt);
-            }
-            match=dateRE.exec(fmt);
-        }
-        return res;
-    } else {
-        this.error("unimplemented format specification:"+spec);
-        return "[["+dateObj+"]]"
-    }
+    
+    const dateS = interpret(["year","month","date","day"].filter(field=> dOpts[field]==true).join("-"));
+    const timeS = interpret(["hour","minute","second"].filter(field=> dOpts[field]==true).join(":"));
+    return [dateS,timeS].filter(s=>s.length>0).join(" ")
 }
 
 // Realize (i.e. set the "realization" field) for this Terminal

@@ -349,7 +349,7 @@ In the figure, each *class* title shows its parameters, the first cell shows in 
 
 All functions validate their input, in the case of errors, they generate a warning message on the console. Realization is not stopped, the resulting string is the original lemma enclosed in double square brackets. 
 
-We now describe the methods in each box. Only the main methods are shown and described here, auxiliary or simple utility methods are ignored here as are methods in other files: `Date.js`, `Elision.js` and `Number.js`):
+We now describe the methods in each box. Only the main methods are shown and described here, auxiliary or simple utility methods are ignored here as are methods in other files: `Elision.js` and `Number.js`):
 
 #### `Constituent`
 The constructor initializes the object properties `constType` with the parameter, `prop` to an empty object, `realization` to `null` and `lang` to the current realization language.

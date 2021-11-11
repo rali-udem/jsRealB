@@ -24,7 +24,6 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `README.md` : Description of the architecture of the system; the second section goes into details of the organization of the source files and describes the main methods.
 * [`build`](build/): build system to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
-    * `Date.js` : utility functions for dealing with date formatting
     * `IO-json.js` : functions for dealing with the JSON input format
     * `jsRealBclass.py` : Python classes and functions to generate the JSON input format and use jsRealB from Python
     * `module-end.js` : lines to add at the end when creating a module from js files

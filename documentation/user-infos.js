@@ -38,7 +38,7 @@ var syntagmesSect =
                             "en":["Adjective Phrase",'AP(Adv("very"), A("tall"))']},
          {"pattern":"AdvP(…)","fr":["Syntagme adverbial",'AdvP(Adv("bien"), Adv("heureusement"))'],
                             "en":["Adverbial Phrase",'AdvP(Adv("far"), Adv("back"))']},
-         {"pattern":"VP(…)","fr":["Syntagme verbal",'VP(V("apprendre"), NP(D("le"), N("course")))'],
+         {"pattern":"VP(…)","fr":["Syntagme verbal",'VP(V("prendre"), NP(D("le"), N("course")))'],
                             "en":["Verbal Phrase",'VP(V("enjoy"), NP(D("a"), N("meal")))']},
          {"pattern":"PP(…)","fr":["Syntagme Prépositionnel",'PP(P("à"), NP(N("minuit")))'],
                             "en":["Prepositional Phrase",'PP(P("at"), NP(N("midnight")))']},

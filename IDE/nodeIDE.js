@@ -2,6 +2,7 @@
 // these function access internals of jsRealB
 "use strict";
 
+// Only set this flag during development, it takes a long time to execute
 var checkAmbiguities=false;
 var lemmataEn,lemmataFr,lemmataLang;
 
@@ -108,8 +109,10 @@ function genExp(declension,pos,entry,lexiconEntry){
     case "N":
         var g=lexiconEntry["g"];
         // gender are ignored in English
-        if (lemmataLang=="en"|| declension["g"]==g || declension["g"]=="x"){
+        if (lemmataLang=="en"|| declension["g"]==g){
             return out+(declension["n"]=="p"?'.n("p")':"");
+        } else if (g=="x") {
+            return out+'.g("'+declension["g"]+'")'+(declension["n"]=="p"?'.n("p")':"")
         }
         break;
     case "Pro":case "D":
@@ -117,16 +120,16 @@ function genExp(declension,pos,entry,lexiconEntry){
         let defGender=lemmataLang=="fr"?"m":"n";
         let dg = declension["g"];
         if (dg===undefined || dg=="x" || dg=="n")dg=defGender;
-        const outG = '.g("'+dg+'")';
+        const outG = dg==defGender?"":'.g("'+dg+'")';
         // number
         let dn = declension["n"];
         if (dn===undefined || dn=="x")dn="s";
-        const outN = '.n("'+dn+'")';
+        const outN = dn=="s"?"":'.n("'+dn+'")';
         // person
         let outPe=""
         if ("pe" in declension){
             var pe=declension["pe"];
-            outPe+='.pe('+pe+')';
+            outPe+=(pe!=3 || entry=="moi")?'.pe('+pe+')':"";
         }
         // ow
         let outOw="";
@@ -169,7 +172,7 @@ function genExp(declension,pos,entry,lexiconEntry){
     return null;
 }
 
-function expandConjugation(lexicon,lemmata,rules,entry,tab,conjug){
+function expandConjugation(lexicon,lemmata,rules,entry,tab){
     var conjug=rules["conjugation"][tab];
     // console.log(conjug);
     if (conjug==undefined)return;
@@ -242,6 +245,9 @@ function expandDeclension(lexicon,lemmata,rules,entry,pos,tabs){
 
 function buildLemmata(lang,lexicon,rules){
     lemmataLang=lang;
+    if (checkAmbiguities){
+        console.log("Checking ambiguities for %s lemmata ...",lang=="en"?"English":"French")
+    }
     let lemmata=new Map();  // use a Map instead of an object because "constructor" is an English word...
     let allEntries=Object.keys(lexicon);
     for (var i = 0; i < allEntries.length; i++) {
@@ -255,7 +261,7 @@ function buildLemmata(lang,lexicon,rules){
             if (pos=="Pc") continue; // ignore punctuation
             if (pos=="V"){ // conjugation
                 expandConjugation(lexicon,lemmata,rules,entry,
-                                  entryInfos["V"]["tab"],rules["conjugation"]["tab"]);
+                                  entryInfos["V"]["tab"]);
             } else {       // declension
                 expandDeclension(lexicon,lemmata,rules,entry,pos,entryInfos[pos]["tab"]);
             }

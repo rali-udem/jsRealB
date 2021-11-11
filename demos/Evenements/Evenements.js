@@ -202,7 +202,7 @@ function showGroupe(evs,$elem){
             constituants=S(quand.a(":"),showMotif(ev));
             if (ev.tit) // ajouter le titre si nécessaire
                 constituants.add(S(ev.tit).tag("i"));
-            if (ps.length>1) // préciser le participants s'il y en a plus qu'un
+            if (ps.length>1) // préciser le participant s'il y en a plus d'un dans la période
                 constituants.add(PP(P("avec"),partInfo[ev.part].name))
             $ul.append(""+constituants.tag("li"))
         }

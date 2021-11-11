@@ -1,5 +1,5 @@
 //
-//   création d'un tableau de conjugaison avec JSreal
+//   Conjugation-Declension tables with jsRealB
 //
 
 var $entree,$tableau;
@@ -27,27 +27,21 @@ function addTable_fr(verbe,temps){
                 var negation = $("#negationButton").is(':checked');
                 var passive = $("#passiveButton").is(':checked');
                 var progressive = $("#progressiveButton").is(':checked');
-                if (language=='en'){
-                   var perfect = $("#perfectButton").is(":checked"); 
-                } 
-                else{
-                    var perfect = false;
-                } 
                 if (temps[t][0].substr(0,10)=="Subjonctif")
                     $row.append("<td>"+SP(Q("que"),SP(pronom,VP(V(verbe).t(temps[t][1])))
-                                      .typ({neg:negation,pas:passive,prog:progressive,perf:perfect}))+"</td>");
+                                      .typ({neg:negation,pas:passive,prog:progressive}))+"</td>");
                 else if(temps[t][1]=='ip'){//temps impératif
                     if(["1s","3s","3p"].indexOf(p+nb)>=0){
                         $row.append("<td></td>");
                     }
                     else{// spécifier pe et n car pas de pronom...
                         $row.append("<td>"+SP(VP(V(verbe).pe(p).n(nb).t(temps[t][1])))
-                                    .typ({neg:negation,pas:passive,prog:progressive,perf:perfect})+"</td>");
+                                    .typ({neg:negation,pas:passive,prog:progressive})+"</td>");
                     }
                 }
                 else{    
                     $row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[t][1])))
-                                       .typ({neg:negation,pas:passive,prog:progressive,perf:perfect})+"</td>");
+                                       .typ({neg:negation,pas:passive,prog:progressive})+"</td>");
                 }
                     
             }
@@ -79,8 +73,6 @@ function addTable_en(verbe,temps){
         for(var p=1;p<=3;p++){
             $row=$("<tr/>");
             var pronom=Pro(language=="fr"?"je":"I").pe(p).n(nb).g(p==3?"f":"m");
-            var negation = $("#negationButton").is(':checked');
-            var passive = $("#passiveButton").is(':checked');
             $row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[1])))
                    .typ({neg:negation,pas:passive})+"</td>");
             if (progressive)$row.append("<td>"+SP(pronom,VP(V(verbe).t(temps[1])))
@@ -109,69 +101,72 @@ function conjuguer(verbe){
                 addTable_en(verbe,["Present","p"]);
                 addTable_en(verbe,["Simple past","ps"]);
                 addTable_en(verbe,["Future","f"]);
-                // //Ajout imperative
-                // // TODO:: corriger l'impératif au passif, progressif ou parfait
+                //Ajout imperative
+                // TODO:: corriger l'impératif au passif, progressif ou parfait
                 // if( (!($("#passiveButton").is(':checked')))
                 //     && (!($("#progressiveButton").is(':checked')))
                 //     && (!($("#perfectButton").is(':checked')))){
-                // $("#tableau").append($("<tr/>").append("<th style='padding-top:10px'>Imperative</th>"));
-                //     var negation = $("#negationButton").is(':checked');
-                //     $("#tableau")
-                //         .append("<tr><td>"+S(V(verbe).t('ip')).pe(2).n("s").typ({neg:negation}).a(" ")+"</td></tr>");
-                //     $("#tableau")
-                //         .append("<tr><td>"+S(V(verbe).t('ip')).pe(1).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
-                //     $("#tableau")
-                //         .append("<tr><td>"+S(V(verbe).t('ip')).pe(2).n("p").typ({neg:negation}).a(" ")+"</td></tr>");
+                $("#tableau").append($("<tr/>").append("<th style='padding-top:10px'>Imperative</th>"));
+                const typOpts={neg:$("#negationButton").is(':checked'),
+                               pas:$("#passiveButton").is(':checked'),
+                               prog:$("#progressiveButton").is(':checked'),
+                               perf:$("#perfectButton").is(':checked')
+                              }
+                    $("#tableau")
+                        .append("<tr><td>"+S(VP(V(verbe).t('ip').pe(2).n("s"))).typ(typOpts)+"</td></tr>");
+                    $("#tableau")
+                        .append("<tr><td>"+S(VP(V(verbe).t('ip').pe(1).n("p"))).typ(typOpts)+"</td></tr>");
+                    $("#tableau")
+                        .append("<tr><td>"+S(VP(V(verbe).t('ip').pe(2).n("p"))).typ(typOpts)+"</td></tr>");
                 // }
             }
         }
     }
 }
 
-function addLigne(titre,struct){
-    $tableau.append("<p>"+titre+struct+"</p>");
-}
-
-
-function declinerNom(mot){
+function decliner(mot){
     // console.log("declinerNom("+mot+")");
-    var nEntry=getLemma(mot);
-    if (nEntry !== undefined){
-        if ("N" in nEntry){
-            $tableau.append("<h1>"+titleDecl[language]+mot+titleCommeNom[language]+"</h1>");
-            if (language=="fr"){
-                //if(N(mot).g("m").n("s"))à
-                var r = /\[/g;
-                if(!r.test(N(mot).g("m").n("s"))){
-                    addLigne("Masculin singulier: ",N(mot).g("m").n("s")); 
-                    addLigne("Masculin pluriel: "  ,N(mot).g("m").n("p"));
-                }
-                if(!r.test(N(mot).g("f").n("s"))){
-                    addLigne("Féminin singulier: ",N(mot).g("f").n("s")); 
-                    addLigne("Féminin pluriel: "  ,N(mot).g("f").n("p"));
-                }              
-            } else {
-                addLigne("Singular: ",N(mot).n("s"));
-                addLigne("Plural: "  ,N(mot).n("p"));
-            }
-        };
-        if ("A" in nEntry){
-            $tableau.append("<h1>"+titleDecl[language]+mot+titleCommeAdj[language]+"</h1>");
-            if (language=="fr"){
-                addLigne("Masculin singulier: ",A(mot).g("m").n("s"));
-                addLigne("Féminin singulier: " ,A(mot).g("f").n("s"));
-                addLigne("Masculin pluriel: "  ,A(mot).g("m").n("p"));
-                addLigne("Féminin pluriel: "   ,A(mot).g("f").n("p"));
-            } else {
-                addLigne("Comparative: ",A(mot).f("co"));
-                addLigne("Superlative: ",A(mot).f("su"));
-            }
-        }
-        $("#messErreur")[0].innerHTML="";
-    } else{
+    var entry=getLemma(mot);
+    if (entry == undefined){
         $("#messErreur")[0].innerHTML="n'appartient pas au lexique, désolé.";
         $("#messErreur").css('color','red');
     }
+    if ("N" in entry || "A" in entry){
+        $tableau.append("<h1>"+titleDecl[language]+mot+"</h1>");
+        let $table=$("<table>");
+        if ("N" in entry){
+            $table.append(`<tr><th colspan="2"><i>${titleCommeNom[language]}</i></th></tr>`)
+            if (language=="fr"){
+                $table.append("<tr><th></th><th>Singulier</th><th>Pluriel</th></tr>")
+                const entryN=entry["N"]
+                const g=entryN["g"]
+                if (g=="m"||g=="x"){
+                    $table.append(`<tr><td><i>Masculin</i></td>
+                        <td>${N(mot).g("m").n("s")}</td><td>${N(mot).g("m").n("p")}</td></tr>`)
+                }
+                if(g=="f"||g=="x"){
+                    $table.append(`<tr><td><i>Féminin</i></td>
+                        <td>${N(mot).g("f").n("s")}</td><td>${N(mot).g("f").n("p")}</td></tr>`)
+                }
+            } else {
+                $table.append("<tr><th>Singular</th><th>Plural</th></tr>")
+                $table.append(`<tr><td>${N(mot).n("s")}</td><td>${N(mot).n("p")}</td></tr>`)
+            }
+        };
+        if ("A" in entry){
+            $table.append(`<tr><th colspan="2"><i>${titleCommeAdj[language]}</i></th></tr>`)
+            if (language=="fr"){
+                $table.append("<tr><th></th><th>Singulier</th><th>Pluriel</th></tr>")
+                $table.append(`<tr><td><i>Masculin</i></td><td>${A(mot).g("m").n("s")}</td><td>${A(mot).g("m").n("p")}</td></tr>`)
+                $table.append(`<tr><td><i>Féminin</i></td><td>${A(mot).g("f").n("s")}</td><td>${A(mot).g("f").n("p")}</td></tr>`)
+            } else {
+                $table.append("<tr><th>Comparative</th><th>Superlative</th></tr>")
+                $table.append(`<tr><td>${A(mot).f("co")}</td><td>${A(mot).f("su")}</td></tr>`)
+            }
+        }
+        $tableau.append($table)
+    }
+    $("#messErreur")[0].innerHTML="";
 }
 
 function conjugueDecline(e){
@@ -181,7 +176,7 @@ function conjugueDecline(e){
         var val=$entree.val();
         if(val.trim().length!=0){
             conjuguer(val);
-            declinerNom(val);
+            decliner(val);
         }
     } 
 }
@@ -203,6 +198,16 @@ $(document).ready(function() {
    $entree=$("#entree");
    $tableau=$("#tableau");
    $entree.keypress(conjugueDecline);
+   $("input[type=checkbox]").change(
+       function(){
+           var val=$entree.val();
+           if(val.trim().length!=0){
+               $tableau.text("");
+               conjuguer(val);
+               decliner(val);
+           }
+       }
+   )
    checkLanguage();
    $("#lang-fr").click(checkLanguage);
    $("#lang-en").click(checkLanguage);

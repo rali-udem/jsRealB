@@ -17,7 +17,7 @@ demos := demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Da
 
 en   := data/lexicon-en.js data/rule-en.js 
 fr   := data/lexicon-fr.js data/rule-fr.js 
-core := build/Constituent.js build/Phrase.js build/Terminal.js build/IO-json.js build/Date.js \
+core := build/Constituent.js build/Phrase.js build/Terminal.js build/IO-json.js \
         build/Number.js build/Utils.js $(en) $(fr) build/Warnings.js
 
 .PHONY: demos clean

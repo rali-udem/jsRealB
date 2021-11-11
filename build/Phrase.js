@@ -10,6 +10,7 @@
 function Phrase(elements,constType,lang){ // lang parameter used calls in IO-json.js
     Constituent.call(this,constType); // super constructor
     this.lang = lang || currentLanguage;
+    elements=elements.filter(e=>e!=undefined && e!=null) // remove "null" elements
     this.elements=[];
     // list of elements to create the source of the parameters at the time of the call
     // this can be different from the elements lists because of structure modifications
@@ -72,13 +73,22 @@ Phrase.prototype.add = function(constituent,position,prog){
         const e=this.elements[i];
         if (e.isA("A")){// check for adjective position
             const idx=this.getIndex("N");
-            const pos=this.isFr()?(e.props["pos"]||"post"):"pre"; // all English adjective are pre
+            const pos=e.isFr()?(e.props["pos"]||"post"):"pre"; // all English adjective are pre
             if (idx >= 0){
                 if ((pos=="pre" && i>idx)||(pos=="post" && i<idx)){
                     if (allAorN(this.elements,i,idx)){
                         const adj=this.elements.splice(i,1)[0];
                         this.elements.splice(idx,0,adj);
                     }
+                }
+            }
+        } else if (e.isA("Pro") && this.isA("VP")){
+            // a pronoun (clitic accusative,dative or reflexive or tonic reflexive) should appear before the verb
+            if (contains(["acc","dat","refl"],e.getProp("c")) || e.getProp("tn")=="refl"){
+                const idxV=this.getIndex("V")
+                if (i>idxV){
+                    const pro=this.elements.splice(i,1)[0]
+                    this.elements.splice(idxV,0,pro)
                 }
             }
         }
@@ -460,7 +470,8 @@ Phrase.prototype.passivate = function(){
                 subject=this.elements.shift();
                 if (subject.isA("Pro")){
                     // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
-                    subject=subject.getTonicPro();
+                    // to which we report the original person, number, gender
+                    subject=subject.getTonicPro().g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"));
                 }
             } else {
                 subject=null;
@@ -494,19 +505,17 @@ Phrase.prototype.passivate = function(){
                 vp.elements.splice(objIdx,0,PP(P(this.isFr()?"par":"by",this.lang),subject)); 
                 subject.parentConst=vp; // adjust parentConst
             }
-        } else if (subject !=null){ // no object, but with a subject that we keep as is
-            newSubject=subject;
-            if (subject.isA("Pro")){
-                // the original subject at nominative will be reinserted below!!!
-                subject=subject.getTonicPro("nom");
-            } else { 
-                //create a dummy subject with a "il" unless it is at the imperative tense
-                if (vp.getProp("t")!=="ip"){
-                    subject=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
-                }
-            }
-            this.elements.unshift(subject);
-            vp.peng=subject.peng
+        } else if (subject !=null){ // no object, but with a subject
+            //create a dummy subject with a "il"/"it" 
+            newSubject=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
+            // add new subject at the front of the sentence
+            this.elements.unshift(newSubject);
+            this.linkPengWithSubject("VP","V",newSubject);
+            vp.peng=newSubject.peng
+            // add original subject after the verb to serve as an object
+            let vpIdx=vp.getIndex("V");
+            vp.elements.splice(vpIdx+1,0,PP(P(this.isFr()?"par":"by",this.lang),subject)); 
+            subject.parentConst=vp; // adjust parentConst
         }
         if (this.isFr()){
             // do this only for French because in English this is done by processTyp_en
@@ -624,9 +633,6 @@ Phrase.prototype.processTyp_en = function(types){
     const idxV=vp.getIndex("V");
     if(idxV>=0){
         let v = vp.elements[idxV];
-        // const pe = this.getProp("pe");
-        // const g=this.getProp("g");
-        // const n = this.getProp("n");
         const v_peng=v.peng;
         let t = vp.getProp("t");
         const neg = types["neg"]===true;
@@ -870,7 +876,7 @@ Phrase.prototype.processTyp = function(types){
                     let prep=ppElems[idx].elements[0];
                     if (prep.isA("P")){
                         prep=prep.lemma;
-                        const preps=prepositionsList[this.isEn()?"en":"fr"];
+                        const preps=prepositionsList[this.lang];
                         if (int=="whe"){
                             if (preps["whe"].has(prep))ppElems.splice(idx,1);
                         } else if (int=="whn"){
@@ -921,8 +927,8 @@ Phrase.prototype.cpReal = function(){
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})
     var last=elems.length-1;
-    if (elems.length==0){// empty coordinate (ignore)
-        return this.doFormat(res)
+    if (last==-1){// empty coordinate (ignore)
+        return []
     }
     if (last==0){// coordination with only one element, ignore coordinate
         Array.prototype.push.apply(res,elems[0].real());
@@ -961,9 +967,7 @@ Phrase.prototype.cpReal = function(){
             this.pronoun.props["n"]=gn.n;
             this.pronoun.props["pe"]=gn.pe;
         }
-    } else {
-        last++; // no coordinate, process all with the following loop 
-    }            
+    }
     return res; 
 }
 
@@ -1043,18 +1047,19 @@ Phrase.prototype.real = function() {
 };
 
 // recreate a jsRealB expression
-// if indent is a number create an indented pretty-print (call it with 0 at the root)
+// if indent is positive number create an indented pretty-print string (call it with 0 at the root)
+// if called with no parameter then create a single line
 Phrase.prototype.toSource = function(indent){
-    var sep, newIdent;
-    if (typeof indent == "number"){
-        newIdent=indent+this.constType.length+1;
-        sep=",\n"+Array(newIdent).fill(" ").join("")
+    let sep;
+    if (indent===undefined)indent=-1;
+    if (indent>=0){
+        indent=indent+this.constType.length+1;
+        sep=",\n"+Array(indent).fill(" ").join("")
     } else {
         sep=",";
-        newIdent=undefined
     }
     // create source of children
-    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(newIdent)).join(sep)+")";
+    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(indent)).join(sep)+")";
     // add the options by calling "super".toSource()
     res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
     return res;

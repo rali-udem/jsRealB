@@ -614,7 +614,8 @@ Constituent.prototype.detokenize = function(terminals){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
-                s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
+                if (idx<s.length) // check if there was a letter
+                    s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
             };
             if (this.props["tag"]===undefined){ // do not touch top-level tag
                 // and a full stop at the end unless there is already one
