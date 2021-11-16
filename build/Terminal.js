@@ -122,8 +122,8 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                     if (key=="tab"){ // save table number and compute stem
                         var ending;
                         this.tab=lexInfo["tab"]
-                        if (typeof this.tab == "object") {// looking for a declension
-                            this.tab=this.tab[0];
+                        if (terminalType!="V") {// looking for a declension
+                            // this.tab=this.tab[0];
                             const declension=rules.declension[this.tab]; // occurs for C, Adv and P
                             if (declension !== undefined){
                                 ending = declension.ending;
@@ -275,8 +275,8 @@ Terminal.prototype.decline = function(setPerson){
                     if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
                         const adjAdv=this.getLexicon()[this.lemma]["A"]
                         if (adjAdv !== undefined){
-                            declension=rules.declension[adjAdv["tab"][0]].declension;
-                            const ending=rules.declension[adjAdv["tab"][0]].ending;
+                            declension=rules.declension[adjAdv["tab"]].declension;
+                            const ending=rules.declension[adjAdv["tab"]].ending;
                             stem=stem.slice(0,stem.length-ending.length);
                         } else // adverb without adjective
                             return res

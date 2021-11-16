@@ -106,6 +106,7 @@ function decliner(mot,lang){
         $("#messErreur").css('color','red');
         return
     }
+    $("#messErreur")[0].innerHTML="";
     if ("N" in entry){
         $("#tableau").append(`<tr><th colspan="2"><i>${titleCommeNom[language]}</i></th></tr>`)
         declinerNom(mot,lang)

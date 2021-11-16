@@ -210,35 +210,31 @@ function expandConjugation(lexicon,lemmata,rules,entry,tab){
     }
 }
 
-function expandDeclension(lexicon,lemmata,rules,entry,pos,tabs){
-    // console.log(entry,"tabs",tabs)
-    for (var k = 0; k < 1; k++) {// consider only first conjugation
-        var tab=tabs[k];
-        var rulesDecl=rules["declension"];
-        var declension=null;
-        if (tab in rulesDecl)
-            declension=rulesDecl[tab];
-        else if (tab in rules["regular"]){
-            addLemma(lemmata,entry,pos+'("'+entry+'")');
-            continue;
-        }
-        if (declension==null)continue;
-        // console.log(declension);
-        var ending=declension["ending"];
-        var endRadical=entry.length-ending.length;
-        var radical=entry.slice(0,endRadical);
-        if (entry.slice(endRadical)!=ending){
-            console.log("strange ending:",entry,":",ending);
-            continue;
-        }
-        var decl=declension["declension"];
-        // console.log("decl",decl);
-        for (var l = 0; l < decl.length; l++) {
-            var jsRexp=genExp(decl[l],pos,entry,lexicon[entry][pos]);
-            if (jsRexp!=null){
-                var word=radical+decl[l]["val"];
-                addLemma(lemmata,word,jsRexp);
-            }
+function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
+    var rulesDecl=rules["declension"];
+    var declension=null;
+    if (tab in rulesDecl)
+        declension=rulesDecl[tab];
+    else if (tab in rules["regular"]){
+        addLemma(lemmata,entry,pos+'("'+entry+'")');
+        return;
+    }
+    if (declension==null)return;
+    // console.log(declension);
+    var ending=declension["ending"];
+    var endRadical=entry.length-ending.length;
+    var radical=entry.slice(0,endRadical);
+    if (entry.slice(endRadical)!=ending){
+        console.log("strange ending:",entry,":",ending);
+        return;
+    }
+    var decl=declension["declension"];
+    // console.log("decl",decl);
+    for (var l = 0; l < decl.length; l++) {
+        var jsRexp=genExp(decl[l],pos,entry,lexicon[entry][pos]);
+        if (jsRexp!=null){
+            var word=radical+decl[l]["val"];
+            addLemma(lemmata,word,jsRexp);
         }
     }
 }
@@ -258,6 +254,7 @@ function buildLemmata(lang,lexicon,rules){
         for (var j = 0; j <  allPos.length; j++) {
             var pos=allPos[j];
             // console.log(entryInfos,j,pos);
+            if (pos=="basic") continue;
             if (pos=="Pc") continue; // ignore punctuation
             if (pos=="V"){ // conjugation
                 expandConjugation(lexicon,lemmata,rules,entry,

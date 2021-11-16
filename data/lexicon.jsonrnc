@@ -1,24 +1,18 @@
 ## validation of dictionary entries
+## there qui a few very special cases for French pronouns and determiners
 start = {*:lexInfo}
 
-lexInfo={N?:  noun,
-         A?:  adjective,
-         Pro?:pronoun,
-         V?:  verb, 
-         D?:  determiner, 
-         Adv?:other, 
-         P?:  other,
-         C?:  other,
-         Pc?: punct,
+lexInfo={N?:  {tab:/n(I|\d{1,3})/, g?:string, hAn?:one, h?:one },
+         A?:  {tab:/[an](I|\d{1,3})/, hAn?:number, h?:one, pos?:/pre|post/, value?:number},
+         Pro?:{tab:/pn\d{1,2}(-\d[sp]?[mfn]?)?|n76|d1|d4|nI/, g?:/m|f|n|x/, n?:/s|p/, pe?:oneTwoThree},
+         V?:  {tab:/v\d{1,3}/, aux?:/av|êt|aê/, h?:one, pat?:[/tdir|tind|intr|réfl|impe/]}, 
+         D?:  {tab:/d\d{1,2}(-\d)?|n(I|23|25|48|76)/, n?:/s|p/, value?:number},  
+         Adv?:{tab:/av|b\d/,h?:one}, 
+         P?:  {tab:/ppe?/,h?:one},
+         C?:  {tab:/cs|cc|cj|cje|cji/},
+         Pc?: {tab:[/pc\d{1,2}/], compl?:string},
          basic?:boolean
     }@(minProperties=1)
 
-noun      = {tab:[string], g?:string,     hAn?:one, h?:one }
-adjective = {tab:[string], hAn?:number,   h?:one,   pos?:/pre|post/, value?:number}
-pronoun   = {tab:[string], g?:/m|f|n|x/, n?:/s|p/, pe?:oneTwoThree}
-verb      = {tab:string,   aux?:[string], h?:one}
-determiner= {tab:[string], n?:/s|p/,      value?:number}
-other     = {tab:[string], h?:one}
 one       = number@(minimum=1, maximum=1)
 oneTwoThree  = number@(minimum=1, maximum=3)
-punct     = {tab:[string], compl?:string}

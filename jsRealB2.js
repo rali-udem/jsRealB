@@ -2,8 +2,8 @@
 "use strict";
 loadFr();
 
-addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
-addToLexicon({"Mary":{"N":{"g":"f","tab":["n16"]}}})
+addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Mary":{"N":{"g":"f","tab":"n16"}}})
 var pomme = NP(D("le"),N("pomme"));
 var  gars = NP(D("le"),N("garçon").n("p"));
 

@@ -63,4 +63,7 @@ test-filter: dist/jsRealB-filter.js
 ##  launch all demos in Safari on the mac, all demos and tests open in different tabs
 demos : 
 	open /Applications/Safari.app $(demos)
+	node dist/jsRealB-server.js demos/Weather/weatherLexicon.js & \
+	python3 demos/Weather/Bulletin.py ; \
+	killall node 
 	

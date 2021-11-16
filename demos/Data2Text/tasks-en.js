@@ -40,14 +40,14 @@ function generateTaskDescriptions() {
     // add to the english lexicon
     loadEn();
     var verbs=[{"insulate":{"V":{"tab":"v3"}}},{"concrete":{"V":{"tab":"v3"}}},
-               {"ground":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}}];
+               {"ground":{"N":{"tab":"n1"},"V":{"tab":"v1"}}}];
     for (var i = 0; i < verbs.length; i++)
         addToLexicon(verbs[i]);
     var nouns=["paving","coating","stringer","earthwork","canalization","masonry","sealer"];
     for (var i = 0; i < nouns.length; i++)
-        addToLexicon(nouns[i],{"N":{"g":"n","tab":["n1"]}});
-    addToLexicon({"another":{"D":{"tab":["d4"]}}});
-    addToLexicon({"other":{"D":{"tab":["d4"]}}});
+        addToLexicon(nouns[i],{"N":{"g":"n","tab":"n1"}});
+    addToLexicon({"another":{"D":{"tab":"d4"}}});
+    addToLexicon({"other":{"D":{"tab":"d4"}}});
 
 
     var concrete=NP(D("the"),V("reinforce").t("pp"),N("concrete"));

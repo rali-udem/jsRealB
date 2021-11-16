@@ -279,8 +279,8 @@ provides already two comprehensive lexicons: French (more than 52 500 entries) a
 <h3><code>addToLexicon(lemma[,newInfos][,lang])</code></h3>
 <p lang="fr"> 
      <code>lemma</code> est l'entrée de base et <code>newInfos</code> est l'information morphologique selon le format interne à <span class="jsr">jsRealB</span>: un objet indiquant le ou les catégories possibles et pour chaque catégorie, des propriétés et la table de déclinaison ou conjugaison correspondantes.
-    Par exemple, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
-    Cette fonction peut aussi être appelée avec un seul paramètre qui est un objet dont la clé est le lemme. L'exemple précédent peut donc s'écrire: <code>addToLexicon({"jsRealB":{"N":{"g":"m", "pe":3, "tab": ["nI"]}})</code>.  
+    Par exemple, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": "nI"})</code> ajoutera le mot <code>jsRealB</code> comme nom masculin invariable au lexique courant. 
+    Cette fonction peut aussi être appelée avec un seul paramètre qui est un objet dont la clé est le lemme. L'exemple précédent peut donc s'écrire: <code>addToLexicon({"jsRealB":{"N":{"g":"m", "pe":3, "tab": "nI"}})</code>.  
 </p>
 <ul lang="fr">
 <li>Si le lemme et la catégorie existent déjà dans le lexique, alors l'entrée pour cette catégorie est remplacée par <code>newInfos</code>. </li>
@@ -294,7 +294,7 @@ s
 
 <p lang="en"> 
      <code>lemma</code> is the basic form and <code>newInfos</code> is the morphologic information according to the internal  <span class="jsr">jsRealB</span> format: an object indicating one or many possible categories. For each category, properties and declension or conjugation are given.
-    For example, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": ["nI"]})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"jsRealB":{"N":{"g":"m", "pe":3, "tab": ["nI"]}})</code>.  
+    For example, <code>addToLexicon("jsRealB",{"N":{"g":"m", "pe":3, "tab": "nI"})</code> will add the <code>jsRealB</code> as a masculine invariable word. This function can also be called with a single parameter: an object whose key is the lemma. The previous example could also have been written: <code>addToLexicon({"jsRealB":{"N":{"g":"m", "pe":3, "tab": "nI"}})</code>.  
 </p>
 
 <ul lang="en">

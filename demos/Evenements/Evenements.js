@@ -6,13 +6,13 @@
 loadFr();
 
 // // ajouts au lexique
-addToLexicon({"Alice":{ "N": { "g": "f", "pe": 3, "tab": ["nI"] } }});
-addToLexicon({"Robert":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
-addToLexicon({"Nicolas":{ "N": { "g": "m", "pe": 3, "tab": ["nI"] } }});
-addToLexicon({"consultation":{"N":{"g":"f","tab":["n17"]}}});
-addToLexicon({"courriel":{"N":{"g":"m","tab":["n3"]}}});
+addToLexicon({"Alice":{ "N": { "g": "f", "pe": 3, "tab":"nI" } }});
+addToLexicon({"Robert":{ "N": { "g": "m", "pe": 3, "tab":"nI" } }});
+addToLexicon({"Nicolas":{ "N": { "g": "m", "pe": 3, "tab":"nI" } }});
+addToLexicon({"consultation":{"N":{"g":"f","tab":"n17"}}});
+addToLexicon({"courriel":{"N":{"g":"m","tab":"n3"}}});
 addToLexicon({"contacter":{"V":{"tab":"v36","aux":["av"]}}});
-addToLexicon({"privé":{"A":{"tab":["n28"]}}});
+addToLexicon({"privé":{"A":{"tab":"n28"}}});
 
 // événements à présenter
 

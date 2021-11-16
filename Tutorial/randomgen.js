@@ -11,7 +11,7 @@ if (typeof module !== 'undefined' && module.exports) {
     }
 }
 loadEn();
-addToLexicon({"fussy":{"A":{"tab":["a4"]}}});
+addToLexicon({"fussy":{"A":{"tab":"a4"}}});
 // a simple sentence
 var cat=NP(D("the"),N("cat"));
 var mouse=NP(D("a"),A("grey"),N("mouse"));

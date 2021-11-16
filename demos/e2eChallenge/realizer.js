@@ -150,32 +150,32 @@ function jsrRealiser(fields){
 }
 
 function updateLexicons(){
-    // addToLexicon({"center":{"N":{"tab":["n1"]},"V":{"tab":"v3"}}});// idem as centre (Canadian...)
+    // addToLexicon({"center":{"N":{"tab":"n1"},"V":{"tab":"v3"}}});// idem as centre (Canadian...)
     loadEn();
-    addToLexicon({"coffee shop":{"N":{"tab":["n1"]}}});
-    addToLexicon("riverside",{N: {tab: ["n1"]}});
+    addToLexicon({"coffee shop":{"N":{"tab":"n1"}}});
+    addToLexicon("riverside",{N: {tab: "n1"}});
     for (let foodType in ["Chinese","English","French","Indian","Italian","Japanese"])
-        addToLexicon(foodType,{ A:{tab:['a1']}});
+        addToLexicon(foodType,{ A:{tab:'a1'}});
     
     loadFr();
-    addToLexicon({"restaurant":{"N":{"g":"m","tab":["n3"]}}});
-    addToLexicon({"pub":{"N":{"g":"m","tab":["n3"]}}});
-    addToLexicon({"entreprise":{"N":{"g":"f","tab":["n17"]}}});
-    addToLexicon({"institution":{"N":{"g":"f","tab":["n17"]}}});
-    addToLexicon({"centre-ville":{"N":{"g":"m","tab":["n3"]}}});// à vérifier pour faire centres-ville au pluriel...
+    addToLexicon({"restaurant":{"N":{"g":"m","tab":"n3"}}});
+    addToLexicon({"pub":{"N":{"g":"m","tab":"n3"}}});
+    addToLexicon({"entreprise":{"N":{"g":"f","tab":"n17"}}});
+    addToLexicon({"institution":{"N":{"g":"f","tab":"n17"}}});
+    addToLexicon({"centre-ville":{"N":{"g":"m","tab":"n3"}}});// à vérifier pour faire centres-ville au pluriel...
 
-    addToLexicon({"adapté":{"A":{"tab":["n28"]}}});
-    addToLexicon({"approprié":{"A":{"tab":["n28"]}}});
-    addToLexicon({"classé":{"A":{"tab":["n28"]}}});
+    addToLexicon({"adapté":{"A":{"tab":"n28"}}});
+    addToLexicon({"approprié":{"A":{"tab":"n28"}}});
+    addToLexicon({"classé":{"A":{"tab":"n28"}}});
 
-    addToLexicon({"élevé":{"A":{"tab":["n28"]}}});
-    addToLexicon({"modéré":{"A":{"tab":["n28"]}}});
-    addToLexicon({"abordable":{"A":{"tab":["n25"]}}})
+    addToLexicon({"élevé":{"A":{"tab":"n28"}}});
+    addToLexicon({"modéré":{"A":{"tab":"n28"}}});
+    addToLexicon({"abordable":{"A":{"tab":"n25"}}})
 
-    addToLexicon({"classement":{"N":{"g":"m","tab":["n3"]}}});
+    addToLexicon({"classement":{"N":{"g":"m","tab":"n3"}}});
     // types de repas
-    addToLexicon({"chinois":{"A":{"tab":["n27"]}}});
-    addToLexicon({"japonais":{"A":{"tab":["n27"]}}});
-    addToLexicon({"italien":{"A":{"tab":["n49"]}}});
-    addToLexicon({"indien":{"A":{"tab":["n49"]}}});    
+    addToLexicon({"chinois":{"A":{"tab":"n27"}}});
+    addToLexicon({"japonais":{"A":{"tab":"n27"}}});
+    addToLexicon({"italien":{"A":{"tab":"n49"}}});
+    addToLexicon({"indien":{"A":{"tab":"n49"}}});    
 }

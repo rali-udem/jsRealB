@@ -110,7 +110,6 @@ def paperExample():
 compare=False
 if __name__ == '__main__':
     for line in open("/Users/lapalme/Documents/GitHub/jsRealB/demos/Weather/Data preparation/weather-data.jsonl","r",encoding="utf-8"):
-    # for line in open("Data preparation/weather-data.jsonl","r",encoding="utf-8"):
         wInfo=WeatherInfo(json.loads(line))
         # if wInfo.data["id"]!="fpto11-2019-01-26-1600-r1116d":continue
         if compare:

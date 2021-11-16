@@ -30,13 +30,13 @@ function generateTaskDescriptions() {
     var nomsFeminins=["canalisation","charpente","couverture","installation","isolation",
                       "longrine","maçonnerie","pose"];
     for (var i = 0; i < nomsFeminins.length; i++)
-        addToLexicon(nomsFeminins[i],{"N":{"g":"f","tab":["n17"]}});
+        addToLexicon(nomsFeminins[i],{"N":{"g":"f","tab":"n17"}});
     var nomsMasculins=["approvisionnement","béton","chantier","dallage","enduit","montage","terrassement"];
     for (var i = 0; i < nomsMasculins.length; i++) 
-        addToLexicon(nomsMasculins[i],{"N":{"g":"m","tab":["n3"]}});
-    addToLexicon({"en":{"P":{"tab":["pp"]}}});
-    addToLexicon({"armé":{"A":{"tab":["n28"]}}});
-    addToLexicon({"on":{"N":{"g":"m","tab":["n3"]}}})// hack: on devrait plutôt changer la table pn1...
+        addToLexicon(nomsMasculins[i],{"N":{"g":"m","tab":"n3"}});
+    addToLexicon({"en":{"P":{"tab":"pp"}}});
+    addToLexicon({"armé":{"A":{"tab":"n28"}}});
+    addToLexicon({"on":{"N":{"g":"m","tab":"n3"}}})// hack: on devrait plutôt changer la table pn1...
 
     betonArme=np("béton").add(A("armé"));
     puits=np("puits","p");

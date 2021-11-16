@@ -7,13 +7,13 @@ function addNewWords(lexiconDME){
     updateLexicon(lexiconDME);
     // add some words to the lexicon some taken from 
     //    /Users/lapalme/Dropbox/AMR/jsRealB/addLexicon-dme.js    
-    addToLexicon("responsively",{ Adv: { tab: [ 'b1' ] } });
+    addToLexicon("responsively",{ Adv: { "tab":"b1" } });
     
     const prepositions=[
         "as","not","than","because","due"
     ];
     prepositions.forEach(function(prep){
-        addToLexicon(prep,{"P":{"tab":["pp"]}})
+        addToLexicon(prep,{"P":{"tab":"pp"}})
     })
 
     const adverbs=[
@@ -21,7 +21,7 @@ function addNewWords(lexiconDME){
         "too","super","of","further","twice","for","least"
     ]
     adverbs.forEach(function(adv){
-        addToLexicon(adv,{"Adv":{"tab":["b1"]}})
+        addToLexicon(adv,{"Adv":{"tab":"b1"}})
     })
 
     const adjectives=[
@@ -30,14 +30,14 @@ function addNewWords(lexiconDME){
         "terrorist","painted"
     ];
     adjectives.forEach(function(adj){
-        addToLexicon(adj,{"A":{"tab":["a1"]}})
+        addToLexicon(adj,{"A":{"tab":"a1"}})
     })
     
-    addToLexicon("layout",{ N: { tab: [ 'n1' ] } });
-    addToLexicon("am",{ N: { tab: [ 'n5' ] } });
-    addToLexicon("pm",{ N: { tab: [ 'n5' ] } });
-    addToLexicon("moving",{ A: { tab: [ 'a1' ] } });
-    addToLexicon("last",{ A: { tab: [ 'a1' ] } });
+    addToLexicon("layout",{ N: { "tab":"n1" } });
+    addToLexicon("am",{ N: { "tab":"n5" } });
+    addToLexicon("pm",{ N: { "tab":"n5" } });
+    addToLexicon("moving",{ A: { "tab":"a1" } });
+    addToLexicon("last",{ A: { "tab":"a1" } });
     
     addToLexicon("e-mail",getLemma("mail"));
     addToLexicon("email",getLemma("mail"));
@@ -56,8 +56,8 @@ function addNewWords(lexiconDME){
     }
     
     // although I feel that these should be flagged as an error... they happen too often!
-    addToLexicon("best",{ A: { tab: [ 'a1' ] } });
-    addToLexicon("better",{ A: { tab: [ 'a1' ] } });
+    addToLexicon("best",{ A: { "tab":"a1" } });
+    addToLexicon("better",{ A: { "tab":"a1" } });
     addToLexicon("&",getLemma("and"));
 }
 
