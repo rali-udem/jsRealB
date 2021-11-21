@@ -3,7 +3,7 @@ var struct;
 var $langue,$generer,$tab;
 var $struct,$tbody,$infos,$message;
 
-var allTypes=["neg","contr","pas","prog","perf","int","mod"];
+var allTypes=["neg","contr","pas","prog","refl","perf","int","mod"];
 var types; // change selon la langue
 var pos={"int":["yon","wos","was","wod","wad","woi","wai","whe","why","whn","how","muc"],
          "mod":["poss","perm","nece","obli","will"]}

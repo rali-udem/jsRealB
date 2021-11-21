@@ -261,8 +261,8 @@ var formatSect={"fr":"","en":"",
                      "en":["Wrap within many symbols",'N("man").en("*").en("(")']},
 
        {"group":"","fr":'',"en":''},
-       {"pattern":'.lier()', "fr":["lier par un trait d'union",'VP(V("lier").t("ip").pe(2).lier(),Pro("le"))'],
-                     "en":["Combine with a dash",'NP(N("mother").lier(),P("in").lier(),N("law"))']},
+       {"pattern":'.lier()', "fr":["lier le suivant par un trait d'union",'VP(V("lier").t("ip").pe(2).lier(),Pro("le"))'],
+                     "en":["Combine next with a dash",'NP(N("mother").lier(),P("in").lier(),N("law"))']},
 
        {"group":"","fr":'',"en":''},
        {"pattern":'.cap()', "fr":["Mettre la première lettre en majuscule",'N("joueur").cap()'],

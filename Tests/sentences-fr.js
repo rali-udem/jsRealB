@@ -110,12 +110,11 @@ QUnit.test( "Phrase FR", function( assert ) {
                          PP(P("à"),DT("1979-05-21T12:00:00")
                                      .dOpt({"hour":false,"minute":false,"second":false}))))
                      .typ({"neg":true}),
-         "expected":"John n'est pas évanoui au lundi 21 mai 1979.",
+         "expected":"John ne s'est pas évanoui au lundi 21 mai 1979.",
          "message":"Phrase avec une date et un ajout au dictionnaire"},
         // 20
         {"expression":S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
-                      VP(Pro('eux').c("refl"),
-                         V("évanouir").t("pc"),
+                      VP(V("évanouir").t("pc"),
                          PP(P("à"),
                             DT("1979-05-21T12:00:00")
                              .dOpt({"hour":false,"minute":false,"second":false})))
