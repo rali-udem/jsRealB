@@ -1,5 +1,3 @@
-- voudra-t-on ajouter un flag "réfléchi" au type de phrase en français ?
-
 - la pronominalisation avec .pro() est parfois préférable à un simple "Pro"
 S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),NP(D('le'),N('fille'))).pro())).typ({"neg":true,"pas":true})+""
 ==>"Il ne lui a pas été donné par lui."

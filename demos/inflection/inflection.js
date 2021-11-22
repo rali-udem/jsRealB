@@ -133,7 +133,9 @@ function conjugueDecline(e){
 function getTyps(lang){
     let typs={neg:$("#negationButton").is(':checked'),
               pas:$("#passiveButton").is(':checked'),
-              prog:$("#progressiveButton").is(':checked')}
+              prog:$("#progressiveButton").is(':checked'),
+              refl:$("#reflexiveButton").is(':checked')
+             }
     if (lang=="en")
         typs["perf"]= $("#perfectButton").is(':checked');
     return typs;

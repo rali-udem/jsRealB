@@ -174,6 +174,11 @@ var optionsSect=
                            "en":["",'']},
            {"pattern":'.aux("êt")', "fr":["auxiliaire être",'V("changer").t("pc").aux("êt")'],
                            "en":["",'']},
+           
+           {"group":"","fr":"Verbe essentiellement réflexif indiqué dans le lexique.",
+                              "en":'Reflexive verb using <a href="#typeChange"><code>.typ({refl:true})</code></a>'},
+           {"pattern":'', "fr":["par défaut",'V("enfuir").t("pc")'],
+                          "en":['.typ({refl:true})','VP(V("wash")).typ({refl:true})']},
 ]};
 
 var pronomsSect={"fr":"","en":"",
@@ -330,6 +335,9 @@ var sentType={"fr":'',"en":'',
        {"pattern":".typ({prog:true})",
         "fr":["Progressif",'S(NP(D("le"),N("chat")),\n  VP(V("aimer"),NP(D("le"),N("souris")))).typ({prog:true})'],
         "en":["Progressive",'S(NP(D("the"),N("cat")),\n  VP(V("love"),NP(D("the"),N("mouse")))).typ({prog:true})']},
+       {"pattern":".typ({refl:true})",
+        "fr":["Réflexif",'S(NP(D("le"),N("chat")),\n  VP(V("laver"))).typ({refl:true})'],
+        "en":["Reflexive",'S(NP(D("the"),N("cat")),\n  VP(V("wash"))).typ({refl:true})']},
        {"pattern":".typ({exc:true})",
         "fr":["Exclamatif",'S(NP(D("le"),N("chat")),\n  VP(V("aimer"),NP(D("le"),N("souris")))).typ({exc:true})'],
         "en":["Exclamative",'S(NP(D("the"),N("cat")),\n  VP(V("love"),NP(D("the"),N("mouse")))).typ({exc:true})']},

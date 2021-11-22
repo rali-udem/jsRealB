@@ -398,6 +398,7 @@ Terminal.prototype.isReflexive = function(){
     if (!this.isA("V")){
         return this.error("isReflexive() should be called only for a verb,  not a "+this.constType)
     }
+    if (this.ignoreRefl===true)return false; //HACK: this might be set in Phrase.processTyp_fr when dealing with "progressive"
     const pat=this.getProp("pat")
     if (pat!==undefined && pat.length==1  && pat[0]=="réfl") return true; // essentiellement réflexif
     // check for "refl" typ (only called for V): Terminal.conjugate_fr
@@ -529,7 +530,7 @@ Terminal.prototype.conjugate_fr = function(){
                             res.push(nextWord)
                             return this.insertReal(res,Adv(neg,"fr"));
                         } else {
-                            return res.push(nextWord)
+                            return res.concat(nextWord)
                         }
                     } 
                     if (neg !== undefined && neg !== ""){

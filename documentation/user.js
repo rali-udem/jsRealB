@@ -103,7 +103,6 @@ function makeOptions(opts){
 
 function $makeCell(Const,terminal,options){
     var exp=`${Const}("${terminal}")`+options;
-    console.log(exp);
     return $("<td><span class='realisation'>"+eval(exp)+"</span><br/>"+
                  "<span class='pattern'>"+exp+"</span></td>");
 }

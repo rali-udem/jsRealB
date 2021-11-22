@@ -443,7 +443,7 @@ Phrase.prototype.pronominalize_en = function(){
         npParent.removeElement(idx);// insert pronoun where the NP was
         npParent.addElement(pro,idx);
     } else {// special case without parentConst so we leave the NP and change its elements
-        pro=this.getNomPro();
+        pro=this.getTonicPro("nom");
         pro.props=this.props;
         pro.peng=this.peng;
         this.elements=[pro];
@@ -452,13 +452,13 @@ Phrase.prototype.pronominalize_en = function(){
 }
 
 Phrase.prototype.pronominalize = function(e){
-    if (e.props["pro"]!==undefined){
+    if (e.props["pro"]!==undefined && !e.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
         if (e.isFr()){
             return e.pronominalize_fr()
         } else { // in English pronominalize only applies to a NP
             if (e.isA("NP")){
                 return  e.pronominalize_en()
-            } if (!e.isA("Pro")) { // it can happen that a Pro has property "pro" set within the same expression
+            } else {
                 return this.warn("bad application",".pro",["NP"],e.constType)
             }
         }
@@ -599,7 +599,7 @@ Phrase.prototype.processTyp_fr = function(types){
         const origLemma=verb.lemma;
         verb.setLemma("être");// change verb, but keep person, number and tense properties of the original...
         // except for sentence refl which should be kept on the original verb
-        if (isReflexive)types["refl"]=false;
+        if (isReflexive)verb.ignoreRefl=true; // HACK: flag used by Terminal.isReflexive()
         // insert "en train","de" (separate so that élision can be done...) 
         // but do it BEFORE the pronouns created by .pro()
         let i=idxV-1;
