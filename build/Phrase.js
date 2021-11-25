@@ -43,7 +43,7 @@ Phrase.prototype.addElement = function(elem,position){
         // add it to the list of elements
         if (position == undefined){
             this.elements.push(elem);
-        } else if (typeof position == "number" && position<this.elements.length || position>=0){
+        } else if (typeof position == "number" && position<this.elements.length && position>=0){
             this.elements.splice(position,0,elem)
         } else {
             this.warn("bad position",position,this.elements.length)
@@ -54,9 +54,9 @@ Phrase.prototype.addElement = function(elem,position){
     return this
 }
 
-// remove a child of this Phrase
+// remove a child of this Phrase and return it
 Phrase.prototype.removeElement = function(position){
-    if (typeof position == "number" && position<this.elements.length || position>=0){
+    if (typeof position == "number" && position<this.elements.length && position>=0){
         const elem=this.elements.splice(position,1)[0];
         elem.parentConst=null
         return elem
@@ -105,7 +105,7 @@ Phrase.prototype.add = function(constituent,position,prog){
             if (contains(["acc","dat","refl"],e.getProp("c")) || e.getProp("tn")=="refl"){
                 const idxV=this.getIndex("V")
                 if (i>idxV){
-                    this.addElement(this.removeElemnt(i),idxV);
+                    this.addElement(this.removeElement(i),idxV);
                 }
             }
         }
@@ -514,8 +514,7 @@ Phrase.prototype.passivate = function(){
             }
             // swap subject and obj
             newSubject=obj;
-            this.elements.unshift(newSubject); // add object that will become the subject
-            newSubject.parentConst=this;       // adjust parentConst
+            self.addElement(newSubject,0);// add object that will become the subject
             // make the verb agrees with the new subject (in English only, French is dealt below)
             if (this.isEn()){
                 this.linkPengWithSubject("VP","V",newSubject);
@@ -527,7 +526,7 @@ Phrase.prototype.passivate = function(){
             //create a dummy subject with a "il"/"it" 
             newSubject=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
             // add new subject at the front of the sentence
-            this.elements.unshift(newSubject);
+            this.addElement(newSubject,0);
             this.linkPengWithSubject("VP","V",newSubject);
             vp.peng=newSubject.peng
             // add original subject after the verb to serve as an object
@@ -810,7 +809,6 @@ Phrase.prototype.invertSubject = function(){
             let vp=this.getConst("VP");
             let v=vpElems[idx];
             v.parentConst.addElement(pro,idx+1)
-            pro.parentConst=vp;
             v.lier() // add - after verb
         }
     } 
@@ -831,6 +829,94 @@ const prepositionsList = {
     }
 }
 
+Phrase.prototype.processInt = function(int){
+    const sentenceTypeInt=this.getRules().sentence_type.int
+    const intPrefix=sentenceTypeInt.prefix;
+    let prefix; // to be filled later
+    switch (int) {
+    case "yon": case "how": case "why": case "muc": 
+        if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+        prefix=intPrefix[int];
+        break;
+    // remove a part of the sentence 
+    case "wos": case "was":// remove subject (first NP,N, Pro or SP)
+        if (this.isOneOf(["S","SP","VP"])){
+            const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
+            if (subjIdx!==undefined){
+                const vbIdx=this.getIndex(["VP","V"]);
+                if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
+                    // insure that the verb at the third person singular, 
+                    // because now the subject has been removed
+                    const v=this.elements[vbIdx];
+                    v.setProp("n","s");
+                    v.setProp("pe",3);
+                    this.removeElement(subjIdx);
+                }
+            }
+        }
+        prefix=intPrefix[int];
+        break;
+    case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
+        if (this.isOneOf(["S","SP","VP"])){
+            const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
+            if (idx!==undefined){
+                obj[0].parentConst.removeElement(idx)
+            } else if (this.isFr()){// check for passive subject starting with par
+                const [idx,ppElems]=this.getIdxCtx("VP","PP");
+                if (idx!==undefined){
+                    pp=ppElems[idx].getConst("P");
+                    if (pp!==undefined && pp.lemma=="par"){
+                        ppElems[0].parentConst.removeElement(idx); // remove the passive subject
+                    } else {
+                        pp=undefined;
+                    }
+                }
+            }
+            prefix=intPrefix[int];
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+        }
+        break;
+    case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
+        if (this.isOneOf(["S","SP","VP"])){
+            const [idx,ppElems]=this.getIdxCtx("VP","PP");
+            prefix=intPrefix[int];  // get default prefix
+            if (idx!==undefined){ 
+                // try to find a more appropriate prefix by looking at preposition in the structure
+                let prep=ppElems[idx].elements[0];
+                if (prep.isA("P")){
+                    prep=prep.lemma;
+                    const preps=prepositionsList[this.lang];
+                    if (int=="whe"){
+                        if (preps["whe"].has(prep))
+                            ppElems[0].parentConst.removeElement(idx);
+                    } else if (int=="whn"){
+                        if (preps["whn"].has(prep))
+                            ppElems[0].parentConst.removeElement(idx);
+                    } else if (preps["all"].has(prep)){ // "woi" | "wai"
+                        // add the preposition in front of the prefix (should be in the table...)
+                        prefix=prep+" "+(this.isEn()?(int=="woi"?"whom":"what")
+                                                    :(int=="woi"?"qui" :"quoi"));
+                        ppElems[0].parentConst.removeElement(idx);
+                    }
+                }
+            }
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+        }
+        break;
+    default:
+        this.warn("not implemented","int:"+int)
+    }
+    if(this.isFr() || int !="yon") {// add the interrogative prefix
+        this.addElement(Q(prefix),0)
+        if (pp !== undefined){ // add "par" in front of some French passive interrogative
+            this.addElement(pp,0)
+            if (int=="wad"){ // replace "que" by "quoi" for French passive wad
+                this.elements[1].lemma="quoi";
+            }
+        }
+    }
+    this.a(sentenceTypeInt.punctuation,true);//
+}
 
 // modify sentence structure according to the content of the "typ" property
 Phrase.prototype.processTyp = function(types){
@@ -846,95 +932,8 @@ Phrase.prototype.processTyp = function(types){
     } else { 
         this.processTyp_en(types) 
     }
-    const int=types["int"];
-    if (int !== undefined && int !== false){
-        const sentenceTypeInt=this.getRules().sentence_type.int
-        const intPrefix=sentenceTypeInt.prefix;
-        let prefix; // to be filled later
-        switch (int) {
-        case "yon": case "how": case "why": case "muc": 
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
-            prefix=intPrefix[int];
-            break;
-        // remove a part of the sentence 
-        case "wos": case "was":// remove subject (first NP,N, Pro or SP)
-            if (this.isOneOf(["S","SP","VP"])){
-                const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                if (subjIdx!==undefined){
-                    const vbIdx=this.getIndex(["VP","V"]);
-                    if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
-                        // insure that the verb at the third person singular, 
-                        // because now the subject has been removed
-                        const v=this.elements[vbIdx];
-                        v.setProp("n","s");
-                        v.setProp("pe",3);
-                        this.removeElement(subjIdx);
-                    }
-                }
-            }
-            prefix=intPrefix[int];
-            break;
-        case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
-            if (this.isOneOf(["S","SP","VP"])){
-                const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
-                if (idx!==undefined){
-                    obj[0].parentConst.removeElement(idx)
-                } else if (this.isFr()){// check for passive subject starting with par
-                    const [idx,ppElems]=this.getIdxCtx("VP","PP");
-                    if (idx!==undefined){
-                        pp=ppElems[idx].getConst("P");
-                        if (pp!==undefined && pp.lemma=="par"){
-                            ppElems[0].parentConst.removeElement(idx); // remove the passive subject
-                        } else {
-                            pp=undefined;
-                        }
-                    }
-                }
-                prefix=intPrefix[int];
-                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
-            }
-            break;
-        case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
-            if (this.isOneOf(["S","SP","VP"])){
-                const [idx,ppElems]=this.getIdxCtx("VP","PP");
-                prefix=intPrefix[int];  // get default prefix
-                if (idx!==undefined){ 
-                    // try to find a more appropriate prefix by looking at preposition in the structure
-                    let prep=ppElems[idx].elements[0];
-                    if (prep.isA("P")){
-                        prep=prep.lemma;
-                        const preps=prepositionsList[this.lang];
-                        if (int=="whe"){
-                            if (preps["whe"].has(prep))
-                                ppElems[0].parentConst.removeElement(idx);
-                        } else if (int=="whn"){
-                            if (preps["whn"].has(prep))
-                                ppElems[0].parentConst.removeElement(idx);
-                        } else if (preps["all"].has(prep)){ // "woi" | "wai"
-                            // add the preposition in front of the prefix (should be in the table...)
-                            prefix=prep+" "+(this.isEn()?(int=="woi"?"whom":"what")
-                                                        :(int=="woi"?"qui" :"quoi"));
-                            ppElems[0].parentConst.removeElement(idx);
-                        }
-                    }
-                }
-                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
-            }
-            break;
-        default:
-            this.warn("not implemented","int:"+int)
-        }
-        if(this.isFr() || int !="yon") {// add the interrogative prefix
-            this.addElement(Q(prefix),0)
-            if (pp !== undefined){ // add "par" in front of some French passive interrogative
-                this.addElement(pp,0)
-                if (int=="wad"){ // replace "que" by "quoi" for French passive wad
-                    this.elements[1].lemma="quoi";
-                }
-            }
-        }
-        this.a(sentenceTypeInt.punctuation,true);//
-    }
+    if ("int" in types && types["int"] !== false)
+        this.processInt(types["int"]);
     const exc=types["exc"];
     if (exc !== undefined && exc === true){
         this.a(this.getRules().sentence_type.exc.punctuation,true);

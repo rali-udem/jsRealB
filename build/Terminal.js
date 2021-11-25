@@ -443,7 +443,7 @@ Terminal.prototype.conjugate_fr = function(){
             aux.setLemma("être");
         } else {   // auxiliary "avoir"
             // check the gender and number of a cod appearing before the verb to do proper agreement
-            //   of its part participle  except when the verb is "être" which will always agree
+            //   of its past participle  except when the verb is "être" which will always agree
             if (this.lemma!="être"){
                 g="m"
                 n="s";
