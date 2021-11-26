@@ -43,7 +43,7 @@ Phrase.prototype.addElement = function(elem,position){
         // add it to the list of elements
         if (position == undefined){
             this.elements.push(elem);
-        } else if (typeof position == "number" && position<this.elements.length && position>=0){
+        } else if (typeof position == "number" && position<=this.elements.length && position>=0){
             this.elements.splice(position,0,elem)
         } else {
             this.warn("bad position",position,this.elements.length)
@@ -486,7 +486,7 @@ Phrase.prototype.passivate = function(){
         vp=this.getConst("VP");
         if (vp !== undefined){
             if (this.elements.length>0 && this.elements[0].isOneOf(["N","NP","Pro"])){
-                subject=this.elements.shift();
+                subject=this.removeElement(0);
                 if (subject.isA("Pro")){
                     // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
                     // to which we report the original person, number, gender
@@ -514,7 +514,7 @@ Phrase.prototype.passivate = function(){
             }
             // swap subject and obj
             newSubject=obj;
-            self.addElement(newSubject,0);// add object that will become the subject
+            this.addElement(newSubject,0);// add object that will become the subject
             // make the verb agrees with the new subject (in English only, French is dealt below)
             if (this.isEn()){
                 this.linkPengWithSubject("VP","V",newSubject);
@@ -532,7 +532,6 @@ Phrase.prototype.passivate = function(){
             // add original subject after the verb to serve as an object
             let vpIdx=vp.getIndex("V");
             vp.addElement(PP(P(this.isFr()?"par":"by",this.lang),subject),vpIdx+1);
-            subject.parentConst=vp; // adjust parentConst
         }
         if (this.isFr()){
             // do this only for French because in English this is done by processTyp_en
@@ -806,7 +805,6 @@ Phrase.prototype.invertSubject = function(){
             pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
         let [idx,vpElems] = this.getIdxCtx("VP","V");
         if (idx!==undefined) {
-            let vp=this.getConst("VP");
             let v=vpElems[idx];
             v.parentConst.addElement(pro,idx+1)
             v.lier() // add - after verb
@@ -832,7 +830,7 @@ const prepositionsList = {
 Phrase.prototype.processInt = function(int){
     const sentenceTypeInt=this.getRules().sentence_type.int
     const intPrefix=sentenceTypeInt.prefix;
-    let prefix; // to be filled later
+    let prefix,pp; // to be filled later
     switch (int) {
     case "yon": case "how": case "why": case "muc": 
         if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
