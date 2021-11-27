@@ -1,6 +1,14 @@
-- la pronominalisation avec .pro() est parfois préférable à un simple "Pro"
-S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),NP(D('le'),N('fille'))).pro())).typ({"neg":true,"pas":true})+""
-==>"Il ne lui a pas été donné par lui."
-S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),Pro("elle")))).typ({"neg":true,"pas":true})+""
-==>"Il n'a pas été donné par lui à elle."
+La pronominalisation avec .pro() est parfois préférable à un simple "Pro"
+
+S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),NP(D('le'),N('fille'))).pro()))+""
+==>"Il le lui a donné."
+ce qui est bien
+
+Mais:
+S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),Pro("elle"))))+""
+==>"Il l'a donné à elle."
+S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),Pro("elle").c("dat")))+""
+==>"Il lui l'a donné."
+
+=========
 

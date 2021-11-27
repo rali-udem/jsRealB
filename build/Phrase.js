@@ -351,20 +351,23 @@ Phrase.prototype.pronominalize_fr = function(){
     let pro;
     const npParent=this.parentConst;
     if (npParent!==null){
-        let myself=this;
-        let idx=npParent.elements.findIndex(e => e==myself,this);
+        const myself=this;
+        let idxMe=npParent.elements.findIndex(e => e==myself,this);
         let moveBeforeVerb=false;
-        let idxV=idx-1; // search for the first verb before the NP
+        let idxV=idxMe-1; // search for the first verb before the NP
         while (idxV>=0 && !npParent.elements[idxV].isA("V"))idxV--;
-        if (idxV>=1 && npParent.elements[idxV-1].isA("V"))idxV--; // take for granted that it is an auxiliary, so skip it also
-        let np=this;
+        if (idxV>=1 && npParent.elements[idxV].getProp("t")=="pp" &&
+            npParent.elements[idxV-1].isA("V"))idxV--; // take for granted that it is an auxiliary, so skip it also
+        let np;
         if (this.isA("NP")){
+            np=this;
             if (this.peng==npParent.peng){ // is subject 
                 pro=this.getTonicPro("nom");
             } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
                 pro=this.getTonicPro("nom");
             } else {
                 pro=this.getTonicPro("acc") // is direct complement;
+                npParent.elements[idxV].cod=this;// indicate that this is a COD
                 moveBeforeVerb=true;
             }               
         } else if (this.isA("PP")){ // is indirect complement
@@ -381,7 +384,7 @@ Phrase.prototype.pronominalize_fr = function(){
                     pro=Pro("y","fr")
                     moveBeforeVerb=true;
                 } else { // change only the NP within the PP
-                    let pro=np.getTonicPro();
+                    pro=np.getTonicPro();
                     pro.props=np.props;
                     pro.peng=np.peng;
                     np.elements=[pro];
@@ -398,15 +401,12 @@ Phrase.prototype.pronominalize_fr = function(){
         if (moveBeforeVerb && 
             // in French a pronominalized NP as direct object is moved before the verb
             idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
-            npParent.removeElement(idx);// remove NP
-            if (this.isA("NP")) // indicate that this is a COD
-                npParent.elements[idxV].cod=this;
+            npParent.removeElement(idxMe);// remove NP
             npParent.addElement(pro,idxV);// insert pronoun before the V
         } else {
-            npParent.removeElement(idx);// insert pronoun where the NP was
-            npParent.addElement(pro,idx);
+            npParent.removeElement(idxMe);// insert pronoun where the NP was
+            npParent.addElement(pro,idxMe);
         }
-        pro.parentConst=npParent;
     } else {// special case without parentConst so we leave the NP and change its elements
         pro=this.getTonicPro();
         pro.props=this.props;
@@ -425,7 +425,7 @@ Phrase.prototype.pronominalize_en = function(){
     if (npParent!==null){
         let idxV=-1;
         let myself=this;
-        let idx=npParent.elements.findIndex(e => e==myself,this);
+        let idxMe=npParent.elements.findIndex(e => e==myself,this);
         let moveBeforeVerb=false;
         idxV=npParent.getIndex("V");
         if (this.peng==npParent.peng){ // is subject 
@@ -440,8 +440,8 @@ Phrase.prototype.pronominalize_en = function(){
         if (this.peng==npParent.peng){
             npParent.peng=pro.peng
         }
-        npParent.removeElement(idx);// insert pronoun where the NP was
-        npParent.addElement(pro,idx);
+        npParent.removeElement(idxMe);// insert pronoun where the NP was
+        npParent.addElement(pro,idxMe);
     } else {// special case without parentConst so we leave the NP and change its elements
         pro=this.getTonicPro("nom");
         pro.props=this.props;
