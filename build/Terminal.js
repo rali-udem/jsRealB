@@ -431,14 +431,14 @@ Terminal.prototype.conjugate_fr = function(){
         const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
         aux.parentConst=this.parentConst;
         aux.peng=this.peng;
-        aux.taux=this.taux;
-        aux.taux["t"]=tempsAux;
+        aux.taux=Object.assign({},this.taux); // separate tense of the auxiliary from the original
         neg=this.neg2;                     // save this flag to put on the auxiliary, 
         delete this.neg2;                  // delete it on this verb
         if (this.isReflexive()){
             aux.setLemma("être");          // réflexive verbs must use French "être" auxiliary
             aux.setProp("pat",["réfl"]);   // set reflexive for the auxiliary
-            this.setProp("pat",undefined); // remove réfl from original
+            // this.setProp("pat",undefined); // remove réfl from original
+            this.ignoreRefl=true
         } else if (aux.taux["aux"]=="êt"){
             aux.setLemma("être");
         } else {   // auxiliary "avoir"
@@ -454,6 +454,7 @@ Terminal.prototype.conjugate_fr = function(){
                 }
             }
         }
+        aux.taux["t"]=tempsAux;
         aux.realization=aux+"";  // realize the auxiliary using jsReealB!!!
         // change this verb to pp
         this.setProp("g",g);
@@ -487,8 +488,8 @@ Terminal.prototype.conjugate_fr = function(){
                     this.realization=this.stem+term;
                 }
                 res=[this];
-                if (this.isReflexive()){
-                    this.insertReal(res,Pro("me*refl","fr").pe(pe).n(n).g(g),0)
+                if (this.isReflexive() && this.parentConst==null){
+                    this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
                 }
                 neg=this.neg2;
                 if (this.props["lier"]!==undefined){
@@ -515,13 +516,15 @@ Terminal.prototype.conjugate_fr = function(){
                 }
                 res=[this];
                 neg=this.neg2;
-                if (this.isReflexive()){ // verbe réflexif
-                    if (neg!==undefined && neg!=""){ // négation (e.g. "te repentis pas")
-                        this.insertReal(res,Pro("me*refl","fr").pe(pe).n(n).g(g),0);
-                        this.insertReal(res,Adv(neg,"fr"));
-                    } else {  // positif (e.g. "repentis-toi")
-                         this.lier(); 
-                        this.insertReal(res,Pro("moi*refl","fr").pe(pe).n(n).g(g));
+                if (this.isReflexive()){
+                    if (neg==undefined || neg==""){
+                         this.lier();
+                         this.insertReal(res,Pro("moi","fr").tn("").pe(pe).n(n).g(g));
+                         this.ignoreRefl=true;
+                    } else {
+                        if(this.parentConst==null)
+                            this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0);
+                        this.insertReal(res,Adv(neg,"fr"))
                     }
                 } else { // verbe "ordinaire"
                     if (this.props["lier"]!==undefined){
@@ -541,8 +544,8 @@ Terminal.prototype.conjugate_fr = function(){
             case "b": case "pr": case "pp":
                 this.realization=this.stem+conjugation;
                 res=[this];
-                if ( this.isReflexive() && t!="pp" ){
-                    this.insertReal(res,Pro("me*refl","fr").pe(pe).n(n).g(g),0)
+                if ( this.isReflexive()&& this.parentConst==null && t!="pp" ){
+                    this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
                 }
                 if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
                     let g=this.getProp("g");
@@ -553,13 +556,11 @@ Terminal.prototype.conjugate_fr = function(){
                 }
                 neg=this.neg2;
                 if (neg !== undefined && neg !== ""){
-                    const qNeg=Q(neg);
-                    qNeg.realization=neg;
                     if (t=="b" || t=="pp"){
-                        res.unshift(qNeg);
+                        this.insertReal(res,Adv(neg,"fr"),0)
                     }
                     else
-                        res.push(qNeg); 
+                        this.insertReal(res,Adv(neg,"fr"))
                 }
                 return res;
             default:

@@ -100,14 +100,6 @@ Phrase.prototype.add = function(constituent,position,prog){
                     }
                 }
             }
-        } else if (e.isA("Pro") && this.isA("VP")){
-            // a pronoun (clitic accusative,dative or reflexive or tonic reflexive) should appear before the verb
-            if (contains(["acc","dat","refl"],e.getProp("c")) || e.getProp("tn")=="refl"){
-                const idxV=this.getIndex("V")
-                if (i>idxV){
-                    this.addElement(this.removeElement(i),idxV);
-                }
-            }
         }
     }
     return this;
@@ -353,7 +345,6 @@ Phrase.prototype.pronominalize_fr = function(){
     if (npParent!==null){
         const myself=this;
         let idxMe=npParent.elements.findIndex(e => e==myself,this);
-        let moveBeforeVerb=false;
         let idxV=idxMe-1; // search for the first verb before the NP
         while (idxV>=0 && !npParent.elements[idxV].isA("V"))idxV--;
         if (idxV>=1 && npParent.elements[idxV].getProp("t")=="pp" &&
@@ -368,7 +359,6 @@ Phrase.prototype.pronominalize_fr = function(){
             } else {
                 pro=this.getTonicPro("acc") // is direct complement;
                 npParent.elements[idxV].cod=this;// indicate that this is a COD
-                moveBeforeVerb=true;
             }               
         } else if (this.isA("PP")){ // is indirect complement
             np=this.getFromPath([["NP","Pro"]]); // either a NP or Pro within the PP
@@ -376,13 +366,10 @@ Phrase.prototype.pronominalize_fr = function(){
             if (prep !== undefined && np !== undefined){
                 if (prep.lemma == "à"){
                     pro=np.getTonicPro("dat");
-                    moveBeforeVerb=true;
                 } else if (prep.lemma == "de") {
-                    pro=Pro("en","fr")
-                    moveBeforeVerb=true;
+                    pro=Pro("en","fr").c("dat")
                 } else if (contains(["sur","vers","dans"],prep.lemma)){
-                    pro=Pro("y","fr")
-                    moveBeforeVerb=true;
+                    pro=Pro("y","fr").c("dat")
                 } else { // change only the NP within the PP
                     pro=np.getTonicPro();
                     pro.props=np.props;
@@ -398,9 +385,8 @@ Phrase.prototype.pronominalize_fr = function(){
         pro.peng=np.peng;
         Object.assign(pro.props,np.props);
         delete pro.props["pro"]; // this property should not be copied into the Pro
-        if (moveBeforeVerb && 
-            // in French a pronominalized NP as direct object is moved before the verb
-            idxV>=0 && npParent.elements[idxV].getProp("t")!="ip"){ // (except at imperative tense) 
+        if (// in French a pronominalized NP as direct object is moved before the verb
+            idxV>=0 && !contains(["ip","b"],npParent.elements[idxV].getProp("t"))){ // except for imperative and infinitive
             npParent.removeElement(idxMe);// remove NP
             npParent.addElement(pro,idxV);// insert pronoun before the V
         } else {
@@ -421,12 +407,12 @@ Phrase.prototype.pronominalize_fr = function(){
 //  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
 Phrase.prototype.pronominalize_en = function(){
     let pro;
+    if (this.isA("Pro"))return; // TODO: correct this later
     const npParent=this.parentConst;
     if (npParent!==null){
         let idxV=-1;
         let myself=this;
         let idxMe=npParent.elements.findIndex(e => e==myself,this);
-        let moveBeforeVerb=false;
         idxV=npParent.getIndex("V");
         if (this.peng==npParent.peng){ // is subject 
             pro=this.getTonicPro("nom");
@@ -604,7 +590,7 @@ Phrase.prototype.processTyp_fr = function(types){
         while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].peng!==vp.peng)i--;
         vp.addElement(verb,i+1).addElement(Q("en train"),i+2).addElement(Q("de"),i+3)
         if (isReflexive){ // for "essentiellement réflexifs" verbs, add appropriate pronoun before the infinitive (without se)
-            vp.addElement(Pro("me*refl").pe(verb.getProp("pe")).n(verb.getProp("n")).g(verb.getProp("g")),idxV+3)
+            vp.addElement(Pro("moi").c("acc").pe(verb.getProp("pe")).n(verb.getProp("n")).g(verb.getProp("g")),idxV+3)
               .addElement(Q(origLemma),idxV+4)
         } else
             vp.addElement(V(origLemma).t("b"),idxV+3);

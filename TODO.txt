@@ -1,14 +1,4 @@
-La pronominalisation avec .pro() est parfois préférable à un simple "Pro"
+For:
+S(Pro("him").c("nom"),VP(V("give"),NP(D("the"),N("book")),PP(P("to"),NP(D("the"),N("girl")).pro())))+""
 
-S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),NP(D('le'),N('fille'))).pro()))+""
-==>"Il le lui a donné."
-ce qui est bien
-
-Mais:
-S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),PP(P('à'),Pro("elle"))))+""
-==>"Il l'a donné à elle."
-S(Pro('lui').c("nom").g("m").n("s").pe(3),VP(V('donner').t("pc"),NP(D('un'),N('chat')).pro(),Pro("elle").c("dat")))+""
-==>"Il lui l'a donné."
-
-=========
-
+change "He gives the book to her." ==> "He gives her the book."

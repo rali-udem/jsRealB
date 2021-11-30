@@ -24,25 +24,22 @@
         <script src="inflection.js" type="text/javascript" charset="UTF-8"></script><style type="text/css"></style>
     </head>
     <body id="conjugue">
-        <h1>jsRealB - conjugaison</h1>
-        <fieldset><legend>Conjugaison - Conjugation</legend>
+        <h1>jsRealB - <span id="title">Flexions</span></h1>
             <p>
 			    <input type="radio" name="language" value="fr" id="lang-fr" checked="checked" />
 			    <label for="lang-fr" style="margin-right: 20px;">Français</label>
 			    <input type="radio" name="language" value="en" id="lang-en" />
 			    <label for="lang-en">English</label>
+            <input type="text" size="30" name="entree" id="entree" placeholder="verbe, nom ou adjectif">
+            <input type="checkbox" name="negation" value="neg" id="negationButton"><label for="negationButton">Négation</label>
+            <input type="checkbox" name="passive" value="pas" id="passiveButton"><label for="passiveButton">Passif</label>
+            <input type="checkbox" name="progressive" value="prog" id="progressiveButton"><label for="progressiveButton">Progressif</label>
+            <input type="checkbox" name="reflexive" value="refl" id="reflexiveButton"><label for="reflexiveButton">Réflexif</label>
+            <input type="checkbox" name="perfect" value="perf" id="perfectButton"><label for="perfectButton">Perfect</label>
 			</p>
-            <label><input type="checkbox" name="negation" value="neg" id="negationButton">Négation</label>
-            <label><input type="checkbox" name="passive" value="pas" id="passiveButton">Passif</label>
-            <label><input type="checkbox" name="progressive" value="prog" id="progressiveButton">Progressif</label>
-            <label><input type="checkbox" name="reflexive" value="refl" id="reflexiveButton">Réflexif</label>
-            <label id="perfectL"><input type="checkbox" name="perfect" value="perf" id="perfectButton">Perfect</label>
-			<p>Saisir un lemme / Enter a lemma</p>            
-            <p>
-                <input type="text" size="30" name="entree" id="entree" placeholder="verbe, nom ou adjectif">
+			<p>
                 <a id="messErreur"></a>
             </p>
-        </fieldset>
             <p id="tableau"></p>
     </body>
 </html>

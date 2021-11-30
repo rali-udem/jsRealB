@@ -159,33 +159,39 @@ var exemplesFr=[
          "Je ne l'y ai pas mise."],
     // exemples du papier "Architecture..."
     // Figure 6
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro())),
      "Il l'a donnée."],
     // Table 1 - 1
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro())).typ({neg:true}),
      "Il ne l'a pas donnée."],
     // Table 1 - 2
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro(),
           PP(P("à"),NP(D("le"),N("fille"))))).typ({neg:true}),
      "Il ne l'a pas donnée à la fille."],
     // Table 1 - 3
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro(),
           PP(P("à"),NP(D("le"),N("fille"))).pro())).typ({neg:true}),
      "Il ne la lui a pas donnée."],
     // Table 1 - 4
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro(),
           PP(P("à"),NP(D("le"),N("fille"))).pro())).typ({neg:true,pas:true}),
      "Elle ne lui a pas été donnée par lui."],
+    // position des pronoms devant le verbe
+    [S(Pro('lui').c("nom"),
+       VP(V('donner').t("pc"),
+          NP(D('un'),N('chat')).pro(),
+          Pro("elle").c("dat"))),
+     "Il le lui a donné."],
     // modifications globales de propriétés
     [S(NP(D("le"),N("chat").g("f")),
       VP(V("manger"),
@@ -399,3 +405,4 @@ loadEn();
 // // testAllEx(showToSource,exemplesEn)
 checkAllEx(exemplesEn);
 // checkAllExJSON(exemplesEn);
+loadFr(true);

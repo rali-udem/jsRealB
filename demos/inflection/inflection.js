@@ -5,7 +5,7 @@
 var $entree,$tableau;
 var language;
 
-var titleConj={"fr": "Conjugaison de ","en":"Conjugation of: to "};
+var titleConj={"fr": "Conjugaison de ","en":"Conjugation of <i>to</i> "};
 var titleDecl={"fr": "Déclinaison de ","en":"Declension of "};
 var titleCommeNom={"fr": " comme nom","en":" as noun"};
 var titleCommeAdj={"fr": " comme adjectif","en":" as adjective"};
@@ -35,7 +35,8 @@ function conjuguer(verbe, lang,typs){
             [["Passé composé","pc"],["Plus-que-parfait","pq"],["Futur antérieur","fa"]],
             [["Subjonctif présent","s"],["Subjonctif imparfait","si"],["Subjonctif passé","spa"],
              ["Subjonctif plus-que-parfait","spq"]],
-            [["Conditionnel présent","c"],["Conditionnel passé","cp"],["Impératif","ip"]]
+            [["Conditionnel présent","c"],["Conditionnel passé","cp"],["Impératif","ip"]],
+            [["Participe présent","pr"],["Participe passé","pp"],["Infinitif","b"]]
         ]
     } else {
         loadEn();
@@ -47,19 +48,26 @@ function conjuguer(verbe, lang,typs){
             [["Future","f"]],
         ]
     }
-    $("#tableau").append("<h1>"+titleConj[language]+verbe+"</h1>");
+    $("#tableau").append(`<h1>${titleConj[language]} <i>${verbe}</i></h1>`);
     for (tmp of temps) {
         let $row=$("<tr/>");
         for (t of tmp){
             $row.append(`<th>${t[0]}</th>`)
         }
         $("#tableau").append($row)
-        for (n of "sp"){
-            for (pe of [1,2,3]){
-                $row=$("<tr/>");
-                for (t of tmp)
-                    $row.append("<td>"+realize(t[1],pe,n)+"</td>")
-                $("#tableau").append($row)
+        if (tmp[0][0].startsWith("Participe")){
+            $row=$("<tr/>");
+            for (t of tmp)
+                $row.append("<td>"+VP(V(verbe).t(t[1])).typ(typs)+"</td>")
+            $("#tableau").append($row)
+        } else {
+            for (n of "sp"){
+                for (pe of [1,2,3]){
+                    $row=$("<tr/>");
+                    for (t of tmp)
+                        $row.append("<td>"+realize(t[1],pe,n)+"</td>")
+                    $("#tableau").append($row)
+                }
             }
         }
     }
@@ -102,18 +110,21 @@ function decliner(mot,lang){
     if (lang=="fr") loadFr(); else loadEn();
     const entry=getLemma(mot);
     if (entry === undefined){
-        $("#messErreur")[0].innerHTML="n'appartient pas au lexique, désolé.";
+        $("#messErreur")[0].innerHTML=mot+":n'appartient pas au lexique, désolé.";
         $("#messErreur").css('color','red');
         return
     }
     $("#messErreur")[0].innerHTML="";
-    if ("N" in entry){
-        $("#tableau").append(`<tr><th colspan="2"><i>${titleCommeNom[language]}</i></th></tr>`)
-        declinerNom(mot,lang)
-    }
-    if ("A" in entry){
-        $("#tableau").append(`<tr><th colspan="2"><i>${titleCommeAdj[language]}</i></th></tr>`)
-        declinerAdj(mot,lang)
+    if ("N" in entry || "A" in entry){
+        $("#tableau").append(`<h1>${titleDecl[language]} <i>${mot}</i></h1>`);
+        if ("N" in entry){
+            $("#tableau").append(`<tr><th colspan="2"><i>${titleCommeNom[language]}</i></th></tr>`)
+            declinerNom(mot,lang)
+        }
+        if ("A" in entry){
+            $("#tableau").append(`<tr><th colspan="2"><i>${titleCommeAdj[language]}</i></th></tr>`)
+            declinerAdj(mot,lang)
+        }
     }
 }
 
@@ -122,8 +133,8 @@ function conjugueDecline(e){
     // console.log("conjugueDecline("+e+")")
     if (e.which==13){
         $tableau.text("");
-        var val=$entree.val();
-        if(val.trim().length!=0){
+        var val=$entree.val().trim();
+        if(val.length!=0){
             conjuguer(val,language,getTyps(language));
             decliner(val,language);
         }
@@ -141,15 +152,31 @@ function getTyps(lang){
     return typs;
 }
 
+const labels = [
+    ["negationButton",{fr:"Négation",en:"Negation"}],
+    ["passiveButton",{fr:"Passif",en:"Passive"}],
+    ["progressiveButton",{fr:"Progressif",en:"Progressif"}],
+    ["reflexiveButton",{fr:"Réflexif",en:"Reflexive"}],
+    ["perfectButton",{fr:"Parfait",en:"Perfect"}]
+]
 function checkLanguage() {
     language = $("#lang-fr")[0].checked?"fr":"en";
+    for (label of labels){
+        $(`label[for=${label[0]}]`).text(label[1][language])
+    }
     if(language == 'fr'){
         loadFr();
-        $("#perfectL").hide();
+        $("label[for=perfectButton]").hide();
+        $("#perfectButton").hide();
+        $("#entree").prop("placeholder","verbe, nom ou adjectif");
+        $("#title").text("Flexions")
     }
     else{
         loadEn();
-        $("#perfectL").show();
+        $("label[for=perfectButton]").show();
+        $("#perfectButton").show();
+        $("#entree").prop("placeholder","verb, noun or adjective");
+        $("#title").text("Inflections")
     }
 };
 
@@ -160,8 +187,8 @@ $(document).ready(function() {
    $entree.keypress(conjugueDecline);
    $("input[type=checkbox]").change(
        function(){
-           var val=$entree.val();
-           if(val.trim().length!=0){
+           var val=$entree.val().trim();
+           if(val.length!=0){
                $tableau.text("");
                conjuguer(val,language,getTyps(language));
                decliner(val,language);
