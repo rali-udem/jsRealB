@@ -1,10 +1,10 @@
 // add person names to the vocabulary
 loadEn();
-addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
-addToLexicon({"Jim": {"N":{"g":"m","tab":["n4"]}}})
-addToLexicon({"Bill":{"N":{"g":"m","tab":["n4"]}}})
-addToLexicon({"Mary":{"N":{"g":"f","tab":["n4"]}}})
-addToLexicon({"cheat":{"N":{"tab":["n1"]},"V":{"tab":"v1"}}})
+addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Jim": {"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Bill":{"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
+addToLexicon({"cheat":{"N":{"tab":"n1"},"V":{"tab":"v1"}}})
 /* 
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
  expr:`

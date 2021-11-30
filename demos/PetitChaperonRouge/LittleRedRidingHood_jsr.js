@@ -2,23 +2,23 @@ loadEn();
 
 // add unknown English words to the dictionary
 addToLexicon("amaze",{ V: { tab: 'v3' } });
-addToLexicon("bedcloth",{ N: { tab: [ 'n2' ] } })
-addToLexicon("bobbin",{ N: { tab: [ 'n1' ] } });
-addToLexicon("bouquet",{ N: { tab: [ 'n1' ] } });
-addToLexicon("complacent",{ A: { tab: [ 'a1' ] } });
-addToLexicon("counterfeit",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n1' ] }, V: { tab: 'v1' } });
+addToLexicon("bedcloth",{ N: { "tab":"n2" } })
+addToLexicon("bobbin",{ N: { "tab":"n1" } });
+addToLexicon("bouquet",{ N: { "tab":"n1" } });
+addToLexicon("complacent",{ A: { "tab":"a1" } });
+addToLexicon("counterfeit",{ A: { "tab":"a1" }, N: { "tab":"n1" }, V: { tab: 'v1' } });
 addToLexicon("dote",{ V: { tab: 'v3' } });
-addToLexicon("excessively",{ Adv: { tab: [ 'b1' ] } });
-addToLexicon("first",{ A: { tab: [ 'a1' ], value: 1 }, Adv: { tab: [ 'b1' ] }, N: { tab: [ 'n1' ] } });
-addToLexicon("grandchild",{ N: { tab: [ 'n15' ] } });
-addToLexicon("hoarse",{ A: { tab: [ 'a2' ] } });
-addToLexicon("hood",{ N: { tab: [ 'n1' ] }, V: { tab: 'v1' } });
-addToLexicon("latch",{ N: { tab: [ 'n2' ] }, V: { tab: 'v2' } });
-addToLexicon("nightcloth",{ N: { tab: [ 'n2' ] } })
-addToLexicon("ones",{ D: { n: 'p', tab: [ 'd4' ] } });
-addToLexicon("roundabout",{ A: { tab: [ 'a1' ] }, N: { tab: [ 'n1' ] } });
-addToLexicon("unassuming",{ A: { tab: [ 'a1' ] } });
-addToLexicon("woodcutter",{ N: { tab: [ 'n1' ] } });
+addToLexicon("excessively",{ Adv: { "tab":"b1" } });
+addToLexicon("first",{ A: { "tab":"a1", value: 1 }, Adv: { "tab":"b1" }, N: { "tab":"n1" } });
+addToLexicon("grandchild",{ N: { "tab":"n15" } });
+addToLexicon("hoarse",{ A: { "tab":"a2" } });
+addToLexicon("hood",{ N: { "tab":"n1" }, V: { tab: 'v1' } });
+addToLexicon("latch",{ N: { "tab":"n2" }, V: { tab: 'v2' } });
+addToLexicon("nightcloth",{ N: { "tab":"n2" } })
+addToLexicon("ones",{ D: { n: 'p', "tab":"d4" } });
+addToLexicon("roundabout",{ A: { "tab":"a1" }, N: { "tab":"n1" } });
+addToLexicon("unassuming",{ A: { "tab":"a1" } });
+addToLexicon("woodcutter",{ N: { "tab":"n1" } });
 
 // little riding hood
 var lrrh =  NP(A("little"),A("red"),V("ride").t("pr"),N("hood"))

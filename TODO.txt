@@ -1,0 +1,4 @@
+For:
+S(Pro("him").c("nom"),VP(V("give"),NP(D("the"),N("book")),PP(P("to"),NP(D("the"),N("girl")).pro())))+""
+
+change "He gives the book to her." ==> "He gives her the book."

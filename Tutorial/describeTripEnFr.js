@@ -217,10 +217,10 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 // addition to the French dictionary (always done)
 loadFr();
-addToLexicon({"aucun":{"D":{"tab":["n28"]}}});
+addToLexicon({"aucun":{"D":{"tab":"n28"}}});
 
-addToLexicon({"tout":{"A":{"tab":["n76"]}}});
-addToLexicon({"rose":{"A":{"tab":["n25"]}}});
+addToLexicon({"tout":{"A":{"tab":"n76"}}});
+addToLexicon({"rose":{"A":{"tab":"n25"}}});
 
 addToLexicon({"embarquer":{"V":{"tab":"v36","aux":["av"]}}});
 addToLexicon({"prendre":{"V":{"tab":"v90","aux":["av"]}}});

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSrealB: conjugaison - conjugation</title>
+        <title>JSrealB: conjugaison/déclinaison - conjugation/declension</title>
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="../../dist/jsRealB.js"></script>
 <!-- to ease debugging we load each file separately -/->
@@ -14,7 +14,6 @@
         <script src="../../build/Constituent.js"></script>
         <script src="../../build/Phrase.js"></script>
         <script src="../../build/Terminal.js"></script>
-        <script src="../../build/Date.js"></script>
         <script src="../../build/Number.js"></script>
         <script src="../../build/Warnings.js"></script>
 <!-/- end of separate loading -->
@@ -25,29 +24,22 @@
         <script src="inflection.js" type="text/javascript" charset="UTF-8"></script><style type="text/css"></style>
     </head>
     <body id="conjugue">
-        <h1>JSrealB</h1>
-        <fieldset>
-            <legend>Conjugaison - Conjugation</legend>
+        <h1>jsRealB - <span id="title">Flexions</span></h1>
             <p>
-		    <input type="radio" name="language" value="fr" id="lang-fr" checked="checked" />
-		    <label for="lang-fr" style="margin-right: 20px;">Français</label>
-
-		    <input type="radio" name="language" value="en" id="lang-en" />
-		    <label for="lang-en">English</label>
-	    </p>
-
-            <label><input type="checkbox" name="negation" value="neg" id="negationButton">Négation</label>
-            <label><input type="checkbox" name="passive" value="pas" id="passiveButton">Passif</label>
-            <label><input type="checkbox" name="progressive" value="prog" id="progressiveButton">Progressif</label>
-            <label id="perfectL"><input type="checkbox" name="perfect" value="perf" id="perfectButton">Parfait</label>
-
-			<p>Saisir un verbe ci-dessous et faire Entrée.</p>            
-			<p>Enter a verb below and press Enter.</p>
-            <p>
-                <input type="text" size="30" name="entree" id="entree" placeholder="verbe, nom ou adjectif">
+			    <input type="radio" name="language" value="fr" id="lang-fr" checked="checked" />
+			    <label for="lang-fr" style="margin-right: 20px;">Français</label>
+			    <input type="radio" name="language" value="en" id="lang-en" />
+			    <label for="lang-en">English</label>
+            <input type="text" size="30" name="entree" id="entree" placeholder="verbe, nom ou adjectif">
+            <input type="checkbox" name="negation" value="neg" id="negationButton"><label for="negationButton">Négation</label>
+            <input type="checkbox" name="passive" value="pas" id="passiveButton"><label for="passiveButton">Passif</label>
+            <input type="checkbox" name="progressive" value="prog" id="progressiveButton"><label for="progressiveButton">Progressif</label>
+            <input type="checkbox" name="reflexive" value="refl" id="reflexiveButton"><label for="reflexiveButton">Réflexif</label>
+            <input type="checkbox" name="perfect" value="perf" id="perfectButton"><label for="perfectButton">Perfect</label>
+			</p>
+			<p>
                 <a id="messErreur"></a>
             </p>
-        </fieldset>
             <p id="tableau"></p>
     </body>
 </html>

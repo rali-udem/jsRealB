@@ -1,6 +1,6 @@
 testsDeclensionEn = 
 {"activity":{"N":{"p":"activities"}},
- //"all":{"Adv":{"co":"all"}},
+ "all":{"Adv":{"co":"all"}},
  "analysis":{"N":{"p":"analyses"}},
  "audience":{"N":{"p":"audiences"}},
  "avocado":{"N":{"p":"avocados"}},

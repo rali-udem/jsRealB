@@ -10,8 +10,8 @@ for (var v in jsrealb){
 loadEn();
 updateLexicon(require("/Users/lapalme/Documents/GitHub/jsRealB/data/lexicon-dme.json"))
 // add unknown English words to the dictionary
-addToLexicon("bedcloth",{ N: { tab: [ 'n2' ] } })
-addToLexicon("nightcloth",{ N: { tab: [ 'n2' ] } })
+addToLexicon("bedcloth",{ N: { tab:  'n2'  } })
+addToLexicon("nightcloth",{ N: { tab:  'n2'  } })
 
 // little riding hood
 var lrrh =  NP(A("little"),A("red"),V("ride").t("pr"),N("hood"))

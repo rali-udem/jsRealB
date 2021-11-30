@@ -40,7 +40,7 @@ exports.ppJSON=ppJSON;
 exports.jsRealB_version=jsRealB_version;
 exports.jsRealB_dateCreated=jsRealB_dateCreated;
 
-if (typeof lexiconEn !== "undefined") exports.lexiconEn=lexiconEn;
-if (typeof loadEn    !== "undefined") exports.loadEn=loadEn;
-if (typeof lexiconFr !== "undefined") exports.lexiconFr=lexiconFr;
-if (typeof loadFr    !== "undefined") exports.loadFr=loadFr;
+exports.lexiconEn=lexiconEn;
+exports.loadEn=loadEn;
+exports.lexiconFr=lexiconFr;
+exports.loadFr=loadFr;

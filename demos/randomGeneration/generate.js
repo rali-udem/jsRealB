@@ -259,10 +259,12 @@ function initVocabulaire(){
     lesAdjectifs=[];
     lesPrepositions=[];
     $.each(lexicon,function(key,value){
-        if(value["N"])lesNoms.push(key);
-        if(value["A"])lesAdjectifs.push(key);
-        if(value["V"])lesVerbes.push(key);
-        if(value["P"])lesPrepositions.push(key);
+        if ("basic" in value){ // choose only "basic" words
+            if(value["N"])lesNoms.push(key);
+            if(value["A"])lesAdjectifs.push(key);
+            if(value["V"])lesVerbes.push(key);
+            if(value["P"])lesPrepositions.push(key);
+        }
     })
     // ajouter les autocomplete
     function ajouterAutocomplete(matchPrefix,list){

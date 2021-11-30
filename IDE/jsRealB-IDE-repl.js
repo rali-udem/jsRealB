@@ -6,42 +6,30 @@
     - history of previous commands is saved on a normal exit (^D) only
 
    example call:
-      node /path/to/jsRealB-IDE/jsRealB-IDE-repl.js [en|fr|dme|dmf] (fr is the default...)
+      node /path/to/jsRealB-IDE/jsRealB-IDE-repl.js [en|fr] (fr is the default...)
 */
 
 // preload jsRealB module
 jsRealB=require("./jsRealB-IDE.min.js");
 // import constructors and other functions
 for (var v in jsRealB){eval (''+v+"=jsRealB."+v)}
+loadEn(); buildLemmataEn();
+loadFr(); buildLemmataFr();
 // select language 
 var args=process.argv
 console.log("** jsRealB "+jsRealB_version+" ("+jsRealB_dateCreated+") Development Environment [help() for info]**")
 if (args.length>2){
     var a2=args[2];
-    if (a2=="dme"){
+    if (a2=="en"){
         loadEn(true);
-        updateLexicon(require("../data/lexicon-dme.json"));
-        console.log("dme lexicon loaded");
-        buildLemmataEn();
-    } else if (a2=="dmf") {
-        loadFr(true);
-        updateLexicon(require("../data/lexicon-dmf.json"));
-        console.log("lexique dmf chargé")
-        buildLemmataFr();
-    } else if (a2=="en"){
-        loadEn(true);
-        buildLemmataEn();
     } else if (a2=="fr"){
         loadFr(true);
-        buildLemmataFr();
     } else {
         console.log("Language "+a2+" not implemented");
         loadFr(true);
-        buildLemmataFr()
     }
 } else {
     loadFr(true);
-    buildLemmataFr();
 }
 
 // customize Read-Eval-Print loop
@@ -92,6 +80,20 @@ replServer.defineCommand('de', {
     this.displayPrompt();
   }
 });
+replServer.defineCommand('en', {
+  help: 'use English lexicon and rules',
+  action(word) {
+    loadEn(true);
+    this.displayPrompt();
+  }
+});
+replServer.defineCommand('fr', {
+  help: 'use French lexicon  and rules',
+  action(word) {
+    loadFr(true);
+    this.displayPrompt();
+  }
+});
 replServer.defineCommand('lm', {
   help: 'lemmatize: get jsRealB expression for form',
   action(word) {
@@ -100,14 +102,22 @@ replServer.defineCommand('lm', {
   }
 });
 replServer.defineCommand('lx', {
-  help: 'get lexicon info for form',
+  help: 'get lexicon info for form, optionally listing only the ones with a given Terminal',
   action(word) {
+      let terminal;
+      word=word.trim()
+      const idx=word.indexOf(" ");
+      if (idx>=0){
+          terminal=word.slice(idx+1);
+          word=word.slice(0,idx);
+      } 
     var info=getLexiconInfo(word);
     if (info===undefined)
         console.log(word+":"+(getLanguage()=="en"?" not found":"pas trouvé"));
     else {
         for (const [key,val] of Object.entries(info)){
-            console.log("%s:%s",JSON.stringify(key),JSON.stringify(val));
+            if (terminal==undefined || terminal in val)
+                console.log("%s:%s",JSON.stringify(key),JSON.stringify(val));
         }
     } 
     this.displayPrompt();

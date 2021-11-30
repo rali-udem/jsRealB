@@ -3171,7 +3171,7 @@ var ruleEn = //========== rule-en.js
                 "day": "on [l]",
                 "hour:minute:second": "at [h]:[m0]:[s0] [A]",
                 "hour:minute": "at [h]:[m0] [A]",
-                "minute:second": "at [m]:[s0] [A]",
+                "minute:second": "at [m]:[s0]",
                 "hour": "at [h] [A]",
                 "minute": "at [m] min",
                 "second": "at [s] s"

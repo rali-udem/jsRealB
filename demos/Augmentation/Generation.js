@@ -94,9 +94,9 @@ function maManiere(){
 
 document.addEventListener("DOMContentLoaded", function(e) { 
     loadFr();
-    addToLexicon({snack: { N: { g: 'm', tab: [ 'n3' ] } }});
-    addToLexicon({prétexte: { A: { tab: [ 'n25' ] }, N: { g: 'x', tab: [ 'n17' ] } }});
-    addToLexicon({cheffe: { N: { g: 'f', tab: [ 'n17' ]}}});
+    addToLexicon({snack: { N: { g: 'm', tab:  'n3'  } }});
+    addToLexicon({prétexte: { A: { tab:  'n25'  }, N: { g: 'x', tab:  'n17'  } }});
+    addToLexicon({cheffe: { N: { g: 'f', tab: 'n17' }}});
     
     d3.select("#cacherAfficherInstructions").on("click",function(){
         const val=d3.select("#cacherAfficherInstructions").property("value");

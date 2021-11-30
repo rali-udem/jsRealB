@@ -66,7 +66,7 @@ These commands also accept a regular expression in place of a specific value, in
     For example, to show the lexicon information for the word `love`
     
         jsRealB > .lx love
-        { N: { tab: [ 'n1' ] }, V: { tab: 'v3' } }
+        { N: { tab:'n1' }, V: { tab: 'v3' } }
 
 * `.lm` *form* : find jsRealB expressions that can realize this form.  
     For example, to find how to realize `his`

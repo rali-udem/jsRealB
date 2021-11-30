@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.8 - September 2021*
+*Version 3.9 - November 2021*
 
 **Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -24,7 +24,6 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `README.md` : Description of the architecture of the system; the second section goes into details of the organization of the source files and describes the main methods.
 * [`build`](build/): build system to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
-    * `Date.js` : utility functions for dealing with date formatting
     * `IO-json.js` : functions for dealing with the JSON input format
     * `jsRealBclass.py` : Python classes and functions to generate the JSON input format and use jsRealB from Python
     * `module-end.js` : lines to add at the end when creating a module from js files
@@ -116,10 +115,10 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
 ### Text realization
 * Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
 * Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
-<!-- * Regenerate a sentences from the information contained in its Universal Dependencies structure:
+* Regenerate a sentences from the information contained in its Universal Dependencies structure:
     * in English : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-en.html)
     * in French  : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-fr.html)
-    * [Paper describing the approach](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator.pdf) -->
+    * [Paper describing the approach](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator.pdf)
 * Reproduce a classical fairy tale in which hovering over a sentence, shows the underlying `jsRealB` expression 
     * in French : *Le petit chaperon rouge*   [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/PetitChaperonRouge.html)
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)

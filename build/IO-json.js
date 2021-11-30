@@ -44,33 +44,32 @@ function fromJSON(json,lang){
 
 ///  Create constituents from JSON
 // add properties using the usual functions that test their input...
-function setJSONprops(constituent,json){
+
+Constituent.prototype.setJSONprops=function(json){
     if ("props" in json){
         const props=json["props"];
         for (let opt in props){
-            if (opt in Constituent.prototype){
+            if (opt in this){
                 if (Array.isArray(props[opt])){ // deal with a list of options
                     props[opt].forEach(o=>Array.isArray(o)
-                        ? Constituent.prototype[opt].apply(constituent,o)
-                        : Constituent.prototype[opt].call(constituent,o))
+                        ? Constituent.prototype[opt].apply(this,o)
+                        : Constituent.prototype[opt].call(this,o))
                 } else 
-                    Constituent.prototype[opt].call(constituent,props[opt])
+                    Constituent.prototype[opt].call(this,props[opt])
             } else {
-                console.log("Terminal.fromJSON: illegal prop:"+opt);
+                console.log("Constituent.fromJSON: illegal prop:"+opt);
             }
         }
     }
+    return this
 }
-
 
 Phrase.fromJSON = function(constType,json,lang){
     if ("elements" in json){
         const elements=json["elements"];
         if (Array.isArray(elements)){
-            const args=elements.map(json => fromJSON(json,lang));
-            let phrase=new Phrase(args,constType,lang);
-            setJSONprops(phrase,json);
-            return phrase;
+            const args=json["elements"].map(json => fromJSON(json,lang));
+            return new Phrase(args,constType,lang).setJSONprops(json);
         } else {
             console.log("Phrase.fromJSON: elements should be an array:"+JSON.stringify(json))
         }
@@ -81,10 +80,7 @@ Phrase.fromJSON = function(constType,json,lang){
 
 Terminal.fromJSON = function(constType,json,lang){
     if ("lemma" in json){
-        const lemma=json["lemma"];
-        let terminal=new Terminal([lemma],constType,lang);
-        setJSONprops(terminal,json)
-        return terminal;
+        return new Terminal([json["lemma"]],constType,lang).setJSONprops(json);
     } else {
         console.log("Terminal.fromJSON: no lemma found in "+JSON.stringify(json));
     }

@@ -2,8 +2,8 @@
 "use strict";
 loadFr();
 
-addToLexicon({"John":{"N":{"g":"m","tab":["n4"]}}})
-addToLexicon({"Mary":{"N":{"g":"f","tab":["n16"]}}})
+addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Mary":{"N":{"g":"f","tab":"n16"}}})
 var pomme = NP(D("le"),N("pomme"));
 var  gars = NP(D("le"),N("garçon").n("p"));
 
@@ -53,13 +53,13 @@ var exemplesFr=[
          NP(NO(2),A("beau"),N("ami").g("f")))).typ({neg:"plus"}),
         "Vous n'auriez plus eu 2 belles amies."],
     [S(NP(N("John")),
-      VP(Pro("lui").c("refl"),V("évanouir").aux("êt").t("pc")),
+      VP(V("évanouir").aux("êt").t("pc")),
         PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
         "John ne s'est pas évanoui au lundi 21 mai 1979 à 10 h 5 min 0 s."],
     [S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
       VP(V("évanouir").t("pc")),
          PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
-        "John et Mary ne sont pas évanouis au lundi 21 mai 1979 à 10 h 5 min 0 s."],
+        "John et Mary ne se sont pas évanouis au lundi 21 mai 1979 à 10 h 5 min 0 s."],
     [S(VP().add(V("aimer")).add(pomme)).add(gars,0),
         "Les garçons aiment la pomme."],
     [S(CP(C("et"),NP(D("le"),N("fruit"))).add(pomme).add(gars),
@@ -159,33 +159,39 @@ var exemplesFr=[
          "Je ne l'y ai pas mise."],
     // exemples du papier "Architecture..."
     // Figure 6
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro())),
      "Il l'a donnée."],
     // Table 1 - 1
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro())).typ({neg:true}),
      "Il ne l'a pas donnée."],
     // Table 1 - 2
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro(),
           PP(P("à"),NP(D("le"),N("fille"))))).typ({neg:true}),
      "Il ne l'a pas donnée à la fille."],
     // Table 1 - 3
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro(),
           PP(P("à"),NP(D("le"),N("fille"))).pro())).typ({neg:true}),
      "Il ne la lui a pas donnée."],
     // Table 1 - 4
-    [S(Pro("lui").c("nom"), 
+    [S(Pro("lui").c("nom"),
        VP(V("donner").t("pc"),
           NP(D("un"),N("pomme")).pro(),
           PP(P("à"),NP(D("le"),N("fille"))).pro())).typ({neg:true,pas:true}),
      "Elle ne lui a pas été donnée par lui."],
+    // position des pronoms devant le verbe
+    [S(Pro('lui').c("nom"),
+       VP(V('donner').t("pc"),
+          NP(D('un'),N('chat')).pro(),
+          Pro("elle").c("dat"))),
+     "Il le lui a donné."],
     // modifications globales de propriétés
     [S(NP(D("le"),N("chat").g("f")),
       VP(V("manger"),
@@ -399,3 +405,4 @@ loadEn();
 // // testAllEx(showToSource,exemplesEn)
 checkAllEx(exemplesEn);
 // checkAllExJSON(exemplesEn);
+loadFr(true);

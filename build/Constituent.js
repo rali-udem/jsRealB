@@ -312,6 +312,7 @@ Constituent.prototype.typ = function(types){
       "exc": [false,true],
       "perf":[false,true],
       "contr":[false,true],
+      "refl" :[false,true], // reflexive
       "mod": [false,"poss","perm","nece","obli","will"],
       "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
     }
@@ -340,6 +341,50 @@ Constituent.prototype.typ = function(types){
         this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }
     return this;
+}
+
+// reorder pronouns before a verb within a VP (this is checked before the call)
+//  in French: according to https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-25998.php
+//        refl, COD (acc), COI (dat)
+function comparePronounCase(pro1,pro2){
+    const c1=pro1.getProp("c")
+    const c2=pro2.getProp("c")
+    if (c1=="refl")return -1;
+    if (c1==c2) return 0;
+    if (c1=="acc"){
+        if (c2=="dat")return -1;
+        return 1
+    }
+    return 1;
+}
+Constituent.prototype.doFrenchPronounPlacement = function(cList){
+    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
+    // HACK: stop when seeing a preposition or conjunction or a "strange" pronoun that might start a phrase 
+    //       whose structure has been flattened at this stage
+    let verbPos;
+    let pros=[]
+    for (let i=0;i<cList.length;i++){
+        const c=cList[i];
+        if (c.isA("V")){
+            if (verbPos===undefined) verbPos=i;
+            if (c.isReflexive() && c.getProp("t")!="pp"){
+                c.insertReal(pros,Pro("moi","fr").c("refl").pe(c.getProp("pe")).n(c.getProp("n")).g(c.getProp("g")));
+            }
+        } else if (c.isA("Pro") && verbPos!==undefined){
+            if (contains(["refl","acc","dat"],c.getProp("c"))){
+                pros.push(cList.splice(i,1)[0]);
+                i--; // to ensure that all elements are taken into account because pros array has changed
+            }
+        } else if (c.isOneOf(["P","C","Adv","Pro"])&& verbPos!==undefined){
+            break;
+        }
+    }
+    if (verbPos === undefined || pros.length==0)return;
+    if (pros.length>1)pros.sort(comparePronounCase)
+    // insert pronouns before the verb 
+    for (let k=0;k<pros.length;k++){
+        cList.splice(verbPos+k,0,pros[k])
+    }
 }
 
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
@@ -479,7 +524,9 @@ Constituent.prototype.doElisionFr = function(cList){
             if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
-            } else { // do contraction of first word and remove second word (keeping start and end)
+            } else if (!(w2.startsWith("le") && cList[i+1].isA("Pro"))){ 
+                // do contraction of first word and remove second word (keeping start and end)
+                // HACK: except when le/les is a pronoun
                 cList[i].realization=m1[1]+contr+m1[3];
                 cList[i+1].realization=m2[1]+m2[3].trim();
             }
@@ -540,6 +587,10 @@ Constituent.prototype.doFormat = function(cList){
     
     // start of processing
     removeEmpty(cList);
+    // reorder French pronouns
+    if (this.isA("VP")  && this.isFr())
+        this.doFrenchPronounPlacement(cList);
+    
     if (this.isFr())
         this.doElisionFr(cList);
     else 
@@ -614,7 +665,8 @@ Constituent.prototype.detokenize = function(terminals){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
-                s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
+                if (idx<s.length) // check if there was a letter
+                    s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
             };
             if (this.props["tag"]===undefined){ // do not touch top-level tag
                 // and a full stop at the end unless there is already one

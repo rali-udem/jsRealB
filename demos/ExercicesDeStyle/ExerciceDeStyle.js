@@ -6,11 +6,11 @@ var texte,temps,genre,nombre;
 
 function completerLexique(){
     loadFr();
-    addToLexicon({"narrateur":{ "N": { "g": "x", "tab": ["n56"]} }}); 
-    addToLexicon({"bus"      :{ "N": { "g": "m", "tab": ["n2"] } }});
-    addToLexicon({"bondé"    :{ "A": { "g": "m", "tab": ["n28"]} }});
-    // addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab": ["n28"]} }});// car le participe passé ne s'accorde pas!
-    addToLexicon({"quelque"  :{ "D": { "g": "m", "tab": ["n28"]} }});
+    addToLexicon({"narrateur":{ "N": { "g": "x", "tab":"n56"} }}); 
+    addToLexicon({"bus"      :{ "N": { "g": "m", "tab":"n2" } }});
+    addToLexicon({"bondé"    :{ "A": { "g": "m", "tab":"n28"} }});
+    // addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab":"n28"} }});// car le participe passé ne s'accorde pas!
+    addToLexicon({"quelque"  :{ "D": { "g": "m", "tab":"n28"} }});
     addToLexicon("puis",getLemma("et")); 
 }
 
@@ -40,7 +40,7 @@ function composer(t,g,n){
 
   // Ce jeune homme échange quelques mots assez vifs avec un autre voyageur, 
   // puis va s'asseoir à une place devenue libre.
-   addToLexicon("quelque",{"D":{"tab":["n25"]}});
+   addToLexicon("quelque",{"D":{"tab":"n25"}});
   ps[2]=
        S(NP(D("ce"),A("jeune"),N(g=="m"?"homme":"femme").n(n)
                            .tag("span", {"class": "jeune-homme genre nombre"})),
@@ -111,8 +111,8 @@ function composer(t,g,n){
 
 function updateLexicon(){
     loadEn();
-    addToLexicon("every", {"D":{"tab":["d4"]}});
-    addToLexicon({"gal":{"N":{"tab":["n1"]}}});
+    addToLexicon("every", {"D":{"tab":"d4"}});
+    addToLexicon({"gal":{"N":{"tab":"n1"}}});
 }
 
 function compose(t,g,n){

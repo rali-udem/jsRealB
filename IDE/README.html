@@ -16,7 +16,7 @@
 <pre><code>node jsRealB-IDE-repl.js en
 </code></pre>
 
-<p>which displays a prompt indicating the version and the date the system was compiled, it also loads a default language lexicon and rule set. The second parameter is either <code>en</code>, <code>dme</code> or <code>fr</code> (the default) which indicates the initial realization language, <code>dme</code> is a larger English lexicon. </p>
+<p>which displays a prompt indicating the version and the date the system was compiled, it also loads a default language lexicon and rule set. The second parameter is either <code>en</code> or <code>fr</code> (the default) which indicates the initial realization language. </p>
 
 <pre><code> ** jsRealB 2.0 (2019-11-25 21:17) Development Environment [help() for info]**
  English lexicon and rules loaded
@@ -76,7 +76,7 @@ For example, to show the declension information for table <code>n1</code></p>
 For example, to show the lexicon information for the word <code>love</code></p>
 
 <pre><code>jsRealB &gt; .lx love
-{ N: { tab: [ 'n1' ] }, V: { tab: 'v3' } }
+{ N: { tab: 'n1' }, V: { tab: 'v3' } }
 </code></pre></li>
 <li><p><code>.lm</code> <em>form</em> : find jsRealB expressions that can realize this form. <br />
 For example, to find how to realize <code>his</code></p>
