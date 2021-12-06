@@ -33,6 +33,10 @@ exports.setExceptionOnWarning=setExceptionOnWarning;
 exports.setReorderVPcomplements=setReorderVPcomplements;
 exports.resetSavedWarnings=resetSavedWarnings;
 exports.getSavedWarnings=getSavedWarnings;
+exports.False=False;
+exports.True=True;
+exports.None=None;
+
 // JSON
 exports.fromJSON=fromJSON;
 exports.ppJSON=ppJSON;

@@ -124,6 +124,11 @@ var oneOf = function(elems){
     return typeof e=='function'?e():e;
 }
 
+//// useful variables for evaluating jsRealB expressions written in Python
+var False = false;
+var True  = true;
+var None  = null;
+
 // version and date informations
 var jsRealB_version="3.9";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 
