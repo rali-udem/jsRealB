@@ -385,14 +385,8 @@ Phrase.prototype.pronominalize_fr = function(){
         pro.peng=np.peng;
         Object.assign(pro.props,np.props);
         delete pro.props["pro"]; // this property should not be copied into the Pro
-        if (// in French a pronominalized NP as direct object is moved before the verb
-            idxV>=0 && !contains(["ip","b"],npParent.elements[idxV].getProp("t"))){ // except for imperative and infinitive
-            npParent.removeElement(idxMe);// remove NP
-            npParent.addElement(pro,idxV);// insert pronoun before the V
-        } else {
-            npParent.removeElement(idxMe);// insert pronoun where the NP was
-            npParent.addElement(pro,idxMe);
-        }
+        npParent.removeElement(idxMe);// insert pronoun where the NP was
+        npParent.addElement(pro,idxMe);
     } else {// special case without parentConst so we leave the NP and change its elements
         pro=this.getTonicPro();
         pro.props=this.props;
@@ -578,22 +572,18 @@ Phrase.prototype.processTyp_fr = function(types){
     // process types in a particular order
     let rules=this.getRules();
     this.processVP(types,"prog",function(vp,idxV,v){
-        const isReflexive=vp.elements[idxV].isReflexive(); // must be called before removeElement to take account its parentConst 
         const verb=vp.removeElement(idxV);
         const origLemma=verb.lemma;
         verb.setLemma("être");// change verb, but keep person, number and tense properties of the original...
+        verb.isProg=verb;
         // except for sentence refl which should be kept on the original verb
-        if (isReflexive)verb.ignoreRefl=true; // HACK: flag used by Terminal.isReflexive()
+        // if (isReflexive)verb.ignoreRefl=true; // HACK: flag used by Terminal.isReflexive()
         // insert "en train","de" (separate so that élision can be done...) 
         // but do it BEFORE the pronouns created by .pro()
         let i=idxV-1;
         while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].peng!==vp.peng)i--;
         vp.addElement(verb,i+1).addElement(Q("en train"),i+2).addElement(Q("de"),i+3)
-        if (isReflexive){ // for "essentiellement réflexifs" verbs, add appropriate pronoun before the infinitive (without se)
-            vp.addElement(Pro("moi").c("acc").pe(verb.getProp("pe")).n(verb.getProp("n")).g(verb.getProp("g")),idxV+3)
-              .addElement(Q(origLemma),idxV+4)
-        } else
-            vp.addElement(V(origLemma).t("b"),idxV+3);
+        vp.addElement(V(origLemma).t("b"),idxV+3);
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
         var vUnit=v.lemma;
@@ -614,10 +604,6 @@ Phrase.prototype.processTyp_fr = function(types){
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
         v.neg2=neg; // HACK: to be used when conjugating at the realization time
-        while (idxV>0 && vp.elements[idxV-1].isA("Pro"))idxV--;
-        // insert "ne" before the verb or before possible pronouns preceding the verb
-        if (v.getProp("t")!="pp")
-            vp.addElement(Adv("ne","fr"),idxV)
     })
 }
 
@@ -925,6 +911,121 @@ Phrase.prototype.processTyp = function(types){
     return this;   
 }
 
+// tables des positions des clitiques en français, tirées de 
+//    Choi-Jonin (I.) & Lagae (V.), 2016, « Les pronoms personnels clitiques », in Encyclopédie Grammaticale du Français, 
+//    en ligne : http://encyclogram.fr
+
+//  section 3.1.1. (http://encyclogram.fr/notx/006/006_Notice.php#tit31)
+
+const proclitiqueOrdre = { // page 11 du PDF
+    // premier pronom que nous ignorons pour les besoins de cette application
+    // "je":1, "tu":1, "il":1, "elle":1, "on":1, "on":1, "nous":1, "vous":1, "vous":1, "ils":1, "elle":1,
+    "ne":2, 
+    "me":3, "te":3, "se":3, "nous":3, "vous":3, 
+    "le":4, "la":4, "les":4, 
+    "lui":5, "leur":5,
+    "y":6,
+    "en":7,
+    "*verbe*":8,
+    "pas":9,  // s'applique aussi aux autre négations... plus, guère
+} 
+
+const proclitiqueOrdreImperatifNeg = { // page 14 du PDF
+    "ne":1, 
+    "me":2, "te":2, "nous":2, "vous":2, 
+    "le":3, "la":3, "les":3, 
+    "lui":4, "leur":4,
+    "y":5,
+    "en":6,
+    "*verbe*":7,
+    "pas":8,  // s'applique aussi aux autre négations... plus, guère
+} 
+
+const proclitiqueOrdreImperatifPos = { // page 15 du PDF
+    "*verbe*":1,
+    "le":2, "la":2, "les":2, 
+    "lui":3, "leur":3,
+    "me":4, "te":4, "nous":2, "vous":2, 
+    "y":5,
+    "en":6,
+} 
+
+const proclitiqueOrdreInfinitif = { // page 17 du PDF
+    "ne":1, 
+    "pas":2,  // s'applique aussi aux autre négations... plus, guère, jamais
+    "me":3, "te":3, "se":3, "nous":3, "vous":3, 
+    "le":4, "la":4, "les":4, 
+    "lui":5, "leur":5,
+    "y":6,
+    "en":7,
+    "*verbe*":8,
+} 
+
+function compareClitics(pro1,pro2,table){
+    const k1=table[pro1.realization] || 100
+    const k2=table[pro2.realization] || 100;
+    return k1-k2;
+}
+
+Phrase.prototype.doFrenchPronounPlacement = function(cList){
+    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
+    let verbPos,cliticTable,neg2,prog;
+    let pros=[]
+    for (let i=0;i<cList.length;i++){
+        let c=cList[i];
+        if (c.isA("V")){
+            if (verbPos===undefined){
+                if (c.isProg!==undefined){
+                    prog=c;
+                    continue;
+                }
+                verbPos=i
+                // find the appropriate clitic table to use
+                const t=c.getProp("t");
+                if (t=="ip"){
+                    cliticTable = (c.neg2!==undefined) ? proclitiqueOrdreImperatifNeg : proclitiqueOrdreImperatifPos;
+                } else if (t=="b"){
+                    cliticTable = proclitiqueOrdreInfinitif
+                } else 
+                    cliticTable=proclitiqueOrdre;
+                // check for negation
+                if (c.neg2 !== undefined){
+                    c.insertReal(pros,Adv("ne","fr"));
+                    if (t=="b")
+                        c.insertReal(pros,Adv(c.neg2,"fr"));
+                    else
+                        neg2=c.neg2;
+                }
+                if (c.isReflexive() && c.getProp("t")!="pp"){
+                    if (prog!==undefined)c=prog;
+                    c.insertReal(pros,Pro("moi","fr").c("refl").pe(c.getProp("pe")).n(c.getProp("n")).g(c.getProp("g")));
+                }
+            }
+        } else if (c.isA("Pro") && verbPos!==undefined){
+            if (contains(["refl","acc","dat"],c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
+                pros.push(cList.splice(i,1)[0]);
+                i--; // to ensure that all elements are taken into account because cList array has changed
+            }
+        // HACK: stop when seeing a preposition (except "par" introduced by a passivee) or a conjunction 
+        //          or a "strange" pronoun that might start a phrase 
+        //       whose structure has been flattened at this stage
+        } else if (c.isOneOf(["P","C","Adv","Pro"]) && verbPos!==undefined && c.lemma!="par"){
+             break;
+        }
+    }
+    if (verbPos === undefined)return;
+    // add ending "pas" after the verb unless it is "lié" in which cas it goes after the next word
+    if (neg2){
+        const vb=cList[verbPos]
+        vb.insertReal(cList,Adv(neg2,"fr"),verbPos+(vb.getProp("lier")===undefined?1:2))
+    }    
+    if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable))
+    // insert pronouns before the verb 
+    for (let k=0;k<pros.length;k++){
+        cList.splice(verbPos+k,0,pros[k])
+    }
+}
+
 ////////////////// Realization
 
 //  special case of realisation of a cp for which the gender and number must be computed
@@ -1037,9 +1138,9 @@ Phrase.prototype.real = function() {
     if (this.isA("CP")){
         res=this.cpReal()
     } else {
-        this.pronominalizeChildren();
         const typs=this.props["typ"];
         if (typs!==undefined)this.processTyp(typs);
+        this.pronominalizeChildren();
         const es=this.elements;
         for (let i = 0; i < es.length; i++) {
             const e = es[i];

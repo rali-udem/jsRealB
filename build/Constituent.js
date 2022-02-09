@@ -343,49 +343,6 @@ Constituent.prototype.typ = function(types){
     return this;
 }
 
-// reorder pronouns before a verb within a VP (this is checked before the call)
-//  in French: according to https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-25998.php
-//        refl, COD (acc), COI (dat)
-function comparePronounCase(pro1,pro2){
-    const c1=pro1.getProp("c")
-    const c2=pro2.getProp("c")
-    if (c1=="refl")return -1;
-    if (c1==c2) return 0;
-    if (c1=="acc"){
-        if (c2=="dat")return -1;
-        return 1
-    }
-    return 1;
-}
-Constituent.prototype.doFrenchPronounPlacement = function(cList){
-    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
-    // HACK: stop when seeing a preposition or conjunction or a "strange" pronoun that might start a phrase 
-    //       whose structure has been flattened at this stage
-    let verbPos;
-    let pros=[]
-    for (let i=0;i<cList.length;i++){
-        const c=cList[i];
-        if (c.isA("V")){
-            if (verbPos===undefined) verbPos=i;
-            if (c.isReflexive() && c.getProp("t")!="pp"){
-                c.insertReal(pros,Pro("moi","fr").c("refl").pe(c.getProp("pe")).n(c.getProp("n")).g(c.getProp("g")));
-            }
-        } else if (c.isA("Pro") && verbPos!==undefined){
-            if (contains(["refl","acc","dat"],c.getProp("c"))){
-                pros.push(cList.splice(i,1)[0]);
-                i--; // to ensure that all elements are taken into account because pros array has changed
-            }
-        } else if (c.isOneOf(["P","C","Adv","Pro"])&& verbPos!==undefined){
-            break;
-        }
-    }
-    if (verbPos === undefined || pros.length==0)return;
-    if (pros.length>1)pros.sort(comparePronounCase)
-    // insert pronouns before the verb 
-    for (let k=0;k<pros.length;k++){
-        cList.splice(verbPos+k,0,pros[k])
-    }
-}
 
 // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
 //  match index:

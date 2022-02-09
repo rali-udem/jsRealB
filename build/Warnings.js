@@ -191,6 +191,12 @@ Constituent.prototype.warnings = {
          fr:(lemma,ending)=> // erreur de numéro de table dans le lexique: $lemma devrait terminer par $ending
             S(NP(N("erreur"),P("de"),N("numéro"),P("de"),N("table"),P("dans"),NP(D("le"),N("lexique"))).a(":"),
               SP(Q(lemma),VP(V("terminer"),PP(P("par"),Q(ending)))).typ({neg:true}))},
+    "ignored reflexive":
+        {en:(pat)=> // cannot be reflexive, only $pat
+            S(VP(V("be"),A("reflexive")).typ({"mod":"poss","neg":true}),Adv("only"),makeDisj("or",pat)),
+         fr:(pat)=> // ne peut être réflexif, seulement $pat
+            S(VP(V("être"),A("réflexif")).typ({"mod":"poss","neg":true}),
+              pat.length>0?AdvP(Adv("seulement"),makeDisj("ou",pat)):undefined)},
 }
 
 // show all warnings with dummy parameters in the console : useful for debugging
