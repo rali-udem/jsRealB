@@ -232,6 +232,11 @@ var exemplesFr=[
            NP(D('le'),
               N('fromage')))).typ({int:"yon"}),
      "Mange-t-il le fromage? "],
+     [S(Pro("je"),  // 58
+        VP(V('manger').t("pc"),
+           NP(D('le'),
+              N('fromage')))).typ({int:"yon"}),
+     "A-t-il mangé le fromage? "],
 ];
 
 //  exemples en anglais

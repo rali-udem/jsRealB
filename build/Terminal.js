@@ -442,6 +442,7 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
         aux.parentConst=this.parentConst;
+        aux.setProp("isAux",true);
         aux.peng=this.peng;
         aux.taux=Object.assign({},this.taux); // separate tense of the auxiliary from the original
         if (this.isReflexive()){
@@ -464,14 +465,36 @@ Terminal.prototype.conjugate_fr = function(){
         }
         aux.taux["t"]=tempsAux;
         aux.realization=aux+"";  // realize the auxiliary using jsReealB!!!
-        aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 
-        delete this.neg2;                  // delete it on this verb
-        
         // change this verb to pp
         this.setProp("g",g);
         this.setProp("n",n);
         this.setProp("t","pp");
         this.realization=this+"";    // realize the pp using jsRealB!
+        //  check special cases
+        if (this.neg2 !== undefined) {
+            aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 
+            delete this.neg2;                  // delete it on this verb
+        }
+        if (this.props["lier"]!==undefined){
+            aux.setProp("lier",null)  // put this flag on the auxiliary
+            delete this.props["lier"] // delete it from the verb
+            // HACK: check if the verb was lié to a nominative pronoun (e.g. subject inversion for a question)
+            const myParent=this.parentConst;
+            if (myParent!==null){
+                const myself=this;
+                const myParentElems=myParent.elements;
+                let idxMe=myParentElems.findIndex(e => e==myself,this);
+                if (idxMe>=0 && idxMe<myParentElems.length-1){
+                    const idxNext=idxMe+1;
+                    const next=myParentElems[idxNext]
+                    if (next.isA("Pro")){
+                        const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
+                        thePro.realization=thePro+"" // insert its realization after the auxiliary and before the verb
+                        return [aux,thePro,this] 
+                    }
+                }
+            }
+        }
         return [aux,this];
     default:// simple tense
         var conjugation=this.getRules().conjugation[this.tab].t[t];
