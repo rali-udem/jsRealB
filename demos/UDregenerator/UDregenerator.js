@@ -392,11 +392,8 @@ function UDregeneratorLoad(){
     udContent=initUD;
     fileName="initialUDs";
     d3.select("#fileName").text(fileName);
-    const largeLexicon=language=="en"?"../../data/lexicon-dme.json":"../../data/lexicon-dmf.json"
-    d3.json(largeLexicon).then(function(lexiconDME){
-        addNewWords(lexiconDME);
-        parse(udContent,fileName);
-    })
+    addNewWords();
+    parse(udContent,fileName);
 }
 
 

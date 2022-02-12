@@ -1,7 +1,6 @@
 var language="fr";
-function addNewWords(lexiconDMF){
+function addNewWords(){
     loadFr();
-    updateLexicon(lexiconDMF);
     
     addToLexicon("approfondi",{"A":{"tab":"n28"},"N":{"g":"m","tab":"n3"}});
     addToLexicon('infondé', {"A":{"tab":"n28"}});
