@@ -3,8 +3,8 @@ loadFr();
 const article = ["un","le"];
 const animes = "chat,chien,souris,veau,vache,cochon,homme,femme,oncle,tante,frère,soeur,nièce,cousin".split(/, */)
 const inanimes = "fromage,gâteau,pomme,tarte,orange,rôti,poulet,oeuf,surprise".split(/, */)
-const transitifs = "manger,aimer,détester,adorer,apprécier,dévorer".split(/, */)
-const intransitifs = "courir,danser".split(/, */)
+const transitifs = "manger,aimer,détester,adorer,apprécier,dévorer,recevoir,finir".split(/, */)
+const intransitifs = "courir,danser,aller".split(/, */)
 const adjectifs = ",,beau,blanc,noir,petit,grand".split(/, */)
 const nomNombre={"s":"singulier","p":"pluriel","pro":"pronom"};
 const nomTemps ={"p":"présent","i":"imparfait","f":"futur","c":"conditionnel",
