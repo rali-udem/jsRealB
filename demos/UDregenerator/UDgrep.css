@@ -49,7 +49,7 @@ table#tokens thead th{
     position: sticky; top: 0; z-index: 1;
 }
 
-table#tokens td, table#tokens th {
+table#tokens td, table#tokens th, table#fullTable td, table#fullTable th {
     border: 1px solid #999;
     padding:0px 2px;
     overflow:hidden;
@@ -85,7 +85,6 @@ table#tokens td {
 .DEPREL {width:7%;}
 .DEPS   {width:8%;}
 .MISC   {width:15%;}
-
 
 td.ID    {text-align:right;}
 td.FORM  {text-align:left; }

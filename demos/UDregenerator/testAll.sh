@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # LANG=${1:-en}
 LANG=${1:-fr}
-UDdir=/Users/lapalme/Dropbox/UDregenerator/UD-2.8
+UDdir=/Users/lapalme/Dropbox/UDregenerator/UD-2.9
 LOG=$UDdir/$LANG/log.txt
 
 rm -f $LOG 
-for f in $UDdir/$LANG/*.conllu; do
+for f in $UDdir/$LANG/$LANG_*-ud-*.conllu; do
     echo $f
     echo $f >>$LOG 
     time ( node UDregenerator-node.js $LANG $f >$f.out ) 2>/tmp/xyz

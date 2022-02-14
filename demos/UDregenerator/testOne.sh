@@ -2,7 +2,7 @@
 LANG=${1:-en}
 # LANG=${1:-fr}
 f=$2
-if f=="";
+if [-z "$f"]
 then  echo "no file given"; exit;
 fi
 echo $f

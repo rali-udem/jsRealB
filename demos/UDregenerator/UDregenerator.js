@@ -394,6 +394,29 @@ function UDregeneratorLoad(){
     d3.select("#fileName").text(fileName);
     addNewWords();
     parse(udContent,fileName);
+    
+    // allow file selection via drag and drop
+    // adapted from https://stackoverflow.com/questions/47515232/how-to-set-file-input-value-when-dropping-file-on-page/47522812#47522812
+
+    let docElem = document.documentElement;
+    let body = document.body;
+    let fileInput = document.querySelector('#file-input');
+
+    docElem.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      body.classList.add('dragging');
+    });
+
+    docElem.addEventListener('dragleave', () => {
+      body.classList.remove('dragging');
+    });
+
+    docElem.addEventListener('drop', (e) => {
+      e.preventDefault();
+      body.classList.remove('dragging');
+  
+      fileInput.files = e.dataTransfer.files;
+    });
 }
 
 
