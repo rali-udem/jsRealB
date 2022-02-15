@@ -2,9 +2,8 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
 }
 
 var language="en";
-function addNewWords(lexiconDME){
+function addNewWords(){
     loadEn();
-    updateLexicon(lexiconDME);
     // add some words to the lexicon some taken from 
     //    /Users/lapalme/Dropbox/AMR/jsRealB/addLexicon-dme.js    
     addToLexicon("responsively",{ Adv: { "tab":"b1" } });

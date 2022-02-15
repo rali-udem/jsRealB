@@ -80,14 +80,6 @@ function parse(){
     fillTable(d3.select("#tokens"));
 }
 
-// function matchForm(form,text){
-//     const formREw=new RegExp(`\\b${form}\\b`);
-//     const formRE=new RegExp(form)
-//     // search before as word otherwise search as a string
-//     return formREw.exec(currentUD.text)||formRE.exec(currentUD.text)
-//
-// }
-
 function showSentenceFromRow(tr){
     // change selection
     selectedTR=tr;
@@ -136,6 +128,55 @@ function fillTable(table){
         const tr=d3.select(tgt).node().parentNode;
         showSentenceFromRow(tr);
     })
+}
+
+// create a table with all the results (in another tab/window)
+function makeFullTable(){
+    // gather filters
+    let filters=[]
+    for (fn of fieldNames){
+        if (d3.select("#"+fn).classed("checked")){
+            if (d3.select("#search-"+fn).property("value")!=""){
+                filters.push(fn+" ~ /"+d3.select("#search-"+fn).property("value")+"/")
+            }
+        } else if (d3.select("#"+fn).classed("inv-checked")){
+            if (d3.select("#search-"+fn).property("value")!=""){
+                filters.push(fn+" !~ /"+d3.select("#search-"+fn).property("value")+"/")
+            }
+        }
+    }
+    if (d3.select("#formEQlemma").property("checked")){
+        filters.push("FORM == LEMMA");
+    } else if (d3.select("#formEQlemma").property("indeterminate")){
+        filters.push("FORM != LEMMA");
+    }
+    // adapted from https://stackoverflow.com/questions/12369823/use-d3-js-on-a-new-window
+    let newWindow=window.open("")
+    let newWindowHead=d3.select(newWindow.document.head)
+    newWindowHead.append("link").attr("rel","stylesheet").attr("href","UDgrep.css")
+    newWindowHead.append("title").text(filters.length==0?"All tokens":filters.join(" && "))
+    let newWindowBody=d3.select(newWindow.document.body)
+    newWindowBody.append("p").html(`File: <b>${d3.select("#fileName").text()}</b>`)
+    if (filters.length>0){
+        newWindowBody.append("p").append("b")
+            .text("Regular expression filters"+(d3.select("#ignoreCase").property("checked")?" [case  insensitive]":""))
+        newWindowBody.append("p").text(filters.join(" && "))
+    }
+    let fullTable=newWindowBody.append("table").attr("id","fullTable")
+    let thead=fullTable.append("thead");
+    thead.append('th').text("sent_id")
+    for (fn of fieldNames){
+        thead.append('th').text(fn)
+    }
+    let tbody=fullTable.append("tbody")
+    for (var i = 0; i < tokens.length; i++) {
+        toks=tokens[i];
+        let tr=tbody.append("tr");
+        tr.append("td").text(toks[nbFields].sent_id) // last element is the UD
+        for (var j = 0; j < nbFields; j++) {
+            tr.append("td").text(toks[j]);
+        }
+    }
 }
 
 // show/hide instructions
@@ -348,6 +389,7 @@ function UDgrepLoad(){
     parse();
     d3.select("#file-input").on("change",getFile);
     d3.select("#parse").on("click",parse);
+    d3.select("#makeFullTable").on("click",makeFullTable);
     d3.select("#showHideInstructions").on("click",toggleInstructions);
     d3.select("#displayType").on("change",function(){
         showSentenceParse(currentUD);

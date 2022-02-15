@@ -24,7 +24,14 @@ function generer(s,$tab,obj){
         var v=obj[types[i]];
         $tr.append(v?("<td>"+v+"</td>"):"<td/>");
     }
-    $tr.append("<td>"+s.clone().typ(obj)+"</td>");
+    resetSavedWarnings();  // catch eventual error messages
+    var sent=s.clone().typ(obj).toString();
+    const savedWarnings=getSavedWarnings()
+    if (savedWarnings.length==0){
+        $tr.append("<td>"+sent+"</td>");
+    } else { // output error messages
+        $tr.append("<td><i>"+savedWarnings.join("<br/>")+"</i></td>")
+    }
     $tab.append($tr);
     nb++;
 }

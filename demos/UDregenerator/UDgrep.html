@@ -36,6 +36,7 @@
 			The <code>reParse</code> button can be clicked anytime when the field selection has been changed to refill the table from the last UD file read.</li>
 		<li>The table can be scrolled vertically and columns can be sorted by clicking in the header.</li>
 		<li>Clicking a cell in the table will display information about the sentence containing this token which is shown in bold. It also displays the dependency graph or tree of the sentence in which hovering a token shows its ID, LEMMA, UPOS and FEATS in a tooltip.</li>
+        <li>Clicking on the <code>Token table</code> creates a new tab listing <strong>all</strong> current tokens with their <code>sent_id</code> which can be saved or printed.</li>
 		<li>
 			Further information:
 			<ul>
@@ -56,6 +57,7 @@
         <legend>Filters</legend>
     </fieldset>
     <input type="button" id="parse" name="parse" value="reParse">
+    <input type="button" class="right" id="makeFullTable" name="makeFullTable" value="Token table">
     <p id="message"></p>
     <div id="container">
         <table id="tokens">

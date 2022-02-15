@@ -319,24 +319,28 @@ Constituent.prototype.typ = function(types){
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"])){
         // validate types and keep only ones that are valid
-        for (let key in types) {
-            const val=types[key];
-            const allowedVals=allowedTypes[key];
-            if (allowedVals === undefined){
-                this.warn("unknown type",key,Object.keys(allowedTypes))
-            } else {
-                if (key == "neg" && this.isFr()){ // also accept string as neg value in French
-                    if (!contains(["string","boolean"],typeof val)){
+        if (typeof types == "object"){
+            for (let key in types) {
+                const val=types[key];
+                const allowedVals=allowedTypes[key];
+                if (allowedVals === undefined){
+                    this.warn("unknown type",key,Object.keys(allowedTypes))
+                } else {
+                    if (key == "neg" && this.isFr()){ // also accept string as neg value in French
+                        if (!contains(["string","boolean"],typeof val)){
+                            this.warn("ignored value for option",".typ("+key+")",val)
+                            delete types[key]
+                        }
+                    } else if (!contains(allowedVals,val)){
                         this.warn("ignored value for option",".typ("+key+")",val)
                         delete types[key]
                     }
-                } else if (!contains(allowedVals,val)){
-                    this.warn("ignored value for option",".typ("+key+")",val)
-                    delete types[key]
                 }
             }
+            this.props["typ"]=types;
+        } else {
+            this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
         }
-        this.props["typ"]=types;
     } else {
         this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
     }

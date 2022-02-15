@@ -110,7 +110,10 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
             if (lexInfo===undefined){
                     this.tab=null;
                     this.realization =`[[${lemma}]]`;
-                    this.warn("not in lexicon",this.lang,Object.keys(this.getLexicon()[lemma]));
+                    let otherPOS=Object.keys(this.getLexicon()[lemma]);
+                    let idxBasic=otherPOS.indexOf("basic") // check if "basic" is a key...
+                    if (idxBasic>=0)otherPOS.splice(idxBasic,1) // remove it if is there...
+                    this.warn("not in lexicon",this.lang,otherPOS);
                 if (quoteOOV){
                     this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                     this.constType="Q";
@@ -442,7 +445,6 @@ Terminal.prototype.conjugate_fr = function(){
         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
         const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
         aux.parentConst=this.parentConst;
-        aux.setProp("isAux",true);
         aux.peng=this.peng;
         aux.taux=Object.assign({},this.taux); // separate tense of the auxiliary from the original
         if (this.isReflexive()){
