@@ -13,6 +13,6 @@ for f in $UDdir/$LANG/$LANG_*-ud-*.conllu; do
     tail -4 $f.out >>$LOG
     echo nb toks : `egrep "^[0-9]+\t" $f | wc -l` >>$LOG
     echo OK : `egrep "^# TEXT =" $f.out | wc -l` >>$LOG
-    echo lexicon-errors: `egrep 'not found in lexicon | absent du lexique' $f.out | wc -l` >>$LOG
+    echo lexicon-errors: `egrep 'not found in English lexicon | absent du lexique' $f.out | wc -l` >>$LOG
     echo "---">>$LOG
 done
