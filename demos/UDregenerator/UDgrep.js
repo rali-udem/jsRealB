@@ -440,6 +440,11 @@ function UDgrepLoad(){
       body.classList.remove('dragging');
   
       fileInput.files = e.dataTransfer.files;
+      let file = fileInput.files[0];
+      if (file!==undefined){
+          d3.select("#fileName").text(file.name);
+          getFile()
+      }
     });
 }
 
