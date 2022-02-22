@@ -1073,7 +1073,7 @@ Phrase.prototype.cpReal = function(){
         this.setProp("g",gn.g);
         this.setProp("n",gn.n);
         this.setProp("pe",gn.pe);
-        // for the pronoun, we must override its existing properties...
+        // for an inserted pronoun, we must override its existing properties...
         if (this.pronoun!==undefined){
             this.pronoun.peng=gn;
             this.pronoun.props["g"]=gn.g;

@@ -62,19 +62,19 @@ Constituent.prototype.setProp = function(propName,val){
 }
 
 // should be in Terminal.prototype... but here for consistency with three previous definitions
-// var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
-// var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
+var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
+var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
 Constituent.prototype.initProps = function(){
     if (this.isOneOf(["N","A","D","V","NO","Pro"])){
         // "tien" and "vôtre" are very special case of pronouns which are to the second person
         this.peng={pe:defaultProps[this.lang]["pe"],
                    n: defaultProps[this.lang]["n"],
                    g: defaultProps[this.lang]["g"],
-                   // pengNO:pengNO++
+                   pengNO:pengNO++
                    };
         if (this.isA("V")){
             this.taux={t:defaultProps[this.lang]["t"],
-                       // tauxNO:tauxNO++
+                       tauxNO:tauxNO++
                        };
             if (this.isFr())
                 this.taux["aux"]=defaultProps[this.lang]["aux"];
@@ -155,7 +155,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             return this;
         }
-        if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
+        if (allowedConsts.length==0 || this.isOneOf(allowedConsts) || this.isOneOf(deprels)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
                 return this.warn("ignored value for option",option,val);
             }
@@ -317,7 +317,7 @@ Constituent.prototype.typ = function(types){
       "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
     }
     this.addOptSource("typ",types)
-    if (this.isOneOf(["S","SP","VP"])){
+    if (this.isOneOf(["S","SP","VP"]) || this instanceof Dependent){
         // validate types and keep only ones that are valid
         if (typeof types == "object"){
             for (let key in types) {
@@ -342,7 +342,7 @@ Constituent.prototype.typ = function(types){
             this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
         }
     } else {
-        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","Dependent"],this.constType);
     }
     return this;
 }
@@ -620,7 +620,7 @@ Constituent.prototype.detokenize = function(terminals){
     s+=terminals[last].realization;
     // apply capitalization and final full stop
     if (this.parentConst==null){
-        if (this.isA("S") && s.length>0){ // if it is a top-level S
+        if (this.isOneOf(["S","root"]) && s.length>0){ // if it is a top-level S
             // force a capital at the start unless .cap(false)
             if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;

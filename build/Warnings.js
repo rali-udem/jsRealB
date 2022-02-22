@@ -177,6 +177,20 @@ Constituent.prototype.warnings = {
          fr:(rank,type)=> // le $rank paramètre n'est pas Constituent.
             S(NP(D("le"),Q(rank),N("paramètre")),
               VP(V("être"),Q("Constituent"),Adv("mais"),Q(type))).typ({neg:true})},
+    "bad Dependent":
+        {en:(rank,type)=> // the $rank parameter is not Dependent but $type.
+            S(NP(D("the"),Q(rank),N("parameter")),
+              VP(V("be"),Q("Dependent"),Adv("but"),Q(type))).typ({neg:true}),
+         fr:(rank,type)=> // le $rank paramètre n'est pas Dependent mais $type.
+            S(NP(D("le"),Q(rank),N("paramètre")),
+              VP(V("être"),Q("Dependent"),Adv("mais"),Q(type))).typ({neg:true})},
+    "Dependent needs Terminal":
+        {en:(type)=> // the first parameter of Dependent is not Terminal but $type.
+            S(NP(D("the"),A("first"),N("parameter"),PP(P("of"),Q("Dependent"))),
+              VP(V("be"),Q("Terminal"),Adv("but"),Q(type))).typ({neg:true}),
+         fr:(type)=> // le premier paramètre du Dependent n'est pas Terminal mais $type.
+            S(NP(D("le"),A("premier"),N("paramètre"),PP(P("de"),NP(D("le"),Q("Dependent")))),
+              VP(V("être"),Q("Terminal"),Adv("mais"),Q(type))).typ({neg:true})},
     "bad number of parameters":
         {en:(termType,number)=> // $termType accepts one parameter, but has $number.
              S(Q(termType),VP(V("accept"),NP(D("a"),A("single"),N("parameter"))).a(","),
@@ -184,6 +198,11 @@ Constituent.prototype.warnings = {
          fr:(termType,number)=> // $termType accepte un seul paramètre, mais en a $number.
              S(Q(termType),VP(V("accepter"),NP(D("un"),A("seul").pos("pre"),N("paramètre"))).a(","),
                SP(C("mais"),Pro("je"),VP(VP(Pro("en"),V("avoir"),NO(number)))))},
+    "Dependent without params":
+        {en:()=> // Dependent without parameter
+             S(Q("Dependent"),PP(P("without"),N("parameter"))),
+         fr:()=> // Dependent sans paramètre.
+             S(Q("Dependent"),PP(P("sans"),N("paramètre")))},
     "bad lexicon table":
         {en:(lemma,ending)=> // error in lexicon table number: $lemma should end with $ending
             S(NP(N("error"),P("in"),N("lexicon"),N("table"),N("number")).a(":"),
@@ -197,6 +216,15 @@ Constituent.prototype.warnings = {
          fr:(pat)=> // ne peut être réflexif, seulement $pat
             S(VP(V("être"),A("réflexif")).typ({"mod":"poss","neg":true}),
               pat.length>0?AdvP(Adv("seulement"),makeDisj("ou",pat)):undefined)},
+    "inconsistent dependents within a coord":
+        {en:(expected,found)=> //  $expected expected within this coord, but $found was found
+            S(Q(expected),VP(V("expect").t("pp"),PP(P("within"),NP(D("this"),Q("coord")))),
+              SP(C("but"),Q(found),V("be").t("ps"),V("find").t("pp"))),
+         fr:(expected,found)=> // toutes les dépendances d'un coord devraient être $expected, mais $found a été rencontré
+            S(NP(A("tout"),D("le"),N("dépendance").n("p"),P("de"),D("un"),Q("coord")),
+              VP(V("devoir").t("cp"),V("être").t("b"),Q(expected)),
+              SP(C("mais"),Q(found),V("être").t("pc"),V("rencontrer").t("pp")))},
+        
 }
 
 // show all warnings with dummy parameters in the console : useful for debugging

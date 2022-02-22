@@ -331,6 +331,111 @@ var exemplesEn=[
         N("addition").n("s")),
        "the largest of the trainers, this addition"]
 ];
+
+// dépendances en français
+loadFr();
+var dependancesFr=[
+    [root(V("pleuvoir"),
+          subj(Pro("lui").c("nom")),
+          mod(P("dans"),
+              compObj(N("maison"),
+                     det(D("mon").pe(1))))),"Il pleut dans ma maison."],       // 0
+    [root(V("bâtir").t("ps"),
+          subj(Pro("moi").c("nom")),
+          comp(N("cabane").n("p"),
+               det(D("un")),
+               mod(A("petit")),
+               mod(A("rouge"))),
+          mod(P("en"),
+              mod(Q("1998")))),"Je bâtis des petites cabanes rouges en 1998."], // 1
+    [root(V("manger"),
+          subj(Pro("vous").c("nom")),
+          coord(C("et"),
+                comp(N("pomme"),
+                     det(D("un"))),
+                comp(N("orange"),
+                     det(D("un"))).n("p"))),
+     "Vous mangez une pomme et des oranges."],                                // 2
+    [root(V("être"),
+          subj(Pro("ce")),
+          mod(Adv("alors")),
+          comp(Q("Alba"),
+               coord(C("et"),
+                     mod(V("reprendre"),
+                         subj(Pro("qui")),
+                         compObj(N("contrôle"),
+                                 det(D("le")),
+                                 compObl(P("de"),
+                                         compObj(N("situation"),
+                                                 det(D("le")))))),
+                     mod(V("réprimer"),
+                         subj(Pro("qui")),
+                         compObj(N("révolte"),
+                                 det(D("un")),
+                                 compObj(P("de"),
+                                         compObj(N("peuple"),
+                                                 det(D("le")))),
+                                 compObj(P("devant"),
+                                         compObj(N("cour"),
+                                                 det(D("le")),
+                                                 mod(A("royal"))))))))),
+    "C'est alors Alba qui reprend le contrôle de la situation et qui réprime une révolte du peuple devant la cour royale."],// 3
+    [root(V("courir"),
+          coord(C("et"),
+                subj(N("chat"),
+                     det(D("le"))),
+                subj(N("chien"),
+                     det(D("le"))))),
+    "Le chat et le chien courent."]                                 // 4
+]
+
+
+// English dependences
+loadEn();
+addToLexicon("practice",{"V":{"tab":"v3"}}) // should be in the original lexicon
+var dependenciesEn=[
+    [root(V("walk"),
+              subj(N("man"),
+                   det(D("a")))),"A man walks."],                             // 0
+    [root(V("be"),
+          subj(V("practice").t("pr"),
+                   compObj(N("joke"),
+                            det(D("my").pe(2).ow("s")))),
+                    mod(A("crucial"))),"Practicing your joke is crucial."],    // 1
+    [root(V("eat"),
+          subj(Pro("him").c("nom")),
+          comp(N("apple"),
+               det(D("a"))).n("p").tag("em")).t("ps"),"He ate <em>apples</em>."],// 2
+    [root(V("come").t("pr"),
+          compObl(P("into"),
+                  compObj(N("area"),
+                         det(D("the")))),
+          compObl(P("to"),
+                 compObj(V("see").t("b"),
+                         compObj(N("concert"),
+                                 det(D("a"))).n("p")))),
+    "Coming into the area to see concerts."],                                    // 3
+    [root(V("be").t("ps"),
+          subj(Pro("it")),
+          compObl(P("from"),
+                  mod(Q("John"))),
+          compObj(C("that"),
+                  compObj(V("hear").t("ps"),
+                         subj(Pro("me").c("nom").g("f")),
+                         compObj(N("news"),
+                                 det(D("the")))))),
+     "It was from John that she heard the news."],                                //4
+    [root(V("be"),
+           subj(N("man"),
+                det(D("every")),
+                mod(V("be"),
+                    subj(Pro("that")),
+                      mod(V("miss").t("pr")))),
+          comp(V("punish").t("pp")),
+          compObl(P("for"),
+            mod(Pro("you")))),
+    "Every man that is missing is punished for you."],                              //5
+];
    
 function showEx(exemple){
     console.log(exemple[0]+"")
@@ -375,7 +480,7 @@ function checkAllEx(exemples){
         const gen=exp.toString();
         const expected=exemples[i][1];
         if (expected!==null && gen!=expected){
-            console.log("%d:%s\n => %s\n *** %s",i,exp.toSource(),gen,expected)
+            console.log("%d:%s\n => %s\n ** %s",i,exp.toSource(),gen,expected)
             nbDiffs++;
         }
     }
@@ -390,7 +495,7 @@ function checkAllExJSON(exemples){
         const genJS=fromJSON(expJS).toString();
         const expected=exemples[i][1];
         if (expected!==null && genJS!=expected){
-            console.log("%d:%s\n ==> %s\n *** %s",i,ppJSON(expJS),genJS,expected)
+            console.log("%d:%s\n => %s\n ** %s",i,ppJSON(expJS),genJS,expected)
             nbDiffs++;
         }
     }
@@ -402,12 +507,15 @@ function checkAllExJSON(exemples){
 loadFr();
 // testAllEx(showEx,exemplesFr)
 // testAllEx(showToSource,exemplesFr)
-checkAllEx(exemplesFr);
+// checkAllEx(exemplesFr);
 // checkAllExJSON(exemplesFr);
+checkAllEx(dependancesFr);
 
 loadEn();
 // // testAllEx(showEx,exemplesEn)
 // // testAllEx(showToSource,exemplesEn)
-checkAllEx(exemplesEn);
+// checkAllEx(exemplesEn);
 // checkAllExJSON(exemplesEn);
-loadFr(true);
+checkAllEx(dependenciesEn)
+
+// loadFr(true);
