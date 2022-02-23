@@ -11,14 +11,15 @@ function Dependent(params,deprel,lang){ // lang parameter used calls in IO-json.
     Constituent.call(this,deprel); // super constructor
     this.lang = lang || currentLanguage;
     this.dependents=[];
+    this.terminal=Q("*terminal*");    // dummy terminal so that error messages can be issued
     if (params.length==0){
         this.warn("Dependent without params");
         return null;
     }
-    this.terminal=params.shift()
-    if (!(this.terminal instanceof Terminal)){
-        this.warn("Dependent needs Terminal",typeof this.terminal);
-        this.terminal=Q("terminal")
+    if (params[0] instanceof Terminal){
+        this.terminal=params.shift()
+    } else {
+        this.warn("Dependent needs Terminal",typeof params[0]);
     }
     this.terminal.parentConst=this;
     this.peng=this.terminal.peng;
@@ -177,26 +178,94 @@ Dependent.prototype.pronominalizeChildren = function(){
     // console.log("pronominalizeChildren should be defined")
 }
 
-Dependent.prototype.processVP(types,action){
+Dependent.prototype.passivate = function(){
+    //TODO:...
+    console.log("passivate not implemented")
     
 }
 
-Dependent.prototype.processTyp_fr(types){
-    //TODO:...
-    console.log("processTyp_fr not implemented")
+Dependent.prototype.processV = function(types,key,action){
+    if (this.isA("coord")){
+        this.dependents.forEach(function(d){
+            d.processV(types,action)
+        })
+    } else if (this.terminal.isA("V")){
+        const val=types[key];
+        if (val!=undefined && val !== false){
+            action(this,val)
+        }
+    }
 }
 
-Dependent.prototype.processTyp_en(types){
-    //TODO:...
-    console.log("processTyp_en not implemented")
+// add special internal dependencies (used only during realization)
+Dependent.prototype.addPre = function(terminals){
+    if (terminals instanceof Terminal){
+        this.addDependent(new Dependent([terminals],"*pre*"))
+        return this;
+    }
+    for (let terminal of terminals){
+        this.addDependent(new Dependent([terminal],"*pre*"))
+    }
+    return this;
 }
 
-Dependent.prototype.processTypInt(types){
+Dependent.prototype.addPost = function(terminals){
+    if (terminals instanceof Terminal){
+        this.addDependent(new Dependent([terminals],"*post*"),0)
+        return this;
+    }
+    for (let terminal of terminals.reverse()){ // must add them in reverse order because of position 0
+        this.addDependent(new Dependent([terminal],"*post*"),0)
+    }
+    return this;
+}
+
+Dependent.prototype.processTyp_fr = function(types){
+    this.processV(types,"prog",function(deprel,_v){
+        // insert "en train","de" (separate so that élision can be done...) 
+        // TODO::but do it BEFORE the pronouns created by .pro()
+        const origLemma=deprel.terminal.lemma
+        deprel.terminal.setLemma("être"); // change verb, but keep person, number and tense properties of the original...
+        deprel.addPost([Q("en train"),Q("de"),V(origLemma).t("b")])
+    })
+    this.processV(types,"mod",function(deprel,mod){
+        let rules=deprel.getRules();
+        let origLemma=deprel.terminal.lemma;
+        for (let key in rules.verb_option.modalityVerb){
+            if (key.startsWith(mod)){
+                deprel.terminal.setLemma(rules.verb_option.modalityVerb[key]);
+                break;
+            }
+        }
+        // TODO:move the modality verb before the pronoun(s) inserted by .pro()
+        deprel.addPost(V(origLemma).t("b"))
+    })
+    this.processV(types,"neg",function(deprel,neg){
+        if (neg===true)neg="pas";
+        // deprel.terminal.neg2=neg;  // HACK: to be used when conjugating at the realization time
+        deprel.addPre(Adv("ne"))
+        deprel.addPost(Adv(neg))
+    })
+}
+
+Dependent.prototype.processTyp_en = function(types){
+    // replace current verb with the list new words
+    //  TODO: take into account the fact that there might be already a verb with modals...
+    if (types["contr"]!==undefined && types["contr"]!==false){
+        // necessary because we want the negation to be contracted within the VP before the S or SP
+        this.contraction=true;
+    }
+    const words=affixHopping(this.terminal,this.getProp("t"),this.getRules().compound,types);
+    this.terminal=words.shift()
+    this.addPost(words)
+}
+
+Dependent.prototype.processTypInt = function(types){
     //TODO:...
     console.log("processTypInt not implemented")
 }
 
-Dependent.prototype.processTyp = function(typ){
+Dependent.prototype.processTyp = function(types){
     let pp; // flag for possible pp removal for French wod or wad
     if (types["pas"]!==undefined && types["pas"]!== false){
         this.passivate()
@@ -299,7 +368,7 @@ Dependent.prototype.real = function() {
         if (d.props["pos"]=="pre"){ // explicit before
             pos="pre"
         } else {
-            if (d.isOneOf(["subj","det"])){ // subject and det are always before
+            if (d.isOneOf(["subj","det","*pre*"])){ // subject and det are always before
                 pos="pre"
             } else if (d.isA("mod") && d.terminal.isA("A") && d.parentConst.terminal.isA("N")){ 
                 // check adjective position with respect to a noun

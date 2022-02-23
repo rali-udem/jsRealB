@@ -334,6 +334,10 @@ var exemplesEn=[
 
 // dépendances en français
 loadFr();
+addToLexicon("Mauritanie",{"N":{"g":"f","tab":["n16"]}})
+addToLexicon("Algérie",{"N":{"g":"f","tab":["n16"]}})
+addToLexicon("Maroc",{"N":{"g":"m","tab":["n1"]}})
+
 var dependancesFr=[
     [root(V("pleuvoir"),
           subj(Pro("lui").c("nom")),
@@ -386,7 +390,28 @@ var dependancesFr=[
                      det(D("le"))),
                 subj(N("chien"),
                      det(D("le"))))),
-    "Le chat et le chien courent."]                                 // 4
+    "Le chat et le chien courent."],                                 // 4
+    [root(V("avoir"),
+          subj(Pro("lui").c("nom")),
+          compObj(N("peur"),
+                  compObl(P("de"),
+                          compObj(N("araignée"),
+                                  det(D("le")))))),
+     "Il a peur de l'araignée."],                                    // 5
+    [root(V("être"),
+          mod(C("mais")).pos("pre"),
+          subj(N("réalité"),
+               det(D("le"))),
+          compObj(C("que"),
+                  compObj(V("être"),
+                          subj(N("Mauritanie"),
+                               det(D("le"))),
+                          coord(C("ou"),
+                                compObj(N("Maroc"),
+                                        det(D("le"))),
+                                compObj(N("Algérie"),
+                                        det(D("le"))))).typ({neg:true}))),
+     "Mais la réalité est que la Mauritanie n'est pas le Maroc ou l'Algérie."],
 ]
 
 
@@ -435,6 +460,22 @@ var dependenciesEn=[
           compObl(P("for"),
             mod(Pro("you")))),
     "Every man that is missing is punished for you."],                              //5
+    [root(V("stop").t("ps"),
+          subj(Pro("it")),
+          mod(Adv("nearly")).pos("pre"),
+          compObj(V("rain").t("pr"))).typ({"perf":true}),
+     "It nearly had stopped raining."],                                            //6
+    [root(V("waste").t("ps"),
+          mod(C("if"),
+              compObj(V("have").t("ps"),
+                      subj(Pro("I")).pe(1),
+                       compObj(N("chance"),
+                               det(D("a")),
+                               mod(A("similar"))))).a(",").pos("pre"),
+          subj(Pro("I").pe(1)),
+          compObj(Pro("it"))).typ({"mod":"will","neg":true}),
+     "If I had a similar chance, I would not waste it."],                        //7
+    
 ];
    
 function showEx(exemple){
@@ -518,4 +559,4 @@ loadEn();
 // checkAllExJSON(exemplesEn);
 checkAllEx(dependenciesEn)
 
-// loadFr(true);
+loadFr(true);

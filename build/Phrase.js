@@ -586,7 +586,7 @@ Phrase.prototype.processTyp_fr = function(types){
         vp.addElement(V(origLemma).t("b"),idxV+3);
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
-        var vUnit=v.lemma;
+        var origLemma=v.lemma;
         for (var key in rules.verb_option.modalityVerb){
             if (key.startsWith(mod)){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
@@ -599,7 +599,7 @@ Phrase.prototype.processTyp_fr = function(types){
         if (i!=idxV-1){
             vp.addElement(vp.removeElement(idxV),i+1); // remove the modality verb and move it before the pronouns
         }
-        vp.addElement(V(vUnit).t("b"),idxV+1); // add the original verb at infinitive 
+        vp.addElement(V(origLemma).t("b"),idxV+1); // add the original verb at infinitive 
     });
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
@@ -609,7 +609,101 @@ Phrase.prototype.processTyp_fr = function(types){
 
 // negation of modal auxiliaries
 const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
-              "could":"could not","might":"might not","should":"should not","would":"would not"}    
+              "could":"could not","might":"might not","should":"should not","would":"would not"};  
+
+// for English conjugation (used by Phrase.processTyp_en and Dependent.processTyp_en)
+// implements the "affix hopping" rules given in 
+//      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
+
+function affixHopping(v,t,compound,types){
+    const v_peng=v.peng;
+    // let t = vp.getProp("t");
+    const neg = types["neg"]===true;
+    let auxils=[];  // list of Aux followed by V
+    let affixes=[];
+    let isFuture=false;
+    if (t=="f"){
+        isFuture=true;
+        t="p"; // the auxiliary will be generated here so remove it from the V
+    }
+    const prog = types["prog"]!==undefined && types["prog"]!==false;
+    const perf =types["perf"]!==undefined && types["perf"]!==false;
+    const pas =types["pas"]!==undefined && types["pas"]!==false;
+    const interro = types["int"];
+    const modality=types["mod"];
+    // const compound = this.getRules().compound;
+    if (modality !== undefined && modality !== false){
+        auxils.push(compound[modality].aux);
+        affixes.push("b");
+    } else if (isFuture){
+        // caution: future in English is done with the modal will, so another modal cannot be used
+        auxils.push(compound.future.aux);
+        affixes.push("b");
+    }
+    if (perf || prog || pas){
+        if (perf){
+            auxils.push(compound.perfect.aux);
+            affixes.push(compound.perfect.participle);
+        }
+        if (prog) {
+            auxils.push(compound.continuous.aux);
+            affixes.push(compound.continuous.participle)
+        }
+        if (pas) {
+            auxils.push(compound.passive.aux);
+            affixes.push(compound.passive.participle)
+        }
+    } else if (interro !==undefined && interro !== false && 
+               auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
+        // add auxiliary for interrogative if not already there
+        if (interro!="wos" && interro!="was"){
+            auxils.push("do");
+            affixes.push("b");
+        }
+    }
+    auxils.push(v.lemma);
+    // realise the first verb, modal or auxiliary
+    // but make the difference between "have" as an auxiliary and "have" as a verb
+    const vAux=auxils.shift();
+    let words=[];
+    // conjugate the first verb
+    if (neg) { // negate the first verb
+        if (t=="pp" || t=="pr"){ // special case for these tenses
+            words.push(Adv("not","en"));
+            words.push(V(vAux,"en").t(t));
+        } else if (vAux in negMod){
+            if (vAux=="can" && t=="p"){
+                words.push(Q("cannot"))
+            } else {
+                words.push(V(vAux,"en").t(t))
+                words.push(Adv("not","en"))
+            }
+        } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
+            words.push(V(vAux).t(t));
+            words.push(Adv("not","en"));
+        } else {
+            words.push(V("do","en").t(t));
+            words.push(Adv("not","en"));
+            if (vAux != "do") words.push(V(vAux).t("b")); 
+        }
+    } else { // must only set necessary options, so that shared properties will work ok
+        let newAux=V(vAux);
+        if (!isFuture)newAux.t(t);
+        if (v.lemma in negMod)newAux.pe(1);
+        words.push(newAux);
+    }
+    // recover the original agreement info and set it to the first new verb...
+    words[0].peng=v_peng;
+    // realise the other parts using the corresponding affixes
+    while (auxils.length>0) {
+        const vb=auxils.shift();
+        words.push(V(vb).t(affixes.shift()));
+    }
+    if (types["refl"]===true && t!="pp"){
+        words.push(Pro("myself","en").pe(v.getProp("pe")).n(v.getProp("n")).g(v.getProp("g")))
+    }
+    return words
+}
 
 Phrase.prototype.processTyp_en = function(types){
     // replace current verb with the list new words
@@ -625,100 +719,11 @@ Phrase.prototype.processTyp_en = function(types){
     }
     const idxV=vp.getIndex("V");
     if(idxV>=0){
-        const v = vp.elements[idxV];
-        const v_peng=v.peng;
-        let t = vp.getProp("t");
-        const neg = types["neg"]===true;
-        // English conjugation 
-        // it implements the "affix hopping" rules given in 
-        //      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
-        let auxils=[];  // list of Aux followed by V
-        let affixes=[];
-        let isFuture=false;
-        if (t=="f"){
-            isFuture=true;
-            t="p"; // the auxiliary will be generated here so remove it from the V
-        }
-        const prog = types["prog"]!==undefined && types["prog"]!==false;
-        const perf =types["perf"]!==undefined && types["perf"]!==false;
-        const pas =types["pas"]!==undefined && types["pas"]!==false;
-        const interro = types["int"];
-        const modality=types["mod"];
         if (types["contr"]!==undefined && types["contr"]!==false){
             vp.contraction=true; // necessary because we want the negation to be contracted within the VP before the S or SP
             this.contraction=true;
         }
-        const compound = this.getRules().compound;
-        if (modality !== undefined && modality !== false){
-            auxils.push(compound[modality].aux);
-            affixes.push("b");
-        } else if (isFuture){
-            // caution: future in English is done with the modal will, so another modal cannot be used
-            auxils.push(compound.future.aux);
-            affixes.push("b");
-        }
-        if (perf || prog || pas){
-            if (perf){
-                auxils.push(compound.perfect.aux);
-                affixes.push(compound.perfect.participle);
-            }
-            if (prog) {
-                auxils.push(compound.continuous.aux);
-                affixes.push(compound.continuous.participle)
-            }
-            if (pas) {
-                auxils.push(compound.passive.aux);
-                affixes.push(compound.passive.participle)
-            }
-        } else if (interro !==undefined && interro !== false && 
-                   auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
-            // add auxiliary for interrogative if not already there
-            if (interro!="wos" && interro!="was"){
-                auxils.push("do");
-                affixes.push("b");
-            }
-        }
-        auxils.push(v.lemma);
-        // realise the first verb, modal or auxiliary
-        // but make the difference between "have" as an auxiliary and "have" as a verb
-        const vAux=auxils.shift();
-        let words=[];
-        // conjugate the first verb
-        if (neg) { // negate the first verb
-            if (t=="pp" || t=="pr"){ // special case for these tenses
-                words.push(Adv("not","en"));
-                words.push(V(vAux,"en").t(t));
-            } else if (vAux in negMod){
-                if (vAux=="can" && t=="p"){
-                    words.push(Q("cannot"))
-                } else {
-                    words.push(V(vAux,"en").t(t))
-                    words.push(Adv("not","en"))
-                }
-            } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
-                words.push(V(vAux).t(t));
-                words.push(Adv("not","en"));
-            } else {
-                words.push(V("do","en").t(t));
-                words.push(Adv("not","en"));
-                if (vAux != "do") words.push(V(vAux).t("b")); 
-            }
-        } else { // must only set necessary options, so that shared properties will work ok
-            let newAux=V(vAux);
-            if (!isFuture)newAux.t(t);
-            if (v.lemma in negMod)newAux.pe(1);
-            words.push(newAux);
-        }
-        // recover the original agreement info and set it to the first new verb...
-        words[0].peng=v_peng;
-        // realise the other parts using the corresponding affixes
-        while (auxils.length>0) {
-            const vb=auxils.shift();
-            words.push(V(vb).t(affixes.shift()));
-        }
-        if (types["refl"]===true && t!="pp"){
-            words.push(Pro("myself","en").pe(v.getProp("pe")).n(v.getProp("n")).g(v.getProp("g")))
-        }
+        const words=affixHopping(vp.elements[idxV],vp.getProp("t"),this.getRules().compound,types)
         // insert the content of the word array into vp.elements
         vp.removeElement(idxV);
         for (let i=0;i<words.length;i++)
