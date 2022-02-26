@@ -549,8 +549,8 @@ Constituent.prototype.doFormat = function(cList){
     // start of processing
     removeEmpty(cList);
     // reorder French pronouns
-    if (this.isA("VP")  && this.isFr())
-        this.doFrenchPronounPlacement(cList);
+    if (this.isFr() && (this.isA("VP") || (this.isOneOf(deprels) && this.terminal.isA("V"))))
+        doFrenchPronounPlacement(cList);
     
     if (this.isFr())
         this.doElisionFr(cList);

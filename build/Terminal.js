@@ -171,6 +171,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     default:
         this.warn("not implemented",terminalType);
     }
+    return this;
 }
 
 Terminal.prototype.grammaticalNumber = function(){

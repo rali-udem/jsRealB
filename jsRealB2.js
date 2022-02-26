@@ -411,7 +411,36 @@ var dependancesFr=[
                                         det(D("le"))),
                                 compObj(N("Algérie"),
                                         det(D("le"))))).typ({neg:true}))),
-     "Mais la réalité est que la Mauritanie n'est pas le Maroc ou l'Algérie."],
+     "Mais la réalité est que la Mauritanie n'est pas le Maroc ou l'Algérie."], //6
+    [root(V("manger"),
+          subj(N("garçon"),
+               det(D("le"))).n("p").pro(),
+          coord(C("et"),
+                comp(N("pomme"),
+                     det(D("un"))),
+                comp(N("orange"),
+                     det(D("un"))).n("p"))),
+     "Ils mangent une pomme et des oranges."],                             // 7
+    [root(V("pleuvoir"),
+          subj(Pro("lui").c("nom")),
+          mod(P("dans"),
+              compObj(N("maison"),
+                     det(D("mon").pe(1))).pro())),"Il y pleut."],       // 8
+    [root(V("bâtir").t("ps"),
+          subj(Pro("moi").c("nom")),
+          comp(N("cabane").n("p"),
+               det(D("un")),
+               mod(A("petit")),
+               mod(A("rouge"))).pro(),
+          mod(P("en"),
+              mod(Q("1998")))),"Je les bâtis en 1998."],                // 9
+    [root(V("manger"),
+          subj(N("souris"),
+               det(D("le"))),
+          comp(N("fromage"),
+               det(D("le")))).typ({"pas":true}),
+     "Le fromage est mangé par la souris."],
+    
 ]
 
 
@@ -475,6 +504,18 @@ var dependenciesEn=[
           subj(Pro("I").pe(1)),
           compObj(Pro("it"))).typ({"mod":"will","neg":true}),
      "If I had a similar chance, I would not waste it."],                        //7
+    [root(V("walk"),
+              subj(N("man"),
+                   det(D("a"))).pro()),"He walks."],                             // 8
+    [root(V("be"),
+          subj(V("practice").t("pr"),
+                   compObj(N("joke"),
+                            det(D("my").pe(2).ow("s"))).pro()),
+                    mod(A("crucial"))),"Practicing it is crucial."],    // 9
+    [root(V("eat"),
+          subj(Pro("him").c("nom")),
+          comp(N("apple"),
+               det(D("a"))).n("p").pro().tag("em")).t("ps"),"He ate <em>them</em>."],// 10
     
 ];
    

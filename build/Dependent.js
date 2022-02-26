@@ -171,17 +171,134 @@ Dependent.prototype.findGenderNumberPerson = function(andCombination){
     return {"g":g,"n":n,"pe":pe}
 }
 
+// Dependency structure modification but that must be called in the context of the parentConst
+// because the pronoun depends on the role of the N in the sentence 
+//         and its position can also change relatively to the verb
+Dependent.prototype.pronominalize_fr = function(){
+    let pro;
+    let mySelf=this;
+    if (this.isA("subj")){
+        pro=this.getTonicPro("nom")
+    } else if (this.isOneOf(["comp","mod"]) && this.parentConst.terminal.isA("P")){
+        let prep=this.parentConst.terminal.lemma;
+        if (prep == "à"){
+            pro=np.getTonicPro("dat");
+            mySelf=this.parentConst;
+        } else if (prep == "de") {
+            pro=Pro("en","fr").c("dat");
+            mySelf=this.parentConst;
+        } else if (contains(["sur","vers","dans"],prep)){
+            pro=Pro("y","fr").c("dat");
+            mySelf=this.parentConst;
+        } else { // change only the N keeping the P intact
+            pro=this.getTonicPro("nom");
+        }
+    } else {
+        pro=this.getTonicPro("acc")
+    }
+    pro.peng=mySelf.peng
+    mySelf.terminal=pro
+    mySelf.dependents=[]
+    mySelf.dependentsSource=[]
+}
 
+// Pronominalization in English only applies to a N (this is checked before the call)
+//  and does not need reorganisation of the sentence 
+//  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
+Dependent.prototype.pronominalize_en = function(){
+    let pro;
+    if (this.isA("subj")){    // is it a subject
+        pro=this.getTonicPro("nom")
+    } else {
+        pro=this.getTonicPro("acc") //is direct complement
+    }
+    pro.peng=this.peng
+    this.terminal=pro
+    this.dependents=[]
+    this.dependentsSource=[]
+}
 
+// check if any child should be pronominalized
+// this must be done in the context of the parent, because some elements might be changed
 Dependent.prototype.pronominalizeChildren = function(){
-    //TODO: to implement...
-    // console.log("pronominalizeChildren should be defined")
+    for (let d of this.dependents){
+        if (d.props["pro"]!==undefined && !d.terminal.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
+            if (d.isFr()){
+                return d.pronominalize_fr()
+            } else { 
+                if (d.terminal.isA("N")){
+                    return  d.pronominalize_en()
+                } else {
+                    return this.warn("bad application",".pro",["N"],d.constType)
+                }
+            }
+        }
+    }
 }
 
 Dependent.prototype.passivate = function(){
-    //TODO:...
-    console.log("passivate not implemented")
-    
+    let subj,vp,newSubj;
+    // find the subject
+    if (this.terminal.isA("V")){
+        const subjIdx=this.dependents.findIndex((d)=>d.isA("subj"));
+        if (subjIdx>=0){
+            subj=this.dependents[subjIdx];
+            if (subj.terminal.isA("Pro")){
+                // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
+                // to which we assign the original person, number, gender
+                subj.terminal=subj.terminal.getTonicPro().g(subj.getProp("g"))
+                                        .n(subj.getProp("n")).pe(subj.getProp("pe"));
+            }
+        } else {
+            subj=null
+        }
+        // find direct object (first N or Pro of a comp) from dependents
+        const objIdx=this.dependents.findIndex((d)=>d.isA("comp")&& d.terminal.isOneOf(["N","Pro"]))
+        if (objIdx>=0){
+            let obj=this.dependents[objIdx]
+            if (obj.terminal.isA("Pro")){
+                obj.terminal=obj.terminal.getTonicPro("nom")
+            } else if (obj.terminal.isA("N") && obj.props["pro"]!==undefined){
+                obj=obj.getTonicPro("nom")
+            }
+            // swap subject and object by changing their relation name !!!
+            obj.constType="subj"
+            // make the verb agrees with the new subject (in English only, French is dealt below)
+            if (this.isEn()){
+                //TODO: ....
+                // this.linkPengWithSubject("VP","V",newSubject);
+            } 
+            if (subj!=null){   // insert subject where the object was
+                subj.constType="mod"
+                this.removeDependent(subjIdx);
+                this.addDependent(comp(P(this.isFr()?"par":"by",this.lang),subj))
+            }
+        } else if (subj!=null){ // no object, but with a subject
+            //create a dummy subject with a "il"/"it" 
+            newSubj=Pro(this.isFr()?"lui":"it",this.lang).c("nom");
+            // add new subject at the front of the sentence
+            this.addPre(newSubj)
+            this.peng=newSubj.peng
+             // add original subject after the verb to serve as an object
+            this.addPost(P(this.isFr()?"par":"by",this.lang))
+        }
+        if (this.isFr()){
+            // do this only for French because in English this is done by processTyp_en
+            // change verbe into an "être" auxiliary and make it agree with the newSubj
+            // force person to be 3rd (number and tense will come from the new subject)
+            const verbe=this.terminal.lemma;
+            this.terminal.setLemma("être").pe(3);
+            if (this.getProp("t")=="ip"){
+                this.t("s") // set subjonctive present tense for an imperative
+            }
+            const pp = V(verbe,"fr").t("pp");
+            if (newSubj!==undefined) // this can be undefined when a subject is Q
+                pp.peng=newSubj.peng;
+            this.addPost(pp);
+        }
+    } else {
+        return this.warn("not found","V",isFr()?"contexte passif":"passive context")
+    }
 }
 
 Dependent.prototype.processV = function(types,key,action){

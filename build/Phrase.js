@@ -356,10 +356,12 @@ Phrase.prototype.pronominalize_fr = function(){
                 pro=this.getTonicPro("nom");
             } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
                 pro=this.getTonicPro("nom");
-            } else {
+            } else if (idxV>=0) { // if there is a verb
                 pro=this.getTonicPro("acc") // is direct complement;
                 npParent.elements[idxV].cod=this;// indicate that this is a COD
-            }               
+            } else { // only replace the noun
+                pro=this.getTonicPro("nom")
+            }
         } else if (this.isA("PP")){ // is indirect complement
             np=this.getFromPath([["NP","Pro"]]); // either a NP or Pro within the PP
             const prep=this.getFromPath(["P"]);
@@ -469,8 +471,9 @@ Phrase.prototype.passivate = function(){
                 subject=this.removeElement(0);
                 if (subject.isA("Pro")){
                     // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
-                    // to which we report the original person, number, gender
-                    subject=subject.getTonicPro().g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"));
+                    // to which we assign the original person, number, gender
+                    subject=subject.getTonicPro().g(subject.getProp("g"))
+                                                 .n(subject.getProp("n")).pe(subject.getProp("pe"));
                 }
             } else {
                 subject=null;
@@ -972,7 +975,7 @@ function compareClitics(pro1,pro2,table){
     return k1-k2;
 }
 
-Phrase.prototype.doFrenchPronounPlacement = function(cList){
+function doFrenchPronounPlacement(cList){
     // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
     let verbPos,cliticTable,neg2,prog;
     let pros=[]
