@@ -100,16 +100,18 @@ Constituent.prototype.getFromPath = function(path){
 
 // return a pronoun corresponding to this object 
 // taking into account the current gender, number and person
-//  do not change the current pronoun, if it is already using the tonic form
+//  do not change the current pronoun, if it is already using the tonic form or does not have one (e.g. this)
 // if case_ is not given, return the tonic form else return the corresponding case
 // HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
 Constituent.prototype.getTonicPro = function(case_){
-    if (this.isA("Pro") && (this.props["tn"] || this.props["c"])){
-        if (case_!==undefined){
-            this.props["c"]=case_
-        } else { // ensure tonic form
-            this.props["tn"]="";
-            if ("c" in this.props)delete this.props["c"];
+    if (this.isA("Pro")){
+        if (this.props["tn"] || this.props["c"]){
+            if (case_!==undefined){
+                this.props["c"]=case_
+            } else { // ensure tonic form
+                this.props["tn"]="";
+                if ("c" in this.props)delete this.props["c"];
+            }
         }
         return this;
     } else { // generate the string corresponding to the tonic form

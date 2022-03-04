@@ -135,7 +135,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                                 // set person for Pro when different than 3 (i.e. all elements of declension are the same)
                                 if (terminalType=="Pro"){
                                     const dd=declension.declension;
-                                    const pe=dd[0].pe;
+                                    const pe=dd[0].pe || 3;
                                     if (pe !== 3){
                                         let i=1;
                                         while (i<dd.length && dd[i].pe==pe)i++;
@@ -412,20 +412,17 @@ Terminal.prototype.isReflexive = function(){
     // check for "refl" typ (only called for V): Terminal.conjugate_fr
     let pc=this.parentConst;
     while (pc != undefined){
-        if (pc.isOneOf(["VP","SP","S"])){
-            const headIndex = pc.getHeadIndex("VP");
-            // if (this.peng===pc.elements[headIndex].peng){
-                const typs=pc.props["typ"];
-                if (typs!==undefined && typs["refl"]===true){
-                    if (!contains(pat,"réfl")){
-                        this.ignoreRefl=true;
-                        if (!noIgnoredReflVerbs.has(this.lemma))
-                            this.warn("ignored reflexive",pat)
-                        return false;
-                    }
-                    return true
+        if (pc.isOneOf(["VP","SP","S"]) || pc.isOneOf(deprels)){
+            const typs=pc.props["typ"];
+            if (typs!==undefined && typs["refl"]===true){
+                if (!contains(pat,"réfl")){
+                    this.ignoreRefl=true;
+                    if (!noIgnoredReflVerbs.has(this.lemma))
+                        this.warn("ignored reflexive",pat)
+                    return false;
                 }
-            // }
+                return true
+            }
         }
         pc=pc.parentConst;
     }

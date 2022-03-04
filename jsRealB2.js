@@ -293,17 +293,17 @@ var exemplesEn=[
      // Section 6.3
      [S(Pro("him").c("nom"),                        // 14
         CP(C("and"),
-           VP(V("eat"),apple), VP(V("love"),apple.pro()))),
+           VP(V("eat"),apple), VP(V("love"),appleC.pro()))),
       "He eats an apple and loves it."],
       // this example is not exactly what is in the paper, but I have not managed to make it work properly
      [S(NP(D("a"),N("apple")).pro(),VP(V("be"),A("red"))),// 15 
       "It is red."],
      [S(Pro("him").c("nom"),                       // 16
         CP(C("and"),
-           VP(V("eat"),appleC), 
-           VP(V("love"),appleC.clone().pro()))),
+           VP(V("eat"),appleF()), 
+           VP(V("love"),appleF().pro()))),
       "He eats an apple and loves it."],
-     [S(appleC ,VP(V("be"),A("red"))),             // 17
+     [S(appleF() ,VP(V("be"),A("red"))),             // 17
       "An apple is red."],
      [S(Pro("him").c("nom"),                       // 18
         CP(C("and"),
@@ -439,7 +439,30 @@ var dependancesFr=[
                det(D("le"))),
           comp(N("fromage"),
                det(D("le")))).typ({"pas":true}),
-     "Le fromage est mangé par la souris."],
+     "Le fromage est mangé par la souris."],                          // 10
+    [root(V("bâtir").t("ps"),
+          comp(Pro("lui").c("acc")),
+          mod(P("en"),
+              mod(Q(1998)))).typ({"pas":true}),
+     "Il fut bâti en 1998."],                          // 11
+    [root(V("vendre"),
+          subj(N("livre"),
+               det(D("le"))),
+          mod(Adv("bien"))).typ({"refl":true}),
+     "Le livre se vend bien."],                          // 12
+    [root(V("donner").t("pc"),
+          subj(Pro("lui").c("nom")), 
+          compObj(N("pomme"),
+                  det(D("un"))).pro()
+         ).typ({"neg":true,"pas":true}),
+     "Elle n'a pas été donnée par lui."],                          // 13
+    [root(V("donner").t("p"),
+          subj(Pro("lui").c("nom")),
+          coord(C("et"), 
+                comp(N("pomme"),det(D("un"))),
+                comp(N("poire"),det(D("un"))).n("p"))
+         ).typ({"neg":true,"pas":true}),
+     "Une pomme et des poires ne sont pas données par lui."],        // 14
     
 ]
 
@@ -516,6 +539,10 @@ var dependenciesEn=[
           subj(Pro("him").c("nom")),
           comp(N("apple"),
                det(D("a"))).n("p").pro().tag("em")).t("ps"),"He ate <em>them</em>."],// 10
+    [root(V("applaud").t("f"),
+          compObj(Pro("this"))).typ({"mod":"nece","pas":true}),"This shall be applauded."],// 11
+    [root(V("remember"),
+          subj(Pro("you"))).typ({"int":"yon"}),"Do you remember? "],// 11
     
 ];
    
@@ -539,25 +566,25 @@ function showToSource(exemple){
     }
 }
 
-function showDiffs(nbDiffs,nbTests){
+function showDiffs(nomEx,nbDiffs,nbTests){
     if (getLanguage()=="en"){
         if (nbDiffs==0)
-            console.log("*** no differences over %d tests",nbTests);
+            console.log("%s :: *** no differences over %d tests",nomEx,nbTests);
         else
-            console.log("*** %d difference%s over %d tests",nbDiffs,nbDiffs==1?"":"s",nbTests) 
+            console.log("%s :: *** %d difference%s over %d tests",nomEx,nbDiffs,nbDiffs==1?"":"s",nbTests) 
     } else {
         if (nbDiffs==0)
-            console.log("*** aucune différence sur %d tests",nbTests);
+            console.log("%s :: *** aucune différence sur %d tests",nomEx,nbTests);
         else
-            console.log("*** %d différence%s sur %d tests",nbDiffs,nbDiffs==1?"":"s",nbTests) 
+            console.log("%s :: *** %d différence%s sur %d tests",nomEx,nbDiffs,nbDiffs==1?"":"s",nbTests) 
     }
 }
 
-function checkAllEx(exemples){
+function checkAllEx(nomEx,exemples){
     const nb=exemples.length;
     let nbDiffs=0;
     for (var i=0;i<nb;i++){
-        const exp=exemples[i][0];
+        const exp=exemples[i][0].clone();
         // console.log(exp.toSource());
         const gen=exp.toString();
         const expected=exemples[i][1];
@@ -566,10 +593,10 @@ function checkAllEx(exemples){
             nbDiffs++;
         }
     }
-    showDiffs(nbDiffs,exemples.length);
+    showDiffs(nomEx,nbDiffs,exemples.length);
 }
 
-function checkAllExJSON(exemples){
+function checkAllExJSON(nomEx,exemples){
     const nb=exemples.length;
     let nbDiffs=0;
     for (var i=0;i<nb;i++){
@@ -581,7 +608,7 @@ function checkAllExJSON(exemples){
             nbDiffs++;
         }
     }
-    showDiffs(nbDiffs,exemples.length);
+    showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
 
 
@@ -589,15 +616,15 @@ function checkAllExJSON(exemples){
 loadFr();
 // testAllEx(showEx,exemplesFr)
 // testAllEx(showToSource,exemplesFr)
-// checkAllEx(exemplesFr);
-// checkAllExJSON(exemplesFr);
-checkAllEx(dependancesFr);
+checkAllEx("exemplesFr",exemplesFr);
+checkAllExJSON("exemplesFr",exemplesFr);
+checkAllEx("dependancesFr",dependancesFr);
 
 loadEn();
 // // testAllEx(showEx,exemplesEn)
 // // testAllEx(showToSource,exemplesEn)
-// checkAllEx(exemplesEn);
-// checkAllExJSON(exemplesEn);
-checkAllEx(dependenciesEn)
+checkAllEx("exemplesEn",exemplesEn);
+checkAllExJSON("exemplesEn",exemplesEn);
+checkAllEx("dependenciesEn",dependenciesEn)
 
 loadFr(true);

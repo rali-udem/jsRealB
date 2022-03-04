@@ -56,7 +56,7 @@ Constituent.prototype.setJSONprops=function(json){
                         : Constituent.prototype[opt].call(this,o))
                 } else 
                     Constituent.prototype[opt].call(this,props[opt])
-            } else {
+            } else if (!contains(["pat","h"],opt)){ // do not copy the pat or h properties of a verb
                 console.log("Constituent.fromJSON: illegal prop:"+opt);
             }
         }

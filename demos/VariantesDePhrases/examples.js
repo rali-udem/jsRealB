@@ -19,6 +19,11 @@ S(NP(D('the'),
   VP(V('eat'),
      NP(D('the'),
         N('mouse'))))`},
+{
+ expr:`
+root(V('eat'),
+     subj(N('cat'),det(D('the'))),
+     comp(N('mouse'),det(D('the'))).pro())`},
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
  expr:`
 S(Pro("I").pe(2),
@@ -82,6 +87,11 @@ S(NP(D('le'),
   VP(V('manger'),
      NP(D('le'),
         N('souris'))))`},
+    {
+     expr:`
+root(V('manger'),
+     subj(N('chat'),det(D('le'))),
+     comp(N('souris'),det(D('le'))).pro())`},
 {ref:"Lingolia",url:"https://francais.lingolia.com/fr/grammaire/les-verbes/passif",no:"2",
      expr:`
 S(NP(D('le'),

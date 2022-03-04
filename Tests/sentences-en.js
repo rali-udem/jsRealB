@@ -95,7 +95,7 @@ QUnit.test( "Sentence EN", function( assert ) {
          "message":"Pronominalization of a noun designating a person"
          },
         // 18
-        {"expression":S(Pro("I").g("m"),
+        {"expression":S(Pro("me").g("m"),
                       VP(V("love"),
                          NP(D("a"),N("woman")).pro())
                      ).typ({"int":"wos","pas":true}),

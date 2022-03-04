@@ -436,10 +436,10 @@ Phrase.prototype.pronominalize_en = function(){
 Phrase.prototype.pronominalize = function(e){
     if (e.props["pro"]!==undefined && !e.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
         if (e.isFr()){
-            return e.pronominalize_fr()
+            e.pronominalize_fr()
         } else { // in English pronominalize only applies to a NP
             if (e.isA("NP")){
-                return  e.pronominalize_en()
+                e.pronominalize_en()
             } else {
                 return this.warn("bad application",".pro",["NP"],e.constType)
             }
@@ -596,13 +596,19 @@ Phrase.prototype.processTyp_fr = function(types){
                 break;
             }
         }
+        v.isMod=true
         let i=idxV-1;
         // move the modality verb before the pronoun(s) inserted by .pro()
         while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].peng!==vp.peng)i--;
         if (i!=idxV-1){
             vp.addElement(vp.removeElement(idxV),i+1); // remove the modality verb and move it before the pronouns
         }
-        vp.addElement(V(origLemma).t("b"),idxV+1); // add the original verb at infinitive 
+        let newV=V(origLemma).t("b");
+        if (v.isProg){ // copy progressive from original verb...
+            newV.isProg=v.isProg;
+            delete v.isProg
+        }
+        vp.addElement(newV,idxV+1); // add the original verb at infinitive 
     });
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
@@ -975,16 +981,33 @@ function compareClitics(pro1,pro2,table){
     return k1-k2;
 }
 
+const modalityVerbs=["vouloir","devoir","pouvoir"]
+
 function doFrenchPronounPlacement(cList){
-    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
     let verbPos,cliticTable,neg2,prog;
+    // check for combination of negation, progressive and modality verb
+    // negation should be put on the "être" and "modality" and not on the original verb
+    let iDeb=0
+    for (let i=iDeb;i<cList.length;i++){
+        let c=cList[i];
+        if (c.isA("V") && c.neg2 !== undefined){
+            if (c.isMod || c.isProg){
+                c.insertReal(cList,Adv(c.neg2,"fr"),i+1);
+                c.insertReal(cList,Adv("ne","fr"),i);
+                delete c.neg2 // remove negation from the original verb
+                iDeb=i+3      // skip these in the following loop
+                if (c.isProg)iDeb+=2 // skip "en train","de"
+            }
+        }
+    }
+    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
     let pros=[]
-    for (let i=0;i<cList.length;i++){
+    for (let i=iDeb;i<cList.length;i++){
         let c=cList[i];
         if (c.isA("V")){
             if (verbPos===undefined){
-                if (c.isProg!==undefined){
-                    prog=c;
+                if (c.isMod || c.isProg){
+                    if (c.isProg){prog=c}
                     continue;
                 }
                 verbPos=i
@@ -1006,7 +1029,9 @@ function doFrenchPronounPlacement(cList){
                 }
                 if (c.isReflexive() && c.getProp("t")!="pp"){
                     if (prog!==undefined)c=prog;
-                    c.insertReal(pros,Pro("moi","fr").c("refl").pe(c.getProp("pe")).n(c.getProp("n")).g(c.getProp("g")));
+                    c.insertReal(pros,Pro("moi","fr").c("refl")
+                                      .pe(c.getProp("pe")).n(c.getProp("n"))
+                                      .g(c.getProp("g")));
                 }
             }
         } else if (c.isA("Pro") && verbPos!==undefined){
@@ -1023,14 +1048,20 @@ function doFrenchPronounPlacement(cList){
     }
     if (verbPos === undefined)return;
     // add ending "pas" after the verb unless it is "lié" in which cas it goes after the next word
-    if (neg2){
+    if (neg2){// HACK: add neg2 to the original verb...
         const vb=cList[verbPos]
         vb.insertReal(cList,Adv(neg2,"fr"),verbPos+(vb.getProp("lier")===undefined?1:2))
+        if (pros.length>0  &&  pros[0].isA("Adv") && pros[0].lemma=="ne"){
+            cList.splice(verbPos,0,pros.shift())
+            verbPos++;
+        }
     }    
-    if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable))
-    // insert pronouns before the verb 
-    for (let k=0;k<pros.length;k++){
-        cList.splice(verbPos+k,0,pros[k])
+    if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable));
+    if (pros.length>0){
+        // insert pronouns before the verb 
+        for (let k=0;k<pros.length;k++){
+            cList.splice(verbPos+k,0,pros[k])
+        }
     }
 }
 
@@ -1146,9 +1177,9 @@ Phrase.prototype.real = function() {
     if (this.isA("CP")){
         res=this.cpReal()
     } else {
+        this.pronominalizeChildren();
         const typs=this.props["typ"];
         if (typs!==undefined)this.processTyp(typs);
-        this.pronominalizeChildren();
         const es=this.elements;
         for (let i = 0; i < es.length; i++) {
             const e = es[i];
