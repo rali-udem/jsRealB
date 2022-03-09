@@ -1075,6 +1075,7 @@ Phrase.prototype.cpReal = function(){
     // realize coordinated Phrase by adding ',' between all elements except for the last
     // if no C is found then all elements are separated by a ","
     // TODO: deal with the Oxford comma (i.e. a comma after all elements even the last)
+    //       although it can be "patched" using C("and").b(",") but this adds a spurious space before the comma
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})

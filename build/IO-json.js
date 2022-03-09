@@ -9,6 +9,7 @@
 // list of names of constituents (used in fromJSON)
 const terminals = ["N", "A", "Pro", "D", "V", "Adv", "C", "P", "DT", "NO", "Q"];
 const phrases   = ["S", "NP", "AP", "VP", "AdvP", "PP", "CP", "SP"];
+const dependents = ["root", "det", "subj", "comp", "mod", "compObj", "compObl", "coord"];
 
 // create expression from a JSON structure
 function fromJSON(json,lang){
@@ -26,6 +27,13 @@ function fromJSON(json,lang){
             const constType=json["phrase"];
             if (contains(phrases,constType)){
                 return Phrase.fromJSON(constType,json,lang1)
+            } else {
+                console.log("fromJSON: unknown Phrase type:"+constType)
+            }
+        } else if ("dependent" in json) {
+            const constType=json["dependent"];
+            if (contains(dependents,constType)){
+                return Dependent.fromJSON(constType,json,lang1)
             } else {
                 console.log("fromJSON: unknown Phrase type:"+constType)
             }
@@ -68,13 +76,32 @@ Phrase.fromJSON = function(constType,json,lang){
     if ("elements" in json){
         const elements=json["elements"];
         if (Array.isArray(elements)){
-            const args=json["elements"].map(json => fromJSON(json,lang));
+            const args=elements.map(json => fromJSON(json,lang));
             return new Phrase(args,constType,lang).setJSONprops(json);
         } else {
             console.log("Phrase.fromJSON: elements should be an array:"+JSON.stringify(json))
         }
     } else {
         console.log("Phrase.fromJSON: no elements found in "+JSON.stringify(json))
+    }
+}
+
+Dependent.fromJSON = function(constType,json,lang){
+    if (!("terminal" in json)){
+        console.log("Dependent.fromJSON: no terminal found in Dependent:"+JSON.stringify(json));
+    } else {
+        if ("dependents" in json){
+            const dependents=json["dependents"];
+            if (Array.isArray(dependents)){
+                let args=dependents.map(json => fromJSON(json,lang));
+                args.unshift(fromJSON(json["terminal"],lang));
+                return new Dependent(args,constType,lang).setJSONprops(json);
+            } else {
+                console.log("Dependent.fromJSON: dependents should be an array:"+JSON.stringify(json))
+            }
+        } else {
+            console.log("Dependent.fromJSON: no dependents found in "+JSON.stringify(json))
+        }
     }
 }
 
@@ -97,6 +124,17 @@ Phrase.prototype.toJSON = function(){
     return res;
 }
 
+Dependent.prototype.toJSON = function(){
+    let res={dependent:this.constType, 
+             terminal: this.terminal.toJSON(), 
+             dependents:this.dependents.map(e=>e.toJSON())};
+    if (Object.keys(this.props).length>0) // do not output empty props
+        res.props=this.props;
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+        res.lang=this.lang;
+    return res;
+}
+
 Terminal.prototype.toJSON = function(){
     let res={terminal:this.constType,lemma:this.lemma};
     if (Object.keys(this.props).length>0) // do not output empty props
@@ -105,6 +143,8 @@ Terminal.prototype.toJSON = function(){
         res.lang=this.lang;
     return res;
 }
+
+
 
 // compact pretty-print of json (JSON.stringify(.,null,n) is hard to work with as it uses too many lines)
 //  adaptation of ppJson.py (in project json-rnc)

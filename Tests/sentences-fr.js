@@ -20,7 +20,7 @@ QUnit.test( "Phrase FR", function( assert ) {
          "message":"Phrase avec attribut, de plus le passé composé avec avoir est accordé correctement..."},
         // 2
         {"expression":S(N("cadeau").n("p")).cap(false),
-         "expected":"cadeaux.",
+         "expected":"cadeaux",
          "message":"Phrase sans capitale"},
         // 3
         {"expression":S(NP(A("beau"), N("cadeau").n("p"))),
@@ -229,9 +229,12 @@ QUnit.test( "Phrase FR", function( assert ) {
          "expected":"Il lui en a parlé.",
          "message":"Pronominalisation de deux objets indirects"},
         // 37
-        // {"expression":,
-        //  "expected":"",
-        //  "message":""},
+        {"expression":
+            S(NP(D("le"),N("souris")),
+              VP(V("manger").t("pc"),
+                 NP(D("le"),N("fromage")))).typ({int:"wad",pas:true}),
+         "expected":"Par quoi le fromage a-t-il été mangé? ",
+         "message":"Question au passif avec verbe au passé composé"},
         // 38
         // {"expression":,
         //  "expected":"",

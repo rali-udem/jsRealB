@@ -34,16 +34,15 @@ var exemplesFr=[
       VP(V("manger"),
          NP(D("le"),N("souris")))).typ({pas:true}),
         "La souris est mangée par les chattes."],
-    [S(NP(D('le'),Q("super"),
+    [S(NP(D('le'),A("blanc"),
          N('chat').g("f").n("p").tag("b").tag("i")),
       VP(V('dévorer').t('pc'),
          NP(D('le'),
             N('souris'),
             A("gris"),"Wow!").tag("a",{href:"http://wikipedia.org/cat",target:"_blank"}))
         ).typ({neg:true}),
-        'Les super <i><b>chattes</b></i> n\'ont pas dévoré <a href="http://wikipedia.org/cat" target="_blank">la souris grise Wow!</a>'],
-    [
-        S(NP(D('le'),
+        'Les <i><b>chattes</b></i> blanches n\'ont pas dévoré <a href="http://wikipedia.org/cat" target="_blank">la souris grise Wow!</a>'],
+    [S(NP(D('le'),
             N('souris').n("p")),
       VP(V('être'),
             AP(A('gris')))).typ({neg:true}),
@@ -79,8 +78,8 @@ var exemplesFr=[
                  NP(D("le"),N("pomme")).tag("i").pro())),
         "Il <i>l'</i> a mangée."],
     [S(NP(D("le"),N("pomme").tag("i"),
-                 SP(Pro("qui"),
-                    VP(V("manger").aux("êt").t("pc"))))),
+       SP(Pro("qui"),
+          VP(V("manger").aux("êt").t("pc"))))),
         "La <i>pomme</i> qui est mangée."],
     [NP(D("le"),N("pomme").tag("i"),
                  SP(Pro("que"),
@@ -91,7 +90,8 @@ var exemplesFr=[
                      SP(Pro("que"),
                         Pro("je"),
                         VP(V("manger").t("pc")))).pro()),
-        "Elle."],
+        "Elle.",
+    "Conversion d'un '.pro' au premier niveau, n'est pas traitée"],
     [S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
         "Le gâteau est mangé par les enfants."],
     [S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"),
@@ -280,7 +280,8 @@ var exemplesEn=[
     [S(Pro("him").c("nom"), VP(V("eat"),            // 11
        NP(D("a"),N("apple").n("p")).add(A("red"))) 
       ).add(Adv("now").a(","),0),
-     "Now, he eats red apples."],
+     "Now, he eats red apples.",
+     "Conversion does not handle 'add' correctly"],
     // Section 6.2
     [S(CP(C("and"),NP(D("the"),N("apple")),         // 12
                    NP(D("the"),N("orange")),
@@ -322,14 +323,15 @@ var exemplesEn=[
        "one plane"],   
       [NP(NO(3).dOpt({nat:true}),N("plane")),     // 22
        "three planes"],
-      [NP(NP(D("the"),                            // 23 
-        A("large").f("su"),
-        NP(P("of"),
-           D("the"),
-           N("trainer").n("p")).a(",")),
-        D("this").n("s"),    // check propagation of the number (this should not be these)
-        N("addition").n("s")),
-       "the largest of the trainers, this addition"]
+      [S(AP(D("the"),                            // 23 
+            A("large").f("su"),
+            PP(P("of"),
+               NP(D("the"),
+                  N("trainer").n("p"))).a(",")),
+         NP(D("this").n("s"),    // check propagation of the number (this should not be these)
+            N("addition").n("s"))),
+       "The largest of the trainers, this addition.",
+       "Peculiar structure of constituents for which the dependents are not strickly equivalent "]
 ];
 
 // dépendances en français
@@ -425,7 +427,7 @@ var dependancesFr=[
           subj(Pro("lui").c("nom")),
           mod(P("dans"),
               compObj(N("maison"),
-                     det(D("mon").pe(1))).pro())),"Il y pleut."],       // 8
+                     det(D("mon").pe(1)))).pro()),"Il y pleut."],       // 8
     [root(V("bâtir").t("ps"),
           subj(Pro("moi").c("nom")),
           comp(N("cabane").n("p"),
@@ -516,7 +518,7 @@ var dependenciesEn=[
           subj(Pro("it")),
           mod(Adv("nearly")).pos("pre"),
           compObj(V("rain").t("pr"))).typ({"perf":true}),
-     "It nearly had stopped raining."],                                            //6
+     "Nearly it had stopped raining."],                                            //6 (differeent word order)
     [root(V("waste").t("ps"),
           mod(C("if"),
               compObj(V("have").t("ps"),
@@ -611,20 +613,53 @@ function checkAllExJSON(nomEx,exemples){
     showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
 
+function checkAllExDep(nomEx,exemples){
+    const nb=exemples.length;
+    let nbDiffs=0,nbTests=0;
+    for (var i=0;i<nb;i++){
+        if (exemples[i][2]!==undefined)continue; // skip structures with 3rd element explaining why
+        const exp=exemples[i][0].clone();
+        const dep=exp.toDependent();
+        // show(dep);
+        const gen=dep.toString();
+        const expected=exemples[i][1];
+        if (expected!==null && gen!=expected){
+            console.log("%d:%s\n %s\n => %s\n ** %s",i,exp.toSource(),dep.toSource(),gen,expected)
+            nbDiffs++;
+        }
+        nbTests++;
+    }
+    showDiffs(nomEx,nbDiffs,nbTests);
+}
 
+
+// useful trick to show console output which should be a string in monospace font
+function monospace(val){
+    console.log("%c"+val,"font-family:monospace")
+}
+// display Constituent indented structure in the console
+function show(struct){
+    monospace(struct.toSource(0))
+}
+
+function showAsDep(struct){
+    show(struct.toDependent())
+}
 
 loadFr();
 // testAllEx(showEx,exemplesFr)
 // testAllEx(showToSource,exemplesFr)
 checkAllEx("exemplesFr",exemplesFr);
-checkAllExJSON("exemplesFr",exemplesFr);
+checkAllExDep("exempleFrDep",exemplesFr);
+// checkAllExJSON("exemplesFr",exemplesFr);
 checkAllEx("dependancesFr",dependancesFr);
 
 loadEn();
-// // testAllEx(showEx,exemplesEn)
-// // testAllEx(showToSource,exemplesEn)
+// testAllEx(showEx,exemplesEn)
+// testAllEx(showToSource,exemplesEn)
 checkAllEx("exemplesEn",exemplesEn);
-checkAllExJSON("exemplesEn",exemplesEn);
+checkAllExDep("exempleEnDep",exemplesEn);
+// checkAllExJSON("exemplesEn",exemplesEn);
 checkAllEx("dependenciesEn",dependenciesEn)
 
 loadFr(true);

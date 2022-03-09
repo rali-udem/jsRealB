@@ -620,25 +620,25 @@ Constituent.prototype.detokenize = function(terminals){
         }
     }
     s+=terminals[last].realization;
-    // apply capitalization and final full stop
-    if (this.parentConst==null){
-        if (this.isOneOf(["S","root"]) && s.length>0){ // if it is a top-level S
-            // force a capital at the start unless .cap(false)
+    
+    if (this.parentConst==null){// if it is a top-level S
+        if (this.isOneOf(["S","root"]) && s.length>0){ 
+            // apply capitalization at the start and final full stop unless .cap(false)
             if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
                 if (idx<s.length) // check if there was a letter
                     s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
-            };
-            if (this.props["tag"]===undefined){ // do not touch top-level tag
-                // and a full stop at the end unless there is already one
-                // taking into account any trailing HTML tag
-                const m=/(.)( |(<[^>]+>))*$/.exec(s);
-                if (m!=null && !contains("?!.:;/",m[1])){
-                    s+="."
+                if (this.props["tag"]===undefined){ // do not touch top-level tag
+                    // and a full stop at the end unless there is already one
+                    // taking into account any trailing HTML tag
+                    const m=/(.)( |(<[^>]+>))*$/.exec(s);
+                    if (m!=null && !contains("?!.:;/",m[1])){
+                        s+="."
+                    }
                 }
-            }
+            };
         }
     }
     return s;

@@ -481,17 +481,31 @@ Terminal.prototype.conjugate_fr = function(){
             // HACK: check if the verb was lié to a nominative pronoun (e.g. subject inversion for a question)
             const myParent=this.parentConst;
             if (myParent!==null){
-                const myself=this;
-                const myParentElems=myParent.elements;
-                let idxMe=myParentElems.findIndex(e => e==myself,this);
-                if (idxMe>=0 && idxMe<myParentElems.length-1){
-                    const idxNext=idxMe+1;
-                    const next=myParentElems[idxNext]
-                    if (next.isA("Pro")){
-                        const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
-                        thePro.realization=thePro+"" // insert its realization after the auxiliary and before the verb
-                        return [aux,thePro,this] 
+                if (myParent instanceof Phrase){
+                    const myself=this;
+                    const myParentElems=myParent.elements;
+                    let idxMe=myParentElems.findIndex(e => e==myself,this);
+                    if (idxMe>=0 && idxMe<myParentElems.length-1){
+                        const idxNext=idxMe+1;
+                        const next=myParentElems[idxNext]
+                        if (next.isA("Pro")){
+                            const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
+                            thePro.realization=thePro+"" // insert its realization after the auxiliary and before the verb
+                            return [aux,thePro,this] 
+                        }
                     }
+                } else if (myParent instanceof Dependent){
+                    // search for pronoun in parent
+                    const proIndex=myParent.findIndex(d=>d.terminal.isA("Pro"))
+                    if (proIndex>=0) {
+                        const thePro=myParent.removeDependent(proIndex).terminal; // remove Pro from Parent
+                        const thePro2=thePro.clone();   // as the original Pro is already realized in the output list, we must hack
+                        thePro2.realization=thePro2+""; // insert its realization after the auxiliary and before the verb
+                        thePro.realization="";          // set original Pro realization to nothing 
+                        return [aux,thePro2,this]
+                    }
+                } else {
+                    this.error("Terminal.conjugate_fr:: Strange parent:"+typeof myParent)
                 }
             }
         }
