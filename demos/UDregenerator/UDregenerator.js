@@ -2,11 +2,15 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
     const utils=require("./utils.js")
     const fixPunctuation=utils.fixPunctuation;
 }
-///// for the constituent tree drawing
-/////////// drawing of the constituent representation
+///// for the dependency tree drawing
+/////////// drawing of the dependency representation
+// uses addWord, addLabel functions from drawDependencies.js
 
-const deltaConstTree = 20;
+const deltaDepTree = 20;
 
+let terminals, dependents, depRoot; // shared variables used for drawing
+
+// slighly different from the one in drawDependencies.js
 function drawSentenceCT(display,deps){
     var endX=startX;
     // draw the words of the sentence and update width and x in deps
@@ -14,7 +18,7 @@ function drawSentenceCT(display,deps){
         var dep=deps[i];
         var tooltip="";
         var [width,word]=addWord(display,null,endX,startY,dep.form,
-                                 "",
+                                 dep.opts,
                                  false,false);
         deps[i].x=endX;
         deps[i].width=width;
@@ -24,68 +28,67 @@ function drawSentenceCT(display,deps){
     return endX;
 }
 
-// find the maximum level of the constituent tree
-function maxLevel(cnst,level){
-    if (!cnst.children) return level;
-    return Math.max.apply(null,cnst.children.map(c=>maxLevel(c,level+1)))
+// find the maximum level of the dependency tree
+function maxLevel(depInfo,level){
+    let children=depInfo.children
+    if (children.length==0) return level;
+    return Math.max.apply(null,children.map(c=>maxLevel(c,level+1)))
 }
 
-// reçoit x,y retourne le x de son dernier enfant
-// remet son x au milieu de ses enfants
-function updateXY(cnst,y){
-    // console.log("setXY("+this.label+":"+x+","+y+")");
-    let children=cnst.children;
-    cnst.y=y+deltaConstTree;
-    if (!children[0].children){
-        // this is a terminal,so align with the middle of the word
-        cnst.x=children[0].mid;
-    } else {
-        children.forEach(c=>updateXY(c,cnst.y))
-        // align in the middle of its children
-        let last=children.length-1;
-        cnst.x=(children[0].x+children[last].x)/2;
-    }
+function updateXY(depInfo,y){
+    depInfo.y=y+deltaDepTree;
+    // align with the middle of the word
+    depInfo.x=depInfo.form.mid
+    depInfo.children.forEach(d=>updateXY(d,depInfo.y))
 }
 
-function drawConstTree(display,cnst){
-    let children=cnst.children;
-    if (!children[0].children){
-        let c=children[0];
-        // dotted line to the terminal
+function drawDepTree(display,depInfo){
+    let children=depInfo.children;
+    let c=depInfo.form;
+    // dotted line to the terminal
+    display.append("line")
+        .attr("x1",depInfo.x).attr("y1",depInfo.y).attr("x2",c.mid).attr("y2",c.y)
+        .attr("fill","none")
+        .attr("stroke","black")
+        .attr("stroke-dasharray","1")
+    ;
+    for (let i = 0; i < children.length; i++) {
+        let c=children[i];
+        drawDepTree(display,c);
         display.append("line")
-            .attr("x1",cnst.x).attr("y1",cnst.y).attr("x2",c.mid).attr("y2",c.y)
+            .attr("x1",depInfo.x).attr("y1",depInfo.y).attr("x2",c.x).attr("y2",c.y)
             .attr("fill","none")
             .attr("stroke","black")
-            .attr("stroke-dasharray","1")
+            .attr("stroke-width","1")
         ;
-    } else {
-        for (let i = 0; i < children.length; i++) {
-            let c=children[i];
-            drawConstTree(display,c);
-            display.append("line")
-                .attr("x1",cnst.x).attr("y1",cnst.y).attr("x2",c.x).attr("y2",c.y)
-                .attr("fill","none")
-                .attr("stroke","black")
-                .attr("stroke-width","1")
-            ;
-        }
     }
 }
 
-function drawConstLabels(display,cnst){
-    if (!cnst.children) return;
-    var text=addLabel(display,cnst.x,cnst.y,cnst.label);
+function drawDepLabels(display,depInfo){
+    var text=addLabel(display,depInfo.x,depInfo.y,depInfo.label);
     text.attr("cursor","pointer");
-    // if (cnst.opts.length>0)
-    text.append("title").text(cnst.opts.join());
-    cnst.children.forEach(c=>drawConstLabels(display,c));
+    // if (depInfo.opts.length>0)
+    text.append("title").text(depInfo.opts);
+    depInfo.children.forEach(c=>drawDepLabels(display,c));
 }
 
-function showConstituents(jsRealBstruct){
-    terminals=[{}]; // add dummy for drawSentence
-    constituents=[]    
-    constParse(new Tokenizer(jsRealBstruct));
-    startY= maxLevel(constituents[0],1) * deltaConstTree - deltaConstTree/2;
+function addDepInfos(dep){    
+    let form={form:dep.terminal.lemma,opts:dep.terminal.optSource,x:-1,y:-1}
+    let options=dep.terminal.toSource()
+    let depInfo={label:dep.constType,form:form,children:[],opts:dep.optSource,x:-1,y:-1};
+    dep.dependents.forEach(function(d){if (d.depPosition()=="pre")depInfo.children.push(addDepInfos(d))})
+    terminals.push(form);
+    dependents.push(depInfo);
+    if (dep.parentConst===null)depRoot=depInfo;
+    dep.dependents.forEach(function(d){if (d.depPosition()=="post")depInfo.children.push(addDepInfos(d))})
+    return depInfo
+}
+function showDependents(jsRealBstruct){
+    terminals=[{}] // add dummy for drawSentence
+    dependents =[];
+    depRoot = null;
+    addDepInfos(jsRealBstruct);    
+    startY= maxLevel(depRoot,1) * deltaDepTree + deltaDepTree/2;
     var svg=d3.select("svg#constTree");
     display=svg.select("g");
     display.selectAll("*").remove();
@@ -93,9 +96,9 @@ function showConstituents(jsRealBstruct){
     var endX=drawSentenceCT(display,terminals); // this updates the .x, .width, .mid of each terminal
     terminals.forEach(t=>t.y=startY);
     svg.attr("width",endX+startX); // update width of the drawing
-    updateXY(constituents[0],-deltaConstTree/2);
-    drawConstTree(display,constituents[0]); // draw lines
-    drawConstLabels(display,constituents[0]); // add labels (over some lines)
+    updateXY(depRoot,-deltaDepTree/2);
+    drawDepTree(display,depRoot); // draw lines
+    drawDepLabels(display,depRoot); // add labels (over some lines)
 }
 
 /////  user interface functions
@@ -157,13 +160,13 @@ function getFile(){
     }
 }
 
-
 // parse all uds in the textarea and build the menu of sentences
 function parse(udContent,fileName){
     // check options set by checkboxes
     const showOnlyDiffs=d3.select("#onlyDiffs").property("checked");
     const showOnlyWarnings=d3.select("#onlyWarnings").property("checked");
     const showOnlyNonProj=d3.select("#onlyNonProj").property("checked");
+    const isSUD=d3.select('input[name="annotationScheme"]:checked').property("value")=="sudSch";
     function shouldAddToMenu(ud){
         let add=true;
         if (showOnlyDiffs && ud.diffs[3]==0)add=false;
@@ -177,9 +180,21 @@ function parse(udContent,fileName){
     sentences.selectAll("*").remove();
     // realize each group and add realization info to each
     uds.forEach(function (ud,i){
-        const jsr=ud.toJSR();
-        ud.jsRealBexpr=jsr.pp(0);
-        [ud.jsRealBsent,ud.warnings]=jsr.realize();
+        resetSavedWarnings();
+        let udCloned=ud.similiClone();
+        // remove ending full stop, it will be regenerated by jsRealB
+        if (udCloned.right.length>0){
+            let lastIdx=udCloned.right.length-1;
+            if (udCloned.right[lastIdx].deprel=="punct" && udCloned.right[lastIdx].lemma=="."){
+                udCloned.right.splice(lastIdx,1)
+            }
+        }
+        let jsr=udCloned.toDependent(false,isSUD)
+        // if root is a coord, add a dummy root, so that realization will be done correctly
+        if (jsr.isA('coord'))jsr=root(Q(""),jsr)
+        ud.jsRealBexpr=jsr;
+        ud.jsRealBsent=jsr.clone().toString();
+        ud.warnings=getSavedWarnings();
         ud.textInMenu=(ud.warnings.length>0?"!":" ")+ud.textInMenu;
         ud.diffs=computeDiffs(ud.text,ud.jsRealBsent);
         if (shouldAddToMenu(ud)){
@@ -251,7 +266,7 @@ function showRealization(ud,updateEditor){
         d3.select("#nbDiffs").text(`${nbDiffs} ${language=="en"?"difference":"différence"}${nbDiffs>1?"s":""}` )
     if (updateEditor){
         // put expression in editor 
-        editor.setValue(ud.jsRealBexpr);
+        editor.setValue(ud.jsRealBexpr.toSource(0));
         editor.selection.clearSelection();
         editor.resize()
         editor.gotoLine(1,1,false);
@@ -264,7 +279,7 @@ function showRealization(ud,updateEditor){
     // ensure that the display is visible so that the width is computed correctly
     jsrEditor.style("display","block");
     svgConstTree.style("display","block");
-    showConstituents(ud.jsRealBexpr);
+    showDependents(ud.jsRealBexpr);
     // reset to the original value
     jsrEditor.style("display",savedJsrEditorDisplay);
     svgConstTree.style("display",savedCstTreeDisplay);
@@ -291,8 +306,8 @@ var editor;
 function updateRealization(){
     resetSavedWarnings();
     const content=editor.getValue();
-    currentUD.jsRealBexpr=content;
-    let realization=eval(content).toString();
+    currentUD.jsRealBexpr=eval(content);
+    let realization=currentUD.jsRealBexpr.toString();
     currentUD.warnings=getSavedWarnings();
     currentUD.jsRealBsent=fixPunctuation(realization);
     currentUD.diffs=computeDiffs(currentUD.text,realization);
@@ -312,15 +327,15 @@ function toggleInstructions(){
 }
 
 
-function toggleConstituentTree(){
+function toggleDependentTree(){
     const me=d3.select(this);
     const val=me.property("value");
-    if (val=="Hide Constituent Tree" || val=="Masquer l'arbre de constituents"){
+    if (val=="Hide dependency tree" || val=="Masquer l'arbre de dépendances"){
         d3.select("#constTree").style("display","none");
-        me.property("value",language=="en"?"Show Constituent Tree":"Afficher l'arbre de constituents");
+        me.property("value",language=="en"?"Show dependency tree":"Afficher l'arbre de dépendances");
     } else {
         d3.select("#constTree").style("display","block");
-        me.property("value",language=="en"?"Hide Constituent Tree":"Masquer l'arbre de constituents");                
+        me.property("value",language=="en"?"Hide dependency tree":"Masquer l'arbre de dépendances");                
     }
 }
 
@@ -357,7 +372,7 @@ function UDregeneratorLoad(){
     }
     d3.selectAll("#parse").on("click",()=>parse(udContent,currentFile));
     d3.select("#showHideInstructions").on("click",toggleInstructions);
-    d3.select("#showHideContituentTree").on("click",toggleConstituentTree);
+    d3.select("#showHideDependencyTree").on("click",toggleDependentTree);
     d3.select("#showHide-jsrEditor").on("click",toggleJsrEditor);
     d3.select("#displayType").on("change",function(){
         showSentenceParse(currentUD);
@@ -399,21 +414,21 @@ function UDregeneratorLoad(){
     // adapted from https://stackoverflow.com/questions/47515232/how-to-set-file-input-value-when-dropping-file-on-page/47522812#47522812
 
     let docElem = document.documentElement;
-    let body = document.body;
+    let dragzone = d3.select("#dragzone").node(); // ignore editor area in which drag and drop is already handled
     let fileInput = document.querySelector('#file-input');
 
     docElem.addEventListener('dragover', (e) => {
       e.preventDefault();
-      body.classList.add('dragging');
+      dragzone.classList.add('dragging');
     });
 
     docElem.addEventListener('dragleave', () => {
-      body.classList.remove('dragging');
+      dragzone.classList.remove('dragging');
     });
 
     docElem.addEventListener('drop', (e) => {
       e.preventDefault();
-      body.classList.remove('dragging');
+      dragzone.classList.remove('dragging');
   
       fileInput.files = e.dataTransfer.files;
       let file = fileInput.files[0];

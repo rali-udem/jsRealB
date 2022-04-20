@@ -135,7 +135,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                                 // set person for Pro when different than 3 (i.e. all elements of declension are the same)
                                 if (terminalType=="Pro"){
                                     const dd=declension.declension;
-                                    const pe=dd[0].pe;
+                                    const pe=dd[0].pe || 3;
                                     if (pe !== 3){
                                         let i=1;
                                         while (i<dd.length && dd[i].pe==pe)i++;
@@ -171,6 +171,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
     default:
         this.warn("not implemented",terminalType);
     }
+    return this;
 }
 
 Terminal.prototype.grammaticalNumber = function(){
@@ -411,20 +412,17 @@ Terminal.prototype.isReflexive = function(){
     // check for "refl" typ (only called for V): Terminal.conjugate_fr
     let pc=this.parentConst;
     while (pc != undefined){
-        if (pc.isOneOf(["VP","SP","S"])){
-            const headIndex = pc.getHeadIndex("VP");
-            // if (this.peng===pc.elements[headIndex].peng){
-                const typs=pc.props["typ"];
-                if (typs!==undefined && typs["refl"]===true){
-                    if (!contains(pat,"réfl")){
-                        this.ignoreRefl=true;
-                        if (!noIgnoredReflVerbs.has(this.lemma))
-                            this.warn("ignored reflexive",pat)
-                        return false;
-                    }
-                    return true
+        if (pc.isOneOf(["VP","SP","S"]) || pc.isOneOf(deprels)){
+            const typs=pc.props["typ"];
+            if (typs!==undefined && typs["refl"]===true){
+                if (!contains(pat,"réfl")){
+                    this.ignoreRefl=true;
+                    if (!noIgnoredReflVerbs.has(this.lemma))
+                        this.warn("ignored reflexive",pat)
+                    return false;
                 }
-            // }
+                return true
+            }
         }
         pc=pc.parentConst;
     }
@@ -483,17 +481,31 @@ Terminal.prototype.conjugate_fr = function(){
             // HACK: check if the verb was lié to a nominative pronoun (e.g. subject inversion for a question)
             const myParent=this.parentConst;
             if (myParent!==null){
-                const myself=this;
-                const myParentElems=myParent.elements;
-                let idxMe=myParentElems.findIndex(e => e==myself,this);
-                if (idxMe>=0 && idxMe<myParentElems.length-1){
-                    const idxNext=idxMe+1;
-                    const next=myParentElems[idxNext]
-                    if (next.isA("Pro")){
-                        const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
-                        thePro.realization=thePro+"" // insert its realization after the auxiliary and before the verb
-                        return [aux,thePro,this] 
+                if (myParent instanceof Phrase){
+                    const myself=this;
+                    const myParentElems=myParent.elements;
+                    let idxMe=myParentElems.findIndex(e => e==myself,this);
+                    if (idxMe>=0 && idxMe<myParentElems.length-1){
+                        const idxNext=idxMe+1;
+                        const next=myParentElems[idxNext]
+                        if (next.isA("Pro")){
+                            const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
+                            thePro.realization=thePro+"" // insert its realization after the auxiliary and before the verb
+                            return [aux,thePro,this] 
+                        }
                     }
+                } else if (myParent instanceof Dependent){
+                    // search for pronoun in parent
+                    const proIndex=myParent.findIndex(d=>d.terminal.isA("Pro"))
+                    if (proIndex>=0) {
+                        const thePro=myParent.removeDependent(proIndex).terminal; // remove Pro from Parent
+                        const thePro2=thePro.clone();   // as the original Pro is already realized in the output list, we must hack
+                        thePro2.realization=thePro2+""; // insert its realization after the auxiliary and before the verb
+                        thePro.realization="";          // set original Pro realization to nothing 
+                        return [aux,thePro2,this]
+                    }
+                } else {
+                    this.error("Terminal.conjugate_fr:: Strange parent:"+typeof myParent)
                 }
             }
         }
@@ -575,7 +587,7 @@ Terminal.prototype.conjugate_en = function(){
                 } else {
                     let term=conjugation[pe-1+(n=="p"?3:0)];
                     if (term==null){
-                        return [this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})];
+                        return [this.morphoError("conjugate_en:pe",{pe:pe,n:n,t:t})];
                     } else {
                         // remove final s at subjonctive present by taking the form at the first person
                         if (t=="s" && pe==3)term=conjugation[0];
@@ -592,7 +604,7 @@ Terminal.prototype.conjugate_en = function(){
     } else if (t=="ip"){
         this.realization=this.lemma;
     } else
-        return [this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
+        return [this.morphoError("conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
     return res;
 }
 

@@ -99,18 +99,8 @@ td.MISC  {text-align:left; }
 
 /* sorting */
 
-.croissant, .decroissant {
-    background-position:center right;
-    background-repeat:no-repeat;
-}
-
-.croissant {
-    background-image:url(croissant.svg);    
-}
-
-.decroissant {
-    background-image:url(decroissant.svg);    
-}
+.croissant:after{content:" ↑"}
+.decroissant:after{content:" ↓"}
 
 /*  drag and drop of file */
 body.dragging::before {

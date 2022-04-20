@@ -34,16 +34,15 @@ var exemplesFr=[
       VP(V("manger"),
          NP(D("le"),N("souris")))).typ({pas:true}),
         "La souris est mangée par les chattes."],
-    [S(NP(D('le'),Q("super"),
+    [S(NP(D('le'),A("blanc"),
          N('chat').g("f").n("p").tag("b").tag("i")),
       VP(V('dévorer').t('pc'),
          NP(D('le'),
             N('souris'),
             A("gris"),"Wow!").tag("a",{href:"http://wikipedia.org/cat",target:"_blank"}))
         ).typ({neg:true}),
-        'Les super <i><b>chattes</b></i> n\'ont pas dévoré <a href="http://wikipedia.org/cat" target="_blank">la souris grise Wow!</a>'],
-    [
-        S(NP(D('le'),
+        'Les <i><b>chattes</b></i> blanches n\'ont pas dévoré <a href="http://wikipedia.org/cat" target="_blank">la souris grise Wow!</a>'],
+    [S(NP(D('le'),
             N('souris').n("p")),
       VP(V('être'),
             AP(A('gris')))).typ({neg:true}),
@@ -79,8 +78,8 @@ var exemplesFr=[
                  NP(D("le"),N("pomme")).tag("i").pro())),
         "Il <i>l'</i> a mangée."],
     [S(NP(D("le"),N("pomme").tag("i"),
-                 SP(Pro("qui"),
-                    VP(V("manger").aux("êt").t("pc"))))),
+       SP(Pro("qui"),
+          VP(V("manger").aux("êt").t("pc"))))),
         "La <i>pomme</i> qui est mangée."],
     [NP(D("le"),N("pomme").tag("i"),
                  SP(Pro("que"),
@@ -91,7 +90,8 @@ var exemplesFr=[
                      SP(Pro("que"),
                         Pro("je"),
                         VP(V("manger").t("pc")))).pro()),
-        "Elle."],
+        "Elle.",
+    "Conversion d'un '.pro' au premier niveau, n'est pas traitée"],
     [S(NP(D("le"),N("enfant").n("p")),VP(V("manger"),NP(D("le"),N("gâteau")))).typ({pas:true}),
         "Le gâteau est mangé par les enfants."],
     [S(Pro("je").pe(1).n("p"), VP(V("agir").t("pc"), AdvP(Adv("conformément"),
@@ -280,7 +280,8 @@ var exemplesEn=[
     [S(Pro("him").c("nom"), VP(V("eat"),            // 11
        NP(D("a"),N("apple").n("p")).add(A("red"))) 
       ).add(Adv("now").a(","),0),
-     "Now, he eats red apples."],
+     "Now, he eats red apples.",
+     "Conversion does not handle 'add' correctly"],
     // Section 6.2
     [S(CP(C("and"),NP(D("the"),N("apple")),         // 12
                    NP(D("the"),N("orange")),
@@ -293,17 +294,17 @@ var exemplesEn=[
      // Section 6.3
      [S(Pro("him").c("nom"),                        // 14
         CP(C("and"),
-           VP(V("eat"),apple), VP(V("love"),apple.pro()))),
+           VP(V("eat"),apple), VP(V("love"),appleC.pro()))),
       "He eats an apple and loves it."],
       // this example is not exactly what is in the paper, but I have not managed to make it work properly
      [S(NP(D("a"),N("apple")).pro(),VP(V("be"),A("red"))),// 15 
       "It is red."],
      [S(Pro("him").c("nom"),                       // 16
         CP(C("and"),
-           VP(V("eat"),appleC), 
-           VP(V("love"),appleC.clone().pro()))),
+           VP(V("eat"),appleF()), 
+           VP(V("love"),appleF().pro()))),
       "He eats an apple and loves it."],
-     [S(appleC ,VP(V("be"),A("red"))),             // 17
+     [S(appleF() ,VP(V("be"),A("red"))),             // 17
       "An apple is red."],
      [S(Pro("him").c("nom"),                       // 18
         CP(C("and"),
@@ -322,14 +323,229 @@ var exemplesEn=[
        "one plane"],   
       [NP(NO(3).dOpt({nat:true}),N("plane")),     // 22
        "three planes"],
-      [NP(NP(D("the"),                            // 23 
-        A("large").f("su"),
-        NP(P("of"),
-           D("the"),
-           N("trainer").n("p")).a(",")),
-        D("this").n("s"),    // check propagation of the number (this should not be these)
-        N("addition").n("s")),
-       "the largest of the trainers, this addition"]
+      [S(AP(D("the"),                            // 23 
+            A("large").f("su"),
+            PP(P("of"),
+               NP(D("the"),
+                  N("trainer").n("p"))).a(",")),
+         NP(D("this").n("s"),    // check propagation of the number (this should not be these)
+            N("addition").n("s"))),
+       "The largest of the trainers, this addition.",
+       "Peculiar structure of constituents for which the dependents are not strickly equivalent "]
+];
+
+// dépendances en français
+loadFr();
+addToLexicon("Mauritanie",{"N":{"g":"f","tab":["n16"]}})
+addToLexicon("Algérie",{"N":{"g":"f","tab":["n16"]}})
+addToLexicon("Maroc",{"N":{"g":"m","tab":["n1"]}})
+
+var dependancesFr=[
+    [root(V("pleuvoir"),
+          subj(Pro("lui").c("nom")),
+          mod(P("dans"),
+              compObj(N("maison"),
+                     det(D("mon").pe(1))))),"Il pleut dans ma maison."],       // 0
+    [root(V("bâtir").t("ps"),
+          subj(Pro("moi").c("nom")),
+          comp(N("cabane").n("p"),
+               det(D("un")),
+               mod(A("petit")),
+               mod(A("rouge"))),
+          mod(P("en"),
+              mod(Q("1998")))),"Je bâtis des petites cabanes rouges en 1998."], // 1
+    [root(V("manger"),
+          subj(Pro("vous").c("nom")),
+          coord(C("et"),
+                comp(N("pomme"),
+                     det(D("un"))),
+                comp(N("orange"),
+                     det(D("un"))).n("p"))),
+     "Vous mangez une pomme et des oranges."],                                // 2
+    [root(V("être"),
+          subj(Pro("ce")),
+          mod(Adv("alors")),
+          comp(Q("Alba"),
+               coord(C("et"),
+                     mod(V("reprendre"),
+                         subj(Pro("qui")),
+                         compObj(N("contrôle"),
+                                 det(D("le")),
+                                 compObl(P("de"),
+                                         compObj(N("situation"),
+                                                 det(D("le")))))),
+                     mod(V("réprimer"),
+                         subj(Pro("qui")),
+                         compObj(N("révolte"),
+                                 det(D("un")),
+                                 compObj(P("de"),
+                                         compObj(N("peuple"),
+                                                 det(D("le")))),
+                                 compObj(P("devant"),
+                                         compObj(N("cour"),
+                                                 det(D("le")),
+                                                 mod(A("royal"))))))))),
+    "C'est alors Alba qui reprend le contrôle de la situation et qui réprime une révolte du peuple devant la cour royale."],// 3
+    [root(V("courir"),
+          coord(C("et"),
+                subj(N("chat"),
+                     det(D("le"))),
+                subj(N("chien"),
+                     det(D("le"))))),
+    "Le chat et le chien courent."],                                 // 4
+    [root(V("avoir"),
+          subj(Pro("lui").c("nom")),
+          compObj(N("peur"),
+                  compObl(P("de"),
+                          compObj(N("araignée"),
+                                  det(D("le")))))),
+     "Il a peur de l'araignée."],                                    // 5
+    [root(V("être"),
+          mod(C("mais")).pos("pre"),
+          subj(N("réalité"),
+               det(D("le"))),
+          compObj(C("que"),
+                  compObj(V("être"),
+                          subj(N("Mauritanie"),
+                               det(D("le"))),
+                          coord(C("ou"),
+                                compObj(N("Maroc"),
+                                        det(D("le"))),
+                                compObj(N("Algérie"),
+                                        det(D("le"))))).typ({neg:true}))),
+     "Mais la réalité est que la Mauritanie n'est pas le Maroc ou l'Algérie."], //6
+    [root(V("manger"),
+          subj(N("garçon"),
+               det(D("le"))).n("p").pro(),
+          coord(C("et"),
+                comp(N("pomme"),
+                     det(D("un"))),
+                comp(N("orange"),
+                     det(D("un"))).n("p"))),
+     "Ils mangent une pomme et des oranges."],                             // 7
+    [root(V("pleuvoir"),
+          subj(Pro("lui").c("nom")),
+          mod(P("dans"),
+              compObj(N("maison"),
+                     det(D("mon").pe(1)))).pro()),"Il y pleut."],       // 8
+    [root(V("bâtir").t("ps"),
+          subj(Pro("moi").c("nom")),
+          comp(N("cabane").n("p"),
+               det(D("un")),
+               mod(A("petit")),
+               mod(A("rouge"))).pro(),
+          mod(P("en"),
+              mod(Q("1998")))),"Je les bâtis en 1998."],                // 9
+    [root(V("manger"),
+          subj(N("souris"),
+               det(D("le"))),
+          comp(N("fromage"),
+               det(D("le")))).typ({"pas":true}),
+     "Le fromage est mangé par la souris."],                          // 10
+    [root(V("bâtir").t("ps"),
+          comp(Pro("lui").c("acc")),
+          mod(P("en"),
+              mod(Q(1998)))).typ({"pas":true}),
+     "Il fut bâti en 1998."],                          // 11
+    [root(V("vendre"),
+          subj(N("livre"),
+               det(D("le"))),
+          mod(Adv("bien"))).typ({"refl":true}),
+     "Le livre se vend bien."],                          // 12
+    [root(V("donner").t("pc"),
+          subj(Pro("lui").c("nom")), 
+          compObj(N("pomme"),
+                  det(D("un"))).pro()
+         ).typ({"neg":true,"pas":true}),
+     "Elle n'a pas été donnée par lui."],                          // 13
+    [root(V("donner").t("p"),
+          subj(Pro("lui").c("nom")),
+          coord(C("et"), 
+                comp(N("pomme"),det(D("un"))),
+                comp(N("poire"),det(D("un"))).n("p"))
+         ).typ({"neg":true,"pas":true}),
+     "Une pomme et des poires ne sont pas données par lui."],        // 14
+    
+]
+
+
+// English dependences
+loadEn();
+addToLexicon("practice",{"V":{"tab":"v3"}}) // should be in the original lexicon
+var dependenciesEn=[
+    [root(V("walk"),
+              subj(N("man"),
+                   det(D("a")))),"A man walks."],                             // 0
+    [root(V("be"),
+          subj(V("practice").t("pr"),
+                   compObj(N("joke"),
+                            det(D("my").pe(2).ow("s")))),
+                    mod(A("crucial"))),"Practicing your joke is crucial."],    // 1
+    [root(V("eat"),
+          subj(Pro("him").c("nom")),
+          comp(N("apple"),
+               det(D("a"))).n("p").tag("em")).t("ps"),"He ate <em>apples</em>."],// 2
+    [root(V("come").t("pr"),
+          compObl(P("into"),
+                  compObj(N("area"),
+                         det(D("the")))),
+          compObl(P("to"),
+                 compObj(V("see").t("b"),
+                         compObj(N("concert"),
+                                 det(D("a"))).n("p")))),
+    "Coming into the area to see concerts."],                                    // 3
+    [root(V("be").t("ps"),
+          subj(Pro("it")),
+          compObl(P("from"),
+                  mod(Q("John"))),
+          compObj(C("that"),
+                  compObj(V("hear").t("ps"),
+                         subj(Pro("me").c("nom").g("f")),
+                         compObj(N("news"),
+                                 det(D("the")))))),
+     "It was from John that she heard the news."],                                //4
+    [root(V("be"),
+           subj(N("man"),
+                det(D("every")),
+                mod(V("be"),
+                    subj(Pro("that")),
+                      mod(V("miss").t("pr")))),
+          comp(V("punish").t("pp")),
+          compObl(P("for"),
+            mod(Pro("you")))),
+    "Every man that is missing is punished for you."],                              //5
+    [root(V("stop").t("ps"),
+          mod(Adv("nearly")).pos("pre"),
+          subj(Pro("it")),
+          compObj(V("rain").t("pr"))).typ({"perf":true}),
+     "Nearly it had stopped raining."],                                            //6 (differeent word order)
+    [root(V("waste").t("ps"),
+          mod(C("if"),
+              compObj(V("have").t("ps"),
+                      subj(Pro("I")).pe(1),
+                       compObj(N("chance"),
+                               det(D("a")),
+                               mod(A("similar"))))).a(",").pos("pre"),
+          subj(Pro("I").pe(1)),
+          compObj(Pro("it"))).typ({"mod":"will","neg":true}),
+     "If I had a similar chance, I would not waste it."],                        //7
+    [root(V("walk"),
+              subj(N("man"),
+                   det(D("a"))).pro()),"He walks."],                             // 8
+    [root(V("be"),
+          subj(V("practice").t("pr"),
+                   compObj(N("joke"),
+                            det(D("my").pe(2).ow("s"))).pro()),
+                    mod(A("crucial"))),"Practicing it is crucial."],    // 9
+    [root(V("eat"),
+          subj(Pro("him").c("nom")),
+          comp(N("apple"),
+               det(D("a"))).n("p").pro().tag("em")).t("ps"),"He ate <em>them</em>."],// 10
+    [root(V("applaud").t("f"),
+          compObj(Pro("this"))).typ({"mod":"nece","pas":true}),"This shall be applauded."],// 11
+    [root(V("remember"),
+          subj(Pro("you"))).typ({"int":"yon"}),"Do you remember? "],// 11
+    
 ];
    
 function showEx(exemple){
@@ -352,37 +568,37 @@ function showToSource(exemple){
     }
 }
 
-function showDiffs(nbDiffs,nbTests){
+function showDiffs(nomEx,nbDiffs,nbTests){
     if (getLanguage()=="en"){
         if (nbDiffs==0)
-            console.log("*** no differences over %d tests",nbTests);
+            console.log("%s :: *** no differences over %d tests",nomEx,nbTests);
         else
-            console.log("*** %d difference%s over %d tests",nbDiffs,nbDiffs==1?"":"s",nbTests) 
+            console.log("%s :: *** %d difference%s over %d tests",nomEx,nbDiffs,nbDiffs==1?"":"s",nbTests) 
     } else {
         if (nbDiffs==0)
-            console.log("*** aucune différence sur %d tests",nbTests);
+            console.log("%s :: *** aucune différence sur %d tests",nomEx,nbTests);
         else
-            console.log("*** %d différence%s sur %d tests",nbDiffs,nbDiffs==1?"":"s",nbTests) 
+            console.log("%s :: *** %d différence%s sur %d tests",nomEx,nbDiffs,nbDiffs==1?"":"s",nbTests) 
     }
 }
 
-function checkAllEx(exemples){
+function checkAllEx(nomEx,exemples){
     const nb=exemples.length;
     let nbDiffs=0;
     for (var i=0;i<nb;i++){
-        const exp=exemples[i][0];
+        const exp=exemples[i][0].clone();
         // console.log(exp.toSource());
         const gen=exp.toString();
         const expected=exemples[i][1];
         if (expected!==null && gen!=expected){
-            console.log("%d:%s\n => %s\n *** %s",i,exp.toSource(),gen,expected)
+            console.log("%d:%s\n => %s\n ** %s",i,exp.toSource(),gen,expected)
             nbDiffs++;
         }
     }
-    showDiffs(nbDiffs,exemples.length);
+    showDiffs(nomEx,nbDiffs,exemples.length);
 }
 
-function checkAllExJSON(exemples){
+function checkAllExJSON(nomEx,exemples){
     const nb=exemples.length;
     let nbDiffs=0;
     for (var i=0;i<nb;i++){
@@ -390,24 +606,60 @@ function checkAllExJSON(exemples){
         const genJS=fromJSON(expJS).toString();
         const expected=exemples[i][1];
         if (expected!==null && genJS!=expected){
-            console.log("%d:%s\n ==> %s\n *** %s",i,ppJSON(expJS),genJS,expected)
+            console.log("%d:%s\n => %s\n ** %s",i,ppJSON(expJS),genJS,expected)
             nbDiffs++;
         }
     }
-    showDiffs(nbDiffs,exemples.length);
+    showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
+}
+
+function checkAllExDep(nomEx,exemples){
+    const nb=exemples.length;
+    let nbDiffs=0,nbTests=0;
+    for (var i=0;i<nb;i++){
+        if (exemples[i][2]!==undefined)continue; // skip structures with 3rd element explaining why
+        const exp=exemples[i][0].clone();
+        const dep=exp.toDependent();
+        // show(dep);
+        const gen=dep.toString();
+        const expected=exemples[i][1];
+        if (expected!==null && gen!=expected){
+            console.log("%d:%s\n %s\n => %s\n ** %s",i,exp.toSource(),dep.toSource(),gen,expected)
+            nbDiffs++;
+        }
+        nbTests++;
+    }
+    showDiffs(nomEx,nbDiffs,nbTests);
 }
 
 
+// useful trick to show console output which should be a string in monospace font
+function monospace(val){
+    console.log("%c"+val,"font-family:monospace")
+}
+// display Constituent indented structure in the console
+function show(struct){
+    monospace(struct.toSource(0))
+}
+
+function showAsDep(struct){
+    show(struct.toDependent())
+}
 
 loadFr();
 // testAllEx(showEx,exemplesFr)
 // testAllEx(showToSource,exemplesFr)
-checkAllEx(exemplesFr);
-// checkAllExJSON(exemplesFr);
+checkAllEx("exemplesFr",exemplesFr);
+checkAllExDep("exempleFrDep",exemplesFr);
+// checkAllExJSON("exemplesFr",exemplesFr);
+checkAllEx("dependancesFr",dependancesFr);
 
 loadEn();
-// // testAllEx(showEx,exemplesEn)
-// // testAllEx(showToSource,exemplesEn)
-checkAllEx(exemplesEn);
-// checkAllExJSON(exemplesEn);
+// testAllEx(showEx,exemplesEn)
+// testAllEx(showToSource,exemplesEn)
+checkAllEx("exemplesEn",exemplesEn);
+checkAllExDep("exempleEnDep",exemplesEn);
+// checkAllExJSON("exemplesEn",exemplesEn);
+checkAllEx("dependenciesEn",dependenciesEn)
+
 loadFr(true);

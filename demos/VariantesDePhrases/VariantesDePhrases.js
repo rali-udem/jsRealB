@@ -25,7 +25,7 @@ function generer(s,$tab,obj){
         $tr.append(v?("<td>"+v+"</td>"):"<td/>");
     }
     resetSavedWarnings();  // catch eventual error messages
-    var sent=s.clone().typ(obj).toString();
+    var sent=eval(s).typ(obj).toString();
     const savedWarnings=getSavedWarnings()
     if (savedWarnings.length==0){
         $tr.append("<td>"+sent+"</td>");
@@ -98,7 +98,7 @@ function genererStruct(struct,lang){
     // évaluer les phrases
     try {
         nb=0;
-        genererTypes(eval(struct),$tbody,types,{});
+        genererTypes(struct,$tbody,types,{});
         $message.html("&nbsp;")
         $("#nbSentences").text(nb);
     } catch (err) {

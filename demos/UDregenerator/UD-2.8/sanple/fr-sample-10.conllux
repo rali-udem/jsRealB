@@ -7,6 +7,7 @@
 3	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	5	det	_	_
 4	dernière	dernier	ADJ	_	Gender=Fem|Number=Sing|NumType=Ord	5	amod	_	_
 5	strophe	strophe	NOUN	_	Gender=Fem|Number=Sing	1	nsubj	_	_
+6-7	du	_	_	_	_	_	_	_	_
 6	de	de	ADP	_	_	8	case	_	_
 7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
 8	poème	poème	NOUN	_	Gender=Masc|Number=Sing	5	nmod	_	_
@@ -155,6 +156,7 @@ S(Pro("que").c("nom"),
 9	d'	de	ADP	_	_	11	case	_	SpaceAfter=No
 10	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	11	det	_	_
 11	aide	aide	NOUN	_	Number=Sing	8	obl:arg	_	_
+12-13	au	_	_	_	_	_	_	_	_
 12	à	à	ADP	_	_	14	case	_	_
 13	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
 14	logement	logement	NOUN	_	Gender=Masc|Number=Sing	11	nmod	_	_
@@ -250,6 +252,7 @@ NP(A("quel").pos("post").g("m").n("s"),
 3	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	5	det	_	_
 4	véritable	véritable	ADJ	_	Number=Sing	5	amod	_	_
 5	nom	nom	NOUN	_	Gender=Masc|Number=Sing	1	nsubj	_	_
+6-7	du	_	_	_	_	_	_	_	_
 6	de	de	ADP	_	_	8	case	_	_
 7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
 8	Dr.	Dr.	NOUN	_	_	5	nmod	_	_
@@ -276,6 +279,7 @@ NP(A("quel").pos("post").g("m").n("s"),
 2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	cop	_	_
 3	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	4	det	_	_
 4	population	population	NOUN	_	Gender=Fem|Number=Sing	1	nsubj	_	_
+5-6	du	_	_	_	_	_	_	_	_
 5	de	de	ADP	_	_	7	case	_	_
 6	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
 7	Nigeria	Nigeria	PROPN	_	Gender=Masc|Number=Sing	4	nmod	_	_
@@ -387,6 +391,7 @@ S(NP(Adv("aussitôt"),
 4	vin	vin	NOUN	_	Gender=Masc|Number=Sing	2	nmod	_	_
 5	à	à	ADP	_	_	6	mark	_	_
 6	boire	boire	VERB	_	VerbForm=Inf	2	acl	_	_
+7-8	au	_	_	_	_	_	_	_	_
 7	à	à	ADP	_	_	9	case	_	_
 8	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
 9	verre	verre	NOUN	_	Gender=Masc|Number=Sing	6	obl:mod	_	SpaceAfter=No
@@ -396,6 +401,7 @@ S(NP(Adv("aussitôt"),
 13	€	€	SYM	_	Number=Plur	2	nmod	_	ExtPos=NOUN|SpaceAfter=No
 14	,	,	PUNCT	_	_	15	punct	_	_
 15	bière	bière	NOUN	_	Gender=Fem|Number=Sing	2	conj	_	_
+16-17	du	_	_	_	_	_	_	_	_
 16	de	de	ADP	_	_	18	case	_	_
 17	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
 18	Montblanc	Montblanc	PROPN	_	Gender=Masc|Number=Sing	15	nmod	_	_
@@ -517,10 +523,12 @@ S(CP(NP(A("beau").pos("pre").g("f").n("s")),
 29	fut	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	31	cop	_	_
 30	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	31	det	_	SpaceAfter=No
 31	un	un	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Ind	19	acl:relcl	_	_
+32-33	des	_	_	_	_	_	_	_	_
 32	de	de	ADP	_	_	35	case	_	_
 33	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	35	det	_	_
 34	hauts	haut	ADJ	_	Gender=Masc|Number=Plur	35	amod	_	_
 35	dirigeants	dirigeant	NOUN	_	Gender=Masc|Number=Plur	31	nmod	_	_
+36-37	du	_	_	_	_	_	_	_	_
 36	de	de	ADP	_	_	38	case	_	_
 37	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	38	det	_	_
 38	Parti	parti	NOUN	_	Gender=Masc|Number=Sing	35	nmod	_	wordform=parti
@@ -662,6 +670,7 @@ S(S(C("que"),
 # gl = 25:feats>Typo=Yes,misc>CorrectForm=avant-gardiste
 # text = Retenu au « Forum » de la Berlinale, Territoire perdu s'inscrit pleinement dans l'esprit de cette section « expérimentale, avantgardiste et politiquement engagée ».
 1	Retenu	retenir	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	11	acl	_	wordform=retenu
+2-3	au	_	_	_	_	_	_	_	_
 2	à	à	ADP	_	_	5	case	_	_
 3	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	5	det	_	_
 4	«	«	PUNCT	_	_	5	punct	_	_
@@ -819,6 +828,7 @@ S(Pro("moi").c("nom").pe("1").n("s"),
 2	visites	visite	NOUN	_	Gender=Fem|Number=Plur	4	nsubj	_	_
 3	commentées	commenter	VERB	_	Gender=Fem|Number=Plur|Tense=Past|VerbForm=Part	2	acl	_	_
 4	permettront	permettre	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Fut|VerbForm=Fin	0	root	_	_
+5-6	au	_	_	_	_	_	_	_	_
 5	à	à	ADP	_	_	7	case	_	_
 6	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	7	det	_	_
 7	public	public	NOUN	_	Gender=Masc|Number=Sing	4	obl:arg	_	_
@@ -916,6 +926,7 @@ S(Q("ANA"),
 8	la	le	DET	RD	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	9	det	_	_
 9	période	période	NOUN	S	Gender=Fem|Number=Sing	5	obl	_	_
 10	visée	viser	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	9	acl	_	_
+11-12	au	_	_	_	_	_	_	_	_
 11	à	à	ADP	E	_	14	case	_	_
 12	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
 13	premier	premier	ADJ	NO	Gender=Masc|Number=Sing|NumType=Ord	14	amod	_	_
@@ -959,6 +970,7 @@ S(Pro("moi").c("nom").pe("3").g("f").n("p"),
 3	de	de	ADP	E	_	5	case	_	_
 4	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	5	det	_	SpaceAfter=No
 5	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	2	nmod	_	_
+6-7	des	_	_	_	_	_	_	_	_
 6	de	de	ADP	E	_	8	case	_	_
 7	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
 8	juges	juge	NOUN	S	Gender=Masc|Number=Plur	5	nmod	_	_
@@ -969,6 +981,7 @@ S(Pro("moi").c("nom").pe("3").g("f").n("p"),
 13	justice	justice	NOUN	S	Gender=Fem|Number=Sing	11	nmod	_	_
 14	nommés	nommer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	8	acl	_	_
 15	conformément	conformément	ADV	B	_	18	advmod	_	_
+16-17	au	_	_	_	_	_	_	_	_
 16	à	à	ADP	E	_	15	fixed	_	_
 17	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	det	_	_
 18	paragraphe	paragraphe	NOUN	S	Gender=Masc|Number=Sing	14	obl	_	_
@@ -1050,6 +1063,7 @@ NP(NP(D("le").g("m").n("s"),
 12	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	13	det	_	SpaceAfter=No
 13	assistance	assistance	NOUN	S	Gender=Fem|Number=Sing	8	nmod	_	_
 14	visée	viser	VERB	V	Gender=Fem|Number=Sing|Tense=Past|VerbForm=Part	8	acl	_	_
+15-16	au	_	_	_	_	_	_	_	_
 15	à	à	ADP	E	_	17	case	_	_
 16	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	17	det	_	_
 17	paragraphe	paragraphe	NOUN	S	Gender=Masc|Number=Sing	14	obl	_	_
@@ -1140,14 +1154,17 @@ S(VP(Adv("oui"),
 3	de	de	ADP	E	_	5	case	_	_
 4	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	5	det	_	SpaceAfter=No
 5	un	un	DET	RI	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	2	nmod	_	_
+6-7	des	_	_	_	_	_	_	_	_
 6	de	de	ADP	E	_	8	case	_	_
 7	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
 8	juges	juge	NOUN	S	Gender=Masc|Number=Plur	5	nmod	_	_
+9-10	du	_	_	_	_	_	_	_	_
 9	de	de	ADP	E	_	11	case	_	_
 10	le	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	11	det	_	_
 11	tribunal	tribunal	NOUN	S	Gender=Masc|Number=Sing	8	nmod	_	_
 12	nommés	nommer	VERB	V	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	8	acl	_	_
 13	conformément	conformément	ADV	B	_	16	advmod	_	_
+14-15	au	_	_	_	_	_	_	_	_
 14	à	à	ADP	E	_	13	fixed	_	_
 15	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	16	det	_	_
 16	paragraphe	paragraphe	NOUN	S	Gender=Masc|Number=Sing	12	obl	_	_
@@ -1209,6 +1226,7 @@ NP(NP(D("le").g("m").n("s"),
 20	pour	pour	ADP	E	_	22	case	_	_
 21	l'	le	DET	RD	Definite=Def|Number=Sing|PronType=Art	22	det	_	SpaceAfter=No
 22	exécution	exécution	NOUN	S	Gender=Fem|Number=Sing	19	obl	_	_
+23-24	des	_	_	_	_	_	_	_	_
 23	de	de	ADP	E	_	25	case	_	_
 24	les	le	DET	RD	Definite=Def|Number=Plur|PronType=Art	25	det	_	_
 25	contrats	contrat	NOUN	S	Gender=Masc|Number=Plur	22	nmod	_	SpaceAfter=No
@@ -1257,6 +1275,7 @@ S(CP(C("et"),
 9	nouvelle	nouveau	ADJ	A	Gender=Fem|Number=Sing	10	amod	_	_
 10	période	période	NOUN	S	Gender=Fem|Number=Sing	6	obl	_	_
 11	d'	de	ADP	E	_	16	case	_	SpaceAfter=No
+12-13	au	_	_	_	_	_	_	_	_
 12	à	à	ADP	E	_	14	case	_	_
 13	le	le	DET	RD	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	14	det	_	_
 14	moins	moins	ADV	B	_	16	nmod	_	_
@@ -1445,6 +1464,7 @@ S(NP(NO("3").dOpt({raw:true}),
 10	,	,	PUNCT	,	_	17	punct	_	_
 11	la	le	DET	DT	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	12	det	_	_
 12	participation	participation	NOUN	NN	Gender=Fem|Number=Sing	17	nsubj	_	_
+13-14	aux	_	_	_	_	_	_	_	_
 13	à	à	ADP	INDT	_	15	case	_	_
 14	les	le	DET	_	Definite=Def|Gender=Fem|Number=Plur|PronType=Art	15	det	_	_
 15	affaires	affaire	NOUN	NN	Gender=Fem|Number=Plur	12	nmod	_	_
@@ -1485,6 +1505,7 @@ CP(VP(NP(D("le").g("f").n("s"),
 5	est	être	AUX	VBC	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	cop	_	_
 6	également	également	ADV	RB	_	7	advmod	_	_
 7	champion	champion	NOUN	NN	Gender=Masc|Number=Sing	0	root	_	_
+8-9	du	_	_	_	_	_	_	_	_
 8	de	de	ADP	INDT	_	10	case	_	_
 9	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	10	det	_	_
 10	monde	monde	NOUN	NN	Gender=Masc|Number=Sing	7	nmod	_	SpaceAfter=No
@@ -1512,6 +1533,7 @@ S(C("et"),
 4	,	,	PUNCT	,	_	3	punct	_	_
 5	le	le	DET	DT	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	6	det	_	_
 6	vote	vote	NOUN	NN	Gender=Masc|Number=Sing	12	nsubj:pass	_	_
+7-8	des	_	_	_	_	_	_	_	_
 7	de	de	ADP	INDT	_	9	case	_	_
 8	les	le	DET	_	Definite=Def|Gender=Fem|Number=Plur|PronType=Art	9	det	_	_
 9	femmes	femme	NOUN	NN	Gender=Fem|Number=Plur	6	nmod	_	_
@@ -1632,6 +1654,7 @@ S(NP(D("mon").pe(1).g("m").n("s").ow("s"),
 7	ont	avoir	AUX	VBC	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	9	aux:tense	_	_
 8	été	être	AUX	VBN	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	9	aux:pass	_	_
 9	informés	informer	VERB	VBN	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part	0	root	_	_
+10-11	au	_	_	_	_	_	_	_	_
 10	à	à	ADP	INDT	_	15	case	_	_
 11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	10	fixed	_	_
 12	cours	cours	NOUN	NN	Gender=Masc|Number=Sing	10	fixed	_	_
@@ -1812,6 +1835,7 @@ CP(C("mais").b(","),
 15	la	le	DET	DT	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	16	det	_	_
 16	Mésoamérique	Mésoamérique	PROPN	NNP	Gender=Fem|Number=Sing	9	nmod	_	SpaceAfter=No
 17	,	,	PUNCT	,	_	22	punct	_	_
+18-19	au	_	_	_	_	_	_	_	_
 18	à	à	ADP	INDT	_	22	case	_	_
 19	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	18	fixed	_	_
 20	lieu	lieu	NOUN	NN	Gender=Masc|Number=Sing	18	fixed	_	_
@@ -1960,6 +1984,7 @@ S(NP(Q("Joseph"),
 14	ne	ne	ADV	_	Polarity=Neg	15	advmod	_	_
 15	répondait	répondre	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Imp|VerbForm=Fin	10	acl:relcl	_	_
 16	pas	pas	ADV	_	Polarity=Neg	15	advmod	_	_
+17-18	aux	_	_	_	_	_	_	_	_
 17	à	à	ADP	_	_	19	case	_	_
 18	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	19	det	_	_
 19	critères	critère	NOUN	_	Gender=Masc|Number=Plur	15	obl:arg	_	_
@@ -2042,6 +2067,7 @@ S(N("personne").n("s"),
 16	jours	jour	NOUN	_	Gender=Masc|Number=Plur	10	conj	_	_
 17	d'	de	ADP	_	_	18	case	_	SpaceAfter=No
 18	alitement	alitement	NOUN	_	Gender=Masc|Number=Sing	16	nmod	_	_
+19-20	du	_	_	_	_	_	_	_	_
 19	de	de	ADP	_	_	21	case	_	_
 20	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	21	det	_	_
 21	fait	fait	NOUN	_	Gender=Masc|Number=Sing	18	nmod	_	_
@@ -2199,6 +2225,7 @@ S(Q("Aclasta"),
 # text = La plupart des effets indésirables associés à Aclasta ont tendance à se produire dans les trois jours suivant la perfusion et ils deviennent moins fréquents lors des perfusions réitérées.
 1	La	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	2	det	_	_
 2	plupart	plupart	NOUN	_	Gender=Fem|Number=Sing	10	nsubj	_	_
+3-4	des	_	_	_	_	_	_	_	_
 3	de	de	ADP	_	_	5	case	_	_
 4	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	5	det	_	_
 5	effets	effet	NOUN	_	Gender=Masc|Number=Plur	2	nmod	_	_
@@ -2224,6 +2251,7 @@ S(Q("Aclasta"),
 25	moins	moins	ADV	_	_	26	advmod	_	_
 26	fréquents	fréquent	ADJ	_	Gender=Masc|Number=Plur	24	xcomp	_	_
 27	lors	lors	ADV	_	_	24	advmod	_	_
+28-29	des	_	_	_	_	_	_	_	_
 28	de	de	ADP	_	_	30	case	_	_
 29	les	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	30	det	_	_
 30	perfusions	perfusion	NOUN	_	Gender=Fem|Number=Plur	27	obl:arg	_	_
@@ -2332,12 +2360,14 @@ NP(Q("-"),
 26	déclassifier	déclassifier	VERB	_	VerbForm=Inf	24	xcomp	_	_
 27	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	28	det	_	_
 28	documents	document	NOUN	_	Gender=Masc|Number=Plur	26	obj	_	_
+29-30	des	_	_	_	_	_	_	_	_
 29	de	de	ADP	_	_	31	case	_	_
 30	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	31	det	_	_
 31	douanes	douanes	NOUN	_	Gender=Masc|Number=Plur	28	nmod	_	_
 32	dans	dans	ADP	_	_	34	case	_	_
 33	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	34	det	_	SpaceAfter=No
 34	affaire	affaire	NOUN	_	Gender=Fem|Number=Sing	26	obl:mod	_	_
+35-36	des	_	_	_	_	_	_	_	_
 35	de	de	ADP	_	_	37	case	_	_
 36	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	37	det	_	_
 37	frégates	frégate	NOUN	_	Gender=Fem|Number=Plur	34	nmod	_	_
@@ -2398,6 +2428,7 @@ S(CP(C("et"),
 4	,	,	PUNCT	_	_	18	punct	_	_
 5	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	_
 6	direction	direction	NOUN	_	Gender=Fem|Number=Sing	18	nsubj:caus	_	_
+7-8	du	_	_	_	_	_	_	_	_
 7	de	de	ADP	_	_	9	case	_	_
 8	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	9	det	_	_
 9	G.O.	G.O.	PROPN	_	_	6	nmod	_	_
@@ -2412,6 +2443,7 @@ S(CP(C("et"),
 18	passer	passer	VERB	_	VerbForm=Inf	0	root	_	_
 19	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	20	det	_	_
 20	circulaire	circulaire	NOUN	_	Gender=Fem|Number=Sing	18	obj	_	_
+21-22	au	_	_	_	_	_	_	_	_
 21	à	à	ADP	_	_	24	case	_	_
 22	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	24	det	_	_
 23	vénérables	vénérable	ADJ	_	Number=Plur	24	amod	_	_
@@ -2441,6 +2473,7 @@ S(CP(C("et"),
 47	sur	sur	ADP	_	_	49	case	_	_
 48	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	49	det	_	_
 49	officiers	officier	NOUN	_	Number=Plur	45	nmod	_	_
+50-51	des	_	_	_	_	_	_	_	_
 50	de	de	ADP	_	_	52	case	_	_
 51	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	52	det	_	_
 52	garnisons	garnison	NOUN	_	Gender=Fem|Number=Plur	49	nmod	_	_
@@ -2562,6 +2595,7 @@ S(Pro("moi").c("nom").pe("1").n("s"),
 7	à	à	ADP	_	_	9	case	_	_
 8	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	9	det	_	_
 9	écoute	écoute	NOUN	_	Gender=Fem|Number=Sing	3	ccomp	_	_
+10-11	des	_	_	_	_	_	_	_	_
 10	de	de	ADP	_	_	12	case	_	_
 11	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	12	det	_	_
 12	personnes	personne	NOUN	_	Gender=Fem|Number=Plur	9	nmod	_	_

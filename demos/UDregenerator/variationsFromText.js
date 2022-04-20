@@ -2,24 +2,30 @@
 //  The sentences are parsed by Stanza to produce UD structures which are then
 //  transformed in a constituent structure used by jsRealB to recreate the original sentence
 //  That structure is then used to produce variations (questions or negation) of the sentence
-//      node variationsFromText.js [-l en|fr] [-q] [-n] [-h] file.txt 
+//      node variationsFromText.js [-l en|fr] [-sud] [-q] [-n] [-h] [-t] file.txt 
 //  this creates "file.conllu" if it does not exist or is "older" than "file.txt"
+//  if the file is already a "conllu", then process it directly
 
 // defaults
 let language="en";  // -l (en|fr)
+let isSUD=false;    // -sud
 let questions=false  // -q
 let negation=false   // -n
-let textFileName=null;
+let showTrees=false  // -t
+let fileName=null;
 
 function usage(){
     console.log(
-`usage: node variationsFromText.js [-l en|fr] [-q] [-n] [-h] file.txt 
+`usage: node variationsFromText.js [-l en|fr] [-q] [-n] [-h] [-t] file.{txt|conllu} 
  where -l: language (en default)
+       -sud : input uses the SUD annotation scheme
        -q: generate questions (default false) 
        -n: generation negation (default false)
        -h: this message
+       -t: show trees
         file.txt: text file with sentences on a single line
- this creates "file.conllu" if it does not exist or is "older" than file.txt`)
+ this creates "file.conllu" if it does not exist or is "older" than file.txt
+        file.conllu: process directly the conllu file`)
     process.exit()
 }
 // parse arguments
@@ -34,23 +40,24 @@ for (let i = 2; i < process.argv.length; i++) {
             console.log("only en and fr supported")
             process.exit()
         }
+    } else if (arg=="-sud"){
+        isSUD=true;
     } else if (arg=="-q"){
         questions=true;
     } else if (arg=="-n"){
         negation=true;
+    } else if (arg=="-t"){
+        showTrees=true;
     } else {
-        textFileName=process.argv[i];
+        fileName=process.argv[i];
         break;
     }
 }
-if (textFileName==null){
+if (fileName==null){
     console.log("no file specified");
     process.exit()
 }
 
-const ud=require("./UD.js");
-UD=ud.UD;
-const UDnode=require(`./UDnode-${language}.js`)
 //////// 
 //  load JSrealB
 var jsrealb=require('../../dist/jsRealB-node.js');
@@ -58,6 +65,10 @@ var jsrealb=require('../../dist/jsRealB-node.js');
 for (var v in jsrealb){
     eval("var "+v+"=jsrealb."+v);
 }
+if (language=="en")loadEn(); else loadFr();
+const ud=require("./UD.js");
+UD=ud.UD;
+const UDnode=require(`./UDnode-${language}.js`)
 // jsrealb.setQuoteOOV(true)
 
 const enfr=require(`./UDregenerator-${language}.js`);
@@ -78,75 +89,79 @@ const prepositionsList = {
     }
 }
 
-const preps=prepositionsList["en"];
+const preps=prepositionsList[language];
 const fmt="# %s = %s";
 let nbQuestions=0,nbNegations=0;
 
 function generateQuestion(jsr,ansJSR,typ){
-    const answer=eval(ansJSR.pp(0)).toString();
-    let jsrExpr=jsr.pp(0);
-    const m=jsrExpr.match(/\.typ\(\{(.*?)\}\)$/); // does the expression ends with .typ()
-    if (m==null)
-        jsrExpr+=`.typ({int:"${typ}"})`; // if not add typ at the end
-    else
-        jsrExpr=jsrExpr.substring(0,m.index)+`.typ({${m[1]},int:"${typ}"})` // add int at the end of the existing typ
-    const question=eval(jsrExpr).toString();
-    console.log(fmt,typ.toUpperCase()+" ",clean(question)+" => "+clean(answer));
+    if (ansJSR.terminal.isA("Pro")) return; // do not generate a question whose answer is a pronoun
+    const question=jsr.clone().typ({"int":typ});
+    if (showTrees){
+        console.log(jsr.toSource(0));
+        console.log(question.toSource(0));
+        console.log(ansJSR.toSource(0));
+    }
+    console.log(fmt,typ.toUpperCase()+" ",clean(question.toString())+" => "+clean(ansJSR.toString()));
     nbQuestions++;
 }
 
-// traverse jsRealB expression adding negation to all vp 
-//   caution: this modifies the original structure...
-function negateVP(jsr){
-    const children=jsr.children
-    if (children==undefined || children.length==0)return;
-    if (jsr.constName=="VP"){
-        const v=jsr.getFromPath(["V"]);
-        const t=v.getOption("t");
-        if (t=="b" || t=="pp")return;
-        jsr.addOptions("typ({neg:true})")
-    }
-    for (var i = 0; i < children.length; i++) {
-        negateVP(children[i])
-    }
-    return;
-}
-
+// TODO: deal  with coordination of sentences
 function generateNegation(jsr){
-    negateVP(jsr) // caution: this modifies the original structure
-    let jsrExpr=jsr.pp(0);
-    const negation=eval(jsrExpr).toString();
-    console.log(fmt,"neg ",clean(negation));
-    nbNegations++;
+    const typ=this.getProp("typ")
+    if (jsr.terminal.isA("V") && 
+        // do not try to negate an already negated sentence...
+        typ!==undefined && typ["neg"]!==undefined && typ["neg"]!==false){
+        const negation=jsr.clone().typ({neg:true});
+        if (showTrees){
+            console.log(jsr.toSource(0));
+            console.log(negation.toSource(0));
+        }
+        console.log(fmt,"neg ",clean(negation.toString()));
+        nbNegations++;
+    }
 }
  
-// generate question from a structure
+// this closely parallels the code in Dependent.processTypInt
+// so that the removal of the answer is the same in both cases
 function generateQuestions(jsr){
-    // subject=first NP,N, Pro or SP (before the VP,V)
-    const subject=jsr.getFromPath([["VP","V","NP","N","Pro","SP"]]);
-    if (subject!==undefined){
-        if (!subject.isA("VP") && !subject.isA("V")) // the VP occured before the NP,N... so ignore it
-            generateQuestion(jsr,subject,"was");
+    const subjIdx=jsr.findIndex(d=>d.isA("subj"));
+    if (subjIdx>=0){
+        // insure that the verb at the third person singular,
+        // because now the subject has been removed
+        let jsr1=jsr.clone();
+        jsr1.terminal.setProp("n","s");
+        jsr1.terminal.setProp("pe",3);
+        generateQuestion(jsr1,jsr1.dependents[subjIdx],"was")
     }
-    // direct object = first NP,N,Pro or SP in the first VP
-    const dirObj=jsr.getFromPath([["VP"],["NP","N","Pro","SP"]]);
-    if (dirObj!==undefined)
-        generateQuestion(jsr,dirObj,"wad");
-    // indirect object = first PP in the first VP
-    const indirObj = jsr.getFromPath( [["VP"],["PP"]]);
-    if (indirObj!==undefined){
-        const prep=indirObj.children[0].children
-        if (typeof(prep)=="string"){
-            if (preps["whe"].has(prep))
-                generateQuestion(jsr,indirObj,"whe");
-            else if (preps["whn"].has(prep))
-                generateQuestion(jsr,indirObj,"whe");
-            else 
-                generateQuestion(jsr,indirObj,"wai");
-        } else {
-            console.log("strange PP",ndirObj.children[0])
+    // object complement 
+    let idx=-1;
+    do {
+        idx=jsr.findIndex(d=>d.isOneOf(["comp","mod"]),idx+1);
+        if (idx>=0){
+            const dep=jsr.dependents[idx];
+            // ignore complements coming before the verb
+            const pos=dep.getProp("pos")||"post"
+            if (pos=="post"){
+                if (dep.isA("comp") && dep.terminal.isA("N")){
+                    // a direct object
+                    generateQuestion(jsr,dep,"wad");
+                } else if (dep.terminal.isA("P")) { 
+                    // it is a mod check for the form (mod (P(prep),comp))
+                    if (dep.dependents.length==1 && dep.dependents[0].isA("comp")){
+                        const prep=dep.terminal.lemma;
+                        // console.log("****prep:",prep)
+                        const indirObj=dep.dependents[0]
+                        if (preps["whe"].has(prep))
+                            generateQuestion(jsr,indirObj,"whe");
+                        else if (preps["whn"].has(prep))
+                            generateQuestion(jsr,indirObj,"whn");
+                        else
+                            generateQuestion(jsr,indirObj,"wai");
+                    }
+                }
+            }
         }
-    }
+    } while (idx>=0);
 }
 
 function clean(s){
@@ -157,30 +172,39 @@ function generate(conlluFile){
     // UDregenerator execution
     uds=UDregenerator.parseUDs(conlluFile);
     uds.forEach(function (ud,i){
+        if (ud.text.length>=80)return; // for the moment only deal with short sentences (less than 80 characters)
         const text=ud.text;
         console.log(fmt, "id  ",ud.sent_id);
         console.log(fmt, "text",text);
-        const jsr=ud.toJSR();              // :: JSR
-        const jsRealBexpr=jsr.pp(0);       // :: string à évaluer
         resetSavedWarnings();             // so that warnings are not displayed
-        console.log(fmt, "TEXT",clean(eval(jsRealBexpr).toString()));
-        // console.log(jsr.pp())
-        if (jsr.isA("S") || jsr.isA("VP")){
+        let udCloned=ud.similiClone();
+        // remove ending full stop, it will be regenerated by jsRealB
+        if (udCloned.right.length>0){
+            let lastIdx=udCloned.right.length-1;
+            if (udCloned.right[lastIdx].deprel=="punct" && udCloned.right[lastIdx].lemma=="."){
+                udCloned.right.splice(lastIdx,1)
+            }
+        }
+        let jsr=udCloned.toDependent(false,isSUD)
+        // if root is a coord, add a dummy root, so that realization will be done correctly
+        let isCoord=false;
+        if (jsr.isA('coord')){
+            jsr=root(Q(""),jsr);
+            isCoord=true;
+        }
+        const jsRealBexpr=jsr;       // :: string à évaluer
+        console.log(fmt, "TEXT",clean(jsRealBexpr.clone().toString()));
+        // console.log(jsRealBexpr.toSource(0));
+        if (jsr.terminal.isA("V")){ // ignore sentence whose root is not a verb
             if (questions) generateQuestions(jsr);
             if (negation)  generateNegation(jsr);
-        } else if (jsr.isA("CP")){
-            const cpChildren=jsr.children;
-            for (jsrChild of cpChildren) {
-                if (jsrChild.isA("C"))continue;
-                if (jsrChild.isA("S") || jsrChild.isA("VP")){
-                    if (questions)generateQuestions(jsrChild);
-                    if (negation) generateNegation(jsrChild);
-                } else {
-                    console.log(fmt,"ERR ","Question in a CP cannot be created from a "+jsr.constName);
-                }
+        } else if (isCoord){
+            for (d of jsr.dependents) {
+                    if (questions)generateQuestions(d);
+                    if (negation) generateNegation(d);
             }
         } else {
-            console.log(fmt,"ERR ","Question cannot be created from a "+jsr.constName);
+            console.log(fmt,"ERR ","Question cannot be created from a "+jsr.constType);
         }
         console.log("");
     });    
@@ -189,21 +213,28 @@ function generate(conlluFile){
     if (negation) console.log("%d negations",nbNegations);
 }
 
-conlluFileName=textFileName.replace(/.txt$/,".conllu")
 const fs = require('fs');
-if (!fs.existsSync(conlluFileName) || fs.statSync(conlluFileName).mtime<fs.statSync(textFileName).mtime){
-    console.error("*** Creating %s",conlluFileName)
-    // create conllu file
-    const { spawn } = require('child_process');
-    const child = spawn("./text2ud.py",[language, textFileName])
-    child.on("exit",function(code,signal){
-        if (code==0){
-            console.error("*** Wrote  %s",conlluFileName);
-            generate(fs.readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
-        } else {
-            console.error('*** Problem in file creation:' +`code ${code} and signal ${signal}`);
-        }
-    })
+if (fileName.endsWith(".txt")){  
+    // deal with a txt file with a sentence on each line, that will be parsed using Stanza
+    conlluFileName=fileName.replace(/.txt$/,".conllu")
+    if (!fs.existsSync(conlluFileName) || fs.statSync(conlluFileName).mtime<fs.statSync(fileName).mtime){
+        console.error("*** Creating %s",conlluFileName)
+        // create conllu file
+        const { spawn } = require('child_process');
+        const child = spawn("./text2ud.py",[language, fileName])
+        child.on("exit",function(code,signal){
+            if (code==0){
+                console.error("*** Wrote  %s",conlluFileName);
+                generate(fs.readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
+            } else {
+                console.error('*** Problem in file creation:' +`code ${code} and signal ${signal}`);
+            }
+        })
+    } else {
+        generate(fs.readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
+    }
+} else if (fileName.endsWith(".conllu")){
+        generate(fs.readFileSync(fileName,{encoding:'utf8', flag:'r'}))
 } else {
-    generate(fs.readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
+    console.log("file extension should .txt or .conllu: %s",fileName)
 }

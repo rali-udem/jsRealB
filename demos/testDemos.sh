@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+### CAUTION:: RUN this script from the "demos" the demo directory because file name are relative
 ## tests demos with separate loading of each file, 
 ##  by commenting the single file loading
 ##  by uncommenting the separate loading

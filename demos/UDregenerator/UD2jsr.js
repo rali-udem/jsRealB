@@ -1,161 +1,222 @@
  // Mapping of UD POS tags to jsRaelB constructors
  // taken from https://universaldependencies.org/u/pos/index.html
-const udPos_jsrPos = {
-     //  Open class
-    ADJ:"A",
-    ADV:"Adv",
-    INTJ:"Q",
-    NOUN:"N",
-    PROPN:"Q",
-    VERB:"V",
-     // Closed class
-    ADP:"P",
-    AUX:"V",
-    CCONJ:"C",
-    DET:"D",
-    NUM:"NO",
-    PART:"Q",
-    PRON:"Pro",
-    SCONJ:"C",
-     // other
-    PUNCT:"Q",
-    SYM:"Q",
-    X:"Q",
-};
+// const udPos_jsrPos = {
+//      //  Open class
+//     ADJ:A,
+//     ADV:Adv,
+//     INTJ:Q,
+//     NOUN:N,
+//     PROPN:Q,
+//     VERB:V,
+//      // Closed class
+//     ADP:P,
+//     AUX:V,
+//     CCONJ:C,
+//     DET:D,
+//     NUM:NO,
+//     PART:Q,
+//     PRON:Pro,
+//     SCONJ:C,
+//      // other
+//     PUNCT:Q,
+//     SYM:Q,
+//     X:Q,
+// };
 
 ///  Mapping from UD features to jsr options
 //      https://universaldependencies.org/u/feat/index.html
 //   CAUTION: only deals with English and French phenomena that can be mapped to jsRealB options
 
-const Mood ={ // combined with tense
     // https://universaldependencies.org/u/feat/Mood.html
-    Ind:{// indicative
-        Past:'t("ps")', // past tense
-        Pres:'t("p")', // present
-        Fut: 't("f")', // future
-        Imp: 't("i")', // imperfect
-        Pqp: 't("pq")', // pluperfect
-    }, 
-    Imp:{// imperative
-        Pres:'t("ip")', // present
-    }, 
-    Cnd:{// conditional
-        Past:'t("cp")', // past tense
-        Pres:'t("c")', // present
-    }, 
-    Sub:{// subjonctive
-        Past:'t("spa")', // past tense
-        Pres:'t("s")', // present
-        Imp: 't("si")', // imperfect
-        Pqp: 't("spq")', // pluperfect
-    },
-    Part:{// participle
-        Past:'t("pp")', // past tense
-        Pres:'t("pr")', // present
-    } 
-};
+mood = {"Ind":{"Past":"ps","Pres":"p","Fut":"f","Imp":"i","Pqp":"pq"},
+        "Imp":{"Pres":"ip"},
+        "Cnd":{"Past":"cp","Pres":"c"},
+        "Sub":{"Past":"spa","Pres":"s","Imp":"si","Pqp":"spq"},
+        "Part":{"Past":"pp","Pres":"pr"},
+        }
 
-const VerbForm = {
     // https://universaldependencies.org/u/feat/VerbForm.html
-    Fin: null,  // Rule of thumb: this is the value if it has non-empty Mood, 
-    Inf: 't("b")',  // infinitive
-    Part:'t("pp")', // participle
-    Ger: 't("pr")', // gerund NB:Using VerbForm=Ger is discouraged and alternatives should be considered first
-};
+verbform = {"Fin":null,"Inf":"b","Part":"pp","Ger":"pr"}
 
-const Tense = {
     // https://universaldependencies.org/u/feat/Tense.html
     //   indicative mood if not specified
-    Past:'t("ps")', // past tense
-    Pres:'t("p")', // present
-    Fut: 't("f")', // future
-    Imp: 't("i")', // imperfect
-    Pqp: 't("pq")', // pluperfect
-};
+tenses = mood["Ind"]
 
-const Person = {
     // https://universaldependencies.org/u/feat/Person.html
-    1:'pe("1")',
-    2:'pe("2")',
-    3:'pe("3")'
-};
-const Person_psor=Person;
+person = {"1":1,"2":2,"3":3}
+person_psor=person;
 
-const Number_ = { // add underline to ensure that this does not override the standard Number class...
     // https://universaldependencies.org/u/feat/Number.html
-    Sing:'n("s")', // singular
-    Plur:'n("p")', //  plural
-};
+number = {"Sing":"s","Plur":"p"}
+number_psor = number
 
-const Number_psor = { 
-    Sing:'ow("s")', // singular
-    Plur:'ow("p")', //  plural
-};
-
-const Case = {
     // https://universaldependencies.org/u/feat/Case.html
-    Acc:'c("acc")', // accusative
-    Dat:'c("dat")', // dative
-    Gen:'c("gen")', // genitive
-    Nom:'c("nom")', // nominative
-}
+case_ = {"Acc":"acc","Dat":"dat","Gen":"gen","Nom":"nom"}
 
-const Definite = {
     //  https://universaldependencies.org/u/feat/Definite.html
-    Def:null, // definite
-    Ind:null, // indefinite
-}
-
-const Gender ={
+definite = {"Def":null,"Ind":null}
     // https://universaldependencies.org/u/feat/Gender.html
-    Masc:'g("m")', // masculine
-    Fem: 'g("f")', // feminine
-    Neut:'g("n")', // neuter
-}
-const Gender_psor=Gender;
+gender = {"Masc":"m", "Fem":"f", "Neut":"n"}
+gender_psor = gender
 
-const Degree = {
     // https://universaldependencies.org/u/feat/Degree.html
-    Cmp:'f("co")',  // comparative
-    Sup:'f("su")',  // superlative
-    Pos:null,
-}
+degree = {"Cmp":"co","Sup":"su","Pos":null}
 
-const PronType = {
     // https://universaldependencies.org/u/feat/PronType.html
-    Prs:null,  // personal
-    Art:null,  // article
-    Int:null,  // interrogative
-    Rel:null,  // relative
-    Dem:null,  // demonstrative
-    Neg:null,  // negative
-    Ind:null,  // interrogative
+pronType = {"Prs":null,"Art":null,"Int":null,"Rel":null,"Dem":null,"Neg":null,"Ind":null}
+
+numtype = {"Card":null,"Ord":null}
+
+reflex = {"Yes":"refl"}
+
+function getOption(featName,allowed,feat){
+    const val=allowed[feat];
+    if (val===undefined){
+        console.log("unknown feature for %s: %s",featName,feat)
+        return null
+    }
+    return val
 }
 
-const NumType = {
-    Card:null, // cardinal
-    Ord :null, // ordinal
+function feats2options(constituent,udNode,selFeats){
+    if (udNode.hasNoFeature())return constituent;
+    for (const selFeat of selFeats){
+        switch (selFeat) {
+        case "Mood":
+            const moodVal=udNode.selectFeature("Mood")
+            if (moodVal !== undefined){
+                const tense=udNode.selectFeature("Tense")
+                if (tense !==undefined){
+                    const jsrTense=getOption(`Mood[${moodVal}]`,mood[moodVal],tense)
+                    if (jsrTense !== null){
+                        constituent.t(jsrTense)
+                    }
+                }
+            }
+            break;
+        case "VerbForm":
+            const formVal=udNode.selectFeature("VerbForm")
+            if (formVal !== undefined){
+                if (formVal=="Part" && udNode.hasFeature("Tense")){
+                    const jsrTense=udNode.selectFeature("Tense");
+                    if (jsrTense=="Pres")constituent.t("pr");
+                    else if (jsrTense=="Past")constituent.t("pp")
+                } else {
+                    const jsrTense=getOption("VerbForm",verbform,formVal)
+                    if (jsrTense !== null){
+                        constituent.t(jsrTense)
+                    }
+                }
+            }
+            break;
+        case "Tense":
+            const tense1=udNode.selectFeature("Tense")
+            if (tense1 !==undefined){
+                const jsrTense=getOption("Tense",tenses,tense1)
+                if (jsrTense !== null){
+                    constituent.t(jsrTense)
+                }
+            }
+            break;
+        case "Person":
+            const pe=udNode.selectFeature("Person")
+            if (pe !==undefined){
+                const jsrPe=getOption("Person",person,pe)
+                if (jsrPe !== null){
+                    constituent.pe(jsrPe)
+                }
+            }
+            break;
+        case "Person_psor":
+            const pe_=udNode.selectFeature("Person_psor")
+            if (pe_ !==undefined){
+                const jsrPe=getOption("Person_psor",person_psor,pe_)
+                if (jsrPe !== null){
+                    constituent.pe(jsrPe)
+                }
+            }
+            break;
+        case "Number":
+            const n=udNode.selectFeature("Number")
+            if (n !==undefined){
+                const jsrN=getOption("Number",number,n)
+                if (jsrN !== null){
+                    constituent.n(jsrN)
+                }
+            }
+            break;
+        case "Number_psor":
+            const n_=udNode.selectFeature("Number_psor")
+            if (n_ !==undefined){
+                const jsrN=getOption("Number_psor",number_psor,n_)
+                if (jsrN !== null){
+                    constituent.ow(jsrN)
+                }
+            }
+            break;
+        case "Case":
+            const c=udNode.selectFeature("Case")
+            if (c !==undefined){
+                const jsrC=getOption("Case",case_,c)
+                if (jsrC !== null){
+                    constituent.c(jsrC)
+                }
+            }
+            break;
+        case "Definite":
+            udNode.selectFeature("Def") // ignore
+            break;
+        case "Gender":
+            const g=udNode.selectFeature("Gender")
+            if (g !==undefined){
+                const jsrG=getOption("Gender",gender,g)
+                if (jsrG !== null){
+                    constituent.g(jsrG)
+                }
+            }
+            break;
+        case "Gender_psor":
+            const g_=udNode.selectFeature("Gender_psor")
+            if (g_ !==undefined){
+                const jsrN=getOption("Gender_psor",gender,g_)
+                if (jsrG !== null){
+                    constituent.g(jsrG)
+                }
+            }
+            break;
+        case "Degree":
+            const deg=udNode.selectFeature("Degree")
+            if (deg !==undefined){
+                const jsrDeg=getOption("Degree",degree,deg)
+                if (jsrDeg !== null){
+                    constituent.co(jsrDeg)
+                }
+            }
+            break;
+        case "PronType":
+            udNode.selectFeature("PronType") // ignore
+            break;
+        case "NumType":
+            udNode.selectFeature("NumbType") // ignore
+            break;
+        case "Reflex":
+            const refl=udNode.selectFeature("Reflex")
+            if (refl !==undefined){
+                const jsrRefl=getOption("Reflex",reflex,refl)
+                if (jsrRefl !== null){
+                    constituent.c(jsrRefl)
+                }
+            }            
+            break;
+            
+        default:
+            console.log("Strange feature:%s in %o",selFeat,udNode)
+        }
+    }
+    return constituent
 }
 
-const Reflex = {
-    Yes:'c("refl")'
-}
 
 if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    exports.udPos_jsrPos=udPos_jsrPos;
-    exports.Mood=Mood;
-    exports.VerbForm=VerbForm;
-    exports.Tense=Tense;
-    exports.Person=Person;
-    exports.Person_psor=Person_psor;
-    exports.Number_=Number_;
-    exports.Number_psor=Number_psor;
-    exports.Case=Case;
-    exports.Definite=Definite;
-    exports.Gender=Gender;
-    exports.Gender_psor=Gender_psor;
-    exports.Degree=Degree;
-    exports.PronType=PronType;
-    exports.NumType=NumType;
-    exports.Reflex=Reflex;
+    exports.feats2options=feats2options
 }

@@ -62,19 +62,19 @@ Constituent.prototype.setProp = function(propName,val){
 }
 
 // should be in Terminal.prototype... but here for consistency with three previous definitions
-// var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
-// var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
+var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
+var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
 Constituent.prototype.initProps = function(){
-    if (this.isOneOf(["N","A","D","V","NO","Pro"])){
+    if (this.isOneOf(["N","A","D","V","NO","Pro","Q"])){
         // "tien" and "vôtre" are very special case of pronouns which are to the second person
         this.peng={pe:defaultProps[this.lang]["pe"],
                    n: defaultProps[this.lang]["n"],
                    g: defaultProps[this.lang]["g"],
-                   // pengNO:pengNO++
+                   pengNO:pengNO++
                    };
         if (this.isA("V")){
             this.taux={t:defaultProps[this.lang]["t"],
-                       // tauxNO:tauxNO++
+                       tauxNO:tauxNO++
                        };
             if (this.isFr())
                 this.taux["aux"]=defaultProps[this.lang]["aux"];
@@ -100,16 +100,18 @@ Constituent.prototype.getFromPath = function(path){
 
 // return a pronoun corresponding to this object 
 // taking into account the current gender, number and person
-//  do not change the current pronoun, if it is already using the tonic form
+//  do not change the current pronoun, if it is already using the tonic form or does not have one (e.g. this)
 // if case_ is not given, return the tonic form else return the corresponding case
 // HACK:: parameter case_ is followed by _ so that it is not displayed as a keyword in the editor
 Constituent.prototype.getTonicPro = function(case_){
-    if (this.isA("Pro") && (this.props["tn"] || this.props["c"])){
-        if (case_!==undefined){
-            this.props["c"]=case_
-        } else { // ensure tonic form
-            this.props["tn"]="";
-            if ("c" in this.props)delete this.props["c"];
+    if (this.isA("Pro")){
+        if (this.props["tn"] || this.props["c"]){
+            if (case_!==undefined){
+                this.props["c"]=case_
+            } else { // ensure tonic form
+                this.props["tn"]="";
+                if ("c" in this.props)delete this.props["c"];
+            }
         }
         return this;
     } else { // generate the string corresponding to the tonic form
@@ -155,7 +157,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             return this;
         }
-        if (allowedConsts.length==0 || this.isOneOf(allowedConsts)) {
+        if (allowedConsts.length==0 || this.isOneOf(allowedConsts) || this.isOneOf(deprels)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
                 return this.warn("ignored value for option",option,val);
             }
@@ -317,7 +319,7 @@ Constituent.prototype.typ = function(types){
       "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
     }
     this.addOptSource("typ",types)
-    if (this.isOneOf(["S","SP","VP"])){
+    if (this.isOneOf(["S","SP","VP"]) || this instanceof Dependent){
         // validate types and keep only ones that are valid
         if (typeof types == "object"){
             for (let key in types) {
@@ -342,7 +344,7 @@ Constituent.prototype.typ = function(types){
             this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
         }
     } else {
-        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP"],this.constType);
+        this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","Dependent"],this.constType);
     }
     return this;
 }
@@ -479,9 +481,10 @@ Constituent.prototype.doElisionFr = function(cList){
                 cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
             }
             i++;
-        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
+        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords && last>1){
             // check if the next word would be elidable, so instead elide it instead of contracting
             // except when the next word is a date which has a "strange" realization
+            // do not elide when there are only two words, wait until at least another token is there
             if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
@@ -549,8 +552,8 @@ Constituent.prototype.doFormat = function(cList){
     // start of processing
     removeEmpty(cList);
     // reorder French pronouns
-    if (this.isA("VP")  && this.isFr())
-        this.doFrenchPronounPlacement(cList);
+    if (this.isFr() && (this.isA("VP") || (this.isOneOf(deprels) && this.terminal.isA("V"))))
+        doFrenchPronounPlacement(cList);
     
     if (this.isFr())
         this.doElisionFr(cList);
@@ -618,25 +621,25 @@ Constituent.prototype.detokenize = function(terminals){
         }
     }
     s+=terminals[last].realization;
-    // apply capitalization and final full stop
-    if (this.parentConst==null){
-        if (this.isA("S") && s.length>0){ // if it is a top-level S
-            // force a capital at the start unless .cap(false)
+    
+    if (this.parentConst==null){// if it is a top-level S
+        if (this.isOneOf(["S","root"]) && s.length>0){ 
+            // apply capitalization at the start and final full stop unless .cap(false)
             if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;
                 const m=sepWordRE.exec(s);
                 const idx=m[1].length; // get index of first letter
                 if (idx<s.length) // check if there was a letter
                     s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
-            };
-            if (this.props["tag"]===undefined){ // do not touch top-level tag
-                // and a full stop at the end unless there is already one
-                // taking into account any trailing HTML tag
-                const m=/(.)( |(<[^>]+>))*$/.exec(s);
-                if (m!=null && !contains("?!.:;/",m[1])){
-                    s+="."
+                if (this.props["tag"]===undefined){ // do not touch top-level tag
+                    // and a full stop at the end unless there is already one
+                    // taking into account any trailing HTML tag
+                    const m=/(.)( |(<[^>]+>))*$/.exec(s);
+                    if (m!=null && !contains("?!.:;/",m[1])){
+                        s+="."
+                    }
                 }
-            }
+            };
         }
     }
     return s;

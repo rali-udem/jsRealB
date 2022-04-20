@@ -17,6 +17,7 @@
         <script src="../build/Constituent.js"></script>
         <script src="../build/Phrase.js"></script>
         <script src="../build/Terminal.js"></script>
+        <script src="../build/Dependent.js"></script>
         <script src="../build/Number.js"></script>
         <script src="../build/Warnings.js"></script>
 <!-- end of separate loading -->
@@ -41,7 +42,7 @@
     <div id="terminalsSect"></div>
     <div id="syntagmesSect"></div>
     <div lang="fr">
-        <p>Les accords <em>simples</em> sont effectués entre les constituants d'un syntagme. Un constituant est considéré comme la <i>tête</i> avec lequel les autres sont accordés. La <i>tête</i> est déterminée de la façon suivante:</p>
+        <p>Les accords <em>simples</em> sont effectués automatiquement entre les constituants d'un syntagme. Un constituant est considéré comme la <i>tête</i> avec lequel les autres sont accordés. La <i>tête</i> est déterminée de la façon suivante:</p>
         <ul>
             <li><code>NP</code>: le premier <code>N</code> ou <code>NP</code> en tenant compte de la modification possible par un <code>NO</code>, cet accord est propagé à une subordonnée interne au <code>NP</code>;</li>
             <li><code>AP</code>: le premier <code>A</code>;</li>
@@ -55,7 +56,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
     </div>
 
     <div lang="en">
-        <p><em>Simple</em> agreements are dealt with between constituents of a phrase. A constituent is taken as the <i>head</i> with which others agree. The <i>head</i> is found as follows:</p>
+        <p><em>Simple</em> agreements are dealt automatically with between constituents of a phrase. A constituent is taken as the <i>head</i> with which others agree. The <i>head</i> is found as follows:</p>
         <ul>
             <li><code>NP</code>: the first <code>N</code> or <code>NP</code> taking into account an eventual <code>NO</code>, this agreement is propagated to an internal subordinate phrase;</li>
             <li><code>AP</code>: the first <code>A</code>;</li>
@@ -67,8 +68,27 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 		<p>When calling a phrase constructor (e.g. <code>S, VP, NP</code>, ...), parameters having value <code>null</code> or <code>undefined</code> are ignored. 
 		This can be convenient for dealing with optional parameters.</p>
     </div>
-    
 
+    <div id="dependentsSect"></div>
+	<div lang="fr">
+		<p>Le premier paramètre d'une dépendance est un terminal. Les autres paramètres doivent être d'autres dépendances. La dépendance <code>root</code> ne peut apparaître qu'une seule fois à la racine.</p>
+		<p><code>coord</code> regroupe des <strong>dépendances de même type</strong> coordonnées par la conjonction donnée comme terminal. Les dépendents seront séparés par une virgule sauf les deux derniers qui seront séparés par la conjonction. <code>coord</code> sans dépendent sera ignoré à la réalisation. <code>coord</code> avec un seul dépendent apparaitra sans la conjonction. <code>coord</code> doit être inclus dans une autre dépendance pour être réalisé correctement.</p>
+		<p>Les accords <em>simples</em> sont effectués automatiquement entre les dépendents:</p>
+		<ul>
+			<li>Le verbe d'un <code>root</code> s'accorde en personne, en genre et en nombre avec le sujet indiqué par la dépendance <code>subj</code>. Ceci peut être un <code>N</code>, un <code>Pro</code> ou même des dépendents d'un <code>coord</code>. Les attributs et participes passés des verbes copules sont accordés avec leur sujet. Les participes passés des verbes conjugés avec avoir s'accordent avec leur complément d'objet direct s'ils sont placés avant le verbe. Un complément d'objet direct est le terminal d'un <code>comp</code> dont le terminal n'est pas un <code>P</code>.</li>
+			<li>Le déterminant d'un <code>det</code> s'accorde en genre et en nombre avec son sujet, i.e. le terminal englobant.</li>
+			<li>L'adjectif d'un <code>mod</code> s'accorde en genre et en nombre avec son sujet, i.e. le terminal englobant.</li>
+		</ul>
+	</div>
+	<div lang="en">
+		<p>The first parameter of a dependency is a terminal. The other parameters must be dependents. The <code>root</code> dependency can only appear once, at the root of the tree.</p>
+		<p><code>coord</code> combine <strong>dependencies of the same type</strong> coordinated by the conjunction given as terminal. Dependencies will comma separated except for the last two that will be separated by the conjunction. A  <code>coord</code> without dependent will not be realized. A <code>coord</code> with a single dependent will be realized without the conjunction. A <code>coord</code> must not be used as root in order to be properly dealt with.</p>
+		<p>Simple agreements are realized between dependents:</p>
+		<ul>
+			<li>A verb agrees in person and number with a subject indicated by a <code>subj</code> dependency,. The subject can be a <code>N</code>, a <code>Pro</code> or dependents of a <code>coord</code>.</li>
+			<li>The determiner of a <code>det</code> agrees in number with its determinee, i.e. its enclosing terminal.</li>
+		</ul>
+	</div>
 <!-- *** Déclinaisons et conjugaisons *** -->
     <h2 id="optionsFr" lang="fr">Déclinaisons et conjugaisons</h2><h2 id="optionsEn" lang="en">Declension and conjugation</h2>
     <div id="optionsSect"></div>
@@ -163,7 +183,9 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 <!-- *** Modification du type de phrase *** -->
     <h2 lang="fr" id="changeType">Modification du type de phrase</h2><h2 lang="en" id="typeChange">Sentence type modification</h2>
     <p lang="fr">Les phrases sont construites à la forme active, mais il est possible d'en modifier le type pour obtenir des phrases négatives, progressives, interrogatives ou passives.  Ces modifications sont de la forme <code>S(...).typ({...})</code> Il est possible de combiner plusieurs modifications en spécifiant plusieurs paires clés-valeurs dans l'objet paramètre de <code>type</code>. L'utilisation de contractions en anglais telles que <code>I'll</code> pour <code>I will</code> ou <code>can't</code> pour <code>cannot</code> peut aussi être spécifiée de cette manière, mais cet indicateur est ignoré en français.</p>
+	<p lang="fr">Ces modifications peuvent aussi être appliquées aux structures en dépendances.</p>
     <p lang="en">Sentences are built at the active voice, but their type can be modified in order to get negative, progressive, interrogative or passive sentences. These modifications are indicated by <code>S(...).typ({...})</code>. Modifications can be combined by specifying multiple key value pairs in the object which is the parameter of <code>type</code>. The use of contractions such as <code>I'll</code> for <code>I will</code> or <code>can't</code> for <code>cannot</code> can also be specified in this way. This flag is ignored in French.</p>
+	<p lang="en">These modifications can also be applied to dependency structures.</p>
     <div id="sentType"></div>
     
 
@@ -347,8 +369,8 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 </p>
 
 <h2 lang="fr" id="Gestion des avertissements">Gestion des avertissements</h2><h2 lang="en" id="Warning management">Warning Management</h2>
-<p lang="fr">Lorsque <code>jsRealB</code> détecte une erreur de réalisation, un avertissement est écrit sur la console avec la fonction <code>console.warn()</code>. Le système réalise alors le lemme courant entouré de doubles crochets. Il est possible de modifier ce comportement afin de lever une exception au premier avertissement ou pour récupérer la liste des avertissements générés. Les fonctions suivantes permettent de gérer ces avertissements</p>
-<p lang="en">When <code>jsRealB</code> detects a realization error, a warning is written on the JavaScript console using  <code>console.warn()</code>. The lemma is then wrapped within double brackets. This behavior can be modified for raising an exception at the first warning or for keeping a list of warnings. The following functions handle the warnings:</p>
+<p lang="fr">Lorsque <code>jsRealB</code> détecte une erreur de réalisation, un avertissement est écrit sur la console JavaScript avec la fonction <code>console.warn()</code>. Le système réalise alors le lemme courant entouré de doubles crochets. Il est possible de modifier ce comportement afin de lever une exception au premier avertissement ou pour récupérer la liste des avertissements générés. Ce pourrait permettre de les afficher dans la page web, si la console JavaScript n'est pas accessible. Les fonctions suivantes permettent de gérer ces avertissements</p>
+<p lang="en">When <code>jsRealB</code> detects a realization error, a warning is written on the JavaScript console using  <code>console.warn()</code>. The lemma is then wrapped within double brackets. This behavior can be modified for raising an exception at the first warning or for getting back a list of warnings. It this then possible to display them in the web page if the JavaScript console is hidden. The following functions handle the warnings:</p>
 <h3><code>setExceptionOnWarning(val)</code></h3>
 <p lang="fr"><code>val</code> est un booléen qui indique si oui ou non, une exception sera levée lors de l'émission d'un avertissement</p>
 <p lang="en"><code>val</code> is a boolean indicating if an exception is raised when a warning is emitted.</p>
@@ -371,6 +393,7 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
     <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>
 	<li><a href="https://arxiv.org/pdf/2012.15425.pdf" lang="fr">Document décrivant l'organisation du système</a><a href="https://arxiv.org/pdf/2012.15425.pdf" lang="en">Document describing the organization of the system</a></li>
+	<li><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="fr">Présentation de jsRealB - Février 2022</a><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="en">Presentation of jsRealB (in French) - February 2022</a></li>
     <li><a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" lang="fr">Historique des versions et démonstrations</a><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" lang="en">Previous versions and demos</a></li>
     <li><a href="https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb" title="Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable" lang="fr">Notebook Observable</a><a href="https://observablehq.com/@lapalme/exprimenting-with-jsrealb" title="Experimenting with jsRealB / Guy Lapalme / Observable" lang="en">Observable Notebook</a></li>
     <li><a href="../IDE/README.html">Interactive Development Environment</a></li>

@@ -27,6 +27,7 @@ function UD(fileName,multiLine,startLine){
     let lastIndexInText=0;
     this.nbLines=lines.length;
     let jsrLines=[];
+    let lineRange,rangeStart=-1,rangeEnd=-1;
     // build a list of nodes keeping the head index info
     for (var i=0;i<this.nbLines;i++){
         let line=lines[i];
@@ -54,10 +55,30 @@ function UD(fileName,multiLine,startLine){
                 fields.unshift("dummy"); // pour avoir les indices à partir de 1
                 const udNode=new UDnode(i+startLine,fields);
                 udNode.conllLine=line; // save original line
-                udNode.indexInText=this.text.indexOf(fields[2],lastIndexInText);
-                lastIndexInText=udNode.indexInText+fields[2].length;
+                if (rangeStart<=fields[1] && fields[1]<=rangeEnd){ // deal with a line range 
+                    // the index and the form must be the original form in the text (e.g du instead of de le)
+                    udNode.formInText=lines[rangeLine].split("\t")[1]
+                    udNode.indexInText=this.text.indexOf(udNode.formInText,lastIndexInText)
+                    if (udNode.indexInText<0){ // this should never happen...
+                        console.log("line %d:: %s : %d not found in\n%s\n",i+startLine,udNode.formInText,lastIndexInText,this.text)
+                    }
+                    if (fields[1]==rangeEnd)
+                        lastIndexInText=udNode.indexInText+udNode.formInText.length;
+                } else {
+                    udNode.formInText=fields[2]
+                    udNode.indexInText=this.text.indexOf(udNode.formInText,lastIndexInText)
+                    if (udNode.indexInText<0){ // this should never happen...
+                        console.log("line %d:: %s : %d not found in\n%s\n",i+startLine,udNode.formInText,lastIndexInText,this.text)
+                    }
+                    lastIndexInText=udNode.indexInText+udNode.formInText.length;
+                }
                 this.nodes.push(udNode);
-            } else if (!line.match(/^\d+(-|\.)\d+\t/)){// ignore range (indicated by -) and empty nodes (decimal number)
+            } else if ((lineRange=/^(\d+)-(\d+)\t/.exec(line))!== null) { 
+                // keep last line range, useful for getting an appropriate indexInText
+                rangeLine=i
+                rangeStart=+lineRange[1]
+                rangeEnd=+lineRange[2]
+            } else if (!line.match(/^\d+\.\d+\t/)){// ignore empty nodes (decimal number)
                 console.log("strange line:%d\n  %s\n=>%s\n  %s",i,lines[i-1],lines[i],lines[i+1]);
             }
         }
@@ -70,7 +91,16 @@ function UD(fileName,multiLine,startLine){
     if (nbNodes==1)return;
     for (let i=1;i<nbNodes;i++){
         const node=this.nodes[i];
-        const head=node.head;
+        let head=+node.head;
+        if (!Number.isInteger(head) || head<0  || head >= nbNodes){
+            console.log("Illegal head: \"%s\" for node %d",node.head,i)
+            if (this.root!==null)head=this.root.id;
+            else {
+                this.root=node;
+                head=0;
+            }
+                
+        }
         if (head==0)this.root=node;
         else if (head<node.id){
             node.addToRightOf(this.nodes[head]);
@@ -90,7 +120,7 @@ UD.prototype.show=function(){
 }
 
 /// for text generation
-UD.prototype.toJSR = function(){
+UD.prototype.similiClone = function(){
     ///   HACK: as the generation process modifies its input we have to "simili-clone" it before
     ///         realisation, so that the dependency and tree drawings show all the information
     let clonedNodes=this.nodes.map(udn=>new UDnode(udn));
@@ -107,24 +137,7 @@ UD.prototype.toJSR = function(){
             node.addToLeftOf(clonedNodes[head]);
         }
     }
-    ///   end of cloning
-    const rchildren=clonedRoot.right;
-    const n=rchildren.length;
-    // HACK:remove final full stop and add it after transformation to jsRealB expression
-    //    this is because jsRealB can add one after a S
-    let addPunct=null;
-    if (n>0 && rchildren[n-1].getDeprel()=="punct"){
-        const finalPunct=rchildren[n-1].getLemma();
-        if (finalPunct == "."){
-            addPunct=finalPunct
-            rchildren.splice(n-1,1);
-        }
-    }
-    clonedRoot.processFixedFlat();
-    let jsr=clonedRoot.toConstituent();
-    if (addPunct!==null && !jsr.isA("S"))
-        jsr.addOptions([`a("${addPunct}")`]);
-    return jsr;
+    return clonedRoot;
 }
 
 // recreate the conll format

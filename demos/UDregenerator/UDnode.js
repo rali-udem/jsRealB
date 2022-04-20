@@ -1,3 +1,14 @@
+if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
+    //////// 
+    //  load JSrealB
+    var jsrealb=require('../../dist/jsRealB-node.js');
+    // eval exports
+    for (var v in jsrealb){
+        eval("var "+v+"=jsrealb."+v);
+    }
+    Dependent=jsrealb.Dependent
+}
+
 // keep information about a single node in the tree
 // with the following fields taken from a line of the file
 //   lineNumber : lineNumber in the file
@@ -145,37 +156,15 @@ UDnode.prototype.hasNoSpaceAfter = function (){
     return this.misc["SpaceAfter"]=="No";
 }
 
-UDnode.prototype.toConstituent = function(isLeft){
+UDnode.prototype.toConstituent = function(isLeft,isSUD){
     if (this.isTerminal())
-        return this.toTerminal(isLeft);
-    this.processFixedFlat();
-    return this.toPhrase(isLeft)
+        return this.toTerminal();
+    // this.processFixedFlat();
+    return this.toDependent(isLeft,isSUD)
 }
 
 UDnode.prototype.isPunct = function(){
     this.upos=="PUNCT" || (this.upos=="PART" && this.lemma=="'");
-}
-
-UDnode.prototype.feats2options = function(selFeats){
-    if (this.hasNoFeature())return [];
-    const feats=this.head.feats;
-    let options=[];
-    function addOption(selFeat,val){
-        if (val===undefined) return;
-        const option=selFeat=="Number" ? Number_[val] : eval(selFeat)[val];
-        if (option===undefined){
-            console.log("undefined option:%s=%s",selFeat,val);
-        } else {
-            if (option != null) options.push(option)
-        }
-    }
-    for (const selFeat of selFeats){
-        addOption(selFeat,this.selectFeature(selFeat));
-        if (["Number","Gender","Person"].indexOf(selFeat)>=0){
-            addOption(selFeat+"_psor",this.selectFeature(selFeat+"_psor"));
-        }
-    }
-    return options
 }
 
 UDnode.prototype.options2feats = function(options){
@@ -194,122 +183,6 @@ UDnode.prototype.options2feats = function(options){
 // regenerate CONLLU format
 UDnode.prototype.conll = function(){
     return this.conllLine;
-    // return [this.id,this.form,this.lemma,this.upos,this.xpos,this.options2feats(this.feats),
-    //         this.head,this.deprel,this.deps,this.options2feats(this.misc)].join("\t")
-}
-
-// Phrase processing (language independent)
-
-// process coordination by gathering all children (starting at the second one) in a list 
-// creating phrase with the first child and then adding the CP
-UDnode.prototype.processCoordination = function(phrase,headTerm,sentOptions){
-    let c; // default
-    let ph=new JSR(phrase,[]);
-    // split children into separate trees to the right that will be processed separately
-    let conjs=[]
-    let right=this.right;
-    let n=right.length
-    for (let i=n-1;i>=0;i--){
-        if (right[i].getDeprel()=="conj"){
-            conjs.push(right[i]);
-            right.splice(i,1);
-        }
-    }
-    conjs.reverse();
-    // process first 
-    appendTo(ph.children,this.left.map(c=>c.toConstituent(true)));
-    ph.children.push(headTerm);
-    // remove punct
-    if (this.right.length>0){
-        const [last]=this.right.slice(-1);
-        if (last.getDeprel()=="punct" && last.getUpos()=="PUNCT" && last.getLemma()==",")
-            this.right.splice(-1,1);
-    }
-    appendTo(ph.children,this.right.map(c=>c.toConstituent(false)));
-    let childrenJSR=[ph.addOptions(sentOptions)];  // add options to the first child
-    // process other children and pick the conjunction
-    // we conjecture that NP take their argument to the left and VP to the right
-    n=conjs.length;
-    let hasOxfordComma=false;
-    for (let i=0;i<n;i++){
-        let ci=conjs[i];
-        let [dep,idx]=ci.findDeprelUpos("cc","CCONJ",_);
-        if (idx>=0){ // remove it
-            c=dep[idx].getLemma();
-            dep.splice(idx,1);
-        }
-        // remove also front comma...
-        if (ci.left.length>0){
-            const first=ci.left[0];
-            if (first.getDeprel()=="punct" && first.getUpos()=="PUNCT" && first.getLemma()==","){
-                ci.left.splice(0,1);
-                if (i==n-1)hasOxfordComma=true;
-            }
-        }
-        childrenJSR.push(ci.toConstituent(false));
-    }
-    if (c!==undefined) childrenJSR.unshift(new JSR("C",c,hasOxfordComma?['b(",")']:[]));
-    let res=new JSR("CP",childrenJSR);
-    return res;
-}
-
-// make children having a depRel "fixed or flat  
-// very delicate HACK
-UDnode.prototype.getMyIndex = function(udNodeList){
-    // const me=this; // make sure that this is not changed
-    return udNodeList.findIndex(udn=>udn==this);
-}
-
-UDnode.prototype.spliceIntoGrandParent=function (p){
-    const isLeft=this.position=="l";
-    const list=isLeft?this.parent.left:this.parent.right;
-    // const list=isLeft?this.parent.left:this.parent.right;
-    // const [p]=list.splice(idxP,1);   // remove from parent list
-    const upp=this.parent.parent;    // insert into grand parent
-    let idxPP=this.parent.getMyIndex(upp.left);
-    if (idxPP>=0){
-        upp.left.splice(isLeft?idxPP:idxPP+1,0,p)
-    } else {
-        idxPP=this.parent.getMyIndex(upp.right);
-        upp.right.splice(isLeft?idxPP:idxPP+1,0,p);
-    }
-}
-
-
-UDnode.prototype.processFixedFlat = function(){
-    const deprel=this.getDeprel();
-    if (deprel == "fixed" || deprel == "flat"){     // move this node up
-        if (this.parent.parent==undefined) return ; // this can occur in short examples
-        let idxP=this.getMyIndex(this.parent.left);
-        if (idxP>=0){
-            // this.spliceIntoGrandParent(true,idxP)
-            this.spliceIntoGrandParent(this.parent.left.splice(idxP,1)[0])
-        } else {
-            idxP=this.getMyIndex(this.parent.right)
-            // this.spliceIntoGrandParent(false,idxP);
-            this.spliceIntoGrandParent(this.parent.right.splice(idxP,1)[0])
-        }
-        // HACK: change name of deprel so that it will not be moved more than once
-        this.deprel+="*"; 
-    }
-    if (this.isTerminal())return;
-    this.left.forEach(udn=>udn.processFixedFlat()); 
-    this.right.slice().reverse().forEach(udn=>udn.processFixedFlat());
-}
-
-UDnode.prototype.processNominal = function(headTerm,sentOptions){
-    // check coordination 
-    const conjs=this.right.filter(udt=>udt.matches("conj",_,_));
-    if (conjs.length>0){// get the first conj
-        return this.processCoordination("NP",headTerm,sentOptions);
-    }
-    let np=new JSR("NP");
-    np.addChildren(this.left.map(c=>c.toConstituent(true)));
-    np.addChildren(headTerm);
-    np.addChildren(this.right.map(c=>c.toConstituent(false)));
-    // if NP first child is P, then changeit to PP
-    if (np.children[0].isA("P"))np.constName="PP";
-    return np.addOptions(sentOptions);
 }
 
 //  check if deprel is present with corresponding features, return [children list,index] 
@@ -404,6 +277,221 @@ UDnode.prototype.toJSON0=function(level){
     return res.join(",\n"+s)+"}";
 }
 
+const sudMapping ={
+    "root":"root",
+    "unk":"mod",
+    "subj":"subj","udep":"mod",
+    "mod":"mod",
+    "comp":"comp","comp:obl":"comp","comp:obj":"comp","comp:aux":"comp","comp:cleft":"comp","comp:pred":"comp",
+    "vocative":"mod","discourse":"mod",
+    "appos":"mod","det":"det","clf":"mod","conj":"mod","cc":"mod","flat":"mod","dislocated":"mod",
+    "compound":"mod","list":"mod","parataxis":"mod",
+    "orphan":"mod","goeswith":"mod","reparandum":"mod",
+    "punct":"mod",
+    }
+
+
+function sud2jsrdeprel(sudDeprel){
+    const idAt=sudDeprel.indexOf("@"); // ignore @ and the rest
+    if (idAt>=0)sudDeprel=sudDeprel.substring(0,idAt);
+    const deprel=sudMapping[sudDeprel]
+    if (deprel === undefined){
+        console.log("unknown SUD deprel : %s",sudDeprel);
+        return "comp";
+    }
+    return deprel;
+}
+
+const udMapping = { 
+    // core arguments
+    "nsubj":"subj","csubj":"subj",
+    "obj":"comp","ccomp":"comp",
+    "iobj":"comp","xcomp":"comp",
+    // non-core dependents
+    "obl":"comp","advcl":"mod","advmod":"mod","aux":"mod",
+    "vocative":"mod","discourse":"mod","cop":"mod",
+    "expl":"mod","mark":"mod",
+    // nominal dependents
+    "nmod":"mod","acl":"comp","amod":"mod","det":"det",
+    "appos":"mod","clf":"mod",
+    "nummod":"mod","case":"mod",
+    // coordination
+    "conj":"mod","cc":"mod",
+    // multiword expressions
+    "fixed":"mod","flat":"mod","compound":"mod",
+    // loose
+    "list":"mod","parataxis":"mod",
+    // special
+    "orphan":"mod","goeswith":"mod","reparandum":"mod",
+    // other
+    "punct":"mod","root":"root","dep":"comp",
+};
+
+function ud2jsrdeprel(udDeprel){
+    const idColon=udDeprel.indexOf(":"); // ignore colon and after
+    if (idColon>=0)udDeprel=udDeprel.substring(0,idColon);
+    const deprel=udMapping[udDeprel]
+    if (deprel === undefined){
+        console.log("unknown UD deprel : %s",udDeprel);
+        return "comp";
+    }
+    return deprel;    
+}
+
+
+// process coordination by gathering all children (starting at the second one) in a list 
+// creating phrase with the first child and then adding the CP
+UDnode.prototype.processCoordination = function(sentOptions,isSUD){
+    // split coordination children into separate trees that will be processed separately
+    // according to https://surfacesyntacticud.github.io/guidelines/u/particular_phenomena/coord/
+    let conjs=[]
+    let n,c;
+    if (isSUD) { 
+        // In SUD, each conjunct is attached to the head of the previous one in a chain.
+        let current=this;
+        let [dep,idx] = current.findDeprelUpos("conj",_);
+        while (idx>=0){ 
+            if (dep===current.right){
+                current=dep[idx];
+                conjs.push(current);
+                dep.splice(idx,1); // remove conj link
+                [dep,idx] = current.findDeprelUpos("conj",_);
+            } else {
+                console.log("conj is not a right child",dep,idx)
+                idx=-1
+            }
+        }
+    } else { 
+        // In UD, all conjuncts of a coordination are attached to the head of the first conjunct in a bouquet.
+        let right=this.right;
+        n=right.length
+        for (let i=n-1;i>=0;i--){ // process in reverse so that indices stay the same after splice
+            if (right[i].getDeprel()=="conj"){
+                conjs.push(right[i]);
+                right.splice(i,1); // remove conj link
+            }
+        }
+        conjs.reverse(); // recover original order
+    }
+    // process first
+    let deprel;
+    const firstConst=this.toConstituent(true,isSUD);
+    if (firstConst instanceof Dependent){
+        deprel=firstConst.constType;
+        if (deprel=="root")deprel="subj";
+    } else {
+        deprel="mod";
+    }
+    
+    let conjChildren=[firstConst];
+    
+    // remove punct
+    if (this.right.length>0){
+        const [last]=this.right.slice(-1);
+        if (last.getDeprel()=="punct" && last.getUpos()=="PUNCT" && last.getLemma()==",")
+            this.right.splice(-1,1);
+    }
+    // appendTo(depChildren,conjs.map(c=>new Dependent([c.toConstituent(false,false)],"mod")));
+    // process other children and pick the conjunction
+    // we conjecture that NP take their argument to the left and VP to the right
+    n=conjs.length;
+    let hasOxfordComma=false;
+    for (let i=0;i<n;i++){
+        let ci=conjs[i];
+        let [dep,idx]=ci.findDeprelUpos("cc",_);
+        if (idx>=0){ // remove it
+            c=dep[idx];
+            dep.splice(idx,1);
+        }
+        // remove also front comma...
+        if (ci.left.length>0){
+            const first=ci.left[0];
+            if (first.getDeprel()=="punct" && first.getUpos()=="PUNCT" && first.getLemma()==","){
+                ci.left.splice(0,1);
+                if (i==n-1)hasOxfordComma=true;
+            }
+        }
+        conjChildren.push(ci.toConstituent(false,isSUD));
+    }
+    let coordTerm = c===undefined? Q("") : c.toConstituent(false,isSUD);
+    // create coordination
+    if (coordTerm instanceof Dependent){ 
+        // some strange coordination term (e.g. "ainsi que"), create specific a constant by realizing the dependent
+        coordTerm=Q(coordTerm.toString())
+    }
+    if (hasOxfordComma)coordTerm.b(",");
+    let coordDep=coord(coordTerm)
+    for (child of conjChildren){
+        if (child instanceof Terminal){
+            coordDep.add(new Dependent([child],deprel),undefined,true)
+        } else {
+            if (child.constType!=deprel)child.changeDeprel(deprel);
+            coordDep.add(child,undefined,true)
+        }
+    }
+    return applyOptions(coordDep,sentOptions);
+}
+
+// Dependent.prototype.transformCopula = function(){
+//     // change a cop upos to an aux (caution delicate HACK...)
+//     // it must be done before anything else...
+//     // this allows creating a sentence of the type root(subj,VP(V(be),...)) from a dependency
+//     // having a noun or an adjective as root
+//     if (this.terminal.isOneOf(["N","A"])){
+//         const copIdx=this.findIndex(d=>d.isA("mod") && d.terminal.lemma=="be" &&
+//                                     d.getProp("pos")=="pre" && d.dependents.length==0)
+//         if (copIdx>=0) {
+//             const cop=this.dependents.splice(copIdx,1)[0].terminal; // remove mod and cop is the terminal
+//             this.add(new Dependent([this.terminal],"mod"),copIdx);
+//             this.terminal=cop
+//         }
+//     }
+//     return this;
+// }
+
+//  create a dependent by mapping the deprel name to a jsRealB one
+UDnode.prototype.childrenDeps = function(head,isLeft,isSUD){
+    const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
+    // let head = this.toTerminal(isLeft);
+    let dep = new Dependent([head],deprel)
+    if (isLeft && ["mod","comp"].indexOf(deprel)>=0)
+        dep.pos("pre");
+    if (!isLeft && ["det","subj"].indexOf(deprel)>=0)
+        dep.pos("post");
+    if (this.left.length>0){
+        const first=this.left[0];
+        if (first.getDeprel()=="punct"){// add first punct as option b()
+            dep.b(first.getLemma());
+            this.left.shift() 
+        }
+        this.left.forEach( n=>dep.add(n.toDependent(true,isSUD),undefined,true));
+    }
+    if (this.right.length>0){
+        const last=this.right[this.right.length-1];
+        if (last.getDeprel()=="punct"){// add last punct as option a()
+            dep.a(last.getLemma());
+            this.right.pop()
+        }
+        this.right.forEach(n=>dep.add(n.toDependent(false,isSUD),undefined,true))
+    }
+    return dep
+}
+
+// combine all typ options into a single list and apply other options directly to a dependent
+function applyOptions(dep,options){
+    let typOpts={};
+    for (var i = 0; i < options.length; i++) {
+        let [key,val]=options[i];
+        if (key=="typ")
+            typOpts=Object.assign(typOpts,val);
+        else 
+            Constituent.prototype[key].call(dep,val)
+    }
+    if (Object.keys(typOpts).length>0)
+        Constituent.prototype.typ.call(dep,typOpts);
+    return dep
+}
+
 
 
 // ///////// Regenerate the tokens from the forms in the tree in order to do a "sanity check" on the dependency
@@ -439,14 +527,8 @@ UDnode.prototype.toJSON0=function(level){
 
 const _ = "ANYTHING";  // like in Prolog
 
-function addSentTypes(l,sentTypes){
-    if (typeof l == "string") 
-        return l+sentTypes;
-    l[l.length-1]+=sentTypes;
-    return l;
-}
-
 if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
     exports.UDnode=UDnode;
+    exports.applyOptions=applyOptions;
     exports._=_;
 }

@@ -356,10 +356,12 @@ Phrase.prototype.pronominalize_fr = function(){
                 pro=this.getTonicPro("nom");
             } else if (npParent.isA("SP") && npParent.elements[0].isA("Pro")){ // is relative
                 pro=this.getTonicPro("nom");
-            } else {
+            } else if (idxV>=0) { // if there is a verb
                 pro=this.getTonicPro("acc") // is direct complement;
                 npParent.elements[idxV].cod=this;// indicate that this is a COD
-            }               
+            } else { // only replace the noun
+                pro=this.getTonicPro("nom")
+            }
         } else if (this.isA("PP")){ // is indirect complement
             np=this.getFromPath([["NP","Pro"]]); // either a NP or Pro within the PP
             const prep=this.getFromPath(["P"]);
@@ -434,10 +436,10 @@ Phrase.prototype.pronominalize_en = function(){
 Phrase.prototype.pronominalize = function(e){
     if (e.props["pro"]!==undefined && !e.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
         if (e.isFr()){
-            return e.pronominalize_fr()
+            e.pronominalize_fr()
         } else { // in English pronominalize only applies to a NP
             if (e.isA("NP")){
-                return  e.pronominalize_en()
+                e.pronominalize_en()
             } else {
                 return this.warn("bad application",".pro",["NP"],e.constType)
             }
@@ -469,8 +471,9 @@ Phrase.prototype.passivate = function(){
                 subject=this.removeElement(0);
                 if (subject.isA("Pro")){
                     // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
-                    // to which we report the original person, number, gender
-                    subject=subject.getTonicPro().g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"));
+                    // to which we assign the original person, number, gender
+                    subject=subject.getTonicPro().g(subject.getProp("g"))
+                                                 .n(subject.getProp("n")).pe(subject.getProp("pe"));
                 }
             } else {
                 subject=null;
@@ -586,20 +589,26 @@ Phrase.prototype.processTyp_fr = function(types){
         vp.addElement(V(origLemma).t("b"),idxV+3);
     });
     this.processVP(types,"mod",function(vp,idxV,v,mod){
-        var vUnit=v.lemma;
+        var origLemma=v.lemma;
         for (var key in rules.verb_option.modalityVerb){
             if (key.startsWith(mod)){
                 v.setLemma(rules.verb_option.modalityVerb[key]);
                 break;
             }
         }
+        v.isMod=true
         let i=idxV-1;
         // move the modality verb before the pronoun(s) inserted by .pro()
         while (i>=0 && vp.elements[i].isA("Pro") && vp.elements[i].peng!==vp.peng)i--;
         if (i!=idxV-1){
             vp.addElement(vp.removeElement(idxV),i+1); // remove the modality verb and move it before the pronouns
         }
-        vp.addElement(V(vUnit).t("b"),idxV+1); // add the original verb at infinitive 
+        let newV=V(origLemma).t("b");
+        if (v.isProg){ // copy progressive from original verb...
+            newV.isProg=v.isProg;
+            delete v.isProg
+        }
+        vp.addElement(newV,idxV+1); // add the original verb at infinitive 
     });
     this.processVP(types,"neg",function(vp,idxV,v,neg){
         if (neg === true)neg="pas";
@@ -609,7 +618,101 @@ Phrase.prototype.processTyp_fr = function(types){
 
 // negation of modal auxiliaries
 const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
-              "could":"could not","might":"might not","should":"should not","would":"would not"}    
+              "could":"could not","might":"might not","should":"should not","would":"would not"};  
+
+// for English conjugation (used by Phrase.processTyp_en and Dependent.processTyp_en)
+// implements the "affix hopping" rules given in 
+//      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
+
+function affixHopping(v,t,compound,types){
+    const v_peng=v.peng;
+    // let t = vp.getProp("t");
+    const neg = types["neg"]===true;
+    let auxils=[];  // list of Aux followed by V
+    let affixes=[];
+    let isFuture=false;
+    if (t=="f"){
+        isFuture=true;
+        t="p"; // the auxiliary will be generated here so remove it from the V
+    }
+    const prog = types["prog"]!==undefined && types["prog"]!==false;
+    const perf =types["perf"]!==undefined && types["perf"]!==false;
+    const pas =types["pas"]!==undefined && types["pas"]!==false;
+    const interro = types["int"];
+    const modality=types["mod"];
+    // const compound = this.getRules().compound;
+    if (modality !== undefined && modality !== false){
+        auxils.push(compound[modality].aux);
+        affixes.push("b");
+    } else if (isFuture){
+        // caution: future in English is done with the modal will, so another modal cannot be used
+        auxils.push(compound.future.aux);
+        affixes.push("b");
+    }
+    if (perf || prog || pas){
+        if (perf){
+            auxils.push(compound.perfect.aux);
+            affixes.push(compound.perfect.participle);
+        }
+        if (prog) {
+            auxils.push(compound.continuous.aux);
+            affixes.push(compound.continuous.participle)
+        }
+        if (pas) {
+            auxils.push(compound.passive.aux);
+            affixes.push(compound.passive.participle)
+        }
+    } else if (interro !==undefined && interro !== false && 
+               auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
+        // add auxiliary for interrogative if not already there
+        if (interro!="wos" && interro!="was"){
+            auxils.push("do");
+            affixes.push("b");
+        }
+    }
+    auxils.push(v.lemma);
+    // realise the first verb, modal or auxiliary
+    // but make the difference between "have" as an auxiliary and "have" as a verb
+    const vAux=auxils.shift();
+    let words=[];
+    // conjugate the first verb
+    if (neg) { // negate the first verb
+        if (t=="pp" || t=="pr"){ // special case for these tenses
+            words.push(Adv("not","en"));
+            words.push(V(vAux,"en").t(t));
+        } else if (vAux in negMod){
+            if (vAux=="can" && t=="p"){
+                words.push(Q("cannot"))
+            } else {
+                words.push(V(vAux,"en").t(t))
+                words.push(Adv("not","en"))
+            }
+        } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
+            words.push(V(vAux).t(t));
+            words.push(Adv("not","en"));
+        } else {
+            words.push(V("do","en").t(t));
+            words.push(Adv("not","en"));
+            if (vAux != "do") words.push(V(vAux).t("b")); 
+        }
+    } else { // must only set necessary options, so that shared properties will work ok
+        let newAux=V(vAux);
+        if (!isFuture)newAux.t(t);
+        if (v.lemma in negMod)newAux.pe(1);
+        words.push(newAux);
+    }
+    // recover the original agreement info and set it to the first new verb...
+    words[0].peng=v_peng;
+    // realise the other parts using the corresponding affixes
+    while (auxils.length>0) {
+        const vb=auxils.shift();
+        words.push(V(vb).t(affixes.shift()));
+    }
+    if (types["refl"]===true && t!="pp"){
+        words.push(Pro("myself","en").pe(v.getProp("pe")).n(v.getProp("n")).g(v.getProp("g")))
+    }
+    return words
+}
 
 Phrase.prototype.processTyp_en = function(types){
     // replace current verb with the list new words
@@ -625,100 +728,11 @@ Phrase.prototype.processTyp_en = function(types){
     }
     const idxV=vp.getIndex("V");
     if(idxV>=0){
-        const v = vp.elements[idxV];
-        const v_peng=v.peng;
-        let t = vp.getProp("t");
-        const neg = types["neg"]===true;
-        // English conjugation 
-        // it implements the "affix hopping" rules given in 
-        //      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
-        let auxils=[];  // list of Aux followed by V
-        let affixes=[];
-        let isFuture=false;
-        if (t=="f"){
-            isFuture=true;
-            t="p"; // the auxiliary will be generated here so remove it from the V
-        }
-        const prog = types["prog"]!==undefined && types["prog"]!==false;
-        const perf =types["perf"]!==undefined && types["perf"]!==false;
-        const pas =types["pas"]!==undefined && types["pas"]!==false;
-        const interro = types["int"];
-        const modality=types["mod"];
         if (types["contr"]!==undefined && types["contr"]!==false){
             vp.contraction=true; // necessary because we want the negation to be contracted within the VP before the S or SP
             this.contraction=true;
         }
-        const compound = this.getRules().compound;
-        if (modality !== undefined && modality !== false){
-            auxils.push(compound[modality].aux);
-            affixes.push("b");
-        } else if (isFuture){
-            // caution: future in English is done with the modal will, so another modal cannot be used
-            auxils.push(compound.future.aux);
-            affixes.push("b");
-        }
-        if (perf || prog || pas){
-            if (perf){
-                auxils.push(compound.perfect.aux);
-                affixes.push(compound.perfect.participle);
-            }
-            if (prog) {
-                auxils.push(compound.continuous.aux);
-                affixes.push(compound.continuous.participle)
-            }
-            if (pas) {
-                auxils.push(compound.passive.aux);
-                affixes.push(compound.passive.participle)
-            }
-        } else if (interro !==undefined && interro !== false && 
-                   auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
-            // add auxiliary for interrogative if not already there
-            if (interro!="wos" && interro!="was"){
-                auxils.push("do");
-                affixes.push("b");
-            }
-        }
-        auxils.push(v.lemma);
-        // realise the first verb, modal or auxiliary
-        // but make the difference between "have" as an auxiliary and "have" as a verb
-        const vAux=auxils.shift();
-        let words=[];
-        // conjugate the first verb
-        if (neg) { // negate the first verb
-            if (t=="pp" || t=="pr"){ // special case for these tenses
-                words.push(Adv("not","en"));
-                words.push(V(vAux,"en").t(t));
-            } else if (vAux in negMod){
-                if (vAux=="can" && t=="p"){
-                    words.push(Q("cannot"))
-                } else {
-                    words.push(V(vAux,"en").t(t))
-                    words.push(Adv("not","en"))
-                }
-            } else if (vAux=="be" || (vAux=="have" && v.lemma!="have")) {
-                words.push(V(vAux).t(t));
-                words.push(Adv("not","en"));
-            } else {
-                words.push(V("do","en").t(t));
-                words.push(Adv("not","en"));
-                if (vAux != "do") words.push(V(vAux).t("b")); 
-            }
-        } else { // must only set necessary options, so that shared properties will work ok
-            let newAux=V(vAux);
-            if (!isFuture)newAux.t(t);
-            if (v.lemma in negMod)newAux.pe(1);
-            words.push(newAux);
-        }
-        // recover the original agreement info and set it to the first new verb...
-        words[0].peng=v_peng;
-        // realise the other parts using the corresponding affixes
-        while (auxils.length>0) {
-            const vb=auxils.shift();
-            words.push(V(vb).t(affixes.shift()));
-        }
-        if (types["refl"]===true && t!="pp"){
-            words.push(Pro("myself","en").pe(v.getProp("pe")).n(v.getProp("n")).g(v.getProp("g")))
-        }
+        const words=affixHopping(vp.elements[idxV],vp.getProp("t"),this.getRules().compound,types)
         // insert the content of the word array into vp.elements
         vp.removeElement(idxV);
         for (let i=0;i<words.length;i++)
@@ -967,16 +981,33 @@ function compareClitics(pro1,pro2,table){
     return k1-k2;
 }
 
-Phrase.prototype.doFrenchPronounPlacement = function(cList){
-    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
+const modalityVerbs=["vouloir","devoir","pouvoir"]
+
+function doFrenchPronounPlacement(cList){
     let verbPos,cliticTable,neg2,prog;
-    let pros=[]
-    for (let i=0;i<cList.length;i++){
+    // check for combination of negation, progressive and modality verb
+    // negation should be put on the "être" and "modality" and not on the original verb
+    let iDeb=0
+    for (let i=iDeb;i<cList.length;i++){
         let c=cList[i];
-        if (c.isA("V")){
+        if (c.isA("V") && c.neg2 !== undefined){
+            if (c.isMod || c.isProg){
+                c.insertReal(cList,Adv(c.neg2,"fr"),i+1);
+                c.insertReal(cList,Adv("ne","fr"),i);
+                delete c.neg2 // remove negation from the original verb
+                iDeb=i+3      // skip these in the following loop
+                if (c.isProg)iDeb+=2 // skip "en train","de"
+            }
+        }
+    }
+    // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
+    let pros=[]
+    for (let i=iDeb;i<cList.length;i++){
+        let c=cList[i];
+        if (c.isA("V") && c.getProp("t")!="pp"){ // ignore past participles that act like adjectives
             if (verbPos===undefined){
-                if (c.isProg!==undefined){
-                    prog=c;
+                if (c.isMod || c.isProg){
+                    if (c.isProg){prog=c}
                     continue;
                 }
                 verbPos=i
@@ -998,7 +1029,9 @@ Phrase.prototype.doFrenchPronounPlacement = function(cList){
                 }
                 if (c.isReflexive() && c.getProp("t")!="pp"){
                     if (prog!==undefined)c=prog;
-                    c.insertReal(pros,Pro("moi","fr").c("refl").pe(c.getProp("pe")).n(c.getProp("n")).g(c.getProp("g")));
+                    c.insertReal(pros,Pro("moi","fr").c("refl")
+                                      .pe(c.getProp("pe")).n(c.getProp("n"))
+                                      .g(c.getProp("g")));
                 }
             }
         } else if (c.isA("Pro") && verbPos!==undefined){
@@ -1015,14 +1048,20 @@ Phrase.prototype.doFrenchPronounPlacement = function(cList){
     }
     if (verbPos === undefined)return;
     // add ending "pas" after the verb unless it is "lié" in which cas it goes after the next word
-    if (neg2){
+    if (neg2){// HACK: add neg2 to the original verb...
         const vb=cList[verbPos]
         vb.insertReal(cList,Adv(neg2,"fr"),verbPos+(vb.getProp("lier")===undefined?1:2))
+        if (pros.length>0  &&  pros[0].isA("Adv") && pros[0].lemma=="ne"){
+            cList.splice(verbPos,0,pros.shift())
+            verbPos++;
+        }
     }    
-    if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable))
-    // insert pronouns before the verb 
-    for (let k=0;k<pros.length;k++){
-        cList.splice(verbPos+k,0,pros[k])
+    if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable));
+    if (pros.length>0){
+        // insert pronouns before the verb 
+        for (let k=0;k<pros.length;k++){
+            cList.splice(verbPos+k,0,pros[k])
+        }
     }
 }
 
@@ -1036,6 +1075,7 @@ Phrase.prototype.cpReal = function(){
     // realize coordinated Phrase by adding ',' between all elements except for the last
     // if no C is found then all elements are separated by a ","
     // TODO: deal with the Oxford comma (i.e. a comma after all elements even the last)
+    //       although it can be "patched" using C("and").b(",") but this adds a spurious space before the comma
     const idxC=this.getIndex("C");
     // take a copy of all elements except the coordonate
     const elems=this.elements.filter(function(x,i){return i!=idxC})
@@ -1073,7 +1113,7 @@ Phrase.prototype.cpReal = function(){
         this.setProp("g",gn.g);
         this.setProp("n",gn.n);
         this.setProp("pe",gn.pe);
-        // for the pronoun, we must override its existing properties...
+        // for an inserted pronoun, we must override its existing properties...
         if (this.pronoun!==undefined){
             this.pronoun.peng=gn;
             this.pronoun.props["g"]=gn.g;
@@ -1138,9 +1178,9 @@ Phrase.prototype.real = function() {
     if (this.isA("CP")){
         res=this.cpReal()
     } else {
+        this.pronominalizeChildren();
         const typs=this.props["typ"];
         if (typs!==undefined)this.processTyp(typs);
-        this.pronominalizeChildren();
         const es=this.elements;
         for (let i = 0; i < es.length; i++) {
             const e = es[i];
