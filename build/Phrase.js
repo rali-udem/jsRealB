@@ -1004,7 +1004,7 @@ function doFrenchPronounPlacement(cList){
     let pros=[]
     for (let i=iDeb;i<cList.length;i++){
         let c=cList[i];
-        if (c.isA("V")){
+        if (c.isA("V") && c.getProp("t")!="pp"){ // ignore past participles that act like adjectives
             if (verbPos===undefined){
                 if (c.isMod || c.isProg){
                     if (c.isProg){prog=c}

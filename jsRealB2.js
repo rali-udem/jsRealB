@@ -515,8 +515,8 @@ var dependenciesEn=[
             mod(Pro("you")))),
     "Every man that is missing is punished for you."],                              //5
     [root(V("stop").t("ps"),
-          subj(Pro("it")),
           mod(Adv("nearly")).pos("pre"),
+          subj(Pro("it")),
           compObj(V("rain").t("pr"))).typ({"perf":true}),
      "Nearly it had stopped raining."],                                            //6 (differeent word order)
     [root(V("waste").t("ps"),

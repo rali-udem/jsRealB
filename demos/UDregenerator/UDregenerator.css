@@ -135,7 +135,7 @@ textarea#jsrStructure {
 }
 
 /*  drag and drop of file */
-body.dragging::before {
+#dragzone.dragging::before {
   content: "Drop the file on this page/Glisser le fichier sur la page";
   position: fixed;
   left: 0; width: 100%;

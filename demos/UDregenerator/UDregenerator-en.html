@@ -8,13 +8,11 @@
     <script src="../../dist/jsRealB.js"></script>
 	<script src="ace-src-noconflict/ace.js"></script>
     <script src="utils.js"></script>
-    <script src="JSR.js"></script>
-    <script src="UD2jsr.js"></script>
     <script src="UD.js"></script>
+	<script src="UD2jsr.js"></script>
     <script src="UDnode.js"></script>
     <script src="UDnode-en.js"></script>
 	<script src="levenshtein.js"></script>
-	<script src="Tokenizer.js"></script>
 	<script src="drawDependencies.js"></script>
     <script src="UDregenerator.js"></script>
     <script src="initUD-en.js"></script>
@@ -23,8 +21,16 @@
 	<title>Universal Dependencies graph/tree display and regeneration</title>
 </head>
 <body>
+  <div id="dragzone">
 	<h1><a href="https://universaldependencies.org">Universal Dependencies</a> graph/tree display with regeneration using <a href="http://github.com/rali-udem/jsRealB">jsRealB</a></h1>
 	<input type="button" value="Show instructions" id="showHideInstructions"/> 
+	<fieldset>
+		<legend>Annotation scheme</legend>
+		<label for="udScheme">UD</label>
+		<input type="radio" name="annotationScheme" value="udSch" id="udScheme" checked="checked">
+		<span style="margin-right:30px">&nbsp;</span>
+		<label for="sudScheme">SUD</label><input type="radio" name="annotationScheme" value="sudSch" id="sudScheme">
+	</fieldset>
 	<!--  Customize file button, taken from
 		 https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file/47950538#47950538 -->
 	<button onclick="document.getElementById('file-input').click()">Select an UD file</button>
@@ -33,7 +39,9 @@
     <a href="UDgrep.html" class='right'  target="_blank">UDgrep</a>
     <a href="UDregenerator-fr.html" class='right'>Version française</a>
     <ul id="instructions" style="display:none">
-        <li>Select a local file containing one or many dependency structures in <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">CoNLL-U format</a>. An initial UD file is loaded at the web page launch. Dragging a file from the finder or explorer on page will load it.</li> 
+        <li>Select a local file containing one or many dependency structures in <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">CoNLL-U format</a>. </li> 
+		<li>Make sure to select the appropriate annotation scheme: <a href="https://universaldependencies.org/u/dep/index.html" title="Universal Dependency Relations">classical UD</a> or <a href="https://surfacesyntacticud.github.io" title="Surface Syntactic Universal Dependencies (SUD) | SUD">Surface Syntactic UD</a>. This selects the mapping between the original <code>deprel</code> names and the ones used by jsRealB.</li> 
+		<li>An initial UD file is loaded at the web page launch. Dragging a file from the finder or explorer on page will load it.</li>
         <li>Although there is no a priori limit on the number of UDs that can be loaded in the web page, the system is less responsive and the sentence menu becomes too long when there are more than 1000 sentences.</li>
     	<li>Click on the <code>Parse</code> button to build the menu. </li> 
 		<li>Select a sentence from the menu. A starting asterisk in a menu item indicates a <em>non-projective</em> dependency structure. Sentences for which jsRealB issued warnings are indicated by a starting exclamation point.</li>
@@ -58,7 +66,7 @@
             <tbody></tbody> 
             <tfoot></tfoot>
         </table>
-    </div>    
+    </div>   
     <div>
         <fieldset style="vertical-align: middle;"> <!-- vertical-align: useful for Chrome -->
             <legend>Show only</legend>
@@ -102,12 +110,13 @@
         <tr><th>TEXT</th><td id="jsrSentence"></td></tr>
         <tr><th></th><td id="nbDiffs"></td></tr>
     </table>
+  </div>	
 	<input type="button" value="Hide jsRealB editor" id="showHide-jsrEditor"/>
     <div id="jsrEditor" style="display:block">
         <div id="jsrStructure"></div>
         <div>
             <input type="button" name="realize" value="Realize" id="realize">
-            <input type="button" name="realize" value="Show constituent tree" id="showHideContituentTree">
+            <input type="button" name="realize" value="Show dependency tree" id="showHideDependencyTree">
         </div>
         <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="constTree" style="border: 1px solid #999;display:none">
             <g></g>

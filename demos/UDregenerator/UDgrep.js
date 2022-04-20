@@ -101,7 +101,8 @@ function showSentenceFromRow(tr){
     let selectedNode=currentUD.nodes[+id];
     d3.select("#text")
         .html(currentUD.text.substr(0,selectedNode.indexInText)+
-            '<b>'+form+'</b>'+currentUD.text.substr(selectedNode.indexInText+form.length));
+              '<b>'+selectedNode.formInText+'</b>'+
+              currentUD.text.substr(selectedNode.indexInText+selectedNode.formInText.length));
     
     // highlight word in the link and tree displays
     d3.selectAll("svg .selected-word").classed("selected-word",false);
@@ -150,6 +151,17 @@ function makeFullTable(){
     } else if (d3.select("#formEQlemma").property("indeterminate")){
         filters.push("FORM != LEMMA");
     }
+    // check for sorted column
+    let origThs=document.querySelectorAll('#tokens th');
+    let noCol,croissant;
+    for (var i = 0; i < origThs.length; i++) {
+        let th=d3.select(origThs[i])
+        if (th.classed("colTri")){
+            noCol=i;
+            croissant=th.classed("croissant")
+            break;
+        }
+    }
     // adapted from https://stackoverflow.com/questions/12369823/use-d3-js-on-a-new-window
     let newWindow=window.open("")
     let newWindowHead=d3.select(newWindow.document.head)
@@ -162,13 +174,16 @@ function makeFullTable(){
             .text("Regular expression filters"+(d3.select("#ignoreCase").property("checked")?" [case  insensitive]":""))
         newWindowBody.append("p").text(filters.join(" && "))
     }
+    if (noCol!==undefined){
+        newWindowBody.append("p").text("Sorted "+(croissant?"ascending":"descending")+" by "+fieldNames[noCol])
+    }
     let fullTable=newWindowBody.append("table").attr("id","fullTable")
     let thead=fullTable.append("thead");
     thead.append('th').text("sent_id")
     for (fn of fieldNames){
         thead.append('th').text(fn)
     }
-    let tbody=fullTable.append("tbody")
+    let tbody=fullTable.append("tbody");
     for (var i = 0; i < tokens.length; i++) {
         toks=tokens[i];
         let tr=tbody.append("tr");
@@ -177,6 +192,9 @@ function makeFullTable(){
             tr.append("td").text(toks[j]);
         }
     }
+    if (noCol!==undefined){
+        sortColumn(tbody.node(),noCol+1,croissant)
+    } 
 }
 
 // show/hide instructions
@@ -252,6 +270,10 @@ function createFilters(){
         const search = fieldSelect.append("input")
             .attr("type",text)
             .attr("id","search-"+fName)
+            .attr("autocomplete","off")
+            .attr("autocorrect","off")
+            .attr("autocapitalize","off")
+            .attr("spellcheck",false)
             .attr("placeholder",fName=="ID"?"":"regex")
             .attr("size",fName=="ID"?3:20);
         search.style("display","none");
@@ -310,14 +332,6 @@ function initTable(){
             .text(fieldNames[j])
     }
 
-    // Table sorting by clicking in the column heading
-    // https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript/49041392#49041392
-    //  quite subtle but it works efficiently
-    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
-    const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
-        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
-        )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
-    // do the work...
     document.querySelectorAll('#tokens th').forEach(th => th.addEventListener('click', (() => {
         const noCol=Array.from(th.parentNode.children).indexOf(th);
         let ascending;
@@ -337,11 +351,23 @@ function initTable(){
         }
         const tableNode=table.node();
         const tbody = document.querySelector("tbody",tableNode);
-        Array.from(tableNode.querySelectorAll('tbody tr:nth-child(n+1)'))
-            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), ascending))
-            .forEach(tr => tbody.appendChild(tr) );
+        sortColumn(tbody,noCol,ascending)
     })));    
 }
+
+// Table sorting by clicking in the column heading
+// https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript/49041392#49041392
+//  quite subtle but it works efficiently
+function sortColumn(tbody,noCol,ascending){
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) => 
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+        )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));    
+    Array.from(tbody.querySelectorAll('tr:nth-child(n+1)'))
+        .sort(comparer(noCol, ascending))
+        .forEach(tr => tbody.appendChild(tr) );
+}
+
 
 function showSentenceParse(ud){
     const displayType=d3.select("#displayType").property("value");

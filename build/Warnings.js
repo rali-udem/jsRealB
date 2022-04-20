@@ -224,7 +224,9 @@ Constituent.prototype.warnings = {
             S(NP(A("tout"),D("le"),N("dépendance").n("p"),P("de"),D("un"),Q("coord")),
               VP(V("devoir").t("cp"),V("être").t("b"),Q(expected)),
               SP(C("mais"),Q(found),V("être").t("pc"),V("rencontrer").t("pp")))},
-        
+    "user-warning":  // user specific message, either a String or a Constituent that will be realized
+        {en:(mess)=>mess.toString(),
+         fr:(mess)=>mess.toString()},
 }
 
 // show all warnings with dummy parameters in the console : useful for debugging

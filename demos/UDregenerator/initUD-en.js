@@ -1,4 +1,102 @@
 var initUD =`
+# sent_id = 1.0
+# text = The sun is responsible for plants sprouting, blooming and wilting
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	sun	sun	NOUN	NN	Number=Sing	4	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+4	responsible	responsible	ADJ	JJ	Degree=Pos	0	root	_	_
+5	for	for	ADP	IN	_	6	mark	_	_
+6	plants	plant	NOUN	NNS	Number=Plur	4	obl	_	_
+7	sprouting	sprout	VERB	VBG	VerbForm=Ger	6	acl	_	_
+8	,	,	PUNCT	,	_	9	punct	_	_
+9	blooming	bloom	VERB	VBG	VerbForm=Ger	7	conj	_	_
+10	and	and	CCONJ	CC	_	11	cc	_	_
+11	wilting	wilting	NOUN	NN	Number=Sing	7	conj	_	_
+
+# sent_id = 1.0
+# text = I like wine and salted meat.
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	like	like	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	wine	wine	NOUN	NN	Number=Sing	2	obj	_	_
+4	and	and	CCONJ	CC	_	6	cc	_	_
+5	salted	salt	VERB	VBN	Tense=Past|VerbForm=Part	6	amod	_	_
+6	meat	meat	NOUN	NN	Number=Sing	3	conj	_	_
+7	.	.	PUNCT	.	_	2	punct	_	_
+
+# sent_id = 2.0
+# text = I like salt, amber, oil, cereals, wine and salted meat.
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	_
+2	like	like	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	salt	salt	NOUN	NN	Number=Sing	2	obj	_	_
+4	,	,	PUNCT	,	_	5	punct	_	_
+5	amber	amber	NOUN	NN	Number=Sing	3	conj	_	_
+6	,	,	PUNCT	,	_	7	punct	_	_
+7	oil	oil	NOUN	NN	Number=Sing	3	conj	_	_
+8	,	,	PUNCT	,	_	9	punct	_	_
+9	cereals	cereal	NOUN	NNS	Number=Plur	3	conj	_	_
+10	,	,	PUNCT	,	_	11	punct	_	_
+11	wine	wine	NOUN	NN	Number=Sing	3	conj	_	_
+12	and	and	CCONJ	CC	_	14	cc	_	_
+13	salted	salt	VERB	VBN	Tense=Past|VerbForm=Part	14	amod	_	_
+14	meat	meat	NOUN	NN	Number=Sing	3	conj	_	_
+15	.	.	PUNCT	.	_	2	punct	_	_
+
+# sent_id = 3.0
+# text = The traded products are wine and salted meat.
+1	The	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	traded	trade	VERB	VBN	Tense=Past|VerbForm=Part	3	amod	_	_
+3	products	product	NOUN	NNS	Number=Plur	5	nsubj	_	_
+4	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	5	cop	_	_
+5	wine	wine	NOUN	NN	Number=Sing	0	root	_	_
+6	and	and	CCONJ	CC	_	8	cc	_	_
+7	salted	salt	VERB	VBN	Tense=Past|VerbForm=Part	8	amod	_	_
+8	meat	meat	NOUN	NN	Number=Sing	5	conj	_	_
+9	.	.	PUNCT	.	_	5	punct	_	_
+
+# sent_id = 4.0
+# text = The traded products are salt, amber, oil, cereals, wine and salted meat.
+1	The	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	traded	trade	VERB	VBN	Tense=Past|VerbForm=Part	3	amod	_	_
+3	products	product	NOUN	NNS	Number=Plur	5	nsubj	_	_
+4	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	5	cop	_	_
+5	salt	salt	NOUN	NN	Number=Sing	0	root	_	_
+6	,	,	PUNCT	,	_	7	punct	_	_
+7	amber	amber	NOUN	NN	Number=Sing	5	conj	_	_
+8	,	,	PUNCT	,	_	9	punct	_	_
+9	oil	oil	NOUN	NN	Number=Sing	5	conj	_	_
+10	,	,	PUNCT	,	_	11	punct	_	_
+11	cereals	cereal	NOUN	NNS	Number=Plur	5	conj	_	_
+12	,	,	PUNCT	,	_	13	punct	_	_
+13	wine	wine	NOUN	NN	Number=Sing	5	conj	_	_
+14	and	and	CCONJ	CC	_	16	cc	_	_
+15	salted	salt	VERB	VBN	Tense=Past|VerbForm=Part	16	amod	_	_
+16	meat	meat	NOUN	NN	Number=Sing	5	conj	_	_
+17	.	.	PUNCT	.	_	5	punct	_	_
+
+# sent_id = weblog-typepad.com_ripples_20050410122300_ENG_20050410_122300-0009
+# text = I remain devoted full-time to the advancement of Firefox, the Mozilla platform and web browsing in general.
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	2:nsubj|3:nsubj:xsubj	_
+2	remain	remain	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	0:root	_
+3	devoted	devoted	ADJ	JJ	Degree=Pos	2	xcomp	2:xcomp	_
+4	full	full	ADJ	JJ	Degree=Pos	6	amod	6:amod	SpaceAfter=No
+5	-	-	PUNCT	HYPH	_	6	punct	6:punct	SpaceAfter=No
+6	time	time	NOUN	NN	Number=Sing	3	obl:npmod	3:obl:npmod	_
+7	to	to	ADP	IN	_	9	case	9:case	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	9:det	_
+9	advancement	advancement	NOUN	NN	Number=Sing	3	obl	3:obl:to	_
+10	of	of	ADP	IN	_	11	case	11:case	_
+11	Firefox	Firefox	PROPN	NNP	Number=Sing	9	nmod	9:nmod:of	SpaceAfter=No
+12	,	,	PUNCT	,	_	15	punct	15:punct	_
+13	the	the	DET	DT	Definite=Def|PronType=Art	15	det	15:det	_
+14	Mozilla	Mozilla	PROPN	NNP	Number=Sing	15	compound	15:compound	_
+15	platform	platform	NOUN	NN	Number=Sing	11	conj	9:nmod:of|11:conj:and	_
+16	and	and	CCONJ	CC	_	18	cc	18:cc	_
+17	web	web	NOUN	NN	Number=Sing	18	compound	18:compound	_
+18	browsing	browsing	NOUN	NN	Number=Sing	11	conj	9:nmod:of|11:conj:and	_
+19	in	in	ADP	IN	_	20	case	20:case	_
+20	general	general	ADJ	JJ	Degree=Pos	18	nmod	18:nmod:in	SpaceAfter=No
+21	.	.	PUNCT	.	_	3	punct	3:punct	_
+
 # file = en/en_gum-ud-test.conllu
 # sent_id = GUM_voyage_oakland-21
 # text = Many of the neighborhoods are commercial centers and absolute heaven for foodies or those who seek quieter surroundings than the hustle and bustle of Downtown and Chinatown.
@@ -62,8 +160,8 @@ var initUD =`
 12	a	a	DET	DT	Definite=Ind|PronType=Art	13	det	13:det	_
 13	wave	wave	NOUN	NN	Number=Sing	11	nsubj	11:nsubj	_
 14	of	of	ADP	IN	_	17	case	17:case	_
-15	succesfull	succesfull	ADJ	JJ	Degree=Pos	17	amod	17:amod	_
-16	arab	arab	ADJ	JJ	Degree=Pos	17	amod	17:amod	_
+15	succesfull	successful	ADJ	JJ	Degree=Pos	17	amod	17:amod	_
+16	arab	arab	NOUN	NNS	Degree=Pos	17	amod	17:amod	_
 17	attacks	attack	NOUN	NNS	Number=Plur	13	nmod	13:nmod:of	SpaceAfter=No
 18	.	.	PUNCT	.	_	3	punct	3:punct	_
 

@@ -8,13 +8,11 @@
     <script src="../../dist/jsRealB.js"></script>
 	<script src="ace-src-noconflict/ace.js"></script>
     <script src="utils.js"></script>
-    <script src="JSR.js"></script>
     <script src="UD2jsr.js"></script>
     <script src="UD.js"></script>
     <script src="UDnode.js"></script>
     <script src="UDnode-fr.js"></script>
 	<script src="levenshtein.js"></script>
-	<script src="Tokenizer.js"></script>
 	<script src="drawDependencies.js"></script>
     <script src="UDregenerator.js"></script>
     <script src="initUD-fr.js"></script>
@@ -23,8 +21,15 @@
 	<title>Affichage d'un graphe/arbre de Universal Dependencies et regénération</title>
 </head>
 <body>
+  <div id="dragzone">	
 	<h1>Affichage du graphe/arbre de <a href="https://universaldependencies.org">Universal Dependencies</a> avec regénération avec <a href="http://github.com/rali-udem/jsRealB">jsRealB</a></h1>
 	<input type="button" value="Afficher les instructions" id="showHideInstructions"/> 
+	<fieldset>
+		<legend>Schéma d'annotation</legend>
+		<label for="udScheme">UD</label><input type="radio" name="annotationScheme" value="udSch" id="udScheme">
+		<span style="margin-right:30px">&nbsp;</span>
+		<label for="sudScheme">SUD</label><input type="radio" name="annotationScheme" value="sudSch" id="sudScheme" checked="checked">
+	</fieldset>
 	<!--  Customize file button, taken from
 		 https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file/47950538#47950538 -->
 	<button onclick="document.getElementById('file-input').click()">Choisir un fichier UD</button>
@@ -33,8 +38,9 @@
     <a href="UDgrep.html" class='right' target="_blank">UDgrep</a>
     <a href="UDregenerator-en.html" class='right'>English version</a>
     <ul id="instructions" style="display:none">
-        <li>Charger un fichier local contenant une ou plusieurs structures en <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">format CONLLU</a>.
-         Un fichier initial est chargé au lancement de la page. Il est aussi possible de glisser un fichier sur la page pour le charger. </li>
+        <li>Charger un fichier local contenant une ou plusieurs structures en <a href="https://universaldependencies.org/format.html" title="CoNLL-U Format" target="_blank">format CONLLU</a>.</li>
+		<li>S'assurer de choisir le schéma d'annotation approprié: <a href="https://universaldependencies.org/u/dep/index.html" title="Universal Dependency Relations">classical UD</a> or <a href="https://surfacesyntacticud.github.io" title="Surface Syntactic Universal Dependencies (SUD) | SUD">Surface Syntactic UD</a>. Ce choix détermine la correspondance entre les <code>deprel</code> originaux et les noms des dépendances utilisés par jsRealB.</li>
+         <li>Un fichier initial est chargé au lancement de la page. Il est aussi possible de glisser un fichier sur la page pour le charger.</li> 
         <li>Même s'il n'y acucune limite a priori sur le nombre de structures qui peuvent être chargées, le système peut devenir lent et le menu de phrase trop long avec plus de 1000 structures.</li>
     	<li>Cliquer sur le bouton <code>Analyser</code> pour créer le menu.</li> 
     	<li>Choisir une phrase du menu. Une phrase débutant par une astérisque indique une structure de dépendance <em>non projective</em>. Une phrase avec un point d'exclamation au début signale que jsRealB a généré des avertissements. </li>
@@ -100,12 +106,13 @@
         <tr><th>TEXT</th><td id="jsrSentence"></td></tr>
         <tr><th></th><td id="nbDiffs"></td></tr>
     </table>
-	<input type="button" value="Masquer l'éditeur jsRealB" id="showHide-jsrEditor"/>
+  </div>
+    <input type="button" value="Masquer l'éditeur jsRealB" id="showHide-jsrEditor"/>
     <div id="jsrEditor" style="display:block">
         <div id="jsrStructure"></div>
         <div>
             <input type="button" name="realize" value="Realize" id="realize">
-            <input type="button" name="realize" value="Afficher l'arbre de constituents" id="showHideContituentTree">
+            <input type="button" name="realize" value="Afficher l'arbre de dépendances" id="showHideDependencyTree">
         </div>
         <svg width="800px" height="300px" xmlns="http://www.w3.org/2000/svg" id="constTree" style="border: 1px solid #999;display:none">
             <g></g>

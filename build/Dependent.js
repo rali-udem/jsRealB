@@ -140,13 +140,24 @@ Dependent.prototype.linkProperties = function(){
             break;
         case "det":
             if (depTerm.isA("D")){
-                let pe=this.peng.pe; // save person (for possessives)
-                depTerm.peng=this.peng;
-                depTerm.peng.pe=pe;
+                if (this.peng){
+                    if (depTerm.peng){// save person (for possessives)
+                        let pe=depTerm.peng.pe; 
+                        depTerm.peng=this.peng;
+                        depTerm.peng.pe=pe;
+                    } else { // some strange determiner construct do not have peng
+                        depTerm.peng=this.peng;
+                    } 
+                } 
             } else if (depTerm.isA("NO")){
                 headTerm.peng["n"]=depTerm.grammaticalNumber();
                 // gender agreement between a French number and subject
                 depTerm.peng["g"]=headTerm.peng["g"]
+            } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
+                if (d.dependents.length==1 && d.dependents[0].isA("mod") && 
+                    d.dependents[0].terminal.isA("D")){
+                    d.dependents[0].terminal.peng=this.peng;
+                }
             }
             break;
         case "mod":case "comp":
@@ -160,16 +171,21 @@ Dependent.prototype.linkProperties = function(){
                     }
                 }
             } else if (depTerm.isA("V")){
-                //   set agreement between the subject of a subordinate or the object of a subordinate
-                const iRel=d.findIndex(d0=>d0.isOneOf(["subj","comp","mod"]) && d0.terminal.isA("Pro"));
+                //   set agreement between the subject of a subordinate or the object of a relative subordinate
+                const iRel=d.findIndex(d0=>d0.isOneOf(["subj","comp","mod"]) && 
+                        d0.terminal.isA("Pro") && contains(["qui","que","who","that"],d0.terminal.lemma));
                 if (iRel>=0){
                     const rel=d.dependents[iRel].constType;
-                    if (rel=="subj"){// verb agrees with this subject
+                    if (rel=="subj"){ // verb agrees with this subject
                         depTerm.peng=this.peng;
                     } else if (this.isFr()){ // rel is comp or mod
                         // in French past participle can agree with a cod appearing before... keep that info in case
-                        depTerm.cod=headTerm
+                        depTerm.cod=headTerm;
                     }
+                }
+                // check for past participle in French that should agree with the head
+                if (this.isFr() && depTerm.getProp("t")=="pp"){
+                    depTerm.peng=this.peng;
                 }
             }
             break;
@@ -274,12 +290,13 @@ Dependent.prototype.pronominalize_fr = function(){
 //  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
 Dependent.prototype.pronominalize_en = function(){
     let pro;
+    if (this.terminal.isA("N"))this.props.pe=3; // ensure that pronominalization of a noun is 3rd person
     if (this.isA("subj")){    // is it a subject
         pro=this.getTonicPro("nom")
     } else {
         pro=this.getTonicPro("acc") //is direct complement
     }
-    pro.peng=this.peng
+    pro.peng=this.peng;
     pro.parentConst=this;
     this.terminal=pro
     this.dependents=[]
@@ -452,16 +469,21 @@ Dependent.prototype.processTyp_en = function(types){
         this.contraction=true;
     }
     const words=affixHopping(this.terminal,this.getProp("t"),this.getRules().compound,types);
-    this.terminal=words.shift()
-    this.addPost(words)
+    // the new root should be the last verb 
+    let last=words.pop();
+    if (last.isA("Pro") && last.lemma=="myself"){ // skip possible "myself" for reflexive verb
+        this.addPost(last);
+        last=words.pop()
+    }
+    this.terminal=last;
+    this.addPre(words)
 }
 
 Dependent.prototype.moveAuxToFront=function(){
-    let vIdx=this.findIndex((d)=>d.isA("*post*")); // added by affixHopping
-    if (vIdx>=0){
-        const aux=this.terminal;                       // save auxiliary   
-        this.terminal=this.dependents[vIdx].terminal;  // set verb as head
-        this.removeDependent(vIdx);                    // remove link added by affixHopping
+    let auxIdx=this.findIndex((d)=>d.isA("*pre*")); // added by affixHopping
+    if (auxIdx>=0){
+        const aux = this.dependents[auxIdx].terminal;
+        this.removeDependent(auxIdx)
         this.addPre(aux,0)                             // put auxiliary before
     }
 }
@@ -641,10 +663,34 @@ Dependent.prototype.coordReal = function(){
             thisCoord.pronoun.props["n"]=gn.n;
             thisCoord.pronoun.props["pe"]=gn.pe;
         }
-    } else {
+    } else if (!thisCoord.isA("Q")){
+        // in some cases the coordination can be a quoted string (possibly empty)
         this.warn("bad parameter","C",thisCoord.constType)
     }
     return res;
+}
+
+// check where this dependent shoould go relative to its parent
+Dependent.prototype.depPosition = function(){
+    let pos="post";             // default is after
+    if (this.props["pos"]=="pre"){ 
+        pos="pre"
+    } else {
+        if (this.isOneOf(["subj","det","*pre*"]) && this.props["pos"]!=="post"){ 
+            // subject and det are always before except when specified otherwise
+            pos="pre"
+        } else if (this.isA("mod") && this.terminal.isA("A") && this.parentConst.terminal.isA("N")){ 
+            // check adjective position with respect to a noun
+            pos=this.isFr()?(this.terminal.props["pos"]||"post"):"pre"; // all English adjective are pre
+        } else if (this.isA("coord")){
+            if (this.props["pos"]!==undefined){
+                pos=this.props["pos"]
+            } else if (this.dependents.length>0){
+                pos=this.dependents[0].depPosition() // take the position of the element of the coordination
+            }
+        }
+    }
+    return pos;
 }
 
 // creates a list of Terminal each with its "realization" field now set
@@ -670,21 +716,7 @@ Dependent.prototype.real = function() {
             r=d.real()
         }
         // check where this dependent shoould go
-        let pos="post";             // default is after
-        if (d.props["pos"]=="pre"){ // explicit before, we force it at the start of before
-            Array.prototype.unshift.apply(before,r);
-            continue;
-        } else {
-            if (d.isOneOf(["subj","det","*pre*"])){ // subject and det are always before
-                pos="pre"
-            } else if (d.isA("mod") && d.terminal.isA("A") && d.parentConst.terminal.isA("N")){ 
-                // check adjective position with respect to a noun
-                pos=d.isFr()?(d.terminal.props["pos"]||"post"):"pre"; // all English adjective are pre
-            } else if (d.isA("coord") && d.dependents.length>0 && d.dependents[0].isOneOf(["subj","det"])){
-                pos="pre"
-            }
-        }
-        Array.prototype.push.apply(pos=="pre"?before:after,r)
+        Array.prototype.push.apply(d.depPosition()=="pre"?before:after,r)
     }
     res=before.concat(this.terminal.real(),after)
     return this.doFormat(res);
@@ -760,7 +792,7 @@ Phrase.prototype.toDependent = function(depName){
             if (this.isFr()){// check for possible relative pronoun "que" in French that could be object 
                 iPro=this.getIndex(["Pro"]);
                 if (iPro>=0 && this.elements[iPro].lemma=="que"){
-                    deprel.add(this.elements[iPro].toDependent("comp").pos("pre"),undefined,true);
+                    deprel.add(this.elements[iPro].toDependent("comp").pos("pre"),0,true);
                 } else {
                     iPro = -1
                 }
@@ -769,7 +801,7 @@ Phrase.prototype.toDependent = function(depName){
         let iSubj=this.elements.findIndex((e,i)=>e.isOneOf(["NP","N","CP","Pro"]) && i!=iPro);
         if (iSubj>=0){
             if (deprel!==undefined){
-                deprel.add(this.elements[iSubj].toDependent("subj"),0,true);
+                deprel.add(this.elements[iSubj].toDependent("subj"),undefined,true);
             } else {
                 deprel=this.elements[iSubj].toDependent(depName);
             }

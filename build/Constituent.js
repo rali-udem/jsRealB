@@ -65,7 +65,7 @@ Constituent.prototype.setProp = function(propName,val){
 var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
 var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
 Constituent.prototype.initProps = function(){
-    if (this.isOneOf(["N","A","D","V","NO","Pro"])){
+    if (this.isOneOf(["N","A","D","V","NO","Pro","Q"])){
         // "tien" and "vôtre" are very special case of pronouns which are to the second person
         this.peng={pe:defaultProps[this.lang]["pe"],
                    n: defaultProps[this.lang]["n"],
@@ -481,9 +481,10 @@ Constituent.prototype.doElisionFr = function(cList){
                 cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
             }
             i++;
-        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords){
+        } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords && last>1){
             // check if the next word would be elidable, so instead elide it instead of contracting
             // except when the next word is a date which has a "strange" realization
+            // do not elide when there are only two words, wait until at least another token is there
             if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                 cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]

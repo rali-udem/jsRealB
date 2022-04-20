@@ -1,5 +1,7 @@
 # Universal Dependencies regenerator and *derivatives*
 
+Guy Lapalme. 2021. [Validation of Universal Dependencies by regeneration](https://aclanthology.org/2021.udw-1.9.pdf). In Proceedings of the Fifth Workshop on Universal Dependencies (UDW, SyntaxFest 2021), pages 109–120, Sofia, Bulgaria. Association for Computational Linguistics.
+
 ## `UDregenerator` as a web page
 To regenerate a sentence from its UD and comparing it with the original. Useful for checking features and links between tokens. It also display the dependencies as links or as a tree.
 
@@ -8,10 +10,14 @@ To regenerate a sentence from its UD and comparing it with the original. Useful 
 
 ## `UDregenerator` as a `node.js` module
 
-`node UDregenerator-node.js` *lang* *conllu-file*  
+    node UDregenerator-node.js lang [-sud] inputFile
+    where lang: en|fr
+          -sud : use SUD annotation scheme instead of classical UD
+          inputFile: path of CONLLU file
+          
+### Useful trick
+To focus on the most frequent warnings such as the *missing* words in the jsRealB lexicon, the output can be *fed* into a Linux filter such as: `grep 'not found in English lexicon' | sort | uniq -c | sort -r -n` for English or `grep 'absent du lexique' | sort | uniq -c | sort -r -n` for French.
 
-* *lang*: `en` or `fr`
-* *conllu-file* : file to process
  
 ## `UDgrep` as a web page
 For searching tokens with specific characteristics in a UD file. The tokens can be filtered by regular expressions.
@@ -19,32 +25,34 @@ For searching tokens with specific characteristics in a UD file. The tokens can 
 * visit `UDgrep.html`
 
 ## `variationsFromText` as a `node.js` module
-For creating questions or negation from an affirmative sentence. This first parses the sentence using Stanza and uses this output to create the dependency structure and the corresponding constituent tree. jsRealB then creates questions and negations from this constituent tree.
+For creating questions or negation from an affirmative sentence. This first parses the sentence using Stanza and uses this output to create the dependency structure and the corresponding constituent tree. jsRealB then creates questions and negations from this constituent tree. It can also process directly a conllu file.
 
-    node variationsFromText.js [-l en|fr] [-q] [-n] [-h] file.txt
+    node variationsFromText.js [-l en|fr] [-q] [-n] [-h] [-t] file.{txt|conllu} 
     where -l: language (en default)
-          -q: generate questions (default false) 
-          -n: generation negation (default false)
-          -h: short help
-          file.txt: text file with sentences on a single line
+           -sud : input uses the SUD annotation scheme
+           -q: generate questions (default false) 
+           -n: generation negation (default false)
+           -h: this message
+           -t: show trees
+            file.txt: text file with sentences on a single line
+                      this creates "file.conllu" if it does not exist or is "older" than file.txt
+            file.conllu: process directly the conllu file
+            
+This system was used in this [work](LeBerre-QuestionGeneration.pdf).
    
 ## Files
 
 ### sources
 
-* `croissant.svg`: image for showing sorting in increasing order in UDgrep.html
-* `decroissant.svg`: image for showing sorting in decreasing order in UDgrep.html
 * `drawDependencies.js` : create dependency and tree diagrams in SVG
 * `initUD-en.js` : initial UDs in English
-* `initUD-fr.js` : initial UDs in French
-* `JSR.js` : JavaScript representation of jsRealB trees
+* `initUD-fr.js` : initial UDs in French (contains also UDs in SUD annotation scheme)
 * `levenshtein.js` : compute edit distance between two strings; show differences in HTML and on the console using SGR 
 * `README.md` : this file
 * `sampleConnll.js` : create the sample files (use with `node`)
 * `testAll.sh` : launch `UDregenerator-node.js` on all files in a given language
 * `testOne.sh` : launch `UDregenerator-node.js` on a single file in a given language
 * `text2ud.py` : Python 3 program from transforming an English or French sentence (on a single line) calling Stanza
-* `Tokenizer.js` : create a tree representation from the jsRealB expression (useful for building the constituency tree diagram)
 * `UD.js` : JavaScript representation of the whole UD structure
 * `UD2jsr.js` : Mapping between UD features and jsRealB options
 * `UDgrep.css` : css used by `UDgrep.html`
@@ -73,4 +81,4 @@ For creating questions or negation from an affirmative sentence. This first pars
     * `fr-samplee-10.stats` : sorted list of all suggested modifications or errors found in the French sample
 
 ### Documentation
-* `UDregenerator.pdf` : paper describing the system with results from experiments
+* `UDregenerator.pdf` : paper describing the system with results from experiments (extended version of the [paper presented at UDW-21](https://aclanthology.org/2021.udw-1.9.pdf))

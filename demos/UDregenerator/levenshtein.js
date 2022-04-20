@@ -65,14 +65,16 @@ function levenshtein(str1,str2) {
 function computeDiffs(str1,str2){
     function normalize(str){
         // ligature, single right quotation mark (U+2019)
-        let res=str.replace(/œ/g,"oe").replace(/’/g,"'"); 
-        if (res.endsWith("."))return res.substr(0,res.length-1); // ignore last full stop
+        let res=str.replace(/œ/g,"oe").replace(/’/g,"'");
+        let m;
+        // remove space around some special chars
+        res=res.replace(/([«"(]) +/,"$1").replace(/ +([»")]])/,"$1");
         return res;
     }
     str1=normalize(str1.trim());
     str2=normalize(str2.trim());
     // tokenize by separating at spaces and punctuation and keeping all tokens by capturing ()
-    const wordRegex=/([^-\s.,:;!$()"?[\]]+)/;  
+    const wordRegex=/([^-\s.,:;!$()"?[\]«»]+)/;  
     const toks1=str1.split(wordRegex);
     const toks2=str2.split(wordRegex);
     return [toks1,toks2].concat(levenshtein(toks1,toks2));

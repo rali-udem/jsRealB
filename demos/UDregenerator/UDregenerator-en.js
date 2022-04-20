@@ -4,28 +4,27 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
 var language="en";
 function addNewWords(){
     loadEn();
-    // add some words to the lexicon some taken from 
-    //    /Users/lapalme/Dropbox/AMR/jsRealB/addLexicon-dme.js    
+    // add words to the Egllish lexicon that are often used in UD, sometimes with other part of speech tags
+    // than the ones in the jsRealB lexicon
     addToLexicon("responsively",{ Adv: { "tab":"b1" } });
     
     const prepositions=[
-        "as","not","than","because","due"
+        "not","than","because","due"
     ];
     prepositions.forEach(function(prep){
         addToLexicon(prep,{"P":{"tab":"pp"}})
     })
 
     const adverbs=[
-        "how","when","there","why","much","where","up","down","most","more","less","on","off",
-        "too","super","of","further","twice","for","least"
+        "when","why","where","super","of","further","twice","for","least"
     ]
     adverbs.forEach(function(adv){
         addToLexicon(adv,{"Adv":{"tab":"b1"}})
     })
 
     const adjectives=[
-        "other","many","more","own","much","such","next","most","several","else","enough","top",
-        "another","further","least","more","last","same","own","most","favorite","jewish",
+        "other","more","much","such","next","most","several","else","enough","top",
+        "another","further","least","more","last","most","favorite","jewish",
         "terrorist","painted"
     ];
     adjectives.forEach(function(adj){
@@ -36,10 +35,8 @@ function addNewWords(){
     addToLexicon("am",{ N: { "tab":"n5" } });
     addToLexicon("pm",{ N: { "tab":"n5" } });
     addToLexicon("moving",{ A: { "tab":"a1" } });
-    addToLexicon("last",{ A: { "tab":"a1" } });
     
-    addToLexicon("e-mail",getLemma("mail"));
-    addToLexicon("email",getLemma("mail"));
+    addToLexicon("email",Object.assign({},getLemma("mail"))); // copy from another entry, avoid sharing
     
     // accept nationalities also starting with a lower case
     // we use a crude test for finding lemma indentying nationalities words ending in an and starting with a capital
@@ -51,26 +48,22 @@ function addNewWords(){
     nationalities.push("Iraqi");
     nationalities.push("Arab");
     for (const n of nationalities){
-        addToLexicon(n.toLowerCase(),getLemma(n));
+        addToLexicon(n.toLowerCase(),Object.assign({},getLemma(n)));
     }
     
     // although I feel that these should be flagged as an error... they happen too often!
     addToLexicon("best",{ A: { "tab":"a1" } });
     addToLexicon("better",{ A: { "tab":"a1" } });
-    addToLexicon("&",getLemma("and"));
+    addToLexicon("&",Object.assign({},getLemma("and")));
 }
 
 if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    const fs = require('fs');
-    const lexiconDME = JSON.parse(fs.readFileSync("../../data/lexicon-dme.json")); 
-    
     jsRealB=require("../../dist/jsRealB-node.js");
     loadEn=jsRealB.loadEn;
     addToLexicon=jsRealB.addToLexicon;
     updateLexicon=jsRealB.updateLexicon;
     getLemma=jsRealB.getLemma;
     getLexicon=jsRealB.getLexicon;
-    addNewWords(lexiconDME);
     exports.language=language;
     exports.addNewWords=addNewWords;
 } else {

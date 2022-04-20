@@ -587,7 +587,7 @@ Terminal.prototype.conjugate_en = function(){
                 } else {
                     let term=conjugation[pe-1+(n=="p"?3:0)];
                     if (term==null){
-                        return [this.morphoError(this.lemma,this.consType,"conjugate_en:pe",{pe:pe,n:n,t:t})];
+                        return [this.morphoError("conjugate_en:pe",{pe:pe,n:n,t:t})];
                     } else {
                         // remove final s at subjonctive present by taking the form at the first person
                         if (t=="s" && pe==3)term=conjugation[0];
@@ -604,7 +604,7 @@ Terminal.prototype.conjugate_en = function(){
     } else if (t=="ip"){
         this.realization=this.lemma;
     } else
-        return [this.morphoError(this.lemma,"V","conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
+        return [this.morphoError("conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
     return res;
 }
 
