@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -32,7 +32,7 @@
     textarea {font: 14pt courier;}
     .ace_jsRealConstructor{color: blue;}
     fieldset {display: inline;}
-	#result {font: 14pt sans-serif;}  
+    #result {font: 14pt sans-serif;}  
     </style>
     <title id="titre">Realize a jsRealB expression</title>
 </head>
@@ -41,15 +41,22 @@
     <p>
         <fieldset>
             <legend>Language - Langue</legend>
-        <label for="english">English</label>
-         <input type="radio" name="language" value="en" id="english" checked="checked">
-        <label for="francais">français</label><input type="radio" name="language" value="fr" id="francais">
-        <label for="en-fr">en-fr</label><input type="radio" name="language" value="en-fr" id="francais">
+            <label for="english">English</label>
+            <input type="radio" name="language" value="en" id="english" checked="checked">
+            <label for="francais">français</label><input type="radio" name="language" value="fr" id="francais">
+            <label for="en-fr">en-fr</label><input type="radio" name="language" value="en-fr" id="francais">
         </fieldset>        
         <fieldset>
             <legend>Format</legend>
             <label for="jsrealb">jsRealB</label><input type="radio" name="format" value="jsRealB" id="jsrealb" checked="checked">
             <label for="json">JSON</label><input type="radio" name="format" value="JSON" id="json">
+        </fieldset>
+        <fieldset>
+            <legend id="rep">Representation</legend>
+            <label for="constituent">Constituents</label>
+                <input type="radio" name="representation" value="constituents" id="constituents" checked="checked">
+            <label for="dependencies">Dependencies</label>
+                <input type="radio" name="representation" value="dependencies" id="dependencies">
         </fieldset>
         
         <a id="doc" href="../../documentation/user.html?lang=en" target="_blank">Documentation</a>

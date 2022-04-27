@@ -1035,9 +1035,12 @@ function doFrenchPronounPlacement(cList){
                 }
             }
         } else if (c.isA("Pro") && verbPos!==undefined){
-            if (contains(["refl","acc","dat"],c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
-                pros.push(cList.splice(i,1)[0]);
-                i--; // to ensure that all elements are taken into account because cList array has changed
+            if (c.getProp("pos")==undefined || (c.parentConst!==null && c.parentConst.getProp("pos")===undefined)){
+                // do not try to change position of a constituent with specified pos
+                if (contains(["refl","acc","dat"],c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
+                    pros.push(cList.splice(i,1)[0]);
+                    i--; // to ensure that all elements are taken into account because cList array has changed
+                }
             }
         // HACK: stop when seeing a preposition (except "par" introduced by a passivee) or a conjunction 
         //          or a "strange" pronoun that might start a phrase 

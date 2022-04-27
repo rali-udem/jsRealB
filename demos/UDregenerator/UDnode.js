@@ -375,7 +375,7 @@ UDnode.prototype.processCoordination = function(sentOptions,isSUD){
     }
     // process first
     let deprel;
-    const firstConst=this.toConstituent(true,isSUD);
+    const firstConst=this.toConstituent(null,isSUD);
     if (firstConst instanceof Dependent){
         deprel=firstConst.constType;
         if (deprel=="root")deprel="subj";
@@ -411,9 +411,9 @@ UDnode.prototype.processCoordination = function(sentOptions,isSUD){
                 if (i==n-1)hasOxfordComma=true;
             }
         }
-        conjChildren.push(ci.toConstituent(false,isSUD));
+        conjChildren.push(ci.toConstituent(null,isSUD));
     }
-    let coordTerm = c===undefined? Q("") : c.toConstituent(false,isSUD);
+    let coordTerm = c===undefined? Q("") : c.toConstituent(null,isSUD);
     // create coordination
     if (coordTerm instanceof Dependent){ 
         // some strange coordination term (e.g. "ainsi que"), create specific a constant by realizing the dependent
@@ -452,12 +452,13 @@ UDnode.prototype.processCoordination = function(sentOptions,isSUD){
 //  create a dependent by mapping the deprel name to a jsRealB one
 UDnode.prototype.childrenDeps = function(head,isLeft,isSUD){
     const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
-    // let head = this.toTerminal(isLeft);
     let dep = new Dependent([head],deprel)
-    if (isLeft && ["mod","comp"].indexOf(deprel)>=0)
-        dep.pos("pre");
-    if (!isLeft && ["det","subj"].indexOf(deprel)>=0)
-        dep.pos("post");
+    if (isLeft!==null){ // isLeft is null when processing a coordination that should be left as is
+        if (isLeft && ["mod","comp"].indexOf(deprel)>=0)
+            dep.pos("pre");
+        if (!isLeft && ["det","subj"].indexOf(deprel)>=0)
+            dep.pos("post");
+    }
     if (this.left.length>0){
         const first=this.left[0];
         if (first.getDeprel()=="punct"){// add first punct as option b()
