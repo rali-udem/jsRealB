@@ -118,7 +118,6 @@ Dependent.prototype.me = function(){
 }
 
 Dependent.prototype.linkProperties = function(){
-    //TODO: this is the important thing to set up correctly
     if (this.dependents.length==0) return this;
     //  loop over children to set the peng and taux to their head or subject
     //  so that once a value is changed this change will be propagated correctly...
@@ -218,7 +217,7 @@ Dependent.prototype.setLemma = function(lemma,terminalType){
 }
 
 
-// find the gender, number and Person of NP elements of this Phrase
+// find the gender, number and Person of NP elements of this Dependent
 //   set masculine if at least one NP is masculine
 //   set plural if one is plural or more than one combined with and
 //   set person to the minimum one encountered (i.e. 1st < 2nd < 3rd) mostly useful for French 
@@ -290,7 +289,7 @@ Dependent.prototype.pronominalize_fr = function(){
 //  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
 Dependent.prototype.pronominalize_en = function(){
     let pro;
-    if (this.terminal.isA("N"))this.props.pe=3; // ensure that pronominalization of a noun is 3rd person
+    this.props.pe=3; // ensure that pronominalization of anything other than a pronoun is 3rd person
     if (this.isA("subj")){    // is it a subject
         pro=this.getTonicPro("nom")
     } else {
@@ -386,7 +385,7 @@ Dependent.prototype.passivate = function(){
             //  calling addPre(pp) would evaluate the pp too soon...
             let compIdx=this.findIndex(d=>d.isA("comp"));
             if (compIdx==-1)compIdx=0;
-            this.addDependent(new Dependent([pp],"*post*"),compIdx); 
+            this.addPost(pp,compIdx);
         }
     } else {
         return this.warn("not found","V",isFr()?"contexte passif":"passive context")
@@ -505,7 +504,7 @@ Dependent.prototype.invertSubject=function(){
         } else
             pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
         if (this.terminal.isA("V")){
-            this.addPost(pro,0);
+            this.addPost(pro);
             this.terminal.lier()
         }
     }
@@ -593,7 +592,7 @@ Dependent.prototype.processTypInt = function(int){
 }
 
 Dependent.prototype.processTyp = function(types){
-    let pp; // flag for possible pp removal for French wod or wad
+    // let pp; // flag for possible pp removal for French wod or wad
     if (types["pas"]!==undefined && types["pas"]!== false){
         this.passivate()
     }
@@ -625,10 +624,11 @@ Dependent.prototype.coordReal = function(){
         return []
     }
     if (last==0){// coordination with only one element, ignore coordinate
-        Array.prototype.push.apply(res,this.dependents[0].real());
-        this.setProp("g",this.dependents[0].getProp("g"));
-        this.setProp("n",this.dependents[0].getProp("n"));
-        this.setProp("pe",this.dependents[0].getProp("pe")||3);
+        const dep = this.dependents[0]
+        res = dep.real()
+        this.setProp("g",dep.getProp("g"))
+        this.setProp("n",dep.getProp("n"))
+        this.setProp("pe",dep.getProp("pe")||3)
         return this.doFormat(res); // process format for the CP
     }
     // check that all dependents use the same deprel
@@ -673,21 +673,19 @@ Dependent.prototype.coordReal = function(){
 // check where this dependent shoould go relative to its parent
 Dependent.prototype.depPosition = function(){
     let pos="post";             // default is after
-    if (this.props["pos"]=="pre"){ 
+    if (this.props["pos"]=="pre") 
+        return "pre"
+    if (this.isOneOf(["subj","det","*pre*"]) && this.props["pos"]!=="post"){ 
+        // subject and det are always before except when specified otherwise
         pos="pre"
-    } else {
-        if (this.isOneOf(["subj","det","*pre*"]) && this.props["pos"]!=="post"){ 
-            // subject and det are always before except when specified otherwise
-            pos="pre"
-        } else if (this.isA("mod") && this.terminal.isA("A") && this.parentConst.terminal.isA("N")){ 
-            // check adjective position with respect to a noun
-            pos=this.isFr()?(this.terminal.props["pos"]||"post"):"pre"; // all English adjective are pre
-        } else if (this.isA("coord")){
-            if (this.props["pos"]!==undefined){
-                pos=this.props["pos"]
-            } else if (this.dependents.length>0){
-                pos=this.dependents[0].depPosition() // take the position of the element of the coordination
-            }
+    } else if (this.isA("mod") && this.terminal.isA("A") && this.parentConst.terminal.isA("N")){ 
+        // check adjective position with respect to a noun
+        pos=this.isFr()?(this.terminal.props["pos"]||"post"):"pre"; // all English adjective are pre
+    } else if (this.isA("coord")){
+        if (this.props["pos"]!==undefined){
+            pos=this.props["pos"]
+        } else if (this.dependents.length>0){
+            pos=this.dependents[0].depPosition() // take the position of the first element of the coordination
         }
     }
     return pos;
@@ -695,7 +693,6 @@ Dependent.prototype.depPosition = function(){
 
 // creates a list of Terminal each with its "realization" field now set
 Dependent.prototype.real = function() {
-    let res
     this.pronominalizeChildren();
     const typs=this.props["typ"];
     if (typs!==undefined)this.processTyp(typs);
@@ -718,7 +715,7 @@ Dependent.prototype.real = function() {
         // check where this dependent shoould go
         Array.prototype.push.apply(d.depPosition()=="pre"?before:after,r)
     }
-    res=before.concat(this.terminal.real(),after)
+    const res=before.concat(this.terminal.real(),after)
     return this.doFormat(res);
 };
 
@@ -748,6 +745,33 @@ Dependent.prototype.toSource = function(indent){
 // CAUTION: this function is on the **Phrase** prototype
 // create a dependent version of a constituent 
 Phrase.prototype.toDependent = function(depName){
+    function removeAddOption(s){
+        let iAdd=s.indexOf(".add(");
+        if (iAdd<0)return s;
+        const l=s.length
+        let p=1
+        let i=iAdd+5
+        while (p>0 && i<l){
+            const c=s.charAt(i);
+            if (c=="(")p++;
+            else if (c==")")p--;
+            i++
+        }
+        return s.substring(0,iAdd)+removeAddOption(s.substring(i))
+    }
+    function setPos(i,idx,dep){
+        // check if the position has to be specified
+        if (i<idx){
+            if (dep.isA("comp")) 
+                dep.pos("pre");
+            else if (dep.isA("mod") && (!dep.isEn() || !dep.terminal.isA("A"))) 
+                dep.pos("pre")
+        } else {
+            if (dep.isOneOf(["subj","det"]))
+                dep.pos("post")
+        }
+        return dep
+    }
     function makeDep(me,phName){
         let deprel;
         const termName=phName.substr(0,phName.length-1); // remove P at the end of the phrase name
@@ -755,7 +779,10 @@ Phrase.prototype.toDependent = function(depName){
         if (me.elements[idx].isA(termName)){
             deprel = new Dependent([me.elements[idx]],depName)
             me.elements.forEach(function(e,i){
-                if (i!=idx) deprel.add(e.toDependent(phName=="VP"?"comp":"mod"),undefined,true)
+                if (i!=idx){
+                    const dep=e.toDependent(phName=="VP"?"comp":"mod")
+                    deprel.add(setPos(i,idx,dep),undefined,true)
+                }
             })
         } else {
             console.log(`Phrase.toDependent:: ${phName} without ${termName}`,me.toSource())
@@ -786,6 +813,7 @@ Phrase.prototype.toDependent = function(depName){
             deprel=this.elements[iVP].toDependent(depName)
         } else {
             // console.log("Phrase.toDependent:: S without VP",this.toSource()) [it seems that we can ignore this]
+            return this
         }
         let iPro=-1;
         if (this.isA("SP")){ 
@@ -798,24 +826,20 @@ Phrase.prototype.toDependent = function(depName){
                 }
             }
         }
-        let iSubj=this.elements.findIndex((e,i)=>e.isOneOf(["NP","N","CP","Pro"]) && i!=iPro);
-        if (iSubj>=0){
-            if (deprel!==undefined){
-                deprel.add(this.elements[iSubj].toDependent("subj"),undefined,true);
-            } else {
-                deprel=this.elements[iSubj].toDependent(depName);
-            }
-        }
+        let iSubj=this.getIndex(["NP","N","CP","Pro"]);
         // add rest of args
-        this.elements.forEach(function(e,idx){
-            if (idx!=iVP && idx!=iSubj &idx!=iPro) deprel.add(e.toDependent("mod"),undefined,true)
+        this.elements.forEach(function(e,i){
+            if (i!=iVP && i!=iPro) {
+                const dep=e.toDependent(i==iSubj?"subj":"mod");
+                deprel.add(setPos(i,iVP,dep),undefined,true)
+            }
         })
         break;
     default:
         console.log(`Phrase.toDependent:: ${this.constType} not yet implemented`)
     }
     deprel.props=this.props;
-    deprel.optSource=this.optSource
+    deprel.optSource=removeAddOption(this.optSource)
     if (this.parentConst===null && !this.isA("S"))deprel.cap(false)
     return deprel
 }

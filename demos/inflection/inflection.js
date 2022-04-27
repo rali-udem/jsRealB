@@ -19,7 +19,7 @@ function conjuguer(verbe, lang,typs){
                 return VP(V(verbe).t("ip").pe(pe).n(n)).typ(typs)
             }
         } else {
-            let sp=SP(Pro(lang=="fr"?"je":"I").pe(pe).n(n),VP(V(verbe).t(t))).typ(typs)
+            let sp=SP(Pro(lang=="fr"?"moi":"me").c("nom").pe(pe).n(n),VP(V(verbe).t(t))).typ(typs)
             if (t.startsWith("s"))// subjonctif
                 sp=SP(Q("que"),sp);
             return sp

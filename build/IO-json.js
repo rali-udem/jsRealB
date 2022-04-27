@@ -126,8 +126,9 @@ Phrase.prototype.toJSON = function(){
 
 Dependent.prototype.toJSON = function(){
     let res={dependent:this.constType, 
-             terminal: this.terminal.toJSON(), 
-             dependents:this.dependents.map(e=>e.toJSON())};
+             terminal: this.terminal.toJSON()};
+    if (this.dependents)
+        res["dependents"]=this.dependents.map(e=>e.toJSON());
     if (Object.keys(this.props).length>0) // do not output empty props
         res.props=this.props;
     if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
@@ -143,8 +144,6 @@ Terminal.prototype.toJSON = function(){
         res.lang=this.lang;
     return res;
 }
-
-
 
 // compact pretty-print of json (JSON.stringify(.,null,n) is hard to work with as it uses too many lines)
 //  adaptation of ppJson.py (in project json-rnc)

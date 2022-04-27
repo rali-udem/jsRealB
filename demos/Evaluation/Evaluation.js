@@ -1,49 +1,45 @@
 "use strict";
-var lang,format;
+var lang,format,representation;
 
-const exempleFr= `var dest=NP(D("le"),N("monde"));
+const constituentFr= `var dest=NP(D("le"),N("monde"));
 S(Pro("je").pe(1),
   VP(V("dire"),
      "bonjour",
      PP(P("à"),dest.tag("b"))))
 `;
 
-const exempleFrJSON = `{"phrase":"S",
- "elements":[{"terminal":"Pro", "lemma":"je", "props":{"pe":1}},
-             {"phrase":"VP",
-              "elements":[{"terminal":"V", "lemma":"dire", "props":{"aux":"av"}},
-                          {"terminal":"Q", "lemma":"bonjour"},
-                          {"phrase":"PP",
-                           "elements":[{"terminal":"P", "lemma":"à"},
-                                       {"phrase":"NP",
-                                        "elements":[{"terminal":"D", "lemma":"le"},
-                                                    {"terminal":"N", "lemma":"monde", "props":{"g":"m"}}],
-                                        "props":{"tag":[["b", {}]]}}]}]}],
-"lang":"fr"}
+const dependencyFr= `var dest=comp(N("monde"),det(D("le")));
+root(V("dire"),
+     subj(Pro("je").pe(1)),
+     comp(Q("bonjour")),
+     comp(P("à"),
+          dest.tag("b")))
 `;
 
-const exempleEn=`var dest=NP(D("the"),N("world"));
+loadFr();
+const constituentFrJSON = ppJSON(eval(constituentFr).toJSON())
+const dependencyFrJSON = ppJSON(eval(dependencyFr).toJSON())
+
+const constituentEn=`var dest=NP(D("the"),N("world"));
 S(Pro("I").pe(1),
   VP(V("say"),
      "hello",
      PP(P("to"),dest.tag("b"))))
 `;
 
-const exempleEnJSON=`{"phrase":"S",
- "elements":[{"terminal":"Pro", "lemma":"I", "props":{"pe":1}},
-             {"phrase":"VP",
-              "elements":[{"terminal":"V", "lemma":"say"},
-                          {"terminal":"Q", "lemma":"hello"},
-                          {"phrase":"PP",
-                           "elements":[{"terminal":"P", "lemma":"to"},
-                                       {"phrase":"NP",
-                                        "elements":[{"terminal":"D", "lemma":"the"},
-                                                    {"terminal":"N", "lemma":"world"}],
-                                        "props":{"tag":[["b", {}]]}}]}]}],
-"lang":"en"}
+const dependencyEn=`var dest=comp(N("world"),det(D("the")));
+root(V("say"),
+     subj(Pro("I").pe(1)),
+     comp(Q("hello")),
+     comp(P("to"),
+          dest.tag("b")))
 `;
 
-const exempleEnFr=`loadFr();
+loadEn()
+const constituentEnJSON = ppJSON(eval(constituentEn).toJSON());
+const dependencyEnJSON = ppJSON(eval(dependencyEn).toJSON());
+
+const constituentEnFr=`loadFr();
 var dest=NP(D("le"),N("monde"));
 loadEn();
 S(Pro("I").pe(1),
@@ -52,41 +48,48 @@ S(Pro("I").pe(1),
      PP(P("to"),dest.tag("b"))))
 `;
 
-const exempleEnFrJSON=`{"phrase":"S",
- "elements":[{"terminal":"Pro", "lemma":"I", "props":{"pe":1}},
-             {"phrase":"VP",
-              "elements":[{"terminal":"V", "lemma":"say"},
-                          {"terminal":"Q", "lemma":"hello"},
-                          {"phrase":"PP",
-                           "elements":[{"terminal":"P", "lemma":"to"},
-                                       {"phrase":"NP",
-                                        "elements":[{"terminal":"D", "lemma":"le"},
-                                                    {"terminal":"N", "lemma":"monde", "props":{"g":"m"}}],
-                                        "props":{"tag":[["b", {}]]},
-                                        "lang":"fr"}]}]}],
- "lang":"en"}
+const dependencyEnFr=`loadFr();
+var dest=comp(N("monde"),det(D("le")));
+loadEn();
+root(V("say"),
+     subj(Pro("I").pe(1)),
+     comp(Q("hello")),
+     comp(P("to"),
+          dest.tag("b")))
 `;
 
+const constituentEnFrJSON = ppJSON(eval(constituentEnFr).toJSON())
+const dependencyEnFrJSON  = ppJSON(eval(dependencyEnFr).toJSON())
 
 const exemples = {
-    "en"   :{"jsRealB":exempleEn,  "JSON":exempleEnJSON},
-    "fr"   :{"jsRealB":exempleFr,  "JSON":exempleFrJSON},
-    "en-fr":{"jsRealB":exempleEnFr,"JSON":exempleEnFrJSON}
+    "constituents":{
+        "en"   :{"jsRealB":constituentEn,  "JSON":constituentEnJSON},
+        "fr"   :{"jsRealB":constituentFr,  "JSON":constituentFrJSON},
+        "en-fr":{"jsRealB":constituentEnFr,"JSON":constituentEnFrJSON},
+    },
+    "dependencies":{
+        "en"   :{"jsRealB":dependencyEn,  "JSON":dependencyEnJSON},
+        "fr"   :{"jsRealB":dependencyFr,  "JSON":dependencyFrJSON},
+        "en-fr":{"jsRealB":dependencyEnFr,"JSON":dependencyEnFrJSON},
+    }
 }
 
 
 function changeExemple() {
-    if (lang !== undefined){// sauver la valeur courante
+    if (lang !== undefined && representation !== undefined){// sauver la valeur courante
         const editorVal=editor.getValue();
         if (editorVal.length==0)return;
-        exemples[lang][format]=editorVal;
+        exemples[representation][lang][format]=editorVal;
     }
     lang=$("input[name='language']:checked").val();
     format=$("input[name='format']:checked").val();
+    representation=$("input[name='representation']:checked").val();
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
         $("#realize").val("Réaliser");
         $("#titreResult").text("Réalisation");
+        $("#rep").text("Représentation")
+        $("label[for=dependencies]").text("Dépendances")
         $("#doc").attr("href","../../documentation/user.html?lang=fr")
         loadFr();
     }
@@ -94,10 +97,12 @@ function changeExemple() {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
         $("#realize").val("Realize");
         $("#titreResult").text("Realization")
+        $("#rep").text("Representation")
+        $("label[for=dependencies]").text("Dependencies")
         $("#doc").attr("href","../../documentation/user.html?lang=en")
         loadEn();
     }
-    editor.setValue(exemples[lang][format]);
+    editor.setValue(exemples[representation][lang][format]);
     editor.selection.clearSelection();
     $("#result").html("")
 };
@@ -132,6 +137,6 @@ $(document).ready(function(){
     
     changeExemple();
     setExceptionOnWarning(true);
-    $("#francais,#english,#jsrealb,#json").click(changeExemple);
+    $("#francais,#english,#jsrealb,#json,#constituents,#dependencies").click(changeExemple);
     $("#realize").click(realize);
 });
