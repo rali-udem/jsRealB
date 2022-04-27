@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 3.9 - November 2021*
+*Version 4.0 - May 2022*
 
 **Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -31,6 +31,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `module-start.js` : line to add at the start when creating a module from js files
     * `Number.js` : utility function for dealing with number formatting
     * `Phrase.js` : subclass of *Constituent* for creating complex phrases
+    * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
     * `swi-json.pl` : SWI-Prolog predicates to create the JSON input format
     * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
     * `Utils.js` : useful functions that do not belong to the *constituent*s

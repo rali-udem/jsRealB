@@ -746,6 +746,8 @@ Dependent.prototype.toSource = function(indent){
 // create a dependent version of a constituent 
 Phrase.prototype.toDependent = function(depName){
     function removeAddOption(s){
+        // we must remove the add option because the Phrase structure has already taken it into account
+        // so it should not be outputted in the Dependent version
         let iAdd=s.indexOf(".add(");
         if (iAdd<0)return s;
         const l=s.length
