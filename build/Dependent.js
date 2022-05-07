@@ -189,7 +189,7 @@ Dependent.prototype.linkProperties = function(){
             }
             break;
         case "root":
-            this.error("An internal root was found")
+            // this.error("An internal root was found")
             break;
         case "coord":
             if (d.dependents.length>0){
@@ -694,28 +694,34 @@ Dependent.prototype.depPosition = function(){
 // creates a list of Terminal each with its "realization" field now set
 Dependent.prototype.real = function() {
     this.pronominalizeChildren();
+    let res;
     const typs=this.props["typ"];
     if (typs!==undefined)this.processTyp(typs);
-    const ds=this.dependents;
-    // realize coordinations before anything elso to compute their final number and person
-    for (let d of ds){
-        if (d.isA("coord"))
-            d.tokens=d.coordReal() // save realization info in the dependent
-    }
-    let before=[];
-    let after=[];
-    // realize and order them by gathering the dependents that should appear before and after the terminal
-    for (let d of ds) {
-        let r;
-        if (d.isA("coord")){
-            r=d.tokens;  // get back generated tokens
-        } else {
-            r=d.real()
+    if (this.isA("coord") && this.parentConst==null){
+        // special case of coord at the root
+        res=this.coordReal();
+    } else {
+        const ds=this.dependents;
+        // realize coordinations before anything elso to compute their final number and person
+        for (let d of ds){
+            if (d.isA("coord"))
+                d.tokens=d.coordReal() // save realization info in the dependent
         }
-        // check where this dependent shoould go
-        Array.prototype.push.apply(d.depPosition()=="pre"?before:after,r)
+        let before=[];
+        let after=[];
+        // realize and order them by gathering the dependents that should appear before and after the terminal
+        for (let d of ds) {
+            let r;
+            if (d.isA("coord")){
+                r=d.tokens;  // get back generated tokens
+            } else {
+                r=d.real()
+            }
+            // check where this dependent shoould go
+            Array.prototype.push.apply(d.depPosition()=="pre"?before:after,r)
+        }
+        res=before.concat(this.terminal.real(),after)
     }
-    const res=before.concat(this.terminal.real(),after)
     return this.doFormat(res);
 };
 
@@ -748,19 +754,22 @@ Phrase.prototype.toDependent = function(depName){
     function removeAddOption(s){
         // we must remove the add option because the Phrase structure has already taken it into account
         // so it should not be outputted in the Dependent version
+        // remove first occurrence of .add(...)
         let iAdd=s.indexOf(".add(");
         if (iAdd<0)return s;
         const l=s.length
         let p=1
         let i=iAdd+5
-        while (p>0 && i<l){
+        while (p>0 && i<l){ // count parentheses levels (does not take into account parentheses within string)
             const c=s.charAt(i);
             if (c=="(")p++;
             else if (c==")")p--;
             i++
         }
+        // remove first occurrence of .add(...) and recurse on the rest of the string
         return s.substring(0,iAdd)+removeAddOption(s.substring(i))
     }
+    
     function setPos(i,idx,dep){
         // check if the position has to be specified
         if (i<idx){
@@ -774,6 +783,7 @@ Phrase.prototype.toDependent = function(depName){
         }
         return dep
     }
+    
     function makeDep(me,phName){
         let deprel;
         const termName=phName.substr(0,phName.length-1); // remove P at the end of the phrase name
@@ -791,6 +801,7 @@ Phrase.prototype.toDependent = function(depName){
         }
         return deprel
     }
+    
     let deprel; 
     depName=depName||"root";
     switch (this.constType){
@@ -815,7 +826,8 @@ Phrase.prototype.toDependent = function(depName){
             deprel=this.elements[iVP].toDependent(depName)
         } else {
             // console.log("Phrase.toDependent:: S without VP",this.toSource()) [it seems that we can ignore this]
-            return this
+            // return this
+            deprel=new Dependent([Q("")],depName);
         }
         let iPro=-1;
         if (this.isA("SP")){ 

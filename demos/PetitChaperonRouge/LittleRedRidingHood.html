@@ -22,67 +22,24 @@
         <script src="../../build/Number.js"></script>
         <script src="../../build/Warnings.js"></script>
 <!-/- end of separate loading -->
-  <script src="LittleRedRidingHood_jsr.js"></script>
+  <script src="LittleRedRidingHood.js"></script>
 </head>
 <body>
     <h1>Fairy tale realization</h1>
     <p>This is a <em>verbatim</em> reproduction of a <a href="http://www.pitt.edu/~dash/perrault02.html">well known fairy tale</a>. 
-        This shows that <strong>jsRealB</strong> allows the realization of relatively complex texts. 
-        Hovering with the mouse on a sentence displays the <strong>jsRealB</strong> structure to realize that sentence.
-        The displayed expression is not necessarily identical to the one found in the source that often uses auxiliary functions to
-        factorize the code, while the expression here is rebuilt from informations saved when the function is called.
+        This illustrates that <strong>jsRealB</strong> allows the realization of relatively complex texts. 
+        Hovering with the mouse on a sentence displays the <strong>jsRealB</strong> structure to realize that sentence in either</p>
+		<p style="margin-left:30px"><label for="constituents"><strong>Constituents</strong></label>
+			<input type="radio" name="annotation" value="const" id="constituents" checked="checked">
+				or
+		<label for="dependances"><strong>Dependencies</strong></label><input type="radio" name="annotation" value="dep" id="dependances"></p>
+        <p>The displayed expression is not necessarily identical to the one found in the source code that often uses auxiliary functions to
+        factorize the code, while here the expression  is rebuilt from informations saved when the function is called.
      </p>
-     <p><a href="LittleRedRidingHood_node.js" target="_blank">Source code for use with node.js </a></p>
+     <p>The JavaScript code used by this page can be executed with <code>node</code> to get the text version of this story, but without the selective display of the <strong>jsRealB</strong> expressions.</p>
      <p><a href="PetitChaperonRouge.html">French version</a></p>
      <hr/>
-    <div class="histoire">
-       <h1><span class="texte">LRRH<br/></h1>
-       <h2><em>Charles Perrault</em></h2>
-       <p><span class="texte">s1</span><span class="texte">s2</span>
-           <span class="texte">s3</span><span class="texte">s4</span></p>
-       <p><span class="texte">s5</span></p>
-       <p><span class="texte">s6</span></p>
-       <p><span class="texte">s7</span><span class="texte">s8</span><span class="texte">s9</span>
-       </p>
-       <p><span class="texte">s10</span></p>
-       <p><span class="texte">s12</span></p>
-       <p><span class="texte">s13</span>
-          <span class="texte">s14</span>
-          <span class="texte">s15</span>
-       </p>
-       <p><span class="texte">s16.clone()</span><br/><span class="texte">s17</span></p>
-       <p><span class="texte">s18</span>
-          <span class="texte">s19</span>
-          <span class="texte">s20</span>
-       </p>
-       <p><span class="texte">s16.clone()</span></p>
-       <p><span class="texte">s21</span></p>
-       <p><span class="texte">s22</span></p>
-       <p><span class="texte">s23</span></p>
-       <p><span class="texte">s24</span></p>
-       <p>
-          <span class="texte">s25</span><br/>
-          <span class="texte">s26</span>
-       </p>
-       <p>
-          <span class="texte">allTheBetter(V("hug"))</span><br/>
-          <span class="texte">howBig(N("leg").n("p"))</span><br/>
-          <span class="texte">allTheBetter(V("run"))</span><br/>
-          <span class="texte">howBig(N("ear").n("p"))</span><br/>
-          <span class="texte">allTheBetter(V("hear"))</span><br/>
-          <span class="texte">howBig(N("eye").n("p"))</span><br/>
-          <span class="texte">allTheBetter(V("see"))</span><br/>
-          <span class="texte">howBig(N("tooth").n("p"))</span><br/>
-          <span class="texte">allTheBetter(V("eat"))</span>
-        </p>
-       <p><span class="texte">s26a</span></p>
-       
-       <p>
-       <span class="texte">s27</span>
-       <span class="texte">s28</span>
-       <span class="texte">s29</span>
-       <span class="texte">s30</span>
-        </p>
+    <div class="story">
    </div>
 </body>
 </html>

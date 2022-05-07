@@ -32,7 +32,6 @@ exports.comp=comp;
 exports.compObj=compObj;
 exports.compObl=compObl;
 exports.coord=coord;
-exports.compObl=compObl;
 exports.Dependent=Dependent;
 
 exports.DT=DT; // Dates

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="PetitChaperonRouge.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="../../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -/->
+<!-- to ease debugging we load each file separately -->
         <script src="../../data/lexicon-fr.js"></script>
         <script src="../../data/rule-fr.js"></script>
         <script src="../../data/lexicon-en.js"></script>
@@ -21,76 +21,28 @@
         <script src="../../build/Dependent.js"></script>
         <script src="../../build/Number.js"></script>
         <script src="../../build/Warnings.js"></script>
-<!-/- end of separate loading -->
-  <script src="PetitChaperonRouge_jsr.js"></script>
+<!-- end of separate loading -->
+  <script src="PetitChaperonRouge.js"></script>
 </head>
 <body>
     <h1>Reproduction d'un conte</h1>
     <p>Voici une reproduction <em>verbatim</em> d'un <a href="https://clpav.fr/lecture-chaperon.htm">conte célèbre</a> avec sa <a href="https://clpav.fr/moralite-chaperon.htm">moralité</a>. 
         On constate que <strong>jsRealB</strong> permet de réaliser des textes relativement complexes. 
         Il suffit de placer la souris sur une phrase pour afficher la structure <strong>jsRealB</strong> permettant 
-        de réaliser cette phrase. À noter que cette expression n'est pas nécessairement identique à celle qu'on
+        de réaliser cette phrase soit sous forme de: </p>
+		<p style="margin-left:30px"><label for="constituents"><strong>Constituents</strong></label>
+			<input type="radio" name="annotation" value="const" id="constituents" checked="checked">
+				ou de
+		<label for="dependances"><strong>Dépendances</strong></label><input type="radio" name="annotation" value="dep" id="dependances"></p>
+		
+	<p>À noter que cette expression n'est pas identique à celle qu'on
         retrouve dans le code source qui utilise parfois des fonctions auxiliaires pour factoriser des parties de code, 
         alors qu'ici l'expression est reconstruite à partir des informations sauvées lors des appels de constructeurs et de fonctions.
      </p>
-     <p><a href="PetitChaperonRouge_node.js" target="_blank">Version pour utilisation avec node.js</a></p>
+	 <p>Le fichier JavaScript utilisé par cette page est exécutable avec <code>node</code> pour obtenir la version texte du conte, mais sans l'affichage sélectif des expressions jsRealB.</em>.</p>
      <p><a href="LittleRedRidingHood.html">Version anglaise</a></p>
      <hr/>
     <div class="histoire">
-       <h1><span class="texte">lpcr.clone().cap()</h1>
-       <p><span class="texte">p1</span><span class="texte">p2</span>
-           <span class="texte">p3</span></p>
-       <p><span class="texte">p4</span><span class="texte">p5</span><span class="texte">p6</span>
-          <span class="texte">p7</span>
-          <span class="texte">p8</span>
-          <span class="texte">p9</span>
-          <span class="texte">p10</span>
-       </p>
-       <p><span class="texte">p11</span>
-          <span class="texte">p12</span><span class="texte">p13</span>
-          <span class="texte">p14</span><span class="texte">p16</span><span class="texte">p16</span>
-       </p>
-       <p><span class="texte">p17</span></p>
-       <p><span class="texte">p18</span>
-          <span class="texte">p19</span>
-          <span class="texte">p20</span><span class="texte">p21</span><span class="texte">p22</span><span class="texte">p23</span><span class="texte">p24</span>
-          <span class="texte">p25</span><span class="texte">p26</span>
-          <span class="texte">p27</span><span class="texte">p28</span>
-          <span class="texte">p22</span>
-          <span class="texte">p29</span>
-       </p>
-       <p><span class="texte">p30</span>
-          <span class="texte">p31</span>
-          <span class="texte">p32</span><br/>
-          <span class="texte">p33</span><br/>
-          <span class="texte">p33a</span><br/>
-          <span class="texte">p34</span><br/>
-          <span class="texte">p35</span><br/>
-          <span class="texte">p36</span><br/>
-          <span class="texte">p37</span><br/>
-          <span class="texte">p38</span><br/>
-          <span class="texte">p39</span><br/>
-          <span class="texte">p40</span><br/>
-          <span class="texte">p41</span><br/>
-          <span class="texte">p42</span>
-        </p>
-       <p><span class="texte">m0.tag("i")</span></p>
-       <span class="texte">m1</span><br/>
-       <span class="texte">m2</span><br/>
-       <span class="texte">m3</span><br/>
-       <span class="texte">m4</span><br/>
-       <span class="texte">m5</span><br/>
-       <span class="texte">m6</span><br/>
-       <span class="texte">m7</span><br/>
-       <span class="texte">m8</span><br/>
-       <span class="texte">m9</span><br/>
-       <span class="texte">m10</span><br/>
-       <span class="texte">m11</span><br/>
-       <span class="texte">m12</span><br/>
-       <span class="texte">m13</span><br/>
-       <span class="texte">m14</span><br/>
-       <span class="texte">m15</span>
-       <p><span class="texte">m16.tag("i")</span></p>
    </div>
 </body>
 </html>
