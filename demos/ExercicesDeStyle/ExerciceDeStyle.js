@@ -6,12 +6,7 @@ var texte,temps,genre,nombre;
 
 function completerLexique(){
     loadFr();
-    addToLexicon({"narrateur":{ "N": { "g": "x", "tab":"n56"} }}); 
-    addToLexicon({"bus"      :{ "N": { "g": "m", "tab":"n2" } }});
-    addToLexicon({"bondé"    :{ "A": { "g": "m", "tab":"n28"} }});
-    // addToLexicon({"coiffé"   :{ "A": { "g": "m", "tab":"n28"} }});// car le participe passé ne s'accorde pas!
-    addToLexicon({"quelque"  :{ "D": { "g": "m", "tab":"n28"} }});
-    addToLexicon("puis",getLemma("et")); 
+    // tous les mots utilisés sont déjà dans le lexique
 }
 
 function composer(t,g,n){
@@ -111,8 +106,7 @@ function composer(t,g,n){
 
 function updateLexicon(){
     loadEn();
-    addToLexicon("every", {"D":{"tab":"d4"}});
-    addToLexicon({"gal":{"N":{"tab":"n1"}}});
+    // tous les mots utilisés sont maintenant dans le lexique
 }
 
 function compose(t,g,n){
@@ -123,7 +117,7 @@ function compose(t,g,n){
     // chap=NP(D("a"),N(g==="m"?"chap":"gal").n(n).tag("span", {"class": "jeune-homme nombre"}))
     chapProSuj=Pro("I").g(g).n(n).tag("span", {"class": "jeune-homme nombre genre"}); // pronominalisation du chap
     chapProObj=Pro("me").g(g).n(n).tag("span", {"class": "jeune-homme nombre genre"}); // pronominalisation du chap
-    otherMan=NP(D("a"),N(g=="m"?"man":"woman")).tag("span", {"class": "voyageur genre nombre"});
+    otherMan=NP(D("a"),N(g=="m"?"man":"woman").n(n)).tag("span", {"class": "voyageur genre nombre"});
     otherManProSuj=Pro("I").g(g).n(n).tag("span", {"class": "voyageur genre nombre"}); // pronominalisation du otherMan
     otherManProObj=Pro("me").g(g).n(n).tag("span", {"class": "voyageur genre nombre"}); // pronominalisation du otherMan
     speakerPro=Pro("I").pe(1).g(g).n("s").tag("span", {"class": "narrateur genre nombre"});

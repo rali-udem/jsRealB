@@ -336,7 +336,7 @@ This section is quite *technical* and has been designed as a high-level document
 
 ### Class structure
 
-Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of three classes shown below in which shared methods for both `Phrase` et `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor. A Terminal should be called with only one parameter, or none in the case of `DT`, a check for this is done at call
+Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of four classes shown below in which shared methods for both `Phrase`, `Dependent` and `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor. A Terminal should be called with only one parameter, or none in the case of `DT`, a check for this is done at call
 time.
 
     function NP  (_){ return new Phrase(Array.from(arguments),"NP") }
@@ -412,6 +412,9 @@ The constructor first calls the `Constituent` prototype and then initializes its
     * *exclamative*: terminate the sentence with an exclamation mark.
 * `real()` : if the current object is a `CP`, generate terminals by realizing each element of the `CP` and inserting a comma between the first elements and the conjunction before the last; if it is a `VP` sort its complements in increasing order of length; for other types of phrases, realize each element and combine their list of Terminals into a single list; apply `doFormat()` on the resulting list. 
 * `toSource()` : create a list of the result of `toSource()` to each element separated by commas and prefixed with the name of the phrase; the options are added by calling `toSource()` of the prototype constituent.
+
+#### `Dependent`
+This is also a subclass of Constituent, its structures closely parallels that of `Phrase`.
 
 #### `Terminal`
 
