@@ -1,5 +1,4 @@
-jsRealB=require("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-node.js")
-// jsRealB=require("jsrealb")
+jsRealB=require("jsrealb")
 
 for (var v in jsRealB)
     eval(v+"=jsRealB."+v);
