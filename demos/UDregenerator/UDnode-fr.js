@@ -22,19 +22,19 @@ if (typeof module !== 'undefined' && module.exports) { // called as a node.js mo
 // French version
 // create a Constituent
 UDnode.prototype.toTerminal = function(isLeft){
-    function tonicPronoun(udLemma){
+    function tonicPronoun(form,udLemma){
         const nomList = ["je","tu","il","elle","nous","vous","ils","elles"];
         const accList = ["me","te","le","les","la"];
-        if (nomList.indexOf(udLemma)>=0){
+        if (nomList.indexOf(form)>=0 || nomList.indexOf(udLemma)>=0){
             return Pro("moi").c("nom");
         }
-        if (accList.indexOf(udLemma)>=0){
+        if (accList.indexOf(form)>=0 || nomList.indexOf(udLemma)>=0){
             return Pro("moi").c("acc")
         }
         return Pro(udLemma);
     }
 
-    function possessivePronoun (udLemma,pluralPsor){
+    function possessivePronoun (form,pluralPsor){
         const ppTable={
             "mien":  ["mien", 1],
             "tien":  ["mien", 2],
@@ -46,10 +46,10 @@ UDnode.prototype.toTerminal = function(isLeft){
         const plurTable = {
             "mien":"nôtre","tien":"vôtre","sien":"leur"
         };
-        if (udLemma in ppTable){
-            if (pluralPsor && udLemma in plurTable)
-                udLemma=plurTable[udLemma];
-            const [lemma,person]=ppTable[udLemma]
+        if (form in ppTable){
+            if (pluralPsor && form in plurTable)
+                form=plurTable[form];
+            const [lemma,person]=ppTable[form]
             return Pro(lemma).pe(person);
         }
     }
@@ -123,7 +123,7 @@ UDnode.prototype.toTerminal = function(isLeft){
     case "PRON":
         let pro;
         if (this.hasFeature("Poss","Yes") && this.hasFeature("PronType","Prs")){
-            pro=possessivePronoun(this.getForm());
+            pro=possessivePronoun(this.getForm().toLowerCase());
         }
         if (lemma=="se"){
             return feats2options(Pro("moi").c("refl"),this,["Person","Gender","Number"]);
@@ -132,7 +132,7 @@ UDnode.prototype.toTerminal = function(isLeft){
             return Pro("lui").tn("")
         }
         if(pro===undefined)
-            pro=tonicPronoun(lemma);
+            pro=tonicPronoun(this.getForm().toLowerCase(),lemma);
         // HACK: this should be done using "lier()" with the previous word or add a new terminal
         //   but this would imply knowing the previous token, not available right now or returning a list of tokens
         if (this.getForm().startsWith("-"))pro.b("-");

@@ -7,6 +7,10 @@ function addNewWords(){
     addToLexicon("stock",{"N":{"g":"m","tab":"n3"}});
     addToLexicon("vice", {"A":{"tab":"n24"}});
     
+    // mots fréquemment rencontrés, mais qui semblent douteux à ajouter au dictionnaire pour tous
+    addToLexicon("parce",{"C":{"tab":"cj"},"basic":true}); // idem que "parce que"
+    addToLexicon("sahraoui",{"N":{"g":"x","tab":"n28"},"A":{"g":"x","tab":"n28"}})
+    addToLexicon("comme",{"P":{"tab":"ppe"}})
 }
 
 if (typeof module !== 'undefined' && module.exports) { // called as a node.js module    

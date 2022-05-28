@@ -196,8 +196,9 @@ Dependent.prototype.linkProperties = function(){
                 const firstDep=d.dependents[0]
                 if (firstDep.isA("subj")){
                     headTerm.peng=d.peng
-                } else if (firstDep.isOneOf(["mod","comp"])&& firstDep.terminal.isA("V")){
+                } else if (firstDep.isOneOf(["mod","comp"])&& firstDep.terminal.isOneOf(["V","A"])){
                     // consider this as coordination of verb sharing a subject (the current root)
+                    //  or a coordination of adjectives
                     for (let d0 of d.dependents){
                         d0.peng=this.peng;
                         d0.terminal.peng=this.peng;
