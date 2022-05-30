@@ -64,7 +64,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * `testServer.py`: example of a Python program using the `jsRealB` server
     * `datedCore.js`: intermediary file used during the makefile for saving the date the makefile was created. This file should probably be deleted after the makefile 
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.  
-    When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory:  
+    When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
       `npm version {major|minor|patch}`  
       `npm publish`  
     Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` and `jsRealB.min.js` are published.
@@ -152,7 +152,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
 ## Design of the system
-The current version (3.9) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged.
+The current version (4.0) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 

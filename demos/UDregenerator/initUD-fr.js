@@ -204,6 +204,21 @@ var initUD =
 `;
 // SUD version....
 initUD = `
+# sent_id = fr-ud-test_00028
+# text = N'hésitez-pas à la faire circuler largement autour de vous !
+1	N'	ne	ADV	_	Polarity=Neg	2	mod	_	SpaceAfter=No|wordform=n'
+2	hésitez	hésiter	VERB	_	Mood=Imp|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	0	root	_	SpaceAfter=No
+3	-pas	pas	ADV	_	Polarity=Neg|Typo=Yes	2	mod	_	CorrectForm=pas
+4	à	à	ADP	_	_	2	comp:obl@x	_	_
+5	la	le	PRON	_	Gender=Fem|Number=Sing|Person=3|PronType=Prs	6	comp:obj@agent	_	_
+6	faire	faire	AUX	_	VerbForm=Inf	4	comp:obj	_	_
+7	circuler	circuler	VERB	_	VerbForm=Inf	6	comp:aux@caus	_	_
+8	largement	largement	ADV	_	_	7	mod	_	_
+9	autour	autour	ADV	_	_	7	mod	_	_
+10	de	de	ADP	_	_	9	comp:obl	_	_
+11	vous	lui	PRON	_	Number=Plur|Person=2|PronType=Prs	10	comp:obj	_	_
+12	!	!	PUNCT	_	_	2	punct	_	_
+
 # sent_id = fr-ud-test_00114
 # text = Mais nous ne bougeront pas tant que nos revendications n'auront pas été acceptées ", a assuré l'un d'eux.
 1	Mais	mais	CCONJ	_	_	4	cc	_	wordform=mais

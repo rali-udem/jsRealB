@@ -1,10 +1,8 @@
-.histoire{
+.histoire,.story {
     font-family: Papyrus, fantasy;
 }
 /* adapte  de http://tint.de/favourites/css-tooltips-for-everybody*/
 .texte {
-    /*text-decoration: none;*/
-    display: inline-block !important;
     display: inline;
     vertical-align: bottom;
     margin-bottom: -1px;

@@ -304,8 +304,6 @@ class SP(Phrase):
 ## call to jsRealB server at `serverURL`
 ##    started as another process with 
 ##           node ...jsRealB/dist/jsRealB-server.js
-##    or
-##           node ...jsRealBdist/jsRealB-server-dme.js
 
 from urllib.parse import urlencode
 from urllib.request import urlopen

@@ -30,35 +30,36 @@ QUnit.test( "Dates en français", function( assert ) {
     assert.equal(DT(theDate).dOpt({date:false, day:false, hour:false, minute:false, second:false}).nat(false).toString(), "1/2015", "Only month and year");
     assert.equal(DT(theDate).dOpt({year:false, month:false, day:false, hour:false, minute:false, second:false}).nat(false).toString(), "1", "Only date");
     // // relative time
-    var oneDayInMs = 86400000;
-    var today = new Date();
-
-    var tenDaysAgo = new Date(today.getTime() + (-10 * oneDayInMs));
-    var threeDaysAgo = new Date(today.getTime() + (-3 * oneDayInMs));
-    var twoDaysAgo = new Date(today.getTime() + (-2 * oneDayInMs));
-    var yesterday = new Date(today.getTime() + (-1 * oneDayInMs));
-
-    var tomorrow = new Date(today.getTime() + (1 * oneDayInMs));
-    var inTwoDays = new Date(today.getTime() + (2 * oneDayInMs));
-    var inThreeDays = new Date(today.getTime() + (3 * oneDayInMs));
-    var inTenDays = new Date(today.getTime() + (10 * oneDayInMs));
-
-    var optionDayOnly = {year:false, month:false, date:false, hour:false, minute:false, second:false, det:false};
-
-    assert.equal(DT(tenDaysAgo).dOpt({rtime: true}).toString(),"il y a 10 jours", "10 jours avant");
-    assert.equal(DT(threeDaysAgo).dOpt({rtime: true}).toString(),
+    const oneDayInMs = 86400000;
+    const today = new Date();
+    
+    const tenDaysAgo = new Date(today.getTime() + (-10 * oneDayInMs));
+    const threeDaysAgo = new Date(today.getTime() + (-3 * oneDayInMs));
+    const twoDaysAgo = new Date(today.getTime() + (-2 * oneDayInMs));
+    const yesterday = new Date(today.getTime() + (-1 * oneDayInMs));
+    
+    const tomorrow = new Date(today.getTime() + (1 * oneDayInMs));
+    const inTwoDays = new Date(today.getTime() + (2 * oneDayInMs));
+    const inThreeDays = new Date(today.getTime() + (3 * oneDayInMs));
+    const inTenDays = new Date(today.getTime() + (10 * oneDayInMs));
+    
+    const optionDayOnly = {year:false, month:false, date:false, hour:false, minute:false, second:false, det:false};
+    const rtOpt={rtime:true,hour:false,minute:false,second:false}
+    
+    assert.equal(DT(tenDaysAgo).dOpt(rtOpt).toString(),"il y a 10 jours", "10 jours avant");
+    assert.equal(DT(threeDaysAgo).dOpt(rtOpt).toString(),
             DT(threeDaysAgo).dOpt(optionDayOnly)+" dernier", "3 jours avant");
-    assert.equal(DT(twoDaysAgo).dOpt({rtime: true}).toString(),
+    assert.equal(DT(twoDaysAgo).dOpt(rtOpt).toString(),
             "avant-hier", "2 jours avant");
-    assert.equal(DT(yesterday).dOpt({rtime: true}).toString(), "hier", "1 jour avant");
+    assert.equal(DT(yesterday).dOpt(rtOpt).toString(), "hier", "1 jour avant");
 
-    assert.equal(DT(today).dOpt({rtime: true}).toString(), "aujourd'hui", "ce jour");
+    assert.equal(DT(today).dOpt(rtOpt).toString(), "aujourd'hui", "ce jour");
 
-    assert.equal(DT(tomorrow).dOpt({rtime: true}).toString(), "demain", "1 jour après");
-    assert.equal(DT(inTwoDays).dOpt({rtime: true}).toString(),
+    assert.equal(DT(tomorrow).dOpt(rtOpt).toString(), "demain", "1 jour après");
+    assert.equal(DT(inTwoDays).dOpt(rtOpt).toString(),
             "après-demain", "2 jours après");
-    assert.equal(DT(inThreeDays).dOpt({rtime: true}).toString(),
+    assert.equal(DT(inThreeDays).dOpt(rtOpt).toString(),
             DT(inThreeDays).dOpt(optionDayOnly)+" prochain", "3 jours après");
-    assert.equal(DT(inTenDays).dOpt({rtime: true}).toString(), "dans 10 jours", "10 jours après");
+    assert.equal(DT(inTenDays).dOpt(rtOpt).toString(), "dans 10 jours", "10 jours après");
     
 })

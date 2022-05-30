@@ -44,20 +44,20 @@ QUnit.test( "English dates", function( assert ) {
 
     var optionDayOnly = {year:false, month:false, date:false, hour:false, minute:false, second:false, det:false};
 
-    assert.equal(DT(tenDaysAgo).dOpt({rtime: true}).toString(), "10 days ago", "10 days before");
-    assert.equal(DT(twoDaysAgo).dOpt({rtime: true}).toString(),
+    assert.equal(DT(tenDaysAgo).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(), "10 days ago", "10 days before");
+    assert.equal(DT(twoDaysAgo).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(),
             "last " + DT(twoDaysAgo).dOpt(optionDayOnly), "3 days before");
-    assert.equal(DT(threeDaysAgo).dOpt({rtime: true}).toString(),
+    assert.equal(DT(threeDaysAgo).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(),
             "last " + DT(threeDaysAgo).dOpt(optionDayOnly), "3 days before");
-    assert.equal(DT(yesterday).dOpt({rtime: true}).toString(), "yesterday", "1 day before");
+    assert.equal(DT(yesterday).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(), "yesterday", "1 day before");
 
-    assert.equal(DT(today).dOpt({rtime: true}).toString(), "today", "this day");
+    assert.equal(DT(today).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(), "today", "this day");
 
-    assert.equal(DT(tomorrow).dOpt({rtime: true}).toString(), "tomorrow", "1 day after");
-    assert.equal(DT(inTwoDays).dOpt({rtime: true}).toString(),
+    assert.equal(DT(tomorrow).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(), "tomorrow", "1 day after");
+    assert.equal(DT(inTwoDays).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(),
             DT(inTwoDays).dOpt(optionDayOnly), "3 days after");
-    assert.equal(DT(inThreeDays).dOpt({rtime: true}).toString(),
+    assert.equal(DT(inThreeDays).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(),
             DT(inThreeDays).dOpt(optionDayOnly), "3 days after");
-    assert.equal(DT(inTenDays).dOpt({rtime: true}).toString(), "in 10 days", "10 days after");
+    assert.equal(DT(inTenDays).dOpt({rtime: true,hour:false,minute:false,second:false}).toString(), "in 10 days", "10 days after");
     
 })

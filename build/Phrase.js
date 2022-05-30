@@ -146,6 +146,12 @@ Phrase.prototype.linkProperties	 = function(){
                         if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
                             e.peng=this.peng
                         }
+                    } else if (e.isA("CP")){ // check for a coordination of adjectives
+                        const me=this;
+                        e.elements.forEach(function(e){
+                            if (e.isA("A")) // 
+                                e.peng=me.peng
+                        })
                     }
                 }
             }
@@ -829,10 +835,9 @@ Phrase.prototype.processInt = function(int){
             if (subjIdx!==undefined){
                 const vbIdx=this.getIndex(["VP","V"]);
                 if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
-                    // insure that the verb at the third person singular, 
+                    // insure that the verb at the third person, 
                     // because now the subject has been removed
                     const v=this.elements[vbIdx];
-                    v.setProp("n","s");
                     v.setProp("pe",3);
                     this.removeElement(subjIdx);
                 }

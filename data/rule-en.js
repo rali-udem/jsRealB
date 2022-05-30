@@ -1755,7 +1755,19 @@ var ruleEn = //========== rule-en.js
         }
     },
     "declension": {
-        "n1": {
+         "nI": {
+            "ending": "",
+            "declension": [{
+                "val": "","g": "m","n": "s"
+            },{
+                "val": "","g": "f","n": "s"
+            },{
+                "val": "","g": "m","n": "p"
+            },{
+                "val": "","g": "f","n": "p"
+            }]
+        },
+       "n1": {
             "ending": "",
             "declension": [{
                 "val": "","n": "s"
@@ -2788,67 +2800,67 @@ var ruleEn = //========== rule-en.js
         "pn2-2": {
             "ending": "you",
             "declension": [{
-                "val": "you","n": "x","g": "x", "tn":"", "pe":2,
+                "val": "you","n": "x","g": "x", "tn":"", "pe":2
             },{
-                "val": "yourself","n": "s","g": "x", "tn":"refl", "pe":2,
+                "val": "yourself","n": "s","g": "x", "tn":"refl", "pe":2
             },{
-                "val": "yourselves","n": "p","g": "x", "tn":"refl", "pe":2,
+                "val": "yourselves","n": "p","g": "x", "tn":"refl", "pe":2
             },{
-                "val": "you","n": "x","g": "x", "c":"nom", "pe":2,
+                "val": "you","n": "x","g": "x", "c":"nom", "pe":2
             },{
-                "val": "you","n": "x","g": "x", "c":"acc", "pe":2,
+                "val": "you","n": "x","g": "x", "c":"acc", "pe":2
             },{
-                "val": "you","n": "x","g": "x", "c":"dat", "pe":2,
+                "val": "you","n": "x","g": "x", "c":"dat", "pe":2
             },{
-                "val": "yours","n": "x","g": "x", "c":"gen", "pe":2,
+                "val": "yours","n": "x","g": "x", "c":"gen", "pe":2
             }]
         },
         "pn2-3sm": {
             "ending": "him",
             "declension": [{
-                "val": "him","n": "s","g": "m", "tn":"", "pe":3,
+                "val": "him","n": "s","g": "m", "tn":"", "pe":3
             },{
-                "val": "himself","n": "s","g": "m", "tn":"refl", "pe":3,
+                "val": "himself","n": "s","g": "m", "tn":"refl", "pe":3
             },{
-                "val": "he","n": "s","g": "m", "c":"nom", "pe":3,
+                "val": "he","n": "s","g": "m", "c":"nom", "pe":3
             },{
-                "val": "him","n": "s","g": "m", "c":"acc", "pe":3,
+                "val": "him","n": "s","g": "m", "c":"acc", "pe":3
             },{
-                "val": "him","n": "s","g": "m", "c":"dat", "pe":3,
+                "val": "him","n": "s","g": "m", "c":"dat", "pe":3
             },{
-                "val": "his","n": "s","g": "m", "c":"gen", "pe":3,
+                "val": "his","n": "s","g": "m", "c":"gen", "pe":3
             }]
         },
         "pn2-3sf": {
             "ending": "her",
             "declension": [{
-                "val": "her","n": "s","g": "f", "tn":"", "pe":3,
+                "val": "her","n": "s","g": "f", "tn":"", "pe":3
             },{
-                "val": "herself","n": "s","g": "f", "tn":"refl", "pe":3,
+                "val": "herself","n": "s","g": "f", "tn":"refl", "pe":3
             },{
-                "val": "she","n": "s","g": "f", "c":"nom", "pe":3,
+                "val": "she","n": "s","g": "f", "c":"nom", "pe":3
             },{
-                "val": "her","n": "s","g": "f", "c":"acc", "pe":3,
+                "val": "her","n": "s","g": "f", "c":"acc", "pe":3
             },{
-                "val": "her","n": "s","g": "f", "c":"dat", "pe":3,
+                "val": "her","n": "s","g": "f", "c":"dat", "pe":3
             },{
-                "val": "hers","n": "s","g": "f", "c":"gen", "pe":3,
+                "val": "hers","n": "s","g": "f", "c":"gen", "pe":3
             }]
         },
         "pn2-3sn": {
             "ending": "it",
             "declension": [{
-                "val": "it","n": "s","g": "n", "tn":"", "pe":3,
+                "val": "it","n": "s","g": "n", "tn":"", "pe":3
             },{
-                "val": "itself","n": "s","g": "n", "tn":"refl", "pe":3,
+                "val": "itself","n": "s","g": "n", "tn":"refl", "pe":3
             },{
-                "val": "it","n": "s","g": "n", "c":"nom", "pe":3,
+                "val": "it","n": "s","g": "n", "c":"nom", "pe":3
             },{
-                "val": "it","n": "s","g": "n", "c":"acc", "pe":3,
+                "val": "it","n": "s","g": "n", "c":"acc", "pe":3
             },{
-                "val": "it","n": "s","g": "n", "c":"dat", "pe":3,
+                "val": "it","n": "s","g": "n", "c":"dat", "pe":3
             },{
-                "val": "its","n": "s","g": "n", "c":"gen", "pe":3,
+                "val": "its","n": "s","g": "n", "c":"gen", "pe":3
             }]
         },
         "pn2-1p": {
@@ -2870,17 +2882,17 @@ var ruleEn = //========== rule-en.js
         "pn2-3p": {
             "ending": "them",
             "declension": [{
-                "val": "them","n": "p","g": "x", "tn":"", "pe":3,
+                "val": "them","n": "p","g": "x", "tn":"", "pe":3
             },{
-                "val": "themselves","n": "p","g": "x", "tn":"refl", "pe":3,
+                "val": "themselves","n": "p","g": "x", "tn":"refl", "pe":3
             },{
-                "val": "they","n": "p","g": "x", "c":"nom", "pe":3,
+                "val": "they","n": "p","g": "x", "c":"nom", "pe":3
             },{
-                "val": "them","n": "p","g": "x", "c":"acc", "pe":3,
+                "val": "them","n": "p","g": "x", "c":"acc", "pe":3
             },{
-                "val": "them","n": "p","g": "x", "c":"dat", "pe":3,
+                "val": "them","n": "p","g": "x", "c":"dat", "pe":3
             },{
-                "val": "theirs","n": "p","g": "x", "c":"gen", "pe":3,
+                "val": "theirs","n": "p","g": "x", "c":"gen", "pe":3
             }]
         },
         "pn3": {
@@ -2959,7 +2971,7 @@ var ruleEn = //========== rule-en.js
                 "val": "","n": "p"
             }]
         },
-        "d2": { // GL: changed n:"." to n:"x" because it depends on the number of the owner
+        "d2": {
             "ending": "my",
             "declension": [{
                 "val": "my","pe": 1,"n": "x","g": "x","own": "s"

@@ -689,6 +689,7 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         }
         return res;
     }
+    let dateS;
     if (dOpts["rtime"]){
         const relativeDate = dateRule["format"]["relative_time"]
         // find the number of days of difference between relDay and the current date
@@ -696,13 +697,16 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
         const diffDays=Math.ceil((dateObj.getTime()-relDay.getTime())/(24*60*60*1000));
         relDay.setDate(relDay+diffDays);
         const res=relativeDate[""+diffDays];
-        if (res!==undefined) 
-            return relativeDate[""+diffDays].replace("[l]",dateRule["text"]["weekday"][dateObj.getDay()])
-        const sign=diffDays<0?"-":"+";
-        return relativeDate[sign].replace("[x]",Math.abs(diffDays))
+        if (res!==undefined){
+            dateS=relativeDate[""+diffDays].replace("[l]",dateRule["text"]["weekday"][dateObj.getDay()])
+        } else {
+            const sign=diffDays<0?"-":"+";
+            dateS=relativeDate[sign].replace("[x]",Math.abs(diffDays))
+        }
+    } else {
+        dateS = interpret(["year","month","date","day"].filter(field=> dOpts[field]==true).join("-"));
     }
     
-    const dateS = interpret(["year","month","date","day"].filter(field=> dOpts[field]==true).join("-"));
     const timeS = interpret(["hour","minute","second"].filter(field=> dOpts[field]==true).join(":"));
     return [dateS,timeS].filter(s=>s.length>0).join(" ")
 }

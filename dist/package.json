@@ -1,8 +1,8 @@
 {
   "name": "jsrealb",
-  "version": "3.6.0",
+  "version": "4.0.2",
   "dist-tags": {
-    "latest": "3.0.0"
+    "latest": "4.0.2"
   },
   "versions": {
     "3.0.0": {
