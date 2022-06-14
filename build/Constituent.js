@@ -188,7 +188,7 @@ genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A"]);
-genOptionFunc("pro",undefined,["NP","PP"]);
+genOptionFunc("pro",undefined,["NP","PP","N"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 

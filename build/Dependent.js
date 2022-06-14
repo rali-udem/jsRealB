@@ -293,7 +293,7 @@ Dependent.prototype.pronominalize_fr = function(){
 Dependent.prototype.pronominalize_en = function(){
     let pro;
     this.props.pe=3; // ensure that pronominalization of anything other than a pronoun is 3rd person
-    if (this.isA("subj")){    // is it a subject
+    if (this.parentConst===null || this.parentConst.isA("subj")){    // is it a subject
         pro=this.getTonicPro("nom")
     } else {
         pro=this.getTonicPro("acc") //is direct complement
