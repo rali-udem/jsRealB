@@ -316,7 +316,7 @@ Constituent.prototype.typ = function(types){
       "contr":[false,true],
       "refl" :[false,true], // reflexive
       "mod": [false,"poss","perm","nece","obli","will"],
-      "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc"]
+      "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
     }
     this.addOptSource("typ",types)
     if (this.isOneOf(["S","SP","VP"]) || this instanceof Dependent){
@@ -366,20 +366,20 @@ Constituent.prototype.doElisionEn = function(cList){
     const acronymRE=/^[A-Z]+$/
     // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
     const contractionEnTable={
-        "are+not":"aren’t", "can+not":"can’t", "did+not":"didn’t", "do+not":"don’t", "does+not":"doesn’t", 
-        "had+not":"hadn’t", "has+not":"hasn’t", "have+not":"haven’t", "is+not":"isn’t", "must+not":"mustn’t", 
-        "need+not":"needn’t", "should+not":"shouldn’t", "was+not":"wasn’t", "were+not":"weren’t", 
-        "will+not":"won’t", "would+not":"wouldn’t",
-        "let+us":"let’s",
-        "I+am":"I’m", "I+will":"I’ll", "I+have":"I’ve", "I+had":"I’d", "I+would":"I’d",
-        "she+will":"she’ll", "he+is":"he’s", "he+has":"he’s", "she+had":"she’d", "she+would":"she’d",
-        "he+will":"he’ll", "she+is":"she’s", "she+has":"she’s", "he+would":"he’d", "he+had":"he’d",
-        "you+are":"you’re", "you+will":"you’ll", "you+would":"you’d", "you+had":"you’d", "you+have":"you’ve",
-        "we+are":"we’re", "we+will":"we’ll", "we+had":"we’d", "we+would":"we’d", "we+have":"we’ve",
-        "they+will":"they’ll", "they+are":"they’re", "they+had":"they’d", "they+would":"they’d", "they+have":"they’ve",
-        "it+is":"it’s", "it+will":"it’ll", "it+had":"it’d", "it+would":"it’d",
-        "there+will":"there’ll", "there+is":"there’s", "there+has":"there’s", "there+have":"there’ve",
-        "that+is":"that’s", "that+had":"that’d", "that+would":"that’d", "that+will":"that’ll"
+        "are+not":"aren't", "can+not":"can't", "did+not":"didn't", "do+not":"don't", "does+not":"doesn't", 
+        "had+not":"hadn't", "has+not":"hasn't", "have+not":"haven't", "is+not":"isn't", "must+not":"mustn't", 
+        "need+not":"needn't", "should+not":"shouldn't", "was+not":"wasn't", "were+not":"weren't", 
+        "will+not":"won't", "would+not":"wouldn't", "could+not":"couldn't",
+        "let+us":"let's",
+        "I+am":"I'm", "I+will":"I'll", "I+have":"I've", "I+had":"I'd", "I+would":"I'd",
+        "she+will":"she'll", "he+is":"he's", "he+has":"he's", "she+had":"she'd", "she+would":"she'd",
+        "he+will":"he'll", "she+is":"she's", "she+has":"she's", "he+would":"he'd", "he+had":"he'd",
+        "you+are":"you're", "you+will":"you'll", "you+would":"you'd", "you+had":"you'd", "you+have":"you've",
+        "we+are":"we're", "we+will":"we'll", "we+had":"we'd", "we+would":"we'd", "we+have":"we've",
+        "they+will":"they'll", "they+are":"they're", "they+had":"they'd", "they+would":"they'd", "they+have":"they've",
+        "it+is":"it's", "it+will":"it'll", "it+had":"it'd", "it+would":"it'd",
+        "there+will":"there'll", "there+is":"there's", "there+has":"there's", "there+have":"there've",
+        "that+is":"that's", "that+had":"that'd", "that+would":"that'd", "that+will":"that'll"
     } 
     // search for terminal "a" and check if it should be "an" depending on the next word
     var last=cList.length-1;
@@ -567,6 +567,14 @@ Constituent.prototype.doFormat = function(cList){
             cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
         }
     }
+    const tags=this.props["tag"];
+    if (tags !== undefined) {
+        tags.forEach(function(tag){
+            const attName=tag[0];
+            const attVal=tag[1];
+            wrapWith(startTag(attName,attVal),"</"+attName+">");
+        })
+    }
     const as = this.props["a"];
     if (as !== undefined){
         as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["b"])})
@@ -580,14 +588,6 @@ Constituent.prototype.doFormat = function(cList){
         ens.forEach(function(en){
             const ba=getBeforeAfterString(en);
             wrapWith(ba["b"],ba["a"])
-        })
-    }
-    const tags=this.props["tag"];
-    if (tags !== undefined) {
-        tags.forEach(function(tag){
-            const attName=tag[0];
-            const attVal=tag[1];
-            wrapWith(startTag(attName,attVal),"</"+attName+">");
         })
     }
     return cList;
@@ -606,8 +606,8 @@ Constituent.prototype.detokenize = function(terminals){
             // check for adding -t- in French between a verb and pronoun
             if (this.isFr() && terminal.isA("V") && terminals[i+1].isA("Pro")){
                 /* According to Antidote:
-                C’est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
-                du futur de l’indicatif se termine par une autre lettre que d ou t et qu’il est suivi 
+                C'est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
+                du futur de l'indicatif se termine par une autre lettre que d ou t et qu'ßil est suivi 
                 des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
                 et le pronom sujet inversé.*/
                 if (/[^dt]$/.test(terminal.realization) && /^[ieo]/.test(terminals[i+1].realization)){

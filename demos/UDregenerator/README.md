@@ -25,7 +25,7 @@ For searching tokens with specific characteristics in a UD file. The tokens can 
 * visit `UDgrep.html`
 
 ## `variationsFromText` as a `node.js` module
-For creating questions or negation from an affirmative sentence. This first parses the sentence using Stanza and uses this output to create the dependency structure and the corresponding constituent tree. jsRealB then creates questions and negations from this constituent tree. It can also process directly a conllu file.
+For creating questions or negation from an affirmative sentence. This first parses the sentence using Stanza and uses this output to create the dependency structure and the corresponding dependency tree. jsRealB then creates questions and negations from these dependencies. It can also process directly a conllu file.
 
     node variationsFromText.js [-l en|fr] [-q] [-n] [-h] [-t] file.{txt|conllu} 
     where -l: language (en default)
@@ -38,8 +38,8 @@ For creating questions or negation from an affirmative sentence. This first pars
                       this creates "file.conllu" if it does not exist or is "older" than file.txt
             file.conllu: process directly the conllu file
             
-This system was used in this [work](LeBerre-QuestionGeneration.pdf).
-   
+This system was used in 
+[Unsupervised multiple-choice question generation for out-of-domain Q&A fine-tuning](https://aclanthology.org/2022.acl-short.83) (Le Berre et al., ACL 2022)   
 ## Files
 
 ### sources

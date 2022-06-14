@@ -130,5 +130,5 @@ var True  = true;
 var None  = null;
 
 // version and date informations
-var jsRealB_version="4.0";
+var jsRealB_version="4.1";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

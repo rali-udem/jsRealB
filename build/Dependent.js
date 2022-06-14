@@ -16,7 +16,9 @@ function Dependent(params,deprel,lang){ // lang parameter used calls in IO-json.
         this.warn("Dependent without params");
         return null;
     }
-    if (params[0] instanceof Terminal){
+    if (typeof params[0]=="string"){
+        this.terminal=Q(params.shift())
+    } else if (params[0] instanceof Terminal){
         this.terminal=params.shift()
     } else {
         this.warn("Dependent needs Terminal",params[0].constructor.name);
@@ -511,7 +513,8 @@ Dependent.prototype.invertSubject=function(){
     }
 }
 
-Dependent.prototype.processTypInt = function(int){
+Dependent.prototype.processTypInt = function(types){
+    const int=types["int"]
     const sentenceTypeInt=this.getRules().sentence_type.int
     const intPrefix=sentenceTypeInt.prefix;
     let prefix,pp; // to be filled later
@@ -577,6 +580,73 @@ Dependent.prototype.processTypInt = function(int){
         }
         if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
         break;
+    case "tag":
+        // according to Antidote: Syntax Guide - Question tag
+        // Question tags are short questions added after affirmations to ask for verification
+        if (this.isFr()){ // in French really simple, add "n'est-ce pas"
+            this.a(", n'est-ce pas")
+        } else { // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
+                 // must find  the pronoun and conjugate the auxiliary
+            let aux;
+            // look for the first verb or auxiliary (added by affixHopping)
+            const vIdx=this.findIndex(d=>d.terminal.isA("V") && d.depPosition()=="pre");
+            const currV = vIdx<0 ? this.terminal : this.dependents[vIdx].terminal; 
+            if ("mod" in types && types["mod"]!==false){
+                aux=this.getRules().compound[types["mod"]]["aux"];
+            } else {
+                if (contains(["have","be","can","will","shall","may","must"],currV.lemma))aux=currV.lemma;
+                else aux="do"
+            }
+            let neg = "neg" in types && types["neg"]===true;
+            let pe = currV.getProp("pe");
+            let t  = currV.getProp("t");
+            let n  = currV.getProp("n");
+            let g  = currV.getProp("g");
+            let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
+            let subjIdx=this.findIndex((d)=>d.isA("subj"))
+            if (subjIdx>=0){
+                const subj=this.dependents[subjIdx].terminal;
+                if (subj.isA("Pro")){
+                    if (subj.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
+                        // very special case : I am => aren't I
+                        pe=2
+                    } else if (contains(["this","that","nothing"],subj.lemma)){
+                        pro=Pro("I").g("n") // it
+                    } else if (contains(["somebody","anybody","nobody","everybody",
+                                         "someone","anyone","everyone"],subj.lemma)){
+                        pro=Pro("I").n("p"); // they
+                        if (subj.lemma=="nobody")neg=true;                     
+                    } else 
+                        pro=subj.clone();
+                } else {
+                    // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
+                    pro=subj.clone().pro()
+                }
+            }
+            // check for negative adverbs...
+            const advIdx=this.findIndex((d)=>d.isA("mod") && d.terminal.isA("Adv"));
+            if (advIdx>=0 && contains(["hardly","scarcely","never","seldom"],this.dependents[advIdx].terminal.lemma)){
+                neg=true
+            }
+            let iDeps=this.dependents.length-1
+            while(iDeps>=0 && this.dependents[iDeps].depPosition()!="post")iDeps--;
+            if (iDeps<0)
+                currV.a(","); // add comma to the verb
+            else // add comma to the last current dependent
+                this.dependents[iDeps].a(","); 
+            //   this is a nice illustration of jsRealB using itself for realization
+            if (aux=="have" && !neg){ 
+                // special case because it should be realized as "have not" instead of "does not have" 
+                this.addDependent(comp(V("have").t(t).pe(pe).n(n),
+                                       mod(Adv("not")),
+                                       comp(pro)).typ({"contr":true}))
+            } else { // use jsRealB itself for realizing the tag by adding a new VP
+                this.addDependent(comp(V(aux).t(t).pe(pe).n(n),
+                                       mod(pro)).typ({"neg":!neg,"contr":true}))
+            }
+        }
+        prefix=intPrefix[int];
+        break;
     default:
         this.warn("not implemented","int:"+int)
     }
@@ -606,7 +676,7 @@ Dependent.prototype.processTyp = function(types){
         this.processTyp_en(types) 
     }
     if ("int" in types && types["int"] !== false)
-        this.processTypInt(types["int"]);
+        this.processTypInt(types);
     const exc=types["exc"];
     if (exc !== undefined && exc === true){
         this.a(this.getRules().sentence_type.exc.punctuation,true);

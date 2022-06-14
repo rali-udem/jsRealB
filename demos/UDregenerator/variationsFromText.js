@@ -172,7 +172,7 @@ function generate(conlluFile){
     // UDregenerator execution
     uds=UDregenerator.parseUDs(conlluFile);
     uds.forEach(function (ud,i){
-        if (ud.text.length>=80)return; // for the moment only deal with short sentences (less than 80 characters)
+        // if (ud.text.length>=80)return; // for the moment only deal with short sentences (less than 80 characters)
         const text=ud.text;
         console.log(fmt, "id  ",ud.sent_id);
         console.log(fmt, "text",text);

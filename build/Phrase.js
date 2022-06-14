@@ -161,7 +161,7 @@ Phrase.prototype.linkProperties	 = function(){
         if (pro!==undefined){
             const v=pro.parentConst.getFromPath(["VP","V"]);
             if (v !=undefined){
-                if (contains(["qui","who"],pro.lemma)){// agrees with this NP
+                if (contains(["qui","who","which","that"],pro.lemma)){// agrees with this NP
                     v.peng=this.peng
                 } else if (this.isFr() && pro.lemma=="que"){
                     // in French past participle can agree with a cod appearing before... keep that info in case
@@ -671,7 +671,7 @@ function affixHopping(v,t,compound,types){
     } else if (interro !==undefined && interro !== false && 
                auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
         // add auxiliary for interrogative if not already there
-        if (interro!="wos" && interro!="was"){
+        if (interro!="wos" && interro!="was" && interro!="tag"){
             auxils.push("do");
             affixes.push("b");
         }
@@ -819,8 +819,9 @@ const prepositionsList = {
     }
 }
 
-Phrase.prototype.processInt = function(int){
-    const sentenceTypeInt=this.getRules().sentence_type.int
+Phrase.prototype.processInt = function(types){
+    const int=types["int"];
+    const sentenceTypeInt=this.getRules().sentence_type.int;
     const intPrefix=sentenceTypeInt.prefix;
     let prefix,pp; // to be filled later
     switch (int) {
@@ -892,6 +893,70 @@ Phrase.prototype.processInt = function(int){
             if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
         }
         break;
+    case "tag":
+        if (this.isOneOf(["S","SP","VP"])){
+            // according to Antidote: Syntax Guide - Question tag
+            // Question tags are short questions added after affirmations to ask for verification
+            if (this.isFr()){ // in French really simple, add "n'est-ce pas"
+                this.a(", n'est-ce pas")
+            } else { // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
+                // must find  and pronoun and conjugate the auxiliary
+                let aux;
+                const currV=this.getFromPath(["VP","V"]);
+                if (currV !== undefined){
+                    if ("mod" in types && types["mod"]!==false){
+                        aux=this.getRules().compound[types["mod"]]["aux"];
+                    } else {
+                        if (contains(["have","be","can","will","shall","may","must"],currV.lemma))aux=currV.lemma;
+                        else aux="do"
+                    }
+                    let neg = "neg" in types && types["neg"]===true;
+                    let pe = currV.getProp("pe");
+                    let t  = currV.getProp("t");
+                    let n  = currV.getProp("n");
+                    let g  = currV.getProp("g");
+                    let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
+                    const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
+                    if (subjIdx!==undefined){
+                        const vbIdx=this.getIndex(["VP","V"]);
+                        if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
+                            const subj=this.elements[subjIdx];
+                            if (subj.isA("Pro")){
+                                if (subj.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
+                                    // very special case : I am => aren't I
+                                    pe=2
+                                } else if (contains(["this","that","nothing"],subj.lemma)){
+                                    pro=Pro("I").g("n") // it
+                                } else if (contains(["somebody","anybody","nobody","everybody",
+                                                     "someone","anyone","everyone"],subj.lemma)){
+                                    pro=Pro("I").n("p"); // they
+                                    if (subj.lemma=="nobody")neg=true;                     
+                                } else 
+                                    pro=subj.clone();
+                            } else {
+                                // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
+                                pro=subj.clone().pro()
+                            }
+                        }
+                    }
+                    // check for negative adverbs...
+                    const adv=currV.parentConst.getConst("Adv");
+                    if (adv!==undefined && contains(["hardly","scarcely","never","seldom"],adv.lemma)){
+                        neg=true
+                    }
+                    currV.parentConst.a(","); // add comma to parent of the verb
+                    //   this is a nice illustration of jsRealB using itself for realization
+                    if (aux=="have" && !neg){ 
+                        // special case because it should be realized as "have not" instead of "does not have" 
+                        this.addElement(VP(V("have").t(t).pe(pe).n(n),Adv("not"),pro).typ({"contr":true}))
+                    } else { // use jsRealB itself for realizing the tag by adding a new VP
+                        this.addElement(VP(V(aux).t(t).pe(pe).n(n),pro).typ({"neg":!neg,"contr":true}))
+                    }
+                }
+            }
+            prefix=intPrefix[int];
+        }
+        break;
     default:
         this.warn("not implemented","int:"+int)
     }
@@ -922,7 +987,7 @@ Phrase.prototype.processTyp = function(types){
         this.processTyp_en(types) 
     }
     if ("int" in types && types["int"] !== false)
-        this.processInt(types["int"]);
+        this.processInt(types);
     const exc=types["exc"];
     if (exc !== undefined && exc === true){
         this.a(this.getRules().sentence_type.exc.punctuation,true);

@@ -4397,7 +4397,8 @@ var ruleFr = //========== rule-fr.js
                 "how":  "comment",
                 "whn":  "quand",
                 "why":  "pourquoi",
-                "muc": "combien"
+                "muc": "combien",
+                "tag": "",
             }
         },
         "dec": {
