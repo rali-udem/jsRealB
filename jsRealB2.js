@@ -566,8 +566,11 @@ var dependenciesEn=[
     [root(V("applaud").t("f"),
           compObj(Pro("this"))).typ({"mod":"nece","pas":true}),"This shall be applauded. "],// 11
     [root(V("remember"),
-          subj(Pro("you"))).typ({"int":"yon"}),"Do you remember? "],// 11
-    
+          subj(Pro("you"))).typ({"int":"yon"}),"Do you remember? "], // 12
+    [root(V('eat'),                                                 // 13
+          comp(N('apple').n("p"),det(D('a'))).tag("em"),
+          subj(N("man"),det(D("the")))).typ({"neg":false,"int":"tag"}),
+     "The man eats <em>apples</em>, doesn't he? "],
 ];
    
 function showEx(exemple){

@@ -293,7 +293,7 @@ Dependent.prototype.pronominalize_fr = function(){
 Dependent.prototype.pronominalize_en = function(){
     let pro;
     this.props.pe=3; // ensure that pronominalization of anything other than a pronoun is 3rd person
-    if (this.parentConst===null || this.parentConst.isA("subj")){    // is it a subject
+    if (this.parentConst===null || this.isA("subj")){    // is it a subject
         pro=this.getTonicPro("nom")
     } else {
         pro=this.getTonicPro("acc") //is direct complement
@@ -487,6 +487,11 @@ Dependent.prototype.moveAuxToFront=function(){
         const aux = this.dependents[auxIdx].terminal;
         this.removeDependent(auxIdx)
         this.addPre(aux,0)                             // put auxiliary before
+    } else if (contains(["be","have"],this.terminal.lemma)) {
+        //no auxiliary, but check for have or be "alone" for which the subject should appear
+        const subjIdx=this.findIndex(d=>d.isA("subj"));
+        if (subjIdx>=0)
+            this.dependents[subjIdx].pos("post")
     }
 }
 
@@ -603,6 +608,11 @@ Dependent.prototype.processTypInt = function(types){
             let n  = currV.getProp("n");
             let g  = currV.getProp("g");
             let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
+            // check for negative adverbs...
+            const advIdx=this.findIndex((d)=>d.isA("mod") && d.terminal.isA("Adv"));
+            if (advIdx>=0 && contains(["hardly","scarcely","never","seldom"],this.dependents[advIdx].terminal.lemma)){
+                neg=true
+            }
             let subjIdx=this.findIndex((d)=>d.isA("subj"))
             if (subjIdx>=0){
                 const subj=this.dependents[subjIdx].terminal;
@@ -618,15 +628,11 @@ Dependent.prototype.processTypInt = function(types){
                         if (subj.lemma=="nobody")neg=true;                     
                     } else 
                         pro=subj.clone();
+                    pro=comp(pro)
                 } else {
                     // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
-                    pro=subj.clone().pro()
+                    pro=comp("",this.dependents[subjIdx].clone().pro())
                 }
-            }
-            // check for negative adverbs...
-            const advIdx=this.findIndex((d)=>d.isA("mod") && d.terminal.isA("Adv"));
-            if (advIdx>=0 && contains(["hardly","scarcely","never","seldom"],this.dependents[advIdx].terminal.lemma)){
-                neg=true
             }
             let iDeps=this.dependents.length-1
             while(iDeps>=0 && this.dependents[iDeps].depPosition()!="post")iDeps--;
@@ -634,15 +640,15 @@ Dependent.prototype.processTypInt = function(types){
                 currV.a(","); // add comma to the verb
             else // add comma to the last current dependent
                 this.dependents[iDeps].a(","); 
-            //   this is a nice illustration of jsRealB using itself for realization
+            // this is a nice use-case of jsRealB using itself for realization
             if (aux=="have" && !neg){ 
                 // special case because it should be realized as "have not" instead of "does not have" 
                 this.addDependent(comp(V("have").t(t).pe(pe).n(n),
                                        mod(Adv("not")),
-                                       comp(pro)).typ({"contr":true}))
+                                       pro).typ({"contr":true}))
             } else { // use jsRealB itself for realizing the tag by adding a new VP
                 this.addDependent(comp(V(aux).t(t).pe(pe).n(n),
-                                       mod(pro)).typ({"neg":!neg,"contr":true}))
+                                       pro).typ({"neg":!neg,"contr":true}))
             }
         }
         prefix=intPrefix[int];
