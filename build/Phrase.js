@@ -4,13 +4,25 @@
  */
 "use strict";
 
+function _elems(es){ // flatten list of elements removing null and undefined
+    let res=[]
+    for (const e of es) {
+        if (e !== null && e!== undefined){
+            if (Array.isArray(e)){
+                Array.prototype.push.apply(res,_elems(e)); // recursive call
+            } else
+                res.push(e);
+        }
+    }
+    return res;
+}
 ////// Constructor for a Phrase (a subclass of Constituent)
 
 // phrase (non-terminal)
 function Phrase(elements,constType,lang){ // lang parameter used calls in IO-json.js
     Constituent.call(this,constType); // super constructor
     this.lang = lang || currentLanguage;
-    elements=elements.filter(e=>e!=undefined && e!=null) // remove "null" elements
+    elements=_elems(elements); 
     this.elements=[];
     // list of elements to create the source of the parameters at the time of the call
     // this can be different from the elements lists because of structure modifications
@@ -73,6 +85,7 @@ Phrase.prototype.add = function(constituent,position,prog){
         }
         return true
     }
+    if (constituent===null)return this;
     // create constituent
     if (typeof constituent=="string"){
         constituent=Q(constituent);
