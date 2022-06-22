@@ -1,61 +1,40 @@
+// @ ts-check
 // Implementation in jsRealB of
 // F. Mairesse and M. A. Walker.
 // Towards personality-based user adaptation: psychologically informed stylistic language generation.
 // User Model. User Adapt. Interact., 20(3):227–278, 2010.
 //    text taken from : https://users.soe.ucsc.edu/~maw/papers/umuai2010.pdf
 //    data taken from : https://nlds.soe.ucsc.edu/stylistic-variation-nlg
+// Unfortunately the data only deals with a subset of the 5 traits (agree, consc, extra) and the paper is not very
+// explicit about the formulations used for each trait. So formulations were chosen by looking 
+// at the training data... some them taken from the "e2eChallenge" demo.
 
-
-const allPlaces=["place","arena","venue","establishment","restaurant"];
+const allPlaces=["place","venue","establishment","restaurant"];
 //// list fields of the meaning representation
 const mr_fields = ['area', 'customerRating', 'eatType', 'familyFriendly', 'food', 'name', 'near', 'priceRange']
 
 //// list of all encountered mr_values for each field in the "training" dataset
-const mr_values = {'area': ['city centre', 'riverside'],
-             'customerRating': ['average', 'decent', 'excellent', 'high', 'low', 'mediocre'],
-             'eatType': ['pub', 'coffee shop', 'restaurant'],
-             'familyFriendly': ['no', 'yes'],
-             'food': ['Chinese', 'English', 'French', 'Indian', 'Italian', 'Japanese', 'fast food'],
-            //  'name': ['nameVariable'],
-            //  'near': ['nearVariable'],
-             'priceRange': ['20-25', 'a lot', 'a small amount', 'cheap', 'high', 'moderate'],
-             }
+// const mr_values = {'area': ['city centre', 'riverside'],
+//              'customerRating': ['average', 'decent', 'excellent', 'high', 'low', 'mediocre'],
+//              'eatType': ['pub', 'coffee shop', 'restaurant'],
+//              'familyFriendly': ['no', 'yes'],
+//              'food': ['Chinese', 'English', 'French', 'Indian', 'Italian', 'Japanese', 'fast food'],
+//             //  'name': ['nameVariable'],
+//             //  'near': ['nearVariable'],
+//              'priceRange': ['20-25', 'a lot', 'a small amount', 'cheap', 'high', 'moderate'],
+//              }
 
-
-//// traits from the paper
-const traits = {"extra":"Extraversion", "ems":"Emotional stability", "agree":"Agreeableness",
-          "consc":"Conscientiousness", "open":"Openness to experience"}
-
-//// "personality" from the data
-const personality = {"AGREEABLE":["agree",1],
-               "DISAGREEABLE":["agree",0],
-               "CONSCIENTIOUSNESS":["consc",1],
-               "UNCONSCIENTIOUSNESS":["consc",0],
-               "EXTRAVERT":["extra",1]}
-
-const adjectives = { // Table 3 (page 6)
-    "extra": ["warm", "gregarious", "assertive", "sociable", "excitement", "seeking", "active", "spontaneous", "optimistic", "talkative",
-              "shy", "quiet", "reserved", "passive", "solitary", "moody", "joyless"],
-    "ems":   ["calm", "even-tempered", "reliable", "peaceful", "confident",
-              "neurotic", "anxious", "depressed", "self-conscious", "oversensitive", "vulnerable"],
-    "agree": ["trustworthy", "friendly", "considerate", "generous", "helpful", "altruistic",
-              "unfriendly", "selfish", "suspicious", "uncooperative", "malicious"],
-    "consc": ["competent", "disciplined", "dutiful", "achievement", "striving", "deliberate", "careful", "orderly",
-              "disorganized", "impulsive", "unreliable", "careless", "forgetful"],
-    "open":  ["creative", "intellectual", "imaginative", "curious", "cultured", "complex",
-              "narrow-minded", "conservative", "ignorant", "simple"],
-}
 
 const names = ["Blue Spice", "Clowns", "Cocum", "Cotto", "Giraffe", "Green Man", "Loch Fyne", "Strada", "The Cricketers",
          "The Mill", "The Phoenix", "The Plough", "The Punter", "The Vaults", "The Waterman", "The Wrestlers",
          "Wildwood", "Zizzi"]
 
-nears = ["Crowne Plaza Hotel", "Burger King", "Rainbow Vegetarian Café", "All Bar One", "The Sorrento", "Café Sicilia",
+const nears = ["Crowne Plaza Hotel", "Burger King", "Rainbow Vegetarian Café", "All Bar One", "The Sorrento", "Café Sicilia",
          "Express by Holiday Inn", "The Rice Boat", "The Bakers", "Raja Indian Cuisine", "Avalon", "Ranch", "Café Rouge"]
 
 if (typeof module !== 'null' && module.exports) {
     //  load jsRealB
-    let jsRealB=require("jsrealb")
+    let jsRealB=require("../../dist/jsRealB-node")
     // import exports in current scope
     for (var v in jsRealB)
             eval(v+"=jsRealB."+v);
@@ -88,34 +67,26 @@ function familyFriendly(personality,ff_value){
               ()=>Pro("I").n("p")
         ),
         VP(V("be"),
-           NP(oneOf(N("family").lier(),N("kid")),A("friendly")))).typ({"neg":ff_value=="no"})
+           NP(oneOf(N("family").lier(),N("kid")),A("friendly").pos("post")))).typ({"neg":ff_value=="no"})
 }
 
 function food_eattype(personality,food_value,eat_value){
     let res;
     if (eat_value===null || eat_value===undefined){
         res=NP(N(oneOf(allPlaces)))
-    } else {
-        if (food_value=="fast food")
-            res=NP(A("fast"),N("food"))
-        else {
-            if (food_value !== null && food_value !== undefined) food_value=A(food_value)
-            if (eat_value=="coffee shop"){
-                res=SP(food_value,N("coffee"),N("shop"))
-            } else
-                res=SP(food_value,N(eat_value))
-        }
+    } 
+    if (food_value=="fast food")
+        res=NP(A("fast"),N("food"))
+    else {
+        if (food_value !== null && food_value !== undefined) food_value=A(food_value)
+        if (eat_value=="coffee shop"){
+            res=SP(food_value,N("coffee"),N("shop"))
+        } else
+            res=SP(food_value,res)
     }
     res.add(D("a"),0)
-    switch (personality) {
-        case "AGREEABLE":
-            res=SP(Pro("I"),VP(V("be"),res));
-            break;
-    
-        default:
-            bad("food_eattype",personality);
-            break;
-    }
+    if (personality=="AGREEABLE")
+        res=SP(Pro("I"),VP(V("be"),res));
     return res;
 }
 
@@ -124,6 +95,7 @@ function name(personality,name_value){
     let res;
     switch (personality) {
         case "AGREEABLE":
+        case "CONSCIENTIOUSNESS":
             res = oneOf(
                 ()=>SP(VP(V("let").t("ip"),us(),V("see").t("b"),
                           oneOf(()=>SP(Pro("what"),
@@ -138,14 +110,31 @@ function name(personality,name_value){
             )
             break;
         case "DISAGREEABLE":
-            return oneOf(
+            res = oneOf(
                 ()=>SP(oneOf(Q(""),Adv("actually").a(",")),
                        oneOf(Q(""),Adv("basically").a(",")),
                        Pro("everybody"),
                        VP(V("know"),Q(name_value))),
-                ()=>SP(Q("oh"),N("God"),Adv("basically").a(","),Q(name_value)),
+                ()=>SP(Q("oh"),N("god").cap(),Adv("basically").a(","),Q(name_value)),
                 ()=>SP(Q(name_value))
             )
+            break;            
+        case "UNCONSCIENTIOUSNESS":
+            res=name("DISAGREEABLE",name_value)
+            res.add(oneOf(
+                ()=>Q("err..."),
+                ()=>Q("oh gosh err..."),
+                ()=>S(Q(oneOf("Yeah","oh gosh","mhm...")),Pro("I").pe(1),
+                      VP(V("be"),A("sure"))).typ({neg:true}),
+                ()=>Q(oneOf("yeah","well","right")).a(",")
+            ),0);
+            break;
+         case "EXTRAVERT":
+            res=name("AGREEABLE",name_value)
+            res.add(oneOf(
+                ()=>null,
+                ()=>Q(oneOf("yeah","well","right")).a(",")
+            ),0)
             break;
         default:
             bad("name",personality);
@@ -180,8 +169,11 @@ function near(personality,near_value){
 
 
 function priceRange(personality,price_value){
-    return price_value.indexOf("-")>=0?PP(P("with"),N("price").n("p"),Q(price_value),N("dollar").n("p"))
-                                      :PP(P("with"),NP(A(price_value),N("price").n("p")));;
+    return price_value.indexOf("-")>=0 
+              ? PP(P("with"),N("price").n("p"),
+                   PP(P("in"),
+                      NP(D("the"),Q(price_value),N("dollar").n("p"),N("range"))))
+              : PP(P("with"),NP(A(price_value),N("price").n("p")));
 }
 
 function finale(personality){
@@ -193,17 +185,29 @@ function finale(personality){
                 ()=> Q("okay").a("?"),
                 ()=>null
             )
-            break;
-    
+        case "DISAGREEABLE":
+            if (Math.random()<0.2)
+                return S(Q(oneOf("Oh God, come on","Come on, oh God","Come on, I mean")))
+            return null;
+        case "CONSCIENTIOUSNESS": 
+        case "UNCONSCIENTIOUSNESS":
+            return null;
+        case "EXTRAVERT":
+            return oneOf(
+                ()=> N("pal").a("!"),
+                ()=> N("buddy").a("!"),
+                ()=> N("mate").a("!"),
+                ()=> SP(you(),VP(V("know"))).typ({exc:true}),
+                ()=> null
+            )
         default:
-            bad("finale",personality)
-            break;
+            return bad("finale",personality)
     }
-    return null;
 }
 
 function bad(mr_value,personality){
     console.warn("%s: unimplemented personality: %s",mr_value,personality);
+    return null
 }
 
 // adapted from https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
@@ -221,17 +225,21 @@ function shuffleArray(array){
 //     ensure that output food and foodtype together when both are present
 function content_plan(infos){
     if ("food" in infos && "eatType" in infos)delete infos["eatType"] // foodType is combined with food when present...
-    fields = mr_fields.filter(v=>v!="name" && infos[v]!==null && infos[v]!==undefined)
+    let fields = mr_fields.filter(v=>v!="name" && infos[v]!==null && infos[v]!==undefined)
     shuffleArray(fields)
     fields.unshift("name")
     fields.push("finale")
     return fields
 }
 
-function generate(personality,infos){
-    const fields=content_plan(infos) // 'area', 'customerRating', 'eatType', 'familyFriendly', 'food', 'name', 'near', 'priceRange'
+/**
+ * @param {string} personality
+ * @param {{ [x: string]: any; }} infos
+ */
+function generate(fields,personality,infos){
     let expr;
-    let res=S();
+    let exprs=[];
+    // generate each field keeping only non-null ones
     for (const field of fields) {
         switch (field) {
             case "name":
@@ -262,39 +270,68 @@ function generate(personality,infos){
                 console.warn("bad field:",field)
                 break;
         }
-        if (expr!=null){
-            const l=res.elements.length;
-            if (l>0){
-                const last=res.elements[res.elements.length-1];
-                const lastProp = last.getProp("typ")
-                if (lastProp===undefined || !("int" in lastProp))
-                    last.a(",")
-            }                
-            res.add(expr)
+        if (expr!=null)exprs.push(expr)
+    }
+    // combine the expressions into one or more lists of at most N expressions
+    const NB=4
+    let exprss=[]
+    while (exprs.length>=NB){
+        const typ=exprs[0].getProp("typ");
+        if (typ && "int" in typ){ // check for an interrogative that should appear alone
+            exprss.push(exprs.splice(0,1))
+        } else {
+            const l=Math.trunc(Math.random(NB)*NB)+1
+            exprss.push(exprs.splice(0,l))
         }
+    }
+    if (exprs.length>0){
+        exprss.push(exprs)
+    }
+    // Realize the final string
+    let res=""
+    for (const exprs of exprss) {
+        // separate each expression in aliste of expressions by a comma or "and"
+        res+=S(CP(exprs.length>2?C("and"):null,exprs))
     }
     return res;
 }
 
-
+function showInfos(infos){
+    let fields=[]
+    for (const key in infos) {
+        if (Object.hasOwnProperty.call(infos, key) && key!="ref" && key!="personality") {
+            fields.push(key+"["+infos[key]+"]")
+        }
+    }
+    return fields.join(", ")
+}
 
 ////  start of execution
 loadEn();
 
 if (typeof module !== 'null' && module.exports) {
-    let util=require("util");
     let fs=require("fs");
-    let lines = fs.readFileSync("./demos/Personage/personage-train-start.jsonl",'utf-8').trim().split("\n")
+    let lines = fs.readFileSync("/Users/lapalme/Dropbox/personage-nlg/personage-nlg-test.jsonl",'utf-8').trim().split("\n")
+    let nb=0    
     for (const line of lines) {
+        if (nb>10)break;
         const infos = JSON.parse(line)
         infos["name"]=oneOf(names);
         if (infos["near"]!==undefined)infos["near"]=oneOf(nears)
-        console.log(util.inspect(infos));
-        console.log(content_plan(infos))
-        const exp=generate("AGREEABLE",infos)
-        // console.log(exp.toSource(0))
-        console.log(exp.toString());
+        console.log(showInfos(infos));
+        let fields=content_plan(infos)
+        console.log("Content Plan: %s",fields.join())
+        console.log("A:"+generate(fields,"AGREEABLE",infos));
+        console.log("D:"+generate(fields,"DISAGREEABLE",infos));
+        console.log("C:"+generate(fields,"CONSCIENTIOUSNESS",infos));
+        console.log("U:"+generate(fields,"UNCONSCIENTIOUSNESS",infos));
+        console.log("E:"+generate(fields,"EXTRAVERT",infos));
+        console.log("R:"+infos["personality"].charAt(0)+":"+
+                     infos["ref"].replace(/NAME/g,infos["name"]).replace(/NEAR/g,infos["near"]))
+        console.log("---")
+        nb++;
     }
+    console.log("%d meaning representations processed",nb)
 } else {
     $(document).ready(function() {
         // $("#dependances,#constituents").change(()=>generateHTML(story))

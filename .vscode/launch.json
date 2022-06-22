@@ -11,7 +11,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/demos/Personage/Personage.js"
+            "program": "${workspaceFolder}/demos/Personage/Personage.js",
+            "runtimeArgs" :["--no-deprecation"]
         }
     ]
 }

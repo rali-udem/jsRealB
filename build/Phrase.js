@@ -105,7 +105,8 @@ Phrase.prototype.add = function(constituent,position,prog){
         const e=this.elements[i];
         if (e.isA("A")){// check for adjective position
             const idx=this.getIndex("N");
-            const pos=e.isFr()?(e.props["pos"]||"post"):"pre"; // all English adjective are pre
+            // unless specified the position of an English adjective is pre, but is post for a French one
+            const pos=e.props["pos"]||(e.isFr()?"post":"pre"); 
             if (idx >= 0){
                 if ((pos=="pre" && i>idx)||(pos=="post" && i<idx)){
                     if (allAorN(this.elements,i,idx)){
