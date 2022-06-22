@@ -74,7 +74,7 @@ function area(personality,area_value){
 }
 
 function customerRating(personality,cr_value){
-    S(Pro("I").g("n"),
+    return S(Pro("I").g("n"),
       VP(V("have"),
          oneOf(()=>NP(D("a"),Q(cr_value),oneOf(N("customer"),Q("")),N("rating")),
                ()=>NP(D("a"),oneOf(N("customer"),Q("")),N("rating"),P("of"),Q(cr_value))))
