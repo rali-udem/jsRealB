@@ -19,12 +19,12 @@ const mr_fields = ['area', 'customerRating', 'eatType', 'familyFriendly', 'food'
 //              'eatType': ['pub', 'coffee shop', 'restaurant'],
 //              'familyFriendly': ['no', 'yes'],
 //              'food': ['Chinese', 'English', 'French', 'Indian', 'Italian', 'Japanese', 'fast food'],
-//             //  'name': ['nameVariable'],
-//             //  'near': ['nearVariable'],
+//              'name': ['nameVariable'],
+//              'near': ['nearVariable'],
 //              'priceRange': ['20-25', 'a lot', 'a small amount', 'cheap', 'high', 'moderate'],
 //              }
 
-
+// values taken from ../../demos/e2eChallenge/devsetFields.json
 const names = ["Blue Spice", "Clowns", "Cocum", "Cotto", "Giraffe", "Green Man", "Loch Fyne", "Strada", "The Cricketers",
          "The Mill", "The Phoenix", "The Plough", "The Punter", "The Vaults", "The Waterman", "The Wrestlers",
          "Wildwood", "Zizzi"]
@@ -44,7 +44,7 @@ function you(){return Pro("I").pe(2).n("s")}
 function we(){return Pro("I").pe(1).n("p")}
 function us(){return Pro("me").pe(1).n("p")}
 
-function area(personality,area_value){
+function area(_personality,area_value){
     if (area_value=="riverside"){
         return oneOf(()=>PP(P("on"),NP(D("the"),N("riverside"))),
                      ()=>PP(P("in"),NP(D("the"),N("riverside"),N("area"))))
@@ -52,7 +52,7 @@ function area(personality,area_value){
         return PP(P("in"),NP(D("the"),N("city"),N("centre")))
 }
 
-function customerRating(personality,cr_value){
+function customerRating(_personality,cr_value){
     return S(Pro("I").g("n"),
       VP(V("have"),
          oneOf(()=>NP(D("a"),Q(cr_value),oneOf(N("customer"),Q("")),N("rating")),
@@ -60,7 +60,7 @@ function customerRating(personality,cr_value){
     )
 }
 
-function familyFriendly(personality,ff_value){
+function familyFriendly(_personality,ff_value){
     return S(
         oneOf(()=>Pro("I").g("n"),
               ()=>NP(D("the"),N(oneOf(allPlaces))),
@@ -272,7 +272,7 @@ function generate(fields,personality,infos){
         }
         if (expr!=null)exprs.push(expr)
     }
-    // combine the expressions into one or more lists of at most N expressions
+    // combine the expressions into one or more lists of at most NB expressions
     const NB=4
     let exprss=[]
     while (exprs.length>=NB){
@@ -290,12 +290,13 @@ function generate(fields,personality,infos){
     // Realize the final string
     let res=""
     for (const exprs of exprss) {
-        // separate each expression in aliste of expressions by a comma or "and"
+        // separate each expression in a list of expressions by a comma or "and"
         res+=S(CP(exprs.length>2?C("and"):null,exprs))
     }
     return res;
 }
 
+// display information in a compact format
 function showInfos(infos){
     let fields=[]
     for (const key in infos) {
