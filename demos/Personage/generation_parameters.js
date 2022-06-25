@@ -135,4 +135,29 @@ function concede_cue_word(expr1,expr2){
         return S(SP(conj,expr1).a(","),expr2)
 }
 
+function merge_with_comma(expr1,expr2){
+    // Merge the subject and verb of two propositions
+    // TODO:: check that the merge is appropriate...
+    // find the object of expr2 and add it to the end of expr1
+    const obj=getObject(expr2)
+    if (obj!==undefined){
+        return S(expr1.a(","),obj)
+    }
+    return null
+}
 
+function object_ellipsis(expr){
+    // Restate a proposition after replacing its object by an ellipsis, 
+    //   e.g.,  ‘Chanpen Thai has … , it has great service’
+    if (expr.isOneOf(["S","SP"])){
+        const vp=expr.getConst("VP");
+        if (vp!==undefined){
+            const idx=vp.getIndex(["NP","SP","PP"]);
+            if (idx>0){ // take for granted that the verb is before the object
+                const obj=vp.elements.splice(idx,1)[0];
+                return S(expr.add(Q("… ")).a(","),SP(Pro("I"),
+                         VP(vp.elements[idx-1].clone(),obj)))
+            }
+        }
+    }
+}
