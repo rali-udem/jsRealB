@@ -77,16 +77,17 @@ function aggregation (expr1,expr2){
 
 function relative_clause(expr1,expr2){
     // Aggregate propositions with a relative clause
-    return [expr1[0],SP(Pro("that"),expr2)]  
+    return vo(SP(Pro("which"),expr1.vrb,expr2).a(","),expr2)  
 }    
 
 function with_cue_word(expr1,expr2){
     // Aggregate propositions using with
-    return [expr1[0],[expr1[1],P("with"),expr2[1]]]
+    return vo(expr1.vrb,SP(expr1.obj,PP(P("with"),expr2.obj)))
 }
 
 function conjunction(conj, expr1,expr2){
     // Join two propositions using a conjunction, or a comma if more than two propositions  
+    return vo(expr1.vrb,CP(C("and"),expr1.obj,expr2.obj))
     return []
 }
 
