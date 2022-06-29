@@ -68,7 +68,8 @@ function getObject(expr){
     return undefined
 }
 
-// start of aggreation functions
+// start of aggregation functions taking two structures [verb, obj] to create a new one
+// return null when nothing is done...
 function aggregation (expr1,expr2){
     // Leave two propositions in their own sentences
     return null
@@ -76,26 +77,17 @@ function aggregation (expr1,expr2){
 
 function relative_clause(expr1,expr2){
     // Aggregate propositions with a relative clause
-    const idx=getSubjectIndex(expr1)
-    if (idx>0){
-        expr1.elements.splice(idx,0,SP(Pro("that"),expr2))
-        return expr1
-    }    
-    return null
+    return [expr1[0],SP(Pro("that"),expr2)]  
 }    
 
 function with_cue_word(expr1,expr2){
     // Aggregate propositions using with
-    return cue_word(P("with"))
+    return [expr1[0],[expr1[1],P("with"),expr2[1]]]
 }
 
 function conjunction(conj, expr1,expr2){
     // Join two propositions using a conjunction, or a comma if more than two propositions  
-    if (Array.isArray(expr1)){
-        return CP(conj,expr1,expr2)
-    } else {
-        return CP(expr1,expr2)
-    }
+    return []
 }
 
 function merge(expr1,expr2){
