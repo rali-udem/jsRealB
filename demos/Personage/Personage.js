@@ -24,6 +24,21 @@ const mr_fields = ['area', 'customerRating', 'eatType', 'familyFriendly', 'food'
 //              'priceRange': ['20-25', 'a lot', 'a small amount', 'cheap', 'high', 'moderate'],
 //              }
 
+// lexicalizations adapted from 
+//  R. Higashinaka, M. A. Walker, and R. Prasad. 
+//  An unsupervised method for learning generation lexicons for spoken dialogue systems by mining user reviews. 
+//  ACM Transactions on Speech and Language Processing, 4(4), 2007.
+//       https://users.soe.ucsc.edu/~maw/papers/acm_tslp07.pdf
+//     Table 1 and Appendix A
+const attribute_lexicalizations = {
+    food: ["food","meal",],
+    service: ["service", "staff", "waitstaff", "wait staff", "server", "waiter", "waitress",],
+    atmosphere : ["atmosphere", "decor", "ambience", "decoration",],
+    // for customerRating
+    cheap : ["cheap","inexpensive",],
+    high  : ["high","expensive","pricey","overpriced",],
+    moderate : ["moderate","affordable","reasonable",],
+}
 // values taken from ../../demos/e2eChallenge/devsetFields.json
 const names = ["Blue Spice", "Clowns", "Cocum", "Cotto", "Giraffe", "Green Man", "Loch Fyne", "Strada", "The Cricketers",
          "The Mill", "The Phoenix", "The Plough", "The Punter", "The Vaults", "The Waterman", "The Wrestlers",
@@ -43,6 +58,10 @@ if (typeof module !== 'null' && module.exports) {
 function VO(vrb,obj){
     this.vrb=vrb;
     this.obj=obj
+}
+
+VO.prototype.all = function(){
+    return [this.vrb,this.obj]
 }
 
 function vo(vrb,obj){
@@ -129,7 +148,7 @@ function generate_key(key,infos){
         }
 }
 
-// simplest generator, after giving name and type, output each field separately
+// simplest generator, after giving name and type, and then output each field separately
 function simple_generate(infos){
     let res;
     if ("eatType" in infos){
@@ -146,11 +165,20 @@ function simple_generate(infos){
     return res;
 }
 
+//  from Chapter 5 (figure 5.4)
+function recommendation(params,infos){
+    // 
+} 
+
+
 ////  start of execution
 loadEn();
 addToLexicon("coffee shop",{"N":{"tab":"n1"}})
 
 if (typeof module !== 'null' && module.exports) {
+    let params=require("./generation_parameters");
+    let util=require("util")
+    console.log(util.inspect(params.extraversion));
     let fs=require("fs");
     let lines = fs.readFileSync("/Users/lapalme/Dropbox/personage-nlg/personage-nlg-test.jsonl",'utf-8').trim().split("\n")
     let nb=0    
