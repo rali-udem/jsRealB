@@ -174,20 +174,20 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 }
 
 // shared properties 
-//   pe,n and g : can be applied to compoennts of NP and Sentences
+//   pe,n and g : can be applied to components of NP and Sentences
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
-genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", // simple tenses
-                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S","SP","CP"]);  // composed tenses
+genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", "b-to", // simple tenses
+                   "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S","SP","CP"]);    // composed tenses
 genOptionFunc("aux",["av","êt","aê"],["V","VP","S","SP","CP"]);
 // ordinary properties
 genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
-genOptionFunc("pos",["post","pre"],["A"]);
+genOptionFunc("pos",["post","pre"],[]);
 genOptionFunc("pro",undefined,["NP","PP","N"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
@@ -294,7 +294,7 @@ Constituent.prototype.nat= function(isNat){
     if (this.isOneOf(["DT","NO"])){
         const options=this.props["dOpt"];
         if (isNat === undefined){
-            options.nat=false;
+            options.nat=true;
         } else if (typeof isNat == "boolean"){
             options.nat=isNat;
         } else {
@@ -623,7 +623,8 @@ Constituent.prototype.detokenize = function(terminals){
     s+=terminals[last].realization;
     
     if (this.parentConst==null){// if it is a top-level S
-        if (this.isOneOf(["S","root"]) && s.length>0){ 
+        if ((this.isOneOf(["S","root"]) || (this.isA("coord") && this.dependents[0].isA("root"))) 
+            && s.length>0){ 
             // apply capitalization at the start and final full stop unless .cap(false)
             if (this.props["cap"]!== false){
                 const sepWordRE=this.isEn()?sepWordREen:sepWordREfr;

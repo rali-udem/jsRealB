@@ -483,7 +483,7 @@ Dependent.prototype.processTyp_en = function(types){
 
 Dependent.prototype.moveAuxToFront=function(){
     let auxIdx=this.findIndex((d)=>d.isA("*pre*")); // added by affixHopping
-    if (auxIdx>=0){
+    if (auxIdx>=0 && !contains(["pp","pr"],this.getProp("t"))){ // do not move when tense is participle
         const aux = this.dependents[auxIdx].terminal;
         this.removeDependent(auxIdx)
         this.addPre(aux,0)                             // put auxiliary before
@@ -541,10 +541,11 @@ Dependent.prototype.processTypInt = function(types){
         prefix=intPrefix[int];
         break;
     case "wod": case "wad": // remove direct object (first comp starting with N)
+        let cmp;
         for (let i=0;i<this.dependents.length;i++){
             const d=this.dependents[i];
             if (d.isA("comp") && d.terminal.isA("N")){
-                this.removeDependent(i)
+                cmp=this.removeDependent(i)
                 break;
             }
         }
@@ -555,7 +556,10 @@ Dependent.prototype.processTypInt = function(types){
                 this.removeDependent(parIdx);// remove the passive subject
             }
         }
-        prefix=intPrefix[int];
+        if (this.isEn() && int=="wod" && cmp!==undefined && contains(["m","f"],cmp.getProp("g"))){ // human direct object
+            prefix="whom";
+        } else
+            prefix=intPrefix[int];
         if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
         break;
     case "woi": case "wai":case "whe":case "whn": // remove indirect object first comp or mod with a P as terminal
@@ -749,21 +753,17 @@ Dependent.prototype.coordReal = function(){
 
 // check where this dependent shoould go relative to its parent
 Dependent.prototype.depPosition = function(){
-    let pos="post";             // default is after
-    if (this.props["pos"]=="pre") 
-        return "pre"
-    if (this.isOneOf(["subj","det","*pre*"]) && this.props["pos"]!=="post"){ 
+    let pos=this.props["pos"];
+    if (pos!==undefined) return pos // always follow specified pos
+    pos = "post";             // default is after
+    if (this.isOneOf(["subj","det","*pre*"])){ 
         // subject and det are always before except when specified otherwise
         pos="pre"
     } else if (this.isA("mod") && this.terminal.isA("A") && this.parentConst.terminal.isA("N")){ 
         // check adjective position with respect to a noun
         pos=this.isFr()?(this.terminal.props["pos"]||"post"):"pre"; // all English adjective are pre
-    } else if (this.isA("coord")){
-        if (this.props["pos"]!==undefined){
-            pos=this.props["pos"]
-        } else if (this.dependents.length>0){
+    } else if (this.isA("coord") && this.dependents.length>0){
             pos=this.dependents[0].depPosition() // take the position of the first element of the coordination
-        }
     }
     return pos;
 }

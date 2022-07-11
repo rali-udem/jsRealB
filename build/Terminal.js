@@ -600,9 +600,16 @@ Terminal.prototype.conjugate_en = function(){
         }
     } else if (t=="f"){
         this.realization=this.lemma;
-        this.insertReal(res,Q("will"),0)
+        this.insertReal(res,V("will"),0);
+    } else if (t=="c"){
+        this.realization=this.lemma;
+        this.insertReal(res,V("will").t("ps"),0);
+    } else if (t=="b-to"){
+        this.realization=this.lemma;
+        this.insertReal(res,P("to"),0);
     } else if (t=="ip"){
         this.realization=this.lemma;
+        if (pe==1 && n=="p")this.insertReal(res,Q("let's"),0);
     } else
         return [this.morphoError("conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
     return res;

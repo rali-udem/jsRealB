@@ -687,4 +687,4 @@ checkAllExDep("exempleEnDep",exemplesEn);
 // checkAllExJSON("exemplesEn",exemplesEn);
 checkAllEx("dependenciesEn",dependenciesEn)
 
-loadFr(true);
+loadEn(true);

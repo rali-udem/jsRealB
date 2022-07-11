@@ -15,7 +15,7 @@ const mr_fields = ['area', 'customerRating', 'eatType', 'familyFriendly', 'food'
 
 //// list of all encountered mr_values for each field in the "training" dataset
 // const mr_values = {'area': ['city centre', 'riverside'],
-//              'customerRating': ['average', 'decent', 'excellent', 'high', 'low', 'mediocre'],
+//              'customerRating': ['low', 'mediocre', "average", "decent", 'excellent', 'high'],
 //              'eatType': ['pub', 'coffee shop', 'restaurant'],
 //              'familyFriendly': ['no', 'yes'],
 //              'food': ['Chinese', 'English', 'French', 'Indian', 'Italian', 'Japanese', 'fast food'],
@@ -34,11 +34,16 @@ const attribute_lexicalizations = {
     food: ["food","meal",],
     service: ["service", "staff", "waitstaff", "wait staff", "server", "waiter", "waitress",],
     atmosphere : ["atmosphere", "decor", "ambience", "decoration",],
-    // for customerRating
-    cheap : ["cheap","inexpensive",],
-    high  : ["high","expensive","pricey","overpriced",],
-    moderate : ["moderate","affordable","reasonable",],
+    // for prices (low to high)
+    prices : [["cheap","inexpensive",], 
+              ["moderate","affordable","reasonable",],
+              ["high","expensive","pricey","overpriced",]],
+    // for customerRating (low to high)
+    ratings: [['low', 'mediocre',],
+              ["average", "decent",],
+              ['excellent', 'high',]]
 }
+
 // values taken from ../../demos/e2eChallenge/devsetFields.json
 const names = ["Blue Spice", "Clowns", "Cocum", "Cotto", "Giraffe", "Green Man", "Loch Fyne", "Strada", "The Cricketers",
          "The Mill", "The Phoenix", "The Plough", "The Punter", "The Vaults", "The Waterman", "The Wrestlers",
@@ -55,72 +60,84 @@ if (typeof module !== 'null' && module.exports) {
             eval(v+"=jsRealB."+v);
 }
 
-function VO(vrb,obj){
-    this.vrb=vrb;
-    this.obj=obj
+
+// adapted from https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
+function shuffleArray(array){
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
 }
 
-VO.prototype.all = function(){
-    return [this.vrb,this.obj]
-}
-
-function vo(vrb,obj){
-    return new VO(vrb,obj)
-}
 
 // functions that return an array [verb, object or attribute]
 // the subject is implicitely the "named" place
-function area(area_value){
+function area_near(infos){
+    const area_value=infos["area"]
     let location;
     if (area_value=="riverside"){
         location = oneOf(()=>PP(P("on"),NP(D("the"),N("riverside"))),
                          ()=>PP(P("in"),NP(D("the"),N("riverside"),N("area"))))
     } else 
         location = PP(P("in"),NP(D("the"),N("city"),N("centre")));
-    return vo(V("be"),location)
+    const near_value=infos["near"]
+    if (near_value !==undefined){
+        location.add(PP(P("near"),Q(near_value)))
+    }
+    return VP(V("be"),location)
 }
 
-function customerRating(cr_value){
-    let rating = oneOf(()=>NP(D("a"),Q(cr_value),oneOf(N("customer"),Q("")),N("rating")),
+function customerRating(infos){
+    const cr_value = infos["customerRating"]
+    const rating = oneOf(()=>NP(D("a"),Q(cr_value),oneOf(N("customer"),Q("")),N("rating")),
                        ()=>NP(D("a"),oneOf(N("customer"),Q("")),N("rating"),P("of"),Q(cr_value)))
-    return vo(V("have"),rating)
+    return VP(V("have"),rating)
 }
 
-function eatType(eat_value){
-    return vo(V("be"),NP(D("a"),N(eat_value)))
+function eatType(infos){
+    const eat_value = infos["eatType"]
+    return VP(V("be"),NP(D("a"),N(eat_value)))
 }
 
-function familyFriendly(ff_value){
-    return vo(V("be"),ff_value=="no"?Adv("not"):null,
-             NP(oneOf(N("family").lier(),N("kid")),A("friendly").pos("post")))
+function familyFriendly(infos){
+    const ff_value = infos["familyFriendly"];
+    return VP(V("be"),
+              NP(ff_value=="no"?Adv("not"):null,
+                 oneOf(N("family").lier(),N("kid")),A("friendly").pos("post")))
 }            
 
-function food(food_value){
+function food(infos){
+    let food_value=infos["food"]
     if (food_value=="fast food")food_value="fast";
-    return vo(V("serve"),NP(A(food_value),N("food")))
+    return VP(V("serve"),NP(A(food_value),N("food")))
 }
 
-function name(name_value){
-    return vo(V("be"),Q(name_value))
+// function name(name_value){
+//     return Constituent(V("be"),Q(name_value))
+// }
+
+function near(infos){
+    const near_value = infos["near"]
+    return VP(V("be"),PP(P("near"),Q(near_value)))
 }
 
-function near(near_value){
-    return vo(V("be"),PP(P("near"),Q(near_value)))
-}
-
-function priceRange(price_value){
+function priceRange(infos){
+    const price_value = infos["priceRange"];
     if (price_value.indexOf("-")>=0 ){
-        return vo(V("has"),
+        return VP(V("has"),
                  NP(D("a"),N("price").n("p"),
                    PP(P("in"),
                       NP(D("the"),Q(price_value),N("dollar").n("p"),N("range")))))
     }
     if (price_value.startsWith("a"))
-        return vo(V("cost"),Q(price_value))
+        return VP(V("cost"),Q(price_value))
     if (price_value=="cheap")
-        return vo(V("be"),A(price_value))
+        return VP(V("be"),A(price_value))
     else 
-        return (V("have"),NP(A(price_value),N("price").n("p")))
+        return VP(V("have"),NP(A(price_value),N("price").n("p")))
 }
 
 // display information in a compact format
@@ -136,70 +153,172 @@ function showInfos(infos){
 
 function generate_key(key,infos){
     switch (key) {
-        case "area":          return area(infos[key])
-        case "customerRating":return customerRating(infos[key])
-        case "eatType":       return eatType(infos[key])
-        case "familyFriendly":return familyFriendly(infos[key])
-        case "food":          return food(infos[key])
-        case "near":          return near(infos[key])
-        case "priceRange":    return priceRange(infos[key])
+        case "name_eatType":  return name_eatType(infos)
+        case "area":          return area_near(infos)
+        case "customerRating":return customerRating(infos)
+        case "eatType":       return eatType(infos)
+        case "familyFriendly":return familyFriendly(infos)
+        case "food":          return food(infos)
+        case "near":          return near(infos)
+        case "priceRange":    return priceRange(infos)
         default:
             console.warn("bad key: %s",key);
         }
 }
 
-// simplest generator, after giving name and type, and then output each field separately
-function simple_generate(infos){
-    let res;
+// give initial information about the place, return a jsRealB expression
+function name_eatType(infos){
     if ("eatType" in infos){
-        res=S(Q(infos["name"]),VP(V("be")),NP(D("a"),N(infos["eatType"]))).toString()
+        return S(Q(infos["name"]),VP(V("be")),NP(D("a"),N(infos["eatType"])))
     } else {
-        res=S(NP(D("the"),N(oneOf(allPlaces))),VP(V("be"),Q(infos["name"]))).toString()
+        return S(NP(D("the"),N(oneOf(allPlaces))),VP(V("be"),Q(infos["name"])))
     }
-    for (key in infos) {
-        if (["name","eatType","ref","personality"].indexOf(key)<0){
-            let expr=generate_key(key,infos)
-            res+=S(Pro("I"),VP(expr.vrb,expr.obj)).toString();
-        }
-    }
-    return res;
 }
 
-//  from Chapter 5 (figure 5.4)
-function recommendation(params,infos){
-    // 
+// simplest generator, after giving name and type, and then output each field separately using "it" as subject
+function simple_generate(infos){
+    let res=[name_eatType(infos)]; // build list of jsRealB expression
+    for (key in infos) {
+        if (["name","eatType","ref","personality"].indexOf(key)<0){
+            if (!(key=="near" && "area" in infos)) { // do not repeat "near" if area is expressed
+                res.push(S(Pro("I"),generate_key(key,infos)));
+            }
+        }
+    }
+    return res.map(e=>e.toString()).join(""); // realize each expression as a list
+}
+
+//  apply parameter function when a random number is below prob 
+//  each  parameter transforms one or two VP into a single one
+//  the list of parameters is shuffled to vary the order of transformations to apply
+const trace=false;
+
+function apply_parameters(type,params, in_vps, invert){
+    if (params.length==0)return in_vps;
+    let out_vps=[];
+    const initial_in_length=in_vps.length
+    for (const agg_param of shuffleArray(params)){
+        if (in_vps.length==0) break;
+        let [agg_fn, prob]=agg_param;
+        if (invert)prob=1.0-prob;
+        if (agg_fn.length==1){ // transform a single expression
+            const r = Math.random();
+            if (r<prob){
+                const new_vp=agg_fn(in_vps[0])
+                if (new_vp!==undefined){
+                        if(trace)console.log("*apply1*:",agg_fn.name);
+                        out_vps.push(new_vp)
+                        in_vps=in_vps.slice(1)
+                    }
+                }
+        } else if (in_vps.length>1) { 
+            // transform two expressions
+            const r = Math.random();
+            if (r < prob) {
+                const new_vp=agg_fn(in_vps[0],in_vps[1])
+                if (new_vp !== undefined){
+                    if(trace) console.log("*apply2*:",agg_fn.name);
+                    out_vps.push(new_vp);
+                    in_vps=in_vps.slice(2)
+                } 
+            }
+        }
+    }
+    if (trace){
+        if (in_vps.length==initial_in_length)
+            console.warn("no %s function could be applied: %d",type,in_vps.length);
+    }
+    while (in_vps.length>0){
+        out_vps.push(in_vps.splice(0,1)[0])
+    }
+    return out_vps;
+}
+
+//  from Chapter 5 (figure 5.4, p 109)
+function recommendation(type,params,infos,invert){
+    // define content plan using fields in the current data (given after ~~ )
+    //  corresponding roughly to values in the thesis
+    //  best                        ~~ name+eatType
+    //  justify     2: cuisine      ~~ food
+    //              3: food-quality ~~ customerRating
+    //              4: atmosphere   ~~ familyFriendly
+    //              5: service      ~~ --
+    //              6: price        ~~ priceRange
+    //              7: location     ~~ area+near
+    const title = `recommandation:${invert?' not ':' '} ${type}`
+    //  initialize the list of jsRealB expressions
+    let vps = [];  // ::[Constituent]
+    for (key of ["food","customerRating","familyFriendly","priceRange","area"]){
+        if (key in infos){
+            vps.push(generate_key(key,infos))
+        }
+    }
+    // TODO: take into account "content planning" parameter
+    // TODO: take into account "syntactic template" parameters
+
+    // apply "aggregation" parameters // [Constituent] -> [Constituent]
+    // each agregation parameter combines one or two [Contituent]
+    const agg_vps = [name_eatType(infos)].concat(
+                    apply_parameters(title+":aggregation",params["aggregation"],vps,invert))
+    const prg_vps = apply_parameters(title+":pragmatic-marker",params["pragmatic_marker"],agg_vps,invert)
+
+    // linearize everything, adding a possible "it" when a VP is encountered  
+    return prg_vps.map(e => (e.isA("VP") ? S(Pro("I"), e) : e).toString()).join("");
 } 
+
+
+function personalized_recommandation(infos){
+    console.log(infos["personality"])
+    console.log(showInfos(infos));
+    console.log(simple_generate(infos));
+    switch (infos["personality"]) {
+        case "EXTRAVERT":
+            console.log("GEN:",recommendation("extra",params.extraversion,infos,false))
+            break;
+        case "AGREEABLE":
+            console.log("GEN:",recommendation("agree",params.agreeableness,infos,false))
+            break;
+        case "DISAGREEABLE":
+            console.log("GEN:",recommendation("agree",params.agreeableness,infos,true))
+            break;
+        case "CONSCIENTIOUSNESS":
+            console.log("GEN:",recommendation("consc",params.concientiousness,infos,false));
+            break;
+        case "UNCONSCIENTIOUSNESS":
+            console.log("GEN:",recommendation("consc",params.concientiousness,infos,true));
+            break;
+        default:
+            console.warn("unknown personality:",infos["personality"]);
+            break;
+    }
+    console.log("REF:",infos["ref"])
+    console.log("---")
+}
 
 
 ////  start of execution
 loadEn();
 addToLexicon("coffee shop",{"N":{"tab":"n1"}})
 
+let params=require("./generation_parameters");
+
 if (typeof module !== 'null' && module.exports) {
-    let params=require("./generation_parameters");
     let util=require("util")
-    console.log(util.inspect(params.extraversion));
+    // console.log(util.inspect(params.extraversion));
     let fs=require("fs");
     let lines = fs.readFileSync("/Users/lapalme/Dropbox/personage-nlg/personage-nlg-test.jsonl",'utf-8').trim().split("\n")
     let nb=0    
-    for (const line of lines) {
-        if (nb>100)break;
+    for (const line of lines.slice(0,10)) {
         // get information (giving name and nears that have dummy values in the data)
+        // patch ref with these new infos
         const infos = JSON.parse(line)
         infos["name"]=oneOf(names);
-        if (infos["near"]!==undefined)infos["near"]=oneOf(nears)
-        console.log(showInfos(infos));
-        console.log(simple_generate(infos))
-        // let fields=content_plan(infos)
-        // console.log("Content Plan: %s",fields.join())
-        // console.log("A:"+generate(fields,"AGREEABLE",infos));
-        // console.log("D:"+generate(fields,"DISAGREEABLE",infos));
-        // console.log("C:"+generate(fields,"CONSCIENTIOUSNESS",infos));
-        // console.log("U:"+generate(fields,"UNCONSCIENTIOUSNESS",infos));
-        // console.log("E:"+generate(fields,"EXTRAVERT",infos));
-        // console.log("R:"+infos["personality"].charAt(0)+":"+
-        //              infos["ref"].replace(/NAME/g,infos["name"]).replace(/NEAR/g,infos["near"]))
-        console.log("---")
+        infos["ref"]=infos["ref"].replace(/NAME/g,infos["name"])
+        if (infos["near"]!==undefined){
+            infos["near"]=oneOf(nears);
+            infos["ref"]=infos["ref"].replace(/NEAR/g,infos["near"])
+        }
+        personalized_recommandation(infos);
         nb++;
     }
     console.log("%d meaning representations processed",nb)

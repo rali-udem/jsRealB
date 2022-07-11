@@ -646,26 +646,24 @@ const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will no
 
 function affixHopping(v,t,compound,types){
     const v_peng=v.peng;
-    // let t = vp.getProp("t");
     const neg = types["neg"]===true;
     let auxils=[];  // list of Aux followed by V
     let affixes=[];
     let isFuture=false;
-    if (t=="f"){
+    if (t=="f" || t=="c"){
         isFuture=true;
-        t="p"; // the auxiliary will be generated here so remove it from the V
+        t = t=="f"?"p":"ps"; // the auxiliary will be generated here so remove it from the V
     }
     const prog = types["prog"]!==undefined && types["prog"]!==false;
     const perf =types["perf"]!==undefined && types["perf"]!==false;
     const pas =types["pas"]!==undefined && types["pas"]!==false;
     const interro = types["int"];
     const modality=types["mod"];
-    // const compound = this.getRules().compound;
     if (modality !== undefined && modality !== false){
         auxils.push(compound[modality].aux);
         affixes.push("b");
     } else if (isFuture){
-        // caution: future in English is done with the modal will, so another modal cannot be used
+        // caution: future and conditional in English are done with the modal will, so another modal cannot be used
         auxils.push(compound.future.aux);
         affixes.push("b");
     }
@@ -686,8 +684,10 @@ function affixHopping(v,t,compound,types){
                auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
         // add auxiliary for interrogative if not already there
         if (interro!="wos" && interro!="was" && interro!="tag"){
-            auxils.push("do");
-            affixes.push("b");
+            if (!contains(["pp","pr","b-to"],t)){ // do not add auxiliary for participle and infi
+                auxils.push("do");
+                affixes.push("b");
+            }
         }
     }
     auxils.push(v.lemma);
@@ -697,9 +697,14 @@ function affixHopping(v,t,compound,types){
     let words=[];
     // conjugate the first verb
     if (neg) { // negate the first verb
-        if (t=="pp" || t=="pr"){ // special case for these tenses
+        if (t=="pp" || t=="pr" || t=="b-to"){ // special case for these tenses
             words.push(Adv("not","en"));
             words.push(V(vAux,"en").t(t));
+        } else if (t=="ip" && v_peng["pe"]==1 && v_peng["n"]=="p") { 
+            // very special case , insert "not" between "let's" and the verb
+            words.push(Q("let's"))
+            words.push(Adv("not","en"));
+            words.push(V(vAux,"en").t("b"));
         } else if (vAux in negMod){
             if (vAux=="can" && t=="p"){
                 words.push(Q("cannot"))
@@ -779,7 +784,7 @@ Phrase.prototype.moveAuxToFront = function(){
     if (this.isEn()){
         if (this.isOneOf(["S","SP"])){ 
             let [idx,vpElems]=this.getIdxCtx("VP","V");
-            if (idx!==undefined){
+            if (idx!==undefined && !contains(["pp","pr","b-to"],this.getProp("t"))){ // do not move when tense is participle)
                 const v=vpElems[0].parentConst.removeElement(0);// remove first V
                 // check if V is followed by a negation, if so move it also
                 if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
@@ -862,9 +867,10 @@ Phrase.prototype.processInt = function(types){
         break;
     case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
         if (this.isOneOf(["S","SP","VP"])){
+            let cmp;
             const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
             if (idx!==undefined){
-                obj[0].parentConst.removeElement(idx)
+                cmp=obj[0].parentConst.removeElement(idx)
             } else if (this.isFr()){// check for passive subject starting with par
                 const [idx,ppElems]=this.getIdxCtx("VP","PP");
                 if (idx!==undefined){
@@ -876,7 +882,10 @@ Phrase.prototype.processInt = function(types){
                     }
                 }
             }
-            prefix=intPrefix[int];
+            if (this.isEn() && int=="wod" && cmp!==undefined && contains(["m","f"],cmp.getProp("g"))){ // human direct object
+                prefix="whom";
+            } else
+                prefix=intPrefix[int];
             if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
         }
         break;
