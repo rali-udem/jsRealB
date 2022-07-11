@@ -721,8 +721,7 @@ function affixHopping(v,t,compound,types){
             if (vAux != "do") words.push(V(vAux).t("b")); 
         }
     } else { // must only set necessary options, so that shared properties will work ok
-        let newAux=V(vAux);
-        if (!isFuture)newAux.t(t);
+        let newAux=V(vAux).t(t);
         if (v.lemma in negMod)newAux.pe(1);
         words.push(newAux);
     }
