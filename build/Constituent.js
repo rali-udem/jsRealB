@@ -636,7 +636,7 @@ Constituent.prototype.detokenize = function(terminals){
                     // and a full stop at the end unless there is already one
                     // taking into account any trailing HTML tag
                     const m=/(.)( |(<[^>]+>))*$/.exec(s);
-                    if (m!=null && !contains("?!.:;/",m[1])){
+                    if (m!=null && !contains("?!.:;/)]}",m[1])){
                         s+=". "  // add a space after . like for rule "pc4"
                     }
                 }

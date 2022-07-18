@@ -697,8 +697,9 @@ function affixHopping(v,t,compound,types){
     let words=[];
     // conjugate the first verb
     if (neg) { // negate the first verb
-        if (t=="pp" || t=="pr" || t=="b-to"){ // special case for these tenses
+        if (t=="pp" || t=="pr" || t=="b-to" || t=="b"){ // special case for these tenses
             words.push(Adv("not","en"));
+            if (t=="b") words.push(P("to","en"));
             words.push(V(vAux,"en").t(t));
         } else if (t=="ip" && v_peng["pe"]==1 && v_peng["n"]=="p") { 
             // very special case , insert "not" between "let's" and the verb
