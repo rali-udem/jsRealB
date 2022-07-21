@@ -3,11 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+    <script src="../../data/lexicon-fr.js"></script>
+    <script src="../../data/rule-fr.js"></script>
+    <script src="../../data/lexicon-en.js"></script>
+    <script src="../../data/rule-en.js"></script>
+    <script src="../../build/Utils.js"></script>
+    <script src="../../build/Constituent.js"></script>
+    <script src="../../build/Phrase.js"></script>
+    <script src="../../build/Terminal.js"></script>
+    <script src="../../build/Dependent.js"></script>
+    <script src="../../build/Number.js"></script>
+    <script src="../../build/Warnings.js"></script>
+<!-/- end of separate loading -->
+    <script src="Personage.js"></script>
+    <script src="generation_parameters.js"></script>
+    <script src="generation_challenge.js"></script>
     <title>Personage demo</title>
-    <style></style>
+    <style>
+        body{font-family: Arial, "MS Trebuchet", sans-serif;}
+        #sentences {
+            cursor: pointer;
+            height:300px;
+            overflow: auto;
+            border: 1px solid blue;
+            padding:2px;
+        }
+        td {
+            border: thin solid black;
+            padding:2px;
+        }
+        .current{background-color: yellow;}
+        #bleu {float:right; color:blue;}
+    </style>
 </head>
 <body>
-    <h1>Text generation with user adaptation</h1>
-    <p></p>
+    
+    <h2>Fields</h2>
+    <table id="fields"></table>
+    <div id="search"></div>
+    <h2><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> realization</h2>
+    <table>
+        <tr><td id="jsrPersonality"></td><td id="jsrOutEn"></td></tr>
+    </table>
+    <!-- <div><strong>FR</strong>: <span id="jsrOutFr"></span></div> -->
+    <h2>Reference sentences: <span id="nbSent"></span></h2>
+    <p style="font-size:small"><i>Click on a sentence to display field values of the MR in the menus.</i></p>
+    <div id="sentences"></div>
 </body>
 </html>

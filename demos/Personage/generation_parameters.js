@@ -238,7 +238,7 @@ function acknowledgements(expr) {
 function filled_pauses(expr){
     // Insert syntactic elements expressing hesitancy 
     let bef = oneOf("I mean", "err", "mmhm")+" "
-    let aft = ", "+oneOf("like", "you know")
+    let aft = ", "+oneOf("like. ", "you know. ")
     return expr.b(bef).a(aft)
 }
 

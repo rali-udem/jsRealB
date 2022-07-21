@@ -699,7 +699,7 @@ Terminal.prototype.dateFormat = function(dateObj,dOpts){
     let dateS;
     if (dOpts["rtime"]){
         const relativeDate = dateRule["format"]["relative_time"]
-        // find the number of days of difference between relDay and the current date
+        // find the number of days of difference between relDay and the time of the dateObj
         const relDay=dOpts["rtime"]
         const diffDays=Math.ceil((dateObj.getTime()-relDay.getTime())/(24*60*60*1000));
         relDay.setDate(relDay+diffDays);
