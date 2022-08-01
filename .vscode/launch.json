@@ -5,14 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-node",
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "name": "Launch 99BottlesOfBeer",
+            "request": "launch",
+            "file":"${workspaceFolder}/demos/99BottlesOfBeer/index.html"
+        },
+        {
+            "type": "node",
             "request": "launch",
             "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/demos/Personage/Personage.js",
-            "runtimeArgs" :["--no-deprecation"]
-        }
+            "runtimeArgs": [
+                "--no-deprecation"
+            ]
+        },
     ]
 }

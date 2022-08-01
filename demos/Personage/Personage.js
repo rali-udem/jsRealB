@@ -9,6 +9,9 @@
 // explicit about the formulations used for each trait. So formulations were chosen by looking 
 // at the training data... some them taken from the "e2eChallenge" demo.
 
+// another source of inspiration might be 
+//    /Users/lapalme/Dropbox/personage-nlg/Personage/resources/parameters/handcrafted/bigfive
+
 const allPlaces=["place","venue","establishment","restaurant"];
 //// list fields of the meaning representation
 // const mr_fields = ['area', 'customerRating', 'eatType', 'familyFriendly', 'food', 'name', 'near', 'priceRange']
@@ -17,7 +20,7 @@ const allPlaces=["place","venue","establishment","restaurant"];
 const mr_values = {
     'personality': ['AGREEABLE','DISAGREEABLE','CONSCIENTIOUSNESS','UNCONSCIENTIOUSNESS','EXTRAVERT'],
     'area': ['city centre', 'riverside'],
-    'customerRating': ['low', 'mediocre', "average", "decent", 'excellent', 'high'],
+    'customerRating': ['low', 'mediocre', "average", "decent", 'high', 'excellent'],
     'eatType': ['pub', 'coffee shop', 'restaurant'],
     'familyFriendly': ['no', 'yes'],
     'food': ['Chinese', 'English', 'French', 'Indian', 'Italian', 'Japanese', 'fast food'],
@@ -30,6 +33,9 @@ const mr_values = {
 //  ACM Transactions on Speech and Language Processing, 4(4), 2007.
 //       https://users.soe.ucsc.edu/~maw/papers/acm_tslp07.pdf
 //     Table 1 and Appendix A
+//
+//  customerRating extracted from "food_quality" in
+//      Personage/resources/lexical/adjectives/adj_single_filtered_by_hand.txt
 const attribute_lexicalizations = {
     food: ["food","meal",],
     service: ["service", "staff", "waitstaff", "wait staff", "server", "waiter", "waitress",],
@@ -38,10 +44,15 @@ const attribute_lexicalizations = {
     prices : [["cheap","inexpensive",], 
               ["moderate","affordable","reasonable",],
               ["high","expensive","pricey","overpriced",]],
-    // for customerRating (low to high)
-    ratings: [['low', 'mediocre',],
-              ["average", "decent",],
-              ['excellent', 'high',]]
+    // for customerRating (low to excellent)
+    ratings: [["low","awful", "bad", "terrible", "horrible", "horrendous"],
+              ["mediocre","bland",  "bad"],
+              ["average","decent", "acceptable", "adequate", "satisfying"],
+              ["high","good", "flavorful", "tasty", "nice"],
+              ["excellent", "delicious", "great", "exquisite", "wonderful", "legendary", 
+               "superb", "terrific", "fantastic", "outstanding", "incredible", "delectable", 
+               "fabulous", "tremendous", "awesome", "delightful", "marvelous"]]
+              
 }
 
 // values taken from ../../demos/e2eChallenge/devsetFields.json
@@ -126,10 +137,10 @@ function near(infos){
 function priceRange(infos){
     const price_value = infos["priceRange"];
     if (price_value.indexOf("-")>=0 ){
-        return VP(V("has"),
+        return VP(V("have"),
                  NP(D("a"),N("price").n("p"),
                    PP(P("in"),
-                      NP(D("the"),Q(price_value),N("dollar").n("p"),N("range")))))
+                      NP(D("the"),Q(price_value),N("pound").n("p"),N("range")))))
     }
     if (price_value.startsWith("a"))
         return VP(V("cost"),Q(price_value))
@@ -167,11 +178,16 @@ function generate_key(key,infos){
 
 // give initial information about the place, return a jsRealB expression
 function name_eatType(infos){
+    let res;
     if ("eatType" in infos){
-        return S(Q(infos["name"]),VP(V("be")),NP(D("a"),N(infos["eatType"])))
+        res=S(Q(infos["name"]),VP(V("be")),NP(D("a"),N(infos["eatType"])))
     } else {
-        return S(NP(D("the"),N(oneOf(allPlaces))),VP(V("be"),Q(infos["name"])))
+        res=S(NP(D("the"),N(oneOf(allPlaces))),VP(V("be"),Q(infos["name"])))
     }
+    if (infos["near"]!==undefined && infos["area"]===undefined){
+        res.add(PP(P("near"),Q(infos["near"])))
+    }
+    return res;
 }
 
 // simplest generator, after giving name and type, and then output each field separately using "it" as subject
@@ -266,7 +282,7 @@ function recommendation(type,params,infos,invert){
 } 
 
 
-function personalized_recommandation_log(infos){
+function personalized_recommandation_log(params,infos){
     console.log(infos["personality"])
     console.log(showInfos(infos));
     console.log(simple_generate(infos));
@@ -294,8 +310,8 @@ function personalized_recommandation_log(infos){
     console.log("---")
 }
 
-function personalized_recommandation(infos){
-    switch (infos["personality"]) {
+function personalized_recommandation(pers,infos){
+    switch (pers) {
         case "EXTRAVERT":
              return recommendation("extra",extraversion,infos,false)
         case "AGREEABLE":
@@ -307,14 +323,11 @@ function personalized_recommandation(infos){
         case "UNCONSCIENTIOUSNESS":
              return recommendation("consc",concientiousness,infos,true)
         default:
-            console.warn("unknown personality:",infos["personality"]);
+            console.warn("unknown personality:",pers);
             break;
     }
     return Q("unknown personality")
 }
-
-const dataFileName="/Users/lapalme/Dropbox/personage-nlg/personage-nlg-test.jsonl"
-let fieldNames,allFields,$fields,$sentences,$search,mrRefs;
 
 function updateLexicons(){
     // addToLexicon({"center":{"N":{"tab":"n1"},"V":{"tab":"v3"}}});// idem as centre (Canadian...)
@@ -336,165 +349,34 @@ function makeInfos(line){
     return infos;
 }
 
-
-function getDataSet(){
-    $.get(dataFileName,function(data){
-        createSearch(data.trim().split("\n").map(makeInfos))
-    }).fail($search.append($("b").text(dataFileName+" not found")));
-}
-
-function createFields(data){
-    allFields=data
-    fieldNames=Object.keys(allFields);
-    console.log(fieldNames);
-    var $tr=$("<tr/>");
-    for (var i = 0; i < fieldNames.length; i++) {
-        $tr.append($("<th>"+fieldNames[i]+"</th>"))
-    }
-    $fields.append($tr);
-    $tr=$("<tr/>")
-    for (var i = 0; i < fieldNames.length; i++) {
-        var fn=fieldNames[i];
-        var $select=$("<select class='field' name='"+fn+"'><option value=''></option></select>");
-        allFields[fn].sort()
-        for (var j = 0; j < allFields[fn].length; j++) {
-            var v=allFields[fn][j];
-            $select.append($("<option value='"+v+"'>"+v+"</option>"))
-        }
-        $select.append("<option value='any'>** any **</option>")
-        $tr.append($("<td/>").append($select))
-        $fields.append($tr);
-    }
-}
-
-function createSearch(data){
-    var $searchB=$("<input type='button' value='search'></input>")
-    $searchB.click(e=>search(false));
-    $search.append($searchB);
-    var $resetB=$("<input type='button' value='reset'></input>");
-    $resetB.click(function(e){$(".field").each(function(j){$(this).val("")})});
-    $search.append($resetB);
-    var $randomB=$("<input type='button' value='random'></input>");
-    $randomB.click(function(e){
-        $(".field").each(function(j){
-            var fs=Array.from(allFields[fieldNames[j]]);
-            fs.push('')
-            $(this).val(oneOf(fs));
-        });
-        search(false)
-    });
-    $search.append($randomB);
-    mrRefs=data;
-    search(false);
-}
-
-function filter(fields,infos,strict){
-    for (var i=0;i<fieldNames.length;i++){
-        var fn=fieldNames[i];
-        if (fn in fields){
-            var o=infos[fn]
-            if (o==undefined)return false;
-            if (o!=fields[fn] && fields[fn]!="any")return false;
-        } else {
-            if (strict && infos[fn]!=undefined) 
-                return false;
-        }
-    }
-    return true
-}
-
-function showValuesInMenu(event){
-    $(".current").removeClass("current");
-    var $tgt=$(event.target);
-    const id= $tgt.attr("id")
-    if (id == undefined || id =="sentences")return; // click into the textarea without sentences
-    $tgt.addClass("current");
-    var i=parseInt(id.slice(1));
-    var mr=mrRefs[i];
-    console.log(i,mr);
-    $(".field").each(function(j){
-        var fn=fieldNames[j];
-        $(this).val(fn in mr?mr[fn]:"")
-    })
-    search(true);
-}
-
-function getFieldsFromMenus(){
-    var fields={};
-    $(".field").each(function(){
-        var $this=$(this);
-        var val=$this.val();
-        if (val!="" && val!="any")fields[$this.attr("name")]=val
-    })
-    return fields;
-}
-
-// function mrEqual(mr1,mr2){
-//     var mr1Keys=Object.keys(mr1)
-//     var mr2Keys=Object.keys(mr2)
-//     if (mr1Keys.length!=mr2Keys.length)return false;
-//     for (var i = 0; i < mr1Keys.length; i++) {
-//         var k=mr1Keys[i];
-//         if (!(k in mr2) || mr1[k]!=mr2[k])return false
-//     }
-//     return true;
-// }
-
-
-
-function search(strict){
-    $sentences.empty();
-    $("#jsrPersonality").empty();
-    $("#jsrOutEn").empty();
-    var fields=getFieldsFromMenus();
-    if (Object.keys(fields).length==0)strict=false; // force non strict on all empty
-    var references=[];
-    let first;
-    for (var i = 0; i < mrRefs.length; i++) {
-        var mrRef=mrRefs[i];
-        console.log(mrRef);
-        if (filter(fields,mrRef,strict)){
-            references.push(mrRef["ref"]);
-            $sentences.append($(`<tr><td>${mrRef["personality"]}</td><td id="I${i}">${mrRef["ref"]}</td></tr>`));
-            if (first===undefined)first=mrRef
-        }
-    }
-    $("#nbSent").text(references.length);
-    if (first===undefined) return;
-    var jsrOutEn=personalized_recommandation(first);
-    $("#jsrPersonality").text(fields["personality"])
-    $("#jsrOutEn").html(jsrOutEn);
-    // var bleuStr="";
-    // if (0<references.length && references.length<mrRefs.length){
-    //     bleuStr="BLEU="+bleu([jsrOutEn],references).toFixed(2)
-    // }
-    // $("#bleu").text(bleuStr);
-    // var jsrOutFr=jsrRealiser(fields);
-    // $("#jsrOutFr").html(jsrOutFr);
-}
-
+let dataFileName="./data/personage-nlg-test.jsonl"
 
 ////  start of execution
 if (typeof module !== 'undefined' && module.exports) {
     let params=require("./generation_parameters");
-    let util=require("util")
+    let util=require("util");
     updateLexicons();
     // console.log(util.inspect(params.extraversion));
     let fs=require("fs");
+    dataFileName=require("path").resolve(__dirname,dataFileName)
+    // console.log(dataFileName);
     const lines = fs.readFileSync(dataFileName,'utf-8').trim().split("\n")
     let nb=0    
     for (const line of lines.slice(0,10)) {
-        personalized_recommandation_log(makeInfos(line));
+        personalized_recommandation_log(params,makeInfos(line));
         nb++;
     }
     console.log("%d meaning representations processed",nb)
-} else {
+} else {  // for execution in a web page
     $(document).ready(function() {
         $fields=$("#fields");
         $search=$("#search");
         $sentences=$("#sentences");
         $sentences.click(showValuesInMenu);
-        getDataSet();
+        $corpus=$("#corpus");
+        $corpus.change(changeCorpus);
+        getDataSet(dataFileName);
+        createSearch(mrRefs)
         updateLexicons();
         createFields(mr_values);
     })

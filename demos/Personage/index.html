@@ -20,37 +20,43 @@
 <!-/- end of separate loading -->
     <script src="Personage.js"></script>
     <script src="generation_parameters.js"></script>
-    <script src="generation_challenge.js"></script>
+    <script src="Personage-gui.js""></script>
+    <link rel="stylesheet" href="Personage.css">
     <title>Personage demo</title>
     <style>
-        body{font-family: Arial, "MS Trebuchet", sans-serif;}
-        #sentences {
-            cursor: pointer;
-            height:300px;
-            overflow: auto;
-            border: 1px solid blue;
-            padding:2px;
-        }
-        td {
-            border: thin solid black;
-            padding:2px;
-        }
-        .current{background-color: yellow;}
-        #bleu {float:right; color:blue;}
     </style>
 </head>
 <body>
-    
-    <h2>Fields</h2>
+    <h1>Text generation with <i><a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits">Big Five</a> personality-based user adaptation</i></h1>
+    <p>A <a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> 
+        adaptation of the ideas put forward in 
+        <i>Towards personality-based user adaptation: psychologically informed stylistic language generation</i>, by
+        F. Mairesse and M. A. Walker, User Modeling and User-Adapted Interaction, 20(3):227–278, 2010. 
+        [<a href="https://users.soe.ucsc.edu/~maw/papers/umuai2010.pdf">PDF</a>]
+    </p>
+    <p>Unfortunately, the <a href="https://nlds.soe.ucsc.edu/stylistic-variation-nlg">available data</a>,
+        found in the <a href="https://aclweb.org/aclwiki/Data_sets_for_NLG#Personage_Stylistic_Variation_for_NLG"><i>SIGGEN 
+            Datasets for NLG</i> page</a>,
+        only deals with a subset of the 5 traits (<i>agree</i>, <i>consc</i>, <i>extra</i>) and the paper is not 
+        explicit about the formulations used for each trait. Some were then determined by looking 
+        at the training data and others taken from the <a href="../e2eChallenge/index.html">e2eChallenge demo</a>.
+        We also looked at the source code of the original program, but we could not manage to run the version
+        that created the data which was originally designed to develop text generators using learning algorithms. 
+        In our case, we use a rule-based approach with some random choices to provide variations.
+    </p>
+    <h2>Fields of the <select name="corpus" id="corpus">
+        <option value="train">training</option>
+        <option value="test" selected="selected">test</option>
+    </select> data</h2>
     <table id="fields"></table>
     <div id="search"></div>
-    <h2><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> realization</h2>
-    <table>
-        <tr><td id="jsrPersonality"></td><td id="jsrOutEn"></td></tr>
-    </table>
-    <!-- <div><strong>FR</strong>: <span id="jsrOutFr"></span></div> -->
-    <h2>Reference sentences: <span id="nbSent"></span></h2>
-    <p style="font-size:small"><i>Click on a sentence to display field values of the MR in the menus.</i></p>
     <div id="sentences"></div>
+    <p> Corpus sentences: <span id="nbSent"></span><br/>
+    <i style="font-size:small">Click on a sentence to select one for realization by jsRealB while setting 
+        the values of its attributes in the field menus.</i></p>
+    <h2><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" 
+           title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> realizations for the selected sentence</h2>
+    <table id="jsrPersonality"></table>
+    <footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></footer>
 </body>
 </html>

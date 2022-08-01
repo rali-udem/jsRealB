@@ -1,0 +1,17 @@
+body{font-family: Arial, "MS Trebuchet", sans-serif;}
+#sentences {
+    cursor: pointer;
+    height:300px;
+    overflow: auto;
+    border: 1px solid blue;
+    padding:2px;
+}
+td {
+    border: thin solid black;
+    padding:2px;
+}
+footer {
+    margin-top: 20px;
+}
+.current{background-color: yellow;}
+

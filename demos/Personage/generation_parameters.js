@@ -379,7 +379,7 @@ const concientiousness = {
     // TODO: process lexical choice ....
 }
 
-if (typeof module !== 'null' && module.exports) {
+if (typeof module !== 'undefined' && module.exports) {
     exports.high = high;
     exports.low = low;
     exports.extraversion = extraversion
