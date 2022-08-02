@@ -1,16 +1,20 @@
 let fieldNames,allFields,$fields,$sentences,$search,$corpus,mrRefs;
 
+const params = {}   // package generation parameters similar to node.js 
+params.extraversion     = extraversion;
+params.agreeableness    = agreeableness;
+params.concientiousness = concientiousness;
+
 function getDataSet(dataFileName){
     $.get(dataFileName,function(data){
         mrRefs=data.trim().split("\n").map(makeInfos)
-        search(false);
+        search();
     }).fail($search.append($("b").text(dataFileName+" not found")));
 }
 
 function createFields(data){
     allFields=data
     fieldNames=Object.keys(allFields);
-    console.log(fieldNames);
     var $tr=$("<tr/>");
     for (var i = 0; i < fieldNames.length; i++) {
         $tr.append($("<th>"+fieldNames[i]+"</th>"))
@@ -32,7 +36,7 @@ function createFields(data){
 
 function createSearch(data){
     var $searchB=$("<input type='button' value='search'></input>")
-    $searchB.click(e=>search(false));
+    $searchB.click(e=>search());
     $search.append($searchB);
     var $resetB=$("<input type='button' value='reset'></input>");
     $resetB.click(function(e){$(".field").each(function(j){$(this).val("")})});
@@ -44,22 +48,19 @@ function createSearch(data){
             fs.push('')
             $(this).val(oneOf(fs));
         });
-        search(false)
+        search()
     });
-    $search.append($randomB);
-    
+    $search.append($randomB);    
 }
 
-function filter(fields,infos,strict){
+function filter(fields,infos){
+    // keep only records with matching fields (blank matches anything)
     for (var i=0;i<fieldNames.length;i++){
         var fn=fieldNames[i];
         if (fn in fields){
             var o=infos[fn]
             if (o==undefined)return false;
-            if (o!=fields[fn] && fields[fn]!="any")return false;
-        } else {
-            if (strict && infos[fn]!=undefined) 
-                return false;
+            if (o!=fields[fn] && fields[fn]!="")return false;
         }
     }
     return true
@@ -77,13 +78,13 @@ function showValuesInMenu(event){
         var fn=fieldNames[j];
         $(this).val(fn in mr?mr[fn]:"")
     })
-    // realize all variations of mr
+    // realize all variations of mr starting with the one in the reference
     $("#jsrPersonality").empty()
     let selectPers=mr["personality"];
-    $("#jsrPersonality").append(`<tr><td>${selectPers}</td>}<td>${personalized_recommandation(selectPers,mr)}</td></tr>`)
+    $("#jsrPersonality").append(`<tr><td>${selectPers}</td>}<td>${personalized_recommandation(params,selectPers,mr)}</td></tr>`)
     for (pers of mr_values["personality"]){
         if (pers != selectPers){
-            $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(pers,mr)}</td></tr>`)
+            $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(params,pers,mr)}</td></tr>`)
         }
     }
 }
@@ -106,8 +107,7 @@ function changeCorpus(){
     $("input[value=search]").trigger("click");
 }
 
-
-function search(strict){
+function search(){
     $sentences.empty()
     $("#jsrPersonality").empty();
     var fields=getFieldsFromMenus();
@@ -116,20 +116,11 @@ function search(strict){
     let first;
     for (var i = 0; i < mrRefs.length; i++) {
         var mrRef=mrRefs[i];
-        if (filter(fields,mrRef,strict)){
+        if (filter(fields,mrRef)){
             references.push(mrRef["ref"]);
             $sentences.append($(`<tr><td>${mrRef["personality"]}</td><td id="I${i}">${mrRef["ref"]}</td></tr>`));
             if (first===undefined)first=mrRef
         }
     }
     $("#nbSent").text(references.length.toLocaleString());
-    // if (first===undefined) return;
-    // let selectPers=fields["personality"];
-    // if (selectPers===undefined)selectPers=first["personality"];
-    // $("#jsrPersonality").append(`<tr><td>${selectPers}</td>}<td>${personalized_recommandation(selectPers,first)}</td></tr>`)
-    // for (pers of mr_values["personality"]){
-    //     if (pers != selectPers){
-    //         $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(pers,first)}</td></tr>`)
-    //     }
-    // }
 }

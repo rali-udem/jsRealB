@@ -5,19 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Chrome",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "type": "chrome",
-            "name": "Launch 99BottlesOfBeer",
-            "request": "launch",
-            "file":"${workspaceFolder}/demos/99BottlesOfBeer/index.html"
-        },
-        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
@@ -29,5 +16,11 @@
                 "--no-deprecation"
             ]
         },
+        {
+            "type": "chrome",
+            "name": "Personage/index.html",
+            "request": "launch",
+            "url": "http://0.0.0.0:8000/demos/Personage/index.html"
+        }
     ]
 }

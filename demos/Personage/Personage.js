@@ -100,11 +100,20 @@ function area_near(infos){
     return VP(V("be"),location)
 }
 
+function find_synonym(value,synonyms_list){
+    for (const synonyms of synonyms_list) {
+        if (synonyms.indexOf(value)>=0)
+            return oneOf(synonyms)
+    }
+    return value;
+}
+
 function customerRating(infos){
-    const cr_value = infos["customerRating"]
-    const rating = oneOf(()=>NP(D("a"),Q(cr_value),oneOf(N("customer"),Q("")),N("rating")),
-                       ()=>NP(D("a"),oneOf(N("customer"),Q("")),N("rating"),P("of"),Q(cr_value)))
-    return VP(V("have"),rating)
+    const cr_value = find_synonym(infos["customerRating"],attribute_lexicalizations["ratings"]);
+    const customer = oneOf(N("customer"),Q(""));
+    const ratingExpr = oneOf(()=>NP(D("a"),A(cr_value),customer,N("rating")),
+                             ()=>NP(D("a"),customer,N("rating"),P("of"),A(cr_value)))
+    return VP(V("have"),ratingExpr)
 }
 
 function eatType(infos){
@@ -135,7 +144,7 @@ function near(infos){
 }
 
 function priceRange(infos){
-    const price_value = infos["priceRange"];
+    let price_value = infos["priceRange"];
     if (price_value.indexOf("-")>=0 ){
         return VP(V("have"),
                  NP(D("a"),N("price").n("p"),
@@ -144,10 +153,8 @@ function priceRange(infos){
     }
     if (price_value.startsWith("a"))
         return VP(V("cost"),Q(price_value))
-    if (price_value=="cheap")
-        return VP(V("be"),A(price_value))
-    else 
-        return VP(V("have"),NP(A(price_value),N("price").n("p")))
+    price_value = find_synonym(price_value,attribute_lexicalizations["prices"]);
+    return VP(V("be"),A(price_value))
 }
 
 // display information in a compact format
@@ -281,47 +288,27 @@ function recommendation(type,params,infos,invert){
     return prg_vps.map(e => (e.isA("VP") ? S(Pro("I"), e) : e).toString()).join("");
 } 
 
-
 function personalized_recommandation_log(params,infos){
     console.log(infos["personality"])
     console.log(showInfos(infos));
     console.log(simple_generate(infos));
-    switch (infos["personality"]) {
-        case "EXTRAVERT":
-            console.log("GEN:",recommendation("extra",params.extraversion,infos,false))
-            break;
-        case "AGREEABLE":
-            console.log("GEN:",recommendation("agree",params.agreeableness,infos,false))
-            break;
-        case "DISAGREEABLE":
-            console.log("GEN:",recommendation("agree",params.agreeableness,infos,true))
-            break;
-        case "CONSCIENTIOUSNESS":
-            console.log("GEN:",recommendation("consc",params.concientiousness,infos,false));
-            break;
-        case "UNCONSCIENTIOUSNESS":
-            console.log("GEN:",recommendation("consc",params.concientiousness,infos,true));
-            break;
-        default:
-            console.warn("unknown personality:",infos["personality"]);
-            break;
-    }
-    console.log("REF:",infos["ref"])
-    console.log("---")
+    console.log("GEN:",personalized_recommandation(params,infos["personality"],infos));
+    console.log("REF:",infos["ref"]);
+    console.log("---");
 }
 
-function personalized_recommandation(pers,infos){
+function personalized_recommandation(params,pers,infos){
     switch (pers) {
         case "EXTRAVERT":
-             return recommendation("extra",extraversion,infos,false)
+             return recommendation("extra",params.extraversion,infos,false)
         case "AGREEABLE":
-             return recommendation("agree",agreeableness,infos,false)
+             return recommendation("agree",params.agreeableness,infos,false)
         case "DISAGREEABLE":
-             return recommendation("agree",agreeableness,infos,true)
+             return recommendation("agree",params.agreeableness,infos,true)
         case "CONSCIENTIOUSNESS":
-             return recommendation("consc",concientiousness,infos,false)
+             return recommendation("consc",params.concientiousness,infos,false)
         case "UNCONSCIENTIOUSNESS":
-             return recommendation("consc",concientiousness,infos,true)
+             return recommendation("consc",params.concientiousness,infos,true)
         default:
             console.warn("unknown personality:",pers);
             break;

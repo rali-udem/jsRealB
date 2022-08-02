@@ -1,14 +1,15 @@
-
 QUnit.test( "RealPro Dependencies EN", function( assert ) {
     loadEn();
     addToLexicon("John",{N:{tab:"nI",g:"m"}})
     addToLexicon("Mary",{N:{tab:"nI",g:"f"}})
+    addToLexicon("Paris",{N:{tab:"nI"}})
     addToLexicon("Fred",{N:{tab:"nI",g:"m"}});
     addToLexicon("Maria-Luz",{N:{tab:"nI",g:"f"}});
     addToLexicon("firefighter",getLemma("fighter"));
+    // examples translated from .../Personage/lib/RealPro-2.3/sample-dsynts
+    // created with a call to makeQUnit() in .../Personage/lib/RealPro-2.3/sample-dsynts/compare_RealPro_jsRealb.js
+    // with some added afterwards taken from the ANLP-97 paper on RealPro
     var sentences = [
-    
-
 {"expression": // 1
 root(V("see").t("ip").pe(1).n("p"),  
      comp(Pro("something")),
@@ -2296,6 +2297,68 @@ root(N("John"),
 "expected":"For John not to have been kissed? ",
 "message":"./Examples_from_User_Manual/Verbs/ppsptnq.dss"}
 ];
+
+//  other examples 
+sentences.push(
+{"expression": // 337
+root(V("mean"),
+     subj(V("win").t("pr"),
+          subj(N("Mary")),
+          comp(N("competition"),
+               det(D("this")))),
+     coord(C("and"),
+           comp(V("study"),
+                subj(N("Mary")).pro(),
+                comp(P("in"),
+                     comp(N("Paris")))).typ({mod:"poss"}),
+           comp(V("live"),
+                comp(P("with"),
+                     comp(N("aunt").a(","),
+                          det(D("my").g("f")))),
+                          comp(V("adore"),
+                               comp(Pro("whom")).pos("pre"),
+                               subj(N("Mary")).pro())).typ({mod:"poss"}))
+    ),
+"expected":"Mary winning this competition means she can study in Paris and can live with her aunt, whom she adores. ",
+"message":"Example 3 - RealPro-anlp97.pdf"}
+);
+
+sentences.push({
+"expression": // 338
+root(V("claim"),
+     subj(N("girl"),
+          det(D("this")),
+          mod(A("small"))),
+     mod(Adv("often")).pos("pre"),
+     comp(C("that"),
+          comp(V("claim"),
+              subj(N("boy"),
+                  det(D("that"))),
+              mod(Adv("often")).pos("pre")),
+          comp(C("that"),
+              comp(V("like"),
+                  subj(N("Mary")),
+                  comp(N("wine"),
+                         mod(A("red"))))))),
+"expected":"This small girl often claims that that boy often claims that Mary likes red wine. ",
+"message":"Example in section 7 - RealPro-anlp97.pdf "
+});
+sentences.push({
+"expression": // 339
+S(NP(D("this"),N("girl"),A("small")),
+  VP(Adv("often"),V("claim"),
+     SP(C("that"),
+        NP(D("that"),N("boy")),
+        VP(Adv("often"),V("say"),
+          SP(C("that"),
+              N("Mary"),
+              VP(V("like"),
+                 NP(A("red"),N("wine")))))))),
+"expected":"This small girl often claims that that boy often says that Mary likes red wine. ",
+"message":"Example in section 7 - RealPro-anlp97.pdf - Constituent version"
+});
+     
+
 for (var i = 0; i < sentences.length; i++) {
     var s=sentences[i];
     var exp=s.expression;

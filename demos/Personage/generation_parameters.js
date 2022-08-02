@@ -64,7 +64,7 @@ function SyntacticTemplateSelection(params = {}) {
 }
 
 ////// Agregation operations
-//  Aggregation:  decide on how to combine the propositions' syntactic rep- resentation together to form the utterance, (p. 82)
+//  Aggregation:  decide on how to combine the propositions' syntactic representation together to form the utterance, (p. 82)
 // combine two jsRealB expressions VP(V(),...) into a single one
 
 // helper functions
