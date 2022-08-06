@@ -13,8 +13,8 @@
 //    /Users/lapalme/Dropbox/personage-nlg/Personage/resources/parameters/handcrafted/bigfive
 
 const allPlaces=["place","venue","establishment","restaurant"];
-//// list fields of the meaning representation
-// const mr_fields = ['area', 'customerRating', 'eatType', 'familyFriendly', 'food', 'name', 'near', 'priceRange']
+//// list fields of the meaning representation with a default ordering
+const mr_fields = ['name', 'eatType', 'customerRating', 'area', 'near', 'familyFriendly', 'food', 'priceRange']
 
 //// list of all encountered mr_values for each field in the "training" dataset
 const mr_values = {
@@ -25,6 +25,24 @@ const mr_values = {
     'familyFriendly': ['no', 'yes'],
     'food': ['Chinese', 'English', 'French', 'Indian', 'Italian', 'Japanese', 'fast food'],
     'priceRange': ['20-25', 'a lot', 'a small amount', 'cheap', 'high', 'moderate'],
+}
+
+//// subsets of mr_values that are considered as "positive" or "negative"
+const mr_values_polarity = {
+    'customerRating': {'positive':new Set(['high','excellent']),
+                       'negative':new Set(['low','mediocre'  ])},
+    'familyFriendly':{'positive':new Set(['yes']),
+                      'negative':new Set(['no' ])},
+    'priceRange':{'positive':new Set(['a small amount','cheap']),
+                  'negative':new Set(['a lot','high'          ])},
+}
+
+function checkPolarity(field,value){
+    if (!(field in mr_values_polarity)) return 'neutral';
+    const mvp = mr_values_polarity[field];
+    if (mvp.positive.has(value))return 'positive';
+    if (mvp.negative.has(value))return 'negative';
+    return 'neutral';
 }
 
 // lexicalizations adapted from 
@@ -41,7 +59,7 @@ const attribute_lexicalizations = {
     service: ["service", "staff", "waitstaff", "wait staff", "server", "waiter", "waitress",],
     atmosphere : ["atmosphere", "decor", "ambience", "decoration",],
     // for prices (low to high)
-    prices : [["cheap","inexpensive",], 
+    prices : [["cheap","inexpensive","economical",], 
               ["moderate","affordable","reasonable",],
               ["high","expensive","pricey","overpriced",]],
     // for customerRating (low to excellent)
@@ -83,21 +101,25 @@ function shuffleArray(array){
 }
 
 
-// functions that return an array [verb, object or attribute]
+// functions that return a Dependence (with a subject to be added later)
 // the subject is implicitely the "named" place
-function area_near(infos){
+function area(infos){
     const area_value=infos["area"]
     let location;
     if (area_value=="riverside"){
-        location = oneOf(()=>PP(P("on"),NP(D("the"),N("riverside"))),
-                         ()=>PP(P("in"),NP(D("the"),N("riverside"),N("area"))))
+        location = oneOf(()=>comp(P("on"),
+                                  comp(N("riverside"),
+                                  det(D("the")))),
+                         ()=>comp(P("in"),
+                                  comp(N("riverside"),
+                                       mod(N("area")),
+                                       det(D("the")))))
     } else 
-        location = PP(P("in"),NP(D("the"),N("city"),N("centre")));
-    const near_value=infos["near"]
-    if (near_value !==undefined){
-        location.add(PP(P("near"),Q(near_value)))
-    }
-    return VP(V("be"),location)
+        location = comp(P("in"),
+                         comp(N("city"),
+                              det(D("the")),
+                              mod(N("centre"))));
+     return root(V("be"),location)
 }
 
 function find_synonym(value,synonyms_list){
@@ -111,67 +133,79 @@ function find_synonym(value,synonyms_list){
 function customerRating(infos){
     const cr_value = find_synonym(infos["customerRating"],attribute_lexicalizations["ratings"]);
     const customer = oneOf(N("customer"),Q(""));
-    const ratingExpr = oneOf(()=>NP(D("a"),A(cr_value),customer,N("rating")),
-                             ()=>NP(D("a"),customer,N("rating"),P("of"),A(cr_value)))
-    return VP(V("have"),ratingExpr)
+    const ratingExpr = oneOf(()=>comp(customer,
+                                      det(D("a")),
+                                      mod(A(cr_value)),
+                                      mod(N("rating"))),
+                             ()=>comp(customer,
+                                      det(D("a")),
+                                      mod(N("rating")),
+                                      comp(P("of"),
+                                           mod(A(cr_value)))))
+    return root(V("have"),ratingExpr)
 }
 
 function eatType(infos){
     const eat_value = infos["eatType"]
-    return VP(V("be"),NP(D("a"),N(eat_value)))
+    return root(V("be"),comp(N(eat_value),
+                             det(D("a"))))
 }
 
 function familyFriendly(infos){
     const ff_value = infos["familyFriendly"];
-    return VP(V("be"),
-              NP(ff_value=="no"?Adv("not"):null,
-                 oneOf(N("family").lier(),N("kid")),A("friendly").pos("post")))
+    return root(V("be"),
+                comp(oneOf(N("family").lier(),N("kid")),
+                     mod(A("friendly")).pos("post"))).typ({neg:!ff_value})
 }            
 
 function food(infos){
     let food_value=infos["food"]
     if (food_value=="fast food")food_value="fast";
-    return VP(V("serve"),NP(A(food_value),N("food")))
+    return root(V("serve"),
+                comp(N("food"),
+                     mod(A(food_value))))
 }
-
-// function name(name_value){
-//     return Constituent(V("be"),Q(name_value))
-// }
 
 function near(infos){
     const near_value = infos["near"]
-    return VP(V("be"),PP(P("near"),Q(near_value)))
+    return root(V("be"),
+                comp(P("near"),
+                     mod(Q(near_value))))
 }
 
 function priceRange(infos){
     let price_value = infos["priceRange"];
     if (price_value.indexOf("-")>=0 ){
-        return VP(V("have"),
-                 NP(D("a"),N("price").n("p"),
-                   PP(P("in"),
-                      NP(D("the"),Q(price_value),N("pound").n("p"),N("range")))))
+        return root(V("have"),
+                 comp(N("price").n("p"),
+                      det(D("a")),
+                      comp(P("in"),
+                           comp(N("range"),
+                                det(D("the")),
+                                mod(N("pound").n("p"),
+                                    det(Q(price_value)))))))
     }
     if (price_value.startsWith("a"))
-        return VP(V("cost"),Q(price_value))
+        return root(V("cost"),
+                    comp(Q(price_value)))
     price_value = find_synonym(price_value,attribute_lexicalizations["prices"]);
-    return VP(V("be"),A(price_value))
+    return root(V("be"),
+               mod(A(price_value)))
 }
 
 // display information in a compact format
-function showInfos(infos){
-    let fields=[]
-    for (const key in infos) {
-        if (key!="ref" && key!="personality") {
-            fields.push(key+"["+infos[key]+"]")
-        }
-    }
-    return fields.join(", ")
+function showInfos(keys,infos){
+    res=[];
+    for (key of keys)
+        if (infos[keys]!==undefined)
+            res.push(`${key}[${infos[key]}]`);
+    return res.join(", ")
 }
 
 function generate_key(key,infos){
     switch (key) {
         case "name_eatType":  return name_eatType(infos)
-        case "area":          return area_near(infos)
+        case "area":          return area(infos)
         case "customerRating":return customerRating(infos)
         case "eatType":       return eatType(infos)
         case "familyFriendly":return familyFriendly(infos)
@@ -186,74 +220,232 @@ function generate_key(key,infos){
 // give initial information about the place, return a jsRealB expression
 function name_eatType(infos){
     let res;
+    const qName=Q(infos["name"])
     if ("eatType" in infos){
-        res=S(Q(infos["name"]),VP(V("be")),NP(D("a"),N(infos["eatType"])))
+        res=root(V("be"),
+                 subj(qName),
+                 comp(N(infos["eatType"]),
+                     det(D("a"))));
     } else {
-        res=S(NP(D("the"),N(oneOf(allPlaces))),VP(V("be"),Q(infos["name"])))
+        res=root(V("be"),
+                 subj(N(oneOf(allPlaces))),
+                 det(D("the")),
+                 comp(qName));
     }
-    if (infos["near"]!==undefined && infos["area"]===undefined){
-        res.add(PP(P("near"),Q(infos["near"])))
-    }
+    // if (infos["near"]!==undefined && infos["area"]===undefined){
+    //     res.add(comp(P("near"),
+    //                  mod(infos["near"])));
+    // }
     return res;
 }
 
 // simplest generator, after giving name and type, and then output each field separately using "it" as subject
 function simple_generate(infos){
     let res=[name_eatType(infos)]; // build list of jsRealB expression
-    for (key in infos) {
-        if (["name","eatType","ref","personality"].indexOf(key)<0){
-            if (!(key=="near" && "area" in infos)) { // do not repeat "near" if area is expressed
-                res.push(S(Pro("I"),generate_key(key,infos)));
-            }
-        }
+
+    for (let key of mr_fields.slice(2)) {
+        if (key in infos)
+            res.push(generate_key(key,infos).add(subj(Pro("it").c("nom")),0));
     }
     return res.map(e=>e.toString()).join(""); // realize each expression as a list
 }
 
+const trace=false;
+
 //  apply parameter function when a random number is below prob 
 //  each  parameter transforms one or two VP into a single one
 //  the list of parameters is shuffled to vary the order of transformations to apply
-const trace=false;
-
-function apply_parameters(type,params, in_vps, invert){
-    if (params.length==0)return in_vps;
-    let out_vps=[];
-    const initial_in_length=in_vps.length
+//  as the first dependency has already been modified by the content planner
+//  it is not considered as a target for replacement
+function apply_parameters(type,params, in_deps, invert){
+    if (params.length==0)return in_deps;
+    let out_deps=in_deps.splice(0,1);
+    let applicationDone=false;
     for (const agg_param of shuffleArray(params)){
-        if (in_vps.length==0) break;
+        if (in_deps.length==0) break;
         let [agg_fn, prob]=agg_param;
         if (invert)prob=1.0-prob;
         if (agg_fn.length==1){ // transform a single expression
             const r = Math.random();
             if (r<prob){
-                const new_vp=agg_fn(in_vps[0])
+                const new_vp=agg_fn(in_deps[0])
                 if (new_vp!==undefined){
-                        if(trace)console.log("*apply1*:",agg_fn.name);
-                        out_vps.push(new_vp)
-                        in_vps=in_vps.slice(1)
+                        if(trace)console.log("*apply1*:",type,agg_fn.name,new_vp.toSource());
+                        out_deps.push(new_vp);
+                        in_deps=in_deps.slice(1);
+                        applicationDone=true;
                     }
                 }
-        } else if (in_vps.length>1) { 
+        } else if (in_deps.length>1) { 
             // transform two expressions
             const r = Math.random();
             if (r < prob) {
-                const new_vp=agg_fn(in_vps[0],in_vps[1])
+                const new_vp=agg_fn(in_deps[0],in_deps[1])
                 if (new_vp !== undefined){
-                    if(trace) console.log("*apply2*:",agg_fn.name);
-                    out_vps.push(new_vp);
-                    in_vps=in_vps.slice(2)
+                    if(trace) console.log("*apply2*:",type,agg_fn.name,new_vp.toSource());
+                    out_deps.push(new_vp);
+                    in_deps=in_deps.slice(2)
+                    applicationDone=true;
                 } 
             }
         }
     }
-    if (trace){
-        if (in_vps.length==initial_in_length)
-            console.warn("no %s function could be applied: %d",type,in_vps.length);
+    if (trace && !applicationDone){
+        console.warn("no %s function could be applied",type);
     }
-    while (in_vps.length>0){
-        out_vps.push(in_vps.splice(0,1)[0])
+    while (in_deps.length>0){
+        out_deps.push(in_deps.splice(0,1)[0])
     }
-    return out_vps;
+    return out_deps;
+}
+
+function isApplicable(val,invert){
+    if (val == null) return false;  // this also check for undefined...
+    if (typeof val == "boolean") return invert ? !val : val;
+    if (invert) val=1.0-val;
+    return Math.random() < val;
+}
+
+// for recommandation
+//  ideally the content planner should determine what to say
+//  Here we have so few infos that they will all be realized, but the
+//  content planner has to determine the field ordering
+function contentPlanner(title,cp_params,infos,invert){
+    let fields = mr_fields.slice(2);
+    if (isApplicable(cp_params.positive_content_first)){
+        // order infos so that positive terms come at the start
+        let newFields =[]
+        for (let i = 0; i < fields.length;) {
+            const f = fields[i];
+            if (checkPolarity(f,infos[f])=="positive")
+                newFields.push(fields.splice(i,1)[0])
+            else
+                i++
+        }
+        fields=newFields.concat(fields);
+    }
+
+    if (isApplicable(cp_params.verbosity,invert)){
+        // as all fields are expressed, this is not relevant
+    }
+    if (isApplicable(cp_params.restatements,invert) || isApplicable(cp_params.repetitions,invert)){
+        // as we do not handle paraphrase, we consider it as a repetition
+        // repeat one field except for the last... that would appear twice in succession
+        const newField=oneOf(fields.slice(0,-1));
+        fields.push(newField);
+    }
+
+    // TODO: deal with 
+    //    content_polarity
+    //    repetitions_polarity
+    //    concessions
+    //    concessions_polarity
+    //    polarization
+
+    if (trace) {
+        console.log(title,showInfos(fields,infos));
+    }
+
+    // create initial dependency 
+    //  formulations taken from page 119 (table 5.4)
+    //   but apply only one of them
+    let deps = [name_eatType(infos)];
+    if (isApplicable(cp_params.request_confirmation,invert)){
+        const qName=Q(infos["name"])
+         deps.unshift(oneOf(
+            // You want to know more about...
+            ()=>root(V("want"), 
+                     subj(Pro("you")),
+                     comp(V("know").t("b-to"),
+                          comp(Adv("more"),
+                               comp(P("about"),
+                                    comp(qName))))),
+            ()=>root(V("see").t("ip").pe(1).n("p"), // Let's see
+                     comp(qName).a("... ")),
+            // Let's see what we can find about
+            ()=>root(V("see").t("ip").pe(1).n("p"), 
+                     comp(Pro("what"),
+                          comp(V("find"),
+                               subj(Pro("I").n("p").pe(1)),
+                               comp(P("about"),
+                                    comp(qName))).typ({mod:"poss"}))),
+            ()=>root(V("say").t("ps"), // did you say ...?
+                     subj(Pro("I").pe(2)),
+                     comp(qName)).typ({"int":"yon"})                              
+         )); 
+    } else if (isApplicable(cp_params.initial_rejection,invert)){
+        const I = subj(Pro("I").pe(1))
+        deps.unshift(oneOf(
+            ()=>root(V("know"),I).typ({neg:true,contr:true}), // I don't know
+            ()=>root(V("be"),I,         // I am not sure
+                     mod(A("sure"))).typ({neg:true}),
+            ()=>root(V("be").t("ps"),I, // I might be wrong
+                     mod(A("wrong"))).typ({"mod":"perm"})
+        ))
+    } else if (isApplicable(cp_params.competence_mitigation,invert)){
+        deps[0]=oneOf(
+            ()=>deps[0].add(comp(V("come").t("ip"), //come on
+                                 comp(P("on"))).pos("pre")),
+            // everybody kwows that ...
+            ()=>root(V("know"),
+                     subj(Pro("everybody")),
+                     comp(C("that"),
+                          deps[0])),
+            // I thought that everybody knew that
+            ()=>root(V("think").t("ps"),
+                     subj(Pro("I").pe(1)),
+                     comp(C("that"),
+                          comp(V("know").t("ps"),
+                               subj(Pro("everybody")),
+                               comp(C("that"),
+                                    deps[0]))))
+        )
+    }
+    for (let field of fields){
+        if (field in infos)
+           deps.push(generate_key(field,infos).add(subj(Pro("it").c("nom"))))
+    }
+    return deps;
+}
+
+// check if a dep is "simple": 
+//  i.e. of the form dep(V(...),
+//                       subj(Pro("it")),
+//                       comp(....)) 
+//       without any modification
+function isSimpleDep(dep){
+    const term=dep.terminal
+    if (term.isA("V") && dep.dependents.length==2 && 
+        Object.keys(dep.props).length==0){
+        const subjIdx=dep.findIndex((d)=>d.isA("subj"));
+        if (subjIdx>=0){
+            if (dep.dependents[subjIdx].terminal.lemma=="it") return true;
+        }
+    }
+    return false;
+}
+
+function syntacticTemplater(title,deps,st_params,invert){
+    if (isApplicable(st_params.syntactic_complexity,invert)){
+        // combine very simple sentences into a coordination
+        // only the first occurrence is modified...
+        const l=deps.length;
+        let i=0;
+        // console.warn("try to combine simple sentences")
+        while (i<l && !isSimpleDep(deps[i]))i++; // find first simple
+        if (i<l){
+            j=i+1;
+            while (j<l && isSimpleDep(deps[j]))j++;
+            if (j<l && i<j){
+                const removedDeps=deps.splice(i+1,j-i)
+                removedDeps.forEach((dep)=>
+                    dep.dependents.splice(dep.findIndex((d)=>d.isA("subj")),1))
+                deps[i]=coord(C("and"),deps[i],removedDeps)
+                return deps
+            }
+        }        
+    }
+    return deps
 }
 
 //  from Chapter 5 (figure 5.4, p 109)
@@ -267,33 +459,38 @@ function recommendation(type,params,infos,invert){
     //              5: service      ~~ --
     //              6: price        ~~ priceRange
     //              7: location     ~~ area+near
-    const title = `recommandation:${invert?' not ':' '} ${type}`
+    const title = `recommandation:${invert?'not ':''}${type}`
     //  initialize the list of jsRealB expressions
-    let vps = [];  // ::[Constituent]
-    for (key of ["food","customerRating","familyFriendly","priceRange","area"]){
-        if (key in infos){
-            vps.push(generate_key(key,infos))
-        }
-    }
-    // TODO: take into account "content planning" parameter
-    // TODO: take into account "syntactic template" parameters
 
+    let deps = contentPlanner(title,params.content_planning,infos,invert);
+    
+    // if (trace){
+    //     console.log(deps.map((dep)=>dep.toSource(0)).join("\n"))
+    // }
+    
     // apply "aggregation" parameters // [Constituent] -> [Constituent]
     // each agregation parameter combines one or two [Contituent]
-    const agg_vps = [name_eatType(infos)].concat(
-                    apply_parameters(title+":aggregation",params["aggregation"],vps,invert))
-    const prg_vps = apply_parameters(title+":pragmatic-marker",params["pragmatic_marker"],agg_vps,invert)
+    const agg_deps = apply_parameters(title+":aggregation",params["aggregation"],deps,invert)
+    const prg_deps = apply_parameters(title+":pragmatic-marker",params["pragmatic_marker"],agg_deps,invert)
+    
+    if (trace){
+        console.log(prg_deps.map((dep)=>dep.toSource(0)).join("\n"))
+    }
+    
+    // contrarily to the thesis, syntactic templates are applied after aggregation and pragmatic marker
+    // to combine the first successive simple dependencies in the final output when syntactic_complexity is high
+    deps = syntacticTemplater(title,prg_deps,params.syntactic_template_selection)
 
-    // linearize everything, adding a possible "it" when a VP is encountered  
-    return prg_vps.map(e => (e.isA("VP") ? S(Pro("I"), e) : e).toString()).join("");
+    // linearize everything 
+    return deps.map(e => e.toString()).join("");
 } 
 
 function personalized_recommandation_log(params,infos){
     console.log(infos["personality"])
-    console.log(showInfos(infos));
+    console.log(showInfos(mr_fields,infos));
     console.log(simple_generate(infos));
     console.log("GEN:",personalized_recommandation(params,infos["personality"],infos));
-    console.log("REF:",infos["ref"]);
+    // console.log("REF:",infos["ref"]);
     console.log("---");
 }
 
@@ -320,7 +517,8 @@ function updateLexicons(){
     // addToLexicon({"center":{"N":{"tab":"n1"},"V":{"tab":"v3"}}});// idem as centre (Canadian...)
     loadEn();
     addToLexicon({"coffee shop":{"N":{"tab":"n1"}}});
-    addToLexicon("riverside",{N: {tab: "n1"}});
+    addToLexicon("riverside",{"N": {"tab": "n1"}});
+    addToLexicon("horrendous",{"A": {"tab": "a1"}})
 }
 
 function makeInfos(line){
@@ -348,13 +546,17 @@ if (typeof module !== 'undefined' && module.exports) {
     dataFileName=require("path").resolve(__dirname,dataFileName)
     // console.log(dataFileName);
     const lines = fs.readFileSync(dataFileName,'utf-8').trim().split("\n")
+    setExceptionOnWarning(false);
     let nb=0    
-    for (const line of lines.slice(0,10)) {
+    for (const line of lines.slice(0,100)) {
         personalized_recommandation_log(params,makeInfos(line));
         nb++;
     }
     console.log("%d meaning representations processed",nb)
 } else {  // for execution in a web page
+    // to debug from Visual Code Studio 
+    //   start a web server in the jsRealB directory
+    //   e.g.  python3 -m http.server
     $(document).ready(function() {
         $fields=$("#fields");
         $search=$("#search");

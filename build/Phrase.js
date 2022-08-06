@@ -81,7 +81,7 @@ Phrase.prototype.add = function(constituent,position,prog){
     function allAorN(elems,start,end){
         if (start>end) {[end,start]=[start,end]}
         for (var k=start;k<=end;k++){
-            if (!elems[k].isOneOf(["A","N"]))return false;
+            if (!elems[k].isA("A","N"))return false;
         }
         return true
     }
@@ -154,7 +154,7 @@ Phrase.prototype.linkProperties	 = function(){
                         this.peng["n"]=e.grammaticalNumber();
                         // gender agreement between a French number and subject
                         e.peng["g"]=this.peng["g"]; 
-                    } else if (e.isOneOf(["D","A"])){
+                    } else if (e.isA("D","A")){
                         // link gender and number of the noun to the determiners and adjectives
                         // in English possessive determiner should not depend on the noun but on the "owner"
                         if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
@@ -217,7 +217,7 @@ Phrase.prototype.linkProperties	 = function(){
                     // HACK: the first pronoun  should not be a subject...
                     //        so we try to find another...
                     const jSubj=this.elements.slice(iSubj+1).findIndex(
-                        e => e.isOneOf(["NP","N","CP","Pro"])
+                        e => e.isA("NP","N","CP","Pro")
                     );
                     if (jSubj>=0){
                         subject=this.elements[iSubj+1+jSubj];
@@ -317,7 +317,7 @@ Phrase.prototype.setLemma = function(lemma,terminalType){
 // find the index of a Constituent type (or one of the constituents) in the list of elements
 Phrase.prototype.getIndex = function(constTypes){
     if (typeof constTypes == "string")constTypes=[constTypes];
-    return this.elements.findIndex(e => e.isOneOf(constTypes),this);
+    return this.elements.findIndex(e => e.isA(constTypes),this);
 }
 
 // find a given constituent type (or one of the constituent) in the list of elements
@@ -340,7 +340,7 @@ Phrase.prototype.findGenderNumberPerson = function(andCombination){
     let nb=0;
     for (let i = 0; i < this.elements.length; i++) {
         const e=this.elements[i];
-        if (e.isOneOf(["NP","N","Pro","Q"])){
+        if (e.isA("NP","N","Pro","Q")){
             nb+=1;
             const propG=e.getProp("g");
             if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
@@ -487,7 +487,7 @@ Phrase.prototype.passivate = function(){
     } else {
         vp=this.getConst("VP");
         if (vp !== undefined){
-            if (this.elements.length>0 && this.elements[0].isOneOf(["N","NP","Pro"])){
+            if (this.elements.length>0 && this.elements[0].isA("N","NP","Pro")){
                 subject=this.removeElement(0);
                 if (subject.isA("Pro")){
                     // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
@@ -772,7 +772,7 @@ Phrase.prototype.getIdxCtx = function(cst1,cst2){
     if (this.isA(cst1)){
         var idx=this.getIndex(cst2)
         if (idx>=0)return [idx,this.elements];
-    } else if (this.isOneOf(["S","SP"])){
+    } else if (this.isA("S","SP")){
         var cst=this.getConst(cst1);
         if (cst!==undefined)return cst.getIdxCtx(cst1,cst2);
     }
@@ -782,7 +782,7 @@ Phrase.prototype.getIdxCtx = function(cst1,cst2){
 Phrase.prototype.moveAuxToFront = function(){
     // in English move the auxiliary to the front 
     if (this.isEn()){
-        if (this.isOneOf(["S","SP"])){ 
+        if (this.isA("S","SP")){ 
             let [idx,vpElems]=this.getIdxCtx("VP","V");
             if (idx!==undefined && !contains(["pp","pr","b-to"],this.getProp("t"))){ // do not move when tense is participle)
                 const v=vpElems[0].parentConst.removeElement(0);// remove first V
@@ -850,7 +850,7 @@ Phrase.prototype.processInt = function(types){
         break;
     // remove a part of the sentence 
     case "wos": case "was":// remove subject (first NP,N, Pro or SP)
-        if (this.isOneOf(["S","SP","VP"])){
+        if (this.isA("S","SP","VP")){
             const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
             if (subjIdx!==undefined){
                 const vbIdx=this.getIndex(["VP","V"]);
@@ -866,7 +866,7 @@ Phrase.prototype.processInt = function(types){
         prefix=intPrefix[int];
         break;
     case "wod": case "wad": // remove direct object (first NP,N,Pro or SP in the first VP)
-        if (this.isOneOf(["S","SP","VP"])){
+        if (this.isA("S","SP","VP")){
             let cmp;
             const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
             if (idx!==undefined){
@@ -890,7 +890,7 @@ Phrase.prototype.processInt = function(types){
         }
         break;
     case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
-        if (this.isOneOf(["S","SP","VP"])){
+        if (this.isA("S","SP","VP")){
             const [idx,ppElems]=this.getIdxCtx("VP","PP");
             prefix=intPrefix[int];  // get default prefix
             if (idx!==undefined){ 
@@ -917,7 +917,7 @@ Phrase.prototype.processInt = function(types){
         }
         break;
     case "tag":
-        if (this.isOneOf(["S","SP","VP"])){
+        if (this.isA("S","SP","VP")){
             // according to Antidote: Syntax Guide - Question tag
             // Question tags are short questions added after affirmations to ask for verification
             if (this.isFr()){ // in French really simple, add "n'est-ce pas"
@@ -1138,7 +1138,7 @@ function doFrenchPronounPlacement(cList){
         // HACK: stop when seeing a preposition (except "par" introduced by a passivee) or a conjunction 
         //          or a "strange" pronoun that might start a phrase 
         //       whose structure has been flattened at this stage
-        } else if (c.isOneOf(["P","C","Adv","Pro"]) && verbPos!==undefined && c.lemma!="par"){
+        } else if (c.isA("P","C","Adv","Pro") && verbPos!==undefined && c.lemma!="par"){
              break;
         }
     }

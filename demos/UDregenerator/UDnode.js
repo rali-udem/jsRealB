@@ -437,7 +437,7 @@ UDnode.prototype.processCoordination = function(sentOptions,isSUD){
 //     // it must be done before anything else...
 //     // this allows creating a sentence of the type root(subj,VP(V(be),...)) from a dependency
 //     // having a noun or an adjective as root
-//     if (this.terminal.isOneOf(["N","A"])){
+//     if (this.terminal.isA(["N","A"])){
 //         const copIdx=this.findIndex(d=>d.isA("mod") && d.terminal.lemma=="be" &&
 //                                     d.getProp("pos")=="pre" && d.dependents.length==0)
 //         if (copIdx>=0) {

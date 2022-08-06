@@ -156,7 +156,7 @@ Terminal.prototype.setLemma = function(lemma,terminalType){
                             this.stem=lemma.substring(0,lemma.length-ending.length);
                         } else {
                             this.tab=null
-                            if (!this.isOneOf(["Adv","C","P"]))
+                            if (!this.isA("Adv","C","P"))
                                 this.warn("bad lexicon table",lemma,ending);
                         }
                     } else { // copy other key as property
@@ -194,7 +194,7 @@ Terminal.prototype.grammaticalNumber = function(){
 };
 
 Terminal.prototype.getIndex = function(constTypes){
-    return ((typeof constTypes == "string")?this.isA:this.isOneOf)(constTypes)?0:-1;
+    return ((typeof constTypes == "string")?this.isA:this.isA)(constTypes)?0:-1;
 }
 
 Terminal.prototype.getConst = function(constTypes){
@@ -248,7 +248,7 @@ Terminal.prototype.decline = function(setPerson){
     let declension=rules.declension[this.tab].declension;
     let stem=this.stem;
     let res=null;
-    if (this.isOneOf(["A","Adv"])){ // special case of adjectives or adv 
+    if (this.isA("A","Adv")){ // special case of adjectives or adv 
         if (this.isFr()){
             const g=this.getProp("g");
             const n=this.getProp("n");
@@ -300,9 +300,9 @@ Terminal.prototype.decline = function(setPerson){
         res=this.stem+declension[0]["val"]
     } else { // for N, D, Pro
         let g=this.getProp("g");
-        if (this.isOneOf(["D","N"]) && g==undefined)g="m";
+        if (this.isA("D","N") && g==undefined)g="m";
         let n=this.getProp("n");
-        if (this.isOneOf(["D","N"]) && n==undefined)n="s";
+        if (this.isA("D","N") && n==undefined)n="s";
         let pe=3;
         if (setPerson){
             let p=this.getProp("pe");
@@ -412,7 +412,7 @@ Terminal.prototype.isReflexive = function(){
     // check for "refl" typ (only called for V): Terminal.conjugate_fr
     let pc=this.parentConst;
     while (pc != undefined){
-        if (pc.isOneOf(["VP","SP","S"]) || pc.isOneOf(deprels)){
+        if (pc.isA("VP","SP","S") || pc.isA(deprels)){
             const typs=pc.props["typ"];
             if (typs!==undefined && typs["refl"]===true){
                 if (!contains(pat,"réfl")){

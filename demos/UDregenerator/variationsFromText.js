@@ -136,7 +136,7 @@ function generateQuestions(jsr){
     // object complement 
     let idx=-1;
     do {
-        idx=jsr.findIndex(d=>d.isOneOf(["comp","mod"]),idx+1);
+        idx=jsr.findIndex(d=>d.isA(["comp","mod"]),idx+1);
         if (idx>=0){
             const dep=jsr.dependents[idx];
             // ignore complements coming before the verb

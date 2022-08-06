@@ -25,12 +25,15 @@ Constituent.prototype.error = function(mess){
 
 ////////// access functions
 
-Constituent.prototype.isA = function(type){
-    return this.constType==type
-}
-
-Constituent.prototype.isOneOf = function(types){
-    return types.indexOf(this.constType)>=0;
+// check for type or types e.g.: isA("V","N",...)
+Constituent.prototype.isA = function(types){
+    if (arguments.length==1){
+        if (!Array.isArray(types))
+            return types==this.constType;
+    } else {
+        types=Array.from(arguments);
+    }
+    return types.includes(this.constType)
 }
 
 Constituent.prototype.isFr = function(){return this.lang=="fr"}
@@ -65,7 +68,7 @@ Constituent.prototype.setProp = function(propName,val){
 var pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
 var tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
 Constituent.prototype.initProps = function(){
-    if (this.isOneOf(["N","A","D","V","NO","Pro","Q"])){
+    if (this.isA("N","A","D","V","NO","Pro","Q")){
         // "tien" and "vôtre" are very special case of pronouns which are to the second person
         this.peng={pe:defaultProps[this.lang]["pe"],
                    n: defaultProps[this.lang]["n"],
@@ -151,13 +154,13 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
-                if (allowedConsts.length==0 || e.isOneOf(allowedConsts)){
+                if (allowedConsts.length==0 || e.isA(allowedConsts)){
                     e[option](val)
                 }
             }
             return this;
         }
-        if (allowedConsts.length==0 || this.isOneOf(allowedConsts) || this.isOneOf(deprels)) {
+        if (allowedConsts.length==0 || this.isA(allowedConsts) || this.isA(deprels)) {
             if (validVals !== undefined && validVals.indexOf(val)<0){
                 return this.warn("ignored value for option",option,val);
             }
@@ -291,7 +294,7 @@ Constituent.prototype.dOpt = function(dOptions){
 // number option
 Constituent.prototype.nat= function(isNat){
     this.addOptSource("nat",isNat);
-    if (this.isOneOf(["DT","NO"])){
+    if (this.isA("DT","NO")){
         const options=this.props["dOpt"];
         if (isNat === undefined){
             options.nat=true;
@@ -319,7 +322,7 @@ Constituent.prototype.typ = function(types){
       "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
     }
     this.addOptSource("typ",types)
-    if (this.isOneOf(["S","SP","VP"]) || this instanceof Dependent){
+    if (this.isA("S","SP","VP") || this instanceof Dependent){
         // validate types and keep only ones that are valid
         if (typeof types == "object"){
             for (let key in types) {
@@ -552,7 +555,7 @@ Constituent.prototype.doFormat = function(cList){
     // start of processing
     removeEmpty(cList);
     // reorder French pronouns
-    if (this.isFr() && (this.isA("VP") || (this.isOneOf(deprels) && this.terminal.isA("V"))))
+    if (this.isFr() && (this.isA("VP") || (this.isA(deprels) && this.terminal.isA("V"))))
         doFrenchPronounPlacement(cList);
     
     if (this.isFr())
@@ -623,7 +626,7 @@ Constituent.prototype.detokenize = function(terminals){
     s+=terminals[last].realization;
     
     if (this.parentConst==null){// if it is a top-level S
-        if ((this.isOneOf(["S","root"]) || (this.isA("coord") && this.dependents[0].isA("root"))) 
+        if ((this.isA("S","root") || (this.isA("coord") && this.dependents[0].isA("root"))) 
             && s.length>0){ 
             // apply capitalization at the start and final full stop unless .cap(false)
             if (this.props["cap"]!== false){

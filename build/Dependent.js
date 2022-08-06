@@ -27,7 +27,8 @@ function Dependent(params,deprel,lang){ // lang parameter used calls in IO-json.
     this.terminal.parentConst=this;
     this.peng=this.terminal.peng;
     if (this.terminal.isA("V"))this.taux=this.terminal.taux;
-    params=params.filter(e=>e!=undefined && e!=null) // remove "null" dependents
+    params=_elems(params) // _elems is defined in Phrase to remove "null" and flatten lists
+    // params=params.filter(e=>e!=undefined && e!=null) // remove "null" dependents
     // list of dependents to create the source of the parameters at the time of the call
     // this can be different from the dependent lists because of structure modifications
     this.dependentsSource=[]
@@ -173,7 +174,7 @@ Dependent.prototype.linkProperties = function(){
                 }
             } else if (depTerm.isA("V")){
                 //   set agreement between the subject of a subordinate or the object of a relative subordinate
-                const iRel=d.findIndex(d0=>d0.isOneOf(["subj","comp","mod"]) && 
+                const iRel=d.findIndex(d0=>d0.isA("subj","comp","mod") && 
                         d0.terminal.isA("Pro") && contains(["qui","que","who","that"],d0.terminal.lemma));
                 if (iRel>=0){
                     const rel=d.dependents[iRel].constType;
@@ -198,7 +199,7 @@ Dependent.prototype.linkProperties = function(){
                 const firstDep=d.dependents[0]
                 if (firstDep.isA("subj")){
                     headTerm.peng=d.peng
-                } else if (firstDep.isOneOf(["mod","comp"])&& firstDep.terminal.isOneOf(["V","A"])){
+                } else if (firstDep.isA("mod","comp")&& firstDep.terminal.isA("V","A")){
                     // consider this as coordination of verb sharing a subject (the current root)
                     //  or a coordination of adjectives
                     for (let d0 of d.dependents){
@@ -231,7 +232,7 @@ Dependent.prototype.findGenderNumberPerson = function(andCombination){
     let nb=0;
     for (let i = 0; i < this.dependents.length; i++) {
         const e=this.dependents[i].terminal;
-        if (e.isOneOf(["NP","N","Pro","Q"])){
+        if (e.isA("NP","N","Pro","Q")){
             nb+=1;
             const propG=e.getProp("g");
             if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
@@ -252,12 +253,12 @@ Dependent.prototype.pronominalize_fr = function(){
     let pro;
     let mySelf=this;
     if (this.isA("subj")){
-        if (!this.terminal.isOneOf(["N","Pro"]))
+        if (!this.terminal.isA("N","Pro"))
             return this.warn("no appropriate pronoun")
         pro=this.getTonicPro("nom")
-    } else if (this.isOneOf(["comp","mod"]) && this.terminal.isA("P")){
+    } else if (this.isA("comp","mod") && this.terminal.isA("P")){
         let prep=this.terminal.lemma;
-        if (this.dependents.length==1 && this.dependents[0].isOneOf(["comp","mod"])){
+        if (this.dependents.length==1 && this.dependents[0].isA("comp","mod")){
             if (this.dependents[0].terminal.isA("N")){
                 const n=this.dependents[0].terminal;
                 if (prep == "à"){
@@ -340,7 +341,7 @@ Dependent.prototype.passivate = function(){
             subj=null
         }
         // find direct object (first N or Pro of a comp) from dependents
-        const objIdx=this.findIndex((d)=>d.isA("comp")&& d.terminal.isOneOf(["N","Pro"]))
+        const objIdx=this.findIndex((d)=>d.isA("comp")&& d.terminal.isA("N","Pro"))
         if (objIdx>=0){
             obj=this.dependents[objIdx]
             if (obj.terminal.isA("Pro")){
@@ -567,7 +568,7 @@ Dependent.prototype.processTypInt = function(types){
         prefix=intPrefix[int];  // get default prefix
         for (let i=0;i<this.dependents.length;i++){
             const d=this.dependents[i];
-            if (d.isOneOf(["comp","mod"]) && d.terminal.isA("P")){
+            if (d.isA("comp","mod") && d.terminal.isA("P")){
                 // try to find a more appropriate prefix by looking at preposition in the structure
                 let prep=d.terminal.lemma;
                 const preps=prepositionsList[this.lang];
@@ -633,10 +634,13 @@ Dependent.prototype.processTypInt = function(types){
                     } else 
                         pro=subj.clone();
                     pro=comp(pro)
+                } else if (subj.isA("N")){
+                    pro=this.dependents[subjIdx].clone().pro().pos("post")
                 } else {
-                    // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
-                    pro=comp("",this.dependents[subjIdx].clone().pro())
+                    pro=comp(Pro("it").c("nom"))
                 }
+            } else { // no subject found, so generate 
+                pro=comp(pro)
             }
             let iDeps=this.dependents.length-1
             while(iDeps>=0 && this.dependents[iDeps].depPosition()!="post")iDeps--;
@@ -756,7 +760,7 @@ Dependent.prototype.depPosition = function(){
     let pos=this.props["pos"];
     if (pos!==undefined) return pos // always follow specified pos
     pos = "post";             // default is after
-    if (this.isOneOf(["subj","det","*pre*"])){ 
+    if (this.isA("subj","det","*pre*")){ 
         // subject and det are always before except when specified otherwise
         pos="pre"
     } else if (this.isA("mod") && this.terminal.isA("A") && this.parentConst.terminal.isA("N")){ 
@@ -855,7 +859,7 @@ Phrase.prototype.toDependent = function(depName){
             else if (dep.isA("mod") && (!dep.isEn() || !dep.terminal.isA("A"))) 
                 dep.pos("pre")
         } else {
-            if (dep.isOneOf(["subj","det"]))
+            if (dep.isA("subj","det"))
                 dep.pos("post")
         }
         return dep
@@ -939,7 +943,7 @@ Terminal.prototype.toDependent = function(depName){
     let deprel;
     // HACK: this.parentConst in changed during transformation to refer to the parent dependennt...
     let isTopLevel=this.parentConst===null; // we save it to use it at the end
-    if (this.isOneOf(["D","NO"])){
+    if (this.isA("D","NO")){
         deprel=det(this)
     } else {
         deprel=new Dependent([this],depName||"root");
