@@ -667,6 +667,10 @@ function show(struct){
     monospace(struct.toSource(0))
 }
 
+function showD(struct){
+    monospace(struct.toDebug(0))
+}
+
 function showAsDep(struct){
     show(struct.toDependent())
 }

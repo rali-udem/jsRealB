@@ -415,7 +415,7 @@ Terminal.prototype.isReflexive = function(){
         if (pc.isA("VP","SP","S") || pc.isA(deprels)){
             const typs=pc.props["typ"];
             if (typs!==undefined && typs["refl"]===true){
-                if (!contains(pat,"réfl")){
+                if (!pat.includes("réfl")){
                     this.ignoreRefl=true;
                     if (!noIgnoredReflVerbs.has(this.lemma))
                         this.warn("ignored reflexive",pat)
@@ -764,8 +764,14 @@ Terminal.prototype.toSource = function(){
     // create the source of the Terminal
     let res=this.constType+"("+quote(this.lemma)+")";
     // add the options by calling super.toSource()
-    res+=Constituent.prototype.toSource.call(this); 
-    return res;    
+    return res+Constituent.prototype.toSource.call(this);    
+}
+
+// Creates a "debug" representation from the structure not from the saved source strings
+// CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource()
+Terminal.prototype.toDebug = function(){
+    let res=this.constType+"("+quote(this.lemma)+")";
+    return res+Constituent.prototype.toDebug.call(this);
 }
 
 // functions for creating terminals

@@ -25,21 +25,21 @@ function fromJSON(json,lang){
         let lang1 = lang || currentLanguage ;
         if ("phrase" in json) {
             const constType=json["phrase"];
-            if (contains(phrases,constType)){
+            if (phrases.includes(constType)){
                 return Phrase.fromJSON(constType,json,lang1)
             } else {
                 console.log("fromJSON: unknown Phrase type:"+constType)
             }
         } else if ("dependent" in json) {
             const constType=json["dependent"];
-            if (contains(dependents,constType)){
+            if (dependents.includes(constType)){
                 return Dependent.fromJSON(constType,json,lang1)
             } else {
                 console.log("fromJSON: unknown Phrase type:"+constType)
             }
         } else if ("terminal" in json){
             const constType=json["terminal"];
-            if (contains(terminals,constType)){
+            if (terminals.includes(constType)){
                 return Terminal.fromJSON(constType,json,lang1)
             } else {
                 console.log("fromJSON: unknown Terminal type:"+constType)
@@ -64,7 +64,7 @@ Constituent.prototype.setJSONprops=function(json){
                         : Constituent.prototype[opt].call(this,o))
                 } else 
                     Constituent.prototype[opt].call(this,props[opt])
-            } else if (!contains(["pat","h"],opt)){ // do not copy the pat or h properties of a verb
+            } else if (!["pat","h"].includes(opt)){ // do not copy the pat or h properties of a verb
                 console.log("Constituent.fromJSON: illegal prop:"+opt);
             }
         }

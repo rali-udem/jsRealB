@@ -12,6 +12,13 @@
 // another source of inspiration might be 
 //    /Users/lapalme/Dropbox/personage-nlg/Personage/resources/parameters/handcrafted/bigfive
 
+if (typeof module !== 'undefined' && module.exports) {    //  load jsRealB
+    let jsRealB=require("../../dist/jsRealB-node")
+    // import exports in current scope
+    for (var v in jsRealB)
+            eval(v+"=jsRealB."+v);
+}
+
 const allPlaces=["place","venue","establishment","restaurant"];
 //// list fields of the meaning representation with a default ordering
 const mr_fields = ['name', 'eatType', 'customerRating', 'area', 'near', 'familyFriendly', 'food', 'priceRange']
@@ -75,34 +82,15 @@ const attribute_lexicalizations = {
 
 // values taken from ../../demos/e2eChallenge/devsetFields.json
 const names = ["Blue Spice", "Clowns", "Cocum", "Cotto", "Giraffe", "Green Man", "Loch Fyne", "Strada", "The Cricketers",
-         "The Mill", "The Phoenix", "The Plough", "The Punter", "The Vaults", "The Waterman", "The Wrestlers",
-         "Wildwood", "Zizzi"]
+               "The Mill", "The Phoenix", "The Plough", "The Punter", "The Vaults", "The Waterman", "The Wrestlers",
+               "Wildwood", "Zizzi"]
 
 const nears = ["Crowne Plaza Hotel", "Burger King", "Rainbow Vegetarian Café", "All Bar One", "The Sorrento", "Café Sicilia",
-         "Express by Holiday Inn", "The Rice Boat", "The Bakers", "Raja Indian Cuisine", "Avalon", "Ranch", "Café Rouge"]
-
-if (typeof module !== 'undefined' && module.exports) {    //  load jsRealB
-    let jsRealB=require("../../dist/jsRealB-node")
-    // import exports in current scope
-    for (var v in jsRealB)
-            eval(v+"=jsRealB."+v);
-}
+               "Express by Holiday Inn", "The Rice Boat", "The Bakers", "Raja Indian Cuisine", "Avalon", "Ranch", "Café Rouge"]
 
 
-// adapted from https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
-function shuffleArray(array){
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      const temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-    return array;
-}
-
-
-// functions that return a Dependence (with a subject to be added later)
-// the subject is implicitely the "named" place
+// functions that return a Dependent (with a subject to be added later)
+// they are of the form root(V(...),comp(...))
 function area(infos){
     const area_value=infos["area"]
     let location;
@@ -122,12 +110,12 @@ function area(infos){
      return root(V("be"),location)
 }
 
-function find_synonym(value,synonyms_list){
+function find_synonym(word,synonyms_list){
     for (const synonyms of synonyms_list) {
-        if (synonyms.indexOf(value)>=0)
+        if (synonyms.includes(word))
             return oneOf(synonyms)
     }
-    return value;
+    return word;
 }
 
 function customerRating(infos){
@@ -190,19 +178,19 @@ function priceRange(infos){
                     comp(Q(price_value)))
     price_value = find_synonym(price_value,attribute_lexicalizations["prices"]);
     return root(V("be"),
-               mod(A(price_value)))
+                comp(A(price_value)))
 }
 
 // display information in a compact format
 function showInfos(keys,infos){
     res=[];
     for (key of keys)
-        if (infos[keys]!==undefined)
+        if (infos[key]!==undefined)
             res.push(`${key}[${infos[key]}]`);
     return res.join(", ")
 }
 
-function generate_key(key,infos){
+function create_dep(key,infos){
     switch (key) {
         case "name_eatType":  return name_eatType(infos)
         case "area":          return area(infos)
@@ -232,72 +220,20 @@ function name_eatType(infos){
                  det(D("the")),
                  comp(qName));
     }
-    // if (infos["near"]!==undefined && infos["area"]===undefined){
-    //     res.add(comp(P("near"),
-    //                  mod(infos["near"])));
-    // }
     return res;
 }
 
 // simplest generator, after giving name and type, and then output each field separately using "it" as subject
 function simple_generate(infos){
     let res=[name_eatType(infos)]; // build list of jsRealB expression
-
     for (let key of mr_fields.slice(2)) {
         if (key in infos)
-            res.push(generate_key(key,infos).add(subj(Pro("it").c("nom")),0));
+            res.push(create_dep(key,infos).add(subj(Pro("it").c("nom")),0));
     }
     return res.map(e=>e.toString()).join(""); // realize each expression as a list
 }
 
-const trace=false;
-
-//  apply parameter function when a random number is below prob 
-//  each  parameter transforms one or two VP into a single one
-//  the list of parameters is shuffled to vary the order of transformations to apply
-//  as the first dependency has already been modified by the content planner
-//  it is not considered as a target for replacement
-function apply_parameters(type,params, in_deps, invert){
-    if (params.length==0)return in_deps;
-    let out_deps=in_deps.splice(0,1);
-    let applicationDone=false;
-    for (const agg_param of shuffleArray(params)){
-        if (in_deps.length==0) break;
-        let [agg_fn, prob]=agg_param;
-        if (invert)prob=1.0-prob;
-        if (agg_fn.length==1){ // transform a single expression
-            const r = Math.random();
-            if (r<prob){
-                const new_vp=agg_fn(in_deps[0])
-                if (new_vp!==undefined){
-                        if(trace)console.log("*apply1*:",type,agg_fn.name,new_vp.toSource());
-                        out_deps.push(new_vp);
-                        in_deps=in_deps.slice(1);
-                        applicationDone=true;
-                    }
-                }
-        } else if (in_deps.length>1) { 
-            // transform two expressions
-            const r = Math.random();
-            if (r < prob) {
-                const new_vp=agg_fn(in_deps[0],in_deps[1])
-                if (new_vp !== undefined){
-                    if(trace) console.log("*apply2*:",type,agg_fn.name,new_vp.toSource());
-                    out_deps.push(new_vp);
-                    in_deps=in_deps.slice(2)
-                    applicationDone=true;
-                } 
-            }
-        }
-    }
-    if (trace && !applicationDone){
-        console.warn("no %s function could be applied",type);
-    }
-    while (in_deps.length>0){
-        out_deps.push(in_deps.splice(0,1)[0])
-    }
-    return out_deps;
-}
+let trace=true;
 
 function isApplicable(val,invert){
     if (val == null) return false;  // this also check for undefined...
@@ -311,7 +247,7 @@ function isApplicable(val,invert){
 //  Here we have so few infos that they will all be realized, but the
 //  content planner has to determine the field ordering
 function contentPlanner(title,cp_params,infos,invert){
-    let fields = mr_fields.slice(2);
+    let fields = mr_fields.slice(2).filter((f)=>infos[f]!==undefined); //keep only fields present in infos
     if (isApplicable(cp_params.positive_content_first)){
         // order infos so that positive terms come at the start
         let newFields =[]
@@ -324,7 +260,6 @@ function contentPlanner(title,cp_params,infos,invert){
         }
         fields=newFields.concat(fields);
     }
-
     if (isApplicable(cp_params.verbosity,invert)){
         // as all fields are expressed, this is not relevant
     }
@@ -401,50 +336,42 @@ function contentPlanner(title,cp_params,infos,invert){
                                     deps[0]))))
         )
     }
-    for (let field of fields){
-        if (field in infos)
-           deps.push(generate_key(field,infos).add(subj(Pro("it").c("nom"))))
-    }
-    return deps;
+    return [deps,fields];
 }
 
-// check if a dep is "simple": 
-//  i.e. of the form dep(V(...),
-//                       subj(Pro("it")),
-//                       comp(....)) 
-//       without any modification
-function isSimpleDep(dep){
-    const term=dep.terminal
-    if (term.isA("V") && dep.dependents.length==2 && 
-        Object.keys(dep.props).length==0){
-        const subjIdx=dep.findIndex((d)=>d.isA("subj"));
-        if (subjIdx>=0){
-            if (dep.dependents[subjIdx].terminal.lemma=="it") return true;
+function syntacticTemplater(title,deps,fields,st_params,infos,invert){
+    // if (isApplicable(st_params.syntactic_complexity,invert)){
+        // shuffle and combine the fields into one or more lists of at most NB fields
+        const NB=3
+        let fss=[]
+        while (fields.length>=NB){
+            const l=Math.trunc(Math.random(NB)*NB)+1
+            fss.push(fields.splice(0,l))
         }
-    }
-    return false;
-}
-
-function syntacticTemplater(title,deps,st_params,invert){
-    if (isApplicable(st_params.syntactic_complexity,invert)){
-        // combine very simple sentences into a coordination
-        // only the first occurrence is modified...
-        const l=deps.length;
-        let i=0;
-        // console.warn("try to combine simple sentences")
-        while (i<l && !isSimpleDep(deps[i]))i++; // find first simple
-        if (i<l){
-            j=i+1;
-            while (j<l && isSimpleDep(deps[j]))j++;
-            if (j<l && i<j){
-                const removedDeps=deps.splice(i+1,j-i)
-                removedDeps.forEach((dep)=>
-                    dep.dependents.splice(dep.findIndex((d)=>d.isA("subj")),1))
-                deps[i]=coord(C("and"),deps[i],removedDeps)
-                return deps
+        if (fields.length>0){
+            fss.push(fields)
+        }
+        // add simple formulations
+        for (fs of fss){
+            const it=subj(Pro("it").c("nom"));
+            if (fs.length==1){
+                deps.push(create_dep(fs[0],infos).add(it))
+            } else if (fs.length==2){
+                // coordinate only the dependents of similar verbs
+                const dep0=create_dep(fs[0],infos);
+                const dep1=create_dep(fs[1],infos);
+                if (dep0.terminal.lemma==dep1.terminal.lemma){
+                    deps.push(root(dep0.terminal,
+                                   it,
+                                   coord(C("and"),dep0.dependents,dep1.dependents)))
+                } else {
+                    deps.push(coord(C("and"),fs.map((f)=>create_dep(f,infos).add(it))))
+                }
+            } else {
+                deps.push(coord(C("and"),fs.map((f)=>create_dep(f,infos).add(it))))
             }
-        }        
-    }
+        }
+    // }
     return deps
 }
 
@@ -460,39 +387,39 @@ function recommendation(type,params,infos,invert){
     //              6: price        ~~ priceRange
     //              7: location     ~~ area+near
     const title = `recommandation:${invert?'not ':''}${type}`
-    //  initialize the list of jsRealB expressions
 
-    let deps = contentPlanner(title,params.content_planning,infos,invert);
-    
-    // if (trace){
-    //     console.log(deps.map((dep)=>dep.toSource(0)).join("\n"))
-    // }
+    //  initialize the list of jsRealB expressions and the rest of the fields
+    let [deps,fields] = contentPlanner(title,params.content_planning,infos,invert);
+
+    // apply syntactic templates to the fields (i.e. combine some of them) to create the full set of deps
+    deps = syntacticTemplater(title,deps,fields,params.syntactic_template_selection,infos,invert);
+   
+    if (trace){
+        console.log(deps.map((dep)=>dep.toDebug(0)).join("\n"))
+    }        
     
     // apply "aggregation" parameters // [Constituent] -> [Constituent]
     // each agregation parameter combines one or two [Contituent]
-    const agg_deps = apply_parameters(title+":aggregation",params["aggregation"],deps,invert)
-    const prg_deps = apply_parameters(title+":pragmatic-marker",params["pragmatic_marker"],agg_deps,invert)
+    const agg_deps = apply_parameters(title+":aggregation",params["aggregation"],deps,invert,trace)
+    const prg_deps = apply_parameters(title+":pragmatic-marker",params["pragmatic_marker"],agg_deps,invert,trace)
     
     if (trace){
-        console.log(prg_deps.map((dep)=>dep.toSource(0)).join("\n"))
-    }
+        console.log(prg_deps.map((dep)=>dep.toDebug(0)).join("\n"))
+    }    
     
-    // contrarily to the thesis, syntactic templates are applied after aggregation and pragmatic marker
-    // to combine the first successive simple dependencies in the final output when syntactic_complexity is high
-    deps = syntacticTemplater(title,prg_deps,params.syntactic_template_selection)
-
     // linearize everything 
-    return deps.map(e => e.toString()).join("");
+    return prg_deps.map(e => e.toString()).join("");
 } 
 
 function personalized_recommandation_log(params,infos){
     console.log(infos["personality"])
     console.log(showInfos(mr_fields,infos));
-    console.log(simple_generate(infos));
+    console.log("SPL:",simple_generate(infos));
     console.log("GEN:",personalized_recommandation(params,infos["personality"],infos));
     // console.log("REF:",infos["ref"]);
     console.log("---");
 }
+
 
 function personalized_recommandation(params,pers,infos){
     switch (pers) {
@@ -513,12 +440,15 @@ function personalized_recommandation(params,pers,infos){
     return Q("unknown personality")
 }
 
-function updateLexicons(){
-    // addToLexicon({"center":{"N":{"tab":"n1"},"V":{"tab":"v3"}}});// idem as centre (Canadian...)
+function add_words(){
     loadEn();
     addToLexicon({"coffee shop":{"N":{"tab":"n1"}}});
     addToLexicon("riverside",{"N": {"tab": "n1"}});
-    addToLexicon("horrendous",{"A": {"tab": "a1"}})
+    addToLexicon("staff",{"N": {"tab": "n1"}});
+    addToLexicon("wait staff",{"N": {"tab": "n1"}});
+    
+    addToLexicon("horrendous",{"A": {"tab": "a1"}});
+    addToLexicon("overpriced",{"A": {"tab": "a1"}});
 }
 
 function makeInfos(line){
@@ -534,20 +464,22 @@ function makeInfos(line){
     return infos;
 }
 
-let dataFileName="./data/personage-nlg-test.jsonl"
 
 ////  start of execution
 if (typeof module !== 'undefined' && module.exports) {
+    let dataFileName="./data/personage-nlg-test.jsonl"
     let params=require("./generation_parameters");
+    var apply_parameters = params.apply_parameters;
     let util=require("util");
-    updateLexicons();
+     add_words();
     // console.log(util.inspect(params.extraversion));
     let fs=require("fs");
     dataFileName=require("path").resolve(__dirname,dataFileName)
     // console.log(dataFileName);
     const lines = fs.readFileSync(dataFileName,'utf-8').trim().split("\n")
-    setExceptionOnWarning(false);
-    let nb=0    
+    setExceptionOnWarning(true);
+    trace=false;  
+    let nb=0;
     for (const line of lines.slice(0,100)) {
         personalized_recommandation_log(params,makeInfos(line));
         nb++;
@@ -564,9 +496,9 @@ if (typeof module !== 'undefined' && module.exports) {
         $sentences.click(showValuesInMenu);
         $corpus=$("#corpus");
         $corpus.change(changeCorpus);
-        getDataSet(dataFileName);
+        changeCorpus();
         createSearch(mrRefs)
-        updateLexicons();
+        add_words();
         createFields(mr_values);
     })
 }

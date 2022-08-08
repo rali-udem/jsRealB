@@ -33,11 +33,6 @@ function quote(s){
     return '"'+s.replace('"','\\"')+'"';   // double quotes escaping double quotes 
 }
 
-// check if array contains an element
-function contains(arr,elem){
-    return arr.indexOf(elem)>=0;
-}
-
 function loadEn(trace,lenient){
     currentLanguage="en";
     if (trace===true)console.log("English lexicon and rules loaded");

@@ -19,19 +19,22 @@ function createFields(data){
     for (var i = 0; i < fieldNames.length; i++) {
         $tr.append($("<th>"+fieldNames[i]+"</th>"))
     }
+    $tr.append("<th>Name</th>");
+    $tr.append("<th>Near</th>");
     $fields.append($tr);
     $tr=$("<tr/>")
     for (var i = 0; i < fieldNames.length; i++) {
         var fn=fieldNames[i];
         var $select=$("<select class='field' name='"+fn+"'><option value=''></option></select>");
-        allFields[fn].sort()
         for (var j = 0; j < allFields[fn].length; j++) {
             var v=allFields[fn][j];
             $select.append($("<option value='"+v+"'>"+v+"</option>"))
         }
         $tr.append($("<td/>").append($select))
-        $fields.append($tr);
     }
+    $tr.append($("<td id='name'></td>"));
+    $tr.append($("<td id='near'></td>"));
+    $fields.append($tr);
 }
 
 function createSearch(data){
@@ -78,14 +81,13 @@ function showValuesInMenu(event){
         var fn=fieldNames[j];
         $(this).val(fn in mr?mr[fn]:"")
     })
-    // realize all variations of mr starting with the one in the reference
+    $("#name").text(mr["name"]);
+    $("#near").text(mr["near"]||" ");
+
+    // realize all variations 
     $("#jsrPersonality").empty()
-    let selectPers=mr["personality"];
-    $("#jsrPersonality").append(`<tr><td>${selectPers}</td>}<td>${personalized_recommandation(params,selectPers,mr)}</td></tr>`)
     for (pers of mr_values["personality"]){
-        if (pers != selectPers){
-            $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(params,pers,mr)}</td></tr>`)
-        }
+        $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(params,pers,mr)}</td></tr>`)
     }
 }
 

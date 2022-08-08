@@ -175,7 +175,7 @@ Phrase.prototype.linkProperties	 = function(){
         if (pro!==undefined){
             const v=pro.parentConst.getFromPath(["VP","V"]);
             if (v !=undefined){
-                if (contains(["qui","who","which","that"],pro.lemma)){// agrees with this NP
+                if (["qui","who","which","that"].includes(pro.lemma)){// agrees with this NP
                     v.peng=this.peng
                 } else if (this.isFr() && pro.lemma=="que"){
                     // in French past participle can agree with a cod appearing before... keep that info in case
@@ -213,7 +213,7 @@ Phrase.prototype.linkProperties	 = function(){
         if (iSubj>=0){
             let subject=this.elements[iSubj];
             if (this.isA("SP") && subject.isA("Pro")){
-                if (contains(["que","où","that"],subject.lemma)){
+                if (["que","où","that"].includes(subject.lemma)){
                     // HACK: the first pronoun  should not be a subject...
                     //        so we try to find another...
                     const jSubj=this.elements.slice(iSubj+1).findIndex(
@@ -232,7 +232,7 @@ Phrase.prototype.linkProperties	 = function(){
             const vpv=this.linkPengWithSubject("VP","V",subject)
             if (vpv !== undefined){
                 this.taux=vpv.taux;
-                if (this.isFr() && contains(copulesFR,vpv.lemma)){// check for a French attribute of copula verb
+                if (this.isFr() && copulesFR.includes(vpv.lemma)){// check for a French attribute of copula verb
                     // with an adjective
                     const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
                     if (attribute===undefined){
@@ -390,7 +390,7 @@ Phrase.prototype.pronominalize_fr = function(){
                     pro=np.getTonicPro("dat");
                 } else if (prep.lemma == "de") {
                     pro=Pro("en","fr").c("dat")
-                } else if (contains(["sur","vers","dans"],prep.lemma)){
+                } else if (["sur","vers","dans"].includes(prep.lemma)){
                     pro=Pro("y","fr").c("dat")
                 } else { // change only the NP within the PP
                     pro=np.getTonicPro();
@@ -684,7 +684,7 @@ function affixHopping(v,t,compound,types){
                auxils.length==0 && v.lemma!="be" && v.lemma!="have"){ 
         // add auxiliary for interrogative if not already there
         if (interro!="wos" && interro!="was" && interro!="tag"){
-            if (!contains(["pp","pr","b-to"],t)){ // do not add auxiliary for participle and infi
+            if (!["pp","pr","b-to"].includes(t)){ // do not add auxiliary for participle and infi
                 auxils.push("do");
                 affixes.push("b");
             }
@@ -784,7 +784,7 @@ Phrase.prototype.moveAuxToFront = function(){
     if (this.isEn()){
         if (this.isA("S","SP")){ 
             let [idx,vpElems]=this.getIdxCtx("VP","V");
-            if (idx!==undefined && !contains(["pp","pr","b-to"],this.getProp("t"))){ // do not move when tense is participle)
+            if (idx!==undefined && !["pp","pr","b-to"].includes(this.getProp("t"))){ // do not move when tense is participle)
                 const v=vpElems[0].parentConst.removeElement(0);// remove first V
                 // check if V is followed by a negation, if so move it also
                 if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
@@ -882,7 +882,7 @@ Phrase.prototype.processInt = function(types){
                     }
                 }
             }
-            if (this.isEn() && int=="wod" && cmp!==undefined && contains(["m","f"],cmp.getProp("g"))){ // human direct object
+            if (this.isEn() && int=="wod" && cmp!==undefined && ["m","f"].includes(cmp.getProp("g"))){ // human direct object
                 prefix="whom";
             } else
                 prefix=intPrefix[int];
@@ -930,7 +930,7 @@ Phrase.prototype.processInt = function(types){
                     if ("mod" in types && types["mod"]!==false){
                         aux=this.getRules().compound[types["mod"]]["aux"];
                     } else {
-                        if (contains(["have","be","can","will","shall","may","must"],currV.lemma))aux=currV.lemma;
+                        if (["have","be","can","will","shall","may","must"].includes(currV.lemma))aux=currV.lemma;
                         else aux="do"
                     }
                     let neg = "neg" in types && types["neg"]===true;
@@ -948,10 +948,10 @@ Phrase.prototype.processInt = function(types){
                                 if (subj.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
                                     // very special case : I am => aren't I
                                     pe=2
-                                } else if (contains(["this","that","nothing"],subj.lemma)){
+                                } else if (["this","that","nothing"].includes(subj.lemma)){
                                     pro=Pro("I").g("n") // it
-                                } else if (contains(["somebody","anybody","nobody","everybody",
-                                                     "someone","anyone","everyone"],subj.lemma)){
+                                } else if (["somebody","anybody","nobody","everybody",
+                                            "someone","anyone","everyone"].includes(subj.lemma)){
                                     pro=Pro("I").n("p"); // they
                                     if (subj.lemma=="nobody")neg=true;                     
                                 } else 
@@ -964,7 +964,7 @@ Phrase.prototype.processInt = function(types){
                     }
                     // check for negative adverbs...
                     const adv=currV.parentConst.getConst("Adv");
-                    if (adv!==undefined && contains(["hardly","scarcely","never","seldom"],adv.lemma)){
+                    if (adv!==undefined && ["hardly","scarcely","never","seldom"].includes(adv.lemma)){
                         neg=true
                     }
                     currV.parentConst.a(","); // add comma to parent of the verb
@@ -1130,7 +1130,7 @@ function doFrenchPronounPlacement(cList){
         } else if (c.isA("Pro") && verbPos!==undefined){
             if (c.getProp("pos")==undefined || (c.parentConst!==null && c.parentConst.getProp("pos")===undefined)){
                 // do not try to change position of a constituent with specified pos
-                if (contains(["refl","acc","dat"],c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
+                if (["refl","acc","dat"].includes(c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
                     pros.push(cList.splice(i,1)[0]);
                     i--; // to ensure that all elements are taken into account because cList array has changed
                 }
@@ -1189,7 +1189,7 @@ Phrase.prototype.cpReal = function(){
     for (let j = 0; j < last; j++) { //insert comma after each element
         const ej=elems[j];
         if (idxC<0 || j<last-1){ // except the last if there is conjunction
-            if (ej.props["a"] === undefined || !contains(ej.props["a"],","))
+            if (ej.props["a"] === undefined || !ej.props["a"].includes(","))
                 ej.props["a"]=[","];
         }
         Array.prototype.push.apply(res,ej.real())
@@ -1239,7 +1239,7 @@ Phrase.prototype.vpReal = function(){
     else {
         const t=this.elements[vIdx].getProp("t");
         if (t == "pp") vIdx=last; // do not rearrange sentences with past participle
-        else if (contains(["être","be"],this.elements[vIdx].lemma)) { // do not rearrange complements of être/be
+        else if (["être","be"].includes(this.elements[vIdx].lemma)) { // do not rearrange complements of être/be
             vIdx=last 
         }
     } 
@@ -1299,18 +1299,24 @@ Phrase.prototype.real = function() {
 // if indent is positive number create an indented pretty-print string (call it with 0 at the root)
 // if called with no parameter then create a single line
 Phrase.prototype.toSource = function(indent){
-    let sep;
     if (indent===undefined)indent=-1;
-    if (indent>=0){
-        indent=indent+this.constType.length+1;
-        sep=",\n"+Array(indent).fill(" ").join("")
-    } else {
-        sep=",";
-    }
+    let [newIndent,sep]=this.indentSep(indent);
     // create source of children
-    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(indent)).join(sep)+")";
+    let res=this.constType+"("+this.elementsSource.map(e => e.toSource(newIndent)).join(sep)+")";
     // add the options by calling "super".toSource()
     res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
+    return res;
+}
+
+// Creates a "debug" representation from the structure not from the saved source strings
+// CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource()
+Phrase.prototype.toDebug = function(indent){
+    if (indent===undefined)indent=-1;
+    let [newIndent,sep]=this.indentSep(indent);
+    // create debug of children
+    let res=this.constType+"("+this.elements.map(e => e.toDebug(newIndent)).join(sep)+")";
+    // add the options by calling "super".toSource()
+    res+=Constituent.prototype.toDebug.call(this); // ~ super.toSource()
     return res;
 }
 

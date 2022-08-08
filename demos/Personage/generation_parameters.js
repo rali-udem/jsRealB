@@ -265,7 +265,7 @@ function near_expletives(dep) {
 
 function tag_question(dep) {
     // Insert a tag question
-    if (isV(dep))
+    if (isV(dep) && v(dep).getProp("t")=="p")
         return dep.typ({ "int": "tag" })
 }
 
@@ -386,10 +386,67 @@ const concientiousness = {
     // TODO: process lexical choice ....
 }
 
+// adapted from https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
+function shuffleArray(array){
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[j],array[i]]=[array[i],array[j]];
+    }
+    return array;
+}
+
+//  apply parameter function when a random number is below prob 
+//  each  parameter transforms one or two VP into a single one
+//  the list of parameters is shuffled to vary the order of transformations to apply
+//  as the first dependency has already been modified by the content planner
+//  it is not considered as a target for replacement
+function apply_parameters(type,params, in_deps, invert,trace){
+    if (params.length==0)return in_deps;
+    let out_deps=[];
+    let applicationDone=false;
+    for (const agg_param of shuffleArray(params)){
+        if (in_deps.length==0) break;
+        let [agg_fn, prob]=agg_param;
+        if (invert)prob=1.0-prob;
+        if (agg_fn.length==1){ // transform a single expression
+            const r = Math.random();
+            if (r<prob){
+                const new_dep=agg_fn(in_deps[0])
+                if (new_dep!==undefined){
+                        if(trace)console.log("*apply1*:%s.%s\n%s",type,agg_fn.name,new_dep.toDebug(0));
+                        out_deps.push(new_dep);
+                        in_deps=in_deps.slice(1);
+                        applicationDone=true;
+                    }
+                }
+        } else if (in_deps.length>1) { 
+            // transform two expressions
+            const r = Math.random();
+            if (r < prob) {
+                const new_dep=agg_fn(in_deps[0],in_deps[1])
+                if (new_dep !== undefined){
+                    if(trace) console.log("*apply2*:%s.%s\n%s",type,agg_fn.name,new_dep.toDebug(0));
+                    out_deps.push(new_dep);
+                    in_deps=in_deps.slice(2);
+                    applicationDone=true;
+                } 
+            }
+        }
+    }
+    if (trace && !applicationDone){
+        console.warn("no %s function could be applied",type);
+    }
+    
+    return out_deps.concat(in_deps);
+}
+
+
 if (typeof module !== 'undefined' && module.exports) {
     exports.high = high;
     exports.low = low;
-    exports.extraversion = extraversion
-    exports.agreeableness=agreeableness
-    exports.concientiousness = concientiousness
+    exports.extraversion = extraversion;
+    exports.agreeableness=agreeableness;
+    exports.concientiousness = concientiousness;
+    exports.apply_parameters = apply_parameters;
+    exports.shuffleArray = shuffleArray;
 }

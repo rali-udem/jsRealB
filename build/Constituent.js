@@ -149,7 +149,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             val=null;
         }
-        if (this.isA("CP") && !contains(["cap","lier"],option)){
+        if (this.isA("CP") && !["cap","lier"].includes(option)){
             // propagate an option through the children of a CP except for "cap" and "lier"
             if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
@@ -332,11 +332,11 @@ Constituent.prototype.typ = function(types){
                     this.warn("unknown type",key,Object.keys(allowedTypes))
                 } else {
                     if (key == "neg" && this.isFr()){ // also accept string as neg value in French
-                        if (!contains(["string","boolean"],typeof val)){
+                        if (!["string","boolean"].includes(typeof val)){
                             this.warn("ignored value for option",".typ("+key+")",val)
                             delete types[key]
                         }
-                    } else if (!contains(allowedVals,val)){
+                    } else if (!allowedVals.includes(val)){
                         this.warn("ignored value for option",".typ("+key+")",val)
                         delete types[key]
                     }
@@ -639,7 +639,7 @@ Constituent.prototype.detokenize = function(terminals){
                     // and a full stop at the end unless there is already one
                     // taking into account any trailing HTML tag
                     const m=/(.)( |(<[^>]+>))*$/.exec(s);
-                    if (m!=null && !contains("?!.:;/)]}",m[1])){
+                    if (m!=null && !"?!.:;/)]}".includes(m[1])){
                         s+=". "  // add a space after . like for rule "pc4"
                     }
                 }
@@ -663,6 +663,20 @@ Constituent.prototype.clone = function(){
     return eval(this.toSource());
 }
 
+Constituent.prototype.indentSep = function (indent){
+    if (indent>=0){
+        indent=indent+this.constType.length+1;
+        return [indent,",\n"+(" ".repeat(indent))]
+    }
+    return [indent,","];
+}
+
 Constituent.prototype.toSource=function(){
     return this.optSource;
+}
+
+// Creates a "debug" representation from the structure not from the saved source strings
+// CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource()
+Constituent.prototype.toDebug=function(){
+    return Object.keys(this.props).length>0 ? JSON.stringify(this.props) :""
 }

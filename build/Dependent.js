@@ -166,7 +166,7 @@ Dependent.prototype.linkProperties = function(){
             if (depTerm.isA("A")){
                 depTerm.peng=this.peng
                 // check for an attribute of a copula with an adjective
-                if (this.isFr() && contains(copulesFR,headTerm.lemma)){
+                if (this.isFr() && copulesFR.includes(headTerm.lemma)){
                     const iSubj=this.findIndex(d0=>d0.isA("subj") && d0.terminal.isA("N"));
                     if (iSubj>=0){
                         depTerm.peng=this.dependents[iSubj].peng;
@@ -175,7 +175,7 @@ Dependent.prototype.linkProperties = function(){
             } else if (depTerm.isA("V")){
                 //   set agreement between the subject of a subordinate or the object of a relative subordinate
                 const iRel=d.findIndex(d0=>d0.isA("subj","comp","mod") && 
-                        d0.terminal.isA("Pro") && contains(["qui","que","who","that"],d0.terminal.lemma));
+                        d0.terminal.isA("Pro") && ["qui","que","who","that"].includes(d0.terminal.lemma));
                 if (iRel>=0){
                     const rel=d.dependents[iRel].constType;
                     if (rel=="subj"){ // verb agrees with this subject
@@ -265,7 +265,7 @@ Dependent.prototype.pronominalize_fr = function(){
                     pro=n.getTonicPro("dat");
                 } else if (prep == "de") {
                     pro=Pro("en","fr").c("dat");
-                } else if (contains(["sur","vers","dans"],prep)){
+                } else if (["sur","vers","dans"].includes(prep)){
                     pro=Pro("y","fr").c("dat");
                 } else { // change only the N keeping the P intact
                     pro=this.getTonicPro("nom");
@@ -484,11 +484,11 @@ Dependent.prototype.processTyp_en = function(types){
 
 Dependent.prototype.moveAuxToFront=function(){
     let auxIdx=this.findIndex((d)=>d.isA("*pre*")); // added by affixHopping
-    if (auxIdx>=0 && !contains(["pp","pr"],this.getProp("t"))){ // do not move when tense is participle
+    if (auxIdx>=0 && !["pp","pr"].includes(this.getProp("t"))){ // do not move when tense is participle
         const aux = this.dependents[auxIdx].terminal;
         this.removeDependent(auxIdx)
         this.addPre(aux,0)                             // put auxiliary before
-    } else if (contains(["be","have"],this.terminal.lemma)) {
+    } else if (["be","have"].includes(this.terminal.lemma)) {
         //no auxiliary, but check for have or be "alone" for which the subject should appear
         const subjIdx=this.findIndex(d=>d.isA("subj"));
         if (subjIdx>=0)
@@ -557,7 +557,7 @@ Dependent.prototype.processTypInt = function(types){
                 this.removeDependent(parIdx);// remove the passive subject
             }
         }
-        if (this.isEn() && int=="wod" && cmp!==undefined && contains(["m","f"],cmp.getProp("g"))){ // human direct object
+        if (this.isEn() && int=="wod" && cmp!==undefined && ["m","f"].includes(cmp.getProp("g"))){ // human direct object
             prefix="whom";
         } else
             prefix=intPrefix[int];
@@ -604,7 +604,7 @@ Dependent.prototype.processTypInt = function(types){
             if ("mod" in types && types["mod"]!==false){
                 aux=this.getRules().compound[types["mod"]]["aux"];
             } else {
-                if (contains(["have","be","can","will","shall","may","must"],currV.lemma))aux=currV.lemma;
+                if (["have","be","can","will","shall","may","must"].includes(currV.lemma))aux=currV.lemma;
                 else aux="do"
             }
             let neg = "neg" in types && types["neg"]===true;
@@ -615,7 +615,7 @@ Dependent.prototype.processTypInt = function(types){
             let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
             // check for negative adverbs...
             const advIdx=this.findIndex((d)=>d.isA("mod") && d.terminal.isA("Adv"));
-            if (advIdx>=0 && contains(["hardly","scarcely","never","seldom"],this.dependents[advIdx].terminal.lemma)){
+            if (advIdx>=0 && ["hardly","scarcely","never","seldom"].includes(this.dependents[advIdx].terminal.lemma)){
                 neg=true
             }
             let subjIdx=this.findIndex((d)=>d.isA("subj"))
@@ -625,10 +625,10 @@ Dependent.prototype.processTypInt = function(types){
                     if (subj.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
                         // very special case : I am => aren't I
                         pe=2
-                    } else if (contains(["this","that","nothing"],subj.lemma)){
+                    } else if (["this","that","nothing"].includes(subj.lemma)){
                         pro=Pro("I").g("n") // it
-                    } else if (contains(["somebody","anybody","nobody","everybody",
-                                         "someone","anyone","everyone"],subj.lemma)){
+                    } else if (["somebody","anybody","nobody","everybody",
+                                "someone","anyone","everyone"].includes(subj.lemma)){
                         pro=Pro("I").n("p"); // they
                         if (subj.lemma=="nobody")neg=true;                     
                     } else 
@@ -774,14 +774,14 @@ Dependent.prototype.depPosition = function(){
 
 // creates a list of Terminal each with its "realization" field now set
 Dependent.prototype.real = function() {
-    this.pronominalizeChildren();
     let res;
-    const typs=this.props["typ"];
-    if (typs!==undefined)this.processTyp(typs);
     if (this.isA("coord") && this.parentConst==null){
         // special case of coord at the root
         res=this.coordReal();
     } else {
+        this.pronominalizeChildren();
+        const typs=this.props["typ"];
+        if (typs!==undefined)this.processTyp(typs);
         const ds=this.dependents;
         // realize coordinations before anything elso to compute their final number and person
         for (let d of ds){
@@ -811,14 +811,8 @@ Dependent.prototype.real = function() {
 // if indent is positive number create an indented pretty-print string (call it with 0 at the root)
 // if called with no parameter then create a single line
 Dependent.prototype.toSource = function(indent){
-    let sep;
     if (indent===undefined)indent=-1;
-    if (indent>=0){
-        indent=indent+this.constType.length+1;
-        sep=",\n"+Array(indent).fill(" ").join("")
-    } else {
-        sep=",";
-    }
+    let [newIndent,sep]=this.indentSep(indent);
     let depsSource=this.dependentsSource.map(e => e.toSource(indent))
     depsSource.unshift(this.terminal.toSource())
     // create source of children
@@ -828,6 +822,19 @@ Dependent.prototype.toSource = function(indent){
     return res;
 }
 
+// Creates a "debug" representation from the structure not from the saved source strings
+// CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource()
+Dependent.prototype.toDebug = function(indent){
+    if (indent===undefined)indent=-1;
+    let [newIndent,sep]=this.indentSep(indent);
+    // create debug of children
+    let depsDebug=this.dependents.map(e => e.toDebug(newIndent));
+    depsDebug.unshift(this.terminal.toDebug());
+    let res=this.constType+"("+depsDebug.join(sep)+")";
+    // add the options by calling "super".toSource()
+    res+=Constituent.prototype.toDebug.call(this); // ~ super.toSource()
+    return res;
+}
 
 // CAUTION: this function is on the **Phrase** prototype
 // create a dependent version of a constituent 

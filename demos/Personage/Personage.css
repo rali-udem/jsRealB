@@ -6,9 +6,12 @@ body{font-family: Arial, "MS Trebuchet", sans-serif;}
     border: 1px solid blue;
     padding:2px;
 }
-td {
+#sentences td, #jsrPersonality td, #name, #near{
     border: thin solid black;
     padding:2px;
+}
+#search {
+    padding-bottom: 10px;
 }
 footer {
     margin-top: 20px;

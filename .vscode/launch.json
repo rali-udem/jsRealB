@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Personage/Personage.js",
             "skipFiles": [
                 "<node_internals>/**"
             ],
@@ -21,6 +21,12 @@
             "name": "Personage/index.html",
             "request": "launch",
             "url": "http://0.0.0.0:8000/demos/Personage/index.html"
+        },
+        {
+            "type": "chrome",
+            "name": "Tests/testAll.html",
+            "request": "launch",
+            "url": "http://0.0.0.0:8000/Tests/testAll.html"
         }
     ]
 }
