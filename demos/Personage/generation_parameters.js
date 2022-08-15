@@ -40,15 +40,9 @@ function ContentPlanning(params = {}) {
     //   only affect the beginning of the utterance (described in page 119, table 5.4)
     this.request_confirmation = null;   // B: Begin the utterance with a confirmation of the restaurant’s name
     this.initial_rejection = null;      // B: Begin the utterance with a mild rejection
-    this.competence_mitigation = null;  // B: depess the speaker’s negative appraisal of the hearer’s request 
-    // change values given as parameters
-    for (const key in params) {
-        if (key in this)
-            this[key] = params[key];
-        else
-            console.warn("%s is not a content planning parameter", key);
-    }
-}
+    this.competence_mitigation = null;  // B: depess the speaker’s negative appraisal of the hearer’s request    
+    Object.assign(this,params)       // change fields to corresponding values given as parameters
+ }
 
 //  Syntactic template selection: decide what syntactic template to select for expressing each proposition, 
 //  chosen from a handcrafted generation dictionary; (p 82)
@@ -56,12 +50,7 @@ function SyntacticTemplateSelection(params = {}) {
     this.self_references = null;      // C: Control the number of first person pronouns
     this.syntactic_complexity = null; // C: Control the syntactic complexity (syntactic embedding)
     this.template_polarity = null;    // C: Control the connotation of the claim, i.e., whether positive or negative affect is expressing
-    for (const key in params) {
-        if (key in this)
-            this[key] = params[key];
-        else
-            console.warn("%s is not a template selection parameter", key);
-    }
+    Object.assign(this,params)   // change fields to corresponding values given as parameters
 }
 
 ////// Agregation operations

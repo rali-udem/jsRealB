@@ -32,9 +32,9 @@
         adaptation of the ideas put forward in 
         <i>Towards personality-based user adaptation: psychologically informed stylistic language generation</i>, by
         F. Mairesse and M. A. Walker, User Modeling and User-Adapted Interaction, 20(3):227–278, 2010. 
-        [<a href="https://users.soe.ucsc.edu/~maw/papers/umuai2010.pdf">PDF</a>]
+        [<a href="README.md">More details</a>]
     </p>
-    <p>Unfortunately, the <a href="https://nlds.soe.ucsc.edu/stylistic-variation-nlg">available data</a>,
+    <!-- <p>Unfortunately, the <a href="https://nlds.soe.ucsc.edu/stylistic-variation-nlg">available data</a>,
         found in the <a href="https://aclweb.org/aclwiki/Data_sets_for_NLG#Personage_Stylistic_Variation_for_NLG"><i>SIGGEN 
             Datasets for NLG</i> page</a>,
         only deals with a subset of the 5 traits (<i>agree</i>, <i>consc</i>, <i>extra</i>) and the paper is not 
@@ -43,17 +43,19 @@
         We also looked at the <a href="http://farm2.user.srcf.net-research-personage-personage-0.13.tar.gz">source code of the original program</a>, but we could not manage to run the version
         that created the data which was originally designed to develop text generators using learning algorithms. 
         In our case, we use a rule-based approach with some random choices to provide variations.
-    </p>
+    </p> -->
     <h2>Dataset : <select name="corpus" id="corpus">
         <option value="train">training</option>
         <option value="test" selected="selected">test</option>
     </select></h2>
     <table id="fields"></table>
-    <div id="search"></div>
+    <div id="search">
+        
+    </div>
+    <p style="font-size:small">Click on a sentence to select one for realization by <code>jsRealB</code> while setting 
+            the values of its attributes in the field menus. <i>Search</i> can then be done with these values.</p>
     <div id="sentences"></div>
-    <p> Corpus sentences: <span id="nbSent"></span><br/>
-    <i style="font-size:small">Click on a sentence to select one for realization by jsRealB while setting 
-        the values of its attributes in the field menus.</i></p>
+    <p> Corpus sentences: <span id="nbSent"></span></p>
     <h2><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" 
            title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> realizations for the selected sentence</h2>
     <table id="jsrPersonality"></table>

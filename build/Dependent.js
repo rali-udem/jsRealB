@@ -813,7 +813,7 @@ Dependent.prototype.real = function() {
 Dependent.prototype.toSource = function(indent){
     if (indent===undefined)indent=-1;
     let [newIndent,sep]=this.indentSep(indent);
-    let depsSource=this.dependentsSource.map(e => e.toSource(indent))
+    let depsSource=this.dependentsSource.map(e => e.toSource(newIndent))
     depsSource.unshift(this.terminal.toSource())
     // create source of children
     let res=this.constType+"("+depsSource.join(sep)+")";

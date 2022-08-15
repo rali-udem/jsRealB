@@ -9,7 +9,10 @@ function getDataSet(dataFileName){
     $.get(dataFileName,function(data){
         mrRefs=data.trim().split("\n").map(makeInfos)
         search();
-    }).fail($search.append($("b").text(dataFileName+" not found")));
+        $("body").css("cursor", "default");
+        $("input[value=reset]").trigger("click");
+        $("input[value=search]").trigger("click");
+        }).fail($search.append($("b").text(dataFileName+" not found")));
 }
 
 function createFields(data){
@@ -38,13 +41,13 @@ function createFields(data){
 }
 
 function createSearch(data){
-    var $searchB=$("<input type='button' value='search'></input>")
+    var $searchB=$("<input type='button' value='search' title='Display sentences with the current field values'></input>")
     $searchB.click(e=>search());
     $search.append($searchB);
-    var $resetB=$("<input type='button' value='reset'></input>");
+    var $resetB=$("<input type='button' value='reset' title='Erase all field values'></input>");
     $resetB.click(function(e){$(".field").each(function(j){$(this).val("")})});
     $search.append($resetB);
-    var $randomB=$("<input type='button' value='random'></input>");
+    var $randomB=$("<input type='button' value='random' title='Select random values for the fields'></input>");
     $randomB.click(function(e){
         $(".field").each(function(j){
             var fs=Array.from(allFields[fieldNames[j]]);
@@ -102,11 +105,10 @@ function getFieldsFromMenus(){
 }
 
 function changeCorpus(){
+    $("body").css("cursor", "progress");
     const corpusType=$corpus.val()
     dataFileName=`./data/personage-nlg-${corpusType}.jsonl`
     getDataSet(dataFileName);
-    $("input[value=reset]").trigger("click");
-    $("input[value=search]").trigger("click");
 }
 
 function search(){
@@ -125,4 +127,5 @@ function search(){
         }
     }
     $("#nbSent").text(references.length.toLocaleString());
+    $("#name,#near").text("");
 }

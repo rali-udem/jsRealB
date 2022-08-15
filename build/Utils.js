@@ -28,8 +28,8 @@ function extend(base, sub) {
 // create a quoted string taking account possible escaping
 function quote(s){
     if (typeof s != "string")return s;
-    if (s.indexOf("'")<0)return "'"+s+"'"; // try with single quotes
-    if (s.indexOf('"')<0)return '"'+s+'"'; // try with double quotes
+    if (!s.includes("'"))return "'"+s+"'"; // try with single quotes
+    if (!s.includes('"'))return '"'+s+'"'; // try with double quotes
     return '"'+s.replace('"','\\"')+'"';   // double quotes escaping double quotes 
 }
 
@@ -111,7 +111,7 @@ var setReorderVPcomplements = function(reorder){
 //// select a random element in a list useful to have some variety in the generated text
 //  if the first argument is a list, selection is done within the list
 //  otherwise the selection is among the arguments 
-//   (if the selected element is a function, evaluate it with no parameter)
+//  if the selected element is a function, evaluate it with no parameter
 var oneOf = function(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
@@ -125,5 +125,5 @@ var True  = true;
 var None  = null;
 
 // version and date informations
-var jsRealB_version="4.1";
+var jsRealB_version="4.2";
 var jsRealB_dateCreated=new Date(); // might be changed by the makefile 

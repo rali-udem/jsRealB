@@ -93,7 +93,7 @@ Constituent.prototype.getFromPath = function(path){
     const current=path.shift();
     const c=this.getConst(current);
     if (c===undefined){
-        if (typeof current == "object" && current.indexOf("")>=0 && path.length>0){// optional
+        if (typeof current == "object" && current.includes("") && path.length>0){// optional
             return this.getFromPath(path);
         }
         return undefined;
@@ -144,7 +144,7 @@ Constituent.prototype.addOptSource = function(optionName,val){
 function genOptionFunc(option,validVals,allowedConsts,optionName){
     Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
-            if (validVals !== undefined && validVals.indexOf("")<0){
+            if (validVals !== undefined && !validVals.includes("")){
                 return this.warn("no value for option",option,validVals);
             }
             val=null;
@@ -161,7 +161,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             return this;
         }
         if (allowedConsts.length==0 || this.isA(allowedConsts) || this.isA(deprels)) {
-            if (validVals !== undefined && validVals.indexOf(val)<0){
+            if (validVals !== undefined && !validVals.includes(val)){
                 return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
@@ -241,7 +241,7 @@ Constituent.prototype.dOpt = function(dOptions){
         const keys=Object.keys(dOptions);
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i];
-            if (allowedKeys.indexOf(key)>=0){
+            if (allowedKeys.includes(key)){
                 const val = dOptions[key];
                 if (key == "rtime"){
                     if (typeof val=="boolean"){
@@ -268,7 +268,7 @@ Constituent.prototype.dOpt = function(dOptions){
         const keys=Object.keys(dOptions);
         for (let i = 0; i < keys.length; i++) {
             const key = keys[i];
-            if (allowedKeys.indexOf(key)>=0){
+            if (allowedKeys.includes(key)){
                 const val = dOptions[key]
                 if (key=="mprecision"){
                     if (typeof val == "number"){

@@ -151,8 +151,8 @@ Terminal.prototype.toJSON = function(){
 function ppJSON(obj,level,str){
     function out(s){str+=s}
     function outQuoted(s){
-        if (s.indexOf('\\')>=0)s=s.replace(/\\/g,'\\\\');
-        if (s.indexOf('"' )>=0)s=s.replace(/"/g,'\\"');
+        if (s.includes('\\'))s=s.replace(/\\/g,'\\\\');
+        if (s.includes('"' ))s=s.replace(/"/g,'\\"');
         out('"'+s+'"');
     }
     switch (arguments.length) {

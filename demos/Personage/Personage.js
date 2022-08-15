@@ -19,7 +19,7 @@ if (typeof module !== 'undefined' && module.exports) {    //  load jsRealB
             eval(v+"=jsRealB."+v);
 }
 
-const allPlaces=["place","venue","establishment","restaurant"];
+const allPlaces = ["place","venue","establishment","location"]; // a commonplace name
 //// list fields of the meaning representation with a default ordering
 const mr_fields = ['name', 'eatType', 'customerRating', 'area', 'near', 'familyFriendly', 'food', 'priceRange']
 
@@ -94,16 +94,16 @@ const nears = ["Crowne Plaza Hotel", "Burger King", "Rainbow Vegetarian Café", 
 function area(infos){
     const area_value=infos["area"]
     let location;
-    if (area_value=="riverside"){
+    if (area_value=="riverside"){  // => is on the riverside
         location = oneOf(()=>comp(P("on"),
                                   comp(N("riverside"),
                                   det(D("the")))),
-                         ()=>comp(P("in"),
+                         ()=>comp(P("in"), // => in the riverside area
                                   comp(N("riverside"),
                                        mod(N("area")),
                                        det(D("the")))))
     } else 
-        location = comp(P("in"),
+        location = comp(P("in"), // => in the city centre
                          comp(N("city"),
                               det(D("the")),
                               mod(N("centre"))));
@@ -118,14 +118,14 @@ function find_synonym(word,synonyms_list){
     return word;
 }
 
-function customerRating(infos){
+function customerRating(infos){ 
     const cr_value = find_synonym(infos["customerRating"],attribute_lexicalizations["ratings"]);
     const customer = oneOf(N("customer"),Q(""));
-    const ratingExpr = oneOf(()=>comp(customer,
+    const ratingExpr = oneOf(()=>comp(customer, // => has a cr_value customer rating
                                       det(D("a")),
                                       mod(A(cr_value)),
                                       mod(N("rating"))),
-                             ()=>comp(customer,
+                             ()=>comp(customer,// => has a customer? rating of cr_value
                                       det(D("a")),
                                       mod(N("rating")),
                                       comp(P("of"),
@@ -133,20 +133,20 @@ function customerRating(infos){
     return root(V("have"),ratingExpr)
 }
 
-function eatType(infos){
+function eatType(infos){ // => is a eatType
     const eat_value = infos["eatType"]
     return root(V("be"),comp(N(eat_value),
                              det(D("a"))))
 }
 
-function familyFriendly(infos){
-    const ff_value = infos["familyFriendly"];
+function familyFriendly(infos){  // => is not? family|kid friendly
+    const ff_value = infos["familyFriendly"]=="yes";
     return root(V("be"),
                 comp(oneOf(N("family").lier(),N("kid")),
                      mod(A("friendly")).pos("post"))).typ({neg:!ff_value})
 }            
 
-function food(infos){
+function food(infos){    // => serves fast|French|Chinese... food
     let food_value=infos["food"]
     if (food_value=="fast food")food_value="fast";
     return root(V("serve"),
@@ -156,14 +156,14 @@ function food(infos){
 
 function near(infos){
     const near_value = infos["near"]
-    return root(V("be"),
+    return root(V("be"), // => is near near_value
                 comp(P("near"),
                      mod(Q(near_value))))
 }
 
 function priceRange(infos){
     let price_value = infos["priceRange"];
-    if (price_value.indexOf("-")>=0 ){
+    if (price_value.indexOf("-")>=0 ){ // => has prices in the price_value range
         return root(V("have"),
                  comp(N("price").n("p"),
                       det(D("a")),
@@ -173,11 +173,11 @@ function priceRange(infos){
                                 mod(N("pound").n("p"),
                                     det(Q(price_value)))))))
     }
-    if (price_value.startsWith("a"))
+    if (price_value.startsWith("a")) // => costs price_value 
         return root(V("cost"),
                     comp(Q(price_value)))
     price_value = find_synonym(price_value,attribute_lexicalizations["prices"]);
-    return root(V("be"),
+    return root(V("be"),  // => is price_value (with many synonyms) 
                 comp(A(price_value)))
 }
 
@@ -207,20 +207,17 @@ function create_dep(key,infos){
 
 // give initial information about the place, return a jsRealB expression
 function name_eatType(infos){
-    let res;
-    const qName=Q(infos["name"])
-    if ("eatType" in infos){
-        res=root(V("be"),
-                 subj(qName),
-                 comp(N(infos["eatType"]),
-                     det(D("a"))));
-    } else {
-        res=root(V("be"),
-                 subj(N(oneOf(allPlaces))),
-                 det(D("the")),
-                 comp(qName));
-    }
-    return res;
+    const qName=Q(infos["name"]); // create a terminal with the name verbatim
+    if ("eatType" in infos){  // => qName is a eatType
+        return root(V("be"),
+                    subj(qName),
+                    comp(N(infos["eatType"]),
+                        det(D("a"))));
+    } 
+    return root(V("be"),   // => The place|venue|... is qName
+                subj(N(oneOf(["place","venue","establishment","location"]))), // no eatType present, choose a commonplace name
+                det(D("the")),  //
+                comp(qName));
 }
 
 // simplest generator, after giving name and type, and then output each field separately using "it" as subject
@@ -228,7 +225,7 @@ function simple_generate(infos){
     let res=[name_eatType(infos)]; // build list of jsRealB expression
     for (let key of mr_fields.slice(2)) {
         if (key in infos)
-            res.push(create_dep(key,infos).add(subj(Pro("it").c("nom")),0));
+            res.push(create_dep(key,infos).add(subj(Pro("it").c("nom"))));
     }
     return res.map(e=>e.toString()).join(""); // realize each expression as a list
 }
