@@ -14,7 +14,8 @@
             "program": "${workspaceFolder}/demos/Personage/Personage.js",
             "runtimeArgs": [
                 "--no-deprecation"
-            ]
+            ],
+            "outputCapture": "std"
         },
         {
             "type": "chrome",

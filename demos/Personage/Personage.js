@@ -215,8 +215,8 @@ function name_eatType(infos){
                         det(D("a"))));
     } 
     return root(V("be"),   // => The place|venue|... is qName
-                subj(N(oneOf(["place","venue","establishment","location"]))), // no eatType present, choose a commonplace name
-                det(D("the")),  //
+                subj(N(oneOf(["place","venue","establishment","location"])), // no eatType present, choose a commonplace name
+                     det(D("the"))),
                 comp(qName));
 }
 
@@ -263,8 +263,10 @@ function contentPlanner(title,cp_params,infos,invert){
     if (isApplicable(cp_params.restatements,invert) || isApplicable(cp_params.repetitions,invert)){
         // as we do not handle paraphrase, we consider it as a repetition
         // repeat one field except for the last... that would appear twice in succession
-        const newField=oneOf(fields.slice(0,-1));
-        fields.push(newField);
+        if (fields.length>1) {
+            const newField=oneOf(fields.slice(0,-1));
+            fields.push(newField);
+        }
     }
 
     // TODO: deal with 
@@ -337,10 +339,11 @@ function contentPlanner(title,cp_params,infos,invert){
 }
 
 function syntacticTemplater(title,deps,fields,st_params,infos,invert){
-    // if (isApplicable(st_params.syntactic_complexity,invert)){
-        // shuffle and combine the fields into one or more lists of at most NB fields
+    let fss;
+    if (isApplicable(st_params.syntactic_complexity,invert)){
+        // combine the fields into one or more lists of at most NB fields
         const NB=3
-        let fss=[]
+        fss=[]
         while (fields.length>=NB){
             const l=Math.trunc(Math.random(NB)*NB)+1
             fss.push(fields.splice(0,l))
@@ -348,34 +351,36 @@ function syntacticTemplater(title,deps,fields,st_params,infos,invert){
         if (fields.length>0){
             fss.push(fields)
         }
-        // add simple formulations
-        for (fs of fss){
-            const it=subj(Pro("it").c("nom"));
-            if (fs.length==1){
-                deps.push(create_dep(fs[0],infos).add(it))
-            } else if (fs.length==2){
-                // coordinate only the dependents of similar verbs
-                const dep0=create_dep(fs[0],infos);
-                const dep1=create_dep(fs[1],infos);
-                if (dep0.terminal.lemma==dep1.terminal.lemma){
-                    deps.push(root(dep0.terminal,
-                                   it,
-                                   coord(C("and"),dep0.dependents,dep1.dependents)))
-                } else {
-                    deps.push(coord(C("and"),fs.map((f)=>create_dep(f,infos).add(it))))
-                }
+    } else { // return a list of simple dependencies
+        fss = fields.map(f=>[f])
+    }
+    // create dependencies
+    for (fs of fss){
+        const it=subj(Pro("it").c("nom"));
+        if (fs.length==1){ // simple sentence
+            deps.push(create_dep(fs[0],infos).add(it))
+        } else if (fs.length==2){
+            // coordinate only the dependents of similar verbs
+            const dep0=create_dep(fs[0],infos);
+            const dep1=create_dep(fs[1],infos);
+            if (dep0.terminal.lemma==dep1.terminal.lemma){
+                deps.push(root(dep0.terminal,
+                                it,
+                                coord(C("and"),dep0.dependents,dep1.dependents)))
             } else {
                 deps.push(coord(C("and"),fs.map((f)=>create_dep(f,infos).add(it))))
             }
+        } else {
+            deps.push(coord(C("and"),fs.map((f)=>create_dep(f,infos).add(it))))
         }
-    // }
+    }
     return deps
 }
 
 //  from Chapter 5 (figure 5.4, p 109)
 function recommendation(type,params,infos,invert){
     // define content plan using fields in the current data (given after ~~ )
-    //  corresponding roughly to values in the thesis
+    //  corresponding roughly to values used in the thesis
     //  best                        ~~ name+eatType
     //  justify     2: cuisine      ~~ food
     //              3: food-quality ~~ customerRating
@@ -408,13 +413,14 @@ function recommendation(type,params,infos,invert){
     return prg_deps.map(e => e.toString()).join("");
 } 
 
-function personalized_recommandation_log(params,infos){
-    console.log(infos["personality"])
-    console.log(showInfos(mr_fields,infos));
-    console.log("SPL:",simple_generate(infos));
-    console.log("GEN:",personalized_recommandation(params,infos["personality"],infos));
-    // console.log("REF:",infos["ref"]);
-    console.log("---");
+function personalized_recommandation_out(params,infos){
+    function out(v){process.stdout.write(v+"\n")}
+    out(infos["personality"])
+    out(showInfos(mr_fields,infos));
+    out("SPL:"+simple_generate(infos));
+    out("GEN:"+personalized_recommandation(params,infos["personality"],infos));
+    out("REF:"+infos["ref"]);
+    out("---");
 }
 
 
@@ -437,7 +443,7 @@ function personalized_recommandation(params,pers,infos){
     return Q("unknown personality")
 }
 
-function add_words(){
+function add_words_to_lexicon(){
     loadEn();
     addToLexicon({"coffee shop":{"N":{"tab":"n1"}}});
     addToLexicon("riverside",{"N": {"tab": "n1"}});
@@ -446,6 +452,7 @@ function add_words(){
     
     addToLexicon("horrendous",{"A": {"tab": "a1"}});
     addToLexicon("overpriced",{"A": {"tab": "a1"}});
+    addToLexicon("flavorful",{"A": {"tab": "a1"}});
 }
 
 function makeInfos(line){
@@ -461,6 +468,20 @@ function makeInfos(line){
     return infos;
 }
 
+const exampleInfos = {  // information attributes and values used in README.js
+    'name' : 'Loch Fyne',
+    'area': 'city centre',
+    'near': 'The Rice Boat',
+    'eatType': 'restaurant',
+    'familyFriendly': 'no',
+    'food': 'fast food',
+}
+
+// const debugInfos = {
+//     'name':'Strada',
+//     'eatType':'pub',
+//     'area':'city centre'
+// }
 
 ////  start of execution
 if (typeof module !== 'undefined' && module.exports) {
@@ -468,20 +489,24 @@ if (typeof module !== 'undefined' && module.exports) {
     let params=require("./generation_parameters");
     var apply_parameters = params.apply_parameters;
     let util=require("util");
-     add_words();
-    // console.log(util.inspect(params.extraversion));
-    let fs=require("fs");
-    dataFileName=require("path").resolve(__dirname,dataFileName)
-    // console.log(dataFileName);
-    const lines = fs.readFileSync(dataFileName,'utf-8').trim().split("\n")
-    setExceptionOnWarning(true);
+    add_words_to_lexicon();
     trace=false;  
-    let nb=0;
-    for (const line of lines.slice(0,100)) {
-        personalized_recommandation_log(params,makeInfos(line));
-        nb++;
+    let fs=require("fs");
+    if (true){ // generate the example used in README.md
+        for (pers of mr_values.personality){
+            console.log("%s | %s ",pers, personalized_recommandation(params,pers,exampleInfos));
+        }
+    } else {  // generate from data file
+        dataFileName=require("path").resolve(__dirname,dataFileName)
+        const lines = fs.readFileSync(dataFileName,'utf-8').trim().split("\n")
+        setExceptionOnWarning(true);
+        let nb=0;
+        for (const line of lines.slice(0,undefined)) {
+            personalized_recommandation_out(params,makeInfos(line));
+            nb++;
+        }
+        console.log("%d meaning representations processed",nb)
     }
-    console.log("%d meaning representations processed",nb)
 } else {  // for execution in a web page
     // to debug from Visual Code Studio 
     //   start a web server in the jsRealB directory
@@ -495,7 +520,7 @@ if (typeof module !== 'undefined' && module.exports) {
         $corpus.change(changeCorpus);
         changeCorpus();
         createSearch(mrRefs)
-        add_words();
+        add_words_to_lexicon();
         createFields(mr_values);
     })
 }

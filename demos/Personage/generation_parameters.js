@@ -49,7 +49,7 @@ function ContentPlanning(params = {}) {
 function SyntacticTemplateSelection(params = {}) {
     this.self_references = null;      // C: Control the number of first person pronouns
     this.syntactic_complexity = null; // C: Control the syntactic complexity (syntactic embedding)
-    this.template_polarity = null;    // C: Control the connotation of the claim, i.e., whether positive or negative affect is expressing
+    this.template_polarity = null;    // C: Control the connotation of the claim, i.e., whether positive or negative affect is expressed
     Object.assign(this,params)   // change fields to corresponding values given as parameters
 }
 
@@ -58,22 +58,22 @@ function SyntacticTemplateSelection(params = {}) {
 // combine two jsRealB depessions dep(V(),...) into a single one
 
 // helper functions
-function isV(dep){
+function headIsV(dep){
     return dep.terminal.isA("V")
 }
 
 //  return V within a VP
 function v(dep){ 
-    if (isV(dep)){
+    if (headIsV(dep)){
         return dep.terminal
     } else {
         console.warn("v:strange dep: %s",dep.toSource())
     }
 }
 
-// return attribute (or object) with a VP
-function att(dep){
-    if (isV(dep)){
+// return the object of a dependency
+function obj(dep){
+    if (headIsV(dep)){
         const idx=dep.findIndex((d)=>d.isA(["comp","mod"]));
         if (idx>=0)
             return dep.dependents[idx];
@@ -84,20 +84,20 @@ function att(dep){
     }
 }
 
-//  add a cue_word between two VPs, taking care of not repeating the same verb
+//  add a cue_word between two depencies, taking care of not repeating the same verb
 function cue_word(cue, dep1, dep2) {
-    if (isV(dep1) && isV(dep2)){
-        if (v(dep1).lemma==v(dep2).lemma)
-            return dep1.add(comp(cue,att(dep2)));
-        else if (dep1.constType == dep2.consType)
-            return coord(cue,dep1,dep2);
+    if (headIsV(dep1) && headIsV(dep2)){  // both dependencies have a V as head
+        if (v(dep1).lemma==v(dep2).lemma)    // both head have the same lemma
+            return dep1.add(comp(cue,obj(dep2))); // add a complement with the cue before the second object
+        else if (dep1.constType == dep2.consType) // both dependencies are of the same type
+            return coord(cue,dep1,dep2);   // coordinate both with the cue
         else
-            return dep1.add(comp(cue,dep2))
+            return dep1.add(comp(cue,dep2)) // add the cue before the second dependency
     }
 }
 
 ///// Aggregation functions 
-// combine two VPs to create a new VP
+// combine two dependencies to create a new one
 // return undefined when nothing can be done...
 function period(dep1, dep2) {
     // Leave two propositions in their own sentences
@@ -106,8 +106,13 @@ function period(dep1, dep2) {
 
 function relative_clause(dep1, dep2) {
     // Aggregate propositions with a relative clause
-    if (isV(dep1))
-        return dep1.a(",").add(comp(Pro("which"),dep2))
+    if (headIsV(dep1)){
+        // remove subject from dep2 if any
+        const newDep = dep2.clone();
+        const idx = newDep.findIndex(d=>d.isA("subj"));
+        if (idx>=0) newDep.dependents.splice(idx,1);
+        return dep1.add(comp(Pro("which"),newDep))
+    }
 }
 
 function with_cue_word(dep1, dep2) {
@@ -131,9 +136,9 @@ function conjunction(conj, dep1, dep2) {
 function merge(dep1, dep2) {
     // Merge the subject and verb of two propositions
     // find the object of dep2 and add it to the end of dep1
-    if (isV(dep1) && isV(dep2))
+    if (headIsV(dep1) && headIsV(dep2))
         if (v(dep1).lemma==v(dep2).lemma)
-            return comp(v(dep1), coord(C("and"),att(dep1), att(dep2)))
+            return comp(v(dep1), coord(C("and"),obj(dep1), obj(dep2)))
 }
 
 function also_cue_word(dep1, dep2) {
@@ -155,34 +160,32 @@ function concede_cue_word(dep1, dep2) {
     // Concede a proposition using although, even if, but/though,
     const conj = oneOf(C("although"), Q("even if"), C("but"), C("though"))
     if (Math.random() < 0.5)
-        // return S(dep1.a(","), SP(conj, dep2))
         return coord(dep1.a(","),dep2)
     else
-        // return S(SP(conj, dep1).a(","), dep2)
         return root(comp(conj,dep1.a(","),dep2))
 }
 
 function merge_with_comma(dep1, dep2) {
     // Merge the subject and verb of two propositions
     // find the object of dep2 and add it to the end of dep1
-    if (isV(dep1) && isV(dep2))
+    if (headIsV(dep1) && headIsV(dep2))
         if (v(dep1).lemma==v(dep2).lemma)
-            return root(v(dep1), coord(att(dep1), att(dep2)))
+            return root(v(dep1), coord(obj(dep1), obj(dep2)))
 }
 
 ///  special aggregation function that modifies only one VP
 function object_ellipsis(dep) {
     // Restate a proposition after replacing its object by an ellipsis, 
     //   e.g.,  ‘Chanpen Thai has … , it has great service’
-    if (isV(dep))
+    if (headIsV(dep))
         return root(v(dep).add(Q("… ")).a(","), 
                     comp(Pro("it").c("nom"),
                          dep))
 }
 
 ///// Pragmatic markers 
-//  Pragmatic marker insertion: insert various markers by transforming the utterance's syntactic representation; (p 82)
-//  takes a jsRealB expression and returns a transformed expression when it can be applied, 
+//  Pragmatic marker insertion of various markers by transforming the utterance's syntactic representation; (p 82)
+//  takes a dependency and returns its transformation when it can be applied, 
 //   otherwise returns undefined
 function subject_implicitness(dep) {
     // TODO: Make the restaurant implicit by moving the attribute to the subject, e.g., ‘the service is great’
@@ -203,26 +206,24 @@ function negation(dep) {
 
 //  Helper
 function hedges(dep, hdg) {
-    if (isV(dep)){
+    if (headIsV(dep)){
         dep.add(det(hdg),0)
     }
 }
 
 function softener_hedges(dep) {
-    //  Insert syntactic elements (sort of, kind of, somewhat, quite, around, rather, 
-    //                             I think that, it seems that, it seems to me that) 
     //  to mitigate the strength of a proposition  
     return hedges(dep, oneOf(Q("sort of"), Q("kind of"), Adv("quite"), Adv("around"), Adv("rather"),
         Q("I think that"), Q("it seems to me that"), Q("it seems to me that")))
 }
 
-function soft_hedges(dep){
-    return hedges(dep,oneOf(Q("kind of"), Q("like")))
-}
-
 function emphasizer_hedges(dep) {
     // Insert syntactic elements (really, basically, actually, just) to strengthen a proposition,
     return hedges(dep, oneOf(Adv("really"), Adv("basically"), Adv("actually"), A("just")))
+}
+
+function soft_hedges(dep){
+    return hedges(dep,oneOf(Q("kind of"), Q("like")))
 }
 
 function acknowledgements(dep) {
@@ -231,7 +232,7 @@ function acknowledgements(dep) {
 }
 
 function filled_pauses(dep){
-    // Insert syntactic elements depessing hesitancy 
+    // Insert syntactic elements expressing hesitancy 
     let bef = oneOf("I mean", "err", "mmhm")+" "
     let aft = ", "+oneOf("like. ", "you know. ")
     return dep.b(bef).a(aft)
@@ -253,8 +254,7 @@ function near_expletives(dep) {
 }
 
 function tag_question(dep) {
-    // Insert a tag question
-    if (isV(dep) && v(dep).getProp("t")=="p")
+    if (headIsV(dep) && v(dep).getProp("t")=="p")
         return dep.typ({ "int": "tag" })
 }
 
@@ -262,6 +262,9 @@ function in_group_marker(dep) {
     // Refer to the hearer as a member of the same social group,
     return dep.a(", "+oneOf("pal", "mate", "buddy"))
 }
+
+//////////////////
+///    Definitions of the big five personality type 
 
 const high = 0.9, low = 0.1;
 //  Extraverts tend to engage in social interaction, they are enthusiastic, risk-taking, talkative and assertive,
