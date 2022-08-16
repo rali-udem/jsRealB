@@ -11,7 +11,7 @@ S(Pro("je").pe(1),
 const dependencyFr= `var dest=comp(N("monde"),det(D("le")));
 root(V("dire"),
      subj(Pro("je").pe(1)),
-     comp(Q("bonjour")),
+     comp("bonjour"),
      comp(P("à"),
           dest.tag("b")))
 `;
@@ -30,7 +30,7 @@ S(Pro("I").pe(1),
 const dependencyEn=`var dest=comp(N("world"),det(D("the")));
 root(V("say"),
      subj(Pro("I").pe(1)),
-     comp(Q("hello")),
+     comp("hello"),
      comp(P("to"),
           dest.tag("b")))
 `;
@@ -53,7 +53,7 @@ var dest=comp(N("monde"),det(D("le")));
 loadEn();
 root(V("say"),
      subj(Pro("I").pe(1)),
-     comp(Q("hello")),
+     comp("hello"),
      comp(P("to"),
           dest.tag("b")))
 `;

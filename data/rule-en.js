@@ -3117,7 +3117,8 @@ var ruleEn = //========== rule-en.js
                 "how": "how",
                 "whn": "when",
                 "why": "why",
-                "muc": "how much"
+                "muc": "how much",
+                "tag": "",
             },
             "future": "will"
         },

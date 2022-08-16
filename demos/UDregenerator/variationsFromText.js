@@ -136,7 +136,7 @@ function generateQuestions(jsr){
     // object complement 
     let idx=-1;
     do {
-        idx=jsr.findIndex(d=>d.isOneOf(["comp","mod"]),idx+1);
+        idx=jsr.findIndex(d=>d.isA(["comp","mod"]),idx+1);
         if (idx>=0){
             const dep=jsr.dependents[idx];
             // ignore complements coming before the verb
@@ -172,7 +172,7 @@ function generate(conlluFile){
     // UDregenerator execution
     uds=UDregenerator.parseUDs(conlluFile);
     uds.forEach(function (ud,i){
-        if (ud.text.length>=80)return; // for the moment only deal with short sentences (less than 80 characters)
+        // if (ud.text.length>=80)return; // for the moment only deal with short sentences (less than 80 characters)
         const text=ud.text;
         console.log(fmt, "id  ",ud.sent_id);
         console.log(fmt, "text",text);

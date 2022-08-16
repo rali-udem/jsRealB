@@ -46,6 +46,8 @@ function conjuguer(verbe, lang,typs){
             [["Present","p"]],
             [["Simple past","ps"]],
             [["Future","f"]],
+            [["Conditional","c"]],
+            [["Imperative","ip"]]
         ]
     }
     $("#tableau").append(`<h1>${titleConj[language]} <i>${verbe}</i></h1>`);
@@ -110,7 +112,8 @@ function decliner(mot,lang){
     if (lang=="fr") loadFr(); else loadEn();
     const entry=getLemma(mot);
     if (entry === undefined){
-        $("#messErreur")[0].innerHTML=mot+":n'appartient pas au lexique, désolé.";
+        $("#messErreur")[0].innerHTML=mot+" : "+
+             (lang=="fr"?"n'appartient pas au lexique, désolé.":"is not in the lexicon, sorry.");
         $("#messErreur").css('color','red');
         return
     }

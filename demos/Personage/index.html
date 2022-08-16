@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+<!-- to ease debugging we load each file separately -/->
+    <script src="../../data/lexicon-fr.js"></script>
+    <script src="../../data/rule-fr.js"></script>
+    <script src="../../data/lexicon-en.js"></script>
+    <script src="../../data/rule-en.js"></script>
+    <script src="../../build/Utils.js"></script>
+    <script src="../../build/Constituent.js"></script>
+    <script src="../../build/Phrase.js"></script>
+    <script src="../../build/Terminal.js"></script>
+    <script src="../../build/Dependent.js"></script>
+    <script src="../../build/Number.js"></script>
+    <script src="../../build/Warnings.js"></script>
+<!-/- end of separate loading -->
+    <script src="Personage.js"></script>
+    <script src="generation_parameters.js"></script>
+    <script src="Personage-gui.js""></script>
+    <link rel="stylesheet" href="Personage.css">
+    <title>Personage demo</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h1>Text generation with <i><a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits">Big Five</a> personality-based user adaptation</i></h1>
+    <p>A <a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> 
+        adaptation of the ideas put forward in 
+        <i>Towards personality-based user adaptation: psychologically informed stylistic language generation</i>, by
+        F. Mairesse and M. A. Walker, User Modeling and User-Adapted Interaction, 20(3):227–278, 2010. 
+        [<a href="README.md">More details about the implementation</a>]
+    </p>
+    <!-- <p>Unfortunately, the <a href="https://nlds.soe.ucsc.edu/stylistic-variation-nlg">available data</a>,
+        found in the <a href="https://aclweb.org/aclwiki/Data_sets_for_NLG#Personage_Stylistic_Variation_for_NLG"><i>SIGGEN 
+            Datasets for NLG</i> page</a>,
+        only deals with a subset of the 5 traits (<i>agree</i>, <i>consc</i>, <i>extra</i>) and the paper is not 
+        explicit about the formulations used for each trait. Some were then determined by looking 
+        at the training data and others taken from the <a href="../e2eChallenge/index.html">e2eChallenge demo</a>.
+        We also looked at the <a href="http://farm2.user.srcf.net-research-personage-personage-0.13.tar.gz">source code of the original program</a>, but we could not manage to run the version
+        that created the data which was originally designed to develop text generators using learning algorithms. 
+        In our case, we use a rule-based approach with some random choices to provide variations.
+    </p> -->
+    <h2>Dataset : <select name="corpus" id="corpus">
+        <option value="train">training</option>
+        <option value="test" selected="selected">test</option>
+    </select></h2>
+    <table id="fields"></table>
+    <div id="search">
+        
+    </div>
+    <p style="font-size:small">Click on a sentence to select one for realization by <code>jsRealB</code> while setting 
+            the values of its attributes in the field menus. <i>Search</i> can then be done with these values.</p>
+    <div id="sentences"></div>
+    <p> Corpus sentences: <span id="nbSent"></span></p>
+    <h2><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" 
+           title="jsRealB: a bilingual text realiser for web programming | RALI">jsRealB</a> realizations for the selected sentence</h2>
+    <table id="jsrPersonality"></table>
+    <footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a></footer>
+</body>
+</html>

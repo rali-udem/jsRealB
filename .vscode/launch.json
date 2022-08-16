@@ -1,0 +1,33 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Personage/Personage.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/demos/Personage/Personage.js",
+            "runtimeArgs": [
+                "--no-deprecation"
+            ],
+            "outputCapture": "std"
+        },
+        {
+            "type": "chrome",
+            "name": "Personage/index.html",
+            "request": "launch",
+            "url": "http://0.0.0.0:8000/demos/Personage/index.html"
+        },
+        {
+            "type": "chrome",
+            "name": "Tests/testAll.html",
+            "request": "launch",
+            "url": "http://0.0.0.0:8000/Tests/testAll.html"
+        }
+    ]
+}

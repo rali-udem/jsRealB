@@ -237,6 +237,12 @@ var exemplesFr=[
            NP(D('le'),
               N('fromage')))).typ({int:"yon"}),
      "A-t-il mangé le fromage? "],
+    // question tag
+     [S(Pro("je"),  // 59
+        VP(V('manger').t("pc"),
+           NP(D('le'),
+              N('fromage')))).typ({int:"tag"}),
+     "Il a mangé le fromage, n'est-ce pas? "],
 ];
 
 //  exemples en anglais
@@ -331,7 +337,23 @@ var exemplesEn=[
          NP(D("this").n("s"),    // check propagation of the number (this should not be these)
             N("addition").n("s"))),
        "The largest of the trainers, this addition. ",
-       "Peculiar structure of constituents for which the dependents are not strickly equivalent "]
+       "Peculiar structure of constituents for which the dependents are not strickly equivalent "],
+       // question tag
+      [S(Pro("him").c("nom"),                          // 24
+         VP(V("eat"),
+            NP(D("a"),N("apple").n("p")).tag("em")
+       )).typ({int:"tag"}),
+       "He eats <em>apples</em>, doesn't he? "],
+      [S(Pro("him").c("nom"),                          // 25
+         VP(V("eat"),
+            NP(D("a"),N("apple").n("p")).tag("em")
+       )).typ({neg:true,int:"tag"}),
+       "He does not eat <em>apples</em>, does he? "],
+      [S(Pro("him").c("nom"),                          // 26
+         VP(V("eat").t("f"),
+            NP(D("a"),N("apple").n("p")).tag("em")
+       )).typ({int:"tag"}),
+       "He will eat <em>apples</em>, won't he? "],
 ];
 
 // dépendances en français
@@ -544,8 +566,11 @@ var dependenciesEn=[
     [root(V("applaud").t("f"),
           compObj(Pro("this"))).typ({"mod":"nece","pas":true}),"This shall be applauded. "],// 11
     [root(V("remember"),
-          subj(Pro("you"))).typ({"int":"yon"}),"Do you remember? "],// 11
-    
+          subj(Pro("you"))).typ({"int":"yon"}),"Do you remember? "], // 12
+    [root(V('eat'),                                                 // 13
+          comp(N('apple').n("p"),det(D('a'))).tag("em"),
+          subj(N("man"),det(D("the")))).typ({"neg":false,"int":"tag"}),
+     "The man eats <em>apples</em>, doesn't he? "],
 ];
    
 function showEx(exemple){
@@ -642,6 +667,10 @@ function show(struct){
     monospace(struct.toSource(0))
 }
 
+function showD(struct){
+    monospace(struct.toDebug(0))
+}
+
 function showAsDep(struct){
     show(struct.toDependent())
 }
@@ -662,4 +691,4 @@ checkAllExDep("exempleEnDep",exemplesEn);
 // checkAllExJSON("exemplesEn",exemplesEn);
 checkAllEx("dependenciesEn",dependenciesEn)
 
-loadFr(true);
+loadEn(true);

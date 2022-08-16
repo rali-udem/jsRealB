@@ -1,0 +1,20 @@
+body{font-family: Arial, "MS Trebuchet", sans-serif;}
+#sentences {
+    cursor: pointer;
+    height:300px;
+    overflow: auto;
+    border: 1px solid blue;
+    padding:2px;
+}
+#sentences td, #jsrPersonality td, #name, #near{
+    border: thin solid black;
+    padding:2px;
+}
+#search {
+    padding-bottom: 10px;
+}
+footer {
+    margin-top: 20px;
+}
+.current{background-color: yellow;}
+

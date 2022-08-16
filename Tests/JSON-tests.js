@@ -6,7 +6,7 @@ QUnit.test( "JSON-tests", function( assert ) {
                    PP(P("on"),
                       NP(D("the"),N("mat"))))).typ({neg:true})
     const expSent=exp.clone().toString();
-    assert.equal(expSent,"The cats did not sit on the mat.","original sentence built using Phrase")
+    assert.equal(expSent,"The cats did not sit on the mat. ","original sentence built using Phrase")
     const expJSON=exp.toJSON();
     assert.equal(ppJSON(expJSON),
 `{"phrase":"S",
@@ -39,7 +39,7 @@ QUnit.test( "JSON-tests", function( assert ) {
                         mod(N("mat"),
                             det(D("the"))))).typ({neg:true})
     const depSent=dep.clone().toString();
-    assert.equal(depSent,"The cats will not sit on the mat.","original sentence built using Depeendent")
+    assert.equal(depSent,"The cats will not sit on the mat. ","original sentence built using Depeendent")
     const depJSON=dep.toJSON();
     assert.equal(ppJSON(depJSON),
 `{"dependent":"root",
