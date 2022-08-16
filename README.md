@@ -125,7 +125,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)
 
 ###  Data to Text applications
-* **`jsRealB` for the [E2E Challenge](http://www.macs.hw.ac.uk/InteractionLab/E2E/ "E2E NLG Challenge")** : browser for the datasets (training, development and test) used in the *End to End Generation Challenge* (2017-2018). The page also shows the English and French output produced by a "rule-based" generator using `jsRealB` for a selection of feature values. There is also a short description of the implementation of the realiser. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/e2eChallenge/index.html)
+* **`jsRealB` for the [E2E Challenge](http://www.macs.hw.ac.uk/InteractionLab/E2E/ "E2E NLG Challenge")** : browser for the datasets (training, development and test) used in the *End to End Generation Challenge* (2017-2018). The page also shows the English and French output produced by a "rule-based" generator using `jsRealB` for a selection of feature values. There is also a short description of the implementation of the realizer. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/e2eChallenge/index.html)
 * **_Personalized_ descriptions of restaurants** : how _**jsRealB**_ can be used for varying the linguistic style of the generated text according to a user profile defined as one of the [Big Five](https://en.wikipedia.org/wiki/Big_Five_personality_traits) model of personality. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/Personage/index.html)
 * **Description (in French) of a list of events** and associated informations given as a json file [Événements](demos/Evenements) [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evenements/index.html)
 * **Description of list of steps for the building of a house**, given information about tasks, the duration and the precedence relations between them. 
@@ -141,7 +141,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     <!-- ![Screen copy of the application](Tutorial/metro.jpg "Finding a path in the metro") -->
     <img src="Tutorial/metro.jpg" width="800"/>
     
-    The langage of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/metro.html)
+    The language of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/metro.html)
 * **Weather bulletin generation in English and French**. An example of use of the Python API for **jsRealB**. Taking weather information in JSON, it generates bulletin in both English and French. [This tutorial describes the organization of the system](http://rali.iro.umontreal.ca/JSrealB/current/demos/Weather/Bulletin-generation.html) which shows how **jsRealB** can be used in a real-life situation in conjunction with Python for data manipulation.
 
 ### Test demos
@@ -162,6 +162,6 @@ jsRealB was updated, developed and brought to its current version by [Guy Lapalm
 
 1. [Francis Gauthier](http://www-etud.iro.umontreal.ca/~gauthif) as part of his summer internship at RALI in 2016; 
 2. [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal in 2015;
-3. [Nicolas Daoust](mailto:n@daou.st) developed the original concept in the JSreal realizer for French only in 2013.
+3. [Nicolas Daoust](mailto:n@daou.st) developed the original concept in the _JSreal_ realizer for French only in 2013.
 
 For more information, contact [Guy Lapalme](http://rali.iro.umontreal.ca/lapalme).      
