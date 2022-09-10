@@ -28,7 +28,6 @@ function Dependent(params,deprel,lang){ // lang parameter used calls in IO-json.
     this.peng=this.terminal.peng;
     if (this.terminal.isA("V"))this.taux=this.terminal.taux;
     params=_elems(params) // _elems is defined in Phrase to remove "null" and flatten lists
-    // params=params.filter(e=>e!=undefined && e!=null) // remove "null" dependents
     // list of dependents to create the source of the parameters at the time of the call
     // this can be different from the dependent lists because of structure modifications
     this.dependentsSource=[]
@@ -620,27 +619,27 @@ Dependent.prototype.processTypInt = function(types){
             }
             let subjIdx=this.findIndex((d)=>d.isA("subj"))
             if (subjIdx>=0){
-                const subj=this.dependents[subjIdx].terminal;
-                if (subj.isA("Pro")){
-                    if (subj.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
+                const subject=this.dependents[subjIdx].terminal;
+                if (subject.isA("Pro")){
+                    if (subject.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
                         // very special case : I am => aren't I
                         pe=2
-                    } else if (["this","that","nothing"].includes(subj.lemma)){
+                    } else if (["this","that","nothing"].includes(subject.lemma)){
                         pro=Pro("I").g("n") // it
                     } else if (["somebody","anybody","nobody","everybody",
-                                "someone","anyone","everyone"].includes(subj.lemma)){
+                                "someone","anyone","everyone"].includes(subject.lemma)){
                         pro=Pro("I").n("p"); // they
-                        if (subj.lemma=="nobody")neg=true;                     
+                        if (subject.lemma=="nobody")neg=true;                     
                     } else 
-                        pro=subj.clone();
-                    pro=comp(pro)
-                } else if (subj.isA("N")){
+                        pro=subject.clone();
+                    pro=subj(pro).pos("post")
+                } else if (subject.isA("N")){
                     pro=this.dependents[subjIdx].clone().pro().pos("post")
                 } else {
-                    pro=comp(Pro("it").c("nom"))
+                    pro=subj(Pro("it").c("nom")).pos("post")
                 }
             } else { // no subject found, so generate 
-                pro=comp(pro)
+                pro=subj(pro).pos("post")
             }
             let iDeps=this.dependents.length-1
             while(iDeps>=0 && this.dependents[iDeps].depPosition()!="post")iDeps--;
@@ -964,15 +963,10 @@ Terminal.prototype.toDependent = function(depName){
 // functions for creating Dependents
 
 function root(_){ return new Dependent(Array.from(arguments),"root"); };
-
 function subj(_){ return new Dependent(Array.from(arguments),"subj"); }
 function det(_) { return new Dependent(Array.from(arguments),"det"); }
 function mod(_) { return new Dependent(Array.from(arguments),"mod"); }
-
 function comp(_){ return new Dependent(Array.from(arguments),"comp"); }
-function compObj(_){ return new Dependent(Array.from(arguments),"comp"); }
-function compObl(_){ return new Dependent(Array.from(arguments),"comp"); }
-
 function coord(_){ return new Dependent(Array.from(arguments),"coord"); }
 
 var deprels = ["root","subj","det","mod","comp","coord"] // list of implemented dependency relations

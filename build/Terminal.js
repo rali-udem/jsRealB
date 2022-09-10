@@ -464,12 +464,12 @@ Terminal.prototype.conjugate_fr = function(){
             }
         }
         aux.taux["t"]=tempsAux;
-        aux.realization=aux+"";  // realize the auxiliary using jsReealB!!!
+        aux.realization=aux.realize();  // realize the auxiliary using jsRealB!!!
         // change this verb to pp
         this.setProp("g",g);
         this.setProp("n",n);
         this.setProp("t","pp");
-        this.realization=this+"";    // realize the pp using jsRealB!
+        this.realization=this.realize();    // realize the pp using jsRealB!
         //  check special cases
         if (this.neg2 !== undefined) {
             aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 
@@ -551,10 +551,11 @@ Terminal.prototype.conjugate_fr = function(){
                 }
                 if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
                     let g=this.getProp("g");
-                    if (g=="x")g="m";
+                    if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
                     let n=this.getProp("n");
                     if (n=="x")n="s";
-                    this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[g+n]
+                    if ((g+n)!="mp" || !this.realization.endsWith("s")) // pas d'ajout de s au masculin pluriel si termine en s
+                        this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[g+n]
                 }
                 return res;
             default:

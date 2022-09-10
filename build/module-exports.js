@@ -29,8 +29,6 @@ exports.subj=subj;
 exports.det=det;
 exports.mod=mod;
 exports.comp=comp;
-exports.compObj=compObj;
-exports.compObl=compObl;
 exports.coord=coord;
 exports.Dependent=Dependent;
 

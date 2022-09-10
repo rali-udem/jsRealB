@@ -477,7 +477,7 @@ Constituent.prototype.doElisionFr = function(cList){
             cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
             i++;
         } else if (euphonieFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)&& w3NoWords){ // euphonie
-            if (/ce/i.exec(w1) && /(^est$)|(^étai)/.exec(w2)){
+            if (/^ce$/i.exec(w1) && /(^est$)|(^étai)|(^a$)/.exec(w2)){
                 // very special case but very frequent
                 cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
             } else {
@@ -653,10 +653,16 @@ Constituent.prototype.detokenize = function(terminals){
 //           of the whole realization process
 // produce a string from a list of realization fields in the list of terminal
 //   created by .real(), applies elision if it is the top element
-Constituent.prototype.toString = function() {
+Constituent.prototype.realize = function() {
     // sets the realization field in each Terminal
     const terminals=this.real(); 
     return this.detokenize(terminals);
+}
+
+Constituent.debug=false;
+
+Constituent.prototype.toString = function(){
+    return Constituent.debug?this.toSource():this.realize();
 }
 
 Constituent.prototype.clone = function(){

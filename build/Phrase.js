@@ -969,12 +969,15 @@ Phrase.prototype.processInt = function(types){
                     }
                     currV.parentConst.a(","); // add comma to parent of the verb
                     //   this is a nice illustration of jsRealB using itself for realization
+                    let vp;
                     if (aux=="have" && !neg){ 
                         // special case because it should be realized as "have not" instead of "does not have" 
-                        this.addElement(VP(V("have").t(t).pe(pe).n(n),Adv("not"),pro).typ({"contr":true}))
+                        vp=VP(V("have").t(t).pe(pe).n(n),Adv("not"),pro).typ({"contr":true})
                     } else { // use jsRealB itself for realizing the tag by adding a new VP
-                        this.addElement(VP(V(aux).t(t).pe(pe).n(n),pro).typ({"neg":!neg,"contr":true}))
+                        vp=VP(V(aux).t(t).pe(pe).n(n),pro).typ({"neg":!neg,"contr":true});
                     }
+                    pro.peng=vp.peng;  // ensure that the head of the vp is the pronoun for pronominalize_en
+                    this.addElement(vp);
                 }
             }
             prefix=intPrefix[int];

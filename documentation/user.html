@@ -51,8 +51,7 @@
                 <code>Pro</code> ou <code>CP</code>. Si le <code>Pro</code> est un pronom relatif, le <em>sujet</em> de la subordonnée est utilisé. Des tests spécifiques permettent d'accorder le verbe <code>être/be</code> ainsi que pour tenir compte des sujets coordonnés.</li>
         </ul>
         <p>Des options (section suivante) spécifiant le genre et le nombre l'emportent sur ces accords automatiques.</p>
-		<p>Lors d'un appel à un constructeur de syntagme (e.g. <code>S, VP, NP</code>, ...), les paramètres ayant valeur <code>null</code> ou <code>undefined</code> sont ignorés, 
-ce qui peut simplifier les appels lors de paramètres optionnels.</p>
+		<p>Lors d'un appel à un constructeur de syntagme (e.g. <code>S, VP, NP</code>, ...), les paramètres ayant valeur <code>null</code> ou <code>undefined</code> sont ignorés. Les listes de paramètres sont <em>aplaties</em> pour être intégrées à l'appel. Cette convention est utile lors de la construction d'appels par programme.</p>
     </div>
 
     <div lang="en">
@@ -65,8 +64,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
                 <code>Pro</code> or <code>CP</code>. If the <code>Pro</code> is a relative pronoun, the <em>subject</em> of the subordinate is taken. Specific tests take into account the verbs <code>être/be</code> and the coordinate subjects.</li>
         </ul>
         <p>Options (next section) can override these automatic agreements.</p>
-		<p>When calling a phrase constructor (e.g. <code>S, VP, NP</code>, ...), parameters having value <code>null</code> or <code>undefined</code> are ignored. 
-		This can be convenient for dealing with optional parameters.</p>
+		<p>When calling a phrase constructor (e.g. <code>S, VP, NP</code>, ...), parameters having value <code>null</code> or <code>undefined</code> are ignored. Parameters lists are <em>flattened</em> to the constructor call. This convention makes it simpler to program constructor calls.</p>
     </div>
 
     <div id="dependentsSect"></div>

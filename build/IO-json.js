@@ -9,7 +9,7 @@
 // list of names of constituents (used in fromJSON)
 const terminals = ["N", "A", "Pro", "D", "V", "Adv", "C", "P", "DT", "NO", "Q"];
 const phrases   = ["S", "NP", "AP", "VP", "AdvP", "PP", "CP", "SP"];
-const dependents = ["root", "det", "subj", "comp", "mod", "compObj", "compObl", "coord"];
+const dependents = ["root", "det", "subj", "comp", "mod", "coord"];
 
 // create expression from a JSON structure
 function fromJSON(json,lang){
