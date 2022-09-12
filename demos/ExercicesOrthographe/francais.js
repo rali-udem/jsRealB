@@ -1,3 +1,5 @@
+Object.assign(globalThis,jsRealB);
+
 loadFr();
 // listes de mots
 const article = ["un","le"];

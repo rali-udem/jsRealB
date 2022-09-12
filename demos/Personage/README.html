@@ -1,0 +1,375 @@
+<!DOCTYPE html><html>
+    <!-- Generated from REAME.md with https://dillinger.io then manually added style... -->
+<head><meta charset="utf-8"><title>The Personage demo.md</title>
+<style>
+    table {border-collapse: collapse;}
+    table td {
+        border:thin solid black;
+        padding:2px;
+    }
+</style>
+</head><body id="preview">
+<h1 class="code-line" data-line-start=0 data-line-end=1><a id="The_Personage_demo_0"></a>The <em>Personage</em> demo</h1>
+<p class="has-line-data" data-line-start="2" data-line-end="6">This demo illustrates how the <em><strong>jsRealB</strong></em> realizer can be used for varying the linguistic style of the generated text according to a user profile defined as one of the <a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits">Big Five</a> model of personality.<br>
+It is a data-to-text application which realizes <em>personalized</em> descriptions of restaurants.<br>
+It uses the <a href="https://nlds.soe.ucsc.edu/stylistic-variation-nlg">Stylistic Variation data</a>,
+found in the <a href="https://aclweb.org/aclwiki/Data_sets_for_NLG#Personage_Stylistic_Variation_for_NLG"><em>SIGGEN Datasets for NLG</em> page</a>.</p>
+<p class="has-line-data" data-line-start="7" data-line-end="10">The data created by Oraby <em>et al.</em> [6] using the <em>Personage</em> statistical generator [4] derives from the <em>meaning representation</em> created for<br>
+the <a href="http://www.macs.hw.ac.uk/InteractionLab/E2E">E2E NLG Challenge</a><br>
+that comprises the following set of attributes to describe a food establishment.</p>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Possible values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Blue Spice, Clowns, …</td>
+</tr>
+<tr>
+<td>near</td>
+<td>Crowne Plaza Hotel, Burger King, …</td>
+</tr>
+<tr>
+<td>area</td>
+<td>city centre, riverside</td>
+</tr>
+<tr>
+<td>customerRating</td>
+<td>low, mediocre, average, decent, high, excellent</td>
+</tr>
+<tr>
+<td>eatType</td>
+<td>pub, coffee shop, restaurant</td>
+</tr>
+<tr>
+<td>familyFriendly</td>
+<td>no, yes</td>
+</tr>
+<tr>
+<td>food</td>
+<td>Chinese, English, French, Indian, Italian, Japanese, fast food</td>
+</tr>
+<tr>
+<td>priceRange</td>
+<td>20-25, a lot, a small amount, cheap, high, moderate</td>
+</tr>
+<tr>
+<td><strong>personality</strong></td>
+<td>AGREEABLE, DISAGREEABLE, CONSCIENTIOUSNESS, UNCONSCIENTIOUSNESS, EXTRAVERT</td>
+</tr>
+</tbody>
+</table>
+<p class="has-line-data" data-line-start="23" data-line-end="25">The last attribute, not in the original E2E Challenge, indicates the type of personality that influences the organization and some of the lexical choices for the realization.<br>
+The <em>name</em> and <em>near</em> field in the data are indicated as NAME and NEAR respectively. To make generated texts more readable, values for these attributes are randomly selected, upon loading, from the ones found in the E2E dataset.</p>
+<p class="has-line-data" data-line-start="26" data-line-end="27">The concept of personalized text generation was originally developed in a series of models by François Mairesse and Marylin Walker between 2007 and 2011 [1,2,3,4] to adapt the utterances in the context of a dialog:</p>
+<ul>
+<li class="has-line-data" data-line-start="27" data-line-end="28">PERSONAGE-RB a rule-based text generator for which the parameters were handcrafted;</li>
+<li class="has-line-data" data-line-start="28" data-line-end="29">PERSONAGE-OS based on a statistical rescoring model to rank randomly generated utterances;</li>
+<li class="has-line-data" data-line-start="29" data-line-end="31">PERSONAGE-PE whose generation parameters are determined by training parameter estimation models.</li>
+</ul>
+<p class="has-line-data" data-line-start="31" data-line-end="32">In this demo, we adapt the rule-based approach which was originally developed in Java to create Deep Syntactic Structures as defined in the Meaning-Text Theory which were then realized with RealPro[7]. This demo reproduces the essential steps of this architecture with <em><strong>jsRealB</strong></em> showing the advantages of single programming language (<em>JavaScript</em>) for the whole realization process.</p>
+<p class="has-line-data" data-line-start="33" data-line-end="34">We suggest to first try the system using <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Personage/index.html">this web page</a> to get a feeling of the type of personalization that can be obtained for different combination of attribute values. The <a href="Personage.js">file Personage.js</a> used can also be launched from the command line using <code>node</code> to compare the output of the test file with the one obtained by the system.</p>
+<p class="has-line-data" data-line-start="35" data-line-end="37">We first recall some features of <em><strong>jsRealB</strong></em>, then we present the organization of the original system and we adapted it to our context.<br>
+As the source code is available, this document only gives an overview of the system.</p>
+<h1 class="code-line" data-line-start=38 data-line-end=39><a id="Main_features_of__jsRealB__38"></a>Main features of <em><strong>jsRealB</strong></em></h1>
+<p class="has-line-data" data-line-start="40" data-line-end="41"><em><strong>jsRealB</strong></em> (JavaScript Realizer Bilingual) is a bilingual French and English text realizer that generates well-formed expressions and sentences and that can format them in HTML to be displayed in a browser. As its name indicates, <em><strong>jsRealB</strong></em> is written in JavaScript, a programming language that, when used in a web page, runs in the client browser. A web programmer who wishes to use <em><strong>jsRealB</strong></em> to produce flexible French or English textual output only needs to add one line in the header of the page, similarly to what is done for other browser frameworks such as jQuery. <em><strong>jsRealB</strong></em> is aimed at web developers. It carries out crucial tasks from taking care of morphology, subject-verb agreement and conjugation to creating entire HTML documents.</p>
+<p class="has-line-data" data-line-start="42" data-line-end="43">In <em><strong>jsRealB</strong></em>, JavaScript expressions create data structures corresponding to linguistic constituents or dependencies of a sentence. When the need arises to produce a string realization, the data structure (a tree) is traversed to produce the tokens of the sentence, taking care of capitalization, elision and appropriate spacing around punctuation. It is also possible to wrap portions of text in HTML tags. The realizer accepts two types of input: constituents or dependents. Here, in accordance with the original system by Mairesse which structured expressions as Meaning-Text Deep Syntactic Representations, we use the dependency based input notation.</p>
+<p class="has-line-data" data-line-start="44" data-line-end="45">The data structure is built by function calls whose names were chosen to be similar to the symbols typically used in linguistics:</p>
+<ul>
+<li class="has-line-data" data-line-start="45" data-line-end="46"><strong>Terminal</strong>: <code>N</code> (Noun), <code>V</code> (Verb), <code>A</code> (adjective), <code>D</code> (determiner), <code>Pro</code> (pronoun), <code>Q</code> (quoted/verbatim text) …</li>
+<li class="has-line-data" data-line-start="46" data-line-end="48"><strong>Dependent</strong>: <code>root</code>, <code>subj</code> (subject), <code>comp</code> (complement), <code>mod</code> (modifier), <code>det</code> (determiner) and <code>coord</code> (coordinate)</li>
+</ul>
+<p class="has-line-data" data-line-start="48" data-line-end="49">Features added to these structures using the dot notation can modify their properties. For terminals, their person, number, gender can be specified. Dependents may be negated, set to a passive mode or be pronominalized. Punctuation signs and HTML tags can also be added.</p>
+<p class="has-line-data" data-line-start="50" data-line-end="51">A dependency is specified by a function named after the dependency name taking as first parameter its head, a <strong>Terminal</strong>; the other parameters, if any, are <strong>Dependent</strong>s. Realization sorts the dependents of a relation: <code>det</code> and <code>subj</code> are realized before the head, <code>comp</code> and <code>mod</code> are realized after the head. The ordering within the specification is used in the case of ties both before and after the head. The <code>pos</code> feature, with value <code>&quot;pre&quot;</code> or <code>&quot;post&quot;</code>, can alter the default ordering to force its realization before or after the head. The position of adjectives is dealt according to the rules of English or French grammar, unless changed by <code>pos</code>.</p>
+<p class="has-line-data" data-line-start="52" data-line-end="53">For example, the evaluation of</p>
+<pre><code class="has-line-data" data-line-start="54" data-line-end="60" class="language-javascript"><span class="hljs-keyword">let</span> dep = root(V(<span class="hljs-string">"like"</span>),
+               comp(N(<span class="hljs-string">"shop"</span>),
+                    det(D(<span class="hljs-string">"the"</span>)),
+                    mod(A(<span class="hljs-string">"nice"</span>)),
+                    mod(N(<span class="hljs-string">"coffee"</span>)).pos(<span class="hljs-string">"pre"</span>)))
+</code></pre>
+<p class="has-line-data" data-line-start="60" data-line-end="61">creates a dependency having as head the verb <em>like</em> and complement <em>shop</em>, modified by a determiner, an adjective and a noun. English determiners and adjectives are placed by default before the noun, but a noun placement before a noun must specified. No string value has yet been realized. To get a string, the following expression must be called:</p>
+<pre><code class="has-line-data" data-line-start="62" data-line-end="64" class="language-javascript">dep.toString()
+</code></pre>
+<p class="has-line-data" data-line-start="64" data-line-end="65">this returns the string</p>
+<pre><code class="has-line-data" data-line-start="67" data-line-end="69" class="language-javascript"><span class="hljs-string">"Likes the nice coffee shop. "</span> 
+</code></pre>
+<p class="has-line-data" data-line-start="69" data-line-end="71">in which the verb is conjugated at the default tense (present), person (3rd) and number (singular).<br>
+<code>dep</code> can then be modified, for example by adding a subject dependency and by modifying the type of the whole sentence, here adding a tag question.</p>
+<pre><code class="has-line-data" data-line-start="73" data-line-end="77" class="language-javascript">dep.add(subj(N(<span class="hljs-string">"boy"</span>),
+             det(D(<span class="hljs-string">"the"</span>))))
+   .typ({int:<span class="hljs-string">"tag"</span>}).toString()
+</code></pre>
+<p class="has-line-data" data-line-start="77" data-line-end="78">which evaluates to</p>
+<pre><code class="has-line-data" data-line-start="80" data-line-end="82" class="language-javascript"><span class="hljs-string">"The boy likes the nice coffee shop, doesn't he? "</span>
+</code></pre>
+<p class="has-line-data" data-line-start="82" data-line-end="83">More details about the realization process can be found in [8]. The full set of functions and options is described in the <a href="../../documentation/user.html">documentation</a>.</p>
+<h1 class="code-line" data-line-start=84 data-line-end=85><a id="A__simplistic__text_generator_84"></a>A <em>simplistic</em> text generator</h1>
+<p class="has-line-data" data-line-start="86" data-line-end="87">We first describe a generator with a simple plan: start the sentence by giving the <code>name</code> and <code>eatType</code> of the establishment; then add a sentence for each attribute present in the data having the pronoun <code>it</code> as subject. The <strong>personality</strong> attribute is ignored for the moment.</p>
+<p class="has-line-data" data-line-start="88" data-line-end="89">For example, given the following values for attributes:</p>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>Loch Fyne</td>
+</tr>
+<tr>
+<td>area</td>
+<td>city centre</td>
+</tr>
+<tr>
+<td>near</td>
+<td>The Rice Boat</td>
+</tr>
+<tr>
+<td>customerRating</td>
+<td>–</td>
+</tr>
+<tr>
+<td>eatType</td>
+<td>restaurant</td>
+</tr>
+<tr>
+<td>familyFriendly</td>
+<td>no</td>
+</tr>
+<tr>
+<td>food</td>
+<td>fast food</td>
+</tr>
+<tr>
+<td>priceRange</td>
+<td>–</td>
+</tr>
+<tr>
+<td><strong>personality</strong></td>
+<td>AGREEABLE</td>
+</tr>
+</tbody>
+</table>
+<p class="has-line-data" data-line-start="102" data-line-end="103">The realized text will be:</p>
+<pre><code class="has-line-data" data-line-start="105" data-line-end="107" class="language-javascript"><span class="hljs-string">"Loch Fyne is a restaurant. It is in the city centre. It is near The Rice Boat. It is not family-friendly. It serves fast food. "</span>
+</code></pre>
+<p class="has-line-data" data-line-start="108" data-line-end="109">Although this text is monotonic, its creation illustrates the building blocks of our realizer which creates dependencies to be modified afterwards. To each item of information is associated a dependency of the form <code>root(V(...),comp(...))</code> to which another dependency <code>subj(...)</code> can be added either at the initial <code>root</code> creation time or later.</p>
+<p class="has-line-data" data-line-start="110" data-line-end="111">The following function returns the first dependency depending on the fact that the attribute <code>eatType</code> is present in <code>infos</code> (an object with the appropriate attributes). If the <code>eatType</code> is not specified, a random choice in a list of common names is chosen using the <code>oneOf</code> function of <em><strong>jsRealB</strong></em>, useful for choosing between synonyms or alternative formulations. This call does not return a string, but an internal structure that can be modified before being finally realized.</p>
+<pre><code class="has-line-data" data-line-start="113" data-line-end="127" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">name_eatType</span>(<span class="hljs-params">infos</span>)</span>{
+    <span class="hljs-keyword">const</span> qName=Q(infos[<span class="hljs-string">"name"</span>]); <span class="hljs-comment">// create a terminal with the name verbatim</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-string">"eatType"</span> <span class="hljs-keyword">in</span> infos){  <span class="hljs-comment">// =&gt; qName is a eatType</span>
+        <span class="hljs-keyword">return</span> root(V(<span class="hljs-string">"be"</span>),
+                    subj(qName),
+                    comp(N(infos[<span class="hljs-string">"eatType"</span>]),
+                        det(D(<span class="hljs-string">"a"</span>))));
+    } 
+    <span class="hljs-keyword">return</span> root(V(<span class="hljs-string">"be"</span>),   <span class="hljs-comment">// =&gt; The place|venue|... is qName</span>
+                subj(N(oneOf([<span class="hljs-string">"place"</span>,<span class="hljs-string">"venue"</span>,<span class="hljs-string">"establishment"</span>,<span class="hljs-string">"location"</span>])), <span class="hljs-comment">// no eatType present, choose a commonplace name</span>
+                     det(D(<span class="hljs-string">"the"</span>))),
+                comp(qName));
+}
+</code></pre>
+<p class="has-line-data" data-line-start="128" data-line-end="129">Here are two functions associated with the attributes <em>familyFriendly</em> and <em>food</em> that build dependencies with a verb as head and complement. A subject will be added later. An affirmative or negative sentence is obtained by setting its type.</p>
+<pre><code class="has-line-data" data-line-start="131" data-line-end="146" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">familyFriendly</span>(<span class="hljs-params">infos</span>)</span>{  <span class="hljs-comment">// =&gt; is not? family|kid friendly</span>
+    <span class="hljs-keyword">const</span> ff_value = infos[<span class="hljs-string">"familyFriendly"</span>]==<span class="hljs-string">"yes"</span>;
+    <span class="hljs-keyword">return</span> root(V(<span class="hljs-string">"be"</span>),
+                comp(oneOf(N(<span class="hljs-string">"family"</span>).lier(),N(<span class="hljs-string">"kid"</span>)),
+                     mod(A(<span class="hljs-string">"friendly"</span>)).pos(<span class="hljs-string">"post"</span>))).typ({neg:!ff_value})
+}            
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">food</span>(<span class="hljs-params">infos</span>)</span>{    <span class="hljs-comment">// =&gt; serves fast|French|Chinese... food</span>
+    <span class="hljs-keyword">let</span> food_value=infos[<span class="hljs-string">"food"</span>]
+    <span class="hljs-keyword">if</span> (food_value==<span class="hljs-string">"fast food"</span>)food_value=<span class="hljs-string">"fast"</span>;
+    <span class="hljs-keyword">return</span> root(V(<span class="hljs-string">"serve"</span>),
+                comp(N(<span class="hljs-string">"food"</span>),
+                     mod(A(food_value))))
+}
+</code></pre>
+<p class="has-line-data" data-line-start="146" data-line-end="147">Functions for other attributes (<em>area</em>, <em>near</em>, <em>customerRating</em> and <em>priceRange</em>) have a similar structure.</p>
+<p class="has-line-data" data-line-start="148" data-line-end="149">The final realization is obtained using the following function which creates a list of structures by calling each realization function in turn and finally creating the strings that are simply joined. <code>create_dep</code> calls the appropriate function depending on the attribute, e.g. <code>create_dep(&quot;food&quot;,infos)</code> merely calls <code>food(infos)</code>.</p>
+<pre><code class="has-line-data" data-line-start="151" data-line-end="160" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">simple_generate</span>(<span class="hljs-params">infos</span>)</span>{
+    <span class="hljs-keyword">let</span> res=[name_eatType(infos)]; <span class="hljs-comment">// build list of dependency expressions by adding the it pronoun as subject</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> key <span class="hljs-keyword">of</span> [<span class="hljs-string">'customerRating'</span>, <span class="hljs-string">'area'</span>, <span class="hljs-string">'near'</span>, <span class="hljs-string">'familyFriendly'</span>, <span class="hljs-string">'food'</span>, <span class="hljs-string">'priceRange'</span>]) {
+        <span class="hljs-keyword">if</span> (key <span class="hljs-keyword">in</span> infos)
+            res.push(create_dep(key,infos).add(subj(Pro(<span class="hljs-string">"it"</span>).c(<span class="hljs-string">"nom"</span>))));
+    }
+    <span class="hljs-keyword">return</span> res.map(e=&gt;e.toString()).join(<span class="hljs-string">""</span>); <span class="hljs-comment">// realize each expression as a list</span>
+}
+</code></pre>
+<p class="has-line-data" data-line-start="160" data-line-end="162">The call <code>simple_generate(infos)</code> returns the string shown at the beginning of this section.<br>
+Before explaining how this approach can be incorporated in a more complex plan integrating personalization, we describe the system that served as model for this demo.</p>
+<h1 class="code-line" data-line-start=163 data-line-end=164><a id="Organization_of_the__original__Personage_system_163"></a>Organization of the <em>original</em> Personage system</h1>
+<p class="has-line-data" data-line-start="165" data-line-end="166">Mairesse presents the architecture of the system in the following figure (taken from Figure 1 of [4, p. 461]).</p>
+<p class="has-line-data" data-line-start="167" data-line-end="168">&lt;div style=“text-align:center”&gt;&lt;img src=“Personage-architecture.jpg” style=“width:600px”&gt;&lt;/div&gt;</p>
+<p class="has-line-data" data-line-start="170" data-line-end="171">described as follows</p>
+<blockquote>
+<p class="has-line-data" data-line-start="171" data-line-end="172">“The content planner specifies the structure of the information to be conveyed. The resulting content plan tree is then processed by the sentence planner, which selects syntactic templates for expressing individual propositions, and aggregates them to produce the utterance’s full syntactic structure. The pragmatic marker insertion component then modifies the syntactic structure locally to produce various pragmatic effects, depending on the markers’ insertion constraints. The lexical choice component selects the most appropriate lexeme for each content word, given the lexical selection parameters. Finally, the RealPro surface realizer converts the final syntactic structure into a string by applying surface grammatical rules, such as morphological inflection and function word insertion.”`</p>
+</blockquote>
+<h1 class="code-line" data-line-start=173 data-line-end=174><a id="Organization_of_the_Personage_demo_173"></a>Organization of the Personage demo</h1>
+<h2 class="code-line" data-line-start=175 data-line-end=176><a id="Personalization_parameters_175"></a>Personalization parameters</h2>
+<p class="has-line-data" data-line-start="176" data-line-end="177">The personality parameters are defined by groups of attributes some of which are values between 0 and 1 and others are boolean. These attributes determine the probability that certain rules implementing these parameters will be applied at each step of the text generation. We only give here the definition for <code>extraversion</code>, the four other personalities are defined similarly closely matching the choices described by Mairesse.</p>
+<pre><code class="has-line-data" data-line-start="179" data-line-end="218" class="language-javascript"><span class="hljs-keyword">const</span> high = <span class="hljs-number">0.9</span>, low = <span class="hljs-number">0.1</span>;
+<span class="hljs-comment">//  Extraverts tend to engage in social interaction, they are enthusiastic, risk-taking, talkative and assertive,</span>
+<span class="hljs-comment">//  whereas introverts are more reserved and solitary. (p 83 of Mairesse 2008)</span>
+<span class="hljs-keyword">const</span> extraversion = {
+    content_planning: <span class="hljs-keyword">new</span> ContentPlanning({
+        verbosity: high,
+        restatements: high,
+        repetitions: high,
+        content_polarity: high,
+        repetitions_polarity: high,
+        concessions_polarity: high,
+        positive_content_first: high,
+        request_confirmation: <span class="hljs-literal">true</span>,
+    }),
+    syntactic_template_selection: <span class="hljs-keyword">new</span> SyntacticTemplateSelection({
+        syntactic_complexity: low,
+        template_polarity: high,
+    }),
+    aggregation: [
+        [also_cue_word, high],
+        [but_cue_word, high],
+        [although_cue_word, low],
+        [relative_clause, low],
+    ],
+    pragmatic_marker: [
+        [subject_implicitness, high],
+        [soft_hedges, high],
+        [near_expletives, high],
+        [emphasizer_hedges, high],
+        [exclamation, high],
+        [tag_question, high],
+        [in_group_marker, high],
+        [negation, low],
+        [softener_hedges, low],
+        [acknowledgements, low],
+        [filled_pauses, low]
+    ]
+}
+</code></pre>
+<p class="has-line-data" data-line-start="219" data-line-end="220">The values for content planning and syntactic template selection are defined by calling the following constructors that define fields with a null default value, the ones that are applicable being updated when the constructors are called (see above). The values for the <code>aggregation</code> and <code>pragmatic_marker</code> are list of JavaScript functions that will be applied. Some of these functions will be shown later. The important aspect to remember is the declarative nature of each personality.</p>
+<p class="has-line-data" data-line-start="221" data-line-end="222">To decide when a generation parameter is <em>applicable</em>, a random number in the range (0,1] is drawn before calling the associated function and if this number is less than the value (0.9 when <code>high</code>), then the function is called to modify the dependency. When a parameter is a boolean, then is applied when the value is <code>true</code>. If the parameter is not specified, then it is not applied.</p>
+<pre><code class="has-line-data" data-line-start="224" data-line-end="251" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ContentPlanning</span>(<span class="hljs-params">params = {}</span>) </span>{
+    <span class="hljs-comment">// set default values</span>
+    <span class="hljs-keyword">this</span>.verbosity = <span class="hljs-literal">null</span>;              <span class="hljs-comment">// C: Control the number of propositions in the utterance</span>
+    <span class="hljs-keyword">this</span>.restatements = <span class="hljs-literal">null</span>;           <span class="hljs-comment">// C: Paraphrase an existing proposition</span>
+    <span class="hljs-keyword">this</span>.repetitions = <span class="hljs-literal">null</span>;            <span class="hljs-comment">// C: Repeat an existing proposition</span>
+    <span class="hljs-keyword">this</span>.content_polarity = <span class="hljs-literal">null</span>;       <span class="hljs-comment">// C: Control the polarity of the propositions depessed, i.e., referring to negative or positive attributes</span>
+    <span class="hljs-keyword">this</span>.repetitions_polarity = <span class="hljs-literal">null</span>;   <span class="hljs-comment">// C: Control the polarity of the restated propositions</span>
+    <span class="hljs-keyword">this</span>.concessions = <span class="hljs-literal">null</span>;            <span class="hljs-comment">// C: Emphasize one attribute over another</span>
+    <span class="hljs-keyword">this</span>.concessions_polarity = <span class="hljs-literal">null</span>;   <span class="hljs-comment">// C: Determine whether positive or negative attributes are emphasized</span>
+    <span class="hljs-keyword">this</span>.polarization = <span class="hljs-literal">null</span>;           <span class="hljs-comment">// C: Control whether the depessed polarity is neutral or extreme</span>
+    <span class="hljs-keyword">this</span>.positive_content_first = <span class="hljs-literal">null</span>; <span class="hljs-comment">// C: Determine whether positive propositions—including the claim—are uttered first</span>
+    <span class="hljs-comment">// in the thesis (p 112), </span>
+    <span class="hljs-comment">//   these content planning parameters are modelled at the pragmatic marker insertion level as they </span>
+    <span class="hljs-comment">//   only affect the beginning of the utterance (described in page 119, table 5.4)</span>
+    <span class="hljs-keyword">this</span>.request_confirmation = <span class="hljs-literal">null</span>;   <span class="hljs-comment">// B: Begin the utterance with a confirmation of the restaurant’s name</span>
+    <span class="hljs-keyword">this</span>.initial_rejection = <span class="hljs-literal">null</span>;      <span class="hljs-comment">// B: Begin the utterance with a mild rejection</span>
+    <span class="hljs-keyword">this</span>.competence_mitigation = <span class="hljs-literal">null</span>;  <span class="hljs-comment">// B: depess the speaker’s negative appraisal of the hearer’s request    </span>
+    <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>,params)       <span class="hljs-comment">// change fields to corresponding values given as parameters</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SyntacticTemplateSelection</span>(<span class="hljs-params">params = {}</span>) </span>{
+    <span class="hljs-keyword">this</span>.self_references = <span class="hljs-literal">null</span>;      <span class="hljs-comment">// C: Control the number of first person pronouns</span>
+    <span class="hljs-keyword">this</span>.syntactic_complexity = <span class="hljs-literal">null</span>; <span class="hljs-comment">// C: Control the syntactic complexity (syntactic embedding)</span>
+    <span class="hljs-keyword">this</span>.template_polarity = <span class="hljs-literal">null</span>;    <span class="hljs-comment">// C: Control the connotation of the claim, i.e., whether positive or negative affect is expressing</span>
+    <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>,params)      <span class="hljs-comment">// change fields to corresponding values given as parameters</span>
+}
+</code></pre>
+<h2 class="code-line" data-line-start=252 data-line-end=253><a id="Content_planner_contentPlanner_function_in_Personagejs_252"></a>Content planner [<code>contentPlanner</code> function in <code>Personage.js</code>]</h2>
+<p class="has-line-data" data-line-start="254" data-line-end="255">The first task of a text generator is to determine <em>What to say</em>. In our setting, this would imply selecting the attributes to show to the reader. But given the fact, that our data has only a 8 attributes at the most, this selection step is skipped in order that all attribute values are realized. But the context planner may change the field ordering when the <code>positive_content_first</code> content planner parameter is applicable. If this the case, then a <em>good</em> or <em>excellent</em> customer rating, the fact that the establishment is <em>kid friendly</em> or that the prices are <em>cheap</em> will be presented first. A field can be repeated if the <code>restatement</code> or <code>verbosity</code> parameter is applicable.</p>
+<p class="has-line-data" data-line-start="256" data-line-end="257">The content planner then initializes the first dependency using the function <code>name_eatType</code> described in the simple text generator. As done by Mairesse, some content planning parameters are modeled as pragmatic markers that modify this first dependency. For example, if the <code>request_confirmation</code> parameter is applicable then the phrases such as <em>You want to know more about …</em> or <em>Did you say …</em> are inserted. If <code>initial_rejection</code> is applicable, then <em>I don’t know</em> or <em>I might be wrong</em> is inserted. If <code>competence_mitigation</code> is applicable, a formulation such as <em>come on</em> or <em>everybody knows that</em> is added.</p>
+<h2 class="code-line" data-line-start=258 data-line-end=259><a id="Syntactic_templates_syntacticTemplater_function_in_Personagejs_258"></a>Syntactic templates [<code>syntacticTemplater</code> function in <code>Personage.js</code>]</h2>
+<p class="has-line-data" data-line-start="260" data-line-end="261">For our <em>simple</em> data, compared with the one of (Mairesse 2008), the only relevant syntactic parameter is <code>syntactic_complexity</code>. When applicable, it combines fields in groups of up to three which are then coordinated. When two fields share the same verb, only a single verb is realized with complements coordinated.</p>
+<h2 class="code-line" data-line-start=263 data-line-end=264><a id="Aggregation_parameters_functions_starting_at_line_100_in_generation_parametersjs_263"></a>Aggregation parameters [functions starting at line 100 in <code>generation_parameters.js</code>]</h2>
+<p class="has-line-data" data-line-start="265" data-line-end="266">When applicable the aggregation functions combine two dependencies into a new one when possible (i.e. the combination can be applied). For example, the following helper function adds a cue word (e.g. <em>but</em> or <em>although</em>) between two dependencies.</p>
+<pre><code class="has-line-data" data-line-start="268" data-line-end="279" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cue_word</span>(<span class="hljs-params">cue, dep1, dep2</span>) </span>{
+    <span class="hljs-keyword">if</span> (headIsV(dep1) &amp;&amp; headIsV(dep2)){  <span class="hljs-comment">// both dependencies have a V as head</span>
+        <span class="hljs-keyword">if</span> (v(dep1).lemma==v(dep2).lemma)    <span class="hljs-comment">// both head have the same lemma</span>
+            <span class="hljs-keyword">return</span> dep1.add(comp(cue,obj(dep2))); <span class="hljs-comment">// add a complement with the cue before the second object</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dep1.constType == dep2.consType) <span class="hljs-comment">// both dependencies are of the same type</span>
+            <span class="hljs-keyword">return</span> coord(cue,dep1,dep2);   <span class="hljs-comment">// coordinate both with the cue</span>
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-keyword">return</span> dep1.add(comp(cue,dep2)) <span class="hljs-comment">// add the cue before the second dependency</span>
+    }
+}
+</code></pre>
+<p class="has-line-data" data-line-start="280" data-line-end="281">This function is used to build other <em>cue functions</em> such as the following:</p>
+<pre><code class="has-line-data" data-line-start="283" data-line-end="288" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">contrast_cue_word</span>(<span class="hljs-params">dep1, dep2</span>) </span>{
+    <span class="hljs-comment">// Contrast two propositions using while | but | however | on the other hand</span>
+    <span class="hljs-keyword">return</span> cue_word(oneOf(C(<span class="hljs-string">"while"</span>), C(<span class="hljs-string">"but"</span>), C(<span class="hljs-string">"however"</span>), Q(<span class="hljs-string">"on the other hand"</span>)),dep1, dep2)
+}
+</code></pre>
+<h2 class="code-line" data-line-start=289 data-line-end=290><a id="Pragmatic_parameters_functions_starting_at_line_180_in_generation_parametersjs_289"></a>Pragmatic parameters [functions starting at line 180 in <code>generation_parameters.js</code>]</h2>
+<p class="has-line-data" data-line-start="291" data-line-end="292">Pragmatic markers are inserted in a dependency when applicable. The function first checks if the transformation can be done by checking the type of dependency or head. If so it returns the transformed dependency, otherwise it returns <code>undefined</code>. Many of these functions add <em>hedges</em> to emphasize or mitigate the affirmation in the dependency. Here are a few examples:</p>
+<pre><code class="has-line-data" data-line-start="294" data-line-end="311" class="language-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hedges</span>(<span class="hljs-params">dep, hdg</span>) </span>{
+    <span class="hljs-keyword">if</span> (headIsV(dep)){
+        dep.add(det(hdg),<span class="hljs-number">0</span>)
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">softener_hedges</span>(<span class="hljs-params">dep</span>) </span>{
+    <span class="hljs-comment">//  to mitigate the strength of a proposition  </span>
+    <span class="hljs-keyword">return</span> hedges(dep, oneOf(Q(<span class="hljs-string">"sort of"</span>), Q(<span class="hljs-string">"kind of"</span>), Adv(<span class="hljs-string">"quite"</span>), Adv(<span class="hljs-string">"around"</span>), Adv(<span class="hljs-string">"rather"</span>),
+                             Q(<span class="hljs-string">"I think that"</span>), Q(<span class="hljs-string">"it seems to me that"</span>), Q(<span class="hljs-string">"it seems to me that"</span>)))
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">emphasizer_hedges</span>(<span class="hljs-params">dep</span>) </span>{
+    <span class="hljs-comment">// to strengthen a proposition,</span>
+    <span class="hljs-keyword">return</span> hedges(dep, oneOf(Adv(<span class="hljs-string">"really"</span>), Adv(<span class="hljs-string">"basically"</span>), Adv(<span class="hljs-string">"actually"</span>), A(<span class="hljs-string">"just"</span>)))
+}
+</code></pre>
+<h2 class="code-line" data-line-start=311 data-line-end=312><a id="Sample_output_311"></a>Sample output</h2>
+<p class="has-line-data" data-line-start="313" data-line-end="314">When the realizer is run on our running example attribute-value pairs for each combination of personality, we get the following outputs which differ greatly depending on the type of personality.</p>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th>Personality</th>
+<th>Generated text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AGREEABLE</td>
+<td>I mean you want to know more about Loch Fyne, you know. Damn Loch Fyne is a restaurant, buddy. Rather it is in the city centre and near The Rice Boat, yeah. It is not family-friendly and it serves fast food. It is in the city centre.</td>
+</tr>
+<tr>
+<td>DISAGREEABLE</td>
+<td>Actually I am not sure, mate. Damn Loch Fyne is a restaurant. It is in the city centre. It is near The Rice Boat. It is not kid friendly. It serves fast food.</td>
+</tr>
+<tr>
+<td>CONSCIENTIOUSNESS</td>
+<td>I mean you want to know more about Loch Fyne which is a restaurant, you know. I think that it is in the city centre although near The Rice Boat, buddy. It is not family-friendly and it serves fast food, well.</td>
+</tr>
+<tr>
+<td>UNCONSCIENTIOUSNESS</td>
+<td>I am not sure but a restaurant, I see. It is in the city centre so near The Rice Boat! Damn it is not family-friendly, buddy. Err darn it serves fast food, like. It is near The Rice Boat.</td>
+</tr>
+<tr>
+<td>EXTRAVERT</td>
+<td>Really you want to know more about Loch Fyne but Loch Fyne is a restaurant, buddy. Darn it is in the city centre also near The Rice Boat! Like it is kid friendly, isn’t it? It serves fast food. It is not family-friendly.</td>
+</tr>
+</tbody>
+</table>
+<h1 class="code-line" data-line-start=323 data-line-end=324><a id="Conclusion_323"></a>Conclusion</h1>
+<p class="has-line-data" data-line-start="325" data-line-end="326">The demo shows the flexibility that can be achieved using <strong><em>jsRealB</em></strong> in order to customize the text according to a series of complex parameters that are easily combined according to a mostly declarative approach. We leave it to experts in psychology to judge if these texts are really typical of these types of personalities.</p>
+<h1 class="code-line" data-line-start=327 data-line-end=328><a id="References_327"></a>References</h1>
+<p class="has-line-data" data-line-start="328" data-line-end="329">[1] François Mairesse. Learning to Adapt in Dialogue Systems: Data-driven Models for Personality Recognition and Generation. Ph.D. thesis, University of Sheffield, Department of Computer Science, 2008. [&lt;a href=&quot;<a href="http://farm2.user.srcf.net-research-personage-personage-0.13.tar.gz">http://farm2.user.srcf.net-research-personage-personage-0.13.tar.gz</a>&quot;&gt;source code of the original program&lt;/a&gt;]</p>
+<p class="has-line-data" data-line-start="330" data-line-end="331">[2] François Mairesse and Marilyn Walker. PERSONAGE: Personality Generation for Dialogue. In Proceedings of the 45th Annual Meeting of the Association for Computational Linguistics (ACL), Prague, June 2007.</p>
+<p class="has-line-data" data-line-start="332" data-line-end="333">[3] François Mairesse and Marilyn Walker. Trainable Generation of Big-Five Personality Styles through Data-driven Parameter Estimation. In Proceedings of the 46th Annual Meeting of the Association for Computational Linguistics (ACL), Columbus, June 2008.</p>
+<p class="has-line-data" data-line-start="334" data-line-end="335">[4] François Mairesse and Marilyn Walker. Towards personality-based user adaptation: psychologically informed stylistic language generation. User Modeling and User-Adapted Interaction 20, 227–278 (2010). [<a href="https://users.soe.ucsc.edu/~maw/papers/umuai2010.pdf">PDF</a>]</p>
+<p class="has-line-data" data-line-start="336" data-line-end="337">[5] François Mairesse and Marilyn Walker. Controlling User Perceptions of Linguistic Style: Trainable Generation of Personality Traits. Computational Linguistics, 37(3), 2011.</p>
+<p class="has-line-data" data-line-start="338" data-line-end="339">[6] S. Oraby, L. Reed, S. Tandon, S. TS, S. Lukin, and M. Walker. Controlling Personality-Based Stylistic Variation with Neural Natural Language Generators. SIGDIAL 2018. Melbourne, Australia. [<a href="https://arxiv.org/abs/1805.08352">PDF</a>]</p>
+<p class="has-line-data" data-line-start="340" data-line-end="342">[7] Benoit Lavoie and Owen Rambow. A fast and portable realizer for text generation systems.<br>
+In Proceedings of the 5th. Conference on Applied Natural Language Processing, pages 265–268, Washington, D.C., 1997. Association for Computational Linguistics.</p>
+<p class="has-line-data" data-line-start="343" data-line-end="344">[8] G. Lapalme. The jsRealB text realizer: Organization and use cases. (<a href="https://arxiv.org/pdf/2012.15425.pdf">arXiv:2012.15425</a>), may 2022.</p>
+<hr>
+<p class="has-line-data" data-line-start="346" data-line-end="347">Contact: <a href="/cdn-cgi/l/email-protection#395558495855545c79504b56174c5456574d4b5c5855175a58">Guy Lapalme</a></p>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body></html>

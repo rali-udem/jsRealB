@@ -12,19 +12,24 @@
 // another source of inspiration might be 
 //    /Users/lapalme/Dropbox/personage-nlg/Personage/resources/parameters/handcrafted/bigfive
 
-if (typeof module !== 'undefined' && module.exports) {    //  load jsRealB
-    let jsRealB=require("../../dist/jsRealB-node")
-    // import exports in current scope
-    for (var v in jsRealB)
-            eval(v+"=jsRealB."+v);
+import {extraversion,agreeableness,concientiousness} from "./generation_parameters.js";
+export const params = { 
+    "extraversion":     extraversion,
+    "agreeableness":    agreeableness,
+    "concientiousness": concientiousness
 }
+
+import "../../dist/jsRealB.js";
+Object.assign(globalThis,jsRealB)
+
+let trace=false;  // to help tracing
 
 const allPlaces = ["place","venue","establishment","location"]; // a commonplace name
 //// list fields of the meaning representation with a default ordering
 const mr_fields = ['name', 'eatType', 'customerRating', 'area', 'near', 'familyFriendly', 'food', 'priceRange']
 
 //// list of all encountered mr_values for each field in the "training" dataset
-const mr_values = {
+export const mr_values = {
     'personality': ['AGREEABLE','DISAGREEABLE','CONSCIENTIOUSNESS','UNCONSCIENTIOUSNESS','EXTRAVERT'],
     'area': ['city centre', 'riverside'],
     'customerRating': ['low', 'mediocre', "average", "decent", 'high', 'excellent'],
@@ -183,8 +188,8 @@ function priceRange(infos){
 
 // display information in a compact format
 function showInfos(keys,infos){
-    res=[];
-    for (key of keys)
+    let res=[];
+    for (let key of keys)
         if (infos[key]!==undefined)
             res.push(`${key}[${infos[key]}]`);
     return res.join(", ")
@@ -229,8 +234,6 @@ function simple_generate(infos){
     }
     return res.map(e=>e.toString()).join(""); // realize each expression as a list
 }
-
-let trace=true;
 
 function isApplicable(val,invert){
     if (val == null) return false;  // this also check for undefined...
@@ -355,7 +358,7 @@ function syntacticTemplater(title,deps,fields,st_params,infos,invert){
         fss = fields.map(f=>[f])
     }
     // create dependencies
-    for (fs of fss){
+    for (let fs of fss){
         const it=subj(Pro("it").c("nom"));
         if (fs.length==1){ // simple sentence
             deps.push(create_dep(fs[0],infos).add(it))
@@ -378,7 +381,7 @@ function syntacticTemplater(title,deps,fields,st_params,infos,invert){
 }
 
 //  from Chapter 5 (figure 5.4, p 109)
-function recommendation(type,params,infos,invert){
+function recommendation(type,personalityParams,infos,invert,applyParamFn){
     // define content plan using fields in the current data (given after ~~ )
     //  corresponding roughly to values used in the thesis
     //  best                        ~~ name+eatType
@@ -391,10 +394,10 @@ function recommendation(type,params,infos,invert){
     const title = `recommandation:${invert?'not ':''}${type}`
 
     //  initialize the list of jsRealB expressions and the rest of the fields
-    let [deps,fields] = contentPlanner(title,params.content_planning,infos,invert);
+    let [deps,fields] = contentPlanner(title,personalityParams.content_planning,infos,invert);
 
     // apply syntactic templates to the fields (i.e. combine some of them) to create the full set of deps
-    deps = syntacticTemplater(title,deps,fields,params.syntactic_template_selection,infos,invert);
+    deps = syntacticTemplater(title,deps,fields,personalityParams.syntactic_template_selection,infos,invert);
    
     if (trace){
         console.log(deps.map((dep)=>dep.toDebug(0)).join("\n"))
@@ -402,8 +405,8 @@ function recommendation(type,params,infos,invert){
     
     // apply "aggregation" parameters // [Constituent] -> [Constituent]
     // each agregation parameter combines one or two [Contituent]
-    const agg_deps = apply_parameters(title+":aggregation",params["aggregation"],deps,invert,trace)
-    const prg_deps = apply_parameters(title+":pragmatic-marker",params["pragmatic_marker"],agg_deps,invert,trace)
+    const agg_deps = applyParamFn(title+":aggregation",personalityParams["aggregation"],deps,invert,trace)
+    const prg_deps = applyParamFn(title+":pragmatic-marker",personalityParams["pragmatic_marker"],agg_deps,invert,trace)
     
     if (trace){
         console.log(prg_deps.map((dep)=>dep.toDebug(0)).join("\n"))
@@ -413,29 +416,29 @@ function recommendation(type,params,infos,invert){
     return prg_deps.map(e => e.toString()).join("");
 } 
 
-function personalized_recommandation_out(params,infos){
+export function personalized_recommandation_out(params,infos,applyParamFn){
     function out(v){process.stdout.write(v+"\n")}
     out(infos["personality"])
     out(showInfos(mr_fields,infos));
     out("SPL:"+simple_generate(infos));
-    out("GEN:"+personalized_recommandation(params,infos["personality"],infos));
+    out("GEN:"+personalized_recommandation(params,infos["personality"],infos,applyParamFn));
     out("REF:"+infos["ref"]);
     out("---");
 }
 
 
-function personalized_recommandation(params,pers,infos){
+export function personalized_recommandation(params,pers,infos,applyParamFn){
     switch (pers) {
         case "EXTRAVERT":
-             return recommendation("extra",params.extraversion,infos,false)
+             return recommendation("extra",params.extraversion,infos,false,applyParamFn)
         case "AGREEABLE":
-             return recommendation("agree",params.agreeableness,infos,false)
+             return recommendation("agree",params.agreeableness,infos,false,applyParamFn)
         case "DISAGREEABLE":
-             return recommendation("agree",params.agreeableness,infos,true)
+             return recommendation("agree",params.agreeableness,infos,true,applyParamFn)
         case "CONSCIENTIOUSNESS":
-             return recommendation("consc",params.concientiousness,infos,false)
+             return recommendation("consc",params.concientiousness,infos,false,applyParamFn)
         case "UNCONSCIENTIOUSNESS":
-             return recommendation("consc",params.concientiousness,infos,true)
+             return recommendation("consc",params.concientiousness,infos,true,applyParamFn)
         default:
             console.warn("unknown personality:",pers);
             break;
@@ -443,7 +446,8 @@ function personalized_recommandation(params,pers,infos){
     return Q("unknown personality")
 }
 
-function add_words_to_lexicon(){
+export function add_words_to_lexicon(){
+    // Object.assign(globalThis,jsRealB);
     loadEn();
     addToLexicon({"coffee shop":{"N":{"tab":"n1"}}});
     addToLexicon("riverside",{"N": {"tab": "n1"}});
@@ -455,7 +459,7 @@ function add_words_to_lexicon(){
     addToLexicon("flavorful",{"A": {"tab": "a1"}});
 }
 
-function makeInfos(line){
+export function makeInfos(line){
     // get information (giving name and nears that have dummy values in the data)
     // patch ref with these new infos
     let infos = JSON.parse(line)
@@ -466,61 +470,4 @@ function makeInfos(line){
         infos["ref"]=infos["ref"].replace(/NEAR/g,infos["near"])
     }
     return infos;
-}
-
-const exampleInfos = {  // information attributes and values used in README.js
-    'name' : 'Loch Fyne',
-    'area': 'city centre',
-    'near': 'The Rice Boat',
-    'eatType': 'restaurant',
-    'familyFriendly': 'no',
-    'food': 'fast food',
-}
-
-// const debugInfos = {
-//     'name':'Strada',
-//     'eatType':'pub',
-//     'area':'city centre'
-// }
-
-////  start of execution
-if (typeof module !== 'undefined' && module.exports) {
-    let dataFileName="./data/personage-nlg-test.jsonl"
-    let params=require("./generation_parameters");
-    var apply_parameters = params.apply_parameters;
-    let util=require("util");
-    add_words_to_lexicon();
-    trace=false;  
-    let fs=require("fs");
-    if (true){ // generate the example used in README.md
-        for (pers of mr_values.personality){
-            console.log("%s | %s ",pers, personalized_recommandation(params,pers,exampleInfos));
-        }
-    } else {  // generate from data file
-        dataFileName=require("path").resolve(__dirname,dataFileName)
-        const lines = fs.readFileSync(dataFileName,'utf-8').trim().split("\n")
-        setExceptionOnWarning(true);
-        let nb=0;
-        for (const line of lines.slice(0,undefined)) {
-            personalized_recommandation_out(params,makeInfos(line));
-            nb++;
-        }
-        console.log("%d meaning representations processed",nb)
-    }
-} else {  // for execution in a web page
-    // to debug from Visual Code Studio 
-    //   start a web server in the jsRealB directory
-    //   e.g.  python3 -m http.server
-    $(document).ready(function() {
-        $fields=$("#fields");
-        $search=$("#search");
-        $sentences=$("#sentences");
-        $sentences.click(showValuesInMenu);
-        $corpus=$("#corpus");
-        $corpus.change(changeCorpus);
-        changeCorpus();
-        createSearch(mrRefs)
-        add_words_to_lexicon();
-        createFields(mr_values);
-    })
 }

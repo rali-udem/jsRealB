@@ -1,3 +1,5 @@
+export {levenshtein, computeDiffs,addHTMLStr,showDiffs, addColoredStr}
+
 // compute edit distance between str1 and str2 and return list of edit commands 
 function levenshtein(str1,str2) {
    function minimum(a,b,c) {
@@ -80,14 +82,13 @@ function computeDiffs(str1,str2){
     return [toks1,toks2].concat(levenshtein(toks1,toks2));
 }
 
-
-
 function addHTMLStr(toks,i,j,editType){
     if (i==j)return "";
     let res=toks.slice(i,j).join("");
     if (editType==undefined) return res;
     return `<span class="${editType}">${res}</span>`
 }
+
 // return two HTML strings showing the difference between the two
 // classes: rep (replacement), ins (insert), del (delete)
 function showDiffs(diffs,addStr){
@@ -156,7 +157,3 @@ function addColoredStr(toks,i,j,editType){
     return ""
 }
 
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    exports.computeDiffs=computeDiffs;
-    exports.showDiffs = function(diffs){ return showDiffs(diffs,addColoredStr)};
-}

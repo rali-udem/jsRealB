@@ -1,0 +1,62 @@
+Dependencies between files of UDregenerator
+    indentation indicates a direct dependency
+    * indicates that a dependency subtree defined elsewhere
+
+- Main/callable programs
+
+UDregenerator-en.html 
+    d3js
+    ace
+    jsRealB.js
+    UDregenerator.css
+    UDregenerator-en.js *
+
+UDregenerator-fr.html
+    d3js
+    ace
+    jsRealB.js
+    UDregenerator.css
+    UDregenerator-fr.js *
+
+UDregenerator-node.js
+    jsRealB.js
+    levenshtein.js
+    UDregenerator.js *
+    UDregenerator-{en|fr}.js *
+
+UDgrep.js
+    UD.js
+        UDnode.js
+    UDinit-en.js
+    drawDependencies.js
+
+sampleConnll
+    UDregenerator.js
+
+variationsFromtext
+    jsRealB.js
+    UDregenerator.js
+    UDregenerator-{en|fr}.js *
+
+===   Classes and utilities
+UDregenerator-en.js
+    UDinit-en.js
+    UDnode-en.js
+        UDnode.js
+        UD2jsr.js
+    UDregenerator.js *
+
+UDregenerator-fr.js
+    UDinit-fr.js
+    UDnode-fr.js
+        UDnode.js
+        UD2jsr.js
+    UDregenerator.js *
+
+UDregenerator.js
+    UD.js
+        UDnode.js
+    utils.js
+    levenshtein.js
+    drawDependencies.js
+

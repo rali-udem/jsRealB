@@ -1,5 +1,5 @@
 "use strict";
-var jsRealBdir='http://rali.iro.umontreal.ca/JSrealB/current/dist/';
+var jsRealBdir='/Users/lapalme/Dropbox/jsRealB-class/dist/';
 var currentLang;
 
 // taken from https://www.sitepoint.com/url-parameters-jquery/
@@ -221,9 +221,10 @@ function englishTable(){
 }
 
 $(document).ready(function() {
-    $("#jsRealB-en").append(jsRealBdir+"jsRealB-en.min.js");
-    $("#jsRealB-fr").append(jsRealBdir+"jsRealB-fr.min.js");
-    $("#jsRealB-enfr").append(jsRealBdir+"jsRealB-enfr.min.js");
+    // $("#jsRealB-en").append(jsRealBdir+"jsRealB-en.min.js");
+    // $("#jsRealB-fr").append(jsRealBdir+"jsRealB-fr.min.js");
+    // $("#jsRealB-enfr").append(jsRealBdir+"jsRealB-enfr.min.js");
+    Object.assign(globalThis,jsRealB);
     $("#version-no").text(jsRealB_version);
     insertQuickLinks("fr");
     insertQuickLinks("en");

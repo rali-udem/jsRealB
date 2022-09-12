@@ -1,89 +1,80 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 4.2 - August 2022*
+*Version 4.5 - September 2022*
 
-**Natural Language Generation (NLG)** is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
+**This version is a major code reorganization of the system with JavaScript classes and modules.** This simplifies the internal organization of the code, but the syntactic formalism stays the same, possibly incurring a slight modification in the initial setup.
 
-The web is constantly growing and its content, getting progressively more dynamic, is well-suited to automation by a realizer. However existing realizers are not designed with the web in mind and their operation requires much knowledge, complicating their use.
+Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
+
+The web is constantly growing and its content, getting progressively more dynamic, is well-suited to automation by a realizer. However existing realizers are not designed with the web in mind and their integration in a web environment requires much knowledge, complicating their use.
 
 **jsRealB is a text realizer designed specifically for the web**, easy to learn and to use. This realizer allows its user to build a variety of French and English expressions and sentences, to add HTML tags to them and to easily integrate them into web pages.
 
 **jsRealB can also be used in Javascript application** by means of a `node.js` module available also as `npm` package. It also accepts an input specification in JSON. 
 
-The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html). You can switch language in the upper right corner of the page. The specification of the JSON input format is described [here](http://rali.iro.umontreal.ca/JSrealB/current/data/jsRealB-jsonInput.html).
+The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html). You can switch between English and French in the upper right corner of the page. The specification of the JSON input format is described [here](http://rali.iro.umontreal.ca/JSrealB/current/data/jsRealB-jsonInput.html).
+
+The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements in Python a text realizer using the same notation for syntactic elements as `jsRealB`.
+
+`jsRealB` can be used out of the box (the GitHub in fact!) in a web page by using `jsRealB.js` in the [`dist`](dist/) directory.
 
 **Caution**
+* [`node.js`](https://nodejs.org/) is necessary for the Javascript application examples.
+* The current build process relies on the availability of [webpack](https://webpack.js.org).
 
-* `jsRealB` can be used (out of the GitHub!) in a web page using only `jsRealB.min.js` (or `jsRealB.js`) in the [`dist`](dist/) directory.
-* [`node.js`](https://nodejs.org/) is necessary for the Javascript applications and for minifying the Javascript using [`terser`](https://www.npmjs.com/package/terser "Downloads").
-* The current build process relies on the availability of some Unix tools such as `makefile`, `cat` and output redirection (`>`).
-* Windows users (and others) will therefore want to use the pre-built files in the [`dist`](dist/) directory.
 
 ## Directories
 * [`Architecture`](Architecture/):
     * `README.md` : Description of the architecture of the system; the second section goes into details of the organization of the source files and describes the main methods.
-* [`build`](build/): build system to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
-    * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
-    * `IO-json.js` : functions for dealing with the JSON input format
-    * `jsRealBclass.py` : Python classes and functions to generate the JSON input format and use jsRealB from Python
-    * `module-end.js` : lines to add at the end when creating a module from js files
-    * `module-exports.js` : list of exported identifiers when creating a module from the js files
-    * `module-start.js` : line to add at the start when creating a module from js files
-    * `Number.js` : utility function for dealing with number formatting
-    * `Phrase.js` : subclass of *Constituent* for creating complex phrases
-    * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
-    * `swi-json.pl` : SWI-Prolog predicates to create the JSON input format
-    * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
-    * `Utils.js` : useful functions that do not belong to the *constituent*s
-    * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
-* [`data`](data/):
-    * `lexicon-en-basic.js` : basic English lexicon (5238 entries) [was preloaded in previous versions]
-    * `lexicon-en.js` : a *comprehensive* English lexicon (33926 entries) in js format [preloaded]
-    * `lexicon-en.json` : a *comprehensive* English lexicon (33926 entries) in json format
-    * `rule-en.js` : English conjugation and declension tables [preloaded]
-    * `lexicon-fr-basic.js` : basic French lexicon (3720 entries) [was preloaded in previous versions]
+* [`data`](data/):  lexicographic information that is bundled with the `dist/jsRealB.js`
+    * `lexicon-en.json` : a *comprehensive* English lexicon (33926 entries) in JSON format 
+    * `lexicon-fr.json` : a *comprehensive* French lexicon (52512 entries) in JSON format
+    * `rule-en.js` : English conjugation and declension tables 
     * `rule-fr.js` : French conjugation and declension tables 
-    * `lexicon-fr.js` : a *comprehensive* French lexicon (52512 entries) in js format [preloaded]
-    * `lexicon-fr.json` : a *comprehensive* French lexicon (52512 entries) in json format
-    * `lexicon.jsonrnc` : JSON-RNC file for validating a lexicon
-    * `lexiconFormat.html` : documentation of the format of the lexicon
-    * `jsRealB.jsonrnc` : JSON-RNC file for validating the JSON input specification
-    * `jsRealB.jsonrnc.json` : json version of JSON-RNC file for validating the JSON input specification (generated by the parser of the input)
-    * `jsRealB-jsoninput.html` : documentation of the format of the JSON  input specification
 * [`demos`] : see next section
-* [`dist`](dist/): pre-built JavaScript files ready for production use, they already include the basic English and French lexicons and the English and French rule tables
-    * For use in a web page : `<script src="..."></script>`
-        * `jsRealB.js`: packages all .js files of the `build` directory as a module and exports only the main functions
-        * `jsRealB.min.js`: minified version of the above
-    * For use as a node.js module :
-        * `jsRealB-node.js`: packages all .js files of the `build` directory as a module and exports only the main functions
-        * `jsRealB-node.min.js`: minified version of the above
+* [`dist`](dist/): pre-built JavaScript files ready for production use, they already include the English and French lexicons and the English and French rule tables
+    * `jsRealB.js`: packages all .js files of the `build` directory as a module and exports only main functions and constants
+        * For use in a web page : `<script src="/path/to/dist/jsRealB.js"></script>`
+        * For use as a node.js module : `import jsRealB from  "/path/to/dist/jsRealB.js"`
     * `jsRealB-filter.js`: example of use of the node.js module to create a Unix filter for `jsRealB`
     * `jsRealB-server.js`: example of use of the node.js module to start a web server that realizes sentences
-    * `jsRealB-server-dme.js`: same as above but loading the *comprehensive* lexicon
-    * `testServer.py`: example of a Python program using the `jsRealB` server
-    * `datedCore.js`: intermediary file used during the makefile for saving the date the makefile was created. This file should probably be deleted after the makefile 
+    * `testServer.py`: Python script using the `jsRealB` server
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.  
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
       `npm version {major|minor|patch}`  
       `npm publish`  
-    Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` and `jsRealB.min.js` are published.
+    Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
     * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * `style.css`: style sheet
     * `user-infos.js`: definitions of variables containing the examples
     * `user.js`  : JavaScript helper script.
-* [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.md`](IDE/README.md) file to learn how to use it.
+* [`Examples`](Examples): Examples of integration of jsRealB into web pages or node.js applications. See [index.html](Examples/index.html) for use cases.
+* [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
+* [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
+    * `jsdoc`: documentation directory of the source files of jsRealB.js. [Consult the documentation](src/index.html)
+    * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
+    * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
+    * `JSON-tools.js` : functions for dealing with the JSON input format
+    * `jsRealB.js` : _main_ module that gathers all exported symbols from other classes and exports them in a single list. It also defines other utility functions and constants
+    * `Lexicon.js` : English and French lexicons with their associated functions  
+    * `NonTerminal.js` : functions and constants that are shared between `Dependent.js` and `Phrase.js`
+    * `Number.js` : utility functions for number formatting
+    * `Phrase.js` : subclass of *Constituent* for creating complex phrases using the _constituent notation_
+    * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
+    * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
 * [`Tests`](Tests/) : unit tests (using [QUnit](https://qunitjs.com "QUnit")) of jsRealB in both French and English.
     * `testAll.html` : load this file in a browser to run all tests
 * [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html)
 * *Files in the current directory*:
-    * `jsRealB2.html` : simplistic web page that loads each Javascript file from the `build` directory; this is very useful for testing using the Javascript inspector
-    * `jsRealB2-min.html` : simplistic web page that loads  `dist/jsRealB.min.js`; this is very useful for testing that the minified file still works
-    * `jsRealB2.js` : some test sentences that are displayed on the console when loading the above file
-    * `makefile` : for building files in the dist and managing the system
+    * `tests-dev.js` : node.js application that loads `jsRealB.js` from the `dist` directory and an internal script that displays the realization of a few examples. 
     * `README.md` : this file
+    * `package.json` : file with parameters for building jsRealB using `npm` using  
+                       `npm run build-dev` or  `npm run build-prod` 
+    * `test-demos.sh`: launch all web demos in Safari and the jsRealB server with the Weather Python demo
+    * `webpack.config.cjs` : configuration file for building the `jsRealB.js` package in the `dist` directory
+    * `.vscode` : hidden file configuration for Visual Studio Code 
 
 
 ## Demos
@@ -144,8 +135,6 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     The language of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/metro.html)
 * **Weather bulletin generation in English and French**. An example of use of the Python API for **jsRealB**. Taking weather information in JSON, it generates bulletin in both English and French. [This tutorial describes the organization of the system](http://rali.iro.umontreal.ca/JSrealB/current/demos/Weather/Bulletin-generation.html) which shows how **jsRealB** can be used in a real-life situation in conjunction with Python for data manipulation.
 
-### Test demos
-* The demos are usually run using the *compiled* version. But after modification of the source files, the version with the separate loading of the file can be obtained by commenting/uncommenting some `<script>...</script>` lines at the start of the html file. The shell script `testDemos.sh` can be used to do this while keeping the original intact. If the script is called with a name of an HTML file, then that file is uncommented and shown in the browser (using the `open` command on the MacOS). With no argument, then all demos are displayed in different tabs. The script waits for 5 seconds between each try.
 
 ### Interactive use with *Observable*
 * Two [Observable](https://observablehq.com) notebooks are available for trying `jsRealB` expressions and seeing their realizations.
@@ -153,7 +142,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
 ## Design of the system
-The current version (4.0) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
+The current version (4.5) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 

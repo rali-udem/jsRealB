@@ -1,0 +1,2654 @@
+# sent_id = 1.0
+# text = fertilizers are a source of pollution
+1	fertilizers	fertilizer	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	source	source	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	6	case	_	_
+6	pollution	pollution	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 2.0
+# text = the type of material through which sound passes changes the speed at which sound travels
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	type	type	NOUN	NN	Number=Sing	9	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	material	material	NOUN	NN	Number=Sing	2	nmod	_	_
+5	through	through	ADP	IN	_	8	case	_	_
+6	which	which	DET	WDT	PronType=Int	7	det	_	_
+7	sound	sound	NOUN	NN	Number=Sing	8	nsubj	_	_
+8	passes	pass	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	acl:relcl	_	_
+9	changes	change	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	11	det	_	_
+11	speed	speed	NOUN	NN	Number=Sing	9	obj	_	_
+12	at	at	ADP	IN	_	15	mark	_	_
+13	which	which	DET	WDT	PronType=Int	14	det	_	_
+14	sound	sound	NOUN	NN	Number=Sing	15	nsubj	_	_
+15	travels	travel	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	acl:relcl	_	_
+
+# sent_id = 3.0
+# text = farming cause nutrients in the soil to decrease
+1	farming	farm	VERB	VBG	VerbForm=Ger	0	root	_	_
+2	cause	cause	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	1	xcomp	_	_
+3	nutrients	nutrient	NOUN	NNS	Number=Plur	2	obj	_	_
+4	in	in	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	soil	soil	NOUN	NN	Number=Sing	3	nmod	_	_
+7	to	to	PART	TO	_	8	mark	_	_
+8	decrease	decrease	VERB	VB	VerbForm=Inf	2	advcl	_	_
+
+# sent_id = 4.0
+# text = a chloroplast contains chlorophyll
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	chloroplast	chloroplast	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	chlorophyll	chlorophyll	NOUN	NN	Number=Sing	3	obj	_	_
+
+# sent_id = 5.0
+# text = a car engine usually converts gasoline into motion and heat through combustion
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	car	car	NOUN	NN	Number=Sing	3	compound	_	_
+3	engine	engine	NOUN	NN	Number=Sing	5	nsubj	_	_
+4	usually	usually	ADV	RB	_	5	advmod	_	_
+5	converts	convert	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	gasoline	gasoline	NOUN	NN	Number=Sing	5	obj	_	_
+7	into	into	ADP	IN	_	8	case	_	_
+8	motion	motion	NOUN	NN	Number=Sing	5	obl	_	_
+9	and	and	CCONJ	CC	_	10	cc	_	_
+10	heat	heat	NOUN	NN	Number=Sing	8	conj	_	_
+11	through	through	ADP	IN	_	12	case	_	_
+12	combustion	combustion	NOUN	NN	Number=Sing	8	nmod	_	_
+
+# sent_id = 6.0
+# text = detailed observation of celestial objects requires a telescope
+1	detailed	detailed	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	observation	observation	NOUN	NN	Number=Sing	6	nsubj	_	_
+3	of	of	ADP	IN	_	5	case	_	_
+4	celestial	celestial	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	objects	object	NOUN	NNS	Number=Plur	2	nmod	_	_
+6	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	telescope	telescope	NOUN	NN	Number=Sing	6	obj	_	_
+
+# sent_id = 7.0
+# text = if an object is hot then the surfaces of that object are hot
+1	if	if	SCONJ	IN	_	5	mark	_	_
+2	an	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	object	object	NOUN	NN	Number=Sing	5	nsubj	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+5	hot	hot	ADJ	JJ	Degree=Pos	13	advcl	_	_
+6	then	then	ADV	RB	PronType=Dem	13	advmod	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	surfaces	surface	NOUN	NNS	Number=Plur	13	nsubj	_	_
+9	of	of	ADP	IN	_	11	case	_	_
+10	that	that	DET	DT	Number=Sing|PronType=Dem	11	det	_	_
+11	object	object	NOUN	NN	Number=Sing	8	nmod	_	_
+12	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	13	cop	_	_
+13	hot	hot	ADJ	JJ	Degree=Pos	0	root	_	_
+
+# sent_id = 8.0
+# text = sugars are transported from the leaves to the roots of a plant
+1	sugars	sugar	NOUN	NNS	Number=Plur	3	nsubj:pass	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	transported	transport	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	from	from	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	leaves	leave	NOUN	NNS	Number=Plur	3	obl	_	_
+7	to	to	ADP	IN	_	9	case	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+9	roots	root	NOUN	NNS	Number=Plur	3	obl	_	_
+10	of	of	ADP	IN	_	12	case	_	_
+11	a	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+12	plant	plant	NOUN	NN	Number=Sing	9	nmod	_	_
+
+# sent_id = 9.0
+# text = the digestive system digests food for the body
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	digestive	digestive	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	system	system	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	digests	digest	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	food	food	NOUN	NN	Number=Sing	4	obj	_	_
+6	for	for	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	body	body	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 10.0
+# text = birds are a vehicle for spreading the seeds of a plant
+1	birds	bird	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	vehicle	vehicle	NOUN	NN	Number=Sing	0	root	_	_
+5	for	for	SCONJ	IN	_	6	mark	_	_
+6	spreading	spread	VERB	VBG	VerbForm=Ger	4	acl	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	seeds	seed	NOUN	NNS	Number=Plur	6	obj	_	_
+9	of	of	ADP	IN	_	11	case	_	_
+10	a	a	DET	DT	Definite=Ind|PronType=Art	11	det	_	_
+11	plant	plant	NOUN	NN	Number=Sing	8	nmod	_	_
+
+# sent_id = 11.0
+# text = if two animals eat the same prey then those animals compete for that prey
+1	if	if	SCONJ	IN	_	4	mark	_	_
+2	two	two	NUM	CD	NumType=Card	3	nummod	_	_
+3	animals	animal	NOUN	NNS	Number=Plur	4	nsubj	_	_
+4	eat	eat	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	11	advcl	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+6	same	same	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	prey	prey	NOUN	NN	Number=Sing	4	obj	_	_
+8	then	then	ADV	RB	PronType=Dem	11	advmod	_	_
+9	those	that	DET	DT	Number=Plur|PronType=Dem	10	det	_	_
+10	animals	animal	NOUN	NNS	Number=Plur	11	nsubj	_	_
+11	compete	compete	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+12	for	for	ADP	IN	_	14	case	_	_
+13	that	that	DET	DT	Number=Sing|PronType=Dem	14	det	_	_
+14	prey	prey	NOUN	NN	Number=Sing	11	obl	_	_
+
+# sent_id = 12.0
+# text = a rocket engine is used to produce thrust by pushing gases out at a high speed
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	rocket	rocket	NOUN	NN	Number=Sing	3	compound	_	_
+3	engine	engine	NOUN	NN	Number=Sing	5	nsubj:pass	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:pass	_	_
+5	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+6	to	to	PART	TO	_	7	mark	_	_
+7	produce	produce	VERB	VB	VerbForm=Inf	5	xcomp	_	_
+8	thrust	thrust	NOUN	NN	Number=Sing	7	obj	_	_
+9	by	by	SCONJ	IN	_	10	mark	_	_
+10	pushing	push	VERB	VBG	VerbForm=Ger	7	advcl	_	_
+11	gases	gas	NOUN	NNS	Number=Plur	10	obj	_	_
+12	out	out	ADP	RP	_	10	compound:prt	_	_
+13	at	at	ADP	IN	_	16	case	_	_
+14	a	a	DET	DT	Definite=Ind|PronType=Art	16	det	_	_
+15	high	high	ADJ	JJ	Degree=Pos	16	amod	_	_
+16	speed	speed	NOUN	NN	Number=Sing	10	obl	_	_
+
+# sent_id = 13.0
+# text = the kidney removes byproducts from the blood
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	kidney	kidney	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	removes	remove	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	byproducts	byproduct	NOUN	NNS	Number=Plur	3	obj	_	_
+5	from	from	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	blood	blood	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 14.0
+# text = as available water in an environment decreases , the amount of available food in that environment will decrease
+1	as	as	SCONJ	IN	_	7	mark	_	_
+2	available	available	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	water	water	NOUN	NN	Number=Sing	7	nsubj	_	_
+4	in	in	ADP	IN	_	6	case	_	_
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	environment	environment	NOUN	NN	Number=Sing	3	nmod	_	_
+7	decreases	decrease	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	advcl	_	_
+8	,	,	PUNCT	,	_	18	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	amount	amount	NOUN	NN	Number=Sing	18	nsubj	_	_
+11	of	of	ADP	IN	_	13	case	_	_
+12	available	available	ADJ	JJ	Degree=Pos	13	amod	_	_
+13	food	food	NOUN	NN	Number=Sing	10	nmod	_	_
+14	in	in	ADP	IN	_	16	case	_	_
+15	that	that	DET	DT	Number=Sing|PronType=Dem	16	det	_	_
+16	environment	environment	NOUN	NN	Number=Sing	13	nmod	_	_
+17	will	will	AUX	MD	VerbForm=Fin	18	aux	_	_
+18	decrease	decrease	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 15.0
+# text = a plant cell contains chloroplasts
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	plant	plant	NOUN	NN	Number=Sing	3	compound	_	_
+3	cell	cell	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	chloroplasts	chloroplast	NOUN	NNS	Number=Plur	4	obj	_	_
+
+# sent_id = 16.0
+# text = the increase of something required by an organism has a positive impact on that organism 's survival
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	increase	increase	NOUN	NN	Number=Sing	9	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	something	something	PRON	NN	Number=Sing	2	nmod	_	_
+5	required	require	VERB	VBN	Tense=Past|VerbForm=Part	4	acl	_	_
+6	by	by	ADP	IN	_	8	case	_	_
+7	an	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	organism	organism	NOUN	NN	Number=Sing	5	obl	_	_
+9	has	have	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	a	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+11	positive	positive	ADJ	JJ	Degree=Pos	12	amod	_	_
+12	impact	impact	NOUN	NN	Number=Sing	9	obj	_	_
+13	on	on	ADP	IN	_	17	case	_	_
+14	that	that	DET	DT	Number=Sing|PronType=Dem	15	det	_	_
+15	organism	organism	NOUN	NN	Number=Sing	17	nmod:poss	_	_
+16	's	's	PART	POS	_	15	case	_	_
+17	survival	survival	NOUN	NN	Number=Sing	12	nmod	_	_
+
+# sent_id = 17.0
+# text = a polar bear requires a cold environment
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	polar	polar	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	bear	bear	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+6	cold	cold	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	environment	environment	NOUN	NN	Number=Sing	4	obj	_	_
+
+# sent_id = 18.0
+# text = hibernation is used for conserving resources by some animals
+1	hibernation	hibernation	NOUN	NN	Number=Sing	3	nsubj:pass	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	for	for	SCONJ	IN	_	5	mark	_	_
+5	conserving	conserve	VERB	VBG	VerbForm=Ger	3	advcl	_	_
+6	resources	resource	NOUN	NNS	Number=Plur	5	obj	_	_
+7	by	by	ADP	IN	_	9	case	_	_
+8	some	some	DET	DT	_	9	det	_	_
+9	animals	animal	NOUN	NNS	Number=Plur	5	obl	_	_
+
+# sent_id = 19.0
+# text = rocks are a source of shelter for small animals in an environment
+1	rocks	rock	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	source	source	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	6	case	_	_
+6	shelter	shelter	NOUN	NN	Number=Sing	4	nmod	_	_
+7	for	for	ADP	IN	_	9	case	_	_
+8	small	small	ADJ	JJ	Degree=Pos	9	amod	_	_
+9	animals	animal	NOUN	NNS	Number=Plur	6	nmod	_	_
+10	in	in	ADP	IN	_	12	case	_	_
+11	an	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+12	environment	environment	NOUN	NN	Number=Sing	9	nmod	_	_
+
+# sent_id = 20.0
+# text = if something is in the sunlight then that something will absorb solar energy
+1	if	if	SCONJ	IN	_	6	mark	_	_
+2	something	something	PRON	NN	Number=Sing	6	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+4	in	in	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	sunlight	sunlight	NOUN	NN	Number=Sing	11	advcl	_	_
+7	then	then	ADV	RB	PronType=Dem	11	advmod	_	_
+8	that	that	SCONJ	IN	_	11	mark	_	_
+9	something	something	PRON	NN	Number=Sing	11	nsubj	_	_
+10	will	will	AUX	MD	VerbForm=Fin	11	aux	_	_
+11	absorb	absorb	VERB	VB	VerbForm=Inf	0	root	_	_
+12	solar	solar	ADJ	JJ	Degree=Pos	13	amod	_	_
+13	energy	energy	NOUN	NN	Number=Sing	11	obj	_	_
+
+# sent_id = 21.0
+# text = eagles eat fish
+1	eagles	eagle	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	eat	eat	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	fish	fish	NOUN	NN	Number=Sing	2	obj	_	_
+
+# sent_id = 22.0
+# text = runoff contains pesticides from cropland
+1	runoff	runoff	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	pesticides	pesticide	NOUN	NNS	Number=Plur	2	obj	_	_
+4	from	from	ADP	IN	_	5	case	_	_
+5	cropland	cropland	NOUN	NN	Number=Sing	2	obl	_	_
+
+# sent_id = 23.0
+# text = usually craters on planets are formed by asteroids impacting that planet or moon 's surface
+1	usually	usually	ADV	RB	_	6	advmod	_	_
+2	craters	crater	NOUN	NNS	Number=Plur	6	nsubj:pass	_	_
+3	on	on	ADP	IN	_	4	case	_	_
+4	planets	planet	NOUN	NNS	Number=Plur	2	nmod	_	_
+5	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	6	aux:pass	_	_
+6	formed	form	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+7	by	by	ADP	IN	_	8	case	_	_
+8	asteroids	asteroid	NOUN	NNS	Number=Plur	6	obl	_	_
+9	impacting	impact	VERB	VBG	VerbForm=Ger	8	acl	_	_
+10	that	that	DET	DT	Number=Sing|PronType=Dem	11	det	_	_
+11	planet	planet	NOUN	NN	Number=Sing	9	obj	_	_
+12	or	or	CCONJ	CC	_	15	cc	_	_
+13	moon	moon	NOUN	NN	Number=Sing	15	nmod:poss	_	_
+14	's	's	PART	POS	_	13	case	_	_
+15	surface	surface	NOUN	NN	Number=Sing	11	conj	_	_
+
+# sent_id = 24.0
+# text = coal is used to produce electricity by burning in coal-fire power stations
+1	coal	coal	NOUN	NN	Number=Sing	3	nsubj:pass	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	to	to	PART	TO	_	5	mark	_	_
+5	produce	produce	VERB	VB	VerbForm=Inf	3	xcomp	_	_
+6	electricity	electricity	NOUN	NN	Number=Sing	5	obj	_	_
+7	by	by	SCONJ	IN	_	8	mark	_	_
+8	burning	burn	VERB	VBG	VerbForm=Ger	5	advcl	_	_
+9	in	in	ADP	IN	_	14	case	_	_
+10	coal	coal	NOUN	NN	Number=Sing	12	compound	_	_
+11	-	-	PUNCT	HYPH	_	12	punct	_	_
+12	fire	fire	NOUN	NN	Number=Sing	14	compound	_	_
+13	power	power	NOUN	NN	Number=Sing	14	compound	_	_
+14	stations	station	NOUN	NNS	Number=Plur	8	obl	_	_
+
+# sent_id = 25.0
+# text = incomplete metamorphosis is when an insect reaches the adult stage without being a pupa
+1	incomplete	incomplete	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	metamorphosis	metamorphosis	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	when	when	SCONJ	WRB	PronType=Int	7	mark	_	_
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	insect	insect	NOUN	NN	Number=Sing	7	nsubj	_	_
+7	reaches	reach	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	advcl	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+9	adult	adult	ADJ	JJ	Degree=Pos	10	amod	_	_
+10	stage	stage	NOUN	NN	Number=Sing	7	obj	_	_
+11	without	without	SCONJ	IN	_	14	mark	_	_
+12	being	be	AUX	VBG	VerbForm=Ger	14	cop	_	_
+13	a	a	DET	DT	Definite=Ind|PronType=Art	14	det	_	_
+14	pupa	pupa	NOUN	NN	Number=Sing	7	advcl	_	_
+
+# sent_id = 26.0
+# text = as a source of light becomes closer , that source will appear brighter
+1	as	as	SCONJ	IN	_	6	mark	_	_
+2	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	source	source	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	light	light	NOUN	NN	Number=Sing	3	nmod	_	_
+6	becomes	become	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	_
+7	closer	close	ADJ	JJR	Degree=Cmp	6	xcomp	_	_
+8	,	,	PUNCT	,	_	12	punct	_	_
+9	that	that	DET	DT	Number=Sing|PronType=Dem	10	det	_	_
+10	source	source	NOUN	NN	Number=Sing	12	nsubj	_	_
+11	will	will	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	appear	appear	VERB	VB	VerbForm=Inf	0	root	_	_
+13	brighter	bright	ADJ	JJR	Degree=Cmp	12	xcomp	_	_
+
+# sent_id = 27.0
+# text = temperature is a measure of heat energy
+1	temperature	temperature	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	measure	measure	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	7	case	_	_
+6	heat	heat	NOUN	NN	Number=Sing	7	compound	_	_
+7	energy	energy	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 28.0
+# text = a reptile is cold-blooded
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	reptile	reptile	NOUN	NN	Number=Sing	6	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+4	cold	cold	ADJ	JJ	Degree=Pos	6	amod	_	_
+5	-	-	PUNCT	HYPH	_	6	punct	_	_
+6	blooded	blood	VERB	VBN	Tense=Past|VerbForm=Part	0	root	_	_
+
+# sent_id = 29.0
+# text = if something is outside during the day then that something will receive sunlight
+1	if	if	SCONJ	IN	_	4	mark	_	_
+2	something	something	PRON	NN	Number=Sing	4	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+4	outside	outside	ADV	RB	_	12	advcl	_	_
+5	during	during	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	day	day	NOUN	NN	Number=Sing	4	obl	_	_
+8	then	then	ADV	RB	PronType=Dem	12	advmod	_	_
+9	that	that	SCONJ	IN	_	12	mark	_	_
+10	something	something	PRON	NN	Number=Sing	12	nsubj	_	_
+11	will	will	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	receive	receive	VERB	VB	VerbForm=Inf	0	root	_	_
+13	sunlight	sunlight	NOUN	NN	Number=Sing	12	obj	_	_
+
+# sent_id = 30.0
+# text = fossil fuels forming occurs over a period of 300000000 years which is considered a very long time to a human
+1	fossil	fossil	NOUN	NN	Number=Sing	2	compound	_	_
+2	fuels	fuel	NOUN	NNS	Number=Plur	4	nsubj	_	_
+3	forming	form	VERB	VBG	VerbForm=Ger	2	acl	_	_
+4	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	over	over	ADP	IN	_	7	case	_	_
+6	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+7	period	period	NOUN	NN	Number=Sing	4	obl	_	_
+8	of	of	ADP	IN	_	10	case	_	_
+9	300000000	300000000	NUM	CD	NumType=Card	10	nummod	_	_
+10	years	year	NOUN	NNS	Number=Plur	7	nmod	_	_
+11	which	which	PRON	WDT	PronType=Rel	13	nsubj:pass	_	_
+12	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	aux:pass	_	_
+13	considered	consider	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	10	acl:relcl	_	_
+14	a	a	DET	DT	Definite=Ind|PronType=Art	17	det	_	_
+15	very	very	ADV	RB	_	16	advmod	_	_
+16	long	long	ADJ	JJ	Degree=Pos	17	amod	_	_
+17	time	time	NOUN	NN	Number=Sing	13	obj	_	_
+18	to	to	ADP	IN	_	20	case	_	_
+19	a	a	DET	DT	Definite=Ind|PronType=Art	20	det	_	_
+20	human	human	NOUN	NN	Number=Sing	17	nmod	_	_
+
+# sent_id = 31.0
+# text = as mileage per gallon of gasoline increases , the amount of gasoline used will decrease
+1	as	as	ADP	IN	_	2	case	_	_
+2	mileage	mileage	NOUN	NN	Number=Sing	15	obl	_	_
+3	per	per	ADP	IN	_	4	case	_	_
+4	gallon	gallon	NOUN	NN	Number=Sing	2	nmod	_	_
+5	of	of	ADP	IN	_	7	case	_	_
+6	gasoline	gasoline	NOUN	NN	Number=Sing	7	compound	_	_
+7	increases	increase	NOUN	NNS	Number=Plur	4	nmod	_	_
+8	,	,	PUNCT	,	_	15	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	amount	amount	NOUN	NN	Number=Sing	15	nsubj	_	_
+11	of	of	ADP	IN	_	12	case	_	_
+12	gasoline	gasoline	NOUN	NN	Number=Sing	10	nmod	_	_
+13	used	use	VERB	VBN	Tense=Past|VerbForm=Part	12	acl	_	_
+14	will	will	AUX	MD	VerbForm=Fin	15	aux	_	_
+15	decrease	decrease	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 32.0
+# text = an example of a seasonal change is plants becoming dormant in the winter
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	8	nsubj	_	_
+3	of	of	ADP	IN	_	6	case	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+5	seasonal	seasonal	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	change	change	NOUN	NN	Number=Sing	2	nmod	_	_
+7	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	_
+8	plants	plant	NOUN	NNS	Number=Plur	0	root	_	_
+9	becoming	become	VERB	VBG	VerbForm=Ger	8	acl	_	_
+10	dormant	dormant	ADJ	JJ	Degree=Pos	9	xcomp	_	_
+11	in	in	ADP	IN	_	13	case	_	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+13	winter	winter	NOUN	NN	Number=Sing	10	obl	_	_
+
+# sent_id = 33.0
+# text = deep sea animals live deep in the ocean
+1	deep	deep	ADJ	JJ	Degree=Pos	3	amod	_	_
+2	sea	sea	NOUN	NN	Number=Sing	3	compound	_	_
+3	animals	animal	NOUN	NNS	Number=Plur	4	nsubj	_	_
+4	live	live	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	deep	deep	ADV	RB	_	4	advmod	_	_
+6	in	in	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	ocean	ocean	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 34.0
+# text = metamorphosis is when an animal changes from an immature form to an adult form
+1	metamorphosis	metamorphosis	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	6	mark	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	animal	animal	NOUN	NN	Number=Sing	6	nsubj	_	_
+6	changes	change	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+7	from	from	ADP	IN	_	10	case	_	_
+8	an	a	DET	DT	Definite=Ind|PronType=Art	10	det	_	_
+9	immature	immature	ADJ	JJ	Degree=Pos	10	amod	_	_
+10	form	form	NOUN	NN	Number=Sing	6	obl	_	_
+11	to	to	ADP	IN	_	14	case	_	_
+12	an	a	DET	DT	Definite=Ind|PronType=Art	14	det	_	_
+13	adult	adult	NOUN	NN	Number=Sing	14	compound	_	_
+14	form	form	NOUN	NN	Number=Sing	10	nmod	_	_
+
+# sent_id = 35.0
+# text = decomposition is when a decomposer recycles nutrients from dead organisms to the soil by eating those dead organisms
+1	decomposition	decomposition	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	6	mark	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	decomposer	decomposer	NOUN	NN	Number=Sing	6	nsubj	_	_
+6	recycles	recycle	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+7	nutrients	nutrient	NOUN	NNS	Number=Plur	6	obj	_	_
+8	from	from	ADP	IN	_	10	case	_	_
+9	dead	dead	ADJ	JJ	Degree=Pos	10	amod	_	_
+10	organisms	organism	NOUN	NNS	Number=Plur	7	nmod	_	_
+11	to	to	ADP	IN	_	13	case	_	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+13	soil	soil	NOUN	NN	Number=Sing	6	obl	_	_
+14	by	by	SCONJ	IN	_	15	mark	_	_
+15	eating	eat	VERB	VBG	VerbForm=Ger	6	advcl	_	_
+16	those	that	DET	DT	Number=Plur|PronType=Dem	18	det	_	_
+17	dead	dead	ADJ	JJ	Degree=Pos	18	amod	_	_
+18	organisms	organism	NOUN	NNS	Number=Plur	15	obj	_	_
+
+# sent_id = 36.0
+# text = contact between rocks over long periods of time causes rocks to smooth
+1	contact	contact	VERB	VB	Mood=Imp|VerbForm=Fin	0	root	_	_
+2	between	between	ADP	IN	_	3	case	_	_
+3	rocks	rock	NOUN	NNS	Number=Plur	1	obl	_	_
+4	over	over	ADP	IN	_	6	case	_	_
+5	long	long	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	periods	period	NOUN	NNS	Number=Plur	3	nmod	_	_
+7	of	of	ADP	IN	_	8	case	_	_
+8	time	time	NOUN	NN	Number=Sing	6	nmod	_	_
+9	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	parataxis	_	_
+10	rocks	rock	NOUN	NNS	Number=Plur	9	obj	_	_
+11	to	to	ADP	IN	_	12	case	_	_
+12	smooth	smooth	ADJ	JJ	Degree=Pos	10	nmod	_	_
+
+# sent_id = 37.0
+# text = animals exhale carbon dioxide from their lungs into the air
+1	animals	animal	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	exhale	exhale	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	carbon	carbon	NOUN	NN	Number=Sing	4	compound	_	_
+4	dioxide	dioxide	NOUN	NN	Number=Sing	2	obj	_	_
+5	from	from	ADP	IN	_	7	case	_	_
+6	their	they	PRON	PRP$	Number=Plur|Person=3|Poss=Yes|PronType=Prs	7	nmod:poss	_	_
+7	lungs	lung	NOUN	NNS	Number=Plur	2	obl	_	_
+8	into	into	ADP	IN	_	10	case	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	air	air	NOUN	NN	Number=Sing	2	obl	_	_
+
+# sent_id = 38.0
+# text = squirrels gather nuts in the autumn to eat during the winter
+1	squirrels	squirrel	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	gather	gather	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	nuts	nut	NOUN	NNS	Number=Plur	2	obj	_	_
+4	in	in	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	autumn	autumn	NOUN	NN	Number=Sing	2	obl	_	_
+7	to	to	PART	TO	_	8	mark	_	_
+8	eat	eat	VERB	VB	VerbForm=Inf	2	advcl	_	_
+9	during	during	ADP	IN	_	11	case	_	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	11	det	_	_
+11	winter	winter	NOUN	NN	Number=Sing	8	obl	_	_
+
+# sent_id = 39.0
+# text = as the surface area of a body of water increases , evaporation of that body of water will increase
+1	as	as	SCONJ	IN	_	10	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	_
+3	surface	surface	NOUN	NN	Number=Sing	4	compound	_	_
+4	area	area	NOUN	NN	Number=Sing	10	nsubj	_	_
+5	of	of	ADP	IN	_	7	case	_	_
+6	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+7	body	body	NOUN	NN	Number=Sing	4	nmod	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	water	water	NOUN	NN	Number=Sing	7	nmod	_	_
+10	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	19	advcl	_	_
+11	,	,	PUNCT	,	_	19	punct	_	_
+12	evaporation	evaporation	NOUN	NN	Number=Sing	19	nsubj	_	_
+13	of	of	ADP	IN	_	15	case	_	_
+14	that	that	DET	DT	Number=Sing|PronType=Dem	15	det	_	_
+15	body	body	NOUN	NN	Number=Sing	12	nmod	_	_
+16	of	of	ADP	IN	_	17	case	_	_
+17	water	water	NOUN	NN	Number=Sing	15	nmod	_	_
+18	will	will	AUX	MD	VerbForm=Fin	19	aux	_	_
+19	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 40.0
+# text = living things can all reproduce
+1	living	live	VERB	VBG	VerbForm=Ger	5	csubj	_	_
+2	things	thing	NOUN	NNS	Number=Plur	1	obj	_	_
+3	can	can	AUX	MD	VerbForm=Fin	5	aux	_	_
+4	all	all	ADV	RB	_	5	advmod	_	_
+5	reproduce	reproduce	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 41.0
+# text = insects can have a negative impact on crops
+1	insects	insect	NOUN	NNS	Number=Plur	3	nsubj	_	_
+2	can	can	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	have	have	VERB	VB	VerbForm=Inf	0	root	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+5	negative	negative	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	impact	impact	NOUN	NN	Number=Sing	3	obj	_	_
+7	on	on	ADP	IN	_	8	case	_	_
+8	crops	crop	NOUN	NNS	Number=Plur	6	nmod	_	_
+
+# sent_id = 42.0
+# text = the excretory system removes waste from the body
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	excretory	excretory	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	system	system	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	removes	remove	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	waste	waste	NOUN	NN	Number=Sing	4	obj	_	_
+6	from	from	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	body	body	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 43.0
+# text = if an organism dies then the population of that organism will decrease
+1	if	if	SCONJ	IN	_	4	mark	_	_
+2	an	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	organism	organism	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	dies	die	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	_
+5	then	then	ADV	RB	PronType=Dem	12	advmod	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	population	population	NOUN	NN	Number=Sing	12	nsubj	_	_
+8	of	of	ADP	IN	_	10	case	_	_
+9	that	that	DET	DT	Number=Sing|PronType=Dem	10	det	_	_
+10	organism	organism	NOUN	NN	Number=Sing	7	nmod	_	_
+11	will	will	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	decrease	decrease	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 44.0
+# text = freezing point means temperature at which a liquid freezes
+1	freezing	freezing	NOUN	NN	Number=Sing	2	compound	_	_
+2	point	point	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	means	mean	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	temperature	temperature	NOUN	NN	Number=Sing	3	obj	_	_
+5	at	at	ADP	IN	_	6	case	_	_
+6	which	which	PRON	WDT	PronType=Rel	9	obl	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	liquid	liquid	NOUN	NN	Number=Sing	9	nsubj	_	_
+9	freezes	freeze	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	acl:relcl	_	_
+
+# sent_id = 45.0
+# text = a doorbell converts electrical energy into sound
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	doorbell	doorbell	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	converts	convert	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	electrical	electrical	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	energy	energy	NOUN	NN	Number=Sing	3	obj	_	_
+6	into	into	ADP	IN	_	7	case	_	_
+7	sound	sound	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 46.0
+# text = the color of an object can be discovered by looking at that object
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	color	color	NOUN	NN	Number=Sing	8	nsubj:pass	_	_
+3	of	of	ADP	IN	_	5	case	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	object	object	NOUN	NN	Number=Sing	2	nmod	_	_
+6	can	can	AUX	MD	VerbForm=Fin	8	aux	_	_
+7	be	be	AUX	VB	VerbForm=Inf	8	aux:pass	_	_
+8	discovered	discover	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+9	by	by	SCONJ	IN	_	10	mark	_	_
+10	looking	look	VERB	VBG	VerbForm=Ger	8	advcl	_	_
+11	at	at	ADP	IN	_	13	case	_	_
+12	that	that	DET	DT	Number=Sing|PronType=Dem	13	det	_	_
+13	object	object	NOUN	NN	Number=Sing	10	obl	_	_
+
+# sent_id = 47.0
+# text = if the population of an organism increases then the ecosystem may become overpopulated with that organism
+1	if	if	SCONJ	IN	_	7	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	population	population	NOUN	NN	Number=Sing	7	nsubj	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	organism	organism	NOUN	NN	Number=Sing	3	nmod	_	_
+7	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	_
+8	then	then	ADV	RB	PronType=Dem	12	advmod	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	ecosystem	ecosystem	NOUN	NN	Number=Sing	12	nsubj	_	_
+11	may	may	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	become	become	VERB	VB	VerbForm=Inf	0	root	_	_
+13	overpopulated	overpopulate	VERB	VBN	Tense=Past|VerbForm=Part	12	xcomp	_	_
+14	with	with	ADP	IN	_	16	case	_	_
+15	that	that	DET	DT	Number=Sing|PronType=Dem	16	det	_	_
+16	organism	organism	NOUN	NN	Number=Sing	13	obl	_	_
+
+# sent_id = 48.0
+# text = a reflector is used to reflect light especially on vehicles
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	reflector	reflector	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	reflect	reflect	VERB	VB	VerbForm=Inf	4	xcomp	_	_
+7	light	light	NOUN	NN	Number=Sing	6	obj	_	_
+8	especially	especially	ADV	RB	_	10	advmod	_	_
+9	on	on	ADP	IN	_	10	case	_	_
+10	vehicles	vehicle	NOUN	NNS	Number=Plur	6	obl	_	_
+
+# sent_id = 49.0
+# text = the breaking down of food into simple substances occurs in the digestive system
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	breaking	breaking	NOUN	NN	Number=Sing	9	nsubj	_	_
+3	down	down	ADP	IN	_	5	case	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	food	food	NOUN	NN	Number=Sing	2	nmod	_	_
+6	into	into	ADP	IN	_	8	case	_	_
+7	simple	simple	ADJ	JJ	Degree=Pos	8	amod	_	_
+8	substances	substance	NOUN	NNS	Number=Plur	5	nmod	_	_
+9	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	in	in	ADP	IN	_	13	case	_	_
+11	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+12	digestive	digestive	ADJ	JJ	Degree=Pos	13	amod	_	_
+13	system	system	NOUN	NN	Number=Sing	9	obl	_	_
+
+# sent_id = 50.0
+# text = pluto has not cleared its orbit
+1	pluto	pluto	PROPN	NNP	Number=Sing	4	nsubj	_	_
+2	has	have	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+3	not	not	PART	RB	_	4	advmod	_	_
+4	cleared	clear	VERB	VBN	Tense=Past|VerbForm=Part	0	root	_	_
+5	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	6	nmod:poss	_	_
+6	orbit	orbit	NOUN	NN	Number=Sing	4	obj	_	_
+
+# sent_id = 51.0
+# text = winter in the northern hemisphere is during the summer in the southern hemisphere
+1	winter	winter	NOUN	NN	Number=Sing	9	nsubj	_	_
+2	in	in	ADP	IN	_	5	case	_	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+4	northern	northern	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	hemisphere	hemisphere	NOUN	NN	Number=Sing	1	nmod	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	cop	_	_
+7	during	during	ADP	IN	_	9	case	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+9	summer	summer	NOUN	NN	Number=Sing	0	root	_	_
+10	in	in	ADP	IN	_	13	case	_	_
+11	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+12	southern	southern	ADJ	JJ	Degree=Pos	13	amod	_	_
+13	hemisphere	hemisphere	NOUN	NN	Number=Sing	9	nmod	_	_
+
+# sent_id = 52.0
+# text = an landfill is a source of pollution
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	landfill	landfill	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	source	source	NOUN	NN	Number=Sing	0	root	_	_
+6	of	of	ADP	IN	_	7	case	_	_
+7	pollution	pollution	NOUN	NN	Number=Sing	5	nmod	_	_
+
+# sent_id = 53.0
+# text = medicine can cause people to have bad reactions
+1	medicine	medicine	NOUN	NN	Number=Sing	3	nsubj	_	_
+2	can	can	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	cause	cause	VERB	VB	VerbForm=Inf	0	root	_	_
+4	people	people	NOUN	NNS	Number=Plur	3	obj	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	have	have	VERB	VB	VerbForm=Inf	3	xcomp	_	_
+7	bad	bad	ADJ	JJ	Degree=Pos	8	amod	_	_
+8	reactions	reaction	NOUN	NNS	Number=Plur	6	obj	_	_
+
+# sent_id = 54.0
+# text = burning gasoline is a source of pollution
+1	burning	burn	VERB	VBG	VerbForm=Ger	2	amod	_	_
+2	gasoline	gasoline	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	source	source	NOUN	NN	Number=Sing	0	root	_	_
+6	of	of	ADP	IN	_	7	case	_	_
+7	pollution	pollution	NOUN	NN	Number=Sing	5	nmod	_	_
+
+# sent_id = 55.0
+# text = using less resources usually causes money to be saved
+1	using	use	VERB	VBG	VerbForm=Ger	5	csubj	_	_
+2	less	less	ADJ	JJR	Degree=Cmp	3	amod	_	_
+3	resources	resource	NOUN	NNS	Number=Plur	1	obj	_	_
+4	usually	usually	ADV	RB	_	5	advmod	_	_
+5	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	money	money	NOUN	NN	Number=Sing	5	obj	_	_
+7	to	to	PART	TO	_	9	mark	_	_
+8	be	be	AUX	VB	VerbForm=Inf	9	aux:pass	_	_
+9	saved	save	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	5	xcomp	_	_
+
+# sent_id = 56.0
+# text = wax is an electrical insulator
+1	wax	wax	NOUN	NN	Number=Sing	5	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+4	electrical	electrical	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	insulator	insulator	NOUN	NN	Number=Sing	0	root	_	_
+
+# sent_id = 57.0
+# text = dropping something causes that something to fall
+1	dropping	drop	VERB	VBG	VerbForm=Ger	3	csubj	_	_
+2	something	something	PRON	NN	Number=Sing	1	obj	_	_
+3	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	that	that	SCONJ	IN	_	7	mark	_	_
+5	something	something	PRON	NN	Number=Sing	3	obj	_	_
+6	to	to	PART	TO	_	7	mark	_	_
+7	fall	fall	VERB	VB	VerbForm=Inf	5	acl	_	_
+
+# sent_id = 58.0
+# text = a compass is used to navigate oceans
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	compass	compass	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	navigate	navigate	VERB	VB	VerbForm=Inf	4	xcomp	_	_
+7	oceans	ocean	NOUN	NNS	Number=Plur	6	obj	_	_
+
+# sent_id = 59.0
+# text = uneven heating causes convection
+1	uneven	uneven	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	heating	heating	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	convection	convection	NOUN	NN	Number=Sing	3	obj	_	_
+
+# sent_id = 60.0
+# text = evaporation causes amount of water to decrease
+1	evaporation	evaporation	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	amount	amount	NOUN	NN	Number=Sing	2	obj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	water	water	NOUN	NN	Number=Sing	3	nmod	_	_
+6	to	to	PART	TO	_	7	mark	_	_
+7	decrease	decrease	VERB	VB	VerbForm=Inf	2	advcl	_	_
+
+# sent_id = 61.0
+# text = chemical splashing can cause harm to the eyes
+1	chemical	chemical	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	splashing	splashing	NOUN	NN	Number=Sing	4	nsubj	_	_
+3	can	can	AUX	MD	VerbForm=Fin	4	aux	_	_
+4	cause	cause	VERB	VB	VerbForm=Inf	0	root	_	_
+5	harm	harm	NOUN	NN	Number=Sing	4	obj	_	_
+6	to	to	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	eyes	eye	NOUN	NNS	Number=Plur	4	obl	_	_
+
+# sent_id = 62.0
+# text = two females can not usually reproduce with each other
+1	two	two	NUM	CD	NumType=Card	2	nummod	_	_
+2	females	female	NOUN	NNS	Number=Plur	6	nsubj	_	_
+3	can	can	AUX	MD	VerbForm=Fin	6	aux	_	_
+4	not	not	PART	RB	_	6	advmod	_	_
+5	usually	usually	ADV	RB	_	6	advmod	_	_
+6	reproduce	reproduce	VERB	VB	VerbForm=Inf	0	root	_	_
+7	with	with	ADP	IN	_	9	case	_	_
+8	each	each	DET	DT	_	9	det	_	_
+9	other	other	ADJ	JJ	Degree=Pos	6	obl	_	_
+
+# sent_id = 63.0
+# text = if two animals have the same food source then those two animals compete for food
+1	if	if	SCONJ	IN	_	4	mark	_	_
+2	two	two	NUM	CD	NumType=Card	3	nummod	_	_
+3	animals	animal	NOUN	NNS	Number=Plur	4	nsubj	_	_
+4	have	have	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	13	advcl	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+6	same	same	ADJ	JJ	Degree=Pos	8	amod	_	_
+7	food	food	NOUN	NN	Number=Sing	8	compound	_	_
+8	source	source	NOUN	NN	Number=Sing	4	obj	_	_
+9	then	then	ADV	RB	PronType=Dem	13	advmod	_	_
+10	those	that	DET	DT	Number=Plur|PronType=Dem	12	det	_	_
+11	two	two	NUM	CD	NumType=Card	12	nummod	_	_
+12	animals	animal	NOUN	NNS	Number=Plur	13	nsubj	_	_
+13	compete	compete	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+14	for	for	ADP	IN	_	15	case	_	_
+15	food	food	NOUN	NN	Number=Sing	13	obl	_	_
+
+# sent_id = 64.0
+# text = plants are the source of fruit
+1	plants	plant	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	_
+4	source	source	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	6	case	_	_
+6	fruit	fruit	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 65.0
+# text = plucking a string can cause that string to vibrate
+1	plucking	pluck	VERB	VBG	VerbForm=Ger	5	csubj	_	_
+2	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	string	string	NOUN	NN	Number=Sing	1	obj	_	_
+4	can	can	AUX	MD	VerbForm=Fin	5	aux	_	_
+5	cause	cause	VERB	VB	VerbForm=Inf	0	root	_	_
+6	that	that	DET	DT	Number=Sing|PronType=Dem	7	det	_	_
+7	string	string	NOUN	NN	Number=Sing	5	obj	_	_
+8	to	to	PART	TO	_	9	mark	_	_
+9	vibrate	vibrate	VERB	VB	VerbForm=Inf	5	xcomp	_	_
+
+# sent_id = 66.0
+# text = light can travel through a vacuum
+1	light	light	NOUN	NN	Number=Sing	3	nsubj	_	_
+2	can	can	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	travel	travel	VERB	VB	VerbForm=Inf	0	root	_	_
+4	through	through	ADP	IN	_	6	case	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	vacuum	vacuum	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 67.0
+# text = the earth rotates on its axis on its axis
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	earth	earth	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	rotates	rotate	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	on	on	ADP	IN	_	6	case	_	_
+5	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	6	nmod:poss	_	_
+6	axis	axis	NOUN	NN	Number=Sing	3	obl	_	_
+7	on	on	ADP	IN	_	9	case	_	_
+8	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	9	nmod:poss	_	_
+9	axis	axis	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 68.0
+# text = melting is when solids are heated above their melting point
+1	melting	melting	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	6	mark	_	_
+4	solids	solid	NOUN	NNS	Number=Plur	6	nsubj:pass	_	_
+5	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	6	aux:pass	_	_
+6	heated	heat	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	2	advcl	_	_
+7	above	above	ADP	IN	_	10	case	_	_
+8	their	they	PRON	PRP$	Number=Plur|Person=3|Poss=Yes|PronType=Prs	10	nmod:poss	_	_
+9	melting	melting	NOUN	NN	Number=Sing	10	compound	_	_
+10	point	point	NOUN	NN	Number=Sing	6	obl	_	_
+
+# sent_id = 69.0
+# text = photosynthesis makes food for the plant by converting carbon dioxide, water, and sunlight into carbohydrates
+1	photosynthesis	photosynthesis	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	makes	make	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	food	food	NOUN	NN	Number=Sing	2	obj	_	_
+4	for	for	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	plant	plant	NOUN	NN	Number=Sing	3	nmod	_	_
+7	by	by	SCONJ	IN	_	8	mark	_	_
+8	converting	convert	VERB	VBG	VerbForm=Ger	2	advcl	_	_
+9	carbon	carbon	NOUN	NN	Number=Sing	10	compound	_	_
+10	dioxide	dioxide	NOUN	NN	Number=Sing	8	obj	_	_
+11	,	,	PUNCT	,	_	12	punct	_	_
+12	water	water	NOUN	NN	Number=Sing	10	conj	_	_
+13	,	,	PUNCT	,	_	15	punct	_	_
+14	and	and	CCONJ	CC	_	15	cc	_	_
+15	sunlight	sunlight	NOUN	NN	Number=Sing	10	conj	_	_
+16	into	into	ADP	IN	_	17	case	_	_
+17	carbohydrates	carbohydrate	NOUN	NNS	Number=Plur	8	obl	_	_
+
+# sent_id = 70.0
+# text = a grassland environment receives more rainfall than a desert
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	grassland	grassland	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	environment	environment	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	receives	receive	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	more	more	ADJ	JJR	Degree=Cmp	6	amod	_	_
+6	rainfall	rainfall	NOUN	NN	Number=Sing	4	obj	_	_
+7	than	than	ADP	IN	_	9	case	_	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	desert	desert	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 71.0
+# text = burning wood is used to produce heat
+1	burning	burn	VERB	VBG	VerbForm=Ger	2	amod	_	_
+2	wood	wood	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	produce	produce	VERB	VB	VerbForm=Inf	4	xcomp	_	_
+7	heat	heat	NOUN	NN	Number=Sing	6	obj	_	_
+
+# sent_id = 72.0
+# text = an example of weathering is when a plant root grows into a crack in rock
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	weathering	weathering	NOUN	NN	Number=Sing	2	nmod	_	_
+5	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	when	when	SCONJ	WRB	PronType=Int	10	mark	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+8	plant	plant	NOUN	NN	Number=Sing	9	compound	_	_
+9	root	root	NOUN	NN	Number=Sing	10	nsubj	_	_
+10	grows	grow	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	advcl	_	_
+11	into	into	ADP	IN	_	13	case	_	_
+12	a	a	DET	DT	Definite=Ind|PronType=Art	13	det	_	_
+13	crack	crack	NOUN	NN	Number=Sing	10	obl	_	_
+14	in	in	ADP	IN	_	15	case	_	_
+15	rock	rock	NOUN	NN	Number=Sing	13	nmod	_	_
+
+# sent_id = 73.0
+# text = the top layer of soil contains the most nutrients
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	top	top	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	layer	layer	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	soil	soil	NOUN	NN	Number=Sing	3	nmod	_	_
+6	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+8	most	most	ADJ	JJS	Degree=Sup	9	amod	_	_
+9	nutrients	nutrient	NOUN	NNS	Number=Plur	6	obj	_	_
+
+# sent_id = 74.0
+# text = a radio is used for communication
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	radio	radio	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	for	for	ADP	IN	_	6	case	_	_
+6	communication	communication	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 75.0
+# text = as the population of prey decreases , competition between predators will increase
+1	as	as	SCONJ	IN	_	6	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	population	population	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	prey	prey	NOUN	NN	Number=Sing	3	nmod	_	_
+6	decreases	decrease	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	_
+7	,	,	PUNCT	,	_	12	punct	_	_
+8	competition	competition	NOUN	NN	Number=Sing	12	nsubj	_	_
+9	between	between	ADP	IN	_	10	case	_	_
+10	predators	predator	NOUN	NNS	Number=Plur	8	nmod	_	_
+11	will	will	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 76.0
+# text = some predators move quickly to catch prey
+1	some	some	DET	DT	_	2	det	_	_
+2	predators	predator	NOUN	NNS	Number=Plur	3	nsubj	_	_
+3	move	move	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	quickly	quickly	ADV	RB	_	3	advmod	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	catch	catch	VERB	VB	VerbForm=Inf	3	advcl	_	_
+7	prey	prey	NOUN	NN	Number=Sing	6	obj	_	_
+
+# sent_id = 77.0
+# text = when a sound is produced inside of a room , there is sometimes an echo after the sound
+1	when	when	SCONJ	WRB	PronType=Int	5	mark	_	_
+2	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	sound	sound	NOUN	NN	Number=Sing	5	nsubj:pass	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:pass	_	_
+5	produced	produce	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	12	advcl	_	_
+6	inside	inside	ADP	IN	_	9	case	_	_
+7	of	of	ADP	IN	_	9	case	_	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	room	room	NOUN	NN	Number=Sing	5	obl	_	_
+10	,	,	PUNCT	,	_	12	punct	_	_
+11	there	there	PRON	EX	_	12	expl	_	_
+12	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+13	sometimes	sometimes	ADV	RB	_	12	advmod	_	_
+14	an	a	DET	DT	Definite=Ind|PronType=Art	15	det	_	_
+15	echo	echo	NOUN	NN	Number=Sing	12	nsubj	_	_
+16	after	after	ADP	IN	_	18	case	_	_
+17	the	the	DET	DT	Definite=Def|PronType=Art	18	det	_	_
+18	sound	sound	NOUN	NN	Number=Sing	15	nmod	_	_
+
+# sent_id = 78.0
+# text = the cocoons being created occurs during the the pupa stage in a life cycle
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	cocoons	cocoon	NOUN	NNS	Number=Plur	5	nsubj	_	_
+3	being	be	AUX	VBG	VerbForm=Ger	4	aux:pass	_	_
+4	created	create	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	2	acl	_	_
+5	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	during	during	ADP	IN	_	10	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+9	pupa	pupa	NOUN	NN	Number=Sing	10	compound	_	_
+10	stage	stage	NOUN	NN	Number=Sing	5	obl	_	_
+11	in	in	ADP	IN	_	14	case	_	_
+12	a	a	DET	DT	Definite=Ind|PronType=Art	14	det	_	_
+13	life	life	NOUN	NN	Number=Sing	14	compound	_	_
+14	cycle	cycle	NOUN	NN	Number=Sing	5	obl	_	_
+
+# sent_id = 79.0
+# text = when a body of water receives more water than it can hold , a flood occurs
+1	when	when	SCONJ	WRB	PronType=Int	6	mark	_	_
+2	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	body	body	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	water	water	NOUN	NN	Number=Sing	3	nmod	_	_
+6	receives	receive	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	16	advcl	_	_
+7	more	more	ADJ	JJR	Degree=Cmp	8	amod	_	_
+8	water	water	NOUN	NN	Number=Sing	6	obj	_	_
+9	than	than	SCONJ	IN	_	12	mark	_	_
+10	it	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	12	nsubj	_	_
+11	can	can	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	hold	hold	VERB	VB	VerbForm=Inf	6	advcl	_	_
+13	,	,	PUNCT	,	_	16	punct	_	_
+14	a	a	DET	DT	Definite=Ind|PronType=Art	15	det	_	_
+15	flood	flood	NOUN	NN	Number=Sing	16	nsubj	_	_
+16	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+
+# sent_id = 80.0
+# text = water vapor cooling causes that water vapor to condense
+1	water	water	NOUN	NN	Number=Sing	2	compound	_	_
+2	vapor	vapor	NOUN	NN	Number=Sing	3	compound	_	_
+3	cooling	cool	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	that	that	SCONJ	IN	_	9	mark	_	_
+6	water	water	NOUN	NN	Number=Sing	7	compound	_	_
+7	vapor	vapor	NOUN	NN	Number=Sing	9	nsubj	_	_
+8	to	to	PART	TO	_	9	mark	_	_
+9	condense	condense	VERB	VB	VerbForm=Inf	4	xcomp	_	_
+
+# sent_id = 81.0
+# text = good bacteria grow on the skin
+1	good	good	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	bacteria	bacteria	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	grow	grow	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	on	on	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	skin	skin	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 82.0
+# text = when the season changes , the amount of daylight will change
+1	when	when	SCONJ	WRB	PronType=Int	4	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	season	season	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	changes	change	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	advcl	_	_
+5	,	,	PUNCT	,	_	11	punct	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	amount	amount	NOUN	NN	Number=Sing	11	nsubj	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	daylight	daylight	NOUN	NN	Number=Sing	7	nmod	_	_
+10	will	will	AUX	MD	VerbForm=Fin	11	aux	_	_
+11	change	change	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 83.0
+# text = as the amount of water in a body of water increases , the water levels will increase
+1	as	as	ADP	IN	_	3	case	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	amount	amount	NOUN	NN	Number=Sing	11	nsubj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	water	water	NOUN	NN	Number=Sing	3	nmod	_	_
+6	in	in	ADP	IN	_	8	case	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	body	body	NOUN	NN	Number=Sing	3	nmod	_	_
+9	of	of	ADP	IN	_	10	case	_	_
+10	water	water	NOUN	NN	Number=Sing	8	nmod	_	_
+11	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	advcl	_	_
+12	,	,	PUNCT	,	_	17	punct	_	_
+13	the	the	DET	DT	Definite=Def|PronType=Art	15	det	_	_
+14	water	water	NOUN	NN	Number=Sing	15	compound	_	_
+15	levels	level	NOUN	NNS	Number=Plur	17	nsubj	_	_
+16	will	will	AUX	MD	VerbForm=Fin	17	aux	_	_
+17	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 84.0
+# text = remora fish eat food by attaching themselves to sharks and eating the food left behind
+1	remora	remora	NOUN	NN	Number=Sing	2	compound	_	_
+2	fish	fish	NOUN	NNS	Number=Plur	3	nsubj	_	_
+3	eat	eat	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	food	food	NOUN	NN	Number=Sing	3	obj	_	_
+5	by	by	SCONJ	IN	_	6	mark	_	_
+6	attaching	attach	VERB	VBG	VerbForm=Ger	3	advcl	_	_
+7	themselves	themselves	PRON	PRP	Case=Acc|Number=Plur|Person=3|PronType=Prs|Reflex=Yes	6	obj	_	_
+8	to	to	ADP	IN	_	9	case	_	_
+9	sharks	shark	NOUN	NNS	Number=Plur	6	obl	_	_
+10	and	and	CCONJ	CC	_	11	cc	_	_
+11	eating	eat	VERB	VBG	VerbForm=Ger	6	conj	_	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+13	food	food	NOUN	NN	Number=Sing	11	obj	_	_
+14	left	leave	VERB	VBN	Tense=Past|VerbForm=Part	11	xcomp	_	_
+15	behind	behind	ADP	IN	_	14	obl	_	_
+
+# sent_id = 85.0
+# text = planting trees has a positive impact on an ecosystem
+1	planting	plant	VERB	VBG	VerbForm=Ger	3	csubj	_	_
+2	trees	tree	NOUN	NNS	Number=Plur	1	obj	_	_
+3	has	have	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+5	positive	positive	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	impact	impact	NOUN	NN	Number=Sing	3	obj	_	_
+7	on	on	ADP	IN	_	9	case	_	_
+8	an	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	ecosystem	ecosystem	NOUN	NN	Number=Sing	6	nmod	_	_
+
+# sent_id = 86.0
+# text = freezing means changing from a liquid into a solid by reducing heat energy
+1	freezing	freezing	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	means	mean	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	changing	change	VERB	VBG	VerbForm=Ger	2	xcomp	_	_
+4	from	from	ADP	IN	_	6	case	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	liquid	liquid	NOUN	NN	Number=Sing	3	obl	_	_
+7	into	into	ADP	IN	_	9	case	_	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	solid	solid	ADJ	JJ	Degree=Pos	3	obl	_	_
+10	by	by	SCONJ	IN	_	11	mark	_	_
+11	reducing	reduce	VERB	VBG	VerbForm=Ger	3	advcl	_	_
+12	heat	heat	NOUN	NN	Number=Sing	13	compound	_	_
+13	energy	energy	NOUN	NN	Number=Sing	11	obj	_	_
+
+# sent_id = 87.0
+# text = camouflage is used for hiding by animals from predators
+1	camouflage	camouflage	NOUN	NN	Number=Sing	3	nsubj:pass	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	for	for	SCONJ	IN	_	5	mark	_	_
+5	hiding	hide	VERB	VBG	VerbForm=Ger	3	advcl	_	_
+6	by	by	ADP	IN	_	7	case	_	_
+7	animals	animal	NOUN	NNS	Number=Plur	5	obl	_	_
+8	from	from	ADP	IN	_	9	case	_	_
+9	predators	predator	NOUN	NNS	Number=Plur	5	obl	_	_
+
+# sent_id = 88.0
+# text = as distance from water decreases , humidity will increase
+1	as	as	ADP	IN	_	2	case	_	_
+2	distance	distance	NOUN	NN	Number=Sing	9	obl	_	_
+3	from	from	ADP	IN	_	5	case	_	_
+4	water	water	NOUN	NN	Number=Sing	5	compound	_	_
+5	decreases	decrease	NOUN	NNS	Number=Plur	2	nmod	_	_
+6	,	,	PUNCT	,	_	9	punct	_	_
+7	humidity	humidity	NOUN	NN	Number=Sing	9	nsubj	_	_
+8	will	will	AUX	MD	VerbForm=Fin	9	aux	_	_
+9	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 89.0
+# text = tectonic plates being pushed together causes earthquakes
+1	tectonic	tectonic	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	plates	plate	NOUN	NNS	Number=Plur	6	nsubj	_	_
+3	being	be	AUX	VBG	VerbForm=Ger	4	aux:pass	_	_
+4	pushed	push	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	2	acl	_	_
+5	together	together	ADV	RB	_	4	advmod	_	_
+6	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	earthquakes	earthquake	NOUN	NNS	Number=Plur	6	obj	_	_
+
+# sent_id = 90.0
+# text = an example of conservation is avoiding waste
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	6	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	conservation	conservation	NOUN	NN	Number=Sing	2	nmod	_	_
+5	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux	_	_
+6	avoiding	avoid	VERB	VBG	Tense=Pres|VerbForm=Part	0	root	_	_
+7	waste	waste	NOUN	NN	Number=Sing	6	obj	_	_
+
+# sent_id = 91.0
+# text = a force continually acting on an object in the same direction that the object is moving can cause that object 's speed to increase in a forward motion
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	force	force	NOUN	NN	Number=Sing	18	nsubj	_	_
+3	continually	continually	ADV	RB	_	4	advmod	_	_
+4	acting	act	VERB	VBG	VerbForm=Ger	2	acl	_	_
+5	on	on	ADP	IN	_	7	case	_	_
+6	an	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+7	object	object	NOUN	NN	Number=Sing	4	obl	_	_
+8	in	in	ADP	IN	_	11	case	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	11	det	_	_
+10	same	same	ADJ	JJ	Degree=Pos	11	amod	_	_
+11	direction	direction	NOUN	NN	Number=Sing	7	nmod	_	_
+12	that	that	SCONJ	IN	_	16	mark	_	_
+13	the	the	DET	DT	Definite=Def|PronType=Art	14	det	_	_
+14	object	object	NOUN	NN	Number=Sing	16	nsubj	_	_
+15	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	16	aux	_	_
+16	moving	move	VERB	VBG	Tense=Pres|VerbForm=Part	11	acl:relcl	_	_
+17	can	can	AUX	MD	VerbForm=Fin	18	aux	_	_
+18	cause	cause	VERB	VB	VerbForm=Inf	0	root	_	_
+19	that	that	DET	DT	Number=Sing|PronType=Dem	20	det	_	_
+20	object	object	NOUN	NN	Number=Sing	22	nmod:poss	_	_
+21	's	's	PART	POS	_	20	case	_	_
+22	speed	speed	NOUN	NN	Number=Sing	18	obj	_	_
+23	to	to	PART	TO	_	24	mark	_	_
+24	increase	increase	VERB	VB	VerbForm=Inf	22	acl	_	_
+25	in	in	ADP	IN	_	28	case	_	_
+26	a	a	DET	DT	Definite=Ind|PronType=Art	28	det	_	_
+27	forward	forward	ADJ	JJ	Degree=Pos	28	amod	_	_
+28	motion	motion	NOUN	NN	Number=Sing	24	obl	_	_
+
+# sent_id = 92.0
+# text = cellular respiration is when a cell converts from oxygen and carbohydrates into carbon dioxide, water, and energy
+1	cellular	cellular	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	respiration	respiration	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	when	when	SCONJ	WRB	PronType=Int	7	mark	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	cell	cell	NOUN	NN	Number=Sing	7	nsubj	_	_
+7	converts	convert	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	advcl	_	_
+8	from	from	ADP	IN	_	9	case	_	_
+9	oxygen	oxygen	NOUN	NN	Number=Sing	7	obl	_	_
+10	and	and	CCONJ	CC	_	11	cc	_	_
+11	carbohydrates	carbohydrate	NOUN	NNS	Number=Plur	9	conj	_	_
+12	into	into	ADP	IN	_	14	case	_	_
+13	carbon	carbon	NOUN	NN	Number=Sing	14	compound	_	_
+14	dioxide	dioxide	NOUN	NN	Number=Sing	7	obl	_	_
+15	,	,	PUNCT	,	_	16	punct	_	_
+16	water	water	NOUN	NN	Number=Sing	14	conj	_	_
+17	,	,	PUNCT	,	_	19	punct	_	_
+18	and	and	CCONJ	CC	_	19	cc	_	_
+19	energy	energy	NOUN	NN	Number=Sing	14	conj	_	_
+
+# sent_id = 93.0
+# text = wind carries dirt from one place to another place
+1	wind	wind	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	carries	carry	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	dirt	dirt	NOUN	NN	Number=Sing	2	obj	_	_
+4	from	from	ADP	IN	_	6	case	_	_
+5	one	one	NUM	CD	NumType=Card	6	nummod	_	_
+6	place	place	NOUN	NN	Number=Sing	2	obl	_	_
+7	to	to	ADP	IN	_	9	case	_	_
+8	another	another	DET	DT	_	9	det	_	_
+9	place	place	NOUN	NN	Number=Sing	2	obl	_	_
+
+# sent_id = 94.0
+# text = magnetism can cause objects to repel each other
+1	magnetism	magnetism	NOUN	NN	Number=Sing	3	nsubj	_	_
+2	can	can	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	cause	cause	VERB	VB	VerbForm=Inf	0	root	_	_
+4	objects	object	NOUN	NNS	Number=Plur	3	obj	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	repel	repel	VERB	VB	VerbForm=Inf	3	xcomp	_	_
+7	each	each	DET	DT	_	8	det	_	_
+8	other	other	ADJ	JJ	Degree=Pos	6	obj	_	_
+
+# sent_id = 95.0
+# text = plants are a source of oxygen through photosynthesis
+1	plants	plant	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	source	source	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	6	case	_	_
+6	oxygen	oxygen	NOUN	NN	Number=Sing	4	nmod	_	_
+7	through	through	ADP	IN	_	8	case	_	_
+8	photosynthesis	photosynthesis	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 96.0
+# text = a source of something supplies that something
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	source	source	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	something	something	PRON	NN	Number=Sing	2	nmod	_	_
+5	supplies	supply	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	that	that	PRON	WDT	PronType=Rel	7	nsubj	_	_
+7	something	something	PRON	NN	Number=Sing	5	obj	_	_
+
+# sent_id = 97.0
+# text = dairy is a source of vitamin d
+1	dairy	dairy	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	source	source	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	7	case	_	_
+6	vitamin	vitamin	NOUN	NN	Number=Sing	7	compound	_	_
+7	d	d	PROPN	NNP	Number=Sing	4	nmod	_	_
+
+# sent_id = 98.0
+# text = phloem transports materials through the plant
+1	phloem	phloem	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	transports	transport	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	materials	material	NOUN	NNS	Number=Plur	2	obj	_	_
+4	through	through	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	plant	plant	NOUN	NN	Number=Sing	2	obl	_	_
+
+# sent_id = 99.0
+# text = as the time a tool lasts increases , the number of tools discarded will decrease
+1	as	as	SCONJ	IN	_	6	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	time	time	NOUN	NN	Number=Sing	15	obl	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	tool	tool	NOUN	NN	Number=Sing	6	nsubj	_	_
+6	lasts	last	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	acl:relcl	_	_
+7	increases	increase	NOUN	NNS	Number=Plur	6	obj	_	_
+8	,	,	PUNCT	,	_	15	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	number	number	NOUN	NN	Number=Sing	15	nsubj	_	_
+11	of	of	ADP	IN	_	12	case	_	_
+12	tools	tool	NOUN	NNS	Number=Plur	10	nmod	_	_
+13	discarded	discard	VERB	VBN	Tense=Past|VerbForm=Part	12	acl	_	_
+14	will	will	AUX	MD	VerbForm=Fin	15	aux	_	_
+15	decrease	decrease	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 100.0
+# text = bluebirds live in grassy spaces
+1	bluebirds	bluebird	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	live	live	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	in	in	ADP	IN	_	5	case	_	_
+4	grassy	grassy	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	spaces	space	NOUN	NNS	Number=Plur	2	obl	_	_
+
+# sent_id = 101.0
+# text = carnivores only eat animals
+1	carnivores	carnivore	NOUN	NNS	Number=Plur	3	nsubj	_	_
+2	only	only	ADV	RB	_	3	advmod	_	_
+3	eat	eat	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	animals	animal	NOUN	NNS	Number=Plur	3	obj	_	_
+
+# sent_id = 102.0
+# text = a cactus stem is used for storing water
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	cactus	cactus	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	stem	stem	NOUN	NN	Number=Sing	5	nsubj:pass	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:pass	_	_
+5	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+6	for	for	SCONJ	IN	_	7	mark	_	_
+7	storing	store	VERB	VBG	VerbForm=Ger	5	advcl	_	_
+8	water	water	NOUN	NN	Number=Sing	7	obj	_	_
+
+# sent_id = 103.0
+# text = skin is used for protecting the body from harmful substances
+1	skin	skin	NOUN	NN	Number=Sing	3	nsubj:pass	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	for	for	SCONJ	IN	_	5	mark	_	_
+5	protecting	protect	VERB	VBG	VerbForm=Ger	3	advcl	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	body	body	NOUN	NN	Number=Sing	5	obj	_	_
+8	from	from	ADP	IN	_	10	case	_	_
+9	harmful	harmful	ADJ	JJ	Degree=Pos	10	amod	_	_
+10	substances	substance	NOUN	NNS	Number=Plur	5	obl	_	_
+
+# sent_id = 104.0
+# text = an example of a fossil is a paw print in rock
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	9	nsubj	_	_
+3	of	of	ADP	IN	_	5	case	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	fossil	fossil	NOUN	NN	Number=Sing	2	nmod	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	cop	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+8	paw	paw	NOUN	NN	Number=Sing	9	compound	_	_
+9	print	print	NOUN	NN	Number=Sing	0	root	_	_
+10	in	in	ADP	IN	_	11	case	_	_
+11	rock	rock	NOUN	NN	Number=Sing	9	nmod	_	_
+
+# sent_id = 105.0
+# text = the decrease of something required by an organism has a negative impact on that organism 's survival
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	decrease	decrease	NOUN	NN	Number=Sing	9	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	something	something	PRON	NN	Number=Sing	2	nmod	_	_
+5	required	require	VERB	VBN	Tense=Past|VerbForm=Part	4	acl	_	_
+6	by	by	ADP	IN	_	8	case	_	_
+7	an	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	organism	organism	NOUN	NN	Number=Sing	5	obl	_	_
+9	has	have	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	a	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+11	negative	negative	ADJ	JJ	Degree=Pos	12	amod	_	_
+12	impact	impact	NOUN	NN	Number=Sing	9	obj	_	_
+13	on	on	ADP	IN	_	17	case	_	_
+14	that	that	DET	DT	Number=Sing|PronType=Dem	15	det	_	_
+15	organism	organism	NOUN	NN	Number=Sing	17	nmod:poss	_	_
+16	's	's	PART	POS	_	15	case	_	_
+17	survival	survival	NOUN	NN	Number=Sing	12	nmod	_	_
+
+# sent_id = 106.0
+# text = if a tree is cut down then that tree will die
+1	if	if	SCONJ	IN	_	5	mark	_	_
+2	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	tree	tree	NOUN	NN	Number=Sing	5	nsubj:pass	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:pass	_	_
+5	cut	cut	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	11	advcl	_	_
+6	down	down	ADP	RP	_	5	compound:prt	_	_
+7	then	then	ADV	RB	PronType=Dem	11	advmod	_	_
+8	that	that	DET	DT	Number=Sing|PronType=Dem	9	det	_	_
+9	tree	tree	NOUN	NN	Number=Sing	11	nsubj	_	_
+10	will	will	AUX	MD	VerbForm=Fin	11	aux	_	_
+11	die	die	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 107.0
+# text = fossils are formed when layers of sediment cover the remains of organisms over time
+1	fossils	fossil	NOUN	NNS	Number=Plur	3	nsubj:pass	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	formed	form	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	when	when	SCONJ	WRB	PronType=Int	8	mark	_	_
+5	layers	layer	NOUN	NNS	Number=Plur	8	nsubj	_	_
+6	of	of	ADP	IN	_	7	case	_	_
+7	sediment	sediment	NOUN	NN	Number=Sing	5	nmod	_	_
+8	cover	cover	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	3	advcl	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	remains	remains	NOUN	NNS	Number=Plur	8	obj	_	_
+11	of	of	ADP	IN	_	12	case	_	_
+12	organisms	organism	NOUN	NNS	Number=Plur	10	nmod	_	_
+13	over	over	ADP	IN	_	14	case	_	_
+14	time	time	NOUN	NN	Number=Sing	8	obl	_	_
+
+# sent_id = 108.0
+# text = a new season occurs four times per year
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	new	new	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	season	season	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	four	four	NUM	CD	NumType=Card	6	nummod	_	_
+6	times	time	NOUN	NNS	Number=Plur	4	obl:tmod	_	_
+7	per	per	ADP	IN	_	8	case	_	_
+8	year	year	NOUN	NN	Number=Sing	6	nmod	_	_
+
+# sent_id = 109.0
+# text = camouflage can be used for hunting for food
+1	camouflage	camouflage	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+2	can	can	AUX	MD	VerbForm=Fin	4	aux	_	_
+3	be	be	AUX	VB	VerbForm=Inf	4	aux:pass	_	_
+4	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	for	for	SCONJ	IN	_	6	mark	_	_
+6	hunting	hunt	VERB	VBG	VerbForm=Ger	4	advcl	_	_
+7	for	for	ADP	IN	_	8	case	_	_
+8	food	food	NOUN	NN	Number=Sing	6	obl	_	_
+
+# sent_id = 110.0
+# text = a cactus stores water
+1	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+2	cactus	cactus	NOUN	NN	Number=Sing	3	compound	_	_
+3	stores	store	NOUN	NNS	Number=Plur	4	compound	_	_
+4	water	water	NOUN	NN	Number=Sing	0	root	_	_
+
+# sent_id = 111.0
+# text = looking directly at an eclipse of the sun causes harm to the eyes
+1	looking	look	VERB	VBG	VerbForm=Ger	9	csubj	_	_
+2	directly	directly	ADV	RB	_	1	advmod	_	_
+3	at	at	ADP	IN	_	5	case	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	eclipse	eclipse	NOUN	NN	Number=Sing	1	obl	_	_
+6	of	of	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	sun	sun	NOUN	NN	Number=Sing	5	nmod	_	_
+9	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+10	harm	harm	NOUN	NN	Number=Sing	9	obj	_	_
+11	to	to	ADP	IN	_	13	case	_	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+13	eyes	eye	NOUN	NNS	Number=Plur	9	obl	_	_
+
+# sent_id = 112.0
+# text = if electricity flows along more than one pathway then the circuit is parallel
+1	if	if	SCONJ	IN	_	3	mark	_	_
+2	electricity	electricity	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	flows	flow	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	advcl	_	_
+4	along	along	ADP	IN	_	8	case	_	_
+5	more	more	ADJ	JJR	Degree=Cmp	7	advmod	_	_
+6	than	than	ADP	IN	_	5	fixed	_	_
+7	one	one	NUM	CD	NumType=Card	8	nummod	_	_
+8	pathway	pathway	NOUN	NN	Number=Sing	3	obl	_	_
+9	then	then	ADV	RB	PronType=Dem	13	advmod	_	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	11	det	_	_
+11	circuit	circuit	NOUN	NN	Number=Sing	13	nsubj	_	_
+12	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	cop	_	_
+13	parallel	parallel	ADJ	JJ	Degree=Pos	0	root	_	_
+
+# sent_id = 113.0
+# text = polluting means something poisonous is added to an environment causing harm to the environment
+1	polluting	pollute	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	means	mean	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	something	something	PRON	NN	Number=Sing	2	obj	_	_
+4	poisonous	poisonous	ADJ	JJ	Degree=Pos	3	amod	_	_
+5	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux:pass	_	_
+6	added	add	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	2	ccomp	_	_
+7	to	to	ADP	IN	_	9	case	_	_
+8	an	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	environment	environment	NOUN	NN	Number=Sing	6	obl	_	_
+10	causing	cause	VERB	VBG	VerbForm=Ger	9	acl	_	_
+11	harm	harm	NOUN	NN	Number=Sing	10	obj	_	_
+12	to	to	ADP	IN	_	14	case	_	_
+13	the	the	DET	DT	Definite=Def|PronType=Art	14	det	_	_
+14	environment	environment	NOUN	NN	Number=Sing	10	obl	_	_
+
+# sent_id = 114.0
+# text = nerves are made of nerve cells
+1	nerves	nerve	NOUN	NNS	Number=Plur	3	nsubj:pass	_	_
+2	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	3	aux:pass	_	_
+3	made	make	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	nerve	nerve	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	cells	cell	NOUN	NNS	Number=Plur	3	obl	_	_
+
+# sent_id = 115.0
+# text = a nest is made of branches
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	nest	nest	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	made	make	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	of	of	ADP	IN	_	6	case	_	_
+6	branches	branch	NOUN	NNS	Number=Plur	4	obl	_	_
+
+# sent_id = 116.0
+# text = the respiratory system transfers oxygen to the circulatory system
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	respiratory	respiratory	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	system	system	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	transfers	transfer	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	oxygen	oxygen	NOUN	NN	Number=Sing	4	obj	_	_
+6	to	to	ADP	IN	_	9	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+8	circulatory	circulatory	ADJ	JJ	Degree=Pos	9	amod	_	_
+9	system	system	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 117.0
+# text = pushing an object requires force
+1	pushing	push	VERB	VBG	VerbForm=Ger	4	csubj	_	_
+2	an	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	object	object	NOUN	NN	Number=Sing	1	obj	_	_
+4	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	force	force	NOUN	NN	Number=Sing	4	obj	_	_
+
+# sent_id = 118.0
+# text = as the size of a leaf increases , the amount of sunlight absorbed by that leaf will increase
+1	as	as	SCONJ	IN	_	7	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	size	size	NOUN	NN	Number=Sing	7	nsubj	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	leaf	leaf	NOUN	NN	Number=Sing	3	nmod	_	_
+7	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	18	advcl	_	_
+8	,	,	PUNCT	,	_	18	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	amount	amount	NOUN	NN	Number=Sing	18	nsubj	_	_
+11	of	of	ADP	IN	_	12	case	_	_
+12	sunlight	sunlight	NOUN	NN	Number=Sing	10	nmod	_	_
+13	absorbed	absorb	VERB	VBN	Tense=Past|VerbForm=Part	10	acl	_	_
+14	by	by	ADP	IN	_	16	case	_	_
+15	that	that	DET	DT	Number=Sing|PronType=Dem	16	det	_	_
+16	leaf	leaf	NOUN	NN	Number=Sing	13	obl	_	_
+17	will	will	AUX	MD	VerbForm=Fin	18	aux	_	_
+18	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 119.0
+# text = an plant requires food for survival
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	plant	plant	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	food	food	NOUN	NN	Number=Sing	3	obj	_	_
+5	for	for	ADP	IN	_	6	case	_	_
+6	survival	survival	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 120.0
+# text = a fish lives in water
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	fish	fish	NOUN	NN	Number=Sing	3	compound	_	_
+3	lives	life	NOUN	NNS	Number=Plur	0	root	_	_
+4	in	in	ADP	IN	_	5	case	_	_
+5	water	water	NOUN	NN	Number=Sing	3	nmod	_	_
+
+# sent_id = 121.0
+# text = earth is the planet that is third closest to the sun
+1	earth	earth	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	_
+4	planet	planet	NOUN	NN	Number=Sing	0	root	_	_
+5	that	that	PRON	WDT	PronType=Rel	8	nsubj	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	_
+7	third	third	ADV	RB	_	8	advmod	_	_
+8	closest	close	ADJ	JJS	Degree=Sup	4	acl:relcl	_	_
+9	to	to	ADP	IN	_	11	case	_	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	11	det	_	_
+11	sun	sun	NOUN	NN	Number=Sing	8	obl	_	_
+
+# sent_id = 122.0
+# text = migration is when animals move themselves from a cooler climate to a warmer climate for the winter
+1	migration	migration	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	5	mark	_	_
+4	animals	animal	NOUN	NNS	Number=Plur	5	nsubj	_	_
+5	move	move	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+6	themselves	themselves	PRON	PRP	Case=Acc|Number=Plur|Person=3|PronType=Prs|Reflex=Yes	5	obj	_	_
+7	from	from	ADP	IN	_	10	case	_	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	10	det	_	_
+9	cooler	cool	ADJ	JJR	Degree=Cmp	10	amod	_	_
+10	climate	climate	NOUN	NN	Number=Sing	5	obl	_	_
+11	to	to	ADP	IN	_	14	case	_	_
+12	a	a	DET	DT	Definite=Ind|PronType=Art	14	det	_	_
+13	warmer	warm	ADJ	JJR	Degree=Cmp	14	amod	_	_
+14	climate	climate	NOUN	NN	Number=Sing	5	obl	_	_
+15	for	for	ADP	IN	_	17	case	_	_
+16	the	the	DET	DT	Definite=Def|PronType=Art	17	det	_	_
+17	winter	winter	NOUN	NN	Number=Sing	14	nmod	_	_
+
+# sent_id = 123.0
+# text = the earth contains many ecosystems
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	earth	earth	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	many	many	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	ecosystems	ecosystem	NOUN	NNS	Number=Plur	3	obj	_	_
+
+# sent_id = 124.0
+# text = the condition of the parts of an organism are acquired characteristics
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	condition	condition	NOUN	NN	Number=Sing	10	nsubj:pass	_	_
+3	of	of	ADP	IN	_	5	case	_	_
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+5	parts	part	NOUN	NNS	Number=Plur	2	nmod	_	_
+6	of	of	ADP	IN	_	8	case	_	_
+7	an	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	organism	organism	NOUN	NN	Number=Sing	5	nmod	_	_
+9	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	10	aux:pass	_	_
+10	acquired	acquire	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+11	characteristics	characteristic	NOUN	NNS	Number=Plur	10	obj	_	_
+
+# sent_id = 125.0
+# text = a sea turtle lives in the ocean
+1	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+2	sea	sea	NOUN	NN	Number=Sing	3	compound	_	_
+3	turtle	turtle	NOUN	NN	Number=Sing	4	compound	_	_
+4	lives	life	NOUN	NNS	Number=Plur	0	root	_	_
+5	in	in	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	ocean	ocean	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 126.0
+# text = the greenhouse effect is when carbon in the air heats a planet 's atmosphere
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	greenhouse	greenhouse	NOUN	NN	Number=Sing	3	compound	_	_
+3	effect	effect	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	when	when	SCONJ	WRB	PronType=Int	10	mark	_	_
+6	carbon	carbon	NOUN	NN	Number=Sing	10	nsubj	_	_
+7	in	in	ADP	IN	_	9	case	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+9	air	air	NOUN	NN	Number=Sing	6	nmod	_	_
+10	heats	heat	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	advcl	_	_
+11	a	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+12	planet	planet	NOUN	NN	Number=Sing	14	nmod:poss	_	_
+13	's	's	PART	POS	_	12	case	_	_
+14	atmosphere	atmosphere	NOUN	NN	Number=Sing	10	obj	_	_
+
+# sent_id = 127.0
+# text = oil is a source of energy
+1	oil	oil	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	source	source	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	6	case	_	_
+6	energy	energy	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 128.0
+# text = feeling is when an living thing senses through touch
+1	feeling	feeling	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	7	mark	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+5	living	living	NOUN	NN	Number=Sing	6	compound	_	_
+6	thing	thing	NOUN	NN	Number=Sing	7	nsubj	_	_
+7	senses	sense	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+8	through	through	ADP	IN	_	9	case	_	_
+9	touch	touch	NOUN	NN	Number=Sing	7	obl	_	_
+
+# sent_id = 129.0
+# text = the earth has more mass than the moon
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	earth	earth	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	has	have	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	more	more	ADJ	JJR	Degree=Cmp	5	amod	_	_
+5	mass	mass	NOUN	NN	Number=Sing	3	obj	_	_
+6	than	than	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	moon	moon	NOUN	NN	Number=Sing	5	nmod	_	_
+
+# sent_id = 130.0
+# text = animals require water for survival
+1	animals	animal	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	require	require	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	water	water	NOUN	NN	Number=Sing	2	obj	_	_
+4	for	for	ADP	IN	_	5	case	_	_
+5	survival	survival	NOUN	NN	Number=Sing	2	obl	_	_
+
+# sent_id = 131.0
+# text = the sun transfers heat energy from itself to the planets through sunlight
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	sun	sun	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	transfers	transfer	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	heat	heat	NOUN	NN	Number=Sing	5	compound	_	_
+5	energy	energy	NOUN	NN	Number=Sing	3	obj	_	_
+6	from	from	ADP	IN	_	7	case	_	_
+7	itself	itself	PRON	PRP	Case=Acc|Gender=Neut|Number=Sing|Person=3|PronType=Prs|Reflex=Yes	3	obl	_	_
+8	to	to	ADP	IN	_	10	case	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	planets	planet	NOUN	NNS	Number=Plur	3	obl	_	_
+11	through	through	ADP	IN	_	12	case	_	_
+12	sunlight	sunlight	NOUN	NN	Number=Sing	10	nmod	_	_
+
+# sent_id = 132.0
+# text = a light bulb converts electrical energy into light energy when it is turned on
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	light	light	NOUN	NN	Number=Sing	3	compound	_	_
+3	bulb	bulb	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	converts	convert	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	electrical	electrical	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	energy	energy	NOUN	NN	Number=Sing	4	obj	_	_
+7	into	into	ADP	IN	_	9	case	_	_
+8	light	light	NOUN	NN	Number=Sing	9	compound	_	_
+9	energy	energy	NOUN	NN	Number=Sing	4	obl	_	_
+10	when	when	SCONJ	WRB	PronType=Int	13	mark	_	_
+11	it	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	13	nsubj:pass	_	_
+12	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	13	aux:pass	_	_
+13	turned	turn	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	4	advcl	_	_
+14	on	on	ADP	RP	_	13	compound:prt	_	_
+
+# sent_id = 133.0
+# text = shelter can protect humans from weather
+1	shelter	shelter	NOUN	NN	Number=Sing	3	nsubj	_	_
+2	can	can	AUX	MD	VerbForm=Fin	3	aux	_	_
+3	protect	protect	VERB	VB	VerbForm=Inf	0	root	_	_
+4	humans	human	NOUN	NNS	Number=Plur	3	obj	_	_
+5	from	from	ADP	IN	_	6	case	_	_
+6	weather	weather	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 134.0
+# text = young amphibians breathe through gills
+1	young	young	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	amphibians	amphibian	NOUN	NNS	Number=Plur	3	nsubj	_	_
+3	breathe	breathe	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	through	through	ADP	IN	_	5	case	_	_
+5	gills	gill	NOUN	NNS	Number=Plur	3	obl	_	_
+
+# sent_id = 135.0
+# text = the first quarter phase of the moon occurs after the new moon
+1	the	the	DET	DT	Definite=Def|PronType=Art	4	det	_	_
+2	first	first	ADJ	JJ	Degree=Pos|NumType=Ord	4	amod	_	_
+3	quarter	quarter	NOUN	NN	Number=Sing	4	compound	_	_
+4	phase	phase	NOUN	NN	Number=Sing	8	nsubj	_	_
+5	of	of	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	moon	moon	NOUN	NN	Number=Sing	4	nmod	_	_
+8	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+9	after	after	ADP	IN	_	12	case	_	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	12	det	_	_
+11	new	new	ADJ	JJ	Degree=Pos	12	amod	_	_
+12	moon	moon	NOUN	NN	Number=Sing	8	obl	_	_
+
+# sent_id = 136.0
+# text = an organism breaking down sugar is a source of carbon dioxide
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	organism	organism	NOUN	NN	Number=Sing	8	nsubj	_	_
+3	breaking	break	VERB	VBG	VerbForm=Ger	2	acl	_	_
+4	down	down	ADP	RP	_	3	compound:prt	_	_
+5	sugar	sugar	NOUN	NN	Number=Sing	3	obj	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	source	source	NOUN	NN	Number=Sing	0	root	_	_
+9	of	of	ADP	IN	_	11	case	_	_
+10	carbon	carbon	NOUN	NN	Number=Sing	11	compound	_	_
+11	dioxide	dioxide	NOUN	NN	Number=Sing	8	nmod	_	_
+
+# sent_id = 137.0
+# text = natural events usually cause changes to earth 's surface
+1	natural	natural	ADJ	JJ	Degree=Pos	2	amod	_	_
+2	events	event	NOUN	NNS	Number=Plur	4	nsubj	_	_
+3	usually	usually	ADV	RB	_	4	advmod	_	_
+4	cause	cause	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	changes	change	NOUN	NNS	Number=Plur	4	obj	_	_
+6	to	to	ADP	IN	_	9	case	_	_
+7	earth	earth	NOUN	NN	Number=Sing	9	nmod:poss	_	_
+8	's	's	PART	POS	_	7	case	_	_
+9	surface	surface	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 138.0
+# text = summer is when a hemisphere is tilted towards the sun
+1	summer	summer	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	7	mark	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	hemisphere	hemisphere	NOUN	NN	Number=Sing	7	nsubj:pass	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	aux:pass	_	_
+7	tilted	tilt	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	2	advcl	_	_
+8	towards	towards	ADP	IN	_	10	case	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	sun	sun	NOUN	NN	Number=Sing	7	obl	_	_
+
+# sent_id = 139.0
+# text = cycles of day and night occur once per day
+1	cycles	cycle	NOUN	NNS	Number=Plur	6	nsubj	_	_
+2	of	of	ADP	IN	_	3	case	_	_
+3	day	day	NOUN	NN	Number=Sing	1	nmod	_	_
+4	and	and	CCONJ	CC	_	5	cc	_	_
+5	night	night	NOUN	NN	Number=Sing	3	conj	_	_
+6	occur	occur	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	once	once	ADV	RB	NumType=Mult	6	advmod	_	_
+8	per	per	ADP	IN	_	9	case	_	_
+9	day	day	NOUN	NN	Number=Sing	6	obl	_	_
+
+# sent_id = 140.0
+# text = as temperature during the day increases , the temperature in an environment will increase
+1	as	as	ADP	IN	_	6	mark	_	_
+2	temperature	temperature	NOUN	NN	Number=Sing	6	nsubj	_	_
+3	during	during	ADP	IN	_	5	case	_	_
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+5	day	day	NOUN	NN	Number=Sing	2	nmod	_	_
+6	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	advcl	_	_
+7	,	,	PUNCT	,	_	14	punct	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+9	temperature	temperature	NOUN	NN	Number=Sing	14	nsubj	_	_
+10	in	in	ADP	IN	_	12	case	_	_
+11	an	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+12	environment	environment	NOUN	NN	Number=Sing	9	nmod	_	_
+13	will	will	AUX	MD	VerbForm=Fin	14	aux	_	_
+14	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 141.0
+# text = if something is a raw material in a process then that something is required for that process
+1	if	if	SCONJ	IN	_	6	mark	_	_
+2	something	something	PRON	NN	Number=Sing	6	nsubj	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+5	raw	raw	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	material	material	NOUN	NN	Number=Sing	14	advcl	_	_
+7	in	in	ADP	IN	_	9	case	_	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	process	process	NOUN	NN	Number=Sing	6	nmod	_	_
+10	then	then	ADV	RB	PronType=Dem	14	advmod	_	_
+11	that	that	SCONJ	IN	_	14	mark	_	_
+12	something	something	PRON	NN	Number=Sing	14	nsubj:pass	_	_
+13	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	aux:pass	_	_
+14	required	require	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+15	for	for	ADP	IN	_	17	case	_	_
+16	that	that	DET	DT	Number=Sing|PronType=Dem	17	det	_	_
+17	process	process	NOUN	NN	Number=Sing	14	obl	_	_
+
+# sent_id = 142.0
+# text = a windmill does not create pollution
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	windmill	windmill	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+4	not	not	PART	RB	_	5	advmod	_	_
+5	create	create	VERB	VB	VerbForm=Inf	0	root	_	_
+6	pollution	pollution	NOUN	NN	Number=Sing	5	obj	_	_
+
+# sent_id = 143.0
+# text = as the thickness of an object increases , the resistance to damage of that object will increase
+1	as	as	SCONJ	IN	_	7	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	thickness	thickness	NOUN	NN	Number=Sing	7	nsubj	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	object	object	NOUN	NN	Number=Sing	3	nmod	_	_
+7	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	advcl	_	_
+8	,	,	PUNCT	,	_	17	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	resistance	resistance	NOUN	NN	Number=Sing	17	nsubj	_	_
+11	to	to	ADP	IN	_	12	case	_	_
+12	damage	damage	NOUN	NN	Number=Sing	10	nmod	_	_
+13	of	of	ADP	IN	_	15	case	_	_
+14	that	that	DET	DT	Number=Sing|PronType=Dem	15	det	_	_
+15	object	object	NOUN	NN	Number=Sing	12	nmod	_	_
+16	will	will	AUX	MD	VerbForm=Fin	17	aux	_	_
+17	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 144.0
+# text = the moon does not contain water
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	moon	moon	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux	_	_
+4	not	not	PART	RB	_	5	advmod	_	_
+5	contain	contain	VERB	VB	VerbForm=Inf	0	root	_	_
+6	water	water	NOUN	NN	Number=Sing	5	obj	_	_
+
+# sent_id = 145.0
+# text = a solar eclipse could only happen during the new moon
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	solar	solar	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	eclipse	eclipse	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	could	could	AUX	MD	VerbForm=Fin	6	aux	_	_
+5	only	only	ADV	RB	_	6	advmod	_	_
+6	happen	happen	VERB	VB	VerbForm=Inf	0	root	_	_
+7	during	during	ADP	IN	_	10	case	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+9	new	new	ADJ	JJ	Degree=Pos	10	amod	_	_
+10	moon	moon	NOUN	NN	Number=Sing	6	obl	_	_
+
+# sent_id = 146.0
+# text = changes in an environment cause animals to adapt to survive
+1	changes	change	NOUN	NNS	Number=Plur	5	nsubj	_	_
+2	in	in	ADP	IN	_	4	case	_	_
+3	an	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	environment	environment	NOUN	NN	Number=Sing	1	nmod	_	_
+5	cause	cause	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	animals	animal	NOUN	NNS	Number=Plur	5	obj	_	_
+7	to	to	PART	TO	_	8	mark	_	_
+8	adapt	adapt	VERB	VB	VerbForm=Inf	5	xcomp	_	_
+9	to	to	PART	TO	_	10	mark	_	_
+10	survive	survive	VERB	VB	VerbForm=Inf	8	xcomp	_	_
+
+# sent_id = 147.0
+# text = a decrease in visibility while driving can cause people to crash their car
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	decrease	decrease	NOUN	NN	Number=Sing	0	root	_	_
+3	in	in	ADP	IN	_	4	case	_	_
+4	visibility	visibility	NOUN	NN	Number=Sing	2	nmod	_	_
+5	while	while	SCONJ	IN	_	6	mark	_	_
+6	driving	drive	VERB	VBG	VerbForm=Ger	2	acl	_	_
+7	can	can	AUX	MD	VerbForm=Fin	8	aux	_	_
+8	cause	cause	VERB	VB	VerbForm=Inf	2	acl	_	_
+9	people	people	NOUN	NNS	Number=Plur	8	obj	_	_
+10	to	to	PART	TO	_	11	mark	_	_
+11	crash	crash	VERB	VB	VerbForm=Inf	8	xcomp	_	_
+12	their	they	PRON	PRP$	Number=Plur|Person=3|Poss=Yes|PronType=Prs	13	nmod:poss	_	_
+13	car	car	NOUN	NN	Number=Sing	11	obj	_	_
+
+# sent_id = 148.0
+# text = the arctic environment is cold in temperature from being at a northern latitude below 0 degrees celsius during most of the year
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	arctic	arctic	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	environment	environment	NOUN	NN	Number=Sing	5	nsubj	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+5	cold	cold	ADJ	JJ	Degree=Pos	0	root	_	_
+6	in	in	ADP	IN	_	7	case	_	_
+7	temperature	temperature	NOUN	NN	Number=Sing	5	obl	_	_
+8	from	from	SCONJ	IN	_	13	mark	_	_
+9	being	be	AUX	VBG	VerbForm=Ger	13	cop	_	_
+10	at	at	ADP	IN	_	13	case	_	_
+11	a	a	DET	DT	Definite=Ind|PronType=Art	13	det	_	_
+12	northern	northern	ADJ	JJ	Degree=Pos	13	amod	_	_
+13	latitude	latitude	NOUN	NN	Number=Sing	5	advcl	_	_
+14	below	below	ADV	RB	_	13	advmod	_	_
+15	0	0	NUM	CD	NumType=Card	16	nummod	_	_
+16	degrees	degree	NOUN	NNS	Number=Plur	17	compound	_	_
+17	celsius	celsius	NOUN	NN	Number=Sing	13	nmod:tmod	_	_
+18	during	during	ADP	IN	_	19	case	_	_
+19	most	most	ADJ	JJS	Degree=Sup	13	nmod	_	_
+20	of	of	ADP	IN	_	22	case	_	_
+21	the	the	DET	DT	Definite=Def|PronType=Art	22	det	_	_
+22	year	year	NOUN	NN	Number=Sing	19	nmod	_	_
+
+# sent_id = 149.0
+# text = a different moon phase occurs once per week
+1	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+2	different	different	ADJ	JJ	Degree=Pos	4	amod	_	_
+3	moon	moon	NOUN	NN	Number=Sing	4	compound	_	_
+4	phase	phase	NOUN	NN	Number=Sing	5	nsubj	_	_
+5	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	once	once	ADV	RB	NumType=Mult	5	advmod	_	_
+7	per	per	ADP	IN	_	8	case	_	_
+8	week	week	NOUN	NN	Number=Sing	5	obl	_	_
+
+# sent_id = 150.0
+# text = mass is a measure of the amount of matter in an object
+1	mass	mass	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	measure	measure	NOUN	NN	Number=Sing	0	root	_	_
+5	of	of	ADP	IN	_	7	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	amount	amount	NOUN	NN	Number=Sing	4	nmod	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	matter	matter	NOUN	NN	Number=Sing	7	nmod	_	_
+10	in	in	ADP	IN	_	12	case	_	_
+11	an	a	DET	DT	Definite=Ind|PronType=Art	12	det	_	_
+12	object	object	NOUN	NN	Number=Sing	7	nmod	_	_
+
+# sent_id = 151.0
+# text = soil contains nutrients for plants
+1	soil	soil	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	nutrients	nutrient	NOUN	NNS	Number=Plur	2	obj	_	_
+4	for	for	ADP	IN	_	5	case	_	_
+5	plants	plant	NOUN	NNS	Number=Plur	3	nmod	_	_
+
+# sent_id = 152.0
+# text = water is an electrical conductor
+1	water	water	NOUN	NN	Number=Sing	5	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+4	electrical	electrical	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	conductor	conductor	NOUN	NN	Number=Sing	0	root	_	_
+
+# sent_id = 153.0
+# text = a cavern is formed by carbonic acid in groundwater seeping through rock and dissolving limestone
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	cavern	cavern	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	formed	form	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	by	by	ADP	IN	_	7	case	_	_
+6	carbonic	carbonic	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	acid	acid	NOUN	NN	Number=Sing	4	obl	_	_
+8	in	in	ADP	IN	_	9	case	_	_
+9	groundwater	groundwater	NOUN	NN	Number=Sing	4	obl	_	_
+10	seeping	seep	VERB	VBG	VerbForm=Ger	4	advcl	_	_
+11	through	through	ADP	IN	_	15	case	_	_
+12	rock	rock	NOUN	NN	Number=Sing	15	compound	_	_
+13	and	and	CCONJ	CC	_	14	cc	_	_
+14	dissolving	dissolve	VERB	VBG	VerbForm=Ger	12	conj	_	_
+15	limestone	limestone	NOUN	NN	Number=Sing	10	obl	_	_
+
+# sent_id = 154.0
+# text = evaporation is a stage in the water cycle process
+1	evaporation	evaporation	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	stage	stage	NOUN	NN	Number=Sing	0	root	_	_
+5	in	in	ADP	IN	_	9	case	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+7	water	water	NOUN	NN	Number=Sing	8	compound	_	_
+8	cycle	cycle	NOUN	NN	Number=Sing	9	compound	_	_
+9	process	process	NOUN	NN	Number=Sing	4	nmod	_	_
+
+# sent_id = 155.0
+# text = the looseness of soil increases the amount of oxygen in that soil
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	looseness	looseness	NOUN	NN	Number=Sing	5	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	soil	soil	NOUN	NN	Number=Sing	2	nmod	_	_
+5	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	amount	amount	NOUN	NN	Number=Sing	5	obj	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	oxygen	oxygen	NOUN	NN	Number=Sing	7	nmod	_	_
+10	in	in	ADP	IN	_	12	case	_	_
+11	that	that	DET	DT	Number=Sing|PronType=Dem	12	det	_	_
+12	soil	soil	NOUN	NN	Number=Sing	9	nmod	_	_
+
+# sent_id = 156.0
+# text = an animal requires enough nutrients to survive
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	animal	animal	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	enough	enough	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	nutrients	nutrient	NOUN	NNS	Number=Plur	3	obj	_	_
+6	to	to	PART	TO	_	7	mark	_	_
+7	survive	survive	VERB	VB	VerbForm=Inf	5	acl	_	_
+
+# sent_id = 157.0
+# text = as force exerted on an object increases , distance travelled will increase
+1	as	as	SCONJ	IN	_	7	mark	_	_
+2	force	force	NOUN	NN	Number=Sing	7	nsubj	_	_
+3	exerted	exert	VERB	VBN	Tense=Past|VerbForm=Part	2	acl	_	_
+4	on	on	ADP	IN	_	6	case	_	_
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	object	object	NOUN	NN	Number=Sing	3	obl	_	_
+7	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	12	advcl	_	_
+8	,	,	PUNCT	,	_	12	punct	_	_
+9	distance	distance	NOUN	NN	Number=Sing	10	nsubj	_	_
+10	travelled	travel	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	12	nsubj	_	_
+11	will	will	AUX	MD	VerbForm=Fin	12	aux	_	_
+12	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 158.0
+# text = precipitation is when rain fall from clouds to the earth
+1	precipitation	precipitation	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	5	mark	_	_
+4	rain	rain	NOUN	NN	Number=Sing	5	nsubj	_	_
+5	fall	fall	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+6	from	from	ADP	IN	_	7	case	_	_
+7	clouds	cloud	NOUN	NNS	Number=Plur	5	obl	_	_
+8	to	to	ADP	IN	_	10	case	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	earth	earth	NOUN	NN	Number=Sing	5	obl	_	_
+
+# sent_id = 159.0
+# text = magnetism does not require contact between objects to act
+1	magnetism	magnetism	NOUN	NN	Number=Sing	4	nsubj	_	_
+2	does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux	_	_
+3	not	not	PART	RB	_	4	advmod	_	_
+4	require	require	VERB	VB	VerbForm=Inf	0	root	_	_
+5	contact	contact	NOUN	NN	Number=Sing	4	obj	_	_
+6	between	between	ADP	IN	_	7	case	_	_
+7	objects	object	NOUN	NNS	Number=Plur	5	nmod	_	_
+8	to	to	PART	TO	_	9	mark	_	_
+9	act	act	VERB	VB	VerbForm=Inf	5	acl	_	_
+
+# sent_id = 160.0
+# text = a pollutions standard is a kind of standard for reducing pollutants emitted by factories
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	pollutions	pollution	NOUN	NNS	Number=Plur	3	compound	_	_
+3	standard	standard	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	kind	kind	NOUN	NN	Number=Sing	0	root	_	_
+7	of	of	ADP	IN	_	8	case	_	_
+8	standard	standard	NOUN	NN	Number=Sing	6	nmod	_	_
+9	for	for	SCONJ	IN	_	10	mark	_	_
+10	reducing	reduce	VERB	VBG	VerbForm=Ger	8	acl	_	_
+11	pollutants	pollutant	NOUN	NNS	Number=Plur	10	obj	_	_
+12	emitted	emit	VERB	VBN	Tense=Past|VerbForm=Part	11	acl	_	_
+13	by	by	ADP	IN	_	14	case	_	_
+14	factories	factory	NOUN	NNS	Number=Plur	12	obl	_	_
+
+# sent_id = 161.0
+# text = a frog eats insects
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	frog	frog	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	eats	eat	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	insects	insect	NOUN	NNS	Number=Plur	3	obj	_	_
+
+# sent_id = 162.0
+# text = adaptation is when an organism develops a trait over time for survival
+1	adaptation	adaptation	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	6	mark	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	organism	organism	NOUN	NN	Number=Sing	6	nsubj	_	_
+6	develops	develop	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+7	a	a	DET	DT	Definite=Ind|PronType=Art	8	det	_	_
+8	trait	trait	NOUN	NN	Number=Sing	6	obj	_	_
+9	over	over	ADP	IN	_	10	case	_	_
+10	time	time	NOUN	NN	Number=Sing	8	nmod	_	_
+11	for	for	ADP	IN	_	12	case	_	_
+12	survival	survival	NOUN	NN	Number=Sing	10	nmod	_	_
+
+# sent_id = 163.0
+# text = as distance from an object decreases , the the pull of gravity on that object increases
+1	as	as	ADP	IN	_	2	case	_	_
+2	distance	distance	NOUN	NN	Number=Sing	6	obl	_	_
+3	from	from	ADP	IN	_	5	case	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	object	object	NOUN	NN	Number=Sing	2	nmod	_	_
+6	decreases	decrease	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	16	advcl	_	_
+7	,	,	PUNCT	,	_	16	punct	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	pull	pull	NOUN	NN	Number=Sing	16	nsubj	_	_
+11	of	of	ADP	IN	_	12	case	_	_
+12	gravity	gravity	NOUN	NN	Number=Sing	10	nmod	_	_
+13	on	on	ADP	IN	_	15	case	_	_
+14	that	that	DET	DT	Number=Sing|PronType=Dem	15	det	_	_
+15	object	object	NOUN	NN	Number=Sing	12	nmod	_	_
+16	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+
+# sent_id = 164.0
+# text = an electrical insulator slows the transfer of electricity
+1	an	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	electrical	electrical	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	insulator	insulator	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	slows	slow	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	transfer	transfer	NOUN	NN	Number=Sing	4	obj	_	_
+7	of	of	ADP	IN	_	8	case	_	_
+8	electricity	electricity	NOUN	NN	Number=Sing	6	nmod	_	_
+
+# sent_id = 165.0
+# text = living underground can be used for hiding from predators
+1	living	live	VERB	VBG	VerbForm=Ger	5	advcl	_	_
+2	underground	underground	NOUN	NN	Number=Sing	1	obj	_	_
+3	can	can	AUX	MD	VerbForm=Fin	5	aux	_	_
+4	be	be	AUX	VB	VerbForm=Inf	5	aux:pass	_	_
+5	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+6	for	for	SCONJ	IN	_	7	mark	_	_
+7	hiding	hide	VERB	VBG	VerbForm=Ger	5	advcl	_	_
+8	from	from	ADP	IN	_	9	case	_	_
+9	predators	predator	NOUN	NNS	Number=Plur	7	obl	_	_
+
+# sent_id = 166.0
+# text = as the thickness of an object increases , the resistance to breaking will increase
+1	as	as	SCONJ	IN	_	7	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	thickness	thickness	NOUN	NN	Number=Sing	7	nsubj	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	object	object	NOUN	NN	Number=Sing	3	nmod	_	_
+7	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	advcl	_	_
+8	,	,	PUNCT	,	_	14	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	resistance	resistance	NOUN	NN	Number=Sing	14	nsubj	_	_
+11	to	to	ADP	IN	_	12	case	_	_
+12	breaking	breaking	NOUN	NN	Number=Sing	10	nmod	_	_
+13	will	will	AUX	MD	VerbForm=Fin	14	aux	_	_
+14	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 167.0
+# text = mammals give birth to live young
+1	mammals	mammal	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	give	give	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	birth	birth	NOUN	NN	Number=Sing	2	obj	_	_
+4	to	to	PART	TO	_	5	mark	_	_
+5	live	live	VERB	VB	VerbForm=Inf	2	advcl	_	_
+6	young	young	ADJ	JJ	Degree=Pos	5	xcomp	_	_
+
+# sent_id = 168.0
+# text = as the temperature of a liquid increases , the rate of evaporation of that liquid will increase
+1	as	as	SCONJ	IN	_	7	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	temperature	temperature	NOUN	NN	Number=Sing	7	nsubj	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+6	liquid	liquid	NOUN	NN	Number=Sing	3	nmod	_	_
+7	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	17	advcl	_	_
+8	,	,	PUNCT	,	_	17	punct	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	rate	rate	NOUN	NN	Number=Sing	17	nsubj	_	_
+11	of	of	ADP	IN	_	12	case	_	_
+12	evaporation	evaporation	NOUN	NN	Number=Sing	10	nmod	_	_
+13	of	of	ADP	IN	_	15	case	_	_
+14	that	that	DET	DT	Number=Sing|PronType=Dem	15	det	_	_
+15	liquid	liquid	NOUN	NN	Number=Sing	12	nmod	_	_
+16	will	will	AUX	MD	VerbForm=Fin	17	aux	_	_
+17	increase	increase	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 169.0
+# text = an example of replacing a natural resource is planting new trees where a forest once stood
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	9	nsubj	_	_
+3	of	of	SCONJ	IN	_	4	mark	_	_
+4	replacing	replace	VERB	VBG	VerbForm=Ger	2	acl	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+6	natural	natural	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	resource	resource	NOUN	NN	Number=Sing	4	obj	_	_
+8	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	aux	_	_
+9	planting	plant	VERB	VBG	Tense=Pres|VerbForm=Part	0	root	_	_
+10	new	new	ADJ	JJ	Degree=Pos	11	amod	_	_
+11	trees	tree	NOUN	NNS	Number=Plur	9	obj	_	_
+12	where	where	SCONJ	WRB	PronType=Rel	16	mark	_	_
+13	a	a	DET	DT	Definite=Ind|PronType=Art	14	det	_	_
+14	forest	forest	NOUN	NN	Number=Sing	16	nsubj	_	_
+15	once	once	ADV	RB	NumType=Mult	16	advmod	_	_
+16	stood	stand	VERB	VBD	Mood=Ind|Tense=Past|VerbForm=Fin	11	acl:relcl	_	_
+
+# sent_id = 170.0
+# text = consumers eat other organisms
+1	consumers	consumer	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	eat	eat	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	other	other	ADJ	JJ	Degree=Pos	4	amod	_	_
+4	organisms	organism	NOUN	NNS	Number=Plur	2	obj	_	_
+
+# sent_id = 171.0
+# text = buildings collapsing often cause death
+1	buildings	building	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	collapsing	collapse	VERB	VBG	VerbForm=Ger	1	acl	_	_
+3	often	often	ADV	RB	_	4	advmod	_	_
+4	cause	cause	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	death	death	NOUN	NN	Number=Sing	4	obj	_	_
+
+# sent_id = 172.0
+# text = rubber is an thermal insulator
+1	rubber	rubber	NOUN	NN	Number=Sing	5	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+4	thermal	thermal	ADJ	JJ	Degree=Pos	5	amod	_	_
+5	insulator	insulator	NOUN	NN	Number=Sing	0	root	_	_
+
+# sent_id = 173.0
+# text = if battery in an electromagnet is active then the nail in the electromagnet will become magnetic
+1	if	if	SCONJ	IN	_	7	mark	_	_
+2	battery	battery	NOUN	NN	Number=Sing	7	nsubj	_	_
+3	in	in	ADP	IN	_	5	case	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	electromagnet	electromagnet	NOUN	NN	Number=Sing	2	nmod	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	cop	_	_
+7	active	active	ADJ	JJ	Degree=Pos	15	advcl	_	_
+8	then	then	ADV	RB	PronType=Dem	15	advmod	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	nail	nail	NOUN	NN	Number=Sing	15	nsubj	_	_
+11	in	in	ADP	IN	_	13	case	_	_
+12	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+13	electromagnet	electromagnet	NOUN	NN	Number=Sing	10	nmod	_	_
+14	will	will	AUX	MD	VerbForm=Fin	15	aux	_	_
+15	become	become	VERB	VB	VerbForm=Inf	0	root	_	_
+16	magnetic	magnetic	ADJ	JJ	Degree=Pos	15	xcomp	_	_
+
+# sent_id = 174.0
+# text = wax is an electrical energy insulator
+1	wax	wax	NOUN	NN	Number=Sing	6	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+3	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+4	electrical	electrical	ADJ	JJ	Degree=Pos	6	amod	_	_
+5	energy	energy	NOUN	NN	Number=Sing	6	compound	_	_
+6	insulator	insulator	NOUN	NN	Number=Sing	0	root	_	_
+
+# sent_id = 175.0
+# text = hunting means humans kill animals in the wild
+1	hunting	hunt	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	means	mean	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	humans	human	NOUN	NNS	Number=Plur	4	nsubj	_	_
+4	kill	kill	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	2	ccomp	_	_
+5	animals	animal	NOUN	NNS	Number=Plur	4	obj	_	_
+6	in	in	ADP	IN	_	8	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	wild	wild	NOUN	NN	Number=Sing	4	obl	_	_
+
+# sent_id = 176.0
+# text = sunlight contains ultraviolet light
+1	sunlight	sunlight	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	ultraviolet	ultraviolet	ADJ	JJ	Degree=Pos	4	amod	_	_
+4	light	light	NOUN	NN	Number=Sing	2	obj	_	_
+
+# sent_id = 177.0
+# text = a plant requires sunlight to grow
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	plant	plant	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	sunlight	sunlight	NOUN	NN	Number=Sing	3	obj	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	grow	grow	VERB	VB	VerbForm=Inf	3	xcomp	_	_
+
+# sent_id = 178.0
+# text = as the amount of food an animal eats decreases , that organism will become thinner
+1	as	as	SCONJ	IN	_	9	mark	_	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+3	amount	amount	NOUN	NN	Number=Sing	9	nsubj	_	_
+4	of	of	ADP	IN	_	5	case	_	_
+5	food	food	NOUN	NN	Number=Sing	3	nmod	_	_
+6	an	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+7	animal	animal	NOUN	NN	Number=Sing	8	nsubj	_	_
+8	eats	eat	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	acl:relcl	_	_
+9	decreases	decrease	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	advcl	_	_
+10	,	,	PUNCT	,	_	14	punct	_	_
+11	that	that	DET	DT	Number=Sing|PronType=Dem	12	det	_	_
+12	organism	organism	NOUN	NN	Number=Sing	14	nsubj	_	_
+13	will	will	AUX	MD	VerbForm=Fin	14	aux	_	_
+14	become	become	VERB	VB	VerbForm=Inf	0	root	_	_
+15	thinner	thin	ADJ	JJR	Degree=Cmp	14	xcomp	_	_
+
+# sent_id = 179.0
+# text = as available water decreases , the population of plants will decrease
+1	as	as	SCONJ	IN	_	4	mark	_	_
+2	available	available	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	water	water	NOUN	NN	Number=Sing	4	nsubj	_	_
+4	decreases	decrease	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	advcl	_	_
+5	,	,	PUNCT	,	_	11	punct	_	_
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+7	population	population	NOUN	NN	Number=Sing	11	nsubj	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	plants	plant	NOUN	NNS	Number=Plur	7	nmod	_	_
+10	will	will	AUX	MD	VerbForm=Fin	11	aux	_	_
+11	decrease	decrease	VERB	VB	VerbForm=Inf	0	root	_	_
+
+# sent_id = 180.0
+# text = a quartz is made of six-sided transparent crystals
+1	a	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	quartz	quartz	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	made	make	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	of	of	ADP	IN	_	8	case	_	_
+6	six-sided	six-sided	ADJ	JJ	Degree=Pos	8	amod	_	_
+7	transparent	transparent	ADJ	JJ	Degree=Pos	8	amod	_	_
+8	crystals	crystal	NOUN	NNS	Number=Plur	4	obl	_	_
+
+# sent_id = 181.0
+# text = an inclined plane is used for raising objects
+1	an	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	inclined	inclined	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	plane	plane	NOUN	NN	Number=Sing	5	nsubj:pass	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:pass	_	_
+5	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+6	for	for	SCONJ	IN	_	7	mark	_	_
+7	raising	raise	VERB	VBG	VerbForm=Ger	5	advcl	_	_
+8	objects	object	NOUN	NNS	Number=Plur	7	obj	_	_
+
+# sent_id = 182.0
+# text = transpiration usually happens in the leaves of a plant
+1	transpiration	transpiration	NOUN	NN	Number=Sing	3	nsubj	_	_
+2	usually	usually	ADV	RB	_	3	advmod	_	_
+3	happens	happen	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	in	in	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	leaves	leave	NOUN	NNS	Number=Plur	3	obl	_	_
+7	of	of	ADP	IN	_	9	case	_	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	_	_
+9	plant	plant	NOUN	NN	Number=Sing	6	nmod	_	_
+
+# sent_id = 183.0
+# text = cracking something usually has a negative impact on that something
+1	cracking	crack	VERB	VBG	VerbForm=Ger	4	csubj	_	_
+2	something	something	PRON	NN	Number=Sing	1	obj	_	_
+3	usually	usually	ADV	RB	_	4	advmod	_	_
+4	has	have	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+6	negative	negative	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	impact	impact	NOUN	NN	Number=Sing	4	obj	_	_
+8	on	on	ADP	IN	_	9	case	_	_
+9	that	that	PRON	DT	Number=Sing|PronType=Dem	7	nmod	_	_
+10	something	something	PRON	NN	Number=Sing	4	obj	_	_
+
+# sent_id = 184.0
+# text = rabbits eat plants
+1	rabbits	rabbit	NOUN	NNS	Number=Plur	2	nsubj	_	_
+2	eat	eat	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	plants	plant	NOUN	NNS	Number=Plur	2	obj	_	_
+
+# sent_id = 185.0
+# text = an example of moisture is water vapor in the atmosphere
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	7	nsubj	_	_
+3	of	of	ADP	IN	_	4	case	_	_
+4	moisture	moisture	NOUN	NN	Number=Sing	2	nmod	_	_
+5	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	cop	_	_
+6	water	water	NOUN	NN	Number=Sing	7	compound	_	_
+7	vapor	vapor	NOUN	NN	Number=Sing	0	root	_	_
+8	in	in	ADP	IN	_	10	case	_	_
+9	the	the	DET	DT	Definite=Def|PronType=Art	10	det	_	_
+10	atmosphere	atmosphere	NOUN	NN	Number=Sing	7	nmod	_	_
+
+# sent_id = 186.0
+# text = an anemometer is used to measure wind speed
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	anemometer	anemometer	NOUN	NN	Number=Sing	4	nsubj:pass	_	_
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:pass	_	_
+4	used	use	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	_
+5	to	to	PART	TO	_	6	mark	_	_
+6	measure	measure	VERB	VB	VerbForm=Inf	4	xcomp	_	_
+7	wind	wind	NOUN	NN	Number=Sing	8	compound	_	_
+8	speed	speed	NOUN	NN	Number=Sing	6	obj	_	_
+
+# sent_id = 187.0
+# text = an example of an instinct is the kangaroo 's ability to crawl into its mother 's pouch to drink milk
+1	an	a	DET	DT	Definite=Ind|PronType=Art	2	det	_	_
+2	example	example	NOUN	NN	Number=Sing	10	nsubj	_	_
+3	of	of	ADP	IN	_	5	case	_	_
+4	an	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	instinct	instinct	NOUN	NN	Number=Sing	2	nmod	_	_
+6	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	10	cop	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	kangaroo	kangaroo	NOUN	NN	Number=Sing	10	nmod:poss	_	_
+9	's	's	PART	POS	_	8	case	_	_
+10	ability	ability	NOUN	NN	Number=Sing	0	root	_	_
+11	to	to	PART	TO	_	12	mark	_	_
+12	crawl	crawl	VERB	VB	VerbForm=Inf	10	acl	_	_
+13	into	into	ADP	IN	_	17	case	_	_
+14	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	15	nmod:poss	_	_
+15	mother	mother	NOUN	NN	Number=Sing	17	nmod:poss	_	_
+16	's	's	PART	POS	_	15	case	_	_
+17	pouch	pouch	NOUN	NN	Number=Sing	12	obl	_	_
+18	to	to	PART	TO	_	19	mark	_	_
+19	drink	drink	VERB	VB	VerbForm=Inf	12	advcl	_	_
+20	milk	milk	NOUN	NN	Number=Sing	19	obj	_	_
+
+# sent_id = 188.0
+# text = decomposition increases amount of organic matter in soil
+1	decomposition	decomposition	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	increases	increase	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	amount	amount	NOUN	NN	Number=Sing	2	obj	_	_
+4	of	of	ADP	IN	_	6	case	_	_
+5	organic	organic	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	matter	matter	NOUN	NN	Number=Sing	3	nmod	_	_
+7	in	in	ADP	IN	_	8	case	_	_
+8	soil	soil	NOUN	NN	Number=Sing	6	nmod	_	_
+
+# sent_id = 189.0
+# text = humans changing animal habitats usually causes harm to those animals
+1	humans	human	NOUN	NNS	Number=Plur	6	nsubj	_	_
+2	changing	change	VERB	VBG	VerbForm=Ger	1	acl	_	_
+3	animal	animal	NOUN	NN	Number=Sing	4	compound	_	_
+4	habitats	habitat	NOUN	NNS	Number=Plur	2	obj	_	_
+5	usually	usually	ADV	RB	_	6	advmod	_	_
+6	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	harm	harm	NOUN	NN	Number=Sing	6	obj	_	_
+8	to	to	ADP	IN	_	10	case	_	_
+9	those	that	DET	DT	Number=Plur|PronType=Dem	10	det	_	_
+10	animals	animal	NOUN	NNS	Number=Plur	6	obl	_	_
+
+# sent_id = 190.0
+# text = the north star does not move in the sky in the northern hemisphere each night
+1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
+2	north	north	ADJ	JJ	Degree=Pos	3	amod	_	_
+3	star	star	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	does	do	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	aux	_	_
+5	not	not	PART	RB	_	6	advmod	_	_
+6	move	move	VERB	VB	VerbForm=Inf	0	root	_	_
+7	in	in	ADP	IN	_	9	case	_	_
+8	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+9	sky	sky	NOUN	NN	Number=Sing	6	obl	_	_
+10	in	in	ADP	IN	_	13	case	_	_
+11	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
+12	northern	northern	ADJ	JJ	Degree=Pos	13	amod	_	_
+13	hemisphere	hemisphere	NOUN	NN	Number=Sing	6	obl	_	_
+14	each	each	DET	DT	_	15	det	_	_
+15	night	night	NOUN	NN	Number=Sing	6	obl:tmod	_	_
+
+# sent_id = 191.0
+# text = some animals shed fur in warm weather
+1	some	some	DET	DT	_	2	det	_	_
+2	animals	animal	NOUN	NNS	Number=Plur	3	nsubj	_	_
+3	shed	shed	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	fur	fur	NOUN	NN	Number=Sing	3	obj	_	_
+5	in	in	ADP	IN	_	7	case	_	_
+6	warm	warm	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	weather	weather	NOUN	NN	Number=Sing	3	obl	_	_
+
+# sent_id = 192.0
+# text = a desert environment usually has a lot of sunlight
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	desert	desert	NOUN	NN	Number=Sing	3	compound	_	_
+3	environment	environment	NOUN	NN	Number=Sing	5	nsubj	_	_
+4	usually	usually	ADV	RB	_	5	advmod	_	_
+5	has	have	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	_
+7	lot	lot	NOUN	NN	Number=Sing	5	obj	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	sunlight	sunlight	NOUN	NN	Number=Sing	7	nmod	_	_
+
+# sent_id = 193.0
+# text = when light hits a reflective object , that light bounces off that object
+1	when	when	SCONJ	WRB	PronType=Int	3	mark	_	_
+2	light	light	NOUN	NN	Number=Sing	3	nsubj	_	_
+3	hits	hit	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	10	advcl	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	_
+5	reflective	reflective	ADJ	JJ	Degree=Pos	6	amod	_	_
+6	object	object	NOUN	NN	Number=Sing	3	obj	_	_
+7	,	,	PUNCT	,	_	10	punct	_	_
+8	that	that	DET	DT	Number=Sing|PronType=Dem	9	det	_	_
+9	light	light	NOUN	NN	Number=Sing	10	nsubj	_	_
+10	bounces	bounce	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+11	off	off	ADP	RP	_	10	compound:prt	_	_
+12	that	that	DET	DT	Number=Sing|PronType=Dem	13	det	_	_
+13	object	object	NOUN	NN	Number=Sing	10	obj	_	_
+
+# sent_id = 194.0
+# text = tunnels in soil loosen that soil
+1	tunnels	tunnel	NOUN	NNS	Number=Plur	4	nsubj	_	_
+2	in	in	ADP	IN	_	3	case	_	_
+3	soil	soil	NOUN	NN	Number=Sing	1	nmod	_	_
+4	loosen	loosen	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+5	that	that	DET	DT	Number=Sing|PronType=Dem	6	det	_	_
+6	soil	soil	NOUN	NN	Number=Sing	4	obj	_	_
+
+# sent_id = 195.0
+# text = painting an object a color causes that object to be that color
+1	painting	paint	VERB	VBG	VerbForm=Ger	6	csubj	_	_
+2	an	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+3	object	object	NOUN	NN	Number=Sing	1	obj	_	_
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	_
+5	color	color	NOUN	NN	Number=Sing	6	nsubj	_	_
+6	causes	cause	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+7	that	that	DET	DT	Number=Sing|PronType=Dem	8	det	_	_
+8	object	object	NOUN	NN	Number=Sing	6	obj	_	_
+9	to	to	PART	TO	_	12	mark	_	_
+10	be	be	AUX	VB	VerbForm=Inf	12	cop	_	_
+11	that	that	DET	DT	Number=Sing|PronType=Dem	12	det	_	_
+12	color	color	NOUN	NN	Number=Sing	6	xcomp	_	_
+
+# sent_id = 196.0
+# text = a plant stem is the vehicle for transporting water and food from roots to the rest of the plant
+1	a	a	DET	DT	Definite=Ind|PronType=Art	3	det	_	_
+2	plant	plant	NOUN	NN	Number=Sing	3	compound	_	_
+3	stem	stem	NOUN	NN	Number=Sing	6	nsubj	_	_
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	vehicle	vehicle	NOUN	NN	Number=Sing	0	root	_	_
+7	for	for	SCONJ	IN	_	8	mark	_	_
+8	transporting	transport	VERB	VBG	VerbForm=Ger	6	acl	_	_
+9	water	water	NOUN	NN	Number=Sing	8	obj	_	_
+10	and	and	CCONJ	CC	_	11	cc	_	_
+11	food	food	NOUN	NN	Number=Sing	9	conj	_	_
+12	from	from	ADP	IN	_	13	case	_	_
+13	roots	root	NOUN	NNS	Number=Plur	8	obl	_	_
+14	to	to	ADP	IN	_	16	case	_	_
+15	the	the	DET	DT	Definite=Def|PronType=Art	16	det	_	_
+16	rest	rest	NOUN	NN	Number=Sing	13	nmod	_	_
+17	of	of	ADP	IN	_	19	case	_	_
+18	the	the	DET	DT	Definite=Def|PronType=Art	19	det	_	_
+19	plant	plant	NOUN	NN	Number=Sing	16	nmod	_	_
+
+# sent_id = 197.0
+# text = December is during the winter in the northern hemisphere
+1	December	December	PROPN	NNP	Number=Sing	5	nsubj	_	_
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	_
+3	during	during	ADP	IN	_	5	case	_	_
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	_
+5	winter	winter	NOUN	NN	Number=Sing	0	root	_	_
+6	in	in	ADP	IN	_	9	case	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	9	det	_	_
+8	northern	northern	ADJ	JJ	Degree=Pos	9	amod	_	_
+9	hemisphere	hemisphere	NOUN	NN	Number=Sing	5	nmod	_	_
+
+# sent_id = 198.0
+# text = winter in a hemisphere occurs when the pole located in that hemisphere is tilted away from the sun
+1	winter	winter	NOUN	NN	Number=Sing	5	nsubj	_	_
+2	in	in	ADP	IN	_	4	case	_	_
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	_
+4	hemisphere	hemisphere	NOUN	NN	Number=Sing	1	nmod	_	_
+5	occurs	occur	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+6	when	when	SCONJ	WRB	PronType=Int	14	mark	_	_
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	_
+8	pole	pole	NOUN	NN	Number=Sing	14	nsubj:pass	_	_
+9	located	locate	VERB	VBN	Tense=Past|VerbForm=Part	8	acl	_	_
+10	in	in	ADP	IN	_	12	case	_	_
+11	that	that	DET	DT	Number=Sing|PronType=Dem	12	det	_	_
+12	hemisphere	hemisphere	NOUN	NN	Number=Sing	9	obl	_	_
+13	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	14	aux:pass	_	_
+14	tilted	tilt	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	5	advcl	_	_
+15	away	away	ADV	RB	_	14	advmod	_	_
+16	from	from	ADP	IN	_	18	case	_	_
+17	the	the	DET	DT	Definite=Def|PronType=Art	18	det	_	_
+18	sun	sun	NOUN	NN	Number=Sing	14	obl	_	_
+
+# sent_id = 199.0
+# text = runoff is when cropland water enters bodies of water
+1	runoff	runoff	NOUN	NN	Number=Sing	2	nsubj	_	_
+2	is	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	when	when	SCONJ	WRB	PronType=Int	6	mark	_	_
+4	cropland	cropland	NOUN	NN	Number=Sing	5	compound	_	_
+5	water	water	NOUN	NN	Number=Sing	6	nsubj	_	_
+6	enters	enter	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	2	advcl	_	_
+7	bodies	body	NOUN	NNS	Number=Plur	6	obj	_	_
+8	of	of	ADP	IN	_	9	case	_	_
+9	water	water	NOUN	NN	Number=Sing	7	nmod	_	_
+
+# sent_id = 200.0
+# text = flowing liquid can push objects
+1	flowing	flow	VERB	VBG	VerbForm=Ger	4	csubj	_	_
+2	liquid	liquid	NOUN	NN	Number=Sing	1	obj	_	_
+3	can	can	AUX	MD	VerbForm=Fin	4	aux	_	_
+4	push	push	VERB	VB	VerbForm=Inf	0	root	_	_
+5	objects	object	NOUN	NNS	Number=Plur	4	obj	_	_
+

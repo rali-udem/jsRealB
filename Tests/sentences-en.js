@@ -1,5 +1,6 @@
 QUnit.test( "Sentence EN", function( assert ) {
-    loadEn();
+   Object.assign(globalThis,jsRealB);
+   loadEn();
     var sentences = [
         // 1
         {"expression":S( NP(D("the"), N("cat")), VP(V("sit").t("ps"), PP(P("on"), NP(D("the"), N("couch"))))),

@@ -1,4 +1,7 @@
-var data = [
+import {Task} from "./pert.js"
+export {tasks,data}
+
+const data = [
     new Task("a",10,"c,q,t"),
     new Task("b",3, "c,u"),
     new Task("c",15,"k,d,p"),
@@ -25,16 +28,16 @@ var data = [
     new Task("x",55,"")
 ];
 
-var tasks={};
+const tasks={};
 // créer un objet pour faciliter les indexations
-for (var i = 0; i < data.length; i++) {
-    var d=data[i];
+for (let i = 0; i < data.length; i++) {
+    const d=data[i];
     d.index=i;
     tasks[d.id]=d;
 }
 
-///// for the node.js module
-if (typeof module !== 'undefined' && module.exports) {
-    exports.tasks=tasks;
-    exports.data=data;
-}
+// ///// for the node.js module
+// if (typeof module !== 'undefined' && module.exports) {
+//     exports.tasks=tasks;
+//     exports.data=data;
+// }

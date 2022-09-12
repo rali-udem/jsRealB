@@ -199,6 +199,7 @@ testDetDeclensionEn=[
 ]
 
 QUnit.test( "English declension", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadEn();
     var exp=N("love").n("p")
     assert.equal(""+exp, "loves", exp.toSource());

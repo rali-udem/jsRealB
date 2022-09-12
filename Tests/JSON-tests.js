@@ -1,4 +1,5 @@
 QUnit.test( "JSON-tests", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadEn();
     // using Phrase
     const exp=S(NP(D("the"),N("cat").n("p")),

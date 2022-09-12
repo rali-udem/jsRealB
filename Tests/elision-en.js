@@ -1,5 +1,6 @@
 // QUnit.config.hidepassed=true;
 QUnit.test( "English elision", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadEn();
     var elisionTestsEn=[
         [NP(D("a"),N("apple")),"an apple"],

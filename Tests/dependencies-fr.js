@@ -1,8 +1,9 @@
 QUnit.test( "Dependencies FR", function( assert ) {
-    loadFr();
-    var pomme = comp(N("pomme"),det(D("le")));
-    var pommeS = subj(N("pomme"),det(D("le")));
-    var  gars = subj(N("garçon").n("p"),det(D("le")));
+     Object.assign(globalThis,jsRealB);
+     loadFr();
+    const pomme = comp(N("pomme"),det(D("le")));
+    const pommeS = subj(N("pomme"),det(D("le")));
+    const  gars = subj(N("garçon").n("p"),det(D("le")));
     addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
     addToLexicon({"Mary":{"N":{"g":"f","tab":"n16"}}})
     var phrases = [

@@ -2,6 +2,7 @@
 // la structure de phrase est celle du "résumé" donné à 
 //      http://www.alalettre.com/queneau-oeuvres-exercices-de-style.php
 //   nécessite le chargement de jQuery
+Object.assign(globalThis,jsRealB);
 var texte,temps,genre,nombre;
 
 function completerLexique(){

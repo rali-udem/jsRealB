@@ -1,5 +1,6 @@
 QUnit.test( "Phrase FR", function( assert ) {
-    loadFr();
+   Object.assign(globalThis,jsRealB);
+   loadFr();
     var pomme = NP(D("le"),N("pomme"));
     var  gars = NP(D("le"),N("garçon").n("p"));
     addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})

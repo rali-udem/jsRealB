@@ -8,12 +8,10 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-const fs = require('fs');
-const ud=require("./UD.js");
-UD=ud.UD;
-const UDnode=require(`./UDnode-${language}.js`)
-const glob = require("glob")
-const UDregenerator=require("./UDregenerator.js");
+import { readFileSync, writeFileSync } from 'fs';
+import _glob from "glob";
+const { glob } = _glob;
+import { parseUDs } from "./UDregenerator.js";
 
 for (const lang of ["en","fr"]){
     let nbFiles=0
@@ -22,10 +20,10 @@ for (const lang of ["en","fr"]){
     const sampleOutFileName=`${udDir}${lang}-sample-${sampleSize}.conllux1`;
     let fileNames=glob.sync(`${udDir}${lang}/*-ud-test.conllu`,{});
     let out="";
-    for (fileName of fileNames){
+    for (let fileName of fileNames){
         nbFiles++;
-        let conlluFile = fs.readFileSync(fileName,{encoding:'utf8', flag:'r'});
-        let uds=UDregenerator.parseUDs(conlluFile,fileName);
+        let conlluFile = readFileSync(fileName,{encoding:'utf8', flag:'r'});
+        let uds=parseUDs(conlluFile,fileName);
         const n0=uds.length;
         total0+=n0;
         uds=uds.filter(ud=>ud.nodes.length>5); // keep only UD with 5 tokens or more (counting the dummy 0 element)
@@ -40,6 +38,6 @@ for (const lang of ["en","fr"]){
         }
         console.log("%s::%d ud sampled from %d (%d)",fileName.substring(udDir.length),sampleSize,total,total0);
     }
-    fs.writeFileSync(sampleOutFileName,out,{encoding:'utf8', flag:'w'})
+    writeFileSync(sampleOutFileName,out,{encoding:'utf8', flag:'w'})
     console.log("%d files processed; %d ud sampled from %d (%d)",nbFiles,nbFiles*sampleSize,total,total0)
 }

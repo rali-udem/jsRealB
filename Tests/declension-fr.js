@@ -3422,6 +3422,7 @@ testsProDeclinaisonFr = {
 }
 
 QUnit.test( "Déclinaison française", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadFr();
     var exp=N("acheteur").g("f").n("p")
     assert.equal(""+exp, "acheteuses", exp.toSource());

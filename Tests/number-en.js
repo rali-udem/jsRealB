@@ -1,4 +1,5 @@
 QUnit.test( "Number EN", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadEn();
     assert.equal(NO(1000).toString(), "1,000", "1000 => 1,000");
     assert.equal(NO(1000000).toString(), "1,000,000", "1000000 => 1,000,000");

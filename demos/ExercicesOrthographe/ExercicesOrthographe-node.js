@@ -1,7 +1,5 @@
-jsRealB=require("jsrealb")
-
-for (var v in jsRealB)
-    eval(v+"=jsRealB."+v);
+import jsRealB from "../../dist/jsRealB.js"
+Object.assign(globalThis,jsRealB)
 
 loadFr();
 // listes de mots
@@ -16,7 +14,7 @@ const article = ["un","le"];
 const nomTemps ={"p":"présent","i":"imparfait","f":"futur","pc":"passé composé"}
 const codeTemps=Object.keys(nomTemps);
 
-nb=10  // nombres de phrases à produire 
+const nb=10  // nombres de phrases à produire 
 for (let i=0;i<nb;i++){
     // effectuer le choix des lemmes
     const anime=oneOf(animes);

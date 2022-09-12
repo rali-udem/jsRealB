@@ -3,6 +3,7 @@
 //  les données sont maintenant en "vrai" JSON avec des identificateurs plus évocateurs
 //  Elles ne sont plus triées pour faire ressortir l'aspect Data2Text
 
+Object.assign(globalThis,jsRealB);
 loadFr();
 
 // // ajouts au lexique

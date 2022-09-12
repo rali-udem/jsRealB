@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Lexicon.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Lexicon.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+   jsRealB 4.5
+    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+ */
+
+////  this is still experimental and not supported by Safari and Firefox
+// import LexiconEn from "../data/lexicon-en.json" assert { type: 'json' };
+// import LexiconFr from "../data/lexicon-fr.json" assert { type: 'json' };
+// import rulesEn from "../data/rules-en.json" assert { type: 'json' };
+// import rulesFr from "../data/rules-fr.json" assert { type: 'json' };
+export {copulesFR,negMod,prepositionsList,modalityVerbs,
+        loadEn,loadFr,addToLexicon,updateLexicon,getLemma,getLanguage,getLexicon,getRules,
+        quoteOOV,setQuoteOOV,reorderVPcomplements,setReorderVPcomplements}
+
+// hidden variables 
+const lexicon = {"en":LexiconEn,"fr":LexiconFr};
+const rules   = {"en":rulesEn,  "fr":rulesFr};
+
+let language  = "en";
+
+// French copula verbs
+const copulesFR=["être","paraître","sembler","devenir","rester"];
+// negation of modal auxiliaries
+const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
+            "could":"could not","might":"might not","should":"should not","would":"would not"};  
+// all prepositions from lexicon-en|fr.js (used for implementing int:"woi|wai|whn|whe"
+// tail +2 lexicon-en|fr.js | jq 'to_entries | map(select(.value|has("P"))|.key )'
+const prepositionsList = {
+    "en":{
+        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
+        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past","toward", "towards", "under", "underneath","until","via","within",  ]),
+        "whn":new Set(["after", "before", "during","since",  "till", ]),
+    },
+    "fr":{
+        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
+        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors","près","sous", "sur", "vers", "via",]),
+        "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
+    }
+}
+
+const modalityVerbs=["vouloir","devoir","pouvoir"]
+
+/**
+ * Set current language to "en" English
+ * @param {boolean?} trace if given and true, write message on the console
+ */
+function loadEn(trace=false){
+    language="en";
+    if (trace)console.log("English lexicon and rules loaded")
+}
+/**
+ * Set current language to "fr" French
+ * @param {boolean?} trace if given and true, write message on the console
+ */
+function loadFr(trace=false){
+    language="fr";
+    if (trace)console.log("Règles et lexique français chargés")
+}
+
+/**
+ * Add new info or replace lexical information about a lemma
+ * With a single object, then the key is the lemma to change
+ * Existing info about a lemma that is not specified stays unchanged
+ * 
+ * @param {string|object} lemma lemma to change
+ * @param {object|null} newInfos new information, if null delete the entry
+ * @param {string?} lang language in which to change, otherwise use current language
+ * @returns changed entry for lemma 
+ */
+function addToLexicon(lemma,newInfos,lang){
+    let lex = getLexicon(lang)
+    if (newInfos === null){ // remove key
+        if (lex[lemma] !== undefined){
+            delete lex[lemma]
+        }
+        return
+    }
+    if (newInfos==undefined){// convenient when called with a single JSON object as shown in the IDE
+        newInfos=Object.values(lemma)[0];
+        lemma=Object.keys(lemma)[0];
+    }
+    const infos=lex[lemma]
+    if (infos!==undefined &amp;&amp; newInfos!==undefined){ // update with newInfos
+        Object.assign(lex[lemma],newInfos)
+    } else {
+        lex[lemma]=newInfos
+    }
+    return lex[lemma]
+}
+
+/**
+ * Update current lexicon by "merging" the new lexicon with the current one
+ *    i.e. adding new key-value pairs and replacing existing key-value pairs with the new one
+ * @param {Object} newLexicon a single object with the "correct" structure
+ */
+function updateLexicon(newLexicon){
+    let lexicon = getLexicon(language);
+    Object.assign(lexicon,newLexicon)
+}
+
+/**
+ * Get lemma information from the lexicon
+ * @param {string} lemma to query
+ * @param {("en"|"fr")?} lang 
+ */
+function getLemma(lemma,lang){
+    return getLexicon(lang)[lemma];
+}
+
+/**
+ * @returns the current realization language
+ */
+function getLanguage(){
+    return language;
+}
+
+/**
+ * @param {("en"|"fr")?} lang language for the lexicon, if undefined then the current language
+ * @returns the lexicon of the specified language
+ */
+function getLexicon(lang){
+    if (lang!==undefined)
+        return lexicon[lang];
+    return lexicon[language]
+}
+
+/**
+ * @param {("en"|"fr")?} lang language for the rules, if undefined then the current language
+ * @returns the rules of the specified language
+ */
+function getRules(lang){
+    if (lang!==undefined)
+        return rules[lang];
+    return rules[language]
+}
+ 
+let quoteOOV=false;
+/**
+ * Set flag for quoting out of vocabulary tokens, otherwise a warning is issued
+ * @param {boolean} qOOV 
+ */
+function setQuoteOOV (qOOV){
+    quoteOOV=qOOV
+}
+
+let reorderVPcomplements=false;
+/**
+ * Flag for reordering VP complements by increasing length
+ * Undocumented feature, seemed "useful" for AMR to text generation
+ * @param {boolean} reorder 
+ */
+function setReorderVPcomplements(reorder){
+    reorderVPcomplements=reorder;
+}
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -4,6 +4,8 @@
 //    this file can be used either in a web page or as a node.js module
 ///////
 
+export {createNetwork, showNetwork, findTrip, routeNos, routeNodes,routes,network,isTransfer};
+
 const MAX_DIST=100000;
 const DIST_MINUTES=150; // approximate ratio of distances between stations and minutes
 const STOP_TIME=1;      // approximate time in minutes for a stop
@@ -11,48 +13,51 @@ const TRANSFER_TIME= 5; // approximate time for transfering lines
 const trace=false;
 
 //  data structure of for a node in an undirected network
-function Node(id,s,route){
-    this.id=id;                  // identification either a number or "number"-"line number" for a transfer station
-    this.stationName=s.station;  // external name of the station
-    this.route=route;            // route/line number
-    this.long=s.coords[0];       // longitude
-    this.lat=s.coords[1];        // latitude
-    this.links=[];               // list of [nodeId, distance] with neighbors in the network
-    this.start=null;             // node of the first station of the line
-    this.end=null;               // node of the last station of the line
-    this.index=-1;               // rank of this station in the line
-    // for computing the shortest path
-    this.minDist=MAX_DIST;       // minimum dist from the current node
-    this.precede=null;           // previous node in the shortest path
+class Node {
+    constructor(id, s, route) {
+        this.id = id; // identification either a number or "number"-"line number" for a transfer station
+        this.stationName = s.station; // external name of the station
+        this.route = route; // route/line number
+        this.long = s.coords[0]; // longitude
+        this.lat = s.coords[1]; // latitude
+        this.links = []; // list of [nodeId, distance] with neighbors in the network
+        this.start = null; // node of the first station of the line
+        this.end = null; // node of the last station of the line
+        this.index = -1; // rank of this station in the line
+
+        // for computing the shortest path
+        this.minDist = MAX_DIST; // minimum dist from the current node
+        this.precede = null; // previous node in the shortest path
+    }
+    toString() {
+        let res = this.id + ":" + this.stationName + ":" + this.route + " index=" + this.index +
+            " " + this.long.toFixed(0) + "@" + this.lat.toFixed(0);
+        if (this.links.length > 0) {
+            res += " links=[" + this.links.map(l => l[0].id + ":" + l[1].toFixed(2)).join(",") + "]";
+        }
+        if (this.minDist != MAX_DIST)
+            res += " minDist=" + (this.minDist.toFixed(2));
+        if (this.precede != null)
+            res += " precede=" + this.precede.id;
+        if (this.start != null)
+            res += " start=" + this.start.id;
+        if (this.end != null)
+            res += " end=" + this.end.id;
+        return res;
+    }
 }
 
-Node.prototype.toString = function (){
-    let res=this.id+":"+this.stationName+":"+this.route+" index="+this.index+
-            " "+this.long.toFixed(0)+"@"+this.lat.toFixed(0);
-    if (this.links.length>0){
-        res+=" links=["+this.links.map(l=>l[0].id+":"+l[1].toFixed(2)).join(",")+"]";
-    }
-    if (this.minDist!=MAX_DIST)
-        res+=" minDist="+(this.minDist.toFixed(2));
-    if (this.precede!=null)
-        res+=" precede="+this.precede.id;
-    if (this.start!=null)
-        res+=" start="+this.start.id;
-    if (this.end!=null)
-        res+=" end="+this.end.id;
-    return res;
-}
 
 // display functions to help debugging
 function showDist(routes){
     console.log("Distances between stations")
-    for (var j = 0; j < routes.length; j++) {
-        var routeNo=routes[j].route;
-        var stations=routes[j].stations
+    for (let j = 0; j < routes.length; j++) {
+        const routeNo=routes[j].route;
+        const stations=routes[j].stations
         for (var i = 1; i < stations.length; i++) {
-            var s0=stations[i-1];
-            var s1=stations[i];
-            dist=Math.sqrt((s0.coords[0]-s1.coords[0])**2+(s0.coords[1]-s1.coords[1])**2)/DIST_MINUTES
+            const s0=stations[i-1];
+            const s1=stations[i];
+            const dist=Math.sqrt((s0.coords[0]-s1.coords[0])**2+(s0.coords[1]-s1.coords[1])**2)/DIST_MINUTES
              // approximate time in minutes
             console.log("%s::%s:%s -> %s:%s : %d",routeNo,s0.id,s0.station,s1.id,s1.station,dist);
         }
@@ -61,11 +66,11 @@ function showDist(routes){
 
 function showNetwork(network){
     console.log("Network for computing path");
-    for (var iNode in network){
+    for (let iNode in network){
         console.log(network[iNode].toString());
     }
     console.log("RouteNodes");
-    for (var i in routeNodes) {
+    for (let i in routeNodes) {
         console.log(i,":",routeNodes[i].map(n=>n.id).join(","))
     }
 }
@@ -197,20 +202,21 @@ function findTrip(network,id1,id2){
     if (id1==id2){
         return [[[id1,0]]];
     }
-    for (var iNode in network){
+    for (let iNode in network){
         network[iNode].minDist=MAX_DIST;
     };
     network[id1].minDist=0;
     network[id1].precede=null;
     // Ford algorithm for shortest path
     // much simpler to implement than Dijkstra on such a small network
+    let changed;
     do {
-        var changed=false;
-        for (iNode in network){
-            var n1=network[iNode];
-            for (i in n1.links){
-                var n2=n1.links[i][0];
-                var dist=n1.minDist+n1.links[i][1];
+        changed=false;
+        for (let iNode in network){
+            const n1=network[iNode];
+            for (let i in n1.links){
+                const n2=n1.links[i][0];
+                const dist=n1.minDist+n1.links[i][1];
                 if (dist<n2.minDist){
                     n2.minDist=dist;
                     n2.precede=n1;
@@ -220,23 +226,23 @@ function findTrip(network,id1,id2){
         }
     } while (changed);
     // get shortest path from n2 to n1 and reverse it
-    var path=[];
-    var n=network[id2];
+    const path=[];
+    let n=network[id2];
     while (n!=null){
         path.push([n.id,n.minDist]);
         n=n.precede;
     }
-    path=path.reverse()
+    path.reverse()
     if (trace) console.log("Path from %s to %s: %d :%s",id1,id2,network[id2].minDist.toFixed(2),
                            JSON.stringify(path));
     // split in lines at the transfer station
-    var startPath=0;
-    var iPath=0;
-    trip=[];
+    let startPath=0;
+    let iPath=0;
+    const trip=[];
     if (isSameStationTransfer(path[0][0],path[1][0])){
         // very special case path starts with two transfers within same line
         path.shift() // remove dummy transfer       
-        for (var i = 0; i < path.length; i++) {
+        for (let i = 0; i < path.length; i++) {
             path[i][1]-=TRANSFER_TIME; // remove dummy transfer time from the rest of the path
         }
     }
@@ -266,32 +272,23 @@ function findTrip(network,id1,id2){
     return trip;
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-    const fs = require('fs');
-    var routes = JSON.parse(fs.readFileSync(__dirname+"/metroLinesSorted.json")); 
+import {routes} from "./metroLinesSortedRose.js"
+let network=createNetwork(routes);
 
-    // showDist(routes);
-    var network=createNetwork(routes);
-    // console.log("routeNos:",routeNos);
-    showNetwork(network);
-    
-    exports.createNetwork=createNetwork;
-    exports.showNetwork=showNetwork;
-    exports.findTrip=findTrip;
-    exports.routeNos=routeNos;
-    exports.routeNodes=routeNodes;
-    
-    if (require.main === module){// when called directly
-        findTrip(network,45,56);
-        findTrip(network,11,56);
-        findTrip(network,5,11);
-        findTrip(network,12,12);
-        findTrip(network,64,61);
-        findTrip(network,32,56);
-    }
-    
-} else { 
-    // loaded in a web page
-    // routes is a global variable in script "metroLinesSorted.js"
-    var network=createNetwork(routes);
+if (typeof process !== "undefined" && process?.versions?.node) {
+    // https://stackoverflow.com/questions/6398196/detect-if-called-through-require-or-directly-by-command-line/66309132#66309132
+    let path=await import("path")
+    let {fileURLToPath} = await import('url');
+    const nodePath = path.resolve(process.argv[1]);
+    const modulePath = path.resolve(fileURLToPath(import.meta.url))
+    const isRunningDirectlyViaCLI = nodePath === modulePath;
+
+    if (isRunningDirectlyViaCLI){
+        console.log(findTrip(network,45,56),"\n---");
+        console.log(findTrip(network,11,56),"\n---");
+        console.log(findTrip(network,5,11),"\n---");
+        console.log(findTrip(network,12,12),"\n---");
+        console.log(findTrip(network,64,61),"\n---");
+        console.log(findTrip(network,32,56),"\n---");
+    }   
 }

@@ -1,5 +1,6 @@
 //////////// realiser part using jsRealB
 // the given choices "...":[...] are from the training set
+Object.assign(globalThis,jsRealB);
 
 // English realizer
 function jsrRealize(fields){

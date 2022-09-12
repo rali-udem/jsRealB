@@ -10,7 +10,10 @@ pre {
     border-top: 1px solid #999; 
     border-bottom: 1px solid #999;
 }
-code {font-size:larger;}
+code {
+    font-size:larger;
+    white-space: pre;
+}
 table {border-collapse:collapse;}
 td {border: 1px solid #999;
     padding:2px;}

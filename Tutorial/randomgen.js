@@ -1,17 +1,15 @@
 // javascript version of randomgen.pl described in
 //    Michel Boyer and Guy Lapalme, Text Generation, in Logic and Logic Grammar for Language Processing, 
 //    Ellis Horwood, 1990, Chapter 12, p-256-257 
-if (typeof module !== 'undefined' && module.exports) {
-    var jsRealB=require("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-dme.min.js");
-    for (var v in jsRealB)
-        eval("var "+v+"=jsRealB."+v);
 
-    function show(exp){
-        console.log(exp.toSource(),":",exp.toString());
-    }
+import "../dist/jsRealB.js";
+export {a,np,vp};
+Object.assign(globalThis,jsRealB);
+function show(exp){
+    console.log(exp.toSource(),":",exp.realize());
 }
+
 loadEn();
-addToLexicon({"fussy":{"A":{"tab":"a4"}}});
 // a simple sentence
 var cat=NP(D("the"),N("cat"));
 var mouse=NP(D("a"),A("grey"),N("mouse"));
@@ -25,7 +23,7 @@ var mouse1=NP(D("a"),A("grey"),N("mouse"));
 var cat2=NP(D("the"),N("cat"));
 var mouse2=NP(D("a"),A("grey"),N("mouse"));
 
-if (typeof module !== 'undefined' && module.exports) {
+if (isRunningUnderNode) {
     // some variations
     show(S(cat,VP(V("eat"),mouse)));
     show(S(cat,VP(V("eat"),mouse)).n("p").t("f"));
@@ -63,7 +61,7 @@ function vp(){
     );
 }
 
-if (typeof module !== 'undefined' && module.exports) {
+if (isRunningUnderNode) {
     console.log("== Random sentences ==")
     for (var i = 0; i < 20; i++) {
         show(S(np(),vp()));

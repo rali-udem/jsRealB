@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test of jsRealB library</title>
+</head>
+<body>
+    <h1>Utilisation de la librairie jsRealB<br/>
+        jsRealB library usage</h1>
+    <script type="module">
+        import "../dist/jsRealB.js"; 
+        Object.assign(globalThis,jsRealB);
+        import {addExp,en,fr,enfr} from "./examples-functions-module.js";
+        addExp(en());
+        addExp(fr());
+        addExp(enfr());
+    </script>
+   
+</body>
+</html>

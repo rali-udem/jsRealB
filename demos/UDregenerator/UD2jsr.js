@@ -1,5 +1,7 @@
- // Mapping of UD POS tags to jsRaelB constructors
- // taken from https://universaldependencies.org/u/pos/index.html
+export {feats2options};
+
+// Mapping of UD POS tags to jsRaelB constructors
+// taken from https://universaldependencies.org/u/pos/index.html
 // const udPos_jsrPos = {
 //      //  Open class
 //     ADJ:A,
@@ -28,7 +30,7 @@
 //   CAUTION: only deals with English and French phenomena that can be mapped to jsRealB options
 
     // https://universaldependencies.org/u/feat/Mood.html
-mood = {"Ind":{"Past":"ps","Pres":"p","Fut":"f","Imp":"i","Pqp":"pq"},
+const mood = {"Ind":{"Past":"ps","Pres":"p","Fut":"f","Imp":"i","Pqp":"pq"},
         "Imp":{"Pres":"ip"},
         "Cnd":{"Past":"cp","Pres":"c"},
         "Sub":{"Past":"spa","Pres":"s","Imp":"si","Pqp":"spq"},
@@ -36,38 +38,38 @@ mood = {"Ind":{"Past":"ps","Pres":"p","Fut":"f","Imp":"i","Pqp":"pq"},
         }
 
     // https://universaldependencies.org/u/feat/VerbForm.html
-verbform = {"Fin":null,"Inf":"b","Part":"pp","Ger":"pr"}
+const verbform = {"Fin":null,"Inf":"b","Part":"pp","Ger":"pr"}
 
     // https://universaldependencies.org/u/feat/Tense.html
     //   indicative mood if not specified
-tenses = mood["Ind"]
+const tenses = mood["Ind"]
 
     // https://universaldependencies.org/u/feat/Person.html
-person = {"1":1,"2":2,"3":3}
-person_psor=person;
+const person = {"1":1,"2":2,"3":3}
+const person_psor=person;
 
     // https://universaldependencies.org/u/feat/Number.html
-number = {"Sing":"s","Plur":"p"}
-number_psor = number
+const number = {"Sing":"s","Plur":"p"}
+const number_psor = number
 
     // https://universaldependencies.org/u/feat/Case.html
-case_ = {"Acc":"acc","Dat":"dat","Gen":"gen","Nom":"nom"}
+const case_ = {"Acc":"acc","Dat":"dat","Gen":"gen","Nom":"nom"}
 
     //  https://universaldependencies.org/u/feat/Definite.html
-definite = {"Def":null,"Ind":null}
+const definite = {"Def":null,"Ind":null}
     // https://universaldependencies.org/u/feat/Gender.html
-gender = {"Masc":"m", "Fem":"f", "Neut":"n"}
-gender_psor = gender
+const gender = {"Masc":"m", "Fem":"f", "Neut":"n"}
+const gender_psor = gender
 
     // https://universaldependencies.org/u/feat/Degree.html
-degree = {"Cmp":"co","Sup":"su","Pos":null}
+const degree = {"Cmp":"co","Sup":"su","Pos":null}
 
     // https://universaldependencies.org/u/feat/PronType.html
-pronType = {"Prs":null,"Art":null,"Int":null,"Rel":null,"Dem":null,"Neg":null,"Ind":null}
+const pronType = {"Prs":null,"Art":null,"Int":null,"Rel":null,"Dem":null,"Neg":null,"Ind":null}
 
-numtype = {"Card":null,"Ord":null}
+const numtype = {"Card":null,"Ord":null}
 
-reflex = {"Yes":"refl"}
+const reflex = {"Yes":"refl"}
 
 function getOption(featName,allowed,feat){
     const val=allowed[feat];
@@ -214,9 +216,4 @@ function feats2options(constituent,udNode,selFeats){
         }
     }
     return constituent
-}
-
-
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    exports.feats2options=feats2options
 }

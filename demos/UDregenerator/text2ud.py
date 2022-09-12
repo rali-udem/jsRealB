@@ -49,7 +49,7 @@ def main():
         if lang!='en' and lang!='fr':
             print('only en and fr supported')
             sys.exit(1)
-        processFile(sys.argv[2])
+        processFile(sys.argv[2],lang)
         sys.exit()
     else:
         print("missing input file")

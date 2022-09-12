@@ -1,4 +1,4 @@
-var routes = [
+export const routes = [
   {"route":1, "stations":[
     {"id": "18", "station": "Honoré-Beaugrand", "route": "1", "coords": [302040.08698887925, 5050741.44628119]},
     {"id": "19", "station": "Radisson", "route": "1", "coords": [301735.9800496101, 5049947.9922192525]},

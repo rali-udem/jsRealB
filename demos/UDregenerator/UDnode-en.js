@@ -1,23 +1,7 @@
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    const udn = require('./UDnode.js');
-    UDnode=udn.UDnode;
-    _=udn._;
-    applyOptions=udn.applyOptions;
-    const udjsr=require("./UD2jsr.js");
-    // eval exports 
-    feats2options=udjsr.feats2options
-    //////// 
-    //  load JSrealB
-    var jsrealb=require('../../dist/jsRealB-node.js');
-    // eval exports 
-    for (var v in jsrealb){
-        eval("var "+v+"=jsrealb."+v);
-    }
-    const utils=require("./utils.js");
-    appendTo=utils.appendTo;
+import {UDnode,applyOptions,_} from "./UDnode.js";
+import {feats2options} from "./UD2jsr.js";
+export {UDnode};
 
-    exports.UDnode=UDnode;
-}
 //  Terminal (English)
 // CAUTION: this function can modify the feats structure
 UDnode.prototype.toTerminal = function(){
@@ -227,7 +211,7 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
     }
     
     // check future tense
-    [dep,idx]=this.findDeprelUpos("aux","AUX");
+    const [dep,idx]=this.findDeprelUpos("aux","AUX");
     if (idx>=0 && dep[idx].getLemma()=="will"){
         dep.splice(idx,1);
         headOptions.push(["t","f"]);

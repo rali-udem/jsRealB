@@ -1265,8 +1265,8 @@ testsConjugEn = {
     
 // QUnit.config.hidepassed=true;
 QUnit.test( "English conjugation", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadEn();
-    // loadDME(); // change English lexicon to dme
     assert.equal(V("have").n("p").pe(1), "have", "I have");
 
     // Automated Tests

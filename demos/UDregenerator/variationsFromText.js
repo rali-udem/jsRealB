@@ -57,23 +57,21 @@ if (fileName==null){
     console.log("no file specified");
     process.exit()
 }
+/// load system tools
+import { existsSync, statSync, readFileSync } from 'fs';
+import { spawn } from 'child_process';
 
 //////// 
 //  load JSrealB
-var jsrealb=require('../../dist/jsRealB-node.js');
-// eval exports 
-for (var v in jsrealb){
-    eval("var "+v+"=jsrealb."+v);
-}
+let {default:jsRealB} = await import("../../dist/jsRealB.js");
+Object.assign(globalThis,jsRealB);
 if (language=="en")loadEn(); else loadFr();
-const ud=require("./UD.js");
-UD=ud.UD;
-const UDnode=require(`./UDnode-${language}.js`)
-// jsrealb.setQuoteOOV(true)
 
-const enfr=require(`./UDregenerator-${language}.js`);
-const utils=require("./utils.js");
-const UDregenerator=require("./UDregenerator.js");
+//////
+//  load regenerator classes
+import { parseUDs } from "./UDregenerator.js";
+await import(`./UDregenerator-${language}.js`);
+import { fixPunctuation } from "./utils.js";
 
 // taken from Phrase.js
 const prepositionsList = {
@@ -107,10 +105,10 @@ function generateQuestion(jsr,ansJSR,typ){
 
 // TODO: deal  with coordination of sentences
 function generateNegation(jsr){
-    const typ=this.getProp("typ")
+    const typ=jsr.getProp("typ");
     if (jsr.terminal.isA("V") && 
         // do not try to negate an already negated sentence...
-        typ!==undefined && typ["neg"]!==undefined && typ["neg"]!==false){
+        !(typ!==undefined && typ["neg"]!==undefined && typ["neg"]!==false)){
         const negation=jsr.clone().typ({neg:true});
         if (showTrees){
             console.log(jsr.toSource(0));
@@ -165,12 +163,12 @@ function generateQuestions(jsr){
 }
 
 function clean(s){
-    return utils.fixPunctuation(s.replace(/\[\[(.*?)\]\]/g,"$1"))
+    return fixPunctuation(s.replace(/\[\[(.*?)\]\]/g,"$1"))
 }
 
 function generate(conlluFile){
     // UDregenerator execution
-    uds=UDregenerator.parseUDs(conlluFile);
+    const uds=parseUDs(conlluFile);
     uds.forEach(function (ud,i){
         // if (ud.text.length>=80)return; // for the moment only deal with short sentences (less than 80 characters)
         const text=ud.text;
@@ -205,6 +203,8 @@ function generate(conlluFile){
             }
         } else {
             console.log(fmt,"ERR ","Question cannot be created from a "+jsr.constType);
+            if (showTrees)
+                console.log(jsr.toSource(0));
         }
         console.log("");
     });    
@@ -213,28 +213,30 @@ function generate(conlluFile){
     if (negation) console.log("%d negations",nbNegations);
 }
 
-const fs = require('fs');
-if (fileName.endsWith(".txt")){  
-    // deal with a txt file with a sentence on each line, that will be parsed using Stanza
-    conlluFileName=fileName.replace(/.txt$/,".conllu")
-    if (!fs.existsSync(conlluFileName) || fs.statSync(conlluFileName).mtime<fs.statSync(fileName).mtime){
-        console.error("*** Creating %s",conlluFileName)
-        // create conllu file
-        const { spawn } = require('child_process');
-        const child = spawn("./text2ud.py",[language, fileName])
-        child.on("exit",function(code,signal){
-            if (code==0){
-                console.error("*** Wrote  %s",conlluFileName);
-                generate(fs.readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
-            } else {
-                console.error('*** Problem in file creation:' +`code ${code} and signal ${signal}`);
-            }
-        })
+function processing(){
+    if (fileName.endsWith(".txt")){  
+        // deal with a txt file with a sentence on each line, that will be parsed using Stanza
+        const conlluFileName=fileName.replace(/.txt$/,".conllu")
+        if (!existsSync(conlluFileName) || statSync(conlluFileName).mtime<statSync(fileName).mtime){
+            console.error("*** Creating %s",conlluFileName)
+            // create conllu file
+            const child = spawn("./demos/UDregenerator/text2ud.py",[language, fileName])
+            child.on("exit",function(code,signal){
+                if (code==0){
+                    console.error("*** Wrote  %s",conlluFileName);
+                    generate(readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
+                } else {
+                    console.error('*** Problem in file creation:' +`code ${code} and signal ${signal}`);
+                }
+            })
+        } else {
+            generate(readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
+        }
+    } else if (fileName.endsWith(".conllu")){
+            generate(readFileSync(fileName,{encoding:'utf8', flag:'r'}))
     } else {
-        generate(fs.readFileSync(conlluFileName,{encoding:'utf8', flag:'r'}))
+        console.log("file extension should .txt or .conllu: %s",fileName)
     }
-} else if (fileName.endsWith(".conllu")){
-        generate(fs.readFileSync(fileName,{encoding:'utf8', flag:'r'}))
-} else {
-    console.log("file extension should .txt or .conllu: %s",fileName)
 }
+
+processing();

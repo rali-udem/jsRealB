@@ -1,4 +1,8 @@
-var language="fr";
+import { UDregeneratorLoad } from "./UDregenerator.js";
+import { initUD } from "./UDinit-fr.js";
+import "./UDnode-fr.js";
+export {addNewWords}
+
 function addNewWords(){
     loadFr();
     
@@ -13,16 +17,7 @@ function addNewWords(){
     addToLexicon("comme",{"P":{"tab":"ppe"}})
 }
 
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module    
-    jsRealB=require("../../dist/jsRealB-node.js");
-    loadFr=jsRealB.loadFr;
-    addToLexicon=jsRealB.addToLexicon;
-    getLemma=jsRealB.getLemma;
-    getLexicon=jsRealB.getLexicon;
-    updateLexicon=jsRealB.updateLexicon;
-    exports.language=language;
-    exports.addNewWords=addNewWords;
-} else {
-    // after loading the web page
-    d3.select(window).on("load",UDregeneratorLoad);     
+if (!(typeof process !== "undefined" && process?.versions?.node)){ // cannot use isRunningUnderNode yet!!!
+    Object.assign(globalThis,jsRealB);
+    UDregeneratorLoad("fr",initUD,addNewWords);
 }

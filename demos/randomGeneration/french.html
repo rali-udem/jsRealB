@@ -6,7 +6,7 @@
     <!-- Viewport Meta Tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- jQuery library -->
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <!-- Tether -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <!-- Latest Bootstrap compiled JavaScript -->
@@ -15,20 +15,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
     <script src="typeahead.bundle.js"></script>
     <script src="../../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -/->
-        <script src="../../data/lexicon-en.js"></script>
-        <script src="../../data/rule-en.js"></script>
-        <script src="../../data/lexicon-fr.js"></script>
-        <script src="../../data/rule-fr.js"></script>
-        <script src="../../build/Utils.js"></script>
-        <script src="../../build/Constituent.js"></script>
-        <script src="../../build/Phrase.js"></script>
-        <script src="../../build/Terminal.js"></script>
-        <script src="../../build/Dependent.js"></script>
-        <script src="../../build/Number.js"></script>
-        <script src="../../build/IO-json.js"></script>
-        <script src="../../build/Warnings.js"></script>
-<!-/- end of separate loading -->
     <!-- chargement du script spécifique -->
     <script>
         var enFrancais=true;
@@ -158,6 +144,7 @@
 <div class="container pt-3">
     <div class="row">
         <div class="col-12">
+            <a href="English.html" style="float:right"><b>English version</b></a>
             <h1>Génération d'une phrase avec jsRealB </h1>
             <ul>
                 <li>Choisir les constituants (blocs dépliables) dans les options ci-bas;</li>
@@ -190,7 +177,7 @@
             <script>document.write(showNP("Complément d'objet direct","OD",""))</script>
             <script>document.write(showNP("Complément d'objet indirect","OI",
                 `<div class="row">
-                    <legend class="col-form-label col-2  ml-4">Preposition</legend>
+                    <legend class="col-form-label col-2  ml-4">Préposition</legend>
                     <div class="col-2">
                         <input type="text" name="prepOI-search" value="" id="prepOI" placeholder="préposition"
                                 class="form-control typeahead tt-query" autocomplete="off">
@@ -299,7 +286,9 @@
         </div>
     </div>
     <div class="footer">
-        <em>Démonstration adaptée de celle de <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/snlgbil/snlgEnFr_francais.html" title="SimpleNLG-EnFr">SimpleNLG-Enfr</a> réalisée par <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/" title="Fiche d'information de Pierre-Luc Vaudry">Pierre-Luc Vaudry</a></em> [<a href="English.html">English version</a>]<br/>
+        <em>Démonstration adaptée de celle de <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/snlgbil/snlgEnFr_francais.html" title="SimpleNLG-EnFr">SimpleNLG-Enfr</a> 
+            réalisée par <a target="_top" href="http://www-etud.iro.umontreal.ca/~vaudrypl/" title="Fiche d'information de Pierre-Luc Vaudry">Pierre-Luc Vaudry</a></em>
+            <br/>
         <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a>
     </div>
 </div>

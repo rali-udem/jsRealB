@@ -3,7 +3,7 @@
 ```
 Guy Lapalme
 RALI-DIRO, Université de Montréal
-April 2020
+September 2022
 ```
 
 *You might be interested by an [extended version of this document](https://arxiv.org/pdf/2012.15425.pdf)*
@@ -336,20 +336,20 @@ This section is quite *technical* and has been designed as a high-level document
 
 ### Class structure
 
-Although Javascript is not a class-based object system, the structure of `jsRealB` can be understood as a small hierarchy of four classes shown below in which shared methods for both `Phrase`, `Dependent` and `Terminal` objects are defined in `Constituent`. The user does not (in fact, cannot) call the following constructors. The user instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor. A Terminal should be called with only one parameter, or none in the case of `DT`, a check for this is done at call
+The structure of `jsRealB` can be understood as a small hierarchy of four classes shown below in which shared methods for both `Phrase`, `Dependent` and `Terminal` objects are defined in `Constituent`. The user does not usually call the their constructors directly, but instead calls functions such as these ones, for a `Phrase` or a `Terminal` that return the value created by the constructor, thus removing the need to have `new` before each instantiation. A Terminal should be called with only one parameter, or none in the case of `DT`, a check for this is done at call
 time.
 
     function NP  (_){ return new Phrase(Array.from(arguments),"NP") }
     function N   (_){ return new Terminal(Array.from(arguments),"N") }
     
-In the figure, each *class* title shows its parameters, the first cell shows in italics the associated properties with their type followed by methods used when creating the object; next are shown the methods for each class.
+In the following figure, each *class* title shows its parameters, the first cell shows in italics the associated properties with their type followed by methods used when creating the object; next are shown the methods for each class. `Lexicon` and `jsRealB` are two classes that are not instantiated but that contain utility functions and constants. 
 
 <!--![JsRealB-classes](images/JsRealB-classes.png)-->
 <img src="images/JsRealB-classes.png" width="800"/> 
 
 All functions validate their input, in the case of errors, they generate a warning message on the console. Realization is not stopped, the resulting string is the original lemma enclosed in double square brackets. 
 
-We now describe the methods in each box. Only the main methods are shown and described here, auxiliary or simple utility methods are ignored here as are methods in other files: `Elision.js` and `Number.js`):
+We now describe the methods in each box. Only the main methods are shown and described here, auxiliary or simple utility methods are ignored. The exact file organization is slightly different, sometimes to get around the problem of circular import of JavaScript files:
 
 #### `Constituent`
 The constructor initializes the object properties `constType` with the parameter, `prop` to an empty object, `realization` to `null` and `lang` to the current realization language.
@@ -438,27 +438,34 @@ This is also a subclass of Constituent, its structures closely parallels that of
   Finally call `doFormat()` (defined in `Constituent`) with a singleton string containing this `Terminal`;
 * `toSource()` : return the lemma within quotes and parentheses preceded by the `constType`; call the `toSource()` of the prototype to add the options.
 
-### Utilities
+### Lexicon
 
-These functions (except for the first) can be called by the user to change global information for the realizer. They are described in the [documentation](../documentation/user.html#vocExtension).
+These functions can be called by the user to change global information for the realizer. They are described in the [documentation](../documentation/user.html#vocExtension).
 
-* `extend(base,sub)` : create a *subclass* by manipulating prototype links (cannot be called by the user);
 * `loadEn(trace)` : set the current lexicon and rule table for realizing sentences in English;
 * `loadFr(trace)` : set the current lexicon and rule table for realizing sentences in French;
-* `addToLexicon(lemma, infos, lang)` : add a new lemma to the current lexicon by giving information for conjugation and lemmatization in the specified lesicon;
-* `updateLexicon(newLexicon,lang)` : replace the specified lexicon by a new one;
+* `addToLexicon(lemma, infos, lang)` : add a new lemma to the current lexicon by giving information for conjugation and lemmatization in the specified lexicon;
+* `updateLexicon(newLexicon,lang)` : add to the current lexicon, the entries of the specified lexicon;
 * `getLemma(lemma,lang)` : return the information for a given lemma from specified lexicon ;
 * `getLanguage()` : return the current realization language;
 * `getLexicon()` : return the current lexicon;
-* `oneOf(elems)` : selects randomly an element from a list.
 
-### JSON
+### jsRealB
+This is not a class, but a file that imports all functions and classes and
+exports them, so that this is the only file to import to access jsRealB.
+It also adds a few utility functions and constants
+
+* `oneOf(elems)` : selects randomly an element from a list.
+*` jsRealB_version` : the current version of jsRealB
+
+
+### JSON-tools
 
 * `fromJSON(json,lang)` : create a jsRealB structure from a JSON object; if `lang` is not given, the current language is used;
 * `.toJSON()`, `.toJSON()` : create a JSON structure from a jsRealB structure ;
 * `ppJSON(json)` : create an indented string showing the structure of a JSON structure (not specific to jsRealB, but useful for debugging);
-* `Phrase.fromJSON`, `Terminal.fromJSON`, `setJSONprops` : internal functions used by fromJSON();
-* `Phrase.prototype.toJSON`, `Terminal.prototype.toJSON` :internal functions used by toJSON().
+* `Phrase.fromJSON`, `Dependent.fromJSON`, `Terminal.fromJSON`, `setJSONprops` : internal functions used by fromJSON();
+* `Phrase.prototype.toJSON`, `Terminal.prototype.toJSON`, `Terminal.prototype.toJSON` :internal functions used by toJSON().
 
 ## Conclusion
 

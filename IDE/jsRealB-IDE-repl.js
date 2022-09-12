@@ -8,13 +8,12 @@
    example call:
       node /path/to/jsRealB-IDE/jsRealB-IDE-repl.js [en|fr] (fr is the default...)
 */
+import {lemmatize, isConstituent, getConjugation, getConjugationEnding, getDeclension, 
+        getDeclensionEnding,getLexiconInfo, buildLemmataEn, buildLemmataFr} from "./nodeIDE.js"
 
-// preload jsRealB module
-jsRealB=require("./jsRealB-IDE.min.js");
-// import constructors and other functions
-for (var v in jsRealB){eval (''+v+"=jsRealB."+v)}
 loadEn(); buildLemmataEn();
 loadFr(); buildLemmataFr();
+
 // select language 
 var args=process.argv
 console.log("** jsRealB "+jsRealB_version+" ("+jsRealB_dateCreated+") Development Environment [help() for info]**")
@@ -33,7 +32,7 @@ if (args.length>2){
 }
 
 // customize Read-Eval-Print loop
-var repl = require('repl');
+import { start, REPL_MODE_STRICT } from 'repl';
 // specialized output
 function myWriter(output) {
     if (isConstituent(output)) // realize the sentence
@@ -43,12 +42,12 @@ function myWriter(output) {
     return util.inspect(output);  // inspect other types of output
 }
 
-const replServer=repl.start({
+const replServer=start({
     prompt: 'jsRealB > ',
     useGlobal: true,
     ignoreUndefined: true,
     writer:myWriter, 
-    replMode: repl.REPL_MODE_STRICT
+    replMode: REPL_MODE_STRICT
 });
 
 //  add commands for querying the linguistic resources

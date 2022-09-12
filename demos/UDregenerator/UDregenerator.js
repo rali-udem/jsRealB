@@ -1,29 +1,30 @@
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    const utils=require("./utils.js")
-    const fixPunctuation=utils.fixPunctuation;
-}
+export {parseUDs,UDregeneratorLoad}
+import {UD} from "./UD.js";
+import { fixPunctuation } from "./utils.js";
+import { computeDiffs,showDiffs,addHTMLStr} from "./levenshtein.js";
+import {showDependencies,showTree,spacing,start,addWord,addLabel,selectRow} from "./drawDependencies.js"
+
 ///// for the dependency tree drawing
 /////////// drawing of the dependency representation
 // uses addWord, addLabel functions from drawDependencies.js
 
 const deltaDepTree = 20;
 
-let terminals, dependents, depRoot; // shared variables used for drawing
+let terminals, dependents, depRoot,dependencies,tree, language; // shared variables used for drawing
 
 // slighly different from the one in drawDependencies.js
 function drawSentenceCT(display,deps){
-    var endX=startX;
+    let endX=start.x;
     // draw the words of the sentence and update width and x in deps
-    for (var i = 1; i < deps.length; i++) {
-        var dep=deps[i];
-        var tooltip="";
-        var [width,word]=addWord(display,null,endX,startY,dep.form,
-                                 dep.opts,
-                                 false,false);
+    for (let i = 1; i < deps.length; i++) {
+        const dep=deps[i];
+        const [width,_word]=addWord(display,null,endX,start.y,dep.form,
+                                   dep.opts,
+                                   false,false);
         deps[i].x=endX;
         deps[i].width=width;
         deps[i].mid=endX+width/2;
-        endX+=width+wordSpacing;
+        endX+=width+spacing.word;
     }
     return endX;
 }
@@ -65,7 +66,7 @@ function drawDepTree(display,depInfo){
 }
 
 function drawDepLabels(display,depInfo){
-    var text=addLabel(display,depInfo.x,depInfo.y,depInfo.label);
+    const text=addLabel(display,depInfo.x,depInfo.y,depInfo.label);
     text.attr("cursor","pointer");
     // if (depInfo.opts.length>0)
     text.append("title").text(depInfo.opts);
@@ -88,14 +89,14 @@ function showDependents(jsRealBstruct){
     dependents =[];
     depRoot = null;
     addDepInfos(jsRealBstruct);    
-    startY= maxLevel(depRoot,1) * deltaDepTree + deltaDepTree/2;
+    start.y= maxLevel(depRoot,1) * deltaDepTree + deltaDepTree/2;
     var svg=d3.select("svg#constTree");
-    display=svg.select("g");
+    let display=svg.select("g");
     display.selectAll("*").remove();
-    svg.attr("height",startY+20); // update height of the drawing
+    svg.attr("height",start.y+20); // update height of the drawing
     var endX=drawSentenceCT(display,terminals); // this updates the .x, .width, .mid of each terminal
-    terminals.forEach(t=>t.y=startY);
-    svg.attr("width",endX+startX); // update width of the drawing
+    terminals.forEach(t=>t.y=start.y);
+    svg.attr("width",endX+start.x); // update width of the drawing
     updateXY(depRoot,-deltaDepTree/2);
     drawDepTree(display,depRoot); // draw lines
     drawDepLabels(display,depRoot); // add labels (over some lines)
@@ -112,7 +113,6 @@ function parseUDs(groupVal,fileName){
     let udsStrings=groupVal.split("\n\n");
     let uds=[];
     let startLine=1;
-    let sentence;
     udsStrings.forEach(function(string){
         if (string.trim().length==0){
             startLine++;
@@ -201,7 +201,7 @@ function parse(udContent,fileName){
             sentences.append("option").attr("value",i).text(ud.textInMenu);
         }
     })
-    var nb=sentences.selectAll("option").size()
+    const nb=sentences.selectAll("option").size()
     d3.select("#nbSent").html(nb+(language=="en"?" sentence":" phrase")+(nb>1?"s":""));
     if (nb>0){ // if menu is not empty, update current UD
         if (d3.select(`#sentences option[value="${currentUDno}"]`).size()==0){
@@ -225,13 +225,6 @@ function htmlWarnings(warnings){
     }
 }
 
-function selectRow(tr){
-    let tbody=d3.select("#tokens tbody");
-    tbody.selectAll("td").classed("selected-row",false);
-    d3.select(tr).selectAll("td").classed("selected-row",true);
-    d3.select("#lineNo").text(currentUD.nodes[tr.children[0].textContent].lineNumber);
-}
-
 function showUDtable(ud){
     d3.select("#lineNo").text(ud.nodes[1].lineNumber);
     d3.select("#sentId").text(ud.sent_id);
@@ -248,7 +241,8 @@ function showUDtable(ud){
     }
     tbody.on("click",function(e){ // row selection on a cell of the table body
         const tgt=d3.event.target;
-        selectRow(d3.select(tgt).node().parentNode);
+        const tr=d3.select(tgt).node().parentNode;
+        selectRow(tr,currentUD.nodes[tr.children[0].textContent].lineNumber);
     })
 }
 
@@ -301,7 +295,7 @@ function showSentenceParse(ud){
     }
 }
 
-var editor;
+let editor;
 
 function updateRealization(){
     resetSavedWarnings();
@@ -351,7 +345,8 @@ function toggleJsrEditor(){
     }
 }
 
-function UDregeneratorLoad(){
+function UDregeneratorLoad(lang,initUD,addNewWords){
+    language=lang;
     dependencies=d3.select("#dependencies");
     tree=d3.select("#tree");
     d3.select("#file-input")
@@ -384,11 +379,11 @@ function UDregeneratorLoad(){
         showRealization(currentUD,true);
     })
     d3.select("#wordSpacing").on("change",function(){
-        wordSpacing=+this.value;
+        spacing.word=+this.value;
         showSentenceParse(currentUD);
     });
     d3.select("#letterSpacing").on("change",function(){
-        letterSpacing=+this.value;
+        spacing.letter=+this.value;
         showSentenceParse(currentUD);
     });
     // pour l'éditeur
@@ -405,7 +400,7 @@ function UDregeneratorLoad(){
     d3.select("#realize").on("click",updateRealization);
     setQuoteOOV(true);
     udContent=initUD;
-    fileName="initialUDs";
+    const fileName="initialUDs";
     d3.select("#fileName").text(fileName);
     addNewWords();
     parse(udContent,fileName);
@@ -438,9 +433,3 @@ function UDregeneratorLoad(){
       }
     });
 }
-
-
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    exports.parseUDs=parseUDs;
-} 
- 

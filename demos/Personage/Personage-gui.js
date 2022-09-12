@@ -1,9 +1,6 @@
-let fieldNames,allFields,$fields,$sentences,$search,$corpus,mrRefs;
-
-const params = {}   // package generation parameters similar to node.js 
-params.extraversion     = extraversion;
-params.agreeableness    = agreeableness;
-params.concientiousness = concientiousness;
+let fieldNames,allFields,mrRefs,$fields,$sentences,$search,$corpus;
+import { apply_parameters } from "./generation_parameters.js";
+import {mr_values,params,add_words_to_lexicon,makeInfos,personalized_recommandation} from "./Personage.js"
 
 function getDataSet(dataFileName){
     $.get(dataFileName,function(data){
@@ -15,7 +12,7 @@ function getDataSet(dataFileName){
         }).fail($search.append($("b").text(dataFileName+" not found")));
 }
 
-function createFields(data){
+export function createFields(data){
     allFields=data
     fieldNames=Object.keys(allFields);
     var $tr=$("<tr/>");
@@ -40,7 +37,7 @@ function createFields(data){
     $fields.append($tr);
 }
 
-function createSearch(data){
+export function createSearch(data){
     var $searchB=$("<input type='button' value='search' title='Display sentences with the current field values'></input>")
     $searchB.click(e=>search());
     $search.append($searchB);
@@ -72,7 +69,7 @@ function filter(fields,infos){
     return true
 }
 
-function showValuesInMenu(event){
+export function showValuesInMenu(event){
     $(".current").removeClass("current");
     var $tgt=$(event.target);
     const id= $tgt.attr("id")
@@ -89,8 +86,8 @@ function showValuesInMenu(event){
 
     // realize all variations 
     $("#jsrPersonality").empty()
-    for (pers of mr_values["personality"]){
-        $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(params,pers,mr)}</td></tr>`)
+    for (let pers of mr_values["personality"]){
+        $("#jsrPersonality").append(`<tr><td>${pers}</td>}<td>${personalized_recommandation(params,pers,mr,apply_parameters)}</td></tr>`)
     }
 }
 
@@ -104,10 +101,10 @@ function getFieldsFromMenus(){
     return fields;
 }
 
-function changeCorpus(){
+export function changeCorpus(){
     $("body").css("cursor", "progress");
     const corpusType=$corpus.val()
-    dataFileName=`./data/personage-nlg-${corpusType}.jsonl`
+    const dataFileName=`./data/personage-nlg-${corpusType}.jsonl`
     getDataSet(dataFileName);
 }
 
@@ -115,7 +112,6 @@ function search(){
     $sentences.empty()
     $("#jsrPersonality").empty();
     var fields=getFieldsFromMenus();
-    if (Object.keys(fields).length==0)strict=false; // force non strict on all empty
     var references=[];
     let first;
     for (var i = 0; i < mrRefs.length; i++) {
@@ -129,3 +125,20 @@ function search(){
     $("#nbSent").text(references.length.toLocaleString());
     $("#name,#near").text("");
 }
+
+// to debug from Visual Code Studio 
+//   start a web server in the jsRealB directory
+//   e.g.  python3 -m http.server
+$(document).ready(function() {
+    $fields=$("#fields");
+    $search=$("#search");
+    $sentences=$("#sentences");
+    $sentences.click(showValuesInMenu);
+    $corpus=$("#corpus");
+    $corpus.change(changeCorpus);
+    changeCorpus();
+    createSearch(mrRefs)
+    add_words_to_lexicon();
+    createFields(mr_values);
+})
+
