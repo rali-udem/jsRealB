@@ -24,33 +24,40 @@
 //   Content planning: refine communicative goals, 
 //   select and structure the propositional content, 
 //     e.g. by manipulating a rhetorical structure tree (p.82)
-function ContentPlanning(params = {}) {
-    // set default values
-    this.verbosity = null;              // C: Control the number of propositions in the utterance
-    this.restatements = null;           // C: Paraphrase an existing proposition
-    this.repetitions = null;            // C: Repeat an existing proposition
-    this.content_polarity = null;       // C: Control the polarity of the propositions depessed, i.e., referring to negative or positive attributes
-    this.repetitions_polarity = null;   // C: Control the polarity of the restated propositions
-    this.concessions = null;            // C: Emphasize one attribute over another
-    this.concessions_polarity = null;   // C: Determine whether positive or negative attributes are emphasized
-    this.polarization = null;           // C: Control whether the depessed polarity is neutral or extreme
-    this.positive_content_first = null; // C: Determine whether positive propositions—including the claim—are uttered first
-    // in the thesis (p 112), 
-    //   these content planning parameters are modelled at the pragmatic marker insertion level as they 
-    //   only affect the beginning of the utterance (described in page 119, table 5.4)
-    this.request_confirmation = null;   // B: Begin the utterance with a confirmation of the restaurant’s name
-    this.initial_rejection = null;      // B: Begin the utterance with a mild rejection
-    this.competence_mitigation = null;  // B: depess the speaker’s negative appraisal of the hearer’s request    
-    Object.assign(this,params)       // change fields to corresponding values given as parameters
- }
+class ContentPlanning {
+    constructor(params = {}) {
+        // set default values
+        this.verbosity = null; // C: Control the number of propositions in the utterance
+        this.restatements = null; // C: Paraphrase an existing proposition
+        this.repetitions = null; // C: Repeat an existing proposition
+        this.content_polarity = null; // C: Control the polarity of the propositions depessed, i.e., referring to negative or positive attributes
+        this.repetitions_polarity = null; // C: Control the polarity of the restated propositions
+        this.concessions = null; // C: Emphasize one attribute over another
+        this.concessions_polarity = null; // C: Determine whether positive or negative attributes are emphasized
+        this.polarization = null; // C: Control whether the depessed polarity is neutral or extreme
+        this.positive_content_first = null; // C: Determine whether positive propositions—including the claim—are uttered first
+
+
+
+        // in the thesis (p 112), 
+        //   these content planning parameters are modelled at the pragmatic marker insertion level as they 
+        //   only affect the beginning of the utterance (described in page 119, table 5.4)
+        this.request_confirmation = null; // B: Begin the utterance with a confirmation of the restaurant’s name
+        this.initial_rejection = null; // B: Begin the utterance with a mild rejection
+        this.competence_mitigation = null; // B: depess the speaker’s negative appraisal of the hearer’s request    
+        Object.assign(this, params); // change fields to corresponding values given as parameters
+    }
+}
 
 //  Syntactic template selection: decide what syntactic template to select for expressing each proposition, 
 //  chosen from a handcrafted generation dictionary; (p 82)
-function SyntacticTemplateSelection(params = {}) {
-    this.self_references = null;      // C: Control the number of first person pronouns
-    this.syntactic_complexity = null; // C: Control the syntactic complexity (syntactic embedding)
-    this.template_polarity = null;    // C: Control the connotation of the claim, i.e., whether positive or negative affect is expressed
-    Object.assign(this,params)   // change fields to corresponding values given as parameters
+class SyntacticTemplateSelection {
+    constructor(params = {}) {
+        this.self_references = null; // C: Control the number of first person pronouns
+        this.syntactic_complexity = null; // C: Control the syntactic complexity (syntactic embedding)
+        this.template_polarity = null; // C: Control the connotation of the claim, i.e., whether positive or negative affect is expressed
+        Object.assign(this, params); // change fields to corresponding values given as parameters
+    }
 }
 
 ////// Agregation operations
@@ -266,11 +273,12 @@ function in_group_marker(dep) {
 //////////////////
 ///    Definitions of the big five personality type 
 
-const high = 0.9, low = 0.1;
+export const high = 0.9;
+export const low = 0.1;
 //  Extraverts tend to engage in social interaction, they are enthusiastic, risk-taking, talkative and assertive,
 //  whereas introverts are more reserved and solitary. (p 83 of Mairesse 2008)
 //       Table 3 (p 86, ibid.) 
-const extraversion = {
+export const extraversion = {
     content_planning: new ContentPlanning({
         verbosity: high,
         restatements: high,
@@ -311,7 +319,7 @@ const extraversion = {
 // they make people feel comfortable.
 //   Table 4.5 (p. 94)
 
-const agreeableness = {
+export const agreeableness = {
     content_planning: new ContentPlanning({
         repetitions: high,
         content_polarity: high,
@@ -345,7 +353,7 @@ const agreeableness = {
 
 //      4.6: Conscientiousness [consc]  Table 4.6  p 97 
 
-const concientiousness = {
+export const concientiousness = {
     content_planning: new ContentPlanning({
         restatements: low,
         repetitions: low,
@@ -379,7 +387,7 @@ const concientiousness = {
 }
 
 // adapted from https://dev.to/codebubb/how-to-shuffle-an-array-in-javascript-2ikj
-function shuffleArray(array){
+export function shuffleArray(array){
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[j],array[i]]=[array[i],array[j]];
@@ -392,7 +400,7 @@ function shuffleArray(array){
 //  the list of parameters is shuffled to vary the order of transformations to apply
 //  as the first dependency has already been modified by the content planner
 //  it is not considered as a target for replacement
-function apply_parameters(type,params, in_deps, invert,trace){
+export function apply_parameters(type,params, in_deps, invert,trace){
     if (params.length==0)return in_deps;
     let out_deps=[];
     let applicationDone=false;
@@ -433,12 +441,12 @@ function apply_parameters(type,params, in_deps, invert,trace){
 }
 
 
-if (typeof module !== 'undefined' && module.exports) {
-    exports.high = high;
-    exports.low = low;
-    exports.extraversion = extraversion;
-    exports.agreeableness=agreeableness;
-    exports.concientiousness = concientiousness;
-    exports.apply_parameters = apply_parameters;
-    exports.shuffleArray = shuffleArray;
-}
+// if (typeof module !== 'undefined' && module.exports) {
+//     exports.high = high;
+//     exports.low = low;
+//     exports.extraversion = extraversion;
+//     exports.agreeableness=agreeableness;
+//     exports.concientiousness = concientiousness;
+//     exports.apply_parameters = apply_parameters;
+//     exports.shuffleArray = shuffleArray;
+// }

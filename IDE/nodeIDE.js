@@ -1,75 +1,24 @@
 // some useful function for the NodeIDE
 // these function access internals of jsRealB
-"use strict";
+export {lemmatize, isConstituent, getConjugation, getConjugationEnding, getDeclension, 
+        getDeclensionEnding,getLexiconInfo, buildLemmataEn, buildLemmataFr};
+
+import jsRealB from "../dist/jsRealB.js";
+// import constructors and other functions
+Object.assign(globalThis,jsRealB);
+const lexiconEn = getLexicon("en");
+const ruleEn = getRules("en");
+
+const lexiconFr = getLexicon("fr")
+const ruleFr = getRules("fr")
 
 // Only set this flag during development, it takes a long time to execute
-var checkAmbiguities=false;
-var lemmataEn,lemmataFr,lemmataLang;
+const checkAmbiguities=false;
+let lemmataEn,lemmataFr,lemmataLang;
 
 function isConstituent(obj){
     return obj instanceof Constituent;
 }
-
-function showConjugation(conjugations,mot,query,terminaison){
-    var regexp=new RegExp("^"+query+"$");
-    var $div=$("<span/>");
-    var found=false;
-    for(no in conjugations){
-        if (regexp.test(terminaison?conjugations[no]["ending"]:no)){
-            found=true;
-            var conjugation=conjugations[no];
-            var $caption=$("<caption/>").html(mot+" <b>"+no+"</b> :: "+conjugation["ending"]);
-            var $tbody=$("<tbody/>");
-            var $thead=$("<thead><tr><th>temps</th><th>valeurs</th></tr></thead>");
-            var $tbody=$("<tbody>");
-            var lesTemps=conjugation["t"];
-            var nomTemps=Object.keys(lesTemps);
-            var nbTemps=nomTemps.length;
-            for (var i=0;i<nbTemps;i++){
-                $tbody.append("<tr><td>"+nomTemps[i]+"</td><td>"+lesTemps[nomTemps[i]]+"</td></tr>");
-            }
-            $div.append($("<table class='info'/>").append($caption,$thead,$tbody))
-        }
-    }
-    if (found) return $div;
-    return $("<p>"+query+":"+(lang=="fr"?"conjugaison non trouvée":"conjugation not found")+"</p>");
-}
-
-function showDeclension(declensions,mot,query,terminaison){
-    var regexp=new RegExp("^"+query+"$");
-    var $div=$("<span/>")
-    var found=false;
-    for(no in declensions){
-        if (regexp.test(terminaison?declensions[no]["ending"]:no)){
-            found=true;
-            var declension=declensions[no];
-            var $caption=$("<caption/>").html(mot+" <b>"+no+"</b> :: "+declension["ending"]);
-            var lines=declension["declension"];
-            var nbLines=lines.length;
-            // trouver les champs présents (on suppose que toutes les entrées ont les mêmes champs)
-            var fields=["val"];
-            var line0=lines[0];
-            for(var field in line0)
-                if(fields.indexOf(field)<0)fields.push(field);
-            var nbFields=fields.length;
-            // créer les lignes de la table
-            var $tbody=$("<tbody/>");
-            var $thead=$("<thead><tr><th>"+(fields.join("</th><th>"))+"</th></tr></thead>");
-            var $tbody=$("<tbody>");
-            for (var i=0;i<nbLines;i++){
-                $tr=$("<tr/>");
-                for(var j=0;j<nbFields;j++){
-                    $tr.append("<td>"+lines[i][fields[j]]+"</td>")
-                }
-                $tbody.append($tr);
-            }
-            $div.append($("<table class='info'/>").append($caption,$thead,$tbody))
-        }
-    }
-    if (found) return $div;
-    return $("<p>"+query+":"+(lang=="fr"?"déclinaison non trouvée":"declension not found")+"</p>");
-}
-
 
 //////////// LEMMATIZATION
 
@@ -358,7 +307,7 @@ function getLexiconInfo(word,lang){
         else return res;
 }
 
-function help(){
+globalThis.help=function(){
     return `*** Special jsRealB commands ***
 "enhanced" Node.js read-eval-print loop 
 - Constituents created with jsRealB constructors are realized
@@ -375,13 +324,3 @@ function buildLemmataFr(){
     lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
 }
 
-exports.lemmatize=lemmatize;
-exports.isConstituent=isConstituent;
-exports.getConjugation=getConjugation;
-exports.getConjugationEnding=getConjugationEnding;
-exports.getDeclension=getDeclension;
-exports.getDeclensionEnding=getDeclensionEnding;
-exports.getLexiconInfo=getLexiconInfo;
-exports.buildLemmataEn=buildLemmataEn;
-exports.buildLemmataFr=buildLemmataFr;
-exports.help=help

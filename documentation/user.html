@@ -5,22 +5,7 @@
     <title>jsRealB - Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <!-- <script src="../dist/jsRealB.js"></script> -->
-<!-- to ease debugging we load each file separately -->
-        <script src="../data/lexicon-en.js"></script>
-        <script src="../data/rule-en.js"></script>
-        <script src="../data/lexicon-fr.js"></script>
-        <script src="../data/rule-fr.js"></script>
-        <script src="../data/lexicon-fr.js"></script>
-        <script src="../data/rule-fr.js"></script>
-        <script src="../build/Utils.js"></script>
-        <script src="../build/Constituent.js"></script>
-        <script src="../build/Phrase.js"></script>
-        <script src="../build/Terminal.js"></script>
-        <script src="../build/Dependent.js"></script>
-        <script src="../build/Number.js"></script>
-        <script src="../build/Warnings.js"></script>
-<!-- end of separate loading -->
+    <script src="../dist/jsRealB.js"></script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="user.js"></script>
     <script src="user-infos.js"></script>
@@ -36,6 +21,8 @@
     <h1><span class="jsr">jsRealB (Version <span id="version-no">3.8</span>)</span> - Documentation</h1>
     <p lang="fr"><span class="jsr">jsRealB</span> est un réalisateur de texte pour l'anglais et le français écrit en JavaScript. Il peut être utilisé soit à l'intérieur d'une page web comme celle-ci dont tous les exemples sont réalisés dynamiquement, ou comme module <code>Node.js</code>.</p>
     <p lang="en"><span class="jsr">jsRealB</span> is a text realizer for French and English written in JavaScript. It can be used either within a web page such as this one whose examples are dynamically realized or as a <code>Node.js</code> module.</p>
+    <p lang="fr"><i>Si vous travaillez en Python, vous serez peut-être intéressé par <a href="https://github.com/lapalme/pyrealb">pyrealb</a> qui utilise la même notation pour la description des composants des phrases.</i></p>
+    <p lang="en"><i>If you are working in Python, you migh be interested by <a href="https://github.com/lapalme/pyrealb">pyrealb</a> which uses the same notation for describin the sentence components.</i></p>
 
 <!-- *** Constituants *** -->
     <h2 lang="fr" id="constituants">Constituants</h2><h2 lang="en" id="constituents">Constituents</h2>
@@ -51,7 +38,8 @@
                 <code>Pro</code> ou <code>CP</code>. Si le <code>Pro</code> est un pronom relatif, le <em>sujet</em> de la subordonnée est utilisé. Des tests spécifiques permettent d'accorder le verbe <code>être/be</code> ainsi que pour tenir compte des sujets coordonnés.</li>
         </ul>
         <p>Des options (section suivante) spécifiant le genre et le nombre l'emportent sur ces accords automatiques.</p>
-		<p>Lors d'un appel à un constructeur de syntagme (e.g. <code>S, VP, NP</code>, ...), les paramètres ayant valeur <code>null</code> ou <code>undefined</code> sont ignorés. Les listes de paramètres sont <em>aplaties</em> pour être intégrées à l'appel. Cette convention est utile lors de la construction d'appels par programme.</p>
+		<p>Lors d'un appel à un constructeur de syntagme (e.g. <code>S, VP, NP</code>, ...), les paramètres ayant valeur <code>null</code> ou <code>undefined</code> sont ignorés, 
+ce qui peut simplifier les appels lors de paramètres optionnels.</p>
     </div>
 
     <div lang="en">
@@ -64,7 +52,8 @@
                 <code>Pro</code> or <code>CP</code>. If the <code>Pro</code> is a relative pronoun, the <em>subject</em> of the subordinate is taken. Specific tests take into account the verbs <code>être/be</code> and the coordinate subjects.</li>
         </ul>
         <p>Options (next section) can override these automatic agreements.</p>
-		<p>When calling a phrase constructor (e.g. <code>S, VP, NP</code>, ...), parameters having value <code>null</code> or <code>undefined</code> are ignored. Parameters lists are <em>flattened</em> to the constructor call. This convention makes it simpler to program constructor calls.</p>
+		<p>When calling a phrase constructor (e.g. <code>S, VP, NP</code>, ...), parameters having value <code>null</code> or <code>undefined</code> are ignored. 
+		This can be convenient for dealing with optional parameters.</p>
     </div>
 
     <div id="dependentsSect"></div>
@@ -212,6 +201,20 @@
 
 <!-- *** JavaScript *** -->
     <h2 lang="fr" id="javascript-fr">JavaScript</h2><h2 lang="en" id="javascript-en">JavaScript</h2>
+    <h3 id="loadEnFr"><code>loadEn(trace), loadFr(trace)</code></h3> 
+    <p lang="fr">Ces fonctions indiquent la langue à utiliser pour les prochaines réalisations. Il est important d'en appeler au moins une avant de débuter la réalisation d'une phrase. Si le paramètre est <code>true</code>, (il est <code>false</code> par défaut) un message apparaîtra sur la console à la fin du chargement du lexique et de règles du langage.</p>
+    <p lang="en">These functions sets the current realization language; one of them should be called before starting the realization process. If the parameter is <code>true</code>, (it is <code>false</code> by default), a message is written on the console after the loading of the lexicon and language rules.</p>
+    <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</div>
+    <div lang="en">These functions can be called as often as necessary to change the current language.</div>
+    <h3><code>.realize()</code> / <code>.toString()</code></h3>
+    <p lang="fr">Lance la réalisation d'un constituent, cette opération peut modifier la structure d'un ou plusieurs constituents. Dans la grande majorité des cas la réalisation est plutôt obtenue par <code>.toString()</code> souvent appelée implicitement par le système lorsqu'une expression est utilisée dans un contexte de <code>string</code>. <code>.realize()</code> peut être utile lors de la mise au point dans certains environnements de programmation (e.g. Visual Studio Code) qui utilisent <code>.toString()</code> pour l'affichage et qui donc risque de changer la structure au cours de la mise au point. Pour éviter ces problèmes, il faut effectuer <code>Constituent.debug=true;</code> et <code>.toString()</code> affichera le source de l'expression, mais alors il faut demander la réalisation explicite avec <code>.realize()</code>.</p>
+    <p lang="en">Launch the realization of a constituent which in some cases modifies the structure of one or more constituents. In the majority of cases, realization is instead obtained with <code>.toString()</code> often called implicitely by the system when an expression is used in a <code>string</code> context. <code>.realize()</code> can be useful when debugging in some programming environments  (e.g. Visual Studio Code) which call <code>.toString()</code> for displaying internal values and thus risk changing the constituents during debugging. To avoid theses situations, one call use the following <code>Constituent.debug=true;</code> and  <code>.toString()</code> will display the source of the expression, but then one must use <code>.realize()</code> explicitly.</h3>
+    <h3><code>.toSource()</code></h3>
+    <p lang="fr">Cette fonction retourne une version <em>chaîne</em> d'une expression <span class="jsr">jsRealB</span>, ceci peut être utile pour la mise au point d'une expression complexe. En passant 0 comme paramètre à ce fonction, on obtient une expression indentée qui fait ressortir la structure de l'expression.</p>
+    <p lang="en">This function returns a <em>string</em> version of a  <span class="jsr">jsRealB</span> expression, this can be useful for debugging complex expressions. When 0 is set as parameter of this function, the string is on multiple lines and indented to highlight the underlying structure.</p>
+    <h3><code>getLanguage()</code></h3>
+    <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
+    <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
     <h3><code>.clone()</code></h3>
     <p lang="fr">Comme les options modifient le constituant dans toutes les utilisations subséquentes, il est souvent pratique de pouvoir garder la version originale pour la réutiliser et la modifier indépendamment. L'option <code>clone()</code> permet de copier un syntagme pour utilisation dans des contextes différents.</p>
     <p lang="en">As options modify the constituent for all following use, it is often useful to keep the original constituent and modify it independently. The <code>clone()</code> option allows reusing a constituent in different contexts.</p>
@@ -223,67 +226,36 @@
     <h3><code>.add(<em>element</em>,<em>position</em>)</code></h3>
         <p lang="fr">Ajout d'un nouveau syntagme <code>element</code> comme enfant à un syntagme existant. Le paramètre entier <code>position</code> est facultatif et spécifie la position (à partir de 0) dans le syntagme. Par défaut, l'élément est ajouté à la fin.</p>
         <p lang="en">Add a new phrase <code>element</code> as a child of an existing phrase. The second optional parameter <code>position</code> is an integer that specifies its position (counting from 0). By default, the element is added as the last child.</p>
-<div id="addUse"></div>
-    <h3><code>.toSource()</code></h3>
-    <p lang="fr">Cette fonction retourne une version <em>chaîne</em> d'une expression <span class="jsr">jsRealB</span>, ceci peut être utile pour la mise au point d'une expression complexe. En passant 0 comme paramètre à ce fonction, on obtient une expression indentée qui fait ressortir la structure de l'expression.</p>
-    <p lang="en">This function returns a <em>string</em> version of a  <span class="jsr">jsRealB</span> expression, this can be useful for debugging complex expressions. When 0 is set as parameter of this function, the string is on multiple lines and indented to highlight the underlying structure.</p>
-    <h3><code>getLanguage()</code></h3>
-    <p lang="fr">Cette fonction retourne le langage courant de réalisation: <code>"fr"</code> pour le français et <code>"en"</code> pour l'anglais.</p>
-    <p lang="en">This function returns the current realization language: <code>"fr"</code> for French and <code>"en"</code> for English.</p>
-    <h3 id="loadEnFr"><code>loadEn(trace), loadFr(trace)</code></h3>
-    <p lang="fr">Ces fonctions indiquent la langue à utiliser pour les prochaines réalisations. Il est important d'en appeler au moins une avant de débuter la réalisation d'une phrase. Le paramètre (<code>false</code> par défaut) est le suivant:
-        <ul lang="fr">
-            <li><em>trace</em> : si <code>true</code>, un message apparaîtra sur la console à la fin du chargement du lexique et de règles du langage.</li>
-        </ul>
-    </p>
-    <p lang="en">These functions sets the current realization language; one of them should be called before starting the realization process. Its parameter, (<code>false</code> by default) is :
-        <ul lang="en">
-            <li><em>trace</em> : if <code>true</code>, a message is written on the console after the loading of the lexicon and language tables.</li>
-        </ul>
-    </p>
-
+    <div id="addUse"></div>
+    
 
 <!-- *** Chargement dans une page web *** -->
-    <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>
-	
-    <p lang="fr">Il suffit d'ajouter le script <code>jsRealB.js</code> à la liste des scripts de la page. Ceci intègre déjà deux lexiques de base: français (3 700 entrées) et anglais (5 200 entrées). Comme indiqué à la section <a href="#extensionVoc">Extension du vocabulaire</a>, il est facile d'ajouter de nouvelles entrées ou même de remplacer complètement les dictionnaires par défaut.</p>
-        <p lang="en">It is only a matter of adding the script <code>jsRealB.js</code> to the scripts used by the web page. This includes two basic lexicons: English (5 200 entries) and French (3 700 entries). As shown below in the <a href="#vocExtension">Vocabulary extension section</a>, it is possible to add new entries to the lexicon or to change it completely.</p>
-        <dd>
-            <ul>
-                <li><a href="#loadEnFr"><code>loadFr(...)</code></a> <span lang="en">should be called before starting realizing French sentences</span><span lang="fr">devrait être appelé avant de réaliser des phrases en français</span></li>
-                <li><a href="#loadEnFr"><code>loadEn(...)</code></a> <span lang="en">should be called before starting realizing English sentences.</span><span lang="fr">devrait être appelé avant de réaliser des phrases en anglais</span></li>
-            </ul>
-            <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant. Ces fonctions retournent le nouveau dictionnaire chargé.</div><div lang="en">These functions can be called as often as necessary to change the current language. Each call returns the last loaded dictionary.</div>
-		</dd>
-        
-<p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://github.com/rali-udem/jsRealB/tree/master/dist">répertoire</a>.</p>
-<p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element. But you can also get <i>minified</i> versions from <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">this directory</a>.</p>
-    <p lang="fr">Des exemples d'intégration dans une page web peuvent être trouvés à la section <em>Démonstrations</em> de <a href="http://rali.iro.umontreal.ca/JSrealB/current/documentation/in_action/LISEZMOI.html">cette page</a></p>
-    <p lang="en">Examples of web page integration can be found at the <em>Demonstrations</em> section of <a href="http://rali.iro.umontreal.ca/JSrealB/current/">this page</a></p>
-
+    <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>	
+    <p lang="fr">Il suffit d'ajouter le script <code>jsRealB.js</code> du répertoire <code>dist</code> à la liste des scripts de la page. Ceci intègre déjà deux lexiques: français (plus de 52&nbsp;500 entrées) et anglais (plus de 33 &nbsp;900 entrées). Comme indiqué à la section <a href="#extensionVoc">Extension du vocabulaire</a>, il est facile d'ajouter de nouvelles entrées au lexique. </p>
+    <p lang="en">It is only a matter of adding the script <code>jsRealB.js</code> to the scripts used by the web page. This includes two lexicons: English (33&nbsp;900 entries) and French (52&nbsp;500 entries). As shown below in the <a href="#vocExtension">Vocabulary extension section</a>, it is possible to add new entries to the lexicon or to change it completely.</p>
+    <p lang="fr">Le script <code>jsRealB.js</code> exporte un seul objet <code>jsRealB</code> dont les champs sont les fonctions de <span class="jsr">jsRealB</span> qu'il est plus pratique d'ajouter à l'environnement global, sinon il faudra préfixer par <code>jsRealB.</code> tous les appels. Une manière pratique de le faire est avec l'expression <code>Object.assign(globalThis,jsRealB)</code> qui doit être exécutée avant toute fonction de <span class="jsr">jsRealB</span> sans préfixe. En particulier les fonctions de chargement de dictionnaire et de règles: <a href="#loadEnFr"><code>loadFr(...)</code></a> ou <a href="#loadEnFr"><code>loadEn(...)</code></a>.</p>
+    <p lang="en">The <code>jsRealB.js</code> script exports a single object <code>jsRealB</code> whose fields are the <span class="jsr">jsRealB</span> functions which are more convenient to use when they are part of the global environment, otherwise <code>jsRealB.</code> should be added to each call. A simple way of doing this is by executing the expression <code>Object.assign(globalThis,jsRealB)</code> which should be executed before any <span class="jsr">jsRealB</span> function call without prefix. In particular any language and rule change: <a href="#loadEnFr"><code>loadFr(...)</code></a> ou <a href="#loadEnFr"><code>loadEn(...)</code></a>.  </p>
+    
+    <p lang="fr">Comme <span class="jsr">jsRealB</span> est construit avec de <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Modules">modules JavaScript</a>, plutôt que d'utiliser l'élément HTML <code>script</code>,  il est possible depuis un autre module d'accéder aux fonctions de réalisation en utilisant <code>import "./dist/jsRealB.js";</code>  qui a le même effet. Attention: <code>import</code> ne peut être utilisé que dans un script indiqué avec l'attribut <code>type="module"</code>.</p>    
+    <p lang="en">As <span class="jsr">jsRealB</span> is built using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</a>, instead of using the <code>script</code> HTML element,  it is also possible to access the realizing function using <code>import "./dist/jsRealB.js";</code>  from a JavaScript modul which has the same effect. Caution: the calling script tag must have the attribute <code>type="module"</code>.</p>    
+    <p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://github.com/rali-udem/jsRealB/tree/master/dist">répertoire</a>.</p>
+    <p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element. But you can also get <i>minified</i> versions from <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">this directory</a>.</p>
 
 <!-- *** Module  *** -->
     <h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
-    <p lang="fr">Les versions de <span class="jsr">jsRealB</span> décrites à la section précédente peuvent aussi être utilisées avec <code>node.js</code> en utilisant une instruction de la forme <code>jsRealB=require("...")</code>. La chaîne dans l'appel à <code>require</code> est le chemin vers le fichier <code>jsRealB.js</code> ou <code>jsRealB.min.js</code>. On peut aussi accéder au module <em>npm</em> <code>jsrealb</code> (attention à la casse différente), avec <code>require("jsrealb")</code> si, au préalable, on l'a installé avec <code>npm install jsrealb</code></p>
-    <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>node.js</code> with an instruction like <code>jsRealB=require("...")</code>. The string in the call to <code>require</code> is the path to <code>jsRealB.js</code> or <code>jsRealB.min.js</code>. It is also possible to use the <em>npm</em> <code>jsrealb</code> (check capitalization), with <code>require("jsrealb")</code> if, beforehand, it has been installed on your machine with <code>npm install jsrealb</code></p>
-    <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.js">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
-    <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.js">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realization.</p>
-    <p lang="fr"><strong>Trucs pratiques</strong>:</p> 
-    <p lang="en"><strong>Useful tricks</strong>:</p>
-    <ul>
-    <li lang="fr">l'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux. Il est donc plus pratique de définir les constructeurs dans le contexte global (même si ceci pourrait être considéré comme une mauvaise pratique en génie logiciel) en exécutant le code suivant:</li>
-    <li lang="en">phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious. It is thus more convenient (although it could be seen as bad software engineering practice) to define these constructors in the global namespace by executing the following code:</li>
-<pre>
-    for (var v in jsRealB)
-        eval(v+"=jsRealB."+v);
-</pre>
-    <li lang="fr">Un script JavaScript peut vérifier s'il est utilisé comme module <code>node.js</code> avec le test suivant:</li>
-    <li lang="en">A JavaScript script can check if it used as <code>node.js</code> module with the following:</li>
-    <pre>
-    if (typeof module !== 'undefined' && module.exports) {
-        ...
-    }
-    </pre>
+
+    <p lang="fr"><span class="jsr">jsRealB</span> peut aussi être utilisé avec <code>Node.js</code> en important le module <code>jsRealB</code> avec  <code>import jsRealB from './jsRealB.js';</code> qui exporte le symbole <code>jsRealB</code>.  
+        On peut aussi accéder au module <em>npm</em> <code>jsrealb</code> (attention à la casse différente), avec <code>import "jsrealb"</code> si, au préalable, on l'a installé avec <code>npm install jsrealb</code>. L'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux. Il est donc plus pratique de définir les constructeurs dans le contexte global en exécutant l'expressions suivante:</p>
+    <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>Node.js</code> with an instruction such as <code>import "./dist/jsRealB.js";</code>. It is also possible to use the <em>npm</em> <code>jsrealb</code> (check for the differing capitalization), with <code>import "jsrealb"</code> if, beforehand, it has been installed on your machine with <code>npm install jsrealb</code>. Phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious. It is thus more convenient to define these constructors in the global namespace with the following expression:</p>
+    <code>    Object.assign(globalThis,jsRealB);</code>
+    <p lang="fr">Un script JavaScript peut vérifier s'il est utilisé comme module <code>Node.js</code> en consultant la variable booléenne <code>isRunningUnderNode</code>.</p>
+    <p lang="en">A JavaScript script can check if it used as <code>Node.js</code> module with the boolean variable <code>isRunningUnderNode</code>.</p>
+
+    <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.mjs">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
+    <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.mjs">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realization.</p>
+
+    <p lang="fr">Il est possible d'écrire des modules qui peuvent être exécutés en tant que module Node.js, mais aussi utilisés depuis un script dans une page web. <a href="../Examples">Ce répertoire donne des exemples de patrons d'utilisation.</a></p>
+    <p lang="en">It is possible to write Node.js modules that can also be used from web page script. <a href="../Examples">This directory shows some code patterns illustrating different use cases.</a></p>
 </ul>
 
 <!-- *** Gestion des lexiques *** -->
@@ -309,7 +281,6 @@ provides already two comprehensive lexicons: French (more than 52 500 entries) a
 </li>
 <li>Pour enlever une entrée d'un lexique, il de mettre <code>newInfos</code> à <code>null</code>.</li>
 </ul>
-s
 
 <p lang="en"> 
      <code>lemma</code> is the basic form and <code>newInfos</code> is the morphologic information according to the internal  <span class="jsr">jsRealB</span> format: an object indicating one or many possible categories. For each category, properties and declension or conjugation are given.
@@ -348,27 +319,26 @@ The <a href="http://rali.iro.umontreal.ca/JSrealB/current/IDE/README.htmls">jsRe
 <!-- *** Sélection de variantes *** -->
     <h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
 <p lang="fr">
-La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> où <code>e<sub>i</sub></code> est est une valeur, choisit un <code>e<sub>i</sub></code> au hasard. En <code>jsRealB</code>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
+La fonction <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> où <code>e<sub>i</sub></code> est est une valeur, choisit un <code>e<sub>i</sub></code> au hasard. En <span class="jsr">jsRealB</span>, ces éléments sont souvent des constructeurs correspondant à des structures de phrases différentes. Si <code>e<sub>1</sub></code> est une liste alors la sélection est faite dans cette liste, en ignorant les autres paramètres.
 </p>
 <p lang="fr">Pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>, ce qui en fait une <em>fonction fléchée</em>. Une fois l'élément choisi, <code>oneOf</code> vérifie si la valeur est une fonction et si c'est le cas, il retourne le résultat de l'appel. Par exemple,
 <code>oneOf(()=>N("amour"),()=>N("amitié"))</code> permet de choisir entre les deux noms sans évaluer les deux constructeurs. Dans ce cas, très simple, il aurait été aussi possible d'écrire <code>N(oneOf("amour","amitié"))</code>.
 </p>
 <p lang="en">
-The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<sub>i</sub></code> is a value, selects randomly a <code>e<sub>i</sub></code>. In <code>jsRealB</code>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed within this list, ignoring other parameters.
+The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<sub>i</sub></code> is a value, selects randomly a <code>e<sub>i</sub></code>. In <span class="jsr">jsRealB</span>, these elements are often constructors corresponding to different phrase structures. If <code>e<sub>1</sub></code> is a list, the selection is performed within this list, ignoring other parameters.
 </p>
 <p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
 
-
 <h2 lang="fr" id="traitementsJSON">Traitement en JSON</h2><h2 lang="en" id="JSONprocessing">JSON processing</h2>
-<p lang="fr">Pour faciliter l'utilisation de <code>jsRealB</code> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealB-jsonInput.html">décrit dans ce document (en anglais)</a> où sont décrites deux API permettant d'appeler un serveur <code>jsRealB</code> <a href="jsRealBfromPython.html">depuis un programme Python</a> ou Prolog. Il est également possible d"obtenir une expression JSON correspondant à une expression <code>jsRealB</code>.
+<p lang="fr">Pour faciliter l'utilisation de <span class="jsr">jsRealB</span> en sortie d'un système externe. Il est possible d'utiliser un format d'entrée JSON <a href="../data/jsRealB-jsonInput.html">décrit dans ce document (en anglais)</a> où sont décrites deux API permettant d'appeler un serveur <span class="jsr">jsRealB</span> <a href="jsRealBfromPython.html">depuis un programme Python</a> ou Prolog. Il est également possible d"obtenir une expression JSON correspondant à une expression <span class="jsr">jsRealB</span>.
 </p>
-<p lang="en">To simplify the use of <code>jsRealB</code> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealB-jsonInput.html">It is described in this document.</a> in which two APIs are described for calling a <code>jsRealB</code> server <a href="jsRealBfromPython.html">from Python</a> or Prolog. It is also possible to obtain the JSON expression corresponding to a given <code>jsRealB</code> expression.
+<p lang="en">To simplify the use of <span class="jsr">jsRealB</span> as output of an external system, a JSON input format has been defined. <a href="../data/jsRealB-jsonInput.html">It is described in this document.</a> in which two APIs are described for calling a <span class="jsr">jsRealB</span> server <a href="jsRealBfromPython.html">from Python</a> or Prolog. It is also possible to obtain the JSON expression corresponding to a given <span class="jsr">jsRealB</span> expression.
 </p>
 
 <h2 lang="fr" id="Gestion des avertissements">Gestion des avertissements</h2><h2 lang="en" id="Warning management">Warning Management</h2>
-<p lang="fr">Lorsque <code>jsRealB</code> détecte une erreur de réalisation, un avertissement est écrit sur la console JavaScript avec la fonction <code>console.warn()</code>. Le système réalise alors le lemme courant entouré de doubles crochets. Il est possible de modifier ce comportement afin de lever une exception au premier avertissement ou pour récupérer la liste des avertissements générés. Ce pourrait permettre de les afficher dans la page web, si la console JavaScript n'est pas accessible. Les fonctions suivantes permettent de gérer ces avertissements</p>
-<p lang="en">When <code>jsRealB</code> detects a realization error, a warning is written on the JavaScript console using  <code>console.warn()</code>. The lemma is then wrapped within double brackets. This behavior can be modified for raising an exception at the first warning or for getting back a list of warnings. It this then possible to display them in the web page if the JavaScript console is hidden. The following functions handle the warnings:</p>
+<p lang="fr">Lorsque <span class="jsr">jsRealB</span> détecte une erreur de réalisation, un avertissement est écrit sur la console JavaScript avec la fonction <code>console.warn()</code>. Le système réalise alors le lemme courant entouré de doubles crochets. Il est possible de modifier ce comportement afin de lever une exception au premier avertissement ou pour récupérer la liste des avertissements générés. Ce pourrait permettre de les afficher dans la page web, si la console JavaScript n'est pas accessible. Les fonctions suivantes permettent de gérer ces avertissements</p>
+<p lang="en">When <span class="jsr">jsRealB</span> detects a realization error, a warning is written on the JavaScript console using  <code>console.warn()</code>. The lemma is then wrapped within double brackets. This behavior can be modified for raising an exception at the first warning or for getting back a list of warnings. It this then possible to display them in the web page if the JavaScript console is hidden. The following functions handle the warnings:</p>
 <h3><code>setExceptionOnWarning(val)</code></h3>
 <p lang="fr"><code>val</code> est un booléen qui indique si oui ou non, une exception sera levée lors de l'émission d'un avertissement</p>
 <p lang="en"><code>val</code> is a boolean indicating if an exception is raised when a warning is emitted.</p>
@@ -381,17 +351,21 @@ The function <code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code> where <code>e<s
 
 <h2 lang="fr" id="implantation">Informations sur l'implantation</h2><h2 lang="en" id="implementation">Informations about the implementation</h2>
 <h3><code>jsRealB_version</code></h3>
-<p lang=fr>Indique le numéro de version de <code>jsRealB</code>.</p>
-<p lang=en>Gives the version number of <code>jsRealB</code>.</p>
+<p lang=fr>Indique le numéro de version de <span class="jsr">jsRealB</span>.</p>
+<p lang=en>Gives the version number of <span class="jsr">jsRealB</span>.</p>
 
 <h3><code>jsRealB_dateCreated</code></h3>
-<p lang="fr">Indique la date de la création de la version courante de <code>jsRealB</code>.</p>
-<p lang="en">Gives the creation date of the current <code>jsRealB</code>.</p>
+<p lang="fr">Indique la date de la création de la version courante de <span class="jsr">jsRealB</span>.</p>
+<p lang="en">Gives the creation date of the current <span class="jsr">jsRealB</span>.</p>
+
+<h3><code>isRunningUnderNode</code></h3>
+<p lang="fr">Booléen  qui indique si le script <span class="jsr">jsRealB</span> a été appelé par <code>Node.js</code>.</p>
+<p lang="en">Boolean indicating if the current <span class="jsr">jsRealB</span> has been called by <code>Node.js</code>.</p>
 <!-- *** Informations complémentaires *** -->
     <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>
 	<li><a href="https://arxiv.org/pdf/2012.15425.pdf" lang="fr">Document, en anglais, décrivant l'organisation du système</a><a href="https://arxiv.org/pdf/2012.15425.pdf" lang="en">Document describing the organization of the system</a></li>
-	<li><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="fr">Présentation de jsRealB - Février 2022</a> <a href="https://drive.google.com/file/d/1U-kk-xAx9bLj6k1ZO9ruY4dMDQBlkRRu/view?usp=sharing" title="GMT20220223-163036_Recording_2560x1440.mp4 - Google Drive" lang="fr">[enregistrement]</a><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="en">Presentation of jsRealB (in French) - February 2022</a> <a href="https://drive.google.com/file/d/1U-kk-xAx9bLj6k1ZO9ruY4dMDQBlkRRu/view?usp=sharing" title="GMT20220223-163036_Recording_2560x1440.mp4 - Google Drive" lang="en">[recording]</a></li>
+	<li><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="fr">Présentation de jsRealB - Février 2022</a> <a href="https://drive.google.com/file/d/1U-kk-xAx9bLj6k1ZO9ruY4dMDQBlkRRu/view?usp=sharin√g" title="GMT20220223-163036_Recording_2560x1440.mp4 - Google Drive" lang="fr">[enregistrement]</a><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="en">Presentation of jsRealB (in French) - February 2022</a> <a href="https://drive.google.com/file/d/1U-kk-xAx9bLj6k1ZO9ruY4dMDQBlkRRu/view?usp=sharing" title="GMT20220223-163036_Recording_2560x1440.mp4 - Google Drive" lang="en">[recording]</a></li>
     <li><a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" lang="fr">Historique des versions et démonstrations</a><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" lang="en">Previous versions and demos</a></li>
     <li><a href="https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb" title="Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable" lang="fr">Notebook Observable</a><a href="https://observablehq.com/@lapalme/exprimenting-with-jsrealb" title="Experimenting with jsRealB / Guy Lapalme / Observable" lang="en">Observable Notebook</a></li>
     <li><a href="../IDE/README.html">Interactive Development Environment</a></li>

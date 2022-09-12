@@ -8,8 +8,10 @@
 //     Chapter 12 of Logic and Logic Grammar for Language Processing, pp. 258-260, Ellis Horwood, 1990. 
 //    this file can be used either in a web page or as a node.js module
 ///////
-
-var currentLang="fr";
+import {findTrip, network} from "./computeTrip.js";
+import "../dist/jsRealB.js";
+Object.assign(globalThis,jsRealB);
+let currentLang="fr";
 
 // return last element of a list
 function last(elems){
@@ -117,7 +119,7 @@ function introduction(leg,duration){
                     ()=>SP(V("embarquer").t("ip").pe(2).n("p"),PP(P("sur"),genLine(leg)))
                   );
         var pp = oneOf(()=>SP(P("jusque"),P("à"),Pro("ce"),Pro("je").pe(2).n("p"),
-                              VP(V("être").t("s"),PP(P("à"),destination(leg)))),
+                              VP(V("être").t("s").pe(2).n("p"),PP(P("à"),destination(leg)))),
                        ()=>PP(P("jusque"),P("à"),destination(leg))
                  );
         return S(sp1,sp2.add(pp));
@@ -183,7 +185,9 @@ function conclusion(leg){
 }
 
 // output title and the full text of the trip
-function generate(trip){
+export function generate(trip,lang){
+    if (lang!==undefined)
+        currentLang=lang;
     var duration=last(last(trip))[1];
     if (currentLang=="en"){
         var title=VP(V("go").t("b"),P("from"),Q(network[trip[0][0][0]].stationName),
@@ -203,47 +207,19 @@ function generate(trip){
     }
 }
 
-// when used as a node module
-if (typeof module !== 'undefined' && module.exports) {
-    // when called by node.js
-    function evalExports(file){
-        let f=require(file);
-        for (let v in f){
-            eval(v+"= f."+v);
-        }
-    }
-    evalExports("/Users/lapalme/Documents/GitHub/jsRealB/dist/jsRealB-dmefr.min.js");
-    evalExports(__dirname+"/computeTrip.js");
-}
-// addition to the French dictionary (always done)
-loadFr();
-addToLexicon({"aucun":{"D":{"tab":"n28"}}});
-
-addToLexicon({"tout":{"A":{"tab":"n76"}}});
-addToLexicon({"rose":{"A":{"tab":"n25"}}});
-
-addToLexicon({"embarquer":{"V":{"tab":"v36","aux":["av"]}}});
-addToLexicon({"prendre":{"V":{"tab":"v90","aux":["av"]}}});
-addToLexicon({"suivre":{"V":{"tab":"v99","aux":["av"]}}});
-addToLexicon({"transférer":{"V":{"tab":"v28","aux":["av"]}}});
-
-if (typeof module !== 'undefined' && module.exports) {    
+if (isRunningUnderNode) {    
     if (currentLang=="en") loadEn(); else loadFr();
-    const fs = require('fs');
-    var routes = JSON.parse(fs.readFileSync(__dirname+"/metroLinesSorted.json")); 
 
-    var network=createNetwork(routes);
-    // showNetwork(network);
-    var stationIds=Object.keys(network);
+    let stationIds=Object.keys(network);
 
     function findTripGenerate(from,to){
-        var trip=findTrip(network,from,to);
+        const trip=findTrip(network,from,to);
         console.log(generate(trip).toString());
     }
 
     findTripGenerate(18,57);
     findTripGenerate(61,"11-1");
-    for (var i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         findTripGenerate(oneOf(stationIds),oneOf(stationIds));
         console.log("-----");
     }

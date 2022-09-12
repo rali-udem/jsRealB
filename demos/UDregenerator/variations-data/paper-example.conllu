@@ -1,0 +1,15 @@
+# sent_id = 1.0
+# text = Mesophiles often live in the bodies of humans or other animals.
+1	Mesophiles	mesophile	NOUN	NNS	Number=Plur	3	nsubj	_	_
+2	often	often	ADV	RB	_	3	advmod	_	_
+3	live	live	VERB	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	0	root	_	_
+4	in	in	ADP	IN	_	6	case	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	_
+6	bodies	body	NOUN	NNS	Number=Plur	3	obl	_	_
+7	of	of	ADP	IN	_	8	case	_	_
+8	humans	human	NOUN	NNS	Number=Plur	6	nmod	_	_
+9	or	or	CCONJ	CC	_	11	cc	_	_
+10	other	other	ADJ	JJ	Degree=Pos	11	amod	_	_
+11	animals	animal	NOUN	NNS	Number=Plur	8	conj	_	_
+12	.	.	PUNCT	.	_	3	punct	_	_
+

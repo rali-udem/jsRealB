@@ -1,4 +1,5 @@
 // add person names to the vocabulary
+Object.assign(globalThis,jsRealB);
 loadEn();
 addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
 addToLexicon({"Jim": {"N":{"g":"m","tab":"n4"}}})

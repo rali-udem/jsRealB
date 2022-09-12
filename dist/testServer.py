@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-## script for using node server-{dme|en}.js
+## script for using jsRealB-server.js
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 

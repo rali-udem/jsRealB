@@ -4,6 +4,10 @@
 //  Guy Lapalme, lapalme@iro.umontreal.ca, oct 2018
 //  
 ///////
+import {findTrip, routeNos, routeNodes,network,isTransfer} from "./computeTrip.js";
+import {generate} from "./describeTripEnFr.js";
+
+let currentLang;
 
 var margin=20;
 var width=500;
@@ -96,7 +100,7 @@ function processClick(){
         endNode=this.routeNode;
         trip=findTrip(network,startNode.id,endNode.id);
         traceTrip(trip);
-        var text=generate(trip).toString();
+        var text=generate(trip,currentLang).toString();
         d3.select("#itinerary").html(text);
         startNode=null;
     }
@@ -168,13 +172,12 @@ function setLanguage(lang){
         $("[lang=fr]").show(); $("[lang=en]").hide();        
     }
     if (trip!=null)
-        d3.select("#itinerary").html(generate(trip).toString());
+        d3.select("#itinerary").html(generate(trip,currentLang).toString());
 }
 
 
 
 $(document).ready(function() {
-    // routesNos, routeNodes and network are defined in computeDist
     traceRouteNodes(routeNos,routeNodes,network);
     $("#langSelect").css({"cursor":"pointer"})
     $("#langSelect").click(changeLanguage);

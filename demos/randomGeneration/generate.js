@@ -254,16 +254,20 @@ function chercher(liste){
 
 // récupérer le vocabulaire pour la génération aléatoire
 function initVocabulaire(){
+    const isFr=getLanguage()=="fr";
     lesNoms=[];
     lesVerbes=[];
     lesAdjectifs=[];
-    lesPrepositions=[];
+    lesPrepositions = isFr ? [ // sélection manuelle des propositions en français car plusieurs créent des PP pas très naturels...
+        "à","après","avant","avec","chez","contre","dans","de","depuis","en",
+        "par","parmi","pour","près","sans","sous","sur","vers"
+    ] : [];
     $.each(lexicon,function(key,value){
         if ("basic" in value){ // choose only "basic" words
             if(value["N"])lesNoms.push(key);
             if(value["A"])lesAdjectifs.push(key);
             if(value["V"])lesVerbes.push(key);
-            if(value["P"])lesPrepositions.push(key);
+            if(value["P"] && !isFr)lesPrepositions.push(key);
         }
     })
     // ajouter les autocomplete
@@ -290,6 +294,7 @@ function usePronounCallback(self,selectors){
 }
 
 $(document).ready(function() {
+    Object.assign(globalThis,jsRealB);
     if (enFrancais){
         loadFr(); 
     } else{

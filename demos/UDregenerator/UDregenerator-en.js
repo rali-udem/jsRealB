@@ -1,7 +1,8 @@
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-}
+import { UDregeneratorLoad } from "./UDregenerator.js";
+import { initUD } from "./UDinit-en.js";
+import "./UDnode-en.js";
+export {addNewWords};
 
-var language="en";
 function addNewWords(){
     loadEn();
     // add words to the Egllish lexicon that are often used in UD, sometimes with other part of speech tags
@@ -57,16 +58,7 @@ function addNewWords(){
     addToLexicon("&",Object.assign({},getLemma("and")));
 }
 
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    jsRealB=require("../../dist/jsRealB-node.js");
-    loadEn=jsRealB.loadEn;
-    addToLexicon=jsRealB.addToLexicon;
-    updateLexicon=jsRealB.updateLexicon;
-    getLemma=jsRealB.getLemma;
-    getLexicon=jsRealB.getLexicon;
-    exports.language=language;
-    exports.addNewWords=addNewWords;
-} else {
-    // after loading the web page
-    d3.select(window).on("load",UDregeneratorLoad);     
-}
+if (!(typeof process !== "undefined" && process?.versions?.node)){ // cannot use isRunningUnderNode yet!!!
+    Object.assign(globalThis,jsRealB);
+    UDregeneratorLoad("en",initUD,addNewWords);
+}     

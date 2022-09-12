@@ -1,3 +1,4 @@
+export {appendTo, fixPunctuation, compareAll };
 // useful auxiliary functions
 
 // add elements of list l2 to the end of l1 and return l1
@@ -59,10 +60,4 @@ function compareAll(){
         }
     }
     console.log("%d structures processed; %d difference%s",nb,nbDiffs,nbDiffs>1?"s":"")
-}
-
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    exports.appendTo=appendTo;
-    exports.fixPunctuation=fixPunctuation;
-    exports.compareAll=compareAll;
 }

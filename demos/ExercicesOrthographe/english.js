@@ -1,3 +1,5 @@
+Object.assign(globalThis,jsRealB);
+
 loadEn();
 // word list
 const article = ["a","the"];

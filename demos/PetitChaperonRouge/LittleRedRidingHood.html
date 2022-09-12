@@ -9,20 +9,7 @@
   <link rel="stylesheet" href="PetitChaperonRouge.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="../../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -/->
-        <script src="../../data/lexicon-fr.js"></script>
-        <script src="../../data/rule-fr.js"></script>
-        <script src="../../data/lexicon-en.js"></script>
-        <script src="../../data/rule-en.js"></script>
-        <script src="../../build/Utils.js"></script>
-        <script src="../../build/Constituent.js"></script>
-        <script src="../../build/Phrase.js"></script>
-        <script src="../../build/Terminal.js"></script>
-        <script src="../../build/Dependent.js"></script>
-        <script src="../../build/Number.js"></script>
-        <script src="../../build/Warnings.js"></script>
-<!-/- end of separate loading -->
-  <script src="LittleRedRidingHood.js"></script>
+  <script src="LittleRedRidingHood.js" type="module"></script>
 </head>
 <body>
     <h1>Fairy tale realization</h1>
@@ -33,8 +20,9 @@
 			<input type="radio" name="annotation" value="const" id="constituents" checked="checked">
 				or
 		<label for="dependances"><strong>Dependencies</strong></label><input type="radio" name="annotation" value="dep" id="dependances"></p>
-        <p>The displayed expression is not necessarily identical to the one found in the source code that often uses auxiliary functions to
-        factorize the code, while here the expression  is rebuilt from informations saved when the function is called.
+        <p>The displayed expression in constituencies is not necessarily identical to the one found in the source code that often uses auxiliary functions to
+        factorize the code, while here the expression  is rebuilt from informations saved when the function is called.  The dependencies version
+        is an automatic conversion of the original constituency expression.
      </p>
      <p>The JavaScript code used by this page can be executed with <code>node</code> to get the text version of this story, but without the selective display of the <strong>jsRealB</strong> expressions.</p>
      <p><a href="PetitChaperonRouge.html">French version</a></p>

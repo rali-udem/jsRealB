@@ -5,18 +5,9 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="../../dist/jsRealB.js"></script>
 	<script src="ace-src-noconflict/ace.js"></script>
-    <script src="utils.js"></script>
-    <script src="UD2jsr.js"></script>
-    <script src="UD.js"></script>
-    <script src="UDnode.js"></script>
-    <script src="UDnode-fr.js"></script>
-	<script src="levenshtein.js"></script>
-	<script src="drawDependencies.js"></script>
-    <script src="UDregenerator.js"></script>
-    <script src="initUD-fr.js"></script>
-    <script src="UDregenerator-fr.js"></script>
+    <script src="../../dist/jsRealB.js"></script>
+    <script src="UDregenerator-fr.js" type="module"></script>
 	<link rel="stylesheet" href="UDregenerator.css"/>
 	<title>Affichage d'un graphe/arbre de Universal Dependencies et regénération</title>
 </head>
@@ -26,9 +17,9 @@
 	<input type="button" value="Afficher les instructions" id="showHideInstructions"/> 
 	<fieldset>
 		<legend>Schéma d'annotation</legend>
-		<label for="udScheme">UD</label><input type="radio" name="annotationScheme" value="udSch" id="udScheme">
+		<label for="udScheme">UD</label><input type="radio" name="annotationScheme" value="udSch" id="udScheme" checked="checked">
 		<span style="margin-right:30px">&nbsp;</span>
-		<label for="sudScheme">SUD</label><input type="radio" name="annotationScheme" value="sudSch" id="sudScheme" checked="checked">
+		<label for="sudScheme">SUD</label><input type="radio" name="annotationScheme" value="sudSch" id="sudScheme">
 	</fieldset>
 	<!--  Customize file button, taken from
 		 https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file/47950538#47950538 -->

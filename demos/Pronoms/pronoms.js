@@ -148,6 +148,7 @@ function englishTable(){
 }
 
 $(document).ready(function() {
+    Object.assign(globalThis,jsRealB);
     tableauFrancais();
     englishTable();
 });

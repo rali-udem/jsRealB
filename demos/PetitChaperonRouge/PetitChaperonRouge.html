@@ -9,20 +9,7 @@
   <link rel="stylesheet" href="PetitChaperonRouge.css">
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script src="../../dist/jsRealB.js"></script>
-<!-- to ease debugging we load each file separately -->
-        <script src="../../data/lexicon-fr.js"></script>
-        <script src="../../data/rule-fr.js"></script>
-        <script src="../../data/lexicon-en.js"></script>
-        <script src="../../data/rule-en.js"></script>
-        <script src="../../build/Utils.js"></script>
-        <script src="../../build/Constituent.js"></script>
-        <script src="../../build/Phrase.js"></script>
-        <script src="../../build/Terminal.js"></script>
-        <script src="../../build/Dependent.js"></script>
-        <script src="../../build/Number.js"></script>
-        <script src="../../build/Warnings.js"></script>
-<!-- end of separate loading -->
-  <script src="PetitChaperonRouge.js"></script>
+  <script src="PetitChaperonRouge.js" type="module"></script>
 </head>
 <body>
     <h1>Reproduction d'un conte</h1>
@@ -35,9 +22,10 @@
 				ou de
 		<label for="dependances"><strong>Dépendances</strong></label><input type="radio" name="annotation" value="dep" id="dependances"></p>
 		
-	<p>À noter que cette expression n'est pas identique à celle qu'on
+	<p>À noter que l'expression affichée sous forme de constituents n'est pas identique à celle qu'on
         retrouve dans le code source qui utilise parfois des fonctions auxiliaires pour factoriser des parties de code, 
         alors qu'ici l'expression est reconstruite à partir des informations sauvées lors des appels de constructeurs et de fonctions.
+        L'expression affichée sous forme de dépendances est une transformation automatique de l'expression originale en constituents.
      </p>
 	 <p>Le fichier JavaScript utilisé par cette page est exécutable avec <code>node</code> pour obtenir la version texte du conte, mais sans l'affichage sélectif des expressions jsRealB.</em>.</p>
      <p><a href="LittleRedRidingHood.html">Version anglaise</a></p>

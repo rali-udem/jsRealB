@@ -9,18 +9,20 @@ To regenerate a sentence from its UD and comparing it with the original. Useful 
 * **French** : visit `UDregenerator-fr.html`
 
 ## `UDregenerator` as a `node.js` module
-
     node UDregenerator-node.js lang [-sud] inputFile
     where lang: en|fr
           -sud : use SUD annotation scheme instead of classical UD
           inputFile: path of CONLLU file
           
 ### Useful trick
-To focus on the most frequent warnings such as the *missing* words in the jsRealB lexicon, the output can be *fed* into a Linux filter such as: `grep 'not found in English lexicon' | sort | uniq -c | sort -r -n` for English or `grep 'absent du lexique' | sort | uniq -c | sort -r -n` for French.
+To focus on the most frequent warnings such as the *missing* words in the jsRealB lexicon, the output can be *fed* into a Linux filter such as:  
+ `grep 'not found in English lexicon' | sort | uniq -c | sort -r -n`  
+or  
+ `grep 'absent du lexique' | sort | uniq -c | sort -r -n`
 
  
 ## `UDgrep` as a web page
-For searching tokens with specific characteristics in a UD file. The tokens can be filtered by regular expressions.
+For searching tokens with specific characteristics in a UD file. The tokens can be filtered by regular expressions. This program is _language independent_.
 
 * visit `UDgrep.html`
 
@@ -40,15 +42,20 @@ For creating questions or negation from an affirmative sentence. This first pars
             
 This system was used in 
 [Unsupervised multiple-choice question generation for out-of-domain Q&A fine-tuning](https://aclanthology.org/2022.acl-short.83) (Le Berre et al., ACL 2022)   
+
+##  Create a sample of CONNLL files `sampleConnll.js`
+Program used to create the files in the `UD-2.8/sample` directory. It selects randomly 10 UD structures from each file from a given directory.  
+
+# Organization of the system
+
+Many of the programs share classes and code as shown in the `Code-organization.txt`
+
 ## Files
 
-### sources
+### Sources
 
 * `drawDependencies.js` : create dependency and tree diagrams in SVG
-* `initUD-en.js` : initial UDs in English
-* `initUD-fr.js` : initial UDs in French (contains also UDs in SUD annotation scheme)
 * `levenshtein.js` : compute edit distance between two strings; show differences in HTML and on the console using SGR 
-* `README.md` : this file
 * `sampleConnll.js` : create the sample files (use with `node`)
 * `testAll.sh` : launch `UDregenerator-node.js` on all files in a given language
 * `testOne.sh` : launch `UDregenerator-node.js` on a single file in a given language
@@ -58,6 +65,8 @@ This system was used in
 * `UDgrep.css` : css used by `UDgrep.html`
 * `UDgrep.html` : Search for tokens with specific properties using regular expressions
 * `UDgrep.js` : JavaScript used by `UDgrep.html`
+* `UDinit-en.js` : initial UDs in English
+* `UDinit-fr.js` : initial UDs in French (contains also UDs in SUD annotation scheme)
 * `UDnode-en.js` : English specific transformation 
 * `UDnode-fr.js` : French specific transformation
 * `UDnode.js` : JavaScript class for create a node of the UD tree (language independent)
@@ -71,14 +80,21 @@ This system was used in
 * `utils.js` : utility functions
 * `variationFromText.js` : node.js program to create questions and negation for a sentence
 
-### data
+### DATA
+* `variations-data` : example data to test `variationsFromText.js`
+    * `paper-example-fr.connllu` : UD file corresponding to `paper-example-fr.txt`
+    * `paper-example-fr.txt` : text file with the sentence used as example in the paper by Le Berre (ACL-22)
+    * `selection_obqa-fr.connllu` : UD file corresponding to `selection_obqa-fr.txt`
+    * `selection_obqa-fr.txt` : text file with 200 sentences used  by Le Berre (ACL-22)
+
 * `UD-2.8/sample`
     * `en-sample-10.conllux` : English sample with the corresponding jsRealB expression, and comments starting "# gl ="
     * `en-sample-10.conllu.out` : Output of processing the English sample with the node.js module
-    * `en-samplee-10.stats` : sorted list of all suggested modifications or errors found in the English sample
+    * `en-sample-10.stats` : sorted list of all suggested modifications or errors found in the English sample
     * `fr-sample-10.conllux` : French sample with the corresponding jsRealB expression and comments starting by "# gl ="
     * `fr-sample-10.conllu.out` : Output of processing the French sample with the node.js module
-    * `fr-samplee-10.stats` : sorted list of all suggested modifications or errors found in the French sample
+    * `fr-sample-10.stats` : sorted list of all suggested modifications or errors found in the French sample
 
-### Documentation
+## Documentation
+* `README.md` : this file
 * `UDregenerator.pdf` : paper describing the system with results from experiments (extended version of the [paper presented at UDW-21](https://aclanthology.org/2021.udw-1.9.pdf))

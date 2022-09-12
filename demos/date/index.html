@@ -54,6 +54,7 @@
         var $viewer;
         $(document).ready(function () {
             $viewer = $("#JSrealB-viewer");
+            Object.assign(globalThis,jsRealB);
             loadFr();
             generate("fr");
             loadEn();

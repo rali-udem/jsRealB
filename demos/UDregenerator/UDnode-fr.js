@@ -1,23 +1,6 @@
-if (typeof module !== 'undefined' && module.exports) { // called as a node.js module
-    const udn = require('./UDnode.js');
-    UDnode=udn.UDnode;
-    _=udn._;
-    applyOptions=udn.applyOptions;
-    const udjsr=require("./UD2jsr.js");
-    // eval exports 
-    feats2options=udjsr.feats2options
-    //////// 
-    //  load JSrealB
-    var jsrealb=require('../../dist/jsRealB-node.js');
-    // eval exports 
-    for (var v in jsrealb){
-        eval("var "+v+"=jsrealb."+v);
-    }
-    const utils=require("./utils.js");
-    appendTo=utils.appendTo;
-
-    exports.UDnode=UDnode;
-}
+import {UDnode,applyOptions,_} from "./UDnode.js";
+import {feats2options} from "./UD2jsr.js";
+export {UDnode};
 
 // French version
 // create a Constituent
@@ -165,7 +148,7 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
         // it must be done before anything else...
         // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
         // having a noun or an adjective as root
-        [dep,idx]=this.findDeprelUpos("cop","AUX");
+        const [dep,idx]=this.findDeprelUpos("cop","AUX");
         if (idx>=0){
             let [newAux]=dep.splice(idx,1);
             let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 

@@ -1,5 +1,6 @@
 QUnit.test( "RealPro Dependencies EN", function( assert ) {
-    loadEn();
+     Object.assign(globalThis,jsRealB);
+     loadEn();
     addToLexicon("John",{N:{tab:"nI",g:"m"}})
     addToLexicon("Mary",{N:{tab:"nI",g:"f"}})
     addToLexicon("Paris",{N:{tab:"nI"}})
@@ -9,7 +10,7 @@ QUnit.test( "RealPro Dependencies EN", function( assert ) {
     // examples translated from .../Personage/lib/RealPro-2.3/sample-dsynts
     // created with a call to makeQUnit() in .../Personage/lib/RealPro-2.3/sample-dsynts/compare_RealPro_jsRealb.js
     // with some added afterwards taken from the ANLP-97 paper on RealPro
-    var sentences = [
+    const sentences = [
 {"expression": // 1
 root(V("see").t("ip").pe(1).n("p"),  
      comp(Pro("something")),

@@ -1,5 +1,6 @@
 "use strict";
 var lang,format,representation;
+Object.assign(globalThis,jsRealB);
 
 const constituentFr= `var dest=NP(D("le"),N("monde"));
 S(Pro("je").pe(1),
@@ -134,7 +135,7 @@ $(document).ready(function(){
     editor.setOption("minLines", 10);
     editor.setOption("maxLines", 20);
     editor.setFontSize("16px"); // grandeur de police de défaut
-    
+
     changeExemple();
     setExceptionOnWarning(true);
     $("#francais,#english,#jsrealb,#json,#constituents,#dependencies").click(changeExemple);

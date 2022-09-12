@@ -1,39 +1,42 @@
 ///////// Draw the sentence at the bottom of the display
+export {start,spacing, addWord, selectRow, addLabel, drawDependencies,showDependencies, showTree};
 
-// these variables could be local, but it is convenient to have them globally for inspecting them in the debugger
-var dependencies,tree,groups; 
+const start ={
+    x:10,
+    y:0 // updated later
+}
 
-var depsInfo;
-var svg, display;
-var startX=10,startY; // updated later
-var deltaDependencies=15; // spacing between links in dependency 
-var deltaTree=50;         // spacing between lines in the tree representation
-var wordSpacing=5;        // space between words of the sentence
-var letterSpacing=0;      // space within words
+let spacing = {
+    word: 5,  // space between words of the sentence
+    letter:0 // space within words
+};
 
+let display;
+const deltaDependencies=15; // spacing between links in dependency 
+const deltaTree=50;         // spacing between lines in the tree representation
 //  Styling is done within the program to make the export independent of an external CSS
-var fontFamilyWord="Times New Roman";
-var fontSizeWord="12pt";
-var fontFamilyLabel="Times New Roman";
-var fontSizeLabel="10pt";
-var lineHeight=13; // reset at the start of the program
+const fontFamilyWord="Times New Roman";
+const fontSizeWord="12pt";
+const fontFamilyLabel="Times New Roman";
+const fontSizeLabel="10pt";
 
 // draw a word at x,y and return its length in the drawing
 function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
-    var word=display.append("text")
+    let word=display.append("text")
         .attr("x",x).attr("y",y)
         .attr("fill",isRoot?"red":"black")
         .attr("stroke","none")
         .attr("dominant-baseline","hanging")
         .attr("font-family",fontFamilyWord)
         .attr("font-size",fontSizeWord)
-        .attr("letter-spacing",letterSpacing+"px")
+        .attr("letter-spacing",spacing.letter+"px")
         .attr("cursor","pointer")
         .text(mot);
     if (i!=null)word
         .on("click",function(){
+                const iSaved=i;
                 const tr=d3.selectAll("#tokens tbody tr").nodes()[i-1]
-                selectRow(tr);
+                selectRow(tr,iSaved);
                 tr.scrollIntoView(false);
             });
     if (isDiff){
@@ -41,25 +44,32 @@ function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
             // .attr("text-decoration-color","blue")    // does not work in Safari...
             // .attr("text-decoration-style","double")
     }
-    // var wordLength=word.node().getComputedTextLength();
-    var wordLength=word.node().getBBox().width; // so that letter-spacing is taken into account
+    // let wordLength=word.node().getComputedTextLength();
+    let wordLength=word.node().getBBox().width; // so that letter-spacing is taken into account
     word.append("title").text(tooltip) 
     return [wordLength,word];
 }
 
+function selectRow(tr,lineNo){
+    let tbody=d3.select("#tokens tbody");
+    tbody.selectAll("td").classed("selected-row",false);
+    d3.select(tr).selectAll("td").classed("selected-row",true);
+    d3.select("#lineNo").text(lineNo);
+}
+
 function drawSentence(display,ud){
-    let endX=startX;
+    let endX=start.x;
     // draw the words of the sentence and update width and x in deps
     for (let i = 1; i < ud.nodes.length; i++) {
         let udn=ud.nodes[i];
-        let [width,word]=addWord(display,i,endX,startY,udn.form,
+        let [width,word]=addWord(display,i,endX,start.y,udn.form,
                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
                           i==ud.root.id,udn.form!=ud.tokens[i]);
         udn.x=endX;
         udn.width=width;
         udn.mid=endX+width/2;
-        udn.wordInTree=udn.wordInlinks=word;
-        endX+=width+wordSpacing;
+        udn.wordInTree=udn.wordInLinks=word;
+        endX+=width+spacing.word;
     }
     return endX;
 }
@@ -93,9 +103,9 @@ function addLabel(display,x,y,label){
 // add dependency link between positions x1,y and x2,y at height h with the label 
 function addDep(display,x1,x2,y,h,label){
     // console.log("addDep(%o,%o):%s",x1,x2,label);
-    var dx=10;
-    var dx2=2*dx;
-    var sign,l,d;
+    const dx=10;
+    const dx2=2*dx;
+    let sign,l,d;
     if (x1<x2){
         sign='' ;l=x2-x1-dx2;
     } else {
@@ -117,28 +127,28 @@ function addDep(display,x1,x2,y,h,label){
 //    the w1 (the source) is put at a given proportion in the left or right middle part of the width of the word
 //    the w2 (the target) is at the middle of the word
 function addDepWord(display,isToLeft,prop,w1,w2,h,label){
-    var x1=isToLeft?w1.x+w1.width/2*prop
+    const x1=isToLeft?w1.x+w1.width/2*prop
                    :w1.x+w1.width-w1.width/2*prop;
-    addDep(display,x1,w2.mid,startY,h,label);
+    addDep(display,x1,w2.mid,start.y,h,label);
 }
 
 // draw dependencies by recursively going through the dependencies starting from the head
 function drawDependencies(display,head){
-    var leftH=0;
-    var lchildren=head.left;
+    let leftH=0;
+    const lchildren=head.left;
     // must go through the left children in reverse
-    for (var i = lchildren.length - 1; i >= 0; i--) {
-        var c=lchildren[i]
-        var h=drawDependencies(display,c);
+    for (let i = lchildren.length - 1; i >= 0; i--) {
+        const c=lchildren[i]
+        const h=drawDependencies(display,c);
         leftH=Math.max(h.right,leftH)+deltaDependencies;
         addDepWord(display,true,1-(i+1)/(lchildren.length+1),head,c,leftH,c.deprel)
         leftH=Math.max(h.left,leftH);// insure to go over the arcs between the c and the next level
     }
-    var rightH=0;
-    var rchildren=head.right;
-    for (var i = 0; i < rchildren.length; i++) {
-        var c=rchildren[i];
-        var h=drawDependencies(display,c);
+    let rightH=0;
+    const rchildren=head.right;
+    for (let i = 0; i < rchildren.length; i++) {
+        const c=rchildren[i];
+        const h=drawDependencies(display,c);
         rightH=Math.max(h.left,rightH)+deltaDependencies;
         addDepWord(display,false,(i+1)/(rchildren.length+1),head,c,rightH,c.deprel);
         rightH=Math.max(h.right,rightH)// insure to go over the arcs between the c and the next level
@@ -147,18 +157,18 @@ function drawDependencies(display,head){
 }
 
 function showDependencies(ud,genTokens){
-    var svg=d3.select("svg#dependencies");
-    startY=parseInt(svg.attr("height"))-deltaDependencies;
+    const svg=d3.select("svg#dependencies");
+    start.y=parseInt(svg.attr("height"))-deltaDependencies;
     display=svg.select("g");
     display.selectAll("*").remove();
-    var endX=drawSentence(display,ud);
-    svg.attr("width",endX+startX); // update width of the drawing
+    const endX=drawSentence(display,ud);
+    svg.attr("width",endX+start.x); // update width of the drawing
     // draw the dependencies
-    var leftRightH=drawDependencies(display,ud.root);
+    const leftRightH=drawDependencies(display,ud.root);
     // update heigth of the drawing
-    var h=Math.max(leftRightH.left,leftRightH.right);
+    const h=Math.max(leftRightH.left,leftRightH.right);
     svg.attr("height",h+2*deltaDependencies+5);
-    display.attr("transform",`translate(0 ${deltaDependencies-(startY-h)})`)
+    display.attr("transform",`translate(0 ${deltaDependencies-(start.y-h)})`)
 }
 
 /////////// drawing of the tree representation
@@ -166,8 +176,7 @@ function showDependencies(ud,genTokens){
 // recursively set the Y value for the tree representation
 function setY(head,y){
     head.y=y;
-    var maxY=y;
-    var children=head.left;
+    let maxY=y;
     head.left.forEach(function(c){
         maxY=Math.max(maxY,setY(c,y+deltaTree));
     })
@@ -178,13 +187,13 @@ function setY(head,y){
 }
 
 function drawTree(display,root){
-    var x1=root.mid
-    var y1=root.y;
-    var x2=x1;
-    var y2=startY;
+    const x1=root.mid
+    const y1=root.y;
+    const x2=x1;
+    const y2=start.y;
     function drawChildren(c,i,arr){ // default parameters set by forEach
-        var x2=c.mid;
-        var y2=c.y;
+        const x2=c.mid;
+        const y2=c.y;
         display.append("line")
             .attr("x1",x1).attr("y1",y1).attr("x2",x2).attr("y2",y2)
             .attr("fill","none")
@@ -210,13 +219,13 @@ function drawTree(display,root){
 }
 
 function showTree(ud){
-    startY=setY(ud.root,10);
-    var svg=d3.select("svg#tree");
+    start.y=setY(ud.root,10);
+    const svg=d3.select("svg#tree");
     display=svg.select("g");
     display.selectAll("*").remove();
-    svg.attr("height",startY+20); // update height of the drawing
-    var endX=drawSentence(display,ud);
-    svg.attr("width",endX+startX); // update width of the drawing
+    svg.attr("height",start.y+20); // update height of the drawing
+    const endX=drawSentence(display,ud);
+    svg.attr("width",endX+start.x); // update width of the drawing
     drawTree(display,ud.root);
 }
 

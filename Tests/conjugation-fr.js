@@ -3361,8 +3361,8 @@ testsConjugFr = {
 
 // QUnit.config.hidepassed=true;
 QUnit.test( "Conjugaison française", function( assert ) {
+    Object.assign(globalThis,jsRealB);
     loadFr();
-    // loadDMF();// change French lexicon to dmf
     assert.equal(V("aimer").n("p").pe(1), "aimons", "Nous aimons");
 
     // Automated Tests

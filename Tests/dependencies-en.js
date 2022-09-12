@@ -1,6 +1,7 @@
 QUnit.test( "Dependencies EN", function( assert ) {
-    loadEn();
-    var sentences = [
+     Object.assign(globalThis,jsRealB);
+     loadEn();
+     const sentences = [
         // 1
         {"expression":
           root(V("sit").t("ps"),

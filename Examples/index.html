@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsRealB use case - Examples and patterns</title>
+</head>
+<body>
+    <h1><em>jsRealB</em>  use cases : Examples and Patterns</h1>
+    <p>This page illustrates ways of embedding <code>jsRealB</code> in web pages or in JavaScript application, <code>Node.js</code> in particular. Of course, there are many other possibilities, but these examples can serve as starting points.</p>
+    <p>This application realizes the following three sentences: one in English, one in French and a <i>bilingual</i> one.</p>  
+    <iframe src="examples-web-script.html" style="width:700px; height:230px;border:thin solid blue"></iframe>
+    <p>
+        These examples use the <a href="examples-functions.js" target="_blank"><code>examples-functions.js</code> script</a> with four functions that take for granted that the <code>jsRealB</code> functions are available in their environment:
+            <ul>
+                <li><code>addExp()</code> that adds the realization of a <code>jsRealB</code> expression to the web page;</li>
+                <li><code>en()</code>: creates an expression for an English sentence;</li>
+                <li><code>fr()</code>: creates an expression for a French sentence; </li>
+                <li><code>enfr()</code>: creates an English sentence containing French words.</li>
+            </ul>
+    </p>
+
+    <p>This JavaScript file can be used as a module by adding an <code>export</code> statement to the previous script such as the following:</p>
+    <code><pre>export {addExp, en, fr, enfr}</pre></code>
+    <p><a href="examples-functions-module.js" target="_blank">This script <code>examples-functions-module.js</code></a> can also be used directly as a node script as will be shown below.</p>
+
+    <p>The appropriate environment for using these function can be provided in different ways.</p>        
+    <h2>• Web page loading jsRealB with a script tag [Look at the source <a href="examples-web-script.html">of this page</a>]</h2>
+    <p>The simplest use case is when the realization is done on the web page that loads <code>jsRealB</code> with this script tag. </p>
+    <code><pre>
+        &lt;script src="/path/to/jsRealB.js">&lt;/script>    
+    </pre></code>
+    <p>This creates the <code>jsRealB</code> object, to use the functions without prefix, they can be added to the global environment with</p>
+    <code><pre>
+        Object.assign(globalThis,jsRealB);
+    </pre></code>
+    <p>before calling any other <code>jsRealB</code> function.</p>
+    
+    <h2>• <code>Node.js</code> module [Look at <a href="./examples-functions-module.js" target="_blank">this script</a>]</h2>
+    <p>The same module script can be used either imported or used alone, this is useful for unit testing. But in this case, it is sometimes useful to have a slightly different behavior depending on the context. To check if a script is called from a <code>Node.js</code> or not, the following JavaScript snippet can be used:</p>
+    <code><pre>typeof process !== "undefined" && process?.versions?.node</pre></code>
+    which returns <code>true</code> when executed in a <code>Node.js</code> environment. 
+    <code>jsRealB</code> provides the variable <code>isRunningUnderNode</code> (see function <code>addExp()</code> ) but of course, it must have been loaded to be used, which is unfortunately not always the case, as often this test is used to check we should load <code>jsRealB</code>!.  It would also be possible to check <code>typeof jsRealB == "undefined"</code>.
+
+    This module can also be imported by <a href="examples-node.js" target="_blank">another <code>Node.js</code> script</a>.
+
+    <h2>• Web page without a script tag [Look at the source <a href="examples-web-noscript.html">of this page</a>.]</h2>
+    <p><code>jsRealB</code> can also be loaded as a JavaScript module as follows:</p>
+    <code><pre>
+        &lt;script type="module">
+            import "../dist/jsRealB.js"; 
+            Object.assign(globalThis,jsRealB);
+            import {addExp,en,fr,enfr} from "./examples-functions-module.js";
+            ....
+        &lt;/script>
+    </pre></code>
+    <hr/>
+    <h2>Useful pattern</h2>
+    <p>The following code organisation has proven itself useful for many JavaScript files in a web environment that are used either as node module or as from a web page for which <code>jsRealB</code> has been loaded with the script.</p>
+    <code><pre>
+        if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
+            let {default:jsRealB} = await import("../../dist/jsRealB.js");
+            Object.assign(globalThis,jsRealB);
+            // .... start of the application     
+        } else {
+            $(document).ready(function() { // for jQuery
+                Object.assign(globalThis,jsRealB);
+                // .... start of the application     
+            })
+        }
+    </pre></code>
+</body>
+</html>

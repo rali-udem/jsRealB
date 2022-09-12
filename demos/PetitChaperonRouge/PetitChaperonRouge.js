@@ -37,21 +37,8 @@ de tous les loups sont les plus dangereux !
  - Charles Perrault, contes
 */
 
-if (typeof module !== 'undefined' && module.exports) {
-    jsRealB=require("jsrealb")
-    for (var v in jsRealB)
-            eval(v+"=jsRealB."+v);
-}
-
 
 //  Réalisation du conte du Petit Chaperon Rouge
-loadFr();
-// ajouter les mots inconnus au dictionnaire français "de base"
-addToLexicon("accort",{ A: { "tab":"n28" }})
-addToLexicon("chevillette",{ N: { g: 'f', "tab":"n17" } })
-addToLexicon("déshabillé",{ N: { g: 'm', "tab":"n3" } })
-addToLexicon("étonné",{ A: { "tab":"n28" } })
-addToLexicon("mère-grand",Object.assign({},getLemma("grand-mère")))
 
 // Définitions globales
 
@@ -650,7 +637,6 @@ const conte = [
     
 ]
 
-
 function generateHTML(texte){
     loadFr();
     const annotation = $("input[name='annotation']:checked").val();
@@ -696,12 +682,25 @@ function generateTXT(texte){
     
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-    generateTXT(conte)
-} else {
-    $(document).ready(function() {
-        $("#dependances,#constituents").change(()=>generateHTML(conte))
-        generateHTML(conte)
-    })
+function init(jsr){
+   Object.assign(globalThis,jsr);
+   loadFr();
+   // ajouter les mots inconnus au dictionnaire français "de base"
+   addToLexicon("accort",{ A: { "tab":"n28" }})
+   addToLexicon("chevillette",{ N: { g: 'f', "tab":"n17" } })
+   addToLexicon("déshabillé",{ N: { g: 'm', "tab":"n3" } })
+   addToLexicon("étonné",{ A: { "tab":"n28" } })
+   addToLexicon("mère-grand",Object.assign({},getLemma("grand-mère")));
 }
 
+if (typeof process !== "undefined" && process?.versions?.node){
+   let {default:jsRealB} = await import("../../dist/jsRealB.js");
+   init(jsRealB);
+   generateTXT(conte);      
+} else {
+   $(document).ready(function() {
+      init(jsRealB);
+      $("#dependances,#constituents").change(()=>generateHTML(conte))
+      generateHTML(conte);
+   })
+}

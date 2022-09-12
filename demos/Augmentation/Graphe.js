@@ -1,5 +1,81 @@
-var graphe={};
-var etats =[
+import {graphe} from "./Etat.js";
+import {Etape} from "./Etape.js";
+import {Test} from "./Test.js";
+
+export {etats,parametrer,etatInitial,etatFinal};
+
+///////////////////////////////////////
+// Génération de texte
+function neg(s,n){
+   return s instanceof Q ? s().a(n?"-":"+") : s().typ({neg:n || true}) 
+}
+
+function interrog(s){
+   return s instanceof Q ? s().a("?") : 
+                           oneOf(()=>s().typ({int:"yon"}),  // question par inversion
+   ()=>S(Q("est-ce"),Q("que"),s()).a("?")) // question débutant pas "Est-ce que"
+}
+
+// paramètres du texte t=temps, g=genre, n=nombre, pe=personne
+var t="pc";
+let protagoniste = {
+   pe:2,n:"p",g:"m",
+   struct:() => Pro("moi").pe(protagoniste.pe)
+                          .g(protagoniste.g)
+                          .n(protagoniste.n).c("nom"),
+   structTn:() => Pro("moi").pe(protagoniste.pe)
+                            .g(protagoniste.g)
+                            .n(protagoniste.n).tn("")
+  }
+
+// personnages
+let poss         = () => D(protagoniste.n=="s"?"mon":"notre").pe(protagoniste.pe)
+let chef         = {g:"m",struct:() => NP(poss(),
+                                         N(chef.g=="m"?"chef":"cheffe").cap(),
+                                         PP(P("de"),N("service").cap()))}
+let chefPro      = () => Pro("moi").g(chef.g).pe(3).c("nom");
+let chefNom      = () => Q((chef.g=="m"? "Mr": "Mme")+" X");
+let collegue     = {g:"f",struct:()=>collegue.g=="f"
+                                       ? NP(N("mademoiselle").cap(),Q("Yollande"))
+                                       : NP(N("monsieur").cap(),Q("Rolland"))}
+
+function allerVoir(personne,t){
+   return VP(V("aller").t(t),V("voir").t("b"),personne.struct())
+}
+function allezChez(personne,but){
+   let vp= allerVoir(personne,t)
+   if (but !== undefined)vp.add(but())
+   return S(protagoniste.struct(),vp)
+}
+function demanderAugment(){
+   return PP(P("pour"),
+             Pro("moi").g("m").n("s").pe(3).c("dat"),
+             VP(V("demander").t("b"),
+             NP(D("un"),N("augmentation"))));
+}
+
+function cEst(np){
+   if (typeof n == "string")np=NP(D("le"),N(n));
+   return S(Pro("ce"),VP(V("être").t(t),np))
+}
+
+function parametrer(chemin){
+   if(chemin!==undefined)chemin.enleverHandlers();
+   t=d3.select("#temps").property("value");
+   const st=d3.select("#style").property("value");
+   if (st=="vous"){
+       protagoniste.n="p";protagoniste.pe="2"
+   } else {
+       protagoniste.n="s";protagoniste.pe="2"
+   }
+   protagoniste.g=d3.select("#sexeProtagoniste").property("value");
+   chef.g=d3.select("#sexeChef").property("value");
+   collegue.g=d3.select("#sexeCollegue").property("value");
+   d3.selectAll(".activeChoice").classed("activeChoice",false);
+}
+
+
+const etats =[
     // haut gauche   [p 908 bas]
     new Etape("Réfléchir, Se décider",127,17,
               ()=>S(CP(C("et"), 
@@ -333,8 +409,8 @@ var etats =[
               undefined,undefined),// étape finale...
 ];
 
-etatInitial=graphe["Réfléchir, Se décider"];
-etatFinal=graphe["Aller chez Mr X"];
+const etatInitial=graphe["Réfléchir, Se décider"];
+const etatFinal=graphe["Aller chez Mr X"];
 
 function valideGraphe(){
     function check(depart,arrivee){
@@ -358,98 +434,43 @@ function valideGraphe(){
 
 valideGraphe();
 
-// fonctions auxiliaires pour le tracé de l'organigramme
-
-const OUIwidth=29, NONwidth=35; // à ajuster en fonction de la police...
-const OUIheight=19,NONheight=19;
-
-function fleche(d){
-    // add arrow
-    return svg.append("path")
-              .attr("d",d)
-              .attr("fill","none")
-              .attr("stroke","black")
-              .attr("stroke-width","1")
-              .attr("marker-end","url(#arrow)");    
+// défini ici pour contourner l'importation circulaire avec Test
+Test.prototype.realiser = function(OuiNon){
+   function alt(etat) {
+       return etat instanceof Etape
+           ? etat.getStruct()
+           : () => S(protagoniste.struct(),
+               VP(protagoniste.struct().c("acc"),
+                   V("demander").t(t).aux("êt"),
+                   SP(C("si"), etat.getStruct()())));
+   }
+   // donner un temps de conditionnel et de la phrase conséquence étant donné le temps courant
+   const cond = { p: "p", pc: "pq", i: "pq", f: "p" };
+   const csq = { p: "p", pc: "cp", i: "cp", f: "f" };
+   const t = d3.select("#temps").property("value"); // récupérer la valeur courante du temps
+   if (this.struct === undefined)
+       return this.nom + ":" + OuiNon;
+   let res = [];
+   let alternative = this.struct;
+   let oui = alt(this.oui());
+   let non = alt(this.non());
+   res.push(oneOf(S(C("ou"), Adv("bien"), alternative().a(","),
+       C("ou"), Adv("bien"), neg(alternative)),
+       interrog(alternative)));
+   // console.log(this.oui(),this.oui().getStruct());
+   res.push(S(C("si"), alternative().t(cond[t]).a(","), oui().t(csq[t])));
+   res.push(oneOf(() => S(C("sinon"), non().t(csq[t])),
+       () => S(C("si"), neg(alternative).t(cond[t]).a(","), non().t(csq[t]))));
+   if (OuiNon) {
+       res.push(oneOf(S(C("or"), alternative()),
+           S(Adv("heureusement"), alternative()),
+           S(VP(V("supposer").t("ip").pe(1).n("p"),
+               SP(Pro("que"), alternative().t("s"))))));
+   } else {
+       res.push(oneOf(S("cependant", neg(alternative)),
+           S(Adv("toutefois"), neg(alternative)),
+           S(VP(V("supposer").t("ip").pe(1).n("p"),
+               SP(Pro("que"), neg(alternative).t("s"))))));
+   }
+   return res.join(" ");
 }
-
-const m = (x,y)=>` M ${x} ${y}`;
-const l = (x,y)=>` L ${x} ${y}`;
-const eq = (v1,v2) => Math.abs(v1-v2)<10 ; // à peu près égal...
-var minX,maxX;
-
-// tracer une flèche entre deux bbox
-function tracer(d_bbox,a_bbox, direction){
-    // direction: h(aut), b(as), 
-    //            g(auche), d(roite), si arrivee est undefined aller vers les côtés
-    let dx=d_bbox.x;
-    let dy=d_bbox.y;
-    let dw=d_bbox.width;
-    let dh=d_bbox.height;
-    switch (direction) {
-    case "h":
-        return fleche(m(dx+dw/2,dy)+l(dx,a_bbox.y+a_bbox.height));
-        break;
-    case "b":
-        return fleche(m(dx+dw/2,dy+dh)+l(dx+dw/2,a_bbox.y));
-        break;
-    case "g":
-        dy+=dh/2;
-        if (a_bbox==undefined){
-            return fleche(m(dx,dy)+l(minX,dy))
-        } else {
-            return fleche(m(dx,dy)+l(a_bbox.x+a_bbox.width,dy))
-        }
-        break;
-    case "d":
-        dy+=dh/2
-        if (a_bbox==undefined){
-            return fleche(m(dx+dw,dy)+l(maxX,dy))
-        } else {
-            return fleche(m(dx+dw,dy)+l(a_bbox.x,dy));
-        }
-        break;
-    default:
-        console.log("direction inconnue:"+direction)
-    }
-}
-
-function organigramme(){
-    svg=d3.select("svg");
-    const bcr=svg.node().getBoundingClientRect();
-    width=bcr.width;
-    height=bcr.height;
-    // attention à ne pas changer pour éviter d'avoir à tout recalculer les positions 
-    const x_extent=[79,825];  
-    const y_extent=[17,1026];
-    margin=20;
-    x_scale = d3.scaleLinear().range([margin,-margin+width]).domain(x_extent);
-    y_scale = d3.scaleLinear().range([margin,-margin+height]).domain(y_extent);
-    
-    // placer tous les états0
-    svg.selectAll("g")
-        .data(etats)
-        .enter()
-        .each(function(etat){
-            etat.afficher(x_scale(etat.x),y_scale(etat.y));
-        })
-            
-    // grande flèche à gauche
-    minX=10;
-    const rsd=graphe["Réfléchir, Se décider"];
-    const minY=rsd.bbox.y+rsd.bbox.height/2;
-    const a6m=graphe["  ATTENDEZ SIX MOIS  "];
-    const maxY = a6m.bbox.y+a6m.bbox.height/2;
-    fleche(m(a6m.bbox.x,maxY)+l(minX,maxY)+l(minX,minY)+l(rsd.bbox.x,minY));
-    
-    // grande flèche droite
-    maxX=width-10;
-    const sdr=graphe["Se décider, Réfléchir"];
-    const rpp=graphe["Réfléchissez au prochain problème"];
-    fleche(m(rpp.bbox.x+rpp.bbox.width,maxY)+l(maxX,maxY)+l(maxX,minY)+
-           l(sdr.bbox.x+sdr.bbox.width,minY));
-    
-    etats.forEach(function(etat){etat.lier()});
-}    
-
-

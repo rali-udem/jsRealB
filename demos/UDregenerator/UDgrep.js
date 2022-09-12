@@ -1,4 +1,7 @@
-let udContent="";
+import {UD} from "./UD.js";
+import {initUD} from "./UDinit-en.js";
+import {showDependencies,showTree,spacing} from "./drawDependencies.js"
+
 const maxTokensDisplayed=2000;
 const fieldNames=["ID","FORM","LEMMA","UPOS","XPOS","FEATS","HEAD","DEPREL","DEPS","MISC"];
 const nbFields=fieldNames.length;
@@ -6,7 +9,9 @@ const nbFields=fieldNames.length;
 let tokens,           // tokens must be global to get sentence info not in the table
     selectedTR,       // current selected if !=null (useful for arrow navigation)
     currentUD,        // current UD
-    uds;             // all UDs read from the file
+    uds,              // all UDs read from the file
+    tree,             // tree structure build
+    dependencies;     // all parsed dependencies
 
 // this applies the initial filters 
 function loadTokens(uds){
@@ -35,7 +40,7 @@ function loadTokens(uds){
                     ?(form,lemma)=>form.toLowerCase()==lemma.toLowerCase()
                     :d3.select("#formEQlemma").property("indeterminate")
                        ?(form,lemma)=>form.toLowerCase()!=lemma.toLowerCase()
-                       :(form,lemma)=>true;
+                       :(_form,_lemma)=>true;
                        
     uds.forEach(function(ud){
         const nbNodes=ud.nodes.length;
@@ -116,7 +121,7 @@ function fillTable(table){
     const tbody=table.select("tbody");
     // fill content with rows
     for (var i = 0; i < tokens.length; i++) {
-        toks=tokens[i];
+        const toks=tokens[i];
         let tr=tbody.append("tr");
         for (var j = 0; j < nbFields; j++) {
             tr.append("td").classed(fieldNames[j],true).text(toks[j]);
@@ -185,7 +190,7 @@ function makeFullTable(){
     }
     let tbody=fullTable.append("tbody");
     for (var i = 0; i < tokens.length; i++) {
-        toks=tokens[i];
+        const toks=tokens[i];
         let tr=tbody.append("tr");
         tr.append("td").text(toks[nbFields].sent_id) // last element is the UD
         for (var j = 0; j < nbFields; j++) {
@@ -245,7 +250,7 @@ function parseUDs(groupVal,fileName){
 function getFile(){
     let file = d3.select("#file-input").node().files[0];
     if (file!==undefined){
-        fileName=file.name
+        // let fileName=file.name
         d3.select("#fileName").text(file.name);
         // read the local file
     	let reader = new FileReader();
@@ -387,22 +392,22 @@ function showSentenceParse(ud){
 
 // redefine function from drawDependencies to ignore clicking on tokens to display 
 // in the table, because it is not guaranteed that the token is shown in the table
-function drawSentence(display,ud){
-    var endX=startX;
-    // draw the words of the sentence and update width and x in deps
-    for (var i = 1; i < ud.nodes.length; i++) {
-        var udn=ud.nodes[i];
-        var [width,word]=addWord(display,null,endX,startY,udn.form,
-                         `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
-                          i==ud.root.id,udn.form!=ud.tokens[i]);
-        udn.x=endX;
-        udn.width=width;
-        udn.mid=endX+width/2;
-        udn.wordInTree=udn.wordInLinks=word;
-        endX+=width+wordSpacing;
-    }
-    return endX;
-}
+// function drawSentence(display,ud){
+//     var endX=startX;
+//     // draw the words of the sentence and update width and x in deps
+//     for (var i = 1; i < ud.nodes.length; i++) {
+//         var udn=ud.nodes[i];
+//         var [width,word]=addWord(display,null,endX,startY,udn.form,
+//                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
+//                           i==ud.root.id,udn.form!=ud.tokens[i]);
+//         udn.x=endX;
+//         udn.width=width;
+//         udn.mid=endX+width/2;
+//         udn.wordInTree=udn.wordInLinks=word;
+//         endX+=width+spacing.word;
+//     }
+//     return endX;
+// }
 
 
 function UDgrepLoad(){
@@ -421,11 +426,11 @@ function UDgrepLoad(){
         showSentenceParse(currentUD);
     });
     d3.select("#wordSpacing").on("change",function(){
-        wordSpacing=+this.value;
+        spacing.word=+this.value;
         showSentenceParse(currentUD);
     });
     d3.select("#letterSpacing").on("change",function(){
-        letterSpacing=+this.value;
+        spacing.letter=+this.value;
         showSentenceParse(currentUD);
     });
     d3.select("body").on("keydown",function(){
@@ -474,4 +479,4 @@ function UDgrepLoad(){
     });
 }
 
-d3.select(window).on("load",UDgrepLoad);
+UDgrepLoad();

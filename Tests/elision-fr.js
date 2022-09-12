@@ -1,7 +1,8 @@
 
 // QUnit.config.hidepassed=true;
 QUnit.test( "Élision française", function( assert ) {
-    loadFr();
+   Object.assign(globalThis,jsRealB);
+   loadFr();
     var elisionTestsFr=[
         [Q("&"),"&"],
         [N("bonjour"),"bonjour"],

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: JSON-tools.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: JSON-tools.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+    jsRealB 4.5
+    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+ */
+
+import { Constituent} from "./Constituent.js";
+import {Terminal} from "./Terminal.js"
+import {Phrase} from "./Phrase.js"
+import {Dependent} from "./Dependent.js"
+export {fromJSON,ppJSON}
+
+/// Functions for dealing with JSON input
+
+// list of names of constituents (used in fromJSON)
+const terminals = ["N", "A", "Pro", "D", "V", "Adv", "C", "P", "DT", "NO", "Q"];
+const phrases   = ["S", "NP", "AP", "VP", "AdvP", "PP", "CP", "SP"];
+const dependents = ["root", "det", "subj", "comp", "mod", "compObj", "compObl", "coord"];
+
+/**
+ * Create a Constituent from a parsed JSON structure
+ * &lt;a href="http://rali.iro.umontreal.ca/JSrealB/current/data/jsRealB-jsonInput.html">more info&lt;/a>
+ * @param {Object} json to convert
+ * @param {"en"|"fr"} lang language for this object 
+ * @returns Constituent corresponding to the JSON structure 
+ */
+function fromJSON(json,lang){
+    if (typeof json == "object" &amp;&amp; !Array.isArray(json)){
+        if (json["lang"]){
+            if (json["lang"]=="en")     lang="en";
+            else if (json["lang"]=="fr")lang="fr";
+            else {
+                console.log("FromJSON: lang should be 'en' or 'fr', not "+json["lang"]+" 'en' will be used");
+                lang="en";
+            }
+        }
+        let lang1 = lang || currentLanguage ;
+        if ("phrase" in json) {
+            const constType=json["phrase"];
+            if (phrases.includes(constType)){
+                return Phrase.fromJSON(constType,json,lang1)
+            } else {
+                console.log("fromJSON: unknown Phrase type:"+constType)
+            }
+        } else if ("dependent" in json) {
+            const constType=json["dependent"];
+            if (dependents.includes(constType)){
+                return Dependent.fromJSON(constType,json,lang1)
+            } else {
+                console.log("fromJSON: unknown Phrase type:"+constType)
+            }
+        } else if ("terminal" in json){
+            const constType=json["terminal"];
+            if (terminals.includes(constType)){
+                return Terminal.fromJSON(constType,json,lang1)
+            } else {
+                console.log("fromJSON: unknown Terminal type:"+constType)
+            }
+        }
+    } else {
+        console.log("fromJSON: object expected, but found "+typeof json+":"+JSON.stringify(json))
+    }
+}
+
+/**
+ * Add properties to the current object from the information in the JSON object
+ * It applies the "usual" jsRealB options
+ * @param {Object} json 
+ * @returns this object
+ */
+Constituent.prototype.setJSONprops = function(json){
+    if ("props" in json){
+        const props=json["props"];
+        for (let opt in props){
+            if (opt in this){
+                if (Array.isArray(props[opt])){ // deal with a list of options
+                    props[opt].forEach(o=>Array.isArray(o)
+                        ? Constituent.prototype[opt].apply(this,o)
+                        : Constituent.prototype[opt].call(this,o))
+                } else 
+                    Constituent.prototype[opt].call(this,props[opt])
+            } else if (!["pat","h"].includes(opt)){ // do not copy the pat or h properties of a verb
+                console.log("Constituent.fromJSON: illegal prop:"+opt);
+            }
+        }
+    }
+    return this
+}
+
+/**
+ * Transform a JSON object into a Phrase
+ * @param {String} constType kind of Phrase to create
+ * @param {Object} json JSON object to transform
+ * @param {string?} lang optional language
+ * @returns new Phrase corresponding to the fields of the JSON object
+ */
+Phrase.fromJSON = function(constType,json,lang){
+    if ("elements" in json){
+        const elements=json["elements"];
+        if (Array.isArray(elements)){
+            const args=elements.map(json => fromJSON(json,lang));
+            return new Phrase(args,constType,lang).setJSONprops(json);
+        } else {
+            console.log("Phrase.fromJSON: elements should be an array:"+JSON.stringify(json))
+        }
+    } else {
+        console.log("Phrase.fromJSON: no elements found in "+JSON.stringify(json))
+    }
+}
+
+/**
+ * Transform a JSON object into a Dependent
+ * @param {String} constType kind of Dependent to create
+ * @param {Object} json JSON object to transform
+ * @param {string?} lang optional language
+ * @returns new Dependent corresponding to the fields of the JSON object
+ */
+ Dependent.fromJSON = function(constType,json,lang){
+    if (!("terminal" in json)){
+        console.log("Dependent.fromJSON: no terminal found in Dependent:"+JSON.stringify(json));
+    } else {
+        if ("dependents" in json){
+            const dependents=json["dependents"];
+            if (Array.isArray(dependents)){
+                let args=dependents.map(json => fromJSON(json,lang));
+                args.unshift(fromJSON(json["terminal"],lang));
+                return new Dependent(args,constType,lang).setJSONprops(json);
+            } else {
+                console.log("Dependent.fromJSON: dependents should be an array:"+JSON.stringify(json))
+            }
+        } else {
+            console.log("Dependent.fromJSON: no dependents found in "+JSON.stringify(json))
+        }
+    }
+}
+
+/**
+ * Create a Terminal from a JSON representation
+ * @param {string} constType type of Terminal to create
+ * @param {Object} json json Object to transform
+ * @param {"en"|"fr"} lang language for this Terminal
+ * @returns Terminal
+ */
+Terminal.fromJSON = function(constType,json,lang){
+    if ("lemma" in json){
+        return new Terminal([json["lemma"]],constType,lang).setJSONprops(json);
+    } else {
+        console.log("Terminal.fromJSON: no lemma found in "+JSON.stringify(json));
+    }
+}
+
+/**
+ * Create an Object with appropriate fields for JSON input
+ * @returns an Object which can be serialized as a JSON object
+ */
+Phrase.prototype.toJSON = function(){
+    let res={phrase:this.constType, elements:this.elements.map(e=>e.toJSON())};
+    if (Object.keys(this.props).length>0) // do not output empty props
+        res.props=this.props;
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+        res.lang=this.lang;
+    return res;
+}
+
+/**
+ * Create an Object with appropriate fields for JSON input
+ * @returns an Object which can be serialized as a JSON object
+ */
+Dependent.prototype.toJSON = function (){
+    let res={dependent:this.constType, 
+                terminal: this.terminal.toJSON()};
+    if (this.dependents)
+        res["dependents"]=this.dependents.map(e=>e.toJSON());
+    if (Object.keys(this.props).length>0) // do not output empty props
+        res.props=this.props;
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+        res.lang=this.lang;
+    return res;
+}
+
+/**
+ * Create an object that can be serialized as a JSON object with fields terminal and lemma
+ * @returns Object with the appropriate JSON fields corresponding to this Terminal
+ */
+Terminal.prototype.toJSON = function(){
+    let res={terminal:this.constType,lemma:this.lemma};
+    if (Object.keys(this.props).length>0) // do not output empty props
+        res.props=this.props;
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+        res.lang=this.lang;
+    return res;
+}
+
+/**
+ * Compact pretty-print of json (JSON.stringify(.,null,n) is hard to work with as it uses too many lines)
+ * Adaptation of ppJson.py (in project json-rnc)
+ * only useful for debugging, not necessary for using jsRealB
+ * @param {Object} obj JSON object to pretty-print
+ * @param {int?} level indentation level, 0 if omitted 
+ * @param {String} str string to which new info is appended, "" if omitted
+ * @returns indented string
+ */
+function ppJSON(obj,level,str){
+    function out(s){str+=s}
+    function outQuoted(s){
+        if (s.includes('\\'))s=s.replace(/\\/g,'\\\\');
+        if (s.includes('"' ))s=s.replace(/"/g,'\\"');
+        out('"'+s+'"');
+    }
+    switch (arguments.length) {
+    case 1:return ppJSON(obj,0,"");
+    case 2:return ppJSON(obj,level,"");
+    default:
+        switch (typeof obj) {
+        case "string":
+            outQuoted(obj);
+            break;
+        case "object":
+            if (obj===null){
+                out("null")
+            } else if (Array.isArray(obj)){
+                out('[');
+                const n=obj.length;
+                // indent only if one of the elements of the array is an object != null 
+                const indent = obj.some((e)=>typeof e == "object" &amp;&amp; e!==null)
+                for (var i = 1; i &lt;= n; i++) {
+                    const elem=obj[i-1];
+                    if (indent &amp;&amp; i>1)out("\n"+" ".repeat(level+1));
+                    out(ppJSON(elem,level+1,""));
+                    if (i&lt;n)out(",")
+                }
+                out(']');
+            } else {
+                out('{');
+                const keys=Object.keys(obj);
+                const n=keys.length;
+                for (var i = 1; i &lt;= n; i++) {
+                    const key=keys[i-1];
+                    if (i>1)out("\n"+" ".repeat(level+1));
+                    outQuoted(key);
+                    out(":");
+                    out(ppJSON(obj[key],level+1+key.length+3,""));
+                    if (i&lt;n)out(",")
+                }
+                out('}');
+            }
+            break;
+        default: // primitive JavaScript values : boolean, number, string
+            out(obj);
+        }
+    }
+    return str;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

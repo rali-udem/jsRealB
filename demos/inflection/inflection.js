@@ -1,6 +1,7 @@
 //
 //   Conjugation-Declension tables with jsRealB
 //
+Object.assign(globalThis,jsRealB);
 
 var $entree,$tableau;
 var language;

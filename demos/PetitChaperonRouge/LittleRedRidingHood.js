@@ -52,20 +52,6 @@ Moral: Children, especially attractive, well bred young ladies, should never tal
 */
 
 
-if (typeof module !== 'undefined' && module.exports) {
-    let jsRealB=require("jsrealb")
-    for (var v in jsRealB)
-            eval(v+"=jsRealB."+v);
-}
-
-loadEn();
-
-// add unknown English words to the dictionary
-addToLexicon("amaze",{ V: { tab: 'v3' } });
-addToLexicon("bedcloth",{ N: { "tab":"n2" } })
-addToLexicon("nightcloth",{ N: { "tab":"n2" } })
-addToLexicon("woodcutter",{ N: { "tab":"n1" } });
-
 // little riding hood
 function lrrh(det){
     let np=NP(A("little"),A("red"),V("ride").t("pr"),N("hood"))
@@ -99,7 +85,7 @@ function howBig(n){
 function allTheBetter(v){
     return S(Adv("all"),
              D("the"),A("good").f("co"),
-             P("to"),v.t("ip"),
+             v.t("b-to"),
              Pro("I").pe(2),
              P("with").a(","),
              D("my").pe(1),N("dear")).en("\"")
@@ -190,7 +176,7 @@ const story = [
           ()=>
              S(LRRH(),
                VP(V("set").t("ps"),Adv("out"),Adv("immediately"),
-                  P("to"),V("go").t("b"),
+                  V("go").t("b-to"),
                   PP(P("to"),
                      NP(D("my").g("f"),N("grandmother"),
                         SP(Pro("who"),
@@ -215,7 +201,7 @@ const story = [
                                   CP(C("but"),
                                      S(V("have").t("ps"),
                                         NP(D("a"),Adv("very"),A("great"),N("mind"),
-                                           VP(P("to"),V("eat").t("b"),Pro("me").g("f"),P("up").a(",")))),
+                                           VP(V("eat").t("b-to"),Pro("me").g("f"),P("up").a(",")))),
                                      S(Pro("I").pe("3"),
                                         VP(V("dare").t("ps"),Adv("not"),
                                            S(C("because"),
@@ -245,9 +231,9 @@ const story = [
                              SP(Pro("that"),
                                 Pro("I"),
                                 VP(V("be").t("ps"),
-                                   AP(A("dangerous"),P("to"),
+                                   AP(A("dangerous"),
                                       CP(C("and"),
-                                         VP(V("stay").t("b")),
+                                         VP(V("stay").t("b-to")),
                                          VP(V("talk").t("b"),
                                             PP(P("to"),
                                                NP(D("a"),N("wolf")))))))))).typ({neg:true})),
@@ -255,9 +241,8 @@ const story = [
                        PP(P("to"),Pro("me").g("m"))).a(","),
                     SP(Pro("I").pe(1),
                        VP(V("go"),
-                          SP(P("to"),
-                             CP(C("and"),
-                                VP(V("see").t("b"),
+                          SP(CP(C("and"),
+                                VP(V("see").t("b-to"),
                                    NP(D("my").pe(1),N("grandmother"))),
                                 VP(V("carry").t("b"),Pro("me").g("f"),
                                    CP(C("and"),
@@ -568,7 +553,7 @@ const story = [
                 S(Pro("I").g("f"),
                   CP(C("and"),
                      VP(V("be").t("ps"),Adv("greatly"),V("amaze").t("pp"),
-                        VP(P("to"),V("see").t("b"),
+                        VP(V("see").t("b-to"),
                            SP(Pro("how"),
                               NP(D("my").g("f"),N("grandmother")),
                               VP(V("look").t("ps"),
@@ -726,12 +711,26 @@ function generateTXT(texte){
     
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-    generateTXT(story)
+function init(jsr){
+   Object.assign(globalThis,jsr);
+   loadEn();
+   // add unknown English words to the dictionary
+   addToLexicon("amaze",{ V: { tab: 'v3' } });
+   addToLexicon("bedcloth",{ N: { "tab":"n2" } })
+   addToLexicon("nightcloth",{ N: { "tab":"n2" } })
+   addToLexicon("woodcutter",{ N: { "tab":"n1" } });
+}
+
+
+if (typeof process !== "undefined" && process?.versions?.node){
+   let {default:jsRealB} = await import("../../dist/jsRealB.js");
+   init(jsRealB);
+   generateTXT(story);      
 } else {
-    $(document).ready(function() {
-        $("#dependances,#constituents").change(()=>generateHTML(story))
-        generateHTML(story)
-    })
+   $(document).ready(function() {
+      init(jsRealB);
+      $("#dependances,#constituents").change(()=>generateHTML(story))
+      generateHTML(story);
+   })
 }
 
