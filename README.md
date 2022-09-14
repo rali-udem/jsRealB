@@ -36,10 +36,11 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `jsRealB.js`: packages all .js files of the `build` directory as a module and exports only main functions and constants
         * For use in a web page : `<script src="/path/to/dist/jsRealB.js"></script>`
         * For use as a node.js module : `import jsRealB from  "/path/to/dist/jsRealB.js"`
-    * `jsRealB-filter.js`: example of use of the node.js module to create a Unix filter for `jsRealB`
-    * `jsRealB-server.js`: example of use of the node.js module to start a web server that realizes sentences
+    * `jsRealB-filter.mjs`: example of use of the node.js module to create a Unix filter for `jsRealB`
+    * `jsRealB-server.mjs`: example of use of the node.js module to start a web server that realizes sentences
     * `testServer.py`: Python script using the `jsRealB` server
-    * `package.json`: necessary for publishing the `jsrealb` *npm* package.  
+    * `package.json`: necessary for publishing the `jsrealb` *npm* package. 
+    * `README.md` : short presentation and example of use of the npm package displayed at `https://www.npmjs.com/package/jsrealb` 
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
       `npm version {major|minor|patch}`  
       `npm publish`  
@@ -68,11 +69,12 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `testAll.html` : load this file in a browser to run all tests
 * [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html)
 * *Files in the current directory*:
-    * `tests-dev.js` : node.js application that loads `jsRealB.js` from the `dist` directory and an internal script that displays the realization of a few examples. 
     * `README.md` : this file
     * `package.json` : file with parameters for building jsRealB using `npm` using  
                        `npm run build-dev` or  `npm run build-prod` 
     * `test-demos.sh`: launch all web demos in Safari and the jsRealB server with the Weather Python demo
+    * `test-node.js`: import the jsRealB package installed with `npm` and realize a simple English sentence
+    * `tests-dev.js` : `node.js` application that loads `jsRealB.js` from the `dist` directory and an internal script that displays the realization of a few examples. 
     * `webpack.config.cjs` : configuration file for building the `jsRealB.js` package in the `dist` directory
     * `.vscode` : hidden file configuration for Visual Studio Code 
 
