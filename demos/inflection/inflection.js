@@ -21,7 +21,7 @@ function conjuguer(verbe, lang,typs){
             }
         } else {
             let sp=SP(Pro(lang=="fr"?"moi":"me").c("nom").pe(pe).n(n),VP(V(verbe).t(t))).typ(typs)
-            if (t.startsWith("s"))// subjonctif
+            if (t.startsWith("s") && lang=="fr")// subjonctif français
                 sp=SP(Q("que"),sp);
             return sp
         }
@@ -33,11 +33,11 @@ function conjuguer(verbe, lang,typs){
         if (entry===undefined || !("V" in entry))return;
         temps= [
             [["Présent","p"],["Imparfait","i"],["Futur simple","f"],["Passé simple","ps"]],
-            [["Passé composé","pc"],["Plus-que-parfait","pq"],["Futur antérieur","fa"]],
+            [["Passé composé","pc"],["Plus-que-parfait","pq"],["Futur antérieur","fa"],["Passé antérieur","pa"]],
             [["Subjonctif présent","s"],["Subjonctif imparfait","si"],["Subjonctif passé","spa"],
              ["Subjonctif plus-que-parfait","spq"]],
             [["Conditionnel présent","c"],["Conditionnel passé","cp"],["Impératif","ip"]],
-            [["Participe présent","pr"],["Participe passé","pp"],["Infinitif","b"]]
+            [["Participe présent","pr"],["Participe passé","pp"],["Infinitif","b"],["Infinitif passé","bp"]]
         ]
     } else {
         loadEn();
@@ -47,6 +47,7 @@ function conjuguer(verbe, lang,typs){
             [["Present","p"]],
             [["Simple past","ps"]],
             [["Future","f"]],
+            [["Subjonctive","s"]],
             [["Conditional","c"]],
             [["Imperative","ip"]]
         ]

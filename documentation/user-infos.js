@@ -93,9 +93,9 @@ var optionsSect=
            {"pattern":'.t("pr")', "fr":["participe présent",'V("aimer").t("pr")'],
                            "en":["present participle",'V("love").t("pr")']},
            {"pattern":'.t("s")', "fr":["subjonctif présent",'V("aimer").t("s")'],
-                           "en":["",'']},
+                           "en":['present subjonctive','V("love").t("s")']},
            {"pattern":'.t("si")', "fr":["subjonctif imparfait",'V("aimer").t("si")'],
-                           "en":["",'']},
+                           "en":['past subjonctive','V("love").t("si")']},
            {"pattern":'.t("pp")', "fr":["participe passé",'V("aimer").t("pp")'],
                             "en":["past participle",'V("love").t("pp")']},
            

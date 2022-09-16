@@ -1,93 +1,29 @@
 {
   "name": "jsrealb",
-  "version": "5.1.3",
-  "dist-tags": {
-    "latest": "5.1.3"
-  },
-  "versions": {
-    "3.0.0": {
-      "name": "jsrealb",
-      "version": "3.0.0",
-      "description": "English and French text realizer",
-      "main": "jsRealB-node.js",
-      "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-      },
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/lapalme/jsRealB.git"
-      },
-      "keywords": [
-        "text",
-        "realizer",
-        "nlg"
-      ],
-      "author": {
-        "name": "Guy Lapalme"
-      },
-      "license": "ISC",
-      "bugs": {
-        "url": "https://github.com/lapalme/jsRealB/issues"
-      },
-      "homepage": "https://github.com/lapalme/jsRealB#readme",
-      "_id": "jsrealb@3.0.0",
-      "_nodeVersion": "8.11.4",
-      "_npmVersion": "6.7.0",
-      "dist": {
-        "integrity": "sha512-nqsKA+5dt7db4RFX/axFMEjp2Be3hPFv2dyBFQtWub83HGqkX0NBYvXn83awbw1reW/JFtXxrGdqwYIaa+tKog==",
-        "shasum": "8529e92850a9a7c37614f185d46dbdfc4d8271b5",
-        "tarball": "https://registry.npmjs.org/jsrealb/-/jsrealb-3.0.0.tgz",
-        "fileCount": 11,
-        "unpackedSize": 2427864,
-        "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJeQ3gPCRA9TVsSAnZWagAAGowP/RmMJQBU1WXnQRSkSUQM\n6PPPo0kdYcvpu81TylNPg8Z2E+Zb7rVMCG1zP5V4JAXWpm76ZjjJh+FQecc9\naKN4FVkfsOPl0VS9wSleeHy+D3/aOkhTXakcSLa1SWEaK0AzL8ky0JZdrQ04\ndHp7YO8NKNdSRUMQgtqaHKfQDgG1N410/S+iAlUoi3eBwqQmOH9pJuYoxs3a\nePq5fp9vSdiQvZsXjAM0faKD/IxN2KxqOxmXddUfHh/ch6srmrpgHTwBWIOh\n67hp57j5jkaJXl19d4HamFRH0EfUG7V9A7LalvsS906Rx7rIcuKqDQdmnCbV\n+fZxP4Cn5rxwsRBtMsNFxx4K4YOnwM6gVi8J6nSMcC57/O22R1PbTG2Ryyaq\nOZZWJmUhaPqNc4fcoRIVilMQZtUT6MqF0nrqIIZ7Ycy0fjVQTdwbhfd2OEdu\ngF450MKYmUxWy63sH1YLzVueIMoGZsl2JU4pFh3RSaJO9yxV4xKJbBasdkUs\nU/tQJKZktDEDj1T9sT0cka7VCDVtVPGuGtw9/nQxFpR7wWP76OD+TafjsmXw\n7YICmzaAsBuTrz3UI6iSsxCAx+whVHyUGfPP06sKobXz1AWruIME+Tyb7LN0\npkpN/wF9oxIdPehn3+kkcEWJj1tdIfDgWJWhPf1SlY3oFIy9QBeRI+X9oQNY\nwf2L\r\n=blG6\r\n-----END PGP SIGNATURE-----\r\n"
-      },
-      "maintainers": [
-        {
-          "name": "lapalme",
-          "email": "lapalme@iro.umontreal.ca"
-        }
-      ],
-      "_npmUser": {
-        "name": "lapalme",
-        "email": "lapalme@iro.umontreal.ca"
-      },
-      "directories": {},
-      "_npmOperationalInternal": {
-        "host": "s3://npm-registry-packages",
-        "tmp": "tmp/jsrealb_3.0.0_1581479951344_0.15548816528798204"
-      },
-      "_hasShrinkwrap": false
-    }
-  },
-  "time": {
-    "created": "2020-02-12T03:59:11.344Z",
-    "3.0.0": "2020-02-12T03:59:11.526Z",
-    "modified": "2020-02-12T03:59:14.045Z"
-  },
-  "maintainers": [
-    "lapalme <lapalme@iro.umontreal.ca>"
-  ],
+  "version": "4.5.0",
   "description": "English and French text realizer",
-  "homepage": "https://github.com/lapalme/jsRealB#readme",
-  "keywords": [
-    "text",
-    "realizer",
-    "nlg"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lapalme/jsRealB.git"
-  },
-  "author": "Guy Lapalme",
-  "bugs": {
-    "url": "https://github.com/lapalme/jsRealB/issues"
-  },
-  "license": "ISC",
   "main": "jsRealB.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rali-udem/jsRealB.git"
+  },
+  "keywords": [
+    "Natural Language Generation",
+    "NLG",
+    "text realizer",
+    "English",
+    "French"
+  ],
+  "author": "Guy Lapalme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rali-udem/jsRealB/issues"
+  },
+  "homepage": "https://github.com/rali-udem/jsRealB#readme",
   "dependencies": {
-    "jsrealb": "^5.1.3"
+    "jsrealb": "^4.5.0"
   }
 }

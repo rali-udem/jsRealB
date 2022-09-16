@@ -435,18 +435,6 @@ class Terminal extends Constituent{
         return res; 
     }
 
-    // removeNextConstInSentence(){
-    //     const parentElems=this.parentConst.elements;
-    //     const me=this;
-    //     const meIdx=parentElems.findIndex(e=>e===me);
-    //     if (meIdx>=0){
-    //         const nextWord=parentElems.splice(meIdx+1,1)[0]; // remove nextWord from parent
-    //         nextWord.realization=nextWord+""; // force realization
-    //         return nextWord;
-    //     } 
-    //     return this.error("no parent for removeNextConstInSentence")
-    // }
-
     /**
      * Insert a new terminal with its realization field already filled in a list of terminal
      * used heavily in conjugate_fr and conjugate_en
@@ -514,8 +502,8 @@ class Terminal extends Constituent{
         if (this.tab==null) 
             return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];
         switch (t) {
-        case "pc":case "pq":case "cp": case "fa": case "spa": case "spq":// temps composés
-            const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","spa":"s","spq":"si"}[t];
+        case "pc":case "pq":case "cp": case "fa": case "pa": case "spa": case "spq": case "bp":// temps composés
+            const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","pa":"ps","spa":"s","spq":"si", "bp":"b"}[t];
             const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
             aux.parentConst=this.parentConst;
             aux.peng=this.peng;

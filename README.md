@@ -53,6 +53,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `user.js`  : JavaScript helper script.
 * [`Examples`](Examples): Examples of integration of jsRealB into web pages or node.js applications. See [index.html](Examples/index.html) for use cases.
 * [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
+* [`node-modules`](node-modules/) : used for transpiling with webpack
 * [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
     * `jsdoc`: documentation directory of the source files of jsRealB.js. [Consult the documentation](src/index.html)
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
@@ -75,6 +76,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `test-demos.sh`: launch all web demos in Safari and the jsRealB server with the Weather Python demo
     * `test-node.js`: import the jsRealB package installed with `npm` and realize a simple English sentence
     * `tests-dev.js` : `node.js` application that loads `jsRealB.js` from the `dist` directory and an internal script that displays the realization of a few examples. 
+    * `web-dev.html` : load `tests-dev.js` in a web page, thus allowing interactive testing. Ideally should use a local web server so that the module loading can be done.
     * `webpack.config.cjs` : configuration file for building the `jsRealB.js` package in the `dist` directory
     * `.vscode` : hidden file configuration for Visual Studio Code 
 

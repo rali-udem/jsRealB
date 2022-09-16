@@ -1,19 +1,20 @@
 // Tests of many features used during the development
 
-// direct import from the sources, but unfortunately 
-// to use it BUILDTIME (line 43 of src/jsRealB.js)  must be replaced by a "real" value
-// that is set by the webpack DefinePlugin
-// when building with webpack, change that value to BUILDTIME so that the DefinePlugin works
-// import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-//         S,NP,AP,VP,AdvP,PP,CP,SP,
-//         root, subj, det, mod, comp, coord,
-//         loadFr,loadEn,addToLexicon,getLanguage,getLemma,
-//         testWarnings,
-//         fromJSON,ppJSON} from "./src/jsRealB.js"
+///// direct import from the sources, 
+import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+        S,NP,AP,VP,AdvP,PP,CP,SP,
+        root, subj, det, mod, comp, coord,
+        loadFr,loadEn,addToLexicon,getLanguage,getLemma,
+        testWarnings,jsRealB_dateCreated,jsRealB_version,
+        fromJSON,ppJSON} from "./src/jsRealB.js"
 
-// use the webpack module
-import jsRealB from "./dist/jsRealB.js";
-Object.assign(globalThis,jsRealB);
+///// use the webpack module
+// let {default:jsRealB} = await import("./dist/jsRealB.js");
+// if (typeof window != "undefined")  
+//     // HACK: when loaded in a browser the above await import seems to create jsRealB in the "window" object
+//     Object.assign(globalThis,window.jsRealB);
+// else
+//     Object.assign(globalThis,jsRealB);
 
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}`)
 loadFr();
@@ -701,7 +702,6 @@ checkAllEx("dependenciesEn",dependenciesEn)
 loadEn()
 addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
 addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
-Constituent.debug=true;
 const s=S(NP(D("the"),N("cat")).n("p"),
           VP(V("sit").t("ps"),
              PP(P("on"),
@@ -718,3 +718,9 @@ loadFr();
 test(root(V('travailler').t("pc"),
           comp(Adv('bien')),
           subj(Pro('je').pe(2))).typ({"mod":"nece"}))
+
+loadFr();
+test(S(Pro("tout"),VP(V("sembler").t("pa"),V("fonctionner").t("bp"))))
+loadEn();
+test(V("go").t("s"))
+test(V("go").t("si"))

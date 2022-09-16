@@ -19,9 +19,9 @@
         },
         {
             "type": "chrome",
-            "name": "Personage/index.html",
+            "name": "web-dev.html",
             "request": "launch",
-            "url": "http://0.0.0.0:8000/demos/Personage/index.html"
+            "url": "http://0.0.0.0:8080/web-dev.html"
         },
         {
             "type": "chrome",
