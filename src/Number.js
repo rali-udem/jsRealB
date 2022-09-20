@@ -4,7 +4,7 @@
  */
 
 import { getRules } from "./Lexicon.js";
-export {numberFormatter, numberToOrdinal, numberToWord, nbDecimal}
+export {numberFormatter, nbDecimal, enToutesLettres, ordinal}
 
 /**
  * Format a number
@@ -19,44 +19,6 @@ function numberFormatter (rawNumber, lang, maxPrecision) {
     precision = nbDecimal(rawNumber) > precision ? precision : nbDecimal(rawNumber);
     return formatNumber(rawNumber, precision, numberTable.symbol.decimal, numberTable.symbol.group);
 };
-
-/**
- * Show a number in words (natural form)
- * @param {number} number to write as words 
- * @param {"en"|"fr"} lang language to use
- * @param {"m"|"f"} gender gender to use (in French only)
- * @returns string corresponding to the number in words
- */
-function numberToWord(number, lang, gender) {
-    if (parseInt(number) !== number){
-        this.warn("bad number in word",number)
-        return number+"";
-    }
-    if (lang=="fr" && gender=="f"){
-        if (number==1)return "une";
-        if (number==-1) return "moins une";
-    } 
-    return enToutesLettres(number,lang);
-};
-
-/**
- * Show an ordinal number in words (natural form)
- * @param {number} number to write as words 
- * @param {"en"|"fr"} lang language to use
- * @param {"m"|"f"} gender gender to use (in French only)
- * @returns string corresponding to the number in words
- */
- function numberToOrdinal(number,lang,gender){
-    if (parseInt(number) !== number){
-        this.warn("bad ordinal",number)
-        return number+"";
-    } 
-    if (number<=0){
-        this.warn("bad ordinal",number)
-    }
-    return ordinal(number,lang, gender);
-};
-
 
 /**
  * Find the number of decimal places in the representation of a number

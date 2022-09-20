@@ -191,7 +191,7 @@ function feats2options(constituent,udNode,selFeats){
             if (deg !==undefined){
                 const jsrDeg=getOption("Degree",degree,deg)
                 if (jsrDeg !== null){
-                    constituent.co(jsrDeg)
+                    constituent.f(jsrDeg)
                 }
             }
             break;

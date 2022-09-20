@@ -15,7 +15,7 @@ UDnode.prototype.toTerminal = function(){
             "they":"them"
         };
         if (udLemma in tpTable){
-            let pro=Pro(tpTable[udLemma])
+            let pro=Pro(tpTable[udLemma]).c("nom")
             if (udLemma=="i"||udLemma=="I")pro.pe(1)
             return pro
         }
@@ -71,7 +71,13 @@ UDnode.prototype.toTerminal = function(){
     switch (upos) {
         //open classes
     case "ADJ":
-        return feats2options(A(lemma),this,["Gender","Number"])
+        if (this.hasFeature("NumType","Ord")){
+            const ix=["zero","one","two","three","four","five","six","seven","eight","nine","ten",
+                      "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventen","eighteen","nineteen","twenty"].indexOf(lemma);
+            if (ix>=0) return NO(ix).dOpt({ord:true});
+            if (isNaN(lemma)) return Q(lemma);
+        }
+        return feats2options(A(lemma),this,["Gender","Number","Degree"])
     case "ADV":
         return Adv(lemma);
     case "INTJ":
@@ -213,8 +219,8 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
     // check future tense
     const [dep,idx]=this.findDeprelUpos("aux","AUX");
     if (idx>=0 && dep[idx].getLemma()=="will"){
-        dep.splice(idx,1);
-        headOptions.push(["t","f"]);
+        const [w]=dep.splice(idx,1);
+        headOptions.push(["t",w.hasFeature("Tense","Past")?"c":"f"]);
     }
     
     // process the rest by the common traversal

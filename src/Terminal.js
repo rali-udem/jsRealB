@@ -5,7 +5,7 @@
 
 import { Constituent } from "./Constituent.js";
 import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
-import { nbDecimal,numberFormatter, numberToWord, numberToOrdinal} from "./Number.js";
+import { nbDecimal,numberFormatter, enToutesLettres, ordinal} from "./Number.js";
 export {Terminal, N, A, Pro, D, V, Adv, C, P, DT, NO, Q}
 /**
  * create a quoted string taking account possible escaping
@@ -138,18 +138,20 @@ class Terminal extends Constituent{
         case "NO":
             if (lemmaType != "string" && lemmaType != "number"){
                 this.warn("bad parameter","string, number",lemmaType);
-                this.lemma=lemma=0
+                this.lemma=this.value=lemma=0
             }
             if (lemmaType == "string"){
                 // check if this looks like a legal number...
                 if (!/^[-+]?[0-9]+([., ][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
                     this.warn("bad parameter","number",lemmaType);
-                    this.lemma=0;
+                    this.lemma=this.value=0;
                 } else {
                     this.lemma=lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+                    this.value=+lemma; // this parses the number if it is a string
                 }
+            } else {
+                this.lemma=this.value=lemma;
             }
-            this.value=+lemma; // this parses the number if it is a string
             this.nbDecimals=nbDecimal(lemma);
             this.props["dOpt"]={mprecision:2, raw:false, nat:false, ord:false};
             break;
@@ -787,9 +789,9 @@ class Terminal extends Constituent{
         case "NO":
             const opts=this.props["dOpt"];
             if (opts.nat==true){
-                this.realization=numberToWord(this.value,this.lang,this.peng.g);
+                this.realization=this.numberToWord(this.value,this.lang,this.peng.g);
             } else if (opts.ord==true){
-                this.realization=numberToOrdinal(this.value,this.lang,this.peng.g);
+                this.realization=this.numberToOrdinal(this.value,this.lang,this.peng.g);
             } else if (opts.raw==false){
                 this.realization=numberFormatter(this.value,this.lang,opts.mprecision);
             } else { //opts.raw==true
@@ -801,6 +803,44 @@ class Terminal extends Constituent{
         }
         return this.doFormat([this])
     }
+
+    /**
+     * Show a number in words (natural form)
+     * @param {number} number to write as words 
+     * @param {"en"|"fr"} lang language to use
+     * @param {"m"|"f"} gender gender to use (in French only)
+     * @returns string corresponding to the number in words
+     */
+    numberToWord(number, lang, gender) {
+        if (parseInt(number) !== number){
+            this.warn("bad number in word",number)
+            return number+"";
+        }
+        if (lang=="fr" && gender=="f"){
+            if (number==1)return "une";
+            if (number==-1) return "moins une";
+        } 
+        return enToutesLettres(number,lang);
+    };
+
+    /**
+     * Show an ordinal number in words (natural form)
+     * @param {number} number to write as words 
+     * @param {"en"|"fr"} lang language to use
+     * @param {"m"|"f"} gender gender to use (in French only)
+     * @returns string corresponding to the number in words
+     */
+    numberToOrdinal(number,lang,gender){
+        if (parseInt(number) !== number){
+            this.warn("bad ordinal",number)
+            return `[[${number}]]`;
+        } else if (number<=0){
+            this.warn("bad ordinal",number);
+            return `[[${number}]]`;
+        }
+        return ordinal(number,lang, gender);
+    };
+
 
     /**
      * Creates a new copy of this instance by evaluating a string representation of this object

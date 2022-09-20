@@ -356,3 +356,13 @@ tr > th:last-child { border-right: 1px solid #ddd; }
 .disabled {
     color: #454545;
 }
+
+/* patched by Guy Lapalme to "improve" spacing and separation between entries */
+h4{
+    border-top: thin solid black;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+article dl {
+    margin-bottom: 10px;
+}

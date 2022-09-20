@@ -17,7 +17,7 @@ function addNewWords(){
     })
 
     const adverbs=[
-        "when","why","where","super","of","further","twice","for","least"
+        "when","why","where","super","of","further","twice","for","least","o'clock",
     ]
     adverbs.forEach(function(adv){
         addToLexicon(adv,{"Adv":{"tab":"b1"}})

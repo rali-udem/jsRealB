@@ -190,12 +190,21 @@ function parse(udContent,fileName){
             }
         }
         let jsr=udCloned.toDependent(false,isSUD)
-        // if root is a coord, add a dummy root, so that realization will be done correctly
-        if (jsr.isA('coord'))jsr=root(Q(""),jsr)
+        if (jsr.isA('coord'))
+            // if root is a coord, add a dummy root, so that realization will be done correctly
+            jsr=root(Q(""),jsr);
+        else if (!jsr.isA("root"))
+            // force a root
+            jsr.constType="root";
         ud.jsRealBexpr=jsr;
         ud.jsRealBsent=jsr.clone().toString();
         ud.warnings=getSavedWarnings();
         ud.textInMenu=(ud.warnings.length>0?"!":" ")+ud.textInMenu;
+        if (!ud.text.endsWith(".") && ud.jsRealBsent.match(/\. *$/)!=null){
+            // HACK: if the original sentence does not end with a full stop but the jsr realization does, 
+            // remove it from jsr so that it does not count as a difference
+            ud.jsRealBsent=ud.jsRealBsent.replace(/\. *$/,"");
+        }
         ud.diffs=computeDiffs(ud.text,ud.jsRealBsent);
         if (shouldAddToMenu(ud)){
             sentences.append("option").attr("value",i).text(ud.textInMenu);
