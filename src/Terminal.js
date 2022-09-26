@@ -326,7 +326,7 @@ class Terminal extends Constituent{
                     const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
                     if (f == "co"){
                         const comp = specialFRcomp[this.lemma];
-                        return (comp !== undefined)?A(comp).g(g).n(n).toString():"plus "+res;
+                        return (comp !== undefined)?A(comp).g(g).n(n).realize():"plus "+res;
                     }
                     if (f == "su"){
                         const comp = specialFRcomp[this.lemma];
@@ -448,7 +448,7 @@ class Terminal extends Constituent{
     insertReal(terms,newTerminal,position){
         if (newTerminal instanceof Terminal){
             newTerminal.parentConst=this.parentConst;
-            newTerminal.toString(); // use jsRealB to fill the realization field
+            newTerminal.realize(); // use jsRealB to fill the realization field
             if (position==undefined)
                 terms.push(newTerminal);
             else

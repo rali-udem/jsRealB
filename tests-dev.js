@@ -686,41 +686,57 @@ function checkAllExJSON(nomEx,exemples){
     showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
 
-loadFr();
-checkAllEx("exemplesFr",exemplesFr);
-checkAllExDep("exempleFrDep",exemplesFr);
-checkAllExJSON("exemplesFr",exemplesFr);
-checkAllEx("dependancesFr",dependancesFr);
-console.log("----")
+// loadFr();
+// checkAllEx("exemplesFr",exemplesFr);
+// checkAllExDep("exempleFrDep",exemplesFr);
+// checkAllExJSON("exemplesFr",exemplesFr);
+// checkAllEx("dependancesFr",dependancesFr);
+// console.log("----")
+// loadEn();
+// checkAllEx("exemplesEn",exemplesEn);
+// checkAllExDep("exempleEnDep",exemplesEn);
+// checkAllExJSON("exemplesEn",exemplesEn);
+// checkAllEx("dependenciesEn",dependenciesEn)
+
+// // testWarnings()
+// loadEn()
+// addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
+// addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
+// const s=S(NP(D("the"),N("cat")).n("p"),
+//           VP(V("sit").t("ps"),
+//              PP(P("on"),
+//                 NP(D("the"),N("mat"))))).typ({int:"tag",neg:true})
+// test(s)
+// test(coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
+//                     root(V("smack").t('ps'),subj(N("Mary")),
+//                          coord(C("and"),comp(N("butler"),det(D("the"))),
+//                                comp(N("maid"),det(D("the")))))))
+
+// test(constituentEnFr);
+
+// loadFr();
+// test(root(V('travailler').t("pc"),
+//           comp(Adv('bien')),
+//           subj(Pro('je').pe(2))).typ({"mod":"nece"}))
+
+// loadFr();
+// test(S(Pro("tout"),VP(V("sembler").t("pa"),V("fonctionner").t("bp"))))
+// loadEn();
+// test(V("go").t("s"))
+// test(V("go").t("si"))
+Constituent.debug=true;
 loadEn();
-checkAllEx("exemplesEn",exemplesEn);
-checkAllExDep("exempleEnDep",exemplesEn);
-checkAllExJSON("exemplesEn",exemplesEn);
-checkAllEx("dependenciesEn",dependenciesEn)
-
-// testWarnings()
-loadEn()
-addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
-addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
-const s=S(NP(D("the"),N("cat")).n("p"),
-          VP(V("sit").t("ps"),
-             PP(P("on"),
-                NP(D("the"),N("mat"))))).typ({int:"tag",neg:true})
-test(s)
-test(coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
-                    root(V("smack").t('ps'),subj(N("Mary")),
-                         coord(C("and"),comp(N("butler"),det(D("the"))),
-                               comp(N("maid"),det(D("the")))))))
-
-test(constituentEnFr);
-
-loadFr();
-test(root(V('travailler').t("pc"),
-          comp(Adv('bien')),
-          subj(Pro('je').pe(2))).typ({"mod":"nece"}))
-
-loadFr();
-test(S(Pro("tout"),VP(V("sembler").t("pa"),V("fonctionner").t("bp"))))
-loadEn();
-test(V("go").t("s"))
-test(V("go").t("si"))
+test(root(V('move').t("p").pe(3).n("s"),
+          subj(N('star').n("s"),
+               det(D('the')),
+               mod(A('north')).pos("pre")),
+          comp(N('sky').n("s"),
+               mod(P('in')).pos("pre"),
+               det(D('the'))),
+          comp(N('hemisphere').n("s"),
+               mod(P('in')).pos("pre"),
+               det(D('the')),
+               mod(A('northern')).pos("pre")),
+          comp(N('night').n("s"),
+               det(D('each')))).typ({"neg":true,"int":"wad"})
+          )

@@ -28,13 +28,23 @@ const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will no
 // tail +2 lexicon-en|fr.js | jq 'to_entries | map(select(.value|has("P"))|.key )'
 const prepositionsList = {
     "en":{
-        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
-        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past","toward", "towards", "under", "underneath","until","via","within",  ]),
+        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", 
+                        "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", 
+                        "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", 
+                        "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", 
+                        "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", 
+                        "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
+        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", 
+                      "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past",
+                      "toward", "towards", "under", "underneath","until","via","within",  ]),
         "whn":new Set(["after", "before", "during","since",  "till", ]),
     },
     "fr":{
-        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
-        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors","près","sous", "sur", "vers", "via",]),
+        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", 
+                       "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", 
+                       "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
+        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors",
+                       "près","sous", "sur", "vers", "via",]),
         "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
     }
 }

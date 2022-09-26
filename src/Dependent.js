@@ -583,6 +583,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             const subjIdx=this.findIndex(d=>d.isA("subj"));
             if (subjIdx>=0)
                 this.dependents[subjIdx].pos("post")
+        } else if (this.dependents.length==0) { // add "do" when only the terminal is left...
+            this.addDependent(comp(V("do").pe(3).t("p")))
         }
     }
 
@@ -618,12 +620,17 @@ class Dependent extends Constituent {// Dependent (non-terminal)
     /**
      * Process options for interrogative for both French and English
      * @param {Object} types typ options for this Phrase
+     * HACK: in some cases, the start of the search for the first dependent to "remove" 
+     *       is set by the local "hidden" attribute: this.searchStart currently used by 
+     *       variationsFromText
      */
     processTypInt(types){
         const int=types["int"]
         const sentenceTypeInt=getRules(this.lang).sentence_type.int
         const intPrefix=sentenceTypeInt.prefix;
         let prefix,pp; // to be filled later
+        let searchStart = this.searchStart;
+        if (searchStart===undefined) searchStart=0;
         switch (int) {
         case "yon": case "how": case "why": case "muc": 
             if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
@@ -631,7 +638,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             break;
         // remove a part of the sentence 
         case "wos": case "was":// remove subject 
-            let subjIdx=this.findIndex((d)=>d.isA("subj"))
+            let subjIdx=this.findIndex((d)=>d.isA("subj"),searchStart)
             if (subjIdx>=0){
                 // insure that the verb at the third person singular,
                 // because now the subject has been removed
@@ -643,11 +650,17 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             break;
         case "wod": case "wad": // remove direct object (first comp starting with N)
             let cmp;
-            for (let i=0;i<this.dependents.length;i++){
+            for (let i=searchStart;i<this.dependents.length;i++){
                 const d=this.dependents[i];
                 if (d.isA("comp") && d.terminal.isA("N")){
+                    // check if that there are no preposition within its dependents
+                    const pIdx=d.findIndex((d)=>d.terminal.isA("P") && d.getProp("pos")=="pre");
+                    if (pIdx<0){
+                        cmp=this.removeDependent(i)
+                        break;
+                    } 
+                } else { // remove other type of complement
                     cmp=this.removeDependent(i)
-                    break;
                 }
             }
             if (this.isFr()){// check for passive subject starting with par
@@ -666,16 +679,22 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         case "woi": case "wai":case "whe":case "whn": // remove indirect object first comp or mod with a P as terminal
             let remove=false;
             prefix=intPrefix[int];  // get default prefix
-            for (let i=0;i<this.dependents.length;i++){
+            for (let i=searchStart;i<this.dependents.length;i++){
                 const d=this.dependents[i];
-                if (d.isA("comp","mod") && d.terminal.isA("P")){
+                let prep;
+                if (d.terminal.isA("P")){ // preposition is the head
+                    prep=d.terminal.lemma;
+                } else { // a preposition occurs as a dependent and occurs at the start
+                    const pIdx=d.findIndex((d)=>d.terminal.isA("P") && d.getProp("pos")=="pre");
+                    if (pIdx>=0) prep=d.dependents[pIdx].terminal.lemma;
+                }
+                if (d.isA("comp","mod") && prep!==undefined){
                     // try to find a more appropriate prefix by looking at preposition in the structure
-                    let prep=d.terminal.lemma;
                     const preps=prepositionsList[this.lang];
-                    if (int=="whe"){
-                        if (preps["whe"].has(prep))remove=true
-                    } else if (int=="whn"){
-                        if (preps["whn"].has(prep))remove=true
+                    if (int=="whe" && preps["whe"].has(prep)){
+                        remove=true
+                    } else if (int=="whn" && preps["whn"].has(prep)){
+                        remove=true
                     } else if (preps["all"].has(prep)){ // "woi" | "wai"
                         // add the preposition in front of the prefix (should be in the table...)
                         prefix=prep+" "+(this.isEn()?(int=="woi"?"whom":"what")

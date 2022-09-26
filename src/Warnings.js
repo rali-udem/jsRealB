@@ -67,7 +67,7 @@ Constituent.prototype.warn = function(_){
     if (messFns===undefined){
         this.error("warn called with an unknown error message:"+arguments[0])
     }
-    mess=this.me()+":: "+ messFns[lang].apply(null,args).cap(false) // realize the warning 
+    mess=this.me()+":: "+ messFns[lang].apply(null,args).cap(false).realize()
     if (exceptionOnWarning) throw mess;
     if (Array.isArray(savedWarnings))
         savedWarnings.push(mess);

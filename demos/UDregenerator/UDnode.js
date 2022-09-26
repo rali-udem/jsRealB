@@ -355,22 +355,7 @@ class UDnode {
         }
         return applyOptions(coordDep, sentOptions);
     }
-    // Dependent.prototype.transformCopula = function(){
-    //     // change a cop upos to an aux (caution delicate HACK...)
-    //     // it must be done before anything else...
-    //     // this allows creating a sentence of the type root(subj,VP(V(be),...)) from a dependency
-    //     // having a noun or an adjective as root
-    //     if (this.terminal.isA(["N","A"])){
-    //         const copIdx=this.findIndex(d=>d.isA("mod") && d.terminal.lemma=="be" &&
-    //                                     d.getProp("pos")=="pre" && d.dependents.length==0)
-    //         if (copIdx>=0) {
-    //             const cop=this.dependents.splice(copIdx,1)[0].terminal; // remove mod and cop is the terminal
-    //             this.add(new Dependent([this.terminal],"mod"),copIdx);
-    //             this.terminal=cop
-    //         }
-    //     }
-    //     return this;
-    // }
+    
     //  create a dependent by mapping the deprel name to a jsRealB one
     childrenDeps(head, isLeft, isSUD) {
         const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);

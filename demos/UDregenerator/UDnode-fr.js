@@ -161,7 +161,7 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
             newAux.right.unshift(this);
             // push what was before the "old" auxiliary to the front of the new auxiliary
             // as the subject and auxiliary hAve been removed, idx must have been at least 2...
-            if (idx>=1 && dep==this.left){
+            if (idx>=2 && dep==this.left){
                 const auxId=newAux.id;
                 while (this.left.length>0){
                     const x=this.left.pop();

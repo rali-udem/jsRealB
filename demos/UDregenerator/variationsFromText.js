@@ -7,8 +7,8 @@
 //  if the file is already a "conllu", then process it directly
 
 // defaults
-let language="en";  // -l (en|fr)
-let isSUD=false;    // -sud
+let language="en";   // -l (en|fr)
+let isSUD=false;     // -sud
 let questions=false  // -q
 let negation=false   // -n
 let showTrees=false  // -t
@@ -60,6 +60,8 @@ if (fileName==null){
 /// load system tools
 import { existsSync, statSync, readFileSync } from 'fs';
 import { spawn } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 //////// 
 //  load JSrealB
@@ -73,16 +75,26 @@ import { parseUDs } from "./UDregenerator.js";
 await import(`./UDregenerator-${language}.js`);
 import { fixPunctuation } from "./utils.js";
 
-// taken from Phrase.js
+// taken from Lexicon.js
 const prepositionsList = {
     "en":{
-        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
-        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past","toward", "towards", "under", "underneath","until","via","within",  ]),
+        "all":new Set(["about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", "around", 
+                       "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", "beyond", "by", 
+                       "concerning", "considering", "despite", "down", "during", "except", "for", "from", "in", "inside", "into", 
+                       "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", "over", "past", "per", "plus", 
+                       "round", "since", "than", "through", "throughout", "till", "to", "toward", "towards", "under", "underneath", 
+                       "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
+        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", 
+                       "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past",
+                       "toward", "towards", "under", "underneath","until","via","within",  ]),
         "whn":new Set(["after", "before", "during","since",  "till", ]),
     },
     "fr":{
-        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
-        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors","près","sous", "sur", "vers", "via",]),
+        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", 
+                        "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", 
+                        "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
+        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors","près",
+                       "sous", "sur", "vers", "via",]),
         "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
     }
 }
@@ -91,15 +103,23 @@ const preps=prepositionsList[language];
 const fmt="# %s = %s";
 let nbQuestions=0,nbNegations=0;
 
-function generateQuestion(jsr,ansJSR,typ){
+function generateQuestion(jsr,ansJSR,typ,index){
     if (ansJSR.terminal.isA("Pro")) return; // do not generate a question whose answer is a pronoun
-    const question=jsr.clone().typ({"int":typ});
+    const currTyp=jsr.getProp("typ")
+    const question=jsr.clone();
+    question.searchStart=index;
+    if (currTyp==null){
+        question.typ({"int":typ})
+    } else {
+        currTyp["int"]=typ;
+        question.setProp("typ",currTyp)
+    }
     if (showTrees){
         console.log(jsr.toSource(0));
         console.log(question.toSource(0));
         console.log(ansJSR.toSource(0));
     }
-    console.log(fmt,typ.toUpperCase()+" ",clean(question.toString())+" => "+clean(ansJSR.toString()));
+    console.log(fmt,typ.toUpperCase()+" ",clean(question.realize())+" => "+clean(ansJSR.realize()));
     nbQuestions++;
 }
 
@@ -114,7 +134,7 @@ function generateNegation(jsr){
             console.log(jsr.toSource(0));
             console.log(negation.toSource(0));
         }
-        console.log(fmt,"neg ",clean(negation.toString()));
+        console.log(fmt,"neg ",clean(negation.realize()));
         nbNegations++;
     }
 }
@@ -131,35 +151,37 @@ function generateQuestions(jsr){
         jsr1.terminal.setProp("pe",3);
         generateQuestion(jsr1,jsr1.dependents[subjIdx],"was")
     }
-    // object complement 
-    let idx=-1;
-    do {
-        idx=jsr.findIndex(d=>d.isA(["comp","mod"]),idx+1);
-        if (idx>=0){
-            const dep=jsr.dependents[idx];
-            // ignore complements coming before the verb
-            const pos=dep.getProp("pos")||"post"
-            if (pos=="post"){
-                if (dep.isA("comp") && dep.terminal.isA("N")){
-                    // a direct object
-                    generateQuestion(jsr,dep,"wad");
-                } else if (dep.terminal.isA("P")) { 
-                    // it is a mod check for the form (mod (P(prep),comp))
-                    if (dep.dependents.length==1 && dep.dependents[0].isA("comp")){
-                        const prep=dep.terminal.lemma;
-                        // console.log("****prep:",prep)
-                        const indirObj=dep.dependents[0]
-                        if (preps["whe"].has(prep))
-                            generateQuestion(jsr,indirObj,"whe");
-                        else if (preps["whn"].has(prep))
-                            generateQuestion(jsr,indirObj,"whn");
-                        else
-                            generateQuestion(jsr,indirObj,"wai");
-                    }
-                }
+    // HACK: given the fact that jsRealB considers only the "first" matching dependent
+    //       when creating a question, it will not generate appropriate questions in the
+    //       case of more than one complement such as
+    //         The north star does not move [in the sky] [in the northern hemisphere] [during the night].
+    //       So when there are more than one complements, we change the startind index so that jsRealB 
+    //       picks it and "remove" it
+    for (let index=0;index<jsr.dependents.length;index++){
+        const dep = jsr.dependents[index];
+        const pos=dep.getProp("pos")||"post";
+        // ignore complements coming before the verb
+        if (pos=="post"){
+            if (dep.isA("comp","mod")){
+                let prep;
+                if (dep.isA("P")){ // preposition is the head
+                    prep=dep.terminal.lemma;
+                } else { // a preposition occurs as a dependent and occurs at the start
+                    const pIdx=dep.findIndex((d)=>d.terminal.isA("P") && d.getProp("pos")=="pre");
+                    if (pIdx>=0) prep=dep.dependents[pIdx].terminal.lemma;
+                }    
+                if (prep!==undefined){
+                    if (preps["whe"].has(prep))
+                        generateQuestion(jsr,dep,"whe",index);
+                    else if (preps["whn"].has(prep))
+                        generateQuestion(jsr,dep,"whn",index);
+                    else
+                        generateQuestion(jsr,dep,"wai",index);
+                } else
+                generateQuestion(jsr,dep,"wad",index);
             }
         }
-    } while (idx>=0);
+    }
 }
 
 function clean(s){
@@ -191,18 +213,18 @@ function generate(conlluFile){
             isCoord=true;
         }
         const jsRealBexpr=jsr;       // :: string à évaluer
-        console.log(fmt, "TEXT",clean(jsRealBexpr.clone().toString()));
+        console.log(fmt, "TEXT",clean(jsRealBexpr.clone().realize()));
         // console.log(jsRealBexpr.toSource(0));
         if (jsr.terminal.isA("V")){ // ignore sentence whose root is not a verb
             if (questions) generateQuestions(jsr);
             if (negation)  generateNegation(jsr);
         } else if (isCoord){
-            for (d of jsr.dependents) {
+            for (let d of jsr.dependents) {
                     if (questions)generateQuestions(d);
                     if (negation) generateNegation(d);
             }
         } else {
-            console.log(fmt,"ERR ","Question cannot be created from a "+jsr.constType);
+            console.log(fmt,"ERR ","Question cannot be created from a root "+jsr.terminal.constType);
             if (showTrees)
                 console.log(jsr.toSource(0));
         }
@@ -220,7 +242,9 @@ function processing(){
         if (!existsSync(conlluFileName) || statSync(conlluFileName).mtime<statSync(fileName).mtime){
             console.error("*** Creating %s",conlluFileName)
             // create conllu file
-            const child = spawn("./demos/UDregenerator/text2ud.py",[language, fileName])
+            const __filename = fileURLToPath(import.meta.url);
+            const __dirname = path.dirname(__filename);
+            const child = spawn(`${__dirname}/text2ud.py`,[language, fileName])
             child.on("exit",function(code,signal){
                 if (code==0){
                     console.error("*** Wrote  %s",conlluFileName);
@@ -239,4 +263,5 @@ function processing(){
     }
 }
 
+Constituent.debug=true;
 processing();

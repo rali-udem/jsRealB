@@ -310,7 +310,7 @@ function updateRealization(){
     resetSavedWarnings();
     const content=editor.getValue();
     currentUD.jsRealBexpr=eval(content);
-    let realization=currentUD.jsRealBexpr.toString();
+    let realization=currentUD.jsRealBexpr.realize();
     currentUD.warnings=getSavedWarnings();
     currentUD.jsRealBsent=fixPunctuation(realization);
     currentUD.diffs=computeDiffs(currentUD.text,realization);

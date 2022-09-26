@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "variationsFromText",
+            "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
+            "args": ["-q","demos/UDregenerator/variations-data/selection_wiki.txt"],
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Personage/Personage.js",

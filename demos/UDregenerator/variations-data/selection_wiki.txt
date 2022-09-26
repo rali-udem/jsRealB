@@ -1,0 +1,200 @@
+Physics is one of the most fundamental scientific disciplines, and its main goal is to understand how the universe behaves.
+Physics is one of the oldest academic disciplines and, through its inclusion of astronomy, perhaps the oldest.
+Physics intersects with many interdisciplinary areas of research, such as biophysics and quantum chemistry, and the boundaries of physics are not rigidly defined.
+New ideas in physics often explain the fundamental mechanisms studied by other sciences and suggest new avenues of research in academic disciplines such as mathematics and philosophy.
+Advances in physics often enable advances in new technologies.
+The theory proposes a theory of quantum gravity in which gravity is not quantized.
+In the theory, the characteristic feature of quantum mechanics, namely indeterminacy, arises through inherent degeneracy in the mapping between one dimensional time and matter fields embedded in four dimensional space time.
+In not quantizing gravity the theory contrasts with loop quantum gravity and string theory which both imply that gravity is quantized.
+The theory offers a potential resolution to the measurement problem and other conceptual issues of quantum mechanics.
+According to the theory, the indeterminism of any interaction is a property of the entire physical arena, including setup of the measurement apparatus.
+Since quantum field theory is postulated to be limiting case, other apparent paradoxes of quantum mechanics are likely a result of applying the approximation beyond its domain of validity.
+All perfect crystals, perfect quasicrystals and special disordered systems are hyperuniform.
+Quantitatively, a many-particle system is hyperuniform if the variance of the number of points within a spherical observation window grows more slowly than the volume of the observation window.
+They can be obtained via equilibrium or nonequilibrium routes, and are found in both classical physical and quantum-mechanical systems.
+Tensor networks or tensor network states are a class of variational wave functions used in the study of many-body quantum systems.
+Tensor networks extend one-dimensional matrix product states to higher dimensions while preserving some of their useful mathematical properties.
+The wave function is encoded as a tensor contraction of a network of individual tensors.
+The structure of the individual tensors can impose global symmetries on the wave function  or restrict the wave function to specific quantum numbers, like total charge, angular momentum, or spin.
+They have also proved useful in variational studies of ground states, excited states, and dynamics of strongly correlated many-body systems.
+By transformation, mathematicians usually refer to active transformations, while physicists and engineers could mean either.
+Both types of transformation can be represented by a combination of a translation and a linear transformation.
+Put differently, a passive transformation refers to description of the same object in two different coordinate systems.
+On the other hand, an active transformation is a transformation of one or more objects with respect to the same coordinate system.
+For instance, active transformations are useful to describe successive positions of a rigid body.
+In physics and mathematics, an ansatz  is an educated guess or an additional assumption made to help solve a problem, and which is later verified to be part of the solution by its results.
+Asymptotic safety  is a concept in quantum field theory which aims at finding a consistent and predictive quantum theory of the gravitational field.
+Although originally proposed by Steven Weinberg to find a theory of quantum gravity, the idea of a nontrivial fixed point providing a possible UV completion can be applied also to other field theories, in particular to perturbatively nonrenormalizable ones.
+The requirement of a UV fixed point restricts the form of the bare action and the values of the bare coupling constants, which become predictions of the asymptotic safety program rather than inputs.
+At the present time, there is accumulating evidence for a fixed point suitable for asymptotic safety, while a rigorous proof of its existence is still lacking.
+The idea was later adopted and extended by Albert Einstein in collaboration with Bose.
+There must also be no significant interaction between the particles.
+Causality is the relationship between causes and effects.
+Similarly, a cause cannot have an effect outside its future light cone.
+The osculating circle to the curve is centered at the centre of curvature.
+Cauchy defined the center of curvature C as the intersection point of two infinitely close normal lines to the curve.
+The locus of centers of curvature for each point on the curve comprise the evolute of the curve.
+A system of hard spheres, interacting only by hard collisions , is a model classical fluid.
+Electrolytes, molten salts, salts dissolved in water, are classical charged fluids.
+A classical fluid when cooled undergoes a freezing transition.
+A system of charged classical particles moving in a uniform positive neutralizing background is known as a one-component plasma .
+An essentially very accurate way of determining the properties of classical fluids is provided by the method of molecular dynamics.
+An electron gas confined in a metal is not a classical fluid, whereas a very high-temperature plasma of electrons could behave as a classical fluid.
+Two-dimensional rotation can occur in two possible directions.
+The opposite sense of rotation or revolution is  anticlockwise  or  counterclockwise .
+In physics, two wave sources are perfectly coherent if their frequency and waveform are identical and their phase difference is constant.
+More generally, coherence describes all properties of the correlation between physical quantities of a single wave, or between several waves or wave packets.
+Interference is the addition, in the mathematical sense, of wave functions.
+Constructive or destructive interferences are limit cases, and two waves always interfere, even if the result of the addition is complicated or not remarkable.
+When interfering, two waves can add together to create a wave of greater amplitude than either one  or subtract from each other to create a wave of lesser amplitude than either one , depending on their relative phase.
+Two waves are said to be coherent if they have a constant relative phase.
+Spatial coherence describes the correlation  between waves at different points in space, either lateral or longitudinal.
+Temporal coherence describes the correlation between waves observed at different moments in time.
+Once the fringes are obtained in the Michelson interferometer, when one of the mirrors is moved away gradually, the time for the beam to travel increases and the fringes become dull and finally disappear, showing temporal coherence.
+Similarly, if in a double-slit experiment, the space between the two slits is increased, the coherence dies gradually and finally the fringes disappear, showing spatial coherence.
+In both cases, the fringe amplitude slowly disappears, as the path difference increases past the coherence length.
+Coherent structures are typically studied on very large scales, but can be broken down into more elementary structures with coherent properties of their own, such examples include hairpin vortices.
+Hairpins and coherent structures have been studied and noticed in data since the 1930s, and have been since cited in thousands of scientific papers and reviews.
+Flow visualization experiments, using smoke and dye as tracers, have been historically used to simulate coherent structures and verify theories, but computer models are now the dominant tools widely used in the field to verify and understand the formation, evolution, and other properties of such structures.
+Most coherent structures are studied only within the confined forms of simple wall turbulence, which approximates the coherence to be steady, fully developed, incompressible, and with a zero pressure gradient in the boundary layer.
+Although such approximations depart from reality, they contain sufficient parameters needed to understand turbulent coherent structures in a highly conceptual degree.
+In mathematics, a binary operation is commutative if changing the order of the operands does not change the result.
+In particle physics, composite Higgs models  are speculative extensions of the Standard Model  where the Higgs boson is a bound state of new strong interactions.
+Microscopically the composite Higgs will be made of smaller constituents in the same way as nuclei are made of protons and neutrons.
+A proof can be found in the entry Proofs involving covariant derivatives.
+In the Einstein field equations, the contracted Bianchi identity ensures consistency with the vanishing divergence of the matter stress-energy tensor.
+In physics, a covariance group is a group of coordinate transformations between frames of reference .
+Special relativity considers observers in inertial frames, and the covariance group consists of rotations, velocity boosts, and the parity transformation.
+In practice the equations for electromagnetic and strong interactions are invariant, while the weak interaction is not invariant under the parity transformation.
+For example, the Maxwell equation is invariant, while the corresponding equation for the weak field explicitly contains left currents and thus is not invariant under the parity transformation.
+In general relativity the covariance group consists of all arbitrary  coordinate transformations.
+Thus, if the microstates are uniformly distributed in phase space initially, they will remain so at all times.
+The ergodic hypothesis is often assumed in the statistical analysis of computational physics.
+Ergodic systems are studied in ergodic theory.
+Vectors can be added to other vectors according to vector algebra.
+The magnitude of the vector is the distance between the two points, and the direction refers to the direction of displacement from A to B.
+Many algebraic operations on real numbers such as addition, subtraction, multiplication, and negation have close analogues for vectors, operations which obey the familiar algebraic laws of commutativity, associativity, and distributivity.
+Many other physical quantities can be usefully thought of as vectors.
+Although most of them do not represent distances , their magnitude and direction can still be represented by the length and direction of an arrow.
+In theoretical physics, a Feynman diagram is a pictorial representation of the mathematical expressions describing the behavior and interaction of subatomic particles.
+The scheme is named after American physicist Richard Feynman, who introduced the diagrams in 1948.
+While the diagrams are applied primarily to quantum field theory, they can also be used in other fields, such as solid-state theory.
+Thus, antiparticles are represented as moving backward along the time axis in Feynman diagrams.
+The calculation of probability amplitudes in theoretical particle physics requires the use of rather large and complicated integrals over a large number of variables.
+A Feynman diagram is a graphical representation of a perturbative contribution to the transition amplitude or correlation function of a quantum mechanical or statistical field theory.
+Alternatively, the path integral formulation of quantum field theory represents the transition amplitude as a weighted sum of all possible histories of the system from the initial to the final state, in terms of either particles or fields.
+The transition amplitude is then given as the matrix element of the S-matrix between the initial and the final states of the quantum system.
+Inspiration to study the effects of  elasticity are taken from nature, where plants, such as black pepper, and animals living at the water surface have evolved to take advantage of the load-bearing benefits elasticity imparts.
+In special relativity, a four-vector  is an object with four components, which transform in a specific way under Lorentz transformation.
+Specifically, a four-vector is an element of a four-dimensional vector space considered as a representation space of the standard representation of the Lorentz group, the  representation.
+However, for the Lorentz group the dual of any representation is equivalent to the original representation.
+Thus the objects with covariant indices are four-vectors as well.
+The article considers four-vectors in the context of special relativity.
+In 2015, new general-relativistic extensions of Newtonian rotation laws were formulated to describe geometric dragging of frames which incorporates a newly discovered antidragging effect.
+In physics, a front can be understood as an interface between two different possible states  in a physical system.
+For example, a weather front is the interface between two different density masses of air, in combustion where the flame is the interface between burned and unburned material or in population dynamics where the front is the interface between populated and unpopulated places.
+From a mathematical point of view, fronts are solutions of spatially extended systems connecting two steady states, and from dynamical systems point of view, a front corresponds to a heteroclinic orbit of the system in the co-mobile frame .
+Another is atomic magnetic moments with antiferromagnetic interactions.
+In the case of two dimensional space, the triangular lattice is the simplest example of such frustration.
+With a triangular lattice, the two spins can easily accommodate two sides, but the third spin is frustrated.
+A uniform electric field  would be compatible with homogeneity .
+A material constructed with different constituents can be described as effectively homogeneous in the electromagnetic materials domain, when interacting with a directed radiation field .
+In mathematics and physics, the Legendre transformation, named after Adrien-Marie Legendre, is an involutive transformation on the real-valued convex functions of one real variable.
+In systems theory, a linear system is a mathematical model of a system based on the use of a linear operator.
+As a mathematical abstraction or idealization, linear systems find important applications in automatic control theory, signal processing, and telecommunications.
+For example, the propagation medium for wireless communication systems can often bemodeled by linear systems.
+In astronomy, long-slit spectroscopy involves observing a celestial object using a spectrograph in which the entrance aperture is an elongated, narrow slit.
+Light entering the slit is then refracted using a prism, diffraction grating, or grism.
+The dispersed light is typically recorded on a charge-coupled device detector.
+In a relativistic theory of physics, a Lorentz scalar is an expression, formed from items of the theory, which evaluates to a scalar, invariant under any Lorentz transformation.
+While the components of vectors and tensors are in general altered under Lorentz transformations, Lorentz scalars remain unchanged.
+A Lorentz scalar is not always immediately seen to be an invariant scalar in the mathematical sense, but the resulting scalar value is invariant under any basis transformation applied to the vector space, on which the considered theory is based.
+A simple Lorentz scalar in Minkowski spacetime is the spacetime distance  of two fixed events in spacetime.
+In electromagnetism, the Lorenz gauge condition or Lorenz gauge  is a partial gauge fixing of the electromagnetic vector potential.
+The Lorenz condition is used to eliminate the redundant spin-0 component in the  representation theory of the Lorentz group.
+The Lorenz condition is named after Ludvig Lorenz.
+The macroscopic scale is the length scale on which objects or phenomena are large enough to be visible with the naked eye, without magnifying optical instruments.
+In other words, an object with a mass of 1.
+Objects on the surface of the Earth have weight, although sometimes the weight is difficult to measure.
+Similarly, a balloon has mass but may appear to have no weight or even negative weight, due to buoyancy in air.
+The weight of a flying airplane is similarly distributed to the ground, but does not disappear.
+If the airplane is in level flight, the same weight-force is distributed to the surface of the Earth as when the plane was on the runway, but spread over a larger area.
+A better scientific definition of mass is its description as being a measure of inertia, which is the tendency of an object to not change its current state of motion  unless acted on by an external unbalanced force.
+Such a force constitutes weight.
+While the weight of an object varies in proportion to the strength of the gravitational field, its mass is constant, as long as no energy or matter is added to the object.
+In MFT, the effect of all the other individuals on any given individual is approximated by a single averaged effect, thus reducing a many-body problem to a one-body problem.
+The main idea of MFT is to replace all interactions to any one body with an average or effective interaction, sometimes called a molecular field.
+MFT has since been applied to a wide range of fields outside of physics, including statistical inference, graphical models, neuroscience, artificial intelligence, epidemic models, queueing theory, computer-network performance and game theory, as in the quantal response equilibrium.
+Mean inter-particle distance  is the mean distance between microscopic particles  in a macroscopic body.
+In the same way as a dot product, metric tensors are used to define the length of and angle between tangent vectors.
+Through integration, the metric tensor allows one to define and compute the length of curves on the manifold.
+Thus the metric tensor gives the infinitesimal distance on the manifold.
+The metric tensor is an example of a tensor field.
+The components of a metric tensor in a coordinate basis take on the form of a symmetric matrix whose entries transform covariantly under changes to the coordinate system.
+Thus a metric tensor is a covariant symmetric tensor.
+In physics, the microscopic scale is sometimes regarded as the scale between the macroscopic scale and the quantum scale.
+Microscopic units and measurements are used to classify and describe very small objects.
+One common microscopic length scale unit is the micrometre  , which is one millionth of a metre.
+They are sometimes accompanied by an equation of state relating pressure, temperature  and density.
+They may be used to model the weather, ocean currents, water flow in a pipe and air flow around a wing.
+The rate is expressed in units such as revolutions  per second  or radian/second .
+Since 1997, the theorem has been studied by Donald Lynden-Bell and collaborators.
+Its first exact extension came in 2000 with the work of Mahomed and Vawda.
+A node is a point along a standing wave where the wave has minimum amplitude.
+For instance, in a vibrating guitar string, the ends of the string are nodes.
+By changing the position of the end node through frets, the guitarist changes the effective length of the vibrating string and thereby the note played.
+The opposite of a node is an anti-node, a point where the amplitude of the standing wave is at maximum.
+In particular, dissipative systems with continuous symmetries need not have a corresponding conservation law.
+The most familiar non-contact force is gravity, which confers weight.
+The force exerted on each body by the other through weight is proportional to the mass of the first body times the mass of the second body divided by the square of the distance between them.
+Electromagnetism mediates all chemical, biological, electrical and electronic processes.
+The strong nuclear force mediates both nuclear fission and fusion reactions.
+Both the strong and weak forces form an important part of quantum mechanics.
+The Casimir effect could also be thought of as a non-contact force.
+In mathematics and science, a nonlinear system is a system in which the change of the output is not proportional to the change of the input.
+Nonlinear problems are of interest to engineers, biologists, physicists, mathematicians, and many other scientists because most systems are inherently nonlinear in nature.
+Nonlinear dynamical systems, describing changes in variables over time, may appear chaotic, unpredictable, or counterintuitive, contrasting with much simpler linear systems.
+Typically, the behavior of a nonlinear system is described in mathematics by a nonlinear system of equations, which is a set of simultaneous equations in which the unknowns  appear as variables of a polynomial of degree higher than one or in the argument of a function which is not a polynomial of degree one.
+Systems can be defined as nonlinear, regardless of whether known linear functions appear in the equations.
+As nonlinear dynamical equations are difficult to solve, nonlinear systems are commonly approximated by linear equations .
+For example, some aspects of the weather are seen to be chaotic, where simple changes in one part of the system produce complex effects throughout.
+Some authors use the term nonlinear science for the study of nonlinear systems.
+Some interpretations of quantum mechanics posit a central role for an observer of a quantum phenomenon.
+The quantum mechanical observer is tied to the issue of observer effect, where a measurement necessarily requires interacting the physical object being measured, affecting its properties through the interaction.
+A number of new-age religious or philosophical views give the observer a more special role, or place constraints on who or what can be an observer.
+Far from involving any special intricacy, the irreversible amplification effects on which the recording of the presence of atomic objects rests rather remind us of the essential irreversibility inherent in the very concept of observation.
+Unlike previous methods, the path integral allows one to easily change coordinates between very different canonical descriptions of the same quantum system.
+The path-integral approach has been proved to be equivalent to the other formalisms of quantum mechanics and quantum field theory.
+Thus, by deriving either approach from the other, problems associated with one or the other approach  go away.
+The basic idea of the path integral formulation can be traced back to Norbert Wiener, who introduced the Wiener integral for solving problems in diffusion and Brownian motion.
+The complete method was developed in 1948 by Richard Feynman.
+Some preliminaries were worked out earlier in his doctoral work under the supervision of John Archibald Wheeler.
+If two fermions were in the same state , interchanging them would change nothing and the total wave function would be unchanged.
+In mathematics and physics and chemistry , perturbation theory comprises mathematical methods for finding an approximate solution to a problem, by starting from the exact solution of a related, simpler problem.
+Perturbation theory is used in a wide range of fields, and reaches its most sophisticated and advanced forms in quantum field theory.
+The field in general remains actively and heavily researched across multiple disciplines.
+In the physical sciences, a phase is a region of space , throughout which all physical properties of a material are essentially uniform.
+Examples of physical properties include density, index of refraction, magnetization and chemical composition.
+In a system consisting of ice and water in a glass jar, the ice cubes are one phase, the water is a second phase, and the humid air is a third phase over the ice and water.
+The glass of the jar is another separate phase.
+The term phase is sometimes used as a synonym for state of matter, but there can be several immiscible phases of the same state of matter.
+Also, the term phase is sometimes used to refer to a set of equilibrium states demarcated in terms of state variables such as pressure and temperature by a phase boundary on a phase diagram.
+However, the state of matter and phase diagram usages are not commensurate with the formal definition given above and the intended meaning must be determined in part from the context in which the term is used.
+In dynamical system theory, a phase space is a space in which all possible states of a system are represented, with each possible state corresponding to one unique point in the phase space.
+For mechanical systems, the phase space usually consists of all possible values of position and momentum variables.
+Rayleigh scattering , named after the nineteenth-century British physicist Lord Rayleigh , is the predominantly elastic scattering of light or other electromagnetic radiation by particles much smaller than the wavelength of the radiation.
+For light frequencies well below the resonance frequency of the scattering particle , the amount of scattering is inversely proportional to the fourth power of the wavelength.
+Rayleigh scattering results from the electric polarizability of the particles.
+The oscillating electric field of a light wave acts on the charges within a particle, causing them to move at the same frequency.
+The particle, therefore, becomes a small radiating dipole whose radiation we see as scattered light.
+Sunlight is also subject to Raman scattering, which changes the rotational state of the molecules and gives rise to polarization effects.
+Scattering by particles with a size comparable to or larger than the wavelength of the light is typically treated by the Mie theory, the discrete dipole approximation and other computational techniques.
+Anomalous diffraction theory applies to optically soft but larger particles.
+In common usage, a physical object or physical body  is a collection of matter within a defined contiguous boundary in three-dimensional space.
+The boundary must be defined and identified by the properties of the material.
+The boundary may change over time.
+The boundary is usually the visible or tangible surface of the object.
+The matter in the object is constrained  to move as one object.
+Also in common usage, an object is not constrained to consist of the same collection of matter.
+Atoms or parts of an object may change over time.
+An object is defined by the simplest representation of the boundary consistent with the observations.

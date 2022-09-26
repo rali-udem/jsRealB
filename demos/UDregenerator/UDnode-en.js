@@ -60,7 +60,7 @@ UDnode.prototype.toTerminal = function(){
         }
         if (udLemma in options){
             const [pe,n,g]=options[udLemma];
-            let det=D("my").pe(pe).n(n)
+            let det=D("my").pe(pe).ow(n)
             if (g!==null)det.g(g);
             return det
         }
@@ -187,8 +187,8 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
             this.deprel="xcomp"; // change this to the complement of the new auxiliary
             newAux.right.unshift(this);
             // push what was before the "old" auxiliary to the front of the new auxiliary
-            // as the subject and auxiliary hAve been removed, idx must have been at least 2...
-            if (idx>=1 && dep==this.left){
+            // as the subject and auxiliary have been removed, idx must have been at least 2...
+            if (idx>=2 && dep==this.left){
                 const auxId=newAux.id;
                 while (this.left.length>0){
                     const x=this.left.pop();
@@ -209,11 +209,11 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
     }
     
     let headTerm=this.toTerminal();
-    // check infinitive (remove the PART and add "to " in front of the verb)
+    // check infinitive (remove the PART and change infinitive to "b-to")
     let n=this.left.length;
-    if (n>0 && this.left[n-1].getLemma()=="to" && headTerm.isA("V")){
+    if (n>0 && this.left[n-1].getLemma()=="to" && headTerm.isA("V") && headTerm.getProp("t")=="b"){
         this.left.splice(n-1,1);
-        headTerm.b("to ");
+        headTerm.t("b-to");
     }
     
     // check future tense

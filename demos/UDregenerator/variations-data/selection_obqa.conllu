@@ -876,16 +876,13 @@
 6	vacuum	vacuum	NOUN	NN	Number=Sing	3	obl	_	_
 
 # sent_id = 67.0
-# text = the earth rotates on its axis on its axis
+# text = the earth rotates on its axis
 1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
 2	earth	earth	NOUN	NN	Number=Sing	3	nsubj	_	_
 3	rotates	rotate	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	_
 4	on	on	ADP	IN	_	6	case	_	_
 5	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	6	nmod:poss	_	_
 6	axis	axis	NOUN	NN	Number=Sing	3	obl	_	_
-7	on	on	ADP	IN	_	9	case	_	_
-8	its	its	PRON	PRP$	Gender=Neut|Number=Sing|Person=3|Poss=Yes|PronType=Prs	9	nmod:poss	_	_
-9	axis	axis	NOUN	NN	Number=Sing	3	obl	_	_
 
 # sent_id = 68.0
 # text = melting is when solids are heated above their melting point
@@ -2498,7 +2495,7 @@
 10	animals	animal	NOUN	NNS	Number=Plur	6	obl	_	_
 
 # sent_id = 190.0
-# text = the north star does not move in the sky in the northern hemisphere each night
+# text = the north star does not move in the sky in the northern hemisphere during the night
 1	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	_
 2	north	north	ADJ	JJ	Degree=Pos	3	amod	_	_
 3	star	star	NOUN	NN	Number=Sing	6	nsubj	_	_
@@ -2512,8 +2509,9 @@
 11	the	the	DET	DT	Definite=Def|PronType=Art	13	det	_	_
 12	northern	northern	ADJ	JJ	Degree=Pos	13	amod	_	_
 13	hemisphere	hemisphere	NOUN	NN	Number=Sing	6	obl	_	_
-14	each	each	DET	DT	_	15	det	_	_
-15	night	night	NOUN	NN	Number=Sing	6	obl:tmod	_	_
+14	during	during	ADP	IN	_	16	case	_	_
+15	the	the	DET	DT	Definite=Def|PronType=Art	16	det	_	_
+16	night	night	NOUN	NN	Number=Sing	6	obl	_	_
 
 # sent_id = 191.0
 # text = some animals shed fur in warm weather
