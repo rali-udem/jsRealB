@@ -4,6 +4,10 @@ QUnit.test( "English elision", function( assert ) {
     loadEn();
     var elisionTestsEn=[
         [NP(D("a"),N("apple")),"an apple"],
+        [CP(C("or"),NP(D("a"),N("elevator")),NP(D("a"),N("eucalyptus"))),
+           "an elevator or a eucalyptus"],
+        [CP(C("and"),NP(D("a"),N("one"),N("way")),
+                     NP(D("a"),N("overpass"))),"a one way and an overpass"],
         [S(VP(V("eat"),NP(D("a"),N("apple").tag("a",{"href":'https:en.wikipedia.org/wiki/Apple'})))),
          "Eats an <a href=\"https:en.wikipedia.org/wiki/Apple\">apple</a>. "],
         [NP(NO(123),N("man")).tag("i").tag("p"),"<p><i>123 men</i></p>"],

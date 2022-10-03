@@ -601,7 +601,7 @@ const constituentEnFr=
 
 
 function showEx(exemple){
-    console.log(exemple[0]+"")
+    console.log(exemple[0].realize())
 }
 
 function testAllEx(fn,exemples){
@@ -638,7 +638,7 @@ function checkAllEx(nomEx,exemples){
     for (var i=0;i<nb;i++){
         const exp=exemples[i][0].clone();
         // console.log(exp.toSource());
-        const gen=exp.toString();
+        const gen=exp.realize();
         const expected=exemples[i][1];
         if (expected!==null && gen!=expected){
             console.log("%d:%s\n => %s\n ** %s",i,exp.toSource(),gen,expected)
@@ -659,7 +659,7 @@ function checkAllExDep(nomEx,exemples){
             const exp=exemples[i][0].clone();
             const dep=exp.toDependent();
             // show(dep);
-            const gen=dep.toString();
+            const gen=dep.realize();
             const expected=exemples[i][1];
             if (expected!==null && gen!=expected){
                 console.log("%d:%s\n %s\n => %s\n ** %s",i,exp.toSource(),dep.toSource(),gen,expected)
@@ -676,7 +676,7 @@ function checkAllExJSON(nomEx,exemples){
     let nbDiffs=0;
     for (var i=0;i<nb;i++){
         const expJS=exemples[i][0].toJSON();
-        const genJS=fromJSON(expJS).toString();
+        const genJS=fromJSON(expJS).realize();
         const expected=exemples[i][1];
         if (expected!==null && genJS!=expected){
             console.log("%d:%s\n => %s\n ** %s",i,ppJSON(expJS),genJS,expected)
@@ -685,51 +685,59 @@ function checkAllExJSON(nomEx,exemples){
     }
     showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
-
-// loadFr();
-// checkAllEx("exemplesFr",exemplesFr);
-// checkAllExDep("exempleFrDep",exemplesFr);
-// checkAllExJSON("exemplesFr",exemplesFr);
-// checkAllEx("dependancesFr",dependancesFr);
-// console.log("----")
-// loadEn();
-// checkAllEx("exemplesEn",exemplesEn);
-// checkAllExDep("exempleEnDep",exemplesEn);
-// checkAllExJSON("exemplesEn",exemplesEn);
-// checkAllEx("dependenciesEn",dependenciesEn)
-
-// // testWarnings()
-// loadEn()
-// addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
-// addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
-// const s=S(NP(D("the"),N("cat")).n("p"),
-//           VP(V("sit").t("ps"),
-//              PP(P("on"),
-//                 NP(D("the"),N("mat"))))).typ({int:"tag",neg:true})
-// test(s)
-// test(coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
-//                     root(V("smack").t('ps'),subj(N("Mary")),
-//                          coord(C("and"),comp(N("butler"),det(D("the"))),
-//                                comp(N("maid"),det(D("the")))))))
-
-// test(constituentEnFr);
-
-// loadFr();
-// test(root(V('travailler').t("pc"),
-//           comp(Adv('bien')),
-//           subj(Pro('je').pe(2))).typ({"mod":"nece"}))
-
-// loadFr();
-// test(S(Pro("tout"),VP(V("sembler").t("pa"),V("fonctionner").t("bp"))))
-// loadEn();
-// test(V("go").t("s"))
-// test(V("go").t("si"))
 Constituent.debug=true;
+
+loadFr();
+checkAllEx("exemplesFr",exemplesFr);
+checkAllExDep("exempleFrDep",exemplesFr);
+checkAllExJSON("exemplesFr",exemplesFr);
+checkAllEx("dependancesFr",dependancesFr);
+console.log("----")
+loadEn();
+checkAllEx("exemplesEn",exemplesEn);
+checkAllExDep("exempleEnDep",exemplesEn);
+checkAllExJSON("exemplesEn",exemplesEn);
+checkAllEx("dependenciesEn",dependenciesEn)
+
+
+// testWarnings()
+loadEn()
+addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
+const s=S(NP(D("the"),N("cat")).n("p"),
+          VP(V("sit").t("ps"),
+             PP(P("on"),
+                NP(D("the"),N("mat"))))).typ({int:"tag",neg:true})
+test(s)
+test(coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
+                    root(V("smack").t('ps'),subj(N("Mary")),
+                         coord(C("and"),comp(N("butler"),det(D("the"))),
+                               comp(N("maid"),det(D("the")))))))
+
+test(constituentEnFr);
+
+loadFr();
+test(root(V('travailler').t("pc"),
+          comp(Adv('bien')),
+          subj(Pro('je').pe(2))).typ({"mod":"nece"}))
+
+loadFr();
+test(S(Pro("tout"),VP(V("sembler").t("pa"),V("fonctionner").t("bp"))))
+loadEn();
+test(V("go").t("s"))
+test(V("go").t("si"))
+
+loadFr();
+test(root(V("manger").t("pc"),
+          subj(N("souris"),
+               det(D("le"))),
+          comp(N("fromage"),
+               det(D("le")))).typ({int:"wad",pas:true}))
 loadEn();
 test(root(V('move').t("p").pe(3).n("s"),
           subj(N('star').n("s"),
                det(D('the')),
-               mod(A('north')).pos("pre")),
+               mod(N('north')).pos("pre")),
           comp(N('sky').n("s"),
                mod(P('in')).pos("pre"),
                det(D('the'))),
@@ -740,3 +748,5 @@ test(root(V('move').t("p").pe(3).n("s"),
           comp(N('night').n("s"),
                det(D('each')))).typ({"neg":true,"int":"wad"})
           )
+test(CP(C("or"),NP(D("a"),N("elevator")),NP(D("a"),N("eucalyptus"))))
+ 

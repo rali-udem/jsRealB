@@ -38,7 +38,7 @@ class Phrase extends Constituent{
                     this.addElement(e);
                     this.elementsSource.push(e);
                 } else {
-                    this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"",typeof e+":"+JSON.stringify(e))
+                    this.warn("bad Constituent",NO(i+1).dOpt({ord:true}).realize(),typeof e+":"+JSON.stringify(e))
                 }
             }
             // terminate the list with add which does other checks on the final list
@@ -64,7 +64,7 @@ class Phrase extends Constituent{
                 this.warn("bad position",position,this.elements.length)
             }
         } else {
-            this.warn("bad Constituent",NO(position+1).dOpt({ord:true})+"",typeof elem)
+            this.warn("bad Constituent",NO(position+1).dOpt({ord:true}).realize(),typeof elem)
         }
         return this
     }

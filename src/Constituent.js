@@ -342,8 +342,10 @@ class Constituent {
             var w1=m1[2];
             var w2=m2[2];
             if ((w1=="a"||w1=="A") && cList[i].isA("D")){
-                if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
-                    (/^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
+                if (/^[ai]/i.exec(w2) ||   // starts with a or i
+                    (/^e/i.exec(w2) && !/^eu/i.exec(w2) || // starts with e but not eu
+                     /^o/i.exec(w2) && !/^onc?e/.exec(w2) || // starts with o but not one or once
+                     /^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
                     hAnRE.exec(w2) ||       // silent h
                     acronymRE.exec(w2)) {   // is an acronym
                         cList[i].realization=m1[1]+w1+"n"+m1[3];

@@ -27,17 +27,17 @@
             ],
             "outputCapture": "std"
         },
-        {
+        {  // launch with http-server -c-1
             "type": "chrome",
             "name": "web-dev.html",
             "request": "launch",
-            "url": "http://0.0.0.0:8080/web-dev.html"
+            "url": "http://127.0.0.1:8080/web-dev.html"
         },
-        {
+        { // launch with http-server -c-1
             "type": "chrome",
             "name": "Tests/testAll.html",
             "request": "launch",
-            "url": "http://0.0.0.0:8000/Tests/testAll.html"
+            "url": "http://127.0.0.1:8080/Tests/testAll.html"
         }
     ]
 }

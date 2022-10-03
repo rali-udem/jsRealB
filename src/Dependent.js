@@ -52,7 +52,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     this.addDependent(d);
                     this.dependentsSource.push(d);
                 } else {
-                    this.warn("bad Dependent",NO(i+1).dOpt({ord:true})+"",d.constructor.name+":"+JSON.stringify(d))
+                    this.warn("bad Dependent",NO(i+1).dOpt({ord:true}).realize(),d.constructor.name+":"+JSON.stringify(d))
                 }
             }
             // terminate the list with add which does other checks on the final list
@@ -79,7 +79,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 this.warn("bad position",position,this.dependents.length)
             }
         } else {
-            this.warn("bad Dependent",NO(position+1).dOpt({ord:true})+"",dependent.constructor.name)
+            this.warn("bad Dependent",NO(position+1).dOpt({ord:true}).realize(),dependent.constructor.name)
         }
         return this
     }
@@ -659,8 +659,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         cmp=this.removeDependent(i)
                         break;
                     } 
-                } else { // remove other type of complement
-                    cmp=this.removeDependent(i)
+                // } else { // remove other type of complement
+                //     cmp=this.removeDependent(i)
                 }
             }
             if (this.isFr()){// check for passive subject starting with par

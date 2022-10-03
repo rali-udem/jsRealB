@@ -84,7 +84,7 @@ Constituent.prototype.warn = function(_){
  */
 function makeDisj(conj,elems){
     if (!Array.isArray(elems))elems=[elems];
-    return CP.apply(null,[C(conj)].concat(elems.map(e=>Q(e))))+""
+    return CP.apply(null,[C(conj)].concat(elems.map(e=>Q(e)))).realize()
 }
 
 /**

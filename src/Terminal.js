@@ -455,7 +455,7 @@ class Terminal extends Constituent{
                 terms.splice(position,0,newTerminal)
             return terms
         } else 
-            this.warn("bad Constituent",NO(position+1).dOpt({ord:true})+"",typeof newTerminal)
+            this.warn("bad Constituent",NO(position+1).dOpt({ord:true}).realize(),typeof newTerminal)
     }
 
     static noIgnoredReflVerbs=new Set(["avoir","être","pouvoir","devoir","vouloir"]); // used in reflexive
@@ -555,7 +555,7 @@ class Terminal extends Constituent{
                             const next=myParentElems[idxNext]
                             if (next.isA("Pro")){
                                 const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
-                                thePro.realization=thePro+"" // insert its realization after the auxiliary and before the verb
+                                thePro.realization=thePro.realize() // insert its realization after the auxiliary and before the verb
                                 return [aux,thePro,this] 
                             }
                         }
@@ -565,7 +565,7 @@ class Terminal extends Constituent{
                         if (proIndex>=0) {
                             const thePro=myParent.removeDependent(proIndex).terminal; // remove Pro from Parent
                             const thePro2=thePro.clone();   // as the original Pro is already realized in the output list, we must hack
-                            thePro2.realization=thePro2+""; // insert its realization after the auxiliary and before the verb
+                            thePro2.realization=thePro2.realize(); // insert its realization after the auxiliary and before the verb
                             thePro.realization="";          // set original Pro realization to nothing 
                             return [aux,thePro2,this]
                         }
