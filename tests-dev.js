@@ -1,20 +1,24 @@
 // Tests of many features used during the development
 
-///// direct import from the sources, 
-import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-        S,NP,AP,VP,AdvP,PP,CP,SP,
-        root, subj, det, mod, comp, coord,
-        loadFr,loadEn,addToLexicon,getLanguage,getLemma,
-        testWarnings,jsRealB_dateCreated,jsRealB_version,
-        fromJSON,ppJSON} from "./src/jsRealB.js"
+///// direct import from the sources
+// import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+//         S,NP,AP,VP,AdvP,PP,CP,SP,
+//         root, subj, det, mod, comp, coord,
+//         loadFr,loadEn,addToLexicon,getLanguage,getLemma,
+//         testWarnings,jsRealB_dateCreated,jsRealB_version,
+//         fromJSON,ppJSON} from "./src/jsRealB.js"
+////  Caution
+// the direct import can currently only be used with Chrome 
+// because Firefox and Safari do not allow assertions that are used to load the JSON dictionaries and rules
+// it is much more convenient to use use within Visual Studio Code
 
 ///// use the webpack module
-// let {default:jsRealB} = await import("./dist/jsRealB.js");
-// if (typeof window != "undefined")  
-//     // HACK: when loaded in a browser the above await import seems to create jsRealB in the "window" object
-//     Object.assign(globalThis,window.jsRealB);
-// else
-//     Object.assign(globalThis,jsRealB);
+let {default:jsRealB} = await import("./dist/jsRealB.js");
+if (typeof window != "undefined")  
+    // HACK: when loaded in a browser the above await import seems to create jsRealB in the "window" object
+    Object.assign(globalThis,window.jsRealB);
+else
+    Object.assign(globalThis,jsRealB);
 
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}`)
 loadFr();
@@ -685,7 +689,7 @@ function checkAllExJSON(nomEx,exemples){
     }
     showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
-Constituent.debug=true;
+// Constituent.debug=true;
 
 loadFr();
 checkAllEx("exemplesFr",exemplesFr);

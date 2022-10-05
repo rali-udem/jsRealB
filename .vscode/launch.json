@@ -33,6 +33,15 @@
             "request": "launch",
             "url": "http://127.0.0.1:8080/web-dev.html"
         },
+        {
+            "name": "Launch tests-dev",
+            "program": "${workspaceFolder}/tests-dev.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
         { // launch with http-server -c-1
             "type": "chrome",
             "name": "Tests/testAll.html",
