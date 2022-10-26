@@ -7,12 +7,13 @@
         {
             "name": "variationsFromText",
             "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
-            "args": ["-q","demos/UDregenerator/variations-data/selection_wiki.txt"],
+            "args": ["-q","/Users/lapalme/Desktop/pip_sentences_file-1000.conllu"],
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "type": "node"
+            "type": "node",
+            "outputCapture": "std"
         },
         {
             "type": "node",

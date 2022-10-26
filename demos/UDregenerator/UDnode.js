@@ -339,7 +339,7 @@ class UDnode {
         // create coordination
         if (coordTerm instanceof Dependent) {
             // some strange coordination term (e.g. "ainsi que"), create specific a constant by realizing the dependent
-            coordTerm = Q(coordTerm.toString());
+            coordTerm = Q(coordTerm.realize());
         }
         if (hasOxfordComma)
             coordTerm.b(",");
