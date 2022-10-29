@@ -244,7 +244,7 @@ function processing(){
             // create conllu file
             const __filename = fileURLToPath(import.meta.url);
             const __dirname = path.dirname(__filename);
-            const child = spawn(`${__dirname}/text2ud.py`,[language, fileName])
+            const child = spawn(`${__dirname}/text2ud.py`,[language, fileName],{"stdio":"inherit"})
             child.on("exit",function(code,signal){
                 if (code==0){
                     console.error("*** Wrote  %s",conlluFileName);

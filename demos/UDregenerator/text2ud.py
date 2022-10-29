@@ -10,7 +10,7 @@
 ##   and the English/French modules must have been preloaded once 
 ##   with "stanza.download('en')" or "stanza.download('fr')"
 
-import sys,os,re,datetime
+import sys,os,re,datetime,time
 import stanza
 from stanza.utils.conll import CoNLL
 
@@ -35,13 +35,18 @@ def processFile(txtFileName,lang="en"):
     processors='tokenize,pos,lemma,depparse'
     if lang=="fr":processors+=',mwt'
     nlp = stanza.Pipeline(lang,processors=processors,verbose=False)
+    print("Stanza loaded")
+    start = time.process_time()
     conlluF=open(conlluFileName,"w",encoding="utf-8")
     no=1
     for line in txtF:
         conlluF.write("\n".join(text2ud(no,nlp,line)))
         conlluF.write("\n")
+        if no%100==0: # print progress every 100 sentences 
+            print("txt2ud : %5d after %6.2f secs"%(no,time.process_time()-start))  
         no+=1
     conlluF.close()
+    print("txt2ud : %5d sentences processed in %6.2f secs"%(no-1,time.process_time()-start))
 
 def main():
     if len(sys.argv)>2:
