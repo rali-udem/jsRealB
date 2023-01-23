@@ -39,7 +39,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `jsRealB-filter.mjs`: example of use of the node.js module to create a Unix filter for `jsRealB`
     * `jsRealB-server.mjs`: example of use of the node.js module to start a web server that realizes sentences
     * `testServer.py`: Python script using the `jsRealB` server
-    * `package.json`: necessary for publishing the `jsrealb` *npm* package. 
+    * `package.json`: necessary for publishing the `jsrealb` *npm* package.
     * `README.md` : short presentation and example of use of the npm package displayed at `https://www.npmjs.com/package/jsrealb` 
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
       `npm version {major|minor|patch}`  
@@ -55,7 +55,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
 * [`node-modules`](node-modules/) : used for transpiling with webpack
 * [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
-    * `jsdoc`: documentation directory of the source files of jsRealB.js. [Consult the documentation](src/index.html)
+    * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html)
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
     * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
     * `JSON-tools.js` : functions for dealing with the JSON input format
@@ -71,7 +71,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html)
 * *Files in the current directory*:
     * `README.md` : this file
-    * `package.json` : file with parameters for building jsRealB using `npm` using  
+    * `package.json` : file with parameters for building `jsRealB` using `npm` using  
                        `npm run build-dev` or  `npm run build-prod` 
     * `test-demos.sh`: launch all web demos in Safari and the jsRealB server with the Weather Python demo
     * `test-node.js`: import the jsRealB package installed with `npm` and realize a simple English sentence

@@ -679,6 +679,7 @@ class Phrase extends Constituent{
             for (var key in rules.verb_option.modalityVerb){
                 if (key.startsWith(mod)){
                     v.setLemma(rules.verb_option.modalityVerb[key]);
+                    delete v.cod; // remove possible cod  information from the original verb
                     break;
                 }
             }

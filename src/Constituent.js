@@ -3,7 +3,7 @@
     Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
  */
 
-import {getRules, getLexicon, getLanguage, quoteOOV} from "./Lexicon.js";
+import {getRules, getLexicon, getLanguage, quoteOOV, getLemma} from "./Lexicon.js";
 export {Constituent}
 
 /**
@@ -426,23 +426,30 @@ class Constituent {
             var w1=m1[2];
             var w2=m2[2];
             var w3NoWords = ! /^\s*\w/.test(m1[3]); // check that the rest of the first word does not start with a word
-            if (elidableWordFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType) && w3NoWords){
-                cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                i++;
-            } else if (euphonieFrRE.exec(w1) && isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)&& w3NoWords){ // euphonie
-                if (/^ce$/i.exec(w1) && /(^est$)|(^étai)|(^a$)/.exec(w2)){
-                    // very special case but very frequent
+            let elisionFound=false;
+            if (isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){ // is the next word elidable
+                if (elidableWordFrRE.exec(w1) && w3NoWords){
                     cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                } else {
-                    cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
+                    elisionFound=true;
+                } else if (euphonieFrRE.exec(w1) && w3NoWords && cList[i].getProp("n")=="s"){ // euphonie
+                    if (/^ce$/i.exec(w1) && /(^est$)|(^étai)|(^a$)/.exec(w2)){
+                        // very special case but very frequent
+                        cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
+                    } else {
+                        cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
+                    }
+                    elisionFound=true;
                 }
-                i++;
+            }
+            if (elisionFound) {
+                i++;    // skip next token 
             } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords && last>1){
+                // try contraction
                 // check if the next word would be elidable, so instead elide it instead of contracting
                 // except when the next word is a date which has a "strange" realization
                 // do not elide when there are only two words, wait until at least another token is there
                 if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
-                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
+                    isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                     cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
                 } else if (!(w2.startsWith("le") && cList[i+1].isA("Pro"))){ 
                     // do contraction of first word and remove second word (keeping start and end)

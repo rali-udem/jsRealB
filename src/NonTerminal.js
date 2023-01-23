@@ -207,7 +207,7 @@ function doFrenchPronounPlacement(cList){
         let c=cList[i];
         if (c.isA("V") && c.neg2 !== undefined){
             if (c.isMod || c.isProg){
-                c.insertReal(cList,Adv(c.neg2,"fr"),i+1);
+                c.insertReal(cList,Q(c.neg2),i+1);
                 c.insertReal(cList,Adv("ne","fr"),i);
                 delete c.neg2 // remove negation from the original verb
                 iDeb=i+3      // skip these in the following loop
@@ -238,7 +238,7 @@ function doFrenchPronounPlacement(cList){
                 if (c.neg2 !== undefined){
                     c.insertReal(pros,Adv("ne","fr"));
                     if (t=="b")
-                        c.insertReal(pros,Adv(c.neg2,"fr"));
+                        c.insertReal(pros,Q(c.neg2));
                     else
                         neg2=c.neg2;
                 }
@@ -268,7 +268,7 @@ function doFrenchPronounPlacement(cList){
     // add ending "pas" after the verb unless it is "lié" in which cas it goes after the next word
     if (neg2){// HACK: add neg2 to the original verb...
         const vb=cList[verbPos]
-        vb.insertReal(cList,Adv(neg2,"fr"),verbPos+(vb.getProp("lier")===undefined?1:2))
+        vb.insertReal(cList,Q(neg2),verbPos+(vb.getProp("lier")===undefined?1:2))
         if (pros.length>0  &&  pros[0].isA("Adv") && pros[0].lemma=="ne"){
             cList.splice(verbPos,0,pros.shift())
             verbPos++;

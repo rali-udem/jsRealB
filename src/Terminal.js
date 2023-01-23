@@ -305,42 +305,58 @@ class Terminal extends Constituent{
     /**
      * French and English declension of this Terminal taking current properties into account
      * @param {boolean} setPerson if true, take person into account
-     * @returns string corresponding the declensed 
+     * @returns list of Terminals with their realization field filled
      */
     decline(setPerson){
         const rules=getRules(this.lang);
         let declension=rules.declension[this.tab].declension;
         let stem=this.stem;
         let res=null;
-        if (this.isA("A","Adv")){ // special case of adjectives or adv 
+        if (this.isA("A","Adv")){ 
+            // special case of French adjectives or adv, they can have more than one token
             if (this.isFr()){
                 const g=this.getProp("g");
                 const n=this.getProp("n");
                 const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
                 if (ending==null){
-                    return `[[${this.lemma}]]`;
+                    return [this.morphoError("decline [fr]:A",{g:g,n:n})];
                 }
-                res = this.stem+ending;
                 const f = this.getProp("f");// comparatif d'adjectif
                 if (f !== undefined && f !== false){
                     const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
+                    res = []
                     if (f == "co"){
                         const comp = specialFRcomp[this.lemma];
-                        return (comp !== undefined)?A(comp).g(g).n(n).realize():"plus "+res;
-                    }
-                    if (f == "su"){
+                        if (comp !== undefined){
+                            this.insertReal(res,A(comp).g(g).n(n));
+                        } else {
+                            this.insertReal(res,Adv("plus"))
+                            this.insertReal(res,A(this.lemma).g(g).n(n)) // to avoid infinite recursion
+                        }
+                   } else if (f == "su"){
+                        this.insertReal(res,D("le").g(g).n(n))
                         const comp = specialFRcomp[this.lemma];
-                        const art = D("le").g(g).n(n)+" ";
-                        return art+(comp !== undefined?A(comp).g(g).n(n):"plus "+res);
+                        if (comp !== undefined){
+                            this.insertReal(res,A(comp).g(g).n(n))
+                        } else {
+                            this.insertReal(res,Adv("plus"))
+                            this.insertReal(res,A(this.lemma).g(g).n(n)) // to avoid infinite recursion
+                        }
                     }
+                    return res
+                } else {
+                    this.realization = this.stem+ending
+                    return [this]
                 }
             } else {
-                // English adjective/adverbs are invariable but they can have comparative
-                res = this.lemma;
+                // English adjective/adverbs are invariable but they can have comparative, thus more than one token
+                this.realization = this.lemma;
                 const f = this.getProp("f");// usual comparative/superlative
                 if (f !== undefined && f !== false){
                     if (this.tab=="a1"){
-                        res = (f=="co"?"more ":"most ") + res;
+                        const comp = A(f=="co"?"more":"most")
+                        comp.realization = comp.lemma
+                        return [comp,this]
                     } else {
                         if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
                             const adjAdv=getLexicon(this.lang)[this.lemma]["A"]
@@ -349,19 +365,20 @@ class Terminal extends Constituent{
                                 const ending=rules.declension[adjAdv["tab"]].ending;
                                 stem=stem.slice(0,stem.length-ending.length);
                             } else // adverb without adjective
-                                return res
+                                return [this]
                         } 
                         // look in the adjective declension table
                         const ending=this.bestMatch("adjective declension",declension,{f:f})
                         if (ending==null){
-                            return `[[${this.lemma}]]`;
+                            return [this.morphoError("decline [en]:A",{f:f})]
                         }
-                        res = stem + ending;
+                        this.realization = stem + ending;
+                        return [this]
                     }
                 }
             }
         } else if (declension.length==1){ // no declension
-            res=this.stem+declension[0]["val"]
+            this.realization = this.stem+declension[0]["val"]
         } else { // for N, D, Pro
             let g=this.getProp("g");
             if (this.isA("D","N") && g==undefined)g="m";
@@ -416,25 +433,24 @@ class Terminal extends Constituent{
                     if(this.lemma!="on")keyVals["tn"]="";
                 }
             }
-            const ending=this.bestMatch(this.isFr()?"déclinaison":"declension",declension,keyVals);
+            const decl=this.isFr()?"déclinaison":"declension"
+            const ending=this.bestMatch(decl,declension,keyVals);
             if (ending==null){
-                return `[[${this.lemma}]]`;
+                return [this.morphoError(decl,keyVals)];
             }
             if (this.isFr() && this.isA("N")){ 
                 // check is French noun gender specified corresponds to the one given in the lexicon
                 const lexiconG=getLexicon(this.lang)[this.lemma]["N"]["g"]
                 if (lexiconG === undefined){
-                    this.morphoError("absent du lexique",{g:g,n:n});
-                    return `[[${this.lemma}]]`;
+                    return [this.morphoError("absent du lexique",{g:g,n:n})];
                 } 
                 if (lexiconG != "x" && lexiconG != g) {
-                    this.morphoError("genre différent de celui du lexique",{g:g, lexique:lexiconG})
-                    return `[[${this.lemma}]]`;
+                    return [this.morphoError("genre différent de celui du lexique",{g:g, lexique:lexiconG})]
                 }
             }
-            res = this.stem+ending;
+            this.realization = this.stem+ending;
         }
-        return res; 
+        return [this]; 
     }
 
     /**
@@ -618,8 +634,11 @@ class Terminal extends Constituent{
                         let n=this.getProp("n");
                         if (n=="x")n="s";
                         const gn=g+n;
-                        if (gn!="mp" || !this.realization.endsWith("s")) // pas de s au masculin pluriel si termine en s
+                        if (!(gn == "mp" && this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s
+                            if (gn != "ms" && this.realization.endsWith("û"))// changer "dû" en "du" sauf pour masc sing
+                                this.realization=this.realization.slice(0,-1)+"u"
                             this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[gn]
+                        }
                     }
                     return res;
                 default:
@@ -768,17 +787,17 @@ class Terminal extends Constituent{
     real(){
         switch (this.constType) {
         case "N": case "A": 
-            if (this.tab!==null)this.realization=this.decline(false);
+            if (this.tab!==null) return this.doFormat(this.decline(false));
             break;
         case "Adv":
-            if (this.tab!==null)this.realization=this.decline(false);
+            if (this.tab!==null)return this.doFormat(this.decline(false));
             else this.realization=this.lemma;
             break;
         case "C": case "P": case "Q":
             if(this.realization===null)this.realization=this.lemma;
             break;
         case "D": case "Pro":
-            if (this.tab!==null)this.realization=this.decline(true);
+            if (this.tab!==null)return this.doFormat(this.decline(true));
             break;
         case "V":
             // caution: conjugate returns a list of tokens

@@ -17,7 +17,7 @@ The documentation can be accessed [here](http://rali.iro.umontreal.ca/JSrealB/cu
     import jsRealB from "jsrealb"
     // let {default:jsRealB} = await import("jsrealb") 
 
-    // make exports availablle in the global scope
+    // make exports available in the global scope
     Object.assign(globalThis,jsRealB)
 
     // realize the English sentence : "The cats will chase the mouse."

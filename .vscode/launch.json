@@ -18,11 +18,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Personage/Personage.js",
+            "name": "Personage",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/demos/Personage/Personage.js",
+            "program": "${workspaceFolder}/demos/Personage/Personage-node.js",
             "runtimeArgs": [
                 "--no-deprecation"
             ],

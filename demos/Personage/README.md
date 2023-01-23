@@ -31,7 +31,7 @@ The concept of personalized text generation was originally developed in a series
 
 In this demo, we adapt the rule-based approach which was originally developed in Java to create Deep Syntactic Structures as defined in the Meaning-Text Theory which were then realized with RealPro[7]. This demo reproduces the essential steps of this architecture with _**jsRealB**_ showing the advantages of single programming language (_JavaScript_) for the whole realization process.   
 
-We suggest to first try the system using [this web page](http://rali.iro.umontreal.ca/JSrealB/current/demos/Personage/index.html) to get a feeling of the type of personalization that can be obtained for different combination of attribute values. The [file Personage.js](Personage.js) used can also be launched from the command line using `node` to compare the output of the test file with the one obtained by the system.
+We suggest to first try the system using [this web page](http://rali.iro.umontreal.ca/JSrealB/current/demos/Personage/index.html) to get a feeling of the type of personalization that can be obtained for different combination of attribute values. The [file Personage-node.js](Personage-node.js) used can also be launched from the command line using `node` to compare the output of the test file with the one obtained by the system.
 
 We first recall some features of _**jsRealB**_, then we present the organization of the original system and we adapted it to our context.
 As the source code is available, this document only gives an overview of the system.

@@ -19,8 +19,13 @@ export const params = {
     "concientiousness": concientiousness
 }
 
-import "../../dist/jsRealB.js";
-Object.assign(globalThis,jsRealB)
+if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
+    let {default:jsRealB} = await import("../../dist/jsRealB.js");
+    Object.assign(globalThis,jsRealB);
+ } else {
+    Object.assign(globalThis,jsRealB);
+ }
+
 
 let trace=false;  // to help tracing
 
