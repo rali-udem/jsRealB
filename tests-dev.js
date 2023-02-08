@@ -753,4 +753,4 @@ test(root(V('move').t("p").pe(3).n("s"),
                det(D('each')))).typ({"neg":true,"int":"wad"})
           )
 test(CP(C("or"),NP(D("a"),N("elevator")),NP(D("a"),N("eucalyptus"))))
- 
+test(S(VP(V("go").t('ip'),Adv("away"))).typ({"int":"tag"})) 

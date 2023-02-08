@@ -889,7 +889,9 @@ class Phrase extends Constituent{
                 // Question tags are short questions added after affirmations to ask for verification
                 if (this.isFr()){ // in French really simple, add "n'est-ce pas"
                     this.a(", n'est-ce pas")
-                } else { // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
+                } else { 
+                    // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
+                    //  or https://www.englishclub.com/grammar/tag-questions.htm
                     // must find  and pronoun and conjugate the auxiliary
                     let aux;
                     const currV=this.getFromPath(["VP","V"]);
@@ -907,9 +909,9 @@ class Phrase extends Constituent{
                         let g  = currV.getProp("g");
                         let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
                         const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                        if (subjIdx!==undefined){
+                        if (subjIdx >= 0){
                             const vbIdx=this.getIndex(["VP","V"]);
-                            if (vbIdx!==undefined && subjIdx<vbIdx){ // subject should be before the verb
+                            if (vbIdx >= 0 && subjIdx<vbIdx){ // subject should be before the verb
                                 const subj=this.elements[subjIdx];
                                 if (subj.isA("Pro")){
                                     if (subj.getProp("pe")==1 && aux=="be" && t=="p" && !neg){
@@ -927,6 +929,11 @@ class Phrase extends Constituent{
                                     // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
                                     pro=subj.clone().pro()
                                 }
+                            }
+                        } else { // no subject, but check if the verb is imperative
+                            if (t == "ip"){
+                                if (aux == "do") aux = "will" // change aux when the aux is default
+                                pro = Pro("I").pe(2).n(n).g(g)
                             }
                         }
                         // check for negative adverbs...
