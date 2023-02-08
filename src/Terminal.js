@@ -442,7 +442,7 @@ class Terminal extends Constituent{
                 // check is French noun gender specified corresponds to the one given in the lexicon
                 const lexiconG=getLexicon(this.lang)[this.lemma]["N"]["g"]
                 if (lexiconG === undefined){
-                    return [this.morphoError("absent du lexique",{g:g,n:n})];
+                    return [this.morphoError("genre absent du lexique",{g:g,n:n})];
                 } 
                 if (lexiconG != "x" && lexiconG != g) {
                     return [this.morphoError("genre différent de celui du lexique",{g:g, lexique:lexiconG})]
