@@ -733,7 +733,7 @@ genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
-genOptionFunc("pos",["post","pre"],[]);
+genOptionFunc("pos",["post","pre"],["A","Adv",...Constituent.deprels]);
 genOptionFunc("pro",undefined,["NP","PP","N"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");

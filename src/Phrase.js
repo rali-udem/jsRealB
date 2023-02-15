@@ -5,8 +5,8 @@
 
 import {Constituent} from "./Constituent.js";
 import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js"
-import { getElems, affixHopping, doFrenchPronounPlacement } from "./NonTerminal.js";
-import { getLanguage,getRules,copulesFR,prepositionsList,reorderVPcomplements } from "./Lexicon.js";
+import {getElems, affixHopping, doFrenchPronounPlacement, checkAdverbPos} from "./NonTerminal.js";
+import {getLanguage,getRules,copulesFR,prepositionsList,reorderVPcomplements} from "./Lexicon.js";
 export {Phrase, S, NP, AP, VP, AdvP, PP, CP, SP};
 /**
  * Phrase a subclass of Constituent for creating non terminals in Constituency notation
@@ -118,14 +118,22 @@ class Phrase extends Constituent{
             const e=this.elements[i];
             if (e.isA("A")){// check for adjective position
                 const idx=this.getIndex("N");
-                // unless specified the position of an English adjective is pre, but is post for a French one
-                const pos=e.props["pos"]||(e.isFr()?"post":"pre"); 
                 if (idx >= 0){
+                    // unless specified the position of an English adjective is pre, but is post for a French one
+                    const pos=e.props["pos"]||(e.isFr()?"post":"pre"); 
                     if ((pos=="pre" && i>idx)||(pos=="post" && i<idx)){
                         if (allAorN(this.elements,i,idx)){
                             this.addElement(this.removeElement(i),idx)
                         }
                     }
+                }
+            } else if (e.isA("Adv") && e.props["pos"]!==undefined){ 
+                // check for adverb position relative to the verb if .pos() is specified
+                const vbIdx = this.getIndex("V")
+                if (vbIdx >=0){
+                    const pos=e.props["pos"]
+                    if ((pos == "pre" && i>vbIdx) || (pos=="post" && i<vbIdx))
+                        this.addElement(this.removeElement(i),vbIdx)
                 }
             }
         }
@@ -545,11 +553,8 @@ class Phrase extends Constituent{
             if (vp !== undefined){
                 if (this.elements.length>0 && this.elements[0].isA("N","NP","Pro")){
                     subject=this.removeElement(0);
-                    if (subject.isA("Pro")){
-                        // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
-                        // to which we assign the original person, number, gender
-                        subject=subject.getTonicPro().g(subject.getProp("g"))
-                                                    .n(subject.getProp("n")).pe(subject.getProp("pe"));
+                    if (subject.isA("Pro")){ 
+                        subject = subject.getTonicPro()
                     }
                 } else {
                     subject=null;
@@ -1003,6 +1008,7 @@ class Phrase extends Constituent{
     /**
      * Change order of pronouns in French (quite intricate)
      * Instance method that calls a common method for both Phrase and Dependent
+     * called by doFormat in Constituent.js
      * HACK: call local to get around import circularity
      * @param {Terminal[]} clist list of terminals which can be reorganized
      */
@@ -1068,7 +1074,6 @@ class Phrase extends Constituent{
         return res; 
     }
 
-    // 
     /**
      * Special case of VP for which the complements are put in increasing order of length
      * Not used often, because it does not seem to be very useful
@@ -1133,8 +1138,7 @@ class Phrase extends Constituent{
             const typs=this.props["typ"];
             if (typs!==undefined)this.processTyp(typs);
             const es=this.elements;
-            for (let i = 0; i < es.length; i++) {
-                const e = es[i];
+            for (let e of es){
                 var r;
                 if (e.isA("CP")){
                     r=e.cpReal();
@@ -1146,6 +1150,8 @@ class Phrase extends Constituent{
                 // we must flatten the lists
                 Array.prototype.push.apply(res,r)
             }
+            if (this.isA("VP"))
+                checkAdverbPos(res)
         }
         return this.doFormat(res);
     };
@@ -1162,8 +1168,8 @@ class Phrase extends Constituent{
 
     /**
      * Recreate a jsRealB expression
-     * if indent is positive number create an indented pretty-print string (call it with 0 at the root)
-     * if called with no parameter then create a single line
+     * if indent is non negative number create an indented pretty-print string (call it with 0 at the root)
+     * if called with no parameter (equivalent to a negative number) then create a single line
      * @param {int} indent indentation level
      * @returns a (possibly indented) String corresponding to the source expression of this Phrase
      */

@@ -25707,7 +25707,7 @@
  "practical":{"A":{"tab":"a1"},"basic":true},
  "practicality":{"N":{"tab":"n3"}},
  "practically":{"Adv":{"tab":"b1"},"basic":true},
- "practice":{"N":{"tab":"n1"},"basic":true},
+ "practice":{"N":{"tab":"n1"},"V":{"tab":"v3"},"basic":true},
  "practician":{"N":{"tab":"n1"}},
  "practise":{"V":{"tab":"v3"},"basic":true},
  "practised":{"A":{"tab":"a1"}},

@@ -40,7 +40,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `jsRealB-server.mjs`: example of use of the node.js module to start a web server that realizes sentences
     * `testServer.py`: Python script using the `jsRealB` server
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.
-    * `README.md` : short presentation and example of use of the npm package displayed at `https://www.npmjs.com/package/jsrealb` 
+    * `README.md` : short presentation and example of use of the *npm* package displayed at `https://www.npmjs.com/package/jsrealb` 
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
       `npm version {major|minor|patch}`  
       `npm publish`  
@@ -78,7 +78,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `tests-dev.js` : `node.js` application that loads `jsRealB.js` from the `dist` directory and an internal script that displays the realization of a few examples. 
     * `web-dev.html` : load `tests-dev.js` in a web page, thus allowing interactive testing. Ideally should use a local web server so that the module loading can be done.
     * `webpack.config.cjs` : configuration file for building the `jsRealB.js` package in the `dist` directory
-    * `.vscode` : hidden file configuration for Visual Studio Code 
+    * `.vscode` : hidden directory containing configuration for Visual Studio Code 
 
 
 ## Demos

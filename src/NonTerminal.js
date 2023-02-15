@@ -7,7 +7,7 @@
 
 import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js"
 import { negMod } from "./Lexicon.js";
-export {getElems, affixHopping, doFrenchPronounPlacement}
+export {getElems, affixHopping, doFrenchPronounPlacement, checkAdverbPos}
 
 /**
  * flatten list of elements removing null and undefined
@@ -257,11 +257,15 @@ function doFrenchPronounPlacement(cList){
                     i--; // to ensure that all elements are taken into account because cList array has changed
                 }
             }
-        // HACK: stop when seeing a preposition (except "par" introduced by a passivee) or a conjunction 
-        //          or a "strange" pronoun that might start a phrase 
-        //       whose structure has been flattened at this stage
-        } else if (c.isA("P","C","Adv","Pro") && verbPos!==undefined && c.lemma!="par"){
-            break;
+        } else if (c.isA("P","C","Adv","Pro") && verbPos!==undefined){
+            // HACK: stop when seeing a preposition or a conjunction
+            //         or a "strange" pronoun that might start a phrase
+            //      whose structure has been flattened at this stage
+            if (c.lemma=="par" && i<cList.length-1 && cList[i+1].isA("Pro")){
+                // if "par"  followed by a Pro is encountered (probably for passive), keep them together
+                i++;
+            } else
+                break;
         }
     }
     if (verbPos === undefined)return;
@@ -279,6 +283,89 @@ function doFrenchPronounPlacement(cList){
         // insert pronouns before the verb 
         for (let k=0;k<pros.length;k++){
             cList.splice(verbPos+k,0,pros[k])
+        }
+    }
+}
+
+/**
+ * In a VP, place the first consecutive adverbs at a correct position according to the rules of the language. 
+ * Usually an adverb is set according to either .pos("pre"|"post")
+ * The problem occurs mainly with verbs with an auxiliary. 
+ * TODO: deal with more than one sequence of adverbs (although it should be rare)
+ * @param {Terminal[]} res : list of Termnals possibly modified in place 
+ */
+function  checkAdverbPos(res){
+    function moveTo(startIdx,n,toIdx){
+        res.splice(toIdx,0,...res.splice(startIdx,n))
+    }
+     // find first consecutive adverbs (ignoring "not")
+    const advIdxes = res.map((e,i)=>(e.isA("Adv") && e.lemma!="not")?i:-1).filter((e)=> e!=-1)
+    if (advIdxes.length==0) return;
+    const advIdx = advIdxes[0]
+    const advTerminal = res[advIdx]
+    // check that the indexes of adverbs are consecutive, remove those that are not
+    for (let i=1; i<advIdxes.length;i++){
+        if (advIdxes[i] != advIdxes[i-1]+1){
+            advIdxes.splice(i,advIdxes.length-i)
+        }
+    }
+    function moveAfterAux(auxMods){
+        for (let auxIdx = 0;auxIdx<advIdx-1; auxIdx++){
+            const e = res[auxIdx];
+            if (e.isA("V") && auxMods.includes(e.lemma)){
+                if (res[auxIdx+1].isA("V")){
+                    if (e.isFr() && auxMods.includes(res[auxIdx+1].lemma)){
+                        // another French modal ()
+                        moveTo(advIdx,advIdxes.length,auxIdx+2)
+                    } else {
+                        // there is an auxiliary/modals followed by a verb, insert adverb after the auxiliary
+                        moveTo(advIdx,advIdxes.length,auxIdx+1)
+                    }
+                } else if (e.isEn()){
+                    // in English insert after negation (in French, negation [ne  ... pas] is added after this step)
+                    if (res[auxIdx+1].lemma=="not" && res[auxIdx+2].isA("V"))
+                        moveTo(advIdx,advIdxes.length,auxIdx+2)
+                } else {
+                    // in French 
+                    // check for infinitive verb (the adverb should go before it)
+                    let infinitiveFound=false;
+                    for (let idx=advIdx-1;idx>auxIdx;idx--){
+                        if (res[idx].props["t"]=="b"){
+                            moveTo(advIdx,advIdxes.length,idx)
+                            infinitiveFound=true
+                        }
+                    }
+                    if (!infinitiveFound){
+                        // check for inverted pronoun (added by .typ("int":"yon")
+                        if (res[auxIdx+1].isA("Pro") && res[auxIdx+2].isA("V"))
+                            moveTo(advIdx,advIdxes.length,auxIdx+2)
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    if (advIdx >= 2 && advTerminal.props["pos"]===undefined){
+        // do not touch adverb with pos specified
+        if (advTerminal.isEn()){  
+            // English: the adverb must be put after the first auxiliary
+            moveAfterAux(["have","can","will","shall","may","must"])
+        } else { 
+            // French : https://fr.tsedryk.ca/grammaire/presentations/adverbes/4_La_place_de_l_adverbe.pdf (page 3)
+            // place immediately after the auxiliary
+            const advLemma = advTerminal.lemma;
+            if (advLemma.endsWith("ment")) return; // adverbe qui finit en -ment, laisser après le verbe
+            //  adverbes de temps et de lieu qu'il faut laisser après le verbe
+            //  extraits d'une liste de types d'adverbes à https://www.scribbr.fr/elements-linguistiques/adverbe/
+            const tempsAdv = ["hier","demain","longtemps","aujourd'hui","tôt","tard","auparavant","autrefois"]
+            const lieuAdv = ["ici","là","là-bas","là-haut","ailleurs","autour","derrière","dessus","dessous","devant",
+            "dedans","dehors","loin","près","alentour","après","avant","partout",
+            "où","partout","au-dessus","au-dessous","au-devant","nulle part","quelque part"]
+            if (tempsAdv.includes(advLemma) || lieuAdv.includes(advLemma)) return
+            if (advLemma.length<=6 || ["toujours","souvent"].includes(advLemma))
+                // adverbe court ou commun: déjà, très, trop, toujours, souvent ... 
+                moveAfterAux(["avoir","être","vouloir","devoir","savoir"])
         }
     }
 }

@@ -1,18 +1,22 @@
 // Tests of many features used during the development
 
 ///// direct import from the sources
-// import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-//         S,NP,AP,VP,AdvP,PP,CP,SP,
-//         root, subj, det, mod, comp, coord,
-//         loadFr,loadEn,addToLexicon,getLanguage,getLemma,
-//         testWarnings,jsRealB_dateCreated,jsRealB_version,
-//         fromJSON,ppJSON} from "./src/jsRealB.js"
+/// for use in debugging in Visual Studio Code with launch configuration: "Run current file"
+//  when it seems OK, use instead the webpack created by "npm web-dev" or "npm web-prod"
+/* 
+import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+        S,NP,AP,VP,AdvP,PP,CP,SP,
+        root, subj, det, mod, comp, coord,
+        loadFr,loadEn,addToLexicon,getLanguage,getLemma,
+        testWarnings,jsRealB_dateCreated,jsRealB_version,
+        fromJSON,ppJSON} from "./src/jsRealB.js"
+*/
+///// use the webpack module
 ////  Caution
 // the direct import can currently only be used with Chrome 
 // because Firefox and Safari do not allow assertions that are used to load the JSON dictionaries and rules
 // it is much more convenient to use use within Visual Studio Code
-
-///// use the webpack module
+/* */
 let {default:jsRealB} = await import("./dist/jsRealB.js");
 if (typeof window != "undefined")  
     // HACK: when loaded in a browser the above await import seems to create jsRealB in the "window" object
@@ -154,8 +158,8 @@ var exemplesFr=[
         "2,4 livres"],
     [NP(NO(2), A("rouge"),N("avion")),
         "2 avions rouges"],
-    [N("pomme").g("w"),
-        "pomme"],
+    // [N("pomme").g("w"),
+    //     "pomme"],
     [S(Pro("lui").c("nom"),
       VP(V("donner").t("pc"),
          NP(D("un"),N("pomme")).pro(),
@@ -263,6 +267,49 @@ var exemplesFr=[
            NP(D('le'),
               N('fromage')))).typ({int:"tag"}),
      "Il a mangé le fromage, n'est-ce pas? "],
+    // adverb position
+      [S(Pro('je').pe(2),  // 60
+         VP(V('travailler').t("pc"),
+            Adv('bien'))).typ({"mod":"nece"}),
+      "Tu as dû bien travailler. "],
+      [S(Pro('je'),          // 61
+        VP(V('aller').t("pc"),
+           Adv('hier'),
+           PP(P('à'),
+              NP(D('le'),
+                 N('maison'))))).typ({"neg":true}),
+      "Il n'est pas allé hier à la maison. "],
+       [S(Pro('je'),         // 62
+          VP(V('aller').t("pc"),
+             Adv('souvent'),
+             PP(P('à'),
+                NP(D('le'),
+                   N('maison'))),
+             Adv('sûrement'))).typ({"neg":true}),
+       "Il n'est pas souvent allé à la maison sûrement. "],
+       [S(Pro('je'),          // 63
+         VP(V('aller').t("pc"),
+            Adv('souvent').pos("post"),
+            PP(P('à'),
+               NP(D('le'),
+                  N('maison'))))).typ({"neg":true}),
+       "Il n'est pas allé souvent à la maison. "],
+       [S(NP(D('le'),         // 64
+            N('chat')),
+         VP(V('manger'),
+            Adv('bien'),
+            Adv('souvent'),
+            NP(D('le'),
+               N('souris')))).typ({"pas":true}),
+       "La souris est bien souvent mangée par le chat. "],
+       [S(Pro("tout"),
+          VP(V("sembler").t("pa"),
+             V("fonctionner").t("bp"))),
+        "Tout eut semblé avoir fonctionné. "],
+        [S(Pro("lui"),
+           VP(V("manger"),
+           NP(D("le"),N("fromage")))).typ({pas:true}),
+        "Le fromage est mangé par lui. "]
 ];
 
 //  exemples en anglais
@@ -270,6 +317,8 @@ loadEn();
 let apple = NP(D("a"),N("apple"));
 let appleC = apple.clone();
 let appleF = ()=>NP(D("a"),N("apple"))
+addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
+addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
 
 var exemplesEn=[
     [V("love"),"loves"],                             // 0
@@ -374,6 +423,27 @@ var exemplesEn=[
             NP(D("a"),N("apple").n("p")).tag("em")
        )).typ({int:"tag"}),
        "He will eat <em>apples</em>, won't he? "],
+       [S(Pro('him').c("nom"), // 27
+          VP(V('love'),
+             Adv('really'),
+             Pro('him').g("f").c("acc"))).typ({"perf":true,"mod":"poss"}),
+        "He can really have loved him. "],
+       [S(NP(D("the"),N("cat")).n("p"),
+          VP(V("sit").t("ps"),
+             PP(P("on"),
+                NP(D("the"),N("mat"))))).typ({int:"tag",neg:true}),
+       "The cats did not sit on the mat, did they? "],
+       [CP(C("or"),
+           NP(D("a"),N("elevator")),
+           NP(D("a"),N("eucalyptus"))),
+       "an elevator or a eucalyptus"],
+       [S(VP(V("go").t('ip'),Adv("away"))).typ({"int":"tag"}),
+       "Go away, won't you? "],
+       [S(Pro("them"),
+          VP(V("eat"),
+             NP(D("the"),N("cheese")))).typ({pas:true}),
+        "The cheese is eaten by them. "]
+
 ];
 
 // dépendances en français
@@ -499,21 +569,34 @@ var dependancesFr=[
           comp(N("pomme"),
                   det(D("un"))).pro()
          ).typ({"neg":true,"pas":true}),
-     "Elle n'a pas été donnée par lui. "],                          // 13
+     "Elle n'a pas été donnée par lui. "],                 // 13
     [root(V("donner").t("p"),
           subj(Pro("lui").c("nom")),
           coord(C("et"), 
                 comp(N("pomme"),det(D("un"))),
                 comp(N("poire"),det(D("un"))).n("p"))
          ).typ({"neg":true,"pas":true}),
-     "Une pomme et des poires ne sont pas données par lui. "],        // 14
-    
-]
+     "Une pomme et des poires ne sont pas données par lui. "], // 14
+    [root(V('travailler').t("pc"),
+          comp(Adv('bien')),
+          subj(Pro('je').pe(2))).typ({"mod":"nece"}),
+    "Tu as dû bien travailler. "],                         //15
+    [root(V("manger").t("pc"),
+          subj(N("souris"),
+               det(D("le"))),
+          comp(N("fromage"),
+               det(D("le")))).typ({int:"wad",pas:true}),
+    "Par quoi le fromage a-t-il été mangé? "],       // 16
+    [root(V('manger'),
+          comp(N('fromage'),
+               det(D('le'))),
+          subj(Pro('elles'))).typ({"pas":true}),
+    "Le fromage est mangé par elles. "],
+] 
 
 
 // English dependences
 loadEn();
-addToLexicon("practice",{"V":{"tab":"v3"}}) // should be in the original lexicon
 var dependenciesEn=[
     [root(V("walk"),
               subj(N("man"),
@@ -591,6 +674,30 @@ var dependenciesEn=[
           comp(N('apple').n("p"),det(D('a'))).tag("em"),
           subj(N("man"),det(D("the")))).typ({"neg":false,"int":"tag"}),
      "The man eats <em>apples</em>, doesn't he? "],
+    [coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
+    root(V("smack").t('ps'),subj(N("Mary")),
+         coord(C("and"),comp(N("butler"),det(D("the"))),
+               comp(N("maid"),det(D("the")))))),
+    "John laughed but Mary smacked the butler and the maid. "],
+    [root(V('move').t("p").pe(3).n("s"),
+          subj(N('star').n("s"),
+               det(D('the')),
+               mod(N('north')).pos("pre")),
+          comp(N('sky').n("s"),
+               mod(P('in')).pos("pre"),
+               det(D('the'))),
+          comp(N('hemisphere').n("s"),
+               mod(P('in')).pos("pre"),
+               det(D('the')),
+               mod(A('northern')).pos("pre")),
+          comp(N('night').n("s"),
+               det(D('each')))).typ({"neg":true,"int":"why"}),
+    "Why does the north star not move in the sky in the northern hemisphere each night? "],
+    [root(V('eat'),
+          comp(N('cheese'),
+               det(D('the'))),
+          subj(Pro('him'))).typ({"pas":true}),
+    "The cheese is eaten by him. "],
 ];
 
 // bilingual example
@@ -689,7 +796,7 @@ function checkAllExJSON(nomEx,exemples){
     }
     showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
-// Constituent.debug=true;
+Constituent.debug=true;
 
 loadFr();
 checkAllEx("exemplesFr",exemplesFr);
@@ -702,55 +809,12 @@ checkAllEx("exemplesEn",exemplesEn);
 checkAllExDep("exempleEnDep",exemplesEn);
 checkAllExJSON("exemplesEn",exemplesEn);
 checkAllEx("dependenciesEn",dependenciesEn)
-
-
+console.log("----")
+// cannot use checkAllEx because it does a clone() and the language is changed...
+const realEnFr = constituentEnFr.realize()
+if (realEnFr == "I say hello to <b>le monde</b>. "){
+    console.log("bilingual: OK")
+} else {
+    consoloe.log("bilingual:KO",realEnFr)
+}
 // testWarnings()
-loadEn()
-addToLexicon({"John":{"N":{"g":"m","tab":"n4"}}})
-addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
-const s=S(NP(D("the"),N("cat")).n("p"),
-          VP(V("sit").t("ps"),
-             PP(P("on"),
-                NP(D("the"),N("mat"))))).typ({int:"tag",neg:true})
-test(s)
-test(coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
-                    root(V("smack").t('ps'),subj(N("Mary")),
-                         coord(C("and"),comp(N("butler"),det(D("the"))),
-                               comp(N("maid"),det(D("the")))))))
-
-test(constituentEnFr);
-
-loadFr();
-test(root(V('travailler').t("pc"),
-          comp(Adv('bien')),
-          subj(Pro('je').pe(2))).typ({"mod":"nece"}))
-
-loadFr();
-test(S(Pro("tout"),VP(V("sembler").t("pa"),V("fonctionner").t("bp"))))
-loadEn();
-test(V("go").t("s"))
-test(V("go").t("si"))
-
-loadFr();
-test(root(V("manger").t("pc"),
-          subj(N("souris"),
-               det(D("le"))),
-          comp(N("fromage"),
-               det(D("le")))).typ({int:"wad",pas:true}))
-loadEn();
-test(root(V('move').t("p").pe(3).n("s"),
-          subj(N('star').n("s"),
-               det(D('the')),
-               mod(N('north')).pos("pre")),
-          comp(N('sky').n("s"),
-               mod(P('in')).pos("pre"),
-               det(D('the'))),
-          comp(N('hemisphere').n("s"),
-               mod(P('in')).pos("pre"),
-               det(D('the')),
-               mod(A('northern')).pos("pre")),
-          comp(N('night').n("s"),
-               det(D('each')))).typ({"neg":true,"int":"wad"})
-          )
-test(CP(C("or"),NP(D("a"),N("elevator")),NP(D("a"),N("eucalyptus"))))
-test(S(VP(V("go").t('ip'),Adv("away"))).typ({"int":"tag"})) 

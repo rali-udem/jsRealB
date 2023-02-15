@@ -56,6 +56,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 		This can be convenient for dealing with optional parameters.</p>
     </div>
 
+<!-- *** Dépendants *** -->
     <div id="dependentsSect"></div>
 	<div lang="fr">
 		<p>Le premier paramètre d'une dépendance est un terminal. Les autres paramètres doivent être d'autres dépendances.</p>
@@ -66,15 +67,24 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 			<li>Le déterminant d'un <code>det</code> s'accorde en genre et en nombre avec son sujet, i.e. le terminal englobant.</li>
 			<li>L'adjectif d'un <code>mod</code> s'accorde en genre et en nombre avec son sujet, i.e. le terminal englobant.</li>
 		</ul>
+        <p>Position des dépendents: <code>det</code> et <code>subj</code> sont réalisées avant le terminal, alors que 
+            <code>mod</code>, <code>comp</code> et <code>coord</code> sont réalisées dans l'ordre où
+            elles sont spécifiées. Il est possible de modifier cet ordre en utilisant la méthode <code>.mod("pre")</code> pour 
+        forcer une dépendance à apparaître avant, ou <code>.mod("post")</code> pour apparaître après.</p>
 	</div>
 	<div lang="en">
 		<p>The first parameter of a dependency is a terminal. The other parameters must be dependents. </p>
 		<p><code>coord</code> combine <strong>dependencies of the same type</strong> coordinated by the conjunction given as terminal. Dependencies will comma separated except for the last two that will be separated by the conjunction. A  <code>coord</code> without dependent will not be realized. A <code>coord</code> with a single dependent will be realized without the conjunction.</p>
-		<p>Simple agreements are realized between dependents:</p>
+		<p><em>Simple</em> agreements are realized between dependents:</p>
 		<ul>
-			<li>A verb agrees in person and number with a subject indicated by a <code>subj</code> dependency. The subject can be a <code>N</code>, a <code>Pro</code> or dependents of a <code>coord</code>.</li>
+			<li>A verb agrees in person and number with a subject indicated by a <code>subj</code> dependency. 
+                The subject can be a <code>N</code>, a <code>Pro</code> or dependents of a <code>coord</code>.</li>
 			<li>The determiner of a <code>det</code> agrees in number with its determiner, i.e. its enclosing terminal.</li>
 		</ul>
+        <p>Dependent position: <code>det</code> et <code>subj</code> are realized before the terminal, while
+            <code>mod</code>, <code>comp</code> et <code>coord</code> are realized after in the order of their specification. 
+            This ordering can be changed using <code>.mod("pre")</code> to force a dependent to be realized before, or 
+            <code>.mod("post")</code> to be realized after.</p>
 	</div>
 <!-- *** Déclinaisons et conjugaisons *** -->
     <h2 id="optionsFr" lang="fr">Déclinaisons et conjugaisons</h2><h2 id="optionsEn" lang="en">Declension and conjugation</h2>
@@ -163,7 +173,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
     
 
 <!-- *** Modification du syntagme nominal *** -->
-    <h2 lang="fr" id="modSN">Modification du syntagme nominal</h2><h2 lang="en" id="npMod">Noun phrase modification</h2>
+    <h2 lang="fr" id="modSN">Position et pronominalization</h2><h2 lang="en" id="npMod">Position and pronominalization</h2>
     <div id="nPmods"></div>
     
 

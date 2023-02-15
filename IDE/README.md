@@ -62,7 +62,7 @@ These commands also accept a regular expression in place of a specific value, in
         { ending: '',
           declension: [ { val: '', n: 's' }, { val: 's', n: 'p' } ] }
         
-* `.lx` *lemma* : dictionary information for lemma in a format that can be used as input for `addToLexicon()`; this is useful for adding a new lemma that is conjugated or declensed similarly to a word already in the lexicon.  
+* `.lx` *lemma* : dictionary information for lemma in a format that can be used as input for `addToLexicon()`; this is useful for adding a new lemma that is conjugated or declined similarly to a word already in the lexicon.  
     For example, to show the lexicon information for the word `love`
     
         jsRealB > .lx love

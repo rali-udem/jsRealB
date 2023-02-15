@@ -791,7 +791,7 @@ class Terminal extends Constituent{
             break;
         case "Adv":
             if (this.tab!==null)return this.doFormat(this.decline(false));
-            else this.realization=this.lemma;
+            else if (this.realization===null) this.realization=this.lemma;
             break;
         case "C": case "P": case "Q":
             if(this.realization===null)this.realization=this.lemma;
@@ -960,6 +960,12 @@ function NO (_){ return new Terminal(Array.from(arguments),"NO") }
  */
 function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
 
+const tonicForms = {
+    "fr" : ["toi","lui","nous","vous","eux","elle","elles","on","soi"],
+    "en" : ["us","her","you","him","them","it"]
+}
+
+
 /**
  * return a pronoun corresponding to this object 
  * taking into account the current gender, number and person
@@ -978,8 +984,18 @@ Constituent.prototype.getTonicPro = function(case_){
                 this.props["tn"]="";
                 if ("c" in this.props)delete this.props["c"];
             }
+            return this;
+        } else {
+            if (tonicForms[this.lang].includes(this.lemma)){
+                // lemma is already in tonic form
+                if (case_ !== undefined)
+                    return Pro(this.lemma).c(case_)
+            } else {
+                if (case_ !== undefined)
+                    return Pro(this.realize()).c(case_)
+            }
+            return this
         }
-        return this;
     } else { // generate the string corresponding to the tonic form
         let pro=Pro(this.isFr()?"moi":"me",this.lang);
         const g = this.getProp("g");

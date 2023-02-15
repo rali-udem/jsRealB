@@ -6,7 +6,7 @@
 import {Constituent} from "./Constituent.js";
 import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js" 
 import {Phrase} from "./Phrase.js"
-import {getElems, affixHopping, doFrenchPronounPlacement} from "./NonTerminal.js";
+import {getElems, affixHopping, doFrenchPronounPlacement,checkAdverbPos} from "./NonTerminal.js";
 import {getLanguage,getRules,copulesFR,prepositionsList } from "./Lexicon.js";
 export {Dependent}
 /**
@@ -402,10 +402,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             if (subjIdx>=0){
                 subj=this.dependents[subjIdx];
                 if (subj.terminal.isA("Pro")){
-                    // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
-                    // to which we assign the original person, number, gender
-                    subj.terminal=subj.terminal.getTonicPro().g(subj.getProp("g"))
-                                            .n(subj.getProp("n")).pe(subj.getProp("pe"));
+                    subj.terminal = subj.terminal.getTonicPro()
                 }
             } else {
                 subj=null
@@ -758,8 +755,13 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     } else {
                         pro=subj(Pro("it").c("nom")).pos("post")
                     }
-                } else { // no subject found, so generate 
-                    pro=subj(pro).pos("post")
+                } else { // no subject, but check if the verb is imperative
+                    if (t == "ip"){
+                        if (aux == "do") aux = "will" // change aux when the aux is default
+                        pro = Pro("I").pe(2).n(n).g(g)
+                    } else 
+                        pro = Pro("it").c("nom")
+                    pro = subj(pro).pos("post")
                 }
                 let iDeps=this.dependents.length-1
                 while(iDeps>=0 && this.dependents[iDeps].depPosition()!="post")iDeps--;
@@ -905,11 +907,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
     /**
      * Change order of pronouns in French (quite intricate)
      * Instance method that calls a common method for both Phrase and Dependent
+     * called by doFormat in Constituent.js
      * HACK: call local to get around import circularity
      * @param {Terminal[]} clist list of terminals which can be reorganized
      */
     doFrenchPronounPlacement(clist){
-        return doFrenchPronounPlacement(clist); // caution NO this is this call...
+        return doFrenchPronounPlacement(clist); // call function in NonTerminal.js
     }
     
     /**
@@ -945,6 +948,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 Array.prototype.push.apply(d.depPosition()=="pre"?before:after,r)
             }
             res=before.concat(this.terminal.real(),after)
+            if (this.terminal.isA("V"))
+                checkAdverbPos(res)
         }
         return this.doFormat(res);
     };
@@ -961,8 +966,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
 
     /**
      * Recreate a jsRealB expression
-     * if indent is positive number create an indented pretty-print string (call it with 0 at the root)
-     * if called with no parameter then create a single line
+     * if indent is non negative number create an indented pretty-print string (call it with 0 at the root)
+     * if called with no parameter (equivalent to a negative number) then create a single line
      * @param {int} indent indentation level
      * @returns a (possibly indented) String corresponding to the source expression of this Phrase
      */
