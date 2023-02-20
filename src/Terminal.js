@@ -803,13 +803,15 @@ class Terminal extends Constituent{
             // caution: conjugate returns a list of tokens
             return this.doFormat(this.conjugate());
         case "DT":
-            this.realization=this.dateFormat(this.date,this.props["dOpt"]);
+            this.realization=this.dateFormat(this.date,this.getProp("dOpt"));
             break;
         case "NO":
-            const opts=this.props["dOpt"];
+            this.setProp("n",this.grammaticalNumber())
+            const opts=this.getProp("dOpt");
             if (opts.nat==true){
                 this.realization=this.numberToWord(this.value,this.lang,this.peng.g);
             } else if (opts.ord==true){
+                this.setProp("n","s") // number of an ordinal number is always singular
                 this.realization=this.numberToOrdinal(this.value,this.lang,this.peng.g);
             } else if (opts.raw==false){
                 this.realization=numberFormatter(this.value,this.lang,opts.mprecision);

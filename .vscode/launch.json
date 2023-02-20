@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch tests-dev.js",
+            "program": "${workspaceFolder}/tests-dev.js",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "outputCapture": "std"
+        },
+        {
             "name": "variationsFromText",
             "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
             "args": ["-q","/Users/lapalme/Desktop/pip_sentences_file-1000.conllu"],
@@ -49,5 +59,6 @@
             "request": "launch",
             "url": "http://127.0.0.1:8080/Tests/testAll.html"
         }
+
     ]
 }

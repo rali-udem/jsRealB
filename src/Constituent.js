@@ -691,13 +691,25 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             val=null;
         }
-        if (this.isA("CP") && !["cap","lier"].includes(option)){
-            // propagate an option through the children of a CP except for "cap" and "lier"
+        if (optionName===undefined)optionName=option; 
+        if (this.isA("CP") && !["cap","lier","pos"].includes(option)){
+            // propagate an option through the children of a CP except for "cap", "pos" and "lier"
             if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i < this.elements.length; i++) {
                 const e=this.elements[i];
                 if (allowedConsts.length==0 || e.isA(allowedConsts)){
-                    e[option](val)
+                    e[option](val,true)  // do not add this option to the source of these elements
+                }
+            }
+            return this;
+        }
+        if (this.isA("coord") && !["cap","lier","pos"].includes(option)){
+            // propagate an option through the head of the dependents of a coord except for "cap", "pos" and "lier"
+            if(prog==undefined)this.addOptSource(optionName,val)
+            for (let i = 0; i < this.dependents.length; i++) {
+                const e=this.dependents[i].terminal;
+                if (allowedConsts.length==0 || e.isA(allowedConsts)){
+                    e[option](val,true)  // do not add this option to the source of the head of the dependents
                 }
             }
             return this;
@@ -707,7 +719,6 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
-            if (optionName===undefined)optionName=option; 
             this.setProp(optionName,val);
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;

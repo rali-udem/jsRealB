@@ -10,7 +10,7 @@ import {getElems, affixHopping, doFrenchPronounPlacement,checkAdverbPos} from ".
 import {getLanguage,getRules,copulesFR,prepositionsList } from "./Lexicon.js";
 export {Dependent}
 /**
- * Dependent a subclass of Constituent for creating non terminals in Constituency notation
+ * Dependent a subclass of Constituent for creating non terminals in Dependency notation
  */
 class Dependent extends Constituent {// Dependent (non-terminal)
     /**
@@ -178,6 +178,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             this.peng={
                 pengNO:Constituent.pengNO++
             };
+            headTerm.peng=this.peng;
         }
         for (const d of this.dependents){
             const depTerm=d.terminal;
@@ -199,9 +200,10 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         } 
                     } 
                 } else if (depTerm.isA("NO")){
-                    headTerm.peng["n"]=depTerm.grammaticalNumber();
-                    // gender agreement between a French number and subject
-                    depTerm.peng["g"]=headTerm.peng["g"]
+                    // headTerm.peng["n"]=depTerm.grammaticalNumber();
+                    // // gender agreement between a French number and subject
+                    // depTerm.peng["g"]=headTerm.peng["g"]
+                    depTerm.peng=headTerm.peng
                 } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
                     if (d.dependents.length==1 && d.dependents[0].isA("mod") && 
                         d.dependents[0].terminal.isA("D")){
@@ -246,6 +248,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     const firstDep=d.dependents[0]
                     if (firstDep.isA("subj")){
                         headTerm.peng=d.peng
+                    } else if (firstDep.isA("det")){
+                        d.peng=headTerm.peng
                     } else if (firstDep.isA("mod","comp")&& firstDep.terminal.isA("V","A")){
                         // consider this as coordination of verb sharing a subject (the current root)
                         //  or a coordination of adjectives
@@ -288,7 +292,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         let nb=0;
         for (let i = 0; i < this.dependents.length; i++) {
             const e=this.dependents[i].terminal;
-            if (e.isA("N","Pro","Q")){
+            if (e.isA("N","Pro","Q","NO")){
                 nb+=1;
                 const propG=e.getProp("g");
                 if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
@@ -426,23 +430,31 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 if (subj!=null){   // the original subject is now the indirect object
                     subj.changeDeprel("mod")
                     this.removeDependent(subjIdx);
-                    this.addDependent(comp(P(this.isFr()?"par":"by",this.lang),subj))
+                    let prep = this.isFr() ? "par" : "by";
+                    if (subj.terminal.isA("V")) // subject is a V
+                        prep = this.isFr() ? "de" : "to"
+                    this.addDependent(comp(P(prep,this.lang),subj))
                 }
             } else if (subj!=null){ // no object, but with a subject
-                //create a dummy subject with a "il"/"it" 
+                // create a dummy subject with a "il"/"it" 
                 obj=Pro(this.isFr()?"lui":"it",this.lang).c("nom"); //HACK: obj is the new subject
                 // add new subject at the front of the sentence
+                subj.changeDeprel("mod")
+                this.removeDependent(subjIdx)
                 this.addPre(obj)
                 this.peng=obj.peng
                 // add original subject after the verb to serve as an object
-                this.addDependent(comp(P(this.isFr()?"par":"by",this.lang),subj))
+                let prep = this.isFr() ? "par" : "by";
+                if (subj.terminal.isA("V")) // subject is a V
+                    prep = this.isFr() ? "de" : "to"
+                this.addDependent(comp(P(prep,this.lang),subj))
             }
             if (this.isFr()){
                 // do this only for French because in English this is done by processTyp_en
                 // change verbe into an "être" auxiliary and make it agree with the newSubj
                 // force person to be 3rd (number and tense will come from the new subject)
                 const verbe=this.terminal.lemma;
-                this.terminal.setLemma("être");
+                this.terminal.setLemma(verbe == "être" ? "avoir" : "être");
                 this.terminal.pe(3);
                 if (this.getProp("t")=="ip"){
                     this.t("s") // set subjonctive present tense for an imperative
@@ -454,7 +466,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 }
                 // insert the pp before the comp, so that it appears immediately after the verb
                 //  calling addPre(pp) would evaluate the pp too soon...
-                let compIdx=this.findIndex(d=>d.isA("comp"));
+                let compIdx=this.findIndex(d=>d.isA("comp","mod"));
                 if (compIdx==-1)compIdx=0;
                 this.addPost(pp,compIdx);
             }
@@ -929,25 +941,34 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             const typs=this.props["typ"];
             if (typs!==undefined)this.processTyp(typs);
             const ds=this.dependents;
-            // realize coordinations before anything elso to compute their final number and person
-            for (let d of ds){
-                if (d.isA("coord"))
-                    d.tokens=d.coordReal() // save realization info in the dependent
-            }
-            let before=[];
-            let after=[];
-            // realize and order them by gathering the dependents that should appear before and after the terminal
-            for (let d of ds) {
-                let r;
-                if (d.isA("coord")){
-                    r=d.tokens;  // get back generated tokens
-                } else {
-                    r=d.real()
+
+            // move all "pre" dependents at the front 
+            // HACK: we must move these in place because realization might remove some of them 
+            let nextPre=0
+            for (let i=0;i<ds.length;i++){
+                const d=ds[i]
+                if (d.depPosition()=="pre"){
+                    if (nextPre != i)
+                        ds.splice(nextPre,0,ds.splice(i,1)[0]);
+                    nextPre++;
                 }
-                // check where this dependent shoould go
-                Array.prototype.push.apply(d.depPosition()=="pre"?before:after,r)
             }
-            res=before.concat(this.terminal.real(),after)
+            // realize dependents
+            if (ds.length==0){  // no dependent
+                res = this.terminal.real()
+            } else if (nextPre==0) { // no pre
+                res = this.terminal.real();
+                for (let d of ds)
+                    res.push(...(d.isA("coord") ? d.coordReal() : d.real()))
+            } else {  // both pre and post
+                res = []
+                for (let i=0;i<ds.length;i++){
+                    const d=ds[i];
+                    res.push(...(d.isA("coord") ? d.coordReal() : d.real()))
+                    if (i==nextPre-1)
+                        res.push(...this.terminal.real())
+                }
+            }
             if (this.terminal.isA("V"))
                 checkAdverbPos(res)
         }

@@ -13550,7 +13550,7 @@
  "daurade":{"N":{"g":"f","tab":"n17"}},
  "davantage":{"Adv":{"tab":"av"},"basic":true},
  "davier":{"N":{"g":"m","tab":"n3"}},
- "de":{"P":{"tab":"ppe"},"basic":true},
+ "de":{"P":{"tab":"ppe"},"D":{"tab":"nI"},"basic":true},
  "dé":{"N":{"g":"m","tab":"n3"}},
  "déactiver":{"V":{"aux":"av","tab":"v36","pat":["tdir"]}},
  "déambulation":{"N":{"g":"f","tab":"n17"}},

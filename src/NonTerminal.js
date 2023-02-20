@@ -298,8 +298,8 @@ function  checkAdverbPos(res){
     function moveTo(startIdx,n,toIdx){
         res.splice(toIdx,0,...res.splice(startIdx,n))
     }
-     // find first consecutive adverbs (ignoring "not")
-    const advIdxes = res.map((e,i)=>(e.isA("Adv") && e.lemma!="not")?i:-1).filter((e)=> e!=-1)
+     // find first consecutive adverbs (ignoring "not" and "ne")
+    const advIdxes = res.map((e,i)=>(e.isA("Adv") && !(["not","ne"].includes(e.lemma)))?i:-1).filter((e)=> e!=-1)
     if (advIdxes.length==0) return;
     const advIdx = advIdxes[0]
     const advTerminal = res[advIdx]
