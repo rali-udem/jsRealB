@@ -3,27 +3,27 @@
 ///// direct import from the sources
 /// for use in debugging in Visual Studio Code with launch configuration: "Run current file"
 //  when it seems OK, use instead the webpack created by "npm web-dev" or "npm web-prod"
-/* 
+/* */
 import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         S,NP,AP,VP,AdvP,PP,CP,SP,
         root, subj, det, mod, comp, coord,
         loadFr,loadEn,addToLexicon,getLanguage,getLemma,
         testWarnings,jsRealB_dateCreated,jsRealB_version,
         fromJSON,ppJSON} from "./src/jsRealB.js"
-*/
+
 ///// use the webpack module
 ////  Caution
 // the direct import can currently only be used with Chrome 
 // because Firefox and Safari do not allow assertions that are used to load the JSON dictionaries and rules
 // it is much more convenient to use use within Visual Studio Code
-/* */
+/* 
 let {default:jsRealB} = await import("./dist/jsRealB.js");
 if (typeof window != "undefined")  
     // HACK: when loaded in a browser the above await import seems to create jsRealB in the "window" object
     Object.assign(globalThis,window.jsRealB);
 else
     Object.assign(globalThis,jsRealB);
-
+*/
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}`)
 
 let exemplesFr,exemplesEn,dependancesFr,dependenciesEn, constituentEnFr;
@@ -812,7 +812,7 @@ function checkAllExJSON(nomEx,exemples){
     }
     showDiffs(nomEx+"-JSON",nbDiffs,exemples.length);
 }
-Constituent.debug=true;
+
 
 function testPreviousExamples(){
     makeExamples();
@@ -838,17 +838,10 @@ function testPreviousExamples(){
     console.log("----")
     // testWarnings()
 }
-//  to check a single "new" example, comment the following
+
+//  To check a single "new" example, comment the following
 // testPreviousExamples()
-//  add an example within a call to test(...) which displays the indented source of the expression and its realization 
-//  do not forget to "load" the appropriate language
+//  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
+//  Do not forget to "load" the appropriate language
+Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 loadFr()
-test(S(S(VP(V("trouver").t("b"),
-       NP(D("un"),N("livre"),
-          SP(Pro("dont"),
-             Pro("on"),
-             VP(V("dire").t("s"),
-                SP(Pro("que"),
-                    VP(V("traduire").t("pc"),Pro("lui").c("acc")).typ({'neg':true,"pas":true}))
-                ).typ({"mod":"poss"}))))),
-       VP(V("être"),A("difficile"))).typ({"pas":true,"neg":true}))

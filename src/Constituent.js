@@ -379,7 +379,7 @@ class Constituent {
     doElisionFr(cList){
         //// Elision rules for French
         // implements the obligatory elision rules of the "Office de la langue française du Québec"
-        //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&t1=&id=1737
+        //    https://vitrinelinguistique.oqlf.gouv.qc.ca/21737/lorthographe/elision-et-apostrophe/elision-obligatoire
         // for Euphonie, rules were taken from Antidote (Guide/Phonétique)
 
         const elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
@@ -745,7 +745,7 @@ genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A","Adv",...Constituent.deprels]);
-genOptionFunc("pro",undefined,["NP","PP","N"]);
+genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 

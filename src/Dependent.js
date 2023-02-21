@@ -52,7 +52,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     this.addDependent(d);
                     this.dependentsSource.push(d);
                 } else {
-                    this.warn("bad Dependent",NO(i+1).dOpt({ord:true}).realize(),d.constructor.name+":"+JSON.stringify(d))
+                    this.warn("bad Dependent",NO(i+2).dOpt({ord:true}).realize(),d.constructor.name+":"+JSON.stringify(d))
                 }
             }
             // terminate the list with add which does other checks on the final list
@@ -859,12 +859,16 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         }
         // check that all dependents use the same deprel
         const deprel=this.dependents[0].constType;
+        const noConnect = this.terminal.lemma=="";
         for (let j = 0; j < last; j++) { //insert comma after each element
             const dj=this.dependents[j];
             if (!dj.isA(deprel)){
                 this.warn("inconsistent dependents within a coord",deprel,dj.constType)
             }
-            if (j<last-1) dj.props["a"]=[","];
+            if (noConnect || j<last-1){ // except the last if there is conjunction
+                if (dj.props["a"] === undefined || !dj.props["a"].includes(","))
+                    dj.props["a"]=[","];
+            }
             Array.prototype.push.apply(res,dj.real())
         }
         // insert realisation of the terminal before last...

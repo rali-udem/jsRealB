@@ -5,7 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test jsRealb interactively</title>
-    <script src="tests-dev.js" type="module"></script>
+    <script type="module">
+    // load the webpack module
+    let {default:jsRealB} = await import("./dist/jsRealB.js");
+    if (typeof window != "undefined")  
+        // HACK: when loaded in a browser the above await import seems to create jsRealB in the "window" object
+        Object.assign(globalThis,window.jsRealB);
+    else
+        Object.assign(globalThis,jsRealB);
+    console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()}`)
+    </script>
 </head>
 <body>
     <p>This is single page that loads <code>tests-dev.js</code> which itself loads the current <code>webpack module</code>. </p> 

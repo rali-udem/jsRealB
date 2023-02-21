@@ -75,8 +75,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
                        `npm run build-dev` or  `npm run build-prod` 
     * `test-demos.sh`: launch all web demos in Safari and the jsRealB server with the Weather Python demo
     * `test-node.js`: import the jsRealB package installed with `npm` and realize a simple English sentence
-    * `tests-dev.js` : `node.js` application that loads `jsRealB.js` from the `dist` directory and an internal script that displays the realization of a few examples. 
-    * `web-dev.html` : load `tests-dev.js` in a web page, thus allowing interactive testing. Ideally should use a local web server so that the module loading can be done.
+    * `tests-dev.js` : `node.js` application that loads `jsRealB.js` from the `dist` directory. It also has functions with many examples that were useful during the development.
+    * `web-dev.html` : load the current `dist/jsRealB.js` webpack module in a web page, thus allowing interactive testing. 
     * `webpack.config.cjs` : configuration file for building the `jsRealB.js` package in the `dist` directory
     * `.vscode` : hidden directory containing configuration for Visual Studio Code 
 

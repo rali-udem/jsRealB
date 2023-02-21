@@ -12,16 +12,16 @@ $.urlParam = function(name){
     }
 }
 
-// go the corresponding element in the other language
+// go the corresponding h2 or h3 element in the other language
 function changeLanguage(){
     // find the index first h2 element displayed on the page in the current language
-    let h2Tops = $(`h2[lang=${currentLang}]`).map(function(){return this.offsetTop}).get();
+    let h2Tops = $(`h2[lang=${currentLang}],h3[lang=${currentLang}]`).map(function(){return this.offsetTop}).get();
     const currTop = window.scrollY;
     const idx=h2Tops.findIndex(v => v>=currTop);
     setLanguage(currentLang=="en"?"fr":"en");
     if (idx>=0){
         // scroll to the corresponding element in the new language
-        h2Tops = $(`h2[lang=${currentLang}]`).map(function(){return this.offsetTop}).get();
+        h2Tops = $(`h2[lang=${currentLang}],h3[lang=${currentLang}]`).map(function(){return this.offsetTop}).get();
         window.scrollTo(0,h2Tops[idx])
     }
 }

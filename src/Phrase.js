@@ -141,7 +141,7 @@ class Phrase extends Constituent{
     }
     
     /**
-     * Provide a more informtive informative error about a call that should never have happened
+     * Provide a more informative error about a call that should never have happened
      * @returns raise an exception
      */
     grammaticalNumber(){
@@ -182,16 +182,21 @@ class Phrase extends Constituent{
                     const e=this.elements[i];
                     if (this.peng){ // do not try to modify if current peng does not exist e.g. Q
                         if (e.isA("NO") && i<headIndex){ // NO must appear before the N for agreement
-                            e.peng=this.peng
+                            this.peng["n"]=e.grammaticalNumber();
+                            // gender agreement between a French number and subject
+                            e.peng["g"]=this.peng["g"]; 
                         } else if (e.isA("D","A")){
                             // link gender and number of the noun to the determiners and adjectives
                             // in English possessive determiner should not depend on the noun but on the "owner"
                             if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
                                 e.peng=this.peng
                             }
-                        } else if (e.isA("CP")){ // check for a coordination of adjectives or number
+                        } else if (e.isA("CP")){ // check for a coordination of adjectives
                             const me=this;
-                            e.elements.filter(e=>e.isA("A","NO")).forEach((e)=>e.peng=me.peng)
+                            e.elements.forEach(function(e){
+                                if (e.isA("A")) // 
+                                    e.peng=me.peng
+                            })
                         }
                     }
                 }
@@ -392,7 +397,7 @@ class Phrase extends Constituent{
         let nb=0;
         for (let i = 0; i < this.elements.length; i++) {
             const e=this.elements[i];
-            if (e.isA("NP","N","Pro","Q","NO")){
+            if (e.isA("NP","N","Pro","Q")){
                 nb+=1;
                 const propG=e.getProp("g");
                 if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
@@ -546,7 +551,7 @@ class Phrase extends Constituent{
         } else {
             vp=this.getConst("VP");
             if (vp !== undefined){
-                if (this.elements.length>0 && this.elements[0].isA("N","NP","Pro","S")){
+                if (this.elements.length>0 && this.elements[0].isA("N","NP","Pro")){
                     subject=this.removeElement(0);
                     if (subject.isA("Pro")){ 
                         subject = subject.getTonicPro()
@@ -579,10 +584,7 @@ class Phrase extends Constituent{
                     this.linkPengWithSubject("VP","V",newSubject);
                 } 
                 if (subject!=null){   // insert subject where the object was
-                    let prep = this.isFr() ? "par" : "by";
-                    if (subject.isA("S")) // consider the S subject is a VP
-                        prep = this.isFr() ? "de" : "to";
-                    vp.addElement(PP(P(prep,this.lang),subject),objIdx);
+                    vp.addElement(PP(P(this.isFr()?"par":"by",this.lang),subject),objIdx);
                 }
             } else if (subject !=null){ // no object, but with a subject
                 //create a dummy subject with a "il"/"it" 
@@ -593,20 +595,14 @@ class Phrase extends Constituent{
                 vp.peng=newSubject.peng
                 // add original subject after the verb to serve as an object
                 let vpIdx=vp.getIndex("V");
-                let prep = this.isFr() ? "par" : "by";
-                let pos = vpIdx+1;
-                if (subject.isA("S")){ // consider the S subject is a VP
-                    prep = this.isFr() ? "de" : "to";
-                    pos = undefined
-                }
-                vp.addElement(PP(P(prep,this.lang),subject),pos);
+                vp.addElement(PP(P(this.isFr()?"par":"by",this.lang),subject),vpIdx+1);
             }
             if (this.isFr()){
                 // do this only for French because in English this is done by processTyp_en
                 // change verbe into an "être" auxiliary and make it agree with the newSubject
                 const verbeIdx=vp.getIndex("V")
                 const verbe=vp.removeElement(verbeIdx);
-                const aux=V(verbe.lemma == "être" ? "avoir" : "être","fr");
+                const aux=V("être","fr");
                 aux.parentConst=vp;
                 aux.taux=verbe.taux;
                 if (newSubject!==undefined) // this can happen when a subject is Q
