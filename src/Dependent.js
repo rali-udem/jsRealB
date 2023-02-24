@@ -200,9 +200,6 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         } 
                     } 
                 } else if (depTerm.isA("NO")){
-                    // headTerm.peng["n"]=depTerm.grammaticalNumber();
-                    // // gender agreement between a French number and subject
-                    // depTerm.peng["g"]=headTerm.peng["g"]
                     depTerm.peng=headTerm.peng
                 } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
                     if (d.dependents.length==1 && d.dependents[0].isA("mod") && 
@@ -216,7 +213,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     depTerm.peng=this.peng
                     // check for an attribute of a copula with an adjective
                     if (this.isFr() && copulesFR.includes(headTerm.lemma)){
-                        const iSubj=this.findIndex(d0=>d0.isA("subj") && d0.terminal.isA("N"));
+                        const iSubj=this.findIndex(d0=>d0.isA("subj") && d0.terminal.isA("N","Pro"));
                         if (iSubj>=0){
                             depTerm.peng=this.dependents[iSubj].peng;
                         }
@@ -468,7 +465,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 //  calling addPre(pp) would evaluate the pp too soon...
                 let compIdx=this.findIndex(d=>d.isA("comp","mod"));
                 if (compIdx==-1)compIdx=0;
-                this.addPost(pp,compIdx);
+                // this.addPost(pp,compIdx);
+                this.addDependent(new Dependent([pp],"*post*"),compIdx)
             }
         } else {
             return this.warn("not found","V",isFr()?"contexte passif":"passive context")
@@ -897,7 +895,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             // in some cases the coordination can be a quoted string (possibly empty)
             this.warn("bad parameter","C",thisCoord.constType)
         }
-        return res;
+        return this.doFormat(res);
     }
 
     /**

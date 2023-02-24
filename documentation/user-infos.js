@@ -63,10 +63,12 @@ var dependentsSect =
                               "en":["Determiner",'det(D("the"))']},
          {"pattern":"comp(…)","fr":["Complément du verbe",'comp(N("fromage"),det(D("le")))'],
                               "en":["Verb complement",'comp(N("cheese"),det(D("the")))']},
-         {"pattern":"mod(…)","fr":["Modificateeur",'mod(A("bon").f("su"))'],
+         {"pattern":"mod(…)","fr":["Modificateur",'mod(A("bon").f("su"))'],
                             "en":["Modifier",'mod(A("good").f("su"))']},
-         {"pattern":"coord(…)","fr":["Coordination",'root(V("courir"),coord(C("et"),subj(N("chat").n("p")),subj(N("chien").n("p"))))'],
-                               "en":["Coordination",'root(V("run"),coord(C("and"),subj(N("cat").n("p")),subj(N("dog").n("p"))))']},
+         {"pattern":"coord(C(…),..)","fr":["Coordination",'coord(C("et"),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
+                               "en":["Coordination",'coord(C("and"),subj(N("cat")),subj(N("dog")),subj(N("mouse"))).n("p")']},
+        {"pattern":'coord(Q(""),..)',"fr":["Coordination sans C",'coord(Q(""),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
+                               "en":["Coordination without C",'coord(Q(""),subj(N("cat")),subj(N("dog")),subj(N("mouse"))).n("p")']},
      ]};
 
 

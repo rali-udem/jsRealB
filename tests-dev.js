@@ -844,4 +844,11 @@ function testPreviousExamples(){
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
+// new tests for agreement through coordination
 loadFr()
+test(root(V("arriver"),
+          subj(Pro("elles").c("nom")),
+          coord(C("et"),
+                mod(A("confiant")),
+                mod(A("heureux")))))
+test(NP(CP(C('ou'),NO(2),NO(3)).en('['),N('fille'),CP(C('et'),A('jeune'),A('joli')).tag("b")))

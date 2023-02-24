@@ -298,8 +298,13 @@ function  checkAdverbPos(res){
     function moveTo(startIdx,n,toIdx){
         res.splice(toIdx,0,...res.splice(startIdx,n))
     }
+    const relpro = res[0].isEn() ? ["that","who","which"] : ["qui","que","dont","où"]
+    // find the start of the current "sentence" in order not to move an adverb across the boundary of a relative
+    let start = res.length-1
+    while (start>=0 && !(res[start].isA("Pro")&&relpro.includes(res[start].lemma))) start--;
+    start++;
      // find first consecutive adverbs (ignoring "not" and "ne")
-    const advIdxes = res.map((e,i)=>(e.isA("Adv") && !(["not","ne"].includes(e.lemma)))?i:-1).filter((e)=> e!=-1)
+    const advIdxes = res.map((e,i)=>(i>=start && e.isA("Adv") && !(["not","ne"].includes(e.lemma)))?i:-1).filter((e)=> e!=-1)
     if (advIdxes.length==0) return;
     const advIdx = advIdxes[0]
     const advTerminal = res[advIdx]
@@ -346,7 +351,7 @@ function  checkAdverbPos(res){
         }
     }
 
-    if (advIdx >= 2 && advTerminal.props["pos"]===undefined){
+    if (advIdx >= start+2 && advTerminal.props["pos"]===undefined){
         // do not touch adverb with pos specified
         if (advTerminal.isEn()){  
             // English: the adverb must be put after the first auxiliary
