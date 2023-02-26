@@ -263,20 +263,41 @@ class Phrase extends Constituent{
                 const vpv=this.linkPengWithSubject("VP","V",subject)
                 if (vpv !== undefined){
                     this.taux=vpv.taux;
-                    if (this.isFr() && copulesFR.includes(vpv.lemma)){// check for a French attribute of copula verb
-                        // with an adjective
-                        const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
-                        if (attribute===undefined){
-                            let elems=vpv.parentConst.elements;
-                            let vpvIdx=elems.findIndex(e => e==vpv);
-                            if (vpvIdx<0){
-                                this.error("linkProperties	: verb not found, but this should never have happened")
-                            } else {
-                                for (var i=vpvIdx+1;i<elems.length;i++){
-                                    var pp=elems[i];
-                                    if (pp.isA("V") && pp.getProp("t")=="pp"){
+                    if (this.isFr() && copulesFR.includes(vpv.lemma)){
+                        // check for coordination of attributes or past participles
+                        const vpcp = this.getFromPath([["VP"],["CP"]])
+                        if (vpcp!== undefined){
+                            for (let e of vpcp.elements){
+                                if (e.isA("A"))
+                                    e.peng=subject.peng;
+                                else if (e.isA("V") && e.getProp("t")=="pp")
+                                    e.peng=subject.peng
+                                else if (e.isA("AP"))
+                                    e.linkPengWithSubject("AP","A",subject)
+                                else if (e.isA("VP")){
+                                    const v = e.getFromPath([["VP"],["V"]]);
+                                    if (v !== undefined && v.getProp("t")=="pp"){
                                         pp.peng=subject.peng;
-                                        break;
+                                    }
+                                }
+                            }
+                        } else { 
+                            // check for a single French attribute of copula verb
+                            // with an adjective
+                            const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
+                            if (attribute===undefined){
+                                // check for past participle after the verb
+                                let elems=vpv.parentConst.elements;
+                                let vpvIdx=elems.findIndex(e => e==vpv);
+                                if (vpvIdx<0){
+                                    this.error("linkProperties	: verb not found, but this should never have happened")
+                                } else {
+                                    for (var i=vpvIdx+1;i<elems.length;i++){
+                                        var pp=elems[i];
+                                        if (pp.isA("V") && pp.getProp("t")=="pp"){
+                                            pp.peng=subject.peng;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -323,7 +344,7 @@ class Phrase extends Constituent{
      * @param {Phrase} phrase 
      * @param {Terminal} terminal 
      * @param {Constituent} subject 
-     * @returns returns the subjectt
+     * @returns returns the subject
      */
     linkPengWithSubject(phrase,terminal,subject){
         // do not link a subject pronoun at genitive

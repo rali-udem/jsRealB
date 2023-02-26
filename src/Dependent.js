@@ -251,8 +251,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         // consider this as coordination of verb sharing a subject (the current root)
                         //  or a coordination of adjectives
                         for (let d0 of d.dependents){
-                            d0.peng=this.peng;
-                            d0.terminal.peng=this.peng;
+                            d0.peng=headTerm.peng;
+                            d0.terminal.peng=headTerm.peng;
                         }
                     }
                 }

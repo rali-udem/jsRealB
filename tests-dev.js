@@ -840,13 +840,18 @@ function testPreviousExamples(){
 }
 
 //  To check a single "new" example, comment the following
-// testPreviousExamples()
+testPreviousExamples()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 // new tests for agreement through coordination
 loadFr()
-test(root(V("arriver"),
+// test(S(CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))), 
+//                       VP(V("être").t("p"),A("gentil"))))
+test(S(Pro("elles").c("nom"),
+       VP(V("être"),
+          CP(C("et"),A("confiant"),A("heureux")))))
+test(root(V("être"),
           subj(Pro("elles").c("nom")),
           coord(C("et"),
                 mod(A("confiant")),
