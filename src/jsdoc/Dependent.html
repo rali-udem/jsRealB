@@ -30,7 +30,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>Dependent<span class="signature">(params, deprel, lang)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Dependent a subclass of Constituent for creating non terminals in Constituency notation</div>
+            <div class="class-description">Dependent a subclass of Constituent for creating non terminals in Dependency notation</div>
         
     
 </header>
@@ -1056,7 +1056,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line939">line 939</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line986">line 986</a>
     </li></ul></dd>
     
 
@@ -1155,7 +1155,7 @@ at realization time
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line809">line 809</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line840">line 840</a>
     </li></ul></dd>
     
 
@@ -1243,7 +1243,7 @@ at realization time
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line870">line 870</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line905">line 905</a>
     </li></ul></dd>
     
 
@@ -1299,6 +1299,7 @@ at realization time
 <div class="description">
     Change order of pronouns in French (quite intricate)
 Instance method that calls a common method for both Phrase and Dependent
+called by doFormat in Constituent.js
 HACK: call local to get around import circularity
 </div>
 
@@ -1392,7 +1393,7 @@ HACK: call local to get around import circularity
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line892">line 892</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line928">line 928</a>
     </li></ul></dd>
     
 
@@ -1532,7 +1533,7 @@ HACK: call local to get around import circularity
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line284">line 284</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line285">line 285</a>
     </li></ul></dd>
     
 
@@ -1804,7 +1805,7 @@ if subject is a noun, the subject stays but add a new pronoun
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line595">line 595</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line604">line 604</a>
     </li></ul></dd>
     
 
@@ -2090,7 +2091,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line575">line 575</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line582">line 582</a>
     </li></ul></dd>
     
 
@@ -2178,7 +2179,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line397">line 397</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line398">line 398</a>
     </li></ul></dd>
     
 
@@ -2315,7 +2316,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line783">line 783</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line814">line 814</a>
     </li></ul></dd>
     
 
@@ -2453,7 +2454,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line554">line 554</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line561">line 561</a>
     </li></ul></dd>
     
 
@@ -2590,7 +2591,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line517">line 517</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line524">line 524</a>
     </li></ul></dd>
     
 
@@ -2686,7 +2687,10 @@ This might modify the current list of elements
 
             
 
-            <td class="description last">typ options for this Phrase</td>
+            <td class="description last">typ options for this Phrase
+HACK: in some cases, the start of the search for the first dependent to "remove" 
+      is set by the local "hidden" attribute: this.searchStart currently used by 
+      variationsFromText</td>
         </tr>
 
     
@@ -2727,7 +2731,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line622">line 622</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line634">line 634</a>
     </li></ul></dd>
     
 
@@ -2912,7 +2916,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line477">line 477</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line484">line 484</a>
     </li></ul></dd>
     
 
@@ -3002,7 +3006,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line357">line 357</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line358">line 358</a>
     </li></ul></dd>
     
 
@@ -3103,7 +3107,7 @@ because the pronoun depends on the role of the NP in the sentence
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line312">line 312</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -3252,7 +3256,7 @@ this must be done in the context of the parent, because some elements might be c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line378">line 378</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line379">line 379</a>
     </li></ul></dd>
     
 
@@ -3340,7 +3344,7 @@ this must be done in the context of the parent, because some elements might be c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line900">line 900</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line936">line 936</a>
     </li></ul></dd>
     
 
@@ -3657,7 +3661,7 @@ this must be done in the context of the parent, because some elements might be c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line271">line 271</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -3805,7 +3809,7 @@ CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource(
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line968">line 968</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1015">line 1015</a>
     </li></ul></dd>
     
 
@@ -3958,8 +3962,8 @@ CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource(
 
 <div class="description">
     Recreate a jsRealB expression
-if indent is positive number create an indented pretty-print string (call it with 0 at the root)
-if called with no parameter then create a single line
+if indent is non negative number create an indented pretty-print string (call it with 0 at the root)
+if called with no parameter (equivalent to a negative number) then create a single line
 </div>
 
 
@@ -4052,7 +4056,7 @@ if called with no parameter then create a single line
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line950">line 950</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line997">line 997</a>
     </li></ul></dd>
     
 
@@ -4108,13 +4112,13 @@ if called with no parameter then create a single line
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
 </footer>
 
 <script> prettyPrint(); </script>

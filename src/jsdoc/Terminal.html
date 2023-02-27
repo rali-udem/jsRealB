@@ -705,7 +705,7 @@ In fact: should never be called
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line272">line 272</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line274">line 274</a>
     </li></ul></dd>
     
 
@@ -805,7 +805,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line823">line 823</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line872">line 872</a>
     </li></ul></dd>
     
 
@@ -903,7 +903,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line700">line 700</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line709">line 709</a>
     </li></ul></dd>
     
 
@@ -1001,7 +1001,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line647">line 647</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line656">line 656</a>
     </li></ul></dd>
     
 
@@ -1099,7 +1099,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line508">line 508</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line514">line 514</a>
     </li></ul></dd>
     
 
@@ -1269,7 +1269,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line711">line 711</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line720">line 720</a>
     </li></ul></dd>
     
 
@@ -1416,7 +1416,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line308">line 308</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line310">line 310</a>
     </li></ul></dd>
     
 
@@ -1445,7 +1445,7 @@ to ensure that eval has access to all symbols now that packages are used
 
         
 <div class="param-desc">
-    string corresponding the declined
+    list of Terminals with their realization field filled
 </div>
 
 
@@ -1514,7 +1514,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line248">line 248</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -1708,7 +1708,7 @@ used heavily in conjugate_fr and conjugate_en
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line458">line 458</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line464">line 464</a>
     </li></ul></dd>
     
 
@@ -1806,7 +1806,7 @@ used heavily in conjugate_fr and conjugate_en
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line477">line 477</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line483">line 483</a>
     </li></ul></dd>
     
 
@@ -2120,6 +2120,404 @@ used heavily in conjugate_fr and conjugate_en
     
 
     
+    <h4 class="name" id="numberToOrdinal"><span class="type-signature"></span>numberToOrdinal<span class="signature">(number, lang, gender)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Show an ordinal number in words (natural form)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">to write as words</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lang</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"en"</span>
+|
+
+<span class="param-type">"fr"</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">language to use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gender</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"m"</span>
+|
+
+<span class="param-type">"f"</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">gender to use (in French only)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line854">line 854</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    string corresponding to the number in words
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="numberToWord"><span class="type-signature"></span>numberToWord<span class="signature">(number, lang, gender)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Show a number in words (natural form)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">to write as words</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lang</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"en"</span>
+|
+
+<span class="param-type">"fr"</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">language to use</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>gender</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"m"</span>
+|
+
+<span class="param-type">"f"</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">gender to use (in French only)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line835">line 835</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    string corresponding to the number in words
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="real"><span class="type-signature"></span>real<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -2172,7 +2570,7 @@ used heavily in conjugate_fr and conjugate_en
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line778">line 778</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line787">line 787</a>
     </li></ul></dd>
     
 
@@ -2444,7 +2842,7 @@ CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource(
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line843">line 843</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line892">line 892</a>
     </li></ul></dd>
     
 
@@ -2593,7 +2991,7 @@ CAUTION: this function is on the Terminal prototype, but defined here to avoid c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1142">line 1142</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1189">line 1189</a>
     </li></ul></dd>
     
 
@@ -2789,7 +3187,7 @@ CAUTION: this function is on the Terminal prototype, but defined here to avoid c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line831">line 831</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line880">line 880</a>
     </li></ul></dd>
     
 
@@ -2845,13 +3243,13 @@ CAUTION: this function is on the Terminal prototype, but defined here to avoid c
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -31,7 +31,7 @@
     Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
  */
 
-import {getRules, getLexicon, getLanguage, quoteOOV} from "./Lexicon.js";
+import {getRules, getLexicon, getLanguage, quoteOOV, getLemma} from "./Lexicon.js";
 export {Constituent}
 
 /**
@@ -130,8 +130,11 @@ class Constituent {
 
     /**
      * Get a given constituent with a path starting at this
-     * @param {string[]} path a list of node type , or list of node types (an empty string in this list means optional)
+     * @param {string[]} path a list of node type , or list of node types (an empty string in this list 
+     *                   means optional)
      * @returns  undefined if any node does not exist on the path
+     * @example a parameter of the form: [["VP"],["CP"],["AP,""],[A]] will find an "A" within
+     *          an optional "AP" which is a childo f a "CP" within a "VP" 
      */
     getFromPath(path){
         if (path.length==0) return this;
@@ -370,8 +373,10 @@ class Constituent {
             var w1=m1[2];
             var w2=m2[2];
             if ((w1=="a"||w1=="A") &amp;&amp; cList[i].isA("D")){
-                if (/^[aeio]/i.exec(w2) ||   // starts with a vowel
-                    (/^u/i.exec(w2) &amp;&amp; !uLikeYouRE.exec(w2)) || // u does not sound like you
+                if (/^[ai]/i.exec(w2) ||   // starts with a or i
+                    (/^e/i.exec(w2) &amp;&amp; !/^eu/i.exec(w2) || // starts with e but not eu
+                     /^o/i.exec(w2) &amp;&amp; !/^onc?e/.exec(w2) || // starts with o but not one or once
+                     /^u/i.exec(w2) &amp;&amp; !uLikeYouRE.exec(w2)) || // u does not sound like you
                     hAnRE.exec(w2) ||       // silent h
                     acronymRE.exec(w2)) {   // is an acronym
                         cList[i].realization=m1[1]+w1+"n"+m1[3];
@@ -405,7 +410,7 @@ class Constituent {
     doElisionFr(cList){
         //// Elision rules for French
         // implements the obligatory elision rules of the "Office de la langue française du Québec"
-        //    http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737
+        //    https://vitrinelinguistique.oqlf.gouv.qc.ca/21737/lorthographe/elision-et-apostrophe/elision-obligatoire
         // for Euphonie, rules were taken from Antidote (Guide/Phonétique)
 
         const elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
@@ -452,23 +457,30 @@ class Constituent {
             var w1=m1[2];
             var w2=m2[2];
             var w3NoWords = ! /^\s*\w/.test(m1[3]); // check that the rest of the first word does not start with a word
-            if (elidableWordFrRE.exec(w1) &amp;&amp; isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType) &amp;&amp; w3NoWords){
-                cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                i++;
-            } else if (euphonieFrRE.exec(w1) &amp;&amp; isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)&amp;&amp; w3NoWords){ // euphonie
-                if (/^ce$/i.exec(w1) &amp;&amp; /(^est$)|(^étai)|(^a$)/.exec(w2)){
-                    // very special case but very frequent
+            let elisionFound=false;
+            if (isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){ // is the next word elidable
+                if (elidableWordFrRE.exec(w1) &amp;&amp; w3NoWords){
                     cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                } else {
-                    cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
+                    elisionFound=true;
+                } else if (euphonieFrRE.exec(w1) &amp;&amp; w3NoWords &amp;&amp; cList[i].getProp("n")=="s"){ // euphonie
+                    if (/^ce$/i.exec(w1) &amp;&amp; /(^est$)|(^étai)|(^a$)/.exec(w2)){
+                        // very special case but very frequent
+                        cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
+                    } else {
+                        cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
+                    }
+                    elisionFound=true;
                 }
-                i++;
+            }
+            if (elisionFound) {
+                i++;    // skip next token 
             } else if ((contr=contractionFrTable[w1+"+"+w2])!=null &amp;&amp; w3NoWords &amp;&amp; last>1){
+                // try contraction
                 // check if the next word would be elidable, so instead elide it instead of contracting
                 // except when the next word is a date which has a "strange" realization
                 // do not elide when there are only two words, wait until at least another token is there
                 if (elidableWordFrRE.exec(w2) &amp;&amp; i+2&lt;=last &amp;&amp; !cList[i+1].isA("DT") &amp;&amp;
-                isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
+                    isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
                     cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
                 } else if (!(w2.startsWith("le") &amp;&amp; cList[i+1].isA("Pro"))){ 
                     // do contraction of first word and remove second word (keeping start and end)
@@ -710,13 +722,25 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             val=null;
         }
-        if (this.isA("CP") &amp;&amp; !["cap","lier"].includes(option)){
-            // propagate an option through the children of a CP except for "cap" and "lier"
+        if (optionName===undefined)optionName=option; 
+        if (this.isA("CP") &amp;&amp; !["cap","lier","pos"].includes(option)){
+            // propagate an option through the children of a CP except for "cap", "pos" and "lier"
             if(prog==undefined)this.addOptSource(optionName,val)
             for (let i = 0; i &lt; this.elements.length; i++) {
                 const e=this.elements[i];
                 if (allowedConsts.length==0 || e.isA(allowedConsts)){
-                    e[option](val)
+                    e[option](val,true)  // do not add this option to the source of these elements
+                }
+            }
+            return this;
+        }
+        if (this.isA("coord") &amp;&amp; !["cap","lier","pos"].includes(option)){
+            // propagate an option through the head of the dependents of a coord except for "cap", "pos" and "lier"
+            if(prog==undefined)this.addOptSource(optionName,val)
+            for (let i = 0; i &lt; this.dependents.length; i++) {
+                const e=this.dependents[i].terminal;
+                if (allowedConsts.length==0 || e.isA(allowedConsts)){
+                    e[option](val,true)  // do not add this option to the source of the head of the dependents
                 }
             }
             return this;
@@ -726,7 +750,6 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
-            if (optionName===undefined)optionName=option; 
             this.setProp(optionName,val);
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
@@ -745,15 +768,15 @@ genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", "b-to", // simple tenses
-                "pc", "pq", "cp", "fa", "spa", "spq"],["V","VP","S","SP","CP"]);    // composed tenses
+                   "pc", "pq", "cp", "pa", "fa", "spa", "spq","bp"],["V","VP","S","SP","CP"]);    // compound tenses
 genOptionFunc("aux",["av","êt","aê"],["V","VP","S","SP","CP"]);
 // ordinary properties
 genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
-genOptionFunc("pos",["post","pre"],[]);
-genOptionFunc("pro",undefined,["NP","PP","N"]);
+genOptionFunc("pos",["post","pre"],["A","Adv",...Constituent.deprels]);
+genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
 
@@ -789,13 +812,13 @@ genOptionListFunc("en"); // "entourer": old name for before-after
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
 </footer>
 
 <script> prettyPrint(); </script>

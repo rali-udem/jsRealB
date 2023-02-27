@@ -65,7 +65,7 @@ QUnit.test( "Dependances FR - Bonfante", function( assert ) {
                     comp(V("look").t("b"),
                         mod(A("weak"))))).cap(False),
         "expected": "so this kidnapping makes him look weak",
-        "message": " Figure ii p jj / REM:"},
+        "message": " Figure 2.26 p 62"},
         ];
 
     for (var i = 0; i < sentences.length; i++) {

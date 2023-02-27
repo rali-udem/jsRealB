@@ -35,7 +35,7 @@
 
 import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js"
 import { negMod } from "./Lexicon.js";
-export {getElems, affixHopping, doFrenchPronounPlacement}
+export {getElems, affixHopping, doFrenchPronounPlacement, checkAdverbPos}
 
 /**
  * flatten list of elements removing null and undefined
@@ -235,7 +235,7 @@ function doFrenchPronounPlacement(cList){
         let c=cList[i];
         if (c.isA("V") &amp;&amp; c.neg2 !== undefined){
             if (c.isMod || c.isProg){
-                c.insertReal(cList,Adv(c.neg2,"fr"),i+1);
+                c.insertReal(cList,Q(c.neg2),i+1);
                 c.insertReal(cList,Adv("ne","fr"),i);
                 delete c.neg2 // remove negation from the original verb
                 iDeb=i+3      // skip these in the following loop
@@ -266,7 +266,7 @@ function doFrenchPronounPlacement(cList){
                 if (c.neg2 !== undefined){
                     c.insertReal(pros,Adv("ne","fr"));
                     if (t=="b")
-                        c.insertReal(pros,Adv(c.neg2,"fr"));
+                        c.insertReal(pros,Q(c.neg2));
                     else
                         neg2=c.neg2;
                 }
@@ -285,18 +285,22 @@ function doFrenchPronounPlacement(cList){
                     i--; // to ensure that all elements are taken into account because cList array has changed
                 }
             }
-        // HACK: stop when seeing a preposition (except "par" introduced by a passivee) or a conjunction 
-        //          or a "strange" pronoun that might start a phrase 
-        //       whose structure has been flattened at this stage
-        } else if (c.isA("P","C","Adv","Pro") &amp;&amp; verbPos!==undefined &amp;&amp; c.lemma!="par"){
-            break;
+        } else if (c.isA("P","C","Adv","Pro") &amp;&amp; verbPos!==undefined){
+            // HACK: stop when seeing a preposition or a conjunction
+            //         or a "strange" pronoun that might start a phrase
+            //      whose structure has been flattened at this stage
+            if (c.lemma=="par" &amp;&amp; i&lt;cList.length-1 &amp;&amp; cList[i+1].isA("Pro")){
+                // if "par"  followed by a Pro is encountered (probably for passive), keep them together
+                i++;
+            } else
+                break;
         }
     }
     if (verbPos === undefined)return;
     // add ending "pas" after the verb unless it is "lié" in which cas it goes after the next word
     if (neg2){// HACK: add neg2 to the original verb...
         const vb=cList[verbPos]
-        vb.insertReal(cList,Adv(neg2,"fr"),verbPos+(vb.getProp("lier")===undefined?1:2))
+        vb.insertReal(cList,Q(neg2),verbPos+(vb.getProp("lier")===undefined?1:2))
         if (pros.length>0  &amp;&amp;  pros[0].isA("Adv") &amp;&amp; pros[0].lemma=="ne"){
             cList.splice(verbPos,0,pros.shift())
             verbPos++;
@@ -309,7 +313,96 @@ function doFrenchPronounPlacement(cList){
             cList.splice(verbPos+k,0,pros[k])
         }
     }
-}</code></pre>
+}
+
+/**
+ * In a VP, place the first consecutive adverbs at a correct position according to the rules of the language. 
+ * Usually an adverb is set according to either .pos("pre"|"post")
+ * The problem occurs mainly with verbs with an auxiliary. 
+ * TODO: deal with more than one sequence of adverbs (although it should be rare)
+ * @param {Terminal[]} res : list of Termnals possibly modified in place 
+ */
+function  checkAdverbPos(res){
+    function moveTo(startIdx,n,toIdx){
+        res.splice(toIdx,0,...res.splice(startIdx,n))
+    }
+    const relpro = res[0].isEn() ? ["that","who","which"] : ["qui","que","dont","où"]
+    // find the start of the current "sentence" in order not to move an adverb across the boundary of a relative
+    let start = res.length-1
+    while (start>=0 &amp;&amp; !(res[start].isA("Pro")&amp;&amp;relpro.includes(res[start].lemma))) start--;
+    start++;
+     // find first consecutive adverbs (ignoring "not" and "ne")
+    const advIdxes = res.map((e,i)=>(i>=start &amp;&amp; e.isA("Adv") &amp;&amp; !(["not","ne"].includes(e.lemma)))?i:-1).filter((e)=> e!=-1)
+    if (advIdxes.length==0) return;
+    const advIdx = advIdxes[0]
+    const advTerminal = res[advIdx]
+    // check that the indexes of adverbs are consecutive, remove those that are not
+    for (let i=1; i&lt;advIdxes.length;i++){
+        if (advIdxes[i] != advIdxes[i-1]+1){
+            advIdxes.splice(i,advIdxes.length-i)
+        }
+    }
+    function moveAfterAux(auxMods){
+        for (let auxIdx = 0;auxIdx&lt;advIdx-1; auxIdx++){
+            const e = res[auxIdx];
+            if (e.isA("V") &amp;&amp; auxMods.includes(e.lemma)){
+                if (res[auxIdx+1].isA("V")){
+                    if (e.isFr() &amp;&amp; auxMods.includes(res[auxIdx+1].lemma)){
+                        // another French modal ()
+                        moveTo(advIdx,advIdxes.length,auxIdx+2)
+                    } else {
+                        // there is an auxiliary/modals followed by a verb, insert adverb after the auxiliary
+                        moveTo(advIdx,advIdxes.length,auxIdx+1)
+                    }
+                } else if (e.isEn()){
+                    // in English insert after negation (in French, negation [ne  ... pas] is added after this step)
+                    if (res[auxIdx+1].lemma=="not" &amp;&amp; res[auxIdx+2].isA("V"))
+                        moveTo(advIdx,advIdxes.length,auxIdx+2)
+                } else {
+                    // in French 
+                    // check for infinitive verb (the adverb should go before it)
+                    let infinitiveFound=false;
+                    for (let idx=advIdx-1;idx>auxIdx;idx--){
+                        if (res[idx].props["t"]=="b"){
+                            moveTo(advIdx,advIdxes.length,idx)
+                            infinitiveFound=true
+                        }
+                    }
+                    if (!infinitiveFound){
+                        // check for inverted pronoun (added by .typ("int":"yon")
+                        if (res[auxIdx+1].isA("Pro") &amp;&amp; res[auxIdx+2].isA("V"))
+                            moveTo(advIdx,advIdxes.length,auxIdx+2)
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    if (advIdx >= start+2 &amp;&amp; advTerminal.props["pos"]===undefined){
+        // do not touch adverb with pos specified
+        if (advTerminal.isEn()){  
+            // English: the adverb must be put after the first auxiliary
+            moveAfterAux(["have","can","will","shall","may","must"])
+        } else { 
+            // French : https://fr.tsedryk.ca/grammaire/presentations/adverbes/4_La_place_de_l_adverbe.pdf (page 3)
+            // place immediately after the auxiliary
+            const advLemma = advTerminal.lemma;
+            if (advLemma.endsWith("ment")) return; // adverbe qui finit en -ment, laisser après le verbe
+            //  adverbes de temps et de lieu qu'il faut laisser après le verbe
+            //  extraits d'une liste de types d'adverbes à https://www.scribbr.fr/elements-linguistiques/adverbe/
+            const tempsAdv = ["hier","demain","longtemps","aujourd'hui","tôt","tard","auparavant","autrefois"]
+            const lieuAdv = ["ici","là","là-bas","là-haut","ailleurs","autour","derrière","dessus","dessous","devant",
+            "dedans","dehors","loin","près","alentour","après","avant","partout",
+            "où","partout","au-dessus","au-dessous","au-devant","nulle part","quelque part"]
+            if (tempsAdv.includes(advLemma) || lieuAdv.includes(advLemma)) return
+            if (advLemma.length&lt;=6 || ["toujours","souvent"].includes(advLemma))
+                // adverbe court ou commun: déjà, très, trop, toujours, souvent ... 
+                moveAfterAux(["avoir","être","vouloir","devoir","savoir"])
+        }
+    }
+}
+</code></pre>
         </article>
     </section>
 
@@ -319,13 +412,13 @@ function doFrenchPronounPlacement(cList){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
 </footer>
 
 <script> prettyPrint(); </script>

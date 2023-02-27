@@ -102,8 +102,11 @@ class Constituent {
 
     /**
      * Get a given constituent with a path starting at this
-     * @param {string[]} path a list of node type , or list of node types (an empty string in this list means optional)
+     * @param {string[]} path a list of node type , or list of node types (an empty string in this list 
+     *                   means optional)
      * @returns  undefined if any node does not exist on the path
+     * @example a parameter of the form: [["VP"],["CP"],["AP,""],[A]] will find an "A" within
+     *          an optional "AP" which is a childo f a "CP" within a "VP" 
      */
     getFromPath(path){
         if (path.length==0) return this;

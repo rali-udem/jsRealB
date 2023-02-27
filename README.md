@@ -55,7 +55,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
 * [`node-modules`](node-modules/) : used for transpiling with webpack
 * [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
-    * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html)
+    * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html). Build this directory by running `jsdoc -d jsdoc *.js`
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
     * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
     * `JSON-tools.js` : functions for dealing with the JSON input format

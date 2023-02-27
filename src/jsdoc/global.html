@@ -784,7 +784,7 @@ to resetSavedWarnings() once it has called getSavedWarnings()
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line860">line 860</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line909">line 909</a>
     </li></ul></dd>
     
 
@@ -814,235 +814,6 @@ to resetSavedWarnings() once it has called getSavedWarnings()
         
 <div class="param-desc">
     Terminal with NA as constType
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="addToLexicon"><span class="type-signature"></span>addToLexicon<span class="signature">(lemma, newInfos, lang<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Add new info or replace lexical information about a lemma
-With a single object, then the key is the lemma to change
-Existing info about a lemma that is not specified stays unchanged
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>lemma</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">lemma to change</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>newInfos</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-|
-
-<span class="param-type">null</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">new information, if null delete the entry</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>lang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">language in which to change, otherwise use current language</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    changed entry for lemma
 </div>
 
 
@@ -1172,7 +943,7 @@ Existing info about a lemma that is not specified stays unchanged
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line884">line 884</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line933">line 933</a>
     </li></ul></dd>
     
 
@@ -1319,7 +1090,7 @@ Existing info about a lemma that is not specified stays unchanged
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1221">line 1221</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1269">line 1269</a>
     </li></ul></dd>
     
 
@@ -1674,7 +1445,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1209">line 1209</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1257">line 1257</a>
     </li></ul></dd>
     
 
@@ -1833,7 +1604,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line890">line 890</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line939">line 939</a>
     </li></ul></dd>
     
 
@@ -1868,6 +1639,146 @@ implements the "affix hopping" rules given in
 
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="checkAdverbPos"><span class="type-signature"></span>checkAdverbPos<span class="signature">(res)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    In a VP, place the first consecutive adverbs at a correct position according to the rules of the language. 
+Usually an adverb is set according to either .pos("pre"|"post")
+The problem occurs mainly with verbs with an auxiliary. 
+TODO: deal with more than one sequence of adverbs (although it should be rare)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="Terminal.html">Terminal</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">: list of Termnals possibly modified in place</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="NonTerminal.js.html">NonTerminal.js</a>, <a href="NonTerminal.js.html#line297">line 297</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1992,7 +1903,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1010">line 1010</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1057">line 1057</a>
     </li></ul></dd>
     
 
@@ -2334,7 +2245,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1016">line 1016</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1063">line 1063</a>
     </li></ul></dd>
     
 
@@ -2481,7 +2392,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1233">line 1233</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1281">line 1281</a>
     </li></ul></dd>
     
 
@@ -2640,7 +2551,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line872">line 872</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line921">line 921</a>
     </li></ul></dd>
     
 
@@ -2799,7 +2710,7 @@ implements the "affix hopping" rules given in
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line998">line 998</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1045">line 1045</a>
     </li></ul></dd>
     
 
@@ -3096,7 +3007,7 @@ CAUTION: some heuristics being used, in some cases the order might not be "optim
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line902">line 902</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line951">line 951</a>
     </li></ul></dd>
     
 
@@ -3272,7 +3183,7 @@ CAUTION: some heuristics being used, in some cases the order might not be "optim
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line125">line 125</a>
+        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -3488,7 +3399,7 @@ CAUTION: some heuristics being used, in some cases the order might not be "optim
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line87">line 87</a>
+        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -3915,7 +3826,7 @@ HACK the following definitions modify the Constituent class
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line677">line 677</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line689">line 689</a>
     </li></ul></dd>
     
 
@@ -4052,7 +3963,7 @@ HACK the following definitions modify the Constituent class
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line740">line 740</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line763">line 763</a>
     </li></ul></dd>
     
 
@@ -4235,599 +4146,6 @@ HACK the following definitions modify the Constituent class
     
 
     
-    <h4 class="name" id="getLanguage"><span class="type-signature"></span>getLanguage<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line114">line 114</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    the current realization language
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getLemma"><span class="type-signature"></span>getLemma<span class="signature">(lemma, lang<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Get lemma information from the lexicon
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>lemma</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">to query</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>lang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"en"</span>
-|
-
-<span class="param-type">"fr"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line107">line 107</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getLexicon"><span class="type-signature"></span>getLexicon<span class="signature">(lang<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>lang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"en"</span>
-|
-
-<span class="param-type">"fr"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">language for the lexicon, if undefined then the current language</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line122">line 122</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    the lexicon of the specified language
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getRules"><span class="type-signature"></span>getRules<span class="signature">(lang<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>lang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"en"</span>
-|
-
-<span class="param-type">"fr"</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">language for the rules, if undefined then the current language</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line132">line 132</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    the rules of the specified language
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="getSavedWarnings"><span class="type-signature"></span>getSavedWarnings<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
@@ -4916,320 +4234,6 @@ CAUTION: it DOES NOT reset the list
 
 
     
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="loadEn"><span class="type-signature"></span>loadEn<span class="signature">(trace<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Set current language to "en" English
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>trace</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">if given and true, write message on the console</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line48">line 48</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="loadFr"><span class="type-signature"></span>loadFr<span class="signature">(trace<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Set current language to "fr" French
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>trace</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                    &lt;nullable><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last">if given and true, write message on the console</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line56">line 56</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -5524,7 +4528,7 @@ CAUTION: it DOES NOT reset the list
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1004">line 1004</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1051">line 1051</a>
     </li></ul></dd>
     
 
@@ -5683,7 +4687,7 @@ CAUTION: it DOES NOT reset the list
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line854">line 854</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line903">line 903</a>
     </li></ul></dd>
     
 
@@ -5832,7 +4836,7 @@ but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line68">line 68</a>
+        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -5991,7 +4995,7 @@ but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line908">line 908</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line957">line 957</a>
     </li></ul></dd>
     
 
@@ -6138,7 +5142,7 @@ but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1203">line 1203</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1251">line 1251</a>
     </li></ul></dd>
     
 
@@ -6364,404 +5368,6 @@ but this does not always work because ''+1.0 => "1" so nbDecimal(1.0)=>0
         
 <div class="param-desc">
     formatted string
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="numberToOrdinal"><span class="type-signature"></span>numberToOrdinal<span class="signature">(number, lang, gender)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Show an ordinal number in words (natural form)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">to write as words</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>lang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"en"</span>
-|
-
-<span class="param-type">"fr"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">language to use</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>gender</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"m"</span>
-|
-
-<span class="param-type">"f"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">gender to use (in French only)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line49">line 49</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    string corresponding to the number in words
-</div>
-
-
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="numberToWord"><span class="type-signature"></span>numberToWord<span class="signature">(number, lang, gender)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Show a number in words (natural form)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">to write as words</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>lang</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"en"</span>
-|
-
-<span class="param-type">"fr"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">language to use</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>gender</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">"m"</span>
-|
-
-<span class="param-type">"f"</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">gender to use (in French only)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line30">line 30</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    string corresponding to the number in words
 </div>
 
 
@@ -7086,7 +5692,7 @@ otherwise the selection is among the arguments
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line253">line 253</a>
+        <a href="Number.js.html">Number.js</a>, <a href="Number.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -7235,7 +5841,7 @@ otherwise the selection is among the arguments
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line896">line 896</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line945">line 945</a>
     </li></ul></dd>
     
 
@@ -7382,7 +5988,7 @@ otherwise the selection is among the arguments
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1227">line 1227</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1275">line 1275</a>
     </li></ul></dd>
     
 
@@ -7764,7 +6370,7 @@ only useful for debugging, not necessary for using jsRealB
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line866">line 866</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line915">line 915</a>
     </li></ul></dd>
     
 
@@ -7923,7 +6529,7 @@ only useful for debugging, not necessary for using jsRealB
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line914">line 914</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line963">line 963</a>
     </li></ul></dd>
     
 
@@ -8319,7 +6925,7 @@ Useful, to show the warning to the user web page.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line986">line 986</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1033">line 1033</a>
     </li></ul></dd>
     
 
@@ -8466,7 +7072,7 @@ Useful, to show the warning to the user web page.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1197">line 1197</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1245">line 1245</a>
     </li></ul></dd>
     
 
@@ -8649,281 +7255,6 @@ Useful, to show the warning to the user web page.
     
 
     
-    <h4 class="name" id="setQuoteOOV"><span class="type-signature"></span>setQuoteOOV<span class="signature">(qOOV)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Set flag for quoting out of vocabulary tokens, otherwise a warning is issued
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>qOOV</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line143">line 143</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setReorderVPcomplements"><span class="type-signature"></span>setReorderVPcomplements<span class="signature">(reorder)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Flag for reordering VP complements by increasing length
-Undocumented feature, seemed "useful" for AMR to text generation
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>reorder</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line153">line 153</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="SP"><span class="type-signature"></span>SP<span class="signature">(list)</span><span class="type-signature"></span></h4>
     
 
@@ -9025,7 +7356,7 @@ Undocumented feature, seemed "useful" for AMR to text generation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1239">line 1239</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1287">line 1287</a>
     </li></ul></dd>
     
 
@@ -9184,7 +7515,7 @@ Undocumented feature, seemed "useful" for AMR to text generation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line992">line 992</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1039">line 1039</a>
     </li></ul></dd>
     
 
@@ -9283,144 +7614,6 @@ Undocumented feature, seemed "useful" for AMR to text generation
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="Warnings.js.html">Warnings.js</a>, <a href="Warnings.js.html#line268">line 268</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="updateLexicon"><span class="type-signature"></span>updateLexicon<span class="signature">(newLexicon)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Update current lexicon by "merging" the new lexicon with the current one
-   i.e. adding new key-value pairs and replacing existing key-value pairs with the new one
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>newLexicon</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">a single object with the "correct" structure</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Lexicon.js.html">Lexicon.js</a>, <a href="Lexicon.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -9569,7 +7762,7 @@ Undocumented feature, seemed "useful" for AMR to text generation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line878">line 878</a>
+        <a href="Terminal.js.html">Terminal.js</a>, <a href="Terminal.js.html#line927">line 927</a>
     </li></ul></dd>
     
 
@@ -9716,7 +7909,7 @@ Undocumented feature, seemed "useful" for AMR to text generation
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1215">line 1215</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1263">line 1263</a>
     </li></ul></dd>
     
 
@@ -9772,13 +7965,13 @@ Undocumented feature, seemed "useful" for AMR to text generation
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
 </footer>
 
 <script> prettyPrint(); </script>

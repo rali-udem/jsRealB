@@ -33,8 +33,8 @@
 
 import {Constituent} from "./Constituent.js";
 import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js"
-import { getElems, affixHopping, doFrenchPronounPlacement } from "./NonTerminal.js";
-import { getLanguage,getRules,copulesFR,prepositionsList,reorderVPcomplements } from "./Lexicon.js";
+import {getElems, affixHopping, doFrenchPronounPlacement, checkAdverbPos} from "./NonTerminal.js";
+import {getLanguage,getRules,copulesFR,prepositionsList,reorderVPcomplements} from "./Lexicon.js";
 export {Phrase, S, NP, AP, VP, AdvP, PP, CP, SP};
 /**
  * Phrase a subclass of Constituent for creating non terminals in Constituency notation
@@ -66,7 +66,7 @@ class Phrase extends Constituent{
                     this.addElement(e);
                     this.elementsSource.push(e);
                 } else {
-                    this.warn("bad Constituent",NO(i+1).dOpt({ord:true})+"",typeof e+":"+JSON.stringify(e))
+                    this.warn("bad Constituent",NO(i+1).dOpt({ord:true}).realize(),typeof e+":"+JSON.stringify(e))
                 }
             }
             // terminate the list with add which does other checks on the final list
@@ -92,7 +92,7 @@ class Phrase extends Constituent{
                 this.warn("bad position",position,this.elements.length)
             }
         } else {
-            this.warn("bad Constituent",NO(position+1).dOpt({ord:true})+"",typeof elem)
+            this.warn("bad Constituent",NO(position+1).dOpt({ord:true}).realize(),typeof elem)
         }
         return this
     }
@@ -146,14 +146,22 @@ class Phrase extends Constituent{
             const e=this.elements[i];
             if (e.isA("A")){// check for adjective position
                 const idx=this.getIndex("N");
-                // unless specified the position of an English adjective is pre, but is post for a French one
-                const pos=e.props["pos"]||(e.isFr()?"post":"pre"); 
                 if (idx >= 0){
+                    // unless specified the position of an English adjective is pre, but is post for a French one
+                    const pos=e.props["pos"]||(e.isFr()?"post":"pre"); 
                     if ((pos=="pre" &amp;&amp; i>idx)||(pos=="post" &amp;&amp; i&lt;idx)){
                         if (allAorN(this.elements,i,idx)){
                             this.addElement(this.removeElement(i),idx)
                         }
                     }
+                }
+            } else if (e.isA("Adv") &amp;&amp; e.props["pos"]!==undefined){ 
+                // check for adverb position relative to the verb if .pos() is specified
+                const vbIdx = this.getIndex("V")
+                if (vbIdx >=0){
+                    const pos=e.props["pos"]
+                    if ((pos == "pre" &amp;&amp; i>vbIdx) || (pos=="post" &amp;&amp; i&lt;vbIdx))
+                        this.addElement(this.removeElement(i),vbIdx)
                 }
             }
         }
@@ -161,7 +169,7 @@ class Phrase extends Constituent{
     }
     
     /**
-     * Provide a more informtive informative error about a call that should never have happened
+     * Provide a more informative error about a call that should never have happened
      * @returns raise an exception
      */
     grammaticalNumber(){
@@ -211,10 +219,10 @@ class Phrase extends Constituent{
                             if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
                                 e.peng=this.peng
                             }
-                        } else if (e.isA("CP")){ // check for a coordination of adjectives
+                        } else if (e.isA("CP")){ // check for a coordination of adjectives or number
                             const me=this;
                             e.elements.forEach(function(e){
-                                if (e.isA("A")) // 
+                                if (e.isA("A","NO")) // 
                                     e.peng=me.peng
                             })
                         }
@@ -283,20 +291,41 @@ class Phrase extends Constituent{
                 const vpv=this.linkPengWithSubject("VP","V",subject)
                 if (vpv !== undefined){
                     this.taux=vpv.taux;
-                    if (this.isFr() &amp;&amp; copulesFR.includes(vpv.lemma)){// check for a French attribute of copula verb
-                        // with an adjective
-                        const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
-                        if (attribute===undefined){
-                            let elems=vpv.parentConst.elements;
-                            let vpvIdx=elems.findIndex(e => e==vpv);
-                            if (vpvIdx&lt;0){
-                                this.error("linkProperties	: verb not found, but this should never have happened")
-                            } else {
-                                for (var i=vpvIdx+1;i&lt;elems.length;i++){
-                                    var pp=elems[i];
-                                    if (pp.isA("V") &amp;&amp; pp.getProp("t")=="pp"){
-                                        pp.peng=subject.peng;
-                                        break;
+                    if (this.isFr() &amp;&amp; copulesFR.includes(vpv.lemma)){
+                        // check for coordination of attributes or past participles
+                        const vpcp = this.getFromPath([["VP"],["CP"]])
+                        if (vpcp!== undefined){
+                            for (let e of vpcp.elements){
+                                if (e.isA("A"))
+                                    e.peng=subject.peng;
+                                else if (e.isA("V") &amp;&amp; e.getProp("t")=="pp")
+                                    e.peng=subject.peng
+                                else if (e.isA("AP"))
+                                    e.linkPengWithSubject("AP","A",subject)
+                                else if (e.isA("VP")){
+                                    const v = e.getFromPath([["VP"],["V"]]);
+                                    if (v !== undefined &amp;&amp; v.getProp("t")=="pp"){
+                                        v.peng=subject.peng;
+                                    }
+                                }
+                            }
+                        } else { 
+                            // check for a single French attribute of copula verb
+                            // with an adjective
+                            const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
+                            if (attribute===undefined){
+                                // check for past participle after the verb
+                                let elems=vpv.parentConst.elements;
+                                let vpvIdx=elems.findIndex(e => e==vpv);
+                                if (vpvIdx&lt;0){
+                                    this.error("linkProperties	: verb not found, but this should never have happened")
+                                } else {
+                                    for (var i=vpvIdx+1;i&lt;elems.length;i++){
+                                        var pp=elems[i];
+                                        if (pp.isA("V") &amp;&amp; pp.getProp("t")=="pp"){
+                                            pp.peng=subject.peng;
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -343,7 +372,7 @@ class Phrase extends Constituent{
      * @param {Phrase} phrase 
      * @param {Terminal} terminal 
      * @param {Constituent} subject 
-     * @returns returns the subjectt
+     * @returns returns the subject
      */
     linkPengWithSubject(phrase,terminal,subject){
         // do not link a subject pronoun at genitive
@@ -417,7 +446,7 @@ class Phrase extends Constituent{
         let nb=0;
         for (let i = 0; i &lt; this.elements.length; i++) {
             const e=this.elements[i];
-            if (e.isA("NP","N","Pro","Q")){
+            if (e.isA("NP","N","Pro","Q","NO")){
                 nb+=1;
                 const propG=e.getProp("g");
                 if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
@@ -571,13 +600,10 @@ class Phrase extends Constituent{
         } else {
             vp=this.getConst("VP");
             if (vp !== undefined){
-                if (this.elements.length>0 &amp;&amp; this.elements[0].isA("N","NP","Pro")){
+                if (this.elements.length>0 &amp;&amp; this.elements[0].isA("N","NP","Pro","S")){
                     subject=this.removeElement(0);
-                    if (subject.isA("Pro")){
-                        // as this pronoun will be preceded by "par" or "by", the "bare" tonic form is needed
-                        // to which we assign the original person, number, gender
-                        subject=subject.getTonicPro().g(subject.getProp("g"))
-                                                    .n(subject.getProp("n")).pe(subject.getProp("pe"));
+                    if (subject.isA("Pro")){ 
+                        subject = subject.getTonicPro()
                     }
                 } else {
                     subject=null;
@@ -607,7 +633,12 @@ class Phrase extends Constituent{
                     this.linkPengWithSubject("VP","V",newSubject);
                 } 
                 if (subject!=null){   // insert subject where the object was
-                    vp.addElement(PP(P(this.isFr()?"par":"by",this.lang),subject),objIdx);
+                    let prep;
+                    if (subject.isA("S"))  // take for granted that the S is a VP
+                        prep = this.isFr() ? "de" : "to";
+                    else
+                        prep = this.isFr() ? "par" : "by";
+                    vp.addElement(PP(P(prep,this.lang),subject),objIdx);
                 }
             } else if (subject !=null){ // no object, but with a subject
                 //create a dummy subject with a "il"/"it" 
@@ -618,14 +649,22 @@ class Phrase extends Constituent{
                 vp.peng=newSubject.peng
                 // add original subject after the verb to serve as an object
                 let vpIdx=vp.getIndex("V");
-                vp.addElement(PP(P(this.isFr()?"par":"by",this.lang),subject),vpIdx+1);
+                let prep,pos;
+                if (subject.isA("S")){  // take for granted that the S is a VP
+                    prep = this.isFr() ? "de" : "to";
+                    pos = undefined;
+                } else {
+                    prep = this.isFr() ? "par" : "by";
+                    pos= vpIdx+1
+                }
+                vp.addElement(PP(P(prep,this.lang),subject),pos);
             }
             if (this.isFr()){
                 // do this only for French because in English this is done by processTyp_en
                 // change verbe into an "être" auxiliary and make it agree with the newSubject
                 const verbeIdx=vp.getIndex("V")
                 const verbe=vp.removeElement(verbeIdx);
-                const aux=V("être","fr");
+                const aux=V(verbe.lemma == "être" ? "avoir" : "être","fr");
                 aux.parentConst=vp;
                 aux.taux=verbe.taux;
                 if (newSubject!==undefined) // this can happen when a subject is Q
@@ -707,6 +746,7 @@ class Phrase extends Constituent{
             for (var key in rules.verb_option.modalityVerb){
                 if (key.startsWith(mod)){
                     v.setLemma(rules.verb_option.modalityVerb[key]);
+                    delete v.cod; // remove possible cod  information from the original verb
                     break;
                 }
             }
@@ -916,7 +956,9 @@ class Phrase extends Constituent{
                 // Question tags are short questions added after affirmations to ask for verification
                 if (this.isFr()){ // in French really simple, add "n'est-ce pas"
                     this.a(", n'est-ce pas")
-                } else { // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
+                } else { 
+                    // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
+                    //  or https://www.englishclub.com/grammar/tag-questions.htm
                     // must find  and pronoun and conjugate the auxiliary
                     let aux;
                     const currV=this.getFromPath(["VP","V"]);
@@ -934,9 +976,9 @@ class Phrase extends Constituent{
                         let g  = currV.getProp("g");
                         let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
                         const subjIdx=this.getIndex(["NP","N","Pro","SP"]);
-                        if (subjIdx!==undefined){
+                        if (subjIdx >= 0){
                             const vbIdx=this.getIndex(["VP","V"]);
-                            if (vbIdx!==undefined &amp;&amp; subjIdx&lt;vbIdx){ // subject should be before the verb
+                            if (vbIdx >= 0 &amp;&amp; subjIdx&lt;vbIdx){ // subject should be before the verb
                                 const subj=this.elements[subjIdx];
                                 if (subj.isA("Pro")){
                                     if (subj.getProp("pe")==1 &amp;&amp; aux=="be" &amp;&amp; t=="p" &amp;&amp; !neg){
@@ -954,6 +996,11 @@ class Phrase extends Constituent{
                                     // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
                                     pro=subj.clone().pro()
                                 }
+                            }
+                        } else { // no subject, but check if the verb is imperative
+                            if (t == "ip"){
+                                if (aux == "do") aux = "will" // change aux when the aux is default
+                                pro = Pro("I").pe(2).n(n).g(g)
                             }
                         }
                         // check for negative adverbs...
@@ -1023,6 +1070,7 @@ class Phrase extends Constituent{
     /**
      * Change order of pronouns in French (quite intricate)
      * Instance method that calls a common method for both Phrase and Dependent
+     * called by doFormat in Constituent.js
      * HACK: call local to get around import circularity
      * @param {Terminal[]} clist list of terminals which can be reorganized
      */
@@ -1085,10 +1133,9 @@ class Phrase extends Constituent{
                 this.pronoun.props["pe"]=gn.pe;
             }
         }
-        return res; 
+        return this.doFormat(res); 
     }
 
-    // 
     /**
      * Special case of VP for which the complements are put in increasing order of length
      * Not used often, because it does not seem to be very useful
@@ -1153,8 +1200,7 @@ class Phrase extends Constituent{
             const typs=this.props["typ"];
             if (typs!==undefined)this.processTyp(typs);
             const es=this.elements;
-            for (let i = 0; i &lt; es.length; i++) {
-                const e = es[i];
+            for (let e of es){
                 var r;
                 if (e.isA("CP")){
                     r=e.cpReal();
@@ -1166,6 +1212,8 @@ class Phrase extends Constituent{
                 // we must flatten the lists
                 Array.prototype.push.apply(res,r)
             }
+            if (this.isA("VP"))
+                checkAdverbPos(res)
         }
         return this.doFormat(res);
     };
@@ -1182,8 +1230,8 @@ class Phrase extends Constituent{
 
     /**
      * Recreate a jsRealB expression
-     * if indent is positive number create an indented pretty-print string (call it with 0 at the root)
-     * if called with no parameter then create a single line
+     * if indent is non negative number create an indented pretty-print string (call it with 0 at the root)
+     * if called with no parameter (equivalent to a negative number) then create a single line
      * @param {int} indent indentation level
      * @returns a (possibly indented) String corresponding to the source expression of this Phrase
      */
@@ -1275,13 +1323,13 @@ function SP  (_){ return new Phrase(Array.from(arguments),"SP"); }
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addToLexicon">addToLexicon</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getLanguage">getLanguage</a></li><li><a href="global.html#getLemma">getLemma</a></li><li><a href="global.html#getLexicon">getLexicon</a></li><li><a href="global.html#getRules">getRules</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#loadEn">loadEn</a></li><li><a href="global.html#loadFr">loadFr</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberToOrdinal">numberToOrdinal</a></li><li><a href="global.html#numberToWord">numberToWord</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#setQuoteOOV">setQuoteOOV</a></li><li><a href="global.html#setReorderVPcomplements">setReorderVPcomplements</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#updateLexicon">updateLexicon</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Sep 11 2022 12:09:04 GMT-0400 (UTC−04:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
 </footer>
 
 <script> prettyPrint(); </script>
