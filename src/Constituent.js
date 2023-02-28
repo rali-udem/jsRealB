@@ -94,8 +94,10 @@ class Constituent {
     setProp(propName,val){
         if (propName=="pe" || propName=="n" || propName=="g"){
             if (this.peng!==undefined) this.peng[propName]=val;
+            return
         } else if (propName=="t" || propName=="aux"){
             if (this.taux!==undefined) this.taux[propName]=val;
+            return
         }
         this.props[propName]=val;
     }

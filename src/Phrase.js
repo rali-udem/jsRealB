@@ -275,7 +275,7 @@ class Phrase extends Constituent{
                                 else if (e.isA("AP"))
                                     e.linkPengWithSubject("AP","A",subject)
                                 else if (e.isA("VP")){
-                                    const v = e.getFromPath([["VP"],["V"]]);
+                                    const v = e.getConst(["V"]);
                                     if (v !== undefined && v.getProp("t")=="pp"){
                                         v.peng=subject.peng;
                                     }

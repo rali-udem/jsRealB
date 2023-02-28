@@ -840,7 +840,7 @@ function testPreviousExamples(){
 }
 
 //  To check a single "new" example, comment the following
-testPreviousExamples()
+// testPreviousExamples()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
@@ -848,12 +848,20 @@ Constituent.debug = true;   // useful for tracing, but then .realize() must be c
 loadFr()
 // test(S(CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))), 
 //                       VP(V("être").t("p"),A("gentil"))))
-test(S(Pro("elles").c("nom"),
-       VP(V("être"),
-          CP(C("et"),A("confiant"),A("heureux")))))
-test(root(V("être"),
-          subj(Pro("elles").c("nom")),
+test(NP(D("le"),N("sorcier")).g("f"))
+test(root(V("être").t("ps"),
+          subj(N("sorcier"),
+               det(D("le"))).g("f"),
           coord(C("et"),
-                mod(A("confiant")),
-                mod(A("heureux")))))
-test(NP(CP(C('ou'),NO(2),NO(3)).en('['),N('fille'),CP(C('et'),A('jeune'),A('joli')).tag("b")))
+                mod(V("condamner"),
+                    comp(P("à"),
+                         mod(N("mort")))),
+                mod(V("torturer")),
+                mod(V("brûler"))).t("pp")))
+test(S(NP(D("le"),N("sorcier")).g("f"),
+       VP(V("être").t("ps"),
+       CP(C("et"),
+          VP(V("condamner"),
+             PP(P("à"),N("mort"))),
+          VP(V("torturer")),
+          VP(V("brûler"))).t("pp"))))
