@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 4.5 - September 2022*
+*Version 4.6.1 - March 2023*
 
 **This version is a major code reorganization of the system with JavaScript classes and modules.** This simplifies the internal organization of the code, but the syntactic formalism stays the same, possibly incurring a slight modification in the initial setup.
 
@@ -42,7 +42,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.
     * `README.md` : short presentation and example of use of the *npm* package displayed at `https://www.npmjs.com/package/jsrealb` 
     When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
-      `npm version {major|minor|patch}`  
+      `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js`
       `npm publish`  
     Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
@@ -55,7 +55,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
 * [`node-modules`](node-modules/) : used for transpiling with webpack
 * [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
-    * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html). Build this directory by running `jsdoc -d jsdoc *.js`
+    * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html).  
+    Build this directory by running `jsdoc -d jsdoc *.js` in the `src` directory. For the moment, ignore warning about _unable to parse .../Lexicon.js_
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
     * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
     * `JSON-tools.js` : functions for dealing with the JSON input format

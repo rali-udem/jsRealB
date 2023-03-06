@@ -912,7 +912,7 @@ to ensure that eval has access to all symbols now that packages are used
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1199">line 1199</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1212">line 1212</a>
     </li></ul></dd>
     
 
@@ -1011,7 +1011,7 @@ at realization time
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1057">line 1057</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1070">line 1070</a>
     </li></ul></dd>
     
 
@@ -1151,7 +1151,7 @@ HACK: call local to get around import circularity
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1049">line 1049</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1062">line 1062</a>
     </li></ul></dd>
     
 
@@ -1291,7 +1291,7 @@ HACK: call local to get around import circularity
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line414">line 414</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line426">line 426</a>
     </li></ul></dd>
     
 
@@ -1450,7 +1450,7 @@ HACK: call local to get around import circularity
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line400">line 400</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line412">line 412</a>
     </li></ul></dd>
     
 
@@ -1768,7 +1768,7 @@ used for phrase modification (e.g. moveAuxToFront...)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line784">line 784</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line797">line 797</a>
     </li></ul></dd>
     
 
@@ -1917,7 +1917,7 @@ used for phrase modification (e.g. moveAuxToFront...)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line389">line 389</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line401">line 401</a>
     </li></ul></dd>
     
 
@@ -2116,7 +2116,191 @@ if subject is a noun, the subject stays but add a new pronoun
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line822">line 822</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line835">line 835</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="linkAttributes"><span class="type-signature"></span>linkAttributes<span class="signature">(vpv, vpcp, subject)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Link the subject with the attributes in a verb phrase or in a coordination of verb phrases
+used in SP and in a NP
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>vpv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the verb phrase</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>vpcp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a coordination of verb phrase (can be undefined)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subject</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the subject to link</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line173">line 173</a>
     </li></ul></dd>
     
 
@@ -2299,7 +2483,7 @@ if subject is a noun, the subject stays but add a new pronoun
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line349">line 349</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line361">line 361</a>
     </li></ul></dd>
     
 
@@ -2399,7 +2583,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line172">line 172</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -2497,7 +2681,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line368">line 368</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line380">line 380</a>
     </li></ul></dd>
     
 
@@ -2595,7 +2779,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line798">line 798</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line811">line 811</a>
     </li></ul></dd>
     
 
@@ -2683,7 +2867,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line566">line 566</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line579">line 579</a>
     </li></ul></dd>
     
 
@@ -2820,7 +3004,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line847">line 847</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line860">line 860</a>
     </li></ul></dd>
     
 
@@ -2957,7 +3141,7 @@ so that once a value is changed this change will be propagated correctly...
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1018">line 1018</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1031">line 1031</a>
     </li></ul></dd>
     
 
@@ -3095,7 +3279,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line751">line 751</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line764">line 764</a>
     </li></ul></dd>
     
 
@@ -3232,7 +3416,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line699">line 699</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line712">line 712</a>
     </li></ul></dd>
     
 
@@ -3417,7 +3601,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line667">line 667</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line680">line 680</a>
     </li></ul></dd>
     
 
@@ -3507,7 +3691,7 @@ This might modify the current list of elements
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line509">line 509</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line522">line 522</a>
     </li></ul></dd>
     
 
@@ -3608,7 +3792,7 @@ because the pronoun depends on the role of the NP in the sentence
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line444">line 444</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -3757,7 +3941,7 @@ this must be done in the context of the parent, because some elements might be c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line547">line 547</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line560">line 560</a>
     </li></ul></dd>
     
 
@@ -3845,7 +4029,7 @@ this must be done in the context of the parent, because some elements might be c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1166">line 1166</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1179">line 1179</a>
     </li></ul></dd>
     
 
@@ -4162,7 +4346,7 @@ this must be done in the context of the parent, because some elements might be c
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line379">line 379</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line391">line 391</a>
     </li></ul></dd>
     
 
@@ -4310,7 +4494,7 @@ CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource(
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1226">line 1226</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1239">line 1239</a>
     </li></ul></dd>
     
 
@@ -4459,7 +4643,7 @@ CAUTION: this function is on the Phrase prototype, but defined here to avoid cir
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1074">line 1074</a>
+        <a href="Dependent.js.html">Dependent.js</a>, <a href="Dependent.js.html#line1096">line 1096</a>
     </li></ul></dd>
     
 
@@ -4706,7 +4890,7 @@ if called with no parameter (equivalent to a negative number) then create a sing
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1210">line 1210</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1223">line 1223</a>
     </li></ul></dd>
     
 
@@ -4805,7 +4989,7 @@ Not used often, because it does not seem to be very useful
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1115">line 1115</a>
+        <a href="Phrase.js.html">Phrase.js</a>, <a href="Phrase.js.html#line1128">line 1128</a>
     </li></ul></dd>
     
 
@@ -4857,7 +5041,7 @@ Not used often, because it does not seem to be very useful
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Feb 27 2023 07:53:31 GMT-0500 (UTC−05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Mar 05 2023 21:58:13 GMT-0500 (GMT-05:00)
 </footer>
 
 <script> prettyPrint(); </script>

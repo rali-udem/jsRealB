@@ -91,13 +91,16 @@ class Constituent {
      * @param {string} propName name of the property to change
      * @param {any} val value to put as value of propName
      */
-    setProp(propName,val){
+    setProp(propName,val,inSetLemma){
         if (propName=="pe" || propName=="n" || propName=="g"){
             if (this.peng!==undefined) this.peng[propName]=val;
         } else if (propName=="t" || propName=="aux"){
             if (this.taux!==undefined) this.taux[propName]=val;
         }
-        this.props[propName]=val;
+        // this is important for to ensure that locol options override global values
+        // but it must be "undone" in Terminal.setLemma
+        if (!["pe","n","g","t","aux"].includes(propName) || inSetLemma === undefined)
+            this.props[propName]=val; 
     }
 
     /**
@@ -652,9 +655,13 @@ class Constituent {
      * @param {int} indent number of spaces to indent
      * @returns list of two values: updated indent with length constituent name, string of (updated) indent spaces preceded by a newline
      */
-    indentSep (indent){
+    indentSep (indent,debug){
         if (indent>=0){
             indent=indent+this.constType.length+1;
+            if (debug && this.peng !== undefined){
+                if (this.peng.pengNO !== undefined) indent += ("#"+this.peng.pengNO).length;
+                if (this.taux && this.taux.tauxNO !== undefined) indent += ("-"+this.taux.tauxNO).length;
+            } 
             return [indent,",\n"+(" ".repeat(indent))]
         }
         return [indent,","];

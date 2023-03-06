@@ -164,12 +164,62 @@ class Phrase extends Constituent{
     }
 
     /**
+     * Link the subject with the attributes in a verb phrase or in a coordination of verb phrases
+     * used in SP and in a NP
+     * @param {*} vpv  the verb phrase
+     * @param {*} vpcp  a coordination of verb phrase (can be undefined)
+     * @param {*} subject the subject to link
+     */
+    linkAttributes(vpv,vpcp,subject){
+        if (this.isFr() && copulesFR.includes(vpv.lemma)){
+            // check for coordination of attributes or past participles
+            // const vpcp = this.getFromPath([["VP"],["CP"]])
+            if (vpcp!== undefined){
+                for (let e of vpcp.elements){
+                    if (e.isA("A"))
+                        e.peng=subject.peng;
+                    else if (e.isA("V") && e.getProp("t")=="pp")
+                        e.peng=subject.peng
+                    else if (e.isA("AP"))
+                        e.linkPengWithSubject("AP","A",subject)
+                    else if (e.isA("VP")){
+                        const v = e.getConst("V");
+                        if (v !== undefined && v.getProp("t")=="pp"){
+                            v.peng=subject.peng;
+                        }
+                    }
+                }
+            } else { 
+                // check for a single French attribute of copula verb
+                // with an adjective
+                const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
+                if (attribute===undefined){
+                    // check for past participle after the verb
+                    let elems=vpv.parentConst.elements;
+                    let vpvIdx=elems.findIndex(e => e==vpv);
+                    if (vpvIdx<0){
+                        this.error("linkProperties	: verb not found, but this should never have happened")
+                    } else {
+                        for (var i=vpvIdx+1;i<elems.length;i++){
+                            const e=elems[i];
+                            if (e.isA("V") && e.getProp("t")=="pp"){
+                                e.peng=subject.peng;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Ensures agreement between Constituents
      * Loops over children to set the peng and taux to their head or subject
      * so that once a value is changed this change will be propagated correctly...
      * @returns this Phrase
      */
-    linkProperties	(){
+    linkProperties(){
         let headIndex;
         if (this.elements.length==0)return this;
         switch (this.constType) {
@@ -208,6 +258,7 @@ class Phrase extends Constituent{
                 if (v !=undefined){
                     if (["qui","who","which","that"].includes(pro.lemma)){// agrees with this NP
                         v.peng=this.peng
+                        this.linkAttributes(v,this.getFromPath([["VP"],["CP"]]),this)
                     } else if (this.isFr() && pro.lemma=="que"){
                         // in French past participle can agree with a cod appearing before... keep that info in case
                             v.cod=this
@@ -263,46 +314,7 @@ class Phrase extends Constituent{
                 const vpv=this.linkPengWithSubject("VP","V",subject)
                 if (vpv !== undefined){
                     this.taux=vpv.taux;
-                    if (this.isFr() && copulesFR.includes(vpv.lemma)){
-                        // check for coordination of attributes or past participles
-                        const vpcp = this.getFromPath([["VP"],["CP"]])
-                        if (vpcp!== undefined){
-                            for (let e of vpcp.elements){
-                                if (e.isA("A"))
-                                    e.peng=subject.peng;
-                                else if (e.isA("V") && e.getProp("t")=="pp")
-                                    e.peng=subject.peng
-                                else if (e.isA("AP"))
-                                    e.linkPengWithSubject("AP","A",subject)
-                                else if (e.isA("VP")){
-                                    const v = e.getFromPath([["VP"],["V"]]);
-                                    if (v !== undefined && v.getProp("t")=="pp"){
-                                        v.peng=subject.peng;
-                                    }
-                                }
-                            }
-                        } else { 
-                            // check for a single French attribute of copula verb
-                            // with an adjective
-                            const attribute = vpv.parentConst.linkPengWithSubject("AP","A",subject);
-                            if (attribute===undefined){
-                                // check for past participle after the verb
-                                let elems=vpv.parentConst.elements;
-                                let vpvIdx=elems.findIndex(e => e==vpv);
-                                if (vpvIdx<0){
-                                    this.error("linkProperties	: verb not found, but this should never have happened")
-                                } else {
-                                    for (var i=vpvIdx+1;i<elems.length;i++){
-                                        var pp=elems[i];
-                                        if (pp.isA("V") && pp.getProp("t")=="pp"){
-                                            pp.peng=subject.peng;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    this.linkAttributes(vpv,this.getFromPath([["VP"],["CP"]]),subject)
                 } else {
                     // check for a coordination of verbs that share the subject
                     const cvs=this.getFromPath(["CP","VP"]);
@@ -412,7 +424,7 @@ class Phrase extends Constituent{
      * @returns Object with "g", "n" and "pe" set
      */
     findGenderNumberPerson(andCombination){
-        let g="f";
+        let g;
         let n="s";
         let pe=3;
         let nb=0;
@@ -421,14 +433,15 @@ class Phrase extends Constituent{
             if (e.isA("NP","N","Pro","Q","NO")){
                 nb+=1;
                 const propG=e.getProp("g");
-                if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
+                if (g===undefined && propG !== undefined) g= propG;
+                if (propG=="m")g="m"; // masculine if one is encountered
                 if (e.getProp("n")=="p")n="p";
                 const propPe=e.getProp("pe");
                 if (propPe !== undefined && propPe<pe)pe=propPe;
             }
         }
         if (nb==0) g="m";
-        else if (nb>1 && n=="s" && andCombination)n="p";  
+        else if (nb>1 && andCombination)n="p";  
         return {"g":g,"n":n,"pe":pe}
     }
 
@@ -1094,7 +1107,7 @@ class Phrase extends Constituent{
             c=this.elements[idxC]
             var and=this.isFr()?"et":"and";
             var gn=this.findGenderNumberPerson(c.lemma==and);
-            this.setProp("g",gn.g);
+            if (gn.g !==undefined) this.setProp("g",gn.g);
             this.setProp("n",gn.n);
             this.setProp("pe",gn.pe);
             // for an inserted pronoun, we must override its existing properties...
@@ -1225,9 +1238,14 @@ class Phrase extends Constituent{
      */
     toDebug(indent){
         if (indent===undefined)indent=-1;
-        let [newIndent,sep]=this.indentSep(indent);
+        let [newIndent,sep]=this.indentSep(indent,true);
         // create debug of children
-        let res=this.constType+"("+this.elements.map(e => e.toDebug(newIndent)).join(sep)+")";
+        let res=this.constType;
+        if (this.peng !== undefined){
+            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
+            if (this.taux && this.taux.tauxNO !== undefined) res += "-"+this.taux.tauxNO;
+        } 
+        res += "("+this.elements.map(e => e.toDebug(newIndent)).join(sep)+")";
         // add the options by calling "super".toSource()
         res+=Constituent.prototype.toDebug.call(this); // ~ super.toSource()
         return res;

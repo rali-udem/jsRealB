@@ -245,17 +245,20 @@ function doFrenchPronounPlacement(cList){
                 if (c.isReflexive() && c.getProp("t")!="pp"){
                     if (prog!==undefined)c=prog;
                     c.insertReal(pros,Pro("moi","fr").c("refl")
-                                    .pe(c.getProp("pe")).n(c.getProp("n"))
-                                    .g(c.getProp("g")));
+                                    .pe(c.getProp("pe")||3).n(c.getProp("n")||"s")
+                                    .g(c.getProp("g")||"m"));
                 }
             }
         } else if (c.isA("Pro") && verbPos!==undefined){
-            if (c.getProp("pos")==undefined || (c.parentConst!==null && c.parentConst.getProp("pos")===undefined)){
+            if (c.getProp("pos")===undefined || (c.parentConst!==null && c.parentConst.getProp("pos")===undefined)){
                 // do not try to change position of a constituent with specified pos
                 if (["refl","acc","dat"].includes(c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
                     pros.push(cList.splice(i,1)[0]);
                     i--; // to ensure that all elements are taken into account because cList array has changed
+                } else if (["qui","que","quoi","dont","où"].includes(c.lemma) ){// do not cross boundary of a relative
+                    break;
                 }
+
             }
         } else if (c.isA("P","C","Adv","Pro") && verbPos!==undefined){
             // HACK: stop when seeing a preposition or a conjunction

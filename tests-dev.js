@@ -840,20 +840,70 @@ function testPreviousExamples(){
 }
 
 //  To check a single "new" example, comment the following
-testPreviousExamples()
+// testPreviousExamples()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 // new tests for agreement through coordination
 loadFr()
-// test(S(CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))), 
-//                       VP(V("être").t("p"),A("gentil"))))
-test(S(Pro("elles").c("nom"),
-       VP(V("être"),
-          CP(C("et"),A("confiant"),A("heureux")))))
-test(root(V("être"),
-          subj(Pro("elles").c("nom")),
-          coord(C("et"),
-                mod(A("confiant")),
-                mod(A("heureux")))))
-test(NP(CP(C('ou'),NO(2),NO(3)).en('['),N('fille'),CP(C('et'),A('jeune'),A('joli')).tag("b")))
+// test(comp(N("fait").n('p'),
+//           det(D("le")),
+//           comp(Pro("qui"),
+//                comp(V("être"),
+//                     coord(C("et"),
+//                           comp(V("reprocher").t('pp'),
+//                                comp(Pro("lui").c('dat'))),
+//                            comp(V("désavouer").t("pp")))))))
+// test(comp(V("retourner").t("b")).typ({"refl": true}))
+// test(coord(C("et"),
+//      root(V("perdre"),
+//           subj(N("automobile"),
+//                det(D("le"))),
+//           comp(N("roue"),
+//                det(D("son")),
+//                mod(A("gauche")))),
+//      root(V("décoller"),
+//           comp(P("pour"),
+//                coord(C("et"),
+//                      comp(V("retourner").t("b")).typ({"refl": true}),
+//                      comp(V("terminer").t("b"),
+//                           comp(N("course"),
+//                                det(D("son"))),
+//                           comp(P("sur"),
+//                                comp(N("toit"),
+//                                     det(D("le"))))))))).t("pc"),
+// )
+// test(S(NP(D("le"),
+//      N("conférence"),
+//      A("intergouvernemental")),
+//      VP(V("tenter"),
+//      PP(P("de"),
+//         VP(V("répondre").t("b"),
+//            Adv("précisément"),
+//            PP(P("à"),
+//               NP(D("ce"),
+//                  N("question"))))))))
+// test(root(V("être").n('p'),
+//           subj(Pro("ce")),
+//           mod(N("type").n('p'),
+//               det(D("le")),
+//               mod(A("différent")).pos('pre'),
+//               comp(N("mafia").n('p'),
+//                    det(D("de")))),
+//           mod(V("organiser").n('p'),
+//               subj(Pro("qui")),
+//               comp(Pro("lui").c('acc')))))
+test(S(Pro("lui").c("nom"),
+       VP(V("indiquer").t("c"),
+          SP(C("si"),
+             Pro("lui").c("nom"),
+             VP(V("plaider"),
+                AP(A("coupable"),
+                   PP(P("de"),
+                      NP(D("le"),
+                         N("fait").n("p"),
+                         SP(Pro("qui"),
+                            VP(V("être"),
+                               V("reprocher").t("pp"),
+                               Pro("lui").c("dat")))))))))).typ({"mod": "nece"}),
+)

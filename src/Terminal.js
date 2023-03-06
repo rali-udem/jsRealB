@@ -89,7 +89,7 @@ class Terminal extends Constituent{
                            fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
 
     initProps(){
-        if (this.isA("N","A","D","V","NO","Pro","Q")){
+        if (this.isA("N","A","D","V","NO","Pro","Q","DT")){
             // "tien" and "vôtre" are very special case of pronouns which are to the second person
             this.peng={pe: Terminal.defaultProps[this.lang]["pe"],
                         n: Terminal.defaultProps[this.lang]["n"],
@@ -231,7 +231,7 @@ class Terminal extends Constituent{
                         } else { // copy other key as property
                             let info=lexInfo[key]
                             // if (typeof info === "object" && info.length==1)info=info[0];
-                            this.setProp(key,info);
+                            this.setProp(key,info,true);
                         }
                     }
                 }
@@ -891,6 +891,10 @@ class Terminal extends Constituent{
      */
     toDebug(){
         let res=this.constType+"("+quote(this.lemma)+")";
+        if (this.peng !== undefined){
+            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
+            if (this.peng.tauxNO !== undefined) res += "-"+this.peng.tauxNO;
+        } 
         return res+Constituent.prototype.toDebug.call(this);
     }
 }

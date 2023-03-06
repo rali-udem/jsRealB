@@ -14,6 +14,12 @@
             "type": "node",
             "outputCapture": "std"
         },
+        { // launch with http-server -c-1
+            "type": "chrome",
+            "name": "Tests/testAll.html",
+            "request": "launch",
+            "url": "http://127.0.0.1:8080/Tests/testAll.html"
+        },
         {
             "name": "variationsFromText",
             "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
@@ -52,13 +58,6 @@
                 "<node_internals>/**"
             ],
             "type": "node"
-        },
-        { // launch with http-server -c-1
-            "type": "chrome",
-            "name": "Tests/testAll.html",
-            "request": "launch",
-            "url": "http://127.0.0.1:8080/Tests/testAll.html"
         }
-
     ]
 }

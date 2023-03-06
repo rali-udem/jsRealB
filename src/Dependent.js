@@ -162,6 +162,23 @@ class Dependent extends Constituent {// Dependent (non-terminal)
     }
 
     /**
+     * Traverse a dependent to change all peng having oldPenNO to the newPeng
+     * This is useful for linking attributes in relatives in a top-down fashion
+     * @param {*} oldDep  starting point of the change
+     * @param {*} oldPengNO pengNO umber to change
+     * @param {*} newPeng   new peng to update
+     */
+    setPengRecursive(oldDep,oldPengNO,newPeng){
+        oldDep.peng=newPeng;
+        // check if terminal and children of oldDep have the same oldPengNO and change it to the newPeng
+        if (oldDep.terminal.peng && oldDep.terminal.peng.pengNO==oldPengNO)
+            oldDep.terminal.peng=newPeng;
+        for (let d of oldDep.dependents){
+            this.setPengRecursive(d,oldPengNO,newPeng)
+        }
+    }
+
+    /**
      * Ensures agreement between Constituents
      * Loops over children to set the peng and taux to their head or subject
      * so that once a value is changed this change will be propagated correctly...
@@ -235,7 +252,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     if (this.isFr() && depTerm.getProp("t")=="pp"){
                         depTerm.peng=this.peng;
                     }
-                }
+                } else if (depTerm.isA("Pro") && ["qui","que","who","that"].includes(depTerm.lemma)){
+                    // a relative linked to depTerm in which the new peng should be propagated
+                    depTerm.peng=this.peng
+                    for (let d0 of d.dependents)
+                        this.setPengRecursive(d0,d0.peng.pengNO,this.peng)
+                    }
                 break;
             case "root":
                 // this.error("An internal root was found")
@@ -283,7 +305,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * @returns Object with "g", "n" and "pe" set
      */
     findGenderNumberPerson(andCombination){
-        let g="f";
+        let g;
         let n="s";
         let pe=3;
         let nb=0;
@@ -292,7 +314,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             if (e.isA("N","Pro","Q","NO")){
                 nb+=1;
                 const propG=e.getProp("g");
-                if (propG=="m" || propG=="x" || e.isA("Q"))g="m"; // masculine if gender is unspecified
+                if (g === undefined && propG !== undefined) g = propG;
+                if (propG=="m")g="m"; // masculine if one is encountered
                 if (e.getProp("n")=="p")n="p";
                 const propPe=e.getProp("pe");
                 if (propPe !== undefined && propPe<pe)pe=propPe;
@@ -494,23 +517,30 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         }
     }
 
-    // add special internal dependencies (used only during realization)
+     /**
+     * Add a *pre* special dependencies for a list of terminal or a single terminal
+     * This used only during realizatioon
+     * @param {*} terminals a Terminal or a list of terminals
+     * @param {*} position  position in which to insert the new dependency
+     * @returns this Dependent
+     */
     addPre(terminals,position){
-        if (terminals instanceof Terminal){
-            this.addDependent(new Dependent([terminals],"*pre*"),position)
-            return this;
-        }
+        if (terminals instanceof Terminal)terminals=[terminals];
         for (let terminal of terminals){
             this.addDependent(new Dependent([terminal],"*pre*"),position)
         }
         return this;
     }
 
-    addPost(terminals){
-        if (terminals instanceof Terminal){
-            this.addDependent(new Dependent([terminals],"*post*"),0);
-            return this;
-        }
+     /**
+     * Add a *post* special dependencies for a list of terminal or a single terminal
+     * This used only during realizatioon
+     * @param {*} terminals a Terminal or a list of terminals
+     * @param {*} position  position in which to insert the new dependency
+     * @returns this Dependent
+     */
+     addPost(terminals){
+        if (terminals instanceof Terminal)terminals=[terminals];
         for (let terminal of terminals.reverse()){ // must add them in reverse order because of position 0
             this.addDependent(new Dependent([terminal],"*post*"),0);
         }
@@ -881,7 +911,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         if (thisCoord.isA("C")){
             var and=this.isFr()?"et":"and";
             var gn=this.findGenderNumberPerson(thisCoord.lemma==and);
-            this.setProp("g",gn.g);
+            if (gn.g !==undefined) this.setProp("g",gn.g);
             this.setProp("n",gn.n);
             this.setProp("pe",gn.pe);
             // for an inserted pronoun, we must override its existing properties...
@@ -1014,11 +1044,16 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      */
     toDebug(indent){
         if (indent===undefined)indent=-1;
-        let [newIndent,sep]=this.indentSep(indent);
+        let [newIndent,sep]=this.indentSep(indent,true);
         // create debug of children
         let depsDebug=this.dependents.map(e => e.toDebug(newIndent));
         depsDebug.unshift(this.terminal.toDebug());
-        let res=this.constType+"("+depsDebug.join(sep)+")";
+        let res=this.constType;
+        if (this.peng !== undefined){
+            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
+            if (this.taux && this.taux.tauxNO !== undefined) res += "-"+this.taux.tauxNO;
+        } 
+        res += "("+depsDebug.join(sep)+")";
         // add the options by calling "super".toSource()
         res+=Constituent.prototype.toDebug.call(this); // ~ super.toSource()
         return res;

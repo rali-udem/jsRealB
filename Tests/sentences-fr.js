@@ -296,7 +296,24 @@ QUnit.test( "Phrase FR", function( assert ) {
                           N("démarche")).n('p'),
            "expected": "de multiples tâches et démarches",
            "message": "propagation d'option dans un CP"},
-         // 38
+         // 45
+         {"expression":
+            S(Pro("lui").c("nom"),
+               VP(V("indiquer").t("c"),
+                  SP(C("si"),
+                     Pro("lui").c("nom"),
+                     VP(V("plaider"),
+                        AP(A("coupable"),
+                           PP(P("de"),
+                              NP(D("le"),
+                                 N("fait").n("p"),
+                                 SP(Pro("qui"),
+                                    VP(V("être"),
+                                       V("reprocher").t("pp"),
+                                       Pro("lui").c("dat")))))))))).typ({"mod": "nece"}),
+         "expected": "Il devrait indiquer s'il plaide coupable des faits qui lui sont reprochés. ",
+         "message": "NP avec une relative contenant un attribut"},
+        // 38
         // {"expression":,
         //  "expected":"",
         //  "message":""},

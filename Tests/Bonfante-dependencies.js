@@ -1,6 +1,18 @@
-QUnit.test( "Dependances FR - Bonfante", function( assert ) {
+QUnit.test( "Dependencies EN - Bonfante", function( assert ) {
     Object.assign(globalThis,jsRealB);
     loadEn();
+    function fool_voters(nb0, nb1,n1, nb2,n2, nb3){
+        return SP(NP(nb0,N("politician")),
+                VP(V("fool"),
+                    NP(nb1,N("voter").n(n1)),
+                    PP(P("on"),
+                        NP(nb2,N("issue").n(n2)),
+                        NP(nb3,
+                        PP(P("of"),
+                            NP(D("the"),
+                                N("time"))))))).typ({"mod":"poss"})
+    }
+
     const sentences = [
         // 1
         {"expression":
@@ -66,7 +78,17 @@ QUnit.test( "Dependances FR - Bonfante", function( assert ) {
                         mod(A("weak"))))).cap(False),
         "expected": "so this kidnapping makes him look weak",
         "message": " Figure 2.26 p 62"},
-        ];
+ 
+        // 6
+        {"expression":
+             S(CP(C("but"),
+                  fool_voters(D("a"), D("most"), "p", D("most"), "p", D("most")).a(","),
+                  fool_voters(D("no"), D("all"), "p", AP(D("every"), A("single")), "s", D("all")))),
+         "expected": "A politician can fool most voters on most issues most of the time, "+
+                     "but no politician can fool all voters on every single issue all of the time. ",
+         "message": " Figure 4.21 p 116 / REM: utilise une fonction pour factoriser le code"},
+
+    ];
 
     for (var i = 0; i < sentences.length; i++) {
         var s=sentences[i];

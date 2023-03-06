@@ -344,6 +344,45 @@ QUnit.test( "Dependances FR - Bonfante", function( assert ) {
      "expected": "Il a été difficile de trouver un livre dont on puisse dire qu'il n'a pas été traduit. ",
      "message": "Exercice 2.51 p 72"},
 
+     // 28
+     {"expression":
+          coord(C("et"),
+                root(V("perdre"),
+                     subj(N("automobile"),
+                          det(D("le"))),
+                     comp(N("roue"),
+                          det(D("son")),
+                          mod(A("gauche")))),
+                root(V("décoller"),
+                     comp(P("pour"),
+                          coord(C("et"),
+                                comp(V("retourner").t("b")).typ({"refl": true}),
+                                comp(V("terminer").t("b"),
+                                     comp(N("course"),
+                                          det(D("son"))),
+                                     comp(P("sur"),
+                                          comp(N("toit"),
+                                               det(D("le"))))))))).t("pc"),
+      "expected": "L'automobile a perdu sa roue gauche et a décollé pour se retourner et terminer sa course sur le toit. ",
+      "message": " Figure 3.4 p 86"},
+
+     // 29
+     {"expression":
+          root(V("indiquer").t("c"),
+               subj(Pro("lui").c("nom")),
+               comp(C("si"),
+                    comp(V("plaider"),
+                         subj(Pro("lui").c("nom")),
+                         mod(A("coupable"),
+                             comp(P("de"),
+                                  comp(N("fait").n("p"),
+                                       det(D("le")),
+                                       comp(Pro("qui"),
+                                            comp(V("être"),
+                                                 comp(V("reprocher").t("pp"),
+                                                      comp(Pro("lui").c("dat"))))))))))).typ({"mod": "nece"}),
+      "expected": "Il devrait indiquer s'il plaide coupable des faits qui lui sont reprochés. ",
+      "message": " Exemple 3.1 p 82 / REM: relative avec attributs"},
    ];
 
    for (var i = 0; i < phrases.length; i++) {
