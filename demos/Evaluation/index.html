@@ -7,19 +7,33 @@
     <script src="ace-src-noconflict/ace.js"></script>
     <script src="../../dist/jsRealB.js"></script>
     <!-- chargement du script spécifique -->
+    <script type="text/javascript" charset="utf-8" src="resource-query.js"></script>
     <script type="text/javascript" charset="utf-8" src="Evaluation.js"></script>
     <style type="text/css" media="screen">
-    #input {
-        height:3in;
-        background:white;
-        border: 1px solid black; 
-    }
-    #doc,#ide {padding-left:30px;}
-    .emphase {color: #FC6405; }
-    textarea {font: 14pt courier;}
-    .ace_jsRealConstructor{color: blue;}
-    fieldset {display: inline;}
-    #result {font: 14pt sans-serif;}  
+        #input {
+            height:3in;
+            background:white;
+            border: 1px solid black; 
+        }
+        #doc {padding-left:30px;}
+        .emphase {color: #FC6405; }
+
+        .ace_jsRealB_Terminal{color:brown;}
+        .ace_jsRealB_Phrase{color:red;}
+        .ace_jsRealB_Dependent{color:cornflowerblue;}
+
+        fieldset {display: inline;}
+
+        #result {font: 14pt sans-serif;} 
+        #titreResult {font-weight: bold; font-size: 14pt; margin: 15pt 0pt;} 
+        
+        textarea#query_result{
+            height:2in;
+            width: 100%;
+            border: 1px solid black; 
+            font:10pt courier;
+        }
+    button {font-size: large;}
     </style>
     <title id="titre">Realize a jsRealB expression</title>
 </head>
@@ -45,13 +59,36 @@
             <label for="dependencies">Dependencies</label>
                 <input type="radio" name="representation" value="dependencies" id="dependencies">
         </fieldset>
+        <fieldset>
+            <legend id="const_color">Constituent color coding</legend>
+            <span class="ace_jsRealB_Phrase">Phrase</span>
+            <span class="ace_jsRealB_Dependent">Dependent</span>
+            <span class="ace_jsRealB_Terminal">Terminal</span>
+        </fieldset>
         
         <a id="doc" href="../../documentation/user.html?lang=en" target="_blank">Documentation</a>
     </p>
-    <div id="input"></div>
-    <div><input type="button" name="realize" value="Realize" id="realize"></div>
-    <h2 id="titreResult">Realization</h2>
-    <div id="result"></div>
+    
+    <div id="input"></div>  <!--used by ACE -->
+
+    <div><button id="realize">Realize</button></div>
+    <div style="margin:15pt 0pt"><span id="titreResult">Realization</span> : <span id="result"></span></div>
+    <button id="show_resource_query">Show resource query</button>
+    <div id="resource_query">
+        <h2 id="res_query_legend">Query linguistic resources</h2>
+        <select id="type_query">
+            <option value="lm">Lemmatize</option>
+            <option value="lx">Lexicon</option>
+            <option value="dn">Declension number</option>
+            <option value="de">Declension ending</option>
+            <option value="cn">Conjugation number</option>
+            <option value="ce">Conjugation ending</option>
+        </select>
+        <input type="text" size="30" placeholder="word or regex" id="res_query"/>
+        <div><textarea id="query_result"></textarea></div>
+        <button id="hide_resource_query">Hide resource query</button>
+        
+    </div>
 </body>
 </html>
 

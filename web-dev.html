@@ -17,16 +17,21 @@
     </script>
 </head>
 <body>
-    <p>This is single page that loads <code>tests-dev.js</code> which itself loads the current <code>webpack module</code>. </p> 
-    <p>These tests are checked against the expected value. When the realization is not the expected one, the expression, the output and what was expected are displayed in the JavaScript console. The number of differences is also displayed.</p>
-    <p>A warning of a bad value for an option (in French) is also realized, to exercise the warning system.</p>
+    <p>This page loads the current <code>webpack module</code>. 
+    The console displays, the version of <b>jsRealB</b>, the date the webpack module has been created and the current realization language. 
+    If <code>Constituent.debug</code> is 
+    <code>true</code>, the word <code>debug</code> is displayed.</p> 
     
-    <p>jsRealB <a href="documentation/user.html" target="_blank">documentation</a></p>
     <p>It is useful for developing using the JavaScript console that is displayed using the following key strokes. </p>
     <ul>
         <li><strong>Chrome</strong> : ctrl+shift+j (macOS: cmd+opt+j)</li>
         <li><strong>Firefox</strong> : ctrl+shift+k (macOS: cmd+opt+k) for Firefox</li>
         <li><strong>Safari</strong> : cmd+opt+c</li>
-    </ul>   
+    </ul> 
+    <p>In the console, at the prompt, <code><b><b>jsRealB</b></b></code> expression can be typed and its realization displayed either by calling 
+        <code>.toString()</code> or concatenating with an empty string.  If <code>debug</code> is displayed, 
+        realization must be obtained with <code>.realize()</code>.</p>
+    
+    <p>Consult the <b>jsRealB</b> <a href="documentation/user.html" target="_blank">documentation</a></p>  
 </body>
 </html>

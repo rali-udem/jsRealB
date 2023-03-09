@@ -2,6 +2,9 @@
 var lang,format,representation;
 Object.assign(globalThis,jsRealB);
 
+loadEn();buildLemmataEn();
+loadFr();buildLemmataFr();
+
 const constituentFr= `var dest=NP(D("le"),N("monde"));
 S(Pro("je").pe(1),
   VP(V("dire"),
@@ -75,6 +78,27 @@ const exemples = {
     }
 }
 
+const texts = {  // simple localization of texts
+    "#realize":["Realize","Réaliser"],
+    "#titreResult":["Realization","Réalisation"],
+    "#rep":["Representation","Représentation"],
+    "label[for=dependencies]":["Dependencies","Dépendances"],
+    "#const_color":["Constituent color coding","Couleurs des Consituent(s)"],
+    "#show_resource_query":["Show resource query","Afficher l'interrogation des ressources"],
+    "#hide_resource_query":["Hide resource query","Masquer l'interrogation des ressources"],
+    "#res_query_legend":["Query linguistic resources","Interrogation des ressources"],
+    "#type_query>option[value=lx]":["Lexicon","Lexique"],
+    "#type_query>option[value=lm]":["Lemmatize","Lemmatisation"],
+    "#type_query>option[value=dn]":["Declension number","Numéro de déclinaison"],
+    "#type_query>option[value=de]":["Declension ending","Terminaison de déclinaison"],
+    "#type_query>option[value=cn]":["Cnnjugation number","Numéro de conjugaison"],
+    "#type_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"]
+}
+
+const attrs = {
+    "#doc":["href","../../documentation/user.html?lang=en","../../documentation/user.html?lang=fr"],
+    "#res_query":["placeholder","word or regex","mot ou regex"],
+}
 
 function changeExemple() {
     if (lang !== undefined && representation !== undefined){// sauver la valeur courante
@@ -87,20 +111,13 @@ function changeExemple() {
     representation=$("input[name='representation']:checked").val();
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
-        $("#realize").val("Réaliser");
-        $("#titreResult").text("Réalisation");
-        $("#rep").text("Représentation")
-        $("label[for=dependencies]").text("Dépendances")
-        $("#doc").attr("href","../../documentation/user.html?lang=fr")
+        for (let t in texts) $(t).text(texts[t][1])
+        for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][2])       
         loadFr();
-    }
-    else{
+    } else {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
-        $("#realize").val("Realize");
-        $("#titreResult").text("Realization")
-        $("#rep").text("Representation")
-        $("label[for=dependencies]").text("Dependencies")
-        $("#doc").attr("href","../../documentation/user.html?lang=en")
+        for (let t in texts) $(t).text(texts[t][0])        
+        for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][1])     
         loadEn();
     }
     editor.setValue(exemples[representation][lang][format]);
@@ -123,7 +140,47 @@ function realize(){
     $("#result").html(res);    
 }
 
-var editor;
+const query_functions = {
+    "lx":getLexiconInfo,
+    "lm":lemmatize,
+    "cn":getConjugation,
+    "ce":getConjugationEnding,
+    "dn":getDeclension,
+    "de":getDeclensionEnding
+}
+
+function query_resource(e){
+    // console.log("query_resource("+e+")")
+    const $result = $("#query_result")
+    if (e.which==13){
+        const query = $("#res_query").val().trim();
+        const query_type=$("#type_query").val()
+        $result.text("");
+        const query_function = query_functions[query_type]
+        if (query_function !== undefined){
+            const out = query_function(query)
+            if (typeof out === "string" )
+                $result.text(out)
+                // q_res.session.setValue(out)
+            else
+                $result.text(ppJSON(out))
+                // q_res.session.setValue(JSON.stringify(out,null," "))
+        } else {
+            $result.text("** Strange query:"+query_type)
+        }
+     } 
+}
+
+function show_resource_query(show){
+    if (show){
+        $("#show_resource_query").hide()
+        $("#resource_query").show()
+    } else {
+        $("#show_resource_query").show()
+        $("#resource_query").hide()
+    }
+}
+var editor,q_res;
 
 $(document).ready(function(){
     editor = ace.edit("input")
@@ -140,4 +197,8 @@ $(document).ready(function(){
     setExceptionOnWarning(true);
     $("#francais,#english,#jsrealb,#json,#constituents,#dependencies").click(changeExemple);
     $("#realize").click(realize);
+    $("#res_query").keypress(query_resource)
+    $("#show_resource_query").click((_)=>show_resource_query(true))
+    $("#hide_resource_query").click((_)=>show_resource_query(false))
+    $('#resource_query').hide()
 });

@@ -1,10 +1,6 @@
-// some useful function for the NodeIDE
-// these function access internals of jsRealB
-export {lemmatize, isConstituent, getConjugation, getConjugationEnding, getDeclension, 
-        getDeclensionEnding,getLexiconInfo, buildLemmataEn, buildLemmataFr};
+//  this file is essentially the same as IDE/nodeIDE.js
+//   except for the import/export statements that I never managed to get working
 
-import jsRealB from "../dist/jsRealB.js";
-// import constructors and other functions
 Object.assign(globalThis,jsRealB);
 const lexiconEn = getLexicon("en");
 const ruleEn = getRules("en");
@@ -304,18 +300,9 @@ function getLexiconInfo(word,lang){
         if (regex.exec(w))res[w]=lexicon[w];
     }
     if (Object.keys(res).length==0)
-        return word+(lang=="en"?": not found in English lexicon" : ": absent du lexique français")
-    else 
-        return res;
-}
-
-globalThis.help=function(){
-    return `*** Special jsRealB commands ***
-"enhanced" Node.js read-eval-print loop 
-- Constituents created with jsRealB constructors are realized
-- Strings are output as is
-- Commands for querying resources (.help for details)
-`;
+        return word+(lang=="en"? ": not in English lexicon" : ": absent du lexique français")
+    else return res;
+    
 }
 
 function buildLemmataEn(){

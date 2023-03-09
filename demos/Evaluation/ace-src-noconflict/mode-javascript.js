@@ -252,8 +252,14 @@ var JavaScriptHighlightRules = function() {
                 token : ["storage.type", "punctuation.operator", "support.function.firebug"],
                 regex : /(console)(\.)(warn|info|log|error|time|timeEnd|assert)\b/
             }, {// added by Guy Lapalme
-                token : "jsRealConstructor",
-                regex : /\b[A-Z][A-Za-z]*\b/
+                token : "jsRealB_Phrase",
+                regex : /NP|AP|AdvP|VP|CP|PP|S|SP/
+            }, {// added by Guy Lapalme
+                token : "jsRealB_Terminal",
+                regex : /N|A|Pro|D|V|Adv|P|C|DT|NO|Q/
+            }, { // added by Guy Lapalme
+                token : "jsRealB_Dependent",
+                regex : /root|subj|det|comp|mood|coord/
             }, {
                 token : keywordMapper,
                 regex : identifierRe
