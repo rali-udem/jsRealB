@@ -95,10 +95,10 @@ def paperExample():
     from jsRealBclass import jsRealB, N,A,Adv,V,D,P,C,DT,NO,Q, NP,AP,AdvP,VP,S,SP,PP,CP
     ##  example function used in the paper
     def pcpn(type,action,tense,moment,quantity=None,unit=None):
-    	return S(type,
-    	         VP(V(action).t(tense),
-    			    CP(PP(P("in"),NP(D("the"),N(moment))),
-    				   None if quantity==None else NP(N("amount"),NP(NO(quantity),unit)))))
+        return S(type,
+                 VP(V(action).t(tense),
+                    CP(PP(P("in"),NP(D("the"),N(moment))),
+                       None if quantity==None else NP(N("amount"),NP(NO(quantity),unit)))))
     
     print(realize(pcpn(N("flurry").n("p"),"begin","p","morning",2,N("foot")),"en"))
     print(realize(pcpn(N("rain"),"begin","p","evening",1,N("inch")),"en"))

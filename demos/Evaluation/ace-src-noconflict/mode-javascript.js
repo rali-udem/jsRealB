@@ -259,7 +259,7 @@ var JavaScriptHighlightRules = function() {
                 regex : /N|A|Pro|D|V|Adv|P|C|DT|NO|Q/
             }, { // added by Guy Lapalme
                 token : "jsRealB_Dependent",
-                regex : /root|subj|det|comp|mood|coord/
+                regex : /root|subj|det|comp|mod|coord/
             }, {
                 token : keywordMapper,
                 regex : identifierRe

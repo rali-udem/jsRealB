@@ -19284,6 +19284,7 @@
  "ennoblir":{"V":{"aux":"av","tab":"v58","pat":["tdir"]}},
  "ennoblissement":{"N":{"g":"m","tab":"n3"}},
  "ennoyer":{"V":{"aux":"av","tab":"v5","pat":["tdir"]}},
+ "ennuagement":{"N":{"g":"m","tab":"n3"}},
  "ennuager":{"V":{"aux":"av","tab":"v3","pat":["tdir","réfl"]}},
  "ennui":{"N":{"g":"m","tab":"n3"},"basic":true},
  "ennuyant":{"A":{"tab":"n28"}},
