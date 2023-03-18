@@ -1,5 +1,10 @@
-## the jsRealB server should be launched from the jsRealB directory with
-##    node dist/jsRealB-server.js demos/Weather/weatherLexicon.js
+## This Python demo uses the Python API for jsRealB with a server 
+# launched (from the jsRealB directory) with
+#      node dist/jsRealB-server.mjs demos/Weather/weatherLexicon.js &
+# This program is launched as
+#      python3 demos/Weather/Bulletin.py 
+# The server can be stopped with
+#      killall node 
 
 import json,textwrap,re
 from datetime import datetime, timedelta

@@ -63,6 +63,7 @@ function verifier(){
     // console.log("corrige",corrige)
     let reponse=$("#reponse").prop("value");
     if (reponse.length==0)return;
+    reponse=reponse.replace(/ +(\?|\.)/,"$1")  // enlever les espaces avant le . ou le ?
     reponse=reponse.replace(/œ/g,"oe").replace(/’/g,"'") // normaliser ligature et apostrophe
     const n=$("table tr").length;
     // figer la réponse

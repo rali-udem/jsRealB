@@ -33,7 +33,7 @@ function expressionNP(suffix){
             if (adjForm!="nil")a.f(adjForm);
             nArgs.push(a);
         }
-        let np=NP.apply(null,nArgs)
+        let np=NP(nArgs)
         if (pronom)np.pro()
         return np
     }
@@ -134,8 +134,8 @@ function buildJsRealExpr(){
                     return;
                 }
             }
-            args.push(VP.apply(null,vpArgs));
-            expr=S.apply(null,args)
+            args.push(VP(vpArgs));
+            expr=S(args)
             //Ajout type de phrase
             if ($("#negation").is(':checked'))options.neg=true;
             if ($("#contraction").is(':checked'))options.contr=true;
@@ -235,7 +235,11 @@ function deroulantAleatoire($selObj, zeroAcceptable) {
 
 function radioButtonAleatoire(rbName){
     const l= $(`input[name=${rbName}]`);
-    $(l[Math.floor(Math.random()*l.length)]).prop("checked","checked")
+    if (rbName.startsWith("det")){
+        // avoid generating "empty" determiner which generates mostly unreadable sentences
+        $(l[Math.floor(Math.random()*2)+1]).prop("checked","checked") // chose only between definite and indefinite
+    } else
+        $(l[Math.floor(Math.random()*l.length)]).prop("checked","checked")
 }
 
 function aleatoireBinaire($checkBox) {

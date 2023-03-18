@@ -1,7 +1,7 @@
 // node.js unix "filter" which 
 //   takes a input a one line containing a jsRealB expression in either JavsScript or JSON notation
 //  it must be at least one non-space char long
-//  it returns its English realisation if there areee no error in the input
+//  it returns its English realisation if there are no error in the input
 // call: node jsRealB-filter.js
 
 //////// 

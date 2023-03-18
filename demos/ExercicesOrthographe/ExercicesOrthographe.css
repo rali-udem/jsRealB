@@ -9,10 +9,14 @@
     color: #008000; /*clover*/
     text-decoration: underline;
 }
-.ins {color: red;}
+.ins {
+    background-color: blue;
+    color:white;
+}
 .del {
     text-decoration: line-through;
-    color:#00F;
+    background-color: red;
+    color:white;
 }
 
 #instructions {

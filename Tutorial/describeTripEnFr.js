@@ -50,7 +50,7 @@ function nbStations(leg,ord){
     var st=N(oneOf("station",currentLang=="en"?"stop":"arrêt"));
     if (leg.length==2){
         return currentLang=="en"?NP(Adv("only"),NO(1).dOpt({"nat": true}),st)
-                                :NP(NO(1).dOpt({"ord":true}),st);
+                                :NP(NO(1).dOpt({"nat":true}),A("seul").pos("pre"),st);
     }
     return NP(NO(leg.length-1).dOpt({"ord":ord}),st)
 }
@@ -63,7 +63,7 @@ function singleLine(leg,duration){
                          :S(Pro("je").pe(2).n("p"),V("être"),Adv("déjà"),
                             PP(P("à"),D("notre").pe(2),N("destination"))).a("!");
     if (currentLang=="en"){
-        var sp1 = oneOf(()=>SP(D("this"),V("be"),CP(C("and"),A("simple"),A("fast")),nbStations(leg),
+        var sp1 = oneOf(()=>SP(D("this"),V("be"),CP(C("and"),A("simple"),A("fast")).a(":"),nbStations(leg),
                                Adv("no"),N("transfer")),
                         ()=>SP(Pro("I").pe(2),
                                VP(V("be"),Adv("only"),nbStations(leg),Adv("away"))),
@@ -75,10 +75,10 @@ function singleLine(leg,duration){
                                PP(P("for"),NP(NO(Math.round(duration)),N("minute")))));
         return S(sp1,sp2).toString();
     } else {
-        var sp1 = oneOf(()=>SP(D("ce"),V("être"),CP(C("et"),A("simple"),A("rapide")),nbStations(leg),
+        var sp1 = oneOf(()=>SP(D("ce"),V("être"),CP(C("et"),A("simple"),A("rapide")).a(":"),nbStations(leg).a(","),
                                NP(D("aucun"),N("correspondance"))),
                         ()=>SP(Pro("je").pe(2).n("p"),
-                               VP(V("être"),Adv("seulement"),P("à"),nbStations(leg))),
+                               VP(V("être"),leg.length>2?Adv("seulement"):null,P("à"),nbStations(leg))),
                         ()=>SP(Pro("ceci"),VP(V("faire").t("f"),nbStations(leg),
                                               PP(P("pour"),A("tout"),NP(D("le"),N("trajet")))))
                         ).a(",");
