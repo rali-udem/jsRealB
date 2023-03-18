@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="metro.js" type="module"></script>
+    <style>
+        #graphique {
+            border: 1px solid #999;
+            padding: 2px;
+            margin:5px;
+            vertical-align:top;
+            float:left;
+            width:500px;
+        }
+        #itinerary {
+            float:left;
+            vertical-align:top;
+            width:400px;
+        }
+        #langSelect{cursor:pointer; color: green; position:fixed; top:5px; right:10px;}
+    </style>
+    <title>Navigation in the Montréal Métro</title>
+</head>
+<body>
+    <h1 lang="en">Navigation in the Montréal Métro</h1>
+    <h1 lang="fr">Navigation dans le Métro de Montréal</h1>
+    <span id="langSelect">[<span lang="en">FR</span><span lang="fr">EN</span>]</span>
+    <p lang="en">This is an <em>optimist</em> network adding some stations from <a href="https://en.wikipedia.org/wiki/Pink_Line_(Montreal_Metro)" title="Pink Line (Montreal Metro) - Wikipedia">the pink line</a> to inscrease the number of transfer stations and thus get more interesting texts!</p>
+    <p lang="fr">Ceci est un réseau <em>optimiste</em> intégrant quelques stations de <a href="https://fr.wikipedia.org/wiki/Ligne_rose_%28métro_de_Montréal%29">la ligne rose</a> afin d'ajouter de nouvelles correspondances et ainsi avoir des textes plus intéressants!</p>
+    <p lang="en">Click on a node on the map to indicate your starting station which will be highlighted, then click on your arrival station. The system then generates a text describing your route which is shown also on the map. The travel time  between two successive stations is a rough estimate based on <em>as the crow flies</em> between their coordinates; 5 minutes are estimated for a transfer between lines (another optimistic assumption...). The text is generated along the principles described in:</p>
+    <p lang="fr">Cliquez sur un noeud sur la carte pour indiquer votre station de départ qui sera mise en évidence, ensuite cliquez sur votre station d'arrivée. Le système réalisera un texte décrivant votre parcours qui sera aussi indiqué sur la carte. Les temps de parcours entre deux stations successives sont estimées à partir de la distance à vol d'oiseau entre leurs coordonnées; on escompte 5 minutes pour une correspondance entre deux lignes dans une station (une autre supposition optimiste...). Le texte est produit selon les principes énoncés dans: </p> 
+    <blockquote>L. Fraczak and G. Lapalme and M. Zock,
+        <em>Automatic generation of subway directions: salience gradation as a factor in determining message and form</em>, Proceedings of the Ninth International Workshop on Language Generation, Niagara-on-the-Lake, pp 58-67, 1998.
+    </blockquote>
+    <hr/>
+    <div id="graphique"></div>
+    <div id="itinerary"></div>
+    <div style="clear:left"></div>
+    <div id="tutorial-reference">
+        <p lang="en">The way the data and the generation process is organized is described <a href="../../Tutorial/tutorial.html#itinerary-generation">in the tutorial</a>.</p>
+        <p lang="fr">L'organisation des données et du processus de génération est expliqué (en anglais) <a href="../../Tutorial/tutorial.html#itinerary-generation">dans le tutoriel</a>.</p>
+    </div>
+</body>
+</html>

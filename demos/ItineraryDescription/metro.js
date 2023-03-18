@@ -187,4 +187,8 @@ $(document).ready(function() {
         setLanguage(lang);
     else
         setLanguage("en");
+    // taken from:  https://stackoverflow.com/questions/21751377/foolproof-way-to-detect-if-this-page-is-inside-a-cross-domain-iframe
+    if (window.self !== window.top){ // hide reference to tutorial when called within an iFrame
+        $("#tutorial-reference").hide()
+    }
 });

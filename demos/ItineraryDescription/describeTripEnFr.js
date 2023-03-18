@@ -9,7 +9,7 @@
 //    this file can be used either in a web page or as a node.js module
 ///////
 import {findTrip, network} from "./computeTrip.js";
-import "../dist/jsRealB.js";
+import "../../dist/jsRealB.js";
 Object.assign(globalThis,jsRealB);
 let currentLang="fr";
 

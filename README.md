@@ -135,9 +135,9 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * **Itinerary description in an *optimistic* Montréal Métro network**. The system shows an interactive map of the Montréal Métro station with a new line. When a user clicks two stations, the systems realizes a text describing the itinerary to go from the first station to the second. 
 
     <!-- ![Screen copy of the application](Tutorial/metro.jpg "Finding a path in the metro") -->
-    <img src="Tutorial/metro.jpg" width="800"/>
+    <img src="demos/ItineraryDescription/metro.jpg" width="800"/>
     
-    The language of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](Tutorial/metro.html) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/metro.html)
+    The language of the web page and of the realization can be changed interactively by clicking in the top right of the page. [Metro](demos/ItineraryDescription/metro.html) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ItineraryDescription/metro.html)
 * **Weather bulletin generation in English and French**. An example of use of the Python API for **jsRealB**. Taking weather information in JSON, it generates bulletin in both English and French. [This tutorial describes the organization of the system](http://rali.iro.umontreal.ca/JSrealB/current/demos/Weather/Bulletin-generation.html) which shows how **jsRealB** can be used in a real-life situation in conjunction with Python for data manipulation.
 
 

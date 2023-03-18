@@ -4,21 +4,21 @@ $(document).ready(function() {
     globalThis.mouse1=NP(D("a"),A("grey"),N("mouse"));   
     globalThis.cat2=NP(D("the"),N("cat"));
     globalThis.mouse2=NP(D("a"),A("grey"),N("mouse"));
-    globalThis.mouse3 = ()=>NP(D("a"),A("grey"),N("mouse"));
+    globalThis.mouse3 = ()=> NP(D("a"),A("grey"),N("mouse"));
 
-    globalThis.np = function(){
+    function np(){
         return NP(D("a"),a(),N(oneOf("cat","mouse","dog","rabbit")).n(oneOf("s","p")));
     }
-    globalThis.a=function(){
+    function a(){
         return oneOf(
             ()=>A(oneOf("hungry","grey","nervous")),
             ()=>Q("")
         );
     }
-    globalThis.vp = function(){
+    function vp (){
         return oneOf(
-            ()=>VP(V(oneOf("eat","run","love")).t(oneOf("p","ps","f"))),
-            ()=>VP(V(oneOf("eat","love")).t(oneOf("p","ps","f")),
+            ()=>VP(V(oneOf("sit","run","laugh")).t(oneOf("p","ps","f"))),  // intransitive verb
+            ()=>VP(V(oneOf("eat","love")).t(oneOf("p","ps","f")),          // transitive verb
                    np())
         );
     }

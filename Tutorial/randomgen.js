@@ -1,4 +1,4 @@
-// javascript version of randomgen.pl described in
+// JavaScript version of randomgen.pl described in
 //    Michel Boyer and Guy Lapalme, Text Generation, in Logic and Logic Grammar for Language Processing, 
 //    Ellis Horwood, 1990, Chapter 12, p-256-257 
 
@@ -56,7 +56,7 @@ function a(){
 // random VP or VP,NP
 function vp(){
     return oneOf(
-        ()=>VP(V(oneOf("eat","run","love")).t(oneOf("p","ps","f"))),
+        ()=>VP(V(oneOf("sit","run","laugh")).t(oneOf("p","ps","f"))),
         ()=>VP(V(oneOf("eat","love")).t(oneOf("p","ps","f")),np())
     );
 }
