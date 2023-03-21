@@ -227,7 +227,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 break;
             case "mod":case "comp":
                 if (depTerm.isA("A")){
-                    depTerm.peng=this.peng
+                    if (this.peng !== undefined)
+                        depTerm.peng=this.peng
                     // check for an attribute of a copula with an adjective
                     if (this.isFr() && copulesFR.includes(headTerm.lemma)){
                         const iSubj=this.findIndex(d0=>d0.isA("subj") && d0.terminal.isA("N","Pro"));
@@ -254,7 +255,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     }
                 } else if (depTerm.isA("Pro") && ["qui","que","who","that"].includes(depTerm.lemma)){
                     // a relative linked to depTerm in which the new peng should be propagated
-                    depTerm.peng=this.peng
+                    if (this.peng !== undefined)
+                        depTerm.peng=this.peng
                     for (let d0 of d.dependents)
                         this.setPengRecursive(d0,d0.peng.pengNO,this.peng)
                     }
@@ -886,27 +888,35 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             return this.doFormat(res); // process format for the CP
         }
         // check that all dependents use the same deprel
+        // except if a dependent is another coord 
         const deprel=this.dependents[0].constType;
         const noConnect = this.terminal.lemma=="";
         for (let j = 0; j < last; j++) { //insert comma after each element
             const dj=this.dependents[j];
-            if (!dj.isA(deprel)){
-                this.warn("inconsistent dependents within a coord",deprel,dj.constType)
-            }
             if (noConnect || j<last-1){ // except the last if there is conjunction
                 if (dj.props["a"] === undefined || !dj.props["a"].includes(","))
                     dj.props["a"]=[","];
             }
-            Array.prototype.push.apply(res,dj.real())
+            if (dj.isA("coord")){
+                res.push(...dj.coordReal());
+            } else if (!dj.isA(deprel) && deprel != "coord"){
+                this.warn("inconsistent dependents within a coord",deprel,dj.constType)
+            } else
+                res.push(...dj.real())
         }
         // insert realisation of the terminal before last...
-        Array.prototype.push.apply(res,this.terminal.real());
-        if (!this.dependents[last].isA(deprel)){
-            this.warn("inconsistent dependents within a coord",deprel,this.dependents[last].constType)
+        res.push(...this.terminal.real());
+        const lastD = this.dependents[last]
+        if (lastD.isA("coord")){
+            res.push(...lastD.coordReal());
+            return this.doFormat(res);
+        } else if (!lastD.isA(deprel)  && deprel != "coord"){
+            this.warn("inconsistent dependents within a coord",deprel,lastD.constType)
         }    
         // insert last element
-        Array.prototype.push.apply(res,this.dependents[last].real());
+        res.push(...lastD.real());
         // compute the combined gender and number of the coordination once children have been realized
+        // CAUTION: gender and person might not be correct in the case of embedded coord
         const thisCoord=this.terminal;
         if (thisCoord.isA("C")){
             var and=this.isFr()?"et":"and";

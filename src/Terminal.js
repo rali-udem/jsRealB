@@ -546,11 +546,13 @@ class Terminal extends Constituent{
             }
             aux.taux["t"]=tempsAux;
             aux.realization=aux.realize();  // realize the auxiliary using jsRealB!!!
+            const pp=V(this.lemma,"fr")
             // change this verb to pp
-            this.setProp("g",g);
-            this.setProp("n",n);
-            this.setProp("t","pp");
-            this.realization=this.realize();    // realize the pp using jsRealB!
+            pp.setProp("g",g);
+            pp.setProp("n",n);
+            pp.setProp("t","pp");
+            pp.realization=pp.realize();      // realize the pp using jsRealB without other options
+            this.realization=pp.realization;  // set verb realization to the pp realization
             //  check special cases
             if (this.neg2 !== undefined) {
                 aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 

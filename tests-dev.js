@@ -844,5 +844,4 @@ function testPreviousExamples(){
 //  Do not forget to "load" the appropriate language
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)
-// new tests for agreement through coordination
-loadFr()
+// add tests here ...

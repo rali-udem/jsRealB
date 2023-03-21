@@ -298,12 +298,12 @@ var JavaScriptHighlightRules = function() {
             }, {
                 token : ["storage.type", "punctuation.operator", "support.function.firebug"],
                 regex : /(console)(\.)(warn|info|log|error|time|timeEnd|assert)\b/
-            }, {// added by Guy Lapalme
+            }, {// added by Guy Lapalme; in a regex long expressions must appear before the shorter ones
                 token : "jsRealB_Phrase",
-                regex : /NP|AP|AdvP|VP|CP|PP|S|SP/
+                regex : /NP|AP|AdvP|VP|CP|PP|SP|S/
             }, {// added by Guy Lapalme
                 token : "jsRealB_Terminal",
-                regex : /N|A|Pro|D|V|Adv|P|C|DT|NO|Q/
+                regex : /Adv|NO|DT|N|A|Pro|D|V|P|C|Q/
             }, { // added by Guy Lapalme
                 token : "jsRealB_Dependent",
                 regex : /root|subj|det|comp|mod|coord/

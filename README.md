@@ -68,7 +68,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
     * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
 * [`Tests`](Tests/) : unit tests (using [QUnit](https://qunitjs.com "QUnit")) of jsRealB in both French and English.
-    * `testAll.html` : load this file in a browser to run all tests
+    * `testAll.html` : load this file in a browser to run all tests.  
+    In _Visual Studio Code_, the launch configuration takes for granted that a local web server has been launched in the `jsRealB` directory (e.g. with `http-server -c-1`) 
 * [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html)
 * *Files in the current directory*:
     * `README.md` : this file

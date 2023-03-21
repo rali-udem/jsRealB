@@ -333,7 +333,8 @@ class Constituent {
             "they+will":"they'll", "they+are":"they're", "they+had":"they'd", "they+would":"they'd", "they+have":"they've",
             "it+is":"it's", "it+will":"it'll", "it+had":"it'd", "it+would":"it'd",
             "there+will":"there'll", "there+is":"there's", "there+has":"there's", "there+have":"there've",
-            "that+is":"that's", "that+had":"that'd", "that+would":"that'd", "that+will":"that'll"
+            "that+is":"that's", "that+had":"that'd", "that+would":"that'd", "that+will":"that'll",
+            "what+is":"what's"
         } 
         // search for terminal "a" and check if it should be "an" depending on the next word
         var last=cList.length-1;
