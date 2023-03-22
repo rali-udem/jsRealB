@@ -845,3 +845,5 @@ function testPreviousExamples(){
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)
 // add tests here ...
+loadEn();
+loadFr()

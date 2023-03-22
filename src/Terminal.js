@@ -5,7 +5,7 @@
 
 import { Constituent } from "./Constituent.js";
 import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
-import { nbDecimal,numberFormatter, enToutesLettres, ordinal} from "./Number.js";
+import { nbDecimal,numberFormatter, enToutesLettres, ordinal, roman} from "./Number.js";
 export {Terminal, N, A, Pro, D, V, Adv, C, P, DT, NO, Q}
 /**
  * create a quoted string taking account possible escaping
@@ -815,6 +815,8 @@ class Terminal extends Constituent{
             } else if (opts.ord==true){
                 this.setProp("n","s") // number of an ordinal number is always singular
                 this.realization=this.numberToOrdinal(this.value,this.lang,this.peng.g);
+            } else if (opts.rom==true) {
+                this.realization = this.numberToRoman(this.value)
             } else if (opts.raw==false){
                 this.realization=numberFormatter(this.value,this.lang,opts.mprecision);
             } else { //opts.raw==true
@@ -854,15 +856,25 @@ class Terminal extends Constituent{
      * @returns string corresponding to the number in words
      */
     numberToOrdinal(number,lang,gender){
-        if (parseInt(number) !== number){
+        if (parseInt(number) !== number || number <= 0){
             this.warn("bad ordinal",number)
-            return `[[${number}]]`;
-        } else if (number<=0){
-            this.warn("bad ordinal",number);
             return `[[${number}]]`;
         }
         return ordinal(number,lang, gender);
     };
+
+    /**
+     * Show a number as roman
+     * @param {number} number to write in roman numerotation
+     * @returns string corresponding to the value in roman letters 
+     */
+    numberToRoman(number){
+        if (parseInt(number) !== number || number <= 0 || number >= 4000){
+            this.warn("bad roman",number)
+            return `[[${number}]]`;
+        }
+        return roman(number)
+    }
 
 
     /**

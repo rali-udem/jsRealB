@@ -163,6 +163,12 @@ Constituent.warnings = {
          fr:(value)=> // $value ne peut pas être réalisé comme un ordinal.
             S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("ordinal")))))
               .typ({neg:true,mod:"poss",pas:true})},
+    "bad roman":
+        {en:(value)=> // cannot realize $value as a Roman number.
+            S(VP(V("realize"),Q(value),AdvP(Adv("as"),NP(D("a"),A("Roman"),N("number"))))).typ({neg:true,mod:"poss"}),
+        fr:(value)=> // $value ne peut pas être réalisé comme un nombre romain.
+            S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("nombre"),A("romain")))))
+              .typ({neg:true,mod:"poss",pas:true})},      
     "bad number in word":
         {en:(value)=> // cannot realize $value in words.
             S(VP(V("realize"),Q(value),PP(P("in"),N("word").n("p")))).typ({neg:true,mod:"poss"}),

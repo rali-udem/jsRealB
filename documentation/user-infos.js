@@ -512,6 +512,8 @@ var numberFormat={"fr":"Formatage d'un nombre","en":"Number formatting",
                                 "en":["number in words",'NO("42").nat()']},
         {"pattern":"{ord:true}","fr":["nombre ordinal",'NO("10").dOpt({ord: true})'],
                                 "en":["ordinal number",'NO("10").dOpt({ord: true})']},
+        {"pattern":"{rom:true}","fr":["nombre romain",'NO("267").dOpt({rom: true})'],
+                                "en":["Roman number",'NO("267").dOpt({rom: true})']},
 ]}; 
 
 var numberAgreement={"fr":"Accord du nom selon le nombre","en":"Noun agreement in number",

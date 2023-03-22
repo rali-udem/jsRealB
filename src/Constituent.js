@@ -201,7 +201,7 @@ class Constituent {
                 }
             }
         } else if (this.isA("NO")){
-            const allowedKeys = ["mprecision","raw","nat","ord"];
+            const allowedKeys = ["mprecision","raw","nat","ord","rom"];
             const keys=Object.keys(dOptions);
             for (let i = 0; i < keys.length; i++) {
                 const key = keys[i];

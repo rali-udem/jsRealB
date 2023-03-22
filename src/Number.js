@@ -4,7 +4,7 @@
  */
 
 import { getRules } from "./Lexicon.js";
-export {numberFormatter, nbDecimal, enToutesLettres, ordinal}
+export {numberFormatter, nbDecimal, enToutesLettres, ordinal, roman}
 
 /**
  * Format a number
@@ -211,6 +211,7 @@ var ordFrExceptions={"un":"premier","une":"première","cinq":"cinquième","neuf"
  * @param {string|number} s 
  * @param {"en"|"fr"} lang 
  * @param {"m"|"f"} gender 
+ * @returns a string with 
  */
 function ordinal(s,lang,gender){
     const en = lang=="en";
@@ -231,3 +232,38 @@ function ordinal(s,lang,gender){
     }
 }
 
+/**
+ * Format an integer in the range (0,4000) as a roman number 
+ * CAUTION: the range should be checked before the call
+ * @param {number} val 
+ * @returns a string with the corresponding roman number representation as capital letters
+ */
+function roman(val){
+    function units(i,v,x,value){
+        switch (value) {
+            case 0: return "";
+            case 1: return i;
+            case 2: return i+i;
+            case 3: return i+i+i;
+            case 4: return i+v;
+            case 5: return v;
+            case 6: return v+i;
+            case 7: return v+i+i;
+            case 8: return v+i+i+i;
+            case 9: return i+x;
+            case 10: return x;
+        }
+    }
+    
+    if (val<0)
+        return "*too small*";
+    if (val<=10)
+        return units("I","V","X",val);
+    if (val<=100)
+        return units("X","L","C",Math.floor(val/10))+roman(val%10);
+    if (val<=1000)
+        return units("C","D","M",Math.floor(val/100))+roman(val%100);
+    if (val<4000)
+        return "M".repeat(Math.floor(val/1000))+roman(val%1000)
+    return "*too big*";
+}
