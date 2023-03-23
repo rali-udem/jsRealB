@@ -691,28 +691,29 @@ var CstyleBehaviour = function () {
                 }
             }
         } else if (text == "\n" || text == "\r\n") {
-            var closing = "";
-            if (CstyleBehaviour.isMaybeInsertedClosing(cursor, line)) {
-                closing = lang.stringRepeat("}", maybeInsertedBrackets);
-                CstyleBehaviour.clearMaybeInsertedClosing();
-            }
-            var rightChar = line.substring(cursor.column, cursor.column + 1);
-            if (rightChar === '}') {
-                var openBracePos = session.findMatchingBracket({row: cursor.row, column: cursor.column+1}, '}');
-                if (!openBracePos)
-                     return null;
-                var next_indent = this.$getIndent(session.getLine(openBracePos.row));
-            } else if (closing) {
-                var next_indent = this.$getIndent(line);
-            } else {
-                return;
-            }
-            var indent = next_indent + session.getTabString();
+            return; // Guy Lapalme: ignore special processing of closing brace before end of line
+            // var closing = "";
+            // if (CstyleBehaviour.isMaybeInsertedClosing(cursor, line)) {
+            //     closing = lang.stringRepeat("}", maybeInsertedBrackets);
+            //     CstyleBehaviour.clearMaybeInsertedClosing();
+            // }
+            // var rightChar = line.substring(cursor.column, cursor.column + 1);
+            // if (rightChar === '}') {
+            //     var openBracePos = session.findMatchingBracket({row: cursor.row, column: cursor.column+1}, '}');
+            //     if (!openBracePos)
+            //          return null;
+            //     var next_indent = this.$getIndent(session.getLine(openBracePos.row));
+            // } else if (closing) {
+            //     var next_indent = this.$getIndent(line);
+            // } else {
+            //     return;
+            // }
+            // var indent = next_indent + session.getTabString();
 
-            return {
-                text: '\n' + indent + '\n' + next_indent + closing,
-                selection: [1, indent.length, 1, indent.length]
-            };
+            // return {
+            //     text: '\n' + indent + '\n' + next_indent + closing,
+            //     selection: [1, indent.length, 1, indent.length]
+            // };
         } else {
             CstyleBehaviour.clearMaybeInsertedClosing();
         }

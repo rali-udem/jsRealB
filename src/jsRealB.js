@@ -57,7 +57,7 @@ const jsRealB_version="4.6.1";
 /**
  * Date of jsRealB "compile", it is  set by webpack
  */
-const jsRealB_dateCreated=typeof BUILDTIME == "string" ? BUILDTIME : JSON.stringify(new Date().toLocaleString("en-CA")); 
+const jsRealB_dateCreated=typeof BUILDTIME == "string" ? BUILDTIME : new Date().toLocaleString("en-CA"); 
 
 // 
 /**

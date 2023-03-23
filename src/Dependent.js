@@ -197,12 +197,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             };
             headTerm.peng=this.peng;
         }
-        for (const d of this.dependents){
-            const depTerm=d.terminal;
-            switch (d.constType){
+        for (const dep of this.dependents){
+            const depTerm=dep.terminal;
+            switch (dep.constType){
             case "subj":
                 if (headTerm.isA("V")){
-                    headTerm.peng=d.peng;
+                    headTerm.peng=dep.peng;
                 }
                 break;
             case "det":
@@ -219,9 +219,9 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 } else if (depTerm.isA("NO")){
                     depTerm.peng=headTerm.peng
                 } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
-                    if (d.dependents.length==1 && d.dependents[0].isA("mod") && 
-                        d.dependents[0].terminal.isA("D")){
-                        d.dependents[0].terminal.peng=this.peng;
+                    if (dep.dependents.length==1 && dep.dependents[0].isA("mod") && 
+                        dep.dependents[0].terminal.isA("D")){
+                        dep.dependents[0].terminal.peng=this.peng;
                     }
                 }
                 break;
@@ -238,10 +238,10 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     }
                 } else if (depTerm.isA("V")){
                     //   set agreement between the subject of a subordinate or the object of a relative subordinate
-                    const iRel=d.findIndex(d0=>d0.isA("subj","comp","mod") && 
-                            d0.terminal.isA("Pro") && ["qui","que","who","that"].includes(d0.terminal.lemma));
+                    const iRel=dep.findIndex(depI=>depI.isA("subj","comp","mod") && 
+                            depI.terminal.isA("Pro") && ["qui","que","who","that"].includes(depI.terminal.lemma));
                     if (iRel>=0){
-                        const rel=d.dependents[iRel].constType;
+                        const rel=dep.dependents[iRel].constType;
                         if (rel=="subj"){ // verb agrees with this subject
                             depTerm.peng=this.peng;
                         } else if (this.isFr()){ // rel is comp or mod
@@ -257,32 +257,33 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     // a relative linked to depTerm in which the new peng should be propagated
                     if (this.peng !== undefined)
                         depTerm.peng=this.peng
-                    for (let d0 of d.dependents)
-                        this.setPengRecursive(d0,d0.peng.pengNO,this.peng)
+                    for (let depI of dep.dependents)
+                        this.setPengRecursive(depI,depI.peng.pengNO,this.peng)
                     }
                 break;
             case "root":
                 // this.error("An internal root was found")
                 break;
             case "coord":
-                if (d.dependents.length>0){
-                    const firstDep=d.dependents[0]
+                if (dep.dependents.length>0){
+                    const firstDep=dep.dependents[0]
                     if (firstDep.isA("subj")){
-                        headTerm.peng=d.peng
+                        headTerm.peng=dep.peng
                     } else if (firstDep.isA("det")){
-                        d.peng=headTerm.peng
+                        dep.peng=headTerm.peng
                     } else if (firstDep.isA("mod","comp")&& firstDep.terminal.isA("V","A")){
                         // consider this as coordination of verb sharing a subject (the current root)
                         //  or a coordination of adjectives
-                        for (let d0 of d.dependents){
-                            d0.peng=headTerm.peng;
-                            d0.terminal.peng=headTerm.peng;
+                        dep.peng=headTerm.peng;
+                        for (let depI of dep.dependents){
+                            depI.peng=headTerm.peng;
+                            depI.terminal.peng=headTerm.peng;
                         }
                     }
                 }
                 break;
             default :
-                this.error("Strange dependent:"+d.constType)
+                this.error("Strange dependent:"+dep.constType)
             }
         }
     }
@@ -308,7 +309,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      */
     findGenderNumberPerson(andCombination){
         let g;
-        let n="s";
+        let n;
         let pe=3;
         let nb=0;
         for (let i = 0; i < this.dependents.length; i++) {
@@ -323,8 +324,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 if (propPe !== undefined && propPe<pe)pe=propPe;
             }
         }
-        if (nb==0) g="m";
-        else if (nb>1 && n=="s" && andCombination)n="p";  
+        if (nb>1 && andCombination)n="p";  
         return {"g":g,"n":n,"pe":pe}
     }
 
@@ -922,7 +922,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             var and=this.isFr()?"et":"and";
             var gn=this.findGenderNumberPerson(thisCoord.lemma==and);
             if (gn.g !==undefined) this.setProp("g",gn.g);
-            this.setProp("n",gn.n);
+            if (gn.n !==undefined) this.setProp("n",gn.n);
             this.setProp("pe",gn.pe);
             // for an inserted pronoun, we must override its existing properties...
             if (thisCoord.pronoun!==undefined){

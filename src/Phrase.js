@@ -425,7 +425,7 @@ class Phrase extends Constituent{
      */
     findGenderNumberPerson(andCombination){
         let g;
-        let n="s";
+        let n;
         let pe=3;
         let nb=0;
         for (let i = 0; i < this.elements.length; i++) {
@@ -440,8 +440,7 @@ class Phrase extends Constituent{
                 if (propPe !== undefined && propPe<pe)pe=propPe;
             }
         }
-        if (nb==0) g="m";
-        else if (nb>1 && andCombination)n="p";  
+        if (nb>1 && andCombination)n="p";  
         return {"g":g,"n":n,"pe":pe}
     }
 
@@ -718,7 +717,6 @@ class Phrase extends Constituent{
             verb.setLemma("être");// change verb, but keep person, number and tense properties of the original...
             verb.isProg=verb;
             // except for sentence refl which should be kept on the original verb
-            // if (isReflexive)verb.ignoreRefl=true; // HACK: flag used by Terminal.isReflexive()
             // insert "en train","de" (separate so that élision can be done...) 
             // but do it BEFORE the pronouns created by .pro()
             let i=idxV-1;
@@ -1108,7 +1106,7 @@ class Phrase extends Constituent{
             var and=this.isFr()?"et":"and";
             var gn=this.findGenderNumberPerson(c.lemma==and);
             if (gn.g !==undefined) this.setProp("g",gn.g);
-            this.setProp("n",gn.n);
+            if (gn.n !==undefined) this.setProp("n",gn.n);
             this.setProp("pe",gn.pe);
             // for an inserted pronoun, we must override its existing properties...
             if (this.pronoun!==undefined){

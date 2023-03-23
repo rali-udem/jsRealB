@@ -79,6 +79,7 @@ const exemples = {
 }
 
 const texts = {  // simple localization of texts
+    "#kb-shortcuts":["Editor help","Aide pour l'éditeur"],
     "#realize":["Realize","Réaliser"],
     "#titreResult":["Realization","Réalisation"],
     "#rep":["Representation","Représentation"],

@@ -410,7 +410,7 @@ QUnit.test( "Dependencies FR", function( assert ) {
                                         ))).typ({'pas': true, 'neg': true}),
            "expected": "Il n'a pas été difficile de trouver un livre qu'il n'a pas traduit. ",
            "message": "Subordonnées modifiées imbriquées - bis"},
-         //   45
+         //   43
         {"expression":root(V("toucher").t('pr'),
                            coord(C("et"),
                                  subj(N("tâche"),
@@ -423,10 +423,32 @@ QUnit.test( "Dependencies FR", function( assert ) {
                                      mod(A("paroissial"))).n('p'))),
            "expected": "De multiples tâches et démarches touchant aux bâtiments paroissiaux. ",
            "message": "Propagation d'option dans un coord"},
-        // 38
-        // {"expression":,
-        //  "expected":"",
-        //  "message":""},
+        // 44
+        {"expression":
+        root(V("adresser"),
+             subj(N("place").n("p"),
+                  det(D("le")),
+                  comp(P("de"),
+                       comp(N("accueil")))),
+             comp(P("en"),
+                  comp(N("priorité"))),
+             comp(P("à"),
+                  comp(N("parent").n("p"),
+                       det(D("le")),
+                       comp(Pro("qui"),
+                            coord(C("et"),
+                                  comp(V("travailler")),
+                                  comp(V("avoir"),
+                                       comp(N("possibilité"),
+                                            det(D("de")),
+                                            comp(P("de"),
+                                                 comp(N("garde"),
+                                                      comp(P("pour"),
+                                                           comp(N("enfant"),
+                                                                det(D("leur")))))))).typ({neg:true})
+                                       ))))).typ({refl:true}),
+         "expected":"Les places d'accueil s'adressent en priorité aux parents qui travaillent et n'ont pas de possibilité de garde pour leur enfant. ",
+         "message":"Sujet d'une relative avec coordination de verbes"},
         // 39
         // {"expression":,
         //  "expected":"",

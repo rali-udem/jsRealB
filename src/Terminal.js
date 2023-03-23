@@ -484,13 +484,13 @@ class Terminal extends Constituent{
         if (!this.isA("V")){
             return this.error("isReflexive() should be called only for a verb,  not a "+this.constType)
         }
-        if (this.ignoreRefl===true)return false; //HACK: this might be set in Phrase.processTyp_fr when dealing with "progressive"
         const pat=this.getProp("pat")
         if (pat!==undefined && pat.length==1  && pat[0]=="réfl") return true; // essentiellement réflexif
         // check for "refl" typ (only called for V): Terminal.conjugate_fr
         let pc=this.parentConst;
         while (pc != undefined){
-            if (pc.isA("VP","SP","S") || pc.isA(Constituent.deprels)){
+            // look for the first enclosing S, SP or Dependent with a terminal V
+            if (pc.isA("VP","SP","S") || (pc.isA(Constituent.deprels) && pc.terminal.isA("V"))){
                 const typs=pc.props["typ"];
                 if (typs!==undefined && typs["refl"]===true){
                     if (!pat.includes("réfl")){
@@ -501,6 +501,8 @@ class Terminal extends Constituent{
                     }
                     return true
                 }
+                if (!pc.isA("VP")) // unless it is VP stop at the first sentence
+                    return false
             }
             pc=pc.parentConst;
         }

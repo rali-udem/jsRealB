@@ -105,8 +105,9 @@ Constituent.warnings = {
                          PP(P("to"),makeDisj("or",goods)).a(","),Adv("not"),PP(P("to"),Q(bad))))
                .typ({mod:"nece",pas:true}),
          fr:(info,goods,bad)=> // $info devrait être appliqué à $good, non à $bad.
-            S(Q(info),VP(V("appliquer").t("c"),
-                         PP(P("à"),makeDisj("ou",goods)).a(','),Adv("non"),PP(P("à"),Q(bad))))
+            S(Q(info),VP(V("appliquer").t("c"), 
+                      // HACK: Q("non") au lieu de Adv("non") pour éviter son déplacement avant "appliqué"
+                         PP(P("à"),makeDisj("ou",goods)).a(','),Q("non"),PP(P("à"),Q(bad)))) 
               .typ({mod:"nece",pas:true})},
     "bad position":
         {en:(bad,limit)=> // $bad should be smaller than $limit.
