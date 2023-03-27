@@ -25,7 +25,7 @@ else
     Object.assign(globalThis,jsRealB);
 */
 
-let exemplesFr,exemplesEn,dependancesFr,dependenciesEn, constituentEnFr;
+let exemplesFr,exemplesEn,dependancesFr,dependenciesEn, constituentEnFr,dependentEnFr;
 
 function makeExamples(){
     loadFr();
@@ -455,9 +455,9 @@ function makeExamples(){
 
     // dépendances en français
     loadFr();
-    addToLexicon("Mauritanie",{"N":{"g":"f","tab":["n16"]}})
-    addToLexicon("Algérie",{"N":{"g":"f","tab":["n16"]}})
-    addToLexicon("Maroc",{"N":{"g":"m","tab":["n1"]}})
+    addToLexicon("Mauritanie",{"N":{"g":"f","tab":"n16"}})
+    addToLexicon("Algérie",{"N":{"g":"f","tab":"n16"}})
+    addToLexicon("Maroc",{"N":{"g":"m","tab":"n1"}})
 
     dependancesFr=[
         [root(V("pleuvoir"),
@@ -715,15 +715,25 @@ function makeExamples(){
         "The cheese is eaten by him. "],
     ];
 
-    // bilingual example
+    // bilingual examples
     loadFr();
-    var dest=NP(D("le"),N("monde"));
+    const dest=NP(D("le"),N("monde"));
     loadEn();
     constituentEnFr=
         S(Pro("I").pe(1),
         VP(V("say"),
             "hello",
             PP(P("to"),dest.tag("b"))));
+    loadFr();
+    const dest1=comp(N("monde"),
+                     det(D("le")));
+    loadEn();
+    dependentEnFr=
+        root(V("say"),
+             subj(Pro("I").pe(1)),
+             comp("hello"),
+             comp(P("to"),
+                  dest1.tag("b")));
 }
 
 function showEx(exemple){
@@ -828,18 +838,20 @@ function testPreviousExamples(){
     checkAllEx("dependenciesEn",dependenciesEn)
     console.log("----")
     // cannot use checkAllEx because it does a clone() and the language is changed...
-    const realEnFr = constituentEnFr.realize()
-    if (realEnFr == "I say hello to <b>le monde</b>. "){
-        console.log("bilingual: OK")
-    } else {
-        console.log("bilingual:KO",realEnFr)
+    for (let c of [constituentEnFr,dependentEnFr]){
+        const realEnFr = c.realize()
+        if (realEnFr == "I say hello to <b>le monde</b>. "){
+            console.log("bilingual: OK")
+        } else {
+            console.log("bilingual:KO",realEnFr)
+        }    
     }
     console.log("----")
     // testWarnings()
 }
 
 //  To check a single "new" example, comment the following
-// testPreviousExamples()
+testPreviousExamples()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
@@ -847,3 +859,4 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 // add tests here ...
 loadEn();
 loadFr();
+testWarnings()

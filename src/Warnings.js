@@ -98,7 +98,8 @@ Constituent.warnings = {
               VP(V("be").t("ps"),Q(good).a(","),Adv("not"),Q(bad))).typ({mod:"nece"}),
          fr:(good,bad)=> // le paramètre devrait être $good, pas $bad
             S(NP(D("le"),N("paramètre")),
-              VP(V("être").t("c"),Q(good).a(","),Adv("non"),Q(bad))).typ({mod:"nece"})},
+            // HACK: Q("non") au lieu de Adv("non") pour éviter son déplacement avant "appliqué"
+              VP(V("être").t("c"),Q(good).a(","),Q("non"),Q(bad))).typ({mod:"nece"})},
     "bad application":
         {en:(info,goods,bad)=> // $info should be applied to $good, not to $bad
             S(Q(info),VP(V("apply").t("ps"),
@@ -162,13 +163,13 @@ Constituent.warnings = {
         {en:(value)=> // cannot realize $value as ordinal.
             S(VP(V("realize"),Q(value),AdvP(Adv("as"),N("ordinal")))).typ({neg:true,mod:"poss"}),
          fr:(value)=> // $value ne peut pas être réalisé comme un ordinal.
-            S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("ordinal")))))
+            S(Q(value),VP(V("réaliser"),PP(P("comme"),NP(D("un"),N("ordinal")))))
               .typ({neg:true,mod:"poss",pas:true})},
     "bad roman":
         {en:(value)=> // cannot realize $value as a Roman number.
             S(VP(V("realize"),Q(value),AdvP(Adv("as"),NP(D("a"),A("Roman"),N("number"))))).typ({neg:true,mod:"poss"}),
         fr:(value)=> // $value ne peut pas être réalisé comme un nombre romain.
-            S(Q(value),VP(V("réaliser"),AdvP(Adv("comme"),NP(D("un"),N("nombre"),A("romain")))))
+            S(Q(value),VP(V("réaliser"),PP(P("comme"),NP(D("un"),N("nombre"),A("romain")))))
               .typ({neg:true,mod:"poss",pas:true})},      
     "bad number in word":
         {en:(value)=> // cannot realize $value in words.
@@ -273,7 +274,7 @@ Constituent.warnings = {
  * Show all warnings with dummy parameters in the console : useful for debugging
  */
 export function testWarnings(){
-    for (let w in Constituent.prototype.warnings){
+    for (let w in Constituent.warnings){
         console.log(w);
         loadEn();
         if (w!="user-warning")
