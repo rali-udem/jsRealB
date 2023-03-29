@@ -53,7 +53,7 @@ const None  = null;
 /**
  * Version number
  */
-const jsRealB_version="4.6.1";
+const jsRealB_version="4.6.2";
 /**
  * Date of jsRealB "compile", it is  set by webpack
  */
