@@ -1195,7 +1195,7 @@ class Phrase extends Constituent{
                 // we must flatten the lists
                 Array.prototype.push.apply(res,r)
             }
-            if (this.isA("VP"))
+            if (this.isA("VP") && res.length>1)
                 checkAdverbPos(res)
         }
         return this.doFormat(res);

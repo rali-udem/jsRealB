@@ -131,7 +131,6 @@ class Terminal extends Constituent{
                 }             
                 this.date = new Date(lemma);
             }
-            this.lemma = this.date+""
             this.props["dOpt"]={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                             nat:true,det:true,rtime:false}
             break;
