@@ -1,23 +1,7 @@
-
-let $source, $targetWords, $targetSentence, $answer;
+// load jsRealB symbols
 Object.assign(globalThis,jsRealB);
 
-// let exercises = [
-//     {"fr":()=>S(NP(D("le") ,N("élève")),  VP(V("manger"),NP(D("un"),N("fromage")).n("p"))),
-//      "fr-dist":["chien","viande","la"],
-//      "en":()=>S(NP(D("the"),N("student")),VP(V("eat"),   NP(D("a"), N("cheese") ).n("p"))),
-//      "en-dist":["dog","meat","a"],
-//     },
-// ]
-
-let exercises =[
-    {"fr":["élève","manger","fromage"],"fr-dist":["chien","viande","la"],
-     "en":["student","eat","cheese"],"en-dist":["dog","meat","a"],
-    },
-    {"fr":["garçon","aime","chocolat"],"fr-dist":["élève","orange","fourchette"],
-     "en":["boy","like","chocolate"],"en-dist":["student","orange","fork"],
-    },
-]
+let $source, $targetWords, $targetSentence, $answer;
 
 // taken from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
 function shuffle(a) {
@@ -28,14 +12,70 @@ function shuffle(a) {
     return a;
 }
 
-function makeNPs(){
-
+function makePros(src,tgt,pronounIndices,case_){
+    const res={};
+    const proIdx=pronounIndices.shift();
+    const pe = tonicPronouns["pe"][proIdx];
+    const n = tonicPronouns["n"][proIdx];
+    load(src);
+    res[src] = Pro(tonicPronouns[src][proIdx]).pe(pe).n(n).c(case_)
+    load(tgt);
+    res[tgt] = Pro(tonicPronouns[tgt][proIdx]).pe(pe).n(n).c(case_)
+    return res;
 }
 
-function makeSentences(){
-    let nounIndexes=shuffle(Array.from(Array(nouns.length)));
-    
+function makeNPs(src,tgt,nounIndices,adjIndices){
+    const res = {}    
+    const nIdx=nounIndices.shift()
+    const dets = oneOf(determiners);
+    const n = oneOf(numbers);
+    load(src);
+    res[src] = NP(D(dets[src]),N(nouns[src][nIdx])).n(n);
+    load(tgt);
+    res[tgt] = NP(D(dets[tgt]),N(nouns[tgt][nIdx])).n(n);
+    if (Math.random()<0.25){
+        const aIdx=adjIndices.shift()
+        load(src);
+        res[src].add(A(adjectives[src][aIdx]));
+        load(tgt);
+        res[tgt].add(A(adjectives[tgt][aIdx]));
+    }
+    return res;
+}
 
+function load(lang){
+    if (lang=="en")loadEn();
+    else loadFr();
+}
+
+function makeSentences(src,tgt){
+    // HACK: the word selection is done by shuffling a new list of indices (so that the corresponding src and tgt words are selected)
+    //       and taking (shifting) the first index of this list when needed either for the word or the distractor 
+    let nounIndices=shuffle(Array.from(Array(nouns[src].length).keys()));
+    let pronounIndices=shuffle(Array.from(Array(tonicPronouns[src].length).keys()));
+    let adjIndices=shuffle(Array.from(Array(adjectives[src].length).keys()));
+    let verbIndices = shuffle(Array.from(Array(verbs[src].length).keys()));
+
+    const np1 = Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
+                                   : makePros(src,tgt,pronounIndices,"nom");
+    const np2 = Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
+                                   : makePros(src,tgt,pronounIndices,"acc");
+    const vIdx = verbIndices.shift();
+    const t=oneOf(["p","ps","f"]);
+    const typ=oneOf([{},{neg:false},{"int":"yon"}]);
+    let res = {};
+    load(src);
+    res[src] = S(np1[src],VP(V(verbs[src][vIdx]).t(t),np2[src])).typ(typ);
+    load(tgt);
+    res[tgt] = S(np1[tgt],VP(V(verbs[tgt][vIdx]).t(t),np2[tgt])).typ(typ);
+    let distractors=[];
+    distractors.push(nouns[tgt][nounIndices.shift()]);
+    distractors.push(nouns[tgt][nounIndices.shift()]);
+    distractors.push(adjectives[tgt][adjIndices.shift()]);
+    distractors.push(verbs[tgt][verbIndices.shift()]);
+    distractors.push(tonicPronouns[tgt][pronounIndices.shift()])
+    res["distractors"]=distractors;
+    return res;
 }
 
 function showWords(words){
@@ -69,43 +109,39 @@ function moveWord(e){
     }
 }
 
-function showExercises(exercise){
-    const numbers=["s","p"]
-    const dets = [["un","a"],["le","the"]];
-    const n1=oneOf(numbers);
-    const dets1=oneOf(dets);
-    const n2=oneOf(numbers);
-    const dets2=oneOf(dets);
-    const t=oneOf(["p","ps","f"]);
-    const typ=oneOf([{neg:true},{neg:false},{pas:true},{"int":"yon"}]);
-    loadFr();
-    const fr=exercise["fr"];
-    const frSent=S(NP(D(dets1[0]),N(fr[0])),
-                   VP(V(fr[1]).t(t),
-                   NP(D(dets2[0]),N(fr[2])))).typ(typ).realize();
-    $source.text(frSent);
-    loadEn();
-    const en=exercise["en"];
-    const enSent=S(NP(D(dets1[1]),N(en[0])),
-                   VP(V(en[1]).t(t),
-                      NP(D(dets2[1]),N(en[2])))).typ(typ).realize();
-    const enWords = enSent.split(/[^a-zA-Zà-üÀ-Ü]+/).filter(e=>e.length>0);
-    showWords(enWords.concat(exercise["en-dist"]))
-    return enWords;  
+// let src="fr",tgt="en";
+let src="en",tgt="fr";
+
+function showExercises(){
+    $("#verdict,#answer").html("");
+    $("#source,#target-words,#target-sentence").empty();
+    $("#continue").prop("disabled",true);
+    const sents = makeSentences(src,tgt);
+    load(src);
+    // console.log(sents[src].toSource());
+    $source.text(sents[src].realize());
+    load(tgt);
+    // console.log(sents[tgt].toSource());
+    const tgtSent = sents[tgt].realize();
+    const tgtWords = tgtSent.split(/[^a-zA-Zà-üÀ-Ü]+/).filter(e=>e.length>0);
+    showWords(tgtWords.concat(sents["distractors"]))
+    return tgtWords;
 }
 
 let rightWords;
 
 function checkTranslation(){
-    let ok=true;
+    let ok=$targetSentence.children().length==rightWords.length;
     $targetSentence.children().each(function(i,e){
         if ($(this).text()!=rightWords[i])ok=false;
     })
     if (ok){
-        $answer.html("<b>Bravo!</b>")
+        $verdict.html("<b style='color:green'>Bravo!</b>")
     } else {
-        $answer.html("<b>Raté</b> cela aurait dû être: "+rightWords.map(w=>`<span class="word">${w}</span>`).join(""))
+        $verdict.html("<b style='color:red'>Raté</b>: voici la réponse")
+        $answer.html(rightWords.map(w=>`<span class="word">${w}</span>`).join(""))
     }
+    $("#continue").prop("disabled",false);
 }
 
 $(document).ready(function() {
@@ -113,6 +149,11 @@ $(document).ready(function() {
     $targetWords=$("#target-words");
     $targetSentence=$("#target-sentence");
     $answer=$("#answer")
+    $verdict=$("#verdict")
     $("#check").click(checkTranslation);
-    rightWords=showExercises(oneOf(exercises))
+    $("#continue").click(function(){
+        rightWords=showExercises();
+
+    }).prop("disabled",true)
+    rightWords=showExercises()
 });
