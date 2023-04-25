@@ -1,4 +1,4 @@
-#source,#target-words,#target-sentence,#answer{
+#source,#target-words,#target-sentence,#verdict,#answer{
     height: 15px;
     width:100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -11,6 +11,12 @@ button{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     padding: 10px;
     margin: 5px 0
+}
+
+#changeLang,#hide-show-explanation{
+    float:right;
+    cursor:pointer;
+    color:blue;
 }
 
 .word{

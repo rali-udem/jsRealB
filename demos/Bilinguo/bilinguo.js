@@ -2,6 +2,7 @@
 Object.assign(globalThis,jsRealB);
 
 let $source, $targetWords, $targetSentence, $answer;
+let src="en",tgt="fr";
 
 // taken from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
 function shuffle(a) {
@@ -10,6 +11,22 @@ function shuffle(a) {
         [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
+}
+
+function setSrc(lang){
+    if (lang=="en"){
+        src="en"; tgt="fr";
+        $("[lang=en]").show(); $("[lang=fr]").hide();
+    } else {
+        src="fr"; tgt="en";
+        $("[lang=fr]").show(); $("[lang=en]").hide();        
+    }
+    if ($("#explanation").is(":visible")){
+        $(`#show-${src}-expl`).hide();
+    } else {
+        $(`#hide-${src}-expl`).hide();
+    }
+    rightWords=showExercises();
 }
 
 function makePros(src,tgt,pronounIndices,case_){
@@ -65,9 +82,9 @@ function makeSentences(src,tgt){
     const typ=oneOf([{},{neg:false},{"int":"yon"}]);
     let res = {};
     load(src);
-    res[src] = S(np1[src],VP(V(verbs[src][vIdx]).t(t),np2[src])).typ(typ);
+    res[src] = S(np1[src],VP(V(verbs[src][vIdx]).t(t),np2[src])).typ(typ).cap(false);
     load(tgt);
-    res[tgt] = S(np1[tgt],VP(V(verbs[tgt][vIdx]).t(t),np2[tgt])).typ(typ);
+    res[tgt] = S(np1[tgt],VP(V(verbs[tgt][vIdx]).t(t),np2[tgt])).typ(typ).cap(false);
     let distractors=[];
     distractors.push(nouns[tgt][nounIndices.shift()]);
     distractors.push(nouns[tgt][nounIndices.shift()]);
@@ -104,18 +121,18 @@ function moveWord(e){
         $targetSentence.append($(this));
         $(this).data("inWords",false)
     } else { // move back to original position
-        $(this).css("position","absolute")
-        $(this).data("inWords",true)
+        $targetWords.append($(this));
+        $(this).css("position","absolute");
+        $(this).data("inWords",true);
     }
 }
 
-// let src="fr",tgt="en";
-let src="en",tgt="fr";
 
 function showExercises(){
     $("#verdict,#answer").html("");
     $("#source,#target-words,#target-sentence").empty();
-    $("#continue").prop("disabled",true);
+    $("#continue-"+src).hide();
+    $("#check-"+src).show();
     const sents = makeSentences(src,tgt);
     load(src);
     // console.log(sents[src].toSource());
@@ -123,14 +140,15 @@ function showExercises(){
     load(tgt);
     // console.log(sents[tgt].toSource());
     const tgtSent = sents[tgt].realize();
-    const tgtWords = tgtSent.split(/[^a-zA-Zà-üÀ-Ü]+/).filter(e=>e.length>0);
+    const tgtWords = tgtSent.split(/[^-a-zA-Zà-üÀ-Ü']+/).filter(e=>e.length>0);
     showWords(tgtWords.concat(sents["distractors"]))
     return tgtWords;
 }
 
 let rightWords;
 
-function checkTranslation(){
+function checkTranslation(e){
+    const myId=$(e.target).attr('id');
     let ok=$targetSentence.children().length==rightWords.length;
     $targetSentence.children().each(function(i,e){
         if ($(this).text()!=rightWords[i])ok=false;
@@ -138,22 +156,36 @@ function checkTranslation(){
     if (ok){
         $verdict.html("<b style='color:green'>Bravo!</b>")
     } else {
-        $verdict.html("<b style='color:red'>Raté</b>: voici la réponse")
+        $verdict.html(src=="fr" ? "<b style='color:red'>Raté</b>: voici la bonne réponse" 
+                                : "<b style='color:red'>Missed</b>: here is the right answer" );
         $answer.html(rightWords.map(w=>`<span class="word">${w}</span>`).join(""))
     }
-    $("#continue").prop("disabled",false);
+    $("#"+myId).hide();
+    $("#"+myId.replace("check","continue")).show()
 }
 
 $(document).ready(function() {
     $source=$("#source");
     $targetWords=$("#target-words");
     $targetSentence=$("#target-sentence");
-    $answer=$("#answer")
-    $verdict=$("#verdict")
-    $("#check").click(checkTranslation);
-    $("#continue").click(function(){
+    $answer=$("#answer");
+    $verdict=$("#verdict");
+    $("#check-en,#check-fr").click(checkTranslation);
+    $("#continue-en,#continue-fr").click(function(){
         rightWords=showExercises();
-
-    }).prop("disabled",true)
-    rightWords=showExercises()
+    }).hide()
+    $("#changeLang").click(function(){setSrc(tgt)});
+    $("#hide-show-explanation").click(function(){
+        $("#explanation").toggle();
+        if ($("#explanation").is(":visible")){
+            $(`#show-${src}-expl`).hide();
+            $(`#hide-${src}-expl`).show();
+        } else {
+            $(`#show-${src}-expl`).show();
+            $(`#hide-${src}-expl`).hide();
+        }
+        rightWords=showExercises();
+    })
+    setSrc("fr");
+    $(`#show-${src}-expl`).hide();
 });

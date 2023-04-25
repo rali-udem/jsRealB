@@ -10,17 +10,38 @@
         <link rel="stylesheet" href="bilinguo.css">
     </head>
     <body>
-        <h1>Exercices d'anglais</h1>
-        <p>Traduisez cette phrase française en anglais en cliquant sur certains mots anglais de la prochaine ligne pour ajouter 
-            à la fin de la ligne suivante. Recliquer sur le mot pour le remettre à son endroit original.</p>
+        <div id="changeLang">
+            <span lang="fr">Translate into French</span>
+            <span lang="en">Traduire vers l'anglais</span>
+        </div>
+        <h1 lang="fr">Traduire vers l'anglais</h1><h1 lang="en">Translate to French</h1>
+        <div id="hide-show-explanation">
+            <span lang="fr" id="show-fr-expl">Afficher les explications</span>
+            <span lang="en" id="show-en-expl">Show explanations</span>
+            <span lang="fr" id="hide-fr-expl" style="display: none;">Cacher les explications</span>
+            <span lang="en" id="hide-en-expl" style="display: none;">Hide explanations</span>           
+        </div>
+        <div id="explanation">
+            <p lang="fr">Traduisez cette phrase française en anglais en cliquant sur certains mots anglais de la prochaine ligne pour ajouter 
+                à la fin de la ligne suivante. Recliquer sur un mot pour le remettre à son endroit original.</p>
+            <p lang="fr">Ces phrases simples sont générées au hasard à partir d'un vocabulaire réduit de mots fréquents. Certaines variantes
+                sont également choisies aléatoirement.
+            </p>
+            <p lang="en">Translate this English sentence into French by clicking on some French words of the next line to add them to 
+                the end of the next line. Click again on a word to replace it in its original spot.</p>
+            <p lang="en">These simple sentences are randomly generated with words from a very small lexicon of frequent words. Some variantes
+                are also randomly selected. </p>
+        </div>
         <div id="source"></div>
         <hr/>
         <div id="target-words"></div>
         <hr/>
         <div id="target-sentence"></div>
         <hr/>
-        <button id="check">Vérifier</button>
-        <button id="continue">Continuer</button>
+        <button id="check-en" lang="en">Check</button>
+        <button id="continue-en" lang="en">Continue</button>
+        <button id="check-fr" lang="fr">Vérifier</button>
+        <button id="continue-fr" lang="fr">Continuer</button>
         <hr/>
         <div id="verdict"></div>
         <hr/>
