@@ -827,7 +827,8 @@ class Phrase extends Constituent{
     /**
      * in French : use an inversion rule which is quite "delicate"
      * rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
-     * if subject is a pronoun, invert and add "-t-" or "-"
+     * if subject is a pronoun, invert and add "-t-" or "-" 
+     *       except for first person singular ("je") which is most often non colloquial (e.g. aime-je or prends-je)
      * if subject is a noun, the subject stays but add a new pronoun
      */
     invertSubject(){
@@ -836,7 +837,11 @@ class Phrase extends Constituent{
             const subj=this.elements[subjIdx];
             let pro;
             if (subj.isA("Pro"))
-                pro = this.removeElement(subjIdx); // remove subject pronoun
+                if (subj.getProp("pe")==1 && subj.getProp("n")=="s"){ // add "est-ce que" at the start
+                    this.add(Q("est-ce que"),subjIdx);
+                } else {
+                    pro = this.removeElement(subjIdx); // remove subject pronoun
+                }
             else if (subj.isA("CP")){
                 pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
                 subj.pronoun=pro;  // add a flag to be processed by cpReal

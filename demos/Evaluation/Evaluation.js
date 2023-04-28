@@ -84,7 +84,7 @@ const texts = {  // simple localization of texts
     "#titreResult":["Realization","Réalisation"],
     "#rep":["Representation","Représentation"],
     "label[for=dependencies]":["Dependencies","Dépendances"],
-    "#const_color":["Constituent color coding","Couleurs des Consituent(s)"],
+    "#const_color":["Constituent color coding","Couleurs des Constituent(s)"],
     "#show_resource_query":["Show resource query","Afficher l'interrogation des ressources"],
     "#hide_resource_query":["Hide resource query","Masquer l'interrogation des ressources"],
     "#res_query_legend":["Query linguistic resources","Interrogation des ressources"],

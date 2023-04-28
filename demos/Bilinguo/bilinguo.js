@@ -61,30 +61,29 @@ function makeNPs(src,tgt,nounIndices,adjIndices){
 }
 
 function load(lang){
-    if (lang=="en")loadEn();
-    else loadFr();
+    if (lang=="en") loadEn(); else loadFr();
 }
 
 function makeSentences(src,tgt){
     // HACK: the word selection is done by shuffling a new list of indices (so that the corresponding src and tgt words are selected)
-    //       and taking (shifting) the first index of this list when needed either for the word or the distractor 
+    //       and taking (shifting) the first indices of this list when needed either for a word or a distractor 
     let nounIndices=shuffle(Array.from(Array(nouns[src].length).keys()));
     let pronounIndices=shuffle(Array.from(Array(tonicPronouns[src].length).keys()));
     let adjIndices=shuffle(Array.from(Array(adjectives[src].length).keys()));
     let verbIndices = shuffle(Array.from(Array(verbs[src].length).keys()));
 
-    const np1 = Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
-                                   : makePros(src,tgt,pronounIndices,"nom");
-    const np2 = Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
-                                   : makePros(src,tgt,pronounIndices,"acc");
+    const subject = Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
+                                       : makePros(src,tgt,pronounIndices,"nom");
+    const complement = Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
+                                          : makePros(src,tgt,pronounIndices,"acc");
     const vIdx = verbIndices.shift();
     const t=oneOf(["p","ps","f"]);
     const typ=oneOf([{},{neg:false},{"int":"yon"}]);
     let res = {};
     load(src);
-    res[src] = S(np1[src],VP(V(verbs[src][vIdx]).t(t),np2[src])).typ(typ).cap(false);
+    res[src] = S(subject[src],VP(V(verbs[src][vIdx]).t(t),complement[src])).typ(typ).cap(false);
     load(tgt);
-    res[tgt] = S(np1[tgt],VP(V(verbs[tgt][vIdx]).t(t),np2[tgt])).typ(typ).cap(false);
+    res[tgt] = S(subject[tgt],VP(V(verbs[tgt][vIdx]).t(t),complement[tgt])).typ(typ).cap(false);
     let distractors=[];
     distractors.push(nouns[tgt][nounIndices.shift()]);
     distractors.push(nouns[tgt][nounIndices.shift()]);
@@ -140,7 +139,7 @@ function showExercises(){
     load(tgt);
     // console.log(sents[tgt].toSource());
     const tgtSent = sents[tgt].realize();
-    const tgtWords = tgtSent.split(/[^-a-zA-Zà-üÀ-Ü']+/).filter(e=>e.length>0);
+    const tgtWords = tgtSent.split(/([^-a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
     showWords(tgtWords.concat(sents["distractors"]))
     return tgtWords;
 }
@@ -156,6 +155,7 @@ function checkTranslation(e){
     if (ok){
         $verdict.html("<b style='color:green'>Bravo!</b>")
     } else {
+
         $verdict.html(src=="fr" ? "<b style='color:red'>Raté</b>: voici la bonne réponse" 
                                 : "<b style='color:red'>Missed</b>: here is the right answer" );
         $answer.html(rightWords.map(w=>`<span class="word">${w}</span>`).join(""))

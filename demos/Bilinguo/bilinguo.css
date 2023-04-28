@@ -7,16 +7,26 @@
     margin: 5px 0;
 }
 
+h1 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
 button{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    border-radius: 15px;
     padding: 10px;
     margin: 5px 0
 }
 
-#changeLang,#hide-show-explanation{
+#changeLang, #hide-show-explanation{
     float:right;
     cursor:pointer;
     color:blue;
+    border:thin solid blue;
+    margin: 2px;
+    padding: 2px;
 }
 
 .word{
@@ -24,7 +34,9 @@ button{
     margin: 0px 5px;
     border:thin solid black;
     border-radius: 5px;
-}
-.word {
     cursor:pointer;
 }
+
+.good { color:green}
+.del { color:red}
+.insert {color: blue;}

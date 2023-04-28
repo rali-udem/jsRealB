@@ -859,3 +859,11 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 // add tests here ...
 loadEn();
 loadFr();
+test(S(Pro("moi").c("nom"),
+       VP(V("aimer"))).typ({"int":"yon"}));
+test(S(Pro("toi").c("nom"),
+       VP(V("aimer"))).typ({"int":"yon"}));
+test(S(Pro("elle").c("nom"),
+       VP(V("aimer"))).typ({"int":"yon"}));
+test(S(Pro("vous").n("p").c("nom"),
+       VP(V("aimer"))).typ({"int":"yon"}));
