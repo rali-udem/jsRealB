@@ -1,14 +1,16 @@
+"use strict";
+
 // French words taken https://www.languefr.net/2019/03/100-mots-les-plus-utilises-en.html?fullpost
-//  translated with Google translate and hand-checked
-//  some ambiguous words (e.g. temps) were removed
+//  translated with "Google translate" and hand-checked
+//  some ambiguous words (e.g. temps) were removed and others were changed
 
 // top 25 des noms les plus utilisés en français :
 const nouns = 
     {"fr":["maison", "ville", "porte", "route", "homme", "femme", "amour", "voiture", "bien", "rue",
-           "monde", "tête",  "pays", "raison", "coeur", "dieu", "monde", "jour", "monsieur", "personne", 
+           "monde", "tête",  "pays", "raison", "coeur", "dieu", "monde", "jour", "chat", "chien", 
            "chambre"],
       "en":["house", "town", "door", "road", "man", "woman", "love", "car", "good", "street", 
-            "world", "head", "country", "reason", "heart", "god", "world", "day", "sir", "person", 
+            "world", "head", "country", "reason", "heart", "god", "world", "day", "cat", "dog", 
             "room"]
     };
 
@@ -40,13 +42,14 @@ const adjectives =
 
 // top 25 des adverbes les plus utilisés en français :
 const adverbs = 
-    {"fr":["rapidement", "malheureusement", "lentement", "couramment", "également", "parfois", "encore", "tellement",
-           "certainement", "probablement", "précisément", "beaucoup", "souvent", "presque", "bientôt", "cependant",
-           "désormais", "davantage", "vraiment", "habituellement", "régulièrement", "calmement","tranquillement",
+    {"fr":["rapidement", "malheureusement", "lentement", "couramment", "aussi", "parfois", "encore", "certainement",
+           "probablement", "précisément", "souvent", "presque", "bientôt", "cependant",
+           "maintenant",  "vraiment", "habituellement", "régulièrement", "calmement","tranquillement",
            "jamais", "partout",],
-     "en":["quickly", "unfortunately", "slowly", "fluently", "also", "sometimes", "again", "so much", "certainly",
-           "probably", "precisely", "many", "often" , "almost", "soon", "however", "now", "more", "really", "usually",
-           "regularly", "calmly", "quietly", "never", "everywhere",]
+     "en":["quickly", "unfortunately", "slowly", "fluently", "also", "sometimes", "again", "certainly",
+           "probably", "precisely",  "often" , "almost", "soon", "however", 
+           "now",  "really", "usually", "regularly", "calmly", "quietly", 
+           "never", "everywhere",]
     }
     
 //  pronouns 

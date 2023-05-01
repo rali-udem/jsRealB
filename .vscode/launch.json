@@ -20,6 +20,13 @@
             "request": "launch",
             "url": "http://127.0.0.1:8080/Tests/testAll.html"
         },
+        { // launch with httop-server -c-1
+        "type": "chrome",
+        "name": "Launch current HTML",
+        "request": "launch",
+        "webRoot": "${workspaceFolder}",
+        "url": "http://127.0.0.1:8080/${relativeFile}",
+        },
         {
             "name": "variationsFromText",
             "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",

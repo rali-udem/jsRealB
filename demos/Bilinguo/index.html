@@ -6,15 +6,16 @@
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="../../dist/jsRealB.js"></script>
         <script src="Lexicon.js"></script>
+        <script src="levenshtein.js"></script>
         <script src="bilinguo.js"></script>
         <link rel="stylesheet" href="bilinguo.css">
     </head>
     <body>
         <div id="changeLang">
-            <span lang="fr">Translate into French</span>
-            <span lang="en">Traduire vers l'anglais</span>
+            <span lang="fr">Translate to French</span>
+            <span lang="en">Traduisez vers l'anglais</span>
         </div>
-        <h1 lang="fr">Traduire vers l'anglais</h1><h1 lang="en">Translate to French</h1>
+        <h1 lang="fr">Traduisez vers l'anglais</h1><h1 lang="en">Translate to French</h1>
         <div id="hide-show-explanation">
             <span lang="fr" id="show-fr-expl">Afficher les explications</span>
             <span lang="en" id="show-en-expl">Show explanations</span>
@@ -22,15 +23,67 @@
             <span lang="en" id="hide-en-expl" style="display: none;">Hide explanations</span>           
         </div>
         <div id="explanation">
-            <p lang="fr">Traduisez cette phrase française en anglais en cliquant sur certains mots anglais de la prochaine ligne pour ajouter 
-                à la fin de la ligne suivante. Recliquer sur un mot pour le remettre à son endroit original.</p>
-            <p lang="fr">Ces phrases simples sont générées au hasard à partir d'un vocabulaire réduit de mots fréquents. Certaines variantes
-                sont également choisies aléatoirement.
+            <ul lang="fr">
+                <li>Traduisez cette phrase française en anglais en cliquant sur certains mots anglais entourés d'un rectangle pour les ajouter 
+                à la fin de la ligne suivante.</li> 
+                <li>Recliquez sur un mot pour le replacer dans la liste originale.</li>
+                <li>Appuyez sur <button>Vérifier</button> lorsque vous avez terminé la traduction.</li> 
+                <li>Le système vérifie si votre traduction correspond à celle 
+                qui est attendue. Si c'est le cas, il indiquera <b style="color:green">Bravo</b> et augmentera votre score indiqué en bas. 
+                Si ce n'est pas le cas, la <i>bonne</i> traduction est affichée les mots en erreurs seront indiqués en rouge.</li>
+                <li>Cliquez sur <button>Continuer</button> pour faire apparaître une nouvelle phrase en anglais à traduire.</li>
+           </ul>
+            <p lang="fr">Ces phrases simples sont générées au hasard à partir d'un vocabulaire réduit de mots fréquents. 
+                Ceci peut expliquer que les phrases à traduire ne sont pas toujours cohérentes sémantiquement. Les traductions attendues sont des 
+                traductions littérales. 
+                Les cases à <i>décocher</i> suivantes permettent de limiter les alternatives pour les types de phrases et les temps 
+                des verbes.
             </p>
-            <p lang="en">Translate this English sentence into French by clicking on some French words of the next line to add them to 
-                the end of the next line. Click again on a word to replace it in its original spot.</p>
-            <p lang="en">These simple sentences are randomly generated with words from a very small lexicon of frequent words. Some variantes
-                are also randomly selected. </p>
+            <ul lang="en">
+                <li>Translate this English sentence into French by clicking on some French words in rounded rectangles to add them to 
+                the end of the next line.</li>
+                <li>Click again on a word to replace it in the original list.</li>
+                <li>Click on the <button>Check</button> when your translation is complete.</li>
+                <li>The system checks if your translation corresponds to the one that is 
+                    expected. When it is the case, <b style="color:green">Bravo</b> is displayed and your score is updated at the bottom.
+                    When there is mismatch, the <i>right</i> translation is displayed with errors shown in red. </li>
+                <li>Click on <button>Continue</button> to display a new English sentence to translate.</li>
+            </ul>
+            <p lang="en">These simple sentences are randomly generated with words from a very small lexicon of frequent words which
+                may explain why some sentences to translate are not semantically coherent. The expected translations are literal ones.
+                The following <i>uncheckboxes</i> can limit the choices of possible sentences types and verb tenses.</p>
+            <fieldset>
+                <legend lang="fr">Choix d'exercices</legend>
+                <legend lang="en">Exercices choice</legend>
+                <span lang="fr">
+                    <fieldset><legend>Types de phrase</legend>
+                        affirmative <input type="checkbox" checked="checked" value="" class="typ">
+                        négative <input type="checkbox" checked="checked" value="neg:true" class="typ">
+                        passive <input type="checkbox" checked="checked" value="pas:true" class="typ">
+                        interrogative <input type="checkbox" checked="checked" value="'int':'yon'" class="typ">
+                        confirmation <input type="checkbox" checked="checked" value="'int':'tag'" class="typ">
+                    </fieldset>
+                    <fieldset><legend>temps</legend>
+                        présent <input type="checkbox" checked="checked" value="p" class="tense">
+                        passé simple <input type="checkbox" checked="checked" value="ps" class="tense">
+                        futur <input type="checkbox" checked="checked" value="f" class="tense">
+                    </fieldset>
+                </span>
+                <span lang="en">
+                    <fieldset><legend>Sentence types</legend>
+                        affirmative <input type="checkbox" checked="checked" value="" class="typ">
+                        negative <input type="checkbox" checked="checked" value="neg:true" class="typ">
+                        passive <input type="checkbox" checked="checked" value="pas:true" class="typ">
+                        interrogative <input type="checkbox" checked="checked" value="'int':'yon'" class="typ">
+                        tag question <input type="checkbox" checked="checked" value="'int':'tag'" class="typ">
+                    </fieldset>
+                    <fieldset><legend>temps</legend>
+                        present <input type="checkbox" checked="checked" value="p" class="tense">
+                        past <input type="checkbox" checked="checked" value="ps" class="tense">
+                        future <input type="checkbox" checked="checked" value="f" class="tense">
+                    </fieldset>
+                </span>
+            </fieldset>
         </div>
         <div id="source"></div>
         <hr/>
@@ -46,5 +99,17 @@
         <div id="verdict"></div>
         <hr/>
         <div id="answer"></div>
+        <hr/>
+        <div id="score">
+            <span id="tries">
+                <span lang="fr">Essais</span><span lang="en">Tries</span>
+                <span class="value"></span>
+            </span>
+            <span id="successes">
+                <span lang="fr">Réussites</span><span lang="en">Successes</span>
+                <span class="value"></span>
+            </span>
+            <span id="percent" class="value"></span>
+        </div>
     </body>
 </html> 

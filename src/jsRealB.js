@@ -1,6 +1,6 @@
 /**
-    jsRealB 4.6.1
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+    jsRealB 4.6.3
+    Guy Lapalme, lapalme@iro.umontreal.ca, May 2023
 
     Import all functions and classes of the jsRealB system and export them in one package
     It also adds a few utility functions and constants
@@ -53,7 +53,7 @@ const None  = null;
 /**
  * Version number
  */
-const jsRealB_version="4.6.2";
+const jsRealB_version="4.6.3";
 /**
  * Date of jsRealB "compile", it is  set by webpack
  */

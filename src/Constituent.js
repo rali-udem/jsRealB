@@ -748,7 +748,8 @@ genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", "b-to", // simple tenses
-                   "pc", "pq", "cp", "pa", "fa", "spa", "spq","bp"],["V","VP","S","SP","CP"]);    // compound tenses
+                   "pc", "pq", "cp", "pa", "fa", "spa", "spq", "bp", "bp-to"],         // compound tenses
+                   ["V","VP","S","SP","CP"]);
 genOptionFunc("aux",["av","êt","aê"],["V","VP","S","SP","CP"]);
 // ordinary properties
 genOptionFunc("f",["co","su"],["A","Adv"]);

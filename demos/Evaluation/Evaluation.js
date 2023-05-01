@@ -93,7 +93,9 @@ const texts = {  // simple localization of texts
     "#type_query>option[value=dn]":["Declension number","Numéro de déclinaison"],
     "#type_query>option[value=de]":["Declension ending","Terminaison de déclinaison"],
     "#type_query>option[value=cn]":["Cnnjugation number","Numéro de conjugaison"],
-    "#type_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"]
+    "#type_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"],
+    "#to-dependent":["To Dependencies","En Dépendances"],
+    "#indent":["Indent","Indenter"],
 }
 
 const attrs = {
@@ -112,22 +114,25 @@ function changeExemple() {
     representation=$("input[name='representation']:checked").val();
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
+        $("#to-dependent").prop("title","Transformation 'heuristique' des constituents en dépendances");
         for (let t in texts) $(t).text(texts[t][1])
         for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][2])       
         loadFr();
     } else {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
+        $("#to-dependent").prop("title","'Heuristic' transformation into dependencies");
         for (let t in texts) $(t).text(texts[t][0])        
         for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][1])     
         loadEn();
     }
     editor.setValue(exemples[representation][lang][format]);
+    $("#to-dependent").prop("disabled",representation=="dependencies");
     editor.selection.clearSelection();
     $("#result").html("")
 };
 
 function realize(){
-    var res;
+    let res;
     try {
         const content=editor.getValue();
         if (format=="JSON"){
@@ -139,6 +144,36 @@ function realize(){
         res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
     }
     $("#result").html(res);    
+}
+
+function toDependent(){
+    let res;
+    const content=editor.getValue();
+    exemples[representation][lang][format]=content; // save current value
+    try {
+        editor.setValue(eval(content).toDependent().toSource(0));
+        editor.selection.clearSelection();
+        res="";
+        $("#dependencies").prop("checked",true);
+        representation="dependencies";
+        $("#to-dependent").prop("disabled",true);
+    } catch (err){
+        res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
+    }
+    $("#result").html(res); 
+}
+
+// indent the whole content of the editor using the "improved" indentation algorithm called on a "\n"
+// caution: this is different from editor.indent() which adds a tab in from lines in the selection
+function indent(){
+    const lines=editor.getValue().split("\n");
+    if (lines.length==0)return;
+    editor.setValue("")
+    editor.insert(lines.shift().trim());
+    for (let line of lines){
+        editor.insert("\n");       // to set proper indent 
+        editor.insert(line.trim()) // add trim line
+    }
 }
 
 const query_functions = {
@@ -154,17 +189,33 @@ function query_resource(e){
     // console.log("query_resource("+e+")")
     const $result = $("#query_result")
     if (e.which==13){
-        const query = $("#res_query").val().trim();
-        const query_type=$("#type_query").val()
+        let query = $("#res_query").val().trim();
+        let category;
+        const query_type=$("#type_query").val();
+        if (query_type=="lx" && query.indexOf(" ")){
+            [query,category]=query.split(/ +/)
+        }
         $result.text("");
         const query_function = query_functions[query_type]
         if (query_function !== undefined){
-            const out = query_function(query)
+            const out = query_function(query);
             if (typeof out === "string" )
                 $result.text(out)
                 // q_res.session.setValue(out)
-            else
+            else {
+                if (category !== undefined){ // filter by category
+                    for (let word in out){
+                        if (!(category in out[word]))
+                            delete(out[word])
+                    }
+                    if (Object.keys(out).length==0){
+                        $result.text(query+":"+category+":"
+                            +(lang=="en"? ": not in English lexicon" : ": absent du lexique français"))
+                        return;
+                    }
+                }
                 $result.text(ppJSON(out))
+            }
                 // q_res.session.setValue(JSON.stringify(out,null," "))
         } else {
             $result.text("** Strange query:"+query_type)
@@ -198,6 +249,8 @@ $(document).ready(function(){
     setExceptionOnWarning(true);
     $("#francais,#english,#jsrealb,#json,#constituents,#dependencies").click(changeExemple);
     $("#realize").click(realize);
+    $("#indent").click(indent);
+    $("#to-dependent").click(toDependent);
     $("#res_query").keypress(query_resource)
     $("#show_resource_query").click((_)=>show_resource_query(true))
     $("#hide_resource_query").click((_)=>show_resource_query(false))

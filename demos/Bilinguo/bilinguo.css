@@ -1,15 +1,15 @@
 #source,#target-words,#target-sentence,#verdict,#answer{
-    height: 15px;
+    min-height: 15px;
     width:100%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: large;
     padding: 10px;
     margin: 5px 0;
+    line-height: 2;
 }
 
 h1 {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
 }
 
 button{
@@ -18,6 +18,13 @@ button{
     border-radius: 15px;
     padding: 10px;
     margin: 5px 0
+}
+
+ul button {  /* small buttons that appear in the instructions */
+    font-size:12px;
+    border-radius: 10px;
+    padding: 5px;
+    margin:0
 }
 
 #changeLang, #hide-show-explanation{
@@ -29,14 +36,36 @@ button{
     padding: 2px;
 }
 
+fieldset fieldset {
+    display: inline-block;
+}
+
 .word{
     padding: 3px;
-    margin: 0px 5px;
+    margin: 5px;
     border:thin solid black;
     border-radius: 5px;
     cursor:pointer;
 }
 
-.good { color:green}
-.del { color:red}
-.insert {color: blue;}
+.bad { 
+    color:red;
+    border-color:red;
+}
+
+#score{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    margin:auto;
+    width:300px;}
+
+.value {
+    width: 15px;
+    font-weight: bold;
+}
+
+#percent{
+    border: thin solid black;
+    margin-left: 15px;
+    padding: 2px 5px;
+}

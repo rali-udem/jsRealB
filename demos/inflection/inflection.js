@@ -49,7 +49,9 @@ function conjuguer(verbe, lang,typs){
             [["Future","f"]],
             [["Subjonctive","s"]],
             [["Conditional","c"]],
-            [["Imperative","ip"]]
+            [["Imperative","ip"]],
+            [["Participle present","pr"],["Participle past","pp"],["Infinitive","b-to"],["Infinitive past","bp-to"],]
+
         ]
     }
     $("#tableau").append(`<h1>${titleConj[language]} <i>${verbe}</i></h1>`);
@@ -59,7 +61,7 @@ function conjuguer(verbe, lang,typs){
             $row.append(`<th>${t[0]}</th>`)
         }
         $("#tableau").append($row)
-        if (tmp[0][0].startsWith("Participe")){
+        if (tmp[0][0].startsWith("Particip")){
             $row=$("<tr/>");
             for (t of tmp)
                 $row.append("<td>"+VP(V(verbe).t(t[1])).typ(typs)+"</td>")

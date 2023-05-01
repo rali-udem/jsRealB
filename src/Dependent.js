@@ -477,7 +477,6 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 // force person to be 3rd (number and tense will come from the new subject)
                 const verbe=this.terminal.lemma;
                 this.terminal.setLemma(verbe == "être" ? "avoir" : "être");
-                this.terminal.pe(3);
                 if (this.getProp("t")=="ip"){
                     this.t("s") // set subjonctive present tense for an imperative
                 }
@@ -490,7 +489,6 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 //  calling addPre(pp) would evaluate the pp too soon...
                 let compIdx=this.findIndex(d=>d.isA("comp","mod"));
                 if (compIdx==-1)compIdx=0;
-                // this.addPost(pp,compIdx);
                 this.addDependent(new Dependent([pp],"*post*"),compIdx)
             }
         } else {

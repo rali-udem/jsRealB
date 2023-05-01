@@ -654,7 +654,6 @@ class Phrase extends Constituent{
                 if (newSubject!==undefined) // this can happen when a subject is Q
                     aux.peng=newSubject.peng;
                 aux.props=verbe.props;
-                aux.pe(3); // force person to be 3rd (number and tense will come from the new subject)
                 if (vp.getProp("t")=="ip"){
                     aux.t("s") // set subjonctive present tense for an imperative
                 }

@@ -694,6 +694,11 @@ class Terminal extends Constituent{
         } else if (t=="c"){
             this.realization=this.lemma;
             this.insertReal(res,V("will").t("ps"),0);
+        } else if (t=="bp" || t=="bp-to"){
+            const pp = getRules(this.lang).conjugation[this.tab].t["pp"];
+            this.realization=pp!==undefined?(this.stem+pp):this.lemma;
+            this.insertReal(res,V("have").t("b"),0);
+            if (t=="bp-to") this.insertReal(res,P("to"),0);
         } else if (t=="b-to"){
             this.realization=this.lemma;
             this.insertReal(res,P("to"),0);
