@@ -145,7 +145,7 @@ function makeSentences(src,tgt){
     }
     // get values of selected exercises from the checkboxes (defaulting to present and affirmative)
     let t     = oneOf($(`span[lang=${src}] .tense:checked`).map((i,e)=>$(e).val()).get()) || "p";
-    const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>eval("({"+$(e).val()+"})")).get()) || {};
+    const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>JSON.parse("{"+$(e).val()+"}")).get()) || {};
     let res = {};
     load(src);
     res[src] = S(subject[src],VP(V(verbSrc).t(t),complement[src])).typ(typ);

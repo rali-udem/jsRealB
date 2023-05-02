@@ -30,7 +30,7 @@
                 <li>Appuyez sur <button>Vérifier</button> lorsque vous avez terminé la traduction.</li> 
                 <li>Le système vérifie si votre traduction correspond à celle 
                 qui est attendue. Si c'est le cas, il indiquera <b style="color:green">Bravo</b> et augmentera votre score indiqué en bas. 
-                Si ce n'est pas le cas, la <i>bonne</i> traduction est affichée les mots en erreurs seront indiqués en rouge.</li>
+                Si ce n'est pas le cas, la <i>bonne</i> traduction est affichée les mots en erreurs sont indiqués en rouge dans la bonne réponse et/ou dans les mots originaux.</li>
                 <li>Cliquez sur <button>Continuer</button> pour faire apparaître une nouvelle phrase en anglais à traduire.</li>
            </ul>
             <p lang="fr">Ces phrases simples sont générées au hasard à partir d'un vocabulaire réduit de mots fréquents. 
@@ -46,7 +46,7 @@
                 <li>Click on the <button>Check</button> when your translation is complete.</li>
                 <li>The system checks if your translation corresponds to the one that is 
                     expected. When it is the case, <b style="color:green">Bravo</b> is displayed and your score is updated at the bottom.
-                    When there is mismatch, the <i>right</i> translation is displayed with errors shown in red. </li>
+                    When there is mismatch, the <i>right</i> translation is displayed with errors shown in red in either or both the right translation or in the original words. </li>
                 <li>Click on <button>Continue</button> to display a new English sentence to translate.</li>
             </ul>
             <p lang="en">These simple sentences are randomly generated with words from a very small lexicon of frequent words which
@@ -58,10 +58,10 @@
                 <span lang="fr">
                     <fieldset><legend>Types de phrase</legend>
                         affirmative <input type="checkbox" checked="checked" value="" class="typ">
-                        négative <input type="checkbox" checked="checked" value="neg:true" class="typ">
-                        passive <input type="checkbox" checked="checked" value="pas:true" class="typ">
-                        interrogative <input type="checkbox" checked="checked" value="'int':'yon'" class="typ">
-                        confirmation <input type="checkbox" checked="checked" value="'int':'tag'" class="typ">
+                        négative <input type="checkbox" checked="checked" value='"neg":true' class="typ">
+                        passive <input type="checkbox" checked="checked" value='"pas":true' class="typ">
+                        interrogative <input type="checkbox" checked="checked" value='"int":"yon"' class="typ">
+                        confirmation <input type="checkbox" checked="checked" value='"int":"tag"' class="typ">
                     </fieldset>
                     <fieldset><legend>temps</legend>
                         présent <input type="checkbox" checked="checked" value="p" class="tense">
@@ -72,10 +72,10 @@
                 <span lang="en">
                     <fieldset><legend>Sentence types</legend>
                         affirmative <input type="checkbox" checked="checked" value="" class="typ">
-                        negative <input type="checkbox" checked="checked" value="neg:true" class="typ">
-                        passive <input type="checkbox" checked="checked" value="pas:true" class="typ">
-                        interrogative <input type="checkbox" checked="checked" value="'int':'yon'" class="typ">
-                        tag question <input type="checkbox" checked="checked" value="'int':'tag'" class="typ">
+                        negative <input type="checkbox" checked="checked" value='"neg":true' class="typ">
+                        passive <input type="checkbox" checked="checked" value='"pas":true' class="typ">
+                        interrogative <input type="checkbox" checked="checked" value='"int":"yon"' class="typ">
+                        tag question <input type="checkbox" checked="checked" value='"int":"tag"' class="typ">
                     </fieldset>
                     <fieldset><legend>temps</legend>
                         present <input type="checkbox" checked="checked" value="p" class="tense">

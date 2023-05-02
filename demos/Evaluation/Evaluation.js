@@ -114,13 +114,13 @@ function changeExemple() {
     representation=$("input[name='representation']:checked").val();
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
-        $("#to-dependent").prop("title","Transformation 'heuristique' des constituents en dépendances");
+        $("#to-dependent").prop("title","Transformation 'heuristique' des constituents en dépendances; à vos risques et périls!");
         for (let t in texts) $(t).text(texts[t][1])
         for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][2])       
         loadFr();
     } else {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
-        $("#to-dependent").prop("title","'Heuristic' transformation into dependencies");
+        $("#to-dependent").prop("title","'Heuristic' transformation into dependencies; use at your own risk!");
         for (let t in texts) $(t).text(texts[t][0])        
         for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][1])     
         loadEn();
@@ -151,7 +151,10 @@ function toDependent(){
     const content=editor.getValue();
     exemples[representation][lang][format]=content; // save current value
     try {
-        editor.setValue(eval(content).toDependent().toSource(0));
+        if (format=="jsRealB")
+            editor.setValue(eval(content).toDependent().toSource(0));
+        else // JSON format
+            editor.setValue(ppJSON(fromJSON(JSON.parse(content)).toDependent().toJSON()))
         editor.selection.clearSelection();
         res="";
         $("#dependencies").prop("checked",true);
