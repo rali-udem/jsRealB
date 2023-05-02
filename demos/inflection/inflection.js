@@ -44,14 +44,9 @@ function conjuguer(verbe, lang,typs){
         const entry=getLemma(verbe)
         if (entry===undefined || !("V" in entry))return;
         temps= [
-            [["Present","p"]],
-            [["Simple past","ps"]],
-            [["Future","f"]],
-            [["Subjonctive","s"]],
-            [["Conditional","c"]],
-            [["Imperative","ip"]],
+            [["Present","p"],["Simple past","ps"],["Future","f"]],
+            [["Subjonctive","s"],["Conditional","c"],["Imperative","ip"]],
             [["Participle present","pr"],["Participle past","pp"],["Infinitive","b-to"],["Infinitive past","bp-to"],]
-
         ]
     }
     $("#tableau").append(`<h1>${titleConj[language]} <i>${verbe}</i></h1>`);

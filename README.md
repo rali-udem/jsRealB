@@ -1,8 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 4.6.1 - March 2023*
-
-**This version is a major code reorganization of the system with JavaScript classes and modules.** This simplifies the internal organization of the code, but the syntactic formalism stays the same, possibly incurring a slight modification in the initial setup.
+*Version 4.6.3 - May 2023*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -26,34 +24,48 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 ## Directories
 * [`Architecture`](Architecture/):
     * `README.md` : Description of the architecture of the system; the second section goes into details of the organization of the source files and describes the main methods.
+    
 * [`data`](data/):  lexicographic information that is bundled with the `dist/jsRealB.js`
     * `lexicon-en.json` : a *comprehensive* English lexicon (33926 entries) in JSON format 
     * `lexicon-fr.json` : a *comprehensive* French lexicon (52512 entries) in JSON format
     * `rule-en.js` : English conjugation and declension tables 
     * `rule-fr.js` : French conjugation and declension tables 
+    
 * [`demos`] : see next section
+
 * [`dist`](dist/): pre-built JavaScript files ready for production use, they already include the English and French lexicons and the English and French rule tables
     * `jsRealB.js`: packages all .js files of the `build` directory as a module and exports only main functions and constants
         * For use in a web page : `<script src="/path/to/dist/jsRealB.js"></script>`
         * For use as a node.js module : `import jsRealB from  "/path/to/dist/jsRealB.js"`
+        
     * `jsRealB-filter.mjs`: example of use of the node.js module to create a Unix filter for `jsRealB`
+    
     * `jsRealB-server.mjs`: example of use of the node.js module to start a web server that realizes sentences
+    
     * `testServer.py`: Python script using the `jsRealB` server
+    
     * `package.json`: necessary for publishing the `jsrealb` *npm* package.
-    * `README.md` : short presentation and example of use of the *npm* package displayed at `https://www.npmjs.com/package/jsrealb` 
-    When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login):  
-      `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js`
-      `npm publish`  
-    Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
+    
+    * `README.md` : short presentation and example of use of the *npm* package displayed at `https://www.npmjs.com/package/jsrealb`   
+    
+    **Information for the maintainer**: When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login): 
+    
+    1. `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js`
+    2.  `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
+    
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
     * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * `style.css`: style sheet
     * `user-infos.js`: definitions of variables containing the examples
     * `user.js`  : JavaScript helper script.
+    
 * [`Examples`](Examples): Examples of integration of jsRealB into web pages or node.js applications. See [index.html](Examples/index.html) for use cases.
+
 * [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
+
 * [`node-modules`](node-modules/) : used for transpiling with webpack
+
 * [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
     * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html).  
     Build this directory by running `jsdoc -d jsdoc *.js` in the `src` directory. For the moment, ignore warning about _unable to parse .../Lexicon.js_
@@ -67,10 +79,16 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `Phrase.js` : subclass of *Constituent* for creating complex phrases using the _constituent notation_
     * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
     * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
+    
 * [`Tests`](Tests/) : unit tests (using [QUnit](https://qunitjs.com "QUnit")) of jsRealB in both French and English.
     * `testAll.html` : load this file in a browser to run all tests.  
     In _Visual Studio Code_, the launch configuration takes for granted that a local web server has been launched in the `jsRealB` directory (e.g. with `http-server -c-1`) 
+    
 * [jsRealB **Tutorial**](Tutorial/). [*Read the tutorial*](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html)
+
+* `jsRealB` is also available an an `npm` package:
+    * `use-npm.js` is a simple example of its use (after it is *install*ed on the system)
+    
 * *Files in the current directory*:
     * `README.md` : this file
     * `package.json` : file with parameters for building `jsRealB` using `npm` using  
@@ -87,9 +105,11 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 ### Simple examples on a single sentence
 * Evaluate a `jsRealB` expression and display its realization in a web page in either English or French.
     * [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index.html)
+
 * Show the use of loops in Javascript to create repetitive texts
     * English: [99 bottles of beer](demos/99BottlesOfBeer). [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/99BottlesOfBeer/index.html)
     * French: [1 km à pied](demos/KilometresAPied). [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/KilometresAPied/index.html)
+
 * Tests of specific features
     * French and English sentences modified with time, number and conjugation: [Date generation](demos/date) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/date/index.html)
     * Type a French or English sentence that will be realized with all possible sentence modifiers [Sentence variants](demos/VariantesDePhrases) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html)
@@ -99,16 +119,22 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
          * using the tonic and clitic options  
          
       This table is now part of the documentation
+
 * User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
+
 * Generate spelling and grammar exercises from a simple sentence structure in both English and French.
     * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-fr.html)
-* `jsRealB` is also available an an `npm` package:
-    * `use-npm.js` is a simple example of its use (after it is *install*ed on the system)
+
+* Translation *game* from English to French and French to English. Simple sentences are randomly generated in the source language and generated in the target using the same options of `jsRealB`. The used must build the target sentence by selecting words, the system checks if the translation is correct, if not is displays the differences with the expected sentence. 
+
+  * [*Binglinuo*](demos/Bilinguo/) 
+    [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Bilinguo/index.html) 
+
 
 ### Text realization
 * Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
@@ -148,7 +174,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
 ## Design of the system
-The current version (4.5) is a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
+Version 4.5 was a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
 
 [This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
 

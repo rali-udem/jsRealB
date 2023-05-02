@@ -224,7 +224,8 @@ function englishTable(){
 
 $(document).ready(function() {
     Object.assign(globalThis,jsRealB);
-    $("#version-no").text(jsRealB_version);
+    $(".version-no").text(jsRealB_version);
+    $(".version-date").text(jsRealB_dateCreated);
     insertQuickLinks("fr");
     insertQuickLinks("en");
     $("div[id]").each(function(){
