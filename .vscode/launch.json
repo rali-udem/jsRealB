@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch current js",
+            "program": "${file}",
+            "request": "launch",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+    
+        {
             "name": "Launch tests-dev.js",
             "program": "${workspaceFolder}/tests-dev.js",
             "request": "launch",
@@ -20,7 +30,7 @@
             "request": "launch",
             "url": "http://127.0.0.1:8080/Tests/testAll.html"
         },
-        { // launch with httop-server -c-1
+        { // launch with http-server -c-1
         "type": "chrome",
         "name": "Launch current HTML",
         "request": "launch",

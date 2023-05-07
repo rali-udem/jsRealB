@@ -442,7 +442,8 @@ class Constituent {
                     if (/^ce$/i.exec(w1) && /(^est$)|(^étai)|(^a$)/.exec(w2)){
                         // very special case but very frequent
                         cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                    } else {
+                    } else if (!["et","ou"].includes(w2)){
+                        // avoid euphonie before "et" or "or": e.g. "beau et fort" and not "bel et fort"
                         cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
                     }
                     elisionFound=true;

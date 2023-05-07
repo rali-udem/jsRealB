@@ -140,7 +140,7 @@ function fillTable(table){
 function makeFullTable(){
     // gather filters
     let filters=[]
-    for (fn of fieldNames){
+    for (let fn of fieldNames){
         if (d3.select("#"+fn).classed("checked")){
             if (d3.select("#search-"+fn).property("value")!=""){
                 filters.push(fn+" ~ /"+d3.select("#search-"+fn).property("value")+"/")
@@ -185,7 +185,7 @@ function makeFullTable(){
     let fullTable=newWindowBody.append("table").attr("id","fullTable")
     let thead=fullTable.append("thead");
     thead.append('th').text("sent_id")
-    for (fn of fieldNames){
+    for (let fn of fieldNames){
         thead.append('th').text(fn)
     }
     let tbody=fullTable.append("tbody");

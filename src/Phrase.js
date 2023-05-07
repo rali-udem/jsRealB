@@ -835,13 +835,13 @@ class Phrase extends Constituent{
         if (subjIdx>=0){
             const subj=this.elements[subjIdx];
             let pro;
-            if (subj.isA("Pro"))
+            if (subj.isA("Pro")){
                 if (subj.getProp("pe")==1 && subj.getProp("n")=="s"){ // add "est-ce que" at the start
                     this.add(Q("est-ce que"),subjIdx);
-                } else {
-                    pro = this.removeElement(subjIdx); // remove subject pronoun
-                }
-            else if (subj.isA("CP")){
+                    return;
+                } 
+                pro = this.removeElement(subjIdx); // remove subject pronoun
+            } else if (subj.isA("CP")){
                 pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
                 subj.pronoun=pro;  // add a flag to be processed by cpReal
             } else 
@@ -980,8 +980,8 @@ class Phrase extends Constituent{
                                     } else 
                                         pro=subj.clone();
                                 } else {
-                                    // pro=Pro("I").pe(3).n(subj.getProp("n")).g(subj.getProp("g"))
                                     pro=subj.clone().pro()
+                                    pro.g(subj.getProp("g")).n(subj.getProp("n")) // ensure proper number and gender
                                 }
                             }
                         } else { // no subject, but check if the verb is imperative

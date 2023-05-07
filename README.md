@@ -103,47 +103,53 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 
 ## Demos
 ### Simple examples on a single sentence
-* Evaluate a `jsRealB` expression and display its realization in a web page in either English or French.
+* **Evaluate** a `jsRealB` expression and display its realization in a web page in either English or French.
+    
     * [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index.html)
-
-* Show the use of loops in Javascript to create repetitive texts
+    
+* Show the use of loops in Javascript to create **repetitive texts**
     * English: [99 bottles of beer](demos/99BottlesOfBeer). [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/99BottlesOfBeer/index.html)
     * French: [1 km à pied](demos/KilometresAPied). [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/KilometresAPied/index.html)
 
 * Tests of specific features
-    * French and English sentences modified with time, number and conjugation: [Date generation](demos/date) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/date/index.html)
-    * Type a French or English sentence that will be realized with all possible sentence modifiers [Sentence variants](demos/VariantesDePhrases) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html)
-    * French or English conjugation and declension of a word [Conjugation and declension](demos/inflection) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/inflection/index.html)
-    * Generate a table (both in English and French) showing the different forms of pronouns
+    * **Sentences modified with time, number and conjugation**: [Date generation](demos/date) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/date/index.html)
+    * **Sentence with sentence modifiers** [Sentence variants](demos/VariantesDePhrases) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html)
+    * French or English **conjugation and declension** of a word [Conjugation and declension](demos/inflection) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/inflection/index.html)
+    * **Pronouns**: Generate a table (both in English and French) showing the different forms of pronouns
+         
          * using the original specification 
          * using the tonic and clitic options  
-         
+      
       This table is now part of the documentation
-
-* User interface to create a simple sentence with options. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
+    
+* **User interface to create a  sentence with options**. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
+    
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
-
-* Generate spelling and grammar exercises from a simple sentence structure in both English and French.
+    
+* **Generate spelling and grammar exercises** from a simple sentence structure in both English and French.
+    
     * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-fr.html)
+    
+* **Translation *game*** from English to French and French to English. Simple sentences are randomly generated in the source language and generated in the target using the same options of `jsRealB`. The used must build the target sentence by selecting words, the system checks if the translation is correct, if not is displays the differences with the expected sentence. 
 
-* Translation *game* from English to French and French to English. Simple sentences are randomly generated in the source language and generated in the target using the same options of `jsRealB`. The used must build the target sentence by selecting words, the system checks if the translation is correct, if not is displays the differences with the expected sentence. 
-
-  * [*Binglinuo*](demos/Bilinguo/) 
+  * [*Bilinguo*](demos/Bilinguo/) 
     [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Bilinguo/index.html) 
 
 
 ### Text realization
-* Create an [Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style) which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
-* Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
-* Regenerate a sentences from the information contained in its Universal Dependencies structure:
+* **[Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style)** which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
+* **L'augmentation** : Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
+
+* **Universal Dependencies** structure used for generating the original sentence from its annotation:
     * in English : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-en.html)
     * in French  : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-fr.html)
-    * [Paper describing the approach](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator.pdf)
-* Reproduce a classical fairy tale in which hovering over a sentence, shows the underlying `jsRealB` expression 
+    * [Paper describing the approach](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator.pdf) [SyntaxFest-2021 paper](https://aclanthology.org/2021.udw-1.9/)
+
+* **Classical fairy tale reproduction** in which hovering over a sentence, shows the underlying `jsRealB` expression 
     * in French : *Le petit chaperon rouge*   [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/PetitChaperonRouge.html)
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)
 
@@ -176,10 +182,10 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 ## Design of the system
 Version 4.5 was a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
 
-[This document](Architecture/README.md) first describes the transformation steps within the realizer using a few examples. It then gives an overview of the implementation explaining the role of the main classes and methods.
+[This document](Architecture/README.md) describes the transformation steps within the realizer using a few examples. It also gives an overview of the implementation explaining the role of the main classes and methods.
 
 ## Authors
-jsRealB was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the work of:
+*jsRealB* was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the work of:
 
 1. [Francis Gauthier](http://www-etud.iro.umontreal.ca/~gauthif) as part of his summer internship at RALI in 2016; 
 2. [Paul Molins](http://paul-molins.fr/) as part of an internship from INSA Lyon spent at RALI, University of Montreal in 2015;

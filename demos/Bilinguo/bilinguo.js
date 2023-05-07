@@ -16,9 +16,8 @@ Object.assign(globalThis,jsRealB);
 //  Some jsRealB bilingual features are featured:
 //    - random selection of lemma, tense, number, person (for pronoun) using oneOf(...)
 //    - The same sentence pattern is used for both languages, but agreement is language dependent
-//    - Variants of sentences (e.g. negation, passive, yes-or-no question, tag question) can be generated.
+//    - Variants of sentences (e.g. negation, progressive, yes-or-no question, tag question) can be generated.
 //      Once a variant is selected for the source, it is applied to the target for building the expected sentence.
-//    - care is taken to select "distractors" for words of the same category with their proper inflection
 //    
 
 // translation direction
@@ -26,20 +25,6 @@ let src="en",tgt="fr";
 let expectedTokens;
 // scores
 let nbTries=0,nbSuccesses=0;
-
-// taken from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
-function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
-
-// call the appropriate jsReal load functions
-function load(lang){
-    if (lang=="en") loadEn(); else loadFr();
-}
 
 // set the source language
 function setSrc(lang){
@@ -60,123 +45,41 @@ function setSrc(lang){
     showResults();
 }
 
-// return a Pro with a distractor of the same type
-function makePros(src,tgt,pronounIndices,case_){
-    const res={};
-    const proIdx=pronounIndices.shift();
-    const pe = tonicPronouns["pe"][proIdx];
-    const n = tonicPronouns["n"][proIdx];
-    load(src);
-    res[src] = Pro(tonicPronouns[src][proIdx]).pe(pe).n(n).c(case_)
-    load(tgt);
-    res[tgt] = Pro(tonicPronouns[tgt][proIdx]).pe(pe).n(n).c(case_)
-    const distractors=[Pro(tonicPronouns[tgt][pronounIndices.shift()]).pe(pe).n(n).c(case_)]
-    return [res,distractors];
-}
 
-// return an adverb with a distractor of the same type
-function makeAdverb(src,tgt,adverbIndices){
-    const res={};
-    const advIdx = adverbIndices.shift();
-    load(src);
-    res[src]=Adv(adverbs[src][advIdx]);
-    load(tgt);
-    res[tgt]=Adv(adverbs[tgt][advIdx]);
-    const distractors = [Adv(adverbs[tgt][adverbIndices.shift()])]
-    return [res,distractors]
-}
-
-// return a NP with a list of distractors of the same type
-function makeNPs(src,tgt,nounIndices,adjIndices){
-    const res = {}    
-    const nIdx=nounIndices.shift()
-    const dets = oneOf(determiners);
-    const n = oneOf(numbers);
-    load(src);
-    res[src] = NP(D(dets[src]),N(nouns[src][nIdx])).n(n);
-    load(tgt);
-    res[tgt] = NP(D(dets[tgt]),N(nouns[tgt][nIdx])).n(n);
-    const distractors=[N(nouns[tgt][nounIndices.shift()]).n(n).realize()];
-    if (Math.random()<0.25){
-        const aIdx=adjIndices.shift()
-        load(src);
-        res[src].add(A(adjectives[src][aIdx]));
-        load(tgt);
-        res[tgt].add(A(adjectives[tgt][aIdx]));
-        distractors.push(A(adjectives[tgt][adjIndices.shift()]).n(n).realize())
-    }
-    return [res,distractors];
-}
-
-// return a list of shuffled indices for a "src" list
-function getIndices(list){
-    return shuffle(Array.from(Array(list[src].length).keys()));
-}
-
-//  create a random jsReal structure in "src" language with the corresponding jsReal structure in the "tgt" language
-//  combined with a distractor list
 function makeSentences(src,tgt){
-    // HACK: the word selection is done by shuffling a new list of indices (so that the corresponding src and tgt words are selected)
-    //       and taking (shifting) the first indices of this list when needed either for a word or a distractor 
-    let nounIndices=getIndices(nouns);
-    let pronounIndices=getIndices(tonicPronouns);
-    let adjIndices=getIndices(adjectives);
-    // select subject
-    const [subject,subjDistractors] = 
-        Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
-                           : makePros(src,tgt,pronounIndices,"nom");
-    let verbSrc, verbTgt, verbIndices, complement, compDistractors;
-    // select transitive verb with direct object or intransitive verb with adverb
-    if (Math.random()< 0.75){
-        verbIndices = getIndices(verbs);
-        const vIdx = verbIndices.shift();
-        verbSrc = verbs[src][vIdx];
-        verbTgt = verbs[tgt][vIdx];
-        [complement,compDistractors] = 
-            Math.random()<0.80 ? makeNPs(src,tgt,nounIndices,adjIndices)
-                               : makePros(src,tgt,pronounIndices,"acc");
-    } else {
-        verbIndices = getIndices(intransitiveVerbs);
-        const vIdx = verbIndices.shift();
-        verbSrc = intransitiveVerbs[src][vIdx];
-        verbTgt = intransitiveVerbs[tgt][vIdx];
-        let adverbIndices = getIndices(adverbs);
-        [complement,compDistractors] = makeAdverb(src,tgt,adverbIndices)
-    }
+    const n = oneOf("s","p");
     // get values of selected exercises from the checkboxes (defaulting to present and affirmative)
-    let t     = oneOf($(`span[lang=${src}] .tense:checked`).map((i,e)=>$(e).val()).get()) || "p";
-    const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>JSON.parse("{"+$(e).val()+"}")).get()) || {};
-    let res = {};
-    load(src);
-    res[src] = S(subject[src],VP(V(verbSrc).t(t),complement[src])).typ(typ);
-    load(tgt);
-    res[tgt] = S(subject[tgt],VP(V(verbTgt).t(t),complement[tgt])).typ(typ);
-    let distractors=subjDistractors.concat(compDistractors);
-    if (tgt=="en" && t=="f")t="p"; // HACK: avoid adding auxiliary "will" to the English verb distractor
-    distractors.push(V(verbs[tgt][verbIndices.shift()]).t(t));
-    if (Math.random()<0.5) // sometimes add another distractor ...
-        distractors.push(N(nouns[tgt][nounIndices.shift()]))
-    res["distractors"]=distractors;
+    let t     = oneOf($(`span[lang=${src}] .tense:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || "p";
+    const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || {};
+    let res={};
+    [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt);
+    res[src].n(n).t(t[src]).typ(typ);
+    res[tgt].n(n).t(t[tgt]).typ(typ);
     return res;
 }
+
 
 ///// Display
 //  insert words in #target-words that can be clicked 
 function showWords(words){
     shuffle(words)
     for (let i=0;i<words.length;i++){
-        const $span = $("<span/>").addClass("word").text(words[i])
-        $span.click(moveWord);
-        $("#target-words").append($span);
+        $("#target-words").append($("<span/>").addClass("word").text(words[i]).click(moveWord));
     }
 }
 
 //  move words from to the sentence or back to the target words
 function moveWord(e){
     if ($(this).parent().get(0)==$("#target-words").get(0)){ // move to sentence
-        $("#target-sentence").append($(this));
+        $(this).addClass("used").off("click"); // current word is grayed
+        // create new word saving reference to original
+        const $newWord= $("<span/>").addClass("word").text($(this).text()).click(moveWord);
+        $newWord.data("original",$(this));
+        $("#target-sentence").append($newWord);
     } else { // move back to original position
-        $("#target-words").append($(this));
+        const $original=$(this).data("original");
+        $original.removeClass("used").click(moveWord);
+        $(this).remove();
     }
 }
 
@@ -264,7 +167,6 @@ $(document).ready(function() {
             $(`#show-${src}-expl`).show();
             $(`#hide-${src}-expl`).hide();
         }
-        // expectedTokens=showExercise();
     })
     setSrc("fr");
     $(`#show-${src}-expl`).hide();

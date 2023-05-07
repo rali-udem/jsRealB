@@ -44,6 +44,7 @@ fieldset fieldset {
     padding: 3px;
     margin: 5px;
     border:thin solid black;
+    color: black;
     border-radius: 5px;
     cursor:pointer;
 }
@@ -51,6 +52,12 @@ fieldset fieldset {
 .bad { 
     color:red;
     border-color:red;
+}
+
+.used {
+    color:lightgrey;
+    border-color: lightgrey;
+    cursor:default;
 }
 
 #score{

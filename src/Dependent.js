@@ -635,18 +635,23 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         // in French : use inversion rule which is quite "delicate"
         // rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
         // if subject is a pronoun, invert and add "-t-" or "-"
+        //       except for first person singular ("je") which is most often non colloquial (e.g. aime-je or prends-je)
         // if subject is a noun, the subject stays but add a new pronoun
         let subjIdx=this.findIndex((d)=>d.isA("subj"));
         if (subjIdx>=0){
-            const subj=this.dependents[subjIdx].terminal;
+            const subject=this.dependents[subjIdx].terminal;
             let pro;
-            if (subj.isA("Pro")){
+            if (subject.isA("Pro")){
+                if (subject.getProp("pe")==1 && subject.getProp("n")=="s"){ // add "est-ce que" at the start
+                    this.add(det(Q("est-ce que")),0);
+                    return;
+                }
                 pro=this.removeDependent(subjIdx).terminal; //remove subject
-            } else if (subj.isA("C")){
+            } else if (subject.isA("C")){
                 pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
-                subj.pronoun=pro;  // add a flag to be processed by cpReal
+                subject.pronoun=pro;  // add a flag to be processed by cpReal
             } else
-                pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
+                pro=Pro("moi","fr").g(subject.getProp("g")).n(subject.getProp("n")).pe(3).c("nom"); // create a pronoun
             if (this.terminal.isA("V")){
                 this.addPost(pro);
                 this.terminal.lier()
@@ -792,6 +797,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         pro=subj(pro).pos("post")
                     } else if (subject.isA("N")){
                         pro=this.dependents[subjIdx].clone().pro().pos("post")
+                        pro.g(subject.getProp("g")).n(subject.getProp("n")) // ensure proper number and gender
                     } else {
                         pro=subj(Pro("it").c("nom")).pos("post")
                     }

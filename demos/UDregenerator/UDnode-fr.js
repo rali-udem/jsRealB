@@ -111,8 +111,11 @@ UDnode.prototype.toTerminal = function(isLeft){
         if (lemma=="se"){
             return feats2options(Pro("moi").c("refl"),this,["Person","Gender","Number"]);
         }
-        if (lemma=="lui" && this.getForm()=="lui"){
-            return Pro("lui").tn("")
+        if (lemma=="lui"){
+            if (this.getForm()=="lui"){
+                return Pro("lui").tn("")
+            } else 
+                pro = Pro("moi")
         }
         if(pro===undefined)
             pro=tonicPronoun(this.getForm().toLowerCase(),lemma);
