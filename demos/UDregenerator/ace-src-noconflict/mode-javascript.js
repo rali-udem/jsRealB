@@ -50,12 +50,41 @@ var Mode = function() {
 };
 oop.inherits(Mode, TextMode);
 
+function computeParenStack(tokens){
+    // HACK: only keeps tracks of levels without checking the type of the opening 
+    //       e.g. whether a closing paren matches an open paren and not an open bracket or brace
+    var parenStack=[];  // keeps track of the position of the opening symbol
+    var pos = 0;
+    for (let token of tokens){
+        if (token.type == "new-line"){
+            pos=0
+        } else {
+            const val = token.value;
+            pos += val.length;
+            if (token.type.startsWith("paren.")){
+                if (token.type.endsWith("lparen")){
+                    for (let i=val.length-1;i>=0;i--) // it can happen that more than one opening or closing paren are in the same string
+                        parenStack.push(pos-i)   // pos has already been incremented, so we must push previous positions
+                } else {
+                    if (parenStack.length>0){
+                        for (let i=0; i<val.length;i++)
+                            parenStack.pop()
+                    } else {
+                        return null
+                    }
+                }
+            }
+        }
+    }   
+    return parenStack.length>0 ? parenStack : null;
+}
+
 (function() {
 
     this.lineCommentStart = "//";
     this.blockComment = {start: "/*", end: "*/"};
 
-    this.getNextLineIndent = function(state, line, tab) {
+    this.getNextLineIndent = function(state, line, tab, doc,row) {
         var indent = this.$getIndent(line);
 
         var tokenizedLine = this.getTokenizer().getLineTokens(line, state);
@@ -67,9 +96,27 @@ oop.inherits(Mode, TextMode);
         }
 
         if (state == "start" || state == "no_regex") {
-            var match = line.match(/^.*(?:\bcase\b.*\:|[\{\(\[])\s*$/);
-            if (match) {
-                indent += tab;
+            //  modified by Guy Lapalme for matching the indentation of the last opening (parent,bracket or brace)
+            // var match = line.match(/^.*(?:\bcase\b.*\:|[\{\(\[])\s*$/);
+            // if (match) {
+            //     indent += tab;
+            // }
+            let parenStack = computeParenStack(tokens)
+            if (parenStack !== null){ // simple case indent in the last open symbol in the current line
+                return " ".repeat(parenStack.pop())
+            } else { // look last open symbols in the previous lines
+                let combinedTokens = [...tokens]
+                let r = row-1
+                while (r >= 0){
+                    let newTokens = this.getTokenizer().getLineTokens(doc.getLine(r),"start").tokens              
+                    combinedTokens = newTokens.concat([{type:"new-line"}],combinedTokens);
+                    parenStack = computeParenStack(combinedTokens)
+                    if (parenStack !== null){
+                        return " ".repeat(parenStack.pop());
+                    }
+                    r--;
+                }
+                return ""
             }
         } else if (state == "doc-start") {
             if (endState == "start" || endState == "no_regex") {
@@ -251,9 +298,15 @@ var JavaScriptHighlightRules = function() {
             }, {
                 token : ["storage.type", "punctuation.operator", "support.function.firebug"],
                 regex : /(console)(\.)(warn|info|log|error|time|timeEnd|assert)\b/
+            }, {// added by Guy Lapalme; in a regex long expressions must appear before the shorter ones
+                token : "jsRealB_Phrase",
+                regex : /NP|AP|AdvP|VP|CP|PP|SP|S/
             }, {// added by Guy Lapalme
-                token : "jsRealConstructor",
-                regex : /\b[A-Z][A-Za-z]*\b/
+                token : "jsRealB_Terminal",
+                regex : /Adv|NO|DT|N|A|Pro|D|V|P|C|Q/
+            }, { // added by Guy Lapalme
+                token : "jsRealB_Dependent",
+                regex : /root|subj|det|comp|mod|coord/
             }, {
                 token : keywordMapper,
                 regex : identifierRe
@@ -484,8 +537,9 @@ var MatchingBraceOutdent = function() {};
     this.checkOutdent = function(line, input) {
         if (! /^\s+$/.test(line))
             return false;
-
-        return /^\s*\}/.test(input);
+        // always return false because outdent is performed in indent...
+        // return /^\s*\}/.test(input);
+        return false
     };
 
     this.autoOutdent = function(doc, row) {
@@ -637,28 +691,29 @@ var CstyleBehaviour = function () {
                 }
             }
         } else if (text == "\n" || text == "\r\n") {
-            var closing = "";
-            if (CstyleBehaviour.isMaybeInsertedClosing(cursor, line)) {
-                closing = lang.stringRepeat("}", maybeInsertedBrackets);
-                CstyleBehaviour.clearMaybeInsertedClosing();
-            }
-            var rightChar = line.substring(cursor.column, cursor.column + 1);
-            if (rightChar === '}') {
-                var openBracePos = session.findMatchingBracket({row: cursor.row, column: cursor.column+1}, '}');
-                if (!openBracePos)
-                     return null;
-                var next_indent = this.$getIndent(session.getLine(openBracePos.row));
-            } else if (closing) {
-                var next_indent = this.$getIndent(line);
-            } else {
-                return;
-            }
-            var indent = next_indent + session.getTabString();
+            return; // Guy Lapalme: ignore special processing of closing brace before end of line
+            // var closing = "";
+            // if (CstyleBehaviour.isMaybeInsertedClosing(cursor, line)) {
+            //     closing = lang.stringRepeat("}", maybeInsertedBrackets);
+            //     CstyleBehaviour.clearMaybeInsertedClosing();
+            // }
+            // var rightChar = line.substring(cursor.column, cursor.column + 1);
+            // if (rightChar === '}') {
+            //     var openBracePos = session.findMatchingBracket({row: cursor.row, column: cursor.column+1}, '}');
+            //     if (!openBracePos)
+            //          return null;
+            //     var next_indent = this.$getIndent(session.getLine(openBracePos.row));
+            // } else if (closing) {
+            //     var next_indent = this.$getIndent(line);
+            // } else {
+            //     return;
+            // }
+            // var indent = next_indent + session.getTabString();
 
-            return {
-                text: '\n' + indent + '\n' + next_indent + closing,
-                selection: [1, indent.length, 1, indent.length]
-            };
+            // return {
+            //     text: '\n' + indent + '\n' + next_indent + closing,
+            //     selection: [1, indent.length, 1, indent.length]
+            // };
         } else {
             CstyleBehaviour.clearMaybeInsertedClosing();
         }

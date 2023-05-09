@@ -30,7 +30,8 @@ export {feats2options};
 //   CAUTION: only deals with English and French phenomena that can be mapped to jsRealB options
 
     // https://universaldependencies.org/u/feat/Mood.html
-const mood = {"Ind":{"Past":"ps","Pres":"p","Fut":"f","Imp":"i","Pqp":"pq"},
+const mood = {"Ind":{"Past":"ps","Pres":"p","Fut":"f","Imp":"i","Pqp":"pq",
+        "Ppc":"pc","Ppce":"pc"}, // Ppc added for jsRealB in French
         "Imp":{"Pres":"ip"},
         "Cnd":{"Past":"cp","Pres":"c"},
         "Sub":{"Past":"spa","Pres":"s","Imp":"si","Pqp":"spq"},
@@ -107,6 +108,7 @@ function feats2options(constituent,udNode,selFeats){
                     const jsrTense=getOption("VerbForm",verbform,formVal)
                     if (jsrTense !== null){
                         constituent.t(jsrTense)
+                        if (formVal=="Ppce")constituent.aux("êt")
                     }
                 }
             }
@@ -116,7 +118,8 @@ function feats2options(constituent,udNode,selFeats){
             if (tense1 !==undefined){
                 const jsrTense=getOption("Tense",tenses,tense1)
                 if (jsrTense !== null){
-                    constituent.t(jsrTense)
+                    constituent.t(jsrTense);
+                    if (tense1=="Ppce")constituent.aux("êt")
                 }
             }
             break;

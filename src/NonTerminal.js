@@ -241,6 +241,7 @@ function doFrenchPronounPlacement(cList){
                         c.insertReal(pros,Q(c.neg2));
                     else
                         neg2=c.neg2;
+                        delete c.neg2;// remove negation from the original verb
                 }
                 if (c.isReflexive() && c.getProp("t")!="pp"){
                     if (prog!==undefined)c=prog;

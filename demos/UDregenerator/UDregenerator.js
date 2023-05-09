@@ -309,7 +309,15 @@ let editor;
 function updateRealization(){
     resetSavedWarnings();
     const content=editor.getValue();
-    currentUD.jsRealBexpr=eval(content);
+    try {
+        currentUD.jsRealBexpr=eval(content);
+    } catch (error) {
+        currentUD.warnings=[`Line:${error.line}:${error.column}:${error.message}`];
+        currentUD.jsRealBexpr=root(Q("???"));
+        currentUD.diffs=[[""],[""],[],0];
+        showRealization(currentUD,false);
+        return
+    }
     let realization=currentUD.jsRealBexpr.realize();
     currentUD.warnings=getSavedWarnings();
     currentUD.jsRealBsent=fixPunctuation(realization);

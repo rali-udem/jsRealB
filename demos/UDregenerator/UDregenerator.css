@@ -112,7 +112,12 @@ th {
 textarea#jsrStructure {
     font: 14pt courier;
 }
-.ace_jsRealConstructor{color: blue;}
+
+/* .ace_jsRealConstructor{color: blue;} */
+.ace_jsRealB_Terminal{color:brown;}
+.ace_jsRealB_Phrase{color:red;}
+.ace_jsRealB_Dependent{color:cornflowerblue;}
+
 #jsrSentence,#text{
     font-family: "Lucida Console", Monaco, monospace;
     font-size: 80%;

@@ -2,7 +2,118 @@ export {initUD,initSUD}
 
 const initUD =
 // UD version
-`# file = fr/fr_gsd-ud-test.conllu
+`# text = L'été, je ne suis pas à l'école.
+# sent_id = 146
+1	L'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	2	det	_	start_char=0|end_char=2
+2	été	été	NOUN	_	Gender=Masc|Number=Sing	10	obl:mod	_	start_char=2|end_char=5
+3	,	,	PUNCT	_	_	2	punct	_	start_char=5|end_char=6
+4	je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	10	nsubj	_	start_char=7|end_char=9
+5	ne	ne	ADV	_	Polarity=Neg	10	advmod	_	start_char=10|end_char=12
+6	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	10	cop	_	start_char=13|end_char=17
+7	pas	pas	ADV	_	Polarity=Neg	10	advmod	_	start_char=18|end_char=21
+8	à	à	ADP	_	_	10	case	_	start_char=22|end_char=23
+9	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	10	det	_	start_char=24|end_char=26
+10	école	école	NOUN	_	Gender=Fem|Number=Sing	0	root	_	start_char=26|end_char=31
+11	.	.	PUNCT	_	_	10	punct	_	start_char=31|end_char=32
+
+# text = Il te regarde t’ouvrir à la joie de lire.
+# sent_id = 145
+1	Il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	nsubj	_	start_char=0|end_char=2
+2	te	lui	PRON	_	Number=Sing|Person=2|PronType=Prs	3	iobj	_	start_char=3|end_char=5
+3	regarde	regarder	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=6|end_char=13
+4	t’	lui	PRON	_	Number=Sing|Person=2|PronType=Prs	5	iobj	_	start_char=14|end_char=16
+5	ouvrir	ouvrir	VERB	_	VerbForm=Inf	3	xcomp	_	start_char=16|end_char=22
+6	à	à	ADP	_	_	8	case	_	start_char=23|end_char=24
+7	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	8	det	_	start_char=25|end_char=27
+8	joie	joie	NOUN	_	Gender=Fem|Number=Sing	5	obl:arg	_	start_char=28|end_char=32
+9	de	de	ADP	_	_	10	mark	_	start_char=33|end_char=35
+10	lire	lire	VERB	_	VerbForm=Inf	8	acl	_	start_char=36|end_char=40
+11	.	.	PUNCT	_	_	3	punct	_	start_char=40|end_char=41
+
+# text = Les élèves ont vite levé la main pour dire oui.
+# sent_id = 158
+1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	start_char=0|end_char=3
+2	élèves	élève	NOUN	_	Gender=Masc|Number=Plur	5	nsubj	_	start_char=4|end_char=10
+3	ont	avoir	AUX	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	5	aux:tense	_	start_char=11|end_char=14
+4	vite	vite	ADV	_	_	5	advmod	_	start_char=15|end_char=19
+5	levé	lever	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=20|end_char=24
+6	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	7	det	_	start_char=25|end_char=27
+7	main	main	NOUN	_	Gender=Fem|Number=Sing	5	obj	_	start_char=28|end_char=32
+8	pour	pour	ADP	_	_	9	mark	_	start_char=33|end_char=37
+9	dire	dire	VERB	_	VerbForm=Inf	5	advcl	_	start_char=38|end_char=42
+10	oui	oui	INTJ	_	_	9	obj	_	start_char=43|end_char=46
+11	.	.	PUNCT	_	_	5	punct	_	start_char=46|end_char=47
+
+# text = Elle m’a vu jouer au ballon.
+# sent_id = 142
+1	Elle	il	PRON	_	Gender=Fem|Number=Sing|Person=3|PronType=Prs	4	nsubj	_	start_char=0|end_char=4
+2	m’	lui	PRON	_	Number=Sing|Person=1|PronType=Prs	4	iobj	_	start_char=5|end_char=7
+3	a	avoir	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	aux:tense	_	start_char=7|end_char=8
+4	vu	voir	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=9|end_char=11
+5	jouer	jouer	VERB	_	VerbForm=Inf	4	xcomp	_	start_char=12|end_char=17
+6-7	au	_	_	_	_	_	_	_	start_char=18|end_char=20
+6	à	à	ADP	_	_	8	case	_	_
+7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	8	det	_	_
+8	ballon	ballon	NOUN	_	Gender=Masc|Number=Sing	5	obl:arg	_	start_char=21|end_char=27
+9	.	.	PUNCT	_	_	4	punct	_	start_char=27|end_char=28
+
+# text = Vous avez été là où j'ai grandi.
+# sent_id = 177
+1	Vous	il	PRON	_	Number=Plur|Person=2|PronType=Prs	4	nsubj	_	start_char=0|end_char=4
+2	avez	avoir	AUX	_	Mood=Ind|Number=Plur|Person=2|Tense=Pres|VerbForm=Fin	4	aux:tense	_	start_char=5|end_char=9
+3	été	être	AUX	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	4	cop	_	start_char=10|end_char=13
+4	là	là	ADV	_	_	0	root	_	start_char=14|end_char=16
+5	où	où	ADV	_	PronType=Rel	8	advmod	_	start_char=17|end_char=19
+6	j'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	8	nsubj	_	start_char=20|end_char=22
+7	ai	avoir	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	8	aux:tense	_	start_char=22|end_char=24
+8	grandi	grandir	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	4	acl:relcl	_	start_char=25|end_char=31
+9	.	.	PUNCT	_	_	4	punct	_	start_char=31|end_char=32
+
+# text = Mon ami m'a donné un coup de pied au cou.
+# sent_id = 102
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	ami	ami	NOUN	_	Gender=Masc|Number=Sing	5	nsubj	_	start_char=4|end_char=7
+3	m'	lui	PRON	_	Number=Sing|Person=1|PronType=Prs	5	iobj	_	start_char=8|end_char=10
+4	a	avoir	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	aux:tense	_	start_char=10|end_char=11
+5	donné	donner	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=12|end_char=17
+6	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	7	det	_	start_char=18|end_char=20
+7	coup	coup	NOUN	_	Gender=Masc|Number=Sing	5	obj	_	start_char=21|end_char=25
+8	de	de	ADP	_	_	9	case	_	start_char=26|end_char=28
+9	pied	pied	NOUN	_	Gender=Masc|Number=Sing	7	nmod	_	start_char=29|end_char=33
+10-11	au	_	_	_	_	_	_	_	start_char=34|end_char=36
+10	à	à	ADP	_	_	12	case	_	_
+11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
+12	cou	cou	NOUN	_	Gender=Masc|Number=Sing	5	obl:mod	_	start_char=37|end_char=40
+13	.	.	PUNCT	_	_	5	punct	_	start_char=40|end_char=41
+
+# text = Les souris n’ont pas de bras, elles ont des pattes.
+# sent_id = 94
+1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	start_char=0|end_char=3
+2	souris	souris	NOUN	_	Gender=Fem|Number=Plur	4	nsubj	_	start_char=4|end_char=10
+3	n’	ne	ADV	_	Polarity=Neg	4	advmod	_	start_char=11|end_char=13
+4	ont	avoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=13|end_char=16
+5	pas	pas	ADV	_	Polarity=Neg	4	advmod	_	start_char=17|end_char=20
+6	de	un	DET	_	Definite=Ind|Number=Sing|PronType=Art	7	det	_	start_char=21|end_char=23
+7	bras	bras	NOUN	_	Gender=Masc|Number=Sing	4	obj	_	start_char=24|end_char=28
+8	,	,	PUNCT	_	_	10	punct	_	start_char=28|end_char=29
+9	elles	il	PRON	_	Gender=Fem|Number=Plur|Person=3|PronType=Prs	10	nsubj	_	start_char=30|end_char=35
+10	ont	avoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	4	conj	_	start_char=36|end_char=39
+11	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	12	det	_	start_char=40|end_char=43
+12	pattes	patte	NOUN	_	Gender=Fem|Number=Plur	10	obj	_	start_char=44|end_char=50
+13	.	.	PUNCT	_	_	4	punct	_	start_char=50|end_char=51
+
+# text = Le loup n’est pas un chien.
+# sent_id = 87
+1	Le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	2	det	_	start_char=0|end_char=2
+2	loup	loup	NOUN	_	Gender=Masc|Number=Sing	7	nsubj	_	start_char=3|end_char=7
+3	n’	ne	ADV	_	Polarity=Neg	7	advmod	_	start_char=8|end_char=10
+4	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	7	cop	_	start_char=10|end_char=13
+5	pas	pas	ADV	_	Polarity=Neg	7	advmod	_	start_char=14|end_char=17
+6	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	7	det	_	start_char=18|end_char=20
+7	chien	chien	NOUN	_	Gender=Masc|Number=Sing	0	root	_	start_char=21|end_char=26
+8	.	.	PUNCT	_	_	7	punct	_	start_char=26|end_char=27
+
+# file = fr/fr_gsd-ud-test.conllu
 # sent_id = fr-ud-dev_01485
 # text = Les produits échangés sont essentiellement du sel, de l'ambre, de l'huile, des céréales, du vin et de la viande salée.
 # gl = OK

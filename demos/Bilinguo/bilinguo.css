@@ -6,6 +6,7 @@
     padding: 10px;
     margin: 5px 0;
     line-height: 2;
+    word-wrap: break-word;
 }
 
 h1 {
@@ -76,3 +77,13 @@ fieldset fieldset {
     margin-left: 15px;
     padding: 2px 5px;
 }
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-style: italic;
+  }
+  

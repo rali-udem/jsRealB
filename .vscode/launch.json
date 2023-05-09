@@ -13,7 +13,13 @@
             ],
             "type": "node"
         },
-    
+        { // launch with http-server -c-1
+        "type": "chrome",
+        "name": "Launch current HTML",
+        "request": "launch",
+        "webRoot": "${workspaceFolder}",
+        "url": "http://127.0.0.1:8080/${relativeFile}",
+        },    
         {
             "name": "Launch tests-dev.js",
             "program": "${workspaceFolder}/tests-dev.js",
@@ -29,13 +35,6 @@
             "name": "Tests/testAll.html",
             "request": "launch",
             "url": "http://127.0.0.1:8080/Tests/testAll.html"
-        },
-        { // launch with http-server -c-1
-        "type": "chrome",
-        "name": "Launch current HTML",
-        "request": "launch",
-        "webRoot": "${workspaceFolder}",
-        "url": "http://127.0.0.1:8080/${relativeFile}",
         },
         {
             "name": "variationsFromText",

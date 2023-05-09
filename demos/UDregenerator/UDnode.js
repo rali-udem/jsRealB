@@ -304,7 +304,7 @@ class UDnode {
             deprel = "mod";
         }
 
-        let conjChildren = [firstConst];
+        let conjChildren = [applyOptions(firstConst, sentOptions)];
 
         // remove punct
         if (this.right.length > 0) {
@@ -341,7 +341,7 @@ class UDnode {
             // some strange coordination term (e.g. "ainsi que"), create specific a constant by realizing the dependent
             coordTerm = Q(coordTerm.realize());
         }
-        if (hasOxfordComma)
+        if (hasOxfordComma && c !== undefined)
             coordTerm.b(",");
         let coordDep = coord(coordTerm);
         for (let child of conjChildren) {
@@ -353,7 +353,7 @@ class UDnode {
                 coordDep.add(child, undefined, true);
             }
         }
-        return applyOptions(coordDep, sentOptions);
+        return coordDep;
     }
     
     //  create a dependent by mapping the deprel name to a jsRealB one
@@ -361,9 +361,9 @@ class UDnode {
         const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
         let dep = new Dependent([head], deprel);
         if (isLeft !== null) { // isLeft is null when processing a coordination that should be left as is
-            if (isLeft && ["mod", "comp"].indexOf(deprel) >= 0)
+            if (isLeft && ["mod", "comp"].includes(deprel)) 
                 dep.pos("pre");
-            if (!isLeft && ["det", "subj"].indexOf(deprel) >= 0)
+            if (!isLeft && ["det", "subj"].indexOf(deprel))
                 dep.pos("post");
         }
         if (this.left.length > 0) {
@@ -429,7 +429,7 @@ const udMapping = {
     // multiword expressions
     "fixed":"mod","flat":"mod","compound":"mod",
     // loose
-    "list":"mod","parataxis":"mod",
+    "list":"mod","parataxis":"mod","dislocated":"mod",
     // special
     "orphan":"mod","goeswith":"mod","reparandum":"mod",
     // other

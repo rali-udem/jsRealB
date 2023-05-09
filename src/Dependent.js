@@ -207,15 +207,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 break;
             case "det":
                 if (depTerm.isA("D")){
-                    if (this.peng){
-                        if (depTerm.peng){// save person (for possessives)
-                            let pe=depTerm.peng.pe; 
-                            depTerm.peng=this.peng;
-                            depTerm.peng.pe=pe;
-                        } else { // some strange determiner construct do not have peng
-                            depTerm.peng=this.peng;
-                        } 
-                    } 
+                    depTerm.peng=this.peng;
                 } else if (depTerm.isA("NO")){
                     depTerm.peng=headTerm.peng
                 } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
