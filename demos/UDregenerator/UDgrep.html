@@ -29,8 +29,8 @@
             </ul>  
         </li>
 		<li>The checkbox between <code>FORM</code> and <code>LEMMA</code> allows selecting tokens for which their form and lemma are the same, ignoring case. When the checkbox is <em>indeterminate</em> (i.e. it shows "<code>-</code>"), it selects tokens for which their form and lemma differ.</li>
-    	<li>Click on the <code>reParse</code> button to fill the table with the tokens that match the filters. To keep the browser responsive, only the first <span id="maxTokens"></span> tokens with fields matching the corresponding regex are displayed as rows in the table. <br/>
-			The <code>reParse</code> button can be clicked anytime when the field selection has been changed to refill the table from the last UD file read.</li>
+    	<li>Click on the <code>Parse</code> button to fill the table with the tokens that match the filters. To keep the browser responsive, only the first <span id="maxTokens"></span> tokens with fields matching the corresponding regex are displayed as rows in the table. <br/>
+			When <code>Parse</code> button is red, it means that an input selection filter has been changed, click it to refill the table with the current selection on the same data.</li>
 		<li>The table can be scrolled vertically and columns can be sorted by clicking in the header.</li>
 		<li>Clicking a cell in the table will display information about the sentence containing this token which is shown in bold. It also displays the dependency graph or tree of the sentence in which hovering a token shows its ID, LEMMA, UPOS and FEATS in a tooltip.</li>
         <li>Clicking on the <code>Token table</code> creates a new tab listing <strong>all</strong> current tokens with their <code>sent_id</code> which can be saved or printed.</li>
@@ -53,7 +53,7 @@
     <fieldset id="fieldSelect">
         <legend>Filters</legend>
     </fieldset>
-    <input type="button" id="parse" name="parse" value="reParse">
+    <input type="button" id="parse" name="parse" value="Parse">
     <input type="button" class="right" id="makeFullTable" name="makeFullTable" value="Token table">
     <p id="message"></p>
     <div id="container">

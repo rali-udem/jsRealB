@@ -68,6 +68,7 @@ function loadTokens(uds){
 
 //   Parse the udContent and fill the table
 function parse(){
+    d3.select("#parse").style("color","black");
     // clear previous info
     d3.select("#message").empty();
     d3.selectAll("#lineNo,#sentId,#tokenId,#text").text("");
@@ -218,8 +219,9 @@ function toggleInstructions(){
 // deal with a three state checkbox 
 // adapted from https://css-tricks.com/indeterminate-checkboxes/
 function threeStatesCB() {
-  if (this.readOnly) this.checked=this.readOnly=false;
-  else if (!this.checked) this.readOnly=this.indeterminate=true;
+    redParse();
+    if (this.readOnly) this.checked=this.readOnly=false;
+    else if (!this.checked) this.readOnly=this.indeterminate=true;
 }
 
 // Separates a single string into UDs separated at a blank line
@@ -271,7 +273,8 @@ function createFilters(){
         const span=fieldSelect.append("span")
             .classed("fieldName",true)
             .attr("id",fName)
-            .text(fName);
+            .text(fName)
+            .on("click",redParse);
         const search = fieldSelect.append("input")
             .attr("type",text)
             .attr("id","search-"+fName)
@@ -280,9 +283,11 @@ function createFilters(){
             .attr("autocapitalize","off")
             .attr("spellcheck",false)
             .attr("placeholder",fName=="ID"?"":"regex")
-            .attr("size",fName=="ID"?3:20);
+            .attr("size",fName=="ID"?3:20)
+            .on("keydown",redParse);
         search.style("display","none");
         span.on("click",function(){ // listener on the fieldName
+            redParse();
             if (d3.select(this).classed("checked")){
                 d3.select(this)
                     .classed("checked",false)
@@ -307,9 +312,11 @@ function createFilters(){
                 .attr("for","formEQlemma")
                 .attr("title","check if FORM and LEMMA are the same")
                 .text("=")
+                .on("click",redParse)
             let cb = fieldSelect.append("input")
                 .attr("type","checkbox")
-                .attr("id","formEQlemma");
+                .attr("id","formEQlemma")
+                .on("click",redParse);
             cb.property("checked",false)
                 .property("indeterminate",false).
                 on("click",threeStatesCB);
@@ -319,7 +326,8 @@ function createFilters(){
         .classed("right",true)
         .attr("type","checkbox")
         .attr("id","ignoreCase")
-        .attr("checked",true);
+        .attr("checked",true)
+        .on("click",redParse);
     fieldSelect.append("label")
         .classed("right",true)
         .attr("for","ignoreCase")
@@ -409,6 +417,9 @@ function showSentenceParse(ud){
 //     return endX;
 // }
 
+function redParse(){
+    d3.select("#parse").style("color","red")
+}
 
 function UDgrepLoad(){
     dependencies=d3.select("#dependencies");

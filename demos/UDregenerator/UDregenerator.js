@@ -174,6 +174,7 @@ function parse(udContent,fileName){
         if (showOnlyNonProj && ud.isProjective)add=false;
         return add;
     }
+    d3.select("#parse").style("color","black");
     uds=parseUDs(udContent,fileName);
     let sentences=d3.select("#sentences");
     let currentUDno=sentences.node().value||"0"; // save position in the sentence menu
@@ -382,7 +383,7 @@ function UDregeneratorLoad(lang,initUD,addNewWords){
             .classed(fieldNames[j],true)
             .text(fieldNames[j]);
     }
-    d3.selectAll("#parse").on("click",()=>parse(udContent,currentFile));
+    d3.select("#parse").on("click",()=>parse(udContent,currentFile));
     d3.select("#showHideInstructions").on("click",toggleInstructions);
     d3.select("#showHideDependencyTree").on("click",toggleDependentTree);
     d3.select("#showHide-jsrEditor").on("click",toggleJsrEditor);
@@ -403,6 +404,9 @@ function UDregeneratorLoad(lang,initUD,addNewWords){
         spacing.letter=+this.value;
         showSentenceParse(currentUD);
     });
+    d3.selectAll("#onlyDiffs,#onlyWarnings,#onlyNonProj").on("change",
+        function(){d3.select("#parse").style("color","red")}
+    )
     // pour l'éditeur
     editor = ace.edit("jsrStructure");
     editor.setTheme("ace/theme/textmate");
@@ -429,16 +433,16 @@ function UDregeneratorLoad(lang,initUD,addNewWords){
     let dragzone = d3.select("#dragzone").node(); // ignore editor area in which drag and drop is already handled
     let fileInput = document.querySelector('#file-input');
 
-    docElem.addEventListener('dragover', (e) => {
+    dragzone.addEventListener('dragover', (e) => {
       e.preventDefault();
       dragzone.classList.add('dragging');
     });
 
-    docElem.addEventListener('dragleave', () => {
+    dragzone.addEventListener('dragleave', () => {
       dragzone.classList.remove('dragging');
     });
 
-    docElem.addEventListener('drop', (e) => {
+    dragzone.addEventListener('drop', (e) => {
       e.preventDefault();
       dragzone.classList.remove('dragging');
   

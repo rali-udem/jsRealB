@@ -15,7 +15,10 @@
             <span lang="fr">Translate to French</span>
             <span lang="en">Traduisez vers l'anglais</span>
         </div>
-        <h1 lang="fr">Bilinguo &#8212; Traduisez vers l'anglais</h1><h1 lang="en">Bilinguo &#8212; Translate to French</h1>
+        <h1 lang="fr">Bilinguo<sup>*</sup> &#8212; Traduisez vers l'anglais</h1><h1 lang="en">Bilinguo &#8212; Translate to French</h1>
+        <p> <span lang="fr">Niveau : </span><select id="levels-fr" lang="fr"></select>
+            <span lang="en">Level : </span><select id="levels-en" lang="en"></select>
+        </p>
         <div id="hide-show-explanation">
             <span lang="fr" id="show-fr-expl">Afficher les explications</span>
             <span lang="en" id="show-en-expl">Show explanations</span>
@@ -30,14 +33,13 @@
                 <li>Appuyez sur <button>Vérifier</button> lorsque vous avez terminé la traduction.</li> 
                 <li>Le système vérifie si votre traduction correspond à celle 
                 qui est attendue. Si c'est le cas, il indiquera <b style="color:green">Bravo</b> et augmentera votre score indiqué en bas. 
-                Si ce n'est pas le cas, la <i>bonne</i> traduction est affichée les mots en erreurs sont indiqués en rouge dans la bonne réponse et/ou dans les mots originaux.</li>
+                Si ce n'est pas le cas, la <i>bonne</i> traduction est affichée. Les mots erronés sont indiqués en rouge dans la bonne réponse et/ou dans les mots originaux.</li>
                 <li>Cliquez sur <button>Continuer</button> pour faire apparaître une nouvelle phrase en anglais à traduire.</li>
             </ul>
             <p lang="fr">Ces phrases simples sont générées au hasard à partir d'un vocabulaire réduit de mots fréquents et patrons
-                de phrases. Ceci peut expliquer que certaines phrases à traduire ne soient pas toujours <i>naturelles</i>. Ce sont des traductions litterales qui sont attendues. 
+                de phrases. Ceci peut expliquer que certaines phrases à traduire ne sont pas toujours <i>naturelles</i>. Ce sont des traductions littérales qui sont attendues. 
                 Les cases à <i>décocher</i> suivantes permettent de limiter le choix d'alternatives pour les types de phrases et les temps des verbes à pratiquer.
             </p>
-            <footer lang="fr">Cette page est adaptée d'un exercice proposé par <a href="http://duolingo.com/" target="_blank">Duolinguo</a></footer>
             <ul lang="en">
                 <li>Translate this English sentence into French by clicking on some French words in rounded rectangles to add them to 
                 the end of the next line.</li>
@@ -51,11 +53,11 @@
             <p lang="en">These simple sentences are randomly generated with words from a few frequent words and sentence patterns. 
                 This explains why some sentences to translate are not always <i>colloquial</i>. The expected translations are literal ones.
                 The following <i>uncheckboxes</i> can limit the choices of possible sentences types and verb tenses to practice.</p>
-                <footer lang="en">This page is an adaptation of an exercise suggested by <a href="http://duolingo.com/" target="_blank">Duolinguo</a>.</footer>
-                <fieldset>
+
+                <!--<fieldset>
                 <legend lang="fr">Choix d'exercices</legend>
                 <legend lang="en">Exercices choice</legend>
-                <span lang="fr">
+                 <span lang="fr">
                     <fieldset><legend>Types de phrase</legend>
                         affirmative <input type="checkbox" checked="checked" value="{}" class="typ">
                         négative <input type="checkbox" checked="checked" value='{"neg":true}' class="typ">
@@ -66,7 +68,7 @@
                     </fieldset>
                     <fieldset><legend>temps</legend>
                         présent <input type="checkbox" checked="checked" value='{"fr":"p","en":"p"}' class="tense">
-                        passé (preterit) <input type="checkbox" checked="checked" value='{"fr":"pc","en":"ps"}' class="tense">
+                        passé (prétérit) <input type="checkbox" checked="checked" value='{"fr":"pc","en":"ps"}' class="tense">
                         futur <input type="checkbox" checked="checked" value='{"fr":"f","en":"f"}' class="tense">
                     </fieldset>
                 </span>
@@ -83,7 +85,7 @@
                         present <input type="checkbox" checked="checked" value='{"fr":"p","en":"p"}' class="tense">
                         past (passé composé) <input type="checkbox" checked="checked" value='{"fr":"pc","en":"ps"}' class="tense">
                         future <input type="checkbox" checked="checked" value='{"fr":"f","en":"f"}' class="tense">
-                    </fieldset>
+                    </fieldset> -->
                 </span>
             </fieldset>
         </div>
@@ -113,5 +115,6 @@
             </span>
             <span id="percent" class="value"></span>
         </div>
-    </body>
+        <footer lang="fr"><sup>*</sup>Cette page est adaptée d'un exercice proposé par <a href="http://duolingo.com/" target="_blank">Duolinguo</a></footer>
+        <footer lang="en"><sup>*</sup>This page is an adaptation of an exercise suggested by <a href="http://duolingo.com/" target="_blank">Duolinguo</a>.</footer>    </body>
 </html> 

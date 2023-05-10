@@ -24,7 +24,8 @@ const numbers = ["s","p"];
 
 // adaptées de phrases tirées de https://lessuperprofs.jimdofree.com/1re-année/phrases-du-jour/
 const sentences = [// 0
-    {text:"Le livre est sur la table",    
+    {text:"Le livre est sur la table",
+     level:1,    
      fr: (le,livre,la,table)=>
              S(NP(D(le),N(livre)),
                VP(V("être"),
@@ -39,6 +40,7 @@ const sentences = [// 0
              [["table","table"],["bureau","desk"]]]
     }, // 1
     {text: "Mon père voit huit moutons",
+    level:1,
      fr:(pe,pere,voit,huit,mouton)=>
             S(NP(D("mon").pe(pe),N(pere)),
               VP(V(voit),NP(NO(huit).nat(),N(mouton)))),
@@ -52,6 +54,7 @@ const sentences = [// 0
               [["veau","calf"],["vache","cow"],["cochon","pig"],["mouton","sheep"]]]
     }, // 2
     {text:"Le pauvre oiseau voit un lapin.",
+    level:1,
      fr: (le,pauvre,oiseau,voir,un,lapin) =>
             S(NP(D(le),A(pauvre),N(oiseau)),
               VP(V(voir),NP(D(un),N(lapin)))),
@@ -66,6 +69,7 @@ const sentences = [// 0
              [["lapin","rabbit"],["ours","bear"],["renard","fox"]]]
      }, // 3
     {text:"J'aime chercher des mots dans les livres.",
+     level:2,
      fr:(pe,aimer,chercher,mot,livre,nb)=>
          S(Pro("je").pe(pe),
            VP(V(aimer),
@@ -86,6 +90,7 @@ const sentences = [// 0
              numbers]
     }, // 4
     {text:"Je vois vingt lutins coquins et vilains,sous le sapin.",
+     level:3,
      fr:(pe,voir,vingt,lutin,coquin,vilain,sapin)=>
         S(Pro("je").pe(pe),
           VP(V(voir),
@@ -116,11 +121,11 @@ const sentences = [// 0
     // {text:"Elle adore manger une pomme et regarder un film."},
 ]
 
-function makeStructs(src,tgt){
+function makeStructs(src,tgt,level){
     // HACK: the word selection is done by shuffling a new list of indices (so that the corresponding src and tgt words are selected)
     //       and taking (shifting) the first indices of this list when needed either for a word or a distractor 
     const [srcIdx,tgtIdx] = src=="fr" ? [0,1] : [1,0]
-    const s = oneOf(sentences);  // select a sentence
+    const s = oneOf(sentences.filter(s=>s.level<=level));  // select a sentence
     // const s = sentences[4];   // useful for testing a single sentence
     // build the list of parameters and distractors for the target language
     let params=[], distractors=[];
@@ -149,31 +154,30 @@ function makeStructs(src,tgt){
 //     let {default:jsRealB} = await import("../../dist/jsRealB.js");
 //     Object.assign(globalThis,jsRealB);
 
-//     function makeSentences(src,tgt){
+//     function makeSentences(src,tgt,level){
 //         const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
 //         const n = oneOf("s","p");
-//         const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
+//         const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}].slice(0,level+1));
 //         let res={};
-//         [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt);
+//         [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
 //         res[src].n(n).t(t[src]).typ(typ);
 //         res[tgt].n(n).t(t[tgt]).typ(typ);
 //         return res;
 //     }
 
-//     function showSentences(src,tgt){
-//         const sents=makeSentences(src,tgt);
+//     function showSentences(src,tgt,level){
+//         const sents=makeSentences(src,tgt,level);
 //         let res=[];
 //         load(src);
 //         res.push(sents[src].realize());
 //         load(tgt);
 //         res.push(sents[tgt].realize());
 //         res.push(sents["distractors"]);
-//         console.log(res.join(" || "))
+//         console.log(level,":",res.join(" || "))
 //     }
 
 //     for (let i=0;i<20;i++){
-//         showSentences("fr","en");
-//         showSentences("en","fr");
+//         showSentences("fr","en",oneOf(1,2,3,4));
+//         showSentences("en","fr",oneOf(1,2,3,4));
 //     }
 //  }
-

@@ -45,16 +45,43 @@ function setSrc(lang){
     showResults();
 }
 
+const levels = {
+    "fr":["simple","facile","compliqué","difficile","expert","diabolique"],
+    "en":["simple","easy","complicated","challenging","expert","devilish"]};
+const tenses = {
+    "fr":[["p"],["p","pc"],["p","pc","f"],["p","pc","f"],["p","ps","f"],["p","ps","f","c"]],
+    "en":[["p"],["p","ps"],["p","ps","f"],["p","ps","f"],["p","ps","f"],["p","ps","f","c"]],
+}
+const variants = [
+     [{}],
+     [{},{"neg":true}],
+     [{},{"neg":true},{"mod":"poss"}],
+     [{},{"neg":true},{"mod":"poss"},{"int":"yon"}],
+     [{},{"neg":true},{"mod":"poss"},{"int":"yon"},{"int":"tag"},{"prog":true}],
+     [{"neg":true,"pas":true,"mod":"poss","int":"yon","prog":true}],
+]
+
+function addLevels(lang,selected){
+    const $levels=$(`#levels-${lang}`)
+    for (let i=0;i<levels[lang].length;i++){
+        const $option=$(`<option value="${i}">${levels[lang][i]}</option>`);
+        if (i==selected)$option.prop("selected","selected");
+        $levels.append($option)
+    }
+}
 
 function makeSentences(src,tgt){
     const n = oneOf("s","p");
     // get values of selected exercises from the checkboxes (defaulting to present and affirmative)
-    let t     = oneOf($(`span[lang=${src}] .tense:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || "p";
-    const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || {};
+    // let t     = oneOf($(`span[lang=${src}] .tense:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || "p";
+    // const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || {};
+    const level=+$(`#levels-${src}`).val();
+    const tIdx = oneOf(getIndices(tenses[src][level]));
+    const typ = oneOf(variants[level])
     let res={};
-    [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt);
-    res[src].n(n).t(t[src]).typ(typ);
-    res[tgt].n(n).t(t[tgt]).typ(typ);
+    [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
+    res[src].n(n).t(tenses[src][level][tIdx]).typ(typ);
+    res[tgt].n(n).t(tenses[tgt][level][tIdx]).typ(typ);
     return res;
 }
 
@@ -99,7 +126,12 @@ function showExercise(){
     load(tgt);
     const tgtSent = sents[tgt].realize();
     // tokenize target sentence
-    const tgtTokens = tgtSent.split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
+    let tgtTokens;
+    if (tgtSent.endsWith("n'est-ce pas? ")){
+        tgtTokens=tgtSent.slice(0,-"n'est-ce pas? ".length).split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
+        tgtTokens.push("n'est-ce pas?");
+    } else
+        tgtTokens = tgtSent.split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
     showWords(tgtTokens.concat(sents["distractors"]))
     return tgtTokens;
 }
@@ -153,6 +185,7 @@ function checkTranslation(e){
 
 //   set callback functions
 $(document).ready(function() {
+    addLevels("fr",1);addLevels("en",1);
     $("#check-en,#check-fr").click(checkTranslation);
     $("#continue-en,#continue-fr").click(function(){
         expectedTokens=showExercise();

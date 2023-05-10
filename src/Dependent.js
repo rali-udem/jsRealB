@@ -250,7 +250,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     if (this.peng !== undefined)
                         depTerm.peng=this.peng
                     for (let depI of dep.dependents)
-                        this.setPengRecursive(depI,depI.peng.pengNO,this.peng)
+                        if (depI.peng!==undefined)
+                            this.setPengRecursive(depI,depI.peng.pengNO,this.peng)
                     }
                 break;
             case "root":
