@@ -420,9 +420,15 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             const subjIdx=this.findIndex((d)=>d.isA("subj"));
             if (subjIdx>=0){
                 subj=this.dependents[subjIdx];
-                if (subj.terminal.isA("Pro")){
-                    subj.terminal = subj.terminal.getTonicPro()
-                }
+                const subject=subj.terminal;
+                if (subject.isA("Pro")){
+                    if (this.isEn() && subject.lemma=="I") 
+                        subj.terminal=Pro("me").tn("").g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"));
+                    else if (this.isFr() && subject.lemma=="je")
+                        subj.terminal=Pro("moi").tn("").g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"));
+                    else
+                        subj.terminal = subject.getTonicPro()
+               }
             } else {
                 subj=null
             }

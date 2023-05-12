@@ -25,7 +25,7 @@ const numbers = ["s","p"];
 // adaptées de phrases tirées de https://lessuperprofs.jimdofree.com/1re-année/phrases-du-jour/
 const sentences = [// 0
     {text:"Le livre est sur la table",
-     level:1,    
+     level:0,    
      fr: (le,livre,la,table)=>
              S(NP(D(le),N(livre)),
                VP(V("être"),
@@ -54,7 +54,7 @@ const sentences = [// 0
               [["veau","calf"],["vache","cow"],["cochon","pig"],["mouton","sheep"]]]
     }, // 2
     {text:"Le pauvre oiseau voit un lapin.",
-    level:1,
+    level:2,
      fr: (le,pauvre,oiseau,voir,un,lapin) =>
             S(NP(D(le),A(pauvre),N(oiseau)),
               VP(V(voir),NP(D(un),N(lapin)))),
@@ -69,7 +69,7 @@ const sentences = [// 0
              [["lapin","rabbit"],["ours","bear"],["renard","fox"]]]
      }, // 3
     {text:"J'aime chercher des mots dans les livres.",
-     level:2,
+     level:3,
      fr:(pe,aimer,chercher,mot,livre,nb)=>
          S(Pro("je").pe(pe),
            VP(V(aimer),
@@ -90,7 +90,7 @@ const sentences = [// 0
              numbers]
     }, // 4
     {text:"Je vois vingt lutins coquins et vilains,sous le sapin.",
-     level:3,
+     level:4,
      fr:(pe,voir,vingt,lutin,coquin,vilain,sapin)=>
         S(Pro("je").pe(pe),
           VP(V(voir),

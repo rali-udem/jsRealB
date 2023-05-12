@@ -587,7 +587,12 @@ class Phrase extends Constituent{
                 if (this.elements.length>0 && this.elements[0].isA("N","NP","Pro","S")){
                     subject=this.removeElement(0);
                     if (subject.isA("Pro")){ 
-                        subject = subject.getTonicPro()
+                        if (this.isEn() && subject.lemma=="I") 
+                            subject=Pro("me").tn("").g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"))
+                        else if (this.isFr() && subject.lemma=="je")
+                            subject=Pro("moi").tn("").g(subject.getProp("g")).n(subject.getProp("n")).pe(subject.getProp("pe"))
+                        else
+                            subject = subject.getTonicPro()
                     }
                 } else {
                     subject=null;

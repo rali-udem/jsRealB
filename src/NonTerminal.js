@@ -207,11 +207,15 @@ function doFrenchPronounPlacement(cList){
         let c=cList[i];
         if (c.isA("V") && c.neg2 !== undefined){
             if (c.isMod || c.isProg){
-                c.insertReal(cList,Q(c.neg2),i+1);
+                if (c.getProp("lier")===null){
+                    c.insertReal(cList,Q(c.neg2),i+2);
+                } else
+                    c.insertReal(cList,Q(c.neg2),i+1);               
                 c.insertReal(cList,Adv("ne","fr"),i);
                 delete c.neg2 // remove negation from the original verb
                 iDeb=i+3      // skip these in the following loop
                 if (c.isProg)iDeb+=2 // skip "en train","de"
+                break;
             }
         }
     }
