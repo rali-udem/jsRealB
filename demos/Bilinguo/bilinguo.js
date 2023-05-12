@@ -39,7 +39,7 @@ function setSrc(lang){
         $(`#hide-${src}-expl`).hide();
     }
     // initialize everything
-    expectedTokens=showExercise();
+    showExercise();
     nbSuccesses=0;
     nbTries=0;
     showResults();
@@ -92,6 +92,7 @@ function showWords(words){
     shuffle(words)
     for (let i=0;i<words.length;i++){
         $("#target-words").append($("<span/>").addClass("word").text(words[i]).click(moveWord));
+        $("#target-words").append(" ");
     }
 }
 
@@ -103,9 +104,11 @@ function moveWord(e){
         const $newWord= $("<span/>").addClass("word").text($(this).text()).click(moveWord);
         $newWord.data("original",$(this));
         $("#target-sentence").append($newWord);
+        $("#target-sentence").append(" ");
     } else { // move back to original position
         const $original=$(this).data("original");
         $original.removeClass("used").click(moveWord);
+        $(this).get(0).nextSibling.remove();  // remove text node (with a space) after
         $(this).remove();
     }
 }
@@ -133,7 +136,7 @@ function showExercise(){
     } else
         tgtTokens = tgtSent.split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
     showWords(tgtTokens.concat(sents["distractors"]))
-    return tgtTokens;
+    expectedTokens=tgtTokens;
 }
 
 // indicate as bad, span elements having element id as parent
@@ -186,10 +189,9 @@ function checkTranslation(e){
 //   set callback functions
 $(document).ready(function() {
     addLevels("fr",1);addLevels("en",1);
+    $("#levels-fr,#levels-en").on("change",showExercise)
     $("#check-en,#check-fr").click(checkTranslation);
-    $("#continue-en,#continue-fr").click(function(){
-        expectedTokens=showExercise();
-    }).hide()
+    $("#continue-en,#continue-fr").click(showExercise).hide()
     $("#changeLang").click(function(){setSrc(tgt)});
     $("#hide-show-explanation").click(function(){
         $("#explanation").toggle();

@@ -33,12 +33,15 @@ ul button {  /* small buttons that appear in the instructions */
     cursor:pointer;
     color:blue;
     border:thin solid blue;
-    margin: 2px;
     padding: 2px;
+    margin: 6px;
+    border-radius: 4px;
 }
 
-fieldset fieldset {
-    display: inline-block;
+#explanation {
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 20px;
 }
 
 .word{
@@ -79,11 +82,10 @@ fieldset fieldset {
 }
 
 footer {
-    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
-    text-align: center;
+    text-align: left;
     font-style: italic;
+    margin-top:60px;
   }
-  

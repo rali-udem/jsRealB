@@ -21,23 +21,23 @@ function load(lang){
 const dets = [["un","a"],["le","the"]]
 const persons = [1,2,3];
 const numbers = ["s","p"];
+const relatives = [["père","father"],["frère","brother"],["soeur","sister"],["tante","aunt"]];
 
 // adaptées de phrases tirées de https://lessuperprofs.jimdofree.com/1re-année/phrases-du-jour/
 const sentences = [// 0
-    {text:"Le livre est sur la table",
+    {text:"Le père nettoie une table",
      level:0,    
-     fr: (le,livre,la,table)=>
-             S(NP(D(le),N(livre)),
-               VP(V("être"),
-                  PP(P("sur"),NP(D(la),N(table))))),
-     en: (the,book,a,table)=>
-             S(NP(D(the),N(book)),
-               VP(V("be"),
-                  PP(P("on"),NP(D(a),N(table))))),
-     params:[dets,
-             [["livre","book"],["chandelle","candlestick"],["crayon","pen"]],
-             dets,
-             [["table","table"],["bureau","desk"]]]
+     fr: (garcon, nettoie,table)=>
+             S(NP(D("le"),N(garcon)),
+               VP(V(nettoie)),
+                  NP(D("un"),N(table))),
+     en: (father,clean,table)=>
+             S(NP(D("the"),N(father)),
+               VP(V(clean),
+                  NP(D("a"),N(table)))),
+     params:[relatives,
+             [["nettoyer","clean"],["préparer","set"],["laver","wash"]],
+             [["table","table"],["bureau","desk"],["comptoir","counter"]]],
     }, // 1
     {text: "Mon père voit huit moutons",
     level:1,
@@ -48,7 +48,7 @@ const sentences = [// 0
             S(NP(D("my").pe(pe),N(father)),
               VP(V(see),NP(NO(eight).nat(),N(sheep)))),
      params:[ persons,
-              [["père","father"],["frère","brother"],["soeur","sister"],["tante","aunt"]],
+              relatives,
               [["voir","see"],["appeler","call"],["vendre","sell"]],
               [[2,2],[3,3],[7,7]],
               [["veau","calf"],["vache","cow"],["cochon","pig"],["mouton","sheep"]]]
