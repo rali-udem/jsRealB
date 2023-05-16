@@ -1,8 +1,6 @@
 "use strict"
-// if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
-//     let {default:jsRealB} = await import("../../dist/jsRealB.js");
-//     Object.assign(globalThis,jsRealB);
-// }
+
+export {makeStructs,sentences,getIndices,tokenize,shuffle}
 
   // taken from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
 function shuffle(a) {
@@ -107,13 +105,13 @@ const sentences = [// 0
               NP(D("a"),N(word)),
               PP(P("in"),NP(D("the"),N(book)).n(nb)))),
      params:[pes,
-             [["aimer","love"],["détester","hate"],["désirer","want"]],
+             [["aimer","love"],["détester","hate"],["apprécier","enjoy"]],
              [["chercher","search"],["trouver","find"]],
-             [["mot","word"],["verbe","verb"],["expression","expression"]],
+             [["mot","word"],["verbe","verb"],["phrase","sentence"]],
              [["dictionnaire","dictionary"],["livre","book"]],
              numbers]
     }, // 5
-    {text:"Je vois vingt lutins coquins et vilains,sous le sapin.",
+    {text:"Je vois vingt lutins coquins et vilains, sous le sapin.",
      level:4,
      fr:(pe,voir,vingt,lutin,coquin,vilain,sapin)=>
         S(Pro("je").pe(pe),
@@ -139,46 +137,30 @@ const sentences = [// 0
          [["vilain","nasty"],["laid","ugly"],["beau","pretty"]],
          [["sapin","fir"],["arbre","tree"],["bouleau","birch"]],
      ]
-    },
-    // {text:"Je suis très heureux de pouvoir raconter mes histoires."},
+    }, // 6
+    {text:"Je suis heureux de raconter une histoire.",
+     level:3,
+     fr:(heureux,raconter,une,histoire)=>
+         S(Pro("je").pe(1),
+           VP(V("être"),heureux,
+               PP(P("de"),
+                   VP(V(raconter).t("b"),
+                      NP(D(une),N(histoire)))))),
+     en:(happy,tell,a,story)=>
+         S(Pro("I").pe(1),
+           VP(V("be"),happy,
+                VP(V(tell).t("b-to"),
+                      NP(D(a),N(story))))),
+     params:[
+        [[()=>A("heureux"),()=>A("happy")],[()=>A("enchanté"),()=>V("thrill").t("pp")]],
+        [["raconter","tell"],["expliquer","explain"]],
+        dets,
+        [["histoire","story"],["anecdote","anecdote"]],
+     ]},
     // {text:"Le petit chat a mal à la patte."},
     // {text:"Elle adore manger une pomme et regarder un film."},
 ]
 
-function sameForm(list){
-    if (list.length==0) return false;
-    const first=list[0];
-    if (Array.isArray(first)){
-        const firstType=typeof first[0];
-        return !list.some(e=>e.length!=2 || typeof e[0]!=firstType || typeof e[1]!=firstType)
-    } else {
-        const firstType=typeof first;
-        return !list.some(e=>typeof e != firstType)
-    }
-}
-
-function validateSentence(sent){
-    const text=sent.text;
-    const frF=sent.fr;
-    const nbParamsF=sent.fr.length;
-    const enF=sent.en;
-    const nbParamsE=sent.en.length;
-    if (nbParamsF!=nbParamsE){
-        console.log(text+": bad number of function arguments: fr:"+nbParamsF+" != "+nbParamsE);
-        return
-    }
-    const params=sent.params;
-    if (params.length!=nbParamsF){
-        console.log(text+": bad number of parameters:"+params.length+" != "+nbParamsF);
-        return;
-    }
-    for (let i=0; i<params.length;i++){
-        if (! sameForm(params[i])){
-            console.log(text+": parameter "+i+": bad format")
-            return;
-        }
-    }
-}
 
 //  get value of parameter and evaluate it in the appropriate language if it is a function
 function getParam(lang,val){
@@ -194,7 +176,7 @@ function makeStructs(src,tgt,level){
     //       and taking (shifting) the first indices of this list when needed either for a word or a distractor 
     const [srcIdx,tgtIdx] = src=="fr" ? [0,1] : [1,0]
     const s = oneOf(sentences.filter(s=>s.level<=level));  // select a sentence
-    // const s = sentences[4];   // useful for testing a single sentence
+    // const s = sentences[6];   // useful for testing a single sentence
     // build the list of parameters and distractors for the target language
     let params=[], distractors=[];
     for (let ps of s.params){
@@ -215,44 +197,10 @@ function makeStructs(src,tgt,level){
           }
         }          
     }
+    // create source and target structure
     load(src);
     const srcStruct = s[src].apply(null,params.map(e=>e[srcIdx]));
     load(tgt);
     const tgtStruct = s[tgt].apply(null,params.map(e=>e[tgtIdx]));
     return [srcStruct,tgtStruct,distractors]
 }
-
-if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
-    for (let sentence of sentences)
-      validateSentence(sentence);
-
-    function makeSentences(src,tgt,level){
-        const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
-        const n = oneOf("s","p");
-        const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
-        let res={};
-        [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
-        res[src].n(n).t(t[src]).typ(typ);
-        res[tgt].n(n).t(t[tgt]).typ(typ);
-        res.t = t[src];
-        res.n = n;
-        res.typ = typ;
-        return res;
-    }
-
-    function showSentences(src,tgt,level){
-        const sents=makeSentences(src,tgt,level);
-        let res=[];
-        load(src);
-        res.push(sents[src].realize());
-        load(tgt);
-        res.push(sents[tgt].realize());
-        res.push(sents["distractors"]);
-        console.log(level,sents.n,sents.t,sents.typ,":",res.join(" || "))
-    }
-
-    for (let i=0;i<20;i++){
-        showSentences("fr","en",oneOf(0,1,2,3,4));
-        showSentences("en","fr",oneOf(0,1,2,3,4));
-    }
- }

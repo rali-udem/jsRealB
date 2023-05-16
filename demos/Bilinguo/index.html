@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
         <script src="../../dist/jsRealB.js"></script>
-        <script src="Sentences.js"></script>
+        <script src="Sentences.js" type="module"></script>
         <script src="levenshtein.js"></script>
-        <script src="bilinguo.js"></script>
+        <script src="bilinguo.js" type="module"></script>
         <link rel="stylesheet" href="bilinguo.css">
     </head>
     <body>
@@ -36,6 +36,7 @@
                 Si ce n'est pas le cas, la <i>bonne</i> traduction est affichée. Les mots erronés sont indiqués en rouge dans la bonne réponse et/ou dans les mots originaux.</li>
                 <li>Cliquez sur <button>Continuer</button> pour faire apparaître une nouvelle phrase en anglais à traduire.</li>
             </ul>
+            <p lang="fr">Les phrases générées seront plus ou moins complexes en fonction de la valeur du menu <code>Niveau</code>.</p>
             <p lang="fr">Ces phrases simples sont générées au hasard à partir d'un vocabulaire réduit de mots fréquents et patrons
                 de phrases. Ceci peut expliquer que certaines phrases à traduire ne sont pas toujours <i>naturelles</i>. 
                 Ce sont des traductions littérales qui sont attendues. 
@@ -50,6 +51,7 @@
                     When there is mismatch, the <i>right</i> translation is displayed with errors shown in red in either or both the right translation or in the original words. </li>
                 <li>Click on <button>Continue</button> to display a new English sentence to translate.</li>
             </ul>
+            <p lang=""en>The generated sentences will be more or less complex according to the setting of the <code>Level</code> menu.</p>
             <p lang="en">These simple sentences are randomly generated with words from a few frequent words and sentence patterns. 
                 This explains why some sentences to translate are not always <i>colloquial</i>. The expected translations are literal ones.
             </p>

@@ -1,7 +1,4 @@
 "use strict";
-// load jsRealB symbols
-Object.assign(globalThis,jsRealB);
-
 //  Demo similar to a "game" proposed by Duolingo to translate a
 //  source sentence by clicking on words in the target language to build the translation.
 //  Not all words are selected because some "distractors" are added to make the exercise more challenging.
@@ -18,7 +15,11 @@ Object.assign(globalThis,jsRealB);
 //      Once a variant is selected for the source, it is applied to the target for building the expected sentence.
 //    
 
-// translation direction
+// load jsRealB symbols loaded via <script>
+Object.assign(globalThis,jsRealB);
+import {makeStructs,sentences,getIndices,tokenize,shuffle} from "./Sentences.js"
+
+// initial translation direction
 let src="en",tgt="fr";
 let expectedTokens;
 // scores
@@ -44,13 +45,14 @@ function setSrc(lang){
 }
 
 const levels = {
-    "fr":["simple","facile","compliqué","difficile","expert","diabolique"],
-    "en":["simple","easy","complicated","challenging","expert","devilish"]};
-const tenses = {
+    "fr":["simple","facile","compliqué",  "difficile",  "expert","diabolique"],
+    "en":["simple","easy",  "complicated","challenging","expert","devilish"],
+};
+const tenses = {    // by level for each language
     "fr":[["p"],["p","pc"],["p","pc","f"],["p","pc","f"],["p","ps","f"],["p","ps","f","c"]],
     "en":[["p"],["p","ps"],["p","ps","f"],["p","ps","f"],["p","ps","f"],["p","ps","f","c"]],
 }
-const variants = [
+const variants = [   // by level
      [{}],
      [{},{"neg":true}],
      [{},{"neg":true},{"mod":"poss"}],
@@ -117,19 +119,15 @@ function showExercise(){
     $("#check-"+src).show();
     // create source and target sentences
     const sents = makeSentences(src,tgt);
-    // realize source
     $("#source").text(sents[src].realize(src));
-    // realize target
     const tgtSent = sents[tgt].realize(tgt);
     // tokenize target sentence
-    let tgtTokens;
     if (tgtSent.endsWith("n'est-ce pas? ")){
-        tgtTokens=tokenize(tgtSent.slice(0,-"n'est-ce pas? ".length));
-        tgtTokens.push("n'est-ce pas?");
+        expectedTokens=tokenize(tgtSent.slice(0,-"n'est-ce pas? ".length));
+        expectedTokens.push("n'est-ce pas?");
     } else
-        tgtTokens = tokenize(tgtSent.trim());
-    showWords(tgtTokens.concat(sents["distractors"]))
-    expectedTokens=tgtTokens;
+        expectedTokens = tokenize(tgtSent.trim());
+    showWords(expectedTokens.concat(sents["distractors"]))
 }
 
 // indicate as bad, span elements having element id as parent

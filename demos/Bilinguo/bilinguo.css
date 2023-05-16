@@ -9,6 +9,10 @@
     word-wrap: break-word;
 }
 
+ #source {  /* to make sure that the explanation button is not in the way */
+    clear: right;
+}
+
 h1 {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
