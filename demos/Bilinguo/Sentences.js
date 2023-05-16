@@ -1,8 +1,8 @@
 "use strict"
-if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
-    let {default:jsRealB} = await import("../../dist/jsRealB.js");
-    Object.assign(globalThis,jsRealB);
-}
+// if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
+//     let {default:jsRealB} = await import("../../dist/jsRealB.js");
+//     Object.assign(globalThis,jsRealB);
+// }
 
   // taken from https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
 function shuffle(a) {
@@ -23,11 +23,6 @@ function getIndices(list){
 // Tokens with only spaces are removed
 function tokenize(s){
     return s.split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0)
-}
-
-// call the appropriate jsReal load functions
-function load(lang){
-    if (lang=="en") loadEn(); else loadFr();
 }
 
 const dets = [["un","a"],["le","the"]]
@@ -227,9 +222,7 @@ function makeStructs(src,tgt,level){
     return [srcStruct,tgtStruct,distractors]
 }
 
-if (isRunningUnderNode){
-    // let {default:jsRealB} = await import("../../dist/jsRealB.js");
-    // Object.assign(globalThis,jsRealB);
+if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
     for (let sentence of sentences)
       validateSentence(sentence);
 

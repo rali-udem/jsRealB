@@ -18,10 +18,23 @@ export {Constituent,
         Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         Phrase,S,NP,AP,VP,AdvP,PP,CP,SP,
         Dependent,root, subj, det, mod, comp, coord,
-        loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
+        loadFr,loadEn,load,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
         exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, testWarnings,
         fromJSON,ppJSON,
         oneOf, False, True, None, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode}
+
+/**
+ * Set current language
+ * @param {string} lang must be "en" or "fr"
+ * @param {boolean?} trace if given and true, write message on the console
+ * This function is defined here instead of being in Lexicon.js to be able to call warn(...)
+ */
+function load(lang,trace=false){
+    if (lang=="fr") loadFr(trace)
+    else if (lang=="en") loadEn(trace)
+    else
+        Q(lang).warn("bad language",lang)
+}
 
 /**
  * Select a random element in a list useful to have some variety in the generated text

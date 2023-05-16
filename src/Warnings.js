@@ -251,6 +251,12 @@ Constituent.warnings = {
          fr:(lemma,ending)=> // erreur de numéro de table dans le lexique: $lemma devrait terminer par $ending
             S(NP(N("erreur"),P("de"),N("numéro"),P("de"),N("table"),P("dans"),NP(D("le"),N("lexique"))).a(":"),
               SP(Q(lemma),VP(V("terminer"),PP(P("par"),Q(ending)))).typ({neg:true}))},
+    "bad language":
+        {en:(lang) => // language must be "en" or "fr", not $lang
+             S(NP(N("language")),VP(V("be"),CP(C("or"),Q('"en"'),Q('"fr"')).a(","),AdvP(Adv("not"),Q(lang).en('"')))).typ({mod:"obli"}),
+         fr:(lang) => // langage doit être "en" ou "fr", non $lang
+             S(NP(N("langage")),VP(V("être"),CP(C("ou"),Q('"en"'),Q('"fr"')).a(","),Q("non"),Q(lang).en('"'))).typ({mod:"obli"}),
+        },
     "ignored reflexive":
         {en:(pat)=> // cannot be reflexive, only $pat
             S(VP(V("be"),A("reflexive")).typ({"mod":"poss","neg":true}),Adv("only"),makeDisj("or",pat)),
@@ -266,8 +272,8 @@ Constituent.warnings = {
               VP(V("devoir").t("cp"),V("être").t("b"),Q(expected)),
               SP(C("mais"),Q(found),V("être").t("pc"),V("rencontrer").t("pp")))},
     "user-warning":  // user specific message, either a String or a Constituent that will be realized
-        {en:(mess)=>Q(mess.toString()),
-         fr:(mess)=>Q(mess.toString())},
+        {en:(mess)=>mess instanceof Constituent ? Q(mess.realize()) : Q(mess.toString()),
+         fr:(mess)=>mess instanceof Constituent ? Q(mess.realize()) : Q(mess.toString())},
 }
 
 /**

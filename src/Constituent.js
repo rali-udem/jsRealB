@@ -627,9 +627,11 @@ class Constituent {
 
     /**
      * This seemingly simple function is in fact the start of the whole realization process
+     * @param if set to "en" or "fr", loads the language before the realization
      * @returns string from a list of realization fields in the list of terminal
      */
-    realize(){
+    realize(lang){
+        if (lang !== undefined)load(lang);
         const terminals=this.real(); 
         return this.detokenize(terminals);
     }

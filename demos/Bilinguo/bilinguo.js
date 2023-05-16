@@ -118,18 +118,16 @@ function showExercise(){
     // create source and target sentences
     const sents = makeSentences(src,tgt);
     // realize source
-    load(src);
-    $("#source").text(sents[src].realize());
+    $("#source").text(sents[src].realize(src));
     // realize target
-    load(tgt);
-    const tgtSent = sents[tgt].realize();
+    const tgtSent = sents[tgt].realize(tgt);
     // tokenize target sentence
     let tgtTokens;
     if (tgtSent.endsWith("n'est-ce pas? ")){
         tgtTokens=tokenize(tgtSent.slice(0,-"n'est-ce pas? ".length));
         tgtTokens.push("n'est-ce pas?");
     } else
-        tgtTokens = tokenize(tgtSent);
+        tgtTokens = tokenize(tgtSent.trim());
     showWords(tgtTokens.concat(sents["distractors"]))
     expectedTokens=tgtTokens;
 }
