@@ -1,5 +1,4 @@
 "use strict";
-
 // load jsRealB symbols
 Object.assign(globalThis,jsRealB);
 
@@ -11,7 +10,6 @@ Object.assign(globalThis,jsRealB);
 
 //  Source sentences are built by selecting randomly from a small list of lemmata
 //  of nouns, pronouns, adjectives and verbs. 
-//  All sentences are of the form: S(NP(...),VP(V(..),NP(...)))  [NP(...) can be also be Pro(...)]
 
 //  Some jsRealB bilingual features are featured:
 //    - random selection of lemma, tense, number, person (for pronoun) using oneOf(...)
@@ -72,9 +70,6 @@ function addLevels(lang,selected){
 
 function makeSentences(src,tgt){
     const n = oneOf("s","p");
-    // get values of selected exercises from the checkboxes (defaulting to present and affirmative)
-    // let t     = oneOf($(`span[lang=${src}] .tense:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || "p";
-    // const typ = oneOf($(`span[lang=${src}] .typ:checked`).map((i,e)=>JSON.parse($(e).val())).get()) || {};
     const level=+$(`#levels-${src}`).val();
     const tIdx = oneOf(getIndices(tenses[src][level]));
     const typ = oneOf(variants[level])
@@ -131,10 +126,10 @@ function showExercise(){
     // tokenize target sentence
     let tgtTokens;
     if (tgtSent.endsWith("n'est-ce pas? ")){
-        tgtTokens=tgtSent.slice(0,-"n'est-ce pas? ".length).split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
+        tgtTokens=tokenize(tgtSent.slice(0,-"n'est-ce pas? ".length));
         tgtTokens.push("n'est-ce pas?");
     } else
-        tgtTokens = tgtSent.split(/([^a-zA-Zà-üÀ-Ü]+)/).filter(e=>e.trim().length>0);
+        tgtTokens = tokenize(tgtSent);
     showWords(tgtTokens.concat(sents["distractors"]))
     expectedTokens=tgtTokens;
 }

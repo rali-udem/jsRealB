@@ -816,13 +816,7 @@ class Phrase extends Constituent{
                 let [idx,vpElems]=this.getIdxCtx("VP","V");
                 if (idx!==undefined && !["pp","pr","b-to"].includes(this.getProp("t"))){ // do not move when tense is participle)
                     const v=vpElems[0].parentConst.removeElement(0);// remove first V
-                    // check if V is followed by a negation, if so move it also
-                    if (vpElems.length>0 && vpElems[0].isA("Adv") && vpElems[0].lemma=="not"){
-                        const not=vpElems[0].parentConst.removeElement(0)
-                        this.addElement(v,0).addElement(not,1)
-                    } else {
-                        this.addElement(v,0)
-                    }
+                    this.addElement(v,0)
                 }
             }
         } 
