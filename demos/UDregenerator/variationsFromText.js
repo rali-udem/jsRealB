@@ -115,7 +115,6 @@ function generateQuestion(jsr,ansJSR,typ,index){
         question.setProp("typ",currTyp)
     }
     if (showTrees){
-        console.log(jsr.toSource(0));
         console.log(question.toSource(0));
         console.log(ansJSR.toSource(0));
     }
@@ -131,7 +130,6 @@ function generateNegation(jsr){
         !(typ!==undefined && typ["neg"]!==undefined && typ["neg"]!==false)){
         const negation=jsr.clone().typ({neg:true});
         if (showTrees){
-            console.log(jsr.toSource(0));
             console.log(negation.toSource(0));
         }
         console.log(fmt,"neg ",clean(negation.realize()));
@@ -214,7 +212,8 @@ function generate(conlluFile){
         }
         const jsRealBexpr=jsr;       // :: string à évaluer
         console.log(fmt, "TEXT",clean(jsRealBexpr.clone().realize()));
-        // console.log(jsRealBexpr.toSource(0));
+        if (showTrees)
+            console.log(jsRealBexpr.toSource(0));
         if (jsr.terminal.isA("V")){ // ignore sentence whose root is not a verb
             if (questions) generateQuestions(jsr);
             if (negation)  generateNegation(jsr);
@@ -230,7 +229,7 @@ function generate(conlluFile){
         }
         console.log("");
     });    
-    console.log(language=="en"?"%d UD dependencies processed":"%d UD dépendences traitées",uds.length)
+    console.log(language=="en"?"%d UD dependencies processed":"%d UD dépendances traitées",uds.length)
     if (questions) console.log("%d questions",nbQuestions);
     if (negation) console.log("%d negations",nbNegations);
 }
@@ -244,7 +243,7 @@ function processing(){
             // create conllu file
             const __filename = fileURLToPath(import.meta.url);
             const __dirname = path.dirname(__filename);
-            const child = spawn(`${__dirname}/text2ud.py`,[language, fileName],{"stdio":"inherit"})
+            const child = spawn(`${__dirname}/text2ud-new.py`,[language, fileName],{"stdio":"inherit"})
             child.on("exit",function(code,signal){
                 if (code==0){
                     console.error("*** Wrote  %s",conlluFileName);
