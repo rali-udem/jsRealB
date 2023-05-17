@@ -252,7 +252,10 @@ function parseUDs(groupVal,fileName){
 function getFile(){
     let file = d3.select("#file-input").node().files[0];
     if (file!==undefined){
-        // let fileName=file.name
+        if (!file.name.endsWith(".conllu")){
+            window.alert('File name "'+ file.name+'" does not end with ".conllu"');
+            return;
+        }
         d3.select("#fileName").text(file.name);
         // read the local file
     	let reader = new FileReader();
@@ -484,7 +487,7 @@ function UDgrepLoad(){
       fileInput.files = e.dataTransfer.files;
       let file = fileInput.files[0];
       if (file!==undefined){
-          d3.select("#fileName").text(file.name);
+        //   d3.select("#fileName").text(file.name);
           getFile()
       }
     });

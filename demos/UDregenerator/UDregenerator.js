@@ -147,6 +147,13 @@ function getFile(){
     let file = d3.select("#file-input").node().files[0];
     if (file!==undefined){
         currentFile=file.name
+        if (!currentFile.endsWith(".conllu")){
+            if (language=="en")
+                window.alert('File name "'+ currentFile+'" does not end with ".conllu"');
+            else
+                window.alert('Le nom de fichier "'+currentFile+'" ne termine pas par ".conllu"')
+            return;
+        }
         d3.select("#fileName").text(file.name);
         // read the local file
     	let reader = new FileReader();
@@ -449,7 +456,7 @@ function UDregeneratorLoad(lang,initUD,addNewWords){
       fileInput.files = e.dataTransfer.files;
       let file = fileInput.files[0];
       if (file!==undefined){
-          d3.select("#fileName").text(file.name);
+        //   d3.select("#fileName").text(file.name);
           getFile()
       }
     });
