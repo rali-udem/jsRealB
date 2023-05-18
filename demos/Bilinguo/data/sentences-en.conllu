@@ -1,0 +1,297 @@
+# text = I like playing ball.
+# sent_id = 1
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	like	like	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	playing	play	VERB	VBG	VerbForm=Ger	2	xcomp	_	start_char=7|end_char=14
+4	ball	ball	NOUN	NN	Number=Sing	3	obj	_	start_char=15|end_char=19
+5	.	.	PUNCT	.	_	2	punct	_	start_char=19|end_char=20
+
+# text = My cat is black and white.
+# sent_id = 2
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	nmod:poss	_	start_char=0|end_char=2
+2	cat	cat	NOUN	NN	Number=Sing	4	nsubj	_	start_char=3|end_char=6
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	start_char=7|end_char=9
+4	black	black	ADJ	JJ	Degree=Pos	0	root	_	start_char=10|end_char=15
+5	and	and	CCONJ	CC	_	6	cc	_	start_char=16|end_char=19
+6	white	white	ADJ	JJ	Degree=Pos	4	conj	_	start_char=20|end_char=25
+7	.	.	PUNCT	.	_	4	punct	_	start_char=25|end_char=26
+
+# text = I eat apples every day.
+# sent_id = 3
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	eat	eat	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=5
+3	apples	apple	NOUN	NNS	Number=Plur	2	obj	_	start_char=6|end_char=12
+4	every	every	DET	DT	_	5	det	_	start_char=13|end_char=18
+5	day	day	NOUN	NN	Number=Sing	2	obl:tmod	_	start_char=19|end_char=22
+6	.	.	PUNCT	.	_	2	punct	_	start_char=22|end_char=23
+
+# text = It is nice weather today.
+# sent_id = 4
+1	It	it	PRON	PRP	Case=Nom|Gender=Neut|Number=Sing|Person=3|PronType=Prs	4	nsubj	_	start_char=0|end_char=2
+2	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	start_char=3|end_char=5
+3	nice	nice	ADJ	JJ	Degree=Pos	4	amod	_	start_char=6|end_char=10
+4	weather	weather	NOUN	NN	Number=Sing	0	root	_	start_char=11|end_char=18
+5	today	today	NOUN	NN	Number=Sing	4	obl:tmod	_	start_char=19|end_char=24
+6	.	.	PUNCT	.	_	4	punct	_	start_char=24|end_char=25
+
+# text = I have a big sister.
+# sent_id = 5
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	have	have	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	start_char=7|end_char=8
+4	big	big	ADJ	JJ	Degree=Pos	5	amod	_	start_char=9|end_char=12
+5	sister	sister	NOUN	NN	Number=Sing	2	obj	_	start_char=13|end_char=19
+6	.	.	PUNCT	.	_	2	punct	_	start_char=19|end_char=20
+
+# text = My favourite book is Harry Potter.
+# sent_id = 6
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	3	nmod:poss	_	start_char=0|end_char=2
+2	favourite	favourite	ADJ	JJ	Degree=Pos	3	amod	_	start_char=3|end_char=12
+3	book	book	NOUN	NN	Number=Sing	5	nsubj	_	start_char=13|end_char=17
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	start_char=18|end_char=20
+5	Harry	Harry	PROPN	NNP	Number=Sing	0	root	_	start_char=21|end_char=26
+6	Potter	Potter	PROPN	NNP	Number=Sing	5	flat	_	start_char=27|end_char=33
+7	.	.	PUNCT	.	_	5	punct	_	start_char=33|end_char=34
+
+# text = I am happy to go to school.
+# sent_id = 7
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=1
+2	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=2|end_char=4
+3	happy	happy	ADJ	JJ	Degree=Pos	0	root	_	start_char=5|end_char=10
+4	to	to	PART	TO	_	5	mark	_	start_char=11|end_char=13
+5	go	go	VERB	VB	VerbForm=Inf	3	xcomp	_	start_char=14|end_char=16
+6	to	to	ADP	IN	_	7	case	_	start_char=17|end_char=19
+7	school	school	NOUN	NN	Number=Sing	5	obl	_	start_char=20|end_char=26
+8	.	.	PUNCT	.	_	3	punct	_	start_char=26|end_char=27
+
+# text = My father works in an office.
+# sent_id = 8
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	nmod:poss	_	start_char=0|end_char=2
+2	father	father	NOUN	NN	Number=Sing	3	nsubj	_	start_char=3|end_char=9
+3	works	work	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=10|end_char=15
+4	in	in	ADP	IN	_	6	case	_	start_char=16|end_char=18
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	start_char=19|end_char=21
+6	office	office	NOUN	NN	Number=Sing	3	obl	_	start_char=22|end_char=28
+7	.	.	PUNCT	.	_	3	punct	_	start_char=28|end_char=29
+
+# text = My mother works very well.
+# sent_id = 9
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	nmod:poss	_	start_char=0|end_char=2
+2	mother	mother	NOUN	NN	Number=Sing	3	nsubj	_	start_char=3|end_char=9
+3	works	work	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=10|end_char=15
+4	very	very	ADV	RB	_	5	advmod	_	start_char=16|end_char=20
+5	well	well	ADV	RB	Degree=Pos	3	advmod	_	start_char=21|end_char=25
+6	.	.	PUNCT	.	_	3	punct	_	start_char=25|end_char=26
+
+# text = I am going to bed now.
+# sent_id = 10
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=1
+2	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	aux	_	start_char=2|end_char=4
+3	going	go	VERB	VBG	Tense=Pres|VerbForm=Part	0	root	_	start_char=5|end_char=10
+4	to	to	PART	TO	_	5	mark	_	start_char=11|end_char=13
+5	bed	bed	VERB	VB	VerbForm=Inf	3	xcomp	_	start_char=14|end_char=17
+6	now	now	ADV	RB	_	5	advmod	_	start_char=18|end_char=21
+7	.	.	PUNCT	.	_	3	punct	_	start_char=21|end_char=22
+
+# text = I went to the beach yesterday.
+# sent_id = 11
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	went	go	VERB	VBD	Mood=Ind|Number=Sing|Person=1|Tense=Past|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	ADP	IN	_	5	case	_	start_char=7|end_char=9
+4	the	the	DET	DT	Definite=Def|PronType=Art	5	det	_	start_char=10|end_char=13
+5	beach	beach	NOUN	NN	Number=Sing	2	obl	_	start_char=14|end_char=19
+6	yesterday	yesterday	NOUN	NN	Number=Sing	2	obl:tmod	_	start_char=20|end_char=29
+7	.	.	PUNCT	.	_	2	punct	_	start_char=29|end_char=30
+
+# text = My dog’s name is Max.
+# sent_id = 12
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	nmod:poss	_	start_char=0|end_char=2
+2	dog	dog	NOUN	NN	Number=Sing	4	nmod:poss	_	start_char=3|end_char=6
+3	’s	's	PART	POS	_	2	case	_	start_char=6|end_char=8
+4	name	name	NOUN	NN	Number=Sing	6	nsubj	_	start_char=9|end_char=13
+5	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	start_char=14|end_char=16
+6	Max	Max	PROPN	NNP	Number=Sing	0	root	_	start_char=17|end_char=20
+7	.	.	PUNCT	.	_	6	punct	_	start_char=20|end_char=21
+
+# text = I like eating french fries.
+# sent_id = 13
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	like	like	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	eating	eat	VERB	VBG	VerbForm=Ger	2	xcomp	_	start_char=7|end_char=13
+4	french	French	ADJ	JJ	Degree=Pos	5	amod	_	start_char=14|end_char=20
+5	fries	fry	NOUN	NNS	Number=Plur	3	obj	_	start_char=21|end_char=26
+6	.	.	PUNCT	.	_	2	punct	_	start_char=26|end_char=27
+
+# text = There’s a rainbow in the sky.
+# sent_id = 14
+1	There	there	PRON	EX	_	2	expl	_	start_char=0|end_char=5
+2	’s	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=5|end_char=7
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	start_char=8|end_char=9
+4	rainbow	rainbow	NOUN	NN	Number=Sing	2	nsubj	_	start_char=10|end_char=17
+5	in	in	ADP	IN	_	7	case	_	start_char=18|end_char=20
+6	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	start_char=21|end_char=24
+7	sky	sky	NOUN	NN	Number=Sing	2	obl	_	start_char=25|end_char=28
+8	.	.	PUNCT	.	_	2	punct	_	start_char=28|end_char=29
+
+# text = My birthday is in June.
+# sent_id = 15
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	2	nmod:poss	_	start_char=0|end_char=2
+2	birthday	birthday	NOUN	NN	Number=Sing	5	nsubj	_	start_char=3|end_char=11
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	start_char=12|end_char=14
+4	in	in	ADP	IN	_	5	case	_	start_char=15|end_char=17
+5	June	June	PROPN	NNP	Number=Sing	0	root	_	start_char=18|end_char=22
+6	.	.	PUNCT	.	_	5	punct	_	start_char=22|end_char=23
+
+# text = I am tired today.
+# sent_id = 16
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=1
+2	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=2|end_char=4
+3	tired	tired	ADJ	JJ	Degree=Pos	0	root	_	start_char=5|end_char=10
+4	today	today	NOUN	NN	Number=Sing	3	obl:tmod	_	start_char=11|end_char=16
+5	.	.	PUNCT	.	_	3	punct	_	start_char=16|end_char=17
+
+# text = I like drawing flowers.
+# sent_id = 17
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	like	like	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	drawing	draw	VERB	VBG	VerbForm=Ger	2	xcomp	_	start_char=7|end_char=14
+4	flowers	flower	NOUN	NNS	Number=Plur	3	obj	_	start_char=15|end_char=22
+5	.	.	PUNCT	.	_	2	punct	_	start_char=22|end_char=23
+
+# text = My favourite show is Peppa Pig.
+# sent_id = 18
+1	My	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	3	nmod:poss	_	start_char=0|end_char=2
+2	favourite	favourite	ADJ	JJ	Degree=Pos	3	amod	_	start_char=3|end_char=12
+3	show	show	NOUN	NN	Number=Sing	6	nsubj	_	start_char=13|end_char=17
+4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	6	cop	_	start_char=18|end_char=20
+5	Peppa	Peppa	PROPN	NNP	Number=Sing	6	compound	_	start_char=21|end_char=26
+6	Pig	pig	NOUN	NN	Number=Sing	0	root	_	start_char=27|end_char=30
+7	.	.	PUNCT	.	_	6	punct	_	start_char=30|end_char=31
+
+# text = I want to become an astronaut when I grow up.
+# sent_id = 19
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	want	want	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	PART	TO	_	4	mark	_	start_char=7|end_char=9
+4	become	become	VERB	VB	VerbForm=Inf	2	xcomp	_	start_char=10|end_char=16
+5	an	a	DET	DT	Definite=Ind|PronType=Art	6	det	_	start_char=17|end_char=19
+6	astronaut	astronaut	NOUN	NN	Number=Sing	4	xcomp	_	start_char=20|end_char=29
+7	when	when	ADV	WRB	PronType=Int	9	advmod	_	start_char=30|end_char=34
+8	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	9	nsubj	_	start_char=35|end_char=36
+9	grow	grow	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	4	advcl	_	start_char=37|end_char=41
+10	up	up	ADP	RP	_	9	compound:prt	_	start_char=42|end_char=44
+11	.	.	PUNCT	.	_	2	punct	_	start_char=44|end_char=45
+
+# text = I am happy when I am with my friends.
+# sent_id = 20
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=1
+2	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=2|end_char=4
+3	happy	happy	ADJ	JJ	Degree=Pos	0	root	_	start_char=5|end_char=10
+4	when	when	ADV	WRB	PronType=Int	9	advmod	_	start_char=11|end_char=15
+5	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	9	nsubj	_	start_char=16|end_char=17
+6	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	9	cop	_	start_char=18|end_char=20
+7	with	with	ADP	IN	_	9	case	_	start_char=21|end_char=25
+8	my	my	PRON	PRP$	Case=Gen|Number=Sing|Person=1|Poss=Yes|PronType=Prs	9	nmod:poss	_	start_char=26|end_char=28
+9	friends	friend	NOUN	NNS	Number=Plur	3	advcl	_	start_char=29|end_char=36
+10	.	.	PUNCT	.	_	3	punct	_	start_char=36|end_char=37
+
+# text = I am pleased to meet you.
+# sent_id = 21
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=1
+2	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=2|end_char=4
+3	pleased	pleased	ADJ	JJ	Degree=Pos	0	root	_	start_char=5|end_char=12
+4	to	to	PART	TO	_	5	mark	_	start_char=13|end_char=15
+5	meet	meet	VERB	VB	VerbForm=Inf	3	xcomp	_	start_char=16|end_char=20
+6	you	you	PRON	PRP	Case=Acc|Person=2|PronType=Prs	5	obj	_	start_char=21|end_char=24
+7	.	.	PUNCT	.	_	3	punct	_	start_char=24|end_char=25
+
+# text = I like to watch action movies.
+# sent_id = 22
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	like	like	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	PART	TO	_	4	mark	_	start_char=7|end_char=9
+4	watch	watch	VERB	VB	VerbForm=Inf	2	xcomp	_	start_char=10|end_char=15
+5	action	action	NOUN	NN	Number=Sing	6	compound	_	start_char=16|end_char=22
+6	movies	movie	NOUN	NNS	Number=Plur	4	obj	_	start_char=23|end_char=29
+7	.	.	PUNCT	.	_	2	punct	_	start_char=29|end_char=30
+
+# text = I want to travel abroad.
+# sent_id = 23
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	want	want	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	PART	TO	_	4	mark	_	start_char=7|end_char=9
+4	travel	travel	VERB	VB	VerbForm=Inf	2	xcomp	_	start_char=10|end_char=16
+5	abroad	abroad	ADV	RB	_	4	advmod	_	start_char=17|end_char=23
+6	.	.	PUNCT	.	_	2	punct	_	start_char=23|end_char=24
+
+# text = I have a big family.
+# sent_id = 24
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	have	have	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	start_char=7|end_char=8
+4	big	big	ADJ	JJ	Degree=Pos	5	amod	_	start_char=9|end_char=12
+5	family	family	NOUN	NN	Number=Sing	2	obj	_	start_char=13|end_char=19
+6	.	.	PUNCT	.	_	2	punct	_	start_char=19|end_char=20
+
+# text = I like to read science fiction books.
+# sent_id = 25
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	like	like	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	PART	TO	_	4	mark	_	start_char=7|end_char=9
+4	read	read	VERB	VB	VerbForm=Inf	2	xcomp	_	start_char=10|end_char=14
+5	science	science	NOUN	NN	Number=Sing	6	compound	_	start_char=15|end_char=22
+6	fiction	fiction	NOUN	NN	Number=Sing	7	compound	_	start_char=23|end_char=30
+7	books	book	NOUN	NNS	Number=Plur	4	obj	_	start_char=31|end_char=36
+8	.	.	PUNCT	.	_	2	punct	_	start_char=36|end_char=37
+
+# text = I am passionate about music.
+# sent_id = 26
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=1
+2	am	be	AUX	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=2|end_char=4
+3	passionate	passionate	ADJ	JJ	Degree=Pos	0	root	_	start_char=5|end_char=15
+4	about	about	ADP	IN	_	5	case	_	start_char=16|end_char=21
+5	music	music	NOUN	NN	Number=Sing	3	obl	_	start_char=22|end_char=27
+6	.	.	PUNCT	.	_	3	punct	_	start_char=27|end_char=28
+
+# text = I like to do outdoor sports.
+# sent_id = 27
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	like	like	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	PART	TO	_	4	mark	_	start_char=7|end_char=9
+4	do	do	VERB	VB	VerbForm=Inf	2	xcomp	_	start_char=10|end_char=12
+5	outdoor	outdoor	ADJ	JJ	Degree=Pos	6	amod	_	start_char=13|end_char=20
+6	sports	sport	NOUN	NNS	Number=Plur	4	obj	_	start_char=21|end_char=27
+7	.	.	PUNCT	.	_	2	punct	_	start_char=27|end_char=28
+
+# text = I was born in the summer.
+# sent_id = 28
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	3	nsubj:pass	_	start_char=0|end_char=1
+2	was	be	AUX	VBD	Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	3	aux:pass	_	start_char=2|end_char=5
+3	born	bear	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	start_char=6|end_char=10
+4	in	in	ADP	IN	_	6	case	_	start_char=11|end_char=13
+5	the	the	DET	DT	Definite=Def|PronType=Art	6	det	_	start_char=14|end_char=17
+6	summer	summer	NOUN	NN	Number=Sing	3	obl	_	start_char=18|end_char=24
+7	.	.	PUNCT	.	_	3	punct	_	start_char=24|end_char=25
+
+# text = I have a brother and a sister.
+# sent_id = 29
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	have	have	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	a	a	DET	DT	Definite=Ind|PronType=Art	4	det	_	start_char=7|end_char=8
+4	brother	brother	NOUN	NN	Number=Sing	2	obj	_	start_char=9|end_char=16
+5	and	and	CCONJ	CC	_	7	cc	_	start_char=17|end_char=20
+6	a	a	DET	DT	Definite=Ind|PronType=Art	7	det	_	start_char=21|end_char=22
+7	sister	sister	NOUN	NN	Number=Sing	4	conj	_	start_char=23|end_char=29
+8	.	.	PUNCT	.	_	2	punct	_	start_char=29|end_char=30
+
+# text = I want to learn how to cook.
+# sent_id = 30
+1	I	I	PRON	PRP	Case=Nom|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=1
+2	want	want	VERB	VBP	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	to	to	PART	TO	_	4	mark	_	start_char=7|end_char=9
+4	learn	learn	VERB	VB	VerbForm=Inf	2	xcomp	_	start_char=10|end_char=15
+5	how	how	ADV	WRB	PronType=Int	4	obj	_	start_char=16|end_char=19
+6	to	to	PART	TO	_	7	mark	_	start_char=20|end_char=22
+7	cook	cook	VERB	VB	VerbForm=Inf	5	acl	_	start_char=23|end_char=27
+8	.	.	PUNCT	.	_	2	punct	_	start_char=27|end_char=28
+

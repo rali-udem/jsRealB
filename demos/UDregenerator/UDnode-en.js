@@ -18,7 +18,7 @@ UDnode.prototype.toTerminal = function(){
             let pro=Pro(tpTable[udLemma]).c("nom")
             if (udLemma=="i"||udLemma=="I")pro.pe(1)
             return pro
-        }
+        } 
         return Pro(udLemma);
     }
 
@@ -36,6 +36,9 @@ UDnode.prototype.toTerminal = function(){
             let pro=Pro(ppTable[udLemma]).c("gen")
             if (udLemma=="mine")pro.pe(1);
             return pro
+        } else if (udLemma=="my") {
+            // strangely UD tags this determiner as a pronoun...
+            return D("my");
         }
     }
 

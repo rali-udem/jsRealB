@@ -1,0 +1,310 @@
+# text = J’aime jouer au ballon.
+# sent_id = 1
+1	J’	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	aime	aimer	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	jouer	jouer	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=7|end_char=12
+4-5	au	_	_	_	_	_	_	_	start_char=13|end_char=15
+4	à	à	ADP	_	_	6	case	_	_
+5	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	6	det	_	_
+6	ballon	ballon	NOUN	_	Gender=Masc|Number=Sing	3	obl:arg	_	start_char=16|end_char=22
+7	.	.	PUNCT	_	_	2	punct	_	start_char=22|end_char=23
+
+# text = Mon chat est noir et blanc.
+# sent_id = 2
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	chat	chat	NOUN	_	Gender=Masc|Number=Sing	4	nsubj	_	start_char=4|end_char=8
+3	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	start_char=9|end_char=12
+4	noir	noir	ADJ	_	Gender=Masc|Number=Sing	0	root	_	start_char=13|end_char=17
+5	et	et	CCONJ	_	_	6	cc	_	start_char=18|end_char=20
+6	blanc	blanc	ADJ	_	Gender=Masc|Number=Sing	4	conj	_	start_char=21|end_char=26
+7	.	.	PUNCT	_	_	4	punct	_	start_char=26|end_char=27
+
+# text = Je mange des pommes tous les jours.
+# sent_id = 3
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	mange	manger	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=3|end_char=8
+3-4	des	_	_	_	_	_	_	_	start_char=9|end_char=12
+3	de	de	ADP	_	_	5	case	_	_
+4	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	5	det	_	_
+5	pommes	pomme	NOUN	_	Gender=Fem|Number=Plur	2	obj	_	start_char=13|end_char=19
+6	tous	tout	ADJ	_	Gender=Masc|Number=Plur	8	amod	_	start_char=20|end_char=24
+7	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	8	det	_	start_char=25|end_char=28
+8	jours	jour	NOUN	_	Gender=Masc|Number=Plur	2	obl:mod	_	start_char=29|end_char=34
+9	.	.	PUNCT	_	_	2	punct	_	start_char=34|end_char=35
+
+# text = Il fait beau aujourd’hui.
+# sent_id = 4
+1	Il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	fait	faire	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=3|end_char=7
+3	beau	beau	ADJ	_	Gender=Masc|Number=Sing	2	xcomp	_	start_char=8|end_char=12
+4	aujourd’hui	aujourd'hui	ADV	_	_	2	advmod	_	start_char=13|end_char=24
+5	.	.	PUNCT	_	_	2	punct	_	start_char=24|end_char=25
+
+# text = J’ai une grande soeur.
+# sent_id = 5
+1	J’	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	ai	avoir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=4
+3	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	5	det	_	start_char=5|end_char=8
+4	grande	grand	ADJ	_	Gender=Fem|Number=Sing	5	amod	_	start_char=9|end_char=15
+5	soeur	sœur	NOUN	_	Gender=Fem|Number=Sing	2	obj	_	start_char=16|end_char=21
+6	.	.	PUNCT	_	_	2	punct	_	start_char=21|end_char=22
+
+# text = Mon livre préféré est Harry Potter.
+# sent_id = 6
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	livre	livre	NOUN	_	Gender=Masc|Number=Sing	5	nsubj	_	start_char=4|end_char=9
+3	préféré	préféré	ADJ	_	Gender=Masc|Number=Sing	2	amod	_	start_char=10|end_char=17
+4	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	start_char=18|end_char=21
+5	Harry	Harry	PROPN	_	_	0	root	_	start_char=22|end_char=27
+6	Potter	Potter	PROPN	_	_	5	flat:name	_	start_char=28|end_char=34
+7	.	.	PUNCT	_	_	5	punct	_	start_char=34|end_char=35
+
+# text = Je suis content d’aller à l’école.
+# sent_id = 7
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=3|end_char=7
+3	content	content	ADJ	_	Gender=Masc|Number=Sing	0	root	_	start_char=8|end_char=15
+4	d’	de	ADP	_	_	5	mark	_	start_char=16|end_char=18
+5	aller	aller	VERB	_	VerbForm=Inf	3	xcomp	_	start_char=18|end_char=23
+6	à	à	ADP	_	_	8	case	_	start_char=24|end_char=25
+7	l’	le	DET	_	Definite=Def|Number=Sing|PronType=Art	8	det	_	start_char=26|end_char=28
+8	école	école	NOUN	_	Gender=Fem|Number=Sing	5	obl:arg	_	start_char=28|end_char=33
+9	.	.	PUNCT	_	_	3	punct	_	start_char=33|end_char=34
+
+# text = Mon père travaille dans un bureau.
+# sent_id = 8
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	père	père	NOUN	_	Gender=Masc|Number=Sing	3	nsubj	_	start_char=4|end_char=8
+3	travaille	travailler	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=9|end_char=18
+4	dans	dans	ADP	_	_	6	case	_	start_char=19|end_char=23
+5	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	6	det	_	start_char=24|end_char=26
+6	bureau	bureau	NOUN	_	Gender=Masc|Number=Sing	3	obl:mod	_	start_char=27|end_char=33
+7	.	.	PUNCT	_	_	3	punct	_	start_char=33|end_char=34
+
+# text = Ma mère travaille très bien.
+# sent_id = 9
+1	Ma	son	DET	_	Gender=Fem|Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=2
+2	mère	mère	NOUN	_	Gender=Fem|Number=Sing	3	nsubj	_	start_char=3|end_char=7
+3	travaille	travailler	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=8|end_char=17
+4	très	très	ADV	_	_	5	advmod	_	start_char=18|end_char=22
+5	bien	bien	ADV	_	_	3	advmod	_	start_char=23|end_char=27
+6	.	.	PUNCT	_	_	3	punct	_	start_char=27|end_char=28
+
+# text = Je vais me coucher maintenant.
+# sent_id = 10
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	vais	aller	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=3|end_char=7
+3	me	se	PRON	_	Number=Sing|Person=1|PronType=Prs|Reflex=Yes	4	obj	_	start_char=8|end_char=10
+4	coucher	coucher	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=11|end_char=18
+5	maintenant	maintenant	ADV	_	_	4	advmod	_	start_char=19|end_char=29
+6	.	.	PUNCT	_	_	2	punct	_	start_char=29|end_char=30
+
+# text = Je suis allé à la plage hier.
+# sent_id = 11
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	aux:tense	_	start_char=3|end_char=7
+3	allé	aller	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=8|end_char=12
+4	à	à	ADP	_	_	6	case	_	start_char=13|end_char=14
+5	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	start_char=15|end_char=17
+6	plage	plage	NOUN	_	Gender=Fem|Number=Sing	3	obl:arg	_	start_char=18|end_char=23
+7	hier	hier	ADV	_	_	3	advmod	_	start_char=24|end_char=28
+8	.	.	PUNCT	_	_	3	punct	_	start_char=28|end_char=29
+
+# text = Mon chien s’appelle Max.
+# sent_id = 12
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	chien	chien	NOUN	_	Gender=Masc|Number=Sing	4	nsubj	_	start_char=4|end_char=9
+3	s’	se	PRON	_	Person=3|PronType=Prs|Reflex=Yes	4	expl:pv	_	start_char=10|end_char=12
+4	appelle	appeler	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=12|end_char=19
+5	Max	Max	PROPN	_	_	4	xcomp	_	start_char=20|end_char=23
+6	.	.	PUNCT	_	_	4	punct	_	start_char=23|end_char=24
+
+# text = J’aime manger des frites.
+# sent_id = 13
+1	J’	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	aime	aimer	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	manger	manger	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=7|end_char=13
+4	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	5	det	_	start_char=14|end_char=17
+5	frites	frite	NOUN	_	Gender=Fem|Number=Plur	3	obj	_	start_char=18|end_char=24
+6	.	.	PUNCT	_	_	2	punct	_	start_char=24|end_char=25
+
+# text = Il y a un arc-en-ciel dans le ciel.
+# sent_id = 14
+1	Il	il	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	expl:subj	_	start_char=0|end_char=2
+2	y	y	PRON	_	Person=3|PronType=Prs	3	expl	_	start_char=3|end_char=4
+3	a	avoir	VERB	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=5|end_char=6
+4	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	5	det	_	start_char=7|end_char=9
+5	arc-en-ciel	arc-en-ciel	NOUN	_	Gender=Masc|Number=Sing	3	obj	_	start_char=10|end_char=21
+6	dans	dans	ADP	_	_	8	case	_	start_char=22|end_char=26
+7	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	8	det	_	start_char=27|end_char=29
+8	ciel	ciel	NOUN	_	Gender=Masc|Number=Sing	3	obl:mod	_	start_char=30|end_char=34
+9	.	.	PUNCT	_	_	3	punct	_	start_char=34|end_char=35
+
+# text = Mon anniversaire est en juin.
+# sent_id = 15
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	anniversaire	anniversaire	NOUN	_	Gender=Masc|Number=Sing	5	nsubj	_	start_char=4|end_char=16
+3	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=17|end_char=20
+4	en	en	ADP	_	_	5	case	_	start_char=21|end_char=23
+5	juin	juin	NOUN	_	Gender=Masc|Number=Sing	3	obl:arg	_	start_char=24|end_char=28
+6	.	.	PUNCT	_	_	5	punct	_	start_char=28|end_char=29
+
+# text = Je suis fatigué aujourd’hui.
+# sent_id = 16
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj:pass	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	aux:pass	_	start_char=3|end_char=7
+3	fatigué	fatiguer	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=8|end_char=15
+4	aujourd’hui	aujourd'hui	ADV	_	_	3	advmod	_	start_char=16|end_char=27
+5	.	.	PUNCT	_	_	3	punct	_	start_char=27|end_char=28
+
+# text = J’aime dessiner des fleurs.
+# sent_id = 17
+1	J’	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	aime	aimer	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	dessiner	dessiner	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=7|end_char=15
+4	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	5	det	_	start_char=16|end_char=19
+5	fleurs	fleur	NOUN	_	Gender=Fem|Number=Plur	3	obj	_	start_char=20|end_char=26
+6	.	.	PUNCT	_	_	2	punct	_	start_char=26|end_char=27
+
+# text = Mon émission préférée est Peppa Pig.
+# sent_id = 18
+1	Mon	son	DET	_	Number=Sing|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	2	det	_	start_char=0|end_char=3
+2	émission	émission	NOUN	_	Gender=Fem|Number=Sing	5	nsubj	_	start_char=4|end_char=12
+3	préférée	préféré	ADJ	_	Gender=Fem|Number=Sing	2	amod	_	start_char=13|end_char=21
+4	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	start_char=22|end_char=25
+5	Peppa	Peppa	PROPN	_	_	0	root	_	start_char=26|end_char=31
+6	Pig	Pig	PROPN	_	_	5	flat:name	_	start_char=32|end_char=35
+7	.	.	PUNCT	_	_	5	punct	_	start_char=35|end_char=36
+
+# text = Je veux devenir un astronaute quand je serai grand.
+# sent_id = 19
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	veux	vouloir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=3|end_char=7
+3	devenir	devenir	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=8|end_char=15
+4	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	5	det	_	start_char=16|end_char=18
+5	astronaute	astronaute	NOUN	_	Gender=Masc|Number=Sing	3	xcomp	_	start_char=19|end_char=29
+6	quand	quand	SCONJ	_	_	9	mark	_	start_char=30|end_char=35
+7	je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	9	nsubj	_	start_char=36|end_char=38
+8	serai	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	9	cop	_	start_char=39|end_char=44
+9	grand	grand	ADJ	_	Gender=Masc|Number=Sing	3	advcl	_	start_char=45|end_char=50
+10	.	.	PUNCT	_	_	2	punct	_	start_char=50|end_char=51
+
+# text = Je suis heureux quand je suis avec mes amis.
+# sent_id = 20
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=3|end_char=7
+3	heureux	heureux	ADJ	_	Gender=Masc	0	root	_	start_char=8|end_char=15
+4	quand	quand	SCONJ	_	_	6	mark	_	start_char=16|end_char=21
+5	je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	6	nsubj	_	start_char=22|end_char=24
+6	suis	être	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	advcl	_	start_char=25|end_char=29
+7	avec	avec	ADP	_	_	9	case	_	start_char=30|end_char=34
+8	mes	son	DET	_	Number=Plur|Number[psor]=Sing|Person[psor]=1|Poss=Yes|PronType=Prs	9	det	_	start_char=35|end_char=38
+9	amis	ami	NOUN	_	Gender=Masc|Number=Plur	6	obl:arg	_	start_char=39|end_char=43
+10	.	.	PUNCT	_	_	3	punct	_	start_char=43|end_char=44
+
+# text = Je suis content de vous rencontrer.
+# sent_id = 21
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	cop	_	start_char=3|end_char=7
+3	content	content	ADJ	_	Gender=Masc|Number=Sing	0	root	_	start_char=8|end_char=15
+4	de	de	ADP	_	_	6	mark	_	start_char=16|end_char=18
+5	vous	il	PRON	_	Number=Plur|Person=2|PronType=Prs	6	obj	_	start_char=19|end_char=23
+6	rencontrer	rencontrer	VERB	_	VerbForm=Inf	3	xcomp	_	start_char=24|end_char=34
+7	.	.	PUNCT	_	_	3	punct	_	start_char=34|end_char=35
+
+# text = J'aime regarder des films d'action.
+# sent_id = 22
+1	J'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	aime	aimer	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	regarder	regarder	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=7|end_char=15
+4	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	5	det	_	start_char=16|end_char=19
+5	films	film	NOUN	_	Gender=Masc|Number=Plur	3	obj	_	start_char=20|end_char=25
+6	d'	de	ADP	_	_	7	case	_	start_char=26|end_char=28
+7	action	action	NOUN	_	Gender=Fem|Number=Sing	5	nmod	_	start_char=28|end_char=34
+8	.	.	PUNCT	_	_	2	punct	_	start_char=34|end_char=35
+
+# text = Je veux voyager à l'étranger.
+# sent_id = 23
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	veux	vouloir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=3|end_char=7
+3	voyager	voyager	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=8|end_char=15
+4	à	à	ADP	_	_	6	case	_	start_char=16|end_char=17
+5	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	6	det	_	start_char=18|end_char=20
+6	étranger	étranger	NOUN	_	Gender=Masc|Number=Sing	3	obl:mod	_	start_char=20|end_char=28
+7	.	.	PUNCT	_	_	2	punct	_	start_char=28|end_char=29
+
+# text = J'ai une grande famille.
+# sent_id = 24
+1	J'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	ai	avoir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=4
+3	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	5	det	_	start_char=5|end_char=8
+4	grande	grand	ADJ	_	Gender=Fem|Number=Sing	5	amod	_	start_char=9|end_char=15
+5	famille	famille	NOUN	_	Gender=Fem|Number=Sing	2	obj	_	start_char=16|end_char=23
+6	.	.	PUNCT	_	_	2	punct	_	start_char=23|end_char=24
+
+# text = J'aime lire des livres de science-fiction.
+# sent_id = 25
+1	J'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	aime	aimer	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	lire	lire	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=7|end_char=11
+4-5	des	_	_	_	_	_	_	_	start_char=12|end_char=15
+4	de	de	ADP	_	_	6	case	_	_
+5	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	6	det	_	_
+6	livres	livre	NOUN	_	Gender=Masc|Number=Plur	3	obl:arg	_	start_char=16|end_char=22
+7	de	de	ADP	_	_	8	case	_	start_char=23|end_char=25
+8	science-fiction	science-fiction	NOUN	_	Gender=Fem|Number=Sing	6	nmod	_	start_char=26|end_char=41
+9	.	.	PUNCT	_	_	2	punct	_	start_char=41|end_char=42
+
+# text = Je suis passionné par la musique.
+# sent_id = 26
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj:pass	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	aux:pass	_	start_char=3|end_char=7
+3	passionné	passionner	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=8|end_char=17
+4	par	par	ADP	_	_	6	case	_	start_char=18|end_char=21
+5	la	le	DET	_	Definite=Def|Gender=Fem|Number=Sing|PronType=Art	6	det	_	start_char=22|end_char=24
+6	musique	musique	NOUN	_	Gender=Fem|Number=Sing	3	obl:agent	_	start_char=25|end_char=32
+7	.	.	PUNCT	_	_	3	punct	_	start_char=32|end_char=33
+
+# text = J'aime faire du sport en plein air.
+# sent_id = 27
+1	J'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	aime	aimer	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=6
+3	faire	faire	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=7|end_char=12
+4-5	du	_	_	_	_	_	_	_	start_char=13|end_char=15
+4	de	de	ADP	_	_	6	det	_	_
+5	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	4	fixed	_	_
+6	sport	sport	NOUN	_	Gender=Masc|Number=Sing	3	obj	_	start_char=16|end_char=21
+7	en	en	ADP	_	_	9	case	_	start_char=22|end_char=24
+8	plein	plein	ADJ	_	Gender=Masc|Number=Sing	9	amod	_	start_char=25|end_char=30
+9	air	air	NOUN	_	Gender=Masc|Number=Sing	3	obl:mod	_	start_char=31|end_char=34
+10	.	.	PUNCT	_	_	2	punct	_	start_char=34|end_char=35
+
+# text = Je suis né en été.
+# sent_id = 28
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	3	nsubj	_	start_char=0|end_char=2
+2	suis	être	AUX	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	3	aux:tense	_	start_char=3|end_char=7
+3	né	naître	VERB	_	Gender=Masc|Number=Sing|Tense=Past|VerbForm=Part	0	root	_	start_char=8|end_char=10
+4	en	en	ADP	_	_	5	case	_	start_char=11|end_char=13
+5	été	été	NOUN	_	Gender=Masc|Number=Sing	3	obl:arg	_	start_char=14|end_char=17
+6	.	.	PUNCT	_	_	3	punct	_	start_char=17|end_char=18
+
+# text = J'ai un frère et une soeur.
+# sent_id = 29
+1	J'	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	ai	avoir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=2|end_char=4
+3	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	4	det	_	start_char=5|end_char=7
+4	frère	frère	NOUN	_	Gender=Masc|Number=Sing	2	obj	_	start_char=8|end_char=13
+5	et	et	CCONJ	_	_	7	cc	_	start_char=14|end_char=16
+6	une	un	DET	_	Definite=Ind|Gender=Fem|Number=Sing|PronType=Art	7	det	_	start_char=17|end_char=20
+7	soeur	sœur	NOUN	_	Gender=Fem|Number=Sing	4	conj	_	start_char=21|end_char=26
+8	.	.	PUNCT	_	_	2	punct	_	start_char=26|end_char=27
+
+# text = Je veux apprendre à cuisiner.
+# sent_id = 30
+1	Je	il	PRON	_	Number=Sing|Person=1|PronType=Prs	2	nsubj	_	start_char=0|end_char=2
+2	veux	vouloir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	start_char=3|end_char=7
+3	apprendre	apprendre	VERB	_	VerbForm=Inf	2	xcomp	_	start_char=8|end_char=17
+4	à	à	ADP	_	_	5	mark	_	start_char=18|end_char=19
+5	cuisiner	cuisiner	VERB	_	VerbForm=Inf	3	xcomp	_	start_char=20|end_char=28
+6	.	.	PUNCT	_	_	2	punct	_	start_char=28|end_char=29
+

@@ -360,12 +360,6 @@ class UDnode {
     childrenDeps(head, isLeft, isSUD) {
         const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
         let dep = new Dependent([head], deprel);
-        if (isLeft !== null) { // isLeft is null when processing a coordination that should be left as is
-            if (isLeft && ["mod", "comp"].includes(deprel)) 
-                dep.pos("pre");
-            if (!isLeft && ["det", "subj"].indexOf(deprel))
-                dep.pos("post");
-        }
         if (this.left.length > 0) {
             const first = this.left[0];
             if (first.getDeprel() == "punct") { // add first punct as option b()
@@ -381,6 +375,13 @@ class UDnode {
                 this.right.pop();
             }
             this.right.forEach(n => dep.add(n.toDependent(false, isSUD), undefined, true));
+        }
+        if (isLeft !== null && this.left.length==0 && this.right.length==0) { // check pos for terminals only
+            // isLeft is null when processing a coordination that should be left as is
+            if (isLeft && ["mod", "comp"].includes(deprel)) 
+                dep.pos("pre");
+            if (!isLeft && ["det", "subj"].indexOf(deprel))
+                dep.pos("post");
         }
         return dep;
     }
