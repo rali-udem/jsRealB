@@ -18,10 +18,10 @@ export {Constituent,
         Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         Phrase,S,NP,AP,VP,AdvP,PP,CP,SP,
         Dependent,root, subj, det, mod, comp, coord,
-        loadFr,loadEn,load,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
+        loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
         exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, testWarnings,
         fromJSON,ppJSON,
-        oneOf, False, True, None, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode}
+        load,oneOf, False, True, None, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode}
 
 /**
  * Set current language

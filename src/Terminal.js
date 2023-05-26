@@ -140,8 +140,15 @@ class Terminal extends Constituent{
                 this.lemma=this.value=lemma=0
             }
             if (lemmaType == "string"){
+                let lexInfo=getLexicon(this.lang)[lemma];
+                if (lexInfo !== undefined && lexInfo.value){ 
+                    // a number written in letters is given its "value" as lemma if it exists in the lexicon
+                    this.lemma=this.value=lexInfo.value
+                    this.props["dOpt"]={nat:true};
+                    this.addOptSource("nat",true);
+                    break;
+                } else if (!/^[-+]?[0-9]+([., ][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
                 // check if this looks like a legal number...
-                if (!/^[-+]?[0-9]+([., ][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
                     this.warn("bad parameter","number",lemmaType);
                     this.lemma=this.value=0;
                 } else {

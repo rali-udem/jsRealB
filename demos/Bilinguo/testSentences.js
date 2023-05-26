@@ -46,30 +46,30 @@ for (let sentence of sentences)
     validateSentence(sentence);
 
 function makeSentences(src,tgt,level){
-  const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
-  const n = oneOf("s","p");
-  const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
-  let res={};
-  [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
-  res[src].n(n).t(t[src]).typ(typ);
-  res[tgt].n(n).t(t[tgt]).typ(typ);
-  res.t = t[src];
-  res.n = n;
-  res.typ = typ;
-  return res;
+    const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
+    const n = oneOf("s","p");
+    const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
+    let res={};
+    [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
+    res[src].n(n).t(t[src]).typ(typ);
+    res[tgt].n(n).t(t[tgt]).typ(typ);
+    res.t = t[src];
+    res.n = n;
+    res.typ = typ;
+    return res;
 }
 
 function showSentences(src,tgt,level){
-  const sents=makeSentences(src,tgt,level);
-  let res=[];
-  res.push(sents[src].realize(src));
-  res.push(sents[tgt].realize(tgt));
-  res.push(sents["distractors"]);
-  console.log(level,sents.n,sents.t.padEnd(2),JSON.stringify(sents.typ).padEnd(15),":",res.join(" || "))
+    const sents=makeSentences(src,tgt,level);
+    let res=[];
+    res.push(sents[src].realize(src));
+    res.push(sents[tgt].realize(tgt));
+    res.push(sents["distractors"]);
+    console.log(level,sents.n,sents.t.padEnd(2),JSON.stringify(sents.typ).padEnd(15),":",res.join(" || "))
 }
 
 for (let i=0;i<20;i++){
-  showSentences("fr","en",oneOf(0,1,2,3,4));
-  showSentences("en","fr",oneOf(0,1,2,3,4));
+  showSentences("fr","en",oneOf(1,2,3,4));
+  showSentences("en","fr",oneOf(1,2,3,4));
 }
 

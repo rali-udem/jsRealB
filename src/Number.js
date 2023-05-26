@@ -138,7 +138,7 @@ function enToutesLettres(s,lang){
 
     // traiter un nombre entre 0 et 999
     function centaines(ns){ // ns est une chaine d'au plus trois chiffres
-        if(trace)console.log("centaines:"+ns);
+        // if(trace)console.log("centaines:"+ns);
         if(ns.length==1)return unites(ns);
         if(ns.length==2)return dizaines(ns);
         const c=ns[0];        // centaines
@@ -155,7 +155,7 @@ function enToutesLettres(s,lang){
 
     // traiter un nombre entre 10 et 99
     function dizaines(ns){// ns est une chaine de deux chiffres
-        if(trace)console.log("dizaines:",ns);
+        // if(trace)console.log("dizaines:",ns);
         const d=ns[0]; // dizaines
         const u=ns[1]; // unités
         switch  (d){
@@ -170,7 +170,7 @@ function enToutesLettres(s,lang){
                 return tens + (u=="1" ? (en?"-one":" et un"): ("-"+unites(u)));
             case "7":
                 if(u==0) return en?"seventy":"soixante-dix"
-                return en?("seventy-"+unites(u)):("soixante-"+dizaines("1"+u));
+                return en?("seventy-"+unites(u)):("soixante"+(u==1?" et ":"-")+dizaines("1"+u));
             case "8":
                 if(u==0) return en?"eighty":"quatre-vingts";
                 return (en?"eighty-":"quatre-vingt-")+unites(u);
