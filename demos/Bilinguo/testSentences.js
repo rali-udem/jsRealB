@@ -47,14 +47,12 @@ for (let sentence of sentences)
 
 function makeSentences(src,tgt,level){
     const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
-    const n = oneOf("s","p");
     const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
     let res={};
     [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
-    res[src].n(n).t(t[src]).typ(typ);
-    res[tgt].n(n).t(t[tgt]).typ(typ);
+    res[src].t(t[src]).typ(typ);
+    res[tgt].t(t[tgt]).typ(typ);
     res.t = t[src];
-    res.n = n;
     res.typ = typ;
     return res;
 }
@@ -65,7 +63,7 @@ function showSentences(src,tgt,level){
     res.push(sents[src].realize(src));
     res.push(sents[tgt].realize(tgt));
     res.push(sents["distractors"]);
-    console.log(level,sents.n,sents.t.padEnd(2),JSON.stringify(sents.typ).padEnd(15),":",res.join(" || "))
+    console.log(level,sents.t.padEnd(2),JSON.stringify(sents.typ).padEnd(15),":",res.join(" || "))
 }
 
 for (let i=0;i<20;i++){

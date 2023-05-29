@@ -1,9 +1,14 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
         {
             "name": "Launch current js",
             "program": "${file}",
@@ -13,13 +18,13 @@
             ],
             "type": "node"
         },
-        { // launch with http-server -c-1
-        "type": "chrome",
-        "name": "Launch current HTML",
-        "request": "launch",
-        "webRoot": "${workspaceFolder}",
-        "url": "http://127.0.0.1:8080/${relativeFile}",
-        },    
+        {
+            "type": "chrome",
+            "name": "Launch current HTML",
+            "request": "launch",
+            "webRoot": "${workspaceFolder}",
+            "url": "http://127.0.0.1:8080/${relativeFile}"
+        },
         {
             "name": "Launch tests-dev.js",
             "program": "${workspaceFolder}/tests-dev.js",
@@ -30,7 +35,7 @@
             "type": "node",
             "outputCapture": "std"
         },
-        { // launch with http-server -c-1
+        {
             "type": "chrome",
             "name": "Tests/testAll.html",
             "request": "launch",
@@ -39,7 +44,10 @@
         {
             "name": "variationsFromText",
             "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
-            "args": ["-q","/Users/lapalme/Desktop/pip_sentences_file-1000.conllu"],
+            "args": [
+                "-q",
+                "/Users/lapalme/Desktop/pip_sentences_file-1000.conllu"
+            ],
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
@@ -60,7 +68,7 @@
             ],
             "outputCapture": "std"
         },
-        {  // launch with http-server -c-1
+        {
             "type": "chrome",
             "name": "web-dev.html",
             "request": "launch",

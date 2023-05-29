@@ -58,7 +58,8 @@ const variants = [   // by level
      [{},{"neg":true},{"mod":"poss"}],
      [{},{"neg":true},{"mod":"poss"},{"int":"yon"}],
      [{},{"neg":true},{"mod":"poss"},{"int":"yon"},{"int":"tag"},{"prog":true}],
-     [{"neg":true,"pas":true,"mod":"poss","int":"yon","prog":true}],
+     [{"neg":true,"mod":"poss","int":"yon"},
+      {"neg":true,"prog":true,"int":"tag"}],
 ]
 
 function addLevels(lang,selected){
