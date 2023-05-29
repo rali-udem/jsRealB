@@ -6,11 +6,11 @@ We describe how `jsRealB` was used used to build a [web application that propose
 
 The following figure shows a typical exercice in which an English source sentence is displayed with a list of French tokens to be put in the right order to form the translation of the original sentence; the expected translation is «*La vieille fille n'est pas arrivée avec une carotte*». Not all tokens are necessary for the translation.  When the user clicks on a French token, it is added at the end of the next line. Clicking a token in the translation puts it back where it appeared originally. Given the fact that important aspects of the sentences are chosen randomly, their semantics, or even their interest, is sometimes dubious.
 
-<img src="/Users/lapalme/Documents/GitHub/jsRealB/demos/Bilinguo/images/Bilinguo-1.png" style="border:thin solid black"/>
+<img src="./images/Bilinguo-1.png" style="border:thin solid black"/>
 
 When the user considers that the translation is complete,  the `Check` button is clicked. As shown in the following figure, the system compares the list of tokens with the expected ones. If both lists are identical, then a `Bravo` is displayed, otherwise the differences are highlighted in red. The system  also keeps track of the number of right answers, but currently these values are not saved and there is no *leaderboard*, this being left as a future work. Clicking on the `Continue` button, displays another sentence to translate.
 
-<img src="/Users/lapalme/Documents/GitHub/jsRealB/demos/Bilinguo/images/Bilinguo-2.jpg" style="border:thin solid black"/>
+<img src="./images/Bilinguo-2.jpg" style="border:thin solid black"/>
 
 Implementing this system with a list of canned sentences is relatively straightforward, but in our case we decided to take advantage of the bilingual sentence realizer `jsRealB` to create random parallel variations of the source and target sentences. In this way, many different exercises can be obtained from a single sentence pair example with word, tense and sentence structure variations. 
 
@@ -107,7 +107,7 @@ After writing by hand a few parallel `jsRealB` expressions, we decided to stream
 
 As Stanza is written in Python, we developed a Python program that uses Stanza for parsing French and English affirmative sentences at the present tense to produces dependency structures such as these:
 
-​                <img src="/Users/lapalme/Documents/GitHub/jsRealB/demos/Bilinguo/images/Dependencies.jpg" style="zoom:33%;" />          <img src="/Users/lapalme/Documents/GitHub/jsRealB/demos/Bilinguo/images/Dependances.jpg" style="zoom:33%;" />
+​                <img src="./images/Dependencies.jpg" style="zoom:33%;" />          <img src="./images/Dependances.jpg" style="zoom:33%;" />
 
 These dependencies are then transformed into the dependency format expected by `jsRealB` . This is mostly a matter of changing relation names, part-of-speech tags and token features. To check the resulting dependency structure,  [pyrealb](https://pypi.org/project/pyrealb/) is used in Python for realization as it uses the same notation as `jsRealB`.
 
