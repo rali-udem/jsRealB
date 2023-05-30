@@ -107,7 +107,7 @@ After writing by hand a few parallel `jsRealB` expressions, we decided to stream
 
 As Stanza is written in Python, we developed a Python program that uses Stanza for parsing French and English affirmative sentences at the present tense to produces dependency structures such as these:
 
-​                <img src="./images/Dependencies.jpg" style="zoom:33%;" />          <img src="./images/Dependances.jpg" style="zoom:33%;" />
+​                <img src="./images/Dependencies.jpg" style="width:33%;" />          <img src="./images/Dependances.jpg" style="width:33%;" />
 
 These dependencies are then transformed into the dependency format expected by `jsRealB` . This is mostly a matter of changing relation names, part-of-speech tags and token features. To check the resulting dependency structure,  [pyrealb](https://pypi.org/project/pyrealb/) is used in Python for realization as it uses the same notation as `jsRealB`.
 
