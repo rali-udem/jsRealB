@@ -6,15 +6,13 @@
 #     - create a file in the format expected by Bilinguo
 #     - The resulting file can then be hand edited for tuning the parameterization
 
-#  The input file (ending in "-en-fr.txt") consists of groups of lines separated by an empty line
+#  The input file (ending in "-fr-en.txt") consists of groups of lines separated by an empty line
 #     - level of "difficulty" of this sentence
-#     - English sentence
 #     - French sentence
-#     - lines of parameters as English-French comma separed word pairs (pairs are separated by semicolons)
+#     - English sentence
+#     - lines of parameters as French-English comma separed word pairs (pairs are separated by semicolons)
 #     - the words in the first pair must be specified exactly as they appear in the sentence (not their lemma)
-#       the others are alternative that should be given as lemmata
-#  If the name of the file ends in "-fr-en.txt" then the French line appears first, and the French word
-#  is the first one in each pair
+#       the words in the other pairs are alternative that should be given as LEMMATA
 
 # CAUTION:
 #   - Only isolated words can be specified as parameters
@@ -150,6 +148,7 @@ def makeTerminal(w, env):
             else:
                 opts += option("c", "nom")
     elif termType == "D" and lemma == "son":
+        lemma="mon"
         opts += ".pe(pe).n(n)"
     elif termType == "V":
         if "VerbForm" in feats:
@@ -223,11 +222,7 @@ def show_infos(id, level, text, TEXT, en_params, en, fr_params, fr, params):
 
 
 def makeSentences(infileN):
-    if infileN.endswith("-en-fr.txt"):
-        src = "en"
-    elif infileN.endswith("-fr-en.txt"):
-        src = "fr"
-    else:
+    if not infileN.endswith("-fr-en.txt"):
         print("bad file name:", infileN)
         return
 
@@ -242,42 +237,38 @@ def makeSentences(infileN):
 
     for (id, lines) in enumerate(sentences, 1):
         if len(lines)<=1: break
-        [level, en, fr, *params] = lines.split("\n")
+        [level, fr, en, *params] = lines.split("\n")
         en = en.strip()
         fr = fr.strip()
         # create list of parameters
         pairs = []
         for param in params:
-            pairs.append([p.strip().split(",") for p in param.strip().split(";")])
-        if src == "fr":
-            (fr, en) = (en, fr)
-            frI = 0
-            enI = 1
-        else:
-            frI = 1
-            enI = 0
-
-        print(level,en)  # process English sentence
-        loadEn()
-        en_env = dict(env)
-        if len(pairs) > 0:
-            en_env.update({p[0][enI]: p[0][enI] for p in pairs})
-        en_jsr = text2jsrDep(nlp_en, en, en_env, id, conlluFile)
-        en_text = eval(en_jsr, None, en_env).realize()
-        # patch first pairs to put its lemma that has been updated in the en_env
-        for i in range(0, len(pairs)):
-            pairs[i][0][enI] = en_env[pairs[i][0][enI]]
+            param=param.replace(" ","")
+            if len(param)==0:break
+            pairs.append([p.split(",") for p in param.split(";")])
 
         print(level,fr)  # process French sentence
         loadFr()
         fr_env = dict(env)
         if len(pairs) > 0:
-            fr_env.update({p[0][frI]: p[frI] for p in pairs})
+            fr_env.update({p[0][0]: p[0] for p in pairs})
         fr_jsr = text2jsrDep(nlp_fr, fr, fr_env, id, conlluFile)
         fr_text = eval(fr_jsr, None, fr_env).realize()
         # patch first pairs to put its lemma that has been updated in the fr_env
         for i in range(0, len(pairs)):
-            pairs[i][0][frI] = fr_env[pairs[i][0][frI]]
+            pairs[i][0][0] = fr_env[pairs[i][0][0]]
+
+        print(level,en)  # process English sentence
+        loadEn()
+        en_env = dict(env)
+        if len(pairs) > 0:
+            en_env.update({p[0][1]: p[0][1] for p in pairs})
+        en_jsr = text2jsrDep(nlp_en, en, en_env, id, conlluFile)
+        en_text = eval(en_jsr, None, en_env).realize()
+        # patch first pairs to put its lemma that has been updated in the en_env
+        for i in range(0, len(pairs)):
+            pairs[i][0][1] = en_env[pairs[i][0][1]]
+
         # write the combined results
         outFile.write(
             show_infos(id, level,

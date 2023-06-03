@@ -159,6 +159,10 @@ Because the parameters are strings, only single lemmata can be changed. This lim
 
 This document has shown how `jsRealB` was used to build translation drill exercises by taking advantage of the one its most interesting features, the modification of a basic sentence structure by means of parameters and options for both English and French thus creating sentences that are literal translation of each other. It is thus possible to build a wide variety of different parallel sentences from a single pair of example.
 
+#### Acknowledgement
+
+Thanks to Fabrizio Gotti for his interesting suggestions during the development of this application.
+
 #### Contact [Guy Lapalme](mailto:lapalme@iro.umontreal.ca)
 
 [Link to the web application](http://rali.iro.umontreal.ca/JSrealB/current/demos/Bilinguo/index.html)

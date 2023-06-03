@@ -45,11 +45,11 @@ function validateSentence(sent){
 for (let sentence of sentences)
     validateSentence(sentence);
 
-function makeSentences(src,tgt,level){
+function makeSentences(sent,src,tgt){
     const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
     const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
     let res={};
-    [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
+    [res[src],res[tgt],res["distractors"]]=makeStructs(sent,src,tgt);
     res[src].t(t[src]).typ(typ);
     res[tgt].t(t[tgt]).typ(typ);
     res.t = t[src];
@@ -57,17 +57,17 @@ function makeSentences(src,tgt,level){
     return res;
 }
 
-function showSentences(src,tgt,level){
-    const sents=makeSentences(src,tgt,level);
+function showSentences(sent,src,tgt){
+    const sents=makeSentences(sent,src,tgt);
     let res=[];
     res.push(sents[src].realize(src));
     res.push(sents[tgt].realize(tgt));
     res.push(sents["distractors"]);
-    console.log(level,sents.t.padEnd(2),JSON.stringify(sents.typ).padEnd(15),":",res.join(" || "))
+    console.log(sent["id"].toString().padEnd(5),sents.t.padEnd(2),JSON.stringify(sents.typ).padEnd(15),":",res.join(" || "))
 }
 
-for (let i=0;i<20;i++){
-  showSentences("fr","en",oneOf(1,2,3,4));
-  showSentences("en","fr",oneOf(1,2,3,4));
+for (let sent of sentences){
+  showSentences(sent,"fr","en");
+  showSentences(sent,"en","fr");
 }
 

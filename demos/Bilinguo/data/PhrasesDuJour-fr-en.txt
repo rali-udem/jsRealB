@@ -1,21 +1,21 @@
 1
-La jolie femme arrive avec une carotte.
-The pretty woman comes with a carrot.
+La jolie femme arrive avec une cadeau.
+The pretty woman comes with a gift.
 jolie,pretty ; jeune,young; vieux,old
 femme,woman ; homme,man; fille,girl; garçon,boy
-carotte,carrot; tomate,tomato; pomme,apple; poire,pear
+cadeau,gift; chapeau,hat; valise,trunk; pomme,apple
 
 2
 Le coq chante à chaque jour dans la cour.
 The rooster crows every day in the yard.
 coq,rooster ; poule,hen  ; chanteur,singer
 chante,crows ; courir,run 
-cour,yard ; ferme,barn
+cour,yard ; ferme,barn ; maison,house
 
 1
 Ma mère reçoit une pomme en cadeau.
 My mother receives an apple as a gift.
-mère,mother ; grand-mère,grandmother ; grand-père,grandfather ; père,father
+mère,mother ; neveu,nephew; tante,aunt ; père,father
 pomme,apple; poire,pear ; ananas,pineapple ; prune,plum
 
 1
@@ -32,4 +32,3 @@ Mon bébé pleure quelques fois lorsque je quitte la maison.
 My baby sometimes cries when I leave the house.
 bébé, baby ; enfant, child ; garçon, boy ; fille, girl
 pleure, cries ; chanter, single
-

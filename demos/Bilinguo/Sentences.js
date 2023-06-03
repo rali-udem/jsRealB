@@ -1,7 +1,5 @@
 "use strict"
-import {sentences} from "./data/PhrasesDuJour-fr-en.js"
-// import {sentences} from "./data/gen-en-fr.js"
-// import {tests as sentences} from "./data/tests-en-fr.js"
+import {sentences} from "./data/AllSentences.js"
 
 export {makeStructs,sentences,getIndices,tokenize,shuffle}
 
@@ -34,15 +32,15 @@ function getParam(lang,val){
     return val;
 }
 
-function makeStructs(src,tgt,level){
-    // HACK: the word selection is done by shuffling a new list of indices (so that the corresponding src and tgt words are selected)
+
+function makeStructs(sent, src,tgt){
+  // for a given sentence sent, generate an exercise with the given source and target languages
+  // HACK: the word selection is done by shuffling a new list of indices (so that the corresponding src and tgt words are selected)
     //       and taking (shifting) the first indices of this list when needed either for a word or a distractor 
     const [srcIdx,tgtIdx] = src=="fr" ? [0,1] : [1,0]
-    const s = oneOf(sentences.filter(s=>s.level===undefined || s.level<=level));  // select a sentence
-    // const s = sentences[6];   // useful for testing a single sentence
     // build the list of parameters and distractors for the target language
     let params=[], distractors=[];
-    for (let ps of s.params){
+    for (let ps of sent.params){
         if (!Array.isArray(ps[0]))ps=ps.map(e=>[e,e]); // src and tgt values are the same
         let indices = getIndices(ps);
         let idx=indices.shift();
@@ -62,8 +60,8 @@ function makeStructs(src,tgt,level){
     }
     // create source and target structure
     load(src);
-    const srcStruct = s[src].apply(null,params.map(e=>e[srcIdx]));
+    const srcStruct = sent[src].apply(null,params.map(e=>e[srcIdx]));
     load(tgt);
-    const tgtStruct = s[tgt].apply(null,params.map(e=>e[tgtIdx]));
-    return [srcStruct,tgtStruct,distractors]
+    const tgtStruct = sent[tgt].apply(null,params.map(e=>e[tgtIdx]));
+    return [srcStruct,tgtStruct,distractors,sent.id]
 }

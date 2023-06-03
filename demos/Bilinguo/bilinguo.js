@@ -71,15 +71,17 @@ function addLevels(lang,selected){
     }
 }
 
-function makeSentences(src,tgt){
-    const n = oneOf("s","p");
+function makeSentences(sent,src,tgt){
     const level=+$(`#levels-${src}`).val();
     const tIdx = oneOf(getIndices(tenses[src][level]));
     const typ = oneOf(variants[level])
     let res={};
-    [res[src],res[tgt],res["distractors"]]=makeStructs(src,tgt,level);
-    res[src].n(n).t(tenses[src][level][tIdx]).typ(typ);
-    res[tgt].n(n).t(tenses[tgt][level][tIdx]).typ(typ);
+    [res[src],res[tgt],res["distractors"]]=makeStructs(sent,src,tgt);
+    res[src].t(tenses[src][level][tIdx]).typ(typ);
+    res[tgt].t(tenses[tgt][level][tIdx]).typ(typ);
+    // useful for helping understand why bad translations occur
+    console.log("%c%s","font-family:monospace",res[src].toSource(0))
+    console.log("%c%s","font-family:monospace",res[tgt].toSource(0))
     return res;
 }
 
@@ -118,8 +120,10 @@ function showExercise(){
     $("#source,#target-words,#target-sentence").empty();
     $("#continue-"+src).hide();
     $("#check-"+src).show();
+    const level=+$(`#levels-${src}`).val();
     // create source and target sentences
-    const sents = makeSentences(src,tgt);
+    const sent = oneOf(sentences.filter(s=>s.level===undefined || s.level<=level));  // select a sentence
+    const sents = makeSentences(sent,src,tgt);
     $("#source").text(sents[src].realize(src));
     const tgtSent = sents[tgt].realize(tgt);
     // tokenize target sentence

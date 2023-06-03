@@ -4,28 +4,28 @@ const sentences = [
 {
   "id":1,
   "level":1,
-  "text":'The pretty woman comes with a carrot. | La jolie femme arrive avec une carotte.',
-  "TEXT":'The pretty woman comes with a carrot. | La jolie femme arrive avec une carotte. ',
-  "en":(pe,n,pretty,woman,carrot)=>
+  "text":'The pretty woman comes with a gift. | La jolie femme arrive avec une cadeau.',
+  "TEXT":'The pretty woman comes with a gift. | La jolie femme arrive avec un cadeau. ',
+  "en":(pe,n,pretty,woman,gift)=>
   root(V('come'),
          subj(N(woman).n(n),
               det(D('the')),
               mod(A(pretty)).pos('pre')),
-         comp(N(carrot),
+         comp(N(gift),
               mod(P('with')).pos('pre'),
               det(D('a')))),
-  "fr":(pe,n,jolie,femme,carotte)=>
+  "fr":(pe,n,jolie,femme,cadeau)=>
   root(V('arriver'),
          subj(N(femme).n(n),
               det(D('le')),
               mod(A(jolie)).pos('pre')),
-         comp(N(carotte),
+         comp(N(cadeau),
               mod(P('avec')).pos('pre'),
               det(D('un')))),   
   "params":[pes,numbers,
           [['joli', 'pretty'], ['jeune', 'young'], ['vieux', 'old']],
           [['femme', 'woman'], ['homme', 'man'], ['fille', 'girl'], ['garçon', 'boy']],
-          [['carotte', 'carrot'], ['tomate', 'tomato'], ['pomme', 'apple'], ['poire', 'pear']]],
+          [['cadeau', 'gift'], ['chapeau', 'hat'], ['valise', 'trunk'], ['pomme', 'apple']]],
 },
 {
   "id":2,
@@ -54,13 +54,13 @@ const sentences = [
   "params":[pes,numbers,
           [['coq', 'rooster'], ['poule', 'hen'], ['chanteur', 'singer']],
           [['chanter', 'crow'], ['courir', 'run']],
-          [['cour', 'yard'], ['ferme', 'barn']]],
+          [['cour', 'yard'], ['ferme', 'barn'], ['maison', 'house']]],
 },
 {
   "id":3,
   "level":1,
   "text":'My mother receives an apple as a gift. | Ma mère reçoit une pomme en cadeau.',
-  "TEXT":'My mother receives an apple as a gift. | Sa mère reçoit une pomme en cadeau. ',
+  "TEXT":'My mother receives an apple as a gift. | Ma mère reçoit une pomme en cadeau. ',
   "en":(pe,n,mother,apple)=>
   root(V('receive'),
          subj(N(mother).n(n),
@@ -73,13 +73,13 @@ const sentences = [
   "fr":(pe,n,mère,pomme)=>
   root(V('recevoir'),
          subj(N(mère).n(n),
-              det(D('son').pe(pe).n(n))),
+              det(D('mon').pe(pe).n(n))),
          comp(N(pomme),
               det(D('un')),
               mod(N('cadeau'),
                   mod(P('en')).pos('pre')))),   
   "params":[pes,numbers,
-          [['mère', 'mother'], ['grand-mère', 'grandmother'], ['grand-père', 'grandfather'], ['père', 'father']],
+          [['mère', 'mother'], ['neveu', 'nephew'], ['tante', 'aunt'], ['père', 'father']],
           [['pomme', 'apple'], ['poire', 'pear'], ['ananas', 'pineapple'], ['prune', 'plum']]],
 },
 {
@@ -110,8 +110,8 @@ const sentences = [
   "level":1,
   "text":'I eat the good soup. | Je mange la bonne soupe.',
   "TEXT":'I eat the good soup. | Je mange la bonne soupe. ',
-  "en":(pe,n, eat)=>
-  root(V('eat'),
+  "en":(pe,n,eat)=>
+  root(V(eat),
          subj(Pro('me').c('nom').n(n).pe(pe)),
          comp(N('soup'),
               det(D('the')),
@@ -123,16 +123,16 @@ const sentences = [
               det(D('le')),
               mod(A('bon')).pos('pre'))),   
   "params":[pes,numbers,
-          [['manger', ' eat'], ['boire', 'drink']]],
+          [['manger', 'eat'], ['boire', 'drink']]],
 },
 {
   "id":6,
   "level":2,
   "text":'My baby sometimes cries when I leave the house. | Mon bébé pleure quelques fois lorsque je quitte la maison.',
-  "TEXT":'My baby sometimes cries when I leave the house. | Son bébé pleure quelque fois lorsque je quitte la maison. ',
-  "en":(pe,n, baby, cries)=>
-  root(V('cry'),
-         subj(N('baby').n(n),
+  "TEXT":'My baby sometimes cries when I leave the house. | Mon bébé pleure quelque fois lorsque je quitte la maison. ',
+  "en":(pe,n,baby,cries)=>
+  root(V(cries),
+         subj(N(baby).n(n),
               comp(D('my').pe(pe).n(n).g('f')).pos('pre')),
          mod(Adv('sometimes')).pos('pre'),
          mod(V('leave'),
@@ -143,7 +143,7 @@ const sentences = [
   "fr":(pe,n,bébé,pleure)=>
   root(V(pleure),
          subj(N(bébé).n(n),
-              det(D('son').pe(pe).n(n))),
+              det(D('mon').pe(pe).n(n))),
          comp(N('fois'),
               det(D('quelque'))),
          mod(V('quitter'),
@@ -152,6 +152,6 @@ const sentences = [
              comp(N('maison'),
                   det(D('le'))))),   
   "params":[pes,numbers,
-          [['bébé', ' baby'], ['enfant', ' child'], ['garçon', ' boy'], ['fille', ' girl']],
-          [['pleurer', ' cries'], ['chanter', ' single']]],
+          [['bébé', 'baby'], ['enfant', 'child'], ['garçon', 'boy'], ['fille', 'girl']],
+          [['pleurer', 'cry'], ['chanter', 'single']]],
 },];
