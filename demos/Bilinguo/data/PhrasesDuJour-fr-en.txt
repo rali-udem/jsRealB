@@ -1,5 +1,5 @@
 1
-La jolie femme arrive avec une cadeau.
+La jolie femme arrive avec un cadeau.
 The pretty woman comes with a gift.
 jolie,pretty ; jeune,young; vieux,old
 femme,woman ; homme,man; fille,girl; garçon,boy
@@ -21,6 +21,7 @@ pomme,apple; poire,pear ; ananas,pineapple ; prune,plum
 1
 Ce père est très vieux et sage.
 This father is very old and wise.
+père,father; mère,mother ; neveu,nephew; tante,aunt
 
 1
 Je mange la bonne soupe.

@@ -158,26 +158,26 @@ const sentences = generated_sentences.concat(
         [["histoire","story"],["anecdote","anecdote"]],
      ]},
      {
-      "id":7,
+      "id":"F-08",
       "level":3,
       "text":'I see twenty naughty and wicked elves under the tree. | Je vois vingt lutins coquins et vilains sous le sapin.',
       "TEXT":'I see twenty naughty and wicked elves under the tree. | Je vois vingt lutins coquins et vilains sous le sapin. ',
-      "en":(pe,n,twenty,)=>
+      "en":(pe,n,twenty)=>
       root(V('see'),
              subj(Pro('me').c('nom').n(n).pe(pe)),
              comp(N('elf'),
-                  det(NO('twenty')),
+                  det(NO(twenty)),
                   coord(C('and'),
                         mod(A('naughty')),
                         mod(A('wicked')))),
              comp(N('tree'),
                   mod(P('under')).pos('pre'),
                   det(D('the')))),
-      "fr":(pe,n)=>
+      "fr":(pe,n,vingt)=>
       root(V('voir'),
              subj(Pro('moi').c('nom').n(n).pe(pe)),
              comp(N('lutin'),
-                  det(NO('vingt')),
+                  det(NO(vingt)),
                   coord(C('et'),
                         mod(A('coquin')),
                         mod(A('vilain')))),
@@ -185,9 +185,30 @@ const sentences = generated_sentences.concat(
                   mod(P('sous')).pos('pre'),
                   det(D('le')))), 
       "params":[pes,numbers,
-               [["vingt","twenty"],["trente","thirty"]]
+               [["vingt","twenty"],["trente","thirty"],["quarante","forty"]]
               ],
     },
+    // {  // interesting example but it gives rise to some strange sentences when variations are applied 
+    //   id:"F-09",
+    //   level: 2,
+    //   text: "Mon chien s'appelle Max. | My dog's name is Max.",
+    //   TEXT: "Mon chien s'appelle Max. | My dog's name is Max.",
+    //   fr: (chien,Max) =>
+    //   root(V('appeler'),
+    //        subj(N(chien),
+    //             det(D('mon'))),
+    //        comp(Q(Max))).typ({refl:true}),
+    //   en:(dog,Max)=>
+    //   root(V('be'),
+    //        subj(N('name'),
+    //             mod(N(dog).a("'s"),
+    //                 det(D('my').pe(1).n("s"))).pos("pre")),
+    //        comp(Q(Max))),
+    //   "params": [
+    //          [["chien","dog"],["chat","cat"],["tortue","turtle"]],
+    //          [["Max","Max"],["Minnie","Minnie"]],
+    //   ]
+    // }
 ]
 )
 

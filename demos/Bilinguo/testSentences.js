@@ -44,6 +44,7 @@ function validateSentence(sent){
 
 for (let sentence of sentences)
     validateSentence(sentence);
+console.log("** end of sentence validation")
 
 function makeSentences(sent,src,tgt){
     const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
