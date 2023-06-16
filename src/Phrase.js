@@ -262,6 +262,16 @@ class Phrase extends Constituent{
                     } else if (this.isFr() && pro.lemma=="que"){
                         // in French past participle can agree with a cod appearing before... keep that info in case
                             v.cod=this
+                            // HACK: check for a "temps composé" formed by "avoir" followed by a past participle 
+                            if (v.lemma=="avoir"){
+                                const idx=v.parentConst.getIndex("V");
+                                if (v.parentConst.elements.length>idx+1){
+                                    const next=v.parentConst.elements[idx+1]
+                                    if (next.isA("V") && next.getProp("t")=="pp"){
+                                        next.cod=this
+                                    }
+                                }
+                            }
                         }
                 }
             }

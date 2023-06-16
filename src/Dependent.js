@@ -239,6 +239,11 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         } else if (this.isFr()){ // rel is comp or mod
                             // in French past participle can agree with a cod appearing before... keep that info in case
                             depTerm.cod=headTerm;
+                            // HACK: check for a "temps composé" formed by "avoir" followed by a past participle 
+                            if (depTerm.lemma=="avoir"){
+                                const iVerb=dep.findIndex(depI=>depI.isA("comp") && depI.terminal.isA("V") && depI.terminal.getProp("t")=="pp");
+                                if (iVerb>=0) dep.dependents[iVerb].terminal.cod=headTerm;
+                            }
                         }
                     }
                     // check for past participle in French that should agree with the head

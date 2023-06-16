@@ -126,10 +126,14 @@ class Terminal extends Constituent{
             if (lemma==undefined){
                 this.date=new Date()
             } else {
-                if (lemmaType != "string" && !(lemma instanceof Date)){
+                if (lemmaType == "string"){
+                    this.date = new Date(lemma)
+                } else if (lemma instanceof Date){
+                    this.date = lemma;
+                    this.lemma = lemma.toString()
+                } else {
                     this.warn("bad parameter","string, Date",lemmaType);
                 }             
-                this.date = new Date(lemma);
             }
             this.props["dOpt"]={year:true,month:true,date:true,day:true,hour:true,minute:true,second:true,
                             nat:true,det:true,rtime:false}
@@ -639,9 +643,9 @@ class Terminal extends Constituent{
                         this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
                     }
                     if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
-                        let g=this.getProp("g");
+                        let g=(this.cod ?? this).getProp("g");
+                        let n=(this.cod ?? this).getProp("n");
                         if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
-                        let n=this.getProp("n");
                         if (n=="x")n="s";
                         const gn=g+n;
                         if (!(gn == "mp" && this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s

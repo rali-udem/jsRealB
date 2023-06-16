@@ -859,3 +859,14 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 // add tests here ...
 loadEn();
 loadFr();
+test(
+    root(V('être').t("p").pe(3).n("s"),
+         subj(N('souris').g("f").n("s"),
+              det(D('le').g("f").n("s")),
+              comp(V("avoir"),
+                   comp(V('manger').t("pp")),
+                   comp(Pro('que')).pos("pre"),
+                   subj(N('chat').g("m").n("p"),
+                        det(D('le').n("p"))))),
+         comp(A('gris').pos("post").g("f").n("s")))
+)
