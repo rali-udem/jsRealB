@@ -160,12 +160,10 @@ function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
     var declension=null;
     if (tab in rulesDecl)
         declension=rulesDecl[tab];
-    else if (tab in rules["regular"]){
+    else if (tab in rules["regular"] || declension == null){
         addLemma(lemmata,entry,pos+'("'+entry+'")');
         return;
     }
-    if (declension==null)return;
-    // console.log(declension);
     var ending=declension["ending"];
     var endRadical=entry.length-ending.length;
     var radical=entry.slice(0,endRadical);
@@ -292,7 +290,8 @@ function getDeclensionEnding(ending,lang){
 function getLexiconInfo(word,lang){
     lang=lang||getLanguage()
     var lexicon=(lang=="en")?lexiconEn:lexiconFr;
-    if (word in lexicon) return lexicon[word];
+    if (word in lexicon)
+        return {[word]:lexicon[word]};
     // try with a regular expression
     var res={}
     var regex=new RegExp("^"+word+"$")

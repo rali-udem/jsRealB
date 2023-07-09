@@ -197,6 +197,10 @@ function query_resource(e){
         const query_type=$("#type_query").val();
         if (query_type=="lx" && query.indexOf(" ")){
             [query,category]=query.split(/ +/)
+            if (category !==undefined && !["N","A","Pro","D","V","Adv","C","P"].includes(category)){
+                $result.text(category+(lang=="en"? ": bad lexicon category" : ": mauvaise catégorie lexicale"))
+                return
+            }
         }
         $result.text("");
         const query_function = query_functions[query_type]
@@ -204,16 +208,20 @@ function query_resource(e){
             const out = query_function(query);
             if (typeof out === "string" )
                 $result.text(out)
-                // q_res.session.setValue(out)
             else {
-                if (category !== undefined){ // filter by category
-                    for (let word in out){
+                if (category === undefined){
+                    if (Object.keys(out).length==0){
+                        $result.text(query+(lang=="en"? ": not in English lexicon" : ": absent du lexique français"))
+                        return;
+                    }
+                } else {// filter by category
+                    for (let word of Object.keys(out)){
                         if (!(category in out[word]))
                             delete(out[word])
                     }
                     if (Object.keys(out).length==0){
-                        $result.text(query+":"+category+":"
-                            +(lang=="en"? ": not in English lexicon" : ": absent du lexique français"))
+                        $result.text(query+":"+category+
+                            (lang=="en"? ": not in English lexicon" : ": absent du lexique français"))
                         return;
                     }
                 }

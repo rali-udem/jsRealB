@@ -1190,7 +1190,7 @@ class Phrase extends Constituent{
     real() {
         let res=[];
         if (this.isA("CP")){
-            res=this.cpReal()
+            return this.cpReal()
         } else {
             this.pronominalizeChildren();
             const typs=this.props["typ"];
