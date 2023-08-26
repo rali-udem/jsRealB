@@ -241,6 +241,8 @@ class Phrase extends Constituent{
                             if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
                                 e.peng=this.peng
                             }
+                        } else if (this.isFr() && e.isA("V") && e.getProp("t")=="pp"){
+                            e.peng=this.peng
                         } else if (e.isA("CP")){ // check for a coordination of adjectives or number
                             const me=this;
                             e.elements.forEach(function(e){
