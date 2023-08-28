@@ -83,19 +83,20 @@ function translate(en_exp){
         "with":"avec", "within":"dans", "without":"sans", "word":"mot",
     }
 
-    function setProps(obj,newProps){
-        obj.props = newProps
-        return obj
+    function setProps(oldObj,newObj){
+        newObj.props = oldObj.props
+        newObj.optSource = oldObj.optSource
+        return newObj
     }
     
     function terminal_tr(terminal){
         let lemma = terminal.lemma in en_fr ? en_fr[terminal.lemma]: terminal.lemma
-        return setProps(new Terminal([lemma],terminal.constType,"fr"),terminal.props)
+        return setProps(new Terminal([lemma],terminal.constType,"fr"),terminal)
     }
     
     function phrase_tr(phrase){
         let children = phrase.elements.map(e=>e instanceof Phrase ? phrase_tr(e) : terminal_tr(e))
-        return setProps(new Phrase(children,phrase.constType,"fr"),phrase.props)
+        return setProps(new Phrase(children,phrase.constType,"fr"),phrase)
     }
 
     return phrase_tr(en_exp)    
@@ -238,9 +239,10 @@ Constituent.warnings = {
         // le $rank paramètre n'est pas Constituent.
         S(NP(D("the"),N("parameter"),Q(rank)),
               VP(V("be"),Q("Constituent"),Adv("but"),Q(type))).typ({neg:true}),
-    "bad Dependent":
-        (rank,type)=> // the $rank parameter is not Dependent but $type.
-            S(NP(D("the"),N("parameter"),Q(rank)),
+    "bad Dependent":(rank,type)=> 
+        // the $rank parameter is not Dependent but $type.
+        // le $rank parametre n'est pas Dependent mais $type
+        S(NP(D("the"),N("parameter"),Q(rank)),
               VP(V("be"),Q("Dependent"),Adv("but"),Q(type))).typ({neg:true}),
     "Dependent needs Terminal":(type)=> 
         // the first parameter of Dependent is not Terminal but $type.
