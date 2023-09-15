@@ -364,7 +364,7 @@ class Terminal extends Constituent{
                 const f = this.getProp("f");// usual comparative/superlative
                 if (f !== undefined && f !== false){
                     if (this.tab=="a1"){
-                        const comp = A(f=="co"?"more":"most")
+                        const comp = Adv(f=="co"?"more":"most")
                         comp.realization = comp.lemma
                         return [comp,this]
                     } else {

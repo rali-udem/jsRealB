@@ -96,6 +96,7 @@ const texts = {  // simple localization of texts
     "#type_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"],
     "#to-dependent":["To Dependencies","En Dépendances"],
     "#indent":["Indent","Indenter"],
+    "#inflection":["Display conjugation and declension in a new tab","Afficher la conjugaison et la déclinaison dans un nouvel onglet"]
 }
 
 const attrs = {

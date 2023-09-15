@@ -313,7 +313,7 @@ class Constituent {
      */
     doElisionEn(cList){
         //// English elision rule only for changing "a" to "an"
-        // according to https://owl.english.purdue.edu/owl/resource/591/1/
+        // according to https://owl.purdue.edu/owl/general_writing/grammar/articles_a_versus_an.html
         const hAnRE=/^(heir|herb|honest|honou?r(able)?|hour)/i;
         //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
         const uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
