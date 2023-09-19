@@ -145,9 +145,9 @@ class Terminal extends Constituent{
             }
             if (lemmaType == "string"){
                 let lexInfo=getLexicon(this.lang)[lemma];
-                if (lexInfo !== undefined && lexInfo.value){ 
+                if (lexInfo !== undefined && lexInfo["D"].value){ 
                     // a number written in letters is given its "value" as lemma if it exists in the lexicon
-                    this.lemma=this.value=lexInfo.value
+                    this.lemma=this.value=lexInfo["D"].value
                     this.props["dOpt"]={nat:true};
                     this.addOptSource("nat",true);
                     break;
