@@ -47,7 +47,7 @@ for (let sentence of sentences)
 console.log("** end of sentence validation")
 
 function makeSentences(sent,src,tgt){
-    const t = oneOf([{fr:"p","en":"p"},{fr:"pc","en":"ps"},{fr:"f","en":"f"}]);
+    const t = oneOf([{"fr":"p","en":"p"},{"fr":"pc","en":"ps"},{"fr":"f","en":"f"}]);
     const typ = oneOf([{},{neg:true},{prog:true},{"mod":"poss"},{"int":"yon"},{"int":"tag"}]);
     let res={};
     [res[src],res[tgt],res["distractors"]]=makeStructs(sent,src,tgt);

@@ -1,4 +1,4 @@
-import {dets,pes,numbers,relatives} from "./entities.js"
+import {dets,pes,numbers,genders,relatives} from "./entities.js"
 export {sentences}
 const sentences = [
 {
@@ -110,19 +110,19 @@ const sentences = [
   "level":1,
   "text":'I eat the good soup. | Je mange la bonne soupe.',
   "TEXT":'I eat the good soup. | Je mange la bonne soupe. ',
-  "en":(pe,n,eat)=>
+  "en":(pe,n,g,eat)=>
   root(V(eat),
-         subj(Pro('me').c('nom').n(n).pe(pe)),
+         subj(Pro('me').c('nom').g(g).n(n).pe(pe)),
          comp(N('soup'),
               det(D('the')),
               mod(A('good')).pos('pre'))),
-  "fr":(pe,n,mange)=>
+  "fr":(pe,n,g,mange)=>
   root(V(mange),
-         subj(Pro('moi').c('nom').n(n).pe(pe)),
+         subj(Pro('moi').c('nom').g(g).n(n).pe(pe)),
          comp(N('soupe'),
               det(D('le')),
               mod(A('bon')).pos('pre'))),   
-  "params":[pes,numbers,
+  "params":[pes,numbers,genders,
           [['manger', 'eat'], ['boire', 'drink']]],
 },
 {
@@ -153,5 +153,5 @@ const sentences = [
                   det(D('le'))))),   
   "params":[pes,numbers,
           [['bébé', 'baby'], ['enfant', 'child'], ['garçon', 'boy'], ['fille', 'girl']],
-          [['pleurer', 'cry'], ['chanter', 'single']]],
+          [['pleurer', 'cry'], ['chanter', 'sing']]],
 },];

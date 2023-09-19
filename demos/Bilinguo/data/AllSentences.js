@@ -18,7 +18,7 @@ const sentences = generated_sentences.concat(
                VP(V(nettoie)),
                   NP(D("un"),N(table))),
      en: (pe,n,father,clean,table)=>
-             S(NP(D("the"),N(father)),
+             S(NP(D("the"),N(father).n(n)),
                VP(V(clean),
                   NP(D("a"),N(table)))),
     "params-dir":["fr","en"],  

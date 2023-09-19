@@ -107,7 +107,7 @@ After writing by hand a few parallel `jsRealB` expressions, we decided to stream
 
 As Stanza is written in Python, we developed a Python program that uses Stanza for parsing French and English affirmative sentences at the present tense to produces dependency structures such as these:
 
-                <img src="./images/Dependencies.jpg" style="width:33%;" />          <img src="./images/Dependances.jpg" style="width:33%;" />
+<center><img src="./images/Dependencies.jpg" style="width:33%;" />       <img src="./images/Dependances.jpg" style="width:33%;" /></center>
 
 These dependencies are then transformed into the dependency format expected by `jsRealB` . This is mostly a matter of changing relation names, part-of-speech tags and token features. To check the resulting dependency structure,  [pyrealb](https://pypi.org/project/pyrealb/) is used in Python for realization as it uses the same notation as `jsRealB`.
 
@@ -176,10 +176,10 @@ These techniques allow creating a versatile language drill tool that can be cont
 
 This document has shown how `jsRealB` was used to build translation drill exercises by taking advantage of the one its most interesting features, the modification of a basic sentence structure by means of parameters and options for both English and French thus creating sentences that are literal translation of each other. It is thus possible to build a wide variety of different parallel sentences from a single pair of examples.
 
-#### Acknowledgement
+**Acknowledgement**
 
 Thanks to Fabrizio Gotti for his interesting suggestions during the development of this application.
 
-#### Contact [Guy Lapalme](mailto:lapalme@iro.umontreal.ca)
+**Contact** [Guy Lapalme](mailto:lapalme@iro.umontreal.ca)
 
 [Link to the web application](http://rali.iro.umontreal.ca/JSrealB/current/demos/Bilinguo/index.html)

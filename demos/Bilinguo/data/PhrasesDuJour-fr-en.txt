@@ -32,4 +32,4 @@ mange, eat ; boire,drink
 Mon bébé pleure quelques fois lorsque je quitte la maison.
 My baby sometimes cries when I leave the house.
 bébé, baby ; enfant, child ; garçon, boy ; fille, girl
-pleure, cries ; chanter, single
+pleure, cries ; chanter, sing
