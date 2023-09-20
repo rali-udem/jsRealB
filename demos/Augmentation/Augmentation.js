@@ -18,14 +18,14 @@ function numeroChemin(){
         noChemin=chemins.length;
     }
     d3.select("#noChemin").property("value",noChemin);
-    parametrer();
+    parametrer(chemin);
     chemin=chemins[noChemin-1];
     chemin.montrer();
 }
 
 
 function maManiere(){
-    parametrer();
+    parametrer(chemin);
     chemin = new Chemin([etatFinal,[etatFinal.getSuivant(),"ATTENDRE"]]);
     chemin.montrer();
     chemin.allonger();    
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     d3.select("#noChemin").property("max",chemins.length);
     d3.selectAll(".nbManieres").text(chemins.length);
     d3.selectAll("select").on("change",function(){
-        parametrer();
+        parametrer(chemin);
         chemin.montrer();
     });
     d3.select("#noChemin").on("change",numeroChemin);
