@@ -53,6 +53,21 @@ oneTwoThree  = number@(minimum=1, maximum=3)
     <li>in the case of <code>punct</code>, <code>compl</code> is the complementary punctuation sign, e.g. matching closing parenthesis or bracket.</li>
 	<li><code>basic</code> indicates that this entry is a <em>common</em> word in either French or English</li>
 </ul>
+
+<h2>Query lexicon using <code>jq</code></h2>
+<ul>
+	<li>To query information from these lexicons, the easiest way is through the <a href="../IDE/">IDE</a> or the <a href="../demos/Evaluation/index.html">evaluation demo</a>.</li>
+	<li>But it is also possible to use <a href="https://jqlang.github.io/jq/" title="jq">jq</a> to query these json lexicons. Here are a few examples of queries:
+		<dl>
+			<dt>- Search a specific entry: here <code>love</code></dt>
+			<dd><code>jq 'to_entries|.[]|select(.key=="love")' lexicon-en.json</code></dd>
+			<dt>- Search entries matching are regular expression: here entries starting with <code>love</code>, <code>-c</code> for a more compact output</dt>
+			<dd><code>jq -c 'to_entries|.[]|select(.key|test("^love.*"))' lexicon-en.json </code></dd>
+			<dt>- Search for a combination of properties: entries ending with <code>er</code> that can be used either as a noun, a verb or an adjective, but show only the entry; <code>-r</code> to show the entries without surrounding quotes</dt>
+			<dd><code>jq -r 'to_entries|.[]|select((.key|test("er$")) and (.value|has("N")) and (.value|has("V")) and (.value|has("A")))|.key' lexicon-en.json</code></dd>
+		</dl>
+	</li>
+</ul>
 <footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2020.</footer>
 
   

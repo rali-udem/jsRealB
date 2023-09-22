@@ -7,6 +7,8 @@ addToLexicon({"Bill":{"N":{"g":"m","tab":"n4"}}})
 addToLexicon({"Mary":{"N":{"g":"f","tab":"n4"}}})
 addToLexicon({"cheat":{"N":{"tab":"n1"},"V":{"tab":"v1"}}})
 /* 
+These examples are not available on the web now. I have a copy obtained via Wayback Machine,
+but the figures are lost...
 {ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
  expr:`
 `},
@@ -25,7 +27,7 @@ S(NP(D('the'),
 root(V('eat'),
      subj(N('cat'),det(D('the'))),
      comp(N('mouse'),det(D('the'))).pro())`},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
+{ref:"C.-T. James Huang",no:"35a",
  expr:`
 S(Pro("I").pe(2),
   VP(V("know"),
@@ -35,38 +37,38 @@ S(Pro("I").pe(2),
              NP(D("my").g("m").ow("s"),
                 Q("ex").lier("-"),N("wife")))))))
 `},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35b",
+{ref:"C.-T. James Huang",no:"35b",
  expr:`
 S(Pro("I").g("f"),
   VP(V("love"),
      Pro("me"),Adv("still")))
 `},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"Homework 6 (1a)",
+{ref:"C.-T. James Huang",no:"Homework 6 (1a)",
  expr:`
 S(N("Mary"),
   VP(V("talk"),
      PP(P("to"),N("Bill"))))
 `},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"11",
+{ref:"C.-T. James Huang",no:"11",
  expr:`
 S(NP(N("John")),
   VP(V("cheat").t("ps"),NP(N("Bill"))))
 `},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"12",
+{ref:"C.-T. James Huang",no:"12",
  expr:`
 S(NP(D("the"),N("teacher")),
   VP(V("put").t("ps"),
      NP(D("the"),N("glass").n("p")),
      PP(P("in"),NP(D("the"),N("drawer")))))`
 },
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"26b",
+{ref:"C.-T. James Huang",no:"26b",
  expr:`
 S(NP(N("Bill")),
   VP(V("explain"),
      NP(D("the"),N("problem")),
         PP(P("to"),Pro("me").g("f"))))
 `},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch7.html",no:"26c",
+{ref:"C.-T. James Huang",no:"26c",
  expr:`
 S(NP(N("Jim")),
   VP(V("make"),
@@ -107,7 +109,7 @@ S(NP(D('le'),
   VP(V('recueillir'),
      NP(D('un'),
         N('témoignage').n("p"))))`},
-{ref:"Huang",url:"http://www.people.fas.harvard.edu/~ctjhuang/lecture_notes/lecch6.html",no:"35a",
+{ref:"C.-T. James Huang",no:"35a",
  expr:`
 S(Pro("je").pe(2),
   VP(V("savoir"),

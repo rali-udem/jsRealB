@@ -138,7 +138,10 @@ function loadSentence($menu,examples){
     ex=examples[index]
     $struct.val(ex.expr.trim());
     if (ex.ref!==undefined){
-        $infos.html('<a target="_blank" href="'+ex.url+'">'+ex.ref+'</a> '+ex.no);
+        if (ex.url !== undefined)
+            $infos.html('<a target="_blank" href="'+ex.url+'">'+ex.ref+'</a> '+ex.no);
+        else 
+            $infos.html(ex.ref)
     }
     $("tbody",$tab).empty();
     $("#nbSentences").text("-");
