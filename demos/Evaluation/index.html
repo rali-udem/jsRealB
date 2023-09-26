@@ -28,7 +28,12 @@
         #result {font: 14pt sans-serif;} 
         #titreResult {font-weight: bold; font-size: 14pt; margin: 15pt 0pt;} 
         
-        textarea#query_result{
+        .result {
+            width: 45%;
+            margin-right: 5px;
+        }
+
+        .result textarea{
             height:2in;
             width: 100%;
             border: 1px solid black; 
@@ -82,19 +87,28 @@
     <button id="show_resource_query">Show resource query</button>
     <div id="resource_query">
         <h2 id="res_query_legend">Query linguistic resources</h2>
-        <select id="type_query">
-            <option value="lm">Lemmatize</option>
-            <option value="lx">Lexicon</option>
-            <option value="dn">Declension number</option>
-            <option value="de">Declension ending</option>
-            <option value="cn">Conjugation number</option>
-            <option value="ce">Conjugation ending</option>
-        </select>
-        <input type="text" size="30" placeholder="word or regex" id="res_query"/>
-        <div><textarea id="query_result"></textarea></div>
+        <div style="display: inline-block;" class="result">
+            <b id="#lexicon">Lexicon</b>
+            <select id="lex_query">
+                <option value="lm">Lemmatize</option>
+                <option value="lx">Lexicon</option>
+            </select>
+            <input type="text" size="30" placeholder="word or regex" id="lex_query_input"/>
+            <div><textarea id="lex_result"></textarea></div>
+        </div>
+        <div style="display: inline-block;" class="result">
+            <b id="#rules">Rules</b>
+            <select id="rules_query">
+                <option value="dn">Declension number</option>
+                <option value="de">Declension ending</option>
+                <option value="cn">Conjugation number</option>
+                <option value="ce">Conjugation ending</option>
+            </select>
+            <input type="text" size="30" placeholder="word or regex" id="rules_query_input"/>
+            <div><textarea id="rules_result"></textarea></div>
+        </div>
         <p><a href="../inflection/index.html" id="inflection" target="_blank">Display conjugation and declension in a new tab</a></p>
-        <button id="hide_resource_query">Hide resource query</button>
-        
+        <button id="hide_resource_query">Hide resource query</button>        
     </div>
 </body>
 </html>

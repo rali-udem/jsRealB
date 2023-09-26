@@ -43900,6 +43900,7 @@
  "quelque":{"Adv":{"tab":"av"},
             "D":{"tab":"n25"}},
  "quelquefois":{"Adv":{"tab":"av"},"basic":true},
+ "quelques":{"A":{"pos":"pre","tab":"n21"}},
  "quémander":{"V":{"aux":"av","tab":"v36","pat":["tdir","intr"]}},
  "quémandeur":{"N":{"g":"x","tab":"n55"}},
  "quenelle":{"N":{"g":"f","tab":"n17"}},

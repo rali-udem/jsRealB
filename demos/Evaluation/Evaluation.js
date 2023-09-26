@@ -88,15 +88,17 @@ const texts = {  // simple localization of texts
     "#show_resource_query":["Show resource query","Afficher l'interrogation des ressources"],
     "#hide_resource_query":["Hide resource query","Masquer l'interrogation des ressources"],
     "#res_query_legend":["Query linguistic resources","Interrogation des ressources"],
-    "#type_query>option[value=lx]":["Lexicon","Lexique"],
-    "#type_query>option[value=lm]":["Lemmatize","Lemmatisation"],
-    "#type_query>option[value=dn]":["Declension number","Numéro de déclinaison"],
-    "#type_query>option[value=de]":["Declension ending","Terminaison de déclinaison"],
-    "#type_query>option[value=cn]":["Cnnjugation number","Numéro de conjugaison"],
-    "#type_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"],
+    "#lex_query>option[value=lx]":["Lexicon","Lexique"],
+    "#les_query>option[value=lm]":["Lemmatize","Lemmatisation"],
+    "#rules_query>option[value=dn]":["Declension number","Numéro de déclinaison"],
+    "#rules_query>option[value=de]":["Declension ending","Terminaison de déclinaison"],
+    "#rules_query>option[value=cn]":["Conjugation number","Numéro de conjugaison"],
+    "#rules_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"],
     "#to-dependent":["To Dependencies","En Dépendances"],
     "#indent":["Indent","Indenter"],
-    "#inflection":["Display conjugation and declension in a new tab","Afficher la conjugaison et la déclinaison dans un nouvel onglet"]
+    "#inflection":["Display conjugation and declension in a new tab","Afficher la conjugaison et la déclinaison dans un nouvel onglet"],
+    "#lexicon":["Lexicon","Lexique"],
+    "#rules":["Rules","Règles"],
 }
 
 const attrs = {
@@ -116,12 +118,16 @@ function changeExemple() {
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
         $("#to-dependent").prop("title","Transformation 'heuristique' des constituents en dépendances; à vos risques et périls!");
+        $("#lex_query_input").prop("placeholder","mot ou regex");
+        $("#rules_query_input").prop("placeholder","numéro ou terminaison")
         for (let t in texts) $(t).text(texts[t][1])
         for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][2])       
         loadFr();
     } else {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
         $("#to-dependent").prop("title","'Heuristic' transformation into dependencies; use at your own risk!");
+        $("#lex_query_input").prop("placeholder","word or regex");
+        $("#rules_query_input").prop("placeholder","number or ending")
         for (let t in texts) $(t).text(texts[t][0])        
         for (let a in attrs) $(a).attr(attrs[a][0],attrs[a][1])     
         loadEn();
@@ -190,12 +196,14 @@ const query_functions = {
 }
 
 function query_resource(e){
-    // console.log("query_resource("+e+")")
-    const $result = $("#query_result")
+    // console.log("query_resource("+e+")")    
     if (e.which==13){
-        let query = $("#res_query").val().trim();
+        const myId = $(this).attr("id")  // check if lexicon or rule query
+        let $input = $("#"+myId.replace("_input",""));
+        let $result = $("#"+myId.replace("query_input","result"))
+        let query = $(this).val().trim()
         let category;
-        const query_type=$("#type_query").val();
+        const query_type=$input.val();
         if (query_type=="lx" && query.indexOf(" ")){
             [query,category]=query.split(/ +/)
             if (category !==undefined && !["N","A","Pro","D","V","Adv","C","P"].includes(category)){
@@ -263,7 +271,7 @@ $(document).ready(function(){
     $("#realize").click(realize);
     $("#indent").click(indent);
     $("#to-dependent").click(toDependent);
-    $("#res_query").keypress(query_resource)
+    $("#lex_query_input,#rules_query_input").keypress(query_resource)
     $("#show_resource_query").click((_)=>show_resource_query(true))
     $("#hide_resource_query").click((_)=>show_resource_query(false))
     $('#resource_query').hide()

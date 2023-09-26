@@ -236,11 +236,17 @@ class Phrase extends Constituent{
                             // gender agreement between a French number and subject
                             e.peng["g"]=this.peng["g"]; 
                         } else if (e.isA("D","A")){
-                            // link gender and number of the noun to the determiners and adjectives
-                            // in English possessive determiner should not depend on the noun but on the "owner"
-                            if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
+                            if (this.isEn() && e.isA("D") && e.lemma=="no"){
+                                // check for "no" as determiner which should add plural in English
+                                this.peng["n"]="p"
+                            } else if (this.isFr() && e.isA("A") && e.lemma=="quelques"){
+                                // check for "quelques" as adjective which should add plural in French
+                                this.peng["n"]="p"
+                            } else if (this.isFr() || !e.isA("D") || e.getProp("own") === undefined){
+                                // link gender and number of the noun to the determiners and adjectives
+                                // in English possessive determiner should not depend on the noun but on the "owner"
                                 e.peng=this.peng
-                            }
+                            } 
                         } else if (this.isFr() && e.isA("V") && e.getProp("t")=="pp"){
                             e.peng=this.peng
                         } else if (e.isA("CP")){ // check for a coordination of adjectives or number

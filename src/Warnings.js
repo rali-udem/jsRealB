@@ -91,12 +91,12 @@ function translate(en_exp){
     
     function terminal_tr(terminal){
         let lemma = terminal.lemma in en_fr ? en_fr[terminal.lemma]: terminal.lemma
-        return setProps(new Terminal([lemma],terminal.constType,"fr"),terminal)
+        return setProps(terminal,new Terminal([lemma],terminal.constType,"fr"))
     }
     
     function phrase_tr(phrase){
         let children = phrase.elements.map(e=>e instanceof Phrase ? phrase_tr(e) : terminal_tr(e))
-        return setProps(new Phrase(children,phrase.constType,"fr"),phrase)
+        return setProps(phrase,new Phrase(children,phrase.constType,"fr"))
     }
 
     return phrase_tr(en_exp)    
