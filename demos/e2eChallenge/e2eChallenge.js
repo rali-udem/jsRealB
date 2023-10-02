@@ -1,4 +1,6 @@
-var $setName,setName,fieldNames,allFields,$fields,$sentences,$search,mrRefs;
+let $setName,setName,fieldNames,allFields,$fields,$sentences,$search,mrRefs;
+
+let englishR, francaisR;
 
 $(document).ready(function() {
     $setName=$("#setName");
@@ -8,7 +10,8 @@ $(document).ready(function() {
     $sentences.click(showValuesInMenu);
     $search=$("#search");
     getDataSet();
-    updateLexicons();
+    englishR = new English()
+    francaisR = new Francais()
 });
 
 function getDataSet(){
@@ -140,14 +143,14 @@ function search(strict){
         }
     }
     $("#nbSent").text($("div",$sentences).length);
-    var jsrOutEn=jsrRealize(fields);
+    const phrase_type = oneOf(1,2,3) // select phrase organization for both realization
+    let jsrOutEn = englishR.realize(fields,phrase_type)
     $("#jsrOutEn").html(jsrOutEn);
     var bleuStr="";
     if (0<references.length && references.length<mrRefs.length){
         bleuStr="BLEU="+bleu([jsrOutEn],references).toFixed(2)
     }
     $("#bleu").text(bleuStr);
-    var jsrOutFr=jsrRealiser(fields);
+    let jsrOutFr = francaisR.realize(fields,phrase_type)
     $("#jsrOutFr").html(jsrOutFr);
 }
-

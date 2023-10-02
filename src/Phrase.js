@@ -260,13 +260,17 @@ class Phrase extends Constituent{
                 }
             }
             //   set agreement between the subject of a subordinate or the object of a subordinate
-            const pro=this.getFromPath([["S","SP"],"Pro"]);
+            const pro=this.getFromPath([["S","SP"],"Pro"]);5
             if (pro!==undefined){
                 const v=pro.parentConst.getFromPath(["VP","V"]);
                 if (v !=undefined){
-                    if (["qui","who","which","that"].includes(pro.lemma)){// agrees with this NP
+                    if (["qui","lequel",
+                         "who","which","that"].includes(pro.lemma)){// agrees with this NP
                         v.peng=this.peng
+                        if (pro.lemma == "lequel") pro.peng=this.peng
                         this.linkAttributes(v,this.getFromPath([["VP"],["CP"]]),this)
+                    } else if (["duquel","auquel"].includes(pro.lemma)) {
+                        pro.peng=this.peng  // only agree the pronoun
                     } else if (this.isFr() && pro.lemma=="que"){
                         // in French past participle can agree with a cod appearing before... keep that info in case
                             v.cod=this

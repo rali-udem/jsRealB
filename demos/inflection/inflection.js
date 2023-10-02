@@ -112,7 +112,7 @@ function decliner(mot,lang){
     const entry=getLemma(mot);
     if (entry === undefined){
         $("#messErreur")[0].innerHTML=mot+" : "+
-             (lang=="fr"?"n'appartient pas au lexique, désolé.":"is not in the lexicon, sorry.");
+             (lang=="fr"?"n'appartient pas au lexique":"is not in the lexicon");
         $("#messErreur").css('color','red');
         return
     }
@@ -127,6 +127,10 @@ function decliner(mot,lang){
             $("#tableau").append(`<tr><th colspan="2"><i>${titleCommeAdj[language]}</i></th></tr>`)
             declinerAdj(mot,lang)
         }
+    } else {
+        $("#messErreur")[0].innerHTML=mot+" : "+
+             (lang=="fr"?"n'est pas un N ou un A":"is not an N or an A");
+        $("#messErreur").css('color','red');
     }
 }
 
@@ -171,14 +175,14 @@ function checkLanguage() {
         $("label[for=perfectButton]").hide();
         $("#perfectButton").hide();
         $("#entree").prop("placeholder","verbe, nom ou adjectif");
-        $("#title").text("Flexions")
+        $("#title").text("Flexions - Verbe, Nom ou Adjectif")
     }
     else{
         loadEn();
         $("label[for=perfectButton]").show();
         $("#perfectButton").show();
         $("#entree").prop("placeholder","verb, noun or adjective");
-        $("#title").text("Inflections")
+        $("#title").text("Inflections - Verb, Noun or Adjective")
     }
 };
 

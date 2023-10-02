@@ -250,10 +250,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     if (this.isFr() && depTerm.getProp("t")=="pp"){
                         depTerm.peng=this.peng;
                     }
-                } else if (depTerm.isA("Pro") && ["qui","que","who","that"].includes(depTerm.lemma)){
+                } else if (depTerm.isA("Pro") && ["qui","lequel","auquel","duquel","que",
+                                                  "who","that"].includes(depTerm.lemma)){
                     // a relative linked to depTerm in which the new peng should be propagated
-                    if (this.peng !== undefined)
+                    if (this.peng !== undefined){
                         depTerm.peng=this.peng
+                    }
                     for (let depI of dep.dependents)
                         if (depI.peng!==undefined)
                             this.setPengRecursive(depI,depI.peng.pengNO,this.peng)
