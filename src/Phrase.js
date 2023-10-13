@@ -1025,7 +1025,7 @@ class Phrase extends Constituent{
                         } else { // use jsRealB itself for realizing the tag by adding a new VP
                             vp=VP(V(aux).t(t).pe(pe).n(n),pro).typ({"neg":!neg,"contr":true});
                         }
-                        pro.peng=vp. peng;  // ensure that the head of the vp is the pronoun for pronominalize_en
+                        vp.peng=pro.peng;  // ensure that the head of the vp is the pronoun for pronominalize_en
                         this.addElement(vp);
                     }
                 }

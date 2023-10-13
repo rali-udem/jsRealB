@@ -145,14 +145,23 @@ class Terminal extends Constituent{
             }
             if (lemmaType == "string"){
                 let lexInfo=getLexicon(this.lang)[lemma];
-                if (lexInfo !== undefined && lexInfo["D"].value){ 
-                    // a number written in letters is given its "value" as lemma if it exists in the lexicon
-                    this.lemma=this.value=lexInfo["D"].value
-                    this.props["dOpt"]={nat:true};
-                    this.addOptSource("nat",true);
-                    break;
+                if (lexInfo !== undefined && lexInfo.value){
+                    if (lexInfo["A"]) {
+                        // if it exists as an adjective it is considered as an ordinal number written in letters 
+                        // is given its "value" as lemma 
+                        this.lemma=this.value=lexInfo.value
+                        this.props["dOpt"]={ord:true};
+                        this.addOptSource("ord",true);
+                        break;
+                    } else {
+                        // a number written in letters is given its "value" as lemma 
+                        this.lemma=this.value=lexInfo.value
+                        this.props["dOpt"]={nat:true};
+                        this.addOptSource("nat",true);
+                        break;
+                    }
                 } else if (!/^[-+]?[0-9]+([., ][0-9]*)?([Ee][-+][0-9]+)?$/.test(lemma)){
-                // check if this looks like a legal number...
+                    // check if this looks like a legal number...
                     this.warn("bad parameter","number",lemmaType);
                     this.lemma=this.value=0;
                 } else {

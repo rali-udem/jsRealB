@@ -332,6 +332,10 @@ function  checkAdverbPos(res){
                         moveTo(advIdx,advIdxes.length,auxIdx+2)
                     } else {
                         // there is an auxiliary/modals followed by a verb, insert adverb after the auxiliary
+                        // but avoid "will" or "shall" in future (check the parentConst in this case)
+                        if (e.lemma=="will" || e.lemma=="shall"){
+                            if (e.parentConst !== null && e.parentConst.getProp("t")=="f") continue;
+                        }
                         moveTo(advIdx,advIdxes.length,auxIdx+1)
                     }
                 } else if (e.isEn()){

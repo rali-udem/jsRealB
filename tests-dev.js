@@ -850,11 +850,11 @@ function testPreviousExamples(){
     // testWarnings()
 }
 
+Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
 // testPreviousExamples()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
-Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)
 // add tests here ...
 loadEn();
