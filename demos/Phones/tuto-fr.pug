@@ -1,0 +1,107 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+
+//- tag::displayMixin[]
+mixin display
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'et', mix:true }
+    item
+      | couvre #[+value(phone.screenRatio)] % de sa surface
+    item
+      | fait #[+value(phone.displaySize)] pouces
+//- end::displayMixin[]
+
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] a un écran qui
+//- end::mixinItHasADisplay[]
+
+//- tag::colorsMixin[]
+mixin colors
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour
+  | #[+value(phone, {'NOT_IL_ELLE':true})]
+  | #[+agreeAdj(['exceptionnel','fabuleux','singulier'], phone)]
+  | sont
+
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+//- end::colorsMixin[]
+
+//- tag::introMixin[]
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #[+value(phone, {'NO_DET':true})].
+    syn
+      | #[+value(phone)] : un super téléphone !
+//- end::introMixin[]
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    //- tag::hasSaid[]
+    item
+      | #[+display]
+      
+      if !hasSaid('BATTERY')
+        | , et dispose par ailleurs d'une batterie de #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] a une batterie de #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    //- end::hasSaid[]
+
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    protect
+    | #{phone.name}
+  - setRefGender(phone, 'M')
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+value('<ce appareil>', {represents: phone})]
+    syn
+      | #[+value('<cette machine>', {represents: phone})]
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+    syn
+      | #[+value('<ce téléphone>', {represents: phone})]
+    syn
+      | #[+value('<le téléphone>', {represents: phone})]
+
+//- tag::phoneMixin[]
+mixin printPhone
+  | #[+intro] .
+  | #[+phone_chunks]
+//- end::phoneMixin[]
+
+//- tag::main[]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
+    deleteSaid('BATTERY')
+//- end::main[]
+
+<p>J'adore le nouveau OnePlus 5T. Ce téléphone a une batterie de 3 300 mAh. Cette machine a un écran qui couvre 80,43 % de sa surface et fait 6 pouces. Les finitions disponibles pour l'appareil singulier sont Noir, Rouge et Blanc.</p>
+<p>J'adore le nouveau OnePlus 5. Les finitions disponibles pour ce téléphone exceptionnel sont Or et Gris. Cette machine a une batterie de 3 300 mAh. Elle a un écran qui fait 5,5 pouces et couvre 72,93 % de sa surface.</p>
+<p>Le OnePlus 3T : un super téléphone ! Les couleurs disponibles pour cet appareil fabuleux sont Noir, Or et Gris. Ce téléphone a une batterie de 3 400 mAh. Cette machine a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface.</p>

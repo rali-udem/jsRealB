@@ -7,8 +7,8 @@
 import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         S,NP,AP,VP,AdvP,PP,CP,SP,
         root, subj, det, mod, comp, coord,
-        loadFr,loadEn,load, addToLexicon,getLanguage,getLemma,
-        testWarnings,jsRealB_dateCreated,jsRealB_version,
+        loadFr,loadEn,load, addToLexicon,getLanguage,getLemma,getLexicon,
+        testWarnings,jsRealB_dateCreated,jsRealB_version,oneOf,mix,
         fromJSON,ppJSON} from "./src/jsRealB.js"
 
 ///// use the webpack module
