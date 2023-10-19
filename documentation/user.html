@@ -353,11 +353,11 @@ where <code>e<sub>i</sub></code> is a value, selects randomly a <code>e<sub>i</s
 
 <h3><code>mix(e<sub>1</sub>,e<sub>2</sub>,...)</code></h3>
 <p lang="fr">
-The function <code>mix(e<sub>1</sub>,e<sub>2</sub>,...)</code> <i>mélange</i> ses paramètres, ce qui peut être utile pour varier l'ordre des éléments. Si <code>e<sub>1</sub></code> est un tableau alors la sélection est faite dans ce tableau, en ignorant les autres paramètres. Comme pour <code>oneOf(...)</code>, pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>, ce qui en fait une <em>fonction fléchée</em>. Pour tous les éléments de la liste, <code>mix</code> vérifie si la valeur est une fonction et si c'est le cas, il insère le résultat de l'appel dans le résultat.
+<i>permute</i> ses paramètres, ce qui peut être utile pour varier l'ordre des éléments. Si <code>e<sub>1</sub></code> est un tableau alors la sélection est faite dans ce tableau, en ignorant les autres paramètres. Comme pour <code>oneOf(...)</code>, pour éviter que tous les éléments soient évalués avant la sélection, il suffit de <em>fonctionaliser</em> l'expression en une fonction sans paramètre en la préfixant par <code>()=></code>, ce qui en fait une <em>fonction fléchée</em>. Pour chaque élément de la liste permutée, <code>mix</code> vérifie si sa valeur est une fonction et si c'est le cas, il le remplace par le résultat de l'appel.
 </p>
 <p lang="en">
-The function <code>mix(e<sub>1</sub>,e<sub>2</sub>,...)</code> <i>shuffles</i> its parameters, which can be useful to vary the order of elements. If <code>e<sub>1</sub></code> is an array, the selection is performed within this array, ignoring other parameters. As for <code>oneOf(...)</code>, to avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. 
-For all elements of the mixed list, <code>mix</code> checks if the value is a function and, if it is so, it inserts the value of the called function in the resulting list.
+<i>shuffles</i> its parameters, which can be useful to vary the order of elements. If <code>e<sub>1</sub></code> is an array, the selection is performed within this array, ignoring other parameters. As for <code>oneOf(...)</code>, to avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. 
+For each element in the mixed list, <code>mix</code> checks if its value is a function and, if so, it inserts the value of the called function in the resulting list.
 </p>
     
 
