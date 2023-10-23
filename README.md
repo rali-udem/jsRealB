@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 4.6.3 - May 2023*
+*Version 4.6.5 - October 2023*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -127,7 +127,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
-    
+
+### Linguistic games    
 * **Generate spelling and grammar exercises** from a simple sentence structure in both English and French.
     
     * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
@@ -154,8 +155,9 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * in English : *Little Red Riding Hood*  [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/PetitChaperonRouge/LittleRedRidingHood.html)
 
 ###  Data to Text applications
-* **`jsRealB` for the [E2E Challenge](http://www.macs.hw.ac.uk/InteractionLab/E2E/ "E2E NLG Challenge")** : browser for the datasets (training, development and test) used in the *End to End Generation Challenge* (2017-2018). The page also shows the English and French output produced by a "rule-based" generator using `jsRealB` for a selection of feature values. There is also a short description of the implementation of the realizer. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/e2eChallenge/index.html)
+* **`jsRealB` for the [E2E Challenge](https://doi.org/10.1016/j.csl.2019.06.009)** : browser for the datasets (training, development and test) used in the *End to End Generation Challenge* (2017-2018). The page also shows the English and French output produced by a "rule-based" generator using `jsRealB` for a selection of feature values. There is also a short description of the implementation of the realizer. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/e2eChallenge/index.html)
 * **_Personalized_ descriptions of restaurants** : how _**jsRealB**_ can be used for varying the linguistic style of the generated text according to a user profile defined as one of the [Big Five](https://en.wikipedia.org/wiki/Big_Five_personality_traits) model of personality. [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/Personage/index.html)
+* **Description of phones** : `jsRealB` version of an example used in the RosaeNLG tutorials in English and French. [Phones](demos/Phones) [Run with node.js](demos/Phones/show_phones.js)
 * **Description (in French) of a list of events** and associated informations given as a json file [Événements](demos/Evenements) [Execute](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evenements/index.html)
 * **Description of list of steps for the building of a house**, given information about tasks, the duration and the precedence relations between them. 
 
