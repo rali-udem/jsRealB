@@ -42,10 +42,12 @@ var syntagmesSect =
                             "en":["Verbal Phrase",'VP(V("enjoy"), NP(D("a"), N("meal")))']},
          {"pattern":"PP(…)","fr":["Syntagme Prépositionnel",'PP(P("à"), NP(N("minuit")))'],
                             "en":["Prepositional Phrase",'PP(P("at"), NP(N("midnight")))']},
-         {"pattern":"CP(…)","fr":["Syntagme coordonné",'CP(C("et"), AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
+         {"pattern":"CP(C(…)…)","fr":["Syntagme coordonné",'CP(C("et"), AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
                             "en":["Coordinated Phrase",'CP(C("and"), AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
          {"pattern":"CP(…)","fr":["&nbsp;<code>CP</code> sans <code>C</code>",'CP(AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
                             "en":["&nbsp;<code>CP</code> with no <code>C</code>",'CP(AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
+         {"pattern":"CP(Q(…),…)","fr":["&nbsp;<code>CP</code> avec <code>Q</code>",'CP(Q("et de plus"),AP(A("vaillant")), AP(A("gentil")), AP(A("serviable")))'],
+                            "en":["&nbsp;<code>CP</code> with <code>Q</code>",'CP(Q("and moreover"),AP(A("kind")), AP(A("strong")), AP(A("beautiful")))']},
          {"pattern":"S(…)", "fr":["Phrase",'S(NP(D("le"),N("homme")), VP(V("dormir")))'],
                             "en":["Sentence",'S(NP(D("the"),N("man")), VP(V("sleep")))']},
          {"pattern":"SP(…)","fr":["Syntagme subordonné",'SP(Pro("que"), Pro("je"), VP(V("rencontrer").t("pc")))'],
@@ -65,10 +67,12 @@ var dependentsSect =
                               "en":["Verb complement",'comp(N("cheese"),det(D("the")))']},
          {"pattern":"mod(…)","fr":["Modificateur",'mod(A("bon").f("su"))'],
                             "en":["Modifier",'mod(A("good").f("su"))']},
-         {"pattern":"coord(C(…),..)","fr":["Coordination",'coord(C("et"),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
+         {"pattern":"coord(C(…),…)","fr":["Coordination",'coord(C("et"),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
                                "en":["Coordination",'coord(C("and"),subj(N("cat")),subj(N("dog")),subj(N("mouse"))).n("p")']},
-        {"pattern":'coord(Q(""),..)',"fr":["Coordination sans C",'coord(Q(""),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
+         {"pattern":'coord(Q(""),…)',"fr":["Coordination sans C",'coord(Q(""),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
                                "en":["Coordination without C",'coord(Q(""),subj(N("cat")),subj(N("dog")),subj(N("mouse"))).n("p")']},
+         {"pattern":'coord(Q("…"),…)',"fr":["Coordination avec Q",'coord(Q("et de plus"),subj(N("chat")),subj(N("chien")),subj(N("souris"))).n("p")'],
+                               "en":["Coordination with Q",'coord(Q("and moreover"),subj(N("cat")),subj(N("dog")),subj(N("mouse"))).n("p")']},
      ]};
 
 

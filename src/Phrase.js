@@ -1096,7 +1096,9 @@ class Phrase extends Constituent{
         // if no C is found then all elements are separated by a ","
         // TODO: deal with the Oxford comma (i.e. a comma after all elements even the last)
         //       although it can be "patched" using C("and").b(",") but this adds a spurious space before the comma
-        const idxC=this.getIndex("C");
+        let idxC=this.getIndex("C");
+        //  if no coord was found and the first is a Q, consider this as the string to put before the last realization
+        if (idxC<0 && this.elements[0].isA("Q"))idxC=0
         // take a copy of all elements except the coordonate
         const elems=this.elements.filter(function(x,i){return i!=idxC})
         var last=elems.length-1;

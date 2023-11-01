@@ -140,6 +140,9 @@ function traceRouteNodes(routeNos,routeNodes,network){
                      .attr("text-anchor","left")
                      .text(rn.stationName)
                      .attr("pointer-events","none");
+            } else {
+                csel.append("title")
+                    .text(rn.stationName)
             }
         }
     }

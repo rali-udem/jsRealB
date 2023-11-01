@@ -884,7 +884,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         // realize coordinated Dependents by adding ',' between all elements except for the last
         // no check is done on the terminal, so
         //    if the terminal is Q(",") then all elements are separated by a ","
-        //    Q("and,") deal with the Oxford comma (i.e. a comma after all elements even the last)
+        //    Q(", and") deal with the Oxford comma (i.e. a comma after all elements even the last)
+        //    but this adds a spurious space before the comma
         var last=this.dependents.length-1;
         if (last==-1){
             return []

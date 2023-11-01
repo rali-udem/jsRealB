@@ -1,4 +1,3 @@
-// const rosaenlgPug = require('rosaenlg');
 export {phones}
 let phones = [
   {
@@ -23,9 +22,3 @@ let phones = [
     battery: 3400,
   },
 ];
-// const res = rosaenlgPug.renderFile('tuto.pug', {
-//   language: 'en_US',
-//   phones: phones,
-//   cache: true,
-// });
-// console.log(res);
