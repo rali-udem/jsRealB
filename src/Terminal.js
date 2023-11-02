@@ -579,8 +579,8 @@ class Terminal extends Constituent{
                 aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 
                 delete this.neg2;                  // delete it on this verb
             }
-            if (this.props["lier"]!==undefined){
-                aux.setProp("lier",null)  // put this flag on the auxiliary
+            if (this.props["lier"]===true){
+                aux.setProp("lier",true)  // put this flag on the auxiliary
                 delete this.props["lier"] // delete it from the verb
                 // HACK: check if the verb was lié to a nominative pronoun (e.g. subject inversion for a question)
                 const myParent=this.parentConst;

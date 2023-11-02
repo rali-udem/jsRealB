@@ -116,7 +116,7 @@ const None  = null;
 /**
  * Version number
  */
-const jsRealB_version="4.6.5";
+const jsRealB_version="4.6.6";
 /**
  * Date of jsRealB "compile", it is set by webpack
  */

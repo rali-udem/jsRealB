@@ -403,7 +403,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      */
     pronominalizeChildren(){
         for (let d of this.dependents){
-            if (d.props["pro"]!==undefined && !d.terminal.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
+            if (d.props["pro"]===true && !d.terminal.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
                 if (d.isFr()){
                     d.pronominalize_fr()
                 } else { 
@@ -445,7 +445,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 obj=this.dependents[objIdx]
                 if (obj.terminal.isA("Pro")){
                     obj.terminal=obj.terminal.getTonicPro("nom")
-                } else if (obj.terminal.isA("N") && obj.props["pro"]!==undefined){
+                } else if (obj.terminal.isA("N") && obj.props["pro"]===true){
                     obj=obj.getTonicPro("nom")
                 }
                 // swap subject and object by changing their relation name !!!

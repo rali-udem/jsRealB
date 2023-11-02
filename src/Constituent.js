@@ -422,7 +422,7 @@ class Constituent {
         var last=cList.length-1;
         if (last==0)return; // do not try to elide a single word
         for (var i = 0; i < last; i++) {
-            if (i>0 && cList[i-1].getProp("lier")!== undefined) // ignore if the preceding word is "lié" to this one
+            if (i>0 && cList[i-1].getProp("lier")=== true) // ignore if the preceding word is "lié" to this one
                 continue;
             var m1=Constituent.sepWordREfr.exec(cList[i].realization)
             if (m1 === undefined || m1[2]===undefined) continue;
@@ -580,7 +580,7 @@ class Constituent {
         if (last<0) return s;
         for (let i = 0; i < last; i++) {
             const terminal=terminals[i];
-            if (terminal.props["lier"]!== undefined){
+            if (terminal.props["lier"] === true){
                 s+=terminal.realization+"-";
                 // check for adding -t- in French between a verb and pronoun
                 if (this.isFr() && terminal.isA("V") && terminals[i+1].isA("Pro")){
@@ -703,7 +703,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             if (validVals !== undefined && !validVals.includes("")){
                 return this.warn("no value for option",option,validVals);
             }
-            val=null;
+            // val=null;
         }
         if (optionName===undefined)optionName=option; 
         if (this.isA("CP") && !["cap","lier","pos"].includes(option)){
@@ -733,6 +733,14 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 return this.warn("ignored value for option",option,val);
             }
             // start of the real work...
+            if (validVals === undefined){
+                if (val === undefined) 
+                    val = true
+                else if (val !== true && val !== false){
+                    this.warn("ignored value for option",option,val);
+                    val = false
+                }
+            }
             this.setProp(optionName,val);
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
             return this;

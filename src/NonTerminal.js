@@ -199,6 +199,11 @@ function compareClitics(pro1,pro2,table){
  * @param {Terminal[]} cList list of Terminal in which the pronouns might be sorted
  */
 function doFrenchPronounPlacement(cList){
+    function isLie(v){
+        const lie = v.getProp("lier")
+        return lie !== undefined && lie === true
+    }
+
     let verbPos,cliticTable,neg2,prog;
     // check for combination of negation, progressive and modality verb
     // negation should be put on the "être" and "modality" and not on the original verb
@@ -207,7 +212,7 @@ function doFrenchPronounPlacement(cList){
         let c=cList[i];
         if (c.isA("V") && c.neg2 !== undefined){
             if (c.isMod || c.isProg){
-                if (c.getProp("lier")===null){
+                if (isLie(c)){
                     c.insertReal(cList,Q(c.neg2),i+2);
                 } else
                     c.insertReal(cList,Q(c.neg2),i+1);               
@@ -277,10 +282,10 @@ function doFrenchPronounPlacement(cList){
         }
     }
     if (verbPos === undefined)return;
-    // add ending "pas" after the verb unless it is "lié" in which cas it goes after the next word
+    // add ending "pas" after the verb unless it is "lié" in which case it goes after the next word
     if (neg2){// HACK: add neg2 to the original verb...
         const vb=cList[verbPos]
-        vb.insertReal(cList,Q(neg2),verbPos+(vb.getProp("lier")===undefined?1:2))
+        vb.insertReal(cList,Q(neg2),verbPos+(isLie(vb)?2:1))
         if (pros.length>0  &&  pros[0].isA("Adv") && pros[0].lemma=="ne"){
             cList.splice(verbPos,0,pros.shift())
             verbPos++;

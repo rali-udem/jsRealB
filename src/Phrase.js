@@ -580,7 +580,7 @@ class Phrase extends Constituent{
      */
     pronominalizeChildren(){
         for (let e of this.elements) {
-            if (e.props["pro"]!==undefined && !e.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
+            if (e.props["pro"]===true && !e.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
                 if (e.isFr()){
                     e.pronominalize_fr()
                 } else { // in English pronominalize only applies to a NP
@@ -633,7 +633,7 @@ class Phrase extends Constituent{
                     if (objIdx==0){// a French pronoun inserted by .pro()
                         objIdx=vp.getIndex("V")+1 // ensure that the new object will appear after the verb
                     }
-                } else if (obj.isA("NP") && obj.props["pro"]!==undefined){
+                } else if (obj.isA("NP") && obj.props["pro"]===true){
                     obj=obj.getTonicPro("nom");
                 }
                 // swap subject and obj
