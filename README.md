@@ -181,6 +181,11 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * [English](https://observablehq.com/@lapalme/exprimenting-with-jsrealb "Experimenting with jsRealB / Guy Lapalme / Observable")
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
+## Licences
+`pyrealb` source code is licensed under _Apache-2.0_ and the linguistic resources in the `./data` directory is 
+licensed under _CC-BY-SA-4.0_
+
+
 ## Design of the system
 Version 4.5 was a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
 
@@ -194,3 +199,6 @@ Version 4.5 was a redesign and reimplementation of the previous version while ke
 3. [Nicolas Daoust](mailto:n@daou.st) developed the original concept in the _JSreal_ realizer for French only in 2013.
 
 For more information, contact [Guy Lapalme](http://rali.iro.umontreal.ca/lapalme).      
+
+## Acknowledgement
+Thanks to Fabrizio Gotti and Ludan Stoeckle for interesting suggestions.
