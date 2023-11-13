@@ -201,4 +201,4 @@ Version 4.5 was a redesign and reimplementation of the previous version while ke
 For more information, contact [Guy Lapalme](http://rali.iro.umontreal.ca/lapalme).      
 
 ## Acknowledgement
-Thanks to Fabrizio Gotti and Ludan Stoeckle for interesting suggestions.
+Thanks to Fabrizio Gotti, François Lareau and Ludan Stoeckle for interesting suggestions.
