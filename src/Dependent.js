@@ -282,6 +282,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     }
                 }
                 break;
+            case "*pre*": case "*post*":
+                break;
             default :
                 this.error("Strange dependent:"+dep.constType)
             }
