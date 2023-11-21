@@ -851,7 +851,7 @@ class Phrase extends Constituent{
      *       except for first person singular ("je") which is most often non colloquial (e.g. aime-je or prends-je)
      * if subject is a noun, the subject stays but add a new pronoun
      */
-    invertSubject(){
+    invertSubject(int){
         const subjIdx=this.getIndex(["NP","N","Pro","SP","CP"]);
         if (subjIdx>=0){
             const subj=this.elements[subjIdx];
@@ -862,6 +862,9 @@ class Phrase extends Constituent{
                     return;
                 } 
                 pro = this.removeElement(subjIdx); // remove subject pronoun
+            } else if (["wod","wad"].includes(int)){ // do not invert subject when "wod" or "wad"
+                this.add(Q("est-ce que"),subjIdx);
+                return;
             } else if (subj.isA("CP")){
                 pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
                 subj.pronoun=pro;  // add a flag to be processed by cpReal
@@ -887,7 +890,7 @@ class Phrase extends Constituent{
         let prefix,pp; // to be filled later
         switch (int) {
         case "yon": case "how": case "why": case "muc": 
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject(int);
             prefix=intPrefix[int];
             break;
         // remove a part of the sentence 
@@ -928,7 +931,7 @@ class Phrase extends Constituent{
                     prefix="whom";
                 } else
                     prefix=intPrefix[int];
-                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject(int);
             }
             break;
         case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
@@ -955,7 +958,7 @@ class Phrase extends Constituent{
                         }
                     }
                 }
-                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject(int);
             }
             break;
         case "tag":

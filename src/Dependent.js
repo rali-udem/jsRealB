@@ -637,7 +637,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * if subject is a pronoun, invert and add "-t-" or "-"
      * if subject is a noun, the subject stays but add a new pronoun
      */
-    invertSubject(){
+    invertSubject(int){
         // in French : use inversion rule which is quite "delicate"
         // rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
         // if subject is a pronoun, invert and add "-t-" or "-"
@@ -653,6 +653,9 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     return;
                 }
                 pro=this.removeDependent(subjIdx).terminal; //remove subject
+            } else if (["wod","wad"].includes(int)){ // do not invert subject when "wod" or "wad"
+                this.add(det(Q("est-ce que")),0);
+                return;
             } else if (subject.isA("C")){
                 pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
                 subject.pronoun=pro;  // add a flag to be processed by cpReal
@@ -681,7 +684,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         if (searchStart===undefined) searchStart=0;
         switch (int) {
         case "yon": case "how": case "why": case "muc": 
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject(int);
             prefix=intPrefix[int];
             break;
         // remove a part of the sentence 
@@ -722,7 +725,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 prefix="whom";
             } else
                 prefix=intPrefix[int];
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject(int);
             break;
         case "woi": case "wai":case "whe":case "whn": // remove indirect object first comp or mod with a P as terminal
             let remove=false;
@@ -755,7 +758,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     }
                 }
             }
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject(int);
             break;
         case "tag":
             // according to Antidote: Syntax Guide - Question tag
