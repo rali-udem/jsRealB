@@ -35,7 +35,7 @@ S(Pro("I").pe(2),
         S(N("Bill"),
           VP(V("marry").t("ps"),
              NP(D("my").g("m").ow("s"),
-                Q("ex").lier("-"),N("wife")))))))
+                Q("ex").lier(),N("wife")))))))
 `},
 {ref:"C.-T. James Huang",no:"35b",
  expr:`
@@ -117,7 +117,7 @@ S(Pro("je").pe(2),
         S(Q("Bill"),
           VP(V("épouser").t("ps"),
              D("mon").g("m"),
-             Q("ex").lier("-"),N("femme"))))
+             Q("ex").lier(true),N("femme"))))
              ))
 `},
 {ref:"Point du FLE",url:"https://www.lepointdufle.net/ressources_fle/cod_coi_3.htm",no:"3",

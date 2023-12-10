@@ -345,7 +345,7 @@ QUnit.test( "Dependencies FR", function( assert ) {
                            det(D("le"))),
                       comp(N("fromage"),
                            det(D("le")))).typ({int:"wad",pas:true}),
-         "expected":"Par quoi le fromage a-t-il été mangé? ",
+         "expected":"Par quoi est-ce que le fromage a été mangé? ",
          "message":"Question au passif avec verbe au passé composé"},
          //   38
         {"expression":

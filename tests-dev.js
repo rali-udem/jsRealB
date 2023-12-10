@@ -8,7 +8,7 @@ import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         S,NP,AP,VP,AdvP,PP,CP,SP,
         root, subj, det, mod, comp, coord,
         loadFr,loadEn,load, addToLexicon,getLanguage,getLemma,getLexicon,
-        testWarnings,jsRealB_dateCreated,jsRealB_version,oneOf,mix,
+        jsRealB_dateCreated,jsRealB_version,oneOf,mix,
         fromJSON,ppJSON} from "./src/jsRealB.js"
 
 ///// use the webpack module
@@ -54,13 +54,13 @@ function makeExamples(){
         [VP(V("aller").t("pq").pe(2).n("s")).typ({neg:true}),
             "n'étais pas allé"],
         [S(NP(D("le"),N("chat").g("f").n("p")),
-        VP(V("manger"),
-            NP(D("le"),N("souris")))),
-            "Les chattes mangent la souris. "],
+           VP(V("manger"),
+               NP(D("le"),N("souris")))),
+               "Les chattes mangent la souris. "],
         [S(NP(D("le"),N("chat").g("f").n("p")),
-        VP(V("manger"),
-            NP(D("le"),N("souris")))).typ({pas:true}),
-            "La souris est mangée par les chattes. "],
+           VP(V("manger"),
+               NP(D("le"),N("souris")))).typ({pas:true}),
+               "La souris est mangée par les chattes. "],
         [S(NP(D('le'),A("blanc"),
             N('chat').g("f").n("p").tag("b").tag("i")),
         VP(V('dévorer').t('pc'),
@@ -83,9 +83,9 @@ function makeExamples(){
             PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
             "John ne s'est pas évanoui au lundi 21 mai 1979 à 10 h 5 min 0 s. "],
         [S(CP(C("et"),NP(N("John")),NP(N("Mary"))),
-        VP(V("évanouir").t("pc")),
-            PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
-            "John et Mary ne se sont pas évanouis au lundi 21 mai 1979 à 10 h 5 min 0 s. "],
+           VP(V("évanouir").t("pc")),
+               PP(P("à"),DT("1979-05-21T10:05:00"))).typ({neg:true}),
+               "John et Mary ne se sont pas évanouis au lundi 21 mai 1979 à 10 h 5 min 0 s. "],
         [S(VP().add(V("aimer")).add(pomme)).add(gars,0),
             "Les garçons aiment la pomme. "],
         [S(CP(C("et"),NP(D("le"),N("fruit"))).add(pomme).add(gars),
@@ -847,12 +847,36 @@ function testPreviousExamples(){
         }    
     }
     console.log("----")
-    // testWarnings()
 }
+
+// keys and number of arguments of the warning functions in ConstituentEn.py and ConstituentFr.py
+const warnings_keys = 
+    [['bad parameter', 2], ['bad application', 3], ['bad position', 2], ['bad const for option', 3],
+     ['ignored value for option', 2], ['unknown type', 2], ['no value for option', 2], ['not found', 2],
+     ['bad ordinal', 1], ['bad roman', 1], ['bad number in word', 1], ['no French contraction', 0],
+     ['morphology error', 1], ['not implemented', 1], ['not in lexicon', 2], ['no appropriate pronoun', 0],
+     ['both tonic and clitic', 0], ['bad Constituent', 2], ['bad Dependent', 2],
+     ['Dependent needs Terminal', 1], ['bad number of parameters', 2], ['Dependent without params', 0],
+     ['bad lexicon table', 2], ['bad language', 1], ['ignored reflexive', 1],
+     ['inconsistent dependents within a coord', 2], ['user-warning', 1]]
+
+function testWarnings(){
+    const args=["A","B","C","D","E","F"]
+    for (let [w,nbArgs] of warnings_keys){
+        console.log(w);
+        loadEn();
+        const params = args.slice(0,nbArgs)
+        NP(D("a"),N("error")).warn(w,...params);
+        loadFr();
+        NP(D("un"),N("erreur")).warn(w,"A","B","C");
+    }
+}
+            
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
 // testPreviousExamples()
+// testWarnings()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)

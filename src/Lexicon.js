@@ -1,55 +1,22 @@
-
 /**
-   jsRealB 4.5
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
  */
 
-////  this is still experimental and not supported by Safari and Firefox
+
+////  this is still experimental and not supported by Safari and Firefox, but very useful...
 import LexiconEn from "../data/lexicon-en.json" assert { type: 'json' };
 import LexiconFr from "../data/lexicon-fr.json" assert { type: 'json' };
 import rulesEn from "../data/rules-en.json" assert { type: 'json' };
 import rulesFr from "../data/rules-fr.json" assert { type: 'json' };
-export {copulesFR,negMod,prepositionsList,modalityVerbs,
-        loadEn,loadFr,addToLexicon,updateLexicon,getLemma,getLanguage,getLexicon,getRules,
+export {loadEn,loadFr,addToLexicon,updateLexicon,getLemma,getLanguage,getLexicon,getRules,
         quoteOOV,setQuoteOOV,reorderVPcomplements,setReorderVPcomplements}
 
 // hidden variables 
 const lexicon = {"en":LexiconEn,"fr":LexiconFr};
 const rules   = {"en":rulesEn,  "fr":rulesFr};
-
+// current realization language
 let language  = "en";
-
-// French copula verbs
-const copulesFR=["être","paraître","sembler","devenir","rester"];
-// negation of modal auxiliaries
-const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
-            "could":"could not","might":"might not","should":"should not","would":"would not"};  
-// all prepositions from lexicon-en|fr.js (used for implementing int:"woi|wai|whn|whe"
-// tail +2 lexicon-en|fr.js | jq 'to_entries | map(select(.value|has("P"))|.key )'
-const prepositionsList = {
-    "en":{
-        "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", 
-                        "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", 
-                        "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", 
-                        "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", 
-                        "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", 
-                        "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
-        "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", 
-                      "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past",
-                      "toward", "towards", "under", "underneath","until","via","within",  ]),
-        "whn":new Set(["after", "before", "during","since",  "till", ]),
-    },
-    "fr":{
-        "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", 
-                       "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", 
-                       "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
-        "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors",
-                       "près","sous", "sur", "vers", "via",]),
-        "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
-    }
-}
-
-const modalityVerbs=["vouloir","devoir","pouvoir"]
 
 /**
  * Set current language to "en" English
@@ -157,10 +124,10 @@ function setQuoteOOV (qOOV){
 let reorderVPcomplements=false;
 /**
  * Flag for reordering VP complements by increasing length
- * Undocumented feature, seemed "useful" for AMR to text generation
+ * Undocumented feature, seemed "useful" for AMR to text generation, 
+ * but should be probably deprecated
  * @param {boolean} reorder 
  */
 function setReorderVPcomplements(reorder){
     reorderVPcomplements=reorder;
 }
-

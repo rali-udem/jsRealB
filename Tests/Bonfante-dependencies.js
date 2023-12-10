@@ -21,7 +21,7 @@ QUnit.test( "Dependencies EN - Bonfante", function( assert ) {
                 comp(N("link").n("p"),
                     mod(V("indicate"),
                         subj(Pro("that")),
-                        mod(Adv("strongly")).pos("pre")))).typ({"perf": True, "prog": True}),
+                        mod(Adv("strongly")).pos("pre")))).typ({"perf": true, "prog": true}),
         "expected":"I have been following links that strongly indicate. ",
         "message":"p 47 2.2"},
         // 2
@@ -35,7 +35,7 @@ QUnit.test( "Dependencies EN - Bonfante", function( assert ) {
                         det(D("that"))),
                     comp(P("over"),
                         comp(N("phone"),
-                            det(D("the"))))).typ({"neg": True, "mod": "poss", "contr": True})),
+                            det(D("the"))))).typ({"neg": true, "mod": "poss", "contr": true})),
         "expected":"They said they can't give me those details over the phone. ",
         "message":"p 56 2.16"},
         // 3
@@ -75,7 +75,7 @@ QUnit.test( "Dependencies EN - Bonfante", function( assert ) {
                     det(D("this"))),
                 comp(Pro("him").c("acc"),
                     comp(V("look").t("b"),
-                        mod(A("weak"))))).cap(False),
+                        mod(A("weak"))))).cap(false),
         "expected": "so this kidnapping makes him look weak",
         "message": " Figure 2.26 p 62"},
  

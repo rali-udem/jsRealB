@@ -27,16 +27,21 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
-    jsRealB 4.5
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
  */
     
-import {Constituent} from "./Constituent.js";
-import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js" 
-import {Phrase} from "./Phrase.js"
-import {getElems, affixHopping, doFrenchPronounPlacement,checkAdverbPos} from "./NonTerminal.js";
-import {getLanguage,getRules,copulesFR,prepositionsList } from "./Lexicon.js";
+import { Constituent } from "./Constituent.js";
+import { Terminal } from "./Terminal.js";
+// must import all functions because of possible eval call by clone
+import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+         S,NP,AP,VP,AdvP,PP,CP,SP,
+         dependent, root, subj, det, mod, comp, coord } from "./jsRealB.js"
+import { Phrase } from "./Phrase.js"
+import { getLanguage,getRules } from "./Lexicon.js";
+
 export {Dependent}
+
 /**
  * Dependent a subclass of Constituent for creating non terminals in Dependency notation
  */
@@ -139,8 +144,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         return this;
     }
 
-    // find index of one of deprels taking into account possible coord starting from position from
-    // returns -1 when not found
+
     /**
      * Find index of one of deprels satisfying test taking into account possible coord 
      * starting at position from (0 if not specified)
@@ -167,7 +171,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      */
     add(dependent,position,prog){
         if (!(dependent instanceof Dependent)){
-            return this.warn("bad Dependent",this.isFr()?"dernier":"last",dependent.constructor.name)
+            return this.warn("bad Dependent",this.word_last(),dependent.constructor.name)
         }
         if (prog===undefined){// real call to .add 
             this.optSource+=".add("+dependent.toSource()+(position===undefined?"":(","+position) )+")"
@@ -189,7 +193,13 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         return this.constType+"("+children.join()+")";
     }
 
-    
+    /**
+     * Traverse a dependent to change all peng having oldPenNO to the newPeng
+     * This is useful for linking attributes in relatives in a top-down fashion
+     * @param {*} oldDep  starting point of the change
+     * @param {*} oldPengNO pengNO umber to change
+     * @param {*} newPeng   new peng to update
+     */
     setPengRecursive(oldDep,oldPengNO,newPeng){
         oldDep.peng=newPeng;
         // check if terminal and children of oldDep have the same oldPengNO and change it to the newPeng
@@ -219,90 +229,80 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             };
             headTerm.peng=this.peng;
         }
-        for (const d of this.dependents){
-            const depTerm=d.terminal;
-            switch (d.constType){
+        for (const dep of this.dependents){
+            const depTerm=dep.terminal;
+            switch (dep.constType){
             case "subj":
                 if (headTerm.isA("V")){
-                    headTerm.peng=d.peng;
+                    headTerm.peng=dep.peng;
                 }
                 break;
             case "det":
                 if (depTerm.isA("D")){
-                    if (this.peng){
-                        if (depTerm.peng){// save person (for possessives)
-                            let pe=depTerm.peng.pe; 
-                            depTerm.peng=this.peng;
-                            depTerm.peng.pe=pe;
-                        } else { // some strange determiner construct do not have peng
-                            depTerm.peng=this.peng;
-                        } 
-                    } 
+                    depTerm.peng=this.peng;
                 } else if (depTerm.isA("NO")){
                     depTerm.peng=headTerm.peng
                 } else if (depTerm.isA("P") &amp;&amp; depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
-                    if (d.dependents.length==1 &amp;&amp; d.dependents[0].isA("mod") &amp;&amp; 
-                        d.dependents[0].terminal.isA("D")){
-                        d.dependents[0].terminal.peng=this.peng;
+                    if (dep.dependents.length==1 &amp;&amp; dep.dependents[0].isA("mod") &amp;&amp; 
+                        dep.dependents[0].terminal.isA("D")){
+                        dep.dependents[0].terminal.peng=this.peng;
                     }
                 }
                 break;
             case "mod":case "comp":
                 if (depTerm.isA("A")){
-                    depTerm.peng=this.peng
-                    // check for an attribute of a copula with an adjective
-                    if (this.isFr() &amp;&amp; copulesFR.includes(headTerm.lemma)){
-                        const iSubj=this.findIndex(d0=>d0.isA("subj") &amp;&amp; d0.terminal.isA("N","Pro"));
-                        if (iSubj>=0){
-                            depTerm.peng=this.dependents[iSubj].peng;
-                        }
-                    }
+                    if (this.peng !== undefined)
+                        depTerm.peng=this.peng
+
+                    this.link_attributes(depTerm,headTerm)
                 } else if (depTerm.isA("V")){
                     //   set agreement between the subject of a subordinate or the object of a relative subordinate
-                    const iRel=d.findIndex(d0=>d0.isA("subj","comp","mod") &amp;&amp; 
-                            d0.terminal.isA("Pro") &amp;&amp; ["qui","que","who","that"].includes(d0.terminal.lemma));
+                    const iRel=dep.findIndex(depI=>depI.isA("subj","comp","mod") &amp;&amp; 
+                            depI.terminal.isA("Pro") &amp;&amp; this.relative_pronouns().includes(depI.terminal.lemma));
                     if (iRel>=0){
-                        const rel=d.dependents[iRel].constType;
-                        if (rel=="subj"){ // verb agrees with this subject
+                        const rel=dep.dependents[iRel].constType;
+                        if (rel=="subj")// verb agrees with this subject
                             depTerm.peng=this.peng;
-                        } else if (this.isFr()){ // rel is comp or mod
-                            // in French past participle can agree with a cod appearing before... keep that info in case
-                            depTerm.cod=headTerm;
-                        }
+                        this.link_pp_before(dep,headTerm)
                     }
-                    // check for past participle in French that should agree with the head
-                    if (this.isFr() &amp;&amp; depTerm.getProp("t")=="pp"){
-                        depTerm.peng=this.peng;
-                    }
-                } else if (depTerm.isA("Pro") &amp;&amp; ["qui","que","who","that"].includes(depTerm.lemma)){
+                    this.link_pp_with_head(depTerm)
+                } else if (depTerm.isA("Pro") &amp;&amp; 
+                            this.relative_pronouns()
+                            .includes(depTerm.lemma)){
                     // a relative linked to depTerm in which the new peng should be propagated
-                    depTerm.peng=this.peng
-                    for (let d0 of d.dependents)
-                        this.setPengRecursive(d0,d0.peng.pengNO,this.peng)
+                    if (this.peng !== undefined){
+                        depTerm.peng=this.peng
+                    }
+                    for (let depI of dep.dependents)
+                        if (depI.peng!==undefined)
+                            this.setPengRecursive(depI,depI.peng.pengNO,this.peng)
                     }
                 break;
             case "root":
                 // this.error("An internal root was found")
                 break;
             case "coord":
-                if (d.dependents.length>0){
-                    const firstDep=d.dependents[0]
+                if (dep.dependents.length>0){
+                    const firstDep=dep.dependents[0]
                     if (firstDep.isA("subj")){
-                        headTerm.peng=d.peng
+                        headTerm.peng=dep.peng
                     } else if (firstDep.isA("det")){
-                        d.peng=headTerm.peng
+                        dep.peng=headTerm.peng
                     } else if (firstDep.isA("mod","comp")&amp;&amp; firstDep.terminal.isA("V","A")){
                         // consider this as coordination of verb sharing a subject (the current root)
                         //  or a coordination of adjectives
-                        for (let d0 of d.dependents){
-                            d0.peng=headTerm.peng;
-                            d0.terminal.peng=headTerm.peng;
+                        dep.peng=headTerm.peng;
+                        for (let depI of dep.dependents){
+                            depI.peng=headTerm.peng;
+                            depI.terminal.peng=headTerm.peng;
                         }
                     }
                 }
                 break;
+            case "*pre*":case "*post*":
+                break;
             default :
-                this.error("Strange dependent:"+d.constType)
+                this.error("Strange dependent:"+dep.constType)
             }
         }
     }
@@ -328,7 +328,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      */
     findGenderNumberPerson(andCombination){
         let g;
-        let n="s";
+        let n;
         let pe=3;
         let nb=0;
         for (let i = 0; i &lt; this.dependents.length; i++) {
@@ -343,77 +343,10 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 if (propPe !== undefined &amp;&amp; propPe&lt;pe)pe=propPe;
             }
         }
-        if (nb==0) g="m";
-        else if (nb>1 &amp;&amp; n=="s" &amp;&amp; andCombination)n="p";  
+        if (nb>1 &amp;&amp; andCombination)n="p";  
         return {"g":g,"n":n,"pe":pe}
     }
 
-    /**
-     * Pronominalization in French
-     * Phrase structure modification but that must be called in the context of the parentConst
-     * because the pronoun depends on the role of the NP in the sentence 
-     *         and its position can also change relatively to the verb
-     * @returns a Pro corresponding to the current NP
-     */
-    pronominalize_fr(){
-        let pro;
-        let mySelf=this;
-        if (this.isA("subj")){
-            if (!this.terminal.isA("N","Pro"))
-                return this.warn("no appropriate pronoun")
-            pro=this.getTonicPro("nom")
-        } else if (this.isA("comp","mod") &amp;&amp; this.terminal.isA("P")){
-            let prep=this.terminal.lemma;
-            if (this.dependents.length==1 &amp;&amp; this.dependents[0].isA("comp","mod")){
-                if (this.dependents[0].terminal.isA("N")){
-                    const n=this.dependents[0].terminal;
-                    if (prep == "à"){
-                        pro=n.getTonicPro("dat");
-                    } else if (prep == "de") {
-                        pro=Pro("en","fr").c("dat");
-                    } else if (["sur","vers","dans"].includes(prep)){
-                        pro=Pro("y","fr").c("dat");
-                    } else { // change only the N keeping the P intact
-                        pro=this.getTonicPro("nom");
-                        mySelf=this.dependents[0];
-                    }
-                } else {
-                    return this.warn("no appropriate pronoun")
-                }
-            }
-        } else {
-            pro=this.getTonicPro("acc")
-            if (this.parentConst!==null &amp;&amp; this.parentConst.terminal.isA("V")){// consider that it is direct complement
-                this.parentConst.terminal.cod=this; // indicate that this is a COD
-            }
-        }
-        pro.parentConst=this;
-        pro.peng=mySelf.peng
-        mySelf.terminal=pro
-        mySelf.dependents=[]
-        mySelf.dependentsSource=[]
-    }
-
-    /**
-     * Pronominalization in English only applies to a NP (this is checked before the call)
-     *  and does not need reorganisation of the sentence 
-     *  Does not currently deal with "Give the book to her." that {c|sh}ould be "Give her the book."
-     * @returns a Pro corresponding to the current NP
-     */
-    pronominalize_en(){
-        let pro;
-        this.props.pe=3; // ensure that pronominalization of anything other than a pronoun is 3rd person
-        if (this.parentConst===null || this.isA("subj")){    // is it a subject
-            pro=this.getTonicPro("nom")
-        } else {
-            pro=this.getTonicPro("acc") //is direct complement
-        }
-        pro.peng=this.peng;
-        pro.parentConst=this;
-        this.terminal=pro
-        this.dependents=[]
-        this.dependentsSource=[]
-    }
 
     /**
      * Pronominalization of children  
@@ -423,17 +356,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      */
     pronominalizeChildren(){
         for (let d of this.dependents){
-            if (d.props["pro"]!==undefined &amp;&amp; !d.terminal.isA("Pro")){// it can happen that a Pro has property "pro" set within the same expression
-                if (d.isFr()){
-                    d.pronominalize_fr()
-                } else { 
-                    if (d.terminal.isA("N")){
-                        d.pronominalize_en()
-                    } else {
-                        return this.warn("no appropriate pronoun")
-                    }
-                }
-            }
+            if (d.props["pro"]===true &amp;&amp; !d.terminal.isA("Pro"))// it can happen that a Pro has property "pro" set within the same expression
+                d.pronominalize()
         }
     }
 
@@ -441,15 +365,16 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * Modify the sentence structure to create a passive sentence
      */
     passivate(){
-        let subj,obj;  // original subject and object, they are swapped below...
+        let subj,obj,prep;  // original subject and object, they are swapped below...
         // find the subject
         if (this.terminal.isA("V")){
             const subjIdx=this.findIndex((d)=>d.isA("subj"));
             if (subjIdx>=0){
                 subj=this.dependents[subjIdx];
-                if (subj.terminal.isA("Pro")){
-                    subj.terminal = subj.terminal.getTonicPro()
-                }
+                let subject=subj.terminal;
+                if (subject.isA("Pro")){
+                    subject = this.passive_pronoun_subject(subject)
+               }
             } else {
                 subj=null
             }
@@ -459,62 +384,35 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 obj=this.dependents[objIdx]
                 if (obj.terminal.isA("Pro")){
                     obj.terminal=obj.terminal.getTonicPro("nom")
-                } else if (obj.terminal.isA("N") &amp;&amp; obj.props["pro"]!==undefined){
+                } else if (obj.terminal.isA("N") &amp;&amp; obj.props["pro"]===true){
                     obj=obj.getTonicPro("nom")
                 }
                 // swap subject and object by changing their relation name !!!
                 // HACK: obj is the new subject
                 obj.changeDeprel("subj")
-                // make the verb agrees with the new subject (in English only, French is dealt below)
-                if (this.isEn()){
-                    this.terminal.peng=obj.peng
-                } 
+
+                if (this.passive_should_link_subject())
+                    this.terminal.peng = obj.peng
                 if (subj!=null){   // the original subject is now the indirect object
                     subj.changeDeprel("mod")
                     this.removeDependent(subjIdx);
-                    let prep = this.isFr() ? "par" : "by";
-                    if (subj.terminal.isA("V")) // subject is a V
-                        prep = this.isFr() ? "de" : "to"
+                    prep = this.passive_prep(subj.terminal.isA("V"))
                     this.addDependent(comp(P(prep,this.lang),subj))
                 }
             } else if (subj!=null){ // no object, but with a subject
                 // create a dummy subject with a "il"/"it" 
-                obj=Pro(this.isFr()?"lui":"it",this.lang).c("nom"); //HACK: obj is the new subject
+                obj=Pro(this.passive_dummy_subject(),this.lang).c("nom"); //HACK: obj is the new subject
                 // add new subject at the front of the sentence
                 subj.changeDeprel("mod")
                 this.removeDependent(subjIdx)
                 this.addPre(obj)
                 this.peng=obj.peng
-                // add original subject after the verb to serve as an object
-                let prep = this.isFr() ? "par" : "by";
-                if (subj.terminal.isA("V")) // subject is a V
-                    prep = this.isFr() ? "de" : "to"
+                prep = this.passive_prep(subj.terminal.isA("V"))
                 this.addDependent(comp(P(prep,this.lang),subj))
             }
-            if (this.isFr()){
-                // do this only for French because in English this is done by processTyp_en
-                // change verbe into an "être" auxiliary and make it agree with the newSubj
-                // force person to be 3rd (number and tense will come from the new subject)
-                const verbe=this.terminal.lemma;
-                this.terminal.setLemma(verbe == "être" ? "avoir" : "être");
-                this.terminal.pe(3);
-                if (this.getProp("t")=="ip"){
-                    this.t("s") // set subjonctive present tense for an imperative
-                }
-                const pp = V(verbe,"fr").t("pp");
-                if (obj!==undefined){ // this can be undefined when a subject is Q or missing
-                    this.terminal.peng=obj.peng;
-                    pp.peng=obj.peng;
-                }
-                // insert the pp before the comp, so that it appears immediately after the verb
-                //  calling addPre(pp) would evaluate the pp too soon...
-                let compIdx=this.findIndex(d=>d.isA("comp","mod"));
-                if (compIdx==-1)compIdx=0;
-                // this.addPost(pp,compIdx);
-                this.addDependent(new Dependent([pp],"*post*"),compIdx)
-            }
+            this.passive_agree_with_auxiliary(obj)
         } else {
-            return this.warn("not found","V",isFr()?"contexte passif":"passive context")
+            return this.warn("not found","V",this.passive_context())
         }
     }
 
@@ -539,134 +437,34 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         }
     }
 
-    // add special internal dependencies (used only during realization)
+     /**
+     * Add a *pre* special dependencies for a list of terminal or a single terminal
+     * This used only during realizatioon
+     * @param {*} terminals a Terminal or a list of terminals
+     * @param {*} position  position in which to insert the new dependency
+     * @returns this Dependent
+     */
     addPre(terminals,position){
-        if (terminals instanceof Terminal){
-            this.addDependent(new Dependent([terminals],"*pre*"),position)
-            return this;
-        }
+        if (terminals instanceof Terminal)terminals=[terminals];
         for (let terminal of terminals){
-            this.addDependent(new Dependent([terminal],"*pre*"),position)
+            this.addDependent(dependent("*pre*",[terminal]),position)
         }
         return this;
     }
 
-    addPost(terminals){
-        if (terminals instanceof Terminal){
-            this.addDependent(new Dependent([terminals],"*post*"),0);
-            return this;
-        }
+     /**
+     * Add a *post* special dependencies for a list of terminal or a single terminal
+     * This used only during realizatioon
+     * @param {*} terminals a Terminal or a list of terminals
+     * @param {*} position  position in which to insert the new dependency
+     * @returns this Dependent
+     */
+     addPost(terminals){
+        if (terminals instanceof Terminal)terminals=[terminals];
         for (let terminal of terminals.reverse()){ // must add them in reverse order because of position 0
-            this.addDependent(new Dependent([terminal],"*post*"),0);
+            this.addDependent(dependent("*post*",[terminal]),0)
         }
         return this;
-    }
-
-    /**
-     * French phrase modification for .prog, .mod, .neg 
-     * @param {Object} types typ options for this Phrase
-     */
-    processTyp_fr(types){
-        this.processV(types,"prog",function(deprel,v){
-            // insert "en train","de" (separate so that élision can be done...) 
-            // TODO::but do it BEFORE the pronouns created by .pro()
-            const origLemma=deprel.terminal.lemma
-            deprel.terminal.setLemma("être"); // change verb, but keep person, number and tense properties of the original...
-            deprel.addPost([Q("en train"),Q("de"),V(origLemma).t("b")])
-            deprel.terminal.isProg=v;
-        })
-        this.processV(types,"mod",(deprel,mod)=>{ // define an arrow function to keep the original this
-            let rules=getRules(this.lang);
-            let origLemma=deprel.terminal.lemma;
-            for (let key in rules.verb_option.modalityVerb){
-                if (key.startsWith(mod)){
-                    deprel.terminal.setLemma(rules.verb_option.modalityVerb[key]);
-                    break;
-                }
-            }
-            deprel.terminal.isMod=true
-            let newV=V(origLemma).t("b");
-            if (deprel.terminal.isProg){ // copy progressive from original verb...
-                newV.isProg=deprel.terminal.isProg;
-                delete deprel.terminal.isProg
-            }
-            deprel.addPost(newV)
-        })
-        this.processV(types,"neg",function(deprel,neg){
-            if (neg===true)neg="pas";
-            deprel.terminal.neg2=neg;  // HACK: to be used when conjugating at the realization time
-        })
-    }
-
-    /**
-     * English phrase modification (mostly performed by affixHopping)
-     * This might modify the current list of elements
-     * @param {Object} types typ options for this Phrase
-     */
-    processTyp_en(types){
-        // replace current verb with the list new words
-        //  TODO: take into account the fact that there might be already a verb with modals...
-        if (types["contr"]!==undefined &amp;&amp; types["contr"]!==false){
-            // necessary because we want the negation to be contracted within the VP before the S or SP
-            this.contraction=true;
-        }
-        const words=affixHopping(this.terminal,this.getProp("t"),getRules(this.lang).compound,types);
-        // the new root should be the last verb 
-        let last=words.pop();
-        if (last.isA("Pro") &amp;&amp; last.lemma=="myself"){ // skip possible "myself" for reflexive verb
-            this.addPost(last);
-            last=words.pop()
-        }
-        this.terminal=last;
-        this.addPre(words)
-    }
-
-    /**
-     * in English move the auxiliary to the front 
-     */
-    moveAuxToFront(){
-        let auxIdx=this.findIndex((d)=>d.isA("*pre*")); // added by affixHopping
-        if (auxIdx>=0 &amp;&amp; !["pp","pr"].includes(this.getProp("t"))){ // do not move when tense is participle
-            const aux = this.dependents[auxIdx].terminal;
-            this.removeDependent(auxIdx)
-            this.addPre(aux,0)                             // put auxiliary before
-        } else if (["be","have"].includes(this.terminal.lemma)) {
-            //no auxiliary, but check for have or be "alone" for which the subject should appear
-            const subjIdx=this.findIndex(d=>d.isA("subj"));
-            if (subjIdx>=0)
-                this.dependents[subjIdx].pos("post")
-        } else if (this.dependents.length==0) { // add "do" when only the terminal is left...
-            this.addDependent(comp(V("do").pe(3).t("p")))
-        }
-    }
-
-    /**
-     * in French : use an inversion rule which is quite "delicate"
-     * rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
-     * if subject is a pronoun, invert and add "-t-" or "-"
-     * if subject is a noun, the subject stays but add a new pronoun
-     */
-    invertSubject(){
-        // in French : use inversion rule which is quite "delicate"
-        // rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
-        // if subject is a pronoun, invert and add "-t-" or "-"
-        // if subject is a noun, the subject stays but add a new pronoun
-        let subjIdx=this.findIndex((d)=>d.isA("subj"));
-        if (subjIdx>=0){
-            const subj=this.dependents[subjIdx].terminal;
-            let pro;
-            if (subj.isA("Pro")){
-                pro=this.removeDependent(subjIdx).terminal; //remove subject
-            } else if (subj.isA("C")){
-                pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
-                subj.pronoun=pro;  // add a flag to be processed by cpReal
-            } else
-                pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
-            if (this.terminal.isA("V")){
-                this.addPost(pro);
-                this.terminal.lier()
-            }
-        }
     }
 
     /**
@@ -685,7 +483,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         if (searchStart===undefined) searchStart=0;
         switch (int) {
         case "yon": case "how": case "why": case "muc": 
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            this.move_object(int)
             prefix=intPrefix[int];
             break;
         // remove a part of the sentence 
@@ -711,22 +509,14 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         cmp=this.removeDependent(i)
                         break;
                     } 
-                // } else { // remove other type of complement
-                //     cmp=this.removeDependent(i)
                 }
             }
-            if (this.isFr()){// check for passive subject starting with par
-                let parIdx=this.findIndex(d=>d.isA("comp") &amp;&amp; d.terminal.isA("P") &amp;&amp; d.terminal.lemma=="par");
-                if (parIdx>=0){
-                    pp=this.dependents[parIdx].terminal;
-                    this.removeDependent(parIdx);// remove the passive subject
-                }
-            }
-            if (this.isEn() &amp;&amp; int=="wod" &amp;&amp; cmp!==undefined &amp;&amp; ["m","f"].includes(cmp.getProp("g"))){ // human direct object
+            pp=this.check_passive_subject_with_par()
+            if (this.passive_human_object(int,cmp)){
                 prefix="whom";
             } else
                 prefix=intPrefix[int];
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            this.move_object(int)
             break;
         case "woi": case "wai":case "whe":case "whn": // remove indirect object first comp or mod with a P as terminal
             let remove=false;
@@ -742,15 +532,13 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 }
                 if (d.isA("comp","mod") &amp;&amp; prep!==undefined){
                     // try to find a more appropriate prefix by looking at preposition in the structure
-                    const preps=prepositionsList[this.lang];
+                    const preps = this.prepositionsList()
                     if (int=="whe" &amp;&amp; preps["whe"].has(prep)){
                         remove=true
                     } else if (int=="whn" &amp;&amp; preps["whn"].has(prep)){
                         remove=true
                     } else if (preps["all"].has(prep)){ // "woi" | "wai"
-                        // add the preposition in front of the prefix (should be in the table...)
-                        prefix=prep+" "+(this.isEn()?(int=="woi"?"whom":"what")
-                                                    :(int=="woi"?"qui" :"quoi"));
+                        prefix = prep + " " + this.interrogative_pronoun_woi(int_)
                         remove=true
                     }
                     if (remove) {
@@ -759,96 +547,22 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     }
                 }
             }
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            this.move_object(int)
             break;
         case "tag":
-            // according to Antidote: Syntax Guide - Question tag
-            // Question tags are short questions added after affirmations to ask for verification
-            if (this.isFr()){ // in French really simple, add "n'est-ce pas"
-                this.a(", n'est-ce pas")
-            } else { // in English, sources: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
-                    // must find  the pronoun and conjugate the auxiliary
-                let aux;
-                // look for the first verb or auxiliary (added by affixHopping)
-                const vIdx=this.findIndex(d=>d.terminal.isA("V") &amp;&amp; d.depPosition()=="pre");
-                const currV = vIdx&lt;0 ? this.terminal : this.dependents[vIdx].terminal; 
-                if ("mod" in types &amp;&amp; types["mod"]!==false){
-                    aux=getRules(this.lang).compound[types["mod"]]["aux"];
-                } else {
-                    if (["have","be","can","will","shall","may","must"].includes(currV.lemma))aux=currV.lemma;
-                    else aux="do"
-                }
-                let neg = "neg" in types &amp;&amp; types["neg"]===true;
-                let pe = currV.getProp("pe");
-                let t  = currV.getProp("t");
-                let n  = currV.getProp("n");
-                let g  = currV.getProp("g");
-                let pro = Pro("I").pe(pe).n(n).g(g); // get default pronoun
-                // check for negative adverbs...
-                const advIdx=this.findIndex((d)=>d.isA("mod") &amp;&amp; d.terminal.isA("Adv"));
-                if (advIdx>=0 &amp;&amp; ["hardly","scarcely","never","seldom"].includes(this.dependents[advIdx].terminal.lemma)){
-                    neg=true
-                }
-                let subjIdx=this.findIndex((d)=>d.isA("subj"))
-                if (subjIdx>=0){
-                    const subject=this.dependents[subjIdx].terminal;
-                    if (subject.isA("Pro")){
-                        if (subject.getProp("pe")==1 &amp;&amp; aux=="be" &amp;&amp; t=="p" &amp;&amp; !neg){
-                            // very special case : I am => aren't I
-                            pe=2
-                        } else if (["this","that","nothing"].includes(subject.lemma)){
-                            pro=Pro("I").g("n") // it
-                        } else if (["somebody","anybody","nobody","everybody",
-                                    "someone","anyone","everyone"].includes(subject.lemma)){
-                            pro=Pro("I").n("p"); // they
-                            if (subject.lemma=="nobody")neg=true;                     
-                        } else 
-                            pro=subject.clone();
-                        pro=subj(pro).pos("post")
-                    } else if (subject.isA("N")){
-                        pro=this.dependents[subjIdx].clone().pro().pos("post")
-                    } else {
-                        pro=subj(Pro("it").c("nom")).pos("post")
-                    }
-                } else { // no subject, but check if the verb is imperative
-                    if (t == "ip"){
-                        if (aux == "do") aux = "will" // change aux when the aux is default
-                        pro = Pro("I").pe(2).n(n).g(g)
-                    } else 
-                        pro = Pro("it").c("nom")
-                    pro = subj(pro).pos("post")
-                }
-                let iDeps=this.dependents.length-1
-                while(iDeps>=0 &amp;&amp; this.dependents[iDeps].depPosition()!="post")iDeps--;
-                if (iDeps&lt;0)
-                    currV.a(","); // add comma to the verb
-                else // add comma to the last current dependent
-                    this.dependents[iDeps].a(","); 
-                // this is a nice use-case of jsRealB using itself for realization
-                if (aux=="have" &amp;&amp; !neg){ 
-                    // special case because it should be realized as "have not" instead of "does not have" 
-                    this.addDependent(comp(V("have").t(t).pe(pe).n(n),
-                                        mod(Adv("not")),
-                                        pro).typ({"contr":true}))
-                } else { // use jsRealB itself for realizing the tag by adding a new VP
-                    this.addDependent(comp(V(aux).t(t).pe(pe).n(n),
-                                        pro).typ({"neg":!neg,"contr":true}))
-                }
-            }
+            this.tag_question(types);
             prefix=intPrefix[int];
             break;
         default:
             this.warn("not implemented","int:"+int)
         }
-        if(this.isFr() || int !="yon") {// add the interrogative prefix
+        if (this.should_add_interrogative_prefix(int))
             this.addPre(Q(prefix),0)
-            if (pp !== undefined){ // add "par" in front of some French passive interrogative
-                this.addPre(pp,0)
-                if (int=="wad"){ // replace "que" by "quoi" for French passive wad
-                    this.dependents[1].terminal.lemma="quoi";
-                }
-            }
-        }
+        if (pp !== undefined) {// add "par" in front of some French passive interrogative
+            this.addPre(pp,0)
+            if (int=="wad") // replace "que" by "quoi" for French passive wad
+                this.dependents[1].terminal.lemma="quoi";
+        }     
         this.a(sentenceTypeInt.punctuation,true);
     }
 
@@ -857,18 +571,10 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * @param {Object} types typ options for this Phrase
      */
     processTyp(types){
-        // let pp; // flag for possible pp removal for French wod or wad
         if (types["pas"]!==undefined &amp;&amp; types["pas"]!== false){
             this.passivate()
         }
-        if (this.isFr()){
-            if (types["contr"]!==undefined &amp;&amp; types["contr"]!==false){
-                this.warn("no French contraction")
-            }
-            this.processTyp_fr(types) 
-        } else { 
-            this.processTyp_en(types) 
-        }
+        this.processTyp_verb(types)
         if ("int" in types &amp;&amp; types["int"] !== false)
             this.processTypInt(types);
         const exc=types["exc"];
@@ -887,7 +593,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         // realize coordinated Dependents by adding ',' between all elements except for the last
         // no check is done on the terminal, so
         //    if the terminal is Q(",") then all elements are separated by a ","
-        //    Q("and,") deal with the Oxford comma (i.e. a comma after all elements even the last)
+        //    Q(", and") deal with the Oxford comma (i.e. a comma after all elements even the last)
+        //    but this adds a spurious space before the comma
         var last=this.dependents.length-1;
         if (last==-1){
             return []
@@ -901,33 +608,41 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             return this.doFormat(res); // process format for the CP
         }
         // check that all dependents use the same deprel
+        // except if a dependent is another coord 
         const deprel=this.dependents[0].constType;
         const noConnect = this.terminal.lemma=="";
         for (let j = 0; j &lt; last; j++) { //insert comma after each element
             const dj=this.dependents[j];
-            if (!dj.isA(deprel)){
-                this.warn("inconsistent dependents within a coord",deprel,dj.constType)
-            }
             if (noConnect || j&lt;last-1){ // except the last if there is conjunction
                 if (dj.props["a"] === undefined || !dj.props["a"].includes(","))
                     dj.props["a"]=[","];
             }
-            Array.prototype.push.apply(res,dj.real())
+            if (dj.isA("coord")){
+                res.push(...dj.coordReal());
+            } else if (!dj.isA(deprel) &amp;&amp; deprel != "coord"){
+                this.warn("inconsistent dependents within a coord",deprel,dj.constType)
+            } else
+                res.push(...dj.real())
         }
         // insert realisation of the terminal before last...
-        Array.prototype.push.apply(res,this.terminal.real());
-        if (!this.dependents[last].isA(deprel)){
-            this.warn("inconsistent dependents within a coord",deprel,this.dependents[last].constType)
+        res.push(...this.terminal.real());
+        const lastD = this.dependents[last]
+        if (lastD.isA("coord")){
+            res.push(...lastD.coordReal());
+            return this.doFormat(res);
+        } else if (!lastD.isA(deprel)  &amp;&amp; deprel != "coord"){
+            this.warn("inconsistent dependents within a coord",deprel,lastD.constType)
         }    
         // insert last element
-        Array.prototype.push.apply(res,this.dependents[last].real());
+        res.push(...lastD.real());
         // compute the combined gender and number of the coordination once children have been realized
+        // CAUTION: gender and person might not be correct in the case of embedded coord
         const thisCoord=this.terminal;
         if (thisCoord.isA("C")){
-            var and=this.isFr()?"et":"and";
+            const and = this.and_conj()
             var gn=this.findGenderNumberPerson(thisCoord.lemma==and);
             if (gn.g !==undefined) this.setProp("g",gn.g);
-            this.setProp("n",gn.n);
+            if (gn.n !==undefined) this.setProp("n",gn.n);
             this.setProp("pe",gn.pe);
             // for an inserted pronoun, we must override its existing properties...
             if (thisCoord.pronoun!==undefined){
@@ -956,7 +671,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             pos="pre"
         } else if (this.isA("mod") &amp;&amp; this.terminal.isA("A") &amp;&amp; this.parentConst.terminal.isA("N")){ 
             // check adjective position with respect to a noun
-            pos=this.isFr()?(this.terminal.props["pos"]||"post"):"pre"; // all English adjective are pre
+            pos = this.terminal.props["pos"] || this.adj_def_pos()
         } else if (this.isA("coord") &amp;&amp; this.dependents.length>0){
                 pos=this.dependents[0].depPosition() // take the position of the first element of the coordination
         }
@@ -1017,7 +732,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 }
             }
             if (this.terminal.isA("V"))
-                checkAdverbPos(res)
+                this.checkAdverbPos(res)
         }
         return this.doFormat(res);
     };
@@ -1047,7 +762,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         // create source of children
         let res=this.constType+"("+depsSource.join(sep)+")";
         // add the options by calling "super".toSource()
-        res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
+        res+=super.toSource()
         return res;
     }
 
@@ -1070,50 +785,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         } 
         res += "("+depsDebug.join(sep)+")";
         // add the options by calling "super".toSource()
-        res+=Constituent.prototype.toDebug.call(this); // ~ super.toSource()
+        res+=super.toDebug()
         return res;
     }
 }
 
-/**
- * Creates a root
- * @param {...Constituent} _ a Terminal possibly followed by Dependents
- * @returns Dependent with root as constType
- */
- export function root(_){ return new Dependent(Array.from(arguments),"root"); };
- /**
-  * Creates a subj
-  * @param {...Constituent} _ a Terminal possibly followed by Dependents
-  * @returns Dependent with subj as constType
-  */
- export function subj(_){ return new Dependent(Array.from(arguments),"subj"); }
- /**
-  * Creates a det
-  * @param {...Constituent} _ a Terminal possibly followed by Dependents
-  * @returns Dependent with det as constType
-  */
-  export function det(_) { return new Dependent(Array.from(arguments),"det"); }
- /**
-  * Creates a mod
-  * @param {...Constituent} _ a Terminal possibly followed by Dependents
-  * @returns Dependent with mod as constType
-  */
-  export function mod(_) { return new Dependent(Array.from(arguments),"mod"); }
- /**
-  * Creates a comp
-  * @param {...Constituent} _ a Terminal possibly followed by Dependents
-  * @returns Dependent with comp as constType
-  */
-  export function comp(_){ return new Dependent(Array.from(arguments),"comp"); }
- /**
-  * Creates a coord
-  * @param {...Constituent} _ a Terminal possibly followed by Dependents
-  * @returns Dependent with coord as constType
-  */
-  export function coord(_){ return new Dependent(Array.from(arguments),"coord"); }
 
-
-//// create a Dependent version of Constituent expression
 /**
  * Create a dependent version of a Phrase 
  *  (undocumented feature with many HACKS, mainly used for testing)
@@ -1160,7 +837,7 @@ Phrase.prototype.toDependent = function(depName){
         const termName=phName.substr(0,phName.length-1); // remove P at the end of the phrase name
         const idx=me.getHeadIndex(phName);
         if (me.elements[idx].isA(termName)){
-            deprel = new Dependent([me.elements[idx]],depName)
+            deprel = dependent(depName,[me.elements[idx]])
             me.elements.forEach(function(e,i){
                 if (i!=idx){
                     const dep=e.toDependent(phName=="VP"?"comp":"mod")
@@ -1182,7 +859,7 @@ Phrase.prototype.toDependent = function(depName){
     case "CP":
         const idxC=this.getIndex("C");
         if (idxC>=0){
-            deprel=new Dependent([this.elements[idxC]],"coord");
+            deprel = dependent("coord",[this.elements[idxC]])
             this.elements.forEach(function(e,i){
                 if (i!=idxC)deprel.add(e.toDependent(depName),undefined,true)
             })
@@ -1196,9 +873,7 @@ Phrase.prototype.toDependent = function(depName){
         if (iVP>=0){
             deprel=this.elements[iVP].toDependent(depName)
         } else {
-            // console.log("Phrase.toDependent:: S without VP",this.toSource()) [it seems that we can ignore this]
-            // return this
-            deprel=new Dependent([Q("")],depName);
+            deprel = dependent(depName,[Q("")])
         }
         let iPro=-1;
         if (this.isA("SP")){ 
@@ -1243,7 +918,7 @@ Terminal.prototype.toDependent = function(depName){
     if (this.isA("D","NO")){
         deprel=det(this)
     } else {
-        deprel=new Dependent([this],depName||"root");
+        deprel = dependent(depName||"root",[this])
     }
     if (isTopLevel)deprel.cap(false);
     return deprel
@@ -1259,13 +934,13 @@ Terminal.prototype.toDependent = function(depName){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Mar 05 2023 21:58:13 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
 </footer>
 
 <script> prettyPrint(); </script>

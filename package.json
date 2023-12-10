@@ -2,7 +2,7 @@
   "name": "jsrealb-project",
   "version": "1.0.0",
   "description": "New packaging for jsRealB",
-  "main": "test.js",
+  "main": "test-dev.js",
   "keywords": [],
   "author": "Guy Lapalme",
   "license": "ISC",
@@ -10,7 +10,8 @@
     "clean": "rm dist/jsRealB.js",
     "jsdoc": "jsdoc -d src/jsdoc src/*.js",
     "build-dev": "webpack --mode development",
-    "build-prod": "webpack --mode production"
+    "build-prod": "webpack --mode production",
+    "web-server": "http-server -c-1"
   },
   "type": "module",
   "devDependencies": {

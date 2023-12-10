@@ -1,12 +1,18 @@
 /**
- *   jsRealB 4.5
- *   Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
-*/
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
+ */
 
-import { Constituent } from "./Constituent.js";
+import { Constituent,deprels } from "./Constituent.js";
 import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
 import { nbDecimal,numberFormatter, enToutesLettres, ordinal, roman} from "./Number.js";
-export {Terminal, N, A, Pro, D, V, Adv, C, P, DT, NO, Q}
+// must import all functions because of possible eval call by clone
+import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+    S,NP,AP,VP,AdvP,PP,CP,SP,
+    root, subj, det, mod, comp, coord } from "./jsRealB.js"
+
+export {Terminal}
+
 /**
  * create a quoted string taking account possible escaping
  * @param {string} s string to quote
@@ -26,12 +32,11 @@ function quote(s){
 class Terminal extends Constituent{
     /**
      * Initialises the terminal by setting up important information
-     * @param {string} lemmaArr lemma for this Terminal
+     * @param {string} lemmaArr lemma for this Terminal + an optional language
      * @param {string} terminalType kind of this Terminal
-     * @param {en|fr} lang language specified mainly in IO-json.js
-     * @returns a new Terminal instance
+      * @returns a new Terminal instance
      */
-    constructor(lemmaArr,terminalType,lang){ // lang parameter used calls in IO-json.js
+    constructor(lemmaArr,terminalType){
         super(terminalType);
         if (lemmaArr.length==0 && terminalType!="DT"){
             this.lang=lang|| getLanguage(); // useful for error message
@@ -40,13 +45,13 @@ class Terminal extends Constituent{
             return
         }
         if (lemmaArr.length==1){
-            this.lang=lang ||  getLanguage()
+            this.lang= getLanguage()
             this.setLemma(lemmaArr[0],terminalType);
         } else if (lemmaArr.length==2 && (lemmaArr[1]=="en" || lemmaArr[1]=="fr")){
             this.lang=lemmaArr[1]
             this.setLemma(lemmaArr[0],terminalType);
         } else {
-            this.lang=lang|| getLanguage();
+            this.lang= getLanguage();
             this.setLemma(lemmaArr[0],terminalType);
             if (terminalType!="DT")
                 this.warn("bad number of parameters",terminalType,lemmaArr.length)
@@ -84,28 +89,6 @@ class Terminal extends Constituent{
         this.warn("bad application",".add","Phrase",this.constType)
         return this;
     }
-    // global variables 
-    static defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
-                           fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
-
-    initProps(){
-        if (this.isA("N","A","D","V","NO","Pro","Q","DT")){
-            // "tien" and "vôtre" are very special case of pronouns which are to the second person
-            this.peng={pe: Terminal.defaultProps[this.lang]["pe"],
-                        n: Terminal.defaultProps[this.lang]["n"],
-                        g: Terminal.defaultProps[this.lang]["g"],
-                        pengNO:Constituent.pengNO++
-                        };
-            if (this.isA("V")){
-                this.taux={t:Terminal.defaultProps[this.lang]["t"],
-                        tauxNO:Constituent.tauxNO++
-                        };
-                if (this.isFr())
-                    this.taux["aux"]=Terminal.defaultProps[this.lang]["aux"];
-            }
-        }
-    }
-
 
     /**
      * Set lemma, precompute stem and store conjugation/declension table number 
@@ -165,7 +148,7 @@ class Terminal extends Constituent{
                     this.warn("bad parameter","number",lemmaType);
                     this.lemma=this.value=0;
                 } else {
-                    this.lemma=lemma=lemma.replace(this.isEn()? /,/g : / /g,"")
+                    this.lemma=lemma=lemma.replace(this.thousand_seps(),"")
                     this.value=+lemma; // this parses the number if it is a string
                 }
             } else {
@@ -216,7 +199,6 @@ class Terminal extends Constituent{
                             var ending;
                             this.tab=lexInfo["tab"]
                             if (terminalType!="V") {// looking for a declension
-                                // this.tab=this.tab[0];
                                 const declension=rules.declension[this.tab]; // occurs for C, Adv and P
                                 if (declension !== undefined){
                                     ending = declension.ending;
@@ -249,7 +231,6 @@ class Terminal extends Constituent{
                             }
                         } else { // copy other key as property
                             let info=lexInfo[key]
-                            // if (typeof info === "object" && info.length==1)info=info[0];
                             this.setProp(key,info,true);
                         }
                     }
@@ -271,16 +252,7 @@ class Terminal extends Constituent{
             return this.warn("bad application","grammaticalNumber","NO",this.constType);
         }
         if (this.props["dOpt"].ord==true)return "s"; // ordinal number are always singular
-        const number=this.value;
-        if (this.isFr()){
-            // according to http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1582
-            return (-2 < number && number < 2) ? "s" : "p";
-        } else {
-            // according to https://www.chicagomanualofstyle.org/book/ed17/part2/ch09/psec019.html
-            //   any number other than 1 is plural... 
-            // even 1.0 but this case is not handled here because nbDecimal(1.0)=>0
-            return (Math.abs(number)==1 && this.nbDecimals==0)?"s":"p";
-        }
+        return null
     };
 
     /**
@@ -320,7 +292,6 @@ class Terminal extends Constituent{
         return best[1];
     }
 
-    /// 
     /**
      * French and English declension of this Terminal taking current properties into account
      * @param {boolean} setPerson if true, take person into account
@@ -332,70 +303,7 @@ class Terminal extends Constituent{
         let stem=this.stem;
         let res=null;
         if (this.isA("A","Adv")){ 
-            // special case of French adjectives or adv, they can have more than one token
-            if (this.isFr()){
-                const g=this.getProp("g");
-                const n=this.getProp("n");
-                const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
-                if (ending==null){
-                    return [this.morphoError("decline [fr]:A",{g:g,n:n})];
-                }
-                const f = this.getProp("f");// comparatif d'adjectif
-                if (f !== undefined && f !== false){
-                    const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
-                    res = []
-                    if (f == "co"){
-                        const comp = specialFRcomp[this.lemma];
-                        if (comp !== undefined){
-                            this.insertReal(res,A(comp).g(g).n(n));
-                        } else {
-                            this.insertReal(res,Adv("plus"))
-                            this.insertReal(res,A(this.lemma).g(g).n(n)) // to avoid infinite recursion
-                        }
-                   } else if (f == "su"){
-                        this.insertReal(res,D("le").g(g).n(n))
-                        const comp = specialFRcomp[this.lemma];
-                        if (comp !== undefined){
-                            this.insertReal(res,A(comp).g(g).n(n))
-                        } else {
-                            this.insertReal(res,Adv("plus"))
-                            this.insertReal(res,A(this.lemma).g(g).n(n)) // to avoid infinite recursion
-                        }
-                    }
-                    return res
-                } else {
-                    this.realization = this.stem+ending
-                    return [this]
-                }
-            } else {
-                // English adjective/adverbs are invariable but they can have comparative, thus more than one token
-                this.realization = this.lemma;
-                const f = this.getProp("f");// usual comparative/superlative
-                if (f !== undefined && f !== false){
-                    if (this.tab=="a1"){
-                        const comp = Adv(f=="co"?"more":"most")
-                        comp.realization = comp.lemma
-                        return [comp,this]
-                    } else {
-                        if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
-                            const adjAdv=getLexicon(this.lang)[this.lemma]["A"]
-                            if (adjAdv !== undefined){
-                                declension=rules.declension[adjAdv["tab"]].declension;
-                                const ending=rules.declension[adjAdv["tab"]].ending;
-                                stem=stem.slice(0,stem.length-ending.length);
-                            } else // adverb without adjective
-                                return [this]
-                        } 
-                        // look in the adjective declension table
-                        const ending=this.bestMatch("adjective declension",declension,{f:f})
-                        if (ending==null){
-                            return [this.morphoError("decline [en]:A",{f:f})]
-                        }
-                        this.realization = stem + ending;
-                        return [this]
-                    }
-                }
-            }
+            return this.decline_adj_adv(rules,declension,stem)
         } else if (declension.length==1){ // no declension
             this.realization = this.stem+declension[0]["val"]
         } else { // for N, D, Pro
@@ -413,11 +321,7 @@ class Terminal extends Constituent{
             if (this.isA("Pro")){// check special combinations of tn and c for pronouns
                 const c  = this.props["c"];
                 if (c!==undefined){
-                    if (this.isFr() && c=="gen"){ // genitive cannot be used in French
-                        this.warn("ignored value for option","c",c)
-                    } else if (this.isEn() && c=="refl"){ // reflechi cannot be used in English
-                        this.warn("ignored value for option","c",c)
-                    } else
+                    if (!this.check_bad_pronoun_case(c))
                         keyVals["c"]=c;
                 }
                 const tn = this.props["tn"];
@@ -429,8 +333,8 @@ class Terminal extends Constituent{
                     }
                 }
                 if (c !== undefined || tn !== undefined){
-                    if ((this.isFr() && this.lemma=="moi") || (this.isEn() && this.lemma=="me")){
-                        // HACK:remove defaults from pronoun such as "moi" in French and "me" in English
+                    if (this.lemma == this.tonic_pe_1()){
+                    // HACK:remove defaults from pronoun such as "moi" in French and "me" in English
                         //      because their definition is special in order to try to keep some upward compatibility
                         //      with the original way of specifying the pronouns
                         if (this.getProp("g") ===undefined)delete keyVals["g"];
@@ -442,7 +346,7 @@ class Terminal extends Constituent{
                         } 
                     } else { // set person, gender and number except when subject in an English genitive
                         const d0=declension[0];
-                        if (this.isFr() || c != "gen"){
+                        if (this.should_set_person_number(c)){
                             this.setProp("g", d0["g"] || g);
                             this.setProp("n", d0["n"] || n);
                             this.setProp("pe",keyVals["pe"] = d0["pe"] || 3);
@@ -452,21 +356,13 @@ class Terminal extends Constituent{
                     if(this.lemma!="on")keyVals["tn"]="";
                 }
             }
-            const decl=this.isFr()?"déclinaison":"declension"
+            const decl=this.declension_word()
             const ending=this.bestMatch(decl,declension,keyVals);
             if (ending==null){
                 return [this.morphoError(decl,keyVals)];
             }
-            if (this.isFr() && this.isA("N")){ 
-                // check is French noun gender specified corresponds to the one given in the lexicon
-                const lexiconG=getLexicon(this.lang)[this.lemma]["N"]["g"]
-                if (lexiconG === undefined){
-                    return [this.morphoError("genre absent du lexique",{g:g,n:n})];
-                } 
-                if (lexiconG != "x" && lexiconG != g) {
-                    return [this.morphoError("genre différent de celui du lexique",{g:g, lexique:lexiconG})]
-                }
-            }
+            const resgl = this.check_gender_lexicon(g,n)
+            if (resgl != null) return resgl;
             this.realization = this.stem+ending;
         }
         return [this]; 
@@ -509,7 +405,7 @@ class Terminal extends Constituent{
         let pc=this.parentConst;
         while (pc != undefined){
             // look for the first enclosing S, SP or Dependent with a terminal V
-            if (pc.isA("VP","SP","S") || (pc.isA(Constituent.deprels) && pc.terminal.isA("V"))){
+            if (pc.isA("VP","SP","S") || (pc.isA(deprels) && pc.terminal.isA("V"))){
                 const typs=pc.props["typ"];
                 if (typs!==undefined && typs["refl"]===true){
                     if (!pat.includes("réfl")){
@@ -526,217 +422,6 @@ class Terminal extends Constituent{
             pc=pc.parentConst;
         }
         return false
-    }
-
-    /**
-     * French conjugation of this Terminal
-     * @returns list of Terminals with their realization field filled
-     */
-    conjugate_fr(){
-        let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
-        let g = this.getProp("g");
-        let n = this.getProp("n");
-        const t = this.getProp("t");
-        let neg;
-        if (this.tab==null) 
-            return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];
-        switch (t) {
-        case "pc":case "pq":case "cp": case "fa": case "pa": case "spa": case "spq": case "bp":// temps composés
-            const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","pa":"ps","spa":"s","spq":"si", "bp":"b"}[t];
-            const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
-            aux.parentConst=this.parentConst;
-            aux.peng=this.peng;
-            aux.taux=Object.assign({},this.taux); // separate tense of the auxiliary from the original
-            if (this.isReflexive()){
-                aux.setLemma("être");          // réflexive verbs must use French "être" auxiliary
-                aux.setProp("pat",["réfl"]);   // set reflexive for the auxiliary
-            } else if (aux.taux["aux"]=="êt"){
-                aux.setLemma("être");
-            } else {   // auxiliary "avoir"
-                // check the gender and number of a cod appearing before the verb to do proper agreement
-                //   of its past participle  except when the verb is "être" which will always agree
-                if (this.lemma!="être"){
-                    g="m"
-                    n="s";
-                    var cod = this.cod;
-                    if (cod !== undefined){
-                        g=cod.getProp("g");
-                        n=cod.getProp("n");
-                    }
-                }
-            }
-            aux.taux["t"]=tempsAux;
-            aux.realization=aux.realize();  // realize the auxiliary using jsRealB!!!
-            const pp=V(this.lemma,"fr")
-            // change this verb to pp
-            pp.setProp("g",g);
-            pp.setProp("n",n);
-            pp.setProp("t","pp");
-            pp.realization=pp.realize();      // realize the pp using jsRealB without other options
-            this.realization=pp.realization;  // set verb realization to the pp realization
-            //  check special cases
-            if (this.neg2 !== undefined) {
-                aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 
-                delete this.neg2;                  // delete it on this verb
-            }
-            if (this.props["lier"]===true){
-                aux.setProp("lier",true)  // put this flag on the auxiliary
-                delete this.props["lier"] // delete it from the verb
-                // HACK: check if the verb was lié to a nominative pronoun (e.g. subject inversion for a question)
-                const myParent=this.parentConst;
-                if (myParent!==null){
-                    if (!myParent.isA(Constituent.deprels)){
-                        const myself=this;
-                        const myParentElems=myParent.elements;
-                        let idxMe=myParentElems.findIndex(e => e==myself,this);
-                        if (idxMe>=0 && idxMe<myParentElems.length-1){
-                            const idxNext=idxMe+1;
-                            const next=myParentElems[idxNext]
-                            if (next.isA("Pro")){
-                                const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
-                                thePro.realization=thePro.realize() // insert its realization after the auxiliary and before the verb
-                                return [aux,thePro,this] 
-                            }
-                        }
-                    } else {
-                        // search for pronoun in parent
-                        const proIndex=myParent.findIndex(d=>d.terminal.isA("Pro"))
-                        if (proIndex>=0) {
-                            const thePro=myParent.removeDependent(proIndex).terminal; // remove Pro from Parent
-                            const thePro2=thePro.clone();   // as the original Pro is already realized in the output list, we must hack
-                            thePro2.realization=thePro2.realize(); // insert its realization after the auxiliary and before the verb
-                            thePro.realization="";          // set original Pro realization to nothing 
-                            return [aux,thePro2,this]
-                        }
-                    } 
-                }
-            }
-            return [aux,this];
-        default:// simple tense
-            var conjugation=getRules(this.lang).conjugation[this.tab].t[t];
-            if (conjugation!==undefined && conjugation!==null){
-                let res,term;
-                switch (t) {
-                case "p": case "i": case "f": case "ps": case "c": case "s": case "si":
-                    term=conjugation[pe-1+(n=="p"?3:0)];
-                    if (term==null){
-                        return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-                    } else {
-                        this.realization=this.stem+term;
-                    }
-                    res=[this];
-                    if (this.isReflexive() && this.parentConst==null){
-                        this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
-                    }
-                    return res;
-                case "ip":
-                    if ((n=="s" && pe!=2)||(n=="p" && pe==3)){// French imperative does not exist at all persons and numbers
-                        return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-                    }
-                    term=conjugation[pe-1+(n=="p"?3:0)];
-                    if (term==null){
-                        return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-                    } else {
-                        this.realization=this.stem+term;
-                    }
-                    res=[this];
-                    if (this.isReflexive() && this.parentConst==null){
-                        this.lier();
-                        this.insertReal(res,Pro("moi","fr").tn("").pe(pe).n(n).g(g));
-                    }
-                    return res;
-                case "b": case "pr": case "pp":
-                    this.realization=this.stem+conjugation;
-                    res=[this];
-                    if ( this.isReflexive()&& this.parentConst==null && t!="pp" ){
-                        this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
-                    }
-                    if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
-                        let g=(this.cod ?? this).getProp("g");
-                        let n=(this.cod ?? this).getProp("n");
-                        if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
-                        if (n=="x")n="s";
-                        const gn=g+n;
-                        if (!(gn == "mp" && this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s
-                            if (gn != "ms" && this.realization.endsWith("û"))// changer "dû" en "du" sauf pour masc sing
-                                this.realization=this.realization.slice(0,-1)+"u"
-                            this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[gn]
-                        }
-                    }
-                    return res;
-                default:
-                    return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-                }
-            }
-            return [this.morphoError("conjugate_fr:t",{pe:pe,n:n,t:t})];
-        }
-    }
-
-    /**
-     * English conjugation of this Terminal
-     * @returns list of Terminals with their realization field filled
-     */
-    conjugate_en(){
-        let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
-        const n = this.getProp("n");
-        const g = this.getProp("g") || "m"; // migh be used for reflexive pronoun
-        const t = this.getProp("t");
-        if (this.tab==null)
-            return [this.morphoError("conjugate_en:tab",{pe:pe,n:n,t:t})];
-        // subjonctive present is like present except that it does not end in s at 3rd person
-        // subjonctive past is like simple past
-        const t1 = t=="s"?"p":(t=="si"?"ps":t);
-        const conjugation=getRules(this.lang).conjugation[this.tab].t[t1];
-        let res=[this];
-        if (conjugation!==undefined){
-            switch (t) {
-                case "p": case "ps": 
-                case "s": case "si": 
-                    if (typeof conjugation == "string"){
-                        this.realization=this.stem+conjugation;
-                    } else {
-                        let term=conjugation[pe-1+(n=="p"?3:0)];
-                        if (term==null){
-                            return [this.morphoError("conjugate_en:pe",{pe:pe,n:n,t:t})];
-                        } else {
-                            // remove final s at subjonctive present by taking the form at the first person
-                            if (t=="s" && pe==3)term=conjugation[0];
-                            this.realization=this.stem+term;
-                        }
-                    }
-                    break;
-                case "b": case "pp": case "pr":
-                    this.realization=this.stem+conjugation;
-            }
-        } else if (t=="f"){
-            this.realization=this.lemma;
-            this.insertReal(res,V("will"),0);
-        } else if (t=="c"){
-            this.realization=this.lemma;
-            this.insertReal(res,V("will").t("ps"),0);
-        } else if (t=="bp" || t=="bp-to"){
-            const pp = getRules(this.lang).conjugation[this.tab].t["pp"];
-            this.realization=pp!==undefined?(this.stem+pp):this.lemma;
-            this.insertReal(res,V("have").t("b"),0);
-            if (t=="bp-to") this.insertReal(res,P("to"),0);
-        } else if (t=="b-to"){
-            this.realization=this.lemma;
-            this.insertReal(res,P("to"),0);
-        } else if (t=="ip"){
-            this.realization=this.lemma;
-            if (pe==1 && n=="p")this.insertReal(res,Q("let's"),0);
-        } else
-            return [this.morphoError("conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
-        return res;
-    }
-
-    /**
-     * Conjugation of this Terminal
-     * @returns list of Terminals with their realization field filled
-     */
-    conjugate(){
-        if (this.isFr())return this.conjugate_fr();
-        else return this.conjugate_en();
     }
 
     /**
@@ -867,10 +552,8 @@ class Terminal extends Constituent{
             this.warn("bad number in word",number)
             return number+"";
         }
-        if (lang=="fr" && gender=="f"){
-            if (number==1)return "une";
-            if (number==-1) return "moins une";
-        } 
+        const one = this.numberOne(gender,number)
+        if (one != null)return one;
         return enToutesLettres(number,lang);
     };
 
@@ -921,7 +604,7 @@ class Terminal extends Constituent{
         // create the source of the Terminal
         let res=this.constType+"("+quote(this.lemma)+")";
         // add the options by calling super.toSource()
-        return res+Constituent.prototype.toSource.call(this);    
+        return res+super.toSource();    
     }
 
     /**
@@ -935,122 +618,6 @@ class Terminal extends Constituent{
             if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
             if (this.peng.tauxNO !== undefined) res += "-"+this.peng.tauxNO;
         } 
-        return res+Constituent.prototype.toDebug.call(this);
-    }
-}
-
-/**
- * Creates a Noun Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with N as constType
- */
-function N  (_){ return new Terminal(Array.from(arguments),"N") }
-/**
- * Creates an Adjective Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with NA as constType
- */
-function A  (_){ return new Terminal(Array.from(arguments),"A") }
-/**
- * Creates a Pronoun Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with Pro as constType
- */
-function Pro(_){ return new Terminal(Array.from(arguments),"Pro") }
-/**
- * Creates a Determiner Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with D as constType
- */
-function D  (_){ return new Terminal(Array.from(arguments),"D") }
-/**
- * Creates a Verb Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with NV as constType
- */
-function V  (_){ return new Terminal(Array.from(arguments),"V") }
-/**
- * Creates an Adverb Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with N as constType
- */
-function Adv(_){ return new Terminal(Array.from(arguments),"Adv") }
-/**
- * Creates a Conjunction Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with C as constType
- */
-function C  (_){ return new Terminal(Array.from(arguments),"C") }
-/**
- * Creates a Preposition Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with P as constType
- */
-function P  (_){ return new Terminal(Array.from(arguments),"P") }
-/**
- * Creates a Date Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with DT as constType
- */
-function DT (_){ return new Terminal(Array.from(arguments),"DT") }
-/**
- * Creates a Number Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with NO as constType
- */
-function NO (_){ return new Terminal(Array.from(arguments),"NO") }
-/**
- * Creates a Quoted String Terminal
- * @param {...string} _ lemma with optional language 
- * @returns Terminal with Q as constType
- */
-function Q  (_){ return new Terminal(Array.from(arguments),"Q") }
-
-const tonicForms = {
-    "fr" : ["toi","lui","nous","vous","eux","elle","elles","on","soi"],
-    "en" : ["us","her","you","him","them","it"]
-}
-
-
-/**
- * return a pronoun corresponding to this object 
- * taking into account the current gender, number and person
- *  do not change the current pronoun, if it is already using the tonic form or does not have one (e.g. this)
- * if case_ is not given, return the tonic form else return the corresponding case
- * HACK: This should be defined in Constituent.js but it is defined here to get around the circular import of Pro !
- * @param {string} case_ case for the tonic pronoun [case_ is followed by _ so that it is not displayed as a keyword in the editor]
- * @returns a new Pronoun
- */
-Constituent.prototype.getTonicPro = function(case_){
-    if (this.isA("Pro")){
-        if (this.props["tn"] || this.props["c"]){
-            if (case_!==undefined){
-                this.props["c"]=case_
-            } else { // ensure tonic form
-                this.props["tn"]="";
-                if ("c" in this.props)delete this.props["c"];
-            }
-            return this;
-        } else {
-            if (tonicForms[this.lang].includes(this.lemma)){
-                // lemma is already in tonic form
-                if (case_ !== undefined)
-                    return Pro(this.lemma).c(case_)
-            } else {
-                if (case_ !== undefined)
-                    return Pro(this.realize()).c(case_)
-            }
-            return this
-        }
-    } else { // generate the string corresponding to the tonic form
-        let pro=Pro(this.isFr()?"moi":"me",this.lang);
-        const g = this.getProp("g");
-        if (g!==undefined)pro.g(g);
-        const n = this.getProp("n");
-        if (n!==undefined)pro.n(n);
-        const pe = this.getProp("pe");
-        if (pe!==undefined)pro.pe(pe);
-        if (case_===undefined) return Pro(pro.realize(),this.lang).tn("");
-        return Pro(pro.realize(),this.lang).c(case_) 
+        return res+super.toDebug();
     }
 }

@@ -1,6 +1,6 @@
 {
   "name": "jsrealb",
-  "version": "4.6.5",
+  "version": "5.0.0",
   "description": "English and French text realizer",
   "main": "jsRealB.js",
   "scripts": {

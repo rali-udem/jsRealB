@@ -1,6 +1,6 @@
 /**
-    jsRealB 4.5
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
  */
 
 import { getRules } from "./Lexicon.js";

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: NonTerminal-fr.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: NonTerminal-fr.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
+ */
+
+import { Terminal } from "./Terminal.js"
+import {N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./jsRealB.js"
+
+export {French_non_terminal}
+
+/**
+ * Tables des positions des clitiques en français, tirées de 
+ *    Choi-Jonin (I.) &amp; Lagae (V.), 2016, « Les pronoms personnels clitiques », in Encyclopédie Grammaticale du Français, 
+ *    en ligne : http://encyclogram.fr
+ *  section 3.1.1. (http://encyclogram.fr/notx/006/006_Notice.php#tit31)
+ */
+const proclitiqueOrdre = { // page 11 du PDF
+    // premier pronom que nous ignorons pour les besoins de cette application
+    // "je":1, "tu":1, "il":1, "elle":1, "on":1, "on":1, "nous":1, "vous":1, "vous":1, "ils":1, "elle":1,
+    "ne":2, 
+    "me":3, "te":3, "se":3, "nous":3, "vous":3, 
+    "le":4, "la":4, "les":4, 
+    "lui":5, "leur":5,
+    "y":6,
+    "en":7,
+    "*verbe*":8,
+    "pas":9,  // s'applique aussi aux autre négations... plus, guère
+} 
+
+const proclitiqueOrdreImperatifNeg = { // page 14 du PDF
+    "ne":1, 
+    "me":2, "te":2, "nous":2, "vous":2, 
+    "le":3, "la":3, "les":3, 
+    "lui":4, "leur":4,
+    "y":5,
+    "en":6,
+    "*verbe*":7,
+    "pas":8,  // s'applique aussi aux autre négations... plus, guère
+} 
+
+const proclitiqueOrdreImperatifPos = { // page 15 du PDF
+    "*verbe*":1,
+    "le":2, "la":2, "les":2, 
+    "lui":3, "leur":3,
+    "me":4, "te":4, "nous":2, "vous":2, 
+    "y":5,
+    "en":6,
+} 
+
+const proclitiqueOrdreInfinitif = { // page 17 du PDF
+    "ne":1, 
+    "pas":2,  // s'applique aussi aux autre négations... plus, guère, jamais
+    "me":3, "te":3, "se":3, "nous":3, "vous":3, 
+    "le":4, "la":4, "les":4, 
+    "lui":5, "leur":5,
+    "y":6,
+    "en":7,
+    "*verbe*":8,
+} 
+
+/**
+ * Compare position of two pronoun (used for sorting)
+ * @param {Pro} pro1 first pronoun
+ * @param {Pro} pro2 secong pronoun
+ * @param {Object} table table giving the position of a pronoun
+ */
+function compareClitics(pro1,pro2,table){
+    const k1=table[pro1.realization] || 100
+    const k2=table[pro2.realization] || 100;
+    return k1-k2;
+}
+
+/**
+ * French specific class for functions shared between Phrase_en and Dependent_en
+ */
+const French_non_terminal = (superclass) =>
+    class extends superclass {
+         /**
+         * Return the French word for "last"
+         *
+         * @returns {"dernier"}
+         */
+         word_last(){return "dernier"}
+
+         /**
+         * Return the default adjective position
+         *
+         * @returns {"post")
+         */            
+        adj_def_pos(){return "post"}
+        
+        /**
+         * Return a pronoun for a passive subject
+         *
+         * @param {*} subject
+         * @returns {Terminal}
+         */
+        passive_pronoun_subject(subject){
+            if (subject.lemma == "je")
+                return Pro("moi").tn("").g(subject.getProp("g"))
+                        .n(subject.getProp("n")).pe(subject.getProp("pe"))
+            return subject.getTonicPro()
+        }
+        
+        /**
+         * Return the list of French copula verbs
+         *
+         * @returns {string[]}
+         */
+        copules(){
+            return ["être","paraître","sembler","devenir","rester"]
+        }
+
+        /**
+         * Return a default passive subject
+         *
+         * @returns {"lui"}
+         */        
+        passive_dummy_subject(){return "lui"}
+            
+        /**
+         * Return s atring corresponding to a "passive context" for the error message
+         *
+         * @returns {"contexte passif"}
+         */
+        passive_context(){return "contexte passif"}
+
+        /**
+         * Link passive with subject. Essentially empty for English
+         *
+         * @returns {false}
+         */        
+        passive_should_link_subject(){return false}
+        
+        /**
+         * Return a preposition in a passive context according to a condition
+         *
+         * @param {boolean} test
+         * @returns {("de" | "par")}
+         */
+        passive_prep(test) {return test ? "de" : "par"}
+
+        /**
+         * Check if the object in a passive sentence is a human
+         *
+         * @param {string} int
+         * @param {Constituent} cmp
+         * @returns {false}
+         */
+        passive_human_object(int, cmp){return false}
+
+        /**
+         * Check if an interrogative prefix should be added
+         *
+         * @param {*} int_ : interrorative type
+         * @returns {true}
+         */
+        should_add_interrogative_prefix(int_) {return true}
+
+        /**
+         * Return the lemma corresponding to "and"
+         *
+         * @returns {"et"}
+         */
+        and_conj() {return "et"}
+        
+        /**
+         * Return an object with set of string for prepositions used for different types of questions
+         * The list of prepositions was obtained with:
+         *   cat lexicon-fr.json | jq -c 'to_entries | map(select(.value|has("P"))|.key )'
+         *
+         * @returns  {{ all: string[], whe: string[], whn: string[] }}
+         */
+        prepositionsList(){
+            return {
+                "all":new Set([ "à", "après", "avant", "avec", "chez", "contre", "d'après", "dans", "de", "dedans", "depuis", "derrière", 
+                    "dès", "dessous", "dessus", "devant", "durant", "en", "entre", "hors", "jusque", "malgré", "par", "parmi", 
+                    "pendant", "pour", "près", "sans", "sauf", "selon", "sous", "sur", "vers", "via", "voilà" ]),
+                "whe":new Set(["après", "avant", "chez","dans",  "dedans","derrière","dessous", "dessus", "devant","entre", "hors",
+                    "près","sous", "sur", "vers", "via",]),
+                "whn":new Set(["après", "avant","depuis", "dès","durant", "en","pendant",]),
+            }
+        }
+        /**
+         * In a VP, place the first consecutive adverbs at a correct position according to the rules of French. 
+         * Usually an adverb is set according to either .pos("pre"|"post")
+         * The problem occurs mainly with verbs with an auxiliary. 
+         * TODO: deal with more than one sequence of adverbs (although it should be rare)
+         * @param {Terminal[]} res : list of Termnals possibly modified in place 
+         */
+        checkAdverbPos(res){
+            function moveTo(startIdx,n,toIdx){
+                res.splice(toIdx,0,...res.splice(startIdx,n))
+            }
+            const relpro = this.relative_pronouns()
+            // find the start of the current "sentence" in order not to move an adverb across the boundary of a relative
+            let start = res.length-1
+            while (start>=0 &amp;&amp; !(res[start].isA("Pro")&amp;&amp;relpro.includes(res[start].lemma))) start--;
+            start++;
+            // find first consecutive adverbs (ignoring "not" and "ne")
+            const advIdxes = res.map((e,i)=>(i>=start &amp;&amp; e.isA("Adv") &amp;&amp; !(["not","ne"].includes(e.lemma)))?i:-1).filter((e)=> e!=-1)
+            if (advIdxes.length==0) return;
+            const advIdx = advIdxes[0]
+            const advTerminal = res[advIdx]
+            // check that the indexes of adverbs are consecutive, remove those that are not
+            for (let i=1; i&lt;advIdxes.length;i++){
+                if (advIdxes[i] != advIdxes[i-1]+1){
+                    advIdxes.splice(i,advIdxes.length-i)
+                }
+            }
+            function moveAfterAux(auxMods){
+                for (let auxIdx = 0;auxIdx&lt;advIdx-1; auxIdx++){
+                    const e = res[auxIdx];
+                    if (e.isA("V") &amp;&amp; auxMods.includes(e.lemma)){
+                        if (res[auxIdx+1].isA("V")){
+                            if (auxMods.includes(res[auxIdx+1].lemma)){
+                                // another French modal ()
+                                moveTo(advIdx,advIdxes.length,auxIdx+2)
+                            } else {
+                                moveTo(advIdx,advIdxes.length,auxIdx+1)
+                            }
+                        } else {
+                            // check for infinitive verb (the adverb should go before it)
+                            let infinitiveFound=false;
+                            for (let idx=advIdx-1;idx>auxIdx;idx--){
+                                if (res[idx].props["t"]=="b"){
+                                    moveTo(advIdx,advIdxes.length,idx)
+                                    infinitiveFound=true
+                                }
+                            }
+                            if (!infinitiveFound){
+                                // check for inverted pronoun (added by .typ("int":"yon")
+                                if (res[auxIdx+1].isA("Pro") &amp;&amp; res[auxIdx+2].isA("V"))
+                                    moveTo(advIdx,advIdxes.length,auxIdx+2)
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (advIdx >= start+2 &amp;&amp; advTerminal.props["pos"]===undefined){
+                // do not touch adverb with pos specified
+                // French : https://fr.tsedryk.ca/grammaire/presentations/adverbes/4_La_place_de_l_adverbe.pdf (page 3)
+                // place immediately after the auxiliary
+                const advLemma = advTerminal.lemma;
+                if (advLemma.endsWith("ment")) return; // adverbe qui finit en -ment, laisser après le verbe
+                //  adverbes de temps et de lieu qu'il faut laisser après le verbe
+                //  extraits d'une liste de types d'adverbes à https://www.scribbr.fr/elements-linguistiques/adverbe/
+                const tempsAdv = ["hier","demain","longtemps","aujourd'hui","tôt","tard","auparavant","autrefois"]
+                const lieuAdv = ["ici","là","là-bas","là-haut","ailleurs","autour","derrière","dessus","dessous","devant",
+                "dedans","dehors","loin","près","alentour","après","avant","partout",
+                "où","partout","au-dessus","au-dessous","au-devant","nulle part","quelque part"]
+                if (tempsAdv.includes(advLemma) || lieuAdv.includes(advLemma)) return
+                if (advLemma.length&lt;=6 || ["toujours","souvent"].includes(advLemma))
+                    // adverbe court ou commun: déjà, très, trop, toujours, souvent ... 
+                    moveAfterAux(["avoir","être","vouloir","devoir","savoir"])
+            }
+        }
+
+        /**
+         * Look for "clitic" pronouns and sort them according to the rules of French
+         * CAUTION: some heuristics being used, in some cases the order might not be "optimal" 
+         * @param {Terminal[]} cList list of Terminal in which the pronouns might be sorted
+         */
+        doPronounPlacement(cList){
+            function isLie(v){
+                const lie = v.getProp("lier")
+                return lie !== undefined &amp;&amp; lie === true
+            }
+
+            let verbPos,cliticTable,neg2,prog;
+            // check for combination of negation, progressive and modality verb
+            // negation should be put on the "être" and "modality" and not on the original verb
+            let iDeb=0
+            for (let i=iDeb;i&lt;cList.length;i++){
+                let c=cList[i];
+                if (c.isA("V") &amp;&amp; c.neg2 !== undefined){
+                    if (c.isMod || c.isProg){
+                        if (isLie(c)){
+                            c.insertReal(cList,Q(c.neg2),i+2);
+                        } else
+                            c.insertReal(cList,Q(c.neg2),i+1);               
+                        c.insertReal(cList,Adv("ne","fr"),i);
+                        delete c.neg2 // remove negation from the original verb
+                        iDeb=i+3      // skip these in the following loop
+                        if (c.isProg)iDeb+=2 // skip "en train","de"
+                        break;
+                    }
+                }
+            }
+            // gather verb position and pronouns coming after the verb possibly adding a reflexive pronoun
+            let pros=[]
+            for (let i=iDeb;i&lt;cList.length;i++){
+                let c=cList[i];
+                if (c.isA("V") &amp;&amp; c.getProp("t")!="pp"){ // ignore past participles that act like adjectives
+                    if (verbPos===undefined){
+                        if (c.isMod || c.isProg){
+                            if (c.isProg){prog=c}
+                            continue;
+                        }
+                        verbPos=i
+                        // find the appropriate clitic table to use
+                        const t=c.getProp("t");
+                        if (t=="ip"){
+                            cliticTable = (c.neg2!==undefined) ? proclitiqueOrdreImperatifNeg : proclitiqueOrdreImperatifPos;
+                        } else if (t=="b"){
+                            cliticTable = proclitiqueOrdreInfinitif
+                        } else 
+                            cliticTable=proclitiqueOrdre;
+                        // check for negation
+                        if (c.neg2 !== undefined){
+                            c.insertReal(pros,Adv("ne","fr"));
+                            if (t=="b")
+                                c.insertReal(pros,Q(c.neg2));
+                            else
+                                neg2=c.neg2;
+                                delete c.neg2;// remove negation from the original verb
+                        }
+                        if (c.isReflexive() &amp;&amp; c.getProp("t")!="pp"){
+                            if (prog!==undefined)c=prog;
+                            c.insertReal(pros,Pro("moi","fr").c("refl")
+                                            .pe(c.getProp("pe")||3).n(c.getProp("n")||"s")
+                                            .g(c.getProp("g")||"m"));
+                        }
+                    }
+                } else if (c.isA("Pro") &amp;&amp; verbPos!==undefined){
+                    if (c.getProp("pos")===undefined || (c.parentConst!==null &amp;&amp; c.parentConst.getProp("pos")===undefined)){
+                        // do not try to change position of a constituent with specified pos
+                        if (["refl","acc","dat"].includes(c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
+                            pros.push(cList.splice(i,1)[0]);
+                            i--; // to ensure that all elements are taken into account because cList array has changed
+                        } else if (["qui","que","quoi","dont","où"].includes(c.lemma) ){// do not cross boundary of a relative
+                            break;
+                        }
+
+                    }
+                } else if (c.isA("P","C","Adv","Pro") &amp;&amp; verbPos!==undefined){
+                    // HACK: stop when seeing a preposition or a conjunction
+                    //         or a "strange" pronoun that might start a phrase
+                    //      whose structure has been flattened at this stage
+                    if (c.lemma=="par" &amp;&amp; i&lt;cList.length-1 &amp;&amp; cList[i+1].isA("Pro")){
+                        // if "par"  followed by a Pro is encountered (probably for passive), keep them together
+                        i++;
+                    } else
+                        break;
+                }
+            }
+            if (verbPos === undefined)return;
+            // add ending "pas" after the verb unless it is "lié" in which case it goes after the next word
+            if (neg2){// HACK: add neg2 to the original verb...
+                const vb=cList[verbPos]
+                vb.insertReal(cList,Q(neg2),verbPos+(isLie(vb)?2:1))
+                if (pros.length>0  &amp;&amp;  pros[0].isA("Adv") &amp;&amp; pros[0].lemma=="ne"){
+                    cList.splice(verbPos,0,pros.shift())
+                    verbPos++;
+                }
+            }    
+            if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable));
+            if (pros.length>0){
+                // insert pronouns before the verb 
+                for (let k=0;k&lt;pros.length;k++){
+                    cList.splice(verbPos+k,0,pros[k])
+                }
+            }
+        }
+
+    }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -346,7 +346,7 @@ class UDnode {
         let coordDep = coord(coordTerm);
         for (let child of conjChildren) {
             if (child instanceof Terminal) {
-                coordDep.add(new Dependent([child], deprel), undefined, true);
+                coordDep.add(dependent(deprel,[child]), undefined, true);
             } else {
                 if (child.constType != deprel)
                     child.changeDeprel(deprel);
@@ -359,7 +359,7 @@ class UDnode {
     //  create a dependent by mapping the deprel name to a jsRealB one
     childrenDeps(head, isLeft, isSUD) {
         const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
-        let dep = new Dependent([head], deprel);
+        let dep = dependent(deprel,[head]);
         if (this.left.length > 0) {
             const first = this.left[0];
             if (first.getDeprel() == "punct") { // add first punct as option b()

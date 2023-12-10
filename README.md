@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 4.6.5 - October 2023*
+*Version 5.0 - December 2023*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -23,11 +23,12 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 
 ## Directories
 * [`Architecture`](Architecture/):
-    * `README.md` : Description of the architecture of the system; the second section goes into details of the organization of the source files and describes the main methods.
+    * `README.md` : Description of the organization of the source files and describes the main methods.
     
 * [`data`](data/):  lexicographic information that is bundled with the `dist/jsRealB.js`
     * `lexicon-en.json` : a *comprehensive* English lexicon (33926 entries) in JSON format 
     * `lexicon-fr.json` : a *comprehensive* French lexicon (52512 entries) in JSON format
+    * `LICENSE.txt` : Creative Commons license 
     * `rule-en.js` : English conjugation and declension tables 
     * `rule-fr.js` : French conjugation and declension tables 
     
@@ -54,7 +55,9 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     2.  `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
     
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
+    * `jsRealB-jsonInput.hmtl` use of the JSON format for *jsRealB*: 
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
+    * `lexiconFormat.html` : format for the entries in the lexicon
     * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * `style.css`: style sheet
     * `user-infos.js`: definitions of variables containing the examples
@@ -62,23 +65,27 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     
 * [`Examples`](Examples): Examples of integration of jsRealB into web pages or node.js applications. See [index.html](Examples/index.html) for use cases.
 
-* [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it.
+* [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it. The use of the *Evaluation* demo is probably more convenient for developing with a web brovser.
 
 * [`node-modules`](node-modules/) : used for transpiling with webpack
 
 * [`src`](src/): sources to create the JavaScript library; more details in the [document on the architecture of the system](Architecture/README.md) 
     * `jsdoc`: documentation directory of the source files of `jsRealB.js`. [Consult the documentation](src/jsdoc/index.html).  
-    Build this directory by running `jsdoc -d jsdoc *.js` in the `src` directory. For the moment, ignore warning about _unable to parse .../Lexicon.js_
+    Build this directory by running `jsdoc -d jsdoc *.js` in the `src` directory. For the moment, ignore warning about _unable to parse .../Lexicon.js_ Unfortunately, the jsdoc does not recognize the dynamic classes used for multiple inheritance, so all language specific classes are described as variables.
     * `Constituent.js`: *Constituent* is the top class for methods shared between *Phrase*s and *Terminal*s 
+    * `Constituent-en.js`, `Constituent-fr.js` : language specific `Constituent` classes.
     * `Dependent.js` : subclass of *Constituent* for creating complex phrases using the *dependency notation* 
+    * `Dependent-en.js`, `Dependent-fr.js` : language specific `Dependent` classes.
     * `JSON-tools.js` : functions for dealing with the JSON input format
     * `jsRealB.js` : _main_ module that gathers all exported symbols from other classes and exports them in a single list. It also defines other utility functions and constants
     * `Lexicon.js` : English and French lexicons with their associated functions  
-    * `NonTerminal.js` : functions and constants that are shared between `Dependent.js` and `Phrase.js`
+    * `LICENSE.txt` : Apache 2.0 license for the source code
+    * `NonTerminal-en.js`, `NonTerminal-fr.js` :Language specific classes for functions and constants that are shared between `Dependent.js` and `Phrase.js`
     * `Number.js` : utility functions for number formatting
     * `Phrase.js` : subclass of *Constituent* for creating complex phrases using the _constituent notation_
+    * `Phrase-en.js`, `Phrase-fr.js` : language specific `Phrase` classes.
     * `Terminal.js` : subclass of *Constituent* for creating a single unit (most often a single word)
-    * `Warnings.js` : list of functions to generate warnings in case of erroneous specifications using jsRealB itself
+    * `Terminal-en.js`, `Terminal-fr.js` : language specific `Terminal` classes.
     
 * [`Tests`](Tests/) : unit tests (using [QUnit](https://qunitjs.com "QUnit")) of jsRealB in both French and English.
     * `testAll.html` : load this file in a browser to run all tests.  
@@ -104,7 +111,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 ## Demos
 ### Simple examples on a single sentence
 * **Evaluate** a `jsRealB` expression and display its realization in a web page in either English or French.
-    
+  
     * [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index.html)
     
 * Show the use of loops in Javascript to create **repetitive texts**
@@ -116,21 +123,22 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * **Sentence with sentence modifiers** [Sentence variants](demos/VariantesDePhrases) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/VariantesDePhrases/index.html)
     * French or English **conjugation and declension** of a word [Conjugation and declension](demos/inflection) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/inflection/index.html)
     * **Pronouns**: Generate a table (both in English and French) showing the different forms of pronouns
-         
+      
          * using the original specification 
          * using the tonic and clitic options  
+        
       
       This table is now part of the documentation
     
 * **User interface to create a  sentence with options**. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
-    
+  
     * [*RandomGeneration*](demos/randomGeneration/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/english.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/randomGeneration/french.html)
 
 ### Linguistic games    
 * **Generate spelling and grammar exercises** from a simple sentence structure in both English and French.
-    
+  
     * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
       [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 
       [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-fr.html)
@@ -181,15 +189,18 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * [English](https://observablehq.com/@lapalme/exprimenting-with-jsrealb "Experimenting with jsRealB / Guy Lapalme / Observable")
     * [Français](https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb "Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable")
 
-## Licences
+## Licenses
 `pyrealb` source code is licensed under _Apache-2.0_ and the linguistic resources in the `./data` directory is 
 licensed under _CC-BY-SA-4.0_
 
 
 ## Design of the system
-Version 4.5 was a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation.
+Version 3.0 was a redesign and reimplementation of the previous version while keeping intact the external interface, i.e. same name of functions for building constituents, for option names and for global functions. This means that applications using only the external interface of `jsRealB` can be run unchanged. Version 4.0 added the dependency notation. Version 5.0 reorganized the internal class structure to separate common processing from the language specific aspects for English and French.
 
-[This document](Architecture/README.md) describes the transformation steps within the realizer using a few examples. It also gives an overview of the implementation explaining the role of the main classes and methods.
+More info:
+
+- [This document](Architecture/README.md) describes the transformation steps within the realizer using a few examples. It also gives an overview of the implementation explaining the role of the main classes and methods.
+- [https://arxiv.org/abs/2311.14808](https://arxiv.org/abs/2311.14808) illustrate how to use pyrealb for bilingual data-to-text applications.
 
 ## Authors
 *jsRealB* was updated, developed and brought to its current version by [Guy Lapalme](http://www.iro.umontreal.ca/~lapalme) building on the work of:

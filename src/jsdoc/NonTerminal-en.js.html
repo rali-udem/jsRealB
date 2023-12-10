@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: NonTerminal-en.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: NonTerminal-en.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
+ */
+
+import { Terminal } from "./Terminal.js"
+import { Pro,V,Adv,P,Q } from "./jsRealB.js"
+export { English_non_terminal }
+
+// negation of modal auxiliaries
+const negMod={"can":"cannot","may":"may not","shall":"shall not","will":"will not","must":"must not",
+              "could":"could not","might":"might not","should":"should not","would":"would not"}; 
+
+/**
+ * English specific class for functions shared between Phrase_en and Dependent_en
+ */
+const English_non_terminal = (superclass) =>
+    class extends superclass {
+        /**
+         * Return the English word for "last"
+         *
+         * @returns {"last"}
+         */
+        word_last(){return "last"}
+                
+        /**
+         * Return the default adjective position
+         *
+         * @returns {"pre")
+         */
+        adj_def_pos(){return "pre"}
+        
+        /**
+         * Return a pronoun for a passive subject
+         *
+         * @param {*} subject
+         * @returns {Terminal}
+         */
+        passive_pronoun_subject(subject){
+            if (subject.lemma == "I")
+                return Pro("me").tn("").g(subject.getProp("g"))
+                        .n(subject.getProp("n")).pe(subject.getProp("pe"))
+            return subject.getTonicPro()
+        }
+
+        /**
+         * Return a default passive subject
+         *
+         * @returns {"it"}
+         */
+        passive_dummy_subject(){return "it"}
+            
+        /**
+         * Return s atring corresponding to a "passive context" for the error message
+         *
+         * @returns {"passive context"}
+         */
+        passive_context(){return "passive context"}
+        
+        /**
+         * Link passive with subject. Essentially empty for English
+         *
+         * @returns {true}
+         */
+        passive_should_link_subject(){return true}
+        
+        /**
+         * Return a preposition in a passive context according to a condition
+         *
+         * @param {boolean} test
+         * @returns {("to" | "by")}
+         */
+        passive_prep(test) {return test ? "to" : "by"}
+
+        /**
+         * Check if the object in a passive sentence is a human
+         *
+         * @param {string} int
+         * @param {Constituent} cmp
+         * @returns {boolean}
+         */
+        passive_human_object(int, cmp){
+            return int == "wod" &amp;&amp; cmp !== undefined &amp;&amp; ["m","f"].includes(cmp.getProp("g"))
+        }
+
+        /**
+         * Check if an interrogative prefix should be added
+         *
+         * @param {*} int_ : interrorative type
+         * @returns {boolean}
+         */
+        should_add_interrogative_prefix(int_) {
+            return int_ != "yon"
+        }
+
+        /**
+         * Return the lemma corresponding to "and"
+         *
+         * @returns {"and"}
+         */
+        and_conj() {return "and"}
+            
+        /**
+         * Return an object with set of string for prepositions used for different types of questions
+         * The list of prepositions was obtained with:
+         *  cat lexicon-en.json | jq -c 'to_entries | map(select(.value|has("P"))|.key )'
+         *
+         * @returns {{ all: string[], whe: string[], whn: string[] }}
+         */
+        prepositionsList(){
+            return {
+                "all":new Set([ "about", "above", "across", "after", "against", "along", "alongside", "amid", "among", "amongst", 
+                                "around", "as", "at", "back", "before", "behind", "below", "beneath", "beside", "besides", "between", 
+                                "beyond", "by", "concerning", "considering", "despite", "down", "during", "except", "for", "from", 
+                                "in", "inside", "into", "less", "like", "minus", "near", "next", "of", "off", "on", "onto", "outside", 
+                                "over", "past", "per", "plus", "round", "since", "than", "through", "throughout", "till", "to", "toward", 
+                                "towards", "under", "underneath", "unlike", "until", "up", "upon", "versus", "with", "within", "without" ] ),
+                "whe":new Set(["above", "across", "along", "alongside", "amid","around", "before", "behind", "below", "beneath", "beside", 
+                            "besides", "between", "beyond", "in", "inside", "into", "near", "next", "onto", "outside", "over", "past",
+                            "toward", "towards", "under", "underneath","until","via","within",  ]),
+                "whn":new Set(["after", "before", "during","since",  "till", ]),
+            }
+        }
+
+        /**
+         * English conjugation (used by processTyp)
+         * implements the "affix hopping" rules given in 
+         *      N. Chomsky, "Syntactic Structures", 2nd ed. Mouton de Gruyter, 2002, p 38 - 48
+         * @param {string} v verb
+         * @param {string} t tense
+         * @param {Object} compound compound object from the rules of the language
+         * @param {Object} types current options for this Phrase
+         */
+        affixHopping(v,t,compound,types){
+            const v_peng=v.peng;
+            const neg = types["neg"]===true;
+            let auxils=[];  // list of Aux followed by V
+            let affixes=[];
+            let isFuture=false;
+            if (t=="f" || t=="c"){
+                isFuture=true;
+                t = t=="f"?"p":"ps"; // the auxiliary will be generated here so remove it from the V
+            }
+            const prog = types["prog"]!==undefined &amp;&amp; types["prog"]!==false;
+            const perf =types["perf"]!==undefined &amp;&amp; types["perf"]!==false;
+            const pas =types["pas"]!==undefined &amp;&amp; types["pas"]!==false;
+            const interro = types["int"];
+            const modality=types["mod"];
+            if (modality !== undefined &amp;&amp; modality !== false){
+                auxils.push(compound[modality].aux);
+                affixes.push("b");
+            } else if (isFuture){
+                // caution: future and conditional in English are done with the modal will, so another modal cannot be used
+                auxils.push(compound.future.aux);
+                affixes.push("b");
+            }
+            if (perf || prog || pas){
+                if (perf){
+                    auxils.push(compound.perfect.aux);
+                    affixes.push(compound.perfect.participle);
+                }
+                if (prog) {
+                    auxils.push(compound.continuous.aux);
+                    affixes.push(compound.continuous.participle)
+                }
+                if (pas) {
+                    auxils.push(compound.passive.aux);
+                    affixes.push(compound.passive.participle)
+                }
+            } else if (interro !==undefined &amp;&amp; interro !== false &amp;&amp; 
+                    auxils.length==0 &amp;&amp; v.lemma!="be" &amp;&amp; v.lemma!="have"){ 
+                // add auxiliary for interrogative if not already there
+                if (interro!="wos" &amp;&amp; interro!="was" &amp;&amp; interro!="tag"){
+                    if (!["pp","pr","b-to"].includes(t)){ // do not add auxiliary for participle and infi
+                        auxils.push("do");
+                        affixes.push("b");
+                    }
+                }
+            }
+            auxils.push(v.lemma);
+            // realise the first verb, modal or auxiliary
+            // but make the difference between "have" as an auxiliary and "have" as a verb
+            const vAux=auxils.shift();
+            let words=[];
+            // conjugate the first verb
+            if (neg) { // negate the first verb
+                if (["pp","pr","b","b-to","bp","bp-to"].includes(t)){ // special case for these tenses
+                    words.push(Adv("not","en"));
+                    if (t=="b" || t=="bp") words.push(P("to","en"));
+                    words.push(V(vAux,"en").t(t));
+                } else if (t=="ip" &amp;&amp; v_peng["pe"]==1 &amp;&amp; v_peng["n"]=="p") { 
+                    // very special case , insert "not" between "let's" and the verb
+                    words.push(Q("let's"))
+                    words.push(Adv("not","en"));
+                    words.push(V(vAux,"en").t("b"));
+                } else if (vAux in negMod){
+                    if (vAux=="can" &amp;&amp; t=="p"){
+                        words.push(Q("cannot"))
+                    } else {
+                        words.push(V(vAux,"en").t(t))
+                        words.push(Adv("not","en"))
+                    }
+                } else if (vAux=="be" || (vAux=="have" &amp;&amp; v.lemma!="have")) {
+                    words.push(V(vAux).t(t));
+                    words.push(Adv("not","en"));
+                } else {
+                    words.push(V("do","en").t(t));
+                    words.push(Adv("not","en"));
+                    if (vAux != "do") words.push(V(vAux).t("b")); 
+                }
+            } else { // must only set necessary options, so that shared properties will work ok
+                let newAux=V(vAux).t(t);
+                if (v.lemma in negMod)newAux.pe(1);
+                words.push(newAux);
+            }
+            // recover the original agreement info and set it to the first new verb...
+            words[0].peng=v_peng;
+            // realise the other parts using the corresponding affixes
+            while (auxils.length>0) {
+                const vb=auxils.shift();
+                words.push(V(vb).t(affixes.shift()));
+            }
+            if (types["refl"]===true &amp;&amp; t!="pp"){
+                words.push(Pro("myself","en").pe(v.getProp("pe")).n(v.getProp("n")).g(v.getProp("g")))
+            }
+            return words
+        }
+
+        /**
+         * In a VP, place the first consecutive adverbs at a correct position according to the rules of English. 
+         * Usually an adverb is set according to either .pos("pre"|"post")
+         * The problem occurs mainly with verbs with an auxiliary. 
+         * TODO: deal with more than one sequence of adverbs (although it should be rare)
+         * @param {Terminal[]} res : list of Terminals possibly modified in place 
+         */
+        checkAdverbPos(res){
+            function moveTo(startIdx,n,toIdx){
+                res.splice(toIdx,0,...res.splice(startIdx,n))
+            }
+            const relpro = this.relative_pronouns()
+            // find the start of the current "sentence" in order not to move an adverb across the boundary of a relative
+            let start = res.length-1
+            while (start>=0 &amp;&amp; !(res[start].isA("Pro")&amp;&amp;relpro.includes(res[start].lemma))) start--;
+            start++;
+            // find first consecutive adverbs (ignoring "not" and "ne")
+            const advIdxes = res.map((e,i)=>(i>=start &amp;&amp; e.isA("Adv") &amp;&amp; e.lemma != "not")?i:-1).filter((e)=> e!=-1)
+            if (advIdxes.length==0) return;
+            const advIdx = advIdxes[0]
+            const advTerminal = res[advIdx]
+            // check that the indexes of adverbs are consecutive, remove those that are not
+            for (let i=1; i&lt;advIdxes.length;i++){
+                if (advIdxes[i] != advIdxes[i-1]+1){
+                    advIdxes.splice(i,advIdxes.length-i)
+                }
+            }
+            function moveAfterAux(auxMods){
+                for (let auxIdx = 0;auxIdx&lt;advIdx-1; auxIdx++){
+                    const e = res[auxIdx];
+                    if (e.isA("V") &amp;&amp; auxMods.includes(e.lemma)){
+                        if (res[auxIdx+1].isA("V")){
+                            // there is an auxiliary/modals followed by a verb, insert adverb after the auxiliary
+                            // but avoid "will" or "shall" in future (check the parentConst in this case)
+                            if (e.lemma=="will" || e.lemma=="shall"){
+                                if (e.parentConst !== null &amp;&amp; e.parentConst.getProp("t")=="f") continue;
+                            }
+                            moveTo(advIdx,advIdxes.length,auxIdx+1)
+                        } else {
+                            // in English insert after negation (in French, negation [ne  ... pas] is added after this step)
+                            if (res[auxIdx+1].lemma=="not" &amp;&amp; res[auxIdx+2].isA("V"))
+                                moveTo(advIdx,advIdxes.length,auxIdx+2)
+                         }
+                        break;
+                    }
+                }
+            }
+
+            if (advIdx >= start+2 &amp;&amp; advTerminal.props["pos"]===undefined){
+                // do not touch adverb with pos specified
+                // the adverb must be put after the first auxiliary
+                    moveAfterAux(["have","can","will","shall","may","must"])
+            }
+        }
+
+        /**
+         * Place pronoun within the list of realized tokens, Empty for English
+         */
+        doPronounPlacement(){}
+
+    }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

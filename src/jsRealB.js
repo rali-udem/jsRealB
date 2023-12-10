@@ -1,27 +1,58 @@
 /**
-    jsRealB 4.6.5
-    Guy Lapalme, lapalme@iro.umontreal.ca, October 2023
+    jsRealB 5.0
+    Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
 
     Import all functions and classes of the jsRealB system and export them in one package
-    It also adds a few utility functions and constants
+    It also adds many utility functions and constants
  */
 
-import {Constituent} from "./Constituent.js";
-import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js"
-import {Phrase, S,NP,AP,VP,AdvP,PP,CP,SP} from "./Phrase.js"
-import {Dependent,root, subj, det, mod, comp, coord} from "./Dependent.js"
+import { Constituent } from "./Constituent.js";
+
+import { Terminal } from "./Terminal.js"
+import { English_terminal } from "./Terminal-en.js";
+import { French_terminal } from "./Terminal-fr.js";
+
+import { English_non_terminal } from "./NonTerminal-en.js";
+import { French_non_terminal } from "./NonTerminal-fr.js";
+
+import { Phrase } from "./Phrase.js"
+import { English_phrase } from "./Phrase-en.js";
+import { French_phrase } from "./Phrase-fr.js";
+
+import { Dependent } from "./Dependent.js"
+import { English_dependent } from "./Dependent-en.js";
+import { French_dependent } from "./Dependent-fr.js";
+
 import {loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV} from "./Lexicon.js"
-import {exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, testWarnings} from "./Warnings.js";
 import {fromJSON,ppJSON} from "./JSON-tools.js"
 
-export {Constituent,
-        Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-        Phrase,S,NP,AP,VP,AdvP,PP,CP,SP,
-        Dependent,root, subj, det, mod, comp, coord,
+export {Constituent, Terminal, Phrase, Dependent, 
         loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
-        exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, testWarnings,
-        fromJSON,ppJSON,
-        load, oneOf, mix, False, True, None, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode}
+        fromJSON, ppJSON,
+        getElems, exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
+        load, oneOf, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
+        Terminal_en, Terminal_fr, terminal, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+        Phrase_en, Phrase_fr, phrase, S,NP,AP,VP,AdvP,PP,CP,SP,
+        Dependent_en, Dependent_fr, dependent, root, subj, det, mod, comp, coord,
+}
+
+/**
+ * flatten list of elements removing null and undefined
+ * @param {Constittuent[]} es List of (Lists) Consituents with possibly undefined or null elements
+ * @returns list of Constituents
+ */
+function getElems(es){ // 
+    let res=[]
+    for (const e of es) {
+        if (e !== null && e!== undefined){
+            if (Array.isArray(e)){
+                Array.prototype.push.apply(res,getElems(e)); // recursive call
+            } else
+                res.push(e);
+        }
+    }
+    return res;
+}
 
 /**
  * Set current language
@@ -101,22 +132,9 @@ function mix(elems){
 }
 
 /**
- * False constant: useful for evaluating jsRealB expressions written in Python
- */
-const False = false;
-/**
- * True constant: useful for evaluating jsRealB expressions written in Python
- */
-const True  = true;
-/**
- * Null constant: useful for evaluating jsRealB expressions written in Python
- */
-const None  = null;
-
-/**
  * Version number
  */
-const jsRealB_version="4.6.6";
+const jsRealB_version="5.0.0";
 /**
  * Date of jsRealB "compile", it is set by webpack
  */
@@ -127,3 +145,312 @@ const jsRealB_dateCreated=typeof BUILDTIME == "string" ? BUILDTIME : new Date().
  * Runtime environment checking
  */
 const isRunningUnderNode = typeof process !== "undefined" && process?.versions?.node;
+
+/**
+ * When true, throw an exception on Warning instead of only writing on the console
+ */
+let exceptionOnWarning=false;
+/**
+ * if this is set to an array then warnings will be pushed on this array, 
+ * so that all warnings can be returned in one bunch to the caller which has
+ * to resetSavedWarnings() once it has called getSavedWarnings() 
+ */
+let savedWarnings=undefined;    
+
+/**
+ * Sets the flag so that a warning also generates an exception
+ * @param {boolean} val 
+ */
+function setExceptionOnWarning(val){
+    exceptionOnWarning=val;
+}
+
+/**
+ * Resets the list of saved warnings, so that the next warn calls
+ * add the warning to this list instead of writing them to the console
+ * Useful, to show the warning to the user web page.
+ */
+function resetSavedWarnings(){
+    savedWarnings=[]
+}
+
+/**
+ * Returns the current list of saved warnings. 
+ * CAUTION: it DOES NOT reset the list
+ * @returns the list of saved warnings
+ */
+function getSavedWarnings(){
+    return savedWarnings || [];
+}
+
+///////////////////////////////////////////////////////////////////////
+///    User factory functions
+///
+
+/**
+ * Empty class for an English terminal 
+ *
+ * @class Terminal_en
+ * @typedef {Terminal_en}
+ * @extends {English_terminal(Terminal)}
+ */
+class Terminal_en extends English_terminal(Terminal){}
+/**
+ * Empty class for a French Terminal
+ *
+ * @class Terminal_fr
+ * @typedef {Terminal_fr}
+ * @extends {French_terminal(Terminal)}
+ */
+class Terminal_fr extends French_terminal(Terminal){}
+
+/**
+ * Create an instance of a language specific Terminal according to the current language
+ *
+ * @param {string} terminalType
+ * @param {string} lemma
+ * @returns {(Terminal_en | Terminal_fr)}
+ */
+function terminal(terminalType,lemmaArr){
+    let lang;
+    if (lemmaArr.length==1){
+        lang = getLanguage()
+    } else {
+        lang = lemmaArr[1]
+    }
+    return lang=="en" ? new Terminal_en(lemmaArr,terminalType) 
+                      : new Terminal_fr(lemmaArr,terminalType)
+}
+
+/**
+ * Creates a Noun terminal
+ * @param {...string} lemma with an optional language
+ * @returns {(Terminal_en | Terminal_fr)}
+ */
+function N(...lemma){return terminal("N",lemma)}
+
+/**
+ * Creates an Adjective Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with NA as constType
+ */
+function A(...lemma){return terminal("A",lemma)} 
+
+/**
+ * Creates a Pronoun Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with Pro as constType
+ */
+function Pro(...lemma){return terminal("Pro",lemma)} 
+
+/**
+ * Creates a Determiner Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with D as constType
+ */
+function D(...lemma){return terminal("D",lemma)}
+
+/**
+ * Creates a Verb Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with NV as constType
+ */
+function V(...lemma){return terminal("V",lemma)} 
+
+/**
+ * Creates an Adverb Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with N as constType
+ */
+function Adv(...lemma){return terminal("Adv",lemma)} 
+
+/**
+ * Creates a Conjunction Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with C as constType
+ */
+function C(...lemma){return terminal("C",lemma)} 
+
+/**
+ * Creates a Preposition Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with P as constType
+ */
+function P(...lemma){return terminal("P",lemma)}
+
+/**
+ * Creates a Date Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with DT as constType
+ */
+function DT(...lemma){return terminal("DT",lemma)}
+
+/**
+ * Creates a Number Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with NO as constType
+ */
+function NO(...lemma){return terminal("NO",lemma)} 
+
+/**
+ * Creates a Quoted String Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with Q as constType
+ */
+function Q(...lemma){return terminal("Q",lemma)} 
+
+/**
+ * Empty class for an English Phrase
+ *
+ * @class Phrase_en
+ * @typedef {Phrase_en}
+ * @extends {English_phrase(English_non_terminal(Phrase))}
+ */
+class Phrase_en extends English_phrase(English_non_terminal(Phrase)){}
+/**
+ * Empty class for a French Phrase
+ *
+ * @class Phrase_fr
+ * @typedef {Phrase_fr}
+ * @extends {French_phrase(French_non_terminal(Phrase))}
+ */
+class Phrase_fr extends French_phrase(French_non_terminal(Phrase)){}
+
+/**
+ * Create an instance of a language specific Phrase according to the current language
+ *
+ * @param {*} phraseType
+ * @param {*} elements
+ * @returns {(Phrase_en | Phrase_fr)}
+ */
+function phrase(phraseType,elements){
+    return getLanguage()=="en" ? new Phrase_en(elements,phraseType,"en") 
+                               : new Phrase_fr(elements,phraseType,"fr")
+}
+
+/**
+ * Creates a Sentence Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with S as constType
+ */
+function S(...elements){return phrase("S",elements)}
+
+/**
+ * Creates a Noun Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with NP as constType
+ */
+function NP(...elements){return phrase("NP",elements)}
+
+/**
+ * Creates a Adjective Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with AP as constType
+ */
+function AP(...elements){return phrase("AP",elements)}
+
+/**
+ * Creates a Verb Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with VP as constType
+ */
+function VP(...elements){return phrase("VP",elements)}
+
+/**
+ * Creates a Adverb Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with AdvP as constType
+ */
+function AdvP(...elements){return phrase("AdvP",elements)}
+
+/**
+ * Creates a Preposition Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with PP as constType
+ */
+function PP(...elements){return phrase("PP",elements)}
+
+/**
+ * Creates a Coordinate Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with CP as constType
+ */
+function CP(...elements){return phrase("CP",elements)}
+
+/**
+ * Creates a Subordinate Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with SP as constType
+ */
+function SP(...elements){return phrase("SP",elements)}
+
+/**
+ * Empty class for an English dependent
+ *
+ * @class Dependent_en
+ * @typedef {Dependent_en}
+ * @extends {English_dependent(English_non_terminal(Dependent))}
+ */
+class Dependent_en extends English_dependent(English_non_terminal(Dependent)){}
+/**
+ * Empty class for a French Dependent
+ *
+ * @class Dependent_fr
+ * @typedef {Dependent_fr}
+ * @extends {French_dependent(French_non_terminal(Dependent))}
+ */
+class Dependent_fr extends French_dependent(French_non_terminal(Dependent)){}
+
+/**
+ * Create an instance of a specific Dependent according to the current language
+ *
+ * @param {*} deprel
+ * @param {*} dependents
+ * @returns {(Dependent_en | Dependent_fr)}
+ */
+function dependent(deprel,dependents){
+    return getLanguage()=="en" ? new Dependent_en(dependents,deprel,"en") 
+                               : new Dependent_fr(dependents,deprel,"fr")
+}
+
+/**
+ * Creates a root
+ * @param {...Constituent} _ a Terminal possibly followed by Dependents
+ * @returns Dependent with root as constType
+ */
+ function root(...dependents){return dependent("root",dependents)}
+
+ /**
+  * Creates a subj
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with subj as constType
+  */
+ function subj(...dependents){return dependent("subj",dependents)}
+
+ /**
+  * Creates a det
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with det as constType
+  */
+function det(...dependents){return dependent("det",dependents)}
+
+ /**
+  * Creates a mod
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with mod as constType
+  */
+function mod(...dependents){return dependent("mod",dependents)}
+
+ /**
+  * Creates a comp
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with comp as constType
+  */
+function comp(...dependents){return dependent("comp",dependents)}
+
+ /**
+  * Creates a coord
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with coord as constType
+  */
+function coord(...dependents){return dependent("coord",dependents)}

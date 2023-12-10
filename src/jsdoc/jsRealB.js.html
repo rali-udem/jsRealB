@@ -27,71 +27,461 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
-    jsRealB 4.6.1
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+    jsRealB 5.0
+    Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
 
     Import all functions and classes of the jsRealB system and export them in one package
-    It also adds a few utility functions and constants
+    It also adds many utility functions and constants
  */
 
-import {Constituent} from "./Constituent.js";
-import {Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q} from "./Terminal.js"
-import {Phrase, S,NP,AP,VP,AdvP,PP,CP,SP} from "./Phrase.js"
-import {Dependent,root, subj, det, mod, comp, coord} from "./Dependent.js"
+import { Constituent } from "./Constituent.js";
+
+import { Terminal } from "./Terminal.js"
+import { English_terminal } from "./Terminal-en.js";
+import { French_terminal } from "./Terminal-fr.js";
+
+import { English_non_terminal } from "./NonTerminal-en.js";
+import { French_non_terminal } from "./NonTerminal-fr.js";
+
+import { Phrase } from "./Phrase.js"
+import { English_phrase } from "./Phrase-en.js";
+import { French_phrase } from "./Phrase-fr.js";
+
+import { Dependent } from "./Dependent.js"
+import { English_dependent } from "./Dependent-en.js";
+import { French_dependent } from "./Dependent-fr.js";
+
 import {loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV} from "./Lexicon.js"
-import {exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, testWarnings} from "./Warnings.js";
 import {fromJSON,ppJSON} from "./JSON-tools.js"
 
-export {Constituent,
-        Terminal,N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-        Phrase,S,NP,AP,VP,AdvP,PP,CP,SP,
-        Dependent,root, subj, det, mod, comp, coord,
+export {Constituent, Terminal, Phrase, Dependent, 
         loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
-        exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, testWarnings,
-        fromJSON,ppJSON,
-        oneOf, False, True, None, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode}
+        fromJSON, ppJSON,
+        getElems, exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
+        load, oneOf, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
+        Terminal_en, Terminal_fr, terminal, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
+        Phrase_en, Phrase_fr, phrase, S,NP,AP,VP,AdvP,PP,CP,SP,
+        Dependent_en, Dependent_fr, dependent, root, subj, det, mod, comp, coord,
+}
 
+/**
+ * flatten list of elements removing null and undefined
+ * @param {Constittuent[]} es List of (Lists) Consituents with possibly undefined or null elements
+ * @returns list of Constituents
+ */
+function getElems(es){ // 
+    let res=[]
+    for (const e of es) {
+        if (e !== null &amp;&amp; e!== undefined){
+            if (Array.isArray(e)){
+                Array.prototype.push.apply(res,getElems(e)); // recursive call
+            } else
+                res.push(e);
+        }
+    }
+    return res;
+}
+
+/**
+ * Set current language
+ * @param {string} lang must be "en" or "fr"
+ * @param {boolean?} trace if given and true, write message on the console
+ * This function is defined here instead of being in Lexicon.js to be able to call warn(...)
+ */
+function load(lang,trace=false){
+    if (lang=="fr") loadFr(trace)
+    else if (lang=="en") loadEn(trace)
+    else
+        Q(lang).warn("bad language",lang)
+}
+
+let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to specific oneOf call
 /**
  * Select a random element in a list useful to have some variety in the generated text
  * if the first argument is a list, selection is done within the list,
- * otherwise the selection is among the arguments 
+ * otherwise the selection is among the arguments
+ * Implements the "mode:once" of RosaeNLG (https://rosaenlg.org/rosaenlg/4.3.0/mixins_ref/synonyms.html#_choose_randomly_but_try_not_to_repeat)
+ * Select an alternative randomly, but tries not to repeat the same alternative. 
+ * When all alternatives have been triggered, it will reset, but will try not run the last triggered alternative 
+ * as the first new one, avoiding repetitions.
  * @param {Array | any} elems 
  * @returns the selected element, if it is a function, evaluate it with no parameter
  */
 function oneOf(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    const e=elems[Math.floor(Math.random()*elems.length)];
+    const l = elems.length;
+    const elems_key = elems.toString()  // HACK: create key from the array
+    let indices, idx;
+    if (jsRealB_oneOf_map.has(elems_key)){
+        let past_indices=jsRealB_oneOf_map.get(elems_key) // a list of past indices
+        if (past_indices.length&lt;l){
+            indices=[]
+            for (let i=0;i&lt;l;i++){ 
+                if (past_indices.indexOf(i)&lt;0)
+                    indices.push(i)
+            }
+        } else { // reset the list but avoid last index
+            const last_idx = past_indices[past_indices.length-1]
+            indices=[...Array(l).keys()]
+            indices.splice(last_idx,1) // remove last index
+            past_indices.splice(0)     // clear the array
+        }
+        idx = indices[Math.floor(Math.random()*indices.length)] // select index
+        past_indices.push(idx)  
+    } else { // first call
+        indices=[...Array(l).keys()]
+        idx = indices[Math.floor(Math.random()*indices.length)] // select index
+        jsRealB_oneOf_map.set(elems_key,[idx])                  // initialise Map element
+    }
+    const e = elems[idx]
     return typeof e=='function'?e():e;
 }
 
 /**
- * False constant: useful for evaluating jsRealB expressions written in Python
+ * Mix elements of a list in a random order.
+ * If the first argument is a list, mixing is done within the list,
+ * otherwise the mix is among the arguments. The original list is not modified
+ * @param {Array | any} elems 
+ * @returns a new list with original arguments shuffled, if an element of the list is a function, evaluate it with no parameter
  */
-const False = false;
-/**
- * True constant: useful for evaluating jsRealB expressions written in Python
- */
-const True  = true;
-/**
- * Null constant: useful for evaluating jsRealB expressions written in Python
- */
-const None  = null;
+function mix(elems){
+    if (!Array.isArray(elems))
+        elems=Array.from(arguments);
+    else
+        elems = [...elems] // copy the original list
+    // shuffle the elements adapting the algorithm given in
+    // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
+    for (let i = elems.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [elems[i], elems[j]] = [elems[j], elems[i]];
+    }
+    return elems.map(e=>typeof e=='function'?e():e);
+}
 
 /**
  * Version number
  */
-const jsRealB_version="4.6.1";
+const jsRealB_version="5.0.0";
 /**
- * Date of jsRealB "compile", it is  set by webpack
+ * Date of jsRealB "compile", it is set by webpack
  */
-const jsRealB_dateCreated=typeof BUILDTIME == "string" ? BUILDTIME : JSON.stringify(new Date().toLocaleString("en-CA")); 
+const jsRealB_dateCreated=typeof BUILDTIME == "string" ? BUILDTIME : new Date().toLocaleString("en-CA"); 
 
 // 
 /**
  * Runtime environment checking
  */
 const isRunningUnderNode = typeof process !== "undefined" &amp;&amp; process?.versions?.node;
+
+/**
+ * When true, throw an exception on Warning instead of only writing on the console
+ */
+let exceptionOnWarning=false;
+/**
+ * if this is set to an array then warnings will be pushed on this array, 
+ * so that all warnings can be returned in one bunch to the caller which has
+ * to resetSavedWarnings() once it has called getSavedWarnings() 
+ */
+let savedWarnings=undefined;    
+
+/**
+ * Sets the flag so that a warning also generates an exception
+ * @param {boolean} val 
+ */
+function setExceptionOnWarning(val){
+    exceptionOnWarning=val;
+}
+
+/**
+ * Resets the list of saved warnings, so that the next warn calls
+ * add the warning to this list instead of writing them to the console
+ * Useful, to show the warning to the user web page.
+ */
+function resetSavedWarnings(){
+    savedWarnings=[]
+}
+
+/**
+ * Returns the current list of saved warnings. 
+ * CAUTION: it DOES NOT reset the list
+ * @returns the list of saved warnings
+ */
+function getSavedWarnings(){
+    return savedWarnings || [];
+}
+
+///////////////////////////////////////////////////////////////////////
+///    User factory functions
+///
+
+/**
+ * Empty class for an English terminal 
+ *
+ * @class Terminal_en
+ * @typedef {Terminal_en}
+ * @extends {English_terminal(Terminal)}
+ */
+class Terminal_en extends English_terminal(Terminal){}
+/**
+ * Empty class for a French Terminal
+ *
+ * @class Terminal_fr
+ * @typedef {Terminal_fr}
+ * @extends {French_terminal(Terminal)}
+ */
+class Terminal_fr extends French_terminal(Terminal){}
+
+/**
+ * Create an instance of a language specific Terminal according to the current language
+ *
+ * @param {string} terminalType
+ * @param {string} lemma
+ * @returns {(Terminal_en | Terminal_fr)}
+ */
+function terminal(terminalType,lemmaArr){
+    let lang;
+    if (lemmaArr.length==1){
+        lang = getLanguage()
+    } else {
+        lang = lemmaArr[1]
+    }
+    return lang=="en" ? new Terminal_en(lemmaArr,terminalType) 
+                      : new Terminal_fr(lemmaArr,terminalType)
+}
+
+/**
+ * Creates a Noun terminal
+ * @param {...string} lemma with an optional language
+ * @returns {(Terminal_en | Terminal_fr)}
+ */
+function N(...lemma){return terminal("N",lemma)}
+
+/**
+ * Creates an Adjective Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with NA as constType
+ */
+function A(...lemma){return terminal("A",lemma)} 
+
+/**
+ * Creates a Pronoun Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with Pro as constType
+ */
+function Pro(...lemma){return terminal("Pro",lemma)} 
+
+/**
+ * Creates a Determiner Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with D as constType
+ */
+function D(...lemma){return terminal("D",lemma)}
+
+/**
+ * Creates a Verb Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with NV as constType
+ */
+function V(...lemma){return terminal("V",lemma)} 
+
+/**
+ * Creates an Adverb Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with N as constType
+ */
+function Adv(...lemma){return terminal("Adv",lemma)} 
+
+/**
+ * Creates a Conjunction Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with C as constType
+ */
+function C(...lemma){return terminal("C",lemma)} 
+
+/**
+ * Creates a Preposition Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with P as constType
+ */
+function P(...lemma){return terminal("P",lemma)}
+
+/**
+ * Creates a Date Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with DT as constType
+ */
+function DT(...lemma){return terminal("DT",lemma)}
+
+/**
+ * Creates a Number Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with NO as constType
+ */
+function NO(...lemma){return terminal("NO",lemma)} 
+
+/**
+ * Creates a Quoted String Terminal
+ * @param {...string} _ lemma with optional language 
+ * @returns Terminal with Q as constType
+ */
+function Q(...lemma){return terminal("Q",lemma)} 
+
+/**
+ * Empty class for an English Phrase
+ *
+ * @class Phrase_en
+ * @typedef {Phrase_en}
+ * @extends {English_phrase(English_non_terminal(Phrase))}
+ */
+class Phrase_en extends English_phrase(English_non_terminal(Phrase)){}
+/**
+ * Empty class for a French Phrase
+ *
+ * @class Phrase_fr
+ * @typedef {Phrase_fr}
+ * @extends {French_phrase(French_non_terminal(Phrase))}
+ */
+class Phrase_fr extends French_phrase(French_non_terminal(Phrase)){}
+
+/**
+ * Create an instance of a language specific Phrase according to the current language
+ *
+ * @param {*} phraseType
+ * @param {*} elements
+ * @returns {(Phrase_en | Phrase_fr)}
+ */
+function phrase(phraseType,elements){
+    return getLanguage()=="en" ? new Phrase_en(elements,phraseType) 
+                               : new Phrase_fr(elements,phraseType)
+}
+
+/**
+ * Creates a Sentence Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with S as constType
+ */
+function S(...elements){return phrase("S",elements)}
+
+/**
+ * Creates a Noun Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with NP as constType
+ */
+function NP(...elements){return phrase("NP",elements)}
+
+/**
+ * Creates a Adjective Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with AP as constType
+ */
+function AP(...elements){return phrase("AP",elements)}
+
+/**
+ * Creates a Verb Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with VP as constType
+ */
+function VP(...elements){return phrase("VP",elements)}
+
+/**
+ * Creates a Adverb Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with AdvP as constType
+ */
+function AdvP(...elements){return phrase("AdvP",elements)}
+
+/**
+ * Creates a Preposition Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with PP as constType
+ */
+function PP(...elements){return phrase("PP",elements)}
+
+/**
+ * Creates a Coordinate Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with CP as constType
+ */
+function CP(...elements){return phrase("CP",elements)}
+
+/**
+ * Creates a Subordinate Phrase
+ * @param {Constituent[]} list of children Constituents
+ * @returns Phrase with SP as constType
+ */
+function SP(...elements){return phrase("SP",elements)}
+
+/**
+ * Empty class for an English dependent
+ *
+ * @class Dependent_en
+ * @typedef {Dependent_en}
+ * @extends {English_dependent(English_non_terminal(Dependent))}
+ */
+class Dependent_en extends English_dependent(English_non_terminal(Dependent)){}
+/**
+ * Empty class for a French Dependent
+ *
+ * @class Dependent_fr
+ * @typedef {Dependent_fr}
+ * @extends {French_dependent(French_non_terminal(Dependent))}
+ */
+class Dependent_fr extends French_dependent(French_non_terminal(Dependent)){}
+
+/**
+ * Create an instance of a specific Dependent according to the current language
+ *
+ * @param {*} deprel
+ * @param {*} dependents
+ * @returns {(Dependent_en | Dependent_fr)}
+ */
+function dependent(deprel,dependents){
+    return getLanguage()=="en" ? new Dependent_en(dependents,deprel) 
+                               : new Dependent_fr(dependents,deprel)
+}
+
+/**
+ * Creates a root
+ * @param {...Constituent} _ a Terminal possibly followed by Dependents
+ * @returns Dependent with root as constType
+ */
+ function root(...dependents){return dependent("root",dependents)}
+
+ /**
+  * Creates a subj
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with subj as constType
+  */
+ function subj(...dependents){return dependent("subj",dependents)}
+
+ /**
+  * Creates a det
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with det as constType
+  */
+function det(...dependents){return dependent("det",dependents)}
+
+ /**
+  * Creates a mod
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with mod as constType
+  */
+function mod(...dependents){return dependent("mod",dependents)}
+
+ /**
+  * Creates a comp
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with comp as constType
+  */
+function comp(...dependents){return dependent("comp",dependents)}
+
+ /**
+  * Creates a coord
+  * @param {...Constituent} _ a Terminal possibly followed by Dependents
+  * @returns Dependent with coord as constType
+  */
+function coord(...dependents){return dependent("coord",dependents)}
 </code></pre>
         </article>
     </section>
@@ -102,13 +492,13 @@ const isRunningUnderNode = typeof process !== "undefined" &amp;&amp; process?.ve
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doFrenchPronounPlacement">doFrenchPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#False">False</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#makeDisj">makeDisj</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#None">None</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#testWarnings">testWarnings</a></li><li><a href="global.html#True">True</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#VP">VP</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Mar 05 2023 21:58:13 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
 </footer>
 
 <script> prettyPrint(); </script>

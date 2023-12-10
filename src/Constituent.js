@@ -1,10 +1,16 @@
 /**
-    jsRealB 4.5
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
  */
 
-import {getRules, getLexicon, getLanguage, quoteOOV, getLemma} from "./Lexicon.js";
-export {Constituent}
+import {getRules, getLexicon, getLanguage, quoteOOV } from "./Lexicon.js";
+import { exceptionOnWarning, savedWarnings, Pro } from "./jsRealB.js";
+export {Constituent, deprels}
+
+/**
+ * list of implemented dependency relations
+ */
+const deprels = ["root","subj","det","mod","comp","coord"]
 
 /**
  * Class representing all objects that are realizable by jsRealB
@@ -25,14 +31,28 @@ class Constituent {
         this.optSource=""   // string corresponding to the calls to the options
     }
 
-    /**
-     * list of implemented dependency relations
-     */
-    static deprels = ["root","subj","det","mod","comp","coord"]
-    // 
+
     static pengNO=0; // useful for debugging: identifier of peng struct to check proper sharing in the debugger
     static tauxNO=0; // useful for debugging: identifier of taux struct to check proper sharing in the debugger
 
+    /**
+     * Initialize the properties of a Terminal
+     */
+    initProps(){
+        if (this.isA("N","A","D","V","NO","Pro","Q","DT")){
+            const props = this.defaultProps();
+            this.peng={pe: props["pe"],
+                        n: props["n"],
+                        g: props["g"],
+                        pengNO:Constituent.pengNO++
+                        };
+            if (this.isA("V")){
+                this.taux={t:props["t"],
+                           tauxNO:Constituent.tauxNO++};
+            }
+        }
+    }
+    
     /**
      * Raise exception for internal error that should never happen !!!
      * @param {string} mess error message to display 
@@ -56,19 +76,7 @@ class Constituent {
         return types.includes(this.constType)
     }
 
-    /**
-     * Check language
-     * @returns true if the language of this Constituent is French
-     */
-    isFr(){return this.lang=="fr"}
-
-    /**
-     * Check language
-     * @returns true if the language of this Constituent is English
-     */
-    isEn(){return this.lang=="en"}
-
-    /**
+     /**
      * Get the value of a property by first checking the property of this instance
      * and then the value of shared properties
      * @param {string} propName name of the property to query
@@ -122,6 +130,48 @@ class Constituent {
             return undefined;
         }
         return c.getFromPath(path);
+    }
+    /**
+     * return a pronoun corresponding to this object 
+     * taking into account the current gender, number and person
+     *  do not change the current pronoun, if it is already using the tonic form or does not have one (e.g. this)
+     * if case_ is not given, return the tonic form else return the corresponding case
+     * HACK: This should be defined in Constituent.js but it is defined here to get around the circular import of Pro !
+     * @param {string} case_ case for the tonic pronoun [case_ is followed by _ so that it is not displayed as a keyword in the editor]
+     * @returns a new Pronoun
+     */
+    getTonicPro(case_){
+        if (this.isA("Pro")){
+            if (this.props["tn"] || this.props["c"]){
+                if (case_!==undefined){
+                    this.props["c"]=case_
+                } else { // ensure tonic form
+                    this.props["tn"]="";
+                    if ("c" in this.props)delete this.props["c"];
+                }
+                return this;
+            } else {
+                if (this.tonic_forms().includes(this.lemma)){
+                    // lemma is already in tonic form
+                    if (case_ !== undefined)
+                        return Pro(this.lemma,this.lang).c(case_)
+                } else {
+                    if (case_ !== undefined)
+                        return Pro(this.realize(),this.lang).c(case_)
+                }
+                return this
+            }
+        } else { // generate the string corresponding to the tonic form
+            let pro=Pro(this.tonic_pe_1(),this.lang)
+            const g = this.getProp("g")
+            if (g!==undefined)pro.g(g);
+            const n = this.getProp("n");
+            if (n!==undefined)pro.n(n);
+            const pe = this.getProp("pe");
+            if (pe!==undefined)pro.pe(pe);
+            if (case_===undefined) return Pro(pro.realize(),this.lang).tn("");
+            return Pro(pro.realize(),this.lang).c(case_) 
+        }
     }
 
     /**
@@ -268,7 +318,7 @@ class Constituent {
         "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
         }
         this.addOptSource("typ",types)
-        if (this.isA("S","SP","VP") || this.isA(Constituent.deprels)){
+        if (this.isA("S","SP","VP") || this.isA(deprels)){
             // validate types and keep only ones that are valid
             if (typeof types == "object"){
                 for (let key in types) {
@@ -277,11 +327,7 @@ class Constituent {
                     if (allowedVals === undefined){
                         this.warn("unknown type",key,Object.keys(allowedTypes))
                     } else {
-                        if (key == "neg" && this.isFr()){ // also accept string as neg value in French
-                            if (!["string","boolean"].includes(typeof val)){
-                                this.warn("ignored value for option",".typ("+key+")",val)
-                                delete types[key]
-                            }
+                        if (key == "neg" && this.validate_neg_option(val,types)){
                         } else if (!allowedVals.includes(val)){
                             this.warn("ignored value for option",".typ("+key+")",val)
                             delete types[key]
@@ -296,178 +342,6 @@ class Constituent {
             this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","Dependent"],this.constType);
         }
         return this;
-    }
-
-    // regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
-    //  match index:
-    //     1-possible non-word chars and optional html tags
-    //     2-the real word 
-    //     3-the rest after the word  
-    static sepWordREen=/((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
-   
-    /**
-     * Process English elision by changing the realization fields of Terminals, the list
-     * might be modified
-     * @param {Terminal[]} cList list of Terminals
-     * @returns undefined
-     */
-    doElisionEn(cList){
-        //// English elision rule only for changing "a" to "an"
-        // according to https://owl.purdue.edu/owl/general_writing/grammar/articles_a_versus_an.html
-        const hAnRE=/^(heir|herb|honest|honou?r(able)?|hour)/i;
-        //https://www.quora.com/Where-can-I-find-a-list-of-words-that-begin-with-a-vowel-but-use-the-article-a-instead-of-an
-        const uLikeYouRE=/^(uni.*|ub.*|use.*|usu.*|uv.*)/i;
-        const acronymRE=/^[A-Z]+$/
-        // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
-        const contractionEnTable={
-            "are+not":"aren't", "can+not":"can't", "did+not":"didn't", "do+not":"don't", "does+not":"doesn't", 
-            "had+not":"hadn't", "has+not":"hasn't", "have+not":"haven't", "is+not":"isn't", "must+not":"mustn't", 
-            "need+not":"needn't", "should+not":"shouldn't", "was+not":"wasn't", "were+not":"weren't", 
-            "will+not":"won't", "would+not":"wouldn't", "could+not":"couldn't",
-            "let+us":"let's",
-            "I+am":"I'm", "I+will":"I'll", "I+have":"I've", "I+had":"I'd", "I+would":"I'd",
-            "she+will":"she'll", "he+is":"he's", "he+has":"he's", "she+had":"she'd", "she+would":"she'd",
-            "he+will":"he'll", "she+is":"she's", "she+has":"she's", "he+would":"he'd", "he+had":"he'd",
-            "you+are":"you're", "you+will":"you'll", "you+would":"you'd", "you+had":"you'd", "you+have":"you've",
-            "we+are":"we're", "we+will":"we'll", "we+had":"we'd", "we+would":"we'd", "we+have":"we've",
-            "they+will":"they'll", "they+are":"they're", "they+had":"they'd", "they+would":"they'd", "they+have":"they've",
-            "it+is":"it's", "it+will":"it'll", "it+had":"it'd", "it+would":"it'd",
-            "there+will":"there'll", "there+is":"there's", "there+has":"there's", "there+have":"there've",
-            "that+is":"that's", "that+had":"that'd", "that+would":"that'd", "that+will":"that'll",
-            "what+is":"what's"
-        } 
-        // search for terminal "a" and check if it should be "an" depending on the next word
-        var last=cList.length-1;
-        if (last==0)return; // do not try to elide a single word
-        for (var i = 0; i < last; i++) {
-            var m1=Constituent.sepWordREen.exec(cList[i].realization)
-            if (m1 === undefined || m1[2]===undefined) continue;
-            var m2=Constituent.sepWordREen.exec(cList[i+1].realization)
-            if (m2 === undefined || m2[2]===undefined) continue;
-            // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
-            // for a single word 
-            var w1=m1[2];
-            var w2=m2[2];
-            if ((w1=="a"||w1=="A") && cList[i].isA("D")){
-                if (/^[ai]/i.exec(w2) ||   // starts with a or i
-                    (/^e/i.exec(w2) && !/^eu/i.exec(w2) || // starts with e but not eu
-                     /^o/i.exec(w2) && !/^onc?e/.exec(w2) || // starts with o but not one or once
-                     /^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
-                    hAnRE.exec(w2) ||       // silent h
-                    acronymRE.exec(w2)) {   // is an acronym
-                        cList[i].realization=m1[1]+w1+"n"+m1[3];
-                        i++;                     // skip next word
-                    }
-            } else if (this.contraction !== undefined && this.contraction === true) {
-                if (w1=="cannot"){ // special case...
-                    cList[i].realization=m1[1]+"can't"+m1[3];
-                } else {
-                    const contr=contractionEnTable[w1+"+"+w2];   
-                    if (contr!=null) {
-                        // do contraction of first word and remove second word (keeping start and end)
-                        cList[i].realization=m1[1]+contr+m1[3];
-                        cList[i+1].realization=m2[1]+m2[3].trim();
-                        i++;
-                    }
-                }
-            }
-        }
-    }
-
-    // same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
-    static sepWordREfr=/((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i;
-
-   /**
-     * Process French elision by changing the realization fields of Terminals, the list
-     * might be modified
-     * @param {Terminal[]} cList list of Terminals
-     * @returns undefined
-     */
-    doElisionFr(cList){
-        //// Elision rules for French
-        // implements the obligatory elision rules of the "Office de la langue française du Québec"
-        //    https://vitrinelinguistique.oqlf.gouv.qc.ca/21737/lorthographe/elision-et-apostrophe/elision-obligatoire
-        // for Euphonie, rules were taken from Antidote (Guide/Phonétique)
-
-        const elidableWordFrRE=/^(la|le|je|me|te|se|de|ne|que|puisque|lorsque|jusque|quoique)$/i
-        const euphonieFrRE=/^(ma|ta|sa|ce|beau|fou|mou|nouveau|vieux)$/i
-        const euphonieFrTable={"ma":"mon","ta":"ton","sa":"son","ce":"cet",
-            "beau":"bel","fou":"fol","mou":"mol","nouveau":"nouvel","vieux":"vieil"};
-
-        const contractionFrTable={
-            "à+le":"au","à+les":"aux","ça+a":"ç'a",
-            "de+le":"du","de+les":"des","de+des":"de","de+autres":"d'autres",
-            "des+autres":"d'autres",
-            "si+il":"s'il","si+ils":"s'ils"};
-
-
-        function isElidableFr(realization,lemma,pos){
-            // check if realization starts with a vowel
-            if (/^[aeiouyàâéèêëîïôöùü]/i.exec(realization)) return true;
-            if (/^h/i.exec(realization)){
-                //  check for a French "h aspiré" for which no elision should be done
-                let lexiconInfo=getLemma(typeof lemma == "string" ? lemma:realization,"fr"); // get the lemma with the right pos
-                if (typeof lexiconInfo == "undefined"){ 
-                    lexiconInfo=getLemma(lemma.toLowerCase()); // check with lower case
-                    if (typeof lexiconInfo == "undefined")return true; // elide when unknown
-                } 
-                if (!(pos in lexiconInfo))pos=Object.keys(lexiconInfo)[0]; // try the first pos if current not found
-                if (pos in lexiconInfo && lexiconInfo[pos].h==1) return false; // h aspiré found
-                return true;
-            }
-            return false;
-        }
-        
-        var contr;
-        var last=cList.length-1;
-        if (last==0)return; // do not try to elide a single word
-        for (var i = 0; i < last; i++) {
-            if (i>0 && cList[i-1].getProp("lier")=== true) // ignore if the preceding word is "lié" to this one
-                continue;
-            var m1=Constituent.sepWordREfr.exec(cList[i].realization)
-            if (m1 === undefined || m1[2]===undefined) continue;
-            var m2=Constituent.sepWordREfr.exec(cList[i+1].realization)
-            if (m2 === undefined || m2[2]===undefined) continue;
-            // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
-            // for a single word 
-            var w1=m1[2];
-            var w2=m2[2];
-            var w3NoWords = ! /^\s*\w/.test(m1[3]); // check that the rest of the first word does not start with a word
-            let elisionFound=false;
-            if (isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){ // is the next word elidable
-                if (elidableWordFrRE.exec(w1) && w3NoWords){
-                    cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                    elisionFound=true;
-                } else if (euphonieFrRE.exec(w1) && w3NoWords && cList[i].getProp("n")=="s"){ // euphonie
-                    if (/^ce$/i.exec(w1) && /(^est$)|(^étai)|(^a$)/.exec(w2)){
-                        // very special case but very frequent
-                        cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
-                    } else if (!["et","ou"].includes(w2)){
-                        // avoid euphonie before "et" or "or": e.g. "beau et fort" and not "bel et fort"
-                        cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
-                    }
-                    elisionFound=true;
-                }
-            }
-            if (elisionFound) {
-                i++;    // skip next token 
-            } else if ((contr=contractionFrTable[w1+"+"+w2])!=null && w3NoWords && last>1){
-                // try contraction
-                // check if the next word would be elidable, so instead elide it instead of contracting
-                // except when the next word is a date which has a "strange" realization
-                // do not elide when there are only two words, wait until at least another token is there
-                if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
-                    isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
-                    cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
-                } else if (!(w2.startsWith("le") && cList[i+1].isA("Pro"))){ 
-                    // do contraction of first word and remove second word (keeping start and end)
-                    // HACK: except when le/les is a pronoun
-                    cList[i].realization=m1[1]+contr+m1[3];
-                    cList[i+1].realization=m2[1]+m2[3].trim();
-                }
-                i++;
-            }
-        }
     }
 
     /**
@@ -526,14 +400,11 @@ class Constituent {
         
         // start of processing
         removeEmpty(cList);
-        // reorder French pronouns
-        if (this.isFr() && (this.isA("VP") || (this.isA(Constituent.deprels) && this.terminal.isA("V"))))
-            this.doFrenchPronounPlacement(cList);
+        // reorder pronouns
+        if (this.isA("VP") || (this.isA(deprels) && this.terminal.isA("V")))
+            this.doPronounPlacement(cList);
         
-        if (this.isFr())
-            this.doElisionFr(cList);
-        else 
-            this.doElisionEn(cList);
+        this.doElision(cList)
         
         const cap = this.props["cap"];
         if (cap !== undefined && cap !== false){
@@ -581,18 +452,7 @@ class Constituent {
         for (let i = 0; i < last; i++) {
             const terminal=terminals[i];
             if (terminal.props["lier"] === true){
-                s+=terminal.realization+"-";
-                // check for adding -t- in French between a verb and pronoun
-                if (this.isFr() && terminal.isA("V") && terminals[i+1].isA("Pro")){
-                    /* According to Antidote:
-                    C'est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
-                    du futur de l'indicatif se termine par une autre lettre que d ou t et qu'ßil est suivi 
-                    des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
-                    et le pronom sujet inversé.*/
-                    if (/[^dt]$/.test(terminal.realization) && /^[ieo]/.test(terminals[i+1].realization)){
-                        s+="t-";
-                    }
-                }
+                s+=terminal.realization+"-"+this.check_for_t(terminals,i);
             } else if (/[- ']$/.exec(terminal.realization)){
                 s+=terminal.realization;
             } else if (terminal.realization.length>0) {
@@ -606,8 +466,8 @@ class Constituent {
                 && s.length>0){ 
                 // apply capitalization at the start and final full stop unless .cap(false)
                 if (this.props["cap"]!== false){
-                    const sepWordRE=this.isEn()?Constituent.sepWordREen:Constituent.sepWordREfr;
-                    const m=sepWordRE.exec(s);
+                    // const sepWordRE=this.isEn()?Constituent.sepWordREen:Constituent.sepWordREfr;
+                    const m=this.sepWordRE().exec(s);
                     const idx=m[1].length; // get index of first letter
                     if (idx<s.length) // check if there was a letter
                         s=s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
@@ -687,6 +547,16 @@ class Constituent {
     toDebug(){
         return Object.keys(this.props).length>0 ? JSON.stringify(this.props) :""
     }
+
+    warn(...args){
+        const mess = this.warning(args)
+        if (exceptionOnWarning) throw mess;
+        if (Array.isArray(savedWarnings))
+            savedWarnings.push(mess);
+        else
+            console.warn(mess);
+        return this;    
+    }
 }
 
 /**
@@ -728,7 +598,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             }
             return this;
         }
-        if (allowedConsts.length==0 || this.isA(allowedConsts) || this.isA(Constituent.deprels)) {
+        if (allowedConsts.length==0 || this.isA(allowedConsts) || this.isA(deprels)) {
             if (validVals !== undefined && !validVals.includes(val)){
                 return this.warn("ignored value for option",option,val);
             }
@@ -767,7 +637,7 @@ genOptionFunc("f",["co","su"],["A","Adv"]);
 genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
-genOptionFunc("pos",["post","pre"],["A","Adv",...Constituent.deprels]);
+genOptionFunc("pos",["post","pre"],["A","Adv",...deprels]);
 genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");

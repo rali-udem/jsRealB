@@ -1,12 +1,10 @@
 /**
-    jsRealB 4.5
-    Guy Lapalme, lapalme@iro.umontreal.ca, August 2022
+   jsRealB 5.0
+   Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
  */
 
 import { Constituent} from "./Constituent.js";
-import {Terminal} from "./Terminal.js"
-import {Phrase} from "./Phrase.js"
-import {Dependent} from "./Dependent.js"
+import {Terminal, Terminal_en, Terminal_fr, Phrase, Phrase_en, Phrase_fr, Dependent, Dependent_en, Dependent_fr} from "./jsRealB.js"
 export {fromJSON,ppJSON}
 
 /// Functions for dealing with JSON input
@@ -14,7 +12,7 @@ export {fromJSON,ppJSON}
 // list of names of constituents (used in fromJSON)
 const terminals = ["N", "A", "Pro", "D", "V", "Adv", "C", "P", "DT", "NO", "Q"];
 const phrases   = ["S", "NP", "AP", "VP", "AdvP", "PP", "CP", "SP"];
-const dependents = ["root", "det", "subj", "comp", "mod", "compObj", "compObl", "coord"];
+const dependents = ["root", "det", "subj", "comp", "mod", "coord"];
 
 /**
  * Create a Constituent from a parsed JSON structure
@@ -33,25 +31,24 @@ function fromJSON(json,lang){
                 lang="en";
             }
         }
-        let lang1 = lang || currentLanguage ;
         if ("phrase" in json) {
             const constType=json["phrase"];
             if (phrases.includes(constType)){
-                return Phrase.fromJSON(constType,json,lang1)
+                return Phrase.fromJSON(constType,json,lang)
             } else {
                 console.log("fromJSON: unknown Phrase type:"+constType)
             }
         } else if ("dependent" in json) {
             const constType=json["dependent"];
             if (dependents.includes(constType)){
-                return Dependent.fromJSON(constType,json,lang1)
+                return Dependent.fromJSON(constType,json,lang)
             } else {
                 console.log("fromJSON: unknown Phrase type:"+constType)
             }
         } else if ("terminal" in json){
             const constType=json["terminal"];
             if (terminals.includes(constType)){
-                return Terminal.fromJSON(constType,json,lang1)
+                return Terminal.fromJSON(constType,json,lang)
             } else {
                 console.log("fromJSON: unknown Terminal type:"+constType)
             }
@@ -98,7 +95,8 @@ Phrase.fromJSON = function(constType,json,lang){
         const elements=json["elements"];
         if (Array.isArray(elements)){
             const args=elements.map(json => fromJSON(json,lang));
-            return new Phrase(args,constType,lang).setJSONprops(json);
+            return (lang=="en" ? new Phrase_en(args,constType,"en")
+                               : new Phrase_fr(args,constType,"fr")).setJSONprops(json);
         } else {
             console.log("Phrase.fromJSON: elements should be an array:"+JSON.stringify(json))
         }
@@ -123,7 +121,8 @@ Phrase.fromJSON = function(constType,json,lang){
             if (Array.isArray(dependents)){
                 let args=dependents.map(json => fromJSON(json,lang));
                 args.unshift(fromJSON(json["terminal"],lang));
-                return new Dependent(args,constType,lang).setJSONprops(json);
+                return (lang=="en" ? new Dependent_en(args,constType,"en")
+                                   : new Dependent_fr(args,constType,"fr")).setJSONprops(json);
             } else {
                 console.log("Dependent.fromJSON: dependents should be an array:"+JSON.stringify(json))
             }
@@ -142,7 +141,8 @@ Phrase.fromJSON = function(constType,json,lang){
  */
 Terminal.fromJSON = function(constType,json,lang){
     if ("lemma" in json){
-        return new Terminal([json["lemma"]],constType,lang).setJSONprops(json);
+        return (lang=="en" ? new Terminal_en([json["lemma"],"en"],constType)
+                           : new Terminal_fr([json["lemma"],"fr"],constType)).setJSONprops(json);
     } else {
         console.log("Terminal.fromJSON: no lemma found in "+JSON.stringify(json));
     }

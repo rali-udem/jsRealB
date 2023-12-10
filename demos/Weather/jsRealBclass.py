@@ -96,7 +96,11 @@ class Constituent():
         return self
     
     def tag(self, value):
-        tagName,attrs=value
+        if isinstance(value,str):
+            tagName=value
+            attrs=None
+        else:
+            tagName,attrs=value
         if "tag" not in self.props:
             self.props["tag"] = []
         self.props["tag"].append([tagName, attrs])
@@ -388,7 +392,7 @@ if __name__ == '__main__':
     printEval(
     """S(Pro("lui").c("nom"),
       VP(V("donner").t("pc"),
-         NP(D("un"), N("pomme")).pro())).typ({"neg":True}).set_lang("fr")""",
+         NP(D("un"), N("pomme")).pro(True))).typ({"neg":True}).set_lang("fr")""",
     json=True)
     
     printEval("""NP(N("température").n("p"),PP(P("à"),NP(D("le"),N("hausse")))).set_lang("fr")""",
