@@ -3,9 +3,11 @@
    Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
  */
 
-import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
-import {English_constituent} from "./Constituent-en.js"
-export {English_terminal}
+
+import { V,Adv } from "./jsRealB.js"
+import { getLexicon,getRules } from "./Lexicon.js";
+import { English_constituent } from "./Constituent-en.js"
+export { English_terminal }
 
 /**
  * English specific class for Terminal
