@@ -326,8 +326,9 @@ const French_non_terminal = (superclass) =>
                         }
                     }
                 } else if (c.isA("Pro") && verbPos!==undefined){
-                    if (c.getProp("pos")===undefined || (c.parentConst!==null && c.parentConst.getProp("pos")===undefined)){
-                        // do not try to change position of a constituent with specified pos
+                    if (!c.realization.endsWith("'") &&
+                        (c.getProp("pos")===undefined || (c.parentConst!==null && c.parentConst.getProp("pos")===undefined))){
+                        // do not try to change position of a constituent with specified pos or with an elided realization
                         if (["refl","acc","dat"].includes(c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
                             pros.push(cList.splice(i,1)[0]);
                             i--; // to ensure that all elements are taken into account because cList array has changed

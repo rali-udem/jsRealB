@@ -183,10 +183,10 @@ const French_constituent = (superclass) =>
             if (terminals[i].isA("V") && terminals[i+1].isA("Pro")){
                 /* According to Antidote:
                 C'est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
-                du futur de l'indicatif se termine par une autre lettre que d ou t et qu'ßil est suivi 
+                du futur de l'indicatif se termine par une autre lettre que d ou t et qu'il est suivi 
                 des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
                 et le pronom sujet inversé.*/
-                if (/[^dt]$/.test(terminals[i].realization) && /^[ieo]/.test(terminals[i+1].realization)){
+                if (/[^dt]$/.test(terminals[i].realization) && ["il","elle","on"].includes(terminals[i+1].realization)){
                     return "t-";
                 }
             }            
@@ -272,7 +272,7 @@ const French_constituent = (superclass) =>
                     // absent du lexique $lang, mais existe comme $altPos
                     S(A("absent"),
                       PP(P("de"), D("le"), lang=="fr" ? A("français"): A("anglais"), N("lexique")),
-                      AdvP(Adv("mais"), V("exister"), Adv("comme"), altPos === undefined ? Q("") : makeDisj(altPos))),
+                      altPos !== undefined ? AdvP(Adv("mais"), V("exister"), Adv("comme"),makeDisj(altPos)):Q("")),
                 "no appropriate pronoun": ()=>
                     // un pronom adéquat ne peut pas être trouvé
                     S(VP(V("trouver"), NP(D("un"), A("approprié"), N("pronom")))).typ({"neg": true, "pas": true, "mod": "poss"}),

@@ -13,7 +13,11 @@ To regenerate a sentence from its UD and comparing it with the original. Useful 
     where lang: en|fr
           -sud : use SUD annotation scheme instead of classical UD
           inputFile: path of CONLLU file
-          
+
+## Test all files in a directory and log results
+    ./testAll.sh lang ud_version
+    where ud_version is the number of the release of UD V2 (default 12)
+
 ### Useful trick
 To focus on the most frequent warnings such as the *missing* words in the jsRealB lexicon, the output can be *fed* into a Linux filter such as:  
  `grep 'not found in English lexicon' | sort | uniq -c | sort -r -n`  

@@ -96,8 +96,14 @@ class UDnode {
     isTerminal() {
         return this.left.length == 0 && this.right.length == 0;
     }
+
     matches(deprel, upos) {
-        return (deprel == _ || this.deprel == deprel) &&
+        function eqDR(thisDepRel){ // HACK: save "this" as the enclosing one...
+            if (Array.isArray(deprel))
+                return deprel.includes(thisDepRel)
+            return thisDepRel==deprel
+        }
+        return (deprel == _ || eqDR(this.deprel)) &&
             (upos == _ || this.upos == upos);
     }
     getDeprel() {

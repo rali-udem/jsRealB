@@ -2,7 +2,22 @@ export {initUD,initSUD}
 
 const initUD =
 // UD version
-`# text = L'été, je ne suis pas à l'école.
+`# sent_id = Europar.550_00063
+# text = Il est essentiel de considérer les intérêts de toutes les parties.
+1	Il	lui	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	expl:subj	_	_
+2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	cop	_	_
+3	essentiel	essentiel	ADJ	_	Gender=Masc|Number=Sing	0	root	_	_
+4	de	de	ADP	_	_	5	mark	_	_
+5	considérer	considérer	VERB	_	VerbForm=Inf	3	csubj	_	Subject=Generic
+6	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	7	det	_	_
+7	intérêts	intérêt	NOUN	_	Gender=Masc|Number=Plur	5	obj	_	_
+8	de	de	ADP	_	_	11	case	_	_
+9	toutes	tout	ADJ	_	Gender=Fem|Number=Plur	11	amod	_	_
+10	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	11	det	_	_
+11	parties	partie	NOUN	_	Gender=Fem|Number=Plur	7	nmod	_	SpaceAfter=No
+12	.	.	PUNCT	_	_	3	punct	_	_
+
+# text = L'été, je ne suis pas à l'école.
 # sent_id = 146
 1	L'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	2	det	_	start_char=0|end_char=2
 2	été	été	NOUN	_	Gender=Masc|Number=Sing	10	obl:mod	_	start_char=2|end_char=5

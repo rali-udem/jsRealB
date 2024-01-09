@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # LANG=${1:-en}
 LANG=${1:-fr}
-UDdir=/Users/lapalme/Dropbox/UDregenerator/UD-2.9
+UDdir=/Users/lapalme/Dropbox/UDregenerator/UD-2.${2:-12}
 LOG=$UDdir/$LANG/log.txt
 
 rm -f $LOG 

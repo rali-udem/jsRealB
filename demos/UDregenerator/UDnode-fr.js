@@ -114,8 +114,12 @@ UDnode.prototype.toTerminal = function(isLeft){
         if (lemma=="lui"){
             if (this.getForm()=="lui"){
                 return Pro("lui").tn("")
-            } else 
+            } else {
                 pro = Pro("moi")
+                if (/il/i.test(this.getForm()))
+                    if (!this.hasFeature("Case"))
+                        pro.c("nom")
+            }
         }
         if(pro===undefined)
             pro=tonicPronoun(this.getForm().toLowerCase(),lemma);
@@ -126,7 +130,9 @@ UDnode.prototype.toTerminal = function(isLeft){
             return feats2options(pro,this,["Case","Person","Gender","Number","Reflex"]);
         else {
             pro = feats2options(pro,this,["Person","Person_psor","Gender","Number","Number_psor","Reflex"])
-            if (this.deprel=='iobj')pro.c("dat");
+            if (this.deprel=='nsubj')pro.c("nom")
+            else if (this.deprel=="obj")pro.c("acc")
+            else if (this.deprel=='iobj')pro.c("dat");
             return pro;
         }
         break;
@@ -155,7 +161,7 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
         const [dep,idx]=this.findDeprelUpos("cop","AUX");
         if (idx>=0){
             let [newAux]=dep.splice(idx,1);
-            let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 
+            let [dep1,idx1]=this.findDeprelUpos(["nsubj","expl:subj"],_); 
             if (idx1>=0){
                 const [subj]=dep1.splice(idx1,1);
                 newAux.left.push(subj);  // add as subject of the new auxiliary
