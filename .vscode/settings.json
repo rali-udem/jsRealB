@@ -8,6 +8,6 @@
         "latex",
         "plaintext"
     ],
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Default Dark Modern",
     "python.terminal.executeInFileDir": true
 }

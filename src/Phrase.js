@@ -8,7 +8,7 @@ import { Terminal } from "./Terminal.js";
 // must import all functions because of possible eval call by clone
 import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
          S,NP,AP,VP,AdvP,PP,CP,SP,
-         root, subj, det, mod, comp, coord } from "./jsRealB.js"
+         root, subj, det, mod, comp, coord, fromJSON } from "./jsRealB.js"
 import {getLanguage,getRules,reorderVPcomplements} from "./Lexicon.js";
 
 export {Phrase};
@@ -820,7 +820,7 @@ class Phrase extends Constituent{
      * @returns a deep copy of this instance
      */
     clone(){
-        return eval(this.toSource());
+        return fromJSON(this.toJSON());
     }
 
     /**

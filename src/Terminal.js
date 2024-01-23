@@ -9,7 +9,7 @@ import { nbDecimal,numberFormatter, enToutesLettres, ordinal, roman} from "./Num
 // must import all functions because of possible eval call by clone
 import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
     S,NP,AP,VP,AdvP,PP,CP,SP,
-    root, subj, det, mod, comp, coord } from "./jsRealB.js"
+    root, subj, det, mod, comp, coord, fromJSON } from "./jsRealB.js"
 
 export {Terminal}
 
@@ -593,7 +593,7 @@ class Terminal extends Constituent{
      * @returns a deep copy of this instance
      */
     clone(){
-        return eval(this.toSource());
+        return fromJSON(this.toJSON());
     }
 
     /**
