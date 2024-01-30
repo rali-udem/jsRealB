@@ -53,6 +53,10 @@ class Constituent {
         }
     }
 
+    /**
+     * Creates a new copy of this instance by creating it from a JSON representation of this object
+     * @returns a deep copy of this instance
+     */
     clone(){
         return fromJSON(this.toJSON(), this.lang);
     }
