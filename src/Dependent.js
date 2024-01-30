@@ -709,16 +709,6 @@ class Dependent extends Constituent {// Dependent (non-terminal)
     };
 
     /**
-     * Creates a new copy of this instance by creating it from a JSON representation of this object
-     * NB: this method is identical in subclasses of Constituent and cannot be defined in Constituent 
-     * to ensure that eval has access to all symbols now that packages are used
-     * @returns a deep copy of this instance
-     */
-    /* clone(){
-        return fromJSON(this.toJSON(), this.lang);
-    } */
-
-    /**
      * Recreate a jsRealB expression
      * if indent is non negative number create an indented pretty-print string (call it with 0 at the root)
      * if called with no parameter (equivalent to a negative number) then create a single line

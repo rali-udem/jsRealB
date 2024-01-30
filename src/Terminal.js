@@ -585,17 +585,6 @@ class Terminal extends Constituent{
         return roman(number)
     }
 
-
-    /**
-     * Creates a new copy of this instance by creating it from a JSON representation of this object
-     * NB: this method is identical in subclasses of Constituent and cannot be defined in Constituent 
-     * to ensure that eval has access to all symbols now that packages are used
-     * @returns a deep copy of this instance
-     */
-    /*clone(){
-        return fromJSON(this.toJSON(), this.lang);
-    }*/
-
     /**
      * Produce the string form of a Terminal
      * @returns string corresponding to the creation of this Terminal

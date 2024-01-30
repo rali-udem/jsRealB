@@ -812,16 +812,6 @@ class Phrase extends Constituent{
         }
         return this.doFormat(res);
     };
-    
-    /**
-     * Creates a new copy of this instance by creating it from a JSON representation of this object
-     * NB: this method is identical in subclasses of Constituent and cannot be defined in Constituent 
-     * to ensure that eval has access to all symbols now that packages are used
-     * @returns a deep copy of this instance
-     */
-    /*clone(){
-        return fromJSON(this.toJSON(), this.lang);
-    }*/
 
     /**
      * Recreate a jsRealB expression
