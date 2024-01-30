@@ -6,10 +6,7 @@
 import { Constituent,deprels } from "./Constituent.js";
 import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
 import { nbDecimal,numberFormatter, enToutesLettres, ordinal, roman} from "./Number.js";
-// must import all functions because of possible eval call by clone
-import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-    S,NP,AP,VP,AdvP,PP,CP,SP,
-    root, subj, det, mod, comp, coord, fromJSON } from "./jsRealB.js"
+import { NO } from "./jsRealB.js"
 
 export {Terminal}
 

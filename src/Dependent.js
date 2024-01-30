@@ -5,7 +5,7 @@
     
 import { Constituent } from "./Constituent.js";
 import { Terminal } from "./Terminal.js";
-import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,dependent,det,subj, comp,root,mod,coord, fromJSON } from "./jsRealB.js" 
+import { getElems,Pro,P,NO,Q,dependent,det,comp } from "./jsRealB.js" 
 import { Phrase } from "./Phrase.js"
 import { getLanguage,getRules } from "./Lexicon.js";
 

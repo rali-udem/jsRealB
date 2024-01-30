@@ -5,10 +5,7 @@
 
 import { Constituent } from "./Constituent.js";
 import { Terminal } from "./Terminal.js";
-// must import all functions because of possible eval call by clone
-import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-         S,NP,AP,VP,AdvP,PP,CP,SP,
-         root, subj, det, mod, comp, coord, fromJSON } from "./jsRealB.js"
+import { getElems,Pro,P,NO,Q,PP } from "./jsRealB.js"
 import {getLanguage,getRules,reorderVPcomplements} from "./Lexicon.js";
 
 export {Phrase};
