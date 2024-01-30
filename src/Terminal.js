@@ -592,9 +592,9 @@ class Terminal extends Constituent{
      * to ensure that eval has access to all symbols now that packages are used
      * @returns a deep copy of this instance
      */
-    clone(){
+    /*clone(){
         return fromJSON(this.toJSON(), this.lang);
-    }
+    }*/
 
     /**
      * Produce the string form of a Terminal

@@ -714,9 +714,9 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * to ensure that eval has access to all symbols now that packages are used
      * @returns a deep copy of this instance
      */
-    clone(){
+    /* clone(){
         return fromJSON(this.toJSON(), this.lang);
-    }
+    } */
 
     /**
      * Recreate a jsRealB expression

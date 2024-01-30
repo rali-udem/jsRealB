@@ -4,7 +4,7 @@
  */
 
 import {getRules, getLexicon, getLanguage, quoteOOV } from "./Lexicon.js";
-import { exceptionOnWarning, savedWarnings, Pro } from "./jsRealB.js";
+import { exceptionOnWarning, savedWarnings, Pro, fromJSON } from "./jsRealB.js";
 export {Constituent, deprels}
 
 /**
@@ -51,6 +51,10 @@ class Constituent {
                            tauxNO:Constituent.tauxNO++};
             }
         }
+    }
+
+    clone(){
+        return fromJSON(this.toJSON(), this.lang);
     }
     
     /**
