@@ -6,10 +6,7 @@
 import { Constituent,deprels } from "./Constituent.js";
 import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
 import { nbDecimal,numberFormatter, enToutesLettres, ordinal, roman} from "./Number.js";
-// must import all functions because of possible eval call by clone
-import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-    S,NP,AP,VP,AdvP,PP,CP,SP,
-    root, subj, det, mod, comp, coord } from "./jsRealB.js"
+import { NO } from "./jsRealB.js"
 
 export {Terminal}
 
@@ -583,17 +580,6 @@ class Terminal extends Constituent{
             return `[[${number}]]`;
         }
         return roman(number)
-    }
-
-
-    /**
-     * Creates a new copy of this instance by evaluating a string representation of this object
-     * NB: this method is identical in subclasses of Constituent and cannot be defined in Constituent 
-     * to ensure that eval has access to all symbols now that packages are used
-     * @returns a deep copy of this instance
-     */
-    clone(){
-        return eval(this.toSource());
     }
 
     /**
