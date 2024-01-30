@@ -820,7 +820,7 @@ class Phrase extends Constituent{
      * @returns a deep copy of this instance
      */
     clone(){
-        return fromJSON(this.toJSON());
+        return fromJSON(this.toJSON(), this.lang);
     }
 
     /**
