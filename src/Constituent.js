@@ -4,7 +4,7 @@
  */
 
 import {getRules, getLexicon, getLanguage, quoteOOV } from "./Lexicon.js";
-import { exceptionOnWarning, savedWarnings, Pro } from "./jsRealB.js";
+import { exceptionOnWarning, savedWarnings, Pro, fromJSON } from "./jsRealB.js";
 export {Constituent, deprels}
 
 /**
@@ -51,6 +51,14 @@ class Constituent {
                            tauxNO:Constituent.tauxNO++};
             }
         }
+    }
+
+    /**
+     * Creates a new copy of this instance by creating it from a JSON representation of this object
+     * @returns a deep copy of this instance
+     */
+    clone(){
+        return fromJSON(this.toJSON(), this.lang);
     }
     
     /**
