@@ -299,7 +299,7 @@ const French_non_terminal = (superclass) =>
                             if (c.isProg){prog=c}
                             continue;
                         }
-                        if (isLie(c)) return; // do not change anything when a verb is lié
+                        if (isLie(c) && c.neg2===undefined) return; // do not change anything when a verb is lié
                         verbPos=i
                         // find the appropriate clitic table to use
                         const t=c.getProp("t");

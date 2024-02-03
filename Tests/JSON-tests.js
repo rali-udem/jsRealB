@@ -30,7 +30,7 @@ QUnit.test( "JSON-tests", function( assert ) {
                                                     {"terminal":"N",
                                                      "lemma":"mat"}]}]}]}],
  "props":{"typ":{"neg":true}},
- "lang":"en"}`, "pretty-print of JSON froom Phrase")
+ "lang":"en"}`, "pretty-print of JSON from Phrase")
     assert.equal(fromJSON(expJSON).toString(),expSent,"regenerated sentence via JSON conversion")
     // using  Dependent
     const dep=root(V("sit").t("f"),

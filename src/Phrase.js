@@ -509,53 +509,6 @@ class Phrase extends Constituent{
     }
 
     /**
-     * in English move the auxiliary to the front 
-     */
-    moveAuxToFront(){
-        if (this.isEn()){
-            if (this.isA("S","SP")){ 
-                let [idx,vpElems]=this.getIdxCtx("VP","V");
-                if (idx!==undefined && !["pp","pr","b-to"].includes(this.getProp("t"))){ // do not move when tense is participle)
-                    const v=vpElems[0].parentConst.removeElement(0);// remove first V
-                    this.addElement(v,0)
-                }
-            }
-        } 
-    }
-
-    /**
-     * in French : use an inversion rule which is quite "delicate"
-     * rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
-     * if subject is a pronoun, invert and add "-t-" or "-" 
-     *       except for first person singular ("je") which is most often non colloquial (e.g. aime-je or prends-je)
-     * if subject is a noun, the subject stays but add a new pronoun
-     */
-    invertSubject(){
-        const subjIdx=this.getIndex(["NP","N","Pro","SP","CP"]);
-        if (subjIdx>=0){
-            const subj=this.elements[subjIdx];
-            let pro;
-            if (subj.isA("Pro")){
-                if (subj.getProp("pe")==1 && subj.getProp("n")=="s"){ // add "est-ce que" at the start
-                    this.add(Q("est-ce que"),subjIdx);
-                    return;
-                } 
-                pro = this.removeElement(subjIdx); // remove subject pronoun
-            } else if (subj.isA("CP")){
-                pro=Pro("moi","fr").c("nom").g("m").n("p").pe(3); // create a "standard" pronoun, to be patched by cpReal
-                subj.pronoun=pro;  // add a flag to be processed by cpReal
-            } else 
-                pro=Pro("moi","fr").g(subj.getProp("g")).n(subj.getProp("n")).pe(3).c("nom"); // create a pronoun
-            let [idx,vpElems] = this.getIdxCtx("VP","V");
-            if (idx!==undefined) {
-                let v=vpElems[idx];
-                v.parentConst.addElement(pro,idx+1)
-                v.lier() // add - after verb
-            }
-        } 
-    }
-
-    /**
      * Process options for interrogative for both French and English
      * @param {Object} types typ options for this Phrase
      */
@@ -566,7 +519,7 @@ class Phrase extends Constituent{
         let prefix,pp; // to be filled later
         switch (int) {
         case "yon": case "how": case "why": case "muc": 
-            if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+            this.move_object(int);
             prefix=intPrefix[int];
             break;
         // remove a part of the sentence 
@@ -597,7 +550,7 @@ class Phrase extends Constituent{
                     prefix="whom";
                 } else
                     prefix=intPrefix[int];
-                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+                this.move_object(int);
             }
             break;
         case "woi": case "wai":case "whe":case "whn": // remove indirect object (first PP in the first VP)
@@ -623,7 +576,7 @@ class Phrase extends Constituent{
                         }
                     }
                 }
-                if (this.isEn()) this.moveAuxToFront(); else this.invertSubject();
+                this.move_object(int)
             }
             break;
         case "tag":

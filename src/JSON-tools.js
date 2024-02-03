@@ -148,14 +148,29 @@ Terminal.fromJSON = function(constType,json,lang){
     }
 }
 
+function addJSONprops(obj,res){
+    let props = Object.keys(obj.props)
+    if (props.length==0)return res;
+    res.props={}
+    for (let prop of props){
+        if (prop == "own"){
+            res.props["ow"]=obj.props["own"]
+        } else {
+            res.props[prop]=obj.props[prop]
+        }
+    }
+    return res
+}
+
 /**
  * Create an Object with appropriate fields for JSON input
  * @returns an Object which can be serialized as a JSON object
  */
 Phrase.prototype.toJSON = function(){
     let res={phrase:this.constType, elements:this.elements.map(e=>e.toJSON())};
-    if (Object.keys(this.props).length>0) // do not output empty props
-        res.props=this.props;
+    // if (Object.keys(this.props).length>0) // do not output empty props
+    //     res.props=this.props;
+    res=addJSONprops(this,res)
     if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
         res.lang=this.lang;
     return res;
@@ -170,8 +185,9 @@ Dependent.prototype.toJSON = function (){
                 terminal: this.terminal.toJSON()};
     if (this.dependents)
         res["dependents"]=this.dependents.map(e=>e.toJSON());
-    if (Object.keys(this.props).length>0) // do not output empty props
-        res.props=this.props;
+    // if (Object.keys(this.props).length>0) // do not output empty props
+    //     res.props=this.props;
+    res=addJSONprops(this,res)
     if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
         res.lang=this.lang;
     return res;
@@ -183,8 +199,9 @@ Dependent.prototype.toJSON = function (){
  */
 Terminal.prototype.toJSON = function(){
     let res={terminal:this.constType,lemma:this.lemma};
-    if (Object.keys(this.props).length>0) // do not output empty props
-        res.props=this.props;
+    // if (Object.keys(this.props).length>0) // do not output empty props
+    //     res.props=this.props;
+    res=addJSONprops(this,res)
     if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
         res.lang=this.lang;
     return res;
