@@ -4544,7 +4544,7 @@
     },
     "number": {
         "symbol": {
-            "group": " ",
+            "group": "\u00a0",
             "decimal": ","
         },
         "number": ["zéro"]
