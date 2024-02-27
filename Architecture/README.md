@@ -13,7 +13,7 @@ The text realizer is at the very end of a text generation pipeline. Important de
 
 *jsRealB* has been developed by my students since 2013. The source code is now available on [GitHub](https://github.com/rali-udem/jsRealB) with a tutorial and demo applications. in 2018, I decided to build on that experience and redesign the system from the ground up. I kept the same external interface using the existing tests and demos to develop the new version. Only the inner workings have been changed and simplified given my experience with the system over the last few years. *jsRealB* is currently at version 5.0.
 
-I then ported (by hand translation)  *jsRealB*  to python to create [*pyrealb*](https://pypi.org/project/pyrealb/), now at version 3.0. As the *JavaScript* and *python* versions share the same code organization (most class and function names are similar in both versions) this document applies to both version. 
+I then ported (by hand translation)  *jsRealB*  to python to create [*pyrealb*](https://pypi.org/project/pyrealb/), now at version 3.0. As the *JavaScript* and *python* versions share the same code organization (most class and function names being similar) this document applies to both. 
 
 Before going into the detailed code organization described in this document, I suggest that you first read  the first sections of the [jsRealB tutorial](http://rali.iro.umontreal.ca/JSrealB/current/Tutorial/tutorial.html "jsRealB tutorial") and then take a look at these two documents:
 
