@@ -89,7 +89,7 @@ const texts = {  // simple localization of texts
     "#hide_resource_query":["Hide resource query","Masquer l'interrogation des ressources"],
     "#res_query_legend":["Query linguistic resources","Interrogation des ressources"],
     "#lex_query>option[value=lx]":["Lexicon","Lexique"],
-    "#les_query>option[value=lm]":["Lemmatize","Lemmatisation"],
+    "#lex_query>option[value=lm]":["Lemmatize","Lemmatisation"],
     "#rules_query>option[value=dn]":["Declension number","Numéro de déclinaison"],
     "#rules_query>option[value=de]":["Declension ending","Terminaison de déclinaison"],
     "#rules_query>option[value=cn]":["Conjugation number","Numéro de conjugaison"],
