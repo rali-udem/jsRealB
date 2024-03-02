@@ -178,6 +178,15 @@ class Phrase extends Constituent{
         case "NP": // the head is the first internal N, number with a possible NO
             // find first NP or N
             headIndex=this.getHeadIndex("NP");
+            // if the first N has a poss flag, try to find the "non possessive" N
+            if (this.elements[headIndex].isA("N") && this.elements[headIndex].props["poss"] === true){
+                for (let i=headIndex+1;i<this.elements.length;i++){
+                    if (this.elements[i].isA("N") && this.elements[i].props["poss"]===undefined){
+                        headIndex=i;
+                        break
+                    }
+                }
+            }
             this.peng=this.elements[headIndex].peng;
             for (let i = 0; i < this.elements.length; i++) {
                 if (i!=headIndex){
@@ -570,8 +579,7 @@ class Phrase extends Constituent{
                             if (preps["whn"].has(prep))
                                 ppElems[0].parentConst.removeElement(idx);
                         } else if (preps["all"].has(prep)){ // "woi" | "wai"
-
-                            this.interrogative_pronoun_woi(int_)
+                            prefix = prep + " " + this.interrogative_pronoun_woi(int)
                             ppElems[0].parentConst.removeElement(idx);
                         }
                     }

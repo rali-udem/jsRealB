@@ -156,7 +156,9 @@ var optionsSect=
                                  "en":["possessive determiner masculine (singular owner)",'D("my").n("p").g("m").ow("s")']},
            {"pattern":'.n("p")…',"fr":["déterminant possessif (sujet au pluriel)",'D("notre").n("p").pe(2)'],
                                  "en":["possessive determiner (plural owner)",'D("my").n("p").ow("p")']},
-
+           {"pattern":'.poss()', "fr":["Possessif anglais sur un N ou Q",'NP(Q("Maria").poss(),N("car"))'],
+                                 "en":["English possessive on a N or Q",'NP(N("woman").poss(),N("dress"))']},
+            
            {"group":".g(…)","fr":'Genre (défaut "m")',
                             "en":'Gender (default "n")'},
            {"pattern":'.g("m")', "fr":["nom masculin",'N("joueur").g("m")'],
@@ -284,9 +286,6 @@ var formatSect={"fr":"","en":"",
                      "en":["Add an exclamation point after",'N("man").a("!")']},
        {"pattern":'.a(";")', "fr":["Ajouter point virgule après",'N("homme").a(";")'],
                      "en":["Add a semi-colon after",'N("man").a(";")']},
-       {"pattern":'.a("\'s")', "fr":["Réaliser le possessif en anglais",'N("cousin").a("\'s")'],
-                     "en":["Realize an English possessive",'N("man").a("\'s")']},
-
        {"group":".ba(…)","fr":'entourer',"en":'wrap with'},
        {"pattern":'.ba("(")', "fr":["entourer de parenthèses",'N("homme").ba("(")'],
                      "en":["Wrap within parentheses",'N("man").ba("(")']},

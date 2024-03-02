@@ -451,6 +451,14 @@ function makeExamples(){
             VP(V("eat"),
                 NP(D("the"),N("cheese")))).typ({pas:true}),
             "The cheese is eaten by them. "],
+        // English possessive examples taken from
+        //     https://learnenglish.britishcouncil.org/grammar/a1-a2-grammar/possessive-s
+        [S(NP(D("my").pe(1).ow("p"),
+              N("friend").poss(),
+              N("father").poss(),
+              N("car")).n("p"),
+           VP(V("be"),A("red"))),
+           "Our friend's father's cars are red. "]
     ];
 
     // dépendances en français
@@ -689,12 +697,12 @@ function makeExamples(){
             comp(N('apple').n("p"),det(D('a'))).tag("em"),
             subj(N("man"),det(D("the")))).typ({"neg":false,"int":"tag"}),
         "The man eats <em>apples</em>, doesn't he? "],
-        [coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),
+        [coord(C("but"),root(V("laugh").t('ps'),subj(N("John"))),  // 14
         root(V("smack").t('ps'),subj(N("Mary")),
             coord(C("and"),comp(N("butler"),det(D("the"))),
                 comp(N("maid"),det(D("the")))))),
         "John laughed but Mary smacked the butler and the maid. "],
-        [root(V('move').t("p").pe(3).n("s"),
+        [root(V('move').t("p").pe(3).n("s"),   //15
             subj(N('star').n("s"),
                 det(D('the')),
                 mod(N('north')).pos("pre")),
@@ -708,11 +716,20 @@ function makeExamples(){
             comp(N('night').n("s"),
                 det(D('each')))).typ({"neg":true,"int":"why"}),
         "Why does the north star not move in the sky in the northern hemisphere each night? "],
-        [root(V('eat'),
+        [root(V('eat'),  // 16
             comp(N('cheese'),
                 det(D('the'))),
             subj(Pro('him'))).typ({"pas":true}),
         "The cheese is eaten by him. "],
+        // English possessive examples taken from
+        //     https://learnenglish.britishcouncil.org/grammar/a1-a2-grammar/possessive-s
+        [root(V("be"),                                       // 17
+              subj(N("car"),
+                   det(D("my").pe(1).ow("p")),
+                   mod(N("friend").poss()).pos("pre"),
+                   mod(N("father").poss()).pos("pre")).n("p"),
+              mod(A("red"))),
+         "Our friend's father's cars are red. "],
     ];
 
     // bilingual examples

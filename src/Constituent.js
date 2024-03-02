@@ -113,7 +113,7 @@ class Constituent {
         } else if (propName=="t" || propName=="aux"){
             if (this.taux!==undefined) this.taux[propName]=val;
         }
-        // this is important for to ensure that locol options override global values
+        // this is important for to ensure that local options override global values
         // but it must be "undone" in Terminal.setLemma
         if (!["pe","n","g","t","aux"].includes(propName) || inSetLemma === undefined)
             this.props[propName]=val; 
@@ -461,6 +461,12 @@ class Constituent {
             const terminal=terminals[i];
             if (terminal.props["lier"] === true){
                 s+=terminal.realization+"-"+this.check_for_t(terminals,i);
+            } else if (terminal.props["poss"] === true){
+                if (terminal.realization.endsWith("s")){
+                    s+=terminal.realization+"' "
+                } else {
+                    s+=terminal.realization+"'s "
+                }
             } else if (/[- ']$/.exec(terminal.realization)){
                 s+=terminal.realization;
             } else if (terminal.realization.length>0) {
@@ -633,7 +639,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 // shared properties 
 //   pe,n and g : can be applied to components of NP and Sentences
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
-genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+genOptionFunc("n",["s","p","x"],["D","Pro","N","NO","NP","A","AP","V","VP","S","SP","CP"]);
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", "b-to", // simple tenses
@@ -649,6 +655,7 @@ genOptionFunc("pos",["post","pre"],["A","Adv",...deprels]);
 genOptionFunc("pro",undefined,["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
+genOptionFunc("poss",undefined,["N","Q"])
 
 /// Formatting options
 genOptionFunc("cap",undefined,[]);

@@ -248,6 +248,7 @@ class Terminal extends Constituent{
         if (!this.isA("NO")){
             return this.warn("bad application","grammaticalNumber","NO",this.constType);
         }
+        if (this.props["n"]) return this.props["n"] // explicit number given to NO
         if (this.props["dOpt"].ord==true)return "s"; // ordinal number are always singular
         return null
     };

@@ -134,7 +134,7 @@ function mix(elems){
 /**
  * Version number
  */
-const jsRealB_version="5.0.1";
+const jsRealB_version="5.0.2";
 /**
  * Date of jsRealB "compile", it is set by webpack
  */

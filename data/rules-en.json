@@ -2490,6 +2490,14 @@
                 "val": "ves","g": "f","n": "p"
             }]
         },
+        "n92": {
+            "ending": "person",
+            "declension": [{
+                "val": "person","n": "s"
+            },{
+                "val": "people","n": "p"
+            }]
+        },
         "a1": {
             "ending": "",
             "declension": [{

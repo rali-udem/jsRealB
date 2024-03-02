@@ -100,7 +100,7 @@ testsDeclensionEn =
  "number":{"N":{"p":"numbers"}},
  "orchestra":{"N":{"p":"orchestras"}},
  "pair":{"N":{"p":"pairs"}},
- "person":{"N":{"p":"persons"}},
+ "person":{"N":{"p":"people"}},
  "personnel":{"N":{"p":"personnels"}},
  "police":{"N":{"p":"police"}},
  "policeman":{"N":{"p":"policemen"}},

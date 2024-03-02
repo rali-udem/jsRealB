@@ -37,7 +37,7 @@
             <li><code>S</code>, <code>SP</code>: accord avec le <em>sujet</em>, soit le premier <code>NP</code>, <code>N</code>, 
                 <code>Pro</code> ou <code>CP</code>. Si le <code>Pro</code> est un pronom relatif, le <em>sujet</em> de la subordonnée est utilisé. Des tests spécifiques permettent d'accorder le verbe <code>être/be</code> ainsi que pour tenir compte des sujets coordonnés.</li>
         </ul>
-        <p>Des options (section suivante) spécifiant le genre et le nombre l'emportent sur ces accords automatiques.</p>
+        <p>Des options (section suivante) appliquées à une instance de <code>Terminal</code> (e.g. <code>N</code>, <code>V</code>, ...) spécifiant le genre et le nombre l'emportent sur ces accords automatiques.</p>
 		<p>Lors d'un appel à un constructeur de syntagme (e.g. <code>S, VP, NP</code>, ...), les paramètres ayant valeur <code>null</code> ou <code>undefined</code> sont ignorés, 
 ce qui peut simplifier les appels lors de paramètres optionnels.</p>
     </div>
@@ -51,7 +51,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
             <li><code>S</code>, <code>SP</code>: agrees with the <em>subject</em>, taken as the first <code>NP</code>, <code>N</code>, 
                 <code>Pro</code> or <code>CP</code>. If the <code>Pro</code> is a relative pronoun, the <em>subject</em> of the subordinate is taken. Specific tests take into account the verbs <code>être/be</code> and the coordinate subjects.</li>
         </ul>
-        <p>Options (next section) can override these automatic agreements.</p>
+        <p>Options (next section) applied to an instance of <code>Terminal</code> (e.g. <code>N</code>, <code>V</code>, ...) override these automatic agreements.</p>
 		<p>When calling a phrase constructor (e.g. <code>S, VP, NP</code>, ...), parameters having value <code>null</code> or <code>undefined</code> are ignored. 
 		This can be convenient for dealing with optional parameters.</p>
     </div>
@@ -72,6 +72,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 			<li>Le déterminant d'un <code>det</code> s'accorde en genre et en nombre avec son sujet, i.e. le terminal englobant.</li>
 			<li>L'adjectif d'un <code>mod</code> s'accorde en genre et en nombre avec son sujet, i.e. le terminal englobant.</li>
 		</ul>
+        <p>Des options (section suivante) appliquées à une instance de <code>Terminal</code> (e.g. <code>N</code>, <code>V</code>, ...) spécifiant le genre et le nombre l'emportent sur ces accords automatiques.</p>
         <p>Position des dépendents: <code>det</code> et <code>subj</code> sont réalisées avant le terminal, alors que 
             <code>mod</code>, <code>comp</code> et <code>coord</code> sont réalisées dans l'ordre où
             elles sont spécifiées. Il est possible de modifier cet ordre en utilisant la méthode <code>.mod("pre")</code> pour 
@@ -89,6 +90,7 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
                 The subject can be a <code>N</code>, a <code>Pro</code> or dependents of a <code>coord</code>.</li>
 			<li>The determiner of a <code>det</code> agrees in number with its determiner, i.e. its enclosing terminal.</li>
 		</ul>
+        <p>Options (next section) applied to an instance of <code>Terminal</code> (e.g. <code>N</code>, <code>V</code>, ...) override these automatic agreements.</p>
         <p>Dependent position: <code>det</code> et <code>subj</code> are realized before the terminal, while
             <code>mod</code>, <code>comp</code> et <code>coord</code> are realized after in the order of their specification. 
             This ordering can be changed using <code>.mod("pre")</code> to force a dependent to be realized before, or 
