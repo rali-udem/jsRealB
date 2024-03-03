@@ -796,7 +796,7 @@ Phrase.prototype.toDependent = function(depName){
         let deprel;
         const termName=phName.substr(0,phName.length-1); // remove P at the end of the phrase name
         let idx=me.getHeadIndex(phName);
-        // if the first N has a poss flag, try to find the "non possessive" N
+        // if the first N has a poss flag, try to find the next "non possessive" N
         if (phName=="NP" && me.elements[idx].isA("N") && me.elements[idx].props["poss"] === true){
             for (let i=idx+1;i<me.elements.length;i++){
                 if (me.elements[i].isA("N") && me.elements[i].props["poss"]===undefined){

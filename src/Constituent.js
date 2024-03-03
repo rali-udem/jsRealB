@@ -421,6 +421,13 @@ class Constituent {
                 cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
             }
         }
+
+        const poss = this.props["poss"]
+        if (poss === true){
+            const last = cList.length -1
+            cList[last].realization += cList[last].realization.endsWith("s") ? "'" : "'s"
+        }
+
         const tags=this.props["tag"];
         if (tags !== undefined) {
             tags.forEach(function(tag){
@@ -461,12 +468,6 @@ class Constituent {
             const terminal=terminals[i];
             if (terminal.props["lier"] === true){
                 s+=terminal.realization+"-"+this.check_for_t(terminals,i);
-            } else if (terminal.props["poss"] === true){
-                if (terminal.realization.endsWith("s")){
-                    s+=terminal.realization+"' "
-                } else {
-                    s+=terminal.realization+"'s "
-                }
             } else if (/[- ']$/.exec(terminal.realization)){
                 s+=terminal.realization;
             } else if (terminal.realization.length>0) {
