@@ -15,7 +15,7 @@ QUnit.test( "English elision", function( assert ) {
         [CP(C("and"),NP(D("a"),N("unicorn")),
                      NP(D("a"),A("unusual"),N("exercise")),
                      NP(D("a"),A("honourable"),N("mention")),
-                     NP(D("a"),A("humorous"),N("guy"))),
+                     NP(D("a"),A("humorous"),N("guy")),),
          "a unicorn, an unusual exercise, an honourable mention and a humorous guy"],
         [S(Pro("this"),VP(V("be"),
                           NP(D("a"),"XML",N("exercise"),
@@ -28,7 +28,9 @@ QUnit.test( "English elision", function( assert ) {
               PP(P("on"),NP(D("a"),N("oboe"))),
               PP(P("for"),VP(V("tune").t("pr"),NP(D("a"),N("orchestra")))))),
          "Play <a href=\"https:en.wikipedia.org/wiki/A_(musical_note)\">a musical note named A</a> on an oboe for tuning an orchestra. "],
-        [Q("&"),"&"]
+        [Q("&"),"&"],
+        [NP(D("a"),N("helmet")),"a helmet"],
+        [NP(D("a"),N("hour")),"an hour"],
     ];
     // Automated Tests
     for (var i=0;i<elisionTestsEn.length;i++){

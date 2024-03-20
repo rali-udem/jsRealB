@@ -313,10 +313,14 @@ QUnit.test( "Phrase FR", function( assert ) {
                                        Pro("lui").c("dat")))))))))).typ({"mod": "nece"}),
          "expected": "Il devrait indiquer s'il plaide coupable des faits qui lui sont reprochés. ",
          "message": "NP avec une relative contenant un attribut"},
-        // 38
-        // {"expression":,
-        //  "expected":"",
-        //  "message":""},
+        // 46
+        {"expression":NP(D("un"),N("personne"), AP(Adv("très"),A("beau"))),
+         "expected":"une personne très belle",
+         "message":"accord dans un AP"},
+        // 47
+        {"expression":NP(D("un"), AP(Adv("très"),A("beau")),N("personne")),
+         "expected":"une très belle personne",
+         "message":"accord dans un AP"},
         // 39
         // {"expression":,
         //  "expected":"",
