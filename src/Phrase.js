@@ -204,6 +204,10 @@ class Phrase extends Constituent{
                                 if (e.isA("A","NO")) // 
                                     e.peng=me.peng
                             })
+                        } else if (e.isA("AP","AdvP")){ // propagate N through AP and AdvP
+                            for (let e1 of e.elements){
+                                this.link_DAV_properties(e1)
+                            }
                         }
                     }
                 }

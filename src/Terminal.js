@@ -550,7 +550,7 @@ class Terminal extends Constituent{
             this.warn("bad number in word",number)
             return number+"";
         }
-        const one = this.numberOne(gender,number)
+        const one = this.numberOne(number,gender)
         if (one != null)return one;
         return enToutesLettres(number,lang);
     };
