@@ -191,9 +191,22 @@ QUnit.test( "Interrogative EN", function( assert ) {
     {"expression":S(NP(D("the"),N("cat")),VP(V("eat").t("ps"),NP(D("the"),N("mouse")))).typ({"int":"yon","pas":true}), // 60
      "expected":"Was the mouse eaten by the cat? ",
      "message":"Interrogative/Negative/Perfect sentence(past)"},
-    {"expression":S(NP(D("the"),N("cat")),VP(V("eat").t("f"),NP(D("the"),N("mouse")))).typ({"int":"yon","pas":true}), // 61
+     {"expression":S(NP(D("the"),N("cat")),VP(V("eat").t("f"),NP(D("the"),N("mouse")))).typ({"int":"yon","pas":true}), // 61
      "expected":"Will the mouse be eaten by the cat? ",
      "message":"Interrogative/Negative/Perfect sentence(future)"},
+     // tag questions
+     {"expression":S(NP(D("the"),N("cat")),VP(V("like"),NP(D("the"),N("girl")))).typ({"int":"tag","pas":false}), // 62
+     "expected":"The cat likes the girl, doesn't it? ",
+     "message":"tag question, affirmative"},
+     {"expression":S(NP(D("the"),N("cat")),VP(V("like"),NP(D("the"),N("girl")))).typ({"int":"tag","pas":true}), // 63
+     "expected":"The girl is liked by the cat, isn't she? ",
+     "message":"tag question,passive "},
+     {"expression":S(NP(D("the"),N("cat")),VP(V("like").t("f"),NP(D("the"),N("girl")))).typ({"int":"tag","pas":false}), // 64
+     "expected":"The cat will like the girl, won't it? ",
+     "message":"tag question, affirmative future"},
+     {"expression":S(NP(D("the"),N("cat")),VP(V("like").t("f"),NP(D("the"),N("girl")))).typ({"int":"tag","pas":true}), // 65
+     "expected":"The girl will be liked by the cat, won't she? ",
+     "message":"tag question, passive, future"},
     ];
     for (var i = 0; i < sentences.length; i++) {
         var s=sentences[i];

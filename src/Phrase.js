@@ -213,11 +213,11 @@ class Phrase extends Constituent{
                 }
             }
             //   set agreement between the subject of a subordinate or the object of a subordinate
-            const pro=this.getFromPath([["S","SP"],"Pro"]);5
+            const pro=this.getFromPath([["S","SP"],"Pro"]);
             if (pro!==undefined){
                 const v=pro.parentConst.getFromPath(["VP","V"]);
                 if (v !=undefined)
-                    this.link_subj_obj_subordinate(pro,v)
+                    this.link_subj_obj_subordinate(pro,v,pro.parentConst.subject)
             }
             break;
         case "VP": 
@@ -246,10 +246,11 @@ class Phrase extends Constituent{
             }
             let iSubj=this.getIndex(["NP","N","CP","Pro"]);
             // determine subject
+            this.subject = null
             if (iSubj>=0){
                 let subject=this.elements[iSubj];
                 if (this.isA("SP") && subject.isA("Pro")){
-                    if (["que","où","that"].includes(subject.lemma)){
+                    if (this.should_try_another_subject(subject.lemma,iSubj)){
                         // HACK: the first pronoun  should not be a subject...
                         //        so we try to find another...
                         const jSubj=this.elements.slice(iSubj+1).findIndex(
@@ -257,12 +258,14 @@ class Phrase extends Constituent{
                         );
                         if (jSubj>=0){
                             subject=this.elements[iSubj+1+jSubj];
+                            this.subject = subject
                         } else {
                             // finally this generates too many spurious messages
                             // this.warning("no possible subject found");
                             return this;
                         }
-                    }
+                    } else
+                        this.subject=subject
                 }
                 this.peng=subject.peng;
                 const vpv=this.linkPengWithSubject("VP","V",subject)

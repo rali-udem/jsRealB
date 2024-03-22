@@ -41,8 +41,8 @@ const French_phrase = (superclass) =>
          * @param {Terminal} pro
          * @param {Terminal} v
          */
-        link_subj_obj_subordinate(pro,v){
-            if (["qui","lequel"].includes(pro.lemma)){// agrees with this NP
+        link_subj_obj_subordinate(pro,v,subject){
+            if (["qui","lequel"].includes(pro.lemma) && pro===subject){// agrees with this NP
                 v.peng=this.peng
                 if (pro.lemma == "lequel") pro.peng=this.peng
                 this.linkAttributes(v,this.getFromPath([["VP"],["CP"]]),this)
@@ -114,6 +114,15 @@ const French_phrase = (superclass) =>
             }
         }
 
+    
+        /**
+         * Check if a lemma is pronoun that should not be subject of a subordinate
+         */
+        should_try_another_subject(lemma,iSubj){
+            return ["que","où","dont"].includes(lemma) ||
+                (lemma == "qui" && iSubj>0 && this.elements[iSubj-1].isA("P"))
+        }
+    
         /**
          * Check for a coordinated object of a verb in a SP used as cod occurring before the verb
          */

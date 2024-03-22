@@ -317,6 +317,19 @@ function makeExamples(){
             "2 filles jolies et vieilles"],
         [NP(CP(C("ou"),NO(2),NO(3)),N("fille"),CP(C("et"),A("jeune"),A("joli"))),
              "2 ou 3 filles jeunes et jolies"],
+        [S(NP(D('le'),
+              N('fleur').n("p"),
+              SP(Pro('que'),
+                 NP(D('le'),
+                    N('garçon').n("p")),
+                 VP(V('offrir').t("pc"),
+                    PP(P('à'),
+                       NP(D('le'),
+                          N('fille'),
+                          A('jeune')).n("p")).pro(true)))),
+              VP(V('être'),
+              A('joli'))),
+            "Les fleurs que les garçons leur ont offertes sont jolies. "],
   
     ];
 

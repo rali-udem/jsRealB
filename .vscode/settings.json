@@ -9,5 +9,6 @@
         "plaintext"
     ],
     "workbench.colorTheme": "Default Light Modern",
-    "python.terminal.executeInFileDir": true
+    "python.terminal.executeInFileDir": true,
+    "npm.enableRunFromFolder": true
 }

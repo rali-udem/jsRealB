@@ -33,13 +33,6 @@ const French_dependent = (superclass) =>
         }
 
         /**
-         * Return a list of French relative pronouns
-         *
-         * @returns {string[]}
-         */
-        relative_pronouns(){return ["qui","que","lequel","auquel","duquel"]}
-
-        /**
          * Link a past participle with a direct object appearing before. 
          * Empty for English
          *

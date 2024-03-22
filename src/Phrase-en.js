@@ -40,7 +40,7 @@ const English_phrase = (superclass) =>
          * @param {Terminal} pro
          * @param {Terminal} v
          */
-        link_subj_obj_subordinate(pro,v){
+        link_subj_obj_subordinate(pro,v,_subject){
             if (["who","which","that"].includes(pro.lemma)){// agrees with this NP
                 v.peng=this.peng
                 this.linkAttributes(v,this.getFromPath([["VP"],["CP"]]),this)
@@ -61,6 +61,14 @@ const English_phrase = (superclass) =>
          * Empty for English
          */
         check_coordinated_object(){}
+
+
+        /**
+         * Check if a lemma is pronoun that should not be subject of a subordinate
+         */
+        should_try_another_subject(lemma,_iSubj){
+            return lemma == "that"
+        }
 
         /**
          * Pronominalization in English only applies to a NP (this is checked before the call)

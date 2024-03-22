@@ -229,7 +229,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                          PP(P("de"),NP(D("mon"),N("problème"))).pro())),
          "expected":"Il lui en a parlé. ",
          "message":"Pronominalisation de deux objets indirects"},
-         // 38
+         // 37
          {"expression":S(Pro('je'),
                          VP(V('aller').t("pc"),
                             Adv('hier'),
@@ -238,7 +238,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                                   N('maison'))))).typ({"neg":true}),
           "expected":"Il n'est pas allé hier à la maison. ",
           "message":"Position de l'adverbe dans une négation"},
-         // 39
+         // 38
          {"expression":S(Pro('je'),
                          VP(V('aller').t("pc"),
                             Adv('souvent'),
@@ -248,7 +248,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                             Adv('sûrement'))).typ({"neg":true}),
           "expected":"Il n'est pas souvent allé à la maison sûrement. ",
           "message":"Position d'adverbes séparés"},
-         // 40
+         // 39
          {"expression":S(Pro('je'),
                          VP(V('aller').t("pc"),
                             Adv('souvent').pos("post"),
@@ -257,7 +257,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                                   N('maison'))))).typ({"neg":true}),
           "expected":"Il n'est pas allé souvent à la maison. ",
           "message":"Position d'un adverbe avec .pos()"},
-         // 41
+         // 40
          {"expression":S(NP(D('le'),
                            N('chat')),
                         VP(V('manger'),
@@ -267,7 +267,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                               N('souris')))).typ({"pas":true}),
           "expected":"La souris est bien souvent mangée par le chat. ",
           "message":"Position d'adverbes contigus"},
-         //   42
+         //   41
            {"expression":S(S(VP(V("trouver").t("b"),
                                 NP(D("un"),N("livre"),
                                    SP(Pro("dont"),
@@ -279,7 +279,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                            VP(V("être"),A("difficile"))).typ({"pas":true,"neg":true}),
            "expected": "Il n'a pas été difficile de trouver un livre dont on puisse dire qu'il n'a pas été traduit. ",
            "message": "Subordonnées modifiées imbriquées"},
-         //   43
+         //   42
          {"expression":S(S(VP(V("trouver").t("b"),
                               NP(D("un"),N("livre"),
                                  SP(Pro("que"),
@@ -288,7 +288,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                          VP(V("être"),A("difficile"))).typ({"pas":true,"neg":true}),
            "expected": "Il n'a pas été difficile de trouver un livre qu'il n'a pas traduit. ",
            "message": "Subordonnées modifiées imbriquées - bis"},
-         //   44
+         //   43
          {"expression":CP(C("et"),
                           NP(D("de"),
                              A("multiple").pos('pre'),
@@ -296,7 +296,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                           N("démarche")).n('p'),
            "expected": "de multiples tâches et démarches",
            "message": "propagation d'option dans un CP"},
-         // 45
+         // 44
          {"expression":
             S(Pro("lui").c("nom"),
                VP(V("indiquer").t("c"),
@@ -313,19 +313,276 @@ QUnit.test( "Phrase FR", function( assert ) {
                                        Pro("lui").c("dat")))))))))).typ({"mod": "nece"}),
          "expected": "Il devrait indiquer s'il plaide coupable des faits qui lui sont reprochés. ",
          "message": "NP avec une relative contenant un attribut"},
-        // 46
+        // 45
         {"expression":NP(D("un"),N("personne"), AP(Adv("très"),A("beau"))),
          "expected":"une personne très belle",
          "message":"accord dans un AP"},
-        // 47
+        // 46
         {"expression":NP(D("un"), AP(Adv("très"),A("beau")),N("personne")),
          "expected":"une très belle personne",
          "message":"accord dans un AP"},
-        // 39
-        // {"expression":,
-        //  "expected":"",
-        //  "message":""},
 
+        // VP : Verbal Phrase
+        // 47
+        {"expression":S(NP(Pro("je")).pe(2), VP(V("être"), AP(A("intelligent")))).g("f"),
+         "expected":"Tu es intelligente. ",
+         "message":"1. VP"},
+        // 48
+        {"expression":S(NP(Pro("je")).pe(2), VP(V("travailler"), AdvP(Adv("bien")))),
+         "expected":"Tu travailles bien. ",
+         "message":"2. VP"},
+        // 49
+        {"expression":S(NP(D("le"), N("visiteur")), VP(V("dormir")).t("i"), NP(D("le"), N("matin"))),
+         "expected":"Le visiteur dormait le matin. ",
+         "message":"3. VP"},
+        // 50
+        {"expression":S(NP(Pro("je")).pe(3).g("f"), VP(V("manger"), NP(D("un"), N("gâteau")).n("p")).t("i")),
+         "expected":"Elle mangeait des gâteaux. ",
+         "message":"4. VP"},
+        // 51
+        {"expression":S(NP(D("ce"), N("gâteau")), VP(V("être")), AP(A("excellent"))),
+         "expected":"Ce gâteau est excellent. ",
+         "message":"5. VP"},
+        // 52
+        {"expression":S(NP(Pro("je").pe(1).n("p")), VP(V("mettre"), NP(D("le"), N("courrier"), PP(P("sur"), NP(D("le"), N("table")))))),
+         "expected":"Nous mettons le courrier sur la table. ",
+         "message":"6. VP"},
+        // 53
+        {"expression":S(NP(Pro("je").pe(1)), VP(V("parler"), PP(P("à"), NP(D("un"), N("fille"))))),
+         "expected":"Je parle à une fille. ",
+         "message":"7. VP"},
+        // 54 
+        {"expression":S(NP(Pro("je").pe(3).n("p")), VP(V("arrêter"), AdvP(Adv("rapidement")), NP(D("le"), N("discussion"))).t("ps")),
+         "expected":"Ils arrêtèrent rapidement la discussion. ",
+         "message":"8. VP"},
+        // 55
+        {"expression":S(NP(D("le"), N("petit")).g("f"), VP(V("garder"), NP(D("le"), N("montre")))),
+         "expected":"La petite garde la montre. ",
+         "message":"9. VP"},
+        // 56
+        {"expression":S(NP(Pro("je")).pe(3), VP(V("refuser")).t("f")),
+         "expected":"Il refusera. ",
+         "message":"10. VP"},
+        // 57
+        {"expression":S(Pro("je"),VP(V("manger"),NP(D("un"),N("pomme"),V("laisser").t("pp"),PP(P("par"),N("terre"))))),
+         "expected":"Il mange une pomme laissée par terre. ",
+         "message":"11.VP + NP(avec pp accordé seul) + PP"},
+        // 58
+        {"expression":NP(D("le"),N("fenêtre").n("p"),V("ouvrir").t("pp")),
+         "expected":"les fenêtres ouvertes",
+         "message":"12. NP(avec pp accordé seul)"},
+
+        // AP : Adjective Phrase
+        // 59
+        {"expression":AP(A("grand").g("f")),
+         "expected":"grande",
+         "message":"1. AP"},
+        // 60
+        {"expression":AP(A("content").g("f")),
+         "expected":"contente",
+         "message":"2. AP"},
+        // 61
+        {"expression":AP(AdvP(Adv("très")), A("grand").g("f")),
+         "expected":"très grande",
+         "message":"3. AP"},
+        
+        // AdvP : Adverbial Phrase
+        // 62
+        {"expression":AdvP(Adv("évidemment")),
+         "expected":"évidemment",
+         "message":"1. AdvP"},
+        // 63
+        {"expression":AdvP(Adv("fort")),
+         "expected":"fort",
+         "message":"2. AdvP"},
+        // 64
+        {"expression":AdvP(Adv("rapidement")),
+         "expected":"rapidement",
+         "message":"3. AdvP"},
+        
+        // PP : Prepositional Phrase
+        // 65
+        {"expression":PP(P("dans"), NP(D("le"), N("ville"))),
+         "expected":"dans la ville",
+         "message":"1. PP"},
+        // 66
+        {"expression":PP(P("de"), NP(D("ce"), N("femme"))),
+         "expected":"de cette femme",
+         "message":"2. PP"},
+        // 67
+        {"expression":PP(P("à"), NP(D("le"), N("maison"))),
+         "expected":"à la maison",
+         "message":"3. PP"},
+        // 68
+        {"expression":PP(P("par"), NP(D("le"), N("fenêtre")).n("p")),
+         "expected":"par les fenêtres",
+         "message":"4. PP"},
+        // 69
+        {"expression":PP(P("avec"), NP(D("mon"), N("femme"))),
+         "expected":"avec sa femme",
+         "message":"5. PP"},
+        
+        // CP : Coordinated Phrase
+        // 70
+        {"expression":CP(C("ou"), Pro('moi').pe(2), Pro('je').pe(3).g("f")),
+         "expected":"toi ou elle",
+         "message":"0. CP"},
+        // 71
+        {"expression":CP(C("ou"), Pro('moi').pe(1), Pro('moi').pe(2), Pro('je').pe(3).g("f")),
+         "expected":"moi, toi ou elle",
+         "message":"1. CP"},
+        // 72
+        {"expression":NP(N("jeu").n("p").a(";"), N("jouet").n("p").a(";"), N("cadeau").n("p")),
+         "expected":"jeux ; jouets ; cadeaux",
+         "message":"3. CP"},
+        // 73
+        {"expression":NP(D('le'), N('vaisseau').n('p').lier(), N('mère').n('p')),
+         "expected":"les vaisseaux-mères",
+         "message":"4. CP"},
+        // 74
+        {"expression":NP(D('un'), N('mur'), A('rouge').lier(), A('orange')),
+         "expected":"un mur rouge-orange",
+         "message":"5. CP"},
+        // 75
+        {"expression":CP(NP(D("le"), N("garçon")), NP(D("le"), N("fille")), C("et")),
+         "expected":"le garçon et la fille",
+         "message":"6. CP"},
+        // 76
+        {"expression":CP(NP(D("le"), N("garçon")), C("et"), NP(D("le"), N("fille"))),
+         "expected":"le garçon et la fille",
+         "message":"7. CP"},
+        // 77
+        {"expression":CP(C("et"), NP(D("le"), N("garçon")), NP(D("le"), N("fille"))),
+         "expected":"le garçon et la fille",
+         "message":"8. CP"},
+        
+        // SP : Propositional Phrase
+        // 78
+        {"expression":NP(D('le'), N('chose'), SP(Pro('que'), NP(Pro('je').pe(2)), VP(V('dire').t("pc")))),
+         "expected":"la chose que tu as dite",
+         "message":"1. SP"},
+        // 79
+        {"expression":NP(D('le'),N('souris'),SP(Pro('que'),NP(D('le'), N('chat')), VP(V('manger')))),
+         "expected":"la souris que le chat mange",
+         "message":"2. SP"},
+        // 80
+        {"expression":NP(Pro('ce'), SP(Pro('dont'),NP(Pro('je').pe(2)),VP(V('parler')))),
+         "expected":"ce dont tu parles",
+         "message":"3. SP"},
+        // 81
+        {"expression":S( NP( D("le"), N("personne").n("p"), SP( Pro("que"), Pro("je").pe("1").n("p"), VP( V("rencontrer").t("pc"))))),
+         "expected":"Les personnes que nous avons rencontrées. ",
+         "message":"4. SP + pp(avoir)"},
+        // 82
+        {"expression":S( NP( D("le"), N("fleur").n("p"), SP( Pro("que"), NP( D("le"), N("garçon").n("p")), VP( Pro("je").pe(1).n("p"), V("offrir").t("pc")))), VP( V("être").t("pc"), A("joli"))),
+         "expected":"Les fleurs que les garçons nous ont offertes ont été jolies. ",
+         "message":"5. SP + pp(avoir) + pp(être)"},
+        // 83
+        {"expression":S( NP( N("pierre").n("p"), SP( Pro("qui"), VP( V("rouler")))), VP( V("amasser"), NP( N("mousse")))).typ({neg:true}),
+         "expected":"Pierres qui roulent n'amassent pas mousse. ",
+         "message":"6. SP(qui)"},
+        // 84
+        {"expression":S( NP( D("le"), N("dame").n("p"), SP( P("à"), Pro("qui"), Pro("je").pe("1").n("s"), VP( V("parler").t("pc")))), VP(V("être").t("pc"), A("joli"))),
+         "expected":"Les dames à qui j'ai parlé ont été jolies. ",
+         "message":"7. SP(à qui)"},
+
+        // Composition
+        // 85
+        {"expression":NP(D("le"), A("petit"), N("chien").g("f"), A("blanc"), PP(P("de"), NP( D("mon").pe(1), N("voisin").g("f").n("p")) ) ),
+         "expected":"la petite chienne blanche de mes voisines",
+         "message":"1. NP + PP"},
+        // 86
+        {"expression":NP(D("le"), N("père"), PP(P("de"), NP(D("mon").pe(1), N("fille")) ) ),
+         "expected":"le père de ma fille",
+         "message":"2. NP + PP"},
+        // 87
+        {"expression":AP(AdvP(Adv("très")), A("fier"), PP(P("de"), NP(D("mon").pe(3), N("famille")))),
+         "expected":"très fier de sa famille",
+         "message":"3. AP + AdvP + PP + NP"},
+        // 88
+        {"expression":AdvP(Adv("conformément"), PP(P("à"), NP(D("le"), N("loi")))),
+         "expected":"conformément à la loi",
+         "message":"4. AdvP + PP + NP"},
+        // 89
+        {"expression":S( NP(D("le"), N("peintre")), VP(V("réparer"), NP(D("le"), N("mur"))), PP(P("dans"), NP(D("le"), N("cour"))) ),
+         "expected":"Le peintre répare le mur dans la cour. ",
+         "message":"5. S + NP + VP + PP"},
+         // 90
+         {"expression":S(NP(D("le"),N("pomme").n("p")),VP(V("être"),A("beau"))),
+          "expected":"Les pommes sont belles. " ,
+          "message":"Les pommes sont belles."},
+         // 91
+         {"expression":S(NP(D("le"),N("pomme")),VP(V("être"),CP(C("et"),A("beau"),A("joli")))),
+          "expected":"La pomme est belle et jolie. ",
+          "message":"La pomme est belle et jolie"},
+          // 92
+          {"expression":
+             S(NP(D('le'),
+                  N('fleur').n("p"),
+                  SP(Pro('que'),
+                     NP(D('le'),
+                        N('garçon').n("p")),
+                     VP(V('offrir').t("pc"),
+                        PP(P('à'),
+                           NP(D('le'),
+                              N('fille'),
+                              A('jeune')).n("p")).pro(true)))),
+               VP(V('être').t("pc"),
+                  A('joli'))),
+            "expected":"Les fleurs que les garçons leur ont offertes ont été jolies. ",
+            "message":"Pronominalisation d'un PP" 
+          },            
+        //Pronominalisation des groupes du nom
+        // 93
+        {"expression":S(NP(D('un'),N("poule")).n('p'),VP(V("mordre").t('p'))),
+        "expected":"Des poules mordent. ",
+        "message":"Sans pronominalisation"},
+        // 94
+        {"expression":S(NP(D('un'),N("poule")).n('p').pro(),VP(V("mordre").t('p'))),
+         "expected":"Elles mordent. ",
+         "message":"Pronominalisation sujet"},
+        // 95
+        {"expression":S(NP(D('un'),N("poule")).n('p'),VP(V("mordre").t('p'),NP(D("un"),N("enfant")))),
+         "expected":"Des poules mordent un enfant. ",
+         "message":"Sans pronominalisation (avec cd)"},
+        // 96
+        {"expression":S(NP(D('un'),N("poule")).n('p'),VP(V("mordre").t('p'),NP(D("un"),N("enfant")).pro())),
+         "expected":"Des poules le mordent. ",
+         "message":"Pronominalisation cd"},
+        // 97
+        {"expression":S(NP(D('un'),N("poule")).n('p').pro(),VP(V("mordre").t('p'),NP(D("un"),N("enfant")).pro())),
+         "expected":"Elles le mordent. ",
+         "message":"Pronominalisation sujet+cd"},
+        // 98
+        {"expression":S(NP(D('un'),N("poule")).n('p'),VP(V("mordre").t('p'),NP(D("un"),N("enfant")),PP(P("dans"),NP(D("un"),N("maison"))))),
+         "expected":"Des poules mordent un enfant dans une maison. ",
+         "message":"Sans pronominalisation (avec cd+ci)"},
+        // 99
+        {"expression":S(NP(D('un'),N("poule")).n('p'),VP(V("mordre").t('p'),NP(D("un"),N("enfant")),PP(P("dans"),NP(D("un"),N("maison")).pro()))),
+         "expected":"Des poules mordent un enfant dans elle. ",
+         "message":"Pronominalisation ci"},
+        // 100
+        {"expression":S(NP(D('un'),N("poule")).n('p').pro(),VP(V("mordre").t('p'),NP(D("un"),N("enfant")).pro(),PP(P("dans"),NP(D("un"),N("maison")).pro()))),
+         "expected":"Elles le mordent dans elle. ",
+         "message":"Pronominalisation sujet+cd+ci"},
+
+        //Action passive
+        // 101
+        {"expression":S(NP(D("le"),N("soldat").n("p")),VP(V("trouver").t("pc"),NP(D("le"),N("fille")))),
+         "expected":"Les soldats ont trouvé la fille. ",
+         "message":"Phrase simple"},
+        // 102
+        {"expression":S(NP(D("le"),N("soldat").n("p")),VP(V("trouver").t("pc"),NP(D("le"),N("fille")))).typ({pas:true}),
+         "expected":"La fille a été trouvée par les soldats. ",
+         "message":"Phrase passive avec sujet et cd"},
+        // 103
+        {"expression":S(NP(D("le"),N("soldat").n("p")),VP(V("trouver").t("pc"))).typ({pas:true}),
+         "expected":"Il a été trouvé par les soldats. ",
+         "message":"Phrase passive avec sujet, sans cd"},
+        // 104
+        {"expression":S(VP(V("trouver").t("pc"),NP(D("le"),N("fille")))).typ({pas:true}),
+         "expected":"La fille a été trouvée. ",
+         "message":"Phrase passive avec cd, sans sujet"},
     ];
     
     for (var i = 0; i < phrases.length; i++) {

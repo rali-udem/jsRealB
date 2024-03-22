@@ -23,13 +23,6 @@ const English_dependent = (superclass) =>
         link_attributes(depTerm,headTerm){}
 
         /**
-         * Return a list of English relative pronouns
-         *
-         * @returns {string[]}
-         */
-        relative_pronouns(){return ["who","that"]}
-
-        /**
          * Link a past participle with a direct object appearing before. 
          * Empty for English
          *

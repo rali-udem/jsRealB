@@ -126,43 +126,181 @@ QUnit.test( "Sentence EN", function( assert ) {
          "expected":"She sees him through it. ",
          "message":"Pronominalization of subject, object and indirect object"
          },
-        // // 22
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 23
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 24
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 25
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 26
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 27
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 28
-        // {"expression":,
-        //  "expected":"",
-        //  "message":
-        //  },
-        // // 29
-        // {"expression":,
+        // VP : Verbal Phrase
+        // 22
+        {"expression":S(NP(D("a"), N("child")), VP(V("find"), NP(D("a"), N("cat"))).t("ps")),
+        "expected":"A child found a cat. ",
+        "message":"2. VP"},
+        // 23
+        {"expression":S(NP(Pro("I").pe(3).g("m")), VP(V("hate"), NP(N("soup")))),
+         "expected":"He hates soup. ",
+         "message":"3. VP"},
+        // 24
+        {"expression":S(NP(Pro("I").pe(3).g("f")), VP(V("eat"), NP(N("soup"))).t("ps")),
+         "expected":"She ate soup. ",
+         "message":"4. VP"},
+        // 25
+        {"expression":S(NP(Pro("I").pe(2)), VP(V("enjoy"), NP(D("a"), N("meat")))),
+         "expected":"You enjoy a meat. ",
+         "message":"5. VP"},
+        // 26
+        {"expression":S(NP(D("a"), N("girl")), VP(V("have"))),
+         "expected":"A girl has. ",
+         "message":"6. VP"},
+
+         // AP : Adjective Phrase
+        // 27
+        {"expression":AP(Adv("extremely"), A("pleasant")),
+         "expected":"extremely pleasant",
+         "message":"1. AP"},
+        // 28
+        {"expression":AP(Adv("much"), A("quick").f("co")),
+         "expected":"much quicker",
+         "message":"2. AP"},
+        // 29
+        {"expression":AP(Adv("very"), A("hard")),
+         "expected":"very hard",
+         "message":"3. AP"},
+
+         // AdvP : Adverbial Phrase
+        // 30
+        {"expression":AdvP(Adv("very"), Adv("quietly")),
+         "expected":"very quietly",
+         "message":"1. AdvP"},
+        // 31
+        {"expression":AdvP(Adv("extremely"), Adv("softly")),
+         "expected":"extremely softly",
+         "message":"2. AdvP"},
+        // 32
+        {"expression":AdvP(Adv("totally"), Adv("abruptly")),
+         "expected":"totally abruptly",
+         "message":"3. AdvP"},
+
+         // PP : Prepositional Phrase
+        // 33
+        {"expression":PP(P("on"), NP(D("a"), N("table"))),
+         "expected":"on a table",
+         "message":"1. PP"},
+        // 34
+        {"expression":PP(P("by"), NP(D("a"), N("window"))),
+         "expected":"by a window",
+         "message":"2. PP"},
+         // 35
+        {"expression":PP(P("in"),NP(D("the"),N("dark"),PP(P("of"),N("night"))) ),
+         "expected":"in the dark of night",
+         "message":"3. PP"},
+        // 36
+        {"expression":PP(P("for"), NP(D("a"), N("while"))),
+         "expected":"for a while",
+         "message":"4. PP"},
+         // 37
+        {"expression":PP(P("against"), AdvP(Adv("all")), N("odds")),
+         "expected":"against all odds",
+         "message":"5. PP"},
+        // 38
+        {"expression":PP(P("of"), NP(A("great"), N("talent"))),
+         "expected":"of great talent",
+         "message":"6. PP"},
+        // 39
+        {"expression":PP(P("with"), NP(D("that"), N("key"))),
+         "expected":"with that key",
+         "message":"7. PP"},
+        // 40
+        {"expression":PP(P("of"), NP(N("piano"))),
+         "expected":"of piano",
+         "message":"8. PP"},
+
+        // CP : Coordinated Phrase
+        // 41
+        {"expression":CP(C("or"), Pro('me').pe(1), Pro('I').pe(2), Pro('I').pe(3).g("f")),
+         "expected":"me, you or she",
+         "message":"1. CP"},
+        // 42
+        {"expression":CP(C("and"), NP(N("cat")), NP(N("dog")), NP(N("snake"))).n("p"),
+         "expected":"cats, dogs and snakes",
+         "message":"2. CP"},
+        // 43        
+        {"expression":CP(NP(N("cat")), NP(N("dog")), NP(N("snake"))),
+         "expected":"cat, dog, snake",
+         "message":"3. CP"},
+
+         // SP : Propositional Phrase
+        // 44
+        {"expression":S( NP(D("the"), N("mouse"), SP( Adv("that"), NP( D("the"), N("cat")), VP( V("eat").t("ps"))))),
+         "expected":"The mouse that the cat ate. ",
+         "message":"1. SP"},
+        // 45
+        {"expression":NP(D("a"), N("girl"), SP( Pro("who"), VP( V("play"), NP(N("soccer"))))),
+         "expected":"a girl who plays soccer",
+         "message":"2. SP(who)"},
+        // 46
+        {"expression":NP(D("the"), N("girl").n("p"), SP( Pro("who"), VP( V("play"), NP(N("soccer"))))),
+         "expected":"the girls who play soccer",
+         "message":"2. SP(who)"},
+         // 47
+        {"expression":S(NP(D("the"),N("chicken")),VP(V("bite").t("p"))),
+         "expected":"The chicken bites. ",
+         "message":"No pronoun"},
+         // 48
+        {"expression":S(NP(D("the"),N("chicken")).pro(),VP(V("bite").t("p"))),
+         "expected":"It bites. ",
+         "message":"Subject as pronoun"},
+         // 49
+        {"expression":S(NP(D("the"),N("chicken")),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")))),
+         "expected":"The chicken bites kids. ",
+         "message":"No pronoun + cd"},
+         // 50
+        {"expression":S(NP(D("the"),N("chicken")),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")).pro())),
+         "expected":"The chicken bites them. ",
+         "message":"Cd as pronoun"},
+         // 51
+        {"expression":S(NP(D("the"),N("chicken")).pro(),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")).pro())),
+         "expected":"It bites them. ",
+         "message":"Cd and subject as pronoun"},
+         // 52
+        {"expression":S(NP(D("the"),N("chicken")),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")),PP(P("at"),NP(D("my").pe(1),N("house"))))),
+         "expected":"The chicken bites kids at my house. ",
+         "message":"No pronoun + cd + ci"},
+         // 53
+        {"expression":S(NP(D("the"),N("chicken")),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")),PP(P("at"),NP(D("my").pe(1),N("house")).pro()))),
+         "expected":"The chicken bites kids at it. ",
+         "message":"Ci as pronoun"},
+         // 54
+        {"expression":S(NP(D("the"),N("chicken")).pro(),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")).pro(),PP(P("at"),NP(D("my").pe(1),N("house")).pro()))),
+         "expected":"It bites them at it. ",
+         "message":"Subject, cd and ci as pronoun"},
+         // 55
+        {"expression":S(NP(D("the"),N("chicken")).pro(),VP(V("bite").t("p"),NP(D("a"),N("kid").n("p")).pro(),PP(P("at"),NP(D("my").pe(1),N("house").g("n")).pro()))),
+         "expected":"It bites them at it. ",
+         "message":"Subject, cd and ci as pronoun"},
+         // 56
+        {"expression":S(Pro("I").pe(1),VP(V("give"),PP(P("to"),NP(D("a"),N("woman"))))),
+         "expected":"I give to a woman. ",
+         "message":"woman -> feminine noun"},
+         // 57
+        {"expression":S(Pro("I").pe(1),VP(V("give"),PP(P("to"),NP(D("a"),N("woman")).pro()))),
+         "expected":"I give to her. ",
+         "message":"woman -> feminine pronoun"},
+
+         //Passive action
+         // 58
+        {"expression":S(NP(D("the"),N("soldier").n("p")),VP(V("find").t("ps"),NP(D("a"),N("girl")))),
+         "expected":"The soldiers found a girl. ",
+         "message":"Simple sentence"},
+         // 59
+        {"expression":S(NP(D("the"),N("soldier").n("p")),VP(V("find").t("ps"),NP(D("a"),N("girl")))).typ({pas:true}),
+         "expected":"A girl was found by the soldiers. ",
+         "message":"Passive sentence, with subject and cd"},
+         // 60
+        {"expression":S(NP(D("the"),N("soldier").n("p")),VP(V("find").t("ps"))).typ({pas:true}),
+         "expected":"It was found by the soldiers. ",
+         "message":"Passive sentence, no cd"},
+         // 61
+        {"expression":S(VP(V("find").t("ps"),NP(D("a"),N("girl")))).typ({pas:true}),
+         "expected":"A girl was found. ",
+         "message":"Passive sentence, no subject"},
+
+         // {"expression":,
         //  "expected":"",
         //  "message":
         //  },
