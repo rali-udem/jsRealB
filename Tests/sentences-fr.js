@@ -583,6 +583,18 @@ QUnit.test( "Phrase FR", function( assert ) {
         {"expression":S(VP(V("trouver").t("pc"),NP(D("le"),N("fille")))).typ({pas:true}),
          "expected":"La fille a été trouvée. ",
          "message":"Phrase passive avec cd, sans sujet"},
+        //   105 - version constituant de Bonfante et al. Figure 2.19 p 58
+        {"expression":
+             S(NP(D("le"), N("sorcier")).g("f"),
+               VP(V("être").t("ps"),
+                  CP(C("et"),
+                     VP(V("condamner"),
+                        PP(P("à"), N("mort"))),
+                     VP(V("torturer")),
+                     VP(V("brûler"))).t("pp"))),
+          "expected": "La sorcière fut condamnée à mort, torturée et brûlée. ",
+          "message": "attributs coordonnés"},
+        
     ];
     
     for (var i = 0; i < phrases.length; i++) {

@@ -67,7 +67,7 @@ const French_constituent = (superclass) =>
         tonic_pe_1(){return "moi"}
 
         relative_pronouns(){
-            return ["qui","que","où","lequel","auquel","duquel"]
+            return ["qui","que", "dont", "où", "lequel", "auquel", "duquel"]
         }
 
         validate_neg_option(val,types){
