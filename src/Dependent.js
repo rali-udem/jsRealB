@@ -236,8 +236,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     }
                     this.link_pp_with_head(depTerm)
                 } else if (depTerm.isA("Pro") && 
-                            this.relative_pronouns()
-                            .includes(depTerm.lemma)){
+                            this.relative_pronouns_propagate().includes(depTerm.lemma)){
                     // a relative linked to depTerm in which the new peng should be propagated
                     if (this.peng !== undefined){
                         depTerm.peng=this.peng

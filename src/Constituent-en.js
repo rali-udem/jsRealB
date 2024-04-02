@@ -72,6 +72,18 @@ const English_constituent = (superclass) =>
             return ["that", "who", "which"]
         }
 
+         /**
+         * Return a list of English relative pronouns whose number and gender 
+         * that can be propagated into the subordinate
+         *
+         * @returns {string[]}
+         */
+         relative_pronouns_propagate(){
+            return ["that", "who", "which"]
+        }
+
+   
+
         /**
          * Validate string values for the neg options. Empty for English
          *

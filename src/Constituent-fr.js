@@ -64,10 +64,31 @@ const French_constituent = (superclass) =>
             return ["toi", "lui", "nous", "vous", "eux", "elle", "elles", "on", "soi"]
         }
 
+        /**
+         * Return the first person tonic pronoun
+         *
+         * @returns {"me"}
+         */
         tonic_pe_1(){return "moi"}
 
+        /**
+         * Return a list of English relative pronouns
+         *
+         * @returns {string[]}
+         */
         relative_pronouns(){
             return ["qui","que", "dont", "où", "lequel", "auquel", "duquel"]
+        }
+
+        /**
+         * Return a list of English relative pronouns whose number and gender 
+         * that can be propagated into the subordinate
+         *
+         * @returns {string[]}
+         */
+
+        relative_pronouns_propagate(){
+            return ["qui","lequel", "auquel", "duquel"]
         }
 
         validate_neg_option(val,types){

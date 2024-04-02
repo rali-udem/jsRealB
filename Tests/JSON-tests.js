@@ -16,7 +16,8 @@ QUnit.test( "JSON-tests", function( assert ) {
                            "lemma":"the"},
                           {"terminal":"N",
                            "lemma":"cat",
-                           "props":{"n":"p"}}]},
+                           "props":{"cnt":"yes",
+                                    "n":"p"}}]},
              {"phrase":"VP",
               "elements":[{"terminal":"V",
                            "lemma":"sit",
@@ -28,7 +29,8 @@ QUnit.test( "JSON-tests", function( assert ) {
                                         "elements":[{"terminal":"D",
                                                      "lemma":"the"},
                                                     {"terminal":"N",
-                                                     "lemma":"mat"}]}]}]}],
+                                                     "lemma":"mat",
+                                                     "props":{"cnt":"yes"}}]}]}]}],
  "props":{"typ":{"neg":true}},
  "lang":"en"}`, "pretty-print of JSON from Phrase")
     assert.equal(fromJSON(expJSON).toString(),expSent,"regenerated sentence via JSON conversion")
@@ -40,7 +42,7 @@ QUnit.test( "JSON-tests", function( assert ) {
                         mod(N("mat"),
                             det(D("the"))))).typ({neg:true})
     const depSent=dep.clone().toString();
-    assert.equal(depSent,"The cats will not sit on the mat. ","original sentence built using Depeendent")
+    assert.equal(depSent,"The cats will not sit on the mat. ","original sentence built using Dependent")
     const depJSON=dep.toJSON();
     assert.equal(ppJSON(depJSON),
 `{"dependent":"root",
@@ -50,7 +52,8 @@ QUnit.test( "JSON-tests", function( assert ) {
  "dependents":[{"dependent":"subj",
                 "terminal":{"terminal":"N",
                             "lemma":"cat",
-                            "props":{"n":"p"}},
+                            "props":{"cnt":"yes",
+                                     "n":"p"}},
                 "dependents":[{"dependent":"det",
                                "terminal":{"terminal":"D",
                                            "lemma":"the"},
@@ -60,7 +63,8 @@ QUnit.test( "JSON-tests", function( assert ) {
                             "lemma":"on"},
                 "dependents":[{"dependent":"mod",
                                "terminal":{"terminal":"N",
-                                           "lemma":"mat"},
+                                           "lemma":"mat",
+                                           "props":{"cnt":"yes"}},
                                "dependents":[{"dependent":"det",
                                               "terminal":{"terminal":"D",
                                                           "lemma":"the"},
