@@ -23,6 +23,13 @@ const English_terminal = (superclass) =>
         thousand_seps(){return /,/g}
 
         /**
+         * Returns the list of table number in rules-en that indicates a noun that is always plural
+         *
+         * @returns {RegExp}
+         */
+        noun_always_plural(){return ['n6']}
+
+        /**
          * Return the grammtical number of this terminal
          *
          * @returns {"s"|"p"}

@@ -118,6 +118,13 @@ const French_terminal = (superclass) =>
         declension_word(){return "déclinaison"}
 
         /**
+         * Returns the list of table number in rules-fr that indicates a noun that is always plural
+         *
+         * @returns {RegExp}
+         */
+        noun_always_plural(){return ['n1','n15','n21','n22','n26']}
+
+        /**
          * Check if the specified gender and number corresponds to what is 
          * acceptable in the lexicon. 
          *
