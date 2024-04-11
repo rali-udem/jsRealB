@@ -57,7 +57,7 @@ function genExp(declension,pos,entry,lexiconEntry){
         if (lemmataLang=="en"|| declension["g"]==g){
             return out+(declension["n"]=="p"?'.n("p")':"");
         } else if (g=="x") {
-            return out+'.g("'+declension["g"]+'")'+(declension["n"]=="p"?'.n("p")':"")
+            return out+(declension["g"]=='f'?'.g("f")':"")+(declension["n"]=="p"?'.n("p")':"")
         }
         break;
     case "Pro":case "D":
@@ -172,12 +172,17 @@ function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
         return;
     }
     var decl=declension["declension"];
+    let seenVals=[]
     // console.log("decl",decl);
     for (var l = 0; l < decl.length; l++) {
-        var jsRexp=genExp(decl[l],pos,entry,lexicon[entry][pos]);
-        if (jsRexp!=null){
-            var word=radical+decl[l]["val"];
-            addLemma(lemmata,word,jsRexp);
+        const dec = decl[l];
+        if (!seenVals.includes(dec['val'])){ // do not generate identical values in the same table
+            seenVals.push(dec['val']);
+            var jsRexp=genExp(decl[l],pos,entry,lexicon[entry][pos]);
+            if (jsRexp!=null){
+                var word=radical+decl[l]["val"];
+                addLemma(lemmata,word,jsRexp);
+            }
         }
     }
 }
