@@ -20,7 +20,7 @@ const French_terminal = (superclass) =>
         thousand_seps(){return / /g}
 
         /**
-         * Return the grammtical number of this terminal
+         * Return the grammatical number of this terminal
          *
          * @returns {"s"|"p"}
          */
@@ -120,7 +120,7 @@ const French_terminal = (superclass) =>
         /**
          * Returns the list of table number in rules-fr that indicates a noun that is always plural
          *
-         * @returns {RegExp}
+         * @returns {[string]}
          */
         noun_always_plural(){return ['n1','n15','n21','n22','n26']}
 
