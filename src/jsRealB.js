@@ -82,29 +82,34 @@ let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to 
 function oneOf(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    const l = elems.length;
-    const elems_key = elems.toString()  // HACK: create key from the array
     let indices, idx;
-    if (jsRealB_oneOf_map.has(elems_key)){
-        let past_indices=jsRealB_oneOf_map.get(elems_key) // a list of past indices
-        if (past_indices.length<l){
-            indices=[]
-            for (let i=0;i<l;i++){ 
-                if (past_indices.indexOf(i)<0)
-                    indices.push(i)
+    const l = elems.length;
+    if (l == 0) return null;
+    if (l == 1) 
+        idx=0;
+    else {
+        const elems_key = elems.toString()  // HACK: create key from the array
+        if (jsRealB_oneOf_map.has(elems_key)){
+            let past_indices=jsRealB_oneOf_map.get(elems_key) // a list of past indices
+            if (past_indices.length<l){
+                indices=[]
+                for (let i=0;i<l;i++){ 
+                    if (past_indices.indexOf(i)<0)
+                        indices.push(i)
+                }
+            } else { // reset the list but avoid last index
+                const last_idx = past_indices[past_indices.length-1]
+                indices=[...Array(l).keys()]
+                indices.splice(last_idx,1) // remove last index
+                past_indices.splice(0)     // clear the array
             }
-        } else { // reset the list but avoid last index
-            const last_idx = past_indices[past_indices.length-1]
+            idx = indices[Math.floor(Math.random()*indices.length)] // select index
+            past_indices.push(idx)  
+        } else { // first call
             indices=[...Array(l).keys()]
-            indices.splice(last_idx,1) // remove last index
-            past_indices.splice(0)     // clear the array
+            idx = indices[Math.floor(Math.random()*indices.length)] // select index
+            jsRealB_oneOf_map.set(elems_key,[idx])                  // initialise Map element
         }
-        idx = indices[Math.floor(Math.random()*indices.length)] // select index
-        past_indices.push(idx)  
-    } else { // first call
-        indices=[...Array(l).keys()]
-        idx = indices[Math.floor(Math.random()*indices.length)] // select index
-        jsRealB_oneOf_map.set(elems_key,[idx])                  // initialise Map element
     }
     const e = elems[idx]
     return typeof e=='function'?e():e;

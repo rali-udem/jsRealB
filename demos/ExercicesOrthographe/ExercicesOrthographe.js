@@ -1,7 +1,8 @@
 // listes de variantes
 const nombre = Object.keys(nomNombre);
+const genre = Object.keys(nomGenre);
 const codeTemps=Object.keys(nomTemps);
-const codeTypes=Object.keys(types)
+const codeTypes=Object.keys(types);
 
 let nbPhrases=0,nbVertes=0;
 
@@ -11,6 +12,11 @@ function nouvellePhrase(){
     const inanime= oneOf(inanimes);
     // choisir parmi les variantes
     const n1=oneOf(nombre);
+    let g1=null;
+    const animeN = getLemma(anime)["N"]
+    if (n1=="pro" && animeN["g"]=="x"){
+        g1 = oneOf(genre) 
+    }
     const a1=oneOf(article)
     const n2=oneOf(nombre);
     const a2=oneOf(article);
@@ -22,7 +28,15 @@ function nouvellePhrase(){
     let $table=$("table");
     let $tr=$("<tr/>")
     $tr.append(`<th rowspan="2">${typ}</th>`);
-    $tr.append(`<th colspan="2">${nomNombre[n1]}</th>`);
+    if (g1==null){
+        $tr.append(`<th colspan="2">${nomNombre[n1]}</th>`);
+    } else {
+        if (getLanguage()=="en"){
+            $tr.append(`<th colspan="2">${nomGenre[g1]} ${nomNombre[n1]}</th>`)
+        } else {
+            $tr.append(`<th colspan="2">${nomNombre[n1]} ${nomGenre[g1]}</th>`)
+        }
+    }
     $tr.append(`<th colspan="1">${nomTemps[t]}</th>`);
     $tr.append(`<th colspan="3">${nomNombre[n2]}</th>`);
     $table.append($tr)
@@ -49,7 +63,11 @@ function nouvellePhrase(){
     $("#reponse").focus();
     $("#encore").prop("disabled",true);
     let sujet=NP(D(a1),N(anime));
-    if (n1=="pro") sujet.pro(); else sujet.n(n1);
+    if (n1=="pro"){
+        if (g1 !== null)sujet.g(g1)
+        sujet.pro();
+    } else 
+        sujet.n(n1);
     let complement=NP(D(a2),N(inanime));
     if (adjectif!="")complement.add(A(adjectif));
     if (n2=="pro")complement.pro(); else complement.n(n2);
@@ -69,18 +87,22 @@ function verifier(){
     // figer la réponse
     const $td=$("table").find(`tr:eq(${n-3})`).find("td:last")
     $td.text(reponse);
-    // séparer en caractères
-    const sepRE=""
-    // si on voulait séparer en mots, il faudrait utiliser ceci
-    // const sepRE=/([^-\s.,:;!$()'"?[\]]+)/;
-    // il faudrait aussi mettre " " au lieu de "" dans les join
+    
+    // Comparaison de la réponse et du corrigé
+    // au niveau des caractères
+    // const sepRE=""
+    // const joinStr=""
+    // au niveau des mots
+    const sepRE=/([^-\s.,:;!$()'"?[\]]+)/;
+    const joinStr=" ";
+    
     reponse=reponse.trim().split(sepRE);
     corrige=corrige.trim().split(sepRE);
     var diffs=levenshtein(reponse,corrige);
     // console.log(diffs);
     let diffsHTML;
     if (diffs[1]==0){
-        diffsHTML=`<span class="bravo">${reponse.join("")}</span>`;
+        diffsHTML=`<span class="bravo">${reponse.join(joinStr)}</span>`;
         nbVertes++;
     } else {
         diffsHTML=applyEdits(diffs[0],reponse,corrige);
