@@ -8,7 +8,7 @@ import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         S,NP,AP,VP,AdvP,PP,CP,SP,
         root, subj, det, mod, comp, coord,
         loadFr,loadEn,load, addToLexicon,getLanguage,getLemma,getLexicon,
-        jsRealB_dateCreated,jsRealB_version,oneOf,mix,
+        jsRealB_dateCreated,jsRealB_version,oneOf,choice,mix,
         fromJSON,ppJSON} from "./src/jsRealB.js"
 
 ///// use the webpack module
@@ -330,7 +330,17 @@ function makeExamples(){
               VP(V('être'),
               A('joli'))),
             "Les fleurs que les garçons leur ont offertes sont jolies. "],
-  
+        [S(NP(D("le"),
+              CP(C("et"),
+                 N("dauphin").n('p'),
+                 N("tortue"))),
+           VP(V("nager"),
+              PP(P("dans"),
+                 NP(D("un"),
+                    N("mer"))))),
+         "Les dauphins et tortue nagent dans une mer. ",
+         "Conversion d'un NP avec coord de N non traitée"],
+
     ];
 
     //  exemples en anglais

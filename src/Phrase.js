@@ -200,6 +200,7 @@ class Phrase extends Constituent{
                             this.link_DAV_properties(e)
                         } else if (e.isA("CP")){ // check for a coordination of adjectives or number
                             const me=this;
+                            e.peng = me.peng
                             e.elements.forEach(function(e){
                                 if (e.isA("A","NO")) // 
                                     e.peng=me.peng
@@ -760,10 +761,17 @@ class Phrase extends Constituent{
             const typs=this.props["typ"];
             if (typs!==undefined)this.processTyp(typs);
             const es=this.elements;
+            // realize CPs before the rest because it can change gender and number of subject
+            // save their realization
+            let cpsReal = []
+            for (let e of es){
+                if(e.isA("CP"))
+                    cpsReal.push(e.cpReal())
+            }
             for (let e of es){
                 var r;
                 if (e.isA("CP")){
-                    r=e.cpReal();
+                    r=cpsReal.shift() // recover previous realization
                 } else if (e.isA("VP") && reorderVPcomplements){
                     r=e.vpReal();
                 } else {

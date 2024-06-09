@@ -310,7 +310,7 @@ provides already two comprehensive lexicons: French (more than 52 500 entries) a
 <ul lang="en">
 	<li>If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.</li> 
 <li>This function returns the new modified lexicon entry for <code>lemma</code>.</li>
-<li><a href="../data/lexiconFormat.html">More information about the lexicon format</a></li>
+<li><a href="lexiconFormat.html">More information about the lexicon format</a></li>
 <li>In order to find the informations to add, the simplest way is to copy the lexicon information for a similar word already in the lexicon. 
 The <a href="http://rali.iro.umontreal.ca/JSrealB/current/IDE/README.htmls">jsRealB IDE</a> provides access to the lexicon information.
 </li>
@@ -352,6 +352,10 @@ where <code>e<sub>i</sub></code> is a value, selects randomly a <code>e<sub>i</s
 <p lang="en">To avoid the evaluation of all elements before the selection, it is possible to <em>functionalize</em> a expression into a function with no formal parameter by prefixing it with <code>()=></code> which makes it an <em>arrow function</em>. Once the element is selected, <code>oneOf</code> checks if the value is a function and, if it is so, it returns the value of the called function. For exemple,
 <code>oneOf(()=>V("love"),()=>V("like"))</code> allows choosing between the two verbs without evaluating both constructors. In this simplistic case, this could have also been written as <code>V(oneOf("love","like"))</code>.</p>
 <p lang="en"><code>oneOf</code> implements the <a href="https://rosaenlg.org/rosaenlg/4.3.0/mixins_ref/synonyms.html#_choose_randomly_but_try_not_to_repeat"  target="_blank">"mode:once" of RosaeNLG</a>: it selects an alternative randomly, but tries not to repeat the same one. When all alternatives have been triggered, it resets but tries not run the last triggered alternative, avoiding repetitions.</p>
+
+<h3><code>choice(e<sub>1</sub>,e<sub>2</sub>,...)</code></h3>
+<p lang="fr">Version de la fonction <code>oneOf</code> qui choisit une alternative sans tenir compte des choix précédents. C'est la méthode <i>classique</i> d'effectuer des choix aléatoires.</p>
+<p lang="en">Version of <code>oneOf</code> that selects an alternative into account without taking previous choices. This is the <i>classic</i> implementation for making random choices.</p>
 
 <h3><code>mix(e<sub>1</sub>,e<sub>2</sub>,...)</code></h3>
 <p lang="fr">

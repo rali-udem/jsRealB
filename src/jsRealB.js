@@ -30,7 +30,7 @@ export {Constituent, Terminal, Phrase, Dependent,
         loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
         fromJSON, ppJSON,
         getElems, exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
-        load, oneOf, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
+        load, oneOf, choice, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
         Terminal_en, Terminal_fr, terminal, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
         Phrase_en, Phrase_fr, phrase, S,NP,AP,VP,AdvP,PP,CP,SP,
         Dependent_en, Dependent_fr, dependent, root, subj, det, mod, comp, coord,
@@ -76,8 +76,9 @@ let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to 
  * Select an alternative randomly, but tries not to repeat the same alternative. 
  * When all alternatives have been triggered, it will reset, but will try not run the last triggered alternative 
  * as the first new one, avoiding repetitions.
+ * If a <i>classical</i> random selection is preferred, use: choice(elems)
  * @param {Array | any} elems 
- * @returns the selected element, if it is a function, evaluate it with no parameter
+ * @returns the selected element, if it is a function, evaluate it with no parameter, null on an empty list
  */
 function oneOf(elems){
     if (!Array.isArray(elems))
@@ -115,6 +116,28 @@ function oneOf(elems){
     return typeof e=='function'?e():e;
 }
 
+/**
+ * Select a random element in a list useful to have some variety in the generated text
+ * if the first argument is a list, selection is done within the list,
+ * otherwise the selection is among the arguments
+ * @param {Array | any} elems 
+ * @returns the selected element, if it is a function, evaluate it with no parameter, null on an empty list
+ */
+function choice(elems){
+    if (!Array.isArray(elems))
+        elems=Array.from(arguments);
+    let idx;
+    const l = elems.length;
+    if (l == 0) return null;
+    if (l == 1) 
+        idx=0;
+    else {
+        idx = Math.floor(Math.random()*l)
+    }
+    const e = elems[idx]
+    return typeof e=='function'?e():e;
+}
+    
 /**
  * Mix elements of a list in a random order.
  * If the first argument is a list, mixing is done within the list,
