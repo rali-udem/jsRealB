@@ -250,12 +250,18 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 // this.error("An internal root was found")
                 break;
             case "coord":
-                if (dep.dependents.length>0){
-                    const firstDep=dep.dependents[0]
+                let firstDep=null;
+                for (let d of dep.dependents){
+                    if (!d.isA("C")){
+                        firstDep=d;
+                        break;
+                    }
+                }
+                if (firstDep !== null){
                     if (firstDep.isA("subj")){
-                        headTerm.peng=dep.peng
+                        dep.peng = this.peng;
                     } else if (firstDep.isA("det")){
-                        dep.peng=headTerm.peng
+                        dep.peng=headTerm.peng;
                     } else if (firstDep.isA("mod","comp")&& firstDep.terminal.isA("V","A")){
                         // consider this as coordination of verb sharing a subject (the current root)
                         //  or a coordination of adjectives
@@ -673,7 +679,13 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             const typs=this.props["typ"];
             if (typs!==undefined)this.processTyp(typs);
             const ds=this.dependents;
-
+            // realize coords before the rest because it can change gender and number of subject
+            // save their realization
+            let coordReals = []
+            for (let d of ds){
+                if(d.isA("coord"))
+                    coordReals.push(d.coordReal())
+            }
             // move all "pre" dependents at the front 
             // HACK: we must move these in place because realization might remove some of them 
             let nextPre=0
@@ -691,12 +703,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             } else if (nextPre==0) { // no pre
                 res = this.terminal.real();
                 for (let d of ds)
-                    res.push(...(d.isA("coord") ? d.coordReal() : d.real()))
+                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
             } else {  // both pre and post
                 res = []
                 for (let i=0;i<ds.length;i++){
                     const d=ds[i];
-                    res.push(...(d.isA("coord") ? d.coordReal() : d.real()))
+                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
                     if (i==nextPre-1)
                         res.push(...this.terminal.real())
                 }

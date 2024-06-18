@@ -629,7 +629,7 @@ function makeExamples(){
             comp(N('fromage'),
                 det(D('le'))),
             subj(Pro('elles'))).typ({"pas":true}),
-        "Le fromage est mangé par elles. "],
+        "Le fromage est mangé par elles. "],                   // 17
         [root(N("fille"),
               coord(C("ou"),
                     det(NO(2)),
@@ -637,7 +637,16 @@ function makeExamples(){
               coord(C("et"),
                     mod(A("jeune")),
                     mod(A("joli"))).pos("pre")),
-        "2 ou 3 jeunes et jolies filles. "],
+        "2 ou 3 jeunes et jolies filles. "],                    // 18
+        [root(V('nager'),
+              det(D('le')),
+              coord(C('et'),
+                  subj(N('dauphin').n("p")),
+                  subj(N('tortue'))),
+              comp(P('dans'),
+                  comp(N('mer'),
+                      det(D('un'))))),
+        "Les dauphins et tortue nagent dans une mer. "],        // 19
     ] 
 
 

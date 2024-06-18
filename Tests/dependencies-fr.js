@@ -64,12 +64,12 @@ QUnit.test( "Dependencies FR", function( assert ) {
         // 8
         {"expression":
             root(V('être').t("p"),
-                 comp(A('gentil')),
                  coord(C('et'),
                        subj(N('garçon'),
                             det(D('le'))),
                        subj(N('fille'),
-                            det(D('le'))))),
+                            det(D('le')))),
+                 comp(A('gentil'))),
          "expected":"Le garçon et la fille sont gentils. ",
          "message": "Coordination"},
         // 9
