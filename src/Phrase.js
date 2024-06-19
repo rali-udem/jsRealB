@@ -47,6 +47,22 @@ class Phrase extends Constituent{
             this.add(elements[last],undefined,true)
         }
     }
+    
+    /**
+     * Returns the number of constituents in this Phrase
+     * @returns the number of constituents
+     */
+    nbConstituents(){
+        return this.elements.length
+    }
+
+    /**
+     * Returns the list of constituents in this Prhase
+     * @returns the list of constituents 
+     */
+    constituents(){
+        return this.elements
+    }
 
     /**
      * Add a Constituent as a child of this Phrase
@@ -83,6 +99,27 @@ class Phrase extends Constituent{
             return elem
         }
         return this.warn("bad position",position,this.elements.length)
+    }
+
+    /**
+     * Remove a child at a given position and remove the corresponding position in sourceElement
+     * or in the optSource
+     * @param {*} position index of child to remove
+     * @returns this
+     */
+    remove(position){
+        let elem = this.removeElement(position)
+        if (elem !== this){
+            let src = elem.toSource().replace(/\(/g,"\\(").replace(/\)/g,"\\)")
+            let srcRE =  new RegExp("\\.add\\("+src+"(,\\d+)?\\)")
+            if (srcRE.test(this.optSource)){ // was it added whith add ?
+                this.optSource=this.optSource.replace(srcRE,"");
+            } else {
+                this.elementsSource.splice(position,1);
+            }
+            return this
+        }
+        return this
     }
 
     /**

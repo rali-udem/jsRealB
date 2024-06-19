@@ -932,3 +932,6 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 // add tests here ...
 loadEn();
 loadFr();
+test(S(NP(D("le"),N("chat")),VP(V("manger"),NP(D("le"),N("souris")))).remove(0))
+test(S().add(NP(D("le"),N("chat"))).add(VP(V("manger"),NP(D("le"),N("souris")))))
+test(S().add(NP(D("le"),N("chat"))).add(VP(V("manger"),NP(D("le"),N("souris")))).remove(0))
