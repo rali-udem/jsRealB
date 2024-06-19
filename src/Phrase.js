@@ -49,7 +49,7 @@ class Phrase extends Constituent{
     }
     
     /**
-     * Returns the number of constituents in this Phrase
+     * Returns the number of elements in this Phrase
      * @returns the number of constituents
      */
     nbConstituents(){
@@ -57,7 +57,7 @@ class Phrase extends Constituent{
     }
 
     /**
-     * Returns the list of constituents in this Prhase
+     * Returns the list of elements in this Prhase
      * @returns the list of constituents 
      */
     constituents(){
@@ -90,7 +90,7 @@ class Phrase extends Constituent{
     /**
      * Remove a child of this Phrase 
      * @param {int} position index of child to remove
-     * @returns the remove child 
+     * @returns the removed child if it could be removed else this
      */
     removeElement(position){
         if (typeof position == "number" && position<this.elements.length && position>=0){

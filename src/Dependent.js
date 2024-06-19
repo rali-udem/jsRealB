@@ -131,6 +131,22 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         return -1
     }
 
+    /**
+     * Returns the current number of dependents
+     * @returns number of constituents
+     */
+    nbConstituents(){
+        return this.dependents.length
+    }
+    
+    /**
+     * Returns the current list of dependents
+     * @returns the list of constituents
+     */
+    constituents(){
+        return this.dependents
+    }
+    
      /**
      * Add a new dependent and set agreement links
      * @param {Dependent} dependent  Dependent to add
@@ -150,6 +166,27 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         this.addDependent(dependent,position);
         this.linkProperties();
         return this;
+    }
+
+    /**
+     * Remove a child at a given position and remove the corresponding position in sourceElement
+     * or in the optSource
+     * @param {*} position index of child to remove
+     * @returns this
+     */
+    remove(position){
+        let dep = this.removeDependent(position)
+        if (dep !== this){
+            let src = dep.toSource().replace(/\(/g,"\\(").replace(/\)/g,"\\)")
+            let srcRE =  new RegExp("\\.add\\("+src+"(,\\d+)?\\)")
+            if (srcRE.test(this.optSource)){ // was it added whith add ?
+                this.optSource=this.optSource.replace(srcRE,"");
+            } else {
+                this.dependentsSource.splice(position,1);
+            }
+            return this
+        }
+        return this
     }
 
     /**
