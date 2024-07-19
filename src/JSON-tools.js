@@ -218,10 +218,11 @@ Terminal.prototype.toJSON = function(){
  */
 function ppJSON(obj,level,str){
     function out(s){str+=s}
-    function outQuoted(s){
+    function quoted(s){
         if (s.includes('\\'))s=s.replace(/\\/g,'\\\\');
         if (s.includes('"' ))s=s.replace(/"/g,'\\"');
-        out('"'+s+'"');
+        if (s.includes('\n'))s=s.replace(/\n/g,'\\n');
+        return '"'+s+'"';
     }
     switch (arguments.length) {
     case 1:return ppJSON(obj,0,"");
@@ -229,37 +230,21 @@ function ppJSON(obj,level,str){
     default:
         switch (typeof obj) {
         case "string":
-            outQuoted(obj);
+            out(quoted(obj));
             break;
         case "object":
             if (obj===null){
                 out("null")
             } else if (Array.isArray(obj)){
-                out('[');
-                const n=obj.length;
                 // indent only if one of the elements of the array is an object != null 
                 const indent = obj.some((e)=>typeof e == "object" && e!==null)
-                for (var i = 1; i <= n; i++) {
-                    const elem=obj[i-1];
-                    if (indent && i>1)out("\n"+" ".repeat(level+1));
-                    out(ppJSON(elem,level+1,""));
-                    if (i<n)out(",")
-                }
-                out(']');
+                let children = obj.map(elem => ppJSON(elem,level+1,""))
+                out('['+children.join(indent ? (",\n"+" ".repeat(level+1)): ",")+']');
             } else {
-                out('{');
                 const keys=Object.keys(obj);
-                const n=keys.length;
-                for (var i = 1; i <= n; i++) {
-                    const key=keys[i-1];
-                    if (i>1)out("\n"+" ".repeat(level+1));
-                    outQuoted(key);
-                    out(":");
-                    out(ppJSON(obj[key],level+1+key.length+3,""));
-                    if (i<n)out(",")
-                }
-                out('}');
-            }
+                let children = keys.map(key=>quoted(key)+":"+ppJSON(obj[key],level+1+key.length+3,""))
+                out('{'+children.join(",\n"+" ".repeat(level+1))+'}')
+             }
             break;
         default: // primitive JavaScript values : boolean, number, string
             out(obj);
