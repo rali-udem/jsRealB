@@ -99,9 +99,7 @@ const French_constituent = (superclass) =>
             return true
         }
 
-        // same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
-        // HACK: referred to by "this.constructor.sepWordREfr" 
-        // according to https://stackoverflow.com/questions/69448030/javascript-refer-to-anonymous-class-static-variable
+        // Same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
         sepWordRE(){
             return /((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
         }

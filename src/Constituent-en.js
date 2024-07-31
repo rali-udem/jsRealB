@@ -101,7 +101,6 @@ const English_constituent = (superclass) =>
          *     1-possible non-word chars and optional html tags
          *     2-the real word 
          *     3-the rest after the word  
-         * according to https://stackoverflow.com/questions/69448030/javascript-refer-to-anonymous-class-static-variable
          *
          * @returns {Regex}
          */

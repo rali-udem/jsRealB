@@ -861,6 +861,7 @@ Phrase.prototype.toDependent = function(depName){
                     deprel.add(setPos(i,idx,dep),undefined,true)
                 }
             })
+            deprel.props = me.props
         } else {
             console.log(`Phrase.toDependent:: ${phName} without ${termName}`,me.toSource())
         }
@@ -915,8 +916,8 @@ Phrase.prototype.toDependent = function(depName){
     default:
         console.log(`Phrase.toDependent:: ${this.constType} not yet implemented`)
     }
-    deprel.props=this.props;
-    deprel.optSource=removeAddOption(this.optSource)
+    Object.assign(deprel.props,this.props)
+    deprel.optSource+=removeAddOption(this.optSource)
     if (this.parentConst===null && !this.isA("S"))deprel.cap(false)
     return deprel
 }

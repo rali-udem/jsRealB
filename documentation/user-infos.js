@@ -300,9 +300,13 @@ var formatSect={"fr":"","en":"",
        {"pattern":'.lier()', "fr":["lier le suivant par un trait d'union",'VP(V("lier").t("ip").pe(2).lier(),Pro("le"))'],
                      "en":["Combine next with a dash",'NP(NO(1).nat().lier(),P("of").lier(),D("a").lier(),N("kind"))']},
 
-       {"group":"","fr":'',"en":''},
+       {"group":".cap(…)","fr":'Lettres capitales',"en":'Capitalisation'},
        {"pattern":'.cap()', "fr":["Mettre la première lettre en majuscule",'N("joueur").cap()'],
                      "en":["Capitalize first letter",'N("player").cap()']},
+       {"pattern":'.cap("tit")', 
+                     "fr":["Majuscule de titre (ignoré en français)",'NP(N("joueur"),P("de"),N("équipe")).cap("tit")'],
+                     "en":["Title capitalization",'NP(N("player"),P("on"),D("the"),N("team")).cap("tit")']},
+   
 
        {"group":".tag(…)","fr":"balise HTML","en":'HTML tag'},
        {"pattern":'.tag(<em>nom</em>,<em>{attributs}</em>)', 

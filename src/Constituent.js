@@ -415,7 +415,7 @@ class Constituent {
         this.doElision(cList)
         
         const cap = this.props["cap"];
-        if (cap !== undefined && cap !== false){
+        if (cap !== undefined && cap === true){
             const r=cList[0].realization;
             if (r.length>0){
                 cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
@@ -455,6 +455,26 @@ class Constituent {
     }
 
     /**
+     * Apply Title case to the realization of a Terminal
+     * according to https://apastyle.apa.org/style-grammar-guidelines/capitalization/title-case
+     * Only the current terminal is taken into account, 
+     * so the "first word after a colon, em dash, or end punctuation" might not be capitalized as it should
+     * @param {Terminal} t 
+     */
+    titleCase(t){
+        let s = t.realization;
+        const m=this.sepWordRE().exec(s);
+        const word = m[2];
+        const len = word.length;  // get length of word in realization
+        if (len >= 4 || !t.isA("C","P","D")){
+            // capitalize words of 4 letters or more or short 
+            // non minor (conjunction,preposition,articles)
+            const idx=m[1].length; // get index of first letter
+            t.realization = s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
+        }
+    }
+
+    /**
      * Merge all tokens (i.e. Terminal with their realization field) into a single string, 
      * if at "top level", apply elision and default sentence formatting
      * @param {Terminal[]} terminals 
@@ -464,8 +484,10 @@ class Constituent {
         let s=""; // final realized string
         const last=terminals.length-1;
         if (last<0) return s;
+        const doTitleCase =  this.isEn() && this.props["cap"] == "tit";
         for (let i = 0; i < last; i++) {
             const terminal=terminals[i];
+            if (doTitleCase) this.titleCase(terminal)
             if (terminal.props["lier"] === true){
                 s+=terminal.realization+"-"+this.check_for_t(terminals,i);
             } else if (/[- ']$/.exec(terminal.realization)){
@@ -474,14 +496,14 @@ class Constituent {
                 s+=terminal.realization+" ";
             }
         }
+        if (doTitleCase) this.titleCase(terminals[last])
         s+=terminals[last].realization;
         
         if (this.parentConst==null){// if it is a top-level S
             if ((this.isA("S","root") || (this.isA("coord") && this.dependents[0].isA("root"))) 
                 && s.length>0){ 
                 // apply capitalization at the start and final full stop unless .cap(false)
-                if (this.props["cap"]!== false){
-                    // const sepWordRE=this.isEn()?Constituent.sepWordREen:Constituent.sepWordREfr;
+                if (this.props["cap"] === undefined || [true,"tit"].includes(this.props["cap"])){
                     const m=this.sepWordRE().exec(s);
                     const idx=m[1].length; // get index of first letter
                     if (idx<s.length) // check if there was a letter
@@ -578,17 +600,17 @@ class Constituent {
  * Creation of the many standard options for constituents
  * HACK the following definitions modify the Constituent class
  * @param {string} option name of the option to create  
- * @param {string[]} validVals acceptable values for this option 
+ * @param {string[]} validVals array of acceptable values for this option or undefined; 
+ *        if "" is allowed, then no parameter can be used and it is considered as true, false can also be used
  * @param {string[]} allowedConsts constituents names for this option is acceptable
  * @param {string?} optionName if present, name of the internal name for this option
  */
 function genOptionFunc(option,validVals,allowedConsts,optionName){
     Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
-            if (validVals !== undefined && !validVals.includes("")){
+            if (!validVals.includes("")){
                 return this.warn("no value for option",option,validVals);
             }
-            // val=null;
         }
         if (optionName===undefined)optionName=option; 
         if (this.isA("CP") && !["cap","lier","pos"].includes(option)){
@@ -614,17 +636,15 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             return this;
         }
         if (allowedConsts.length==0 || this.isA(allowedConsts) || this.isA(deprels)) {
-            if (validVals !== undefined && !validVals.includes(val)){
-                return this.warn("ignored value for option",option,val);
-            }
             // start of the real work...
-            if (validVals === undefined){
-                if (val === undefined) 
-                    val = true
-                else if (val !== true && val !== false){
-                    this.warn("ignored value for option",option,val);
-                    val = false
+            if (val === undefined){
+                if (!validVals.includes("")){
+                    return this.warn("ignored value for option",option,val);
                 }
+                val = true
+            } else if (!validVals.includes(val)){
+                this.warn("ignored value for option",option,val);
+                val = false
             }
             this.setProp(optionName,val);
             if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
@@ -653,14 +673,14 @@ genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A","Adv",...deprels]);
-genOptionFunc("pro",undefined,["NP","PP"]);
+genOptionFunc("pro",["",true,false],["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
-genOptionFunc("poss",undefined,["N","Q"])
+genOptionFunc("poss",["",true,false],["N","Q"])
 
 /// Formatting options
-genOptionFunc("cap",undefined,[]);
-genOptionFunc("lier",undefined,[]);
+genOptionFunc("cap",[true,false,"tit",""],[]);
+genOptionFunc("lier",["",true,false],[]);
 
 /**
  * Creation of list options
