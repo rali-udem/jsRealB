@@ -304,7 +304,7 @@ var formatSect={"fr":"","en":"",
        {"pattern":'.cap()', "fr":["Mettre la première lettre en majuscule",'N("joueur").cap()'],
                      "en":["Capitalize first letter",'N("player").cap()']},
        {"pattern":'.cap("tit")', 
-                     "fr":["Majuscule de titre (ignoré en français)",'NP(N("joueur"),P("de"),N("équipe")).cap("tit")'],
+                     "fr":["Majuscules de titre (ignoré en français)",'NP(N("joueur"),P("de"),N("équipe")).cap("tit")'],
                      "en":["Title capitalization",'NP(N("player"),P("on"),D("the"),N("team")).cap("tit")']},
    
 

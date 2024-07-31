@@ -496,8 +496,12 @@ class Constituent {
                 s+=terminal.realization+" ";
             }
         }
-        if (doTitleCase) this.titleCase(terminals[last])
-        s+=terminals[last].realization;
+        const lastTerm = terminals[last];
+        if (lastTerm.realization.startsWith(" ")){
+            lastTerm.realization = lastTerm.realization.slice(1)
+        }
+        if (doTitleCase) this.titleCase(lastTerm)
+        s+=lastTerm.realization;
         
         if (this.parentConst==null){// if it is a top-level S
             if ((this.isA("S","root") || (this.isA("coord") && this.dependents[0].isA("root"))) 
@@ -644,6 +648,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 val = true
             } else if (!validVals.includes(val)){
                 this.warn("ignored value for option",option,val);
+                if (!validVals.includes(false))return this;
                 val = false
             }
             this.setProp(optionName,val);
