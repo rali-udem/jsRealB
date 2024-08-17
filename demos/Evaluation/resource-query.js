@@ -1,6 +1,15 @@
 //  this file is essentially the same as IDE/nodeIDE.js
 //   except for the import/export statements that I never managed to get working
 
+/* uncomment this for testing this file alone 
+import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
+    S, NP, AP, VP, AdvP, PP, CP, SP,
+    root, subj, det, mod, comp, coord,
+    loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon, getRules,
+    jsRealB_dateCreated, jsRealB_version, oneOf, choice, mix,
+    fromJSON, ppJSON} from "./../../src/jsRealB.js"
+*/
+// comment next line for testing this file alone
 Object.assign(globalThis,jsRealB);
 const lexiconEn = getLexicon("en");
 const ruleEn = getRules("en");
@@ -8,13 +17,9 @@ const ruleEn = getRules("en");
 const lexiconFr = getLexicon("fr")
 const ruleFr = getRules("fr")
 
-// Only set this flag during development, it takes a long time to execute
+// Only set this flag during development 
 const checkAmbiguities=false;
 let lemmataEn,lemmataFr,lemmataLang;
-
-function isConstituent(obj){
-    return obj instanceof Constituent;
-}
 
 //////////// LEMMATIZATION
 
@@ -29,128 +34,131 @@ function showLemmata(lemmata){
     }
 }
 
-function addLemma(lemmata,word,jsRexp){
+function addLemma(lemmata,word,jsrExp){
     if (checkAmbiguities){
         // check if jsRealB generates the same string...
-        var genWord=eval(jsRexp);
+        var genWord=jsrExp.realize();
         if(genWord!=word){
-            console.log("%s => %s != %s",jsRexp,genWord,word);
+            // ignore differences for French "essentiellement réflexifs" verbs
+            if (lemmataLang == "en" || !jsrExp.isA("V") || !jsrExp.isReflexive() || 
+                   (!genWord.endsWith(word) && !genWord.startsWith(word)))
+                console.log("%s => %s != %s",jsrExp.toSource(),genWord,word);
         }
     }
     // add word
     // console.log("addLemma",word,jsRexp);
     var l=lemmata.get(word);
     if (l===undefined)lemmata.set(word,l=[]);
-    l.push(jsRexp);
+    l.push(jsrExp);
+}
+
+function jsrExpInit(pos,lemma){
+    return fromJSON({"terminal":pos,"lemma":lemma,"lang":lemmataLang})
 }
 
 // generate a list of jsRealB expressions (only Pro will have more than 1)
 //  from a given form (entry), for a given part-of-speech (pos)
 //  using information from the declension and lexicon information (declension, lexiconEntry)
-function genExp(declension,pos,entry,lexiconEntry){
-    var out = pos+'("'+entry+'")';
+
+// generate a jsRealB Terminal
+//  from a given form (entry), for a given part-of-speech (pos)
+//  using information from the declension and lexicon information (declension, lexiconEntry)
+function genExp(declension,pos,lemma,lexiconEntry){
+    let jsrExp = jsrExpInit(pos,lemma)
     // console.log("genExp",declension,pos,entry,lexiconEntry);
     switch (pos) {
     case "N":
         var g=lexiconEntry["g"];
         // gender are ignored in English
         if (lemmataLang=="en"|| declension["g"]==g){
-            return out+(declension["n"]=="p"?'.n("p")':"");
+            if (declension["n"]=="p")jsrExp.n("p")
         } else if (g=="x") {
-            return out+(declension["g"]=='f'?'.g("f")':"")+(declension["n"]=="p"?'.n("p")':"")
+            if (declension["g"]=='f') jsrExp.g("f");
+            if (declension["n"]=="p") jsrExp.n("p");
         }
         break;
     case "Pro":case "D":
         // gender
-        let defGender=lemmataLang=="fr"?"m":"n";
+        let defaultG=lemmataLang=="fr"?"m":"n";
         let dg = declension["g"];
-        if (dg===undefined || dg=="x" || dg=="n")dg=defGender;
-        const outG = dg==defGender?"":'.g("'+dg+'")';
-        // number
+        if (dg===undefined || dg=="x" || dg=="n")dg=defaultG;
+        if (dg != defaultG) jsrExp.g(dg);
         let dn = declension["n"];
         if (dn===undefined || dn=="x")dn="s";
-        const outN = dn=="s"?"":'.n("'+dn+'")';
-        // person
-        let outPe=""
+        if (dn != "s")jsrExp.n(dn);
         if ("pe" in declension){
             var pe=declension["pe"];
-            outPe+=(pe!=3 || entry=="moi")?'.pe('+pe+')':"";
+            if (pe!=3 || lemma=="moi")jsrExp.pe(pe)
         }
-        // ow
-        let outOw="";
         if ("own" in declension){
-            outOw='.ow("'+declension["own"]+'")'
+            jsrExp.ow(declension["own"])
         }
-        // combine all
         if ("tn" in declension){
-            out+=outG + outN + outPe + outOw +`.tn("${declension["tn"]}")`
+            jsrExp.tn(declension["tn"])
         } else if ("c" in declension){
-            out+=outG + outN + outPe + outOw+`.c("${declension["c"]}")`
-        } else {
-            out+=outG + outN + outPe + outOw
+            jsrExp.c(declension["c"])
         }
-        return out;
         break;
     case "A": 
         if (lemmataLang=="fr"){
-            var g=declension["g"];
+            let g=declension["g"];
             if (g===undefined || g=="x")g="m";
-            var n=declension["n"];
+            if (g!="m") jsrExp.g(g)
+            let n=declension["n"];
             if (n===undefined)n="s";
-            return out+(g!="m"?'.g("'+g+'")':'')+(n!="s"?'.n("'+n+'")':'');
+            if (n!="s") jsrExp.n(n)
         } else { // comparatif en anglais
             var f=declension["f"];
-            return out+(f==undefined?"":'.f("'+f+'")');
-        }
+            if (f !== undefined) jsrExp.f(f)
+         }
         break;
     case "Adv":
-        if (lemmataLang=="fr"){
-            return out;
-        } else {
-            var f=declension["f"];
-            return out+(f==undefined?"":'.f("'+f+'")');
+        if (lemmataLang=="en"){ // comparatif en anglais
+            let f=declension["f"];
+            if (f !== undefined) jsrExp.f(f)
         }
         break;
     default:
         console.log("***POS not implemented:%s",pos)
     }
-    return null;
+    return jsrExp;
 }
 
-function expandConjugation(lexicon,lemmata,rules,entry,tab){
-    var conjug=rules["conjugation"][tab];
+function expandConjugation(lexicon,lemmata,rules,lemma,tab){
+    let conjug=rules["conjugation"][tab];
     // console.log(conjug);
     if (conjug==undefined)return;
-    var ending=conjug["ending"];
-    var endRadical=entry.length-ending.length;
-    var radical=entry.slice(0,endRadical);
-    if (entry.slice(endRadical)!=ending){
-        console.log("strange ending:",entry,":",ending);
+    let ending=conjug["ending"];
+    let endRadical=lemma.length-ending.length;
+    let radical=lemma.slice(0,endRadical);
+    if (lemma.slice(endRadical)!=ending){
+        console.log("strange ending:",lemma,":",ending);
         return;
     }
-    var tenses=Object.keys(conjug["t"]);
-    for (var k = 0; k < tenses.length; k++) {
-        var t=tenses[k];
-        var persons=conjug["t"][t]
+    let tenses=Object.keys(conjug["t"]);
+    for (let k = 0; k < tenses.length; k++) {
+        let t=tenses[k];
+        let persons=conjug["t"][t]
         if (persons===null)continue;
         if (typeof persons =="object" && persons.length==6){
-            for (var pe = 0; pe < 6; pe++) {
+            for (let pe = 0; pe < 6; pe++) {
                 if (persons[pe]==null) continue;
-                var word=radical+persons[pe];
-                var pe3=pe%3+1;
-                var n=pe>=3?"p":"s";
-                var jsRexp='V("'+entry+'")'+(t!="p"?'.t("'+t+'")':'')
-                                           +(pe3!=3?'.pe('+pe3+')':'')
-                                           +(n!='s'?'.n("'+n+'")':'');
-                addLemma(lemmata,word,jsRexp);
+                let word=radical+persons[pe];
+                let pe3=pe%3+1;
+                let n=pe>=3?"p":"s";
+                let jsrExp=jsrExpInit("V",lemma)
+                if (t != "p") jsrExp.t(t);
+                if (pe3 != 3) jsrExp.pe(pe3);
+                if (n != "s") jsrExp.n(n);
+                addLemma(lemmata,word,jsrExp);
             }
         } else if (typeof persons=="string"){
-            // if (lemmataLang=="en" && t=="b")
-            //     addLemma(lemmata,"to "+radical+persons,'V("'+entry+'").t("b")')
-            // else
-                addLemma(lemmata,radical+persons,'V("'+entry+'")'+(t!="p"?'.t("'+t+'")':''));
+                let word = radical+persons;
+                let jsrExp=jsrExpInit("V",lemma)
+                if (t != "p") jsrExp.t(t)  
+                addLemma(lemmata,word,jsrExp);
         } else {
-            console.log("***Strange persons:",entry,tenses,k,persons);
+            console.log("***Strange persons:",lemma,tenses,k,persons);
         }
     }
 }
@@ -161,7 +169,7 @@ function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
     if (tab in rulesDecl)
         declension=rulesDecl[tab];
     else if (tab in rules["regular"] || declension == null){
-        addLemma(lemmata,entry,pos+'("'+entry+'")');
+        addLemma(lemmata,entry,jsrExpInit(pos,entry));
         return;
     }
     var ending=declension["ending"];
@@ -202,11 +210,10 @@ function buildLemmata(lang,lexicon,rules){
         for (var j = 0; j <  allPos.length; j++) {
             var pos=allPos[j];
             // console.log(entryInfos,j,pos);
-            if (pos=="basic") continue;
+            if (pos=="basic" || pos=="value") continue; // ignore these properties
             if (pos=="Pc") continue; // ignore punctuation
             if (pos=="V"){ // conjugation
-                expandConjugation(lexicon,lemmata,rules,entry,
-                                  entryInfos["V"]["tab"]);
+                expandConjugation(lexicon,lemmata,rules,entry,entryInfos["V"]["tab"]);
             } else {       // declension
                 expandDeclension(lexicon,lemmata,rules,entry,pos,entryInfos[pos]["tab"]);
             }
@@ -222,12 +229,12 @@ function lemmatize(query,lang){
     lang=lang||getLanguage()
     const lemmata = lang=="en" ? lemmataEn : lemmataFr;
     if (lemmata.has(query)) // check for verbatim
-        return lemmata.get(query).join("\n")
+        return lemmata.get(query).map(e=>e.toSource()).join("\n")
     // try to match with a regular expression
     const re=new RegExp("^"+query+"$");
     let res=[];
     for (let key of lemmata.keys()){
-        if (re.test(key))res.push(key+": "+lemmata.get(key).join("; "));
+        if (re.test(key))res.push(key+": "+lemmata.get(key).map(e=>e.toSource()).join("; "));
     }
     if (res.length==0){
         return query+" : "+(getLanguage()=="en"?"cannot be lemmatized":"ne peut être lemmatisé");
@@ -317,3 +324,16 @@ function buildLemmataFr(){
     lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
 }
 
+/* uncomment next lines for testing this file alone
+// a few tests
+loadEn()
+buildLemmataEn()
+console.log("---")
+console.log(lemmatize("love"))
+console.log("---")
+loadFr()
+buildLemmataFr()
+console.log("---")
+console.log(lemmatize("porte"))
+console.log(lemmatize("s..s"))
+*/

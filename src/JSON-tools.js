@@ -213,10 +213,11 @@ Terminal.prototype.toJSON = function(){
  * only useful for debugging, not necessary for using jsRealB
  * @param {Object} obj JSON object to pretty-print
  * @param {int?} level indentation level, 0 if omitted 
- * @param {String} str string to which new info is appended, "" if omitted
+ * @param {String?} str string to which new info is appended, "" if omitted
+ * @param {Int?} max_length maximum length for a line (only checked for array values on the same line), 100 if omitted
  * @returns indented string
  */
-function ppJSON(obj,level,str){
+function ppJSON(obj,level,str,max_length){
     function out(s){str+=s}
     function quoted(s){
         if (s.includes('\\'))s=s.replace(/\\/g,'\\\\');
@@ -225,8 +226,9 @@ function ppJSON(obj,level,str){
         return '"'+s+'"';
     }
     switch (arguments.length) {
-    case 1:return ppJSON(obj,0,"");
-    case 2:return ppJSON(obj,level,"");
+    case 1:return ppJSON(obj,0,"",100);
+    case 2:return ppJSON(obj,level,"",100);
+    case 3:return ppJSON(obj,level,str,100);
     default:
         switch (typeof obj) {
         case "string":
@@ -237,12 +239,17 @@ function ppJSON(obj,level,str){
                 out("null")
             } else if (Array.isArray(obj)){
                 // indent only if one of the elements of the array is an object != null 
-                const indent = obj.some((e)=>typeof e == "object" && e!==null)
-                let children = obj.map(elem => ppJSON(elem,level+1,""))
+                let indent = obj.some((e)=>typeof e == "object" && e!==null)
+                const children = obj.map(elem => ppJSON(elem,level+1,"",max_length))
+                if (!indent){ // check if the sum of the lengths of each quoted string+comma+level+2 brackets>max_length
+                    if (children.reduce((acc,str)=>acc+str.length+2+1,level+2) > max_length){
+                        indent = true
+                    }
+                }
                 out('['+children.join(indent ? (",\n"+" ".repeat(level+1)): ",")+']');
             } else {
                 const keys=Object.keys(obj);
-                let children = keys.map(key=>quoted(key)+":"+ppJSON(obj[key],level+1+key.length+3,""))
+                let children = keys.map(key=>quoted(key)+":"+ppJSON(obj[key],level+1+key.length+3,"",max_length))
                 out('{'+children.join(",\n"+" ".repeat(level+1))+'}')
              }
             break;

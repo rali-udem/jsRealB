@@ -23,16 +23,16 @@ import { Dependent } from "./Dependent.js"
 import { English_dependent } from "./Dependent-en.js";
 import { French_dependent } from "./Dependent-fr.js";
 
-import {loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV} from "./Lexicon.js"
-import {fromJSON,ppJSON} from "./JSON-tools.js"
+import {loadFr, loadEn, addToLexicon, getLanguage, getLemma, getLexicon, getRules, setReorderVPcomplements, setQuoteOOV} from "./Lexicon.js"
+import {fromJSON, ppJSON} from "./JSON-tools.js"
 
 export {Constituent, Terminal, Phrase, Dependent, 
-        loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
+        loadFr, loadEn, addToLexicon, getLanguage, getLemma, getLexicon, getRules, setReorderVPcomplements, setQuoteOOV,
         fromJSON, ppJSON,
-        getElems, exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
+        getElems, exceptionOnWarning, setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
         load, oneOf, choice, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
-        Terminal_en, Terminal_fr, terminal, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-        Phrase_en, Phrase_fr, phrase, S,NP,AP,VP,AdvP,PP,CP,SP,
+        Terminal_en, Terminal_fr, terminal, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
+        Phrase_en, Phrase_fr, phrase, S, NP, AP, VP, AdvP, PP, CP, SP,
         Dependent_en, Dependent_fr, dependent, root, subj, det, mod, comp, coord,
 }
 
@@ -46,7 +46,7 @@ function getElems(es){ //
     for (const e of es) {
         if (e !== null && e!== undefined){
             if (Array.isArray(e)){
-                Array.prototype.push.apply(res,getElems(e)); // recursive call
+                Array.prototype.push.apply(res, getElems(e)); // recursive call
             } else
                 res.push(e);
         }
@@ -67,6 +67,15 @@ function load(lang,trace=false){
         Q(lang).warn("bad language",lang)
 }
 
+function shuffle(elems){
+    // shuffle the elements adapting the algorithm given in
+    // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
+    for (let i = elems.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [elems[i], elems[j]] = [elems[j], elems[i]];
+    }
+}
+
 let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to specific oneOf call
 /**
  * Select a random element in a list useful to have some variety in the generated text
@@ -74,7 +83,7 @@ let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to 
  * otherwise the selection is among the arguments
  * Implements the "mode:once" of RosaeNLG (https://rosaenlg.org/rosaenlg/4.3.0/mixins_ref/synonyms.html#_choose_randomly_but_try_not_to_repeat)
  * Select an alternative randomly, but tries not to repeat the same alternative. 
- * When all alternatives have been triggered, it will reset, but will try not run the last triggered alternative 
+ * When all alternatives have been triggered, it will reset, but will not run the last triggered alternative 
  * as the first new one, avoiding repetitions.
  * If a <i>classical</i> random selection is preferred, use: choice(elems)
  * @param {Array | any} elems 
@@ -90,26 +99,24 @@ function oneOf(elems){
         idx=0;
     else {
         const elems_key = elems.toString()  // HACK: create key from the array
-        if (jsRealB_oneOf_map.has(elems_key)){
-            let past_indices=jsRealB_oneOf_map.get(elems_key) // a list of past indices
-            if (past_indices.length<l){
-                indices=[]
-                for (let i=0;i<l;i++){ 
-                    if (past_indices.indexOf(i)<0)
-                        indices.push(i)
+        if (!jsRealB_oneOf_map.has(elems_key)){ // first call
+            indices=[...Array(l).keys()] // a list of indices to return
+            shuffle(indices)
+            idx = indices.pop() // select last element as index
+            jsRealB_oneOf_map.set(elems_key,indices) // initialise Map element
+        } else {
+            indices=jsRealB_oneOf_map.get(elems_key) // get shuffled indices
+            idx = indices.pop()  // return last élement as index
+            if (indices.length==0) { // reset the shuffled list but avoid last index
+                indices=[...Array(l).keys()] // a list of indices to return
+                shuffle(indices)
+                const last = indices.length-1
+                if (indices[last]==idx){ 
+                    // swap first and last so that last will not be returned next time
+                    [indices[0],indices[last]]=[indices[last],indices[0]]
                 }
-            } else { // reset the list but avoid last index
-                const last_idx = past_indices[past_indices.length-1]
-                indices=[...Array(l).keys()]
-                indices.splice(last_idx,1) // remove last index
-                past_indices.splice(0)     // clear the array
+                jsRealB_oneOf_map.set(elems_key,indices) // reset Map element
             }
-            idx = indices[Math.floor(Math.random()*indices.length)] // select index
-            past_indices.push(idx)  
-        } else { // first call
-            indices=[...Array(l).keys()]
-            idx = indices[Math.floor(Math.random()*indices.length)] // select index
-            jsRealB_oneOf_map.set(elems_key,[idx])                  // initialise Map element
         }
     }
     const e = elems[idx]
@@ -150,12 +157,13 @@ function mix(elems){
         elems=Array.from(arguments);
     else
         elems = [...elems] // copy the original list
-    // shuffle the elements adapting the algorithm given in
-    // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
-    for (let i = elems.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [elems[i], elems[j]] = [elems[j], elems[i]];
-    }
+    // // shuffle the elements adapting the algorithm given in
+    // // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
+    // for (let i = elems.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random() * (i + 1));
+    //     [elems[i], elems[j]] = [elems[j], elems[i]];
+    // }
+    shuffle(elems)
     return elems.map(e=>typeof e=='function'?e():e);
 }
 

@@ -4,12 +4,12 @@
 /// for use in debugging in Visual Studio Code with launch configuration: "Run current file"
 //  when it seems OK, use instead the webpack created by "npm web-dev" or "npm web-prod"
 /* */
-import {Constituent, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-        S,NP,AP,VP,AdvP,PP,CP,SP,
-        root, subj, det, mod, comp, coord,
-        loadFr,loadEn,load, addToLexicon,getLanguage,getLemma,getLexicon,
-        jsRealB_dateCreated,jsRealB_version,oneOf,choice,mix,
-        fromJSON,ppJSON} from "./src/jsRealB.js"
+import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
+    S, NP, AP, VP, AdvP, PP, CP, SP,
+    root, subj, det, mod, comp, coord,
+    loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon,
+    jsRealB_dateCreated, jsRealB_version, oneOf, choice, mix,
+    fromJSON, ppJSON} from "./src/jsRealB.js"
 
 ///// use the webpack module
 ////  Caution
@@ -961,6 +961,7 @@ Constituent.debug = true;   // useful for tracing, but then .realize() must be c
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)
+
 // add tests here ...
 loadEn();
 loadFr();
