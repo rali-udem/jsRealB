@@ -1,18 +1,19 @@
-//  this file is essentially the same as IDE/nodeIDE.js
-//   except for the import/export statements that I never managed to get working
+//  this file is a subset os ../Evaluation/resource-query .js
 
-/* uncomment this for testing this file alone 
+/* uncomment this for testing this file alone */
 import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     S, NP, AP, VP, AdvP, PP, CP, SP,
     root, subj, det, mod, comp, coord,
     loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon, getRules,
     jsRealB_dateCreated, jsRealB_version, oneOf, choice, mix,
-    fromJSON, ppJSON} from "./../../src/jsRealB.js"
-*/
+    fromJSON, ppJSON} from "../../src/jsRealB.js"
+
+export {lemmataFr, tokenizeFr}
+
 // comment next line for testing this file alone
-Object.assign(globalThis,jsRealB);
-const lexiconEn = getLexicon("en");
-const ruleEn = getRules("en");
+// Object.assign(globalThis,jsRealB);
+// const lexiconEn = getLexicon("en");
+// const ruleEn = getRules("en");
 
 const lexiconFr = getLexicon("fr")
 const ruleFr = getRules("fr")
@@ -244,77 +245,6 @@ function lemmatize(query,lang){
         return res.join("\n");
     }
 }
-/////////// Resource query
-
-function getNo(no,table,errorMessage){
-    if (no in table)
-        return table[no];
-    // try to match with a regular expression
-    const re=new RegExp("^"+no+"$");
-    let res=[];
-    for (var key of Object.keys(table)){
-        if (re.test(key))res.push(key+":"+ppJSON(table[key],key.length+1));
-    }
-    if (res.length==0)
-        return no+":"+errorMessage;
-    return res.join("\n")
-}
-
-function getEnding(ending,table,errorMessage){
-    const re=new RegExp("^"+ending+"$");
-    let res=[];
-    for (var key of Object.keys(table)){
-        if (re.test(table[key].ending))res.push(key+":"+ppJSON(table[key],key.length+1));
-    }
-    if (res.length==0)
-        return ending+":"+errorMessage
-    return res.join("\n")
-}
-
-function getConjugation(no,lang){
-    lang=lang||getLanguage()
-    if (lang=="en")
-        return getNo(no,ruleEn.conjugation,"no conjugation found");
-    return getNo(no,ruleFr.conjugation,"pas de conjugaison trouvée");
-}
-
-function getConjugationEnding(ending,lang){
-    lang=lang||getLanguage()
-    if (lang=="en")
-        return getEnding(ending,ruleEn.conjugation,"no conjugation found");
-    return getEnding(ending,ruleFr.conjugation,"pas de conjugaison trouvée");
-}
-
-function getDeclension(no,lang){
-    lang=lang||getLanguage()
-    if (lang=="en")
-        return getNo(no,ruleEn.declension,"no declension found");
-    return getNo(no,ruleFr.declension,"pas de déclinaison trouvée");
-}
-
-function getDeclensionEnding(ending,lang){
-    lang=lang||getLanguage()
-    if (lang=="en")
-        return getEnding(ending,ruleEn.declension,"no declension found");
-    return getEnding(ending,ruleFr.declension,"pas de déclinaison trouvée");
-}
-
-function getLexiconInfo(word,lang){
-    lang=lang||getLanguage()
-    var lexicon=(lang=="en")?lexiconEn:lexiconFr;
-    if (word in lexicon)
-        return {[word]:lexicon[word]};
-    // try with a regular expression
-    var res={}
-    var regex=new RegExp("^"+word+"$",'i')
-    for (let w in lexicon){
-        if (regex.exec(w))res[w]=lexicon[w];
-    }
-    if (Object.keys(res).length==0)
-        return word+(lang=="en"? ": not in English lexicon" : ": absent du lexique français")
-    else return res;
-    
-}
 
 function buildLemmataEn(){
     lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
@@ -324,16 +254,50 @@ function buildLemmataFr(){
     lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
 }
 
-/* uncomment next lines for testing this file alone
-// a few tests
-loadEn()
-buildLemmataEn()
-console.log("---")
-console.log(lemmatize("love"))
-console.log("---")
+//  Heuristic for splitting a French sentence in words, expanding elisions and contractions
+function tokenizeFr(sentence){
+    const elidableFRList = ["la", "le", "je", "me", "te", "se", "de", "ne", "que", "puisque", "lorsque", "jusque", "quoique" ]
+    const contractionFrTable={
+        "au":"à+le","aux":"à+les","ç'a":"ça+a",
+        "du":"de+le","des":"de+les","d'autres":"de+autres",
+        "d'autres":"des+autres",
+        "s'il":"si+il","s'ils":"si+ils"};
+
+    // split on non French letter and apostrophe and remove empty tokens
+    const words = sentence.toLowerCase().split(/[^a-z'àâéèêëîïôöùüç]/).filter(w=>w.length>0) 
+    // expand elision and contraction
+    let i=0
+    while (i<words.length){
+        const word=words[i];
+        if (!lemmataFr.has(word)){
+            // word does not exist try to expand elision or contraction
+            let m = /(.*?)'([haeiouyàâéèêëîïôöùüç].*)/.exec(word) // check for apostrophe followed by vowell or h
+            if (m != null ){ 
+                for (let elw of elidableFRList){ // expand elision
+                    if (elw.startsWith(m[1])){
+                        words.splice(i,1,...[elw,m[2]])
+                        i++
+                        break;
+                    }
+                }
+            } else { // expand contraction
+                if (contractionFrTable[word] !== undefined){
+                    words.splice(i,1,...contractionFrTable[word].split("+"))
+                    i++
+                }
+            }
+        }
+        i++
+    }
+    return words
+}
+
+// const tokens = tokenizeFr("J'ai mangé du pain aujourd'hui à l'hôpital , quoiqu'encore pas assez!")
+// console.log(tokens)
+
+
 loadFr()
 buildLemmataFr()
-console.log("---")
-console.log(lemmatize("porte"))
-console.log(lemmatize("s..s"))
-*/
+// add tests of lemmatization
+console.log("--- lemmataFr OK")
+

@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
@@ -58,14 +58,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Personage",
+            "name": "Eliza",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/demos/Personage/Personage-node.js",
-            "runtimeArgs": [
-                "--no-deprecation"
-            ],
+            "program": "${workspaceFolder}/demos/Eliza/eliza.js",
             "outputCapture": "std"
         },
         {

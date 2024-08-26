@@ -42,7 +42,7 @@ const proclitiqueOrdreImperatifPos = { // page 15 du PDF
     "*verbe*":1,
     "le":2, "la":2, "les":2, 
     "lui":3, "leur":3,
-    "me":4, "te":4, "nous":2, "vous":2, 
+    "me":4, "te":4, "nous":4, "vous":4, 
     "y":5,
     "en":6,
 } 
@@ -360,10 +360,8 @@ const French_non_terminal = (superclass) =>
             }
             if (pros.length>1)pros.sort((p1,p2)=>compareClitics(p1,p2,cliticTable));
             if (pros.length>0){
-                // insert pronouns before the verb 
-                for (let k=0;k<pros.length;k++){
-                    cList.splice(verbPos+k,0,pros[k])
-                }
+                // insert pronouns before the verb except for proclitiqueOrdreImperatifPos
+                cList.splice(verbPos+(cliticTable["*verbe*"]==1 ? 1 : 0),0,...pros)
             }
         }
 

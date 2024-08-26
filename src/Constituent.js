@@ -322,10 +322,10 @@ class Constituent {
         "perf":[false,true],
         "contr":[false,true],
         "refl" :[false,true], // reflexive
+        "maje" :[false,true], // majestatif (politesse, modestie, majesté...)
         "mod": [false,"poss","perm","nece","obli","will"],
         "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
         }
-        this.addOptSource("typ",types)
         if (this.isA("S","SP","VP") || this.isA(deprels)){
             // validate types and keep only ones that are valid
             if (typeof types == "object"){
@@ -342,7 +342,12 @@ class Constituent {
                         }
                     }
                 }
-                this.props["typ"]=types;
+                this.addOptSource("typ",types)
+                if (this.props["typ"]===undefined){
+                    this.props["typ"]=types;  // initialise .typ
+                } else {  // update .typ with new values
+                    Object.assign(this.props["typ"],types)
+                }
             } else {
                 this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
             }

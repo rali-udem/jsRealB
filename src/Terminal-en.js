@@ -98,7 +98,7 @@ const English_terminal = (superclass) =>
         }
 
         /**
-         * Check if the person of a pronoun should be changed (i.e. it not genitive )
+         * Check if the person of a pronoun should be changed (i.e. it is not genitive )
          *
          * @param {string} c : case of the pronoun
          * @returns {boolean}
@@ -133,6 +133,24 @@ const English_terminal = (superclass) =>
          */
         check_gender_lexicon(g,n){return null}
 
+        /**
+         * Check if a pronoun or a possessive determiner must be changed 
+         * @param {object} keyvals might be changed
+         * @returns true if declension table must be changed because lemma has been changed
+         */
+        check_majestic(keyVals){
+            if (this.isA("Pro") && keyVals["n"]=="s"){
+                if ("me"==this.lemma) {
+                    this.setLemma("us")
+                    return true
+                }
+            } else if (this.isA("D")){
+                if (this.lemma == "my" && this.getProp("own")=="s"){
+                    this.setProp("own","p");
+                }
+            }
+            return false;    
+        }
 
         /**
          * English conjugation of this Terminal
@@ -140,7 +158,8 @@ const English_terminal = (superclass) =>
          */
         conjugate(){
             let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
-            const n = this.getProp("n");
+            let n = this.getProp("n");
+            if (this.isMajestic() && pe<3) n="p";
             const g = this.getProp("g") || "m"; // migh be used for reflexive pronoun
             const t = this.getProp("t");
             if (this.tab==null)

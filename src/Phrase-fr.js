@@ -269,7 +269,8 @@ const French_phrase = (superclass) =>
                 if (i!=idxV-1){
                     vp.addElement(vp.removeElement(idxV),i+1); // remove the modality verb and move it before the pronouns
                 }
-                let newV=V(origLemma).t("b");
+                let newV=V(origLemma).t("b")
+                newV.pe(v.getProp("pe")).n(v.getProp("n")); // copy also person and number used for pronoun of reflexive verb
                 if (v.isProg){ // copy progressive from original verb...
                     newV.isProg=v.isProg;
                     delete v.isProg

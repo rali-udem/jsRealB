@@ -92,7 +92,7 @@ const French_terminal = (superclass) =>
             return false
         }
         /**
-         * Check if the person of a pronoun should be changed (i.e. it not genitive )
+         * Check if the person of a pronoun should be changed (i.e. it is not genitive )
          *
          * @param {string} c : case of the pronoun
          * @returns {boolean}
@@ -146,7 +146,27 @@ const French_terminal = (superclass) =>
             return null           
         }
 
-    
+        /**
+         * Check if a pronoun or a possessive determiner must be changed 
+         * @param {object} keyvals might be changed
+         * @returns true if declension table must be changed because lemma has been changed
+         */
+        check_majestic(keyVals){
+            if (this.isA("Pro") && keyVals["n"]=="s"){
+                if (["moi","toi"].includes(this.lemma)) keyVals["n"]="p";
+            } else if (this.isA("D")){
+                if (this.lemma == "mon"){
+                    this.setLemma("notre")
+                    return true
+                }
+                else if (this.lemma == "ton"){
+                    this.setLemma("votre")
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /**
          * French conjugation of this Terminal
          * @returns list of Terminals with their realization field filled
@@ -156,6 +176,7 @@ const French_terminal = (superclass) =>
             let g = this.getProp("g");
             let n = this.getProp("n");
             const t = this.getProp("t");
+            if (this.isMajestic() && pe<3) n="p";
             let neg;
             if (this.tab==null) 
                 return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];

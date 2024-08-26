@@ -293,6 +293,20 @@ class Terminal extends Constituent{
     }
 
     /**
+     * Check if this terminal is in the context of a "maje:true" .typ option 
+     * @returns {boolean}
+     */
+    isMajestic(){
+        let pc = this.parentConst;
+        while (pc != null){
+            const typs=pc.props["typ"]
+            if (typs !== undefined && typs["maje"]===true)return true
+            pc=pc.parentConst;
+        }
+        return false;
+    }
+
+    /**
      * French and English declension of this Terminal taking current properties into account
      * @param {boolean} setPerson if true, take person into account
      * @returns list of Terminals with their realization field filled
@@ -301,7 +315,6 @@ class Terminal extends Constituent{
         const rules=getRules(this.lang);
         let declension=rules.declension[this.tab].declension;
         let stem=this.stem;
-        let res=null;
         if (this.isA("A","Adv")){ 
             return this.decline_adj_adv(rules,declension,stem)
         } else if (declension.length==1){ // no declension
@@ -317,6 +330,10 @@ class Terminal extends Constituent{
                 pe = p===undefined ? 3 : +p;
             }
             let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+            if (pe<3 && this.isMajestic()){
+                if (this.check_majestic(keyVals))
+                    declension=rules.declension[this.tab].declension;
+            }
             if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];
             if (this.isA("Pro")){// check special combinations of tn and c for pronouns
                 const c  = this.props["c"];

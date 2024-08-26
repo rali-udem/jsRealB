@@ -956,7 +956,7 @@ function testWarnings(){
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
-// testPreviousExamples()
+testPreviousExamples()
 // testWarnings()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
@@ -964,4 +964,18 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 
 // add tests here ...
 loadEn();
+test(S(Pro("me").pe(1).c("nom"),VP(V("love"),NP(D("my").pe(1).ow("s"),N("mouse")))).typ({maje:true}))
 loadFr();
+// let text = (pe,n,g) => S(Pro("moi").pe(pe).n(n).g(g).c("nom"),
+//                          VP(V("être"),
+//                             AP(A("content"),
+//                                PP(P("de"),NP(D("mon").pe(pe),
+//                                              N("décision")))))).typ({"neg":true})
+// test(text(2,"s","f").typ({"maje":true}))
+// test(text(1,"p","m").typ({"maje":true}))
+// test(text(2,"s","f"))
+// test(text(1,"p","m").typ({"maje":false}))
+// let text2 = (pe,n,g) => S(NP(D("mon").pe(pe),N("chat").n(n).g(g))).typ({"maje":true})
+// test(text2(2,"s","m"))
+// test(text2(2,"p","f"))
+
