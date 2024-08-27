@@ -330,8 +330,8 @@ class Terminal extends Constituent{
                 pe = p===undefined ? 3 : +p;
             }
             let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
-            if (pe<3 && this.isMajestic()){
-                if (this.check_majestic(keyVals))
+            if (this.isMajestic()){
+                if (this.check_majestic(keyVals,pe))
                     declension=rules.declension[this.tab].declension;
             }
             if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];

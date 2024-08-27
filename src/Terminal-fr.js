@@ -151,11 +151,11 @@ const French_terminal = (superclass) =>
          * @param {object} keyvals might be changed
          * @returns true if declension table must be changed because lemma has been changed
          */
-        check_majestic(keyVals){
-            if (this.isA("Pro") && keyVals["n"]=="s"){
+        check_majestic(keyVals,pe){
+            if (this.isA("Pro") && pe<3 && keyVals["n"]=="s"){
                 if (["moi","toi"].includes(this.lemma)) keyVals["n"]="p";
             } else if (this.isA("D")){
-                if (this.lemma == "mon"){
+                if (this.lemma == "mon" && pe<3){
                     this.setLemma("notre")
                     return true
                 }

@@ -96,7 +96,7 @@ function select(elems){
 }
 
 
-function transform(userText,pe,g,n,all){
+function transform(userText,pe,g,all){
     let terminals = tokenizeFr(userText).map(getTerminals);
     for (let keyword of keywordsFr){
         if (terminals.some(t=>mememot(keyword.key,t)!==null)){// check for keyword
@@ -104,11 +104,11 @@ function transform(userText,pe,g,n,all){
                 let groups = matchDecomp(pat.decomp,terminals);
                 if (groups !== null){
                     if (all){
-                        return [`@$pe=${pe}, g=${g}, n=${n} @`,
-                            ...pat.reasmb.map(fn=>(typeof(fn) == "function" ? fn(groups,n,g).typ({"maje":true}):fn).realize()),
+                        return [`@$pe=${pe}, g=${g} @`,
+                            ...pat.reasmb.map(fn=>(typeof(fn) == "function" ? fn(groups,g).typ({"maje":true}):fn).realize()),
                             "@@@@"].join("\n")
                     }
-                    return select(pat.reasmb)(groups,n,g).typ({"maje":true}).realize() 
+                    return select(pat.reasmb)(groups,g).typ({"maje":true}).realize() 
                 }
             }
         }
@@ -116,10 +116,10 @@ function transform(userText,pe,g,n,all){
     return "Je suis sans mots!"
 }
 
-function chat(inputs,pe,g,n,all){
+function chat(inputs,pe,g,all){
     for (let input of inputs){
         console.log("User:  "+input)
-        console.log("Eliza: "+transform(input,pe,g,n,all))
+        console.log("Eliza: "+transform(input,pe,g,all))
     }
 }
 
@@ -132,11 +132,11 @@ let userInputs = [
     "Il y a des fois où je me rappelle des enfants",
     "bye"
 ]
-chat(userInputs,2,"f","s")
-chat(["je vous demande pardon"],2,"m","s")
-chat(["J'ai peur des machines"],2,"m","s",true)
-chat(["Excusez-moi"],2,"m","s",true)
-chat(["xnone"],2,"m","s", true)
-chat(["Parfois, j'oublie de demander service à quelqu'un."],2,"m","s",true)
-chat(["Dites-moi avez-vous oublié les anniversaires"],2,"f","s",true)
-chat(["J'espère que vous vous rappelez de notre expérience"],2,"m","s",true)
+chat(userInputs,2,"f")
+chat(["je vous demande pardon"],2,"m")
+chat(["J'ai peur des machines"],2,"m",true)
+chat(["Excusez-moi"],2,"m",true)
+chat(["xnone"],2,"m",true)
+chat(["Parfois, j'oublie de demander service à quelqu'un."],2,"m",true)
+chat(["Dites-moi avez-vous oublié les anniversaires"],2,"f",true)
+chat(["J'espère que vous vous rappelez de notre expérience"],2,"m",true)
