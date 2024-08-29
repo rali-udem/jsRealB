@@ -507,6 +507,9 @@ function makeExamples(){
             'Train Your Mind for <a href="http://www.google.com">Peak Performance</a>: a Science-<i>Based</i> Approach for Achieving Your Goals. ',
             'Bad Automatic placement of the colon'
          ],
+         [S(Pro("me").pe(1).c("nom").maje(false),
+            VP(V("love"),NP(D("my").pe(1).ow("s"),N("country")))).typ({maje:true}),
+         "I love our country. "],
      ];
 
     // dépendances en français
@@ -964,7 +967,7 @@ function testWarnings(){
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
-testPreviousExamples()
+// testPreviousExamples()
 // testWarnings()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
@@ -972,4 +975,13 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 
 // add tests here ...
 loadEn();
+addToLexicon("Maria-Luz",{N:{tab:"nI",g:"f"}})
+test(
+root(P("under"),
+    comp(Pro("which"),
+         comp(N("bridge"))),
+    mod(V("sleep").t("ps"),
+         subj(N("Maria-Luz"))).typ({"int":"yon"})),
+
+)
 loadFr();

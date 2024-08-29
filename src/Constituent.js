@@ -103,6 +103,16 @@ class Constituent {
     }
 
     /**
+     * Get the value of the "n" property taking into account possible local "majestic" override
+     * @returns "s" or "p"
+     */
+    getNumber(){
+        if (this.peng && this.peng.n == "s" && this.peng.pe<3 && this.peng.maje !== false && this.isMajestic())
+            return "p"
+        return this.getProp("n")
+    }
+
+    /**
      * Set the value of a property, but also possibly changing the shared properties
      * @param {string} propName name of the property to change
      * @param {any} val value to put as value of propName
@@ -292,7 +302,6 @@ class Constituent {
      * @returns this Constituent
      */
     nat(isNat){
-        this.addOptSource("nat",isNat);
         if (this.isA("DT","NO")){
             const options=this.props["dOpt"];
             if (isNat === undefined){
@@ -305,6 +314,28 @@ class Constituent {
         } else {
             return this.warn("bad application",".nat",["DT","NO"],this.constType)
         }
+        this.addOptSource("nat",isNat);
+        return this;
+    }
+
+    /**
+     * Override the global "majestic" flog for this Pro or D
+     * HACK: this adds a flag to the peng structure so that agreements are correctly made
+     * @param {boolean} isMaje if false it will override 
+     * @returns 
+     */
+    maje(isMaje){
+        if (this.isA("Pro","D")){
+            if (typeof isMaje == "boolean"){
+                this.setProp("maje",isMaje); // useful for toJSON/used for cloning also
+                this.peng["maje"]=isMaje
+            } else {
+                return this.warn("bad application",".maje","boolean",isMaje)
+            }
+        } else {
+            return this.warn("bad application",".maje",["Pro","D"],this.constType)
+        }
+        this.addOptSource("maje",isMaje);
         return this;
     }
 
@@ -322,7 +353,7 @@ class Constituent {
         "perf":[false,true],
         "contr":[false,true],
         "refl" :[false,true], // reflexive
-        "maje" :[false,true], // majestatif (politesse, modestie, majesté...)
+        "maje" :[false,true], // majestative (en français: politesse, modestie, majesté...)
         "mod": [false,"poss","perm","nece","obli","will"],
         "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
         }

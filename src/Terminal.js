@@ -322,7 +322,7 @@ class Terminal extends Constituent{
         } else { // for N, D, Pro
             let g=this.getProp("g");
             if (this.isA("D","N") && g==undefined)g="m";
-            let n=this.getProp("n");
+            let n = this.getNumber()
             if (this.isA("D","N") && n==undefined)n="s";
             let pe=3;
             if (setPerson){
@@ -331,7 +331,7 @@ class Terminal extends Constituent{
             }
             let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
             if (this.isMajestic()){
-                if (this.check_majestic(keyVals,pe))
+                if (this.check_majestic(keyVals))
                     declension=rules.declension[this.tab].declension;
             }
             if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];

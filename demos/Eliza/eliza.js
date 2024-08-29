@@ -14,7 +14,7 @@ function getTerminals(word){
         terms.sort((t1,t2)=>terminalOrder[t1.constType]-terminalOrder[t2.constType])
         return terms
     }
-    return [Q(`*${word}*`)]
+    return [Q(`${word}`)]
 }    
 
 function showTerminalLists(terminalLists){
@@ -54,14 +54,15 @@ function mememot(term1,term2,props){
 
 
 function matchDecomp(decomps,terminals){
-    let groups=[] 
+    function q(t){return Q(t[0].realize())} // quote realization of first acception
+    let groups=[terminals.map(t=>q(t))]
     let last = decomps.length-1
     let iTerm=0
     for (let iDecomp=0;iDecomp<=last;iDecomp++){
         if (mememot(decomps[iDecomp],Q("*")) != null){ //  deal with * 
             if (iDecomp==last){
                 // faire un groupe avec le premier terminal de tout le reste
-                groups.push([SP(terminals.slice(iTerm).map(ts=>ts[0]))]) 
+                groups.push(terminals.slice(iTerm).map(t=>q(t))) 
             } else {
                 let group = []
                 let nextWord = decomps[iDecomp+1]
@@ -70,7 +71,7 @@ function matchDecomp(decomps,terminals){
                     iTerm++;
                     if (iTerm >= terminals.length) break
                 }
-                groups.push([SP(group)])
+                groups.push(group.map(t=>Q(t)))
             }
         } else if (iTerm >=terminals.length){ // décomp too long for terminals
             return null
@@ -80,8 +81,7 @@ function matchDecomp(decomps,terminals){
             return null
         }
     }
-    groups.unshift(terminals.map(t=>t[0])) // groups[0] matches all words (select only the first one)
-    return groups
+     return groups
 }
 
 function select(elems){
@@ -91,24 +91,24 @@ function select(elems){
     }
     const e = elems[Math.floor(Math.random()*elems.length)]
     if (typeof e == "function") return e
-    // traiter un goto en allant traiter le premier groupe de patterns associé à ce terminal
-    return select(keywordsFr.find(kw => mememot(kw.key,e)!=null).pats[0].reasmb)
+    // traiter un goto en allant traiter le premier groupe de patterns associé à ce terminal    
+    const gotoKW = keywordsFr.find(kw => mememot(kw.key,e)!=null)
+    if (gotoKW == undefined)return e; // s'il n'existe pas, pour le moment retourne le terminal...
+    return select(gotoKW.pats[0].reasmb)
 }
 
 
-function transform(userText,pe,g,all){
+function transform(userText,g){
     let terminals = tokenizeFr(userText).map(getTerminals);
     for (let keyword of keywordsFr){
         if (terminals.some(t=>mememot(keyword.key,t)!==null)){// check for keyword
             for (let pat of keyword.pats){
                 let groups = matchDecomp(pat.decomp,terminals);
-                if (groups !== null){
-                    if (all){
-                        return [`@$pe=${pe}, g=${g} @`,
-                            ...pat.reasmb.map(fn=>(typeof(fn) == "function" ? fn(groups,g).typ({"maje":true}):fn).realize()),
-                            "@@@@"].join("\n")
-                    }
-                    return select(pat.reasmb)(groups,g).typ({"maje":true}).realize() 
+                if (groups != null){
+                    const fn = select(pat.reasmb)
+                    if (typeof fn == "function")
+                        return fn(groups,g).typ({"maje":true}).realize() 
+                    return fn.realize()
                 }
             }
         }
@@ -123,20 +123,54 @@ function chat(inputs,pe,g,all){
     }
 }
 
+function testAll(kw, userText){
+    let terminals = tokenizeFr(userText).map(getTerminals);
+    for (let keyword of keywordsFr){
+        if (keyword.key instanceof Constituent && kw == keyword.key.lemma){
+            console.log("** keyword:%s : %s",keyword.key.lemma,userText)
+            for (let pat of keyword.pats){
+                for (let fn of pat.reasmb){
+                    if (typeof fn == "function"){
+                        let groups = matchDecomp(pat.decomp,terminals);
+                        if (groups != null){
+                            console.log(fn(groups,"f").typ({"maje":true}).realize())
+                        }
+                    } else {
+                        console.log(fn.lemma)
+                    }
+                }
+            }
+            return
+        }
+    }
+    console.log("keyword:%s absent",keyword)
+}
 
-// console.log(transform("Je me rappelle manger de la soupe",2,"f","s"))
-// console.log(transform("Il y a des fois où je me rappelle des enfants",3,"f","p"))
 
 let userInputs = [
     "Je me rappelle manger de la soupe",
     "Il y a des fois où je me rappelle des enfants",
     "bye"
 ]
-chat(userInputs,2,"f")
-chat(["je vous demande pardon"],2,"m")
-chat(["J'ai peur des machines"],2,"m",true)
-chat(["Excusez-moi"],2,"m",true)
-chat(["xnone"],2,"m",true)
-chat(["Parfois, j'oublie de demander service à quelqu'un."],2,"m",true)
-chat(["Dites-moi avez-vous oublié les anniversaires"],2,"f",true)
-chat(["J'espère que vous vous rappelez de notre expérience"],2,"m",true)
+// chat(userInputs,"f")
+// chat(["je vous demande pardon"],"m")
+// chat(["J'ai peur des machines"],"m")
+// chat(["Excusez-moi"],"m")
+// chat(["xnone"],"m")
+// chat(["Parfois, j'oublie de demander service à quelqu'un."],"m")
+// chat(["Dites-moi avez-vous oublié les anniversaires"],"f")
+// chat(["J'espère que vous vous rappelez de notre expérience"],"m")
+
+// testAll("xnone","")
+// testAll("excuser","excusez-moi")
+// testAll("pardon","je vous demande pardon")
+// testAll("rappeler","je me rappelle des choses")
+// testAll("rappeler","vous vous rappelez de vos voyages")
+// testAll("rappeler","ceci vous rappelle des bons souvenirs")
+// testAll("oublier","J'oublie toujours les anniversaires")
+// testAll("oublier","Quand avez-vous oublié de venir")
+// testAll("si","Ah si j'avais su")
+// testAll("rêve","J'ai fait un rêve avec des éléphants roses")
+// testAll("peut-être","J'irai peut-être au ciel")
+testAll("nom","je ne connais pas votre nom")
+testAll("allemand","Parlez-moi en allemand")

@@ -138,13 +138,8 @@ const English_terminal = (superclass) =>
          * @param {object} keyvals might be changed
          * @returns true if declension table must be changed because lemma has been changed
          */
-        check_majestic(keyVals,pe){
-            if (this.isA("Pro") && pe<3 && keyVals["n"]=="s"){
-                if ("me"==this.lemma) {
-                    this.setLemma("us")
-                    return true
-                }
-            } else if (this.isA("D") && pe<3){
+        check_majestic(keyVals){
+            if (this.isA("D") && keyVals["pe"]<3){
                 if (this.lemma == "my" && this.getProp("own")=="s"){
                     this.setProp("own","p");
                 }
@@ -158,8 +153,7 @@ const English_terminal = (superclass) =>
          */
         conjugate(){
             let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
-            let n = this.getProp("n");
-            if (this.isMajestic() && pe<3) n="p";
+            let n = this.getNumber();
             const g = this.getProp("g") || "m"; // migh be used for reflexive pronoun
             const t = this.getProp("t");
             if (this.tab==null)

@@ -6,9 +6,9 @@ export {keywordsFr}
 
 // pour decomp seulement... doit matcher la sortie de lemmatize
 const star = Q("*")
-const je_pat = Pro("je").pe(1)
-const me_pat = Pro("me").pe(1)
-const vous_pat = Pro("je").pe(2).n("p")
+const je_decomp = Pro("je").pe(1)
+const me_decomp = Pro("me").pe(1)
+const vous_decomp = Pro("je").pe(2).n("p")
 
 // pronoms paramétrables avec "maje"
 const moi = () => Pro("moi").pe(1).c("nom")
@@ -30,6 +30,7 @@ let m = ["(0)","(1)","(2)"]
 // but with objects and property names
 
 let keywordsFr =
+
 [{"key":Q("*xnone*"), "rank":0, "pats":[  // xnone: on ne devrait arriver ici qu'en désespoir de cause...    
  {"decomp":[star], // *
   "reasmb":[
@@ -58,6 +59,7 @@ let keywordsFr =
     (m,g) => estceque(NP(D("le"),N("fait"),PP(P("de"),Pro("en"),V("parler").t("b"))),vous_cod(g),V("déranger"))
 ]}
 ]},
+
 {"key":V("excuser"), "rank":0, "pats":[  // sorry
  {"decomp":[star], // *
   "reasmb":[
@@ -77,6 +79,7 @@ let keywordsFr =
                  SP(V("vouloir").t("ip").pe(2),V("continuer").t("b")).cap(true))
     ]}
 ]},
+
 {"key":N("pardon"), "rank":0, "pats":[  // apologise
  {"decomp":[star], // *
   "reasmb":[
@@ -84,9 +87,10 @@ let keywordsFr =
         V("excuser"),
     ]}
 ]},
+
 {"key":V("rappeler"), "rank":5, "pats":[  // remember
- {"decomp":[star,je_pat,me_pat,V("rappeler"),star], // * je me rappelle *  // "* i remember *"
-  "reasmb":[
+    {"decomp":[star,je_decomp,me_decomp,V("rappeler"),star], // * je me rappelle *  // "* i remember *"
+     "reasmb":[
     // en: Do you often think of (2) ?
     // fr: Pensez-vous souvent à (2)
     (m,g) => S(vous(g),VP(V("penser"),Adv("souvent"),PP(P("à"),m[2]))).typ({"int":"yon"}),
@@ -112,41 +116,42 @@ let keywordsFr =
     // fr: Qu'est-ce que (2) vous rappelle d'autre ?
     (m,g) => questceque(m[2],VP(vous_coi(g),V("rappeler"),D("de"),N("autre"))).a("?")
     ]},
-    {"decomp":[star,vous_pat,vous_pat,V("rappeler").n("p").pe(2),P("de"),star],  // * vous vous souvenez de // * do you remember *
+    //
+    {"decomp":[star,vous_decomp,vous_decomp,V("rappeler").n("p").pe(2),P("de"),star],  // * vous vous rappelez de // * do you remember *
      "reasmb":[
     // en: Did you think I would forget (2) ?
-    // fr: Comment pourrais-je oublier (2) ?
+    // fr: Comment est-ce que nous pourrions oublier?
     (m,g) => S(moi(),VP(V("oublier").t('c'),m[2])).typ({"int":"how","mod":"poss"}),
     // en: Why do you think I should recall (2) now ?
     // fr: De quoi dois-je me souvenir à propos de (2) ?
     (m,g) => S(PP(P("de"),Pro("quoi")),moi(),
                  VP(V("souvenir").pe(1),PP(P("à"),N("propos"),P("de"),m[2]))).typ({"mod":"nece","int":"yon"}),
     // en: What about (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'en est-il de (2) ?
+        (m,g) => S(Pro("que"),VP(Pro("en"),V("être").lier(),Pro("lui").c("nom"),PP(P("de"),m[2]))),
     // en: goto what
-    // fr: 
-        (m,g) => Q("à faire"),
+        Pro("quoi"),
     // en: You mentioned (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous avez mentionné (2) ?
+        (m,g) => S(vous(g),VP(V("mentionner").t("pc"),m[2])),
     ]},
-    {"decomp":[N("nom")], // * you remember *
+    //
+    {"decomp":[star, vous_decomp, V("rappeler"), star], // * you remember *
      "reasmb":[
     // en: How could I forget (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Comment est-ce que nous pourrions oublier (2)?
+        (m,g) => S(moi(),VP(V("oublier").t("c"),m[2])).typ({"mod":"poss","int":"how"}),
     // en: What about (2) should I remember ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce que nous retenons de (2)?
+        (m,g) => S(moi(),VP(V("retenir"),Pro("cela"),PP(P("de"),m[2]))).typ({"int":"wad"}),
     // en: goto you
-    // fr: 
-        (m,g) => Q("à faire"),
+        Pro("vous"),
     ]}
 ]},
+
 {"key":V("oublier"), "rank":5, "pats":[  // forget
- {"decomp":[star,je_pat,V("oublier"),star], // * j'oublie *  // * i forget *
-  "reasmb":[
+    {"decomp":[star,je_decomp,V("oublier"),star], // * j'oublie *  // * i forget *
+     "reasmb":[
     // en: Can you think of why you might forget (2) ?
     // fr: Pouvez-vous penser à la raison pour laquelle vous pourriez oublier (2) ?
     (m,g) => S(vous(g), VP(V("penser"), PP(P("à"), NP(D("le"), N("raison"), PP(P("pour"), Pro("lequel").g("f"),
@@ -170,7 +175,7 @@ let keywordsFr =
     // fr: Pensez-vous que vous supprimez (2) ?
     (m,g)  => S(vous(g),VP(V("penser"),SP(Pro("que"),vous(g),VP(V("supprimer"),m[2])))).typ({"int":"yon"})
     ]},
-    {"decomp":[star,V("avoir").t("p").pe(2).n("p"),vous_pat,V("oublier").t("pp"),star],  // * avez-vous oublié *  // * did you forget *
+    {"decomp":[star,V("avoir").t("p").pe(2).n("p"),vous_decomp,V("oublier").t("pp"),star],  // * avez-vous oublié *  // * did you forget *
      "reasmb":[
     // en: Why do you ask ?
     // fr: Pourquoi demandez-vous ?,
@@ -192,157 +197,172 @@ let keywordsFr =
         Pro("quoi"),
     // en: Tell me more about (2).
     // fr: Dites-m'en plus sur (2)
-    (m,g) => S(VP(V("dire").t("ip").pe(2),moi_coi(),Pro("en"),AdvP(Adv("plus"),PP(P("sur"),m[2]))))
+    (m,g) => S(VP(V("dire").t("ip").pe(2).lier(),moi_coi(),Pro("en"),AdvP(Adv("plus"),PP(P("sur"),m[2]))))
 ]}
 ]},
-{"key":"jsRterm", "rank":3, "pats":[  // if
- {"decomp":[N("nom")], // * if *
-  "reasmb":[
+
+{"key":C("si"), "rank":3, "pats":[  // if
+    {"decomp":[star,C("si"),star], // * if *
+     "reasmb":[
     // en: Do you think it's likely that (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pensez-vous qu'il est probable que (2) ?
+        (m,g) => S(vous(g),VP(V("penser"),SP(Pro("que"),Pro("lui").c("nom"),
+                   VP(V("être"),A("probable"),Pro("que"),m[2])))).typ({"int":"yon"}),
     // en: Do you wish that (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Souhaitez-vous que (2) ?
+        (m,g) => S(vous(g),VP(V("souhaiter"),SP(Pro("que"),m[2]))).typ({"int":"yon"}),
     // en: What do you know about (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que davez-vous de (2) ?
+        (m,g) => S(vous(g),VP(V("savoir"),Pro("cela"),PP(P("de"),m[2]))).typ({"int":"wad"}),
     // en: Really, if (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vraiment, si (2) ?
+    //     (m,g) => S(Adv("vraiment"),C("si"),m[2]),
     // en: What would you do if (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que feriez-vous si (2) ?
+        (m,g) => S(vous(g),VP(V("faire").t("c"),Pro("cela"),SP(C("si"),m[2]))).typ({"int":"wad"}),
     // en: But what are the chances that (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Mais quelles sont les chances que (2) ? 
+        (m,g) => S(Adv("mais"),Pro("quel").n("p").g("f"),
+                   VP(V("être").n("p"),NP(D("le"),N("chance").n("p"),SP(Pro("que"),m[2])))).a("?"),
     // en: What does this speculation lead to ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: A quoi mènent ces spéculations ?
+        (m,g) => S(PP(P("à"),Pro("quoi")),VP(V("mener").n("p"),NP(D("ce"),N("spéculation").n("p")))).a("?"),
     ]}
 ]},
-{"key":"jsRterm", "rank":4, "pats":[  // dreamed
- {"decomp":[N("nom")], // * i dreamed *
-  "reasmb":[
+
+{"key":V("rêver"), "rank":4, "pats":[  // dreamed
+  {"decomp":[star, je_decomp,V("rêver"),star], // * i dreamed *
+   "reasmb":[
     // en: Really, (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Réellement, (2)?
+        (m,g) => S(Adv("réellement").a(","),m[2]).a("?"),
     // en: Have you ever fantasized (2) while you were awake ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Avez-vous déjà fantasmé (2) alors que vous étiez éveillé(e) ?
+        (m,g) => (m,g) => S(vous(g),VP(V("fantasmer").t("pc"),Adv("déjà"),m[2]),
+                           SP(Adv("alors"),Pro("que"),vous(g),VP(V("éveiller").t("pc").aux("êt")))).typ({"int":"yon"}),
     // en: Have you ever dreamed (2) before ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Avez-vous déjà rêvé (2) ?
+        (m,g) => S(vous(g),VP(V("rêver").t("pc"),Adv("déjà"),m[2])).typ({"int":"yon"}),
     // en: goto dream
-    // fr: 
-        (m,g) => Q("à faire"),
+        N("rêve")
     ]}
 ]},
-{"key":"jsRterm", "rank":3, "pats":[  // dream
- {"decomp":[N("nom")], // *
+
+{"key":N("rêve"), "rank":3, "pats":[  // dream
+ {"decomp":[star], // *
   "reasmb":[
     // en: What does that dream suggest to you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce que ce rêve vous suggère ?
+        (m,g) => S(NP(D("ce"),N("rêve")),VP(Pro("cela"),vous_coi(g),V("suggérer"))).typ({"int":"wad"}),
     // en: Do you dream often ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Rêvez-vous souvent ? 
+        (m,g) => S(vous(g),VP(V("rêver"),Adv("souvent"))).typ({"int":"yon"}),
     // en: What persons appear in your dreams ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qui sont les personnes qui apparaissent dans vos rêves ?
+        (m,g) => S(Pro("lui").g("f").n("p"),VP(V("être"),NP(D("le"),N("personne").n("p"),
+                   SP(Pro("qui"),VP(V("apparaître"),PP(P("dans"),NP(votre(),N("rêve").n("p")))))))).typ({"int":"wos"}),
     // en: Do you believe that dreams have something to do with your problem ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Croyez-vous que les rêves ont quelque chose à voir avec votre problème ?
+        (m,g) => S(vous(g),VP(V("croire"),SP(Pro("que"),NP(D("le"),N("rêve").n("p")),
+                   VP(V("avoir"),NP(D("quelque"),N("chose"),PP(P("à"),VP(V("voir").t("b"),
+                   PP(P("avec"),NP(votre(),N("problème")))))))))).typ({"int":"yon"}),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // perhaps
- {"decomp":[N("nom")], // *
+
+{"key":Adv("peut-être"), "rank":0, "pats":[  // perhaps
+ {"decomp":[star], // *
   "reasmb":[
     // en: You don't seem quite certain.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous ne semblez pas tout à fait certain
+        (m,g) => S(vous(g),VP(V("sembler"),AdvP(Adv("tout"),P("à"),N("fait")),A("certain"))).typ({"neg":true}),
     // en: Why the uncertain tone ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pourquoi ce ton incertain ?
+        (m,g) => S(NP(D("ce"),N("ton"),A("incertain"))).typ({"int":"why"}),
     // en: Can't you be more positive ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr:  Ne pouvez-vous pas être plus positif ? 
+        (m,g) => S(vous(g),VP(V("être"),A("positif").f("co"))).typ({"int":"yon","mod":"poss","neg":true}),
     // en: You aren't sure ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous n'êtes pas sûr ? 
+        (m,g) => S(vous(g),VP(V("être"),A("sûr"))).typ({"neg":true}).a("?"),
     // en: Don't you know ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous ne savez pas ? 
+        (m,g) => S(vous(g),VP(V("savoir"))).typ({"neg":true}).a("?"),
     // en: How likely, would you estimate ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelle est la probabilité que vous estimez ? 
+        (m,g) => S(Pro("quel").g("f"),VP(V("être"),NP(D("le"),N("probabilité"),
+                   SP(Pro("que"),vous(g),V("estimer"))))).a("?"),
     ]}
 ]},
-{"key":"jsRterm", "rank":15, "pats":[  // name
- {"decomp":[N("nom")], // *
+
+{"key":N("nom"), "rank":15, "pats":[  // name
+ {"decomp":[star], // *
   "reasmb":[
     // en: I am not interested in names.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Les noms ne m'intéressent pas.
+        (m,g) => S(NP(D("le"),N("nom").n("p")),VP(V("intéresser"),moi_cod(g))).typ({"neg":true}),
     // en: I've told you before, I don't care about names -- please continue.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je vous l'ai déjà dit, les noms ne m'intéressent pas - continuez, s'il vous plaît.
+        (m,g) => S(moi(),VP(vous_coi(g),V("dire").t("pc"),Adv("déjà")).a(","),
+                   SP(NP(D("le"),N("nom").n("p")),VP(V("intéresser"),moi_cod(g))).typ({"neg":true}).a(" -- "),
+                   V("continuer").t("ip").pe(2),svp()),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // deutsch
- {"decomp":[N("nom")], // *
+
+{"key":N("allemand"), "rank":0, "pats":[  // deutsch
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
-    // fr: 
-        (m,g) => Q("à faire"),
+    Q("xforeign"),
     // en: I told you before, I don't understand German.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je te l'ai déjà dit, je ne comprends pas l'allemand
+        (m,g) => S(moi(),VP(vous_coi(g),Pro("le"),V("dire").t("pc"),Adv("déjà")).a(","),
+                  SP(moi(),VP(V("comprendre"),NP(D("le"),N("allemand")))).typ({"neg":true})),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // francais
- {"decomp":[N("nom")], // *
+
+{"key":N("anglais"), "rank":0, "pats":[  // francais
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
-    // fr: 
-        (m,g) => Q("à faire"),
+    Q("xforeign"),
     // en: I told you before, I don't understand French.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je te l'ai déjà dit, je ne comprends pas le français 
+        (m,g) => S(moi(),VP(vous_coi(g),Pro("le"),V("dire").t("pc"),Adv("déjà")).a(","),
+                  SP(moi(),VP(V("comprendre"),NP(D("le"),N("français")))).typ({"neg":true})),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // italiano
- {"decomp":[N("nom")], // *
+{"key":N("italien"), "rank":0, "pats":[  // italiano
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
-    // fr: 
-        (m,g) => Q("à faire"),
+    Q("xforeign"),
     // en: I told you before, I don't understand Italian.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je te l'ai déjà dit, je ne comprends pas l'italien 
+    (m,g) => S(moi(),VP(vous_coi(g),Pro("le"),V("dire").t("pc"),Adv("déjà")).a(","),
+               SP(moi(),VP(V("comprendre"),NP(D("le"),N("français")))).typ({"neg":true})),
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // espanol
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
-    // fr: 
-        (m,g) => Q("à faire"),
+    Q("xforeign"),
     // en: I told you before, I don't understand Spanish.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je te l'ai déjà dit, je ne comprends pas l'espagnol
+    (m,g) => S(moi(),VP(vous_coi(g),Pro("le"),V("dire").t("pc"),Adv("déjà")).a(","),
+               SP(moi(),VP(V("comprendre"),NP(D("le"),N("espagnol")))).typ({"neg":true})),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // xforeign
- {"decomp":[N("nom")], // *
+{"key":Q("xforeign"), "rank":0, "pats":[  // xforeign
+ {"decomp":[star], // *
   "reasmb":[
     // en: I speak only English.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je ne comprends que l'anglais
+        (m,g) => S(moi(),VP(V("comprendre"),NP(D("le"),N("anglais"))).typ({"neg":"que"})),
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // hello
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: How do you do.  Please state your problem.
     // fr: 
@@ -384,7 +404,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // am
- {"decomp":[N("nom")], // * am i *
+ {"decomp":[star], // * am i *
   "reasmb":[
     // en: Do you believe you are (2) ?
     // fr: 
@@ -401,12 +421,12 @@ let keywordsFr =
     // en: goto what
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i am *
+    ]},{"decomp":[star], // * i am *
   "reasmb":[
     // en: goto i
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // *
+    ]},{"decomp":[star], // *
   "reasmb":[
     // en: Why do you say 'am' ?
     // fr: 
@@ -417,7 +437,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // are
- {"decomp":[N("nom")], // * are you *
+ {"decomp":[star], // * are you *
   "reasmb":[
     // en: Why are you interested in whether I am (2) or not ?
     // fr: 
@@ -440,12 +460,12 @@ let keywordsFr =
     // en: What if I were (2) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * you are *
+    ]},{"decomp":[star], // * you are *
   "reasmb":[
     // en: goto you
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * are *
+    ]},{"decomp":[star], // * are *
   "reasmb":[
     // en: Did you think they might not be (2) ?
     // fr: 
@@ -468,7 +488,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // your
- {"decomp":[N("nom")], // * your *
+ {"decomp":[star], // * your *
   "reasmb":[
     // en: Why are you concerned over my (2) ?
     // fr: 
@@ -491,7 +511,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":2, "pats":[  // was
- {"decomp":[N("nom")], // * was i *
+ {"decomp":[star], // * was i *
   "reasmb":[
     // en: What if you were (2) ?
     // fr: 
@@ -511,7 +531,7 @@ let keywordsFr =
     // en: goto what
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i was *
+    ]},{"decomp":[star], // * i was *
   "reasmb":[
     // en: Were you really ?
     // fr: 
@@ -522,7 +542,7 @@ let keywordsFr =
     // en: Perhaps I already know you were (2).
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * was you *
+    ]},{"decomp":[star], // * was you *
   "reasmb":[
     // en: Would you like to believe I was (2) ?
     // fr: 
@@ -542,7 +562,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // i
- {"decomp":[N("nom")], // * i @desire *
+ {"decomp":[star], // * i @desire *
   "reasmb":[
     // en: What would it mean to you if you got (3) ?
     // fr: 
@@ -562,7 +582,7 @@ let keywordsFr =
     // en: What does wanting (3) have to do with this discussion ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i am* @sad *
+    ]},{"decomp":[star], // * i am* @sad *
   "reasmb":[
     // en: I am sorry to hear that you are (3).
     // fr: 
@@ -576,7 +596,7 @@ let keywordsFr =
     // en: Can you explain what made you (3) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i am* @happy *
+    ]},{"decomp":[star], // * i am* @happy *
   "reasmb":[
     // en: How have I helped you to be (3) ?
     // fr: 
@@ -590,12 +610,12 @@ let keywordsFr =
     // en: Can you explain why you are suddenly (3) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i was *
+    ]},{"decomp":[star], // * i was *
   "reasmb":[
     // en: goto was
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i @belief i *
+    ]},{"decomp":[star], // * i @belief i *
   "reasmb":[
     // en: Do you really think so ?
     // fr: 
@@ -606,12 +626,12 @@ let keywordsFr =
     // en: Do you really doubt you (3) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i* @belief *you *
+    ]},{"decomp":[star], // * i* @belief *you *
   "reasmb":[
     // en: goto you
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i am *
+    ]},{"decomp":[star], // * i am *
   "reasmb":[
     // en: Is it because you are (2) that you came to me ?
     // fr: 
@@ -628,7 +648,7 @@ let keywordsFr =
     // en: Do you know anyone else who is (2) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i @cannot *
+    ]},{"decomp":[star], // * i @cannot *
   "reasmb":[
     // en: How do you know that you can't (3) ?
     // fr: 
@@ -645,7 +665,7 @@ let keywordsFr =
     // en: What if you could (3) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i don't *
+    ]},{"decomp":[star], // * i don't *
   "reasmb":[
     // en: Don't you really (2) ?
     // fr: 
@@ -659,7 +679,7 @@ let keywordsFr =
     // en: Does that trouble you ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i feel *
+    ]},{"decomp":[star], // * i feel *
   "reasmb":[
     // en: Tell me more about such feelings.
     // fr: 
@@ -673,7 +693,7 @@ let keywordsFr =
     // en: Of what does feeling (2) remind you ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * i * you *
+    ]},{"decomp":[star], // * i * you *
   "reasmb":[
     // en: Perhaps in your fantasies we (2) each other.
     // fr: 
@@ -687,7 +707,7 @@ let keywordsFr =
     // en: Do you (2) anyone else ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // *
+    ]},{"decomp":[star], // *
   "reasmb":[
     // en: You say (1) ?
     // fr: 
@@ -704,12 +724,12 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // you
- {"decomp":[N("nom")], // * you remind me of *
+ {"decomp":[star], // * you remind me of *
   "reasmb":[
     // en: goto alike
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * you are *
+    ]},{"decomp":[star], // * you are *
   "reasmb":[
     // en: What makes you think I am (2) ?
     // fr: 
@@ -723,7 +743,7 @@ let keywordsFr =
     // en: Perhaps you would like to be (2).
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * you* me *
+    ]},{"decomp":[star], // * you* me *
   "reasmb":[
     // en: Why do you think I (2) you ?
     // fr: 
@@ -746,7 +766,7 @@ let keywordsFr =
     // en: Does someone else believe I (2) you ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * you *
+    ]},{"decomp":[star], // * you *
   "reasmb":[
     // en: We were discussing you -- not me.
     // fr: 
@@ -763,7 +783,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // yes
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: You seem to be quite positive.
     // fr: 
@@ -780,7 +800,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // no
- {"decomp":[N("nom")], // * no one *
+ {"decomp":[star], // * no one *
   "reasmb":[
     // en: Are you sure, no one (2) ?
     // fr: 
@@ -803,7 +823,7 @@ let keywordsFr =
     // en: Who do you think you are talking about ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // *
+    ]},{"decomp":[star], // *
   "reasmb":[
     // en: Are you saying no just to be negative?
     // fr: 
@@ -834,7 +854,7 @@ let keywordsFr =
     // en: But your (2).
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * my* @family *
+    ]},{"decomp":[star], // * my* @family *
   "reasmb":[
     // en: Tell me more about your family.
     // fr: 
@@ -848,7 +868,7 @@ let keywordsFr =
     // en: What else comes to your mind when you think of your (3) ?
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * my *
+    ]},{"decomp":[star], // * my *
   "reasmb":[
     // en: Your (2) ?
     // fr: 
@@ -865,7 +885,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // can
- {"decomp":[N("nom")], // * can you *
+ {"decomp":[star], // * can you *
   "reasmb":[
     // en: You believe I can (2) don't you ?
     // fr: 
@@ -879,7 +899,7 @@ let keywordsFr =
     // en: Perhaps you would like to be able to (2) yourself.
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * can i *
+    ]},{"decomp":[star], // * can i *
   "reasmb":[
     // en: Whether or not you can (2) depends on you more than on me.
     // fr: 
@@ -896,7 +916,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // what
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: Why do you ask ?
     // fr: 
@@ -960,7 +980,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // because
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: Is that the real reason ?
     // fr: 
@@ -977,7 +997,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // why
- {"decomp":[N("nom")], // * why don't you *
+ {"decomp":[star], // * why don't you *
   "reasmb":[
     // en: Do you believe I don't (2) ?
     // fr: 
@@ -994,7 +1014,7 @@ let keywordsFr =
     // en: goto what
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // * why can't i *
+    ]},{"decomp":[star], // * why can't i *
   "reasmb":[
     // en: Do you think you should be able to (2) ?
     // fr: 
@@ -1011,7 +1031,7 @@ let keywordsFr =
     // en: goto what
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[N("nom")], // *
+    ]},{"decomp":[star], // *
   "reasmb":[
     // en: goto what
     // fr: 
@@ -1019,7 +1039,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":2, "pats":[  // everyone
- {"decomp":[N("nom")], // * @everyone *
+ {"decomp":[star], // * @everyone *
   "reasmb":[
     // en: Really, (2) ?
     // fr: 
@@ -1051,7 +1071,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":2, "pats":[  // everybody
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
     // fr: 
@@ -1059,7 +1079,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":2, "pats":[  // nobody
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
     // fr: 
@@ -1067,7 +1087,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":2, "pats":[  // noone
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
     // fr: 
@@ -1075,7 +1095,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":1, "pats":[  // always
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: Can you think of a specific example ?
     // fr: 
@@ -1092,7 +1112,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":10, "pats":[  // alike
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: In what way ?
     // fr: 
@@ -1121,7 +1141,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":10, "pats":[  // like
- {"decomp":[N("nom")], // * @be *like *
+ {"decomp":[star], // * @be *like *
   "reasmb":[
     // en: goto alike
     // fr: 
@@ -1129,7 +1149,7 @@ let keywordsFr =
     ]}
 ]},
 {"key":"jsRterm", "rank":0, "pats":[  // different
- {"decomp":[N("nom")], // *
+ {"decomp":[star], // *
   "reasmb":[
     // en: How is it different ?
     // fr: 
@@ -1157,7 +1177,7 @@ let keywordsFr =
 ]
 
 // trier les mots clés par ordre décroissant de "rank"
-keywordsFr.sort((k1,k2) => k2.rank - k1.rank )
+// keywordsFr.sort((k1,k2) => k2.rank - k1.rank )
 
 /*  à placer dans la page web de la démo d'évaluation de jsRealB
 

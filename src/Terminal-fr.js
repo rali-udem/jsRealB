@@ -151,11 +151,9 @@ const French_terminal = (superclass) =>
          * @param {object} keyvals might be changed
          * @returns true if declension table must be changed because lemma has been changed
          */
-        check_majestic(keyVals,pe){
-            if (this.isA("Pro") && pe<3 && keyVals["n"]=="s"){
-                if (["moi","toi"].includes(this.lemma)) keyVals["n"]="p";
-            } else if (this.isA("D")){
-                if (this.lemma == "mon" && pe<3){
+        check_majestic(keyVals){
+            if (this.isA("D")){
+                if (this.lemma == "mon" && keyVals["pe"]<3){
                     this.setLemma("notre")
                     return true
                 }
@@ -174,10 +172,8 @@ const French_terminal = (superclass) =>
         conjugate(){
             let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
             let g = this.getProp("g");
-            let n = this.getProp("n");
+            let n = this.getNumber();
             const t = this.getProp("t");
-            if (this.isMajestic() && pe<3) n="p";
-            let neg;
             if (this.tab==null) 
                 return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];
             switch (t) {
@@ -208,9 +204,13 @@ const French_terminal = (superclass) =>
                 aux.taux["t"]=tempsAux;
                 aux.realization=aux.realize();  // realize the auxiliary using jsRealB!!!
                 const pp=V(this.lemma,"fr")
+                pp.parentConst = this.parentConst
                 // change this verb to pp
                 pp.setProp("g",g);
-                pp.setProp("n",n);
+                if (this.isMajestic())
+                    pp.setProp("n",this.peng.n); // HACK: keep original number (ignoring maje)
+                else
+                    pp.setProp("n",n);
                 pp.setProp("t","pp");
                 pp.realization=pp.realize();      // realize the pp using jsRealB without other options
                 this.realization=pp.realization;  // set verb realization to the pp realization
@@ -296,6 +296,7 @@ const French_terminal = (superclass) =>
                             let n=(this.cod ?? this).getProp("n");
                             if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
                             if (n=="x")n="s";
+                            if (this.isMajestic()) n=this.getNumber();
                             const gn=g+n;
                             if (!(gn == "mp" && this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s
                                 if (gn != "ms" && this.realization.endsWith("û"))// changer "dû" en "du" sauf pour masc sing
