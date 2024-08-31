@@ -238,7 +238,7 @@ const English_constituent = (superclass) =>
                 "no value for option": (option,validVals)=>
                     // no value for option $option should be one of $validVals.
                     S(NP(D("no"),N("value"),PP(P("for"),N("option"),Q(option))),
-                        VP(V("be"),PP(P("among"),Q(validVals)))).typ({mod:"nece"}),
+                        VP(V("be"),PP(P("among"),makeDisj(validVals)))).typ({mod:"nece"}),
                 "not found":(missing,context)=> 
                     // no $missing found in $context.
                     S(AdvP(D("no"),Q(missing)),VP(V("find").t("pp"),PP(P("in"),Q(context)))),

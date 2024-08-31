@@ -259,10 +259,10 @@ const French_constituent = (superclass) =>
                 "no value for option": (option, validVals)=>
                     // aucune valeur pour l'option $option, elle devrait être une parmi $validVals.
                     S(NP(D("aucun"), N("valeur"),
-                         PP(P("pour"), D("le"), N("option"), Q("A"))).a(","),
+                         PP(P("pour"), D("le"), N("option"), Q(option))).a(","),
                       SP(Pro("elle"),
                          VP(V("être").t("c"), Pro("un").g("f"),
-                            PP(P("parmi"), Q("B")))).typ({"mod": "nece"})),
+                            PP(P("parmi"), makeDisj(validVals)))).typ({"mod": "nece"})),
                 "not found": (missing, context)=>
                     // aucun $missing trouvé dans $context.
                     S(AdvP(D("aucun"), Q(missing)), VP(V("trouver").t("pp"), PP(P("dans"), Q(context)))),

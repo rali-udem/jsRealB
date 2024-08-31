@@ -124,10 +124,12 @@ function chat(inputs,pe,g,all){
 }
 
 function testAll(kw, userText){
-    let terminals = tokenizeFr(userText).map(getTerminals);
     for (let keyword of keywordsFr){
-        if (keyword.key instanceof Constituent && kw == keyword.key.lemma){
-            console.log("** keyword:%s : %s",keyword.key.lemma,userText)
+        if (keyword.key === "string") continue;
+        const key = keyword.key
+        if (Array.isArray(key) ? key.some(k=>kw == k.lemma): kw === key.lemma){
+            let terminals = tokenizeFr(userText).map(getTerminals);
+            console.log("** keyword:%s : %s",key.lemma,userText)
             for (let pat of keyword.pats){
                 for (let fn of pat.reasmb){
                     if (typeof fn == "function"){
@@ -143,7 +145,7 @@ function testAll(kw, userText){
             return
         }
     }
-    console.log("keyword:%s absent",keyword)
+    console.log("keyword:%s absent",kw)
 }
 
 
@@ -172,5 +174,12 @@ let userInputs = [
 // testAll("si","Ah si j'avais su")
 // testAll("rêve","J'ai fait un rêve avec des éléphants roses")
 // testAll("peut-être","J'irai peut-être au ciel")
-testAll("nom","je ne connais pas votre nom")
-testAll("allemand","Parlez-moi en allemand")
+// testAll("nom","je ne connais pas votre nom")
+// testAll("allemand","Parlez-moi en allemand")
+// testAll("français","Parlez-moi en français")
+// testAll("italien","Parlez-moi en otalien")
+// testAll("espagnol","Parlez-moi en espagnol")
+// testAll("xforeign","Anything")
+// testAll("bonjour","Bonjour")
+// testAll("ordinateur","J'ai peur des ordinateurs")
+testAll("être","Pourquoi suis-je perdu ?")

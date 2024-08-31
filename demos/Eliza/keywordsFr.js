@@ -11,7 +11,7 @@ const me_decomp = Pro("me").pe(1)
 const vous_decomp = Pro("je").pe(2).n("p")
 
 // pronoms paramétrables avec "maje"
-const moi = () => Pro("moi").pe(1).c("nom")
+const moi = () => Pro("moi").pe(1).c("nom").maje(false)
 const moi_cod = () => moi().c("acc")
 const moi_coi = () => moi().c("dat")
 const vous = (g) => Pro("moi").pe(2).g(g).c("nom")
@@ -24,14 +24,19 @@ const svp        = () => AdvP(Adv("si"),Pro("lui").c("nom"),VP(Pro("moi").pe(2).
 const questceque = (...x)=>S(Pro("que"),VP(V("être"),Pro("ce"),Pro("que"),x)).a("?")
 const estceque   = (...x)=>S(VP(V("être"),Pro("ce"),Pro("que"),x)).a("?")
 
+/*  à placer dans la page web de la démo d'évaluation de jsRealB
 let m = ["(0)","(1)","(2)"]
+let f = (m,g) =>S(vous(g),VP(V("penser"),Pro("cela"),
+                    PP(P("de"),NP(D("le"),N("machine").n("p"))))).typ({"int":"wad"})
 
+S(f(m,"m"),Q("##"),f(m,"f").typ({maje:true}))
+*/
 // same organization as elizadata.js from https://www.masswerk.at/elizabot/"
 // but with objects and property names
 
 let keywordsFr =
 
-[{"key":Q("*xnone*"), "rank":0, "pats":[  // xnone: on ne devrait arriver ici qu'en désespoir de cause...    
+[{"key":Q("xnone"), "rank":0, "pats":[  // xnone: on ne devrait arriver ici qu'en désespoir de cause...    
  {"decomp":[star], // *
   "reasmb":[
     // en: I'm not sure I understand you fully.
@@ -111,7 +116,7 @@ let keywordsFr =
                  SP(vous_coi(g)),VP(V("rappeler"),m[2]))).a("?"),
     // en: What is the connection between me and (2) ?
     // fr: Quel est le lien entre moi et (2)
-    (m,g) => S(Pro("quel"),VP(V("être"),NP(D("le"),N("lien"),PP(P("entre"),moi(),C("et"),m[2])))).a("?"),
+    (m,g) => S(Pro("quel"),VP(V("être"),NP(D("le"),N("lien"),PP(P("entre"),moi_coi(),C("et"),m[2])))).a("?"),
     // en: What else does (2) remind you of ?
     // fr: Qu'est-ce que (2) vous rappelle d'autre ?
     (m,g) => questceque(m[2],VP(vous_coi(g),V("rappeler"),D("de"),N("autre"))).a("?")
@@ -320,7 +325,7 @@ let keywordsFr =
     ]}
 ]},
 
-{"key":N("anglais"), "rank":0, "pats":[  // francais
+{"key":N("français"), "rank":0, "pats":[  // francais
  {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
@@ -339,10 +344,10 @@ let keywordsFr =
     // en: I told you before, I don't understand Italian.
     // fr: Je te l'ai déjà dit, je ne comprends pas l'italien 
     (m,g) => S(moi(),VP(vous_coi(g),Pro("le"),V("dire").t("pc"),Adv("déjà")).a(","),
-               SP(moi(),VP(V("comprendre"),NP(D("le"),N("français")))).typ({"neg":true})),
+               SP(moi(),VP(V("comprendre"),NP(D("le"),N("italien")))).typ({"neg":true})),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // espanol
+{"key":N("espagnol"), "rank":0, "pats":[  // espanol
  {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
@@ -361,17 +366,20 @@ let keywordsFr =
         (m,g) => S(moi(),VP(V("comprendre"),NP(D("le"),N("anglais"))).typ({"neg":"que"})),
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // hello
+{"key":N("bonjour"), "rank":0, "pats":[  // hello
  {"decomp":[star], // *
   "reasmb":[
     // en: How do you do.  Please state your problem.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Comment allez-vous ?  Veuillez exposer votre problème.
+        (m,g) => S(SP(vous(g),VP(V("aller"))).typ({"int":"how"}),
+                   SP(VP(V("vouloir").t("ip").pe(2),V("exposer").t("b"),NP(votre(),N("problème")))).cap(true)),
     // en: Hi.  What seems to be your problem ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Bonjour. Quel semble être votre problème ?
+        (m,g) => S(N("bonjour").cap(true).a("."),
+                   SP(Pro("quel"),VP(V("être"),NP(votre(),N("problème")))).cap(true).a("?")),
     ]}
 ]},
+
 {"key":[N("ordinateur"),N("machine")], "rank":50, "pats":[  // computer
  {"decomp":[Q("*")], // *
   "reasmb":[
@@ -403,30 +411,34 @@ let keywordsFr =
                 NP(D("un"),N("programme"),A("informatique")))))).typ({"int":"tag","neg":true}),          
     ]}
 ]},
-{"key":"jsRterm", "rank":0, "pats":[  // am
- {"decomp":[star], // * am i *
+
+{"key":V("être"), "rank":0, "pats":[  // am
+ {"decomp":[star,V("être").pe(1),je_decomp,star], // * am i *
   "reasmb":[
     // en: Do you believe you are (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Croyez-vous que vous êtes (2) ?
+        (m,g) => S(vous(g),VP(V("croire"),SP(Pro("que"),vous(g),VP(V("être"),m[2])))).typ({"int":"yon"}),
     // en: Would you want to be (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Voudriez-vous être (2) ?
+        (m,g) => S(vous(g),VP(V("vouloir").t("c"),VP(V("être").t("b"),m[2]))).typ({"int":"yon"}),
     // en: Do you wish I would tell you you are (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Aimeriez-vous que je vous dise que vous êtes (2) ? 
+        (m,g) => S(vous(g),VP(V("aimer").t("c"),
+                   SP(Pro("que"),moi(),VP(vous_coi(g),V("dire").t("s"),
+                      SP(Pro("que"),vous(g),VP(V("être"),m[2])))))).typ({"int":"yon"}),
     // en: What would it mean if you were (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce que cela signifierait si vous étiez (2) ?
+        (m,g) => questceque(Pro("cela"),VP(V("signifier").t("c"),SP(C("si"),vous(g),VP(V("être").t("i"),m[2])))),
     // en: goto what
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // * i am *
+         Pro("quoi"),
+    ]},
+ {"decomp":[star], // * i am *
   "reasmb":[
     // en: goto i
     // fr: 
         (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // *
+    ]},
+ {"decomp":[star], // *
   "reasmb":[
     // en: Why do you say 'am' ?
     // fr: 
@@ -434,9 +446,7 @@ let keywordsFr =
     // en: I don't understand that.
     // fr: 
         (m,g) => Q("à faire"),
-    ]}
-]},
-{"key":"jsRterm", "rank":0, "pats":[  // are
+    ]},
  {"decomp":[star], // * are you *
   "reasmb":[
     // en: Why are you interested in whether I am (2) or not ?
@@ -1179,24 +1189,3 @@ let keywordsFr =
 // trier les mots clés par ordre décroissant de "rank"
 // keywordsFr.sort((k1,k2) => k2.rank - k1.rank )
 
-/*  à placer dans la page web de la démo d'évaluation de jsRealB
-
-const moi = () => Pro("moi").pe(1).c("nom")
-const moi_cod = () => moi().c("acc")
-const moi_coi = () => moi().c("dat")
-const vous = (g) => Pro("moi").pe(2).g(g).c("nom")
-const vous_ton = (g) => Pro("moi").pe(2).g(g).tn("")
-const vous_cod = (g) => vous(g).c("acc")
-const vous_coi = (g) => vous(g).c("dat")
-const votre = () => D("mon").pe(2)
-const svp        = () => AdvP(Adv("si"),Pro("lui").c("nom"),VP(Pro("moi").pe(2).c("dat"),V("plaire")))
-const questceque = (...x)=>S(Pro("que"),VP(V("être"),Pro("ce"),Pro("que"),x)).a("?")
-const estceque   = (...x)=>S(VP(V("être"),Pro("ce"),Pro("que"),x)).a("?")
-
-let m = ["(0)","(1)","(2)"]
-let f = (m,g) =>S(vous(g),VP(V("penser"),Pro("cela"),
-                    PP(P("de"),NP(D("le"),N("machine").n("p"))))).typ({"int":"wad"})
-
-S(f(m,"m"),Q("##"),f(m,"f").typ({maje:true}))
-
-*/

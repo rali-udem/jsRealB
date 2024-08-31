@@ -975,13 +975,5 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 
 // add tests here ...
 loadEn();
-addToLexicon("Maria-Luz",{N:{tab:"nI",g:"f"}})
-test(
-root(P("under"),
-    comp(Pro("which"),
-         comp(N("bridge"))),
-    mod(V("sleep").t("ps"),
-         subj(N("Maria-Luz"))).typ({"int":"yon"})),
-
-)
 loadFr();
+
