@@ -297,7 +297,9 @@ class Terminal extends Constituent{
      * @returns {boolean}
      */
     isMajestic(){
-        let pc = this.parentConst;
+        const maje = this.getProp("maje"); // check local value
+        if (maje !== undefined) return maje;
+        let pc = this.parentConst; // check context
         while (pc != null){
             const typs=pc.props["typ"]
             if (typs !== undefined && typs["maje"]===true)return true
@@ -330,7 +332,7 @@ class Terminal extends Constituent{
                 pe = p===undefined ? 3 : +p;
             }
             let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
-            if (this.isMajestic()){
+            if (!this.isA("N") && this.isMajestic()){
                 if (this.check_majestic(keyVals))
                     declension=rules.declension[this.tab].declension;
             }

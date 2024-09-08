@@ -205,7 +205,9 @@ const French_constituent = (superclass) =>
                 du futur de l'indicatif se termine par une autre lettre que d ou t et qu'il est suivi 
                 des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
                 et le pronom sujet inversé.*/
-                if (/[^dt]$/.test(terminals[i].realization) && ["il","elle","on"].includes(terminals[i+1].realization)){
+                if (/[^dt]$/.test(terminals[i].realization) && 
+                    // ignore final punctuation in the realization
+                    ["il","elle","on"].includes(terminals[i+1].realization.replace(/(\w+).*/,"$1"))){
                     return "t-";
                 }
             }            

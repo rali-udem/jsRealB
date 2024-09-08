@@ -5,6 +5,11 @@ import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
 import {lemmataFr, tokenizeFr} from "./lemmatize.js"
 import { keywordsFr } from "./keywordsFr.js";
 
+// trier les mots clés par ordre décroissant de "rank"
+// keywordsFr.sort((k1,k2) => k2.rank - k1.rank )
+
+let enKeys = {}
+keywordsFr.forEach(kw => enKeys[kw.key_en]=kw)
 
 // find all terminals that can generate a given string and sort them heuristically by POS "frequency"
 function getTerminals(word){
@@ -19,7 +24,7 @@ function getTerminals(word){
 
 function showTerminalLists(terminalLists){
     for (let tl of terminalLists){
-        console.log(tl[0].realize()+" : "+tl.map(e=>e.toSource()))
+        console.log(tl[0].realize()+" : "+tl.map(e=>e.toSource()).join(", "))
     }
     console.log("----")    
 }
@@ -42,7 +47,7 @@ function mememot(term1,term2,props){
     }
     if (term1.constType == term2.constType && term1.lemma == term2.lemma){
         if (props){ // vérifier aussi les propriétés
-            for (let prop of ["pe","g","n"]){
+            for (let prop of ["pe","g","n","t"]){
                 let p = term1.getProp(prop);
                 if (p !== undefined && p != term2.getProp(prop))return null
             }
@@ -67,11 +72,14 @@ function matchDecomp(decomps,terminals){
                 let group = []
                 let nextWord = decomps[iDecomp+1]
                 while (mememot(nextWord, terminals[iTerm],true)==null){ // skip terminal until the nextword in decomp
-                    group.push(nextWord)
+                    if (Array.isArray(nextWord))
+                        group.push(Q(nextWord.map(w=>w.realize()).join("|")))
+                    else
+                        group.push(nextWord)
                     iTerm++;
                     if (iTerm >= terminals.length) break
                 }
-                groups.push(group.map(t=>Q(t)))
+                groups.push(group.map(t=>Q(t.realize())))
             }
         } else if (iTerm >=terminals.length){ // décomp too long for terminals
             return null
@@ -123,29 +131,36 @@ function chat(inputs,pe,g,all){
     }
 }
 
-function testAll(kw, userText){
-    for (let keyword of keywordsFr){
-        if (keyword.key === "string") continue;
+function testAll(key_en, userText){
+    // copy groups so that multiple realization do not change the terminals in the group
+    // only useful for testAll
+    function copyGroups(groups){ 
+        return groups.map(g=>g.map(t=>Q(t.lemma)))
+    }
+    let keyword = enKeys[key_en];
+    if (keyword !== undefined){
         const key = keyword.key
-        if (Array.isArray(key) ? key.some(k=>kw == k.lemma): kw === key.lemma){
-            let terminals = tokenizeFr(userText).map(getTerminals);
-            console.log("** keyword:%s : %s",key.lemma,userText)
-            for (let pat of keyword.pats){
+        let terminals = tokenizeFr(userText).map(getTerminals);
+        console.log("** key_en: %s lemma:%s : %s",keyword.key_en, key.lemma, userText)
+        showTerminalLists(terminals)
+        for (let pat of keyword.pats){
+            let groups = matchDecomp(pat.decomp,terminals);
+            if (groups != null){
+                console.log("groups: /",groups.slice(1).map(g=>g.map(t=>t.realize())).join("/"),"/")
                 for (let fn of pat.reasmb){
                     if (typeof fn == "function"){
-                        let groups = matchDecomp(pat.decomp,terminals);
-                        if (groups != null){
-                            console.log(fn(groups,"f").typ({"maje":true}).realize())
-                        }
+                        const expr = fn(copyGroups(groups),"f")
+                        if (!expr.isA("Q")) // skip Q("à faire")
+                            console.log(expr.typ({"maje":true}).realize());
                     } else {
-                        console.log(fn.lemma)
+                        console.log("==>",fn)
                     }
                 }
+                console.log("===");
             }
-            return
         }
-    }
-    console.log("keyword:%s absent",kw)
+    } else 
+        console.log("keyword:%s absent",key_en)
 }
 
 
@@ -164,22 +179,35 @@ let userInputs = [
 // chat(["J'espère que vous vous rappelez de notre expérience"],"m")
 
 // testAll("xnone","")
-// testAll("excuser","excusez-moi")
-// testAll("pardon","je vous demande pardon")
-// testAll("rappeler","je me rappelle des choses")
-// testAll("rappeler","vous vous rappelez de vos voyages")
-// testAll("rappeler","ceci vous rappelle des bons souvenirs")
-// testAll("oublier","J'oublie toujours les anniversaires")
-// testAll("oublier","Quand avez-vous oublié de venir")
-// testAll("si","Ah si j'avais su")
-// testAll("rêve","J'ai fait un rêve avec des éléphants roses")
-// testAll("peut-être","J'irai peut-être au ciel")
-// testAll("nom","je ne connais pas votre nom")
-// testAll("allemand","Parlez-moi en allemand")
-// testAll("français","Parlez-moi en français")
-// testAll("italien","Parlez-moi en otalien")
-// testAll("espagnol","Parlez-moi en espagnol")
+// testAll("sorry","excusez-moi")
+// testAll("apologize","je vous demande pardon")
+// testAll("remember","je me rappelle des choses")
+// testAll("remember","vous vous rappelez de vos voyages")
+// testAll("remember","ceci vous rappelle des bons souvenirs")
+// testAll("forget","J'oublie les anniversaires")
+// testAll("forget","Quand avez-vous oublié de venir")
+// testAll("if","Ah si j'avais su")
+// testAll("dream","J'ai fait un rêve avec des éléphants roses")
+// testAll("perhaps","J'irai peut-être au ciel")
+// testAll("name","je ne connais pas votre nom")
+// testAll("deutsch","Parlez-moi en allemand")
+// testAll("francais","Parlez-moi en français")
+// testAll("italiano","Parlez-moi en italien")
+// testAll("espanol","Parlez-moi en espagnol")
 // testAll("xforeign","Anything")
-// testAll("bonjour","Bonjour")
-// testAll("ordinateur","J'ai peur des ordinateurs")
-testAll("être","Pourquoi suis-je perdu ?")
+// testAll("hello","Bonjour")
+// testAll("computer","J'ai peur des ordinateurs")
+// testAll("am","Pourquoi suis-je perdu ?")
+// testAll("am","Pourquoi êtes-vous perdu ?")
+// testAll("am","Pourquoi es-tu perdu ?")
+// testAll("am","Ils sont jaloux")
+// testAll("your","J'aime bien votre attitude")
+// testAll("i","Étais-je capable d'y arriver ?")
+// testAll("i","Étais-tu capable d'y arriver ?")
+// testAll("i","Étiez-vous capable d'y arriver ?")
+// testAll("i","Je désire du chocolat")
+// testAll("i","Je suis malheureux en affaire")
+// testAll("i","Je suis heureux en affaire")
+// testAll("i","Je pense que je vais bien")
+// testAll("i","je suis à l'affut")
+testAll("i","Je ne peux pas aller à la plage")
