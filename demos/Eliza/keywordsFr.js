@@ -12,12 +12,15 @@ const tu_decomp = [Pro("je").pe(2).n("s"),Pro("je").pe(2).n("p")]
 
 // pronoms paramétrables avec "maje"
 const moi = () => Pro("moi").pe(1).c("nom").maje(false)
+const moi_ton = () => Pro("moi").pe(1).tn("").maje(false)
 const moi_cod = () => moi().c("acc")
 const moi_coi = () => moi().c("dat")
+
 const vous = (g) => Pro("moi").pe(2).g(g).c("nom")
 const vous_ton = (g) => Pro("moi").pe(2).g(g).tn("")
 const vous_cod = (g) => vous(g).c("acc")
 const vous_coi = (g) => vous(g).c("dat")
+
 const votre = () => D("mon").pe(2)
 const mon   = () => D("mon").pe(1).maje(false)
 // abréviations pratiques
@@ -709,7 +712,8 @@ let keywordsFr =
                 PP(P("de"),A("autre"),
                     SP(Pro("qui"),VP(V("être"),m[2]))))).typ({"int":"yon"}),
     ]},
- {"decomp":[star, je_decomp, Adv("ne"), V("pouvoir").pe(1), Adv("pas"), star], // * i @cannot *
+ {"decomp":[star, je_decomp, Adv("ne"), V("pouvoir").pe(1), Adv("pas"), star], 
+    // * je ne peux pas * // * i @cannot *
   "reasmb":[
     // en: How do you know that you can't (3) ?
     // fr: Comment savez-vous que vous ne pouvez pas (2) 
@@ -729,114 +733,124 @@ let keywordsFr =
     // fr: Et si vous pouviez (2) 
     (m,g) => S(C('et'),C("si"),vous(g),VP(V("pouvoir").t("i"),m[2])),
     ]},
- {"decomp":[star], // * i don't *
+ {"decomp":[star, je_decomp, Adv("ne"), V("vouloir").pe(1), Adv("pas"), star], 
+    // * je ne veux pas * // * i don't *
   "reasmb":[
     // en: Don't you really (2) ?
-    // fr: Vous n'êtes pas vraiment (2) ? 
-        (m,g) => Q("à faire"),
+    // fr: Êtes-vous vraiment obligé de (2)  
+    (m,g) => S(vous(g),VP(V("être"),Adv("vraiment"),A("obligé"),PP(P("de"),m[2]))
+                ).typ({"int":"yon"}),
     // en: Why don't you (2) ?
-    // fr: Pourquoi ne le faites-vous pas (2) ?
-        (m,g) => Q("à faire"),
+    // fr: Pourquoi ne le faites-vous pas ?
+    (m,g) => S(vous(g),VP(V("faire"),Pro("lui").c("acc"))).typ({"int":"why","neg":true}),
     // en: Do you wish to be able to (2) ?
     // fr: Souhaitez-vous pouvoir (2) ?
-        (m,g) => Q("à faire"),
+        (m,g) => S(vous(g),VP(V("souhaiter"),V("pouvoir").t("b"),m[2])).typ({"int":"yon"}),
     // en: Does that trouble you ?
     // fr: Cela vous gêne-t-il ? 
-        (m,g) => Q("à faire"),
+    (m,g) => S(Pro("cela"),VP(V("gêner"),vous_cod(g))).typ({"int":"yon"}),
     ]},
- {"decomp":[star], // * i feel *
+ {"decomp":[star,je_decomp, V("sentir").pe(1), star], // * je pense * // * i feel *
   "reasmb":[
     // en: Tell me more about such feelings.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Parlez-moi de ces sentiments.
+    (m,g) => S(VP(V("parler").t("ip").pe(2).lier(),moi_ton(),PP(P("de"),NP(D("ce"),N("sentiment").n("p"))))),
     // en: Do you often feel (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Ressentez-vous souvent (2) ?
+    (m,g) => S(vous(g),VP(V("ressentir"),Adv("souvent"),m[2])).typ({"int":"yon"}),
     // en: Do you enjoy feeling (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Aimez-vous  (2) ?
+    (m,g) => S(vous(g),VP(V("aimer"),m[2])).typ({"int":"yon"}),
     // en: Of what does feeling (2) remind you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que vous rappelle  (2) ?
+    (m,g) => S(VP(V("rappeler"),Pro("cela"),vous_coi(g),m[2])).typ({"int":"wad"}),
     ]},
- {"decomp":[star], // * i * you *
-  "reasmb":[
-    // en: Perhaps in your fantasies we (2) each other.
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Do you wish to (2) me ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: You seem to need to (2) me.
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Do you (2) anyone else ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},
+// no idea how to transpose this in French...
+// it relies on the fact that infinitive and 2 person of present are of the same form
+//  {"decomp":[star], // * i * you *
+//   "reasmb":[
+//     // en: Perhaps in your fantasies we (2) each other.
+//     // fr: Peut-être que dans tes fantasmes nous nous (2) mutuellement 
+//         (m,g) => Q("à faire"),
+//     // en: Do you wish to (2) me ?
+//     // fr: Voulez-vous me (2) ?
+//         (m,g) => Q("à faire"),
+//     // en: You seem to need to (2) me.
+//     // fr: Vous semblez avoir besoin de me (2).
+//         (m,g) => Q("à faire"),
+//     // en: Do you (2) anyone else ?
+//     // fr: Voulez-vous (2) quelqu'un d'autre ?
+//         (m,g) => Q("à faire"),
+//     ]},
  {"decomp":[star], // *
   "reasmb":[
     // en: You say (1) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous dites (1) ?
+    (m,g) => S(vous(g),VP(V("dire"),SP(m[1]).en("'"))).a("?"),
     // en: Can you elaborate on that ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pouvez-vous élaborer sur cela?
+    (m,g) => S(vous(g),VP(V("élaborer"),PP(P("sur"),Pro("cela")))).typ({"int":"yon","mod":"poss"}),
     // en: Do you say (1) for some special reason ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous dites (1) pour une raison particulière.
+    (m,g) => S(vous(g),VP(V("dire"),SP(m[1]).en("'"), PP(P("pour"),NP(D("un"),N("raison"),A("particulier"))))),
     // en: That's quite interesting.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: C'est très intéressant.
+    (m,g) => S(Pro("ce"),VP(V("être"),AdvP(Adv("très"),A("intéressant")))),
     ]}
 ]},
 
-{"key":"jsRterm", "key_en":"you", "rank":0, "pats":[  // you
- {"decomp":[star], // * you remind me of *
+{"key":tu_decomp, "key_en":"you", "rank":0, "pats":[  // you
+ {"decomp":[star, tu_decomp, me_decomp, [V("rappeler").pe(2).n("s"), V("rappeler").pe(2).n("p"), P("de"), star]], // * you remind me of *
   "reasmb":[
     // en: goto alike
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto alike",
     ]},
- {"decomp":[star], // * you are *
+ {"decomp":[star, tu_decomp, [V("être").pe(2).n("s"),V("être").pe(2).n("p")], star], // * you are *
   "reasmb":[
     // en: What makes you think I am (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce qui vous fait penser que je suis (2) ?
+    (m,g) => S(Pro("cela"),VP(V("faire"),vous_coi(g),V("penser").t("b"),
+                SP(Pro("que"),moi(),VP(V("être"),m[2])))).typ({"int":"was"}),
     // en: Does it please you to believe I am (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Cela vous fait-il plaisir de croire que je suis (2) ? 
+    (m,g) => S(Pro("cela"),VP(V("faire"),vous_coi(g),N("plaisir"),
+    PP(P("de"),V("croire").t("b"),
+            SP(Pro("que"),moi(),VP(V("être"),m[2]))))).typ({"int":"yon"}),
     // en: Do you sometimes wish you were (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Souhaitez-vous parfois être (2) ? 
+    (m,g) => S(vous(g),VP(V("souhaiter"),
+        AdvP(Adv("parfois"),V("être").t("b"),m[2]))).typ({"int":"yon"}),
     // en: Perhaps you would like to be (2).
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Peut-être aimeriez-vous être (2).
+    (m,g) => S(Adv("peut-être"),vous(g),VP(V("aimer").t("c"),V("être").t("b"),m[2])).typ({"int":"yon"}),
     ]},
- {"decomp":[star], // * you* me *
-  "reasmb":[
-    // en: Why do you think I (2) you ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: You like to think I (2) you -- don't you ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: What makes you think I (2) you ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Really, I (2) you ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Do you wish to believe I (2) you ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Suppose I did (2) you -- what would that mean ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Does someone else believe I (2) you ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},
+// no idea how to transpose this in French...
+// it relies on the fact that infinitive and 2 person of present are of the same form
+//  {"decomp":[star], // * you * me *
+//   "reasmb":[
+//     // en: Why do you think I (2) you ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: You like to think I (2) you -- don't you ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: What makes you think I (2) you ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: Really, I (2) you ?
+//     // fr:  
+//         (m,g) => Q("à faire"),
+//     // en: Do you wish to believe I (2) you ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: Suppose I did (2) you -- what would that mean ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: Does someone else believe I (2) you ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     ]},
  {"decomp":[star], // * you *
   "reasmb":[
     // en: We were discussing you -- not me.
