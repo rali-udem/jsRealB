@@ -1,6 +1,6 @@
 /* uncomment this for testing this file alone */
 import { N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
-    S, NP, AP, VP, AdvP, PP, CP, SP } from "../../src/jsRealB.js"
+    S, NP, AP, VP, AdvP, PP, CP, SP, oneOf } from "../../src/jsRealB.js"
 
 export {keywordsFr}
 
@@ -9,7 +9,7 @@ const star = Q("*")
 const je_decomp = Pro("je").pe(1)
 const me_decomp = Pro("me").pe(1)
 const tu_decomp = [Pro("je").pe(2).n("s"),Pro("je").pe(2).n("p")]
-
+const family = [N("mère"),N("maman"),N("père"),N("papa"),N("frère"),N("soeur"),N("époux"),N("époux").g("f"),N("enfant")]
 // pronoms paramétrables avec "maje"
 const moi = () => Pro("moi").pe(1).c("nom").maje(false)
 const moi_ton = () => Pro("moi").pe(1).tn("").maje(false)
@@ -25,8 +25,8 @@ const votre = () => D("mon").pe(2)
 const mon   = () => D("mon").pe(1).maje(false)
 // abréviations pratiques
 const svp        = () => AdvP(Adv("si"),Pro("lui").c("nom"),VP(Pro("moi").pe(2).c("dat"),V("plaire")))
-const questceque = (...x)=>S(Pro("que"),VP(V("être"),Pro("ce"),Pro("que"),x)).a("?")
-const estceque   = (...x)=>S(VP(V("être"),Pro("ce"),Pro("que"),x)).a("?")
+const questceque = (...x)=>S(Pro("que"),VP(V("être").lier(),Pro("ce"),Pro("que"),x)).a("?")
+const estceque   = (...x)=>S(VP(V("être").lier(),Pro("ce"),Pro("que"),x)).a("?")
 
 /*  à placer dans la page web de la démo d'évaluation de jsRealB
 let m = ["(0)","(1)","(2)"]
@@ -851,415 +851,474 @@ let keywordsFr =
 //     // fr: 
 //         (m,g) => Q("à faire"),
 //     ]},
- {"decomp":[star], // * you *
+ {"decomp":[star, tu_decomp, star], // * you *
   "reasmb":[
     // en: We were discussing you -- not me.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Nous parlions de vous, pas de moi
+    (m,g) => S(moi(),VP(V("parler").t("i"),PP(P("de"),vous_ton(g)).a(","),
+                AdvP(Adv("pas"),P("de"),moi_ton()))),
     // en: Oh, I (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Oh, (2)
+    (m,g) => S(Q("oh"),m[2]),
     // en: You're not really talking about me -- are you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous ne parlez pas vraiment de moi, n'est-ce pas ?
+    (m,g) => S(vous(g),VP(V("parler"),PP(P("de"),moi_ton()))).typ({"neg":true, "int":"tag"}),
     // en: What are your feelings now ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quels sont tes sentiments maintenant ?
+    (m,g) => S(Pro("quel").n("p"),
+               VP(V("être"),NP(votre(),N("sentiment").n("p"),Adv("maintenant")))).a("?"),
     ]}
 ]},
 
-{"key":"jsRterm", "key_en":"yes", "rank":0, "pats":[  // yes
+{"key":Adv("oui"), "key_en":"yes", "rank":0, "pats":[  // yes
  {"decomp":[star], // *
   "reasmb":[
     // en: You seem to be quite positive.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous semblez être tout à fait positif 
+    (m,g) => S(vous(g),VP(V("sembler"),AdvP(Adv("tout"),P("à"),N("fait")),A("positif"))),
     // en: You are sure.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous êtes sûr de vous
+    (m,g) =>S(vous(g),VP(V("être"),A("sûr"),PP(P("de"),vous_ton(g)))),
     // en: I see.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je vois
+    (m,g) => S(moi(),VP(V("voir"))),
     // en: I understand.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Je comprends.
+    (m,g) => S(moi(),VP(V("comprendre"))),
     ]}
 ]},
 
-{"key":"jsRterm", "key_en":"no", "rank":0, "pats":[  // no
- {"decomp":[star], // * no one *
+{"key":N("personne"), "key_en":"no_one", "rank":0, "pats":[  // no_one
+ {"decomp":[star, N("personne"), Adv("ne"), star], // * no one *
   "reasmb":[
     // en: Are you sure, no one (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous êtes sûr, personne (2) ?
+    (m,g) => S(vous(g),VP(V("être"),A("sûr").pos("pre").a(","),N("personne"),Adv("ne"),m[2])),
     // en: Surely someone (2) .
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Sûrement quelqu'un (2) .
+    (m,g) => S(Adv("sûrement"),Pro("quelqu'un"),m[2]),
     // en: Can you think of anyone at all ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pouvez-vous penser à quelqu'un ?
+    (m,g) => S(vous(g),VP(V("penser"),PP(P("à"),Pro("quelqu'un")))).typ({"int":"yon","mod":"poss"}),
     // en: Are you thinking of a very special person ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pensez-vous à une personne très spéciale ? 
+    (m,g) => S(vous(g),VP(V("penser"),
+               PP(P("à"),NP(D("un"),N("personne"),Adv("très"),A("spécial"))))).typ({"int":"yon"}),
     // en: Who, may I ask ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qui, puis-je demander ? »,
+    (m,g) => S(Pro("qui").a(","),
+                SP(moi(),VP(V("demander"))).typ({"int":"yon","mod":"poss"})),
     // en: You have a particular person in mind, don't you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous pensez à une personne en particulier, n'est-ce pas ?
+    (m,g) => S(vous(g),VP(V("penser"),PP(P("à"),NP(D("un"),N("personne"),
+                    PP(P("en"),N("particulier")))))).typ({"int":"tag"}),
     // en: Who do you think you are talking about ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: De qui pensez-vous parler ? 
+    (m,g) => S(vous(g),VP(V("penser"),V("parler").t("b"),PP(P("de"),Pro("lui").c("dat")))).typ({"int":"woi"}),
     ]},
- {"decomp":[star], // *
+]},
+
+{"key":Adv("non"), "key_en":"no", "rank":0, "pats":[  // no
+    {"decomp":[star], // *
   "reasmb":[
     // en: Are you saying no just to be negative?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Dites-vous non juste pour être négatif ?
+    (m,g) => S(vous(g),VP(V("dire"),Adv("non"),AdvP(Adv("juste"),P("pour"),V("être").t("b"),A("négatif")))).typ({"int":"yon"}),
     // en: You are being a bit negative.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous êtes un peu négatif 
+    (m,g) => S(vous(g),VP(V("être"),AP(Adv("juste"),D("un"),Adv("peu"),A("négatif")))),
     // en: Why not ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr:Pourquoi pas ? 
+    (m,g) => S(Adv("pourquoi"),Adv("pas")).a("?"),
     // en: Why 'no' ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pourquoi 'non' ?
+    (m,g) => S(Adv("pourquoi"),Adv("non").en("'")).a("?"),
     ]}
 ]},
-{"key":"jsRterm", "rank":2, "pats":[  // my
- {"decomp":[N("nom")], // $ * my *
-  "reasmb":[
-    // en: Does that have anything to do with the fact that your (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Lets discuss further why your (2).
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: Earlier you said your (2).
-    // fr: 
-        (m,g) => Q("à faire"),
-    // en: But your (2).
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // * my* @family *
+
+{"key":D("mon").pe(1), "key_en":"my", "rank":2, "pats":[  // my
+//  to fix when we figure out what to do with $
+//  {"decomp":[N("nom")], // $ * my *
+//   "reasmb":[
+//     // en: Does that have anything to do with the fact that your (2) ?
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: Lets discuss further why your (2).
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: Earlier you said your (2).
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     // en: But your (2).
+//     // fr: 
+//         (m,g) => Q("à faire"),
+//     ]},
+ {"decomp":[star, D("mon").pe(1),family, star], // * my* @family *
   "reasmb":[
     // en: Tell me more about your family.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Parlez-moi de votre famille 
+    (m,g) => S(VP(V("parler").t("ip").pe(2).lier(),moi_ton(),PP(P("de"),NP(votre(),N("famille"))))),
     // en: Who else in your family (4) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Who else in your family
+    (m,g) => S(Pro("qui"),P("de"),N("autre"),PP(P("dans"),NP(votre(),N("famille")))).a("?"),
     // en: Your (3) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Votre famille ?
+    (m,g) => S(NP(votre(),N("famille"))).a("?"),
     // en: What else comes to your mind when you think of your (3) ?
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // * my *
+    // fr: Qu'est-ce qui vous vient à l'esprit quand vous pensez à votre famille ?
+    (m,g) => S(Pro("cela"),VP(V("venir"),vous_coi(g),PP(P("à"),NP(D("le"),N("esprit"))),
+                SP(C("quand"),vous(g),VP(V("penser"),PP("à"),NP(votre(),N("famille")))))).typ({"int":"was"})
+    ]},
+ {"decomp":[star, D("mon").pe(1), star], // * my *
   "reasmb":[
     // en: Your (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Votre (2) ?
+    (m,g) => S(votre(),m[2]).a("?"),
     // en: Why do you say your (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pourquoi dites-vous votre (2) ?
+    (m,g) =>S(vous(g),VP(V("dire"),NP(votre(),m[2]))).typ({"int":"why"}),
     // en: Does that suggest anything else which belongs to you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Cela suggère-t-il quelque chose d'autre qui vous appartient? »,
+    (m,g) => S(Pro("cela"),VP(V("suggérer"),
+                NP(D("quelque"),N("chose"),PP(P("de"),N("autre")),
+                   SP(Pro("qui"),VP(V("appartenir"),vous_coi(g)))))).typ({"int":"yon"}),
     // en: Is it important to you that your (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Est ce-que (2) est important pour vous?
+    (m,g) => estceque(m[2],VP(V("être"),A("important"),PP(P("pour"),vous_ton(g)))),
     ]}
 ]},
-{"key":"jsRterm", "key_en":"can", "rank":0, "pats":[  // can
- {"decomp":[star], // * can you *
+
+{"key":V("pouvoir"), "key_en":"can", "rank":0, "pats":[  // can
+ {"decomp":[star, [V("pouvoir").pe(2),V("pouvoir").pe(2).n("p")], tu_decomp, star ], 
+          // peux-tu, pouvez-tu // * can you *
   "reasmb":[
     // en: You believe I can (2) don't you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous croyez que je peux (2), n'est-ce pas ?
+    (m,g) => S(vous(g),VP(V("croire"),SP(Pro("que"),moi(),VP(V("pouvoir"),m[2])))).typ({"int":"tag"}),
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto what",
     // en: You want me to be able to (2).
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous voulez que je puisse (2) 
+    (m,g) => S(vous(g),VP(V("vouloir"),SP(Pro("que"),moi(),VP(V("pouvoir").t("s"),m[2])))),
     // en: Perhaps you would like to be able to (2) yourself.
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // * can i *
+    // fr: Peut-être voudriez-vous être capable vous-mêmes de (2)?
+    (m,g) =>S(Adv("peut-être"),vous(g),
+                VP(V("vouloir").t("c"),V("être").t("b"),
+                    AP(A("capable"),vous_ton(g).tn("refl"),PP(P("de"),m[2])))).typ({"int":"yon"}),
+    ]},
+ {"decomp":[star, C("puis"), je_decomp, star], // puis-je (HACK for jsRealB lemmatization) // * can i *
   "reasmb":[
     // en: Whether or not you can (2) depends on you more than on me.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que vous puissiez ou non (2) dépend de vous plus que de moi 
+    (m,g) => S(SP(Pro("que"),vous(g),VP(V("pouvoir").t("s"),m[2],C("ou"),Adv("non"))),
+        VP(V("dépendre"),AdvP(Adv("plus"),P("de"),vous_ton(g),C("que"),P("de"),moi_ton()))),
     // en: Do you want to be able to (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr:  Voulez-vous pouvoir (2) ?
+    (m,g) => S(vous(g),VP(V("vouloir"),V("pouvoir").t("b"),m[2])).typ({"int":"yon"}),
     // en: Perhaps you don't want to (2).
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Peut-être ne voulez-vous pas (2)
+    (m,g) => S(Adv("peut-être"),vous(g),VP(V("vouloir"),m[2])).typ({"int":"yon","neg":true}),
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+        "goto what",
     ]}
 ]},
-{"key":"jsRterm", "key_en":"what", "rank":0, "pats":[  // what
+
+{"key":Pro("quoi"), "key_en":"what", "rank":0, "pats":[  // quoi // what
  {"decomp":[star], // *
   "reasmb":[
     // en: Why do you ask ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pourquoi cette question ?
+    (m,g) => S(Adv("pourquoi"),NP(D("ce"),N("question"))).a("?"),
     // en: Does that question interest you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Cette question vous intéresse-t-elle ?
+    (m,g) => S(NP(D("ce"),N("question")),VP(V("intéresser"),vous_cod(g))).typ({"int":"yon"}),
     // en: What is it you really want to know ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que voulez-vous vraiment savoir ?
+    (m,g) => S(vous(g),VP(V("vouloir"),Adv("réellement"),V("savoir").t("b"),Pro("cela"))).typ({"int":"wad"}),
     // en: Are such questions much on your mind ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Ces questions vous préoccupent-elles beaucoup ?
+    (m,g) => S(NP(D("ce"),N("question").n("p")),VP(V("préoccuper"),vous_cod(g),Adv("beaucoup"))).typ({"int":"yon"}),
     // en: What answer would please you most ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelle réponse vous plairait le plus ?
+    (m,g) => S(NP(D("quel"),N("réponse")),VP(V("plaire").t("c"),vous_cod(g),D("le"),Adv("plus"))).a("?"),
     // en: What do you think ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'en pensez-vous ? 
+    (m,g) => S(Pro("que"),Pro("en"),VP(V("penser").pe(2).n("p").lier(),vous(g))).a("?"),
     // en: What comes to mind when you ask that ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce qui vous vient à l'esprit lorsque vous posez cette question ?
+    (m,g) => S(Pro("cela"),VP(V("venir"),vous_coi(g),PP(P("à"),NP(D("le"),N("esprit"))),
+        SP(C("lorsque"),vous(g),VP(V("poser"),NP(D("ce"),N("question")))))).typ({"int":"was"}),
     // en: Have you asked such questions before ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Avez-vous déjà posé de telles questions ?
+    (m,g) => S(vous(g),VP(V("poser").t("pc"),Adv("déjà"),
+        NP(D("de"),A("tel"),N("question").n("p")))).typ({"int":"yon"}),
     // en: Have you asked anyone else ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Avez-vous demandé à quelqu'un d'autre ?
+    (m,g) => S(vous(g),VP(V("demander").t("pc"),
+        PP(P("à"),Pro("quelqu'un"),P("de"),A("autre")))).typ({"int":"yon"}),
     ]}
 ]},
-{"key":"jsRterm", "key_en":"who", "rank":0, "pats":[  // who
- {"decomp":[N("nom")], // who *
+
+{"key":Pro("qui"), "key_en":"who", "rank":0, "pats":[  // qui // who
+ {"decomp":[Pro("qui"), star], // who *
   "reasmb":[
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto what",
     ]}
 ]},
-{"key":"jsRterm", "key_en":"when", "rank":0, "pats":[  // when
- {"decomp":[N("nom")], // when *
+
+{"key":Adv("quand"), "key_en":"when", "rank":0, "pats":[  // quand // when
+ {"decomp":[Adv("quand"), star], // when *
   "reasmb":[
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto what"
     ]}
 ]},
-{"key":"jsRterm", "key_en":"where", "rank":0, "pats":[  // where
- {"decomp":[N("nom")], // where *
+
+{"key":Adv("où"), "key_en":"where", "rank":0, "pats":[  // où // where
+ {"decomp":[Adv("où"), star], // where *
   "reasmb":[
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto what"
     ]}
 ]},
-{"key":"jsRterm", "key_en":"how", "rank":0, "pats":[  // how
- {"decomp":[N("nom")], // how *
+
+{"key":Adv("comment"), "key_en":"how", "rank":0, "pats":[  //comment // how
+ {"decomp":[Adv("comment"), star], // how *
   "reasmb":[
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto what"
     ]}
 ]},
-{"key":"jsRterm", "key_en":"because", "rank":0, "pats":[  // because
+
+{"key":Q("parce"), "key_en":"because", "rank":0, "pats":[  // parce que // because
+    // HACK: this is not lemmatized correctly.... 
  {"decomp":[star], // *
   "reasmb":[
     // en: Is that the real reason ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Est-ce la vraie raison ?
+    (m,g) => S(Pro('ce'),VP(V("être"),NP(D("le"),A("vrai").pos("pre"),N("raison")))).typ({"int":"yon"}),
     // en: Don't any other reasons come to mind ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: D'autres raisons ne vous viennent-elles pas à l'esprit ? 
+    (m,g) => S(NP(D("de"),A("autre").pos("pre"),N("raison").n("p")),
+                VP(V("venir"),vous_coi(g),PP(P("à"),NP(D("le"),N("esprit"))))).typ({"int":"yon","neg":true}),
     // en: Does that reason seem to explain anything else ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Cette raison semble-t-elle expliquer autre chose ? 
+    (m,g) => S(NP(D("ce"),N("raison")),
+                VP(V("sembler"),V("expliquer").t("b"),NP(A("autre"),N("chose")))).typ({"int":"yon","neg":oneOf(true,false)}),
     // en: What other reasons might there be ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelles sont les autres raisons possibles ?
+    (m,g) => S(Pro("quel").n("p").g("f"),
+                VP(V("être").n("p"),NP(D("le"),A("autre"),N("raison").n("p"),A("possible")))).a("?"),
     ]}
 ]},
-{"key":"jsRterm", "key_en":"why", "rank":0, "pats":[  // why
- {"decomp":[star], // * why don't you *
+
+{"key":Adv("pourquoi"), "key_en":"why", "rank":0, "pats":[  // why
+ {"decomp":[star, Adv("pourquoi"),Adv("ne"),[V("pouvoir").pe(2),V("pouvoir").pe(2).n("p")],tu_decomp,Adv("pas"), star], 
+    // * pourquoi ne pouvez vous pas * // * why don't you *
+    // HACK: slight change of meaning for French...
   "reasmb":[
     // en: Do you believe I don't (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Croyez-vous que je ne peux pas (2) ? 
+    (m,g) => S(vous(g),VP(V("croire"),SP(Pro("que"),moi(),VP(V("pouvoir"),m[2])).typ({"neg":true}))).typ({"int":"yon"}),
     // en: Perhaps I will (2) in good time.
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Peut-être (2) en temps voulu 
+    (m,g) => S(Adv("peut-être"),m[2],PP(P("en"),N("temps"),V("vouloir").t("pp"))),
     // en: Should you (2) yourself ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Devriez-vous vous-mêmes (2) ?
+    (m,g) => S(vous(g),VP(V("devoir").t("c"),vous_ton(g).tn("refl"),m[2])).typ({"int":"yon"}),
     // en: You want me to (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous souhaitez (2) ?
+    (m,g) => S(vous(g),VP(V("souhaiter"),m[2])),
     // en: goto what
-    // fr: 
-        (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // * why can't i *
+    "goto what"
+    ]},
+ {"decomp": [star, Adv("pourquoi"),Adv("ne"),C("puis"),je_decomp,Adv("pas"), star], 
+    //  pourquoi je ne peux pas // * why can't i *
   "reasmb":[
     // en: Do you think you should be able to (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pensez-vous que vous devriez pouvoir (2) ? 
+    (m,g) => S(vous(g),VP(V("penser"),
+        SP(Pro("que"),vous(g),VP(V("pouvoir").t("c"),m[2])).typ({"mod":"nece"}))).typ({"int":"yon"}),
     // en: Do you want to be able to (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Voulez-vous être capable de (2) ?
+    (m,g) => S(vous(g),VP(V("vouloir"),VP(V("être").t("b"),A("capable"),P("de"),m[2]))).typ({"int":"yon"}),
     // en: Do you believe this will help you to (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pensez-vous que cela vous aidera à (2) ?
+    (m,g) => S(vous(g),VP(V("penser"),
+        SP(Pro("que"),Pro("cela"),VP(V("aider").t("f"),vous_cod(g),P("à"),m[2])))).typ({"int":"yon"}),
     // en: Have you any idea why you can't (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Avez-vous une idée de la raison pour laquelle vous ne pouvez pas (2) ?
+    (m,g) => S(vous(g),VP(V("avoir"),
+                NP(D("un"),N("idée"),
+                PP(P("pour"),Pro("lequel").g("f"),
+                    SP(vous(g),VP(V("pouvoir"),m[2])).typ({"neg":true}))))).typ({"int":"yon"}),
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
-    ]},{"decomp":[star], // *
+        "goto what"
+    ]},
+ {"decomp":[star], // *
   "reasmb":[
     // en: goto what
     // fr: 
-        (m,g) => Q("à faire"),
+        "goto what",
     ]}
 ]},
-{"key":"jsRterm", "rank":2, "pats":[  // everyone
- {"decomp":[star], // * @everyone *
+
+{"key":"jsRterm", "key_en":"everyone", "rank":2, "pats":[  // everyone
+ {"decomp":[star, A("tout"),D("le"),N("monde"), star], // * @everyone *
   "reasmb":[
     // en: Really, (2) ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vraiment, (2) ?
+    (m,g) => S(Adv("vraiment"),m[2]).a("?"),
     // en: Surely not (2).
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Sûrement pas (2).
+    (m,g) => S(Adv("sûrement"),Adv("pas"),m[2]),
     // en: Can you think of anyone in particular ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pouvez-vous penser à quelqu'un en particulier ?
+    (m,g) => S(vous(g),VP(V("penser"),
+                PP(P("à"),Pro("quelqu'un"),P("en"),N("particulier")))).typ({"int":"yon"}),
     // en: Who, for example?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qui, par exemple ? 
+    (m,g) => S(Pro("qui").a(","),PP(P("par"),N("exemple"))).a("?"),
     // en: Are you thinking of a very special person ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pensez-vous à une personne très spéciale ? 
+    (m,g) => S(vous(g),VP(V("penser"),PP(P("à"),NP(D("un"),N("personne"),Adv("très"),A("spécial"))))).typ({"int":"yon"}),
     // en: Who, may I ask ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qui, si je peux me permettre ?
+    (m,g) => S(Pro("qui").a(","),SP(C("si"),moi(),VP(V("permettre"))).typ({"mod":"poss","refl":true})).a("?"),
     // en: Someone special perhaps ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelqu'un de spécial peut-être ? 
+    (m,g) => S(Pro("quelqu'un"),PP(P("de"),A("spécial")),Adv("peut-être")).a("?"),
     // en: You have a particular person in mind, don't you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vous pensez à une personne en particulier, n'est-ce pas ? 
+    (m,g) => S(vous(g),VP(V("penser"),
+            PP(P("à"),NP(D("un"),N("personne"),P("en"),N("particulier"))))).typ({"int":"tag"}),
     // en: Who do you think you're talking about ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: De qui pensez-vous parler ? 
+    (m,g) => S(vous(g),VP(V("penser"),V("parler").t("b"),PP(P("de"),Pro("lui")))).typ({"int":"woi"}),
     ]}
 ]},
-{"key":"jsRterm", "rank":2, "pats":[  // everybody
+
+{"key":Pro("tous"), "key_en":"everybody", "rank":2, "pats":[  // everybody
  {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto everyone",
     ]}
 ]},
-{"key":"jsRterm", "rank":2, "pats":[  // nobody
+
+{"key":Adv("personne"), "key_en":"nobody", "rank":2, "pats":[  // nobody
  {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto everyone",
     ]}
 ]},
-{"key":"jsRterm", "rank":2, "pats":[  // noone
+
+{"key":A("aucun"), "rank":2, "key_en":"noone", "pats":[  // noone
  {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto everyone",
     ]}
 ]},
-{"key":"jsRterm", "rank":1, "pats":[  // always
+
+{"key":Adv("toujours"), "key_en":"always", "rank":1, "pats":[  // always
  {"decomp":[star], // *
   "reasmb":[
     // en: Can you think of a specific example ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pouvez-vous penser à un exemple précis ?
+    (m,g) => S(vous(g),VP(V("penser"),
+        PP(P("à"),NP(D("un"),N("exemple"),A("précis"))))).typ({"int":"yon","mod":"poss"}),
     // en: When ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quand ?
+    (m,g) => S(Adv("quand")).a("?"),
     // en: What incident are you thinking of ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: A quel incident pensez-vous ? 
+    (m,g) => S(PP(P("à"),A("quel"),N("incident")),vous(g),VP(V("penser"))).typ({"int":"yon"}),
     // en: Really, always ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Vraiment, toujours ?
+    (m,g) => S(Adv("vraiment").a(","),Adv("toujours")).a("?"),
     ]}
 ]},
-{"key":"jsRterm", "rank":10, "pats":[  // alike
+
+{"key":A("semblable"), "key_en":"alike", "rank":10, "pats":[  // alike
  {"decomp":[star], // *
   "reasmb":[
     // en: In what way ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr:  En quoi ?
+    (m,g) => S(P("en"),Pro("quoi")).a("?"),
     // en: What resemblence do you see ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelle ressemblance voyez-vous ?
+    (m,g) => S(NP(A("quel"),N("ressemblance")),SP(vous(g),VP(V("voir"))).typ({"int":"yon"})),
     // en: What does that similarity suggest to you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce que cette ressemblance vous suggère?
+    (m,g) =>S(NP(D("ce"),N("ressemblance")),VP(V("suggérer"),Pro("cela"),vous_coi(g))).typ({"int":"wad"}),
     // en: What other connections do you see ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quels autres liens voyez-vous ? 
+    (m,g) => S(NP(D("quel"),A("autre"),N("lien").n("p")),SP(vous(g),VP(V("voir"))).typ({"int":"yon"})),
     // en: What do you suppose that resemblence means ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que pensez-vous que cette ressemblance signifie ?
+    (m,g) => S(vous(g),VP(V("penser"),Pro("cela"),
+        SP(Pro("que"),NP(D("ce"),N("ressemblance")),VP(V("signifier"))))).typ({"int":"wad"}),
     // en: What is the connection, do you suppose ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quel est le lien, à votre avis ?
+    (m,g) => S(Pro("quel"),VP(V("être"),NP(D("le"),N("lien")),
+                    PP(P("à"),NP(votre(),N("avis"))))).a("?"),
     // en: Could there really be some connection ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pourrait-il vraiment y avoir un lien ? 
+    (m,g) => S(Pro("lui").c("nom"),VP(V("avoir").t("c"),Pro("y"),NP(D("un"),N("lien")))).typ({"int":"yon","mod":"poss"}),
     // en: How ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Comment ?
+    (m,g) => S(Adv("comment")).a("?"),
     ]}
 ]},
-{"key":"jsRterm", "rank":10, "pats":[  // like
+
+{"key":A("pareil"), "key_en":"like", "rank":10, "pats":[  // like
  {"decomp":[star], // * @be *like *
   "reasmb":[
     // en: goto alike
     // fr: 
-        (m,g) => Q("à faire"),
+    "goto alike"
     ]}
 ]},
-{"key":"jsRterm", "key_en":"different", "rank":0, "pats":[  // different
+
+{"key":A("différent"), "key_en":"different", "rank":0, "pats":[  // different
  {"decomp":[star], // *
   "reasmb":[
     // en: How is it different ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: En quoi est-ce différent ?
+    (m,g) => S(P("en"),Pro("quoi"),SP(Pro("ce"),VP(V("être"),A("différent"))).typ({"int":"yon"})),
     // en: What differences do you see ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelles différences voyez-vous ?
+    (m,g) => S(NP(D("quel"),N("différence").n("p")),SP(vous(g),VP(V("voir"))).typ({"int":"yon"})),
     // en: What does that difference suggest to you ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Qu'est-ce que cette différence vous suggère ?
+    (m,g) => S(NP(D("ce"),N("différence")),VP(V("suggérer"),Pro("cela"),vous_coi(g))).typ({"int":"wad"}),
     // en: What other distinctions do you see ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Quelles autres distinctions voyez-vous ? 
+    (m,g) => S(NP(D("quel"),A("autre"),N("distinction").n("p")),SP(vous(g),VP(V("voir"))).typ({"int":"yon"})),
     // en: What do you suppose that disparity means ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Que pensez-vous que cette disparité signifie ?
+    (m,g) => S(vous(g),VP(V("penser"),Pro("cela"),
+        SP(Pro("que"),NP(D("ce"),N("disparité")),VP(V("signifier"))))).typ({"int":"wad"}),
     // en: Could there be some connection, do you suppose ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Pourrait-il y avoir un lien, pensez-vous ?
+    (m,g) => S(SP(Pro("lui").c("nom"),VP(V("avoir").t("c"),Pro("y"),NP(D("un"),N("lien")))).typ({"mod":"poss","int":"yon"}),
+        SP(vous(g),VP(V("penser"))).typ({"int":"yon"})),
     // en: How ?
-    // fr: 
-        (m,g) => Q("à faire"),
+    // fr: Comment ?
+    (m,g) => S(Adv("comment").a("?")),
     ]}
 ]}
 ]

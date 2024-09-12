@@ -525,7 +525,9 @@ class Constituent {
             const terminal=terminals[i];
             if (doTitleCase) this.titleCase(terminal)
             if (terminal.props["lier"] === true){
-                s+=terminal.realization+"-"+this.check_for_t(terminals,i);
+                // HACK: terminal.realization might be changed in French by check_for_t
+                const liaison = "-"+this.check_for_t(terminals,i); 
+                s+=terminal.realization+liaison;
             } else if (/[- ']$/.exec(terminal.realization)){
                 s+=terminal.realization;
             } else if (terminal.realization.length>0) {

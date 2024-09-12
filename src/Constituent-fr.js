@@ -209,6 +209,8 @@ const French_constituent = (superclass) =>
                     // ignore final punctuation in the realization
                     ["il","elle","on"].includes(terminals[i+1].realization.replace(/(\w+).*/,"$1"))){
                     return "t-";
+                } else if (terminals[i].realization=="peux" && terminals[i+1].realization == "je"){
+                    terminals[i].realization="puis"; // HACK replace "peux-je" by "puis-je"
                 }
             }            
             return ""
