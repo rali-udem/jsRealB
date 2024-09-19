@@ -331,14 +331,12 @@ class Constituent {
             if (typeof isMaje == "boolean"){
                 this.setProp("maje",isMaje); // useful for toJSON/used for cloning also
                 this.peng["maje"]=isMaje
-            } else {
-                return this.warn("bad application",".maje","boolean",isMaje)
+                this.addOptSource("maje",isMaje);
+                return this;
             }
-        } else {
-            return this.warn("bad application",".maje",["Pro","D"],this.constType)
+            return this.warn("bad application",".maje","boolean",isMaje)
         }
-        this.addOptSource("maje",isMaje);
-        return this;
+        return this.warn("bad application",".maje",["Pro","D"],this.constType)
     }
 
     /**

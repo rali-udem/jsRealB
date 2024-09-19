@@ -143,6 +143,7 @@ const English_terminal = (superclass) =>
                 if (this.lemma == "my" && this.getProp("own")=="s"){
                     this.setProp("own","p");
                 }
+                return true
             }
             return false;    
         }
