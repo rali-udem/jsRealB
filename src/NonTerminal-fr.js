@@ -321,7 +321,7 @@ const French_non_terminal = (superclass) =>
                         if (c.isReflexive() && c.getProp("t")!="pp"){
                             if (prog!==undefined)c=prog;
                             c.insertReal(pros,Pro("moi","fr").c("refl")
-                                            .pe(c.getProp("pe")||3).n(c.getProp("n")||"s")
+                                            .pe(c.getProp("pe")||3).n(c.getNumber()||"s")
                                             .g(c.getProp("g")||"m"));
                         }
                     }

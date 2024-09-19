@@ -189,21 +189,16 @@ function indent(){
 const query_functions = {
     "lx":getLexiconInfo,
     "lm":lemmatize,
-    "cn":getConjugation,
-    "ce":getConjugationEnding,
-    "dn":getDeclension,
-    "de":getDeclensionEnding
 }
 
-function query_resource(e){
-    // console.log("query_resource("+e+")")    
+function lex_query(e){
+    // console.log("lex_query("+e.charCode+")")    
     if (e.which==13){
-        const myId = $(this).attr("id")  // check if lexicon or rule query
-        let $input = $("#"+myId.replace("_input",""));
-        let $result = $("#"+myId.replace("query_input","result"))
         let query = $(this).val().trim()
         let category;
-        const query_type=$input.val();
+        const $result = $("#lex_result")
+        const query_type=$("#lex_query").val();
+        $result.text("");
         if (query_type=="lx" && query.indexOf(" ")){
             [query,category]=query.split(/ +/)
             if (category !==undefined && !["N","A","Pro","D","V","Adv","C","P"].includes(category)){
@@ -211,7 +206,6 @@ function query_resource(e){
                 return
             }
         }
-        $result.text("");
         const query_function = query_functions[query_type]
         if (query_function !== undefined){
             const out = query_function(query);
@@ -236,10 +230,31 @@ function query_resource(e){
                 }
                 $result.text(ppJSON(out))
             }
-                // q_res.session.setValue(JSON.stringify(out,null," "))
         } else {
             $result.text("** Strange query:"+query_type)
         }
+     } 
+}
+
+function rules_query(e){
+    // console.log("rules_query("+e+")")    
+    if (e.which==13){
+        const $result = $("#rules_result")
+        $result.text("");
+        let query = $(this).val().trim();
+        // guess query_function
+        let out;
+        if (/^v/.test(query)){
+            out=getConjugation(query,lang);
+        } else if (/^(n|pn|d)/.test(query)){
+            out=getDeclension(query,lang)
+        } else {
+            out=[getDeclensionEnding(query,lang),getConjugationEnding(query,lang)].join("\n")
+            if(out == "\n"){
+                out = query + " : " + (lang=="en" ? "no ending found" : "aucune terminaison trouvée")
+            }            
+        }
+        $result.text(out)
      } 
 }
 
@@ -271,7 +286,8 @@ $(document).ready(function(){
     $("#realize").click(realize);
     $("#indent").click(indent);
     $("#to-dependent").click(toDependent);
-    $("#lex_query_input,#rules_query_input").keypress(query_resource)
+    $("#lex_query_input").keypress(lex_query)
+    $("#rules_query_input").keypress(rules_query)
     $("#show_resource_query").click((_)=>show_resource_query(true))
     $("#hide_resource_query").click((_)=>show_resource_query(false))
     $('#resource_query').hide()

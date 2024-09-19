@@ -4504,7 +4504,9 @@
                 "minute:second": "à [m] min [s] s",
                 "hour": "à [H] h",
                 "minute": "à [i] min",
-                "second": "à [s] s"
+                "second": "à [s] s",
+                "0h": "à minuit",
+                "12h": "à midi"
             },
             "relative_time": {
                 "-": "il y a [x] jours",

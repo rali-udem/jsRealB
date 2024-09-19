@@ -107,8 +107,10 @@ class Constituent {
      * @returns "s" or "p"
      */
     getNumber(){
-        if (this.peng && this.peng.n == "s" && this.peng.pe<3 && this.peng.maje !== false && this.isMajestic())
-            return "p"
+        if (this.peng && this.peng.n == "s" && this.peng.pe<3) {
+            if (this.peng.maje !== undefined && this.peng.maje === false) return "s"
+            if (this.isMajestic()) return "p"
+        }
         return this.getProp("n")
     }
 

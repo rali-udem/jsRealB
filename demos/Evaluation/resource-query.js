@@ -248,7 +248,7 @@ function lemmatize(query,lang){
 
 function getNo(no,table,errorMessage){
     if (no in table)
-        return table[no];
+        return ppJSON(table[no]);
     // try to match with a regular expression
     const re=new RegExp("^"+no+"$");
     let res=[];
@@ -266,8 +266,8 @@ function getEnding(ending,table,errorMessage){
     for (var key of Object.keys(table)){
         if (re.test(table[key].ending))res.push(key+":"+ppJSON(table[key],key.length+1));
     }
-    if (res.length==0)
-        return ending+":"+errorMessage
+    // if (res.length==0)
+    //     return ending+":"+errorMessage
     return res.join("\n")
 }
 

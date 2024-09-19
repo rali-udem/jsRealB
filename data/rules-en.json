@@ -3194,7 +3194,9 @@
                 "minute:second": "at [m]:[s0]",
                 "hour": "at [h] [A]",
                 "minute": "at [m] min",
-                "second": "at [s] s"
+                "second": "at [s] s",
+                "0h":"at midnight",
+                "12h":"at noon"
             },
             "relative_time": {
                 "-": "[x] days ago",

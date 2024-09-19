@@ -5,10 +5,10 @@
 
 
 ////  this is still experimental and not supported by Safari and Firefox, but very useful...
-import LexiconEn from "../data/lexicon-en.json" assert { type: 'json' };
-import LexiconFr from "../data/lexicon-fr.json" assert { type: 'json' };
-import rulesEn from "../data/rules-en.json" assert { type: 'json' };
-import rulesFr from "../data/rules-fr.json" assert { type: 'json' };
+import LexiconEn from "../data/lexicon-en.json" with { type: 'json' };
+import LexiconFr from "../data/lexicon-fr.json" with { type: 'json' };
+import rulesEn from "../data/rules-en.json" with { type: 'json' };
+import rulesFr from "../data/rules-fr.json" with { type: 'json' };
 export {loadEn,loadFr,addToLexicon,updateLexicon,getLemma,getLanguage,getLexicon,getRules,
         quoteOOV,setQuoteOOV,reorderVPcomplements,setReorderVPcomplements}
 

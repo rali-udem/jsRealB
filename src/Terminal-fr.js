@@ -156,8 +156,7 @@ const French_terminal = (superclass) =>
                 if (this.lemma == "mon" && keyVals["pe"]<3){
                     this.setLemma("notre")
                     return true
-                }
-                else if (this.lemma == "ton"){
+                } else if (this.lemma == "ton" || (this.lemma == "notre" && keyVals["pe"]==2 && keyVals["n"]=="s")){
                     this.setLemma("votre")
                     return true;
                 }

@@ -2,7 +2,7 @@
 import { N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     S, NP, AP, VP, AdvP, PP, CP, SP, oneOf } from "../../src/jsRealB.js"
 
-export {keywordsFr}
+export {keywordsFr, elizaFinals, elizaQuits, elizaInitials}
 
 // pour decomp seulement... doit matcher la sortie de lemmatize
 const star = Q("*")
@@ -38,8 +38,57 @@ S(f(m,"m"),Q("##"),f(m,"f").typ({maje:true}).cap(true))
 // same organization as elizadata.js from https://www.masswerk.at/elizabot/"
 // but with objects and property names
 
-let keywordsFr =
+let elizaInitials = [
+    // "How do you do.  Please tell me your problem.",
+    // comment allez-vous ?  Expliquez-moi votre problème.
+    (m,g)=>S(SP(vous(g),VP(V("aller"))).typ({"int":"how"}),
+                     SP(VP(V("expliquer").t("ip").pe(2).lier(),moi_ton(),NP(votre(),N("problème"))))),
+    // "Please tell me what's been bothering you.",
+    // Dites-moi ce qui vous tracasse.
+    (m,g)=>S(VP(V("dire").t("ip").pe(2).lier(),moi_ton(),Pro("ce"),
+                        SP(Pro("qui"),VP(V("tracasser"),vous_cod(g))))),
+    // "Is something troubling you ?"
+    // Quelque chose vous préoccupe.
+    (m,g) => estceque(SP(NP(D("quelque"),N("chose"),VP(V("préoccuper"),vous_cod(g)))))
+]
 
+let elizaFinals = [
+    // "Goodbye.  It was nice talking to you.",
+    // « Au revoir.  Ce fut un plaisir de vous parler »,
+    (m,g) => S(SP(P("à"),NP(D("le"),V("revoir").t("b"))).a("."),
+               SP(Pro("ce"),VP(V("être").t("ps"),
+                    NP(D("un"),N("plaisir"),
+                       PP(P("de"),VP(V("parler").t("b"),vous_coi(g)))))).cap(true)),
+    // "Goodbye.  This was really a nice talk.",
+    // « Au revoir.  C'était vraiment une belle discussion »,
+    (m,g) => S(SP(P("à"),NP(D("le"),V("revoir").t("b"))).a("."),
+               SP(Pro("ce"),VP(V("être").t("i"),Adv("vraiment"),
+                               NP(D("un"),N("discussion"),A("beau")))).cap(true)),
+    // "Goodbye.  I'm looking forward to our next session.",
+    // « Au revoir.  J'attends avec impatience notre prochaine session »,
+    (m,g) => S(SP(P("à"),NP(D("le"),V("revoir").t("b"))).a("."),
+                     SP(moi(),VP(V("attendre"),
+                                 PP(P("avec"),N("impatience")),
+                                 NP(D("notre").pe(1),A("prochain").pos("pre"),N("discussion")))).cap(true)),
+    // "This was a good session, wasn't it -- but time is over now.   Goodbye.",
+    // C'était une bonne session, n'est-ce pas, mais le temps est écoulé.   Au revoir »,
+    (m,g) => S(SP(Pro("ce"),VP(V("être").t("i"),NP(D("un"),A("bon"),N("session")))).typ({"int":"tag"}),
+                     SP(C("mais"),NP(D("le"),N("temps")),VP(V("être"),V("écouler").t("pp"))).a("."),
+                     SP(P("à"),NP(D("le"),V("revoir").t("b"))).cap(true)),
+    // "Maybe we could discuss this moreover in our next session ?   Goodbye."
+    // Peut-être pourrions-nous en discuter davantage lors de notre prochaine session ?   Au revoir. »
+    (m,g) => S(Adv('peut-être'),
+                     SP(Pro("nous").c("nom"),
+                        VP(V("discuter"),Adv("davantage"),
+                           Adv("lors"),P("de"),NP(D("notre").pe(1),A("prochain"),N("session")))).typ({"mod":"poss","int":"yon"}),
+                        SP(P("à"),NP(D("le"),V("revoir").t("b"))).cap(true))
+]
+
+let elizaQuits =[
+    "bye","au revoir","fin","quitter","salut"
+]
+
+let keywordsFr =
 [{"key":Q("xnone"), "key_en":"xnone", "rank":0, "pats":[  // xnone: on ne devrait arriver ici qu'en désespoir de cause...    
  {"decomp":[star], // *
   "reasmb":[
@@ -123,7 +172,7 @@ let keywordsFr =
     (m,g) => S(Pro("quel"),VP(V("être"),NP(D("le"),N("lien"),PP(P("entre"),moi_coi(),C("et"),m[2])))).a("?"),
     // en: What else does (2) remind you of ?
     // fr: Qu'est-ce que (2) vous rappelle d'autre ?
-    (m,g) => questceque(m[2],VP(vous_coi(g),V("rappeler"),D("de"),N("autre"))).a("?")
+    (m,g) => questceque(m[2],VP(vous_coi(g),V("rappeler"),D("de"),N("autre")))
     ]},
     //
     {"decomp":[star,tu_decomp,tu_decomp,V("rappeler").n("p").pe(2),P("de"),star],  // * vous vous rappelez de // * do you remember *
@@ -973,7 +1022,7 @@ let keywordsFr =
   "reasmb":[
     // en: Your (2) ?
     // fr: Votre (2) ?
-    (m,g) => S(votre(),m[2]).a("?"),
+    (m,g) => S(NP(votre(),m[2])).a("?"),
     // en: Why do you say your (2) ?
     // fr: Pourquoi dites-vous votre (2) ?
     (m,g) =>S(vous(g),VP(V("dire"),NP(votre(),m[2]))).typ({"int":"why"}),
@@ -1206,7 +1255,7 @@ let keywordsFr =
     ]}
 ]},
 
-{"key":Pro("tous"), "key_en":"everybody", "rank":2, "pats":[  // everybody
+{"key":Pro('tout').n("p"), "key_en":"everybody", "rank":2, "pats":[  // everybody
  {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone
@@ -1224,7 +1273,7 @@ let keywordsFr =
     ]}
 ]},
 
-{"key":A("aucun"), "rank":2, "key_en":"noone", "pats":[  // noone
+{"key":D("aucun"), "rank":2, "key_en":"noone", "pats":[  // noone
  {"decomp":[star], // *
   "reasmb":[
     // en: goto everyone

@@ -36,6 +36,27 @@
             "outputCapture": "std"
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Eliza-test",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/demos/Eliza/eliza-test.js",
+            "outputCapture": "std",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Eliza-interactive",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/demos/Eliza/eliza-talk.js",
+            "outputCapture": "std",
+            "console": "integratedTerminal"
+        },
+        {
             "type": "chrome",
             "name": "Tests/testAll.html",
             "request": "launch",
@@ -56,29 +77,10 @@
             "outputCapture": "std"
         },
         {
-            "type": "node",
-            "request": "launch",
-            "name": "Eliza",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/demos/Eliza/eliza.js",
-            "outputCapture": "std"
-        },
-        {
             "type": "chrome",
             "name": "web-dev.html",
             "request": "launch",
             "url": "http://127.0.0.1:8080/web-dev.html"
         },
-        {
-            "name": "Launch tests-dev",
-            "program": "${workspaceFolder}/tests-dev.js",
-            "request": "launch",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node"
-        }
     ]
 }

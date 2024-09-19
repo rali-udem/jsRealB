@@ -248,6 +248,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     depTerm.peng=this.peng;
                 } else if (depTerm.isA("NO")){
                     depTerm.peng=headTerm.peng
+                    depTerm.peng["n"]=depTerm.grammaticalNumber();
                 } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
                     if (dep.dependents.length==1 && dep.dependents[0].isA("mod") && 
                         dep.dependents[0].terminal.isA("D")){

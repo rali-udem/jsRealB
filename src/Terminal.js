@@ -507,8 +507,22 @@ class Terminal extends Constituent{
         } else {
             dateS = interpret(["year","month","date","day"].filter(field=> dOpts[field]==true).join("-"));
         }
-        
-        const timeS = interpret(["hour","minute","second"].filter(field=> dOpts[field]==true).join(":"));
+        let timeFields = ["hour","minute","second"].filter(field=> dOpts[field]==true).join(":")
+        if (dOpts["nat"]===true){// remove 0 min and 0 seconds in natural mode
+            const h = dateObj.getHours()
+            const m = dateObj.getMinutes()
+            const s = dateObj.getSeconds()
+            if (timeFields=="hour:minute:second"){
+                if (m==0 && s==0){
+                    if (h==0) timeFields = "0h"
+                    else if (h==12) timeFields = "12h" 
+                    else timeFields="hour"
+                } else if (s==0) timeFields="hour:minute"
+            } else if (timeFields=="hour:minute"){
+                if (m==0) timeFields = "hour"
+            }
+        }
+        const timeS = interpret(timeFields);
         return [dateS,timeS].filter(s=>s.length>0).join(" ")
     }
 

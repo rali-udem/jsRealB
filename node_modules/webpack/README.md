@@ -8,9 +8,10 @@
 [![npm][npm]][npm-url]
 
 [![node][node]][node-url]
+[![builds1][builds1]][builds1-url]
 [![builds2][builds2]][builds2-url]
+[![dependency-review][dependency-review]][dependency-review-url]
 [![coverage][cover]][cover-url]
-[![licenses][licenses]][licenses-url]
 [![PR's welcome][prs]][prs-url]
 
   <br>
@@ -32,8 +33,14 @@
 	<a href="https://github.com/webpack/webpack/graphs/contributors">
 		<img src="https://img.shields.io/github/contributors/webpack/webpack.svg">
 	</a>
-	<a href="https://gitter.im/webpack/webpack">
-		<img src="https://badges.gitter.im/webpack/webpack.svg">
+	<a href="https://github.com/webpack/webpack/discussions">
+		<img src="https://img.shields.io/github/discussions/webpack/webpack">
+	</a>
+  <a href="https://twitter.com/Webpack">
+		<img src="https://img.shields.io/twitter/follow/Webpack?style=social">
+	</a>
+  <a href="https://discord.gg/Tt5cKVwx">
+		<img src="https://img.shields.io/discord/1180618526436888586?label=discord&logo=discord&logoColor=white&style=flat">
 	</a>
   <h1>webpack</h1>
   <p>
@@ -229,6 +236,7 @@ or are automatically applied via regex from your webpack configuration.
 |   <a href="https://github.com/webpack-contrib/polymer-webpack-loader"><img width="48" height="48" src="https://worldvectorlogo.com/logos/polymer.svg"></a>   | ![polymer-npm] | ![polymer-size] | Process HTML & CSS with preprocessor of choice and `require()` Web Components like first-class modules |
 | <a href="https://github.com/TheLarkInn/angular2-template-loader"><img width="48" height="48" src="https://worldvectorlogo.com/logos/angular-icon-1.svg"></a> | ![angular-npm] | ![angular-size] | Loads and compiles Angular 2 Components                                                                |
 |              <a href="https://github.com/riot/webpack-loader"><img width="48" height="48" src="https://worldvectorlogo.com/logos/riot.svg"></a>              |  ![riot-npm]   |  ![riot-size]   | Riot official webpack loader                                                                           |
+|          <a href="https://github.com/sveltejs/svelte-loader"><img width="48" height="48" src="https://worldvectorlogo.com/logos/svelte-1.svg"></a>           | ![svelte-npm]  | ![svelte-size]  | Official Svelte loader                                                                                 |
 
 [vue-npm]: https://img.shields.io/npm/v/vue-loader.svg
 [vue-size]: https://packagephobia.com/badge?p=vue-loader
@@ -238,6 +246,8 @@ or are automatically applied via regex from your webpack configuration.
 [angular-size]: https://packagephobia.com/badge?p=angular2-template-loader
 [riot-npm]: https://img.shields.io/npm/v/riot-tag-loader.svg
 [riot-size]: https://packagephobia.com/badge?p=riot-tag-loader
+[svelte-npm]: https://img.shields.io/npm/v/svelte-loader.svg
+[svelte-size]: https://packagephobia.com/badge?p=svelte-loader
 
 ### Performance
 
@@ -306,7 +316,7 @@ a question to [StackOverflow with the webpack tag](https://stackoverflow.com/tag
 
 If you are twitter savvy you can tweet #webpack with your question and someone should be able to reach out and help also.
 
-If you have discovered a 🐜 or have a feature suggestion, feel free to create an issue on Github.
+If you have discovered a 🐜 or have a feature suggestion, feel free to create an issue on GitHub.
 
 ### License
 
@@ -396,7 +406,7 @@ src="https://static.monei.net/monei-logo.svg" height="30" alt="MONEI"></a>
 
 <h2 align="center">Gold Sponsors</h2>
 
-[Become a gold sponsor](https://opencollective.com/webpack#sponsor) and get your logo on our README on Github with a link to your site.
+[Become a gold sponsor](https://opencollective.com/webpack#sponsor) and get your logo on our README on GitHub with a link to your site.
 
 <div align="center">
 
@@ -435,7 +445,7 @@ src="https://static.monei.net/monei-logo.svg" height="30" alt="MONEI"></a>
 
 <h2 align="center">Silver Sponsors</h2>
 
-[Become a silver sponsor](https://opencollective.com/webpack#sponsor) and get your logo on our README on Github with a link to your site.
+[Become a silver sponsor](https://opencollective.com/webpack#sponsor) and get your logo on our README on GitHub with a link to your site.
 
 <div align="center">
 
@@ -474,7 +484,7 @@ src="https://static.monei.net/monei-logo.svg" height="30" alt="MONEI"></a>
 
 <h2 align="center">Bronze Sponsors</h2>
 
-[Become a bronze sponsor](https://opencollective.com/webpack#sponsor) and get your logo on our README on Github with a link to your site.
+[Become a bronze sponsor](https://opencollective.com/webpack#sponsor) and get your logo on our README on GitHub with a link to your site.
 
 <div align="center">
 
@@ -584,7 +594,7 @@ src="https://static.monei.net/monei-logo.svg" height="30" alt="MONEI"></a>
 
 <h2 align="center">Backers</h2>
 
-[Become a backer](https://opencollective.com/webpack#backer) and get your image on our README on Github with a link to your site.
+[Become a backer](https://opencollective.com/webpack#backer) and get your image on our README on GitHub with a link to your site.
 
 <a href="https://opencollective.com/webpack/backer/0/website?requireActive=false" target="_blank"><img src="https://opencollective.com/webpack/backer/0/avatar.svg?requireActive=false"></a>
 <a href="https://opencollective.com/webpack/backer/1/website?requireActive=false" target="_blank"><img src="https://opencollective.com/webpack/backer/1/avatar.svg?requireActive=false"></a>
@@ -707,9 +717,11 @@ src="https://static.monei.net/monei-logo.svg" height="30" alt="MONEI"></a>
 [node-url]: https://nodejs.org
 [prs]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
 [prs-url]: https://webpack.js.org/contribute/
-[builds2]: https://dev.azure.com/webpack/webpack/_apis/build/status/webpack.webpack
-[builds2-url]: https://dev.azure.com/webpack/webpack/_build/latest?definitionId=3
-[licenses-url]: https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack?ref=badge_shield
-[licenses]: https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fwebpack%2Fwebpack.svg?type=shield
-[cover]: https://img.shields.io/coveralls/webpack/webpack.svg
-[cover-url]: https://coveralls.io/r/webpack/webpack/
+[builds1]: https://github.com/webpack/webpack/actions/workflows/test.yml/badge.svg
+[builds1-url]: https://github.com/webpack/webpack/actions/workflows/test.yml
+[builds2]: https://dev.azure.com/webpack/webpack/_apis/build/status%2Fwebpack.webpack?branchName=main
+[builds2-url]: https://dev.azure.com/webpack/webpack/_build/latest?definitionId=3&branchName=main
+[dependency-review-url]: https://github.com/webpack/webpack/actions/workflows/dependency-review.yml
+[dependency-review]: https://github.com/webpack/webpack/actions/workflows/dependency-review.yml/badge.svg
+[cover]: https://codecov.io/gh/webpack/webpack/branch/master/graph/badge.svg?token=mDP3mQJNnn
+[cover-url]: https://codecov.io/gh/webpack/webpack
