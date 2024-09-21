@@ -293,6 +293,8 @@ const French_phrase = (superclass) =>
          * @param {*} int : type of interrogative
          */
         move_object(int){
+            let v = this.getFromPath([["VP",""],["V"]]) // find the verb
+            if (v == undefined) return // do not move if no verb is present
             const proLikeNoun = ["aucun","beaucoup","ça","ceci","cela","celui-ci","celui-là","quelqu'un","tout"];
             const subjIdx=this.getIndex(["NP","N","Pro","SP","CP"]);
             if (subjIdx>=0){
@@ -302,7 +304,6 @@ const French_phrase = (superclass) =>
                     if (subj.getProp("pe")==1 && subj.getProp("n")=="s"){ // add "est-ce que" at the start
                         // unless the verb is one of "ai, dis, dois, fais, puis, sais, suis, vais, veux, vois" according to
                         // https://www.academie-francaise.fr/questions-de-langue#42_strong-em-inversion-du-sujet-je-puis-je-em-strong 
-                        let v = this.getFromPath([["VP",""],["V"]]) // find the verb
                         if (v.getProp("t")=="p" && v.getProp("pe")==1){
                             if (!["avoir","dire","devoir","faire","pouvoir","savoir","être","aller","vouloir","voir"].includes(v.lemma)){
                                 this.add(Q("est-ce que"),subjIdx);

@@ -515,7 +515,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             let cmp;
             for (let i=searchStart;i<this.dependents.length;i++){
                 const d=this.dependents[i];
-                if (d.isA("comp") && d.terminal.isA("N")){
+                if (d.isA("comp") && d.terminal.isA("N","Pro")){
                     // check if that there are no preposition within its dependents
                     const pIdx=d.findIndex((d)=>d.terminal.isA("P") && d.getProp("pos")=="pre");
                     if (pIdx<0){

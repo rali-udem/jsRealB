@@ -193,19 +193,29 @@ const French_dependent = (superclass) =>
          * use inversion rule which is quite "delicate"
          * rules from https://francais.lingolia.com/fr/grammaire/la-phrase/la-phrase-interrogative
          * if subject is a pronoun, invert and add "-t-" or "-"
-         *       except for first person singular ("je") which is most often non colloquial (e.g. aime-je or prends-je)
+         *       except for first person singular ("je") which is, in some cases, non colloquial (e.g. aime-je or prends-je)
+         * if subject is a noun or certain pronouns, the subject stays but add a new pronoun
          *
          * @param {string} int : question type 
          */
         move_object(int){
-             let subjIdx=this.findIndex((d)=>d.isA("subj"));
+            if (!this.terminal.isA("V")) return // do not move if the head is not a verb
+            const v = this.terminal
+            const proLikeNoun = ["aucun","beaucoup","ça","ceci","cela","celui-ci","celui-là","quelqu'un","tout"];
+            let subjIdx=this.findIndex((d)=>d.isA("subj"));
             if (subjIdx>=0){
                 const subject=this.dependents[subjIdx].terminal;
                 let pro;
-                if (subject.isA("Pro")){
+                if (subject.isA("Pro") && !proLikeNoun.includes(subject.lemma)){
                     if (subject.getProp("pe")==1 && subject.getProp("n")=="s"){ // add "est-ce que" at the start
-                        this.add(det(Q("est-ce que")),0);
-                        return;
+                        // unless the verb is one of "ai, dis, dois, fais, puis, sais, suis, vais, veux, vois" according to
+                        // https://www.academie-francaise.fr/questions-de-langue#42_strong-em-inversion-du-sujet-je-puis-je-em-strong 
+                        if (v.getProp("t")=="p" && v.getProp("pe")==1){
+                            if (!["avoir","dire","devoir","faire","pouvoir","savoir","être","aller","vouloir","voir"].includes(v.lemma)){
+                                this.add(det(Q("est-ce que")),0);
+                                return;
+                            }
+                        }
                     }
                     pro=this.removeDependent(subjIdx).terminal; //remove subject
                 } else if (["wod","wad"].includes(int)){ // do not invert subject when "wod" or "wad"
