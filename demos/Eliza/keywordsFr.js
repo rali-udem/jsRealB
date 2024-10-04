@@ -1,15 +1,17 @@
-/* uncomment this for testing this file alone */
+
 import { N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
-    S, NP, AP, VP, AdvP, PP, CP, SP, oneOf } from "../../src/jsRealB.js"
+    S, NP, AP, VP, AdvP, PP, CP, SP, oneOf, loadFr } from "../../src/jsRealB.js"
 
 export {keywordsFr, elizaFinals, elizaQuits, elizaInitials}
+loadFr()
 
 // pour decomp seulement... doit matcher la sortie de lemmatize
 const star = Q("*")
-const je_decomp = Pro("je").pe(1)
-const me_decomp = Pro("me").pe(1)
-const tu_decomp = [Pro("je").pe(2).n("s"),Pro("je").pe(2).n("p")]
-const family = [N("mère"),N("maman"),N("père"),N("papa"),N("frère"),N("soeur"),N("époux"),N("époux").g("f"),N("enfant")]
+const je_decomp  = Pro("je").pe(1)
+const me_decomp  = Pro("me").pe(1)
+const mon_decomp = D("mon").pe(1).g("x")
+const tu_decomp  = Pro("je").pe(2).n("x")
+const family = [N("mère"),N("maman"),N("père"),N("papa"),N("frère"),N("soeur"),N("époux").g("x"),N("enfant").n("x")]
 // pronoms paramétrables avec "maje"
 const moi = () => Pro("moi").pe(1).c("nom").maje(false)
 const moi_ton = () => Pro("moi").pe(1).tn("").maje(false)
@@ -35,57 +37,71 @@ let f = (m,g) =>S(vous(g),VP(V("penser"),Pro("cela"),
 
 S(f(m,"m"),Q("##"),f(m,"f").typ({maje:true}).cap(true))
 */
-// same organization as elizadata.js from https://www.masswerk.at/elizabot/"
-// but with objects and property names
+// même organisation que elizadata.js de https://www.masswerk.at/elizabot/"
+// mais avec des objets et de noms de propriété
 
 let elizaInitials = [
     // "How do you do.  Please tell me your problem.",
     // comment allez-vous ?  Expliquez-moi votre problème.
-    (m,g)=>S(SP(vous(g),VP(V("aller"))).typ({"int":"how"}),
-                     SP(VP(V("expliquer").t("ip").pe(2).lier(),moi_ton(),NP(votre(),N("problème"))))),
+    (m,g)=>S(SP(vous(g),
+                VP(V("aller"))).typ({"int":"how"}),
+             SP(VP(V("expliquer").t("ip").pe(2).lier(),moi_ton(),
+                NP(votre(),N("problème"))).cap(true))),
     // "Please tell me what's been bothering you.",
     // Dites-moi ce qui vous tracasse.
-    (m,g)=>S(VP(V("dire").t("ip").pe(2).lier(),moi_ton(),Pro("ce"),
-                        SP(Pro("qui"),VP(V("tracasser"),vous_cod(g))))),
+    (m,g)=>S(VP(V("dire").t("ip").pe(2).lier(),
+                moi_ton(),
+                Pro("ce"),
+                SP(Pro("qui"),VP(V("tracasser"),vous_cod(g))))),
     // "Is something troubling you ?"
-    // Quelque chose vous préoccupe.
-    (m,g) => estceque(SP(NP(D("quelque"),N("chose"),VP(V("préoccuper"),vous_cod(g)))))
+    // Quelque chose vous préoccupe ?
+    (m,g) => S(NP(D("quelque"),N("chose"),
+               VP(V("préoccuper"),vous_cod(g)))).typ({"int":"yon"})
 ]
+
+const au_revoir = ()=>SP(P("à"),NP(D("le"),V("revoir").t("b"))).a(".");
 
 let elizaFinals = [
     // "Goodbye.  It was nice talking to you.",
     // « Au revoir.  Ce fut un plaisir de vous parler »,
-    (m,g) => S(SP(P("à"),NP(D("le"),V("revoir").t("b"))).a("."),
-               SP(Pro("ce"),VP(V("être").t("ps"),
-                    NP(D("un"),N("plaisir"),
-                       PP(P("de"),VP(V("parler").t("b"),vous_coi(g)))))).cap(true)),
+    (m,g) => S(au_revoir(),
+               SP(Pro("ce"),
+                  VP(V("être").t("ps"),
+                     NP(D("un"),N("plaisir"),
+                        PP(P("de"),VP(V("parler").t("b"),vous_coi(g)))))).cap(true)),
     // "Goodbye.  This was really a nice talk.",
     // « Au revoir.  C'était vraiment une belle discussion »,
-    (m,g) => S(SP(P("à"),NP(D("le"),V("revoir").t("b"))).a("."),
-               SP(Pro("ce"),VP(V("être").t("i"),Adv("vraiment"),
-                               NP(D("un"),N("discussion"),A("beau")))).cap(true)),
+    (m,g) => S(au_revoir(),
+               SP(Pro("ce"),
+                  VP(V("être").t("i"),Adv("vraiment"),
+                     NP(D("un"),N("discussion"),A("beau")))).cap(true)),
     // "Goodbye.  I'm looking forward to our next session.",
     // « Au revoir.  J'attends avec impatience notre prochaine session »,
-    (m,g) => S(SP(P("à"),NP(D("le"),V("revoir").t("b"))).a("."),
-                     SP(moi(),VP(V("attendre"),
-                                 PP(P("avec"),N("impatience")),
-                                 NP(D("notre").pe(1),A("prochain").pos("pre"),N("discussion")))).cap(true)),
+    (m,g) => S(au_revoir(),
+               SP(moi(),
+                  VP(V("attendre"),
+                     PP(P("avec"),N("impatience")),
+                     NP(D("notre").pe(1),A("prochain").pos("pre"),N("discussion")))).cap(true)),
     // "This was a good session, wasn't it -- but time is over now.   Goodbye.",
     // C'était une bonne session, n'est-ce pas, mais le temps est écoulé.   Au revoir »,
-    (m,g) => S(SP(Pro("ce"),VP(V("être").t("i"),NP(D("un"),A("bon"),N("session")))).typ({"int":"tag"}),
-                     SP(C("mais"),NP(D("le"),N("temps")),VP(V("être"),V("écouler").t("pp"))).a("."),
-                     SP(P("à"),NP(D("le"),V("revoir").t("b"))).cap(true)),
+    (m,g) => S(SP(Pro("ce"),
+                  VP(V("être").t("i"),
+                     NP(D("un"),A("bon"),N("session")))).typ({"int":"tag"}),
+               SP(C("mais"),
+                  NP(D("le"),N("temps")),
+                     VP(V("être"),V("écouler").t("pp"))).a("."),
+               au_revoir().cap(true)),
     // "Maybe we could discuss this moreover in our next session ?   Goodbye."
     // Peut-être pourrions-nous en discuter davantage lors de notre prochaine session ?   Au revoir. »
     (m,g) => S(Adv('peut-être'),
-                     SP(Pro("nous").c("nom"),
-                        VP(V("discuter"),Adv("davantage"),
-                           Adv("lors"),P("de"),NP(D("notre").pe(1),A("prochain"),N("session")))).typ({"mod":"poss","int":"yon"}),
-                        SP(P("à"),NP(D("le"),V("revoir").t("b"))).cap(true))
+               SP(Pro("nous").c("nom"),
+                  VP(V("discuter"),Adv("davantage"),
+                     Adv("lors"),P("de"),NP(D("notre").pe(1),A("prochain"),N("session")))).typ({"mod":"poss","int":"yon"}),
+               au_revoir().cap(true))
 ]
 
-let elizaQuits =[
-    "bye","au revoir","fin","quitter","salut"
+let elizaQuits = [
+    "bye","fin","quitter","salut"
 ]
 
 let keywordsFr =
@@ -94,168 +110,242 @@ let keywordsFr =
   "reasmb":[
     // en: I'm not sure I understand you fully.
     // fr: Je ne suis pas sûr de bien vous comprendre 
-    (m,g) => S(moi(),VP(V("être"),A("sûr"),PP(P("de"),Adv("bien"),vous_cod(g),V("comprendre").t("b")))).typ({"neg":true}),
+    (m,g) => S(moi(),
+              VP(V("être"),A("sûr"),
+                 PP(P("de"),Adv("bien"),vous_cod(g),V("comprendre").t("b")))).typ({"neg":true}),
     // en: Please go on.
     // fr: Continuez, s'il vous plaît
     (m,g) => S(V("continuer").t("ip").pe(2),svp()),
     // en: What does that suggest to you ?
     // fr: Qu'est-ce que cela vous suggère ?
-    (m,g) => questceque(Pro("cela"),VP(vous_coi(g),V("suggérer"))),
+    (m,g) => S(Pro("cela"),
+               VP(V("suggérer"),Pro("ceci"),vous_coi(g))).typ({"int":"wad"}),
     // en: Do you feel strongly about discussing such things ?
     // fr:  Avez-vous envie de discuter de ce genre de choses ? 
-    (m,g) => S(vous(g),VP(V("avoir"),NP(N("envie"),PP(P("de"),VP(V("discuter").t("b"),PP(P("de"),
-                 NP(D("ce"),N("genre"),P("de"),N("chose").n("p")))))))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("avoir"),
+                  NP(N("envie"),
+                  PP(P("de"),
+                     VP(V("discuter").t("b"),
+                        PP(P("de"),
+                           NP(D("ce"),N("genre"),P("de"),N("chose").n("p")))))))).typ({"int":"yon"}),
     // en: That is interesting.  Please continue.
     // fr: C'est intéressant.  Continuez, s'il vous plaît 
-    (m,g) => S(Pro("ce"),VP(V("être"),A("intéressant")).a("."),SP(V("continuer").t("ip").pe(2),svp()).cap(true)),
+    (m,g) => S(Pro("ce"),VP(V("être"),A("intéressant")).a("."),
+              SP(V("continuer").t("ip").pe(2),svp()).cap(true)),
     // en: Tell me more about that.
     // fr: Dites-m'en plus à ce sujet
-    (m,g) => S(VP(V("dire").t("ip").pe(2),moi_coi(),Pro("en"),
-                    AdvP(Adv("plus"),PP(P("à"),NP(D("ce"),N("sujet")))))),
+    (m,g) => S(VP(V("dire").t("ip").pe(2),
+                  moi_coi(),Pro("en"),
+                  AdvP(Adv("plus"),
+                       PP(P("à"),NP(D("ce"),N("sujet")))))),
     // en: Does talking about this bother you ?
     // fr: Est-ce que le fait d'en parler vous dérange ?
-    (m,g) => estceque(NP(D("le"),N("fait"),PP(P("de"),Pro("en"),V("parler").t("b"))),vous_cod(g),V("déranger"))
+    (m,g) => S(NP(D("le"),N("fait"),
+                  PP(P("de"),Pro("en"),V("parler").t("b"))),
+               VP(V("déranger"),vous_cod(g))).typ({"int":"yon"})
 ]}
 ]},
 
-{"key":V("excuser"), "key_en":"sorry", "rank":0, "pats":[  // sorry
+{"key":[V("excuser"),N("pardon")], "key_en":"sorry", "rank":0, "pats":[  // sorry
  {"decomp":[star], // *
   "reasmb":[
     // en: Please don't apologise.
     // fr: S'il vous plaît, ne vous excusez pas.
-    (m,g) => S(svp().a(","),SP(VP(V("excuser").t("ip").pe(2))).typ({"refl":true,"neg":true})),
+    (m,g) => S(svp().a(","),
+               SP(VP(V("excuser").t("ip").pe(2))).typ({"refl":true,"neg":true})),
     // en: Apologies are not necessary.
     // fr: Les excuses ne sont pas nécessaires
-    (m,g) => S(NP(D("le"),N("excuse").n("p")),VP(V("être"),A("nécessaire"))).typ({"neg":true}),
+    (m,g) => S(NP(D("le"),N("excuse").n("p")),
+               VP(V("être"),A("nécessaire"))).typ({"neg":true}),
     // en: I've told you that apologies are not required.
     // fr: Je vous ai dit que les excuses n'étaient pas nécessaires
-    (m,g) => S(moi(),vous_coi(g),VP(V("dire").t("pc"),Pro("que"),
-                SP(NP(D("le"),N("excuse").n("p")),VP(V("être").t("i"),A("nécessaire"))).typ({"neg":true}))),
+    (m,g) => S(moi(),
+               VP(V("dire").t("pc"),
+                  vous_coi(g),
+                  Pro("que"),
+                  SP(NP(D("le"),N("excuse").n("p")),
+                     VP(V("être").t("i"),
+                        A("nécessaire"))).typ({"neg":true}))),
     // en: It did not bother me.  Please continue.
     // fr: Cela ne m'a pas dérangé.  Veuillez continuer.
-    (m,g) => S(SP(Pro("cela"),moi_cod(g),VP(V("déranger").t("pc"))).typ({"neg":true}).a("."),
-                 SP(V("vouloir").t("ip").pe(2),V("continuer").t("b")).cap(true))
+    (m,g) => S(SP(Pro("cela"),
+                  VP(V("déranger").t("pc"),moi_cod(g))).typ({"neg":true}).a("."),
+               SP(V("vouloir").t("ip").pe(2),V("continuer").t("b")).cap(true))
     ]}
 ]},
 
-{"key":N("pardon"), "key_en":"apologize", "rank":0, "pats":[  // apologise
- {"decomp":[star], // *
-  "reasmb":[
-    // en: goto sorry
-    "goto sorry",
-    ]}
-]},
+// combiné avec la clé précédente!
+// {"key":N("pardon"), "key_en":"apologize", "rank":0, "pats":[  // apologise
+//  {"decomp":[star], // *
+//   "reasmb":[
+//     // en: goto sorry
+//     "goto sorry",
+//     ]}
+// ]},
 
 {"key":V("rappeler"), "key_en":"remember", "rank":5, "pats":[  // remember
     {"decomp":[star,je_decomp,me_decomp,V("rappeler"),star], // * je me rappelle *  // "* i remember *"
      "reasmb":[
     // en: Do you often think of (2) ?
     // fr: Pensez-vous souvent à (2)
-    (m,g) => S(vous(g),VP(V("penser"),Adv("souvent"),PP(P("à"),m[2]))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("penser"),Adv("souvent"),
+                  PP(P("à"),m[2]))).typ({"int":"yon"}),
     // en: Does thinking of (2) bring anything else to mind ?
     // fr: Le fait de penser à (2) vous rappelle-t-il quelque chose?
-    (m,g) => S(NP(D("le"),N("fait"),PP(P("de"),VP(V("penser").t("b"),PP(P("à"),m[2])))),
-                 VP(vous_coi(g),V("rappeler"),NP(D("quelque"),N("chose")))).typ({"int":"yon"}),
+    (m,g) => S(NP(D("le"),N("fait"),
+                  PP(P("de"),VP(V("penser").t("b"),
+                     PP(P("à"),m[2])))),
+               VP(vous_coi(g),V("rappeler"),
+                  NP(D("quelque"),N("chose")))).typ({"int":"yon"}),
     // en: What else do you recollect ?
     // fr: De quoi d'autre vous souvenez-vous ?
-    (m,g) => S(PP(P("de"),Pro("quoi"),P("de"),N("autre")),VP(V("souvenir").pe(2).lier(),vous(g))).a("?"),
+    (m,g) => S(PP(P("de"),Pro("quoi"),P("de"),N("autre")),
+               VP(V("souvenir").pe(2).lier(),vous(g))).a("?"),
     // en: Why do you remember (2) just now ?
     // fr: Pourquoi vous souvenez-vous de (2) à l'instant ?
-    (m,g) => S(Adv("pourquoi"),VP(V("souvenir").pe(2).lier(),vous(g)),
-                 PP(P("de"),m[2]),PP(P("à"),NP(D("le"),N("instant")))).a("?"),
+    (m,g) => S(Adv("pourquoi"),
+               VP(V("souvenir").pe(2).lier(),vous(g),
+                  PP(P("de"),m[2]),PP(P("à"),NP(D("le"),N("instant"))))).a("?"),
     // en: What in the present situation reminds you of (2) ?
     // fr: Qu'est-ce qui, dans la situation actuelle, vous rappelle (2)
-    (m,g) => S(Pro("que"),VP(V("être"),Pro("ce"),Pro("qui").a(","),PP(P("dans"),NP(D("le"),N("situation"),A("actuel"))).a(","),
-                 SP(vous_coi(g)),VP(V("rappeler"),m[2]))).a("?"),
+    (m,g) => S(Pro("que"),
+               VP(V("être"),Pro("ce"),Pro("qui").a(","),
+                  PP(P("dans"),NP(D("le"),N("situation"),A("actuel"))).a(","),
+                  SP(vous_coi(g)),VP(V("rappeler"),m[2]))).a("?"),
     // en: What is the connection between me and (2) ?
     // fr: Quel est le lien entre moi et (2)
-    (m,g) => S(Pro("quel"),VP(V("être"),NP(D("le"),N("lien"),PP(P("entre"),moi_coi(),C("et"),m[2])))).a("?"),
+    (m,g) => S(Pro("quel"),
+               VP(V("être"),
+                  NP(D("le"),N("lien"),
+                     PP(P("entre"),moi_ton(),C("et"),m[2])))).a("?"),
     // en: What else does (2) remind you of ?
-    // fr: Qu'est-ce que (2) vous rappelle d'autre ?
-    (m,g) => questceque(m[2],VP(vous_coi(g),V("rappeler"),D("de"),N("autre")))
+    // fr: Que (2) vous rappelle d'autre ?
+    (m,g) => S(m[2],
+               VP(V("rappeler"),
+                   Pro("cela"),vous_coi(g),
+                   D("de"),N("autre"))).typ({"int":"wad"})
     ]},
-    //
     {"decomp":[star,tu_decomp,tu_decomp,V("rappeler").n("p").pe(2),P("de"),star],  // * vous vous rappelez de // * do you remember *
      "reasmb":[
     // en: Did you think I would forget (2) ?
-    // fr: Comment est-ce que nous pourrions oublier?
-    (m,g) => S(moi(),VP(V("oublier").t('c'),m[2])).typ({"int":"how","mod":"poss"}),
+    // fr: Comment est-ce que nous pourrions oublier (2)?
+    (m,g) => S(moi(),
+              VP(V("oublier").t('c'),m[2])).typ({"int":"how","mod":"poss"}),
     // en: Why do you think I should recall (2) now ?
     // fr: De quoi dois-je me souvenir à propos de (2) ?
     (m,g) => S(PP(P("de"),Pro("quoi")),moi(),
-                 VP(V("souvenir").pe(1),PP(P("à"),N("propos"),P("de"),m[2]))).typ({"mod":"nece","int":"yon"}),
+               VP(V("souvenir").pe(1),
+                  PP(P("à"),N("propos"),P("de"),m[2]))
+              ).typ({"mod":"nece","int":"yon"}),
     // en: What about (2) ?
     // fr: Qu'en est-il de (2) ?
-        (m,g) => S(Pro("que"),VP(Pro("en"),V("être").lier(),Pro("lui").c("nom"),PP(P("de"),m[2]))),
+    (m,g) => S(Pro("que"),
+               VP(Pro("en"),V("être").lier(),
+                  Pro("lui").c("nom"),PP(P("de"),m[2]))),
     // en: goto what
         "goto what",
     // en: You mentioned (2) ?
     // fr: Vous avez mentionné (2) ?
-        (m,g) => S(vous(g),VP(V("mentionner").t("pc"),m[2])),
+    (m,g) => S(vous(g),VP(V("mentionner").t("pc"),m[2])),
     ]},
-    //
     {"decomp":[star, tu_decomp, V("rappeler"), star], // * you remember *
      "reasmb":[
     // en: How could I forget (2) ?
     // fr: Comment pourrais-je oublier (2)?
-        (m,g) => S(moi(),VP(V("oublier").t("c"),m[2])).typ({"mod":"poss","int":"how"}),
+    (m,g) => S(moi(),
+               VP(V("oublier").t("c"),m[2])).typ({"mod":"poss","int":"how"}),
     // en: What about (2) should I remember ?
     // fr: Qu'est-ce que je retiens de (2)?
-        (m,g) => S(moi(),VP(V("retenir"),Pro("cela"),PP(P("de"),m[2]))).typ({"int":"wad"}),
+    (m,g) => S(moi(),
+               VP(V("retenir"),
+                  Pro("cela"),PP(P("de"),m[2]))).typ({"int":"wad"}),
     // en: goto you
         "goto you",
     ]}
 ]},
 
 {"key":V("oublier"), "key_en":"forget", "rank":5, "pats":[  // forget
-    {"decomp":[star,je_decomp,V("oublier"),star], // * j'oublie *  // * i forget *
+    {"decomp":[star,je_decomp,V("oublier").pe(1),star], // * j'oublie *  // * i forget *
      "reasmb":[
     // en: Can you think of why you might forget (2) ?
     // fr: Pouvez-vous penser à la raison pour laquelle vous pourriez oublier (2) ?
-    (m,g) => S(vous(g), VP(V("penser"), PP(P("à"), NP(D("le"), N("raison"), PP(P("pour"), Pro("lequel").g("f"),
-                 SP(vous(g), VP(V("oublier").t("c"), m[2])).typ({ "mod": "poss" })))))).typ({ 'int': "yon", "mod": "poss" }),
+    (m,g) => S(vous(g), 
+               VP(V("penser"), 
+                  PP(P("à"), 
+                     NP(D("le"), N("raison"), 
+                        PP(P("pour"), 
+                           Pro("lequel").g("f"),
+                           SP(vous(g), VP(V("oublier").t("c"), m[2])
+                             ).typ({ "mod": "poss" })))))
+              ).typ({ 'int': "yon", "mod": "poss" }),
     // en: Why can't you remember (2) ?
     // fr: Pourquoi ne vous souvenez-vous pas de (2) ? 
-    (m,g) => S(vous(g),VP(V("souvenir"),PP(P("de"),m[2]))).typ({'int':"why","neg":true}),
+    (m,g) => S(vous(g),
+               VP(V("souvenir"),
+                  PP(P("de"),m[2]))).typ({'int':"why","neg":true}),
     // en: How often do you think of (2) ?
     // fr: Combien de fois pensez-vous à (2) ? 
-    (m,g) => S(AdvP(Adv("combien"),P("de"),N("fois")),vous(g),VP(V("penser"),PP(P("à"),m[2]))).typ({"int":"yon"}),
+    (m,g) => S(AdvP(Adv("combien"),P("de"),N("fois")),
+               vous(g),
+               VP(V("penser"),PP(P("à"),m[2]))).typ({"int":"yon"}),
     // en: Does it bother you to forget that ?
     // fr: Cela vous gêne-t-il d'oublier cela ?
-    (m,g) => S(Pro("cela"),VP(vous_cod(g),V("gêner").lier(),Pro("je"),SP(P("de"),V("oublier").t("b"),Pro("cela")))).a("?"),
+    (m,g) => S(Pro("cela"),
+               VP(V("gêner"),vous_cod(g),
+                  SP(P("de"),V("oublier").t("b"),Pro("cela")))).typ({'int':"yon"}),
     // en: Could it be a mental block ?
     // fr: Serait-ce un blocage mental ?
-    (m,g) => S(Pro("ce"),VP(V("être").t("c").aux("êt"),NP(D("un"),N("blocage"),A("mental")))).typ({"int":"yon"}),
+    (m,g) => S(Pro("ce"),
+               VP(V("être").t("c").aux("êt"),
+                  NP(D("un"),N("blocage"),A("mental")))).typ({"int":"yon"}),
     // en: Are you generally forgetful ?
     // fr: Êtes-vous généralement distrait ?
-    (m,g)  => S(vous(g),VP(V("être"),Adv("généralement"),A("distrait"))).typ({"int":"yon"}),
+    (m,g)  => S(vous(g),
+                VP(V("être"),Adv("généralement"),A("distrait"))).typ({"int":"yon"}),
     // en: Do you think you are suppressing (2) ?
     // fr: Pensez-vous que vous supprimez (2) ?
-    (m,g)  => S(vous(g),VP(V("penser"),SP(Pro("que"),vous(g),VP(V("supprimer"),m[2])))).typ({"int":"yon"})
+    (m,g)  => S(vous(g),
+                VP(V("penser"),
+                   SP(Pro("que"),vous(g),VP(V("supprimer"),m[2])))
+                ).typ({"int":"yon"})
     ]},
-    {"decomp":[star,V("avoir").t("p").pe(2).n("p"),tu_decomp,V("oublier").t("pp"),star],  // * avez-vous oublié *  // * did you forget *
+    {"decomp":[star,V("avoir").pe(2).n("x"),tu_decomp,V("oublier").t("pp"),star],  // * avez-vous oublié *  // * did you forget *
      "reasmb":[
     // en: Why do you ask ?
     // fr: Pourquoi demandez-vous ?,
     (m,g)  => S(vous(g),VP(V("demander"))).typ({"int":"why"}),
     // en: Are you sure you told me ?
     // fr: Êtes-vous sûr de ce que vous m'avez dit ?
-    (m,g)  => S(vous(g),VP(V("être"),A("sûr"),PP(P("de"),Pro("ce"),
-                  SP(Pro("que"),vous(g),VP(V("dire").t("pc"),moi_coi()))))).typ({"int":"why"}),
+    (m,g)  => S(vous(g),
+                VP(V("être"),A("sûr"),
+                   PP(P("de"),Pro("ce"),
+                      SP(Pro("que"),vous(g),
+                         VP(V("dire").t("pc"),moi_coi()))))
+                ).typ({"int":"yon"}),
     // en: Would it bother you if I forgot (2) ?
     // fr: Cela vous dérangerait-il si j'oubliais (2) ?
-    (m,g) => S(Pro("cela"),vous_cod(g), VP(V("déranger").t("c").lier(),Pro("lui").c("nom"),
-                SP(C("si"),moi(),VP(V("oublier").t("i"),m[2])))),
+    (m,g) => S(Pro("cela"),
+               VP(V("déranger").t("c"),vous_cod(g),
+                  SP(C("si"),moi(),
+                     VP(V("oublier").t("i"),m[2])))).typ({'int':"yon"}),
     // en: Why should I recall (2) just now ?
     // fr: Pourquoi devrais-je me rappeler (2) à l'instant ?
-    (m,g) => S(moi(),VP(Pro("moi").pe(1).c("acc"),V("rappeler").t("c"),
-                 PP(P("de"),m[2]),PP(P("à"),NP(D("le"),N("instant"))))).typ({"int":"why","mod":"nece"}),
+    (m,g) => S(moi(),
+               VP(V("rappeler").t("c"),
+                  PP(P("de"),m[2]),
+                  PP(P("à"),NP(D("le"),N("instant"))))
+               ).typ({"int":"why","mod":"nece","refl":true}),
     // en: goto what
     // fr: 
        "goto what",
     // en: Tell me more about (2).
     // fr: Dites-m'en plus sur (2)
-    (m,g) => S(VP(V("dire").t("ip").pe(2).lier(),moi_coi(),Pro("en"),AdvP(Adv("plus"),PP(P("sur"),m[2]))))
+    (m,g) => S(VP(V("dire").t("ip").pe(2).lier(),
+               moi_coi(),Pro("en"),
+               AdvP(Adv("plus"),
+                    PP(P("sur"),m[2]))))
 ]}
 ]},
 
@@ -264,45 +354,65 @@ let keywordsFr =
      "reasmb":[
     // en: Do you think it's likely that (2) ?
     // fr: Pensez-vous qu'il est probable que (2) ?
-        (m,g) => S(vous(g),VP(V("penser"),SP(Pro("que"),Pro("lui").c("nom"),
-                   VP(V("être"),A("probable"),Pro("que"),m[2])))).typ({"int":"yon"}),
+        (m,g) => S(vous(g),
+                   VP(V("penser"),
+                      SP(Pro("que"),Pro("lui").c("nom"),
+                         VP(V("être"),A("probable"),Pro("que"),m[2])))
+                  ).typ({"int":"yon"}),
     // en: Do you wish that (2) ?
     // fr: Souhaitez-vous que (2) ?
-        (m,g) => S(vous(g),VP(V("souhaiter"),SP(Pro("que"),m[2]))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+                VP(V("souhaiter"),
+                    SP(Pro("que"),m[2]))).typ({"int":"yon"}),
     // en: What do you know about (2) ?
     // fr: Que davez-vous de (2) ?
-        (m,g) => S(vous(g),VP(V("savoir"),Pro("cela"),PP(P("de"),m[2]))).typ({"int":"wad"}),
+    (m,g) => S(vous(g),
+                VP(V("savoir"),Pro("cela"),
+                    PP(P("de"),m[2]))).typ({"int":"wad"}),
     // en: Really, if (2) ?
     // fr: Vraiment, si (2) ?
-    //     (m,g) => S(Adv("vraiment"),C("si"),m[2]),
+    (m,g) => S(Adv("vraiment"),C("si"),m[2]),
     // en: What would you do if (2) ?
     // fr: Que feriez-vous si (2) ?
-        (m,g) => S(vous(g),VP(V("faire").t("c"),Pro("cela"),SP(C("si"),m[2]))).typ({"int":"wad"}),
+    (m,g) => S(vous(g),
+               VP(V("faire").t("c"),Pro("cela"),
+                  SP(C("si"),m[2]))).typ({"int":"wad"}),
     // en: But what are the chances that (2) ?
     // fr: Mais quelles sont les chances que (2) ? 
-        (m,g) => S(Adv("mais"),Pro("quel").n("p").g("f"),
-                   VP(V("être").n("p"),NP(D("le"),N("chance").n("p"),SP(Pro("que"),m[2])))).a("?"),
+    (m,g) => S(Adv("mais"),
+               Pro("quel").n("p").g("f"),
+               VP(V("être").n("p"),
+                  NP(D("le"),N("chance").n("p"),
+                     SP(Pro("que"),m[2])))).a("?"),
     // en: What does this speculation lead to ?
-    // fr: A quoi mènent ces spéculations ?
-        (m,g) => S(PP(P("à"),Pro("quoi")),VP(V("mener").n("p"),NP(D("ce"),N("spéculation").n("p")))).a("?"),
+    // fr: À quoi ces spéculations mènent-elles?
+    (m,g) => S(NP(D("ce"),N("spéculation").n("p")),
+               VP(V("mener").n("p"),
+                  PP(P("à"),Pro("cela")))).typ({"int":"wai"}),
     ]}
 ]},
 
 {"key":V("rêver"), "key_en":"dreamed", "rank":4, "pats":[  // dreamed
-  {"decomp":[star, je_decomp,V("rêver"),star], // * i dreamed *
+  {"decomp":[star, je_decomp,V("rêver"),P("de"),star], // * i dreamed *
    "reasmb":[
     // en: Really, (2) ?
     // fr: Réellement, (2)?
-        (m,g) => S(Adv("réellement").a(","),m[2]).a("?"),
+    (m,g) => S(Adv("réellement").a(","),m[2]).a("?"),
     // en: Have you ever fantasized (2) while you were awake ?
     // fr: Avez-vous déjà fantasmé (2) alors que vous étiez éveillé(e) ?
-        (m,g) => (m,g) => S(vous(g),VP(V("fantasmer").t("pc"),Adv("déjà"),m[2]),
-                           SP(Adv("alors"),Pro("que"),vous(g),VP(V("éveiller").t("pc").aux("êt")))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+              VP(V("fantasmer").t("pc"),
+                 Adv("déjà"),m[2]),
+              SP(Adv("alors"),Pro("que"),
+                 vous(g),VP(V("éveiller").t("pc").aux("êt")))
+              ).typ({"int":"yon"}),
     // en: Have you ever dreamed (2) before ?
     // fr: Avez-vous déjà rêvé (2) ?
-        (m,g) => S(vous(g),VP(V("rêver").t("pc"),Adv("déjà"),m[2])).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+                VP(V("rêver").t("pc"),
+                    Adv("déjà"),m[2])).typ({"int":"yon"}),
     // en: goto dream
-        N("rêve")
+    "goto dream"
     ]}
 ]},
 
@@ -311,19 +421,33 @@ let keywordsFr =
   "reasmb":[
     // en: What does that dream suggest to you ?
     // fr: Qu'est-ce que ce rêve vous suggère ?
-        (m,g) => S(NP(D("ce"),N("rêve")),VP(Pro("cela"),vous_coi(g),V("suggérer"))).typ({"int":"wad"}),
+        (m,g) => S(NP(D("ce"),N("rêve")),
+                   VP(Pro("cela"),vous_coi(g),V("suggérer"))).typ({"int":"wad"}),
     // en: Do you dream often ?
     // fr: Rêvez-vous souvent ? 
         (m,g) => S(vous(g),VP(V("rêver"),Adv("souvent"))).typ({"int":"yon"}),
     // en: What persons appear in your dreams ?
     // fr: Qui sont les personnes qui apparaissent dans vos rêves ?
-        (m,g) => S(Pro("lui").g("f").n("p"),VP(V("être"),NP(D("le"),N("personne").n("p"),
-                   SP(Pro("qui"),VP(V("apparaître"),PP(P("dans"),NP(votre(),N("rêve").n("p")))))))).typ({"int":"wos"}),
+        (m,g) => S(Pro("lui").g("f").n("p"),
+                   VP(V("être"),
+                     NP(D("le"),N("personne").n("p"),
+                        SP(Pro("qui"),
+                           VP(V("apparaître"),
+                              PP(P("dans"),
+                                 NP(votre(),N("rêve").n("p")))))))
+                   ).typ({"int":"wos"}),
     // en: Do you believe that dreams have something to do with your problem ?
     // fr: Croyez-vous que les rêves ont quelque chose à voir avec votre problème ?
-        (m,g) => S(vous(g),VP(V("croire"),SP(Pro("que"),NP(D("le"),N("rêve").n("p")),
-                   VP(V("avoir"),NP(D("quelque"),N("chose"),PP(P("à"),VP(V("voir").t("b"),
-                   PP(P("avec"),NP(votre(),N("problème")))))))))).typ({"int":"yon"}),
+        (m,g) => S(vous(g),
+                   VP(V("croire"),
+                      SP(Pro("que"),NP(D("le"),N("rêve").n("p")),
+                         VP(V("avoir"),
+                            NP(D("quelque"),N("chose"),
+                               PP(P("à"),
+                                  VP(V("voir").t("b"),
+                                     PP(P("avec"),
+                                        NP(votre(),N("problème")))))))))
+                ).typ({"int":"yon"}),
     ]}
 ]},
 
@@ -332,23 +456,29 @@ let keywordsFr =
   "reasmb":[
     // en: You don't seem quite certain.
     // fr: Vous ne semblez pas tout à fait certain
-        (m,g) => S(vous(g),VP(V("sembler"),AdvP(Adv("tout"),P("à"),N("fait")),A("certain"))).typ({"neg":true}),
+    (m,g) => S(vous(g),
+               VP(V("sembler"),
+                  AdvP(Adv("tout"),P("à"),N("fait")),A("certain"))
+              ).typ({"neg":true}),
     // en: Why the uncertain tone ?
     // fr: Pourquoi ce ton incertain ?
-        (m,g) => S(NP(D("ce"),N("ton"),A("incertain"))).typ({"int":"why"}),
+    (m,g) => S(NP(D("ce"),N("ton"),A("incertain"))).typ({"int":"why"}),
     // en: Can't you be more positive ?
     // fr:  Ne pouvez-vous pas être plus positif ? 
-        (m,g) => S(vous(g),VP(V("être"),A("positif").f("co"))).typ({"int":"yon","mod":"poss","neg":true}),
+    (m,g) => S(vous(g),
+               VP(V("être"),A("positif").f("co"))
+              ).typ({"int":"yon","mod":"poss","neg":true}), 
     // en: You aren't sure ?
-    // fr: Vous n'êtes pas sûr ? 
-        (m,g) => S(vous(g),VP(V("être"),A("sûr"))).typ({"neg":true}).a("?"),
+    // fr: N'êtes-vous pas sûr?
+    (m,g) => S(vous(g),VP(V("être"),A("sûr"))).typ({"neg":true,"int":"yon"}),
     // en: Don't you know ?
     // fr: Vous ne savez pas ? 
-        (m,g) => S(vous(g),VP(V("savoir"))).typ({"neg":true}).a("?"),
+    (m,g) => S(vous(g),VP(V("savoir"))).typ({"neg":true}).a("?"),
     // en: How likely, would you estimate ?
     // fr: Quelle est la probabilité que vous estimez ? 
-        (m,g) => S(Pro("quel").g("f"),VP(V("être"),NP(D("le"),N("probabilité"),
-                   SP(Pro("que"),vous(g),V("estimer"))))).a("?"),
+    (m,g) => S(Pro("quel").g("f"),
+               VP(V("être"),NP(D("le"),N("probabilité"),
+                  SP(Pro("que"),vous(g),V("estimer"))))).a("?"),
     ]}
 ]},
 
@@ -357,16 +487,19 @@ let keywordsFr =
   "reasmb":[
     // en: I am not interested in names.
     // fr: Les noms ne m'intéressent pas.
-        (m,g) => S(NP(D("le"),N("nom").n("p")),VP(V("intéresser"),moi_cod(g))).typ({"neg":true}),
+    (m,g) => S(NP(D("le"),N("nom").n("p")),
+               VP(V("intéresser"),moi_cod(g))).typ({"neg":true}),
     // en: I've told you before, I don't care about names -- please continue.
     // fr: Je vous l'ai déjà dit, les noms ne m'intéressent pas - continuez, s'il vous plaît.
-        (m,g) => S(moi(),VP(vous_coi(g),V("dire").t("pc"),Adv("déjà")).a(","),
-                   SP(NP(D("le"),N("nom").n("p")),VP(V("intéresser"),moi_cod(g))).typ({"neg":true}).a(" -- "),
-                   V("continuer").t("ip").pe(2),svp()),
+    (m,g) => S(moi(),
+               VP(vous_coi(g),V("dire").t("pc"),Adv("déjà")).a(","),
+               SP(NP(D("le"),N("nom").n("p")),
+                  VP(V("intéresser"),moi_cod(g))).typ({"neg":true}).a(" -- "),
+               V("continuer").t("ip").pe(2),svp()),
     ]}
 ]},
 
-{"key":N("allemand"), "key_en":"deutsch", "rank":0, "pats":[  // deutsch
+{"key":Q("deutsch"), "key_en":"deutsch", "rank":0, "pats":[  // deutsch
  {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
@@ -378,7 +511,7 @@ let keywordsFr =
     ]}
 ]},
 
-{"key":N("français"), "key_en":"francais", "rank":0, "pats":[  // francais
+{"key":Q("english"), "key_en":"francais", "rank":0, "pats":[  // francais
  {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
@@ -386,10 +519,11 @@ let keywordsFr =
     // en: I told you before, I don't understand French.
     // fr: Je te l'ai déjà dit, je ne comprends pas le français 
     (m,g) => S(moi(),VP(vous_coi(g),Pro("le"),V("dire").t("pc"),Adv("déjà")).a(","),
-                  SP(moi(),VP(V("comprendre"),NP(D("le"),N("français")))).typ({"neg":true})),
+                  SP(moi(),VP(V("comprendre"),NP(D("le"),N("anglais")))).typ({"neg":true})),
     ]}
 ]},
-{"key":N("italien"), "key_en":"italiano", "rank":0, "pats":[  // italiano
+
+{"key":Q("italiano"), "key_en":"italiano", "rank":0, "pats":[  // italiano
  {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
@@ -400,7 +534,8 @@ let keywordsFr =
                SP(moi(),VP(V("comprendre"),NP(D("le"),N("italien")))).typ({"neg":true})),
     ]}
 ]},
-{"key":N("espagnol"), "key_en":"espanol", "rank":0, "pats":[  // espanol
+
+{"key":Q("espanol"), "key_en":"espanol", "rank":0, "pats":[  // espanol
  {"decomp":[star], // *
   "reasmb":[
     // en: goto xforeign
@@ -411,14 +546,16 @@ let keywordsFr =
                SP(moi(),VP(V("comprendre"),NP(D("le"),N("espagnol")))).typ({"neg":true})),
     ]}
 ]},
+
 {"key":Q("xforeign"), "key_en":"xforeign", "rank":0, "pats":[  // xforeign
  {"decomp":[star], // *
   "reasmb":[
     // en: I speak only English.
-    // fr: Je ne comprends que l'anglais
-    (m,g) => S(moi(),VP(V("comprendre"),NP(D("le"),N("anglais"))).typ({"neg":"que"})),
+    // fr: Je ne comprends que le français
+    (m,g) => S(moi(),VP(V("comprendre"),NP(D("le"),N("français"))).typ({"neg":"que"})),
     ]}
 ]},
+
 {"key":N("bonjour"), "key_en":"hello", "rank":0, "pats":[  // hello
  {"decomp":[star], // *
   "reasmb":[
@@ -438,30 +575,50 @@ let keywordsFr =
   "reasmb":[
     // en: Do computers worry you ?
     // fr: Les ordinateurs vous inquiètent-ils ?
-    (m,g) => S(NP(D("le"),N("ordinateur").n("p")),VP(V("inquiéter"),vous_cod(g))).typ({"int":"yon"}),
+    (m,g) => S(NP(D("le"),N("ordinateur").n("p")),
+               VP(V("inquiéter"),vous_cod(g))).typ({"int":"yon"}),
     // en: Why do you mention computers ?
     // fr: Pourquoi parlez-vous d'ordinateurs ?
-    (m,g) =>S(vous(g),VP(V("parler"),NP(D("de"),N("ordinateur").n("p")))).typ({"int":"why"}),
+    (m,g) =>S(vous(g),
+              VP(V("parler"),
+                 NP(D("de"),N("ordinateur").n("p")))).typ({"int":"why"}),
     // en: What do you think machines have to do with your problem ?
     // fr: Quel est, selon vous, le rapport entre les machines et votre problème ?
-    (m,g) =>S(Pro("quel"),VP(V("être").a(","),PP(P("selon"),vous_ton(g)).a(","),
-                NP(D("le"),N("rapport"),PP(P("entre"),
-                    CP(C("et"),NP(D("le"),N("machine").n("p")),NP(votre(),N("problème"))))))),
+    (m,g) =>S(Pro("quel"),
+              VP(V("être").a(","),
+                 PP(P("selon"),vous_ton(g)).a(","),
+                 NP(D("le"),N("rapport"),
+                    PP(P("entre"),
+                         CP(C("et"),
+                            NP(D("le"),N("machine").n("p")),
+                            NP(votre(),N("problème"))))))).a("?"),
     // en: Don't you think computers can help people ?
     // fr: Ne pensez-vous pas que les ordinateurs peuvent aider les gens ?
-    (m,g) =>S(vous(g),VP(V("penser"),SP(Pro("que"),NP(D("le"),N("ordinateur").n("p")),
-                VP(V("pouvoir"),V("aider").t("b"),NP(D("le"),N("gens").n("p")))))).typ({"int":"yon","neg":true}),
+    (m,g) =>S(vous(g),
+              VP(V("penser"),
+                 SP(Pro("que"),
+                    NP(D("le"),N("ordinateur").n("p")),
+                    VP(V("aider"),
+                       NP(D("le"),N("gens").n("p")))).typ({"mod":"poss"}))
+              ).typ({"int":"yon","neg":true}),
     // en: What about machines worries you ?
     // fr: Qu'est-ce qui vous inquiète dans les machines ?
-    (m,g) =>S(Pro("cela"),VP(vous_cod(g),V("inquiéter"),
-                PP(P("dans"),NP(D("le"),N("machine").n("p"))))).typ({"int":"was"}),    
+    (m,g) =>S(Pro("cela"),
+              VP(vous_cod(g),V("inquiéter"),
+                 PP(P("dans"),
+                    NP(D("le"),N("machine").n("p"))))).typ({"int":"was"}),    
     // en: What do you think about machines ?
     // fr: Que pensez-vous des machines ?
-    (m,g) =>S(vous(g),VP(V("penser"),Pro("cela"),PP(P("de"),NP(D("le"),N("machine").n("p"))))).typ({"int":"wad"}),
+    (m,g) =>S(vous(g),
+             VP(V("penser"),Pro("cela"),
+                PP(P("de"),NP(D("le"),N("machine").n("p"))))).typ({"int":"wad"}),
     // en: You don't think I am a computer program, do you ?
     // fr: Vous ne pensez pas que je suis un programme informatique, n'est-ce pas ?
-    (m,g) => S(vous(g),VP(V("penser"),SP(Pro("que"),moi(),VP(V("être"),
-                NP(D("un"),N("programme"),A("informatique")))))).typ({"int":"tag","neg":true}),          
+    (m,g) => S(vous(g),
+              VP(V("penser"),
+                 SP(Pro("que"),moi(),VP(V("être"),
+                    NP(D("un"),N("programme"),A("informatique")))))
+              ).typ({"int":"tag","neg":true}),          
     ]}
 ]},
 
@@ -470,47 +627,78 @@ let keywordsFr =
   "reasmb":[
     // en: Do you believe you are (2) ?
     // fr: Croyez-vous que vous êtes (2) ?
-    (m,g) => S(vous(g),VP(V("croire"),SP(Pro("que"),vous(g),VP(V("être"),m[2])))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("croire"),
+                  SP(Pro("que"),vous(g),
+                     VP(V("être"),m[2])))).typ({"int":"yon"}),
     // en: Would you want to be (2) ?
     // fr: Voudriez-vous être (2) ?
-    (m,g) => S(vous(g),VP(V("vouloir").t("c"),VP(V("être").t("b"),m[2]))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("vouloir").t("c"),
+                  VP(V("être").t("b"),m[2]))).typ({"int":"yon"}),
     // en: Do you wish I would tell you you are (2) ?
     // fr: Aimeriez-vous que je vous dise que vous êtes (2) ? 
-    (m,g) => S(vous(g),VP(V("aimer").t("c"),
-               SP(Pro("que"),moi(),VP(vous_coi(g),V("dire").t("s"),
-                  SP(Pro("que"),vous(g),VP(V("être"),m[2])))))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("aimer").t("c"),
+                  SP(Pro("que"),moi(),
+                     VP(vous_coi(g),V("dire").t("s"),
+                        SP(Pro("que"),vous(g),
+                           VP(V("être"),m[2])))))).typ({"int":"yon"}),
     // en: What would it mean if you were (2) ?
     // fr: Qu'est-ce que cela signifierait si vous étiez (2) ?
-    (m,g) => questceque(Pro("cela"),VP(V("signifier").t("c"),SP(C("si"),vous(g),VP(V("être").t("i"),m[2])))),
+    (m,g) => S(Pro("cela"),
+               VP(V("signifier").t("c"),
+                  Pro("ceci"),
+                  SP(C("si"),vous(g),
+                     VP(V("être").t("i"),m[2])))).typ({"int":"wad"}),
     // en: goto what
-    Pro("quoi"),
+    "goto what",
     ]},
  {"decomp":[star,[V("être").pe(2),V("être").pe(2).n("p")],tu_decomp,star], // [es|êtes] [tu|vous] // * are you *
      "reasmb":[
     // en: Why are you interested in whether I am (2) or not ?
     // fr: Pourquoi vous intéressez-vous à savoir si je suis (2) ou non ?
-    (m,g) => S(vous(g),VP(vous_cod(g),V("intéresser"),PP(P("à"),V("savoir").t("b"),
-            SP(C("si"),moi(),VP(V("être"),m[2],C("ou"),Adv("non")))))).typ({"int":"why"}),
+    (m,g) => S(vous(g),
+               VP(V("intéresser"),
+                  PP(P("à"),V("savoir").t("b"),
+                     SP(C("si"),moi(),
+                        VP(V("être"),m[2],
+                           C("ou"),Adv("non")))))
+               ).typ({"int":"why","refl":true}),
     // en: Would you prefer if I weren't (2) ?
     // fr: Préféreriez-vous que je ne sois pas (2) ? 
-    (m,g) => S(vous(g),VP(V("préférer").t("c"),
-                SP(C("que"),moi(),VP(V("être").t("s"),m[2])).typ({"neg":true}))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("préférer").t("c"),
+                  SP(C("que"),moi(),
+                     VP(V("être").t("s"),m[2])).typ({"neg":true}))
+              ).typ({"int":"yon"}),
     // en: Perhaps I am (2) in your fantasies.
     // fr: Peut-être suis-je (2) dans vos fantasmes 
-    (m,g) => S(Adv("peut-être"),moi(),VP(V("être").pe(1).n("s"),m[2],
-                PP(P("dans"),NP(votre(),N("fantasme").n("p"))))).typ({"int":"yon"}),
+    (m,g) => S(Adv("peut-être"),moi(),
+               VP(V("être").pe(1).n("s"),m[2],
+                  PP(P("dans"),
+                     NP(votre(),N("fantasme").n("p"))))
+              ).typ({"int":"yon"}),
     // en: Do you sometimes think I am (2) ?
     // fr: Pensez-vous parfois que je suis (2) ? 
-    (m,g) => S(vous(g),VP(V("penser"),Adv("parfois"),SP(Pro("que"),moi(),VP(V("être"),m[2])))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("penser"),Adv("parfois"),
+                  SP(Pro("que"),moi(),
+                     VP(V("être"),m[2])))
+             ).typ({"int":"yon"}),
     // en: goto what
-    Pro("quoi"),
+    "goto what",
     // en: Would it matter to you ?
     // fr: Cela aurait-il de l'importance pour vous ? 
-    (m,g) => S(Pro("cela"),VP(V("avoir").t("c").lier(),Pro("lui").c("nom"),
-                PP(P("de"),NP(D("le"),N("importance"),PP(P("pour"),vous_ton(g)))))).a("?"),
+    (m,g) => S(Pro("cela"),
+               VP(V("avoir").t("c").lier(),
+                  PP(P("de"),
+                     NP(D("le"),N("importance"),
+                        PP(P("pour"),vous_ton(g)))))).typ({"int":"yon"}),
     // en: What if I were (2) ?
     // fr: Et si j'étais (2) ?
-    (m,g) => S(C("et"),C("si"),moi(),VP(V("être").t("i"),m[2])).a("?"),
+    (m,g) => S(C("et"),C("si"),moi(),
+               VP(V("être").t("i"),m[2])).a("?"),
     ]},
  {"decomp":[star,je_decomp,V("être").pe(1),star], // * je suis * // * i am *
     "reasmb":[
@@ -521,52 +709,76 @@ let keywordsFr =
     "reasmb":[
         // en: goto you
         "goto you",
-        ]},
+    ]},
  {"decomp":[star,[V("être").pe(3).n("p")],star], // * sont * // * are *
     "reasmb":[
     // en: Did you think they might not be (2) ?
     // fr: Avez-vous pensé qu'ils pourraient ne pas être (2) ?
-    (m,g) => S(vous(g),VP(V("penser").t("pc"),
-               SP(Pro("que"),Pro("moi").c("nom").pe(3).n("p"),
-                VP(V("pouvoir").t("c"),VP(V("être").t("b"),m[2]).typ({"neg":true}))))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("penser").t("pc"),
+                  SP(Pro("que"),
+                     Pro("moi").c("nom").pe(3).n("p"),
+                     VP(V("pouvoir").t("c"),
+                        VP(V("être").t("b"),m[2]).typ({"neg":true})
+                   )))).typ({"int":"yon"}),
     // en: Would you like it if they were not (2) ?
     // fr: Aimeriez-vous qu'ils ne soient pas (2) ?
-    (m,g) => S(vous(g),VP(V("aimer").t("c"),
-               SP(Pro("que"),Pro("moi").c("nom").pe(3).n("p"),VP(V("être").t("s"),m[2])).typ({"neg":true}))
+    (m,g) => S(vous(g),
+               VP(V("aimer").t("c"),
+                  SP(Pro("que"),
+                     Pro("moi").c("nom").pe(3).n("p"),
+                     VP(V("être").t("s"),m[2])).typ({"neg":true}))
               ).typ({"int":"yon"}),
     // en: What if they were not (2) ?
     // fr:  Et s'ils n'étaient pas (2) ?
-    (m,g) => S(C("et"),SP(C("si"),Pro("moi").c("nom").pe(3).n("p"),VP(V("être").t("i"),m[2])).typ({"neg":true})),
+    (m,g) => S(C("et"),
+               SP(C("si"),
+                  Pro("moi").c("nom").pe(3).n("p"),
+                  VP(V("être").t("i"),m[2])).typ({"neg":true})),
     // en: Are they always (2) ?
     // fr: Sont-ils toujours (2) ? 
-    (m,g) => S(Pro("moi").c("nom").pe(3).n("p"),VP(V("être"),Adv('toujours'),m[2])).typ({"int":"yon"}),
+    (m,g) => S(Pro("moi").c("nom").pe(3).n("p"),
+               VP(V("être"),Adv('toujours'),m[2])).typ({"int":"yon"}),
     // en: Possibly they are (2).
     // fr: Il est possible qu'ils soient (2)
-    (m,g) => S(Pro("moi").c("nom").pe(3),VP(V("être"),A('possible'),
-               SP(Pro("que"),Pro("moi").c("nom").pe(3).n("p"), VP(V("être").t("s"),m[2])))),
+    (m,g) => S(Pro("moi").c("nom").pe(3),
+               VP(V("être"),A('possible'),
+                  SP(Pro("que"),
+                     Pro("moi").c("nom").pe(3).n("p"), 
+                     VP(V("être").t("s"),m[2])))),
     // en: Are you positive they are (2) ?
     // fr: Êtes-vous sûr qu'ils sont (2) ?
-    (m,g) => S(vous(g),VP(V("être"),A('sûr'),
-               SP(Pro("que"),Pro("moi").c("nom").pe(3).n("p"), VP(V("être"),m[2])))).typ({'int':"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("être"),A('sûr'),
+                  SP(Pro("que"),
+                     Pro("moi").c("nom").pe(3).n("p"), 
+                     VP(V("être"),m[2])))).typ({'int':"yon"}),
     ]},
    {"decomp":[star,V("être").t("i").pe(1), je_decomp, star], // étais-je // * was i *
     "reasmb":[
     // en: What if you were (2) ?
     // fr: Et si vous étiez (2) ?
-    (m,g) => S(C("et"),C("si"),vous(g),VP(V("être").t("i"),m[2])).a("?"),
+    (m,g) => S(C("et"),C("si"),vous(g),
+               VP(V("être").t("i"),m[2])).a("?"),
     // en: Do you think you were (2) ?
     // fr: Pensez-vous que vous étiez (2) ?
-    (m,g) => S(vous(g),VP(V("penser"),SP(Pro("que"),vous(g),VP(V("être").t("i"),m[2])))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("penser"),
+                  SP(Pro("que"),vous(g),
+                     VP(V("être").t("i"),m[2])))).typ({"int":"yon"}),
     // en: Were you (2) ?
     // fr: Etiez-vous (2) ? 
-    (m,g) => S(vous(g),VP(V("être").t("i"),m[2])).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("être").t("i"),m[2])).typ({"int":"yon"}),
     // en: What would it mean if you were (2) ?
     // fr: Qu'est-ce que le fait d'être (2) signifierait ?
-    (m,g) => S(NP(D("le"),N("fait"),PP(P("de"),V("être").t("b"),m[2])),
-        VP(V("signifier").t("c"),Pro("cela"))).typ({"int":"wad"}),
+    (m,g) => S(NP(D("le"),N("fait"),
+                  PP(P("de"),V("être").t("b"),m[2])),
+               VP(V("signifier").t("c"),Pro("cela"))).typ({"int":"wad"}),
     // en: What does ' (2) ' suggest to you ?
     // fr: Que (2) vous suggère ?
-    (m,g) =>S(m[2],VP(V("suggérer"),Pro("cela"),vous_coi(g))).typ({"int":"wad"}),
+    (m,g) =>S(m[2],
+              VP(V("suggérer"),Pro("cela"),vous_coi(g))).typ({"int":"wad"}),
     // en: goto what
         "goto what"
   ]},
@@ -574,35 +786,50 @@ let keywordsFr =
    "reasmb":[
     // en: Were you really (2) ?
     // fr: Étais-tu vraiment (2) ? 
-    (m,g) => S(vous(g),VP(V("être").t("i"),Adv("vraiment"),m[2])).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("être").t("i"),
+                  Adv("vraiment"),m[2])).typ({"int":"yon"}),
     // en: Why do you tell me you were (2) now ?
     // fr: Pourquoi me dis-tu que tu étais (2) maintenant ?
-    (m,g) => S(vous(g),VP(V("dire"),moi_coi(),
-               SP(vous(g),VP(V("être").t("i"),m[2],Adv("maintenant"))))).typ({"int":"why"}),
+    (m,g) => S(vous(g),
+               VP(V("dire"),moi_coi(),
+                  SP(vous(g),
+                     VP(V("être").t("i"),m[2],Adv("maintenant"))))
+              ).typ({"int":"why"}),
     // en: Perhaps I already know you were (2).
     // fr: Peut-être que je sais déjà que tu étais (2).
-    (m,g) => S(Adv("peut-être"),SP(Pro("que"),moi(),VP(V("savoir"),Adv("déjà"),
-        SP(Pro("que"),vous(g),VP(V("être").t("i"),m[2]))))),
+    (m,g) => S(Adv("peut-être"),
+               SP(Pro("que"),moi(),
+                  VP(V("savoir"),Adv("déjà"),
+                     SP(Pro("que"),vous(g),
+                        VP(V("être").t("i"),m[2]))))),
     ]},
   {"decomp":[star,[V("être").pe(2).t("i"),V("être").pe(2).t("i").n("p")],tu_decomp,star], // * [étais|étiez] [tu|vous] *, // * were you *
     "reasmb":[
     // en: Would you like to believe I was (2) ?
     // fr: Voulez-vous croire que j'étais (2) ? 
-    (m,g) => S(vous(g),VP(V("vouloir"),V("croire").t("b"),
-                   SP(Pro("que"),moi(),VP(V("être").t("i"),m[2])))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("vouloir"),V("croire").t("b"),
+                 SP(Pro("que"),moi(),
+                    VP(V("être").t("i"),m[2])))).typ({"int":"yon"}),
     // en: What suggests that I was (2) ?
     // fr: Qu'est-ce qui suggère que j'étais (2) ?
     (m,g) => S(Pro("cela"),VP(V("suggérer"),
-               SP(Pro("que"),moi(),VP(V("être").t("i"),m[2])))).typ({"int":"was"}),
+               SP(Pro("que"),moi(),
+                  VP(V("être").t("i"),m[2])))).typ({"int":"was"}),
     // en: What do you think ?
     // fr: Qu'en pensez-vous ? 
-    (m,g) => S(vous(g),Pro("en"),VP(V("penser").lier(),Pro("cela"))).typ({"int":"wad"}),
+    (m,g) => S(vous(g),Pro("en"),
+               VP(V("penser").lier(),Pro("cela"))).typ({"int":"wad"}),
     // en: Perhaps I was (2).
     // fr: Peut-être que j'étais (2).
-    (m,g) => S(Adv("peut-être"),SP(Pro("que"),moi(),VP(V("être").t("i"),m[2]))),
+    (m,g) => S(Adv("peut-être"),
+               SP(Pro("que"),moi(),
+                  VP(V("être").t("i"),m[2]))),
     // en: What if I had been (2) ?
     // fr: Et si j'avais été (2) ?
-    (m,g) => S(C("et"),C("si"),moi(),VP(V("être").t("pq"),m[2])),
+    (m,g) => S(C("et"),C("si"),moi(),
+               VP(V("être").t("pq"),m[2])),
     ]},
    {"decomp":[star], // *
     "reasmb":[
@@ -620,20 +847,34 @@ let keywordsFr =
   "reasmb":[
     // en: Why are you concerned over my (2) ?
     // fr: Pourquoi t'inquiètes-tu de mon (2) ?
-    (m,g) => S(vous(g),VP(V("inquiéter"),PP(P("de"),NP(mon(),m[2])))).typ({"refl":true,"int":"why"}),
+    (m,g) => S(vous(g),
+               VP(V("inquiéter"),
+                  PP(P("de"),NP(mon(),m[2])))).typ({"refl":true,"int":"why"}),
     // en: What about your own (2) ?
     // fr: Qu'en est-il de votre propre (2) ? 
-    (m,g) => S(C("que"),Pro("lui").c("nom"),Pro("en"), VP(V("être"),PP(P("de"),NP(mon(),A("propre"),m[2])))).typ({"int":"yon"}),
+    (m,g) => S(C("que"),
+               Pro("lui").c("nom"),Pro("en"), 
+               VP(V("être"),
+                  PP(P("de"),NP(mon(),A("propre"),m[2])))
+              ).typ({"int":"yon"}),
     // en: Are you worried about someone else's (2) ?
     // fr: Vous inquiétez-vous pour le (2) de quelqu'un d'autre?
-    (m,g) => S(vous(g),VP(V("inquiéter"),
-                PP(P("pour"),NP(D("le"),m[2],PP(P("de"),Pro("quelqu'un"),P("de"),N("autre")))))).typ({"int":"yon","refl":true}),
+    (m,g) => S(vous(g),
+               VP(V("inquiéter"),
+                  PP(P("pour"),
+                     NP(D("le"),m[2],
+                        PP(P("de"),
+                           Pro("quelqu'un"),P("de"),N("autre")))))
+             ).typ({"int":"yon","refl":true}),
     // en: Really, my (2) ?
     // fr: Vraiment, mon (2) ? 
     (m,g) => S(Adv("vraiment"),NP(mon(),m[2])).a("?"),
     // en: What makes you think of my (2) ?
     // fr: Qu'est-ce qui vous fait penser à mon (2) ?
-    (m,g) => S(Pro("cela"),VP(V("faire"),V("penser").t("b"),vous_coi(g),PP(P("à"),NP(mon(),m[2])))).typ({"int":"was"}),
+    (m,g) => S(Pro("cela"),
+               VP(V("faire"),V("penser").t("b"),
+                  vous_coi(g),
+                  PP(P("à"),NP(mon(),m[2])))).typ({"int":"was"}),
     // en: Do you want my (2) ?
     // fr: Voulez-vous mon (2) ?
     (m,g) => S(vous(g),VP(V("vouloir"),NP(mon(),m[2]))).typ({"int":"yon"})
@@ -645,58 +886,87 @@ let keywordsFr =
   "reasmb":[
     // en: What would it mean to you if you got (3) ?
     // fr: Qu'est-ce que cela signifierait pour vous si vous obteniez (2) ?
-    (m,g) => questceque(Pro("cela"),(VP(V("signifier").t("c"),PP(P("pour"),vous_ton(g)),
-                        SP(C("si"),vous(g),VP(V("obtenir").t("i"),m[2]))))),
+    (m,g) => S(Pro("cela"),
+               VP(V("signifier").t("c"),
+                  Pro("ceci"),
+                  PP(P("pour"),vous_ton(g)),
+                     SP(C("si"),vous(g)
+                        ,VP(V("obtenir").t("i"),m[2])))
+              ).typ({"int":"wad"}),
     // en: Why do you want (3) ?
     // fr: Pourquoi voulez-vous (2) ? 
     (m,g) => S(vous(g),VP(V("vouloir"),m[2])).typ({"int":"why"}),
     // en: Suppose you got (3) soon.
     // fr: Supposez que vous obteniez (2) bientôt 
-    (m,g) => S(V("supposer").t("ip").pe(2),SP(Pro("que"),vous(g),VP(V("obtenir").t("i"),m[2]))),
+    (m,g) => S(V("supposer").t("ip").pe(2),
+               SP(Pro("que"),vous(g),
+                  VP(V("obtenir").t("i"),m[2],Adv("bientôt")))),
     // en: What if you never got (3) ?
     // fr: Et si vous n'obteniez jamais (2) ? 
-    (m,g) => S(C('et'),C("si"),SP(vous(g),VP(V("obtenir").t("i"),m[2])).typ({"neg":"jamais"})),
+    (m,g) => S(C('et'),C("si"),
+               SP(vous(g),
+                  VP(V("obtenir").t("i"),m[2])).typ({"neg":"jamais"})),
     // en: What would getting (3) mean to you ?
     // fr: Que signifierait pour vous l'obtention de (2) ?
-        (m,g) => S(NP(D("le"),N("obtention"),PP(P("de"),m[2])),
-                   VP(V("signifier").t("c"),Pro("cela"),PP(P("pour"),vous_ton(g)))).typ({"int":"wad"}),
+    (m,g) => S(NP(D("le"),N("obtention"),
+                  PP(P("de"),m[2])),
+              VP(V("signifier").t("c"),
+                 Pro("cela"),
+                 PP(P("pour"),vous_ton(g)))).typ({"int":"wad"}),
     // en: What does wanting (3) have to do with this discussion ?
     // fr: Quel est le rapport entre le fait de vouloir (2) et cette discussion ?
-        (m,g) => S(Pro("quel"),VP(V("être"),NP(D("le"),N("rapport"),
-                   PP(P("entre"),CP(C("et"),NP(D("le"),N("fait"),PP(P("de"),V("vouloir").t("b"),m[2])),
-                    NP(D("ce"),N("discussion"))))))).a("?"),
+    (m,g) => S(Pro("quel"),
+               VP(V("être"),
+                  NP(D("le"),N("rapport"),
+                     PP(P("entre"),
+                        CP(C("et"),
+                           NP(D("le"),N("fait"),
+                              PP(P("de"),V("vouloir").t("b"),m[2])),
+                           NP(D("ce"),N("discussion"))))))).a("?"),
     ]},
  {"decomp":[star, je_decomp, V("être").pe(1), [A("triste"), A("malheureux"), V('déprimer').t("pp")], star], // * je suis @triste *// * i am* @sad *
   "reasmb":[
     // en: I am sorry to hear that you are (3).
     // fr: Je suis désolé d'apprendre que vous êtes (2)
-    (m,g) => S(moi(),VP(V("être"),AP(A("désolé"),
-        PP(P("de"),VP(V("apprendre").t("b"),SP(Pro("que"),vous(g),VP(V("être"),m[2]))))))),
+    (m,g) => S(moi(),
+              VP(V("être"),
+              AP(A("désolé"),
+                 PP(P("de"),
+                    VP(V("apprendre").t("b"),
+                       SP(Pro("que"),vous(g),VP(V("être"),m[2]))))))),
     // en: Do you think coming here will help you not to be (3) ?
     // fr: Pensez-vous que venir ici vous aidera à ne pas être (2) ?
     (m,g) => S(vous(g),
-        VP(V("penser"),
-           SP(Pro("que"),V("venir").t("b"),Adv("ici"),
-              VP(V("aider").t("f"),vous_cod(g),
-                 PP(P("à"),VP(V("être").t("b"),m[2]).typ({"neg":true})))))).typ({"int":"yon"}),
+              VP(V("penser"),
+                 SP(Pro("que"),V("venir").t("b"),Adv("ici"),
+                    VP(V("aider").t("f"),vous_cod(g),
+                       PP(P("à"),VP(V("être").t("b"),m[2]).typ({"neg":true})))))
+              ).typ({"int":"yon"}),
     // en: I'm sure it's not pleasant to be (3).
     // fr: Je suis sûr qu'il n'est pas agréable d'être (2)
     (m,g) => S(moi(),VP(V("être"),A("sûr"),
-        SP(Pro("que"),Pro("lui").c("nom"),
-           VP(V("être"),A("agréable"),
-              PP(P("de"),V("être").t("b"),m[2]))).typ({"neg":true}))),
+              SP(Pro("que"),Pro("lui").c("nom"),
+                VP(V("être"),A("agréable"),
+                   PP(P("de"),V("être").t("b"),m[2]))).typ({"neg":true}))),
     // en: Can you explain what made you (3) ?
     // fr: Pouvez-vous expliquer ce qui vous a poussé à être (2) ?
-    (m,g) => S(vous(g),VP(V("expliquer"),Pro("ce"),
-               SP(Pro("qui"),VP(V("pousser").t("pc"),vous_cod(g),
-                         PP(P("à"),VP(V("être").t("b"),m[2])))))).typ({"int":"yon"}),
+    (m,g) => S(vous(g),
+               VP(V("expliquer"),
+                  Pro("ce"),
+                  SP(Pro("qui"),
+                     VP(V("pousser").t("pc"),
+                          vous_cod(g),
+                          PP(P("à"),VP(V("être").t("b"),m[2])))))
+              ).typ({"int":"yon","mod":"poss"}),
     ]},
  {"decomp":[star, je_decomp, V("être").pe(1), [A("joyeux"), A("heureux"), A("content")], star], // * i am* @happy *
   "reasmb":[
     // en: How have I helped you to be (3) ?
     // fr: Comment vous ai-je aidé à être (2) ?
-    (m,g) => S(moi(),VP(V("aider").t("pc"),vous_cod(g),
-               PP(P("à"),V("être").t("b"),m[2]))).typ({"int":"how"}),
+    (m,g) => S(moi(),
+               VP(V("aider").t("pc"),
+                  vous_cod(g),
+                   PP(P("à"),V("être").t("b"),m[2]))).typ({"int":"how"}),
     // en: Has your treatment made you (3) ?
     // fr: Votre traitement vous a-t-il permis d'être (2) ? 
     (m,g) => S(NP(votre(),N("traitement")),
@@ -835,13 +1105,13 @@ let keywordsFr =
   "reasmb":[
     // en: You say (1) ?
     // fr: Vous dites (1) ?
-    (m,g) => S(vous(g),VP(V("dire"),SP(m[1]).en("'"))).a("?"),
+    (m,g) => S(vous(g),VP(V("dire"),SP(m[1]).en("\""))).a("?"),
     // en: Can you elaborate on that ?
     // fr: Pouvez-vous élaborer sur cela?
     (m,g) => S(vous(g),VP(V("élaborer"),PP(P("sur"),Pro("cela")))).typ({"int":"yon","mod":"poss"}),
     // en: Do you say (1) for some special reason ?
     // fr: Vous dites (1) pour une raison particulière.
-    (m,g) => S(vous(g),VP(V("dire"),SP(m[1]).en("'"), PP(P("pour"),NP(D("un"),N("raison"),A("particulier"))))),
+    (m,g) => S(vous(g),VP(V("dire"),SP(m[1]).en("\""), PP(P("pour"),NP(D("un"),N("raison"),A("particulier"))))),
     // en: That's quite interesting.
     // fr: C'est très intéressant.
     (m,g) => S(Pro("ce"),VP(V("être"),AdvP(Adv("très"),A("intéressant")))),
@@ -981,7 +1251,7 @@ let keywordsFr =
     (m,g) => S(Adv("pourquoi"),Adv("pas")).a("?"),
     // en: Why 'no' ?
     // fr: Pourquoi 'non' ?
-    (m,g) => S(Adv("pourquoi"),Adv("non").en("'")).a("?"),
+    (m,g) => S(Adv("pourquoi"),Adv("non").en("\"")).a("?"),
     ]}
 ]},
 
@@ -1002,7 +1272,7 @@ let keywordsFr =
 //     // fr: 
 //         (m,g) => Q("à faire"),
 //     ]},
- {"decomp":[star, D("mon").pe(1),family, star], // * my* @family *
+ {"decomp":[star, mon_decomp,family, star], // * my* @family *
   "reasmb":[
     // en: Tell me more about your family.
     // fr: Parlez-moi de votre famille 
@@ -1018,7 +1288,7 @@ let keywordsFr =
     (m,g) => S(Pro("cela"),VP(V("venir"),vous_coi(g),PP(P("à"),NP(D("le"),N("esprit"))),
                 SP(C("quand"),vous(g),VP(V("penser"),PP("à"),NP(votre(),N("famille")))))).typ({"int":"was"})
     ]},
- {"decomp":[star, D("mon").pe(1), star], // * my *
+ {"decomp":[star,mon_decomp, star], // * my *
   "reasmb":[
     // en: Your (2) ?
     // fr: Votre (2) ?
@@ -1221,14 +1491,14 @@ let keywordsFr =
 ]},
 
 {"key":"jsRterm", "key_en":"everyone", "rank":2, "pats":[  // everyone
- {"decomp":[star, A("tout"),D("le"),N("monde"), star], // * @everyone *
+ {"decomp":[star], // * @everyone *
   "reasmb":[
     // en: Really, (2) ?
-    // fr: Vraiment, (2) ?
-    (m,g) => S(Adv("vraiment"),m[2]).a("?"),
+    // fr: Vraiment ?
+    (m,g) => S(Adv("vraiment")).a("?"),
     // en: Surely not (2).
-    // fr: Sûrement pas (2).
-    (m,g) => S(Adv("sûrement"),Adv("pas"),m[2]),
+    // fr: Sûrement pas.
+    (m,g) => S(Adv("sûrement"),Adv("pas")),
     // en: Can you think of anyone in particular ?
     // fr: Pouvez-vous penser à quelqu'un en particulier ?
     (m,g) => S(vous(g),VP(V("penser"),
@@ -1372,4 +1642,20 @@ let keywordsFr =
 ]}
 ]
 
+// affichage de l'organisation des mots-clés
+function showTerms(terms){
+    if (Array.isArray(terms))
+        return "["+ terms.map(t=>t.lemma).join()+"]";
+    return terms.lemma
+}
 
+function keywordsFrStruct(){
+    for (let kw of keywordsFr){
+        console.log(showTerms(kw.key),kw.rank,kw.key_en)
+        for (let pat of kw.pats){
+            console.log("    %s",pat.decomp.map(showTerms).join())
+        }
+    }
+}
+
+// keywordsFrStruct()

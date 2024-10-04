@@ -1,55 +1,56 @@
-import {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, select, choose, tokenizeFr,mememot,matchDecomp, getTerminals} from "./eliza.js"
+import {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, select, choose, tokenizeFr,mememot,matchDecomp, getTerminals, showTerminalLists, getKeyword, getQuestion} from "./eliza.js"
+
 
 let user_gender="f";
 let eliza_gender="f";
 let use_majestic= true;
-let trace = true;
+let trace = false;
 
 
-function reply(fn,groups,infos){
+function ask(fn,groups,infos){
     let expr = fn(groups,user_gender).typ({"maje":use_majestic});
     if (trace) console.log(expr.toSource())
-    let res = "Eliza: "+ expr.realize()
+    let res = "Eliza  : "+ expr.realize()
     if (trace) res+=":"+infos
     console.log(res)
 }
 
-function chat(inputs){
-    reply(choose(elizaInitials),[],": initials")  // initial prompt
+function runScript(inputs){
+    console.log("Discussion avec Eliza: \n  genre du patient:%s, genre d'Eliza:%s vouvoiement: %s\N",
+        user_gender,eliza_gender,use_majestic?"oui":"non")
+    ask(choose(elizaInitials),[],": initials")  // initial prompt
     for (let input of inputs){
-        console.log("User:  "+input)              // get next input
+        console.log("Patient: "+input)              // get next input
         if (elizaQuits.includes(input.toLowerCase())){
-            reply(choose(elizaFinals),[],": finals") // last answer
+            ask(choose(elizaFinals),[],": finals") // last answer
         } else {
             // transform input to reply
             let terminals = tokenizeFr(input).map(getTerminals);
             // if (trace) showTerminalLists(terminals)
-            let replyFound = false;
-        search: for (let keyword of keywordsFr){ // search for keyword occurrence
-                if (terminals.some(t=>mememot(keyword.key,t)!==null)){
-                    let patIdx = 0
-                    for (let pat of keyword.pats){
-                        let groups = matchDecomp(pat.decomp,terminals,use_majestic);
-                        if (groups != null){
-                            if (trace) console.log("groups: /",groups.slice(1).map(g=>g.map(t=>t.realize())).join("/"),"/")
-                            reply(select(pat),groups,":"+keyword.key_en+":"+patIdx+":"+pat.idx_reasmb);
-                            replyFound = true;
-                            break search;
-                        }
-                        patIdx++;
-                    }
+            const keyWord = getKeyword(terminals)
+            if (keyWord==null){
+                ask(select(enKeys["xnone"].pats[0]),[],": xnone:"+enKeys["xnone"].pats[0].idx_reasmb)
+            } else {
+                let [questionFn,groups] = getQuestion(terminals,keyWord,use_majestic,trace)
+                if (questionFn != null){
+                    ask(questionFn,groups,"")
+                } else {
+                    console.log("*** pas de question trouvée...")
                 }
             }
-            if (!replyFound) // no appropriate reply found
-                reply(select(enKeys["xnone"].pats[0]),[],": xnone:"+enKeys["xnone"].pats[0].idx_reasmb)
         }
     }
+    console.log("============")
 }
 
 let userInputs = [
     "Je me rappelle manger de la soupe",
     "J'ai peur des machines",
     "je vous demande pardon",
+    "Excusez-moi",
+    "Parfois, j'oublie de demander service à quelqu'un.",
+    "Dites-moi avez-vous oublié les anniversaires",
+    "J'espère que vous vous rappelez de notre expérience",
     "bye"
 ]
 
@@ -68,27 +69,13 @@ let exampleLines = [
     "Tu ne te disputes pas avec moi.",
     "Tu as peur de moi",
     "Mon père a peur de tout le monde",
-    "Les brutes"
+    "Les brutes",
+    "Fin"
 ]
-
-// chat(userInputs,"f",true)
-chat(exampleLines,"f",true)
-// talkWithEliza()
-// chat(["je vous demande pardon"],"m")
-// chat(["J'ai peur des machines"],"m")
-// chat(["Excusez-moi"],"m")
-// chat(["xnone"],"m")
-// chat(["Parfois, j'oublie de demander service à quelqu'un."],"m")
-// chat(["Dites-moi avez-vous oublié les anniversaires"],"f")
-// chat(["J'espère que vous vous rappelez de notre expérience"],"m")
 
 //  Unit tests of all sentences
 function testAll(key_en, userText){
-    // copy groups so that multiple realization do not change the terminals in the group
-    // only useful for testAll
-    function copyGroups(groups){ 
-        return groups.map(g=>g.map(t=>Q(t.lemma)))
-    }
+    console.log("testAll(%s,%s)",key_en,userText)
     let keyword = enKeys[key_en];
     if (keyword !== undefined){
         const key = keyword.key
@@ -101,7 +88,7 @@ function testAll(key_en, userText){
                 console.log("groups: /",groups.slice(1).map(g=>g.map(t=>t.realize())).join("/"),"/")
                 for (let fn of pat.reasmb){
                     if (typeof fn == "function"){
-                        const expr = fn(copyGroups(groups),user_gender)
+                        const expr = fn(groups,user_gender)
                         console.log(expr.typ({"maje":use_majestic}).realize());
                     } else {
                         console.log("==>",fn)
@@ -112,65 +99,108 @@ function testAll(key_en, userText){
         }
     } else 
         console.log("keyword:%s absent",key_en)
+    console.log("---------")
 }
 
 
-// testAll("xnone","")
-// testAll("sorry","excusez-moi")
-// testAll("apologize","je vous demande pardon")
-// testAll("remember","je me rappelle des choses")
-// testAll("remember","vous vous rappelez de vos voyages")
-// testAll("remember","ceci vous rappelle des bons souvenirs")
-// testAll("forget","J'oublie les anniversaires")
-// testAll("forget","Quand avez-vous oublié de venir")
-// testAll("if","Ah si j'avais su")
-// testAll("dream","J'ai fait un rêve avec des éléphants roses")
-// testAll("perhaps","J'irai peut-être au ciel")
-// testAll("name","je ne connais pas votre nom")
-// testAll("deutsch","Parlez-moi en allemand")
-// testAll("francais","Parlez-moi en français")
-// testAll("italiano","Parlez-moi en italien")
-// testAll("espanol","Parlez-moi en espagnol")
-// testAll("xforeign","Anything")
-// testAll("hello","Bonjour")
-// testAll("computer","J'ai peur des ordinateurs")
-// testAll("am","Pourquoi suis-je perdu ?")
-// testAll("am","Pourquoi êtes-vous perdu ?")
-// testAll("am","Pourquoi es-tu perdu ?")
-// testAll("am","Ils sont jaloux")
-// testAll("your","J'aime bien votre attitude")
-// testAll("i","Étais-je capable d'y arriver ?")
-// testAll("i","Étais-tu capable d'y arriver ?")
-// testAll("i","Étiez-vous capable d'y arriver ?")
-// testAll("i","Je désire du chocolat")
-// testAll("i","Je suis malheureux en affaire")
-// testAll("i","Je suis heureux en affaire")
-// testAll("i","Je pense que je vais bien")
-// testAll("i","je suis à l'affut")
-// testAll("i","Je ne peux pas aller à la plage")
-// testAll("i","Je ne veux pas manger de la soupe")
-// testAll('i',"Je sens des mauvaises vibrations")
-// testAll("you","Vous me rappelez de revenir")
-// testAll("you","Vous êtes très fort")
-// testAll("yes","Très bien")
-// testAll("no_one","Personne ne veut venir")
-// testAll("no","non")
-// testAll("my","j'aime bien mon épouse")
-// testAll("can","Pouvez-vous m'aider ?")
-// testAll("can","puis-je vous demander des choses")
-//testAll("what","Je ne sais plus quoi faire")
-// testAll("because","Je vous parle parce que j'ai peur")
-// testAll("why","Je ne vois pas pourquoi ne pouvez-vous pas arriver demain")
-// testAll("why","Pourquoi ne puis-je pas arriver en retard")
-// testAll("everyone","J'imagine que tout le monde veut aller au ciel")
-// testAll("always","J'aime toujours cela")
-// testAll("alike","Le chien est semblable au chat")
-// testAll("like","C'est pareil")
-// testAll("different","nous sommes tous différentd")
+function run_testAll(){
+    // testAll("xnone","")
+    // testAll("sorry","excusez-moi")
+    // testAll("sorry","je vous demande pardon")
+    // testAll("remember","je me rappelle des choses")
+    // testAll("remember","vous vous rappelez de vos voyages")
+    // testAll("remember","ceci vous rappelle des bons souvenirs")
+    // testAll("forget","J'oublie les anniversaires")
+    // testAll("forget","Quand avez-vous oublié de venir")
+    // testAll("if","Ah si j'avais su")
+    // testAll("dreamed","Je rêve d'être informaticien")
+    // testAll("dream","J'ai fait un rêve avec des éléphants roses")
+    // testAll("perhaps","J'irai peut-être au ciel")
+    // testAll("name","je ne connais pas votre nom")
+    // testAll("deutsch","Sprechen bitte auf Deutsch")
+    // testAll("francais","In English please")
+    // testAll("italiano","In italiano")
+    // testAll("espanol","Habla espanol")
+    // testAll("xforeign","Anything")
+    // testAll("hello","Bonjour")
+    // testAll("computer","J'ai peur des ordinateurs")
+    // testAll("am","Pourquoi suis-je perdu ?")
+    // testAll("am","Pourquoi êtes-vous perdu ?")
+    // testAll("am","Pourquoi es-tu perdu ?")
+    // testAll("am","Ils sont jaloux")
+    // testAll("your","J'aime bien votre attitude")
+    // testAll("i","Étais-je capable d'y arriver ?")
+    // testAll("i","Étais-tu capable d'y arriver ?")
+    // testAll("i","Étiez-vous capable d'y arriver ?")
+    // testAll("i","Je désire du chocolat")
+    // testAll("i","Je suis malheureux en affaire")
+    testAll("i","Je suis heureux en affaire")
+    testAll("i","Je pense que je vais bien")
+    testAll("i","je suis à l'affut")
+    testAll("i","Je ne peux pas aller à la plage")
+    testAll("i","Je ne veux pas manger de la soupe")
+    testAll('i',"Je sens des mauvaises vibrations")
+    testAll("you","Vous me rappelez de revenir")
+    // testAll("you","Vous êtes très fort")
+    // testAll("yes","Très bien")
+    // testAll("no_one","Personne ne veut venir")
+    // testAll("no","non")
+    // testAll("my","j'aime bien mon épouse")
+    // testAll("can","Pouvez-vous m'aider ?")
+    // testAll("can","puis-je vous demander des choses")
+    // testAll("what","Je ne sais plus quoi faire")
+    // testAll("because","Je vous parle parce que j'ai peur")
+    // testAll("why","Je ne vois pas pourquoi ne pouvez-vous pas arriver demain")
+    // testAll("why","Pourquoi ne puis-je pas arriver en retard")
+    // testAll("everyone","J'imagine que tout le monde veut aller au ciel")
+    // testAll("always","J'aime toujours cela")
+    // testAll("alike","Le chien est semblable au chat")
+    // testAll("like","C'est pareil")
+    // testAll("different","nous sommes tous différentd")
 
-// test all initial and final sentences
-// for (let group of [elizaFinals,elizaInitials]) {
-//     for (let f of group){
-//         console.log(f([],"f").typ({"maje":true}).realize())
-//     }
-// }
+    // // test all initial and final sentences
+    // for (let group of [elizaFinals,elizaInitials]) {
+    //     for (let f of group){
+    //         console.log(f([],"f").typ({"maje":true}).realize())
+    //     }
+    // }
+}
+import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
+    S, NP, AP, VP, AdvP, PP, CP, SP} from "../../src/jsRealB.js"
+// exemples utilisés dans le document "Développement d'Eliza en français"
+function exemplesPapier(){
+        
+    const vous = (g) => Pro("moi").pe(2).g(g).c("nom")
+    const f = (m,g) => S(vous(g),VP(V("penser"),Adv("souvent"),PP(P("à"),m[2]))).typ({"int":"yon"})
+
+    let terminals = tokenizeFr("Souvent je me rappelle le début de ma carrière").map(getTerminals)
+    showTerminalLists(terminals)
+
+    const decomp = [Q("*"),Pro("je").pe(1),Pro("me").pe(1),V("rappeler"),Q("*")]
+    // sans vouvoiement
+    let groups = matchDecomp(decomp,terminals,true)
+    for (let group of groups.slice(1)){
+        console.log(group.map(t=>t.toSource()))
+    }
+
+    console.log(f(groups,"m").toSource(0))
+    console.log(
+        f(groups,"m").typ({"maje":true}).realize()
+    )
+    // avec vouvoiement
+    groups = matchDecomp(decomp,terminals,false)
+    for (let group of groups.slice(1)){
+        console.log(group.map(t=>t.toSource()))
+    }
+    console.log(
+        f(groups,"m").typ({"maje":false}).realize()
+    )
+}
+
+
+// lancer les tests
+// runScript(userInputs)
+// runScript(exampleLines)
+
+run_testAll()
+// exemplesPapier()

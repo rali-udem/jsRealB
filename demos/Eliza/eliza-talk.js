@@ -1,47 +1,45 @@
-import {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, select, choose, tokenizeFr,mememot,matchDecomp, getTerminals} from "./eliza.js"
+// Conversation avec Eliza 
+// ATTENTION: dans VSCODE, il faut utiliser la console "terminal" et non "debug" comme pour les autres applications
 
-// interactive use 
+import {elizaInitials, elizaQuits, elizaFinals, enKeys, 
+       select, choose, tokenizeFr,getTerminals, 
+       getKeyword, getQuestion} from "./eliza.js"
+       
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 const rl = readline.createInterface({ input, output });
 
+// configuration du dialogue
 let user_gender="f";
 let eliza_gender="f";
 let use_majestic= true;
 let trace = false
 
+function ask(fn,groups){
+    return fn(groups,user_gender).typ({"maje":use_majestic}).realize()+"\n"
+}
+
 async function talkWithEliza(){
-    function getAnswer(fn,groups){
-        return fn(groups,user_gender).typ({"maje":use_majestic}).realize()+"\n"
-    }
-    let prompt = getAnswer(choose(elizaInitials,[]));
+    let prompt = ask(choose(elizaInitials,[]));
     while(true) {
-        let input = await rl.question(prompt);
-        if (elizaQuits.includes(input.toLowerCase())){
-            console.log(getAnswer(choose(elizaFinals,[]))) // last answer
+        let userInput = await rl.question(prompt);
+        if (elizaQuits.includes(userInput.toLowerCase())){// dernière question
+            console.log(ask(choose(elizaFinals),[])) 
             rl.close()
             break;
         } else {
-            // transform input to reply
-            let terminals = tokenizeFr(input).map(getTerminals);
-            // if (trace) showTerminalLists(terminals)
-            let replyFound = false;
-        search: for (let keyword of keywordsFr){ // search for keyword occurrence
-                if (terminals.some(t=>mememot(keyword.key,t)!==null)){
-                    let patIdx = 0
-                    for (let pat of keyword.pats){
-                        let groups = matchDecomp(pat.decomp,terminals,use_majestic);
-                        if (groups != null){
-                            prompt=getAnswer(select(pat),groups);
-                            replyFound = true;
-                            break search;
-                        }
-                        patIdx++;
-                    }
+            let terminals = tokenizeFr(userInput).map(getTerminals);
+            const keyWord = getKeyword(terminals);  // trouver le bon mot-clé
+            if (keyWord==null){
+                prompt = ask(select(enKeys["xnone"].pats[0]),[])
+            } else {
+                let [questionFn,groups] = getQuestion(terminals,keyWord,use_majestic,trace)
+                if (questionFn != null){
+                    prompt = ask(questionFn,groups)
+                } else {
+                    prompt = "*** pas de question trouvée..."+keyWord.key_en+"\n"
                 }
             }
-            if (!replyFound) // no appropriate reply found
-                prompt = getAnswer(select(enKeys["xnone"].pats[0]),[])
         }
     }
 }
