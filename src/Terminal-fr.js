@@ -295,7 +295,6 @@ const French_terminal = (superclass) =>
                             let n=(this.cod ?? this).getProp("n");
                             if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
                             if (n=="x")n="s";
-                            if (this.isMajestic()) n=this.getNumber();
                             const gn=g+n;
                             if (!(gn == "mp" && this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s
                                 if (gn != "ms" && this.realization.endsWith("û"))// changer "dû" en "du" sauf pour masc sing

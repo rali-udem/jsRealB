@@ -6,7 +6,10 @@ import { keywordsFr, elizaFinals, elizaQuits, elizaInitials } from "./keywordsFr
 
 export {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, 
         select, choose, tokenizeFr,mememot,matchDecomp, getTerminals, 
-        showTerminalLists, getKeyword, getQuestion}
+        showTerminalLists, getKeyword, getQuestion, changePerson}
+
+// Forcer la réalisation avec realize, plus pratique pour la mise au point
+Constituent.debug=true;
 
 // Trier les mots-clés en ordre décroissant de "rank"
 keywordsFr.sort((k1,k2) => k2.rank - k1.rank )
@@ -74,18 +77,21 @@ function mememot(term1,term2,props){
     return null
 }
 
-// changer les premières personnes en deuxième dans une liste de terminaux
+// changer les premières personnes en deuxième (et vice-versa) dans une liste de terminaux
 // S'il y a des changements alors on recrée de nouveaux terminaux avec "clone" 
 function changePerson(group,use_majestic){
     let res = []
     for (let termList of group){
         let term = termList[0]
-        // console.log(term.realize(),term.lemma, term.getProp("pe"))
-        let pe = term.getProp("pe");
-        if (pe==1)
-            term = term.clone().pe(2)
-        if (term.lemma == "mon" && use_majestic){
-            term = term.clone().setLemma("notre").maje(false)
+        if (term.isA("Pro","D")){
+            let pe = term.getProp("pe");
+            if (pe==1)
+                term = term.clone().pe(2)
+            else if (pe==2)
+                term = term.clone().pe(1).n("s")
+            if (term.lemma == "mon" && use_majestic){
+                term = term.clone().setLemma("notre").maje(false)
+            }
         }
         res.push(term)
     }

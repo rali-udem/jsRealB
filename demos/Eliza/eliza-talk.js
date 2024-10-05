@@ -10,7 +10,7 @@ import { stdin as input, stdout as output } from 'node:process';
 const rl = readline.createInterface({ input, output });
 
 // configuration du dialogue
-let user_gender="f";
+let user_gender="m";
 let eliza_gender="f";
 let use_majestic= true;
 let trace = false

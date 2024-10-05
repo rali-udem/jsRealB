@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 5.0 - December 2023*
+*Version 5.1 - October 2024*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -126,8 +126,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
       
          * using the original specification 
          * using the tonic and clitic options  
-        
-      
+    
+    
       This table is now part of the documentation
     
 * **User interface to create a  sentence with options**. The system shows the `jsRealB` expression and its realization. It is also possible to ask for a random sentence using words of the lexicon.
@@ -153,6 +153,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * **[Exercise in Style](https://en.wikipedia.org/wiki/Exercises_in_Style)** which creates the structure of the original story of Raymond Queneau in both French and English. Using menus, some elements of the text can be modified and the modifications are highlighted in the web page. [Exercises in style](demos/ExercicesDeStyle) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesDeStyle/index.html)
 * **L'augmentation** : Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
 
+* **Eliza** : Use *jsRealB* to program a version of the classical Eliza doctor script in French. Mainly used to show how to generate questions.
+    
 * **Universal Dependencies** structure used for generating the original sentence from its annotation:
     * in English : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-en.html)
     * in French  : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-fr.html)

@@ -1,7 +1,9 @@
-import {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, select, choose, tokenizeFr,mememot,matchDecomp, getTerminals, showTerminalLists, getKeyword, getQuestion} from "./eliza.js"
+import {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, select, choose, 
+        tokenizeFr,mememot,matchDecomp, getTerminals, showTerminalLists, getKeyword, 
+        getQuestion, changePerson} from "./eliza.js"
 
 
-let user_gender="f";
+let user_gender="m";
 let eliza_gender="f";
 let use_majestic= true;
 let trace = false;
@@ -16,7 +18,7 @@ function ask(fn,groups,infos){
 }
 
 function runScript(inputs){
-    console.log("Discussion avec Eliza: \n  genre du patient:%s, genre d'Eliza:%s vouvoiement: %s\N",
+    console.log("Discussion avec Eliza: \n  genre du patient:%s, genre d'Eliza:%s vouvoiement: %s\n",
         user_gender,eliza_gender,use_majestic?"oui":"non")
     ask(choose(elizaInitials),[],": initials")  // initial prompt
     for (let input of inputs){
@@ -44,14 +46,20 @@ function runScript(inputs){
 }
 
 let userInputs = [
-    "Je me rappelle manger de la soupe",
+    "Je me rappelle le bon vieux temps",
+    "Mais j'oublie toujours votre nom",
+    "Je rêve de devenir célèbre",
     "J'ai peur des machines",
-    "je vous demande pardon",
-    "Excusez-moi",
-    "Parfois, j'oublie de demander service à quelqu'un.",
-    "Dites-moi avez-vous oublié les anniversaires",
-    "J'espère que vous vous rappelez de notre expérience",
-    "bye"
+    "Je suis souvent fatigué",
+    "J'estime que vous ne m'aidez pas beaucoup",
+    "J'aimerais vous présenter de mon épouse",
+    "Pourquoi ne pouvez-vous pas m'aider à progresser",
+    "Pourquoi ne pouvez-vous pas m'aider à progresser",
+    "Je vous demande pardon",
+    "Tous les personnes sont semblables",
+    "Can we continue in English",
+    "But I want to speak in English",
+    "Fin"
 ]
 
 let exampleLines = [
@@ -134,13 +142,13 @@ function run_testAll(){
     // testAll("i","Étiez-vous capable d'y arriver ?")
     // testAll("i","Je désire du chocolat")
     // testAll("i","Je suis malheureux en affaire")
-    testAll("i","Je suis heureux en affaire")
-    testAll("i","Je pense que je vais bien")
-    testAll("i","je suis à l'affut")
-    testAll("i","Je ne peux pas aller à la plage")
-    testAll("i","Je ne veux pas manger de la soupe")
-    testAll('i',"Je sens des mauvaises vibrations")
-    testAll("you","Vous me rappelez de revenir")
+    // testAll("i","Je suis heureux en affaire")
+    // testAll("i","Je pense que je vais bien")
+    // testAll("i","je suis à l'affut")
+    // testAll("i","Je ne peux pas aller à la plage")
+    // testAll("i","Je ne veux pas manger de la soupe")
+    // testAll('i',"Je sens des mauvaises vibrations")
+    // testAll("you","Vous me rappelez de revenir")
     // testAll("you","Vous êtes très fort")
     // testAll("yes","Très bien")
     // testAll("no_one","Personne ne veut venir")
@@ -150,15 +158,15 @@ function run_testAll(){
     // testAll("can","puis-je vous demander des choses")
     // testAll("what","Je ne sais plus quoi faire")
     // testAll("because","Je vous parle parce que j'ai peur")
+    // testAll("everyone","J'imagine que tout le monde veut aller au ciel")
     // testAll("why","Je ne vois pas pourquoi ne pouvez-vous pas arriver demain")
     // testAll("why","Pourquoi ne puis-je pas arriver en retard")
-    // testAll("everyone","J'imagine que tout le monde veut aller au ciel")
     // testAll("always","J'aime toujours cela")
     // testAll("alike","Le chien est semblable au chat")
     // testAll("like","C'est pareil")
     // testAll("different","nous sommes tous différentd")
 
-    // // test all initial and final sentences
+    // test all initial and final sentences
     // for (let group of [elizaFinals,elizaInitials]) {
     //     for (let f of group){
     //         console.log(f([],"f").typ({"maje":true}).realize())
@@ -167,15 +175,78 @@ function run_testAll(){
 }
 import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     S, NP, AP, VP, AdvP, PP, CP, SP} from "../../src/jsRealB.js"
+import {lemmataFr} from "./lemmatize.js"
+
 // exemples utilisés dans le document "Développement d'Eliza en français"
 function exemplesPapier(){
-        
-    const vous = (g) => Pro("moi").pe(2).g(g).c("nom")
-    const f = (m,g) => S(vous(g),VP(V("penser"),Adv("souvent"),PP(P("à"),m[2]))).typ({"int":"yon"})
+    
+    function show(expr){
+        console.log(expr.toSource(0)+"\n => "+expr.realize())
+        console.log("--")
+    }
+    
+    // section 2.1
+    show(Pro('moi').pe(3).g("f").c("nom"))
+    show(A("content").g("f"))
+    show(V("être").t("i").pe(2))
+    
+    show(
+        S(Pro("moi").pe(3).g("f").c("nom"), 
+          VP(V("être").t("i"),
+             A("content"),"de venir"))
+    )
+    
+    show(
+        S(Pro("moi").pe(3).g("f").c("nom"), 
+          VP(V("être").t("i"),
+             A("content"),"de venir")).typ({"int":"yon","neg":true})
+    )
+       
+    function vous(g){
+        return Pro("moi").pe(2).g(g).c("nom")
+    }
+    
+    function f(m,g){
+        return S(vous(g),
+                 VP(V("penser"),
+                    PP(P("à"),m[2])))
+    }
+    
+    const m = ["","","revenir à la maison"]
+    show(f(m,"f"))
+    show(f(m,"f").typ({"int":"yon"}))
+    
+    // section 2.2
+    show(f(m,"f").typ({"int":"yon","maje":true}))
+    
+    function moi(g){return Pro("moi").pe(1).g(g).tn("")}
+    function f1(){
+        return S(vous("f"),
+                VP(V("être"),
+                    A("content"),
+                    PP(P("de"),moi("m")))
+            ).typ({"maje":true})
+    }
+    show(f1())
 
-    let terminals = tokenizeFr("Souvent je me rappelle le début de ma carrière").map(getTerminals)
+    function moi_(g){return Pro("moi").pe(1).g(g).tn("").maje(false)}
+    function f1_(){
+        return S(vous("f"),
+                 VP(V("être"),
+                    A("content"),
+                    PP(P("de"),moi_("m")))
+               ).typ({"maje":true})
+    }
+    show(f1_())
+    
+    // section 3.2
+    showTerminalLists([lemmataFr.get("suis")])
+    showTerminalLists([lemmataFr.get("la")])
+
+    let terminals = tokenizeFr("Généralement je me rappelle le début de ma carrière").map(getTerminals)
     showTerminalLists(terminals)
-
+    
+    // section 3.3
     const decomp = [Q("*"),Pro("je").pe(1),Pro("me").pe(1),V("rappeler"),Q("*")]
     // sans vouvoiement
     let groups = matchDecomp(decomp,terminals,true)
@@ -192,15 +263,21 @@ function exemplesPapier(){
     for (let group of groups.slice(1)){
         console.log(group.map(t=>t.toSource()))
     }
-    console.log(
-        f(groups,"m").typ({"maje":false}).realize()
+    
+    show(
+        S(Pro("moi").pe(2).g("m").c("nom"),
+          VP(V("penser"),
+             Adv("souvent"),
+             PP(P("à"),[D('le'), N('début'), D('de'), 
+                        D('notre').g("f").pe(2).maje(false), N('carrière')]))
+         ).typ({"int":"yon"}).typ({"maje":true})
     )
 }
 
 
 // lancer les tests
-// runScript(userInputs)
+runScript(userInputs)
 // runScript(exampleLines)
 
-run_testAll()
+// run_testAll()
 // exemplesPapier()
