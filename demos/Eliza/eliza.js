@@ -33,7 +33,7 @@ function getTerminals(word){
         terms.sort((t1,t2)=>terminalOrder[t1.constType]-terminalOrder[t2.constType])
         return terms
     }
-    return [Q(`${word}`)]
+    return [Q(word)]
 }    
 
 // afficher des listes de terminaux (pour la mise au point)
@@ -83,7 +83,7 @@ function changePerson(group,use_majestic){
     let res = []
     for (let termList of group){
         let term = termList[0]
-        if (term.isA("Pro","D")){
+        if (term.isA("Pro","D","V")){
             let pe = term.getProp("pe");
             if (pe==1)
                 term = term.clone().pe(2)
@@ -119,9 +119,10 @@ function matchDecomp(decomps,terminals,use_majestic){
                 }
                 groups.push(changePerson(group,use_majestic))
             }
-        } else if (iTerm >=terminals.length){ // décomp too long for terminals
+        } else if (iTerm >=terminals.length){ // décomp trop long pour terminals
             return null
-        } else if (mememot(decomps[iDecomp],terminals[iTerm],true)!=null){ // decomp word matches terminal
+        } else if (mememot(decomps[iDecomp],terminals[iTerm],true)!=null){
+            // mot de decomp correspond au terminal
             iTerm++;
         } else {  // decomp word does not match terminal
             return null
@@ -130,9 +131,9 @@ function matchDecomp(decomps,terminals,use_majestic){
      return groups
 }
 
-// choisie un élément au hasard dans une liste
-function choose(list){
-    return list[Math.trunc(Math.random()*list.length)]
+// choisir un élément au hasard dans une liste
+function choose(liste){
+    return liste[Math.trunc(Math.random()*liste.length)]
 }
 
 // retourner la prochaine alternative dans une liste de pattern 
@@ -159,7 +160,7 @@ function select(pat){
         if (groups != null){
             if (trace) console.log("groups: /",groups.slice(1).map(g=>g.map(t=>t.realize())).join("/"),"/")
             let questionFn = select(pat);
-            if (typeof questionFn != "function"){// deal with goto
+            if (typeof questionFn != "function"){// traiter le goto
                 if (trace) console.log("=>",questionFn);
                 return getQuestion(terminals,enKeys[questionFn.slice(5)],use_majestic,trace);
             }

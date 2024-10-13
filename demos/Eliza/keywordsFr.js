@@ -170,7 +170,7 @@ let keywordsFr =
     // en: It did not bother me.  Please continue.
     // fr: Cela ne m'a pas dérangé.  Veuillez continuer.
     (m,g) => S(SP(Pro("cela"),
-                  VP(V("déranger").t("pc"),moi_cod(g))).typ({"neg":true}).a("."),
+                  VP(V("déranger").t("pc"),moi_cod())).typ({"neg":true}).a("."),
                SP(V("vouloir").t("ip").pe(2),V("continuer").t("b")).cap(true))
     ]}
 ]},
@@ -488,13 +488,13 @@ let keywordsFr =
     // en: I am not interested in names.
     // fr: Les noms ne m'intéressent pas.
     (m,g) => S(NP(D("le"),N("nom").n("p")),
-               VP(V("intéresser"),moi_cod(g))).typ({"neg":true}),
+               VP(V("intéresser"),moi_cod())).typ({"neg":true}),
     // en: I've told you before, I don't care about names -- please continue.
     // fr: Je vous l'ai déjà dit, les noms ne m'intéressent pas - continuez, s'il vous plaît.
     (m,g) => S(moi(),
                VP(vous_coi(g),V("dire").t("pc"),Adv("déjà")).a(","),
                SP(NP(D("le"),N("nom").n("p")),
-                  VP(V("intéresser"),moi_cod(g))).typ({"neg":true}).a(" -- "),
+                  VP(V("intéresser"),moi_cod())).typ({"neg":true}).a(" -- "),
                V("continuer").t("ip").pe(2),svp()),
     ]}
 ]},
@@ -1604,7 +1604,7 @@ let keywordsFr =
     ]}
 ]},
 
-{"key":"jsRterm", "key_en":"everyone", "rank":2, "pats":[  // everyone
+{"key":Pro("chacun"), "key_en":"everyone", "rank":2, "pats":[  // everyone
  {"decomp":[star], // * @everyone *
   "reasmb":[
     // en: Really, (2) ?

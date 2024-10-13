@@ -256,11 +256,10 @@ function buildLemmataFr(){
 
 //  Heuristic for splitting a French sentence in words, expanding elisions and contractions
 function tokenizeFr(sentence){
-    const elidableFRList = ["la", "le", "je", "me", "te", "se", "de", "ne", "que", "puisque", "lorsque", "jusque", "quoique" ]
+    const elidableFRList = ["ce", "la", "le", "je", "me", "te", "se", "de", "ne", "que", "puisque", "lorsque", "jusque", "quoique" ]
     const contractionFrTable={
         "au":"à+le","aux":"à+les","ç'a":"ça+a",
         "du":"de+le","des":"de+les","d'autres":"de+autres",
-        "d'autres":"des+autres",
         "s'il":"si+il","s'ils":"si+ils"};
 
     // split on non French letter and apostrophe and remove empty tokens

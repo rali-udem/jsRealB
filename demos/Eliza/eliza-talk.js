@@ -27,18 +27,17 @@ async function talkWithEliza(){
             console.log(ask(choose(elizaFinals),[])) 
             rl.close()
             break;
+        }
+        let terminals = tokenizeFr(userInput).map(getTerminals);
+        const keyWord = getKeyword(terminals);  // trouver le bon mot-clé
+        if (keyWord==null){
+            prompt = ask(select(enKeys["xnone"].pats[0]),[])
         } else {
-            let terminals = tokenizeFr(userInput).map(getTerminals);
-            const keyWord = getKeyword(terminals);  // trouver le bon mot-clé
-            if (keyWord==null){
-                prompt = ask(select(enKeys["xnone"].pats[0]),[])
+            let [questionFn,groups] = getQuestion(terminals,keyWord,use_majestic,trace)
+            if (questionFn != null){
+                prompt = ask(questionFn,groups)
             } else {
-                let [questionFn,groups] = getQuestion(terminals,keyWord,use_majestic,trace)
-                if (questionFn != null){
-                    prompt = ask(questionFn,groups)
-                } else {
-                    prompt = "*** pas de question trouvée..."+keyWord.key_en+"\n"
-                }
+                prompt = "*** pas de question trouvée..."+keyWord.key_en+"\n"
             }
         }
     }
