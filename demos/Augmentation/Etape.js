@@ -1,8 +1,21 @@
 import {minX,maxX,fleche,m,tracer} from "./Graphique.js"
 import {graphe,Etat} from "./Etat.js";
 
+export {protagoniste}
+
 const eq = (v1,v2) => Math.abs(v1-v2)<10 ; // à peu près égal...
 
+let protagoniste = {
+    pe:2,n:"s",g:"m",
+    use_majestic:true,
+    struct:() => Pro("moi").pe(protagoniste.pe)
+                           .g(protagoniste.g)
+                           .n(protagoniste.n).c("nom"),
+    structTn:() => Pro("moi").pe(protagoniste.pe)
+                             .g(protagoniste.g)
+                             .n(protagoniste.n).tn("")
+   }
+ 
 export class Etape extends Etat{
     constructor(nom, x, y, struct,suivant, nextPath) {
         super(nom, x, y, struct);
@@ -10,9 +23,8 @@ export class Etape extends Etat{
         this.nextPath = nextPath;
     }
     realiser() {
-        if (this.struct === undefined)
-        return this.nom;
-        return this.struct() + "";
+        if (this.struct === undefined)return this.nom;
+        return this.struct().typ({"maje":protagoniste.use_majestic}).realize();
     }
     toString() {
         return `Etape(${this.nom},${this.suivant})`;

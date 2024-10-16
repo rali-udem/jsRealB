@@ -1,5 +1,5 @@
 import {graphe} from "./Etat.js";
-import {Etape} from "./Etape.js";
+import {Etape, protagoniste} from "./Etape.js";
 import {Test} from "./Test.js";
 
 export {etats,parametrer,etatInitial,etatFinal};
@@ -11,22 +11,14 @@ function neg(s,n){
 }
 
 function interrog(s){
-   return s instanceof Q ? s().a("?") : 
-                           oneOf(()=>s().typ({int:"yon"}),  // question par inversion
-   ()=>S(Q("est-ce"),Q("que"),s()).a("?")) // question débutant pas "Est-ce que"
+   return s instanceof Q 
+             ? s().a("?") : 
+               oneOf(()=>s().typ({int:"yon"}),  // question par inversion
+                     ()=>S(Q("est-ce"),Q("que"),s()).a("?")) // question débutant pas "Est-ce que"
 }
 
 // paramètres du texte t=temps, g=genre, n=nombre, pe=personne
 var t="pc";
-let protagoniste = {
-   pe:2,n:"p",g:"m",
-   struct:() => Pro("moi").pe(protagoniste.pe)
-                          .g(protagoniste.g)
-                          .n(protagoniste.n).c("nom"),
-   structTn:() => Pro("moi").pe(protagoniste.pe)
-                            .g(protagoniste.g)
-                            .n(protagoniste.n).tn("")
-  }
 
 // personnages
 let poss         = () => D(protagoniste.n=="s"?"mon":"notre").pe(protagoniste.pe)
@@ -64,9 +56,9 @@ function parametrer(chemin){
    t=d3.select("#temps").property("value");
    const st=d3.select("#style").property("value");
    if (st=="vous"){
-       protagoniste.n="p";protagoniste.pe="2"
+      protagoniste.use_majestic = true
    } else {
-       protagoniste.n="s";protagoniste.pe="2"
+      protagoniste.use_majestic = false
    }
    protagoniste.g=d3.select("#sexeProtagoniste").property("value");
    chef.g=d3.select("#sexeChef").property("value");
@@ -388,7 +380,7 @@ const etats =[
     new Etape("Retournez à votre place",454,994,
               ()=>S(protagoniste.struct(),
                     VP(V("retourner").t(t),
-                       PP(P("à"),poss(),N("place")))),
+                       PP(P("à"),NP(poss(),N("place"))))),
               "Réfléchissez au prochain problème","v 10"),
     new Etape("lui laisser le temps d'assimiler",620,975,
               ()=>S(protagoniste.struct(),
@@ -455,8 +447,8 @@ Test.prototype.realiser = function(OuiNon){
    let oui = alt(this.oui());
    let non = alt(this.non());
    res.push(oneOf(S(C("ou"), Adv("bien"), alternative().a(","),
-       C("ou"), Adv("bien"), neg(alternative)),
-       interrog(alternative)));
+                    C("ou"), Adv("bien"), neg(alternative)),
+                  interrog(alternative)));
    // console.log(this.oui(),this.oui().getStruct());
    res.push(S(C("si"), alternative().t(cond[t]).a(","), oui().t(csq[t])));
    res.push(oneOf(() => S(C("sinon"), non().t(csq[t])),
