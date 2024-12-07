@@ -2,9 +2,6 @@
 var lang,format,representation;
 Object.assign(globalThis,jsRealB);
 
-loadEn();buildLemmataEn();
-loadFr();buildLemmataFr();
-
 const constituentFr= `var dest=NP(D("le"),N("monde"));
 S(Pro("je").pe(1),
   VP(V("dire"),
@@ -103,7 +100,7 @@ const texts = {  // simple localization of texts
 
 const attrs = {
     "#doc":["href","../../documentation/user.html?lang=en","../../documentation/user.html?lang=fr"],
-    "#res_query":["placeholder","word or regex","mot ou regex"],
+    "#lex_query_input":["placeholder","word or regex [/ pos]","mot ou regex [/ pos]"],
 }
 
 function changeExemple() {
@@ -199,8 +196,8 @@ function lex_query(e){
         const $result = $("#lex_result")
         const query_type=$("#lex_query").val();
         $result.text("");
-        if (query_type=="lx" && query.indexOf(" ")){
-            [query,category]=query.split(/ +/)
+        if (query_type=="lx" && query.indexOf("/")){
+            [query,category]=query.split(/ *\/ */)
             if (category !==undefined && !["N","A","Pro","D","V","Adv","C","P"].includes(category)){
                 $result.text(category+(lang=="en"? ": bad lexicon category" : ": mauvaise catégorie lexicale"))
                 return
@@ -279,6 +276,11 @@ $(document).ready(function(){
     editor.setOption("minLines", 10);
     editor.setOption("maxLines", 20);
     editor.setFontSize("16px"); // grandeur de police de défaut
+    
+    lemmataEn = buildLemmataMap("en")
+    lemmataFr = buildLemmataMap("fr")
+    rulesEn = getRules("en")
+    rulesFr = getRules("fr")
 
     changeExemple();
     setExceptionOnWarning(true);

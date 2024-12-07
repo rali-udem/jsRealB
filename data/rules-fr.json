@@ -1526,10 +1526,10 @@
                 "p": ["us","us","ut","lvons","lvez","lvent"],
                 "i": ["lvais","lvais","lvait","lvions","lviez","lvaient"],
                 "f": ["udrai","udras","udra","udrons","udrez","udront"],
-                "ps": [null,null,null,null,null,null],
+                "ps": ["lus","lus","lut","lûmes","lûtes","lurent"],
                 "c": ["udrais","udrais","udrait","udrions","udriez","udraient"],
                 "s": ["lve","lves","lve","lvions","lviez","lvent"],
-                "si": [null,null,null,null,null,null],
+                "si": ["lusse","lusses","lût","lussions","lussiez","lussent"],
                 "ip": [null,"us",null,"lvons","lvez",null],
                 "pr": "lvant",
                 "pp": "us",
@@ -2051,14 +2051,14 @@
         "v128": {
             "ending": "ore",
             "t": {
-                "p": ["os","os","ôt",null,null,"osent"],
-                "i": [null,null,null,null,null,null],
+                "p": ["os","os","ôt","osons","osez","osent"],
+                "i": ["osais","osais","osait","osions","osiez","osaient"],
                 "f": ["orai","oras","ora","orons","orez","oront"],
-                "ps": [null,null,null,null,null,null],
+                "ps": ["osis","osis","osit","osïmes","osîtes","osirent"],
                 "c": ["orais","orais","orait","orions","oriez","oraient"],
                 "s": ["ose","oses","ose","osions","osiez","osent"],
-                "si": [null,null,null,null,null,null],
-                "ip": [null,"os",null,null,null,null],
+                "si": ["osisse","osisses","osît","osissions","osissiez","osissent"],
+                "ip": [null,"os",null,"osons","osez",null],
                 "pr": "osant",
                 "pp": "os",
                 "b": "ore"
@@ -3154,6 +3154,18 @@
                 "val": "vieilles","g": "f","n": "p"
             }]
         },
+        "n73a": {
+            "ending": "vieil",
+            "declension": [{
+                "val": "vieil","g": "m","n": "s"
+            },{
+                "val": "vieille","g": "f","n": "s"
+            },{
+                "val": "vieux","g": "m","n": "p"
+            },{
+                "val": "vieilles","g": "f","n": "p"
+            }]
+        },
         "n74": {
             "ending": "c",
             "declension": [{
@@ -3496,6 +3508,14 @@
                 "val": "ous","g": "m","n": "p"
             },{
                 "val": "olles","g": "f","n": "p"
+            }]
+        },
+        "n110": {
+            "ending": "clin d'oeil",
+            "declension": [{
+                "val": "clin d'oeil","g": "m","n": "s"
+            },{
+                "val": "clins d'oeil","g": "m","n": "p"
             }]
         },
         "pn0":{

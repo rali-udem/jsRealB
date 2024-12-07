@@ -266,14 +266,23 @@ function initVocabulaire(){
         "à","après","avant","avec","chez","contre","dans","de","depuis","en",
         "par","parmi","pour","près","sans","sous","sur","vers"
     ] : [];
-    $.each(lexicon,function(key,value){
-        if ("basic" in value){ // choose only "basic" words
-            if(value["N"])lesNoms.push(key);
-            if(value["A"])lesAdjectifs.push(key);
-            if(value["V"])lesVerbes.push(key);
-            if(value["P"] && !isFr)lesPrepositions.push(key);
-        }
-    })
+    if (isFr){
+        $.each(lexicon,function(key,value){
+            // choose only words with a "niveau"
+                if(value["N"] && value["N"]["niveau"])lesNoms.push(key);
+                if(value["A"] && value["A"]["niveau"])lesAdjectifs.push(key);
+                if(value["V"] && value["V"]["niveau"])lesVerbes.push(key);
+        })       
+    } else {
+        $.each(lexicon,function(key,value){
+            if ("ldv" in value){ // choose only "ldv" words
+                if(value["N"])lesNoms.push(key);
+                if(value["A"])lesAdjectifs.push(key);
+                if(value["V"])lesVerbes.push(key);
+                if(value["P"] && !isFr)lesPrepositions.push(key);
+            }
+        })
+    }
     // ajouter les autocomplete
     function ajouterAutocomplete(matchPrefix,list){
         $(`input[name^=${matchPrefix}].typeahead`).typeahead(

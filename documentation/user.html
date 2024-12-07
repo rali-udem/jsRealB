@@ -347,6 +347,21 @@ The <a href="http://rali.iro.umontreal.ca/JSrealB/current/IDE/README.htmls">jsRe
 <h3><code>setQuoteOOV(value)</code></h3>
 <p lang="fr">Lorsque cet identificateur est mis à <code>true</code>, les mots absents du lexique sont considérés comme des chaînes verbatim (i.e. <code>Q(...)</code> au lieu de susciter un avertissement et d'être affichés entre double crochets. Comme ceci empêche toute lemmatisation, accord ou transformation de phrases, il faut utiliser cet indicateur avec parcimonie.</p>
 <p lang="en">When this flag is set to <code>true</code>, words that are not in the lexicon are considered as quoted strings (i.e. <code>Q(...)</code> instead of raising an warning and be displayed between double square brackets. As this prevents any lemmatization, agreement or sentence transformations, this flag should be used sparingly.</p>
+
+<h3><code>buildLemmataMap(lang)</code></h3>
+<p lang="fr">Créer une table (une <code>Map</code> et non un objet Javascript). Chaque clé est une des formes déclinées ou conjuguées de tous les mots du lexique de la langue spécifiée. La valeur associée à une liste d'instances de <code>Terminal</code> qui sont réalisées par la clé.</p>
+<p lang="fr">Cette <code>Map</code> peut être utilisée pour de la génération <i>inverse</i>. Voici quelques appels suivis des résultats après &rAarr;<pre lang="fr"><code>    const lemmataFr = buildLemmataMap("fr")
+    lemmataFr.get("finies").map(e=>e.toSource()) &rAarr; <i>[A('fini').g("f").n("p"), V('finir').t("pp").g("f").n("p")]</i>
+    lemmataFr.get("crus").filter(e=>e.isA("N")).map(e=>e.toSource()) &rAarr; <i>[`N('cru').n("p")`]</i>
+</code></pre></p>
+
+<p lang="en">Build a table (a <code>Map</code>, not a Javascript object). Each key is an inflected form of all the entries in the lexicon of the specified language. The associated value is a list of <code>Terminal</code> instances that are realized by the key.</p>
+<p lang="en">This <code>Map</code>  can be used for <i>inverse</i> generation. Here are examples of calls with the result shown after &rAarr;<pre lang="en"><code>    const lemmataEn = buildLemmataMap("en")
+    lemmataEn.get("love").map(e=>e.toSource()) &rAarr; <i>[N('love'), V('love').t("b"), V('love').pe(1), V('love').pe(2), V('love').pe(1).n("p"), V('love').pe(2).n("p"), V('love').n("p")]</i>
+    lemmataFr.get("crus").filter(e=>e.isA("N")).map(e=>e.toSource()) &rAarr; <i>[N('love')]</i>
+</code></pre></p>
+
+
 <!-- *** Sélection de variantes *** -->
 <h2 lang="fr" id="selectionVar">Sélection de variantes</h2><h2 lang="en" id="varSelection">Variant selection</h2>
 <h3><code>oneOf(e<sub>1</sub>,e<sub>2</sub>,...)</code></h3>

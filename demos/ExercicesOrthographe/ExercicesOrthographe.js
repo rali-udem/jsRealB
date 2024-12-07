@@ -96,16 +96,16 @@ function verifier(){
     const sepRE=/([^-\s.,:;!$()'"?[\]]+)/;
     const joinStr=" ";
     
-    reponse=reponse.trim().split(sepRE);
-    corrige=corrige.trim().split(sepRE);
-    var diffs=levenshtein(reponse,corrige);
+    let reponseCmp = reponse.trim().split(sepRE);
+    let corrigeCmp = corrige.trim().split(sepRE);
+    var diffs=levenshtein(reponseCmp,corrigeCmp);
     // console.log(diffs);
     let diffsHTML;
     if (diffs[1]==0){
-        diffsHTML=`<span class="bravo">${reponse.join(joinStr)}</span>`;
+        diffsHTML=`<span class="bravo">${reponse}</span>`;
         nbVertes++;
     } else {
-        diffsHTML=applyEdits(diffs[0],reponse,corrige);
+        diffsHTML=applyEdits(diffs[0],reponseCmp,corrigeCmp);
     }
     // console.log("diffsHTML",diffsHTML);
     $("#exercices").find(`tr:eq(${n-2})`).find(".corrige").html(diffsHTML);

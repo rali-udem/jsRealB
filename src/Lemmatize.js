@@ -1,47 +1,51 @@
-//  this file is a subset os ../Evaluation/resource-query .js
+/**
+    jsRealB 5.2
+    Guy Lapalme, lapalme@iro.umontreal.ca, December 2024
 
-/* uncomment this for testing this file alone */
-import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
-    S, NP, AP, VP, AdvP, PP, CP, SP,
-    root, subj, det, mod, comp, coord,
-    loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon, getRules,
-    jsRealB_dateCreated, jsRealB_version, oneOf, choice, mix,
-    fromJSON, ppJSON} from "../../src/jsRealB.js"
+    Build a Map of jsRealB Terminal expressions that can generate a given form
+    by traversing all entries of a lexicon
+ */
 
-export {lemmataFr, tokenizeFr}
+import { getLanguage, getLexicon, getRules } from "./Lexicon.js"
+import { fromJSON } from "./JSON-tools.js";
+import { load } from "./jsRealB.js"
+export {buildLemmataMap}
 
-// comment next line for testing this file alone
-// Object.assign(globalThis,jsRealB);
-// const lexiconEn = getLexicon("en");
-// const ruleEn = getRules("en");
+let checkAmbiguities = false  // only enable this during development
 
-const lexiconFr = getLexicon("fr")
-const ruleFr = getRules("fr")
-
-// Only set this flag during development 
-const checkAmbiguities=false;
-let lemmataEn,lemmataFr,lemmataLang;
-
-//////////// LEMMATIZATION
-
-// start of functions
+/**
+ * Print the content of a Map by writing the source version of each Terminal
+ * @param {Map} lemmata 
+ */
 function showLemmata(lemmata){
     console.log("-------")
     var keys=Array.from(lemmata.keys());
     keys.sort();
     for (var i = 0; i < keys.length; i++) {
         var key=keys[i]
-        console.log(key,":",""+lemmata.get(key))
+        console.log(key,":",""+lemmata.get(key).toSource())
     }
 }
 
+/**
+ * Add a jsRealB expression to the list associated with a word form
+ * If the word form is not already in the Map, the list is created.
+ * 
+ * If the variable checkAmbiguities is true, then the expression is 
+ * regenerated and compared with the word form. This is useful for 
+ * debugging the jsrExp generation algorithm
+ *
+ * @param {Map} lemmata map to update
+ * @param {string} word word form
+ * @param {Terminal} jsrExp expression that can generate the word
+ */
 function addLemma(lemmata,word,jsrExp){
     if (checkAmbiguities){
         // check if jsRealB generates the same string...
         var genWord=jsrExp.realize();
         if(genWord!=word){
             // ignore differences for French "essentiellement réflexifs" verbs
-            if (lemmataLang == "en" || !jsrExp.isA("V") || !jsrExp.isReflexive() || 
+            if (getLanguage() == "en" || !jsrExp.isA("V") || !jsrExp.isReflexive() || 
                    (!genWord.endsWith(word) && !genWord.startsWith(word)))
                 console.log("%s => %s != %s",jsrExp.toSource(),genWord,word);
         }
@@ -53,18 +57,30 @@ function addLemma(lemmata,word,jsrExp){
     l.push(jsrExp);
 }
 
+/**
+ * Create a Terminal for given part-of-speech and lemma in the current language
+ *
+ * @param {string} pos
+ * @param {string} lemma
+ * @returns {Terminal}
+ */
 function jsrExpInit(pos,lemma){
-    return fromJSON({"terminal":pos,"lemma":lemma,"lang":lemmataLang})
+    return fromJSON({"terminal":pos,"lemma":lemma,"lang":getLanguage()})
 }
 
-// generate a list of jsRealB expressions (only Pro will have more than 1)
-//  from a given form (entry), for a given part-of-speech (pos)
-//  using information from the declension and lexicon information (declension, lexiconEntry)
-
-// generate a jsRealB Terminal
-//  from a given form (entry), for a given part-of-speech (pos)
-//  using information from the declension and lexicon information (declension, lexiconEntry)
+/**
+ * Generate a list of jsRealB expressions (only Pro will have more than 1) 
+ * from a given form (entry), for a given part-of-speech (pos) using information 
+ * from the declension and lexicon information (declension, lexiconEntry)
+ *
+ * @param {Object} declension declension table
+ * @param {string} pos part-of-speech
+ * @param {string} lemma
+ * @param {Object} lexiconEntry
+ * @returns {Terminal} 
+ */
 function genExp(declension,pos,lemma,lexiconEntry){
+    let lemmataLang = getLanguage()
     let jsrExp = jsrExpInit(pos,lemma)
     // console.log("genExp",declension,pos,entry,lexiconEntry);
     switch (pos) {
@@ -125,7 +141,15 @@ function genExp(declension,pos,lemma,lexiconEntry){
     return jsrExp;
 }
 
-function expandConjugation(lexicon,lemmata,rules,lemma,tab){
+/**
+ * Generate all verb forms in a lemmataMap using rules  
+ *
+ * @param {Map} lemmata
+ * @param {Object} rules
+ * @param {string} lemma
+ * @param {string} tab
+ */
+function expandConjugation(lemmata,rules,lemma,tab){
     let conjug=rules["conjugation"][tab];
     // console.log(conjug);
     if (conjug==undefined)return;
@@ -155,15 +179,31 @@ function expandConjugation(lexicon,lemmata,rules,lemma,tab){
             }
         } else if (typeof persons=="string"){
                 let word = radical+persons;
-                let jsrExp=jsrExpInit("V",lemma)
-                if (t != "p") jsrExp.t(t)  
+                let jsrExp=jsrExpInit("V",lemma);
+                if (t != "p") jsrExp.t(t);
                 addLemma(lemmata,word,jsrExp);
+                if (t == "pp" && getLanguage()=="fr" && word != "été"){
+                    if (word.endsWith("û"))word = word.slice(0,-1)+"u";
+                    addLemma(lemmata,word+"e",jsrExp.clone().g("f"));
+                    addLemma(lemmata,word+(word.endsWith("s")?"":"s"),jsrExp.clone().n("p"));
+                    addLemma(lemmata,word+"es",jsrExp.clone().g("f").n("p"));
+                }
         } else {
             console.log("***Strange persons:",lemma,tenses,k,persons);
         }
     }
 }
 
+/**
+ * Generate word form for all pos except verbs
+ *
+ * @param {Object} lexicon
+ * @param {Map} lemmata
+ * @param {Object} rules
+ * @param {string} entry
+ * @param {string} pos
+ * @param {string} tab
+ */
 function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
     var rulesDecl=rules["declension"];
     var declension=null;
@@ -196,10 +236,21 @@ function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
     }
 }
 
-function buildLemmata(lang,lexicon,rules){
-    lemmataLang=lang;
+/**
+ * returns a Map with
+ *  key : inflected form
+ *  value : Array of Terminal objets that can be realized as the key
+ *
+ * @param {String} lang
+ * @returns {Map}
+ */
+function buildLemmataMap(lang){
+    load(lang)
+    let lexicon = getLexicon()
+    let rules = getRules()
     if (checkAmbiguities){
-        console.log("Checking ambiguities for %s lemmata ...",lang=="en"?"English":"French")
+        console.log(lang=="en"?"Checking ambiguities for English lemmata ..."
+                              :"Vérification de la table des lemmes en français")
     }
     let lemmata=new Map();  // use a Map instead of an object because "constructor" is an English word...
     let allEntries=Object.keys(lexicon);
@@ -211,10 +262,10 @@ function buildLemmata(lang,lexicon,rules){
         for (var j = 0; j <  allPos.length; j++) {
             var pos=allPos[j];
             // console.log(entryInfos,j,pos);
-            if (pos=="basic" || pos=="value") continue; // ignore these properties
+            if (pos=="ldv" || pos == "niveau" || pos=="value") continue; // ignore these properties
             if (pos=="Pc") continue; // ignore punctuation
             if (pos=="V"){ // conjugation
-                expandConjugation(lexicon,lemmata,rules,entry,entryInfos["V"]["tab"]);
+                expandConjugation(lemmata,rules,entry,entryInfos["V"]["tab"]);
             } else {       // declension
                 expandDeclension(lexicon,lemmata,rules,entry,pos,entryInfos[pos]["tab"]);
             }
@@ -222,81 +273,3 @@ function buildLemmata(lang,lexicon,rules){
     }
     return lemmata;
 }
-
-function lemmatize(query,lang){
-    function removeAccent(s){
-        return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    }
-    lang=lang||getLanguage()
-    const lemmata = lang=="en" ? lemmataEn : lemmataFr;
-    if (lemmata.has(query)) // check for verbatim
-        return lemmata.get(query).map(e=>e.toSource()).join("\n")
-    // try to match with a regular expression
-    const re=new RegExp("^"+query+"$");
-    let res=[];
-    for (let key of lemmata.keys()){
-        if (re.test(key))res.push(key+": "+lemmata.get(key).map(e=>e.toSource()).join("; "));
-    }
-    if (res.length==0){
-        return query+" : "+(getLanguage()=="en"?"cannot be lemmatized":"ne peut être lemmatisé");
-    } else {
-        // sort without accent to get more usual dictionary order
-        res.sort((a,b)=>a==b?0:removeAccent(a)<removeAccent(b)?-1:1);
-        return res.join("\n");
-    }
-}
-
-function buildLemmataEn(){
-    lemmataEn=buildLemmata("en",lexiconEn,ruleEn);
-}
-
-function buildLemmataFr(){
-    lemmataFr=buildLemmata("fr",lexiconFr,ruleFr);
-}
-
-//  Heuristic for splitting a French sentence in words, expanding elisions and contractions
-function tokenizeFr(sentence){
-    const elidableFRList = ["ce", "la", "le", "je", "me", "te", "se", "de", "ne", "que", "puisque", "lorsque", "jusque", "quoique" ]
-    const contractionFrTable={
-        "au":"à+le","aux":"à+les","ç'a":"ça+a",
-        "du":"de+le","des":"de+les","d'autres":"de+autres",
-        "s'il":"si+il","s'ils":"si+ils"};
-
-    // split on non French letter and apostrophe and remove empty tokens
-    const words = sentence.toLowerCase().split(/[^a-z'àâéèêëîïôöùüç]/).filter(w=>w.length>0) 
-    // expand elision and contraction
-    let i=0
-    while (i<words.length){
-        const word=words[i];
-        if (!lemmataFr.has(word)){
-            // word does not exist try to expand elision or contraction
-            let m = /(.*?)'([haeiouyàâéèêëîïôöùüç].*)/.exec(word) // check for apostrophe followed by vowell or h
-            if (m != null ){ 
-                for (let elw of elidableFRList){ // expand elision
-                    if (elw.startsWith(m[1])){
-                        words.splice(i,1,...[elw,m[2]])
-                        i++
-                        break;
-                    }
-                }
-            } else { // expand contraction
-                if (contractionFrTable[word] !== undefined){
-                    words.splice(i,1,...contractionFrTable[word].split("+"))
-                    i++
-                }
-            }
-        }
-        i++
-    }
-    return words
-}
-
-// const tokens = tokenizeFr("J'ai mangé du pain aujourd'hui à l'hôpital , quoiqu'encore pas assez!")
-// console.log(tokens)
-
-
-loadFr()
-buildLemmataFr()
-// add tests of lemmatization
-console.log("--- lemmataFr OK")
-

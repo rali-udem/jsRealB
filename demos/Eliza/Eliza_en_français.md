@@ -349,7 +349,8 @@ Après une invitation à dialoguer (ligne 1), les lignes 2 et 4 reprennent des b
 
 ## Organisation du code source
 
-- `lemmatize.js` : créer la table de lemmatisation en parcourant le dictionnaire pour générer toutes les formes possibles. Nous avons essayé de sauver cette table en JSON et de la relire, mais ceci était plus que de la régénérer.
+- `tokenizeFr.js` : créer la table de lemmatisation en parcourant le dictionnaire pour générer toutes les formes possibles (appel à `buildLemmataMap("fr")`) et 
+séparer une phrase en mots en tenant compte des élisions et euphonies.
 - `eliza.js`  :  fonctions pour obtenir la liste des terminaux, chercher le patron avec les mots-clés,  apparier les patrons et déterminer la fonction de réalisation
 - `keywordsFr.js` :  patrons de décomposition et fonctions de génération de questions
 - `eliza-talk.js` :  dialogue interactif avec l'usager, les paramètres de dialogue sont spécifiées au début de ce fichier

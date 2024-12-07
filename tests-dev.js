@@ -7,7 +7,7 @@
 import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     S, NP, AP, VP, AdvP, PP, CP, SP,
     root, subj, det, mod, comp, coord,
-    loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon,
+    loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon,buildLemmataMap,
     jsRealB_dateCreated, jsRealB_version, oneOf, choice, mix,
     fromJSON, ppJSON} from "./src/jsRealB.js"
 
@@ -963,12 +963,35 @@ function testWarnings(){
         NP(D("un"),N("erreur")).warn(w,"A","B","C");
     }
 }
-            
+ 
+function testLemmataMaps(){
+    function showForms(lemmata,form){
+        let exprs = lemmata.get(form)
+        if (exprs == undefined) 
+            console.log(form,":", getLanguage() == "en" ? "not found" : "pas trouvé")
+        else
+            console.log(form,":", exprs.map(expr=>expr.toSource()).join(", "))
+    }
+
+    let lemmataEn = buildLemmataMap("en")
+    console.log("---")
+    showForms(lemmataEn,"love")
+    console.log(lemmataEn.get("love").filter(e=>e.isA("N")).map(e=>e.toSource()))
+    console.log("---")
+    let lemmataFr = buildLemmataMap("fr")
+    showForms(lemmataFr,"porte")
+    showForms(lemmataFr,"finies")
+    showForms(lemmataFr,"suis")
+    showForms(lemmataFr,"ménagère")
+    showForms(lemmataFr,"crus")
+    console.log(lemmataFr.get("crus").filter(e=>e.isA("N")).map(e=>e.toSource()))
+}
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
 // testPreviousExamples()
 // testWarnings()
+// testLemmataMaps()
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)
@@ -976,4 +999,10 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 // add tests here ...
 loadEn();
 loadFr();
+test(V("aimer").t("pp").g("f").n("p"))
+test(V("conquérir").t("pp").g("f").n("p"))
+test(V("dissoudre").t("pp").g("f").n("p"))
+test(V("absoudre").t("pp").g("f").n("s"))
+test(V("croître").t("pp").g("f").n("p"))
+test(V("devoir").t("pp").g("f").n("p"))
 

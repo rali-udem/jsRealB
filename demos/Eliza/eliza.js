@@ -1,7 +1,7 @@
 import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     S, NP, AP, VP, AdvP, PP, CP, SP} from "../../src/jsRealB.js"
 
-import {lemmataFr, tokenizeFr} from "./lemmatize.js"
+import {lemmataFr, tokenizeFr} from "./tokenizeFr.js"
 import { keywordsFr, elizaFinals, elizaQuits, elizaInitials } from "./keywordsFr.js";
 
 export {elizaInitials, elizaQuits, elizaFinals, keywordsFr, enKeys, 

@@ -176,7 +176,7 @@ function run_testAll(){
 }
 import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     S, NP, AP, VP, AdvP, PP, CP, SP} from "../../src/jsRealB.js"
-import {lemmataFr} from "./lemmatize.js"
+import {lemmataFr} from "./tokenizeFr.js"
 
 // exemples utilisés dans le document "Développement d'Eliza en français"
 function exemplesPapier(){
@@ -274,7 +274,6 @@ function exemplesPapier(){
          ).typ({"int":"yon"}).typ({"maje":true})
     )
 }
-
 
 // lancer les tests
 runScript(userInputs)

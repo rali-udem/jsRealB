@@ -9,10 +9,7 @@
       node /path/to/jsRealB-IDE/jsRealB-IDE-repl.js [en|fr] (fr is the default...)
 */
 import {lemmatize, isConstituent, getConjugation, getConjugationEnding, getDeclension, 
-        getDeclensionEnding,getLexiconInfo, buildLemmataEn, buildLemmataFr} from "./nodeIDE.js"
-
-loadEn(); buildLemmataEn();
-loadFr(); buildLemmataFr();
+        getDeclensionEnding,getLexiconInfo} from "./nodeIDE.js"
 
 // select language 
 var args=process.argv
@@ -115,7 +112,6 @@ replServer.defineCommand('lx', {
         console.log(word+":"+(getLanguage()=="en"?" not found in English lexicon":"pas trouvé dans le lexique français"));
     else {
         for (const [key,val] of Object.entries(info)){
-            if (key=="basic")continue;
             if (terminal==undefined || terminal in val)
                 console.log("%s:%s",JSON.stringify(key),JSON.stringify(val));
         }

@@ -12,7 +12,7 @@ function addNewWords(){
     addToLexicon("vice", {"A":{"tab":"n24"}});
     
     // mots fréquemment rencontrés, mais qui semblent douteux à ajouter au dictionnaire pour tous
-    addToLexicon("parce",{"C":{"tab":"cj"},"basic":true}); // idem que "parce que"
+    addToLexicon("parce",{"C":{"tab":"cj"}); // idem que "parce que"
     addToLexicon("sahraoui",{"N":{"g":"x","tab":"n28"},"A":{"g":"x","tab":"n28"}})
     addToLexicon("comme",{"P":{"tab":"ppe"}})
 }

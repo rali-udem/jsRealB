@@ -24,10 +24,12 @@ import { English_dependent } from "./Dependent-en.js";
 import { French_dependent } from "./Dependent-fr.js";
 
 import {loadFr, loadEn, addToLexicon, getLanguage, getLemma, getLexicon, getRules, setReorderVPcomplements, setQuoteOOV} from "./Lexicon.js"
+import {buildLemmataMap} from "./Lemmatize.js"
 import {fromJSON, ppJSON} from "./JSON-tools.js"
 
 export {Constituent, Terminal, Phrase, Dependent, 
         loadFr, loadEn, addToLexicon, getLanguage, getLemma, getLexicon, getRules, setReorderVPcomplements, setQuoteOOV,
+        buildLemmataMap,
         fromJSON, ppJSON,
         getElems, exceptionOnWarning, setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
         load, oneOf, choice, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
@@ -157,12 +159,6 @@ function mix(elems){
         elems=Array.from(arguments);
     else
         elems = [...elems] // copy the original list
-    // // shuffle the elements adapting the algorithm given in
-    // // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
-    // for (let i = elems.length - 1; i > 0; i--) {
-    //     const j = Math.floor(Math.random() * (i + 1));
-    //     [elems[i], elems[j]] = [elems[j], elems[i]];
-    // }
     shuffle(elems)
     return elems.map(e=>typeof e=='function'?e():e);
 }
@@ -170,7 +166,7 @@ function mix(elems){
 /**
  * Version number
  */
-const jsRealB_version="5.1";
+const jsRealB_version="5.2";
 /**
  * Date of jsRealB "compile", it is set by webpack
  */

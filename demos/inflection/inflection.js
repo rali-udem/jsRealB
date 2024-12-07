@@ -58,8 +58,15 @@ function conjuguer(verbe, lang,typs){
         $("#tableau").append($row)
         if (tmp[0][0].startsWith("Particip")){
             $row=$("<tr/>");
-            for (t of tmp)
-                $row.append("<td>"+VP(V(verbe).t(t[1])).typ(typs)+"</td>")
+            for (t of tmp){
+                let vs = [VP(V(verbe).t(t[1])).typ(typs)]
+                if (t[1]=="pp" && lang=="fr"){
+                    vs.push(VP(V(verbe).t(t[1])).g("f").typ(typs))
+                    vs.push(VP(V(verbe).t(t[1])).n("p").typ(typs))
+                    vs.push(VP(V(verbe).t(t[1])).g("f").n("p").typ(typs))
+                }
+                $row.append("<td>"+vs.join("<br/>")+"</td>")
+            }
             $("#tableau").append($row)
         } else {
             for (n of "sp"){

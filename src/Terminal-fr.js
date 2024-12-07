@@ -178,7 +178,7 @@ const French_terminal = (superclass) =>
             switch (t) {
             case "pc":case "pq":case "cp": case "fa": case "pa": case "spa": case "spq": case "bp":// temps composés
                 const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","pa":"ps","spa":"s","spq":"si", "bp":"b"}[t];
-                const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
+                const aux =  V("avoir","fr"); 
                 aux.parentConst=this.parentConst;
                 aux.peng=this.peng;
                 aux.taux=Object.assign({},this.taux); // separate tense of the auxiliary from the original
@@ -296,10 +296,22 @@ const French_terminal = (superclass) =>
                             if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
                             if (n=="x")n="s";
                             const gn=g+n;
-                            if (!(gn == "mp" && this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s
-                                if (gn != "ms" && this.realization.endsWith("û"))// changer "dû" en "du" sauf pour masc sing
-                                    this.realization=this.realization.slice(0,-1)+"u"
-                                this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[gn]
+                            if (gn != "ms") { // many special cases for pp declension
+                                const pat = this.getProp("pat")
+                                if (pat != undefined && pat.length==1 && pat[0]=="intr" && this.getProp("aux")=="av"){ 
+                                    // ne pas conjuguer un pp d'un verbe intransitif avec auxiliaire avoir
+                                    return [this.morphoError("conjugate_fr",{pe:pe,g:g,n:n,t:t})];
+                                }
+                                if (this.realization.endsWith("s")){
+                                    if (this.realization.endsWith("ous")){
+                                        this.realization=this.realization.slice(0,-3)+{"mp":"ous","fs":"oute","fp":"outes"}[gn]
+                                    } else {
+                                        this.realization+={"mp":"","fs":"e","fp":"es"}[gn]
+                                    }
+                                } else {
+                                    if (this.realization.endsWith("û"))this.realization=this.realization.slice(0,-1)+"u";
+                                    this.realization+={"mp":"s","fs":"e","fp":"es"}[gn]
+                                }
                             }
                         }
                         return res;

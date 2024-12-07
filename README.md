@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 5.1 - October 2024*
+*Version 5.2 - December 2024*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -78,6 +78,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     * `Dependent-en.js`, `Dependent-fr.js` : language specific `Dependent` classes.
     * `JSON-tools.js` : functions for dealing with the JSON input format
     * `jsRealB.js` : _main_ module that gathers all exported symbols from other classes and exports them in a single list. It also defines other utility functions and constants
+    * `Lemmatize.js` : functions to create a Map of all possible jsRealB expressions that can be generated from the English and French lexicons
     * `Lexicon.js` : English and French lexicons with their associated functions  
     * `LICENSE.txt` : Apache 2.0 license for the source code
     * `NonTerminal-en.js`, `NonTerminal-fr.js` :Language specific classes for functions and constants that are shared between `Dependent.js` and `Phrase.js`

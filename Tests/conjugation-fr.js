@@ -1026,7 +1026,7 @@ testsConjugFr = {
         "éclore": {
             "pr": "éclosant",
             "p6": "éclosent",
-            "p3": "éclot",
+            "p3": "éclôt",
             "pp": "éclos",
             "s1": "éclose",
             "s2": "écloses",
