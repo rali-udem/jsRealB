@@ -10,13 +10,12 @@
     text-decoration: underline;
 }
 .ins {
-    background-color: blue;
-    color:white;
+    text-decoration: underline blue;
+    color:blue;
 }
 .del {
+    color: red;
     text-decoration: line-through;
-    background-color: red;
-    color:white;
 }
 
 #instructions {
@@ -24,7 +23,14 @@
     border: 2px solid #999;
     padding:3px;
 }
+
 #change-lang{
     float:right;
     margin-right:5px;
+    margin-bottom: 2px;
+}
+
+#levels {
+    margin-left:20px;
+    margin-bottom:5px;
 }

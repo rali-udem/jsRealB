@@ -1,77 +1,112 @@
-// listes de variantes
-const nombre = Object.keys(nomNombre);
-const genre = Object.keys(nomGenre);
-const codeTemps=Object.keys(nomTemps);
-const codeTypes=Object.keys(types);
+Object.assign(globalThis,jsRealB);
+// current language
+let lang = "en";  // will be changed to "fr" at the launch in jQuery(document).ready(function() 
 
+// current context
+let config,level;
+let lexicon, nombres, genres, determiners, nouns, pronominalize, adjectives, verbs, tenses, types;
+// global statistics
 let nbPhrases=0,nbVertes=0;
+
+function getNom(dict,val){
+    for (let key in dict){
+        if (dict[key]==val)return key;
+    }
+    return "Strange val:"+val
+}
+
+function nouveauNP(){
+    const det = oneOf(determiners)
+    const noun = oneOf(nouns)
+    let gender = null;
+    if (lang=="fr"){
+        gender = lexicon[noun]["N"]["g"]
+        if (gender=="x")gender=choice("m","f")
+    }
+    let adj = null;
+    if (Math.random()<0.8){
+        adj = oneOf(adjectives)
+    }
+    const number = oneOf("s","p")
+    const pronom = Math.random() < level.pronominalization
+    return [det,adj,noun,gender,number,pronom]
+}
+
+function getCharacteristics(noun,gender,number,pron){
+    let characs = []
+    if (pron)characs.push(config.pronominaliser);
+    if (lang=="fr"){ // specify gender when it can be both in the lexicon
+        if (lexicon[noun]["N"]["g"]=="x")
+            characs.push(getNom(config.gender,gender));
+    } else {
+        if (gender !== null)
+            characs.push(getNom(config.gender,gender));
+    }   
+    characs.push(getNom(config.number,number));
+    return characs
+}
 
 function nouvellePhrase(){
     // effectuer le choix des lemmes
-    const anime=oneOf(animes);
-    const inanime= oneOf(inanimes);
-    // choisir parmi les variantes
-    const n1=oneOf(nombre);
-    let g1=null;
-    const animeN = getLemma(anime)["N"]
-    if (n1=="pro" && animeN["g"]=="x"){
-        g1 = oneOf(genre) 
-    }
-    const a1=oneOf(article)
-    const n2=oneOf(nombre);
-    const a2=oneOf(article);
-    const verbe=oneOf(transitifs);
-    const adjectif=oneOf(adjectifs);
-    const t=oneOf(codeTemps);
-    const typ=oneOf(codeTypes);
     
+    let [det_s,adj_s,noun_s,gender_s,number_s,pron_s] = nouveauNP()
+    let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = nouveauNP()
+    let verbe = oneOf(verbs)
+    let tenseName = oneOf(tenses)
+    let typName = oneOf(types)
+    let tense = config.temps[tenseName]
+    if (tense == undefined)console.log("bad tense name:",tenseName)
+    let typ = config.types[typName]
+    if (typ == undefined)console.log("bad typ name", typName)
+
+    // specification of the constraints
     let $table=$("table");
     let $tr=$("<tr/>")
-    $tr.append(`<th rowspan="2">${typ}</th>`);
-    if (g1==null){
-        $tr.append(`<th colspan="2">${nomNombre[n1]}</th>`);
-    } else {
-        if (getLanguage()=="en"){
-            $tr.append(`<th colspan="2">${nomGenre[g1]} ${nomNombre[n1]}</th>`)
-        } else {
-            $tr.append(`<th colspan="2">${nomNombre[n1]} ${nomGenre[g1]}</th>`)
-        }
-    }
-    $tr.append(`<th colspan="1">${nomTemps[t]}</th>`);
-    $tr.append(`<th colspan="3">${nomNombre[n2]}</th>`);
+    $tr.append(`<th rowspan="2">${typName}</th>`);
+    $tr.append(`<th colspan="3">${getCharacteristics(noun_s,gender_s,number_s,pron_s).join(", ")}</th>`)
+    $tr.append(`<th colspan="1">${tenseName}</th>`);
+    $tr.append(`<th colspan="3">${getCharacteristics(noun_c,gender_c,number_c,pron_c).join(", ")}</th>`);
     $table.append($tr)
     
     $tr=$("<tr/>")
-    $tr.append(`<td class="d_sujet">${a1}</td>`);
-    $tr.append(`<td class="sujet">${anime}</td>`);
+    $tr.append(`<td class="d_sujet">${det_s}</td>`);
+    $tr.append(`<td class="a_sujet">${adj_s !== null?adj_s:""}</td>`)
+    $tr.append(`<td class="sujet">${noun_s}</td>`);
     $tr.append(`<td class="verbe">${verbe}</td>`);
-    $tr.append(`<td class="d_cod">${a2}</td>`);
-    $tr.append(`<td class="a_cod">${adjectif}</td>`);
-    $tr.append(`<td class="cod">${inanime}</td>`);
+    $tr.append(`<td class="d_cod">${det_c}</td>`);
+    $tr.append(`<td class="a_cod">${adj_c !== null?adj_c:""}</td>`);
+    $tr.append(`<td class="cod">${noun_c}</td>`);
     $table.append($tr)
     
     $tr=$("<tr/>")
-    $tr.append(`<td colspan="7"><input type="text" name="reponse" value="" id="reponse" placeholder="${taperLaPhrase}"  class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></td>`);
+    $tr.append(`<td colspan="8"><input type="text" name="reponse" value="" id="reponse" placeholder="${config.taperLaPhrase}"  class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></td>`);
     $table.append($tr);
     $("#reponse").change(verifier)
 
     $tr=$("<tr/>")
-    $tr.append(`<td colspan="7" class="corrige"></td>`);
+    $tr.append(`<td colspan="8" class="corrige"></td>`);
     $table.append($tr);
     
-    $table.append(`<tr><td class="spacer" colspan="7"></td></tr>`)
+    $table.append(`<tr><td class="spacer" colspan="8"></td></tr>`)
     $("#reponse").focus();
     $("#encore").prop("disabled",true);
-    let sujet=NP(D(a1),N(anime));
-    if (n1=="pro"){
-        if (g1 !== null)sujet.g(g1)
+
+    let sujet=NP(D(det_s),N(noun_s));
+    if (adj_s != null)sujet.add(A(adj_s))
+    if (pron_s){
+        if (gender_s !== null)sujet.g(gender_s)
         sujet.pro();
-    } else 
-        sujet.n(n1);
-    let complement=NP(D(a2),N(inanime));
-    if (adjectif!="")complement.add(A(adjectif));
-    if (n2=="pro")complement.pro(); else complement.n(n2);
-    corrige= S(sujet,VP(V(verbe).t(t),complement)).typ(types[typ]).toString();
+    }
+    sujet.n(number_s);
+    
+    let complement=NP(D(det_c),N(noun_c));
+    if (adj_c != null)complement.add(A(adj_c));
+    if (pron_c){
+        if (gender_c !==null)complement.g(gender_c)
+        complement.pro();
+    }
+    complement.n(number_c);
+    corrige = S(sujet,VP(V(verbe).t(tense),complement)).typ(typ).realize();
     nbPhrases++;
     return corrige    
 }
@@ -89,17 +124,20 @@ function verifier(){
     $td.text(reponse);
     
     // Comparaison de la réponse et du corrigé
-    // au niveau des caractères
+    // au level des caractères
     // const sepRE=""
     // const joinStr=""
-    // au niveau des mots
+    // au level des mots
     const sepRE=/([^-\s.,:;!$()'"?[\]]+)/;
     const joinStr=" ";
     
     let reponseCmp = reponse.trim().split(sepRE);
     let corrigeCmp = corrige.trim().split(sepRE);
     var diffs=levenshtein(reponseCmp,corrigeCmp);
-    // console.log(diffs);
+    // console.log("reponse:",reponseCmp)
+    // console.log("corrige:",corrigeCmp)
+    // console.log("diffs:",  diffs)
+
     let diffsHTML;
     if (diffs[1]==0){
         diffsHTML=`<span class="bravo">${reponse}</span>`;
@@ -116,24 +154,110 @@ function verifier(){
 
 function instructions(){
     const courant=$(this).prop("value");
-    if (courant==masquerInstructions){
+    if (courant==config.masquerInstructions){
         $("#instructions").hide();
-        $(this).prop("value",montrerInstructions)
+        $(this).prop("value",config.montrerInstructions)
     } else {
         $("#instructions").show();
-        $(this).prop("value",masquerInstructions)
+        $(this).prop("value",config.masquerInstructions)
     }
 }
 
-function makeCP(args){
-    return CP.apply(null,[ou].concat(args.map(t=>Q(t).tag("em")))).toString()
+
+function filter(lexicon,pos,annee){
+    let res = []
+    if (lang == "fr"){ 
+        // in French, check if niveau <= annee 
+        for (let key in lexicon){
+            const infos = lexicon[key][pos]
+            if (infos !== undefined) {
+                let niv = lexicon[key]["niveau"] // level d'entrée
+                if (niv !== undefined){
+                    if (niv <= annee) res.push(key)
+                } else {
+                    niv = infos["niveau"]
+                    if (niv !== undefined && niv <= annee)res.push(key)
+                }
+            }
+        }
+    } else {
+        // in English: only select if ldv is present, ignore "level"
+        for (let key in lexicon){
+            if (lexicon[key][pos]){
+                if (lexicon[key]["ldv"]){
+                    res.push(key)
+                } else if (lexicon[key][pos]["ldv"]) {
+                    res.push(key)
+                }
+            }
+        }
+    }
+    return res
 }
 
-jQuery(document).ready(function() {
-    $("#cacher-montrer").click(instructions);
-    $("#types-phrase").html(makeCP(Object.keys(types)));
-    $("#temps-verbe").html(makeCP(Object.values(nomTemps)));
+function combine(levels,kind,annee){
+    // annee is also used for English as it serves as a mesure of the level
+    let res = []
+    for (let level in levels){
+        if (levels[level].annee<=annee){
+            res.push(...levels[level][kind])
+        }
+    }
+    return res;
+}
+
+function changeLevel(){
+    const levels = config.levels;
+    level = levels[$("#levels").val()];
+    determiners = config.determiners;
+    const annee = level.annee;
+    nouns = level.nouns || filter(lexicon,"N",annee)
+    adjectives = level.adjectives || filter(lexicon,"A",annee);
+    verbs = level.verbs || filter(lexicon,"V",annee);
+    // keep only French tdir verbs
+    if (lang=="fr"){
+        verbs = verbs.filter(v => lexicon[v]["V"]["pat"].includes("tdir"))
+    }
+    tenses = combine(levels,"temps",annee)
+    types  = combine(levels,"types",annee)
+    // reset exercices and counters
+    $("#exercices").empty()
+    nbPhrases = 0;
+    nbVertes = 0;
     corrige=nouvellePhrase();
+}
+
+function changeLang(){
+    lang = lang=="en"?"fr":"en"
+    load(lang);
+    lexicon = getLexicon();
+    // build the nveaux menu
+    const $menulevels = $("#levels")
+    $menulevels.empty();
+    config = configuration[lang]
+    const levels = config.levels;
+    for (let level in levels){
+        $menulevels.append(`<option value="${level}">${level}</option>`)
+    }
+    if ($("#instructions").is(":visible")){
+        $("#cacher-montrer").val(config.masquerInstructions)
+    } else {
+        $("#cacher-montrer").val(config.montrerInstructions)
+    }
+    
+    const otherLang = lang=="en"?"fr":"en";
+    $(`*[lang=${otherLang}]`).hide()
+    $(`*[lang=${lang}]`).show()
+    $("#change-lang").val(config.otherLang);
+
+    changeLevel();
+ }
+
+jQuery(document).ready(function() {
+    $("#change-lang").click(changeLang)
+    $("#levels").change(changeLevel)
+    $("#cacher-montrer").click(instructions);
+    changeLang();   
     $("#encore").click(nouvellePhrase)
 });
 

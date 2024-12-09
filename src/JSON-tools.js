@@ -75,7 +75,7 @@ Constituent.prototype.setJSONprops = function(json){
                         : Constituent.prototype[opt].call(this,o))
                 } else 
                     Constituent.prototype[opt].call(this,props[opt])
-            } else if (!["pat","h","cnt"].includes(opt)){ // do not copy properties from Terminal bia the lexicon
+            } else if (!["pat","h","cnt","niveau","ldv"].includes(opt)){ // do not copy properties from Terminal bia the lexicon
                 console.log("Constituent.fromJSON: illegal prop:"+opt);
             }
         }

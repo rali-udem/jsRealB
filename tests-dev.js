@@ -999,10 +999,3 @@ console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, la
 // add tests here ...
 loadEn();
 loadFr();
-test(V("aimer").t("pp").g("f").n("p"))
-test(V("conquérir").t("pp").g("f").n("p"))
-test(V("dissoudre").t("pp").g("f").n("p"))
-test(V("absoudre").t("pp").g("f").n("s"))
-test(V("croître").t("pp").g("f").n("p"))
-test(V("devoir").t("pp").g("f").n("p"))
-
