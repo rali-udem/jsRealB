@@ -358,7 +358,7 @@ The <a href="http://rali.iro.umontreal.ca/JSrealB/current/IDE/README.htmls">jsRe
 <p lang="en">Build a table (a <code>Map</code>, not a Javascript object). Each key is an inflected form of all the entries in the lexicon of the specified language. The associated value is a list of <code>Terminal</code> instances that are realized by the key.</p>
 <p lang="en">This <code>Map</code>  can be used for <i>inverse</i> generation. Here are examples of calls with the result shown after &rAarr;<pre lang="en"><code>    const lemmataEn = buildLemmataMap("en")
     lemmataEn.get("love").map(e=>e.toSource()) &rAarr; <i>[N('love'), V('love').t("b"), V('love').pe(1), V('love').pe(2), V('love').pe(1).n("p"), V('love').pe(2).n("p"), V('love').n("p")]</i>
-    lemmataFr.get("crus").filter(e=>e.isA("N")).map(e=>e.toSource()) &rAarr; <i>[N('love')]</i>
+    lemmataFr.get("love").filter(e=>e.isA("N")).map(e=>e.toSource()) &rAarr; <i>[N('love')]</i>
 </code></pre></p>
 
 

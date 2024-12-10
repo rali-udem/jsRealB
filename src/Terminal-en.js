@@ -186,7 +186,7 @@ const English_terminal = (superclass) =>
             } else if (t == "si"){
                 // subjonctive past is like simple past, except for "be" 1st and 3rd person => were
                 if (this.lemma=="be") this.realization = "were"
-                else this.realization=this.lemma;
+                else this.realization=this.stem+getRules(this.lang).conjugation[this.tab].t["ps"];
             } else if (t=="f"){
                 this.realization=this.lemma;
                 this.insertReal(res,V("will"),0);
