@@ -159,15 +159,11 @@ const English_terminal = (superclass) =>
             const t = this.getProp("t");
             if (this.tab==null)
                 return [this.morphoError("conjugate_en:tab",{pe:pe,n:n,t:t})];
-            // subjonctive present is like present except that it does not end in s at 3rd person
-            // subjonctive past is like simple past
-            const t1 = t=="s"?"p":(t=="si"?"ps":t);
-            const conjugation=getRules(this.lang).conjugation[this.tab].t[t1];
+            const conjugation=getRules(this.lang).conjugation[this.tab].t[t];
             let res=[this];
             if (conjugation!==undefined){
                 switch (t) {
                     case "p": case "ps": 
-                    case "s": case "si": 
                         if (typeof conjugation == "string"){
                             this.realization=this.stem+conjugation;
                         } else {
@@ -184,6 +180,13 @@ const English_terminal = (superclass) =>
                     case "b": case "pp": case "pr":
                         this.realization=this.stem+conjugation;
                 }
+            } else if (t == "s"){
+                // subjonctive present is like plain verb form
+                this.realization=this.lemma;
+            } else if (t == "si"){
+                // subjonctive past is like simple past, except for "be" 1st and 3rd person => were
+                if (this.lemma=="be") this.realization = "were"
+                else this.realization=this.lemma;
             } else if (t=="f"){
                 this.realization=this.lemma;
                 this.insertReal(res,V("will"),0);

@@ -80,13 +80,13 @@ configuration = {
         "master":{
             "annee":5,
             "pronominalization":0.5, 
-            "temps":["Subjonctive"],
+            "temps":["Conditional"],
             "types":["Interrogative"]
         },
         "wizard":{
             "annee":6,
             "pronominalization":0.6,
-            "temps":["Past subjonctive","Conditional"],
+            "temps":["Subjonctive"],
             "types":["Progressive","Necessity"]
         }
     },
