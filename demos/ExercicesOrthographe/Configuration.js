@@ -1,4 +1,4 @@
-configuration = {
+var configuration = {
  "fr": {
     "levels":{
         "débutant":{ 

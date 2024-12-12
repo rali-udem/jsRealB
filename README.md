@@ -141,8 +141,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * **Generate spelling and grammar exercises** from a simple sentence structure in both English and French.
   
     * [*ExercicesOrthographe*](demos/ExercicesOrthographe/) 
-      [*Execute in English*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-en.html) 
-      [*Execute in French*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index-fr.html)
+      [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/ExercicesOrthographe/index.html) 
     
 * **Translation *game*** from English to French and French to English. Simple sentences are randomly generated in the source language and generated in the target using the same options of `jsRealB`. The used must build the target sentence by selecting words, the system checks if the translation is correct, if not is displays the differences with the expected sentence. 
 
