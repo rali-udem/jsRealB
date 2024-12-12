@@ -1,5 +1,6 @@
 ## validation of dictionary entries
-## to be called as : tr -d '\n' < lexicon-{fr|en}.json | .../ValidateJsonRnc.py  .../lexicon.jsonrnc 
+## to be called as : tr -d '\n' < lexicon-{fr|en}.json | .../ValidateJsonRnc.py  lexicon.jsonrnc 
+## or .../ValidateJsonRnc.py --slurp lexicon.jsonrnc lexicon-{fr|en}.json
 ## there are quite a few very special cases for French pronouns and determiners
 start = {*:lexInfo}
 

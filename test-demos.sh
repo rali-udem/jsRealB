@@ -5,7 +5,7 @@ demos=(demos/99BottlesOfBeer/index.html demos/Data2Text/batiment.html demos/Data
         demos/date/index.html demos/e2eChallenge/index.html \
 		demos/Evaluation/index.html demos/Evenements/index.html \
 		demos/ExercicesDeStyle/index.html \ 
-		demos/ExercicesOrthographe/index-en.html demos/ExercicesOrthographe/index-fr.html \
+		demos/ExercicesOrthographe/index.html \
 		demos/Inflection/index.html \
 		demos/KilometresAPied/index.html \
 		demos/Personage/index.html \
