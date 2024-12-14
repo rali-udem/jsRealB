@@ -16,18 +16,23 @@ function getNom(dict,val){
 }
 
 function nouveauNP(){
-    const det = oneOf(determiners)
     const noun = oneOf(nouns)
+    let det = oneOf(determiners)
+    // in English, undefinite determiner cannot be used with uncountable nouns
+    if (lang == "en" && lexicon[noun]["N"]["cnt"] == "no") det = "the";
     let gender = null;
     if (lang=="fr"){
         gender = lexicon[noun]["N"]["g"]
         if (gender=="x")gender=choice("m","f")
+    } else if (lexicon[noun]["N"]["g"] == "x"){
+        gender=choice("m","f")
     }
     let adj = null;
-    if (Math.random()<0.8){
+    if (Math.random()<0.75){
         adj = oneOf(adjectives)
     }
-    const number = oneOf("s","p")
+    // ensure singular for uncountable English nouns
+    let number = (lang=="en" && lexicon[noun]["N"]["cnt"] == "no") ? "s" : oneOf("s","p")
     const pronom = Math.random() < level.pronominalization
     return [det,adj,noun,gender,number,pronom]
 }
@@ -93,16 +98,16 @@ function nouvellePhrase(){
 
     let sujet=NP(D(det_s),N(noun_s));
     if (adj_s != null)sujet.add(A(adj_s))
+    if (gender_s !== null)sujet.g(gender_s)
     if (pron_s){
-        if (gender_s !== null)sujet.g(gender_s)
         sujet.pro();
     }
     sujet.n(number_s);
     
     let complement=NP(D(det_c),N(noun_c));
     if (adj_c != null)complement.add(A(adj_c));
+    if (gender_c !==null)complement.g(gender_c)
     if (pron_c){
-        if (gender_c !==null)complement.g(gender_c)
         complement.pro();
     }
     complement.n(number_c);
@@ -163,25 +168,20 @@ function instructions(){
     }
 }
 
-
 function filter(lexicon,pos,annee){
     let res = []
     if (lang == "fr"){ 
         // in French, check if niveau <= annee 
         for (let key in lexicon){
-            const infos = lexicon[key][pos]
-            if (infos !== undefined) {
-                let niv = lexicon[key]["niveau"] // level d'entrée
-                if (niv !== undefined){
-                    if (niv <= annee) res.push(key)
-                } else {
-                    niv = infos["niveau"]
-                    if (niv !== undefined && niv <= annee)res.push(key)
+            if (lexicon[key][pos]) {
+                const niv = lexicon[key][pos]["niveau"]
+                if (niv !== undefined && niv <= annee){
+                    res.push(key)
                 }
             }
         }
     } else {
-        // in English: only select if ldv is present, ignore "level"
+        // in English: only select if ldv is present at the entry or pos level
         for (let key in lexicon){
             if (lexicon[key][pos]){
                 if (lexicon[key]["ldv"]){
@@ -244,7 +244,8 @@ function changeLang(){
     } else {
         $("#cacher-montrer").val(config.montrerInstructions)
     }
-    
+    $("#encore").val(config.phrasesuivante);
+
     const otherLang = lang=="en"?"fr":"en";
     $(`*[lang=${otherLang}]`).hide()
     $(`*[lang=${lang}]`).show()

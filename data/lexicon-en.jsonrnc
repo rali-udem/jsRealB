@@ -1,0 +1,25 @@
+## validation of the English lexicon entries
+## to be called as 
+## or .../ValidateJsonRnc.py --slurp lexicon-en.jsonrnc lexicon-en.json
+## the generated lexicon-en.jsonrnc.json can be used for validation with VS Code
+start = {*:lexInfo}
+
+lexInfo={N?:  {tab:/n(I|\d{1,3}a?)/, g?:gender, hAn?:one, cnt:/yes|no|both/,ldv?:boolean },
+         A?:  {tab:/[a](I|\d{1,2})/, hAn?:one, ldv?:boolean},
+         Pro?:{tab:/pn\d{1,2}(-\d[sp]?[mfn]?)?|d[35]/,ldv?:boolean},
+         V?:  {tab:/v\d{1,3}/,ldv?:boolean}, 
+         D?:  {tab:/d\d{1,2}/, n?:num, value?:number,ldv?:boolean},  
+         Adv?:{tab:/b\d/,ldv?:boolean}, 
+         P?:  {tab:/ppe?/,ldv?:boolean},
+         C?:  {tab:/cs|cc/,ldv?:boolean},
+         Q?:  {tab:/av/},
+         Pc?: {tab:[/pc[145678]/], compl?:string},
+         ldv?:boolean, 
+         value?:number
+    }@(minProperties=1)
+
+one       = number@(minimum=1, maximum=1)
+oneTwoThree  = number@(minimum=1, maximum=3)
+gender = /m|f|x/
+num = /s|p/
+

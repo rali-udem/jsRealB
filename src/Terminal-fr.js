@@ -147,6 +147,13 @@ const French_terminal = (superclass) =>
         }
 
         /**
+         * Check if this English noun is uncountable, if so do not accept plural.
+         * Returns null because it is not applicable in French.
+         * @returns {null}
+         */
+        check_countable(){return null}
+
+        /**
          * Check if a pronoun or a possessive determiner must be changed 
          * @param {object} keyvals might be changed
          * @returns true if declension table must be changed because lemma has been changed

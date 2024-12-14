@@ -235,6 +235,9 @@ class Phrase extends Constituent{
                             e.peng["g"]=this.peng["g"]; 
                         } else if (e.isA("D","A","V")){
                             this.link_DAV_properties(e)
+                            if (e.isA("D")){
+                                this.check_determiner_cnt(e,this.elements[headIndex])
+                            }
                         } else if (e.isA("CP")){ // check for a coordination of adjectives or number
                             const me=this;
                             e.peng = me.peng

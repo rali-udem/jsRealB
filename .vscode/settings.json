@@ -10,5 +10,11 @@
     ],
     "workbench.colorTheme": "Default Light Modern",
     "python.terminal.executeInFileDir": true,
-    "npm.enableRunFromFolder": true
+    "npm.enableRunFromFolder": true,
+    "json.schemas": [
+        {"fileMatch": ["/Users/lapalme/Documents/GitHub/jsRealB/data/lexicon-en.json"],
+         "url": "./data/lexicon-en.jsonrnc.json"},
+         {"fileMatch": ["/Users/lapalme/Documents/GitHub/jsRealB/data/lexicon-fr.json"],
+         "url": "./data/lexicon-fr.jsonrnc.json"}
+   ]
 }

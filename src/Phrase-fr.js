@@ -35,7 +35,14 @@ const French_phrase = (superclass) =>
             }
         }
 
-        /**
+         /**
+         * Check if English determiner "a" is used with an uncountable noun
+         * No-op in French
+         * @param {*} _elem
+         */
+         check_determiner_cnt(_elem){}
+
+         /**
          * Link the verb of a relative
          *
          * @param {Terminal} pro

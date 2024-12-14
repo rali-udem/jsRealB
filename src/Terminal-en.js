@@ -134,6 +134,22 @@ const English_terminal = (superclass) =>
         check_gender_lexicon(g,n){return null}
 
         /**
+         * Check if this noun is uncountable, if so do not accept plural
+         *
+         * @returns {error message if uncountable and plural, null otherwise}
+         */
+        check_countable(){
+                    // check is English noun is uncountable 
+                    const lexiconCnt=getLexicon(this.lang)[this.lemma]["N"]["cnt"]
+                    if (lexiconCnt === undefined){
+                        return [this.morphoError("cnt not found in lexicon","")];
+                    } 
+                    if (lexiconCnt == "no") {
+                        return [this.morphoError("An uncountable noun cannot be set to plural","")]
+                    }        
+        }
+
+        /**
          * Check if a pronoun or a possessive determiner must be changed 
          * @param {object} keyvals might be changed
          * @returns true if declension table must be changed because lemma has been changed

@@ -53,6 +53,7 @@ var configuration = {
     "pronominaliser":"pronom",
     "montrerInstructions":"Montrer les instructions",
     "masquerInstructions":"Masquer les instructions",
+    "phrasesuivante":"Phrase suivante",
     "otherLang":"Try it in English",
     "alt":"ou",
     "taperLaPhrase":"Entrer la phrase ici"
@@ -108,6 +109,7 @@ var configuration = {
     "pronominaliser":"pronoun",
     "montrerInstructions":"Show instructions",
     "masquerInstructions":"Hide instructions",
+    "phrasesuivante":"Next sentence",
     "otherLang":"Essayez en français",
     "alt":"or",
     "taperLaPhrase":"Type your sentence here"

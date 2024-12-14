@@ -63,20 +63,6 @@
             "url": "http://127.0.0.1:8080/Tests/testAll.html"
         },
         {
-            "name": "variationsFromText",
-            "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
-            "args": [
-                "-q",
-                "/Users/lapalme/Desktop/pip_sentences_file-1000.conllu"
-            ],
-            "request": "launch",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node",
-            "outputCapture": "std"
-        },
-        {
             "type": "chrome",
             "name": "web-dev.html",
             "request": "launch",

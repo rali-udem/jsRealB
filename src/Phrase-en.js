@@ -33,6 +33,16 @@ const English_phrase = (superclass) =>
                 return
             } 
         } 
+        /**
+         * Check if English determiner "a" is used with an uncountable noun
+         * Outputs a warning if it the case.
+         * @ param{Terminal} det : the determiner
+         * @param {Terminal} headNoun : the head Noun Terminal
+         */
+        check_determiner_cnt(det,headNoun){
+            if (det.lemma == "a" && headNoun.getProp("cnt")=="no")
+                det.morphoError("The undefinite determiner cannot be linked with an uncountable noun", headNoun.lemma)
+        }
 
         /**
          * Link the verb of a relative

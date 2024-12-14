@@ -179,8 +179,8 @@ class Terminal extends Constituent{
                         this.tab=null;
                         this.realization =`[[${lemma}]]`;
                         let otherPOS=Object.keys(getLexicon(this.lang)[lemma]);
-                        let idxBasic=otherPOS.indexOf("ldv") // check if "ldv" is a key...
-                        if (idxBasic>=0)otherPOS.splice(idxBasic,1) // remove it if is there...
+                        let idxLdv=otherPOS.indexOf("ldv") // check if "ldv" is a key...
+                        if (idxLdv>=0)otherPOS.splice(idxLdv,1) // remove it if is there...
                         this.warn("not in lexicon",this.lang,otherPOS);
                     if (quoteOOV){
                         this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
@@ -317,15 +317,15 @@ class Terminal extends Constituent{
         const rules=getRules(this.lang);
         let declension=rules.declension[this.tab].declension;
         let stem=this.stem;
+        let g=this.getProp("g");
+        if (this.isA("D","N") && g==undefined)g="m";
+        let n = this.getNumber()
+        if (this.isA("D","N") && n==undefined)n="s";
         if (this.isA("A","Adv")){ 
             return this.decline_adj_adv(rules,declension,stem)
         } else if (declension.length==1){ // no declension
             this.realization = this.stem+declension[0]["val"]
         } else { // for N, D, Pro
-            let g=this.getProp("g");
-            if (this.isA("D","N") && g==undefined)g="m";
-            let n = this.getNumber()
-            if (this.isA("D","N") && n==undefined)n="s";
             let pe=3;
             if (setPerson){
                 let p=this.getProp("pe");
@@ -380,9 +380,16 @@ class Terminal extends Constituent{
             if (ending==null){
                 return [this.morphoError(decl,keyVals)];
             }
+
+            this.realization = this.stem+ending;
+        }
+        if (this.isA("N")){
             const resgl = this.check_gender_lexicon(g,n)
             if (resgl != null) return resgl;
-            this.realization = this.stem+ending;
+            if (n == "p"){
+                const rescnt = this.check_countable();
+                if (rescnt != null) return rescnt;
+            }
         }
         return [this]; 
     }
