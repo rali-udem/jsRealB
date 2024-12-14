@@ -256,7 +256,7 @@ const English_constituent = (superclass) =>
                     S(VP(V("ignore"),NP(N("contraction")),PP(P("in"),N("French")))).typ({pas:true}),
                 "morphology error":(info)=>
                     // error within the morphology: $info.
-                    S(NP(N("error"),PP(P("within"),NP(D("the"),N("morphology")))).a(":"),Q(info)),
+                    S(NP(N("morphology"),N("error")).a(":"),Q(info)),
                 "not implemented":(info)=> // $info is not implemented.
                     S(Q(info),VP(V("implement"))).typ({neg:true,pas:true}),
                 "not in lexicon":(lang,altPos)=> 

@@ -23,6 +23,17 @@ const English_dependent = (superclass) =>
         link_attributes(depTerm,headTerm){}
 
         /**
+         * Check if English determiner "a" is used with an uncountable noun
+         * Outputs a warning if it the case.
+         * @ param{Terminal} det : the determiner
+         * @param {Terminal} headNoun : the head Noun Terminal
+         */
+        check_determiner_cnt(det){
+            if (det.lemma == "a" && this.terminal.getProp("cnt")=="no")
+                det.morphoError("The undefinite determiner cannot be linked with an uncountable noun", this.terminal.lemma)
+        }
+
+        /**
          * Link a past participle with a direct object appearing before. 
          * Empty for English
          *

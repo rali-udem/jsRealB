@@ -246,6 +246,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             case "det":
                 if (depTerm.isA("D")){
                     depTerm.peng=this.peng;
+                    this.check_determiner_cnt(depTerm);
                 } else if (depTerm.isA("NO")){
                     depTerm.peng=headTerm.peng
                     depTerm.peng["n"]=depTerm.grammaticalNumber();

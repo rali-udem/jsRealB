@@ -31,6 +31,12 @@ const French_dependent = (superclass) =>
                 }
             }           
         }
+         /**
+         * Check if English determiner "a" is used with an uncountable noun
+         * No-op in French
+         * @param {*} -term
+         */
+         check_determiner_cnt(_term){}
 
         /**
          * Link a past participle with a direct object appearing before. 
