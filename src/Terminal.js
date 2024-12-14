@@ -380,7 +380,6 @@ class Terminal extends Constituent{
             if (ending==null){
                 return [this.morphoError(decl,keyVals)];
             }
-
             this.realization = this.stem+ending;
         }
         if (this.isA("N")){

@@ -41,7 +41,7 @@ const English_phrase = (superclass) =>
          */
         check_determiner_cnt(det,headNoun){
             if (det.lemma == "a" && headNoun.getProp("cnt")=="no")
-                det.morphoError("The undefinite determiner cannot be linked with an uncountable noun", headNoun.lemma)
+                det.morphoError("The indefinite determiner cannot be linked with an uncountable noun", headNoun.lemma)
         }
 
         /**
