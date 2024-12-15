@@ -57,7 +57,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `jsRealB-jsonInput.hmtl` use of the JSON format for *jsRealB*: 
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
-    * `lexiconFormat.html` : format for the entries in the lexicon
+    * `lexiconFormat.md` : format for the entries in the lexicon
     * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * `style.css`: style sheet
     * `user-infos.js`: definitions of variables containing the examples
