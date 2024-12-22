@@ -84,8 +84,6 @@ var optionsSect=
                            "en":["present",'V("love").t("p")']},
            {"pattern":'.t("b")', "fr":["infinitif (forme de base)",'V("aimer").t("b")'],
                                  "en":["infinitive (base form)",'V("love").t("b")']},
-           {"pattern":'.t("bp")', "fr":["infinitif passé",'V("aimer").t("bp")'],
-                                  "en":["past infinitive",'V("love").t("bp")']},
            {"pattern":'.t("b-to")',"fr":["",''],
                                    "en":["infinitive with 'to'",'V("love").t("b-to")']},
            {"pattern":'.t("bp-to")',"fr":["",''],
@@ -124,7 +122,9 @@ var optionsSect=
                            "en":["",'']},
            {"pattern":'.t("spq")', "fr":["subjonctif plus-que-parfait",'V("aimer").t("spq")'],
                              "en":["",'']},
-           
+           {"pattern":'.t("bp")', "fr":["infinitif passé",'V("aimer").t("bp")'],
+                              "en":["past infinitive",'V("love").t("bp")']},
+       
            // {"group":".perf(true)","fr":'perfect tense (ignoré en français)',
            //                        "en":'perfect tense'},
            // {"pattern":".perf(true)", "fr":["",''],
