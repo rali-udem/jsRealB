@@ -127,7 +127,7 @@ Query a lexicon using `jq`
     
     Search for a combination of properties: entries ending in `er` that can be used as nouns, verbs or adjectives, but only show the entry; `-r` to show the entries without surrounding quotes.
     
-    `jq -r 'to_entries|.[]|select((.key|test("er$")) and (.value|has("N")) and   (.value|has("V")) and (.value|has("A")))|.key' lexicon-en.json`
+    `jq -r 'to_entries|.[]|select((.key|test("er$")) and (.value|has("N")) and   (.value|has("V")) and (.value|has("A")))|.key' lexicon-en.json`
 
 
 

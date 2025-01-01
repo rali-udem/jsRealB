@@ -2,6 +2,7 @@
     "conjugation": {
         "v0": {
             "ending": "cer",
+            "modèle":"lancer",
             "t": {
                 "p": ["ce","ces","ce","çons","cez","cent"],
                 "i": ["çais","çais","çait","cions","ciez","çaient"],
@@ -12,7 +13,7 @@
                 "si": ["çasse","çasses","çât","çassions","çassiez","çassent"],
                 "ip": [null,"ce",null,"çons","cez",null],
                 "pr": "çant",
-                "pp": "cé",
+                "pp": ["cé","cée","cés","cées"],
                 "b": "cer"
             }
         },
@@ -34,6 +35,7 @@
         },
         "v2": {
             "ending": "ecer",
+            "modèle":"dépecer",
             "t": {
                 "p": ["ece","eces","ece","eçons","ecez","ecent"],
                 "i": ["eçais","eçais","eçait","ecions","eciez","eçaient"],
@@ -44,12 +46,13 @@
                 "si": ["eçasse","eçasses","eçât","eçassions","eçassiez","eçassent"],
                 "ip": [null,"ece",null,"eçons","ecez",null],
                 "pr": "eçant",
-                "pp": "ecé",
+                "pp": ["ecé","ecée","ecés","ecées"],
                 "b": "ecer"
             }
         },
         "v3": {
             "ending": "ger",
+            "modèle": "manger",
             "t": {
                 "p": ["ge","ges","ge","geons","gez","gent"],
                 "i": ["geais","geais","geait","gions","giez","geaient"],
@@ -60,7 +63,7 @@
                 "si": ["geasse","geasses","geât","geassions","geassiez","geassent"],
                 "ip": [null,"ge",null,"geons","gez",null],
                 "pr": "geant",
-                "pp": "gé",
+                "pp": ["gé","gée","gés","gées"],
                 "b": "ger"
             }
         },
@@ -82,6 +85,7 @@
         },
         "v5": {
             "ending": "yer",
+            "payer": "payer",
             "t": {
                 "p": ["ie","ies","ie","yons","yez","ient"],
                 "i": ["yais","yais","yait","yions","yiez","yaient"],
@@ -92,12 +96,13 @@
                 "si": ["yasse","yasses","yât","yassions","yassiez","yassent"],
                 "ip": [null,"ie",null,"yons","yez",null],
                 "pr": "yant",
-                "pp": "yé",
+                "pp": ["yé","yée","yés","yées"],
                 "b": "yer"
             }
         },
         "v6": {
             "ending": "yer",
+            "modèle": "faseyer",
             "t": {
                 "p": ["ye","yes","ye","yons","yez","yent"],
                 "i": ["yais","yais","yait","yions","yiez","yaient"],
@@ -108,12 +113,13 @@
                 "si": ["yasse","yasses","yât","yassions","yassiez","yassent"],
                 "ip": [null,"ye",null,"yons","yez",null],
                 "pr": "yant",
-                "pp": "yé",
+                "pp": ["yé",null,null,null],
                 "b": "yer"
             }
         },
         "v7": {
             "ending": "eler",
+            "modèle": "appeler",
             "t": {
                 "p": ["elle","elles","elle","elons","elez","ellent"],
                 "i": ["elais","elais","elait","elions","eliez","elaient"],
@@ -124,12 +130,13 @@
                 "si": ["elasse","elasses","elât","elassions","elassiez","elassent"],
                 "ip": [null,"elle",null,"elons","elez",null],
                 "pr": "elant",
-                "pp": "elé",
+                "pp": ["elé","elée","elés","elées"],
                 "b": "eler"
             }
         },
         "v8": {
             "ending": "eler",
+            "modèle": "geler",
             "t": {
                 "p": ["èle","èles","èle","elons","elez","èlent"],
                 "i": ["elais","elais","elait","elions","eliez","elaient"],
@@ -140,7 +147,7 @@
                 "si": ["elasse","elasses","elât","elassions","elassiez","elassent"],
                 "ip": [null,"èle",null,"elons","elez",null],
                 "pr": "elant",
-                "pp": "elé",
+                "pp": ["elé","elée","elés","elées"],
                 "b": "eler"
             }
         },
@@ -162,6 +169,7 @@
         },
         "v10": {
             "ending": "eter",
+            "modèle": "jeter",
             "t": {
                 "p": ["ette","ettes","ette","etons","etez","ettent"],
                 "i": ["etais","etais","etait","etions","etiez","etaient"],
@@ -172,12 +180,13 @@
                 "si": ["etasse","etasses","etât","etassions","etassiez","etassent"],
                 "ip": [null,"ette",null,"etons","etez",null],
                 "pr": "etant",
-                "pp": "eté",
+                "pp": ["eté","etée","etés","etées"],
                 "b": "eter"
             }
         },
         "v11": {
             "ending": "eter",
+            "modèle": "acheter",
             "t": {
                 "p": ["ète","ètes","ète","etons","etez","ètent"],
                 "i": ["etais","etais","etait","etions","etiez","etaient"],
@@ -188,7 +197,7 @@
                 "si": ["etasse","etasses","etât","etassions","etassiez","etassent"],
                 "ip": [null,"ète",null,"etons","etez",null],
                 "pr": "etant",
-                "pp": "eté",
+                "pp": ["eté","etée","etés","etées"],
                 "b": "eter"
             }
         },
@@ -210,6 +219,7 @@
         },
         "v13": {
             "ending": "emer",
+            "modèle": "semer",
             "t": {
                 "p": ["ème","èmes","ème","emons","emez","èment"],
                 "i": ["emais","emais","emait","emions","emiez","emaient"],
@@ -220,12 +230,13 @@
                 "si": ["emasse","emasses","emât","emassions","emassiez","emassent"],
                 "ip": [null,"ème",null,"emons","emez",null],
                 "pr": "emant",
-                "pp": "emé",
+                "pp": ["emé","emée","emés","emées"],
                 "b": "emer"
             }
         },
         "v14": {
             "ending": "éguer",
+            "modèle":"léguer",
             "t": {
                 "p": ["ègue","ègues","ègue","éguons","éguez","èguent"],
                 "i": ["éguais","éguais","éguait","éguions","éguiez","éguaient"],
@@ -236,12 +247,13 @@
                 "si": ["éguasse","éguasses","éguât","éguassions","éguassiez","éguassent"],
                 "ip": [null,"ègue",null,"éguons","éguez",null],
                 "pr": "éguant",
-                "pp": "égué",
+                "pp": ["égué","éguée","égués","éguées"],
                 "b": "éguer"
             }
         },
         "v15": {
             "ending": "équer",
+            "modèle":"hypothéquer",
             "t": {
                 "p": ["èque","èques","èque","équons","équez","èquent"],
                 "i": ["équais","équais","équait","équions","équiez","équaient"],
@@ -252,12 +264,13 @@
                 "si": ["équasse","équasses","équât","équassions","équassiez","équassent"],
                 "ip": [null,"èque",null,"équons","équez",null],
                 "pr": "équant",
-                "pp": "équé",
+                "pp": ["équé","équée","équés","équées"],
                 "b": "équer"
             }
         },
         "v16": {
             "ending": "éler",
+            "modèle": "révéler",
             "t": {
                 "p": ["èle","èles","èle","élons","élez","èlent"],
                 "i": ["élais","élais","élait","élions","éliez","élaient"],
@@ -268,12 +281,13 @@
                 "si": ["élasse","élasses","élât","élassions","élassiez","élassent"],
                 "ip": [null,"èle",null,"élons","élez",null],
                 "pr": "élant",
-                "pp": "élé",
+                "pp": ["elé","elée","elés","elées"],
                 "b": "éler"
             }
         },
         "v17": {
             "ending": "étrer",
+            "modèle": "pénétrer",
             "t": {
                 "p": ["ètre","ètres","ètre","étrons","étrez","ètrent"],
                 "i": ["étrais","étrais","étrait","étrions","étriez","étraient"],
@@ -284,12 +298,13 @@
                 "si": ["étrasse","étrasses","étrât","étrassions","étrassiez","étrassent"],
                 "ip": [null,"ètre",null,"étrons","étrez",null],
                 "pr": "étrant",
-                "pp": "étré",
+                "pp": ["étré","étrée","étrés","étrées"],
                 "b": "étrer"
             }
         },
         "v18": {
             "ending": "égler",
+            "modèle": "régler",
             "t": {
                 "p": ["ègle","ègles","ègle","églons","églez","èglent"],
                 "i": ["églais","églais","églait","églions","égliez","églaient"],
@@ -300,12 +315,13 @@
                 "si": ["églasse","églasses","églât","églassions","églassiez","églassent"],
                 "ip": [null,"ègle",null,"églons","églez",null],
                 "pr": "églant",
-                "pp": "églé",
+                "pp": ["églé","églée","églés","églées"],
                 "b": "égler"
             }
         },
         "v19": {
             "ending": "égner",
+            "modèle": "régner",
             "t": {
                 "p": ["ègne","ègnes","ègne","égnons","égnez","ègnent"],
                 "i": ["égnais","égnais","égnait","égnions","égniez","égnaient"],
@@ -316,12 +332,13 @@
                 "si": ["égnasse","égnasses","égnât","égnassions","égnassiez","égnassent"],
                 "ip": [null,"ègne",null,"égnons","égnez",null],
                 "pr": "égnant",
-                "pp": "égné",
+                "pp": ["égné","égnée","égnés","égnées"],
                 "b": "égner"
             }
         },
         "v20": {
             "ending": "ébrer",
+            "modèle": "célébrer",
             "t": {
                 "p": ["èbre","èbres","èbre","ébrons","ébrez","èbrent"],
                 "i": ["ébrais","ébrais","ébrait","ébrions","ébriez","ébraient"],
@@ -332,12 +349,13 @@
                 "si": ["ébrasse","ébrasses","ébrât","ébrassions","ébrassiez","ébrassent"],
                 "ip": [null,"èbre",null,"ébrons","ébrez",null],
                 "pr": "ébrant",
-                "pp": "ébré",
+                "pp": ["ébré","ébrée","ébrés","ébrées"],
                 "b": "ébrer"
             }
         },
         "v21": {
             "ending": "égrer",
+            "modèle": "intégrer",
             "t": {
                 "p": ["ègre","ègres","ègre","égrons","égrez","ègrent"],
                 "i": ["égrais","égrais","égrait","égrions","égriez","égraient"],
@@ -348,12 +366,13 @@
                 "si": ["égrasse","égrasses","égrât","égrassions","égrassiez","égrassent"],
                 "ip": [null,"ègre",null,"égrons","égrez",null],
                 "pr": "égrant",
-                "pp": "égré",
+                "pp": ["égré","égrée","égrés","égrées"],
                 "b": "égrer"
             }
         },
         "v22": {
             "ending": "éter",
+            "modèle": "répéter",
             "t": {
                 "p": ["ète","ètes","ète","étons","étez","ètent"],
                 "i": ["étais","étais","était","étions","étiez","étaient"],
@@ -364,12 +383,13 @@
                 "si": ["étasse","étasses","étât","étassions","étassiez","étassent"],
                 "ip": [null,"ète",null,"étons","étez",null],
                 "pr": "étant",
-                "pp": "été",
+                "pp": ["été","étée","étés","étées"],
                 "b": "éter"
             }
         },
         "v23": {
             "ending": "éner",
+            "modèle": "asséner",
             "t": {
                 "p": ["ène","ènes","ène","énons","énez","ènent"],
                 "i": ["énais","énais","énait","énions","éniez","énaient"],
@@ -380,12 +400,13 @@
                 "si": ["énasse","énasses","énât","énassions","énassiez","énassent"],
                 "ip": [null,"ène",null,"énons","énez",null],
                 "pr": "énant",
-                "pp": "éné",
+                "pp": ["éné","énée","énés","énées"],
                 "b": "éner"
             }
         },
         "v24": {
             "ending": "ener",
+            "modèle": "mener",
             "t": {
                 "p": ["ène","ènes","ène","enons","enez","ènent"],
                 "i": ["enais","enais","enait","enions","eniez","enaient"],
@@ -396,12 +417,13 @@
                 "si": ["enasse","enasses","enât","enassions","enassiez","enassent"],
                 "ip": [null,"ène",null,"enons","enez",null],
                 "pr": "enant",
-                "pp": "ené",
+                "pp": ["ené","enée","enés","enées"],
                 "b": "ener"
             }
         },
         "v25": {
             "ending": "ever",
+            "modèle": "achever",
             "t": {
                 "p": ["ève","èves","ève","evons","evez","èvent"],
                 "i": ["evais","evais","evait","evions","eviez","evaient"],
@@ -412,12 +434,13 @@
                 "si": ["evasse","evasses","evât","evassions","evassiez","evassent"],
                 "ip": [null,"ève",null,"evons","evez",null],
                 "pr": "evant",
-                "pp": "evé",
+                "pp": ["evé","evée","evés","evées"],
                 "b": "ever"
             }
         },
         "v26": {
             "ending": "eser",
+            "modèle": "peser",
             "t": {
                 "p": ["èse","èses","èse","esons","esez","èsent"],
                 "i": ["esais","esais","esait","esions","esiez","esaient"],
@@ -428,12 +451,13 @@
                 "si": ["esasse","esasses","esât","esassions","esassiez","esassent"],
                 "ip": [null,"èse",null,"esons","esez",null],
                 "pr": "esant",
-                "pp": "esé",
+                "pp": ["ésé","ésée","ésés","ésées"],
                 "b": "eser"
             }
         },
         "v27": {
             "ending": "écher",
+            "modèle": "sécher",
             "t": {
                 "p": ["èche","èches","èche","échons","échez","èchent"],
                 "i": ["échais","échais","échait","échions","échiez","échaient"],
@@ -444,12 +468,13 @@
                 "si": ["échasse","échasses","échât","échassions","échassiez","échassent"],
                 "ip": [null,"èche",null,"échons","échez",null],
                 "pr": "échant",
-                "pp": "éché",
+                "pp": ["éché","échée","échée","échés"],
                 "b": "écher"
             }
         },
         "v28": {
             "ending": "érer",
+            "modèle": "digérer",
             "t": {
                 "p": ["ère","ères","ère","érons","érez","èrent"],
                 "i": ["érais","érais","érait","érions","ériez","éraient"],
@@ -460,12 +485,13 @@
                 "si": ["érasse","érasses","érât","érassions","érassiez","érassent"],
                 "ip": [null,"ère",null,"érons","érez",null],
                 "pr": "érant",
-                "pp": "éré",
+                "pp": ["éré","érée","érés","érées"],
                 "b": "érer"
             }
         },
         "v29": {
             "ending": "evrer",
+            "modèle": "sevrer",
             "t": {
                 "p": ["èvre","èvres","èvre","evrons","evrez","èvrent"],
                 "i": ["evrais","evrais","evrait","evrions","evriez","evraient"],
@@ -476,12 +502,13 @@
                 "si": ["evrasse","evrasses","evrât","evrassions","evrassiez","evrassent"],
                 "ip": [null,"èvre",null,"evrons","evrez",null],
                 "pr": "evrant",
-                "pp": "evré",
+                "pp": ["evré","evrée","evrés","evrées"],
                 "b": "evrer"
             }
         },
         "v30": {
             "ending": "éder",
+            "modèle": "céder",
             "t": {
                 "p": ["ède","èdes","ède","édons","édez","èdent"],
                 "i": ["édais","édais","édait","édions","édiez","édaient"],
@@ -492,12 +519,13 @@
                 "si": ["édasse","édasses","édât","édassions","édassiez","édassent"],
                 "ip": [null,"ède",null,"édons","édez",null],
                 "pr": "édant",
-                "pp": "édé",
+                "pp": ["édé","édée","édés","édées"],
                 "b": "éder"
             }
         },
         "v31": {
             "ending": "éper",
+            "modèle": "recéper",
             "t": {
                 "p": ["èpe","èpes","èpe","épons","épez","èpent"],
                 "i": ["épais","épais","épait","épions","épiez","épaient"],
@@ -508,12 +536,13 @@
                 "si": ["épasse","épasses","épât","épassions","épassiez","épassent"],
                 "ip": [null,"èpe",null,"épons","épez",null],
                 "pr": "épant",
-                "pp": "épé",
+                "pp": ["épé","épée","épés","épées"],
                 "b": "éper"
             }
         },
         "v32": {
             "ending": "eper",
+            "modèle": "receper",
             "t": {
                 "p": ["èpe","èpes","èpe","epons","epez","èpent"],
                 "i": ["epais","epais","epait","epions","epiez","epaient"],
@@ -524,12 +553,13 @@
                 "si": ["epasse","epasses","epât","epassions","epassiez","epassent"],
                 "ip": [null,"èpe",null,"epons","epez",null],
                 "pr": "epant",
-                "pp": "epé",
+                "pp": ["epé","epée","epés","epées"],
                 "b": "eper"
             }
         },
         "v33": {
             "ending": "éser",
+            "modèle": "léser",
             "t": {
                 "p": ["èse","èses","èse","ésons","ésez","èsent"],
                 "i": ["ésais","ésais","ésait","ésions","ésiez","ésaient"],
@@ -540,12 +570,13 @@
                 "si": ["ésasse","ésasses","ésât","ésassions","ésassiez","ésassent"],
                 "ip": [null,"èse",null,"ésons","ésez",null],
                 "pr": "ésant",
-                "pp": "ésé",
+                "pp": ["ésé","ésée","ésés","ésées"],
                 "b": "éser"
             }
         },
         "v34": {
             "ending": "émer",
+            "modèle": "crémer",
             "t": {
                 "p": ["ème","èmes","ème","émons","émez","èment"],
                 "i": ["émais","émais","émait","émions","émiez","émaient"],
@@ -556,12 +587,13 @@
                 "si": ["émasse","émasses","émât","émassions","émassiez","émassent"],
                 "ip": [null,"ème",null,"émons","émez",null],
                 "pr": "émant",
-                "pp": "émé",
+                "pp": ["émé","émée","émés","émées"],
                 "b": "émer"
             }
         },
         "v35": {
             "ending": "éger",
+            "modèle": "siéger",
             "t": {
                 "p": ["ège","èges","ège","égeons","égez","ègent"],
                 "i": ["égeais","égeais","égeait","égions","égiez","égeaient"],
@@ -572,12 +604,13 @@
                 "si": ["égeasse","égeasses","égeât","égeassions","égeassiez","égeassent"],
                 "ip": [null,"ège",null,"égeons","égez",null],
                 "pr": "égeant",
-                "pp": "égé",
+                "pp": ["égé","égée","égés","égées"],
                 "b": "éger"
             }
         },
         "v36": {
             "ending": "er",
+            "modèle": "aimer",
             "t": {
                 "p": ["e","es","e","ons","ez","ent"],
                 "i": ["ais","ais","ait","ions","iez","aient"],
@@ -588,12 +621,13 @@
                 "si": ["asse","asses","ât","assions","assiez","assent"],
                 "ip": [null,"e",null,"ons","ez",null],
                 "pr": "ant",
-                "pp": "é",
+                "pp": ["é","ée","és","ées"],
                 "b": "er"
             }
         },
         "v37": {
             "ending": "évrer",
+            "modèle": "enfiévrer",
             "t": {
                 "p": ["èvre","èvres","èvre","évrons","évrez","èvrent"],
                 "i": ["évrais","évrais","évrait","évrions","évriez","évraient"],
@@ -604,12 +638,13 @@
                 "si": ["évrasse","évrasses","évrât","évrassions","évrassiez","évrassent"],
                 "ip": [null,"èvre",null,"évrons","évrez",null],
                 "pr": "évrant",
-                "pp": "évré",
+                "pp": ["évré","évrée","évrés","évrées"],
                 "b": "évrer"
             }
         },
         "v38": {
             "ending": "écrer",
+            "modèle": "exécrer",
             "t": {
                 "p": ["ècre","ècres","ècre","écrons","écrez","ècrent"],
                 "i": ["écrais","écrais","écrait","écrions","écriez","écraient"],
@@ -620,12 +655,13 @@
                 "si": ["écrasse","écrasses","écrât","écrassions","écrassiez","écrassent"],
                 "ip": [null,"ècre",null,"écrons","écrez",null],
                 "pr": "écrant",
-                "pp": "écré",
+                "pp": ["écré","écrée","écrés","écrées"],
                 "b": "écrer"
             }
         },
         "v39": {
             "ending": "érir",
+            "modèle": "acquérir",
             "t": {
                 "p": ["iers","iers","iert","érons","érez","ièrent"],
                 "i": ["érais","érais","érait","érions","ériez","éraient"],
@@ -636,7 +672,7 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"iers",null,"érons","érez",null],
                 "pr": "érant",
-                "pp": "is",
+                "pp": ["is","ise","is","ises"],
                 "b": "érir"
             }
         },
@@ -658,6 +694,7 @@
         },
         "v41": {
             "ending": "ïr",
+            "modèle": "haïr",
             "t": {
                 "p": ["is","is","it","ïssons","ïssez","ïssent"],
                 "i": ["ïssais","ïssais","ïssait","ïssions","ïssiez","ïssaient"],
@@ -668,7 +705,7 @@
                 "si": ["ïsse","ïsses","ït","ïssions","ïssiez","ïssent"],
                 "ip": [null,"is",null,"ïssons","ïssez",null],
                 "pr": "ïssant",
-                "pp": "ï",
+                "pp": ["ï","ïe","ïs","ïes"],
                 "b": "ïr"
             }
         },
@@ -690,6 +727,7 @@
         },
         "v43": {
             "ending": "eurir",
+            "modèle": "fleurir",
             "t": {
                 "p": ["euris","euris","eurit","eurissons","eurissez","eurissent"],
                 "i": ["eurissais","eurissais","eurissait","eurissions","eurissiez","eurissaient"],
@@ -700,12 +738,13 @@
                 "si": ["eurisse","eurisses","eurît","eurissions","eurissiez","eurissent"],
                 "ip": [null,"euris",null,"eurissons","eurissez",null],
                 "pr": "eurissant",
-                "pp": "euri",
+                "pp": ["euri","eurie","euris","euries"],
                 "b": "eurir"
             }
         },
         "v44": {
             "ending": "rir",
+            "modèle": "ouvrir",
             "t": {
                 "p": ["re","res","re","rons","rez","rent"],
                 "i": ["rais","rais","rait","rions","riez","raient"],
@@ -716,12 +755,13 @@
                 "si": ["risse","risses","rît","rissions","rissiez","rissent"],
                 "ip": [null,"re",null,"rons","rez",null],
                 "pr": "rant",
-                "pp": "ert",
+                "pp": ["ert","erte","erts","ertes"],
                 "b": "rir"
             }
         },
         "v45": {
             "ending": "mir",
+            "modèle": "dormir",
             "t": {
                 "p": ["s","s","t","mons","mez","ment"],
                 "i": ["mais","mais","mait","mions","miez","maient"],
@@ -732,12 +772,13 @@
                 "si": ["misse","misses","mît","missions","missiez","missent"],
                 "ip": [null,"s",null,"mons","mez",null],
                 "pr": "mant",
-                "pp": "mi",
+                "pp": ["mi","mie","mis","mies"],
                 "b": "mir"
             }
         },
         "v46": {
             "ending": "tir",
+            "partir": "partir",
             "t": {
                 "p": ["s","s","t","tons","tez","tent"],
                 "i": ["tais","tais","tait","tions","tiez","taient"],
@@ -748,12 +789,13 @@
                 "si": ["tisse","tisses","tît","tissions","tissiez","tissent"],
                 "ip": [null,"s",null,"tons","tez",null],
                 "pr": "tant",
-                "pp": "ti",
+                "pp": ["ti","tie","tie","ties"],
                 "b": "tir"
             }
         },
         "v47": {
             "ending": "vir",
+            "modèle": "servir",
             "t": {
                 "p": ["s","s","t","vons","vez","vent"],
                 "i": ["vais","vais","vait","vions","viez","vaient"],
@@ -764,12 +806,13 @@
                 "si": ["visse","visses","vît","vissions","vissiez","vissent"],
                 "ip": [null,"s",null,"vons","vez",null],
                 "pr": "vant",
-                "pp": "vi",
+                "pp": ["vi","vie","vis","vies"],
                 "b": "vir"
             }
         },
         "v48": {
             "ending": "illir",
+            "modèle": "bouillir",
             "t": {
                 "p": ["s","s","t","illons","illez","illent"],
                 "i": ["illais","illais","illait","illions","illiez","illaient"],
@@ -780,12 +823,13 @@
                 "si": ["illisse","illisses","illît","illissions","illissiez","illissent"],
                 "ip": [null,"s",null,"illons","illez",null],
                 "pr": "illant",
-                "pp": "illi",
+                "pp": ["illi","illie","illie","illies"],
                 "b": "illir"
             }
         },
         "v49": {
             "ending": "ir",
+            "modèle": "assaillir",
             "t": {
                 "p": ["e","es","e","ons","ez","ent"],
                 "i": ["ais","ais","ait","ions","iez","aient"],
@@ -796,7 +840,7 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"e",null,"ons","ez",null],
                 "pr": "ant",
-                "pp": "i",
+                "pp": ["i","ie","is","ies"],
                 "b": "ir"
             }
         },
@@ -818,6 +862,7 @@
         },
         "v51": {
             "ending": "ir",
+            "modèle": "cueillir",
             "t": {
                 "p": ["e","es","e","ons","ez","ent"],
                 "i": ["ais","ais","ait","ions","iez","aient"],
@@ -828,12 +873,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"e",null,"ons","ez",null],
                 "pr": "ant",
-                "pp": "i",
+                "pp": ["i","ie","is","ies"],
                 "b": "ir"
             }
         },
         "v52": {
             "ending": "enir",
+            "modèle": "venir",
             "t": {
                 "p": ["iens","iens","ient","enons","enez","iennent"],
                 "i": ["enais","enais","enait","enions","eniez","enaient"],
@@ -844,7 +890,7 @@
                 "si": ["insse","insses","înt","inssions","inssiez","inssent"],
                 "ip": [null,"iens",null,"enons","enez",null],
                 "pr": "enant",
-                "pp": "enu",
+                "pp": ["enu","enue","enus","enues"],
                 "b": "enir"
             }
         },
@@ -866,6 +912,7 @@
         },
         "v54": {
             "ending": "ir",
+            "modèle": "fuir",
             "t": {
                 "p": ["is","is","it","yons","yez","ient"],
                 "i": ["yais","yais","yait","yions","yiez","yaient"],
@@ -876,12 +923,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"yons","yez",null],
                 "pr": "yant",
-                "pp": "i",
+                "pp": ["i","ie","is","ies"],
                 "b": "ir"
             }
         },
         "v55": {
             "ending": "ourir",
+            "modèle": "mourir",
             "t": {
                 "p": ["eurs","eurs","eurt","ourons","ourez","eurent"],
                 "i": ["ourais","ourais","ourait","ourions","ouriez","ouraient"],
@@ -892,12 +940,13 @@
                 "si": ["ourusse","ourusses","ourût","ourussions","ourussiez","ourussent"],
                 "ip": [null,"eurs",null,"ourons","ourez",null],
                 "pr": "ourant",
-                "pp": "ort",
+                "pp": ["ort","orte","orts","ortes"],
                 "b": "ourir"
             }
         },
         "v56": {
             "ending": "ir",
+            "modèle": "vêtir",
             "t": {
                 "p": ["s","s","","ons","ez","ent"],
                 "i": ["ais","ais","ait","ions","iez","aient"],
@@ -908,12 +957,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"s",null,"ons","ez",null],
                 "pr": "ant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "ir"
             }
         },
         "v57": {
             "ending": "ir",
+            "modèle": "courir",
             "t": {
                 "p": ["s","s","t","ons","ez","ent"],
                 "i": ["ais","ais","ait","ions","iez","aient"],
@@ -924,12 +974,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"s",null,"ons","ez",null],
                 "pr": "ant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "ir"
             }
         },
         "v58": {
             "ending": "ir",
+            "modèle": "finir",
             "t": {
                 "p": ["is","is","it","issons","issez","issent"],
                 "i": ["issais","issais","issait","issions","issiez","issaient"],
@@ -940,7 +991,7 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"issons","issez",null],
                 "pr": "issant",
-                "pp": "i",
+                "pp": ["i","ie","is","ies"],
                 "b": "ir"
             }
         },
@@ -962,6 +1013,7 @@
         },
         "v60": {
             "ending": "ire",
+            "modèle": "maudire",
             "t": {
                 "p": ["is","is","it","issons","issez","issent"],
                 "i": ["issais","issais","issait","issions","issiez","issaient"],
@@ -972,12 +1024,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"issons","issez",null],
                 "pr": "issant",
-                "pp": "it",
+                "pp": ["it","ite","its","ites"],
                 "b": "ire"
             }
         },
         "v61": {
             "ending": "illir",
+            "modèle": "faillir",
             "t": {
                 "p": ["ux","ux","ut","illons","illez","illent"],
                 "i": ["illais","illais","illait","illions","illiez","illaient"],
@@ -988,12 +1041,13 @@
                 "si": ["illisse","illisses","illît","illissions","illissiez","illissent"],
                 "ip": [null,null,null,null,null,null],
                 "pr": "illant",
-                "pp": "illi",
+                "pp": ["i",null,null,null],
                 "b": "illir"
             }
         },
         "v62": {
             "ending": "ésir",
+            "modeele": "gésir",
             "t": {
                 "p": ["is","is","ît","isons","isez","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1004,12 +1058,13 @@
                 "si": [null,null,null,null,null,null],
                 "ip": [null,null,null,null,null,null],
                 "pr": "isant",
-                "pp": null,
+                "pp": [null,null,null,null],
                 "b": "ésir"
             }
         },
         "v63": {
             "ending": "cevoir",
+            "modèle": "recevoir",
             "t": {
                 "p": ["çois","çois","çoit","cevons","cevez","çoivent"],
                 "i": ["cevais","cevais","cevait","cevions","ceviez","cevaient"],
@@ -1020,12 +1075,13 @@
                 "si": ["çusse","çusses","çût","çussions","çussiez","çussent"],
                 "ip": [null,"çois",null,"cevons","cevez",null],
                 "pr": "cevant",
-                "pp": "çu",
+                "pp": ["çu","çue","çus","çues"],
                 "b": "cevoir"
             }
         },
         "v64": {
             "ending": "evoir",
+            "modèle": "devoir",
             "t": {
                 "p": ["ois","ois","oit","evons","evez","oivent"],
                 "i": ["evais","evais","evait","evions","eviez","evaient"],
@@ -1036,12 +1092,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ois",null,"evons","evez",null],
                 "pr": "evant",
-                "pp": "û",
+                "pp": ["û","ue","us","ues"],
                 "b": "evoir"
             }
         },
         "v65": {
             "ending": "ouvoir",
+            "modèle": "mouvoir",
             "t": {
                 "p": ["eus","eus","eut","ouvons","ouvez","euvent"],
                 "i": ["ouvais","ouvais","ouvait","ouvions","ouviez","ouvaient"],
@@ -1052,12 +1109,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"eus",null,"ouvons","ouvez",null],
                 "pr": "ouvant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "ouvoir"
             }
         },
         "v66": {
             "ending": "ouvoir",
+            "modèle": "émouvoir",
             "t": {
                 "p": ["eus","eus","eut","ouvons","ouvez","euvent"],
                 "i": ["ouvais","ouvais","ouvait","ouvions","ouviez","ouvaient"],
@@ -1068,12 +1126,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"eus",null,"ouvons","ouvez",null],
                 "pr": "ouvant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "ouvoir"
             }
         },
         "v67": {
             "ending": "avoir",
+            "modèle": "savoir",
             "t": {
                 "p": ["ais","ais","ait","avons","avez","avent"],
                 "i": ["avais","avais","avait","avions","aviez","avaient"],
@@ -1084,12 +1143,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ache",null,"achons","achez",null],
                 "pr": "achant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "avoir"
             }
         },
         "v68": {
             "ending": "ouloir",
+            "modèle": "vouloir",
             "t": {
                 "p": ["eux","eux","eut","oulons","oulez","eulent"],
                 "i": ["oulais","oulais","oulait","oulions","ouliez","oulaient"],
@@ -1100,12 +1160,13 @@
                 "si": ["oulusse","oulusses","oulût","oulussions","oulussiez","oulussent"],
                 "ip": [null,"euille",null,"oulons","euillez",null],
                 "pr": "oulant",
-                "pp": "oulu",
+                "pp": ["oulu","oulue","oulus","oulues"],
                 "b": "ouloir"
             }
         },
         "v69": {
             "ending": "loir",
+            "modèle": "valoir",
             "t": {
                 "p": ["ux","ux","ut","lons","lez","lent"],
                 "i": ["lais","lais","lait","lions","liez","laient"],
@@ -1116,7 +1177,7 @@
                 "si": ["lusse","lusses","lût","lussions","lussiez","lussent"],
                 "ip": [null,"ux",null,"lons","lez",null],
                 "pr": "lant",
-                "pp": "lu",
+                "pp": ["lu","lue","lus","lues"],
                 "b": "loir"
             }
         },
@@ -1138,6 +1199,7 @@
         },
         "v71": {
             "ending": "ouvoir",
+            "modèle": "pouvoir",
             "t": {
                 "p": ["eux","eux","eut","ouvons","ouvez","euvent"],
                 "i": ["ouvais","ouvais","ouvait","ouvions","ouviez","ouvaient"],
@@ -1148,12 +1210,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,null,null,null,null,null],
                 "pr": "ouvant",
-                "pp": "u",
+                "pp": ["u",null,null,null],
                 "b": "ouvoir"
             }
         },
         "v72": {
             "ending": "oir",
+            "modèle": "voir",
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": ["oyais","oyais","oyait","oyions","oyiez","oyaient"],
@@ -1164,12 +1227,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ois",null,"oyons","oyez",null],
                 "pr": "oyant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "oir"
             }
         },
         "v73": {
             "ending": "oir",
+            "modèle": "prévoir",
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": ["oyais","oyais","oyait","oyions","oyiez","oyaient"],
@@ -1180,12 +1244,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ois",null,"oyons","oyez",null],
                 "pr": "oyant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "oir"
             }
         },
         "v74": {
             "ending": "eoir",
+            "modèle": "seoir",
             "t": {
                 "p": ["ieds","ieds","ied","eyons","eyez","eyent"],
                 "i": ["eyais","eyais","eyait","eyions","eyiez","eyaient"],
@@ -1196,7 +1261,7 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ieds",null,"eyons","eyez",null],
                 "pr": "eyant",
-                "pp": "is",
+                "pp": ["is",null,null,null],
                 "b": "eoir"
             }
         },
@@ -1218,6 +1283,7 @@
         },
         "v76": {
             "ending": "eoir",
+            "modèle": "asseoir",
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": ["oyais","oyais","oyait","oyions","oyiez","oyaient"],
@@ -1228,7 +1294,7 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ois",null,"oyons","oyez",null],
                 "pr": "oyant",
-                "pp": "is",
+                "pp": ["is","ise","is","ises"],
                 "b": "eoir"
             }
         },
@@ -1266,6 +1332,7 @@
         },
         "v79": {
             "ending": "euvoir",
+            "modèle": "pleuvoir",
             "t": {
                 "p": [null,null,"eut",null,null,"euvent"],
                 "i": [null,null,"euvait",null,null,"euvaient"],
@@ -1276,12 +1343,13 @@
                 "si": [null,null,"ût",null,null,null],
                 "ip": [null,null,null,null,null,null],
                 "pr": "euvant",
-                "pp": "u",
+                "pp": ["u",null,null,null],
                 "b": "euvoir"
             }
         },
         "v80": {
             "ending": "lloir",
+            "modèle": "falloir",
             "t": {
                 "p": [null,null,"ut",null,null,null],
                 "i": [null,null,"llait",null,null,null],
@@ -1292,7 +1360,7 @@
                 "si": [null,null,"llût",null,null,null],
                 "ip": [null,null,null,null,null,null],
                 "pr": null,
-                "pp": "llu",
+                "pp": ["llu",null,null,null],
                 "b": "lloir"
             }
         },
@@ -1314,6 +1382,7 @@
         },
         "v82": {
             "ending": "oir",
+            "modèle": "pourvoir",
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": ["oyais","oyais","oyait","oyions","oyiez","oyaient"],
@@ -1324,12 +1393,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ois",null,"oyons","oyez",null],
                 "pr": "oyant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "oir"
             }
         },
         "v83": {
             "ending": "oir",
+            "modèle": "choir",
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": [null,null,null,null,null,null],
@@ -1340,7 +1410,7 @@
                 "si": [null,null,"ût",null,null,null],
                 "ip": [null,null,null,null,null,null],
                 "pr": "oyant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "oir"
             }
         },
@@ -1362,6 +1432,7 @@
         },
         "v85": {
             "ending": "dre",
+            "modèle": "mordre",
             "t": {
                 "p": ["ds","ds","d","dons","dez","dent"],
                 "i": ["dais","dais","dait","dions","diez","daient"],
@@ -1372,12 +1443,13 @@
                 "si": ["disse","disses","dît","dissions","dissiez","dissent"],
                 "ip": [null,"ds",null,"dons","dez",null],
                 "pr": "dant",
-                "pp": "du",
+                "pp": ["du","due","dus","dues"],
                 "b": "dre"
             }
         },
         "v86": {
             "ending": "cre",
+            "modèle": "vaincre",
             "t": {
                 "p": ["cs","cs","c","quons","quez","quent"],
                 "i": ["quais","quais","quait","quions","quiez","quaient"],
@@ -1388,12 +1460,13 @@
                 "si": ["quisse","quisses","quît","quissions","quissiez","quissent"],
                 "ip": [null,"cs",null,"quons","quez",null],
                 "pr": "quant",
-                "pp": "cu",
+                "pp": ["cu","cue","cus","cues"],
                 "b": "cre"
             }
         },
         "v87": {
             "ending": "tre",
+            "modèle": "battre",
             "t": {
                 "p": ["s","s","","tons","tez","tent"],
                 "i": ["tais","tais","tait","tions","tiez","taient"],
@@ -1404,12 +1477,13 @@
                 "si": ["tisse","tisses","tît","tissions","tissiez","tissent"],
                 "ip": [null,"s",null,"tons","tez",null],
                 "pr": "tant",
-                "pp": "tu",
+                "pp": ["tu","tue","tus","tues"],
                 "b": "tre"
             }
         },
         "v88": {
             "ending": "tre",
+            "modèle": "embattre",
             "t": {
                 "p": ["s","s","t","tons","tez","tent"],
                 "i": ["tais","tais","tait","tions","tiez","taient"],
@@ -1420,12 +1494,13 @@
                 "si": [null,null,null,null,null,null],
                 "ip": [null,"s",null,"tons","tez",null],
                 "pr": "tant",
-                "pp": "tu",
+                "pp": ["tu","tue","tus","tues"],
                 "b": "tre"
             }
         },
         "v89": {
             "ending": "ettre",
+            "modèle": "mettre",
             "t": {
                 "p": ["ets","ets","et","ettons","ettez","ettent"],
                 "i": ["ettais","ettais","ettait","ettions","ettiez","ettaient"],
@@ -1436,12 +1511,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ets",null,"ettons","ettez",null],
                 "pr": "ettant",
-                "pp": "is",
+                "pp": ["is","ise","is","ises"],
                 "b": "ettre"
             }
         },
         "v90": {
             "ending": "endre",
+            "modèle": "prendre",
             "t": {
                 "p": ["ends","ends","end","enons","enez","ennent"],
                 "i": ["enais","enais","enait","enions","eniez","enaient"],
@@ -1452,12 +1528,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ends",null,"enons","enez",null],
                 "pr": "enant",
-                "pp": "is",
+                "pp": ["is","ise","is","ises"],
                 "b": "endre"
             }
         },
         "v91": {
             "ending": "pre",
+            "modèle": "rompre",
             "t": {
                 "p": ["ps","ps","pt","pons","pez","pent"],
                 "i": ["pais","pais","pait","pions","piez","paient"],
@@ -1468,12 +1545,13 @@
                 "si": ["pisse","pisses","pît","pissions","pissiez","pissent"],
                 "ip": [null,"ps",null,"pons","pez",null],
                 "pr": "pant",
-                "pp": "pu",
+                "pp": ["pu","pue","pus","pues"],
                 "b": "pre"
             }
         },
         "v92": {
             "ending": "dre",
+            "modèle": "moudre",
             "t": {
                 "p": ["ds","ds","d","lons","lez","lent"],
                 "i": ["lais","lais","lait","lions","liez","laient"],
@@ -1484,12 +1562,13 @@
                 "si": ["lusse","lusses","lût","lussions","lussiez","lussent"],
                 "ip": [null,"ds",null,"lons","lez",null],
                 "pr": "lant",
-                "pp": "lu",
+                "pp": ["lu","lue","lus","lues"],
                 "b": "dre"
             }
         },
         "v93": {
             "ending": "dre",
+            "modèle": "coudre",
             "t": {
                 "p": ["ds","ds","d","sons","sez","sent"],
                 "i": ["sais","sais","sait","sions","siez","saient"],
@@ -1500,12 +1579,13 @@
                 "si": ["sisse","sisses","sît","sissions","sissiez","sissent"],
                 "ip": [null,"ds",null,"sons","sez",null],
                 "pr": "sant",
-                "pp": "su",
+                "pp": ["su","sue","sus","sues"],
                 "b": "dre"
             }
         },
         "v94": {
             "ending": "udre",
+            "modèle": "résoudre",
             "t": {
                 "p": ["us","us","ut","lvons","lvez","lvent"],
                 "i": ["lvais","lvais","lvait","lvions","lviez","lvaient"],
@@ -1516,12 +1596,13 @@
                 "si": ["lusse","lusses","lût","lussions","lussiez","lussent"],
                 "ip": [null,"us",null,"lvons","lvez",null],
                 "pr": "lvant",
-                "pp": "lu",
+                "pp": ["lu","lue","lus","lues"],
                 "b": "udre"
             }
         },
         "v95": {
             "ending": "udre",
+            "modèle": "absoudre",
             "t": {
                 "p": ["us","us","ut","lvons","lvez","lvent"],
                 "i": ["lvais","lvais","lvait","lvions","lviez","lvaient"],
@@ -1532,7 +1613,7 @@
                 "si": ["lusse","lusses","lût","lussions","lussiez","lussent"],
                 "ip": [null,"us",null,"lvons","lvez",null],
                 "pr": "lvant",
-                "pp": "us",
+                "pp": ["us","ute","us","tes"],
                 "b": "udre"
             }
         },
@@ -1554,6 +1635,7 @@
         },
         "v97": {
             "ending": "ndre",
+            "modèle": "craindre",
             "t": {
                 "p": ["ns","ns","nt","gnons","gnez","gnent"],
                 "i": ["gnais","gnais","gnait","gnions","gniez","gnaient"],
@@ -1564,7 +1646,7 @@
                 "si": ["gnisse","gnisses","gnît","gnissions","gnissiez","gnissent"],
                 "ip": [null,"ns",null,"gnons","gnez",null],
                 "pr": "gnant",
-                "pp": "nt",
+                "pp": ["nt","nte","nts","ntes"],
                 "b": "ndre"
             }
         },
@@ -1586,6 +1668,7 @@
         },
         "v99": {
             "ending": "vre",
+            "modèle": "suivre",
             "t": {
                 "p": ["s","s","t","vons","vez","vent"],
                 "i": ["vais","vais","vait","vions","viez","vaient"],
@@ -1596,12 +1679,13 @@
                 "si": ["visse","visses","vît","vissions","vissiez","vissent"],
                 "ip": [null,"s",null,"vons","vez",null],
                 "pr": "vant",
-                "pp": "vi",
+                "pp": ["vi","vie","vis","vies"],
                 "b": "vre"
             }
         },
         "v100": {
             "ending": "ivre",
+            "modèle": "vivre",
             "t": {
                 "p": ["is","is","it","ivons","ivez","ivent"],
                 "i": ["ivais","ivais","ivait","ivions","iviez","ivaient"],
@@ -1612,12 +1696,13 @@
                 "si": ["écusse","écusses","écût","écussions","écussiez","écussent"],
                 "ip": [null,"is",null,"ivons","ivez",null],
                 "pr": "ivant",
-                "pp": "écu",
+                "pp": ["écu","écue","écus","écues"],
                 "b": "ivre"
             }
         },
         "v101": {
             "ending": "aître",
+            "modèle": "paraître",
             "t": {
                 "p": ["ais","ais","aît","aissons","aissez","aissent"],
                 "i": ["aissais","aissais","aissait","aissions","aissiez","aissaient"],
@@ -1628,12 +1713,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ais",null,"aissons","aissez",null],
                 "pr": "aissant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "aître"
             }
         },
         "v102": {
             "ending": "aître",
+            "modèle": "paître",
             "t": {
                 "p": ["ais","ais","aît","aissons","aissez","aissent"],
                 "i": ["aissais","aissais","aissait","aissions","aissiez","aissaient"],
@@ -1644,7 +1730,7 @@
                 "si": [null,null,null,null,null,null],
                 "ip": [null,"ais",null,null,"aissez",null],
                 "pr": "aissant",
-                "pp": "u",
+                "pp": [null,null,null,null],
                 "b": "aître"
             }
         },
@@ -1666,6 +1752,7 @@
         },
         "v104": {
             "ending": "aître",
+            "modèle": "naître",
             "t": {
                 "p": ["ais","ais","aît","aissons","aissez","aissent"],
                 "i": ["aissais","aissais","aissait","aissions","aissiez","aissaient"],
@@ -1676,12 +1763,13 @@
                 "si": ["aquisse","aquisses","aquît","aquissions","aquissiez","aquissent"],
                 "ip": [null,"ais",null,"aissons","aissez",null],
                 "pr": "aissant",
-                "pp": "é",
+                "pp": ["é","ée","és","ées"],
                 "b": "aître"
             }
         },
         "v105": {
             "ending": "aître",
+            "modèle": "renaître",
             "t": {
                 "p": ["ais","ais","aît","aissons","aissez","aissent"],
                 "i": ["aissais","aissais","aissait","aissions","aissiez","aissaient"],
@@ -1692,12 +1780,13 @@
                 "si": ["aquisse","aquisses","aquît","aquissions","aquissiez","aquissent"],
                 "ip": [null,"ais",null,"aissons","aissez",null],
                 "pr": "aissant",
-                "pp": null,
+                "pp": ["é","ée","és","ées"],
                 "b": "aître"
             }
         },
         "v106": {
             "ending": "oître",
+            "modèle": "croître",
             "t": {
                 "p": ["oîs","oîs","oît","oissons","oissez","oissent"],
                 "i": ["oissais","oissais","oissait","oissions","oissiez","oissaient"],
@@ -1708,12 +1797,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"oîs",null,"oissons","oissez",null],
                 "pr": "oissant",
-                "pp": "û",
+                "pp": ["û",null,null,null],
                 "b": "oître"
             }
         },
         "v107": {
             "ending": "ire",
+            "modèle": "rire",
             "t": {
                 "p": ["is","is","it","ions","iez","ient"],
                 "i": ["iais","iais","iait","iions","iiez","iaient"],
@@ -1724,12 +1814,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"ions","iez",null],
                 "pr": "iant",
-                "pp": "i",
+                "pp": ["i",null,null,null],
                 "b": "ire"
             }
         },
         "v108": {
             "ending": "ire",
+            "modèle": "circoncire",
             "t": {
                 "p": ["is","is","it","isons","isez","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1740,12 +1831,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"isons","isez",null],
                 "pr": "isant",
-                "pp": "is",
+                "pp": ["is","ise","is","ises"],
                 "b": "ire"
             }
         },
         "v109": {
             "ending": "ure",
+            "modèle": "conclure",
             "t": {
                 "p": ["us","us","ut","uons","uez","uent"],
                 "i": ["uais","uais","uait","uions","uiez","uaient"],
@@ -1756,12 +1848,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"us",null,"uons","uez",null],
                 "pr": "uant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "ure"
             }
         },
         "v110": {
             "ending": "ure",
+            "modèle": "inclure",
             "t": {
                 "p": ["us","us","ut","uons","uez","uent"],
                 "i": ["uais","uais","uait","uions","uiez","uaient"],
@@ -1772,7 +1865,7 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"us",null,"uons","uez",null],
                 "pr": "uant",
-                "pp": "us",
+                "pp": ["us","use","us","uses"],
                 "b": "ure"
             }
         },
@@ -1794,6 +1887,7 @@
         },
         "v112": {
             "ending": "ire",
+            "modèle": "luire",
             "t": {
                 "p": ["is","is","it","isons","isez","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1804,12 +1898,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"isons","isez",null],
                 "pr": "isant",
-                "pp": "i",
+                "pp": ["i","ie","is","ies"],
                 "b": "ire"
             }
         },
         "v113": {
             "ending": "re",
+            "modèle": "cuire",
             "t": {
                 "p": ["s","s","t","sons","sez","sent"],
                 "i": ["sais","sais","sait","sions","siez","saient"],
@@ -1820,12 +1915,13 @@
                 "si": ["sisse","sisses","sît","sissions","sissiez","sissent"],
                 "ip": [null,"s",null,"sons","sez",null],
                 "pr": "sant",
-                "pp": "t",
+                "pp": ["t","te","ts","tes"],
                 "b": "re"
             }
         },
         "v114": {
             "ending": "re",
+            "modèle": "écrire",
             "t": {
                 "p": ["s","s","t","vons","vez","vent"],
                 "i": ["vais","vais","vait","vions","viez","vaient"],
@@ -1836,12 +1932,13 @@
                 "si": ["visse","visses","vît","vissions","vissiez","vissent"],
                 "ip": [null,"s",null,"vons","vez",null],
                 "pr": "vant",
-                "pp": "t",
+                "pp": ["t","te","ts","tes"],
                 "b": "re"
             }
         },
         "v115": {
             "ending": "oire",
+            "modèle": "croire",
             "t": {
                 "p": ["ois","ois","oit","oyons","oyez","oient"],
                 "i": ["oyais","oyais","oyait","oyions","oyiez","oyaient"],
@@ -1852,12 +1949,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ois",null,"oyons","oyez",null],
                 "pr": "oyant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "oire"
             }
         },
         "v116": {
             "ending": "ire",
+            "modèle": "suffire",
             "t": {
                 "p": ["is","is","it","isons","isez","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1868,12 +1966,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"isons","isez",null],
                 "pr": "isant",
-                "pp": "i",
+                "pp": ["i",null,null,null],
                 "b": "ire"
             }
         },
         "v117": {
             "ending": "ire",
+            "modèle": "dire",
             "t": {
                 "p": ["is","is","it","isons","ites","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1884,12 +1983,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"isons","ites",null],
                 "pr": "isant",
-                "pp": "it",
+                "pp": ["it","ite","its","ites"],
                 "b": "ire"
             }
         },
         "v118": {
             "ending": "ire",
+            "modèle": "prédire",
             "t": {
                 "p": ["is","is","it","isons","isez","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1900,7 +2000,7 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"is",null,"isons","isez",null],
                 "pr": "isant",
-                "pp": "it",
+                "pp": ["it","ite","its","ites"],
                 "b": "ire"
             }
         },
@@ -1922,6 +2022,7 @@
         },
         "v120": {
             "ending": "ire",
+            "modèle": "lire",
             "t": {
                 "p": ["is","is","it","isons","isez","isent"],
                 "i": ["isais","isais","isait","isions","isiez","isaient"],
@@ -1932,12 +2033,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"is",null,"isons","isez",null],
                 "pr": "isant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "ire"
             }
         },
         "v121": {
             "ending": "oire",
+            "modèle": "boire",
             "t": {
                 "p": ["ois","ois","oit","uvons","uvez","oivent"],
                 "i": ["uvais","uvais","uvait","uvions","uviez","uvaient"],
@@ -1948,12 +2050,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ois",null,"uvons","uvez",null],
                 "pr": "uvant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "oire"
             }
         },
         "v122": {
             "ending": "aire",
+            "modèle": "taire",
             "t": {
                 "p": ["ais","ais","ait","aisons","aisez","aisent"],
                 "i": ["aisais","aisais","aisait","aisions","aisiez","aisaient"],
@@ -1964,12 +2067,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ais",null,"aisons","aisez",null],
                 "pr": "aisant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "aire"
             }
         },
         "v123": {
             "ending": "aire",
+            "modèle": "plaire",
             "t": {
                 "p": ["ais","ais","aît","aisons","aisez","aisent"],
                 "i": ["aisais","aisais","aisait","aisions","aisiez","aisaient"],
@@ -1980,12 +2084,13 @@
                 "si": ["usse","usses","ût","ussions","ussiez","ussent"],
                 "ip": [null,"ais",null,"aisons","aisez",null],
                 "pr": "aisant",
-                "pp": "u",
+                "pp": ["u","ue","us","ues"],
                 "b": "aire"
             }
         },
         "v124": {
             "ending": "aire",
+            "modèle": "faire",
             "t": {
                 "p": ["ais","ais","ait","aisons","aites","ont"],
                 "i": ["aisais","aisais","aisait","aisions","aisiez","aisaient"],
@@ -1996,12 +2101,13 @@
                 "si": ["isse","isses","ît","issions","issiez","issent"],
                 "ip": [null,"ais",null,"aisons","aites",null],
                 "pr": "aisant",
-                "pp": "ait",
+                "pp": ["ait","aite","aits","aites"],
                 "b": "aire"
             }
         },
         "v125": {
             "ending": "ire",
+            "modèle": "traire",
             "t": {
                 "p": ["is","is","it","yons","yez","ient"],
                 "i": ["yais","yais","yait","yions","yiez","yaient"],
@@ -2012,12 +2118,13 @@
                 "si": [null,null,null,null,null,null],
                 "ip": [null,"is",null,"yons","yez",null],
                 "pr": "yant",
-                "pp": "it",
+                "pp": ["it","ite","its","ites"],
                 "b": "ire"
             }
         },
         "v126": {
             "ending": "ire",
+            "modèle": "bruire",
             "t": {
                 "p": ["is","is","it","yons","yez","ient"],
                 "i": ["yais","yais","yait","yions","yiez","yaient"],
@@ -2028,28 +2135,30 @@
                 "si": [null,null,null,null,null,null],
                 "ip": [null,"is",null,"yons","yez",null],
                 "pr": "yant",
-                "pp": "it",
+                "pp": ["i",null,null,null],
                 "b": "ire"
             }
         },
         "v127": {
             "ending": "ourdre",
+            "modèle": "sourdre",
             "t": {
                 "p": [null,null,"ourd",null,null,"ourdent"],
                 "i": [null,null,"ourdait",null,null,"ourdaient"],
-                "f": [null,null,null,null,null,null],
-                "ps": [null,null,null,null,null,null],
+                "f": [null,null,"ourdra",null,null,"ourdront"],
+                "ps": [null,null,"ourdit",null,null,"ourdirent"],
                 "c": [null,null,null,null,null,null],
                 "s": [null,null,null,null,null,null],
                 "si": [null,null,null,null,null,null],
                 "ip": [null,null,null,null,null,null],
-                "pr": null,
-                "pp": null,
+                "pr": "ourdrant",
+                "pp": ["ourdi",null,null,null],
                 "b": "ourdre"
             }
         },
         "v128": {
             "ending": "ore",
+            "modèle": "clore",
             "t": {
                 "p": ["os","os","ôt","osons","osez","osent"],
                 "i": ["osais","osais","osait","osions","osiez","osaient"],
@@ -2060,7 +2169,7 @@
                 "si": ["osisse","osisses","osît","osissions","osissiez","osissent"],
                 "ip": [null,"os",null,"osons","osez",null],
                 "pr": "osant",
-                "pp": "os",
+                "pp": ["os","ose","os","oses"],
                 "b": "ore"
             }
         },
@@ -2082,6 +2191,7 @@
         },
         "v130": {
             "ending": "re",
+            "modèle": "occire",
             "t": {
                 "p": [null,null,null,null,null,null],
                 "i": [null,null,null,null,null,null],
@@ -2092,7 +2202,7 @@
                 "si": [null,null,null,null,null,null],
                 "ip": [null,null,null,null,null,null],
                 "pr": null,
-                "pp": "s",
+                "pp": ["s","se","s","ses"],
                 "b": "re"
             }
         },
@@ -2146,6 +2256,7 @@
         },
         "v134": {
             "ending": "oyer",
+            "modèle": "envoyer",
             "t": {
                 "p": ["oie","oies","oie","oyons","oyez","oient"],
                 "i": ["oyais","oyais","oyait","oyions","oyiez","oyaient"],
@@ -2156,12 +2267,13 @@
                 "si": ["oyasse","oyasses","oyât","oyassions","oyassiez","oyassent"],
                 "ip": [null,"oie",null,"oyons","oyez",null],
                 "pr": "oyant",
-                "pp": "oyé",
+                "pp": ["oyé","oyée","oyés","oyées"],
                 "b": "oyer"
             }
         },
         "v135": {
             "ending": "avoir",
+            "modèle": "avoir",
             "t": {
                 "p": ["ai","as","a","avons","avez","ont"],
                 "i": ["avais","avais","avait","avions","aviez","avaient"],
@@ -2172,12 +2284,13 @@
                 "si": ["eusse","eusses","eût","eussions","eussiez","eussent"],
                 "ip": [null,"aie",null,"ayons","ayez",null],
                 "pr": "ayant",
-                "pp": "eu",
+                "pp": ["eu","eue","eus","eues"],
                 "b": "avoir"
             }
         },
         "v136": {
             "ending": "être",
+            "modèle": "être",
             "t": {
                 "p": ["suis","es","est","sommes","êtes","sont"],
                 "i": ["étais","étais","était","étions","étiez","étaient"],
@@ -2188,12 +2301,13 @@
                 "si": ["fusse","fusses","fût","fussions","fussiez","fussent"],
                 "ip": [null,"sois",null,"soyons","soyez",null],
                 "pr": "étant",
-                "pp": "été",
+                "pp": ["été",null,null,null],
                 "b": "être"
             }
         },
         "v137": {
             "ending": "aller",
+            "modèle": "aller",
             "t": {
                 "p": ["vais","vas","va","allons","allez","vont"],
                 "i": ["allais","allais","allait","allions","alliez","allaient"],
@@ -2204,7 +2318,7 @@
                 "si": ["allasse","allasses","allât","allassions","allassiez","allassent"],
                 "ip": [null,"va",null,"allons","allez",null],
                 "pr": "allant",
-                "pp": "allé",
+                "pp": ["allé","allée","allés","allées"],
                 "b": "aller"
             }
         },
@@ -2290,6 +2404,7 @@
         },
         "v143": {
             "ending": "uïr",
+            "modèle": "ouïr",
             "t": {
                 "p": ["is","is","it","yons","yez","ient"],
                 "i": ["yais","yais","yait","yions","yiez","yaient"],
@@ -2300,7 +2415,7 @@
                 "si": ["uïsse","uïsses","uït","uïssions","uïssiez","uïssent"],
                 "ip": [null,"is",null,"yons","yez",null],
                 "pr": "yant",
-                "pp": "uï",
+                "pp": ["uï","uïe","uïs","uïes"],
                 "b": "uïr"
             }
         },

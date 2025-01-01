@@ -197,9 +197,9 @@ const French_terminal = (superclass) =>
                 } else {   // auxiliary "avoir"
                     // check the gender and number of a cod appearing before the verb to do proper agreement
                     //   of its past participle  except when the verb is "être" which will always agree
+                    g="m"
+                    n="s";
                     if (this.lemma!="être"){
-                        g="m"
-                        n="s";
                         var cod = this.cod;
                         if (cod !== undefined){
                             g=cod.getProp("g");
@@ -291,36 +291,55 @@ const French_terminal = (superclass) =>
                             this.insertReal(res,Pro("moi","fr").tn("").pe(pe).n(n).g(g));
                         }
                         return res;
-                    case "b": case "pr": case "pp":
-                        this.realization=this.stem+conjugation;
-                        res=[this];
-                        if ( this.isReflexive()&& this.parentConst==null && t!="pp" ){
-                            this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
+                    case "pp":
+                        g=(this.cod ?? this).getProp("g");
+                        n=(this.cod ?? this).getProp("n");
+                        if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
+                        if (n=="x")n="s";
+                        const idx = (n=="s" ? 0 : 2)+(g=="m"? 0 : 1)
+                        const termPP = conjugation[idx]
+                        if (termPP == null){
+                            return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
                         }
-                        if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
-                            let g=(this.cod ?? this).getProp("g");
-                            let n=(this.cod ?? this).getProp("n");
-                            if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
-                            if (n=="x")n="s";
-                            const gn=g+n;
-                            if (gn != "ms") { // many special cases for pp declension
-                                const pat = this.getProp("pat")
-                                if (pat != undefined && pat.length==1 && pat[0]=="intr" && this.getProp("aux")=="av"){ 
-                                    // ne pas conjuguer un pp d'un verbe intransitif avec auxiliaire avoir
-                                    return [this.morphoError("conjugate_fr",{pe:pe,g:g,n:n,t:t})];
-                                }
-                                if (this.realization.endsWith("s")){
-                                    if (this.realization.endsWith("ous")){
-                                        this.realization=this.realization.slice(0,-3)+{"mp":"ous","fs":"oute","fp":"outes"}[gn]
-                                    } else {
-                                        this.realization+={"mp":"","fs":"e","fp":"es"}[gn]
-                                    }
-                                } else {
-                                    if (this.realization.endsWith("û"))this.realization=this.realization.slice(0,-1)+"u";
-                                    this.realization+={"mp":"s","fs":"e","fp":"es"}[gn]
-                                }
+                        if (idx>0){
+                            const pat = this.getProp("pat")
+                            if (pat != undefined && pat.length==1 && pat[0]=="intr" && this.getProp("aux")=="av"){ 
+                                // ne pas conjuguer un pp d'un verbe intransitif avec auxiliaire avoir
+                                return [this.morphoError("conjugate_fr",{pe:pe,g:g,n:n,t:t})];
                             }
                         }
+                        this.realization=this.stem+termPP;
+                        return [this];
+                    case "b": case "pr": 
+                        this.realization=this.stem+conjugation;
+                        res=[this];
+                        if ( this.isReflexive()&& this.parentConst==null){
+                            this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
+                        }
+                        // if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
+                        //     let g=(this.cod ?? this).getProp("g");
+                        //     let n=(this.cod ?? this).getProp("n");
+                        //     if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
+                        //     if (n=="x")n="s";
+                        //     const gn=g+n;
+                        //     if (gn != "ms") { // many special cases for pp declension
+                        //         const pat = this.getProp("pat")
+                        //         if (pat != undefined && pat.length==1 && pat[0]=="intr" && this.getProp("aux")=="av"){ 
+                        //             // ne pas conjuguer un pp d'un verbe intransitif avec auxiliaire avoir
+                        //             return [this.morphoError("conjugate_fr",{pe:pe,g:g,n:n,t:t})];
+                        //         }
+                        //         if (this.realization.endsWith("s")){
+                        //             if (this.realization.endsWith("ous")){
+                        //                 this.realization=this.realization.slice(0,-3)+{"mp":"ous","fs":"oute","fp":"outes"}[gn]
+                        //             } else {
+                        //                 this.realization+={"mp":"","fs":"e","fp":"es"}[gn]
+                        //             }
+                        //         } else {
+                        //             if (this.realization.endsWith("û"))this.realization=this.realization.slice(0,-1)+"u";
+                        //             this.realization+={"mp":"s","fs":"e","fp":"es"}[gn]
+                        //         }
+                        //     }
+                        // }
                         return res;
                     default:
                         return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
