@@ -1041,7 +1041,7 @@
                 "si": ["illisse","illisses","illît","illissions","illissiez","illissent"],
                 "ip": [null,null,null,null,null,null],
                 "pr": "illant",
-                "pp": ["i",null,null,null],
+                "pp": ["illi",null,null,null],
                 "b": "illir"
             }
         },
@@ -1613,7 +1613,7 @@
                 "si": ["lusse","lusses","lût","lussions","lussiez","lussent"],
                 "ip": [null,"us",null,"lvons","lvez",null],
                 "pr": "lvant",
-                "pp": ["us","ute","us","tes"],
+                "pp": ["us","ute","us","utes"],
                 "b": "udre"
             }
         },

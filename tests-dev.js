@@ -965,18 +965,20 @@ function testWarnings(){
 }
  
 function testLemmataMaps(){
-    function showForms(lemmata,form){
+    function showForms(lemmata,form,flt){
         let exprs = lemmata.get(form)
         if (exprs == undefined) 
             console.log(form,":", getLanguage() == "en" ? "not found" : "pas trouvé")
-        else
+        else {
+            if (flt !== undefined)exprs = exprs.filter(flt);
             console.log(form,":", exprs.map(expr=>expr.toSource()).join(", "))
+        }
     }
 
     let lemmataEn = buildLemmataMap("en")
     console.log("---")
     showForms(lemmataEn,"love")
-    console.log(lemmataEn.get("love").filter(e=>e.isA("N")).map(e=>e.toSource()))
+    showForms(lemmataEn,"love",e=>e.isA("N"))
     console.log("---")
     let lemmataFr = buildLemmataMap("fr")
     showForms(lemmataFr,"porte")
@@ -984,7 +986,7 @@ function testLemmataMaps(){
     showForms(lemmataFr,"suis")
     showForms(lemmataFr,"ménagère")
     showForms(lemmataFr,"crus")
-    console.log(lemmataFr.get("crus").filter(e=>e.isA("N")).map(e=>e.toSource()))
+    showForms(lemmataFr,"crus",e=>e.isA("N"))
 }
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.

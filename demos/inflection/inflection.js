@@ -12,18 +12,26 @@ var titleCommeNom={"fr": " comme nom","en":" as noun"};
 var titleCommeAdj={"fr": " comme adjectif","en":" as adjective"};
 
 function conjuguer(verbe, lang,typs){
-    function realize(t,pe,n){
-        if (t=="ip"){
-            if ((n=="s" && [1,3].indexOf(pe)>=0) || (n=="p" && pe==3)){
-                return ""
+    function realize(t,pe,n,g){
+        try {
+             if (g !== undefined){ // French past participle
+                return VP(V(verbe).t("pp").n(n).g(g)).typ(typs).realize()
+            } else if (t=="ip"){
+                if ((n=="s" && [1,3].indexOf(pe)>=0) || (n=="p" && pe==3)){
+                    return "&mdash;"
+                } else {
+                    return VP(V(verbe).t("ip").pe(pe).n(n)).typ(typs).realize()
+                }
             } else {
-                return VP(V(verbe).t("ip").pe(pe).n(n)).typ(typs)
+                let v = V(verbe).t(t);
+                if (pe == null) return VP(v).typ(typs).realize();
+                let sp= SP(Pro(lang=="fr"?"moi":"me").c("nom").pe(pe).n(n),VP(v)).typ(typs);
+                if (t.startsWith("s") && lang=="fr")// subjonctif français
+                    sp=SP(Q("que"),sp);
+                return sp.realize()
             }
-        } else {
-            let sp=SP(Pro(lang=="fr"?"moi":"me").c("nom").pe(pe).n(n),VP(V(verbe).t(t))).typ(typs)
-            if (t.startsWith("s") && lang=="fr")// subjonctif français
-                sp=SP(Q("que"),sp);
-            return sp
+        } catch (error) {
+            return "&mdash;"
         }
     }
     let temps;
@@ -59,11 +67,14 @@ function conjuguer(verbe, lang,typs){
         if (tmp[0][0].startsWith("Particip")){
             $row=$("<tr/>");
             for (t of tmp){
-                let vs = [VP(V(verbe).t(t[1])).typ(typs)]
+                let vs;
                 if (t[1]=="pp" && lang=="fr"){
-                    vs.push(VP(V(verbe).t(t[1])).g("f").typ(typs))
-                    vs.push(VP(V(verbe).t(t[1])).n("p").typ(typs))
-                    vs.push(VP(V(verbe).t(t[1])).g("f").n("p").typ(typs))
+                    vs = [realize(t[1],null,"s","m")]
+                    vs.push(realize(t[1],null,"s","f"))
+                    vs.push(realize(t[1],null,"p","m"))
+                    vs.push(realize(t[1],null,"p","f"))
+                } else {
+                    vs = [realize(t[1],null,null)]
                 }
                 $row.append("<td>"+vs.join("<br/>")+"</td>")
             }
@@ -81,21 +92,29 @@ function conjuguer(verbe, lang,typs){
     }
 }
 
+function realize(exp){
+    try {
+        return exp().realize()
+    } catch (error) {
+        return "&mdash;"
+    }
+}
+
 function declinerNom(mot,lang){
     if (lang=="fr"){
         $("#tableau").append("<tr><th></th><th>Singulier</th><th>Pluriel</th></tr>");
         const g=getLemma(mot)["N"]["g"];
         if ("mx".indexOf(g)>=0)
             $("#tableau")
-               .append(`<tr><td><i>Masculin</i></td><td>${N(mot).g("m").n("s")}</td>`+
-                                               `<td>${N(mot).g("m").n("p")}</td></tr>`);
+               .append(`<tr><td><i>Masculin</i></td><td>${realize(()=>N(mot).g("m").n("s"))}</td>`+
+                                               `<td>${realize(()=>N(mot).g("m").n("p"))}</td></tr>`);
         if ("fx".indexOf(g)>=0)
             $("#tableau")
-               .append(`<tr><td><i>Féminin</i></td><td>${N(mot).g("f").n("s")}</td>`+
-                                               `   <td>${N(mot).g("f").n("p")}</td></tr>`);
+               .append(`<tr><td><i>Féminin</i></td><td>${realize(()=>N(mot).g("f").n("s"))}</td>`+
+                                               `   <td>${realize(()=>N(mot).g("f").n("p"))}</td></tr>`);
     } else {
          $("#tableau").append("<tr><th>Singular</th><th>Plural</th></tr>");
-         $("#tableau").append(`<tr><td>${N(mot).n("s")}</td><td>${N(mot).n("p")}</td></tr>`);
+         $("#tableau").append(`<tr><td>${realize(()=>N(mot).n("s"))}</td><td>${realize(()=>N(mot).n("p"))}</td></tr>`);
     }
 }
 
@@ -103,14 +122,14 @@ function declinerAdj(mot,lang){
     if (lang=="fr"){
         $("#tableau").append("<tr><th></th><th>Singulier</th><th>Pluriel</th></tr>");
         $("#tableau")
-            .append(`<tr><td><i>Masculin</i></td><td>${A(mot).g("m").n("s")}</td>`+
-                                   `<td>${A(mot).g("m").n("p")}</td></tr>`);
+            .append(`<tr><td><i>Masculin</i></td><td>${realize(()=>A(mot).g("m").n("s"))}</td>`+
+                                   `<td>${realize(()=>A(mot).g("m").n("p"))}</td></tr>`);
         $("#tableau")
-            .append(`<tr><td><i>Féminin</i></td><td>${A(mot).g("f").n("s")}</td>`+
-                                   `<td>${A(mot).g("f").n("p")}</td></tr>`);
+            .append(`<tr><td><i>Féminin</i></td><td>${realize(()=>A(mot).g("f").n("s"))}</td>`+
+                                   `<td>${realize(()=>A(mot).g("f").n("p"))}</td></tr>`);
     } else {
         $("#tableau").append("<tr><th>Comparative</th><th>Superlative</th></tr>");
-        $("#tableau").append(`<tr><td>${A(mot).f("co")}</td><td>${A(mot).f("su")}</td></tr>`);
+        $("#tableau").append(`<tr><td>${realize(()=>A(mot).f("co"))}</td><td>${realize(()=>A(mot).f("su"))}</td></tr>`);
     }
 }
 
@@ -195,6 +214,7 @@ function checkLanguage() {
 
 
 $(document).ready(function() {
+    setExceptionOnWarning(true)
    $entree=$("#entree");
    $tableau=$("#tableau");
    $entree.keypress(conjugueDecline);

@@ -180,11 +180,21 @@ const French_terminal = (superclass) =>
             let g = this.getProp("g");
             let n = this.getNumber();
             const t = this.getProp("t");
+            let conjugation;
             if (this.tab==null) 
                 return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];
             switch (t) {
             case "pc":case "pq":case "cp": case "fa": case "pa": case "spa": case "spq": case "bp":// temps composés
                 const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","pa":"ps","spa":"s","spq":"si", "bp":"b"}[t];
+                // check that the original verb can be conjugated at the tense and person of the auxliary
+                // useful for defective verb (e.g. pleuvoir) so that it is still defective at compound tenses
+                // so that both "je pleut" "j'ai plu" raise a warning
+                conjugation=getRules(this.lang).conjugation[this.tab].t[tempsAux];
+                if (conjugation === undefined || conjugation == null){
+                    return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                } else if (conjugation[pe-1+(n=="p"?3:0)]==null){
+                    return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                }
                 const aux =  V("avoir","fr"); 
                 aux.parentConst=this.parentConst;
                 aux.peng=this.peng;
@@ -259,7 +269,7 @@ const French_terminal = (superclass) =>
                 }
                 return [aux,this];
             default:// simple tense
-                var conjugation=getRules(this.lang).conjugation[this.tab].t[t];
+                conjugation=getRules(this.lang).conjugation[this.tab].t[t];
                 if (conjugation!==undefined && conjugation!==null){
                     let res,term;
                     switch (t) {
@@ -316,30 +326,6 @@ const French_terminal = (superclass) =>
                         if ( this.isReflexive()&& this.parentConst==null){
                             this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
                         }
-                        // if (t=="pp" && this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
-                        //     let g=(this.cod ?? this).getProp("g");
-                        //     let n=(this.cod ?? this).getProp("n");
-                        //     if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
-                        //     if (n=="x")n="s";
-                        //     const gn=g+n;
-                        //     if (gn != "ms") { // many special cases for pp declension
-                        //         const pat = this.getProp("pat")
-                        //         if (pat != undefined && pat.length==1 && pat[0]=="intr" && this.getProp("aux")=="av"){ 
-                        //             // ne pas conjuguer un pp d'un verbe intransitif avec auxiliaire avoir
-                        //             return [this.morphoError("conjugate_fr",{pe:pe,g:g,n:n,t:t})];
-                        //         }
-                        //         if (this.realization.endsWith("s")){
-                        //             if (this.realization.endsWith("ous")){
-                        //                 this.realization=this.realization.slice(0,-3)+{"mp":"ous","fs":"oute","fp":"outes"}[gn]
-                        //             } else {
-                        //                 this.realization+={"mp":"","fs":"e","fp":"es"}[gn]
-                        //             }
-                        //         } else {
-                        //             if (this.realization.endsWith("û"))this.realization=this.realization.slice(0,-1)+"u";
-                        //             this.realization+={"mp":"s","fs":"e","fp":"es"}[gn]
-                        //         }
-                        //     }
-                        // }
                         return res;
                     default:
                         return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];

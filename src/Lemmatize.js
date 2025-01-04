@@ -69,25 +69,32 @@ function jsrExpInit(pos,lemma){
 }
 
 /**
- * Generate a list of jsRealB expressions (only Pro will have more than 1) 
+ * Generate a jsRealB expression, null if no appropriate expression can be generated, 
  * from a given form (entry), for a given part-of-speech (pos) using information 
  * from the declension and lexicon information (declension, lexiconEntry)
  *
+ * @param {String} lang
  * @param {Object} declension declension table
  * @param {string} pos part-of-speech
  * @param {string} lemma
  * @param {Object} lexiconEntry
  * @returns {Terminal} 
  */
-function genExp(declension,pos,lemma,lexiconEntry){
-    let lemmataLang = getLanguage()
+function genExp(lang,declension,pos,lemma,lexiconEntry){
     let jsrExp = jsrExpInit(pos,lemma)
     // console.log("genExp",declension,pos,entry,lexiconEntry);
     switch (pos) {
     case "N":
         var g=lexiconEntry["g"];
         // gender are ignored in English
-        if (lemmataLang=="en"|| declension["g"]==g){
+        if (lang=="en"){
+            if (declension["n"]=="p"){ // do not generate plurals of uncountable nouns
+                if (lexiconEntry["cnt"]=="no")
+                    return null;
+                else 
+                    jsrExp.n("p")
+            }
+        } else if (declension["g"]==g){
             if (declension["n"]=="p")jsrExp.n("p")
         } else if (g=="x") {
             if (declension["g"]=='f') jsrExp.g("f");
@@ -96,7 +103,7 @@ function genExp(declension,pos,lemma,lexiconEntry){
         break;
     case "Pro":case "D":
         // gender
-        let defaultG=lemmataLang=="fr"?"m":"n";
+        let defaultG=lang=="fr"?"m":"n";
         let dg = declension["g"];
         if (dg===undefined || dg=="x" || dg=="n")dg=defaultG;
         if (dg != defaultG) jsrExp.g(dg);
@@ -117,7 +124,7 @@ function genExp(declension,pos,lemma,lexiconEntry){
         }
         break;
     case "A": 
-        if (lemmataLang=="fr"){
+        if (lang=="fr"){
             let g=declension["g"];
             if (g===undefined || g=="x")g="m";
             if (g!="m") jsrExp.g(g)
@@ -130,7 +137,7 @@ function genExp(declension,pos,lemma,lexiconEntry){
          }
         break;
     case "Adv":
-        if (lemmataLang=="en"){ // comparatif en anglais
+        if (lang=="en"){ // comparatif en anglais
             let f=declension["f"];
             if (f !== undefined) jsrExp.f(f)
         }
@@ -144,12 +151,13 @@ function genExp(declension,pos,lemma,lexiconEntry){
 /**
  * Generate all verb forms in a lemmataMap using rules  
  *
+ * @param {String} lang
  * @param {Map} lemmata
  * @param {Object} rules
  * @param {string} lemma
  * @param {string} tab
  */
-function expandConjugation(lemmata,rules,lemma,tab){
+function expandConjugation(lang,lemmata,rules,lemma,tab){
     let conjug=rules["conjugation"][tab];
     // console.log(conjug);
     if (conjug==undefined)return;
@@ -165,17 +173,36 @@ function expandConjugation(lemmata,rules,lemma,tab){
         let t=tenses[k];
         let persons=conjug["t"][t]
         if (persons===null)continue;
-        if (typeof persons =="object" && persons.length==6){
-            for (let pe = 0; pe < 6; pe++) {
-                if (persons[pe]==null) continue;
-                let word=radical+persons[pe];
-                let pe3=pe%3+1;
-                let n=pe>=3?"p":"s";
-                let jsrExp=jsrExpInit("V",lemma)
-                if (t != "p") jsrExp.t(t);
-                if (pe3 != 3) jsrExp.pe(pe3);
-                if (n != "s") jsrExp.n(n);
-                addLemma(lemmata,word,jsrExp);
+        if (typeof persons =="object"){
+            if (persons.length==6){
+                for (let pe = 0; pe < 6; pe++) {
+                    if (persons[pe]==null) continue;
+                    let word=radical+persons[pe];
+                    let pe3=pe%3+1;
+                    let n=pe>=3?"p":"s";
+                    let jsrExp=jsrExpInit("V",lemma)
+                    if (t != "p") jsrExp.t(t);
+                    if (pe3 != 3) jsrExp.pe(pe3);
+                    if (n != "s") jsrExp.n(n);
+                    addLemma(lemmata,word,jsrExp);
+                }
+            } else if (persons.length==4) { // French past participles
+                let pat = getLexicon("fr")[lemma]["V"]["pat"]
+                if (pat !== undefined && pat.length==1 && pat[0]=="intr"){
+                    // only singular masculine for pp of intransitive verbs
+                    addLemma(lemmata,radical+persons[0],jsrExpInit("V",lemma).t("pp"))
+                } else {
+                    for (let g of ["m","f"]){
+                        for (let n of ["s","p"]){
+                            const idx = (n=="s"?0:2)+(g=="m"?0:1)
+                            if (persons[idx]==null)continue;
+                            let jsrExp = jsrExpInit("V",lemma).t("pp")
+                            if (g != "m") jsrExp.g(g);
+                            if (n != "s") jsrExp.n(n);
+                            addLemma(lemmata,radical+persons[idx],jsrExp)
+                        }
+                    }
+                }
             }
         } else if (typeof persons=="string"){
                 let word = radical+persons;
@@ -197,6 +224,7 @@ function expandConjugation(lemmata,rules,lemma,tab){
 /**
  * Generate word form for all pos except verbs
  *
+ * @param {String} lang
  * @param {Object} lexicon
  * @param {Map} lemmata
  * @param {Object} rules
@@ -204,7 +232,7 @@ function expandConjugation(lemmata,rules,lemma,tab){
  * @param {string} pos
  * @param {string} tab
  */
-function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
+function expandDeclension(lang,lexicon,lemmata,rules,entry,pos,tab){
     var rulesDecl=rules["declension"];
     var declension=null;
     if (tab in rulesDecl)
@@ -227,7 +255,7 @@ function expandDeclension(lexicon,lemmata,rules,entry,pos,tab){
         const dec = decl[l];
         if (!seenVals.includes(dec['val'])){ // do not generate identical values in the same table
             seenVals.push(dec['val']);
-            var jsRexp=genExp(decl[l],pos,entry,lexicon[entry][pos]);
+            var jsRexp=genExp(lang,decl[l],pos,entry,lexicon[entry][pos]);
             if (jsRexp!=null){
                 var word=radical+decl[l]["val"];
                 addLemma(lemmata,word,jsRexp);
@@ -265,9 +293,9 @@ function buildLemmataMap(lang){
             if (pos=="ldv" || pos == "niveau" || pos=="value") continue; // ignore these properties
             if (pos=="Pc") continue; // ignore punctuation
             if (pos=="V"){ // conjugation
-                expandConjugation(lemmata,rules,entry,entryInfos["V"]["tab"]);
+                expandConjugation(lang,lemmata,rules,entry,entryInfos["V"]["tab"]);
             } else {       // declension
-                expandDeclension(lexicon,lemmata,rules,entry,pos,entryInfos[pos]["tab"]);
+                expandDeclension(lang,lexicon,lemmata,rules,entry,pos,entryInfos[pos]["tab"]);
             }
         }
     }
