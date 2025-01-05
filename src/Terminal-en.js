@@ -74,7 +74,7 @@ const English_terminal = (superclass) =>
                     // look in the adjective declension table
                     const ending=this.bestMatch("adjective declension",declension,{f:f})
                     if (ending==null){
-                        return [this.morphoError("decline [en]:A",{f:f})]
+                        return [this.morphoError("no declension found for :A",{f:f})]
                     }
                     this.realization = stem + ending;
                     return [this]
@@ -175,7 +175,7 @@ const English_terminal = (superclass) =>
             const g = this.getProp("g") || "m"; // migh be used for reflexive pronoun
             const t = this.getProp("t");
             if (this.tab==null)
-                return [this.morphoError("conjugate_en:tab",{pe:pe,n:n,t:t})];
+                return [this.morphoError("no conjugation table found:",{pe:pe,n:n,t:t})];
             const conjugation=getRules(this.lang).conjugation[this.tab].t[t];
             let res=[this];
             if (conjugation!==undefined){
@@ -186,7 +186,7 @@ const English_terminal = (superclass) =>
                         } else {
                             let term=conjugation[pe-1+(n=="p"?3:0)];
                             if (term==null){
-                                return [this.morphoError("conjugate_en:pe",{pe:pe,n:n,t:t})];
+                                return [this.morphoError("Cannot conjugate at these person and tense:",{pe:pe,n:n,t:t})];
                             } else {
                                 // remove final s at subjonctive present by taking the form at the first person
                                 if (t=="s" && pe==3)term=conjugation[0];
@@ -222,7 +222,7 @@ const English_terminal = (superclass) =>
                 this.realization=this.lemma;
                 if (pe==1 && n=="p")this.insertReal(res,Q("let's"),0);
             } else
-                return [this.morphoError("conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
+                return [this.morphoError("Unrecognized tense",{pe:pe,n:n,t:t})];
             return res;
         }
 

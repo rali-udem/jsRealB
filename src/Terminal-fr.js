@@ -47,7 +47,7 @@ const French_terminal = (superclass) =>
             const n=this.getProp("n");
             const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
             if (ending==null){
-                return [this.morphoError("decline [fr]:A",{g:g,n:n})];
+                return [this.morphoError("pas de terminaison acceptable pour :A",{g:g,n:n})];
             }
             const f = this.getProp("f");// comparatif d'adjectif
             if (f !== undefined && f !== false){
@@ -182,7 +182,7 @@ const French_terminal = (superclass) =>
             const t = this.getProp("t");
             let conjugation;
             if (this.tab==null) 
-                return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];
+                return [this.morphoError("pas de table de conjugation trouvée",{pe:pe,n:n,t:t})];
             switch (t) {
             case "pc":case "pq":case "cp": case "fa": case "pa": case "spa": case "spq": case "bp":// temps composés
                 const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","pa":"ps","spa":"s","spq":"si", "bp":"b"}[t];
@@ -191,9 +191,9 @@ const French_terminal = (superclass) =>
                 // so that both "je pleut" "j'ai plu" raise a warning
                 conjugation=getRules(this.lang).conjugation[this.tab].t[tempsAux];
                 if (conjugation === undefined || conjugation == null){
-                    return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                    return [this.morphoError("pas de conjugaison trouvée",{pe:pe,n:n,t:t})];
                 } else if (conjugation[pe-1+(n=="p"?3:0)]==null){
-                    return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                    return [this.morphoError("conjugation impossible à ces personne et nombre",{pe:pe,n:n,t:t})];
                 }
                 const aux =  V("avoir","fr"); 
                 aux.parentConst=this.parentConst;
@@ -276,7 +276,7 @@ const French_terminal = (superclass) =>
                     case "p": case "i": case "f": case "ps": case "c": case "s": case "si":
                         term=conjugation[pe-1+(n=="p"?3:0)];
                         if (term==null){
-                            return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                            return [this.morphoError("verbe défectif pour ces personne et nombre",{pe:pe,n:n,t:t})];
                         } else {
                             this.realization=this.stem+term;
                         }
@@ -287,11 +287,11 @@ const French_terminal = (superclass) =>
                         return res;
                     case "ip":
                         if ((n=="s" && pe!=2)||(n=="p" && pe==3)){// French imperative does not exist at all persons and numbers
-                            return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                            return [this.morphoError("impératif non conjugable à cette personne",{pe:pe,n:n,t:t})];
                         }
                         term=conjugation[pe-1+(n=="p"?3:0)];
                         if (term==null){
-                            return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                            return [this.morphoError("impératif non existant",{pe:pe,n:n,t:t})];
                         } else {
                             this.realization=this.stem+term;
                         }
@@ -309,13 +309,13 @@ const French_terminal = (superclass) =>
                         const idx = (n=="s" ? 0 : 2)+(g=="m"? 0 : 1)
                         const termPP = conjugation[idx]
                         if (termPP == null){
-                            return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                            return [this.morphoError("verbe défectif pour ces personne et nombre",{pe:pe,n:n,t:t})];
                         }
                         if (idx>0){
                             const pat = this.getProp("pat")
                             if (pat != undefined && pat.length==1 && pat[0]=="intr" && this.getProp("aux")=="av"){ 
                                 // ne pas conjuguer un pp d'un verbe intransitif avec auxiliaire avoir
-                                return [this.morphoError("conjugate_fr",{pe:pe,g:g,n:n,t:t})];
+                                return [this.morphoError("pas de flexion pour un participe passé d'un verbe intransitif",{pe:pe,g:g,n:n,t:t})];
                             }
                         }
                         this.realization=this.stem+termPP;
@@ -328,10 +328,9 @@ const French_terminal = (superclass) =>
                         }
                         return res;
                     default:
-                        return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
+                        return [this.morphoError("temps de conjugaison non traité",{pe:pe,n:n,t:t})];
                     }
                 }
-                return [this.morphoError("conjugate_fr:t",{pe:pe,n:n,t:t})];
             }
         }
 

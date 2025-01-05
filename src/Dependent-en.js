@@ -30,7 +30,7 @@ const English_dependent = (superclass) =>
          */
         check_determiner_cnt(det){
             if (det.lemma == "a" && this.terminal.getProp("cnt")=="no")
-                det.morphoError("The undefinite determiner cannot be linked with an uncountable noun", this.terminal.lemma)
+                det.morphoError("An undefinite determiner cannot be linked with an uncountable noun", this.terminal.lemma)
         }
 
         /**
