@@ -192,7 +192,7 @@ const French_terminal = (superclass) =>
                 conjugation=getRules(this.lang).conjugation[this.tab].t[tempsAux];
                 if (conjugation === undefined || conjugation == null){
                     return [this.morphoError("pas de conjugaison trouvée",{pe:pe,n:n,t:t})];
-                } else if (conjugation[pe-1+(n=="p"?3:0)]==null){
+                } else if (Array.isArray(conjugation) && conjugation[pe-1+(n=="p"?3:0)]==null){
                     return [this.morphoError("conjugation impossible à ces personne et nombre",{pe:pe,n:n,t:t})];
                 }
                 const aux =  V("avoir","fr"); 
