@@ -57,7 +57,7 @@ const English_terminal = (superclass) =>
             this.realization = this.lemma;
             const f = this.getProp("f");// usual comparative/superlative
             if (f !== undefined && f !== false){
-                if (this.tab=="a1"){
+                if (this.tab=="a1" || (this.isA("Adv") && this.lemma.endsWith("ly"))){
                     const comp = Adv(f=="co"?"more":"most")
                     comp.realization = comp.lemma
                     return [comp,this]
