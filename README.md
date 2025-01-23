@@ -55,9 +55,10 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     2.  `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
     
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
+    * `Flexion-Tables.numbers` Spreadsheet of the French and English declension and conjugation tables (in Numbers format)
     * `jsRealB-jsonInput.hmtl` use of the JSON format for *jsRealB*: 
     * `jsRealBfromPython.html`: documentation for creating the JSON input format in Python
-    * `lexiconFormat.md` : format for the entries in the lexicon
+    * `Lexicon-Format-{en,fr}.md` : format for the entries in the English and French lexicons
     * `user.html`: HTML of the core of the page (`div[id]` correspond to variables in `user-infos.js`)
     * `style.css`: style sheet
     * `user-infos.js`: definitions of variables containing the examples
@@ -65,7 +66,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     
 * [`Examples`](Examples): Examples of integration of jsRealB into web pages or node.js applications. See [index.html](Examples/index.html) for use cases.
 
-* [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it. The use of the *Evaluation* demo is probably more convenient for developing with a web brovser.
+* [`IDE`](IDE/) : An Integrated Development Environment built upon the `Node.js` *read-eval-print loop* that includes `jsRealB` to easily get the realization of an expression, to consult the lexicon, the conjugation and declination tables. It is also possible to get a *lemmatization*: i.e. the `jsRealB` expression corresponding to a form. See the [`README.html`](IDE/README.html) file to see how to use it. The use of the *Evaluation* demo is probably more convenient for developing with a web browser.
 
 * [`node-modules`](node-modules/) : used for transpiling with webpack
 
