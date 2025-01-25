@@ -4,7 +4,7 @@ let lang = "en";  // will be changed to "fr" at the launch in jQuery(document).r
 
 // current context
 let config,level;
-let lexicon, nombres, genres, determiners, nouns, pronominalize, adjectives, verbs, tenses, types;
+let lexicon, nombres, genres, patterns, determiners, nouns, pronominalize, adjectives, verbs, tenses, types;
 // global statistics
 let nbPhrases=0,nbVertes=0;
 
@@ -37,6 +37,28 @@ function nouveauNP(){
     return [det,adj,noun,gender,number,pronom]
 }
 
+function infosDeNP(np){
+    const det = np.elements[0].lemma
+    const noun = np.elements[1].lemma
+    // in English, undefinite determiner cannot be used with uncountable nouns
+    if (lang == "en" && lexicon[noun]["N"]["cnt"] == "no") det = "the";
+    let gender = null;
+    if (lang=="fr"){
+        gender = lexicon[noun]["N"]["g"]
+        if (gender=="x")gender=choice("m","f")
+    } else if (lexicon[noun]["N"]["g"] == "x"){
+        gender=choice("m","f")
+    }
+    let adj = null;
+    if (np.elements.length==3){
+        adj = np.elements[2].lemma
+    }
+    // ensure singular for uncountable English nouns
+    let number = (lang=="en" && lexicon[noun]["N"]["cnt"] == "no") ? "s" : oneOf("s","p")
+    const pronom = Math.random() < level.pronominalization
+    return [det,adj,noun,gender,number,pronom]    
+}
+
 function getCharacteristics(noun,gender,number,pron){
     let characs = []
     if (pron)characs.push(config.pronominaliser);
@@ -52,17 +74,35 @@ function getCharacteristics(noun,gender,number,pron){
 }
 
 function nouvellePhrase(){
+    let pattern = oneOf(patterns)
+    console.log("** pattern:",pattern)
     // effectuer le choix des lemmes
+    let svo = make_groups(pattern);
+    if (svo == null){
+        console.log("** bad pattern:"+pattern)
+        return
+    }
+    let [subjs,vps,objs] = svo
     
-    let [det_s,adj_s,noun_s,gender_s,number_s,pron_s] = nouveauNP()
-    let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = nouveauNP()
-    let verbe = oneOf(verbs)
+    // let [det_s,adj_s,noun_s,gender_s,number_s,pron_s] = nouveauNP()
+    // let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = nouveauNP()
+    let sujet = oneOf(subjs)
+    let [det_s,adj_s,noun_s,gender_s,number_s,pron_s] = infosDeNP(sujet)
+    let complement = oneOf(objs)
+    let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = infosDeNP(complement)
+    // let verbe = oneOf(verbs)
+    let vp = oneOf(vps)
+    let verbe = vp.elements[0].lemma
+    if (vp.elements.length>1){
+        vp.elements[1].elements.forEach(e=>verbe += " "+e.lemma)
+    }
     let tenseName = oneOf(tenses)
     let typName = oneOf(types)
     let tense = config.temps[tenseName]
     if (tense == undefined)console.log("bad tense name:",tenseName)
     let typ = config.types[typName]
     if (typ == undefined)console.log("bad typ name", typName)
+    
 
     // specification of the constraints
     let $table=$("table");
@@ -96,22 +136,23 @@ function nouvellePhrase(){
     $("#reponse").focus();
     $("#encore").prop("disabled",true);
 
-    let sujet=NP(D(det_s),N(noun_s));
-    if (adj_s != null)sujet.add(A(adj_s))
+    // let sujet=NP(D(det_s),N(noun_s));
+    // if (adj_s != null)sujet.add(A(adj_s))
     if (gender_s !== null)sujet.g(gender_s)
     if (pron_s){
         sujet.pro();
     }
     sujet.n(number_s);
     
-    let complement=NP(D(det_c),N(noun_c));
-    if (adj_c != null)complement.add(A(adj_c));
+    // let complement=NP(D(det_c),N(noun_c));
+    // if (adj_c != null)complement.add(A(adj_c));
     if (gender_c !==null)complement.g(gender_c)
     if (pron_c){
         complement.pro();
     }
     complement.n(number_c);
-    corrige = S(sujet,VP(V(verbe).t(tense),complement)).typ(typ).realize();
+    add(vp,complement)
+    corrige = S(sujet,vp).typ(typ).realize();
     nbPhrases++;
     return corrige    
 }
@@ -211,13 +252,14 @@ function changeLevel(){
     level = levels[$("#levels").val()];
     determiners = config.determiners;
     const annee = level.annee;
-    nouns = level.nouns || filter(lexicon,"N",annee)
-    adjectives = level.adjectives || filter(lexicon,"A",annee);
-    verbs = level.verbs || filter(lexicon,"V",annee);
+    // nouns = level.nouns || filter(lexicon,"N",annee)
+    // adjectives = level.adjectives || filter(lexicon,"A",annee);
+    // verbs = level.verbs || filter(lexicon,"V",annee);
+    patterns = level.patterns
     // keep only French tdir verbs
-    if (lang=="fr"){
-        verbs = verbs.filter(v => lexicon[v]["V"]["pat"].includes("tdir"))
-    }
+    // if (lang=="fr"){
+    //     verbs = verbs.filter(v => lexicon[v]["V"]["pat"].includes("tdir"))
+    // }
     tenses = combine(levels,"temps",annee)
     types  = combine(levels,"types",annee)
     // reset exercices and counters

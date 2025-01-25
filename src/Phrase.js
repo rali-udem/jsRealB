@@ -125,7 +125,7 @@ class Phrase extends Constituent{
     /**
      * Add a new constituent and set agreement links
      * @param {Constituent} constituent  Constituent to add
-     * @param {int} position position at whcih to add, if not given add at the end
+     * @param {int} position position at which to add, if not given add at the end
      * @param {boolean} prog if specified then it is called by the constructor not the user so do not keep source info about this add
      * @returns this Phrase
      */

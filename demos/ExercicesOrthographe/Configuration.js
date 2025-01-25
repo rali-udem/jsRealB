@@ -3,6 +3,19 @@ var configuration = {
     "levels":{
         "débutant":{ 
             "annee":1,
+            "patterns":[
+                "loup gris|renard blanc, frapper à|cogner, porte bleu|porte vert",
+                "garçon, nager dans, rivière",
+                "ballon, voler au-dessus de, montagne",
+                "ballon, être, rond",
+                "fille, taper de, pied",
+                "papa|enfant, ramasser|lance, roseau|roche",
+                "femme, aller à, hôtel",
+                "chat, sommeiller dans, arbre",
+                "enfant, écouter, grenouille|chien|coq",
+                "pêcheur, être dans,  mer",
+                "chien, dormir dans, panier"
+            ],
             "verbs":["aimer","avoir","chanter","lever","lire"],
             "nouns":["ami","arbre","fille","jardin","lapin","chien","oiseau"],
             "adjectives":["brun","chaud","rouge","vert"],
