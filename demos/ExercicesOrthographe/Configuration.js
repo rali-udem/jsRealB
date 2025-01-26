@@ -1,45 +1,66 @@
+// les patterns est une liste de chaînes chacune suivant la grammaire suivante
+//     pattern = nps, vps, nps 
+//     nps = np {"|" nps}
+//     np  = nom [adjectif]
+//     vps = vp {"|" vp}
+//     vp  = verbe suffixe
+//     suffixe = [adverbe] prep 
+//  les mots doivent être indiqués sous forme de lemme
+//  les determinants (définis ou indéfinis) sont choisis aléatoirement devant les noms
+//  les alternatives sont choisies aléatoirement
 var configuration = {
  "fr": {
     "levels":{
         "débutant":{ 
             "annee":1,
             "patterns":[
-                "loup gris|renard blanc, frapper à|cogner, porte bleu|porte vert",
-                "garçon, nager dans, rivière",
-                "ballon, voler au-dessus de, montagne",
-                "ballon, être, rond",
-                "fille, taper de, pied",
-                "papa|enfant, ramasser|lance, roseau|roche",
-                "femme, aller à, hôtel",
-                "chat, sommeiller dans, arbre",
-                "enfant, écouter, grenouille|chien|coq",
-                "pêcheur, être dans,  mer",
-                "chien, dormir dans, panier"
+                "garçon, aimer, glace",
+                "femme, manger, potage chaud",
+                "fille, lire, livre",
             ],
-            "verbs":["aimer","avoir","chanter","lever","lire"],
-            "nouns":["ami","arbre","fille","jardin","lapin","chien","oiseau"],
-            "adjectives":["brun","chaud","rouge","vert"],
             "pronominalization":0, 
             "temps":["Présent"],
-            "types":["Affirmative"]},
+            "types":["Affirmative"]
+        },
         "junior":{
             "annee":2, 
+            "patterns":[
+                "loup gris|renard blanc, frapper à|cogner, porte bleu|porte petit",
+                "garçon, nager dans, rivière",
+                "ballon, voler au-dessus de, montagne",
+                "fille, taper de, pied",               
+            ],
             "pronominalization":0, 
             "temps":["Imparfait","Futur simple"],
-            "types":["Négative"]},
+            "types":["Négative"]
+        },
         "expert":{
             "annee":4,
+            "patterns":[
+                "femme, aller à, hôtel",
+                "chat, sommeiller dans, arbre",
+                "enfant, écouter, grenouille|chien|coq",                        
+            ],
             "pronominalization":0.25, 
             "temps":["Passé composé","Plus-que-parfait"],
-            "types":["Passive"]},
+            "types":["Passive"]
+        },
         "maître":{
             "annee":5,
+            "patterns":[
+                "papa|enfant, ramasser|lancer, roseau|roche",
+                "pêcheur, être dans,  mer",
+                "chien, dormir dans, panier"                
+            ],
             "pronominalization":0.5, 
             "temps":["Passé simple"],
             "types":["Interrogative"]
         },
         "génie":{
             "annee":6,
+            "patterns":[
+                "oisillon, attendre patiemment après, mère"
+            ],
             "pronominalization":0.6,
             "temps":["Futur antérieur","Conditionnel présent"],
             "types":["Progressif","Nécessité"]
@@ -75,30 +96,51 @@ var configuration = {
     "levels":{
         "starter":{ 
             "annee":1,
-            "verbs":["eat","love","hate","admire","understand"],
-            "nouns":["cat","dog","mouse","veal","man","woman"],
-            "adjectives":["pretty","white","small","big"],
+            "patterns":[
+                "boy, love, ice",
+                "woman, eat, soup hot",
+                "girl, read, book",
+            ],
             "pronominalization":0, 
             "temps":["Present"],
             "types":["Affirmative"]},
         "junior":{
             "annee":2, 
-            "pronominalization":0, 
+            "patterns":[
+                "wolf grey|fox white, knock on|bang, door blue|door small",
+                "boy, swim in, river",
+                "plane, go over, mountain",
+                "girl, slap on, wrist",               
+            ],
+        "pronominalization":0, 
             "temps":["Simple past"],
             "types":["Negative"]},
         "expert":{
             "annee":4,
+            "patterns":[
+                "woman, go to, hotel",
+                "cat, sleep in, tree",
+                "child, listen, frog|dog|rooster",                        
+            ],
             "pronominalization":0.25, 
             "temps":["Future"],
             "types":["Passive"]},
         "master":{
             "annee":5,
+            "patterns":[
+                "papa|child, pick up|throw, reed|rock",
+                "fisherman, be in, sea",
+                "dog, sleep in, basket"                
+            ],
             "pronominalization":0.5, 
             "temps":["Conditional"],
             "types":["Interrogative"]
         },
         "wizard":{
             "annee":6,
+            "patterns":[
+                "chick, wait patiently for, mother"
+            ],
             "pronominalization":0.6,
             "temps":["Subjonctive"],
             "types":["Progressive","Necessity"]

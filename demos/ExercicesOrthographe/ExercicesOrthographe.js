@@ -1,4 +1,7 @@
 Object.assign(globalThis,jsRealB);
+// show input pattern, generated expression and correction
+let trace = true
+
 // current language
 let lang = "en";  // will be changed to "fr" at the launch in jQuery(document).ready(function() 
 
@@ -75,7 +78,7 @@ function getCharacteristics(noun,gender,number,pron){
 
 function nouvellePhrase(){
     let pattern = oneOf(patterns)
-    console.log("** pattern:",pattern)
+    if (trace) console.log("** pattern:",pattern)
     // effectuer le choix des lemmes
     let svo = make_groups(pattern);
     if (svo == null){
@@ -84,18 +87,13 @@ function nouvellePhrase(){
     }
     let [subjs,vps,objs] = svo
     
-    // let [det_s,adj_s,noun_s,gender_s,number_s,pron_s] = nouveauNP()
-    // let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = nouveauNP()
     let sujet = oneOf(subjs)
     let [det_s,adj_s,noun_s,gender_s,number_s,pron_s] = infosDeNP(sujet)
     let complement = oneOf(objs)
     let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = infosDeNP(complement)
     // let verbe = oneOf(verbs)
     let vp = oneOf(vps)
-    let verbe = vp.elements[0].lemma
-    if (vp.elements.length>1){
-        vp.elements[1].elements.forEach(e=>verbe += " "+e.lemma)
-    }
+    let verbe = vp.elements.map(e=>e.isA("PP")? e.elements[0].lemma : e.lemma).join(" ")
     let tenseName = oneOf(tenses)
     let typName = oneOf(types)
     let tense = config.temps[tenseName]
@@ -144,15 +142,26 @@ function nouvellePhrase(){
     }
     sujet.n(number_s);
     
-    // let complement=NP(D(det_c),N(noun_c));
-    // if (adj_c != null)complement.add(A(adj_c));
     if (gender_c !==null)complement.g(gender_c)
-    if (pron_c){
-        complement.pro();
-    }
     complement.n(number_c);
-    add(vp,complement)
-    corrige = S(sujet,vp).typ(typ).realize();
+    addObj(vp,complement)
+    if (pron_c){
+        // doit ajouter le Pro au NP ou PP dans le vp
+        let el1 = vp.elements[1]
+        if (el1.isA("NP")){
+            el1.pro()
+        } else if (el1.isA("PP")){
+            el1.pro()
+        } else if (el1.isA("Adv")){
+            vp.elements[2].pro() // PP suit nécessairement l'Adv
+        }
+        
+    }
+    if (tense !== undefined) vp.t(tense)
+    let expr = S(sujet,vp)
+    if (typ !== undefined) expr.typ(typ)
+    corrige = expr.realize();
+    if (trace) console.log("=>",expr.toSource(),corrige)
     nbPhrases++;
     return corrige    
 }
@@ -175,7 +184,6 @@ function verifier(){
     // const joinStr=""
     // au level des mots
     const sepRE=/([^-\s.,:;!$()'"?[\]]+)/;
-    const joinStr=" ";
     
     let reponseCmp = reponse.trim().split(sepRE);
     let corrigeCmp = corrige.trim().split(sepRE);
@@ -209,32 +217,32 @@ function instructions(){
     }
 }
 
-function filter(lexicon,pos,annee){
-    let res = []
-    if (lang == "fr"){ 
-        // in French, check if niveau <= annee 
-        for (let key in lexicon){
-            if (lexicon[key][pos]) {
-                const niv = lexicon[key][pos]["niveau"]
-                if (niv !== undefined && niv <= annee){
-                    res.push(key)
-                }
-            }
-        }
-    } else {
-        // in English: only select if ldv is present at the entry or pos level
-        for (let key in lexicon){
-            if (lexicon[key][pos]){
-                if (lexicon[key]["ldv"]){
-                    res.push(key)
-                } else if (lexicon[key][pos]["ldv"]) {
-                    res.push(key)
-                }
-            }
-        }
-    }
-    return res
-}
+// function filter(lexicon,pos,annee){
+//     let res = []
+//     if (lang == "fr"){ 
+//         // in French, check if niveau <= annee 
+//         for (let key in lexicon){
+//             if (lexicon[key][pos]) {
+//                 const niv = lexicon[key][pos]["niveau"]
+//                 if (niv !== undefined && niv <= annee){
+//                     res.push(key)
+//                 }
+//             }
+//         }
+//     } else {
+//         // in English: only select if ldv is present at the entry or pos level
+//         for (let key in lexicon){
+//             if (lexicon[key][pos]){
+//                 if (lexicon[key]["ldv"]){
+//                     res.push(key)
+//                 } else if (lexicon[key][pos]["ldv"]) {
+//                     res.push(key)
+//                 }
+//             }
+//         }
+//     }
+//     return res
+// }
 
 function combine(levels,kind,annee){
     // annee is also used for English as it serves as a mesure of the level
@@ -252,14 +260,7 @@ function changeLevel(){
     level = levels[$("#levels").val()];
     determiners = config.determiners;
     const annee = level.annee;
-    // nouns = level.nouns || filter(lexicon,"N",annee)
-    // adjectives = level.adjectives || filter(lexicon,"A",annee);
-    // verbs = level.verbs || filter(lexicon,"V",annee);
-    patterns = level.patterns
-    // keep only French tdir verbs
-    // if (lang=="fr"){
-    //     verbs = verbs.filter(v => lexicon[v]["V"]["pat"].includes("tdir"))
-    // }
+    patterns = combine(levels,"patterns",annee)
     tenses = combine(levels,"temps",annee)
     types  = combine(levels,"types",annee)
     // reset exercices and counters

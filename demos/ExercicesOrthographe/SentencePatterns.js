@@ -1,13 +1,10 @@
 
-// add a child to end of the elements of a parent but making sure the source reflects only the final result
-function add(parent,child){
-    parent.add(child,undefined,true)
-}
-
 function make_groups(pattern){
     
     function det(){
-        return D(choice("un","le"))
+        if (getLanguage()=="fr")
+            return D(choice("un","le"))
+        return D("the") // so that it works with an uncountable noun
     }
     
     
@@ -71,7 +68,7 @@ function make_groups(pattern){
                 let adv = check(vg_comp[1],"Adv")
                 if (adv != null){
                     let p = check(vg_comp[2],"P")
-                    if (p != null)add(vp,AdvP(Adv(adv),P(p)))    
+                    if (p != null)add(add(vp,Adv(adv)),PP(P(p)))    
                 }
             }
             vps.push(vp)
@@ -86,15 +83,32 @@ function make_groups(pattern){
     return [subjs,vps,objs]  
 }
                                 
+// add a child to end of the elements of a parent but making sure the source reflects only the final result
+function add(parent,child){
+    parent.add(child,undefined,true)
+    return parent
+}
+
+// add a child at the end of the last child
 function addObj(vp,np){
-    if(vp.elements.length==1){
+    l = vp.elements.length
+    if (l==1){
         add(vp,np)
     } else {
-        add(vp.elements[1],np)
+        add(vp.elements[l-1],np)
     }
+    return vp
 }                               
-                                
-function testPatterns(patterns){
+
+// this function can be called directly from the console when needed...                                
+function testPatterns(lang){
+    let saveLang=getLanguage() // save current realization language
+    load(lang)
+    let patterns = [];
+    let levels = configuration[lang].levels
+    for (let level in levels){
+        patterns.push(...levels[level].patterns)
+    } 
     for (let pattern of patterns){
         console.log("==",pattern)
         let svo = make_groups(pattern);
@@ -116,13 +130,13 @@ function testPatterns(patterns){
             }
         }
     }
+    load(saveLang) // reset original language
 }
 
-// launch testing of all patterns...
+// launch local testing of all patterns...
 
 // import("../../dist/jsRealB.js");
 // Object.assign(globalThis,jsRealB);
 // load("fr")
 // Constituent.debug=true;
 // testPatterns(patterns)
-
