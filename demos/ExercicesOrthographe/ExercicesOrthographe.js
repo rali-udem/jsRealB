@@ -155,8 +155,9 @@ function nouvellePhrase(){
         let el1 = vp.elements[1]
         if (el1.isA("NP")){
             el1.pro()
-        } else if (el1.isA("PP")){ // PP(P(..),NP(..)).pro()
-            el1.pro()
+        } else if (el1.isA("PP")){ 
+            if (lang=="fr") el1.pro() // PP(P(..),NP(..)).pro() in French
+            else el1.getConst("NP").pro() // PP(P(..),NP(..).pro()) in English
         } else if (el1.isA("AdvP")){// AdvP(Adv(..),P(..),NP(..).pro())
             el1.getConst("NP").pro() 
         }
