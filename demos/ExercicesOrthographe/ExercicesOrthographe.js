@@ -1,13 +1,13 @@
 Object.assign(globalThis,jsRealB);
 // show input pattern, generated expression and correction
-let trace = true
+let trace = false
 
 // current language
 let lang = "en";  // will be changed to "fr" at the launch in jQuery(document).ready(function() 
 
 // current context
 let config,level;
-let lexicon, nombres, genres, patterns, determiners, nouns, pronominalize, adjectives, verbs, tenses, types;
+let lexicon, patterns, determiners, pronominalize, tenses, types;
 // global statistics
 let nbPhrases=0,nbVertes=0;
 
@@ -41,8 +41,8 @@ function nouveauNP(){
 }
 
 function infosDeNP(np){
-    const det = np.elements[0].lemma
-    const noun = np.elements[1].lemma
+    let det = np.getConst("D").lemma
+    const noun = np.getConst("N").lemma
     // in English, undefinite determiner cannot be used with uncountable nouns
     if (lang == "en" && lexicon[noun]["N"]["cnt"] == "no") det = "the";
     let gender = null;
@@ -52,9 +52,11 @@ function infosDeNP(np){
     } else if (lexicon[noun]["N"]["g"] == "x"){
         gender=choice("m","f")
     }
-    let adj = null;
-    if (np.elements.length==3){
-        adj = np.elements[2].lemma
+    let adj = np.getConst("A");
+    if (adj !== undefined){
+        adj = adj.lemma;
+    } else {
+        adj = null;
     }
     // ensure singular for uncountable English nouns
     let number = (lang=="en" && lexicon[noun]["N"]["cnt"] == "no") ? "s" : oneOf("s","p")
@@ -93,7 +95,10 @@ function nouvellePhrase(){
     let [det_c,adj_c,noun_c,gender_c,number_c,pron_c] = infosDeNP(complement)
     // let verbe = oneOf(verbs)
     let vp = oneOf(vps)
-    let verbe = vp.elements.map(e=>e.isA("PP")? e.elements[0].lemma : e.lemma).join(" ")
+    // de la forme VP(V(..)) ou VP(V(..),PP(P(..))) ou VP(V(..),AdvP(Adv(..),P(..)))
+    let verbe = vp.elements[0].lemma
+    if (vp.elements.length>1)
+        vp.elements[1].elements.forEach(e=>verbe += " "+e.lemma)
     let tenseName = oneOf(tenses)
     let typName = oneOf(types)
     let tense = config.temps[tenseName]
@@ -150,10 +155,10 @@ function nouvellePhrase(){
         let el1 = vp.elements[1]
         if (el1.isA("NP")){
             el1.pro()
-        } else if (el1.isA("PP")){
+        } else if (el1.isA("PP")){ // PP(P(..),NP(..)).pro()
             el1.pro()
-        } else if (el1.isA("Adv")){
-            vp.elements[2].pro() // PP suit nécessairement l'Adv
+        } else if (el1.isA("AdvP")){// AdvP(Adv(..),P(..),NP(..).pro())
+            el1.getConst("NP").pro() 
         }
         
     }
@@ -161,7 +166,10 @@ function nouvellePhrase(){
     let expr = S(sujet,vp)
     if (typ !== undefined) expr.typ(typ)
     corrige = expr.realize();
-    if (trace) console.log("=>",expr.toSource(),corrige)
+    if (trace){
+        console.log(expr.toSource(0));
+        console.log("=>",corrige)
+    }
     nbPhrases++;
     return corrige    
 }
@@ -216,33 +224,6 @@ function instructions(){
         $(this).prop("value",config.masquerInstructions)
     }
 }
-
-// function filter(lexicon,pos,annee){
-//     let res = []
-//     if (lang == "fr"){ 
-//         // in French, check if niveau <= annee 
-//         for (let key in lexicon){
-//             if (lexicon[key][pos]) {
-//                 const niv = lexicon[key][pos]["niveau"]
-//                 if (niv !== undefined && niv <= annee){
-//                     res.push(key)
-//                 }
-//             }
-//         }
-//     } else {
-//         // in English: only select if ldv is present at the entry or pos level
-//         for (let key in lexicon){
-//             if (lexicon[key][pos]){
-//                 if (lexicon[key]["ldv"]){
-//                     res.push(key)
-//                 } else if (lexicon[key][pos]["ldv"]) {
-//                     res.push(key)
-//                 }
-//             }
-//         }
-//     }
-//     return res
-// }
 
 function combine(levels,kind,annee){
     // annee is also used for English as it serves as a mesure of the level

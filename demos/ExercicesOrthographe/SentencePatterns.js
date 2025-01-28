@@ -27,7 +27,7 @@ function make_groups(pattern){
     function getNP(group){
         let nps = []
         for (let ng of group.split("|")){
-            let ng_comp = ng.trim().split(" ");
+            let ng_comp = ng.trim().split(/ +/);
             let n = check(ng_comp[0],"N")
             if (n != null){
                 let np = NP(det(),N(n))
@@ -57,7 +57,7 @@ function make_groups(pattern){
     // traiter verbes
     let vps = []
     for (let vg of groups[1].split("|")){
-        let vg_comp = vg.trim().split(" ")
+        let vg_comp = vg.trim().split(/ +/)
         let v = check(vg_comp[0],"V") // sortir le verbe
         if (v!=null){
             let vp = VP(V(v))
@@ -68,8 +68,10 @@ function make_groups(pattern){
                 let adv = check(vg_comp[1],"Adv")
                 if (adv != null){
                     let p = check(vg_comp[2],"P")
-                    if (p != null)add(add(vp,Adv(adv)),PP(P(p)))    
+                    if (p != null)add(vp,AdvP(Adv(adv),P(p)))    
                 }
+            } else if (vg_comp.length != 1) {
+                console.log("**: groupe verbal suivi de plus de deux éléments:",vgif_comp)
             }
             vps.push(vp)
         }
