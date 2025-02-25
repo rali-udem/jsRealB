@@ -772,8 +772,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         depsSource.unshift(this.terminal.toSource())
         // create source of children
         let res=this.constType+"("+depsSource.join(sep)+")";
-        // add the options by calling "super".toSource()
-        res+=Constituent.prototype.toSource.call(this); // ~ super.toSource()
+        // add the options 
+        res+=super.toSource()
         return res;
     }
 
@@ -789,14 +789,10 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         // create debug of children
         let depsDebug=this.dependents.map(e => e.toDebug(newIndent));
         depsDebug.unshift(this.terminal.toDebug());
-        let res=this.constType;
-        if (this.peng !== undefined){
-            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
-            if (this.taux && this.taux.tauxNO !== undefined) res += "-"+this.taux.tauxNO;
-        } 
+        let res=this.constType + this.getPengTauxStr();
         res += "("+depsDebug.join(sep)+")";
-        // add the options by calling "super".toSource()
-        res+=Constituent.prototype.toDebug.call(this); // ~ super.toSource()
+        // add the options 
+        res+=super.toDebug()
         return res;
     }
 }

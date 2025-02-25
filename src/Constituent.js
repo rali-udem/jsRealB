@@ -591,7 +591,20 @@ class Constituent {
     toString() {
         return Constituent.debug?this.toSource():this.realize();
     }
-
+    
+    /**
+     * Useful for the debug information
+     * @returns string showing the numbers of the peng and taux structure
+     */
+    getPengTauxStr(){
+        let res = ""
+        if (this.peng !== undefined){
+            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
+            if (this.taux && this.taux.tauxNO !== undefined) res += "-"+this.taux.tauxNO;
+        } 
+        return res
+    }
+    
     /**
      * Compute indentation and a string to insert between each element of a list
      * useful for producing nicely indented display of expressions
@@ -601,9 +614,8 @@ class Constituent {
     indentSep (indent,debug){
         if (indent>=0){
             indent=indent+this.constType.length+1;
-            if (debug && this.peng !== undefined){
-                if (this.peng.pengNO !== undefined) indent += ("#"+this.peng.pengNO).length;
-                if (this.taux && this.taux.tauxNO !== undefined) indent += ("-"+this.taux.tauxNO).length;
+            if (debug){
+                indent += this.getPengTauxStr().length
             } 
             return [indent,",\n"+(" ".repeat(indent))]
         }

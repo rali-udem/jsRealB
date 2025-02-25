@@ -853,13 +853,9 @@ class Phrase extends Constituent{
         if (indent===undefined)indent=-1;
         let [newIndent,sep]=this.indentSep(indent,true);
         // create debug of children
-        let res=this.constType;
-        if (this.peng !== undefined){
-            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
-            if (this.taux && this.taux.tauxNO !== undefined) res += "-"+this.taux.tauxNO;
-        } 
+        let res=this.constType+this.getPengTauxStr();
         res += "("+this.elements.map(e => e.toDebug(newIndent)).join(sep)+")";
-        // add the options by calling super.toSource()
+        // add the options
         res+=super.toSource()
         return res;
     }        

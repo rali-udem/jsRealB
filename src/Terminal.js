@@ -641,11 +641,7 @@ class Terminal extends Constituent{
      * @returns string representation of this Terminal
      */
     toDebug(){
-        let res=this.constType+"("+quote(this.lemma)+")";
-        if (this.peng !== undefined){
-            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
-            if (this.peng.tauxNO !== undefined) res += "-"+this.peng.tauxNO;
-        } 
+        let res=this.constType+"("+quote(this.lemma)+")"+this.getPengTauxStr();
         return res+super.toDebug();
     }
 }
