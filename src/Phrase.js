@@ -271,12 +271,14 @@ class Phrase extends Constituent{
             this.peng=this.elements[headIndex].peng;
             break;
         case "CP":
-            // nothing to do, 
-            // but make sure that the propagated properties exist
-            this.peng={
-                pengNO:Constituent.pengNO++
-            };
-            // the information will be computed at realization time (see Phrase.prototype.cpReal)
+            if (this.peng === undefined){ // do not change the "peng' if it exists in the case of dynamic add
+                // nothing to do, 
+                // but make sure that the propagated properties exist
+                this.peng={
+                    pengNO:Constituent.pengNO++
+                };
+                // the information will be computed at realization time (see Phrase.prototype.cpReal)
+            }
             break;
         case "S": case "SP":
             let vpv = this.getFromPath([["","VP"],"V"]);
