@@ -6,7 +6,7 @@ testsDeclensionEn =
  "avocado":{"N":{"p":"avocados"}},
  "bad":{"A":{"co":"worse",
              "su":"worst"}},
- "badly":{"Adv":{"co":"worse"}},
+ "badly":{"Adv":{"co":"more badly"}},
  "basis":{"N":{"p":"bases"}},
  "batch":{"N":{"p":"batches"}},
  "berry":{"N":{"p":"berries"}},
