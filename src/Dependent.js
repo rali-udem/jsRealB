@@ -725,6 +725,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 if(d.isA("coord"))
                     coordReals.push(d.coordReal())
             }
+            if (this.getProp("n")===undefined)this.setProp("n","s")
             // move all "pre" dependents at the front 
             // HACK: we must move these in place because realization might remove some of them 
             let nextPre=0

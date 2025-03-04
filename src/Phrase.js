@@ -808,6 +808,7 @@ class Phrase extends Constituent{
                 if(e.isA("CP"))
                     cpsReal.push(e.cpReal())
             }
+            if (this.getProp("n")===undefined)this.setProp("n","s")
             for (let e of es){
                 var r;
                 if (e.isA("CP")){
