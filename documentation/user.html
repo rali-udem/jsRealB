@@ -199,11 +199,11 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 <!-- *** Date *** -->
     <h2 lang="fr" id="dateFr">Date</h2><h2 lang="en" id="dateEn">Date</h2>
     <div lang="fr">
-        <p><code>DT</code> accepte en paramètre soit une date sous forme d'une chaîne de caractères ou un <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date">objet Javascript <code>Date</code></a>.La chaine de caractères en entrée doit être dans un format reconnu par la méthode <code>Date.parse()</code>, donc dans le format <a href="https://tools.ietf.org/html/rfc2822#page-14">IETF-compliant RFC 2822</a> ou <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15">ISO8601</a>.</p>
+        <p><code>DT</code> accepte en paramètre soit une date sous forme d'une chaîne de caractères ou un <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date">objet Javascript <code>Date</code></a>.La chaine de caractères en entrée doit être dans un format reconnu par la méthode <code>Date.parse()</code>, donc dans le format <a href="https://datatracker.ietf.org/doc/html/rfc2822#page-14">IETF-compliant RFC 2822</a> ou <a href="https://262.ecma-international.org/5.1/#sec-15.9.1.15">ISO8601</a>.</p>
         <p><strong>Attention:</strong> Le comportement de l'objet <code>Date()</code> diffère selon le navigateur. Il est fortement conseillé de fixer le fuseau horaire sinon il sera déterminé par le navigateur (voir ci-dessous). </p>
     </div>
     <div lang="en">
-        <p><code>DT(...)</code> takes as parameter either a date as a <code>String</code> or a <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Date"><code>Date</code> JavaScript object</a>.The input string must be a recognized format by <code>Date.parse()</code>: either <a href="https://tools.ietf.org/html/rfc2822#page-14">IETF-compliant RFC 2822</a> or <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15">ISO8601</a> format.</p>
+        <p><code>DT(...)</code> takes as parameter either a date as a <code>String</code> or a <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Date"><code>Date</code> JavaScript object</a>.The input string must be a recognized format by <code>Date.parse()</code>: either <a href="https://datatracker.ietf.org/doc/html/rfc2822#page-14">IETF-compliant RFC 2822</a> or <a href="https://262.ecma-international.org/5.1/#sec-15.9.1.15">ISO8601</a> format.</p>
         <p><strong>Warning:</strong> The behavior of <code>Date()</code> depends on the browser. The timezone should be specified otherwise it might be given a different value according to the browser. </p>
     </div>
 
@@ -222,8 +222,8 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 <!-- *** JavaScript *** -->
     <h2 lang="fr" id="javascript-fr">JavaScript</h2><h2 lang="en" id="javascript-en">JavaScript</h2>
     <h3 id="loadEnFr"><code>loadEn(trace), loadFr(trace), load(lang,trace)</code></h3> 
-    <p lang="fr">Ces fonctions indiquent la langue à utiliser pour les prochaines réalisations. Il est important d'en appeler au moins une avant de débuter la réalisation d'une phrase. <code>lang</code> doit être <code>en</code> ou <code>fr</code>. Si le paramètre <code>trace</code> est <code>true</code>, (il est <code>false</code> par défaut) un message apparaîtra sur la console à la fin du chargement du lexique et de règles du langage.</p>
-    <p lang="en">These functions sets the current realization language; one of them should be called before starting the realization process.  <code>lang</code> must be <code>en</code> or <code>fr</code>. If the parameter <code>lang</code> is <code>true</code>, (it is <code>false</code> by default), a message is written on the console after the loading of the lexicon and language rules.</p>
+    <p lang="fr">Ces fonctions indiquent la langue à utiliser pour les prochaines réalisations. Il est important d'en appeler au moins une avant de débuter la réalisation d'une phrase; <code>lang</code> doit être <code>"en"</code> ou <code>"fr"</code>. Si le paramètre <code>trace</code> est <code>true</code>, (il est <code>false</code> par défaut) un message apparaîtra sur la console à la fin du chargement du lexique et de règles du langage.</p>
+    <p lang="en">These functions sets the current realization language; one of them should be called before starting the realization process;  <code>lang</code> must be <code>"en"</code> or <code>"fr"</code>. If the parameter <code>trace</code> is <code>true</code>, (it is <code>false</code> by default), a message is written on the console after the loading of the lexicon and language rules.</p>
     <div lang="fr">Il est possible d'appeler ces fonctions aussi souvent que nécessaire pour changer le langage de réalisation courant.</div>
     <div lang="en">These functions can be called as often as necessary to change the current language.</div>
     <h3><code>.realize(lang)</code> / <code>.toString()</code></h3>
@@ -253,13 +253,15 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
         <p lang="en">Remove the constituent at the given position starting from 0. </p>
 
     <h3><code>.nbConstituents()</code></h3>
-        <p lang="fr">Retourne le nombre de constituents de la <code>Phrase</code> ou <code>Dependent</code> actuel.</p>
+        <p lang="fr">Retourne le nombre de constituents de la <code>Phrase</code> ou du <code>Dependent</code> actuel.</p>
         <p lang="en">Returns the number of constituents in the current <code>Phrase</code> or <code>Dependent</code></p>
 
     <h3><code>.nbConstituents()</code></h3>
-        <p lang="fr">Retourne la liste des constituents de la <code>Phrase</code> ou <code>Dependent</code> actuel.</p>
+        <p lang="fr">Retourne la liste des constituents de la <code>Phrase</code> ou du <code>Dependent</code> actuel.</p>
         <p lang="en">Returns the list of constituents in the current <code>Phrase</code> or <code>Dependent</code></p>
     
+    <p lang="fr"><b><a href="http://www.iro.umontreal.ca/~lapalme/pyrealb/Hacking-pyrealb.html">Ce document (en anglais)</a> donne plus de détails sur la modification dynamique de constituents en pyrealb, mais s'applique aussi à <span class="jsr">jsRealB</span>.</b></p>
+    <p lang="en"><b><a href="http://www.iro.umontreal.ca/~lapalme/pyrealb/Hacking-pyrealb.html">This document</a> gives more details on the dynamic constituent structure modification with pyrealb, but they can also be used in <span class="jsr">jsRealB</span>.</b></p>
 <!-- *** Chargement dans une page web *** -->
     <h2 lang="fr" id="pageWeb">Chargement dans une page web</h2><h2 lang="en" id="webPage">Loading in a web page</h2>	
     <p lang="fr">Il suffit d'ajouter le script <code>jsRealB.js</code> du répertoire <code>dist</code> à la liste des scripts de la page. Ceci intègre déjà deux lexiques: français (plus de 52&nbsp;500 entrées) et anglais (plus de 33 &nbsp;900 entrées). Comme indiqué à la section <a href="#extensionVoc">Extension du vocabulaire</a>, il est facile d'ajouter de nouvelles entrées au lexique. </p>
@@ -269,8 +271,8 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
     
     <p lang="fr">Comme <span class="jsr">jsRealB</span> est construit avec de <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Modules">modules JavaScript</a>, plutôt que d'utiliser l'élément HTML <code>script</code>,  il est possible depuis un autre module d'accéder aux fonctions de réalisation en utilisant <code>import "./dist/jsRealB.js";</code>  qui a le même effet. Attention: <code>import</code> ne peut être utilisé que dans un script indiqué avec l'attribut <code>type="module"</code>.</p>    
     <p lang="en">As <span class="jsr">jsRealB</span> is built using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">JavaScript modules</a>, instead of using the <code>script</code> HTML element,  it is also possible to access the realizing function using <code>import "./dist/jsRealB.js";</code>  from a JavaScript modul which has the same effect. Caution: the calling script tag must have the attribute <code>type="module"</code>.</p>    
-    <p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi télécharger une version déjà <i>minifiée</i> à partir de ce <a href="https://github.com/rali-udem/jsRealB/tree/master/dist">répertoire</a>.</p>
-    <p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element. But you can also get <i>minified</i> versions from <a href="http://rali.iro.umontreal.ca/JSrealB/current/dist">this directory</a>.</p>
+    <p lang="fr">Idéalement, vous installerez votre propre version de <span class="jsr">jsRealB</span> à partir des sources du <a href="https://github.com/rali-udem/jsRealB">GitHub</a> et vous la référencerez depuis l'élément <code>script</code>. Mais vous pouvez aussi utiliser le module <em>npm</em> décrit à la prochaine section.</a>.</p>
+    <p lang="en">Ideally you should install your own version of <span class="jsr">jsRealB</span> from the <a href="https://github.com/rali-udem/jsRealB">GitHub</a> sources and you will refer to it using a <code>script</code> element or use the <em>npm</em> module described in the next section.</a>.</p>
 
 <!-- *** Module  *** -->
     <h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
@@ -285,8 +287,8 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
     <p lang="fr">Un exemple simple d'utilisation du module <code>Node.js</code> est ce <a href="../dist/jsRealB-filter.mjs">filtre Unix</a> qui accepte une expression <span class="jsr">jsRealB</span> sur une seule ligne et retourne sa réalisation en anglais. </p>
     <p lang="en">A simple example of the use of the <code>Node.js</code> module is this <a href="../dist/jsRealB-filter.mjs">Unix filter</a> which transforms a <span class="jsr">jsRealB</span> expression on a single line and returns the corresponding English realization.</p>
 
-    <p lang="fr">Il est possible d'écrire des modules qui peuvent être exécutés en tant que module Node.js, mais aussi utilisés depuis un script dans une page web. <a href="../Examples">Ce répertoire donne des exemples de patrons d'utilisation.</a></p>
-    <p lang="en">It is possible to write Node.js modules that can also be used from web page script. <a href="../Examples">This directory shows some code patterns illustrating different use cases.</a></p>
+    <p lang="fr">Il est possible d'écrire des modules qui peuvent être exécutés en tant que module Node.js, mais aussi utilisés depuis un script dans une page web. <a href="../Examples/">Ce répertoire donne des exemples de patrons d'utilisation.</a></p>
+    <p lang="en">It is possible to write Node.js modules that can also be used from web page script. <a href="../Examples/">This directory shows some code patterns illustrating different use cases.</a></p>
 </ul>
 
 <!-- *** Gestion des lexiques *** -->
@@ -307,7 +309,7 @@ provides already two comprehensive lexicons: French (more than 52 500 entries) a
 <ul lang="fr">
 <li>Si le lemme et la catégorie existent déjà dans le lexique, alors l'entrée pour cette catégorie est remplacée par <code>newInfos</code>. </li>
 <li>Cette fonction retourne l'entrée modifiée pour <code>lemma</code>.</li>
-<li><a href="./Lexicon-Format-fr.md">Plus d'information sur le format du lexique</a>.</li> 
+<li><a href="http://www.iro.umontreal.ca/~lapalme/pyrealb/Lexicon-Format-fr.html">Plus d'information sur le format du lexique</a>.</li> 
 <li>Pour déterminer les informations à ajouter, le plus simple est de copier les informations d'un mot du lexique qui se conjugue ou se décline de la même façon. L'<a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index.html">IDE de jsRealB</a> permet de consulter les informations du lexique.
 </li>
 <li>Pour enlever une entrée d'un lexique, il de mettre <code>newInfos</code> à <code>null</code>.</li>
@@ -321,7 +323,7 @@ provides already two comprehensive lexicons: French (more than 52 500 entries) a
 <ul lang="en">
 	<li>If the lemma and category are already present in the lexicon, then the category of this entry is replaced by <code>newInfos</code>.</li> 
 <li>This function returns the new modified lexicon entry for <code>lemma</code>.</li>
-<li><a href="./Lexicon-Format-en.md">More information about the lexicon format</a>.</li>
+<li><a href="http://www.iro.umontreal.ca/~lapalme/pyrealb/Lexicon-Format-en.html">More information about the lexicon format</a>.</li>
 <li>In order to find the informations to add, the simplest way is to copy the lexicon information for a similar word already in the lexicon. 
 The <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index.html">jsRealB IDE</a> provides access to the lexicon information.
 </li>
@@ -429,7 +431,7 @@ For each element in the mixed list, <code>mix</code> checks if its value is a fu
 <!-- *** Informations complémentaires *** -->
     <h2 lang="fr" id="plusDinfo">Informations complémentaires</h2><h2 lang="en" id="moreInfo">More Information</h2>
 <ul>
-	<li><a href="https://arxiv.org/pdf/2012.15425.pdf" lang="fr">Document, en anglais, décrivant l'organisation de <span class="jsr">jsRealB</span></a><a href="https://arxiv.org/pdf/2012.15425.pdf" lang="en">Document describing the organization of <span class="jsr">jsRealB</span></a></li>
+	<li><a href="https://arxiv.org/pdf/2012.15425" lang="fr">Document, en anglais, décrivant l'organisation de <span class="jsr">jsRealB</span></a><a href="https://arxiv.org/pdf/2012.15425" lang="en">Document describing the organization of <span class="jsr">jsRealB</span></a></li>
 	<li><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="fr">Présentation de jsRealB - Février 2022</a> <a href="https://drive.google.com/file/d/1U-kk-xAx9bLj6k1ZO9ruY4dMDQBlkRRu/view?usp=sharin√g" title="GMT20220223-163036_Recording_2560x1440.mp4 - Google Drive" lang="fr">[enregistrement]</a><a href="http://rali.iro.umontreal.ca/rali/sites/default/files/publis/jsRealB-presentation.pdf" lang="en">Presentation of jsRealB (in French) - February 2022</a> <a href="https://drive.google.com/file/d/1U-kk-xAx9bLj6k1ZO9ruY4dMDQBlkRRu/view?usp=sharing" title="GMT20220223-163036_Recording_2560x1440.mp4 - Google Drive" lang="en">[recording]</a></li>
     <li><a href="http://rali.iro.umontreal.ca/rali/?q=fr/jsrealb-realisateur-bilingue-de-texte" lang="fr">Historique des versions et démonstrations</a><a href="http://rali.iro.umontreal.ca/rali/?q=en/jsrealb-bilingual-text-realiser" lang="en">Previous versions and demos</a></li>
     <li><a href="https://observablehq.com/@lapalme/nouvelles-experiences-avec-jsrealb" title="Nouvelles exp&#xE9;riences avec jsRealB / Guy Lapalme / Observable" lang="fr">Notebook Observable</a><a href="https://observablehq.com/@lapalme/exprimenting-with-jsrealb" title="Experimenting with jsRealB / Guy Lapalme / Observable" lang="en">Observable Notebook</a></li>

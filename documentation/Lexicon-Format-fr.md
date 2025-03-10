@@ -62,7 +62,7 @@ Interrogation du lexique avec `jq`
 
 La manière la plus pratique d'interroger le lexique est d'utiliser l'[IDE](../IDE/) ou la démonstration [Evaluation](../demos/Evaluation/index.html).
 
-Il est aussi possible d'utiiser [jq](https://jqlang.github.io/jq/ "jq") pour interroger ces lexiques. Voici quelques exemples de requêtes:
+Il est aussi possible d'utiliser [jq](https://jqlang.github.io/jq/ "jq") pour interroger ces lexiques. Voici quelques exemples de requêtes:
 
 - Chercher une entrée particulière, ici `amour`
 
