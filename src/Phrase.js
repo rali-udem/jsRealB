@@ -27,7 +27,6 @@ class Phrase extends Constituent{
         this.elements=[];
         // list of elements to create the source of the parameters at the time of the call
         // this can be different from the elements lists because of structure modifications
-        this.elementsSource=[]
         if (elements.length>0){
             const last=elements.length-1;
             // add all elements except the last to the list of elements
@@ -38,13 +37,12 @@ class Phrase extends Constituent{
                 }
                 if (e instanceof Terminal || e instanceof Phrase) {
                     this.addElement(e);
-                    this.elementsSource.push(e);
                 } else {
                     this.warn("bad Constituent",NO(i+1).dOpt({ord:true}).realize(),typeof e+":"+JSON.stringify(e))
                 }
             }
             // terminate the list with add which does other checks on the final list
-            this.add(elements[last],undefined,true)
+            this.add(elements[last])
         }
     }
     
@@ -102,34 +100,21 @@ class Phrase extends Constituent{
     }
 
     /**
-     * Remove a child at a given position and remove the corresponding position in sourceElement
-     * or in the optSource
+     * Remove a child at a given position
      * @param {*} position index of child to remove
      * @returns this
      */
     remove(position){
-        let elem = this.removeElement(position)
-        if (elem !== this){
-            let src = elem.toSource().replace(/\(/g,"\\(").replace(/\)/g,"\\)")
-            let srcRE =  new RegExp("\\.add\\("+src+"(,\\d+)?\\)")
-            if (srcRE.test(this.optSource)){ // was it added whith add ?
-                this.optSource=this.optSource.replace(srcRE,"");
-            } else {
-                this.elementsSource.splice(position,1);
-            }
-            return this
-        }
-        return this
+        return this.removeElement(position)
     }
 
     /**
      * Add a new constituent and set agreement links
      * @param {Constituent} constituent  Constituent to add
      * @param {int} position position at which to add, if not given add at the end
-     * @param {boolean} prog if specified then it is called by the constructor not the user so do not keep source info about this add
      * @returns this Phrase
      */
-    add(constituent,position,prog){
+    add(constituent,position){
         function allAorN(elems,start,end){
             if (start>end) {[end,start]=[start,end]}
             for (var k=start;k<=end;k++){
@@ -144,11 +129,6 @@ class Phrase extends Constituent{
         }
         if (!(constituent instanceof Constituent)){
             return this.warn("bad Constituent",this.word_last(),typeof constituent+":"+JSON.stringify(constituent))
-        }
-        if (prog===undefined){// real call to .add 
-            this.optSource+=".add("+constituent.toSource()+(position===undefined?"":(","+position) )+")"
-        } else {
-            this.elementsSource.push(constituent) // call from the constructor        
         }
         this.addElement(constituent,position)
         // change position of some children
@@ -840,7 +820,7 @@ class Phrase extends Constituent{
         if (indent===undefined)indent=-1;
         let [newIndent,sep]=this.indentSep(indent);
         // create source of children
-        let res=this.constType+"("+this.elementsSource.map(e => e.toSource(newIndent)).join(sep)+")";
+        let res=this.constType+"("+this.elements.map(e => e.toSource(newIndent)).join(sep)+")";
         // add the options by calling super.toSource()
         res+=super.toSource()
         return res;

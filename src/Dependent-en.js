@@ -80,7 +80,6 @@ const English_dependent = (superclass) =>
             pro.parentConst=this;
             this.terminal=pro
             this.dependents=[]
-            this.dependentsSource=[]
         }
 
         /**

@@ -44,7 +44,6 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         params=getElems(params) // getElems is defined in Phrase to remove "null" and flatten lists
         // list of dependents to create the source of the parameters at the time of the call
         // this can be different from the dependent lists because of structure modifications
-        this.dependentsSource=[]
         if (params.length>0){
             const last=params.length-1;
             // add all dependents except the last to the list of dependents
@@ -52,13 +51,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 let d=params[i];
                 if (d instanceof Dependent) {
                     this.addDependent(d);
-                    this.dependentsSource.push(d);
                 } else {
                     this.warn("bad Dependent",NO(i+2).dOpt({ord:true}).realize(),d.constructor.name+":"+JSON.stringify(d))
                 }
             }
             // terminate the list with add which does other checks on the final list
-            this.add(params[last],undefined,true)
+            this.add(params[last])
         }
     }
 
@@ -151,17 +149,11 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * Add a new dependent and set agreement links
      * @param {Dependent} dependent  Dependent to add
      * @param {int} position position at whcih to add, if not given add at the end
-     * @param {boolean} prog if specified then it is called by the constructor not the user so do not keep source info about this add
      * @returns this Dependent
      */
-    add(dependent,position,prog){
+    add(dependent,position){
         if (!(dependent instanceof Dependent)){
             return this.warn("bad Dependent",this.word_last(),dependent.constructor.name)
-        }
-        if (prog===undefined){// real call to .add 
-            this.optSource+=".add("+dependent.toSource()+(position===undefined?"":(","+position) )+")"
-        } else {
-            this.dependentsSource.push(dependent) // call from the constructor        
         }
         this.addDependent(dependent,position);
         this.linkProperties();
@@ -169,24 +161,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
     }
 
     /**
-     * Remove a child at a given position and remove the corresponding position in sourceElement
-     * or in the optSource
+     * Remove a child at a given position 
      * @param {*} position index of child to remove
      * @returns this
      */
     remove(position){
-        let dep = this.removeDependent(position)
-        if (dep !== this){
-            let src = dep.toSource().replace(/\(/g,"\\(").replace(/\)/g,"\\)")
-            let srcRE =  new RegExp("\\.add\\("+src+"(,\\d+)?\\)")
-            if (srcRE.test(this.optSource)){ // was it added whith add ?
-                this.optSource=this.optSource.replace(srcRE,"");
-            } else {
-                this.dependentsSource.splice(position,1);
-            }
-            return this
-        }
-        return this
+        return this.removeDependent(position)
     }
 
     /**
@@ -769,7 +749,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
     toSource(indent){
         if (indent===undefined)indent=-1;
         let [newIndent,sep]=this.indentSep(indent);
-        let depsSource=this.dependentsSource.map(e => e.toSource(newIndent))
+        let depsSource=this.dependents.map(e => e.toSource(newIndent))
         depsSource.unshift(this.terminal.toSource())
         // create source of children
         let res=this.constType+"("+depsSource.join(sep)+")";
@@ -857,7 +837,7 @@ Phrase.prototype.toDependent = function(depName){
             me.elements.forEach(function(e,i){
                 if (i!=idx){
                     const dep=e.toDependent(phName=="VP"?"comp":"mod")
-                    deprel.add(setPos(i,idx,dep),undefined,true)
+                    deprel.add(setPos(i,idx,dep))
                 }
             })
             deprel.props = me.props
@@ -878,7 +858,7 @@ Phrase.prototype.toDependent = function(depName){
         if (idxC>=0){
             deprel = dependent("coord",[this.elements[idxC]])
             this.elements.forEach(function(e,i){
-                if (i!=idxC)deprel.add(e.toDependent(depName),undefined,true)
+                if (i!=idxC)deprel.add(e.toDependent(depName))
             })
         } else {
             console.log("Phrase.toDependent:: CP without C", this.toSource())
@@ -897,7 +877,7 @@ Phrase.prototype.toDependent = function(depName){
             if (this.isFr()){// check for possible relative pronoun "que" in French that could be object 
                 iPro=this.getIndex(["Pro"]);
                 if (iPro>=0 && this.elements[iPro].lemma=="que"){
-                    deprel.add(this.elements[iPro].toDependent("comp").pos("pre"),0,true);
+                    deprel.add(this.elements[iPro].toDependent("comp").pos("pre"),0);
                 } else {
                     iPro = -1
                 }
@@ -908,7 +888,7 @@ Phrase.prototype.toDependent = function(depName){
         this.elements.forEach(function(e,i){
             if (i!=iVP && i!=iPro) {
                 const dep=e.toDependent(i==iSubj?"subj":"mod");
-                deprel.add(setPos(i,iVP,dep),undefined,true)
+                deprel.add(setPos(i,iVP,dep))
             }
         })
         break;

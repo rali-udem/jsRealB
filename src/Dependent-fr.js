@@ -152,7 +152,6 @@ const French_dependent = (superclass) =>
             pro.peng=mySelf.peng
             mySelf.terminal=pro
             mySelf.dependents=[]
-            mySelf.dependentsSource=[]
         }
         
         /**

@@ -702,7 +702,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 val = false
             }
             this.setProp(optionName,val);
-            if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
+            if (prog===undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
             if (quoteOOV && this.isA("Q"))return this;

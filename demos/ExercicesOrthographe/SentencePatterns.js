@@ -87,7 +87,7 @@ function make_groups(pattern){
                                 
 // add a child to end of the elements of a parent but making sure the source reflects only the final result
 function add(parent,child){
-    parent.add(child,undefined,true)
+    parent.add(child)
     return parent
 }
 
