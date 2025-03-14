@@ -5,7 +5,8 @@
 
 import { Constituent } from "./Constituent.js";
 import { Terminal } from "./Terminal.js";
-import { getElems,Pro,P,NO,Q,PP } from "./jsRealB.js"
+import { getElems, Pro, P, NO, Q, PP, NP, AP, VP, CP, S, SP, Dependent} from "./jsRealB.js"
+// import { Dependent } from "./Dependent.js";
 import {getLanguage,getRules,reorderVPcomplements} from "./Lexicon.js";
 
 export {Phrase};
@@ -583,7 +584,7 @@ class Phrase extends Constituent{
                 let cmp;
                 const [idx,obj]=this.getIdxCtx("VP",["NP","N","Pro","SP"]);
                 if (idx!==undefined)
-                    cmp=obj[0].parentConst.removeElement(idx)
+                    cmp=obj[0].parentConst.removeElement(idx);
                 [cmp,pp] = this.passive_subject_par(cmp,pp)
                 if (this.passive_human_object(cmp,pp)){ // human direct object
                     prefix="whom";

@@ -9,7 +9,8 @@ import {Constituent, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
     root, subj, det, mod, comp, coord,
     loadFr, loadEn, load, addToLexicon, getLanguage, getLemma, getLexicon,buildLemmataMap,
     jsRealB_dateCreated, jsRealB_version, oneOf, choice, mix,
-    fromJSON, ppJSON} from "./src/jsRealB.js"
+    fromJSON, ppJSON,
+    Dependent} from "./src/jsRealB.js"
 
 ///// use the webpack module
 ////  Caution
@@ -582,7 +583,7 @@ function makeExamples(){
             mod(C("mais")).pos("pre"),
             subj(N("réalité"),
                 det(D("le"))),
-            comp(C("que"),
+            comp(Pro("que"),
                     comp(V("être"),
                             subj(N("Mauritanie"),
                                 det(D("le"))),
@@ -796,7 +797,7 @@ function makeExamples(){
                     mod(P('for'),
                         mod(N('peak'),
                             mod(N('performance'))).tag('a',{"href":"http://www.google.com"}))).a(":"),
-               subj(N('science').lier(true),
+               comp(N('science').lier(true),
                     det(D('a')),
                     mod(V('base').t("pp").tag("i")),
                     mod(N('approach')),

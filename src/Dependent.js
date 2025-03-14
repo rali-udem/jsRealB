@@ -5,8 +5,7 @@
     
 import { Constituent } from "./Constituent.js";
 import { Terminal } from "./Terminal.js";
-import { getElems,Pro,P,NO,Q,dependent,det,comp } from "./jsRealB.js" 
-import { Phrase } from "./Phrase.js"
+import { getElems,Pro,P,NO,Q,dependent,det,comp, Phrase, NP, AP, VP, CP, PP, AdvP, S, SP, C } from "./jsRealB.js" 
 import { getLanguage,getRules } from "./Lexicon.js";
 
 export {Dependent}
@@ -775,6 +774,69 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         // add the options 
         res+=super.toDebug()
         return res;
+    }
+
+    getPos(){
+        if (this.getProp("pos") == "pre" || this.isA("subj","det"))  return 0;
+        if (this.isA("coord") && this.dependents.lenght>0 && this.dependents[0].isA("subj","det")) return 0;
+        return undefined;
+    }
+
+    /**
+     * Create a Phrase version of a Dependent 
+     *  (undocumented feature with many HACKS, mainly used for testing)
+     * @returns a Phrase
+     */
+    toConstituent(){
+        const terminal2Phrase = {"N":NP,"A":AP,"D":NP,"Pro":NP,"Adv":AdvP,"V":VP,"P":PP,"C":CP};
+        
+        function buildPhrase(elementsBefore,terminal,elementsAfter){
+            if (terminal.isA("C") && !["et","ou","and","or"].includes(terminal.lemma)){
+                return SP(elementsBefore,C(terminal.lemma),elementsAfter) 
+            } 
+            if (terminal2Phrase[terminal.constType] !== undefined){
+                return terminal2Phrase[terminal.constType](elementsBefore,terminal,elementsAfter);
+            } 
+            return SP(elementsBefore,Q(terminal.lemma),elementsAfter)
+        }
+        
+        let result;
+        if (this.dependents.length == 0) {
+            result = this.terminal;
+        } else {
+            let before = [];
+            let after = [];
+            for (let d of this.dependents) {
+                const c = d.toConstituent();
+                if (d.getPos() === undefined || this.isA("coord"))
+                    after.push(c);
+                else
+                    before.push(c);
+            }
+            if (this.isA("root")){
+                // check if any of the after list is a CP marked moveBefore and move it to the before list
+                for (let i=0;i<after.length;i++){
+                    if (after[i].isA("CP") && after[i].moveBefore===true){
+                        before.push(after.splice(i,1)[0])
+                    }
+                }
+                if (this.terminal.isA("V")){
+                    result = S(before,buildPhrase([],this.terminal,after));
+                } else {
+                    result = S(buildPhrase(before,this.terminal,after));
+                }
+            } else {
+                result = buildPhrase(before,this.terminal,after);
+                if (this.isA("coord") && this.dependents.length>0 && this.dependents[0].isA("subj","det")){
+                    result.moveBefore = true;
+                }
+            }
+            result.props = this.props;
+        }
+        for (let [k,v] of Object.entries(this.props)){
+            result.addOptSource(k,v);
+        }
+        return result  
     }
 }
 
