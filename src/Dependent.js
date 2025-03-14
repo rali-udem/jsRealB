@@ -831,11 +831,12 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     result.moveBefore = true;
                 }
             }
-            result.props = this.props;
+            Object.assign(result.props,this.props)
         }
-        for (let [k,v] of Object.entries(this.props)){
-            result.addOptSource(k,v);
-        }
+        // for (let [k,v] of Object.entries(this.props)){
+        //     result.addOptSource(k,v);
+        // }
+        result.optSource = this.optSource
         return result  
     }
 }

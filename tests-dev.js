@@ -990,11 +990,32 @@ function testLemmataMaps(){
     showForms(lemmataFr,"crus",e=>e.isA("N"))
 }
 
+function testToConstituent(lang,deps){
+    load(lang);
+    for (let d of deps){
+        const expr = d[0];
+        const expected = d[1];
+        const c = expr.toConstituent()
+        const gen = c.realize()
+        if (gen == expected){
+            console.log("OK",gen)
+        } else {
+            console.log(expr.toSource(0))
+            console.log(c.toSource(0))
+            console.log("KO",expected)
+            console.log("  ",gen)
+        }
+    }    
+}
+
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
 // testPreviousExamples()
 // testWarnings()
 // testLemmataMaps()
+// makeExamples()
+// testToConstituent("fr",dependancesFr)
+// testToConstituent("en",dependenciesEn)
 //  Add an example within a call to test(...) which displays the indented source of the expression and its realization 
 //  Do not forget to "load" the appropriate language
 console.log(`jsRealB_version:${jsRealB_version}, date:${jsRealB_dateCreated}, lang: ${getLanguage()} ${Constituent.debug?", debug":""}`)

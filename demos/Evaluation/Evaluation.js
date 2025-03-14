@@ -92,6 +92,7 @@ const texts = {  // simple localization of texts
     "#rules_query>option[value=cn]":["Conjugation number","Numéro de conjugaison"],
     "#rules_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"],
     "#to-dependent":["To Dependencies","En Dépendances"],
+    "#to-constituent":["To Constituents","En Constituents"],
     "#indent":["Indent","Indenter"],
     "#inflection":["Display conjugation and declension in a new tab","Afficher la conjugaison et la déclinaison dans un nouvel onglet"],
     "#lexicon":["Lexicon","Lexique"],
@@ -114,7 +115,8 @@ function changeExemple() {
     representation=$("input[name='representation']:checked").val();
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
-        $("#to-dependent").prop("title","Transformation 'heuristique' des constituents en dépendances; à vos risques et périls!");
+        $("#to-dependent").prop("title","Transformation 'heuristique' en dépendances; à vos risques et périls!");
+        $("#to-constituent").prop("title","Transformation 'heuristique' en constituents; à vos risques et périls!");
         $("#lex_query_input").prop("placeholder","mot ou regex");
         $("#rules_query_input").prop("placeholder","numéro ou terminaison")
         for (let t in texts) $(t).text(texts[t][1])
@@ -122,7 +124,8 @@ function changeExemple() {
         loadFr();
     } else {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
-        $("#to-dependent").prop("title","'Heuristic' transformation into dependencies; use at your own risk!");
+        $("#to-dependent").prop("title","'Heuristic' transformation to dependencies; use at your own risk!");
+        $("#to-constituent").prop("title","'Heuristic' transformation to constituents; use at your own risk!");
         $("#lex_query_input").prop("placeholder","word or regex");
         $("#rules_query_input").prop("placeholder","number or ending")
         for (let t in texts) $(t).text(texts[t][0])        
@@ -131,6 +134,7 @@ function changeExemple() {
     }
     editor.setValue(exemples[representation][lang][format]);
     $("#to-dependent").prop("disabled",representation=="dependencies");
+    $("#to-constituent").prop("disabled",representation=="constituents");
     editor.selection.clearSelection();
     $("#result").html("")
 };
@@ -164,6 +168,28 @@ function toDependent(){
         $("#dependencies").prop("checked",true);
         representation="dependencies";
         $("#to-dependent").prop("disabled",true);
+        $("#to-constituent").prop("disabled",false);
+    } catch (err){
+        res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
+    }
+    $("#result").html(res); 
+}
+
+function toConstituent(){
+    let res;
+    const content=editor.getValue();
+    exemples[representation][lang][format]=content; // save current value
+    try {
+        if (format=="jsRealB")
+            editor.setValue(eval(content).toConstituent().toSource(0));
+        else // JSON format
+            editor.setValue(ppJSON(fromJSON(JSON.parse(content)).toConstituent().toJSON()))
+        editor.selection.clearSelection();
+        res="";
+        $("#constituent").prop("checked",true);
+        representation="constituents";
+        $("#to-dependent").prop("disabled",false);
+        $("#to-constituent").prop("disabled",true);
     } catch (err){
         res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
     }
@@ -288,8 +314,9 @@ $(document).ready(function(){
     $("#realize").click(realize);
     $("#indent").click(indent);
     $("#to-dependent").click(toDependent);
-    $("#lex_query_input").keypress(lex_query)
-    $("#rules_query_input").keypress(rules_query)
+    $("#to-constituent").click(toConstituent);
+    $("#lex_query_input").keypress(lex_query);
+    $("#rules_query_input").keypress(rules_query);
     $("#show_resource_query").click((_)=>show_resource_query(true))
     $("#hide_resource_query").click((_)=>show_resource_query(false))
     $('#resource_query').hide()
