@@ -78,14 +78,18 @@
     
     <div id="input"></div>  <!--used by ACE -->
 
-    <div><button id="realize">Realize</button>
-        <button id="to-dependent" disabled="disabled" style="float:right"
-           title="">To Dependencies</button>
-        <button id="to-constituent" disabled="disabled" style="float:right; margin-right:15px"
+    <div>
+        <button id="realize">Realize</button>
+        <fieldset id="typsMenu">
+            <legend>.typ({...})</legend>
+        </fieldset>
+        <button id="indent" style="margin-right:15px">Indent</button>
+        <button id="to-constituent" disabled="disabled" style="margin-right:15px"
            title="">To Constituents</button>
-        <button id="indent" style="float:right; margin-right:15px">Indent</button>
+        <button id="to-dependent" disabled="disabled" 
+           title="">To Dependencies</button>
     </div>
-    <div style="margin:15pt 0pt"><span id="titreResult">Realization</span> : <span id="result"></span></div>
+    <div style="margin:15pt 0pt; border:thin solid black; padding:5px"><span id="titreResult">Realization</span> : <span id="result"></span></div>
     <button id="show_resource_query">Show resource query</button>
     <div id="resource_query">
         <h2 id="res_query_legend">Query linguistic resources</h2>

@@ -104,6 +104,44 @@ const attrs = {
     "#lex_query_input":["placeholder","word or regex [/ pos]","mot ou regex [/ pos]"],
 }
 
+const typs = ["neg","pas","perf","prog","refl","exc","maje","contr",
+              ["mod","poss","perm","nece","obli","will"],
+              ["int","yon","wos","was","wod","wad","woi","wai","whe","why","whn","how","muc","tag"]
+             ]
+
+function makeTypsMenu(){
+    const $fs = $("#typsMenu")
+    for (let typ of typs){
+        if (typeof(typ)=="string"){
+            $fs.append(typ)
+            $fs.append($(`<input type="checkbox" id="typ_${typ}"> `))
+        } else {
+            $fs.append(' '+typ[0])
+            const $select = $(`<select id="typ_${typ[0]}"/>`)
+            $select.append($("<option>false</option>"))
+            for (let i=1;i<typ.length;i++){
+                $select.append($(`<option>${typ[i]}</option>`))
+            }
+            $fs.append($select)
+        }
+    }
+}
+
+function checkTypsMenu(){
+    let typOpts = {}
+    for (let typ of typs){
+        if (typeof(typ)==="string"){
+            if ($(`#typ_${typ}`).is(":checked")) typOpts[typ]=true;
+        } else {
+            const val=$(`#typ_${typ[0]}`).val()
+            if (val != "false"){
+                typOpts[typ[0]]=val
+            }
+        }
+    }
+    return typOpts
+}
+
 function changeExemple() {
     if (lang !== undefined && representation !== undefined){// sauver la valeur courante
         const editorVal=editor.getValue();
@@ -115,6 +153,7 @@ function changeExemple() {
     representation=$("input[name='representation']:checked").val();
     if(lang == 'fr'){
         $("#titre1").html('Réaliser une expression <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a>')
+        $("#typsMenu").prop("title","Modifications de phrase à appliquer. Une modification déjà spécifiée a préséance.")
         $("#to-dependent").prop("title","Transformation 'heuristique' en dépendances; à vos risques et périls!");
         $("#to-constituent").prop("title","Transformation 'heuristique' en constituents; à vos risques et périls!");
         $("#lex_query_input").prop("placeholder","mot ou regex");
@@ -124,6 +163,7 @@ function changeExemple() {
         loadFr();
     } else {
         $("#titre1").html('Realize a <a href="https://github.com/rali-udem/jsRealB" title="GitHub - rali-udem/jsRealB: A JavaScript bilingual text realizer for web development" target="_blank">jsRealB</a> expression')
+        $("#typsMenu").prop("title","Sentence modifications to apply. An existing modification is not changed.")
         $("#to-dependent").prop("title","'Heuristic' transformation to dependencies; use at your own risk!");
         $("#to-constituent").prop("title","'Heuristic' transformation to constituents; use at your own risk!");
         $("#lex_query_input").prop("placeholder","word or regex");
@@ -140,14 +180,21 @@ function changeExemple() {
 };
 
 function realize(){
-    let res;
+    let res, expr;
     try {
         const content=editor.getValue();
         if (format=="JSON"){
-            res=fromJSON(JSON.parse(content)).toString();
+            expr = fromJSON(JSON.parse(content))
         } else {
-            res=eval(content).toString();            
+            expr=eval(content);            
         }
+        const typs = checkTypsMenu();
+        if (expr.props["typ"] !== undefined){ // override tyo menu values with thos at the top of the expression
+            Object.assign(typs,expr.props["typ"])
+            expr.props["typ"]={}
+        }
+        if (Object.keys(typs).length>0) expr.typ(typs);
+        res = expr.realize()
     } catch (err){
         res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
     }
@@ -307,6 +354,7 @@ $(document).ready(function(){
     lemmataFr = buildLemmataMap("fr")
     rulesEn = getRules("en")
     rulesFr = getRules("fr")
+    makeTypsMenu()
 
     changeExemple();
     setExceptionOnWarning(true);

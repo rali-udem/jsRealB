@@ -833,9 +833,6 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             }
             Object.assign(result.props,this.props)
         }
-        // for (let [k,v] of Object.entries(this.props)){
-        //     result.addOptSource(k,v);
-        // }
         result.optSource = this.optSource
         return result  
     }
@@ -895,18 +892,14 @@ Phrase.prototype.toDependent = function(depName){
                 }
             }
         }
-        if (me.elements[idx].isA(termName)){
-            deprel = dependent(depName,[me.elements[idx]])
-            me.elements.forEach(function(e,i){
-                if (i!=idx){
-                    const dep=e.toDependent(phName=="VP"?"comp":"mod")
-                    deprel.add(setPos(i,idx,dep))
-                }
-            })
-            deprel.props = me.props
-        } else {
-            console.log(`Phrase.toDependent:: ${phName} without ${termName}`,me.toSource())
-        }
+        deprel = dependent(depName,[me.elements[idx]])
+        me.elements.forEach(function(e,i){
+            if (i!=idx){
+                const dep=e.toDependent(phName=="VP"?"comp":"mod")
+                deprel.add(setPos(i,idx,dep))
+            }
+        })
+        deprel.props = me.props
         return deprel
     }
     
@@ -958,7 +951,7 @@ Phrase.prototype.toDependent = function(depName){
     default:
         console.log(`Phrase.toDependent:: ${this.constType} not yet implemented`)
     }
-    Object.assign(deprel.props,this.props)
+    Object.assign(deprel.props,this.props);
     deprel.optSource+=removeAddOption(this.optSource)
     if (this.parentConst===null && !this.isA("S"))deprel.cap(false)
     return deprel
