@@ -111,12 +111,14 @@ const typs = ["neg","pas","perf","prog","refl","exc","maje","contr",
 
 function makeTypsMenu(){
     const $fs = $("#typsMenu")
+    const sp = "&nbsp;&nbsp;"
     for (let typ of typs){
         if (typeof(typ)=="string"){
-            $fs.append(typ)
-            $fs.append($(`<input type="checkbox" id="typ_${typ}"> `))
+            if (typ != "neg") $fs.append(sp);
+            $fs.append(typ);
+            $fs.append($(`<input type="checkbox" id="typ_${typ}">`));
         } else {
-            $fs.append(' '+typ[0])
+            $fs.append(sp+typ[0])
             const $select = $(`<select id="typ_${typ[0]}"/>`)
             $select.append($("<option>false</option>"))
             for (let i=1;i<typ.length;i++){

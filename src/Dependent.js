@@ -206,8 +206,9 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         //  loop over children to set the peng and taux to their head or subject
         //  so that once a value is changed this change will be propagated correctly...
         const headTerm=this.terminal;
-        if (this.isA("coord")){
-            // must create this.peng already because it might be used in the current dependents (for adjectives, attributes...)
+        if (this.isA("coord") && this.peng===undefined){
+            // must create this.peng already, if it does not exist
+            // because it might be used in the current dependents (for adjectives, attributes...)
             // the information will be computed at realization time (see Dependent.prototype.coordReal)
             this.peng={
                 pengNO:Constituent.pengNO++
