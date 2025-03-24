@@ -78,7 +78,6 @@ const exemples = {
 const texts = {  // simple localization of texts
     "#kb-shortcuts":["Editor help","Aide pour l'éditeur"],
     "#realize":["Realize","Réaliser"],
-    "#titreResult":["Realization","Réalisation"],
     "#rep":["Representation","Représentation"],
     "label[for=dependencies]":["Dependencies","Dépendances"],
     "#const_color":["Constituent color coding","Couleurs des Constituent(s)"],
@@ -91,8 +90,8 @@ const texts = {  // simple localization of texts
     "#rules_query>option[value=de]":["Declension ending","Terminaison de déclinaison"],
     "#rules_query>option[value=cn]":["Conjugation number","Numéro de conjugaison"],
     "#rules_query>option[value=ce]":["Conjugation ending","Terminaison de conjugaison"],
-    "#to-dependent":["To Dependencies","En Dépendances"],
-    "#to-constituent":["To Constituents","En Constituents"],
+    "#to-dependent":["To dependencies","En dépendances"],
+    "#to-constituent":["To constituents","En constituants"],
     "#indent":["Indent","Indenter"],
     "#inflection":["Display conjugation and declension in a new tab","Afficher la conjugaison et la déclinaison dans un nouvel onglet"],
     "#lexicon":["Lexicon","Lexique"],
