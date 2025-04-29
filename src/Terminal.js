@@ -167,11 +167,12 @@ class Terminal extends Constituent{
             if (lexInfo==undefined){
                 this.tab=null;
                 this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon",this.lang);
                 if (quoteOOV){
                     this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                     this.constType="Q";
                     this.realization=this.lemma
+                } else {
+                    this.warn("not in lexicon",this.lang);                    
                 }
             } else {
                 lexInfo=lexInfo[terminalType];
@@ -181,12 +182,13 @@ class Terminal extends Constituent{
                         let otherPOS=Object.keys(getLexicon(this.lang)[lemma]);
                         let idxLdv=otherPOS.indexOf("ldv") // check if "ldv" is a key...
                         if (idxLdv>=0)otherPOS.splice(idxLdv,1) // remove it if is there...
-                        this.warn("not in lexicon",this.lang,otherPOS);
-                    if (quoteOOV){
-                        this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
-                        this.constType="Q";
-                        this.realization=this.lemma
-                    }
+                        if (quoteOOV){
+                            this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                            this.constType="Q";
+                            this.realization=this.lemma
+                        } else {
+                            this.warn("not in lexicon",this.lang,otherPOS);                            
+                        }
                 } else {
                     const keys=Object.keys(lexInfo);
                     const rules=getRules(this.lang);

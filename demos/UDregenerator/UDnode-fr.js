@@ -222,7 +222,7 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
         }
     }
     let headTerm=this.toTerminal();
-    // process the rest by the common traversal
+    // process the rest by the common traversale
     return applyOptions(this.childrenDeps(applyOptions(headTerm,headOptions),isLeft,isSUD),sentOptions)
 }
 

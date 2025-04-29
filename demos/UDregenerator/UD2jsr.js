@@ -105,7 +105,7 @@ function feats2options(constituent,udNode,selFeats){
                     if (jsrTense=="Pres")constituent.t("pr");
                     else if (jsrTense=="Past")constituent.t("pp")
                 } else {
-                    const jsrTense=getOption("VerbForm",verbform,formVal)
+                    const jsrTense=udNode.selectFeature("Tense");
                     if (jsrTense !== null){
                         constituent.t(jsrTense)
                         if (formVal=="Ppce")constituent.aux("êt")

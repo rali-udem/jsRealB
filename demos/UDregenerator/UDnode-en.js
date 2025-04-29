@@ -215,7 +215,7 @@ UDnode.prototype.toDependent = function(isLeft,isSUD){
     // check infinitive (remove the PART and change infinitive to "b-to")
     let n=this.left.length;
     if (n>0 && this.left[n-1].getLemma()=="to" && headTerm.isA("V") && headTerm.getProp("t")=="b"){
-        this.left.splice(n-1,1);
+        this.left.splice(n-1,1); 
         headTerm.t("b-to");
     }
     
@@ -251,10 +251,10 @@ UDnode.prototype.getSentOptions=function(isSUD){
     [dep,idx]=this.findDeprelUpos("aux","AUX");
     if (idx>=0){
         const lemma=dep[idx].getLemma();
-        const mod=modals[lemma];
-        if (mod!==undefined){
+        const modal=modals[lemma];
+        if (modal!==undefined){
             dep.splice(idx,1); // remove aux...
-            let options=[["typ",{"mod":mod}]] //[`mod:"${mod}"`];
+            let options=[["typ",{"mod":modal}]] //[`mod:"${mod}"`];
             if (["could","might","should","would","ought"].indexOf(lemma)>=0)
                 options.unshift(["t","ps"]); // set past tense
             return this.getSentOptions().concat(options);
@@ -284,13 +284,13 @@ UDnode.prototype.getSentOptions=function(isSUD){
     }
     [dep,idx]=this.findDeprelUpos("advmod","PART");
     if (idx>=0 && dep[idx].getLemma()=="not"){
-        dep.splice(idx,1);
         [dep1,idx1]=this.findDeprelUpos("aux","AUX");
         if (idx1>=0 && dep1[idx1].getLemma()=="do"){
+            dep.splice(idx,1);
             this.feats=dep1[idx1].feats; // copy to the verb the features from the removed auxiliary
             dep1.splice(idx1,1);
+            return this.getSentOptions().concat([["typ",{"neg":true}]]);
         }        
-        return this.getSentOptions().concat([["typ",{"neg":true}]]);
     }
     [dep,idx]=this.findDeprelUpos("advmod","ADV");
     if (idx>=0){
@@ -300,7 +300,7 @@ UDnode.prototype.getSentOptions=function(isSUD){
             if (idx1>=0 && dep1[idx1].getLemma()=="?"){
                 dep1.splice(idx1,1);
                 dep.splice(idx,1);
-                return this.getSentOptions().concat([["typ",{"int":adv}]]);
+                return this.getSentOptions().concat([["typ",{"int":adv=="when"?"whn":adv}]]);
             }
         }
     }

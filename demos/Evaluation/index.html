@@ -60,7 +60,7 @@
         </fieldset>
         <fieldset>
             <legend id="rep">Representation</legend>
-            <label for="constituent">Constituents</label>
+            <label for="constituents">Constituents</label>
                 <input type="radio" name="representation" value="constituents" id="constituents" checked="checked">
             <label for="dependencies">Dependencies</label>
                 <input type="radio" name="representation" value="dependencies" id="dependencies">
@@ -102,6 +102,8 @@
                 <option value="lx">Lexicon</option>
             </select>
             <input type="text" size="30" placeholder="word or regex" id="lex_query_input" autocomplete="off"/>
+            &nbsp;
+            <label for="match-case-re" id="match-case-re-label">Aa</label><input type="checkbox" id="match-case-re" name="match-case-re"/>
             <div><textarea id="lex_result" readonly="readonly"></textarea></div>
         </div>
         <div style="display: inline-block;" class="result">

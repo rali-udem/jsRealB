@@ -1,7 +1,7 @@
 let lemmataEn,lemmataFr,lemmataLang;
 let rulesEn,rulesFr;
 
-function lemmatize(query,lang){
+function lemmatize(query,lang,match_case){
     function removeAccent(s){
         return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     }
@@ -10,7 +10,7 @@ function lemmatize(query,lang){
     if (lemmata.has(query)) // check for verbatim
         return lemmata.get(query).map(e=>e.toSource()).join("\n")
     // try to match with a regular expression
-    const re=new RegExp("^"+query+"$");
+    const re=new RegExp("^"+query+"$",match_case?'':'i');
     let res=[];
     for (let key of lemmata.keys()){
         if (re.test(key))res.push(key+": "+lemmata.get(key).map(e=>e.toSource()).join("; "));
@@ -79,14 +79,14 @@ function getDeclensionEnding(ending,lang){
     return getEnding(ending,rulesFr.declension,"pas de déclinaison trouvée");
 }
 
-function getLexiconInfo(word,lang){
+function getLexiconInfo(word,lang,match_case){
     lang=lang||getLanguage()
     var lexicon=getLexicon();
     if (word in lexicon)
         return {[word]:lexicon[word]};
     // try with a regular expression
     var res={}
-    var regex=new RegExp("^"+word+"$",'i')
+    var regex=new RegExp("^"+word+"$",match_case?'':'i')
     for (let w in lexicon){
         if (regex.exec(w))res[w]=lexicon[w];
     }

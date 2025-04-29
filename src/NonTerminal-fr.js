@@ -209,7 +209,7 @@ const French_non_terminal = (superclass) =>
                 }
             }
             function moveAfterAux(auxMods){
-                for (let auxIdx = 0;auxIdx<advIdx-1; auxIdx++){
+                for (let auxIdx = start;auxIdx<advIdx-1; auxIdx++){
                     const e = res[auxIdx];
                     if (e.isA("V") && auxMods.includes(e.lemma)){
                         if (res[auxIdx+1].isA("V")){

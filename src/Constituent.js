@@ -118,6 +118,7 @@ class Constituent {
      * Set the value of a property, but also possibly changing the shared properties
      * @param {string} propName name of the property to change
      * @param {any} val value to put as value of propName
+     * @returns {Constituent} the current Constituent
      */
     setProp(propName,val,inSetLemma){
         if (propName=="pe" || propName=="n" || propName=="g"){
@@ -125,10 +126,11 @@ class Constituent {
         } else if (propName=="t" || propName=="aux"){
             if (this.taux!==undefined) this.taux[propName]=val;
         }
-        // this is important for to ensure that local options override global values
+        // this is important to ensure that local options override global values
         // but it must be "undone" in Terminal.setLemma
         if (!["pe","n","g","t","aux"].includes(propName) || inSetLemma === undefined)
             this.props[propName]=val; 
+        return this
     }
 
     /**
@@ -357,33 +359,38 @@ class Constituent {
         "mod": [false,"poss","perm","nece","obli","will"],
         "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
         }
-        if (this.isA("S","SP","VP") || this.isA(deprels)){
-            // validate types and keep only ones that are valid
-            if (typeof types == "object"){
-                for (let key in types) {
-                    const val=types[key];
-                    const allowedVals=allowedTypes[key];
-                    if (allowedVals === undefined){
-                        this.warn("unknown type",key,Object.keys(allowedTypes))
-                    } else {
-                        if (key == "neg" && this.validate_neg_option(val,types)){
-                        } else if (!allowedVals.includes(val)){
-                            this.warn("ignored value for option",".typ("+key+")",val)
-                            delete types[key]
+        if (this.isA("S","SP","VP","root","mod","comp")){
+            if (this.isA("root","mood","comp") && ! this.terminal.isA("V")){
+                this.warn("bad application",`.typ("${str(types)}")`,[`${this.constType}(V(..))`],
+                      `${this.constType}(${this.terminal.constType}(..))`)
+            } else {
+                // validate types and keep only ones that are valid
+                if (typeof types == "object"){
+                    for (let key in types) {
+                        const val=types[key];
+                        const allowedVals=allowedTypes[key];
+                        if (allowedVals === undefined){
+                            this.warn("unknown type",key,Object.keys(allowedTypes))
+                        } else {
+                            if (key == "neg" && this.validate_neg_option(val,types)){
+                            } else if (!allowedVals.includes(val)){
+                                this.warn("ignored value for option",".typ("+key+")",val)
+                                delete types[key]
+                            }
                         }
                     }
+                    this.addOptSource("typ",types)
+                    if (this.props["typ"]===undefined){
+                        this.props["typ"]=types;  // initialise .typ
+                    } else {  // update .typ with new values
+                        Object.assign(this.props["typ"],types)
+                    }
+                } else {
+                    this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
                 }
-                this.addOptSource("typ",types)
-                if (this.props["typ"]===undefined){
-                    this.props["typ"]=types;  // initialise .typ
-                } else {  // update .typ with new values
-                    Object.assign(this.props["typ"],types)
-                }
-            } else {
-                this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
             }
         } else {
-            this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","Dependent"],this.constType);
+            this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","root","mod","comp"],this.constType);
         }
         return this;
     }

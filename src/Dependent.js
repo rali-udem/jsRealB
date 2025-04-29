@@ -219,7 +219,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             const depTerm=dep.terminal;
             switch (dep.constType){
             case "subj":
-                if (headTerm.isA("V")){
+                if (headTerm.isA("V") && dep.peng !== undefined){
                     headTerm.peng=dep.peng;
                 }
                 break;
@@ -230,7 +230,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 } else if (depTerm.isA("NO")){
                     depTerm.peng=headTerm.peng
                     depTerm.peng["n"]=depTerm.grammaticalNumber();
-                } else if (depTerm.isA("P") && depTerm.lemma=="de"){ // HACK: deal with specific case : det(P("de"),mod(D(...)))
+                } else if (depTerm.isA("P") && depTerm.lemma=="de"){ 
+                    // HACK: deal with specific case : det(P("de"),mod(D(...)))
                     if (dep.dependents.length==1 && dep.dependents[0].isA("mod") && 
                         dep.dependents[0].terminal.isA("D")){
                         dep.dependents[0].terminal.peng=this.peng;
@@ -664,7 +665,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         if (this.isA("subj","det","*pre*")){ 
             // subject and det are always before except when specified otherwise
             pos="pre"
-        } else if (this.isA("mod") && this.terminal.isA("A") && this.parentConst.terminal.isA("N")){ 
+        } else if (this.isA("mod") && this.terminal.isA("A") && 
+                   this.dependents.length == 0 && this.parentConst.terminal.isA("N")){ 
             // check adjective position with respect to a noun
             pos = this.terminal.props["pos"] || this.adj_def_pos()
         } else if (this.isA("coord") && this.dependents.length>0){
@@ -834,7 +836,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             }
             Object.assign(result.props,this.props)
         }
-        result.optSource = this.optSource
+        result.optSource = this.optSource.replaceAll(/\.pos\(".*?"\)/g,"") // ignore spurious .pos(..) parameters
         return result  
     }
 }

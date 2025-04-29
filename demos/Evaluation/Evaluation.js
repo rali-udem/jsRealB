@@ -157,6 +157,7 @@ function changeExemple() {
         $("#typsMenu").prop("title","Modifications de phrase à appliquer. Une modification déjà spécifiée a préséance.")
         $("#to-dependent").prop("title","Transformation 'heuristique' en dépendances; à vos risques et périls!");
         $("#to-constituent").prop("title","Transformation 'heuristique' en constituents; à vos risques et périls!");
+        $("#match-case-re-label").prop("title","Respecter la casse")
         $("#lex_query_input").prop("placeholder","mot ou regex");
         $("#rules_query_input").prop("placeholder","numéro ou terminaison")
         for (let t in texts) $(t).text(texts[t][1])
@@ -167,6 +168,7 @@ function changeExemple() {
         $("#typsMenu").prop("title","Sentence modifications to apply. An existing modification is not changed.")
         $("#to-dependent").prop("title","'Heuristic' transformation to dependencies; use at your own risk!");
         $("#to-constituent").prop("title","'Heuristic' transformation to constituents; use at your own risk!");
+        $("#match-case-re-label").prop("title","Match case")
         $("#lex_query_input").prop("placeholder","word or regex");
         $("#rules_query_input").prop("placeholder","number or ending")
         for (let t in texts) $(t).text(texts[t][0])        
@@ -234,7 +236,7 @@ function toConstituent(){
             editor.setValue(ppJSON(fromJSON(JSON.parse(content)).toConstituent().toJSON()))
         editor.selection.clearSelection();
         res="";
-        $("#constituent").prop("checked",true);
+        $("#constituents").prop("checked",true);
         representation="constituents";
         $("#to-dependent").prop("disabled",false);
         $("#to-constituent").prop("disabled",true);
@@ -269,6 +271,7 @@ function lex_query(e){
         let category;
         const $result = $("#lex_result")
         const query_type=$("#lex_query").val();
+        const match_case = $("#match-case-re").prop("checked")
         $result.text("");
         if (query_type=="lx" && query.indexOf("/")){
             [query,category]=query.split(/ *\/ */)
@@ -279,7 +282,7 @@ function lex_query(e){
         }
         const query_function = query_functions[query_type]
         if (query_function !== undefined){
-            const out = query_function(query);
+            const out = query_function(query,undefined,match_case);
             if (typeof out === "string" )
                 $result.text(out)
             else {
