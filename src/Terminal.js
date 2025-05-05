@@ -400,7 +400,7 @@ class Terminal extends Constituent{
      * used heavily in conjugate_fr and conjugate_en
      * @param {Terminal[]} terms list of Terminals in which to insert 
      * @param {Terminal} newTerminal new Terminal to which the realization 
-     * @param {number} position index in list 
+     * @param {number} position index in list, at the end when not defined 
      * @returns modified list
      */
     insertReal(terms,newTerminal,position){

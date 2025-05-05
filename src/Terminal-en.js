@@ -14,7 +14,15 @@ export { English_terminal }
  */
 const English_terminal = (superclass) =>
     class extends English_constituent(superclass){
- 
+        
+        /**
+         * Useful for short display of content in VSCode
+         * @returns {string}
+         */
+        toString(){
+            return `${this.constType}_en(${this.lemma})`
+        }
+        
         /**
          * Returns the English thousand separator
          *

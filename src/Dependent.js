@@ -700,6 +700,10 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             const typs=this.props["typ"];
             if (typs!==undefined)this.processTyp(typs);
             const ds=this.dependents;
+            if (this.getProp("n")===undefined)this.setProp("n","s");
+            if (ds.length ==0){ // no dependent
+                return this.doFormat(this.terminal.real())
+            }
             // realize coords before the rest because it can change gender and number of subject
             // save their realization
             let coordReals = []
@@ -707,33 +711,22 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 if(d.isA("coord"))
                     coordReals.push(d.coordReal())
             }
-            if (this.getProp("n")===undefined)this.setProp("n","s")
-            // move all "pre" dependents at the front 
-            // HACK: we must move these in place because realization might remove some of them 
-            let nextPre=0
-            for (let i=0;i<ds.length;i++){
-                const d=ds[i]
+            // realize all pre and remove them from the list
+            res = []
+            for (let i = 0; i < ds.length;) {
+                let d = ds[i]
                 if (d.depPosition()=="pre"){
-                    if (nextPre != i)
-                        ds.splice(nextPre,0,ds.splice(i,1)[0]);
-                    nextPre++;
+                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
+                    ds.splice(i,1)
+                } else {
+                    i++;
                 }
             }
-            // realize dependents
-            if (ds.length==0){  // no dependent
-                res = this.terminal.real()
-            } else if (nextPre==0) { // no pre
-                res = this.terminal.real();
-                for (let d of ds)
-                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
-            } else {  // both pre and post
-                res = []
-                for (let i=0;i<ds.length;i++){
-                    const d=ds[i];
-                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
-                    if (i==nextPre-1)
-                        res.push(...this.terminal.real())
-                }
+            // realize terminal
+            res.push(...this.terminal.real())
+            // realize all remaining post
+            for (let d of ds){
+                res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
             }
             if (this.terminal.isA("V"))
                 this.checkAdverbPos(res)

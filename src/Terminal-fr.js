@@ -12,6 +12,15 @@ export {French_terminal}
 
 const French_terminal = (superclass) =>
     class extends French_constituent(superclass) {
+        
+        /**
+         * Useful for short display of content in VSCode
+         * @returns {string}
+         */
+        toString(){
+            return `${this.constType}_fr(${this.lemma})`
+        }
+        
         /**
          * Returns the French thousand separator
          *
