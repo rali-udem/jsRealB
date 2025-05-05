@@ -6,7 +6,7 @@ QUnit.test( "JSON-tests", function( assert ) {
                 VP(V("sit").t("ps"),
                    PP(P("on"),
                       NP(D("the"),N("mat"))))).typ({neg:true})
-    const expSent=exp.clone().toString();
+    const expSent=exp.clone().realize();
     assert.equal(expSent,"The cats did not sit on the mat. ","original sentence built using Phrase")
     const expJSON=exp.toJSON();
     assert.equal(ppJSON(expJSON),

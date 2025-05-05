@@ -142,6 +142,6 @@ QUnit.test( "Élision française", function( assert ) {
     // Automated Tests
     for (var i=0;i<elisionTestsFr.length;i++){
         const [exp,elided]=elisionTestsFr[i];
-        assert.equal(exp.toString(),elided,exp.toSource()+"=>"+elided)
+        assert.equal(exp.realize(),elided,exp.toSource()+"=>"+elided)
     }
 })

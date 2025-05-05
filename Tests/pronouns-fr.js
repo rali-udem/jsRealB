@@ -79,14 +79,14 @@ QUnit.test( "Pronoms français", function( assert ) {
     for (let [pro,results] of Object.entries(tonicsFr)){
         for (let ix in optionsFr){
             const exp=eval(`Pro("${pro}").${optionsFr[ix]}`+(pro=="moi"?".pe(1)":""));
-            assert.equal(exp.toString(),tonicsFr[pro][ix],exp.toSource()+"=>"+tonicsFr[pro][ix])
+            assert.equal(exp.realize(),tonicsFr[pro][ix],exp.toSource()+"=>"+tonicsFr[pro][ix])
         }
     }
     for (let [val,exp] of Object.entries(possProsFr)){
-        assert.equal(eval(exp).toString(),val,exp+"=>"+val)
+        assert.equal(eval(exp).realize(),val,exp+"=>"+val)
     }
     for (let [val,exp] of Object.entries(possDetsFr)){
-        assert.equal(eval(exp).toString(),val,exp+"=>"+val)
+        assert.equal(eval(exp).realize(),val,exp+"=>"+val)
     }
     
 });

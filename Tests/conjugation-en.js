@@ -1267,13 +1267,13 @@ testsConjugEn = {
 QUnit.test( "English conjugation", function( assert ) {
     Object.assign(globalThis,jsRealB);
     loadEn();
-    assert.equal(V("have").n("p").pe(1), "have", "I have");
+    assert.equal(V("have").n("p").pe(1).realize(), "have", "I have");
 
     // Automated Tests
     for (let [verb,verbInfo] of Object.entries(testsConjugEn)){
         for (let [tense,expected] of Object.entries(verbInfo)){
             var exp = tense=="p3" ? V(verb).t("p").pe(3) : V(verb).t(tense)
-            assert.equal(exp.toString(),expected,exp.toSource()+"=>"+expected)
+            assert.equal(exp.realize(),expected,exp.toSource()+"=>"+expected)
         }
     }
 })

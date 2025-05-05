@@ -711,22 +711,20 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 if(d.isA("coord"))
                     coordReals.push(d.coordReal())
             }
-            // realize all pre and remove them from the list
+            // realize all pre 
             res = []
-            for (let i = 0; i < ds.length;) {
-                let d = ds[i]
+            for (let d of ds){
                 if (d.depPosition()=="pre"){
                     res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
-                    ds.splice(i,1)
-                } else {
-                    i++;
-                }
+                }                
             }
             // realize terminal
             res.push(...this.terminal.real())
-            // realize all remaining post
+            // realize all post
             for (let d of ds){
-                res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
+                if (d.depPosition()!=="pre"){
+                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
+                }
             }
             if (this.terminal.isA("V"))
                 this.checkAdverbPos(res)

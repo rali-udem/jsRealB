@@ -3425,7 +3425,7 @@ QUnit.test( "Déclinaison française", function( assert ) {
     Object.assign(globalThis,jsRealB);
     loadFr();
     var exp=N("acheteur").g("f").n("p")
-    assert.equal(""+exp, "acheteuses", exp.toSource());
+    assert.equal(exp.realize(), "acheteuses", exp.toSource());
 
     for (let [word,wordInfo] of Object.entries(testsNomAdjDeclinaisonFr)){
         for (let [pos,posInfo] of Object.entries(wordInfo)){
@@ -3453,7 +3453,7 @@ QUnit.test( "Déclinaison française", function( assert ) {
                 default:
                     alert("flags inconnu:"+flags+":"+word)
                 }
-                var res=exp.toString()
+                var res=exp.realize()
                 assert.equal(res,expected,exp.toSource()+"=>"+res)
             }
         }
@@ -3462,7 +3462,7 @@ QUnit.test( "Déclinaison française", function( assert ) {
     for (let [word,wordInfo] of Object.entries(testsProDeclinaisonFr)){
         for (let [flags,expected] of Object.entries(wordInfo)){
             exp=Pro(word).g(flags.charAt(0)).n(flags.charAt(1)).pe(+flags.charAt(2))
-            var res=exp.toString()
+            var res=exp.realize()
             assert.equal(res,expected,exp.toSource()+"=>"+res)
         }
     }

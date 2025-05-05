@@ -388,6 +388,6 @@ QUnit.test( "Dependances FR - Bonfante", function( assert ) {
    for (var i = 0; i < phrases.length; i++) {
     var s=phrases[i];
     var exp=s.expression;
-    assert.equal(exp.toString(),s.expected,s.message)
+    assert.equal(exp.realize(),s.expected,s.message)
 }
 });

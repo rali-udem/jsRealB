@@ -3363,7 +3363,7 @@ testsConjugFr = {
 QUnit.test( "Conjugaison française", function( assert ) {
     Object.assign(globalThis,jsRealB);
     loadFr();
-    assert.equal(V("aimer").n("p").pe(1), "aimons", "Nous aimons");
+    assert.equal(V("aimer").n("p").pe(1).realize(), "aimons", "Nous aimons");
 
     // Automated Tests
     for (let [verb,verbInfo] of Object.entries(testsConjugFr)){
@@ -3378,10 +3378,10 @@ QUnit.test( "Conjugaison française", function( assert ) {
                     n="p"
                 }
                 var exp=V(verb).t(t).pe(pe).n(n)
-                assert.equal(exp.toString(),expected,exp.toSource()+"=>"+expected)
+                assert.equal(exp.realize(),expected,exp.toSource()+"=>"+expected)
             } else {
                 exp=V(verb).t(tensePerson)
-                assert.equal(exp.toString(),expected,exp.toSource()+"=>"+expected)
+                assert.equal(exp.realize(),expected,exp.toSource()+"=>"+expected)
             }
         }
     }

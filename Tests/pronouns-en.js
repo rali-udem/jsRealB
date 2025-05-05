@@ -28,10 +28,10 @@ QUnit.test( "English pronouns", function( assert ) {
     for (let [pro,results] of Object.entries(tonics)){
         for (let ix in options){
             const exp=eval(`Pro("${pro}").${options[ix]}`+(pro=="me"?".pe(1)":""));
-            assert.equal(exp.toString(),tonics[pro][ix],exp.toSource()+"=>"+tonics[pro][ix])
+            assert.equal(exp.realize(),tonics[pro][ix],exp.toSource()+"=>"+tonics[pro][ix])
         }
     }
     for (let [val,exp] of Object.entries(possDets)){
-        assert.equal(eval(exp).toString(),val,exp+"=>"+val)
+        assert.equal(eval(exp).realize(),val,exp+"=>"+val)
     }
 });

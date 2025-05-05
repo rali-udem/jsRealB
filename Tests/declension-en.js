@@ -196,21 +196,21 @@ QUnit.test( "English declension", function( assert ) {
     Object.assign(globalThis,jsRealB);
     loadEn();
     var exp=N("love").n("p")
-    assert.equal(""+exp, "loves", exp.toSource());
+    assert.equal(exp.realize(), "loves", exp.toSource());
     
     for (let [word,wordInfo] of Object.entries(testsDeclensionEn)){
         for (let [pos,expected] of Object.entries(wordInfo)){
             if (pos=="N"){
                 exp=N(word).n("p")
-                assert.equal(exp.toString(),expected["p"],exp.toSource()+"=>"+expected["p"])
+                assert.equal(exp.realize(),expected["p"],exp.toSource()+"=>"+expected["p"])
             } else if (pos=="A"){
                 exp=A(word).f("co")
-                assert.equal(exp.toString(),expected["co"],exp.toSource()+"=>"+expected["co"])
+                assert.equal(exp.realize(),expected["co"],exp.toSource()+"=>"+expected["co"])
                 exp=A(word).f("su")
-                assert.equal(exp.toString(),expected["su"],exp.toSource()+"=>"+expected["su"])
+                assert.equal(exp.realize(),expected["su"],exp.toSource()+"=>"+expected["su"])
             } else if (pos=="Adv"){
                 exp=Adv(word).f("co")
-                assert.equal(exp.toString(),expected["co"],exp.toSource()+"=>"+expected["co"])
+                assert.equal(exp.realize(),expected["co"],exp.toSource()+"=>"+expected["co"])
             }
         }
     }
@@ -222,7 +222,7 @@ QUnit.test( "English declension", function( assert ) {
             exp=Pro(pro).n(proFlags["n"]).g(proFlags["g"]).pe(proFlags["pe"])
             if (proFlags["ow"]!==undefined)exp=exp.ow(proFlags["ow"]);
             
-            assert.equal(exp.toString(),expected,exp.toSource()+"=>"+expected)
+            assert.equal(exp.realize(),expected,exp.toSource()+"=>"+expected)
         }
     }
     
@@ -232,7 +232,7 @@ QUnit.test( "English declension", function( assert ) {
         for (let [expected,proFlags] of Object.entries(proInfo)){
             exp=D(pro).n(proFlags["n"]).g(proFlags["g"]).pe(proFlags["pe"])
             if (proFlags["ow"]!==undefined)exp=exp.ow(proFlags["ow"]);
-            assert.equal(exp.toString(),expected,exp.toSource()+"=>"+expected)
+            assert.equal(exp.realize(),expected,exp.toSource()+"=>"+expected)
         }
     }
 });
