@@ -1,9 +1,17 @@
+import {verbform,tenses,person,number,gender,case_,degree,reflex} from "./UD2jsr.js";
 export {UDnode,applyOptions,_};
 
 if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
     let {default:jsRealB} = await import("../../dist/jsRealB.js");
     Object.assign(globalThis,jsRealB);
 }
+
+const pairs = {"()":"(",
+               "[]":"[",
+               "{}":"{",
+               "\"\"":"\"",
+               "''":"'",
+               "«»":"«"}
 
 // keep information about a single node in the tree
 // with the following fields taken from a line of the file
@@ -228,12 +236,139 @@ class UDnode {
             return s;
         return null;
     }
+    // simplified implementation of the above
+    isProjective(){
+        let cnt = 1;
+        function check(node){
+            for (let n of node.left){
+                if (!check(n)) return false;
+            }
+            if (node.id == cnt) cnt++;
+            for (let n of node.right){
+                if (!check(n)) return false;
+            }
+            return true;
+        }
+        return check(cnt)
+    }
+    
     // generate a string from the forms in the tree by an inOrder traversal
     getTokens() {
         let res = this.left.map(n => n.getTokens()).flat();
         res.push(this.form);
         return res.concat(this.right.map(n => n.getTokens()).flat());
     }
+
+    eats2options(constituent,selFeats){
+        
+        function check(feat,fields){
+            val = getFeature(feat)
+            if (val !== undefined)
+                return getOption(feat,fields,val)
+        }
+        
+        if (this.hasNoFeature() || constituent.isA("Q"))return constituent;
+        for (const selFeat of selFeats){
+            switch (selFeat) {
+            case "Mood":
+                const moodVal=this.selectFeature("Mood")
+                if (moodVal !== undefined){
+                    const tense=this.selectFeature("Tense")
+                    if (tense !==undefined){
+                        const jsrTense=getOption(`Mood[${moodVal}]`,mood[moodVal],tense)
+                        if (jsrTense !== null){
+                            constituent.t(jsrTense)
+                        }
+                    } else if (moodVal == "Imp"){
+                        constituent.t("ip")
+                        this.deleteFeature("Tense")
+                    }
+                }
+                break;
+            case "VerbForm":
+                const formVal=this.selectFeature("VerbForm")
+                if (formVal !== undefined){
+                    if (formVal=="Part" && this.hasFeature("Tense")){
+                        const jsrTense=this.selectFeature("Tense");
+                        if (jsrTense=="Pres")constituent.t("pr");
+                        else if (jsrTense=="Past")constituent.t("pp")
+                    } else if (["Inf","Ger"].includes(formVal)) {
+                        constituent.t(verbform[formVal])
+                    } else {
+                        const tense=this.selectFeature("Tense");
+                        if (tense !== null){
+                            jsrTense = getOption("Tense",tenses,tense);
+                            constituent.t(jsrTense);
+                            if (["Ppce", "Ppae","Ppqe","Pfae"].includes(formVal))
+                                constituent.aux("êt");
+                        }
+                    }
+                }
+                break;
+            case "Tense":
+                const tense1=this.selectFeature("Tense")
+                if (tense1 !==undefined){
+                    const jsrTense=getOption("Tense",tenses,tense1)
+                    if (jsrTense !== null){
+                        constituent.t(jsrTense);
+                        if (["Ppce", "Ppae","Ppqe","Pfae"].includes(tense1))constituent.aux("êt")
+                    }
+                }
+                break;
+            case "Person":
+                const jsrPe = check("Person",person)
+                if (jsrPe !== undefined) constituent.pe(jsrPe);
+                break;
+            case "Person_psor":
+                const jsrPe_psor = check("Person_psor",person)
+                if (jsrPe_psor !== undefined) constituent.p(jsrPe_psor)
+                break;
+            case "Number":
+                const jsrN = check("Number",number)
+                if (jsrN !== undefined) constituent.pe(jsrN);
+                break;
+            case "Number_psor":
+                const jsrN_psor = check("Number",number)
+                if (jsrN_psor !== undefined) constituent.pe(jsrN_psor);
+                break;
+            case "Case":
+                const jsrC = check("Case",case_)
+                if (jsrC !== undefined) constituent.pe(jsrC);
+                break;
+            case "Definite":
+                this.selectFeature("Definite") // ignore
+                break;
+            case "Gender":
+                const jsrG = check("Gender",gender)
+                if (jsrG !== undefined) constituent.pe(jsrG);
+                break;
+            case "Gender_psor":
+                const jsrG_psor = check("Gender",gender)
+                if (jsrG_psor !== undefined) constituent.pe(jsrG_psor);
+                break;
+            case "Degree":
+                const jsrDeg = check("Degree",degree)
+                if (jsrDeg !== undefined) constituent.pe(jsrDeg);
+                break;
+            case "PronType":
+                this.selectFeature("PronType") // ignore
+                break;
+            case "NumType":
+                this.selectFeature("NumType") // ignore
+                break;
+            case "Reflex":
+                const jsrRefl = check("Reflex",reflex)
+                if (jsrRefl !== undefined) constituent.pe(jsrRefl);
+                break;
+                
+            default:
+                console.log("Strange feature:%s in %o",selFeat,this)
+            }
+        }
+        return constituent
+    }
+    
+    
     /// useful for examples in the paper
     toJSON(level) {
         const spaces = n => Array(n).fill(" ").join("");
@@ -268,6 +403,20 @@ class UDnode {
     // process coordination by gathering all children (starting at the second one) in a list 
     // creating phrase with the first child and then adding the CP
     processCoordination(sentOptions, isSUD) {
+        function removeCommaCoord(n){
+            // remove front comma if it exists,
+            // if it is a coord return it otherwise return null
+            if (n.left.length>0){
+                const first = n.left[0]
+                if (first.deprel=="punct" && first.upos=="PUNCT" && first.lemma == "."){
+                    n.left.shift()
+                } else if (first.deprel=="cc" && first.upos == "CCONJ"){
+                    n.left.pop()
+                    return first
+                }
+            }
+            return null
+        }
         // split coordination children into separate trees that will be processed separately
         // according to https://surfacesyntacticud.github.io/guidelines/u/particular_phenomena/coord/
         let conjs = [];
@@ -290,10 +439,20 @@ class UDnode {
         } else {
             // In UD, all conjuncts of a coordination are attached to the head of the first conjunct in a bouquet.
             let right = this.right;
+            // remove possible ending punct
+            if (self.right.length>0){
+                const last = self.right[self.right.lenght-1]
+                if (last.deprel == "punct" && last.upos == "PUNCT"){
+                    sentOptions.push(["a",last.lemma])
+                    self.right.pop()
+                }
+            }
             n = right.length;
             for (let i = n - 1; i >= 0; i--) { // process in reverse so that indices stay the same after splice
                 if (right[i].getDeprel() == "conj") {
-                    conjs.push(right[i]);
+                    const cc = removeCommaCoord(right[i])
+                    if (cc !== null)c = cc;
+                    conjs.push(right[i])
                     right.splice(i, 1); // remove conj link
                 }
             }
@@ -310,62 +469,50 @@ class UDnode {
             deprel = "mod";
         }
 
-        let conjChildren = [applyOptions(firstConst, sentOptions)];
+        let conjChildren = [firstConst];
+        // combine children
+        for (let conj of conjs){
+            conjChildren.push(conj.toConstituent(null,isSUD))
+        }
 
-        // remove punct
-        if (this.right.length > 0) {
-            const [last] = this.right.slice(-1);
-            if (last.getDeprel() == "punct" && last.getUpos() == "PUNCT" && last.getLemma() == ",")
-                this.right.splice(-1, 1);
-        }
-        // appendTo(depChildren,conjs.map(c=>new Dependent([c.toConstituent(false,false)],"mod")));
-        // process other children and pick the conjunction
-        // we conjecture that NP take their argument to the left and VP to the right
-        n = conjs.length;
-        let hasOxfordComma = false;
-        for (let i = 0; i < n; i++) {
-            let ci = conjs[i];
-            let [dep, idx] = ci.findDeprelUpos("cc", _);
-            if (idx >= 0) { // remove it
-                c = dep[idx];
-                dep.splice(idx, 1);
-            }
-            // remove also front comma...
-            if (ci.left.length > 0) {
-                const first = ci.left[0];
-                if (first.getDeprel() == "punct" && first.getUpos() == "PUNCT" && first.getLemma() == ",") {
-                    ci.left.splice(0, 1);
-                    if (i == n - 1)
-                        hasOxfordComma = true;
-                }
-            }
-            conjChildren.push(ci.toConstituent(null, isSUD));
-        }
         let coordTerm = c === undefined ? Q("") : c.toConstituent(null, isSUD);
         // create coordination
         if (coordTerm instanceof Dependent) {
             // some strange coordination term (e.g. "ainsi que"), create specific a constant by realizing the dependent
             coordTerm = Q(coordTerm.realize());
         }
-        if (hasOxfordComma && c !== undefined)
-            coordTerm.b(",");
         let coordDep = coord(coordTerm);
         for (let child of conjChildren) {
             if (child instanceof Terminal) {
-                coordDep.add(dependent(deprel,[child]), undefined, true);
+                coordDep.add(dependent(deprel,[child]));
             } else {
                 if (child.constType != deprel)
                     child.changeDeprel(deprel);
-                coordDep.add(child, undefined, true);
+                coordDep.add(child);
             }
         }
-        return coordDep;
+        return applyOptions(coordDep,sentOptions);
     }
-    
+           
     //  create a dependent by mapping the deprel name to a jsRealB one
     childrenDeps(head, isLeft, isSUD) {
         const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
         let dep = dependent(deprel,[head]);
+        // check for a pair of surrounding punctuation
+        if (this.left.lenght>0 && this.right.lenght>0){
+            const first = this.left[0]
+            const last = this.right[this.right.length-1]
+            if (first.deprel == "punct" && last.deprel == "punct"){
+                const combined = first.lemma + last.lemma;
+                jsrBA = pairs[combined]
+                if (jsrBA !== undefined){
+                    dep.ba(pairs[jsrBA])
+                    self.left.shift()
+                    self.right.pop()
+                }
+            }
+        }
+        // check left punctuation
         if (this.left.length > 0) {
             const first = this.left[0];
             if (first.getDeprel() == "punct") { // add first punct as option b()
@@ -374,6 +521,7 @@ class UDnode {
             }
             this.left.forEach(n => dep.add(n.toDependent(true, isSUD), undefined, true));
         }
+        // check right punctuation
         if (this.right.length > 0) {
             const last = this.right[this.right.length - 1];
             if (last.getDeprel() == "punct") { // add last punct as option a()
@@ -382,13 +530,11 @@ class UDnode {
             }
             this.right.forEach(n => dep.add(n.toDependent(false, isSUD), undefined, true));
         }
-        if (isLeft !== null && this.left.length==0 && this.right.length==0) { // check pos for terminals only
-            // isLeft is null when processing a coordination that should be left as is
-            if (isLeft && ["mod", "comp"].includes(deprel)) 
-                dep.pos("pre");
-            if (!isLeft && ["det", "subj"].indexOf(deprel))
-                dep.pos("post");
-        }
+        // isLeft is null when processing a coordination that should be left as is
+        if (this.isLeft === true && ["mod", "comp"].includes(deprel)) 
+            dep.pos("pre");
+        if (this.isLeft === false && ["det", "subj"].includes(deprel))
+            dep.pos("post");
         return dep;
     }
 }
