@@ -270,14 +270,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 // this.error("An internal root was found")
                 break;
             case "coord":
-                let firstDep=null;
-                for (let d of dep.dependents){
-                    if (!d.isA("C")){
-                        firstDep=d;
-                        break;
-                    }
-                }
-                if (firstDep !== null){
+                if (dep.dependents.length>1){
+                    let firstDep = dep.dependents[0];
                     if (firstDep.isA("subj")){
                         dep.peng = this.peng;
                     } else if (firstDep.isA("det")){
@@ -527,7 +521,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                 }
                 if (d.isA("comp","mod") && prep!==undefined){
                     // try to find a more appropriate prefix by looking at preposition in the structure
-                    const preps = this.preposition_list()
+                    const preps = this.prepositionsList()
                     if (int=="whe" && preps["whe"].has(prep)){
                         remove=true
                     } else if (int=="whn" && preps["whn"].has(prep)){
@@ -584,6 +578,13 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * at realization time
      */
     coordReal(){
+        function equivalentDependent(firstDep,currentDep){
+            if (firstDep==currentDep) return true;
+            if (currentDep=="coord")return true;
+            if (firstDep=="mod"  && currentDep=="comp")return true;
+            if (firstDep=="comp" && currentDep=="mod" )return true;
+            return false;
+        }
         let res=[];
         // realize coordinated Dependents by adding ',' between all elements except for the last
         // no check is done on the terminal, so
@@ -614,7 +615,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             }
             if (dj.isA("coord")){
                 res.push(...dj.coordReal());
-            } else if (!dj.isA(deprel) && deprel != "coord"){
+            } else if (!equivalentDependent(deprel,dj.constType)){
                 this.warn("inconsistent dependents within a coord",deprel,dj.constType)
             } else
                 res.push(...dj.real())
@@ -625,7 +626,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
         if (lastD.isA("coord")){
             res.push(...lastD.coordReal());
             return this.doFormat(res);
-        } else if (!lastD.isA(deprel)  && deprel != "coord"){
+        } else if (!equivalentDependent(deprel,lastD.constType)){
             this.warn("inconsistent dependents within a coord",deprel,lastD.constType)
         }    
         // insert last element

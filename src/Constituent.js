@@ -361,7 +361,7 @@ class Constituent {
         }
         if (this.isA("S","SP","VP","root","mod","comp")){
             if (this.isA("root","mood","comp") && ! this.terminal.isA("V")){
-                this.warn("bad application",`.typ("${str(types)}")`,[`${this.constType}(V(..))`],
+                this.warn("bad application",`.typ("${types}")`,[`${this.constType}(V(..))`],
                       `${this.constType}(${this.terminal.constType}(..))`)
             } else {
                 // validate types and keep only ones that are valid

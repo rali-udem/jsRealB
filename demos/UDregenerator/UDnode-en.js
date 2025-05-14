@@ -1,13 +1,13 @@
-import {UDnode,applyOptions,_} from "./UDnode.js";
-import {feats2options} from "./UD2jsr.js";
+import {UDnode,_} from "./UDnode.js";
+import {applyOptions} from "./UD2jsr.js"
 export {UDnode_en};
 
 class UDnode_en extends UDnode {
-    static lemmataMap = buildLemmataMap("en")
     
     constructor(lineNumber, fields){
         super(lineNumber,fields)
     }
+
     //  Terminal (English)
     // CAUTION: this function can modify the feats structure
     toTerminal(){
@@ -86,17 +86,20 @@ class UDnode_en extends UDnode {
                 if (ix>=0) return NO(ix).dOpt({ord:true});
                 if (isNaN(lemma)) return Q(lemma);
             }
-            return feats2options(A(lemma),this,["Gender","Number","Degree"])
+            return this.feats2options(A(lemma),["Gender","Number","Degree"])
         case "ADV":
             return Adv(lemma);
         case "INTJ":
             return Q(lemma);
         case "NOUN":
-            return feats2options(N(lemma),this,["Gender","Number","Person","Tense","Degree"])
+            return this.feats2options(N(lemma),["Gender","Number","Person","Tense","Degree"])
         case "PROPN":
+            // check if it exists in the lexicon as a noun... (e.g. days of week or months)
+            const infos = getLemma(lemma) 
+            if (infos !== undefined && "N" in infos) return N(lemma)
             return Q(lemma)
         case "VERB": case "AUX":
-            return feats2options(V(lemma),this,["Mood","VerbForm","Tense","Person","Number","Gender"]);
+            return this.feats2options(V(lemma),["Mood","VerbForm","Tense","Person","Number","Gender"]);
             // Closed classes
         case "ADP":
             return P(lemma);
@@ -106,7 +109,7 @@ class UDnode_en extends UDnode {
             let det;
             const definite=this.getFeature("Definite");
             if (definite != undefined){
-                return feats2options(D(definite=="Def"?"the":"a"),this,["Gender","Number"]);
+                return this.feats2options(D(definite=="Def"?"the":"a"),["Gender","Number"]);
             }
             if (this.hasFeature("Poss","Yes") && this.hasFeature("PronType","Prs")){
                 det=possessiveDeterminer(lemma);
@@ -147,10 +150,10 @@ class UDnode_en extends UDnode {
             if(pro===undefined)
                 pro=tonicPronoun(lemma);
             if (this.hasFeature("Case"))
-                return feats2options(pro,this,["Case","Person","Gender","Number"]);
+                return this.feats2options(pro,["Case","Person","Gender","Number"]);
             else {
                 // if(pro.options.indexOf('c("gen")')<0)pro.addOptions(Case["Nom"]);
-                return feats2options(pro,this,["Person","Gender","Number"])
+                return this.feats2options(pro,["Person","Gender","Number"])
             }
             break;
         case "SCONJ":
@@ -163,81 +166,56 @@ class UDnode_en extends UDnode {
     }
 
     // modify the UD structure to better reflect the structure expected by jsRealB
-    toDependent(isLeft,isSUD){
-        function isModal(option){
-            let [key,val]=option;
-            if (key!="typ")return false;
-            return val.hasOwnProperty("mod")
+    toDependent(isSUD){
+ 
+        // check coordination
+        if (this.right.findIndex(udt=>udt.matches("conj",_))>=0){ 
+            return this.processCoordination([],isSUD);
         }
-        
+       
         // find the sentence type 
         //   must be called before because it might change the structure
         let sentOptions=this.getSentOptions();
-        let headOptions=[];
-        
-        if (!isSUD){ // in SUD, the copula is already the root so no change is needed
-            // change a cop upos to an aux (caution delicate HACK...)
-            // it must be done before anything else...
-            // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
-            // having a noun or an adjective as root
-            const modalIdx=sentOptions.findIndex(isModal)
-            const copUpos = modalIdx<0 ? "AUX" : "VERB";  // with a modal, the UPOS is VERB
-            let [dep,idx]=this.findDeprelUpos("cop",copUpos);
-            if (idx>=0){
-                let [newAux]=dep.splice(idx,1);
-                if (newAux.hasFeature("VerbForm","Inf")) // ensure verb is conjugated
-                    newAux.deleteFeature("VerbForm");
-                let [dep1,idx1]=this.findDeprelUpos("nsubj",_); 
-                if (idx1>=0){
-                    const [subj]=dep1.splice(idx1,1);
-                    newAux.left.push(subj);  // add as subject of the new auxiliary
-                }
-                newAux.deprel="aux";
-                this.deprel="xcomp"; // change this to the complement of the new auxiliary
-                newAux.right.unshift(this);
-                // push what was before the "old" auxiliary to the front of the new auxiliary
-                // as the subject and auxiliary have been removed, idx must have been at least 2...
-                if (idx>=2 && dep==this.left){
-                    const auxId=newAux.id;
-                    while (this.left.length>0){
-                        const x=this.left.pop();
-                        if (x.id<newAux.id)
-                            newAux.left.unshift(x);
-                        else
-                            newAux.right.unshift(x)
-                    }
-                    // newAux.left=dep.splice(0,idx).concat(newAux.left);
-                }
-                return applyOptions(newAux.toDependent(isLeft,isSUD),sentOptions);
-            }
-        }
-        
-        // check coordination
-        if (this.right.findIndex(udt=>udt.matches("conj",_))>=0){ 
-            return this.processCoordination(sentOptions,isSUD);
-        }
-        
+        let res = this.toDependent_common(sentOptions,isSUD)
+        if (res !== undefined) return res;
+               
         let headTerm=this.toTerminal();
-        // check infinitive (remove the PART and change infinitive to "b-to")
-        let n=this.left.length;
-        if (n>0 && this.left[n-1].getLemma()=="to" && headTerm.isA("V") && headTerm.getProp("t")=="b"){
-            this.left.splice(n-1,1); 
-            headTerm.t("b-to");
-        }
-        
-        // check future tense
-        const [dep,idx]=this.findDeprelUpos("aux","AUX");
-        if (idx>=0 && dep[idx].getLemma()=="will"){
-            const [w]=dep.splice(idx,1);
-            headOptions.push(["t",w.hasFeature("Tense","Past")?"c":"f"]);
-        }
-        
+        if (headTerm.isA("N","Q")){ // check 's possessive
+            if (this.right.length == 1 && this.right[0].lemma == "'s"){
+                this.right.pop()
+                headTerm.poss()
+            }
+        } else {
+            // check infinitive (remove the PART and change infinitive to "b-to")
+            let n=this.left.length;
+            if (n>0 && this.left[n-1].getLemma()=="to" && headTerm.isA("V") && headTerm.getProp("t")=="b"){
+                this.left.splice(n-1,1); 
+                headTerm.t("b-to");
+            }
+            // check future tense
+            let [dep,idx] = this.findDeprelUpos("aux","AUX")
+            if (idx>=0 && dep[idx].lemma == "will"){
+                const w = dep.splice(idx,1)[0]
+                headTerm.t(w.hasFeature("Tense","Past") ? "c" : "f")
+            }
+        }        
         // process the rest by the common traversal
-        return applyOptions(this.childrenDeps(applyOptions(headTerm,headOptions),isLeft,isSUD),sentOptions)
+        return applyOptions(this.childrenDeps(headTerm,isSUD),sentOptions)
     }
 
 // generate options in the form of a list of [name of optionFunction,parameter]
     getSentOptions(isSUD){
+        function checkNegation(me){
+            const [dep,idx] = me.findDeprelUpos("advmod","PART")
+            if (idx >= 0){
+                if (dep[idx].lemma == "not"){
+                    dep.splice(idx,1)
+                    return [["typ",{"neg":true}]]
+                }
+            }
+            return []
+        }
+        
         const modals={
             "can":"poss",
             "could":"poss",
@@ -250,9 +228,7 @@ class UDnode_en extends UDnode {
             "ought":"obli",
         //  "will":"will", //will is most often used for future
         }
-        
-        
-        
+               
         let dep,idx,dep1,idx1;
         // deal with a modal
         [dep,idx]=this.findDeprelUpos("aux","AUX");
@@ -260,35 +236,69 @@ class UDnode_en extends UDnode {
             const lemma=dep[idx].getLemma();
             const modal=modals[lemma];
             if (modal!==undefined){
+                this.feats = dep[idx].feats // set verb features to those of aux
                 dep.splice(idx,1); // remove aux...
                 let options=[["typ",{"mod":modal}]] //[`mod:"${mod}"`];
                 if (["could","might","should","would","ought"].indexOf(lemma)>=0)
                     options.unshift(["t","ps"]); // set past tense
+                // check for negated modal
+                options.push(...checkNegation(this))
                 return this.getSentOptions().concat(options);
             }
         }
-        // match all sentenceTypes...
-        if (this.hasFeature("VerbForm","Prog")){
+        // check for progressive
+        if (this.hasFeature("VerbForm","Prog") || 
+            (this.hasFeature("VerbForm","Part") && this.hasFeature("Tense","Pres"))){
             [dep,idx]=this.findDeprelUpos("aux","AUX");
             if (idx>=0 && dep[idx].getLemma()=="be"){
-                this.deleteFeature("VerbForm"); // the gerund form will be generated by sentence type
+                this.feats = dep[idx].feats
                 dep.splice(idx,1);
-                return this.getSentOptions().concat([["typ",{"prog":true}]]);
+                return this.getSentOptions().concat(
+                    [["typ",{"prog":true}]],checkNegation(this));
             }
         }
-        [dep,idx]=this.findDeprelUpos("aux","AUX");
-        if (idx>=0 && dep[idx].getLemma()=="have"){
-            const vbIdx=dep.slice(idx+1).findIndex(e=>e.getUpos()=="AUX"||e.getUpos("VERB"));
-            if (vbIdx>=0){
-                const vb=dep[idx+1+vbIdx];
-                if (vb.hasFeature("VerbForm","Part") && vb.hasFeature("Tense","Past")){
-                    vb.deleteFeature("VerbForm");
-                    vb.deleteFeature("Tense");
-                    dep.splice(idx,1); // remove auxiliary
-                    return this.getSentOptions().concat([["typ",{"perf":true}]]);
+        // check for perfect
+        if (this.upos == "VERB"){
+            [dep,idx]=this.findDeprelUpos("aux","AUX");
+            if (idx>=0 && dep[idx].getLemma()=="have"){
+                this.feats = dep[idx].feats; // copy aux features to verb
+                dep.splice(idx,1) // remove auxiliary
+                return this.getSentOptions().concat(
+                    [["typ",{"perf":true}]],checkNegation(this))
+            }
+        }
+
+        // check for some interrogation type
+        [dep,idx]=this.findDeprelUpos("advmod","ADV");
+        if (idx>=0){
+            const adv=dep[idx].getLemma();
+            if (adv=="why" || adv=="how" || adv=="when"){
+                [dep1,idx1]=this.findDeprelUpos("punct","PUNCT");
+                if (idx1>=0 && dep1[idx1].getLemma()=="?"){
+                    dep1.splice(idx1,1);
+                    dep.splice(idx,1);
+                    return this.getSentOptions().concat(
+                        [["typ",{"int":adv=="when"?"whn":adv}]],checkNegation(this));
                 }
             }
         }
+        
+        // check for yon interrogative
+        [dep,idx]=this.findDeprelUpos(["aux","cop"],"AUX");
+        if (idx>=0 && ["do","have","be"].includes(dep[idx].getLemma())){
+            [dep1,idx1]=this.findDeprelUpos("punct","PUNCT");
+            if (idx1>=0 && dep1[idx1].getLemma()=="?"){
+                dep1.splice(idx1,1);
+                if (dep[idx].getLemma() == "do"){
+                    this.feats = dep[idx].feats;
+                    dep.splice(idx,1);
+                }                
+                return this.getSentOptions().concat(
+                    [["typ",{"int":"yon"}]],checkNegation(this));
+            }
+        }
+        
+        // check for sole negation
         [dep,idx]=this.findDeprelUpos("advmod","PART");
         if (idx>=0 && dep[idx].getLemma()=="not"){
             [dep1,idx1]=this.findDeprelUpos("aux","AUX");
@@ -298,27 +308,6 @@ class UDnode_en extends UDnode {
                 dep1.splice(idx1,1);
                 return this.getSentOptions().concat([["typ",{"neg":true}]]);
             }        
-        }
-        [dep,idx]=this.findDeprelUpos("advmod","ADV");
-        if (idx>=0){
-            const adv=dep[idx].getLemma();
-            if (adv=="why" || adv=="how" || adv=="when"){
-                [dep1,idx1]=this.findDeprelUpos("punct","PUNCT");
-                if (idx1>=0 && dep1[idx1].getLemma()=="?"){
-                    dep1.splice(idx1,1);
-                    dep.splice(idx,1);
-                    return this.getSentOptions().concat([["typ",{"int":adv=="when"?"whn":adv}]]);
-                }
-            }
-        }
-        [dep,idx]=this.findDeprelUpos("aux","AUX");
-        if (idx>=0 && dep[idx].getLemma()=="do"){
-            [dep1,idx1]=this.findDeprelUpos("punct","PUNCT");
-            if (idx1>=0 && dep1[idx1].getLemma()=="?"){
-                dep1.splice(idx1,1);
-                dep.splice(idx,1);
-                return this.getSentOptions().concat([["typ",{"int":"yon"}]]);
-            }
         }
         return [];
     }

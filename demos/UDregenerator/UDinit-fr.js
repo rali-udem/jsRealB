@@ -2,7 +2,56 @@ export {initUD,initSUD}
 
 const initUD =
 // UD version
-`# sent_id = Europar.550_00063
+`
+# text = Les souris n’ont pas de bras, elles ont des pattes.
+# sent_id = 94
+1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	start_char=0|end_char=3
+2	souris	souris	NOUN	_	Gender=Fem|Number=Plur	4	nsubj	_	start_char=4|end_char=10
+3	n’	ne	ADV	_	Polarity=Neg	4	advmod	_	start_char=11|end_char=13
+4	ont	avoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=13|end_char=16
+5	pas	pas	ADV	_	Polarity=Neg	4	advmod	_	start_char=17|end_char=20
+6	de	un	DET	_	Definite=Ind|Number=Sing|PronType=Art	7	det	_	start_char=21|end_char=23
+7	bras	bras	NOUN	_	Gender=Masc|Number=Sing	4	obj	_	start_char=24|end_char=28
+8	,	,	PUNCT	_	_	10	punct	_	start_char=28|end_char=29
+9	elles	il	PRON	_	Gender=Fem|Number=Plur|Person=3|PronType=Prs	10	nsubj	_	start_char=30|end_char=35
+10	ont	avoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	4	conj	_	start_char=36|end_char=39
+11	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	12	det	_	start_char=40|end_char=43
+12	pattes	patte	NOUN	_	Gender=Fem|Number=Plur	10	obj	_	start_char=44|end_char=50
+13	.	.	PUNCT	_	_	4	punct	_	start_char=50|end_char=51
+
+# sent_id = fr-ud-test_00001
+# text = Je sens qu'entre ça et les films de médecins et scientifiques fous que nous avons déjà vus, nous pourrions emprunter un autre chemin pour l'origine.
+1	Je	moi	PRON	_	Emph=No|Number=Sing|Person=1|PronType=Prs	2	nsubj	_	wordform=je
+2	sens	sentir	VERB	_	Mood=Ind|Number=Sing|Person=1|Tense=Pres|VerbForm=Fin	0	root	_	_
+3	qu'	que	SCONJ	_	_	21	mark	_	SpaceAfter=No
+4	entre	entre	ADP	_	_	5	case	_	_
+5	ça	ça	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Dem	21	obl:mod	_	_
+6	et	et	CCONJ	_	_	8	cc	_	_
+7	les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	8	det	_	_
+8	films	film	NOUN	_	Gender=Masc|Number=Plur	5	conj	_	_
+9	de	de	ADP	_	_	10	case	_	_
+10	médecins	médecin	NOUN	_	Gender=Masc|Number=Plur	8	nmod	_	_
+11	et	et	CCONJ	_	_	12	cc	_	_
+12	scientifiques	scientifique	NOUN	_	Gender=Masc|Number=Plur	10	conj	_	_
+13	fous	fou	ADJ	_	Gender=Masc|Number=Plur	12	amod	_	_
+14	que	que	PRON	_	PronType=Rel	18	obj	_	_
+15	nous	nous	PRON	_	Emph=No|Number=Plur|Person=1|PronType=Prs	18	nsubj	_	_
+16	avons	avoir	AUX	_	Mood=Ind|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	18	aux:tense	_	_
+17	déjà	déjà	ADV	_	_	18	advmod	_	_
+18	vus	voir	VERB	_	Gender=Masc|Number=Plur|Tense=Past|VerbForm=Part|Voice=Act	8	acl:relcl	_	SpaceAfter=No
+19	,	,	PUNCT	_	_	5	punct	_	_
+20	nous	nous	PRON	_	Emph=No|Number=Plur|Person=1|PronType=Prs	21	nsubj	_	_
+21	pourrions	pouvoir	VERB	_	Mood=Cnd|Number=Plur|Person=1|Tense=Pres|VerbForm=Fin	2	ccomp	_	_
+22	emprunter	emprunter	VERB	_	VerbForm=Inf	21	xcomp	_	Subject=SubjRaising
+23	un	un	DET	_	Definite=Ind|Gender=Masc|Number=Sing|PronType=Art	25	det	_	_
+24	autre	autre	ADJ	_	Gender=Masc|Number=Sing	25	amod	_	_
+25	chemin	chemin	NOUN	_	Gender=Masc|Number=Sing	22	obj	_	_
+26	pour	pour	ADP	_	_	28	case	_	_
+27	l'	le	DET	_	Definite=Def|Number=Sing|PronType=Art	28	det	_	SpaceAfter=No
+28	origine	origine	NOUN	_	Gender=Fem|Number=Sing	22	obl:mod	_	SpaceAfter=No
+29	.	.	PUNCT	_	_	2	punct	_	_
+
+# sent_id = Europar.550_00063
 # text = Il est essentiel de considérer les intérêts de toutes les parties.
 1	Il	lui	PRON	_	Gender=Masc|Number=Sing|Person=3|PronType=Prs	3	expl:subj	_	_
 2	est	être	AUX	_	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	cop	_	_
@@ -100,22 +149,6 @@ const initUD =
 11	le	le	DET	_	Definite=Def|Gender=Masc|Number=Sing|PronType=Art	12	det	_	_
 12	cou	cou	NOUN	_	Gender=Masc|Number=Sing	5	obl:mod	_	start_char=37|end_char=40
 13	.	.	PUNCT	_	_	5	punct	_	start_char=40|end_char=41
-
-# text = Les souris n’ont pas de bras, elles ont des pattes.
-# sent_id = 94
-1	Les	le	DET	_	Definite=Def|Number=Plur|PronType=Art	2	det	_	start_char=0|end_char=3
-2	souris	souris	NOUN	_	Gender=Fem|Number=Plur	4	nsubj	_	start_char=4|end_char=10
-3	n’	ne	ADV	_	Polarity=Neg	4	advmod	_	start_char=11|end_char=13
-4	ont	avoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	start_char=13|end_char=16
-5	pas	pas	ADV	_	Polarity=Neg	4	advmod	_	start_char=17|end_char=20
-6	de	un	DET	_	Definite=Ind|Number=Sing|PronType=Art	7	det	_	start_char=21|end_char=23
-7	bras	bras	NOUN	_	Gender=Masc|Number=Sing	4	obj	_	start_char=24|end_char=28
-8	,	,	PUNCT	_	_	10	punct	_	start_char=28|end_char=29
-9	elles	il	PRON	_	Gender=Fem|Number=Plur|Person=3|PronType=Prs	10	nsubj	_	start_char=30|end_char=35
-10	ont	avoir	VERB	_	Mood=Ind|Number=Plur|Person=3|Tense=Pres|VerbForm=Fin	4	conj	_	start_char=36|end_char=39
-11	des	un	DET	_	Definite=Ind|Number=Plur|PronType=Art	12	det	_	start_char=40|end_char=43
-12	pattes	patte	NOUN	_	Gender=Fem|Number=Plur	10	obj	_	start_char=44|end_char=50
-13	.	.	PUNCT	_	_	4	punct	_	start_char=50|end_char=51
 
 # text = Le loup n’est pas un chien.
 # sent_id = 87

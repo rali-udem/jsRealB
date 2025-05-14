@@ -1,4 +1,5 @@
-import {UDnode} from "./UDnode.js"
+import {UDnode_en} from "./UDnode-en.js"
+import {UDnode_fr} from "./UDnode-fr.js"
 export {UD};
 
 // root class for keeping global information about a UD structure info in a tree form
@@ -21,7 +22,7 @@ export {UD};
 //     diffs : list of edit operation for transforming the sentence realized by jsealB to the original text
 
 class UD {
-    constructor(fileName, multiLine, startLine) {
+    constructor(lang,fileName, multiLine, startLine) {
         this.fileName = fileName;
         this.startLine = startLine;
         let lines = multiLine.split(/\n/);
@@ -58,7 +59,7 @@ class UD {
                         return;
                     }
                     fields.unshift("dummy"); // pour avoir les indices à partir de 1
-                    const udNode = new UDnode(i + startLine, fields);
+                    const udNode = new (lang == "en" ? UDnode_en : UDnode_fr)(i + startLine, fields);
                     udNode.conllLine = line; // save original line
                     if (rangeStart <= fields[1] && fields[1] <= rangeEnd) { // deal with a line range 
                         // the index and the form must be the original form in the text (e.g du instead of de le)
@@ -126,10 +127,10 @@ class UD {
         return `# file = ${this.fileName}\n# sent_id = ${this.sent_id}\n# text = ${this.text}\n${this.root.pp(0)}`;
     }
     /// for text generation
-    similiClone() {
+    similiClone(lang) {
         ///   HACK: as the generation process modifies its input we have to "simili-clone" it before
         ///         realisation, so that the dependency and tree drawings show all the information
-        let clonedNodes = this.nodes.map(udn => new UDnode(udn));
+        let clonedNodes = this.nodes.map(udn => new (lang=="en" ? UDnode_en : UDnode_fr)(udn));
         let clonedRoot = null;
         const nbNodes = clonedNodes.length;
         for (let i = 1; i < nbNodes; i++) {

@@ -1,5 +1,6 @@
-import {verbform,tenses,person,number,gender,case_,degree,reflex} from "./UD2jsr.js";
-export {UDnode,applyOptions,_};
+import {mood, verbform, tenses, person, person_psor, number, number_psor, case_, definite, gender, gender_psor,
+        degree, pronType, numtype, reflex, udMapping, getOption, ud2jsrdeprel, applyOptions, checkFirst, checkLast} from "./UD2jsr.js"
+export {UDnode,_};
 
 if (typeof process !== "undefined" && process?.versions?.node){ // cannot use isRunningUnderNode yet!!!
     let {default:jsRealB} = await import("../../dist/jsRealB.js");
@@ -50,7 +51,7 @@ class UDnode {
             });
             return feats;
         }
-        if (arguments.length == 1) { // clone this object
+        if (fields === undefined) { // clone this object
             const udNode = lineNumber; // change name of parameter
             if (Object.keys(udNode) == 0)
                 return; // dummy element
@@ -152,11 +153,11 @@ class UDnode {
     hasNoSpaceAfter() {
         return this.misc["SpaceAfter"] == "No";
     }
-    toConstituent(isLeft, isSUD) {
+    toConstituent(isSUD) {
         if (this.isTerminal())
             return this.toTerminal();
         // this.processFixedFlat();
-        return this.toDependent(isLeft, isSUD);
+        return this.toDependent(isSUD);
     }
     isPunct() {
         this.upos == "PUNCT" || (this.upos == "PART" && this.lemma == "'");
@@ -241,15 +242,15 @@ class UDnode {
         let cnt = 1;
         function check(node){
             for (let n of node.left){
-                if (!check(n)) return false;
+                if (!this.check(n)) return false;
             }
             if (node.id == cnt) cnt++;
             for (let n of node.right){
-                if (!check(n)) return false;
+                if (!this.check(n)) return false;
             }
             return true;
         }
-        return check(cnt)
+        return this.check(cnt)
     }
     
     // generate a string from the forms in the tree by an inOrder traversal
@@ -259,13 +260,13 @@ class UDnode {
         return res.concat(this.right.map(n => n.getTokens()).flat());
     }
 
-    eats2options(constituent,selFeats){
-        
-        function check(feat,fields){
-            val = getFeature(feat)
-            if (val !== undefined)
-                return getOption(feat,fields,val)
-        }
+    check(feat,fields){
+        const val = this.getFeature(feat)
+        if (val !== undefined)
+            return getOption(feat,fields,val)
+    }
+    
+    feats2options(constituent,selFeats){
         
         if (this.hasNoFeature() || constituent.isA("Q"))return constituent;
         for (const selFeat of selFeats){
@@ -296,8 +297,8 @@ class UDnode {
                         constituent.t(verbform[formVal])
                     } else {
                         const tense=this.selectFeature("Tense");
-                        if (tense !== null){
-                            jsrTense = getOption("Tense",tenses,tense);
+                        if (tense !== undefined){
+                            const jsrTense = getOption("Tense",tenses,tense);
                             constituent.t(jsrTense);
                             if (["Ppce", "Ppae","Ppqe","Pfae"].includes(formVal))
                                 constituent.aux("êt");
@@ -316,39 +317,39 @@ class UDnode {
                 }
                 break;
             case "Person":
-                const jsrPe = check("Person",person)
+                const jsrPe = this.check("Person",person)
                 if (jsrPe !== undefined) constituent.pe(jsrPe);
                 break;
             case "Person_psor":
-                const jsrPe_psor = check("Person_psor",person)
-                if (jsrPe_psor !== undefined) constituent.p(jsrPe_psor)
+                const jsrPe_psor = this.check("Person_psor",person)
+                if (jsrPe_psor !== undefined) constituent.pe(jsrPe_psor)
                 break;
             case "Number":
-                const jsrN = check("Number",number)
-                if (jsrN !== undefined) constituent.pe(jsrN);
+                const jsrN = this.check("Number",number)
+                if (jsrN !== undefined) constituent.n(jsrN);
                 break;
             case "Number_psor":
-                const jsrN_psor = check("Number",number)
-                if (jsrN_psor !== undefined) constituent.pe(jsrN_psor);
+                const jsrN_psor = this.check("Number",number)
+                if (jsrN_psor !== undefined) constituent.n(jsrN_psor);
                 break;
             case "Case":
-                const jsrC = check("Case",case_)
-                if (jsrC !== undefined) constituent.pe(jsrC);
+                const jsrC = this.check("Case",case_)
+                if (jsrC !== undefined) constituent.c(jsrC);
                 break;
             case "Definite":
                 this.selectFeature("Definite") // ignore
                 break;
             case "Gender":
-                const jsrG = check("Gender",gender)
-                if (jsrG !== undefined) constituent.pe(jsrG);
+                const jsrG = this.check("Gender",gender)
+                if (jsrG !== undefined) constituent.g(jsrG);
                 break;
             case "Gender_psor":
-                const jsrG_psor = check("Gender",gender)
-                if (jsrG_psor !== undefined) constituent.pe(jsrG_psor);
+                const jsrG_psor = this.check("Gender",gender)
+                if (jsrG_psor !== undefined) constituent.g(jsrG_psor);
                 break;
             case "Degree":
-                const jsrDeg = check("Degree",degree)
-                if (jsrDeg !== undefined) constituent.pe(jsrDeg);
+                const jsrDeg = this.check("Degree",degree)
+                if (jsrDeg != null) constituent.f(jsrDeg);
                 break;
             case "PronType":
                 this.selectFeature("PronType") // ignore
@@ -357,8 +358,8 @@ class UDnode {
                 this.selectFeature("NumType") // ignore
                 break;
             case "Reflex":
-                const jsrRefl = check("Reflex",reflex)
-                if (jsrRefl !== undefined) constituent.pe(jsrRefl);
+                const jsrRefl = this.check("Reflex",reflex)
+                if (jsrRefl !== undefined) constituent.c(jsrRefl);
                 break;
                 
             default:
@@ -408,10 +409,10 @@ class UDnode {
             // if it is a coord return it otherwise return null
             if (n.left.length>0){
                 const first = n.left[0]
-                if (first.deprel=="punct" && first.upos=="PUNCT" && first.lemma == "."){
+                if (first.deprel=="punct" && first.upos=="PUNCT" && first.lemma == ","){
                     n.left.shift()
                 } else if (first.deprel=="cc" && first.upos == "CCONJ"){
-                    n.left.pop()
+                    n.left.shift()
                     return first
                 }
             }
@@ -440,16 +441,14 @@ class UDnode {
             // In UD, all conjuncts of a coordination are attached to the head of the first conjunct in a bouquet.
             let right = this.right;
             // remove possible ending punct
-            if (self.right.length>0){
-                const last = self.right[self.right.lenght-1]
-                if (last.deprel == "punct" && last.upos == "PUNCT"){
-                    sentOptions.push(["a",last.lemma])
-                    self.right.pop()
-                }
+            const last = checkLast(this.right,e=>e.deprel == "punct" && e.upos=="PUNCT")
+            if (last !== null){
+                sentOptions.push(["a",last.lemma])
+                this.right.pop()                
             }
             n = right.length;
             for (let i = n - 1; i >= 0; i--) { // process in reverse so that indices stay the same after splice
-                if (right[i].getDeprel() == "conj") {
+                if (right[i].deprel == "conj") {
                     const cc = removeCommaCoord(right[i])
                     if (cc !== null)c = cc;
                     conjs.push(right[i])
@@ -459,23 +458,25 @@ class UDnode {
             conjs.reverse(); // recover original order
         }
         // process first
-        let deprel;
-        const firstConst = this.toConstituent(null, isSUD);
-        if (firstConst instanceof Dependent) {
-            deprel = firstConst.constType;
-            if (deprel == "root")
-                deprel = "subj";
-        } else {
-            deprel = "mod";
-        }
+        // let deprel;
+        // const firstConst = this.toConstituent(isSUD);
+        // if (firstConst instanceof Dependent) {
+        //     deprel = firstConst.constType;
+        //     if (deprel == "root")
+        //         deprel = "subj";
+        // } else {
+        //     deprel = "mod";
+        // }
 
-        let conjChildren = [firstConst];
+        // let conjChildren = [firstConst];
+        let deprel = ["nsubj","csubj"].includes(this.deprel) ? "subj" : "mod";
+        let conjChildren =[this.toConstituent(isSUD)]
         // combine children
         for (let conj of conjs){
-            conjChildren.push(conj.toConstituent(null,isSUD))
+            conjChildren.push(conj.toConstituent(isSUD))
         }
 
-        let coordTerm = c === undefined ? Q("") : c.toConstituent(null, isSUD);
+        let coordTerm = c === undefined ? Q("") : c.toConstituent(isSUD);
         // create coordination
         if (coordTerm instanceof Dependent) {
             // some strange coordination term (e.g. "ainsi que"), create specific a constant by realizing the dependent
@@ -495,48 +496,101 @@ class UDnode {
     }
            
     //  create a dependent by mapping the deprel name to a jsRealB one
-    childrenDeps(head, isLeft, isSUD) {
+    childrenDeps(head, isSUD) {
         const deprel = (isSUD ? sud2jsrdeprel : ud2jsrdeprel)(this.deprel);
         let dep = dependent(deprel,[head]);
         // check for a pair of surrounding punctuation
-        if (this.left.lenght>0 && this.right.lenght>0){
-            const first = this.left[0]
-            const last = this.right[this.right.length-1]
-            if (first.deprel == "punct" && last.deprel == "punct"){
-                const combined = first.lemma + last.lemma;
-                jsrBA = pairs[combined]
-                if (jsrBA !== undefined){
-                    dep.ba(pairs[jsrBA])
-                    self.left.shift()
-                    self.right.pop()
-                }
+        const first = checkFirst(this.left,e => e.deprel == "punct")
+        const last  = checkLast(this.right,e => e.deprel == "punct")
+        if (first !== null && last !== null){
+            const combined = first.lemma + last.lemma;
+            const jsrBA = pairs[combined]
+             if (jsrBA !== undefined){
+                dep.ba(jsrBA)
+                this.left.shift()
+                this.right.pop()
             }
+        } else if (first !== null) { // add first punct as option b()
+            dep.b(first.getLemma());
+            this.left.shift();            
+        } else if (last !== null) { // add last punct as option a()
+            dep.a(last.getLemma());
+            this.right.pop();            
         }
-        // check left punctuation
-        if (this.left.length > 0) {
-            const first = this.left[0];
-            if (first.getDeprel() == "punct") { // add first punct as option b()
-                dep.b(first.getLemma());
-                this.left.shift();
-            }
-            this.left.forEach(n => dep.add(n.toDependent(true, isSUD), undefined, true));
-        }
-        // check right punctuation
-        if (this.right.length > 0) {
-            const last = this.right[this.right.length - 1];
-            if (last.getDeprel() == "punct") { // add last punct as option a()
-                dep.a(last.getLemma());
-                this.right.pop();
-            }
-            this.right.forEach(n => dep.add(n.toDependent(false, isSUD), undefined, true));
-        }
-        // isLeft is null when processing a coordination that should be left as is
-        if (this.isLeft === true && ["mod", "comp"].includes(deprel)) 
+        this.left.forEach(n => dep.add(n.toDependent(isSUD)));
+        this.right.forEach(n => dep.add(n.toDependent(isSUD)));
+        
+        if (this.position=="l" && ["mod", "comp"].includes(deprel)) 
             dep.pos("pre");
-        if (this.isLeft === false && ["det", "subj"].includes(deprel))
+        if (this.position=="r" && ["det", "subj"].includes(deprel))
             dep.pos("post");
         return dep;
     }
+    
+    // change a cop upos to an aux (caution delicate HACK...)
+    // it must be done before anything else...
+    // this allows creating a sentence of the type root(V(be),subj(),comp(...)) from a dependency
+    // having a noun or an adjective as root
+    move_copula(dep,idx){
+        let [newAux]=dep.splice(idx,1);
+        if (newAux.hasFeature("VerbForm","Inf")) // ensure verb is conjugated
+            newAux.deleteFeature("VerbForm");
+        let [dep1,idx1]=this.findDeprelUpos(["nsubj", "expl:subj"],_); 
+        if (idx1>=0){
+            const [subj]=dep1.splice(idx1,1);
+            subj.addToLeftOf(newAux) // add as subject of the new auxiliary 
+        }
+        // TODO: update parent of the new auxiliary
+        newAux.deprel="aux";
+        this.deprel="xcomp"; // change this to the complement of the new auxiliary
+        newAux.right.unshift(this);
+        this.position="r"
+        // push what was before the "old" auxiliary to the front of the new auxiliary
+        while (this.left.length>0){
+            const x=this.left.pop();
+            if (x.id<newAux.id){
+                newAux.left.unshift(x);
+                x.position="l";
+            } else {
+                newAux.right.unshift(x)
+                x.position="r"
+            }
+        }
+        this.parent = newAux
+        this.position = "r"
+        return newAux        
+    }
+    
+    // language independent transformations
+    toDependent_common(sentOptions,isSUD){
+        function isModal(option){
+            let [key,val]=option;
+            if (key!="typ")return false;
+            return val.hasOwnProperty("mod")
+        }
+
+        if (!isSUD){ // in SUD, the copula is already the root so no change is needed
+            // check for copula
+            const modalIdx=sentOptions.findIndex(isModal)
+            const copUpos = modalIdx<0 ? "AUX" : "VERB";  // with a modal, the UPOS is VERB
+            let [dep,idx]=this.findDeprelUpos("cop",copUpos);
+            if (idx>=0){
+                const newAux = this.move_copula(dep,idx)
+                return applyOptions(newAux.toDependent(),sentOptions)
+            }
+        }
+        // check for a simple prepositional phrase
+        if (this.left.length>1){
+            const first = checkFirst(this.left,e => ["case","mark"].includes(e.deprel) && e.upos=="ADP")
+            if (first !== null){
+                    const prep = first.lemma
+                    this.left.shift()
+                    let expr = this.toDependent();
+                    expr.add(mod(P(prep)).pos("pre"),0)
+                    return applyOptions(expr,sentOptions)
+                }
+        }
+    }   
 }
 
 const sudMapping ={
@@ -564,56 +618,6 @@ function sud2jsrdeprel(sudDeprel){
     return deprel;
 }
 
-const udMapping = { 
-    // core arguments
-    "nsubj":"subj","csubj":"subj",
-    "obj":"comp","ccomp":"comp",
-    "iobj":"comp","xcomp":"comp",
-    // non-core dependents
-    "obl":"comp","advcl":"mod","advmod":"mod","aux":"mod",
-    "vocative":"mod","discourse":"mod","cop":"mod",
-    "expl":"mod","mark":"mod",
-    // nominal dependents
-    "nmod":"mod","acl":"comp","amod":"mod","det":"det",
-    "appos":"mod","clf":"mod",
-    "nummod":"mod","case":"mod",
-    // coordination
-    "conj":"mod","cc":"mod",
-    // multiword expressions
-    "fixed":"mod","flat":"mod","compound":"mod",
-    // loose
-    "list":"mod","parataxis":"mod","dislocated":"mod",
-    // special
-    "orphan":"mod","goeswith":"mod","reparandum":"mod",
-    // other
-    "punct":"mod","root":"root","dep":"comp",
-};
-
-function ud2jsrdeprel(udDeprel){
-    const idColon=udDeprel.indexOf(":"); // ignore colon and after
-    if (idColon>=0)udDeprel=udDeprel.substring(0,idColon);
-    const deprel=udMapping[udDeprel]
-    if (deprel === undefined){
-        console.log("unknown UD deprel : %s",udDeprel);
-        return "comp";
-    }
-    return deprel;    
-}
-
-// combine all typ options into a single list and apply other options directly to a dependent
-function applyOptions(dep,options){
-    let typOpts={};
-    for (let i = 0; i < options.length; i++) {
-        let [key,val]=options[i];
-        if (key=="typ")
-            typOpts=Object.assign(typOpts,val);
-        else 
-            Constituent.prototype[key].call(dep,val)
-    }
-    if (Object.keys(typOpts).length>0)
-        Constituent.prototype.typ.call(dep,typOpts);
-    return dep
-}
 
 // ///////// Regenerate the tokens from the forms in the tree in order to do a "sanity check" on the dependency
 // //  CAVEAT:

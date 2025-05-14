@@ -1,6 +1,34 @@
 export {initUD}
 
 const initUD =`
+# sent_id = weblog-blogspot.com_marketview_20050210075500_ENG_20050210_075500-0005
+# text = Read the entire article; there's a punchline, too.
+1	Read	read	VERB	VB	Mood=Imp|VerbForm=Fin	0	root	0:root	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	4	det	4:det	_
+3	entire	entire	ADJ	JJ	Degree=Pos	4	amod	4:amod	_
+4	article	article	NOUN	NN	Number=Sing	1	obj	1:obj	SpaceAfter=No
+5	;	;	PUNCT	,	_	7	punct	7:punct	_
+6-7	there's	_	_	_	_	_	_	_	_
+6	there	there	PRON	EX	_	7	expl	7:expl	_
+7	's	be	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	1	parataxis	1:parataxis	_
+8	a	a	DET	DT	Definite=Ind|PronType=Art	9	det	9:det	_
+9	punchline	punchline	NOUN	NN	Number=Sing	7	nsubj	7:nsubj	SpaceAfter=No
+10	,	,	PUNCT	,	_	11	punct	11:punct	_
+11	too	too	ADV	RB	_	7	advmod	7:advmod	SpaceAfter=No
+12	.	.	PUNCT	.	_	1	punct	1:punct	_
+
+# newdoc id = weblog-blogspot.com_nominations_20041117172713_ENG_20041117_172713
+# sent_id = weblog-blogspot.com_nominations_20041117172713_ENG_20041117_172713-0001
+# newpar id = weblog-blogspot.com_nominations_20041117172713_ENG_20041117_172713-p0001
+# text = From the AP comes this story :
+1	From	from	ADP	IN	_	3	case	3:case	_
+2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	3:det	_
+3	AP	AP	PROPN	NNP	Number=Sing	4	obl	4:obl:from	_
+4	comes	come	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	0:root	_
+5	this	this	DET	DT	Number=Sing|PronType=Dem	6	det	6:det	_
+6	story	story	NOUN	NN	Number=Sing	4	nsubj	4:nsubj	_
+7	:	:	PUNCT	:	_	4	punct	4:punct	_
+
 # sent_id = 1.0
 # text = The sun is responsible for plants sprouting, blooming and wilting
 1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_

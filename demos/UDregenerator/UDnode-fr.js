@@ -1,11 +1,15 @@
-import {UDnode,applyOptions,_} from "./UDnode.js";
-import {feats2options} from "./UD2jsr.js";
-export {UDnode};
+import {UDnode,_} from "./UDnode.js";
+import {applyOptions,checkLast} from "./UD2jsr.js"
+export {UDnode_fr};
 
 // French version
-class UDnode_en extends UDnode {
-    static lemmataMap = buildLemmataMap("fr")
-    toTerminal(isLeft){
+class UDnode_fr extends UDnode {
+
+    constructor(lineNumber, fields){
+        super(lineNumber,fields)
+    }
+    
+    toTerminal(){
         function tonicPronoun(form,udLemma){
             const nomList = ["je","tu","il","elle","nous","vous","ils","elles"];
             const accList = ["me","te","le","les","la"];
@@ -36,6 +40,7 @@ class UDnode_en extends UDnode {
                 const [lemma,person]=ppTable[form]
                 return Pro(lemma).pe(person);
             }
+            return Pro(form)
         }
 
         function possessiveDeterminer(udLemma,pluralPsor){
@@ -64,17 +69,17 @@ class UDnode_en extends UDnode {
         switch (upos) {
             // Open classes
         case "ADJ":
-            return feats2options(A(lemma).pos(isLeft?"pre":"post"),this,["Gender","Number"])
+            return this.feats2options(A(lemma).pos(this.position=="l"?"pre":"post"),["Gender","Number"])
         case "ADV":
             return Adv(lemma);
         case "INTJ":
             return Q(lemma);
         case "NOUN":
-            return feats2options(N(lemma),this,["Gender","Number","Person","Tense","Degree"])
+            return this.feats2options(N(lemma),["Gender","Number","Person","Tense","Degree"])
         case "PROPN":
             return Q(lemma)
         case "VERB": case "AUX":
-            return feats2options(V(lemma),this,["Mood","VerbForm","Tense","Person","Number","Gender"]);
+            return this.feats2options(V(lemma),["Mood","VerbForm","Tense","Person","Number","Gender"]);
             // Closed classes
         case "ADP":
             return P(lemma);
@@ -82,12 +87,12 @@ class UDnode_en extends UDnode {
             return C(lemma);
         case "DET":
             if (this.hasFeature("Poss","Yes")){
-                return feats2options(possessiveDeterminer(lemma,this.hasFeature("Number_psor","Plur")),this,
+                return this.feats2options(possessiveDeterminer(lemma,this.hasFeature("Number_psor","Plur")),
                                     ["Person","Person_psor","Gender","Number","Number_psor"]);
             }
             const definite=this.getFeature("Definite");
             if (definite != undefined){
-                return feats2options(D(lemma),this,["Person","Gender","Number"]);
+                return this.feats2options(D(lemma),["Person","Gender","Number"]);
             }
             return D(lemma);
             break;
@@ -105,19 +110,19 @@ class UDnode_en extends UDnode {
             }
             break;
         case "PRON":
+            if (this.hasFeature("Reflex","Yes")){
+                return this.feats2options(Pro("moi").c("refl"),["Person","Gender","Number"]);
+            }
             let pro;
             if (this.hasFeature("Poss","Yes") && this.hasFeature("PronType","Prs")){
                 pro=possessivePronoun(this.getForm().toLowerCase());
-            }
-            if (lemma=="se"){
-                return feats2options(Pro("moi").c("refl"),this,["Person","Gender","Number"]);
             }
             if (lemma=="lui"){
                 if (this.getForm()=="lui"){
                     return Pro("lui").tn("")
                 } else {
                     pro = Pro("moi")
-                    if (/il/i.test(this.getForm()))
+                    if (/^(il|ils)$/i.test(this.getForm()))
                         if (!this.hasFeature("Case"))
                             pro.c("nom")
                 }
@@ -128,9 +133,9 @@ class UDnode_en extends UDnode {
             //   but this would imply knowing the previous token, not available right now or returning a list of tokens
             if (this.getForm().startsWith("-"))pro.b("-");
             if (this.hasFeature("Case"))
-                return feats2options(pro,this,["Case","Person","Gender","Number","Reflex"]);
+                return this.feats2options(pro,["Case","Person","Gender","Number","Reflex"]);
             else {
-                pro = feats2options(pro,this,["Person","Person_psor","Gender","Number","Number_psor","Reflex"])
+                pro = this.feats2options(pro,["Person","Person_psor","Gender","Number","Number_psor","Reflex"])
                 if (this.deprel=='nsubj')pro.c("nom")
                 else if (this.deprel=="obj")pro.c("acc")
                 else if (this.deprel=='iobj')pro.c("dat");
@@ -143,68 +148,50 @@ class UDnode_en extends UDnode {
             return Q(lemma);
         default:
             console.log("UPOS inconnu:%s",upos)
+            return Q(this.getForm())
         }
     }
 
 
     // modify the UD structure to better reflect the structure expected by jsRealB
-    toDependent(isLeft,isSUD){
+    toDependent(isSUD){
+        const cmpTenses = {"Pres":["Ppc","Ppce"],
+                             "Imp": ["Ppq","Ppqe"],
+                             "Past":["Ppa","Ppae"],
+                             "Fut": ["Pfa","Pfae"]}
+       // check coordination
+        if (this.right.findIndex(udt=>udt.matches("conj",_))>=0){ 
+            return this.processCoordination([],isSUD);
+        }
+        
         // find the sentence type 
         //   must be called before because it might change the structure
         let sentOptions=this.getSentOptions();
-        let headOptions=[];
-        
-        if (!isSUD){ // in SUD, the copula is already the root so no change is needed
-            // change a cop upos to an aux (caution delicate HACK...)
-            // it must be done before anything else...
-            // this allows creating a sentence of the type S(subj,VP(V(be),...)) from a dependency
-            // having a noun or an adjective as root
-            const [dep,idx]=this.findDeprelUpos("cop","AUX");
-            if (idx>=0){
-                let [newAux]=dep.splice(idx,1);
-                let [dep1,idx1]=this.findDeprelUpos(["nsubj","expl:subj"],_); 
-                if (idx1>=0){
-                    const [subj]=dep1.splice(idx1,1);
-                    newAux.left.push(subj);  // add as subject of the new auxiliary
-                }
-                newAux.deprel="aux";
-                this.deprel="xcomp"; // change this to the complement of the new auxiliary
-                newAux.right.unshift(this);
-                // push what was before the "old" auxiliary to the front of the new auxiliary
-                // as the subject and auxiliary have been removed, idx must have been at least 2...
-                if (idx>=2 && dep==this.left){
-                    const auxId=newAux.id;
-                    while (this.left.length>0){
-                        const x=this.left.pop();
-                        if (x.id<newAux.id)
-                            newAux.left.unshift(x);
-                        else
-                            newAux.right.unshift(x)
-                    }
-                    // newAux.left=dep.splice(0,idx).concat(newAux.left);
-                }
-                return applyOptions(newAux.toDependent(isLeft,isSUD),sentOptions);
-            }
-        }
-
-        // check coordination
-        if (this.right.findIndex(udt=>udt.matches("conj",_))>=0){ 
-            return this.processCoordination(sentOptions,isSUD);
-        }
-
+        let res = this.toDependent_common(sentOptions,isSUD)
+        if (res !== undefined) return res;
+ 
         // check for "passé composé" when verb is past participle and a left child is an AUX
         //  remove AUX and add "special" tense (Ppc) to the verb for processing in toTerminal()
         if (["VERB","AUX"].includes(this.getUpos())){
             if (this.hasFeature("Tense","Past") && this.hasFeature("VerbForm","Part")){
                 for (let i=0;i<this.left.length;i++){
                     const leftChild=this.left[i];
-                    if (leftChild.getUpos()=="AUX" && 
-                        leftChild.hasFeature("Tense","Pres") && leftChild.hasFeature("VerbForm","Fin")){
-                            this.setFeature("Tense",leftChild.getLemma()=="avoir"?"Ppc":"Ppce");  // set verb to "passé composé"
-                            this.setFeature("VerbForm","Fin");
+                    if (leftChild.getUpos()=="AUX" && leftChild.hasFeature("VerbForm","Fin")){
+                        const t = leftChild.getFeature("Tense")
+                        if (t !== undefined){
+                            this.setFeature("Tense",cmpTenses[t][leftChild.lemma == "avoir" ? 0 : 1]);
+                            this.deleteFeature("VerbForm");
                             this.left.splice(i,1); // remove aux
+                            // check for advmod-ADV before the verb and the old auxiliary
+                            // set its position after
+                            for (let k=i;k<this.left.length;k++){
+                                if (this.left[k].deprel=="advmod" && this.left[k].upos=="ADV"){
+                                    this.left[k].position="r"
+                                }
+                            }
                             break;
                         }
+                    }
                 }
             }
         }
@@ -224,22 +211,12 @@ class UDnode_en extends UDnode {
         }
         let headTerm=this.toTerminal();
         // process the rest by the common traversale
-        return applyOptions(this.childrenDeps(applyOptions(headTerm,headOptions),isLeft,isSUD),sentOptions)
+        return applyOptions(this.childrenDeps(headTerm,isSUD),sentOptions)
     }
 
     // generate options in the form of a list of [name of optionFunction,parameter]
     //  not very useful in French
     getSentOptions(isSUD){
-        let dep,idx,dep1,idx1;
-        // match all sentenceTypes...
-        if (this.hasFeature("VerbForm","Prog")){
-            [dep,idx]=this.findDeprelUpos("aux","AUX");
-            if (idx>=0 && dep[idx].getLemma()=="être"){
-                this.deleteFeature("VerbForm"); // the gerund form will be generated by sentence type
-                dep.splice(idx,1);
-                return this.getSentOptions().concat(["prog",true]);
-            }
-        }
         // check for a "ne" ... "pas" in both left and right dependents 
         let advs=[], neIdx;
         // find all adverbs, keeping track of "ne"
@@ -269,20 +246,17 @@ class UDnode_en extends UDnode {
                 }
             }
         }
-        // [dep,idx]=this.findDeprelUpos("aux","AUX");
-        // if (idx>=0 && dep[idx].getLemma()=="avoir"){
-        //     const vbIdx=dep.slice(idx+1).findIndex(e=>e.getUpos()=="AUX"||e.getUpos("VERB"));
-        //     if (vbIdx>=0){
-        //         const vb=dep[idx+1+vbIdx];
-        //         if (vb.hasFeature("VerbForm","Part") && vb.hasFeature("Tense","Past")){
-        //             vb.deleteFeature("VerbForm");
-        //             vb.deleteFeature("Tense");
-        //             dep.splice(idx,1); // remove auxiliary
-        //             return this.getSentOptions().concat([`perf:true`]); // ignoré par jsRealB....
-        //         }
-        //     }
-        // }
-        return [];
         
+        // check for interrogative with final ? and remove an expl:subj pronoun to the right
+        if (checkLast(this.right,e=>e.lemma == "?") !== null){
+            let [dep,idx] = this.findDeprelUpos("expl:subj","PRON");
+            if (idx>=0){
+                dep.splice(idx,0)
+                this.right.pop()
+                return this.getSentOptions().concat([["typ",{"int":"yon"}]])
+            }
+        }
+
+        return [];
     }
 }

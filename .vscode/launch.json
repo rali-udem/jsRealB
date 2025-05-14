@@ -36,6 +36,40 @@
             "outputCapture": "std"
         },
         {
+            "type": "chrome",
+            "name": "UDregenerator-en",
+            "request": "launch",
+            "url": "http://127.0.0.1:8080/demos/UDregenerator/UDregenerator-en.html"
+        },
+       {
+            "type": "chrome",
+            "name": "UDregenerator-fr",
+            "request": "launch",
+            "url": "http://127.0.0.1:8080/demos/UDregenerator/UDregenerator-fr.html"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "UDregenerator-node",
+            "program": "${workspaceFolder}/demos/UDregenerator/UDregenerator-node.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "args": ["fr","${workspaceFolder}/demos/UDregenerator/UD-2.8/sample/fr-sample-10.conllux"],
+            "outputCapture": "std",
+        },       
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "variationsFromText",
+            "program": "${workspaceFolder}/demos/UDregenerator/variationsFromText.js",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "args": ["-l","en","-q","-n","${workspaceFolder}/demos/UDregenerator/variations-data/paper-example.txt"],
+            "outputCapture": "std",
+        },       
+        {
             "type": "node",
             "request": "launch",
             "name": "Eliza-test",
