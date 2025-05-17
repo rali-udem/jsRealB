@@ -97,21 +97,22 @@ function addHTMLStr(toks,i,j,editType){
 // taken from Constituent-en.js
 // Common Contractions in the English Language taken from :http://www.everythingenglishblog.com/?p=552
 const contractionEnTable={
-    "are+not":"aren't", "can+not":"can't", "did+not":"didn't", "do+not":"don't", "does+not":"doesn't", 
-    "had+not":"hadn't", "has+not":"hasn't", "have+not":"haven't", "is+not":"isn't", "must+not":"mustn't", 
-    "need+not":"needn't", "should+not":"shouldn't", "was+not":"wasn't", "were+not":"weren't", 
-    "will+not":"won't", "would+not":"wouldn't", "could+not":"couldn't",
-    "let+us":"let's",
-    "I+am":"I'm", "I+will":"I'll", "I+have":"I've", "I+had":"I'd", "I+would":"I'd",
-    "she+will":"she'll", "he+is":"he's", "he+has":"he's", "she+had":"she'd", "she+would":"she'd",
-    "he+will":"he'll", "she+is":"she's", "she+has":"she's", "he+would":"he'd", "he+had":"he'd",
-    "you+are":"you're", "you+will":"you'll", "you+would":"you'd", "you+had":"you'd", "you+have":"you've",
-    "we+are":"we're", "we+will":"we'll", "we+had":"we'd", "we+would":"we'd", "we+have":"we've",
-    "they+will":"they'll", "they+are":"they're", "they+had":"they'd", "they+would":"they'd", "they+have":"they've",
-    "it+is":"it's", "it+will":"it'll", "it+had":"it'd", "it+would":"it'd",
-    "there+will":"there'll", "there+is":"there's", "there+has":"there's", "there+have":"there've",
-    "that+is":"that's", "that+had":"that'd", "that+would":"that'd", "that+will":"that'll",
-    "what+is":"what's"
+    "are+not": "aren't", "can+not": "can't", "did+not": "didn't", "do+not": "don't", "does+not": "doesn't",
+    "had+not": "hadn't", "has+not": "hasn't", "have+not": "haven't", "is+not": "isn't", "must+not": "mustn't",
+    "need+not": "needn't", "should+not": "shouldn't", "was+not": "wasn't", "were+not": "weren't",
+    "will+not": "won't", "would+not": "wouldn't",
+    "let+us": "let's",
+    "I+am": "I'm", "I+will": "I'll", "I+have": "I've", "I+would": "I'd", "I+had": "I'd",
+    "she+will": "she'll", "he+has": "he's", "he+is": "he's", "she+had": "she'd", "she+would": "she'd",
+    "he+will": "he'll", "she+has": "she's", "she+is": "she's", "he+would": "he'd", "he+had": "he'd",
+    "you+are": "you're", "you+will": "you'll", "you+would": "you'd", "you+had": "you'd", "you+have": "you've",
+    "we+are": "we're", "we+will": "we'll", "we+would": "we'd", "we+had": "we'd", "we+have": "we've",
+    "they+will": "they'll", "they+are": "they're", "they+would": "they'd", "they+had": "they'd",
+    "they+have": "they've",
+    "it+is": "it's", "it+will": "it'll", "it+had": "it'd", "it+would": "it'd",
+    "there+will": "there'll", "there+has": "there's", "there+is": "there's", "there+have": "there've",
+    "that+is": "that's", "that+would": "that'd", "that+had": "that'd", "that+will": "that'll",
+    "what+is": "what's"
 } 
 
 function capitalize(val) {
@@ -119,10 +120,15 @@ function capitalize(val) {
 }
 
 // invert table and add capitalized version
-// CAUTION: some "duplicate" entries (there's => there is / there has) are overriden by 
-//          inversion process, so some expansions are not recognized. 
-// TODO: use these expansions directly in the matching process, but that would involve comparing
-//       more than one token in the core of the algorithm 
+// CAUTION: some "duplicate" entries (there's => there is / there has) are overriden by
+//          inversion process, so some expansions are not recognized.
+// here is the list of duplicates for which we put the
+// "the one that we thought was the most frequent" one as last, so that it is
+// the last value that is kept when the table is built:
+//    "I'd", "he's", "she'd", "she's", "he'd", "you'd", "we'd", "they'd", "it'd", "there's", "that'd"
+//
+// TODO: use these expansions directly in the matching process, but this would involve comparing
+//       more than one token in the core of the algorithm
 let expansionTable = {}
 for (let key in contractionEnTable){
     const val = contractionEnTable[key];

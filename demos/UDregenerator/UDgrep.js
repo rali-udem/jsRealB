@@ -230,13 +230,12 @@ function parseUDs(groupVal,fileName){
     let udsStrings=groupVal.split("\n\n");
     let uds=[];
     let startLine=1;
-    let sentence;
     udsStrings.forEach(function(string){
         if (string.trim().length==0){
             startLine++;
             return; // ignore empty uds
         }
-        const ud=new UD(fileName,string,startLine);
+        const ud=new UD("en",fileName,string,startLine);
         if (ud.nodes.length==1){// commented group
             startLine+=ud.nbLines;
             return;
