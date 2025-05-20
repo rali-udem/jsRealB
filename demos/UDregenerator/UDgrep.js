@@ -13,6 +13,8 @@ let tokens,           // tokens must be global to get sentence info not in the t
     tree,             // tree structure build
     dependencies;     // all parsed dependencies
 
+let justResized = false;
+
 // this applies the initial filters 
 function loadTokens(uds){
     tokens=[]
@@ -87,6 +89,7 @@ function parse(){
 }
 
 function showSentenceFromRow(tr){
+    if (tr.nodeName!="TR") return; // called from column resizing
     // change selection
     selectedTR=tr;
     let tbody=d3.select("#tokens tbody");
@@ -134,6 +137,14 @@ function fillTable(table){
         if (tgt.nodeName == "TH")return;// click in the header, this will call the sort
         const tr=d3.select(tgt).node().parentNode;
         showSentenceFromRow(tr);
+    })
+    // adapted from https://dev.to/sohrabzia/building-a-resizable-and-sortable-html-table-with-ease-2a0e 
+    // Add a resizer element to the column
+    table.selectAll("thead th").each(function (){
+        const resizer = d3.select(this).append("div")
+            .classed("resizer",true)
+            .style("height",'100%')
+         createResizableColumn(d3.select(this).node(), resizer.node())
     })
 }
 
@@ -348,6 +359,10 @@ function initTable(){
     }
 
     document.querySelectorAll('#tokens th').forEach(th => th.addEventListener('click', (() => {
+        if (justResized){
+            justResized=false;
+            return;
+        }        
         const noCol=Array.from(th.parentNode.children).indexOf(th);
         let ascending;
         let th1=table.select(`thead th:nth-child(${noCol+1})`);
@@ -369,6 +384,37 @@ function initTable(){
         sortColumn(tbody,noCol,ascending)
     })));    
 }
+
+// adapted  from https://dev.to/sohrabzia/building-a-resizable-and-sortable-html-table-with-ease-2a0e
+
+function createResizableColumn(col, resizer) {
+    let x = 0;
+    let w = 0;
+    const mouseDownHandler = function(e) {
+        x = e.clientX;
+        const styles = window.getComputedStyle(col);
+        w = parseInt(styles.width, 10);
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+        resizer.classList.add('resizing');
+    };
+
+
+    const mouseMoveHandler = function(e) {
+        const dx = e.clientX - x;
+        col.style.width = `${w + dx}px`;
+    };
+
+
+    const mouseUpHandler = function() {
+        resizer.classList.remove('resizing');
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
+        justResized=true;
+    };
+    resizer.addEventListener('mousedown', mouseDownHandler);
+};
+
 
 // Table sorting by clicking in the column heading
 // https://stackoverflow.com/questions/14267781/sorting-html-table-with-javascript/49041392#49041392

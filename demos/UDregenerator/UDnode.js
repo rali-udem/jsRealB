@@ -457,18 +457,7 @@ class UDnode {
             }
             conjs.reverse(); // recover original order
         }
-        // process first
-        // let deprel;
-        // const firstConst = this.toConstituent(isSUD);
-        // if (firstConst instanceof Dependent) {
-        //     deprel = firstConst.constType;
-        //     if (deprel == "root")
-        //         deprel = "subj";
-        // } else {
-        //     deprel = "mod";
-        // }
 
-        // let conjChildren = [firstConst];
         let deprel = ["nsubj","csubj"].includes(this.deprel) ? "subj" : "mod";
         let conjChildren =[this.toConstituent(isSUD)]
         // combine children

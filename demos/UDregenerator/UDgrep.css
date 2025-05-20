@@ -115,3 +115,30 @@ body.dragging::before {
   background-color: rgba(255, 255, 0, .3);
   pointer-events: none;
 }
+
+/* resize columns 
+   adapted from https://dev.to/sohrabzia/building-a-resizable-and-sortable-html-table-with-ease-2a0e
+*/
+
+table#tokens th:active {
+    cursor:grabbing;
+}
+
+.resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    background: transparent;
+    
+}
+
+.resizer:hover,.resizing {
+    border-right: 2px solid blue;
+}
+
+.dragging {
+    background-color: #f0f0f0;
+} 
