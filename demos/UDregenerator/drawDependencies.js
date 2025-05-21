@@ -32,8 +32,8 @@ function addWord(display,i,x,y,mot,tooltip,isRoot,isDiff){
         .attr("letter-spacing",spacing.letter+"px")
         .attr("cursor","pointer")
         .text(mot);
-    if (i!=null)word
-        .on("click",function(){
+    // if i is null, clicking on a word is not enabled because it is not reliable
+    if (i!=null)word.on("click",function(){
                 const iSaved=i;
                 const tr=d3.selectAll("#tokens tbody tr").nodes()[i-1]
                 selectRow(tr,iSaved);
@@ -57,12 +57,13 @@ function selectRow(tr,lineNo){
     d3.select("#lineNo").text(lineNo);
 }
 
-function drawSentence(display,ud){
+function drawSentence(display,ud,noclick){
+    // if noclick, clicking on a word is not enabled because it is not reliable
     let endX=start.x;
     // draw the words of the sentence and update width and x in deps
     for (let i = 1; i < ud.nodes.length; i++) {
         let udn=ud.nodes[i];
-        let [width,word]=addWord(display,i,endX,start.y,udn.form,
+        let [width,word]=addWord(display,noclick?null:i,endX,start.y,udn.form,
                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
                           i==ud.root.id,udn.form!=ud.tokens[i]);
         udn.x=endX;
@@ -156,12 +157,13 @@ function drawDependencies(display,head){
     return {left:leftH,right:rightH};
 }
 
-function showDependencies(ud,genTokens){
+function showDependencies(ud,noclick){ 
+    // if noclick, clicking on a word is not enabled because it is not reliable
     const svg=d3.select("svg#dependencies");
     start.y=parseInt(svg.attr("height"))-deltaDependencies;
     display=svg.select("g");
     display.selectAll("*").remove();
-    const endX=drawSentence(display,ud);
+    const endX=drawSentence(display,ud,noclick);
     svg.attr("width",endX+start.x); // update width of the drawing
     // draw the dependencies
     const leftRightH=drawDependencies(display,ud.root);
@@ -218,13 +220,13 @@ function drawTree(display,root){
         .append("title").text(root.id)
 }
 
-function showTree(ud){
+function showTree(ud,noclick){
     start.y=setY(ud.root,10);
     const svg=d3.select("svg#tree");
     display=svg.select("g");
     display.selectAll("*").remove();
     svg.attr("height",start.y+20); // update height of the drawing
-    const endX=drawSentence(display,ud);
+    const endX=drawSentence(display,ud,noclick);
     svg.attr("width",endX+start.x); // update width of the drawing
     drawTree(display,ud.root);
 }

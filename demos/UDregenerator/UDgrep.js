@@ -438,32 +438,13 @@ function showSentenceParse(ud){
     } else if (displayType=="links"){
         tree.style("display","none");
         dependencies.style("display","block")
-        showDependencies(ud);
+        showDependencies(ud,true);
     } else {
         tree.style("display","block");
         dependencies.style("display","none")
-        showTree(ud);
+        showTree(ud,true);
     }
 }
-
-// redefine function from drawDependencies to ignore clicking on tokens to display 
-// in the table, because it is not guaranteed that the token is shown in the table
-// function drawSentence(display,ud){
-//     var endX=startX;
-//     // draw the words of the sentence and update width and x in deps
-//     for (var i = 1; i < ud.nodes.length; i++) {
-//         var udn=ud.nodes[i];
-//         var [width,word]=addWord(display,null,endX,startY,udn.form,
-//                          `${udn.id} ${udn.lemma} ${udn.upos} ${udn.options2feats(udn.feats)}`,
-//                           i==ud.root.id,udn.form!=ud.tokens[i]);
-//         udn.x=endX;
-//         udn.width=width;
-//         udn.mid=endX+width/2;
-//         udn.wordInTree=udn.wordInLinks=word;
-//         endX+=width+spacing.word;
-//     }
-//     return endX;
-// }
 
 function redParse(){
     d3.select("#parse").style("color","red")
