@@ -1,6 +1,19 @@
 export {initUD}
 
 const initUD =`
+# text = The girl's book is on the table.
+# sent_id = 1
+1	The	the	DET	DT	Definite=Def|PronType=Art	2	det	_	start_char=0|end_char=3
+2-3	girl's	_	_	_	_	_	_	_	start_char=4|end_char=10
+2	girl	girl	NOUN	NN	Number=Sing	4	nmod:poss	_	start_char=4|end_char=8
+3	's	's	PART	POS	_	2	case	_	start_char=8|end_char=10
+4	book	book	NOUN	NN	Number=Sing	8	nsubj	_	start_char=11|end_char=15
+5	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	8	cop	_	start_char=16|end_char=18
+6	on	on	ADP	IN	_	8	case	_	start_char=19|end_char=21
+7	the	the	DET	DT	Definite=Def|PronType=Art	8	det	_	start_char=22|end_char=25
+8	table	table	NOUN	NN	Number=Sing	0	root	_	start_char=26|end_char=31|SpaceAfter=No
+9	.	.	PUNCT	.	_	8	punct	_	start_char=31|end_char=32|SpacesAfter=\n
+
 # sent_id = weblog-blogspot.com_marketview_20050210075500_ENG_20050210_075500-0005
 # text = Read the entire article; there's a punchline, too.
 1	Read	read	VERB	VB	Mood=Imp|VerbForm=Fin	0	root	0:root	_

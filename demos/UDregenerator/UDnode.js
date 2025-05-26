@@ -329,7 +329,7 @@ class UDnode {
                 if (jsrN !== undefined) constituent.n(jsrN);
                 break;
             case "Number_psor":
-                const jsrN_psor = this.check("Number",number)
+                const jsrN_psor = this.check("Number_psor",number)
                 if (jsrN_psor !== undefined) constituent.n(jsrN_psor);
                 break;
             case "Case":
@@ -344,7 +344,7 @@ class UDnode {
                 if (jsrG !== undefined) constituent.g(jsrG);
                 break;
             case "Gender_psor":
-                const jsrG_psor = this.check("Gender",gender)
+                const jsrG_psor = this.check("Gender_psor",gender)
                 if (jsrG_psor !== undefined) constituent.g(jsrG_psor);
                 break;
             case "Degree":
@@ -429,6 +429,8 @@ class UDnode {
             while (idx >= 0) {
                 if (dep === current.right) {
                     current = dep[idx];
+                    const cc = removeCommaCoord(current)
+                    if (cc !== null) c= cc;
                     conjs.push(current);
                     dep.splice(idx, 1); // remove conj link
                     [dep, idx] = current.findDeprelUpos("conj", _);
@@ -525,8 +527,9 @@ class UDnode {
         if (newAux.hasFeature("VerbForm","Inf")) // ensure verb is conjugated
             newAux.deleteFeature("VerbForm");
         let [dep1,idx1]=this.findDeprelUpos(["nsubj", "expl:subj"],_); 
+        let subj;
         if (idx1>=0){
-            const [subj]=dep1.splice(idx1,1);
+            [subj]=dep1.splice(idx1,1);
             subj.addToLeftOf(newAux) // add as subject of the new auxiliary 
         }
         // TODO: update parent of the new auxiliary
@@ -534,15 +537,13 @@ class UDnode {
         this.deprel="xcomp"; // change this to the complement of the new auxiliary
         newAux.right.unshift(this);
         this.position="r"
-        // push what was before the "old" auxiliary to the front of the new auxiliary
-        while (this.left.length>0){
-            const x=this.left.pop();
-            if (x.id<newAux.id){
-                newAux.left.unshift(x);
-                x.position="l";
-            } else {
-                newAux.right.unshift(x)
-                x.position="r"
+        // push what was before the "old" subject to the front of the new auxiliary
+        // only do this for a subject in front of the current node
+        if (subj !== undefined && dep1 === this.left){
+            for(let k=idx1-1;k>=0;k--){
+                const [x] = this.left.splice(k,1)
+                newAux.left.unshift(x)
+                x.position="l"
             }
         }
         this.parent = newAux

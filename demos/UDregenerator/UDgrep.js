@@ -128,7 +128,7 @@ function fillTable(table){
         const toks=tokens[i];
         let tr=tbody.append("tr");
         for (var j = 0; j < nbFields; j++) {
-            tr.append("td").classed(fieldNames[j],true).text(toks[j]);
+            tr.append("td").classed(fieldNames[j],true).text(toks[j]).prop("title",toks[j]);
         }
         tr.datum(toks[nbFields]);
     }

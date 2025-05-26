@@ -88,7 +88,7 @@ class UDnode_fr extends UDnode {
         case "DET":
             if (this.hasFeature("Poss","Yes")){
                 return this.feats2options(possessiveDeterminer(lemma,this.hasFeature("Number_psor","Plur")),
-                                    ["Person","Person_psor","Gender","Number","Number_psor"]);
+                                    ["Person","Person_psor","Gender","Number"]);
             }
             const definite=this.getFeature("Definite");
             if (definite != undefined){
@@ -251,7 +251,7 @@ class UDnode_fr extends UDnode {
         if (checkLast(this.right,e=>e.lemma == "?") !== null){
             let [dep,idx] = this.findDeprelUpos("expl:subj","PRON");
             if (idx>=0){
-                dep.splice(idx,0)
+                dep.splice(idx,1)
                 this.right.pop()
                 return this.getSentOptions().concat([["typ",{"int":"yon"}]])
             }

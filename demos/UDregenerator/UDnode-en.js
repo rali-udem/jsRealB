@@ -180,10 +180,21 @@ class UDnode_en extends UDnode {
         if (res !== undefined) return res;
                
         let headTerm=this.toTerminal();
-        if (headTerm.isA("N","Q")){ // check 's possessive
-            if (this.right.length == 1 && this.right[0].lemma == "'s"){
-                this.right.pop()
-                headTerm.poss()
+        if (headTerm.isA("N","Q")){ 
+            // check 's possessive
+            if (isSUD){ // in SUD the 's is the head of the following word...
+                if (headTerm.lemma == "'s" && this.left.length>0){
+                    const previous = this.left[this.left.length-1];
+                    if (previous.deprel == "comp:obj"){
+                        headTerm = previous.toTerminal().poss()
+                        this.left.pop()
+                    }
+                }
+            } else {
+                if (this.right.length == 1 && this.right[0].lemma == "'s"){
+                    this.right.pop()
+                    headTerm.poss()
+                }
             }
         } else {
             // check infinitive (remove the PART and change infinitive to "b-to")

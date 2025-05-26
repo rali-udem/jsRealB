@@ -1,5 +1,6 @@
 import { UDregeneratorLoad } from "./UDregenerator.js";
 import { initUD } from "./UDinit-fr.js";
+import { initSUD} from "./SUDinit-fr.js";
 import "./UDnode-fr.js";
 export {addNewWords}
 
@@ -19,5 +20,5 @@ function addNewWords(){
 
 if (!(typeof process !== "undefined" && process?.versions?.node)){ // cannot use isRunningUnderNode yet!!!
     Object.assign(globalThis,jsRealB);
-    UDregeneratorLoad("fr",initUD,addNewWords);
+    UDregeneratorLoad("fr",initUD,initSUD,addNewWords);
 }

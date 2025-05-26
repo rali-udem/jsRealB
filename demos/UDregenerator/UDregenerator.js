@@ -10,7 +10,7 @@ import {showDependencies,showTree,spacing,start,addWord,addLabel,selectRow} from
 
 const deltaDepTree = 20;
 
-let terminals, dependents, depRoot,dependencies,tree, language; // shared variables used for drawing
+let terminals, dependents, depRoot,dependencies,tree, language, fileName; // shared variables used for drawing
 
 // slighly different from the one in drawDependencies.js
 function drawSentenceCT(display,deps){
@@ -251,9 +251,12 @@ function showUDtable(ud){
         const fields=ud.nodes[i].conll().split("\t");
         let tr=tbody.append("tr");
         for (var j = 0; j < fields.length; j++) {
+            let val = fields[j];
+            if (val == "_") val=""
             tr.append("td")
                 .classed(fieldNames[j],true)
-                .text(fields[j])
+                .text(val)
+                .attr("title",val)
         }
     }
     tbody.on("click",function(e){ // row selection on a cell of the table body
@@ -370,7 +373,7 @@ function toggleJsrEditor(){
     }
 }
 
-function UDregeneratorLoad(lang,initUD,addNewWords){
+function UDregeneratorLoad(lang,initUD,initSUD,addNewWords){
     language=lang;
     dependencies=d3.select("#dependencies");
     tree=d3.select("#tree");
@@ -414,6 +417,21 @@ function UDregeneratorLoad(lang,initUD,addNewWords){
     d3.selectAll("#onlyDiffs,#onlyWarnings,#onlyNonProj").on("change",
         function(){d3.select("#parse").style("color","red")}
     )
+    d3.selectAll('input[name="annotationScheme"]').on("change",function (){
+        if (fileName=="initialUDs" || fileName == "initialSUDs"){
+            const isSUD=d3.select('input[name="annotationScheme"]:checked').property("value")=="sudSch";
+            if (isSUD){
+                udContent=initSUD;
+                fileName="initialSUDs";
+            } else {
+                udContent=initUD;
+                fileName="initialUDs";
+            }
+            d3.select("#fileName").text(fileName);
+            parse(udContent,fileName);
+        }
+    })
+    
     // pour l'éditeur
     editor = ace.edit("jsrStructure");
     editor.setTheme("ace/theme/textmate");
@@ -428,8 +446,9 @@ function UDregeneratorLoad(lang,initUD,addNewWords){
     d3.select("#realize").on("click",updateRealization);
     setQuoteOOV(true);
     udContent=initUD;
-    const fileName="initialUDs";
+    fileName="initialUDs";
     d3.select("#fileName").text(fileName);
+    
     addNewWords();
     parse(udContent,fileName);
     

@@ -776,37 +776,36 @@ class Phrase extends Constituent{
      * @returns a list of Terminals with their realization fields set
      */
     real() {
-        let res=[];
         if (this.isA("CP")){
             return this.cpReal()
-        } else {
-            this.pronominalizeChildren();
-            const typs=this.props["typ"];
-            if (typs!==undefined)this.processTyp(typs);
-            const es=this.elements;
-            // realize CPs before the rest because it can change gender and number of subject
-            // save their realization
-            let cpsReal = []
-            for (let e of es){
-                if(e.isA("CP"))
-                    cpsReal.push(e.cpReal())
-            }
-            if (this.getProp("n")===undefined)this.setProp("n","s")
-            for (let e of es){
-                var r;
-                if (e.isA("CP")){
-                    r=cpsReal.shift() // recover previous realization
-                } else if (e.isA("VP") && reorderVPcomplements){
-                    r=e.vpReal();
-                } else {
-                    r=e.real()
-                }
-                // we must flatten the lists
-                Array.prototype.push.apply(res,r)
-            }
-            if (this.isA("VP") && res.length>1)
-                this.checkAdverbPos(res)
         }
+        let res=[];
+        this.pronominalizeChildren();
+        const typs=this.props["typ"];
+        if (typs!==undefined)this.processTyp(typs);
+        const es=this.elements;
+        // realize CPs before the rest because it can change gender and number of subject
+        // save their realization
+        let cpsReal = []
+        for (let e of es){
+            if(e.isA("CP"))
+                cpsReal.push(e.cpReal())
+        }
+        if (this.getProp("n")===undefined)this.setProp("n","s")
+        for (let e of es){
+            var r;
+            if (e.isA("CP")){
+                r=cpsReal.shift() // recover previous realization
+            } else if (e.isA("VP") && reorderVPcomplements){
+                r=e.vpReal();
+            } else {
+                r=e.real()
+            }
+            // we must flatten the lists
+            Array.prototype.push.apply(res,r)
+        }
+        if (this.isA("VP") && res.length>1)
+            this.checkAdverbPos(res)
         return this.doFormat(res);
     };
 

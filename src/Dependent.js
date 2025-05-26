@@ -276,13 +276,16 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                         dep.peng = this.peng;
                     } else if (firstDep.isA("det")){
                         dep.peng=headTerm.peng;
-                    } else if (firstDep.isA("mod","comp")&& firstDep.terminal.isA("V","A")){
-                        // consider this as coordination of verb sharing a subject (the current root)
-                        //  or a coordination of adjectives
-                        dep.peng=headTerm.peng;
-                        for (let depI of dep.dependents){
-                            depI.peng=headTerm.peng;
-                            depI.terminal.peng=headTerm.peng;
+                    } else if (firstDep.isA("mod","comp") && firstDep.terminal.isA("V","A")){
+                        const depCtypes = dep.dependents.map(d=>d.terminal.constType);
+                        if (depCtypes.length>1 && depCtypes.every((v,_, a) => v === a[0])){
+                            // consider this as coordination of verb sharing a subject (the current root)
+                            //  or a coordination of adjectives
+                            dep.peng=headTerm.peng;
+                            for (let depI of dep.dependents){
+                                depI.peng=headTerm.peng;
+                                depI.terminal.peng=headTerm.peng;
+                            }
                         }
                     }
                 }
@@ -692,44 +695,43 @@ class Dependent extends Constituent {// Dependent (non-terminal)
      * @returns a list of Terminals with their realization fields set
      */
     real() {
-        let res;
         if (this.isA("coord") && this.parentConst==null){
-            // special case of coord at the root
-            res=this.coordReal();
-        } else {
-            this.pronominalizeChildren();
-            const typs=this.props["typ"];
-            if (typs!==undefined)this.processTyp(typs);
-            const ds=this.dependents;
-            if (this.getProp("n")===undefined)this.setProp("n","s");
-            if (ds.length ==0){ // no dependent
-                return this.doFormat(this.terminal.real())
-            }
-            // realize coords before the rest because it can change gender and number of subject
-            // save their realization
-            let coordReals = []
-            for (let d of ds){
-                if(d.isA("coord"))
-                    coordReals.push(d.coordReal())
-            }
-            // realize all pre 
-            res = []
-            for (let d of ds){
-                if (d.depPosition()=="pre"){
-                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
-                }                
-            }
-            // realize terminal
-            res.push(...this.terminal.real())
-            // realize all post
-            for (let d of ds){
-                if (d.depPosition()!=="pre"){
-                    res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
-                }
-            }
-            if (this.terminal.isA("V"))
-                this.checkAdverbPos(res)
+            // special case of coord at the root, it has already done "doFormat"
+            return this.coordReal();
         }
+        let res;    
+        this.pronominalizeChildren();
+        const typs=this.props["typ"];
+        if (typs!==undefined)this.processTyp(typs);
+        const ds=this.dependents;
+        if (this.getProp("n")===undefined)this.setProp("n","s");
+        if (ds.length ==0){ // no dependent
+            return this.doFormat(this.terminal.real())
+        }
+        // realize coords before the rest because it can change gender and number of subject
+        // save their realization
+        let coordReals = []
+        for (let d of ds){
+            if(d.isA("coord"))
+                coordReals.push(d.coordReal())
+        }
+        // realize all pre 
+        res = []
+        for (let d of ds){
+            if (d.depPosition()=="pre"){
+                res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
+            }                
+        }
+        // realize terminal
+        res.push(...this.terminal.real())
+        // realize all post
+        for (let d of ds){
+            if (d.depPosition()!=="pre"){
+                res.push(...(d.isA("coord") ? coordReals.shift() : d.real()))
+            }
+        }
+        if (this.terminal.isA("V"))
+            this.checkAdverbPos(res)
         return this.doFormat(res);
     };
 
