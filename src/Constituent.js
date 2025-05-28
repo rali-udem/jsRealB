@@ -708,10 +708,8 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
                 if (!validVals.includes(false))return this;
                 val = false
             }
-            if (this.getProp(optionName) !== val){ // avoid setting again the same value
-                this.setProp(optionName,val);
-                if (prog===undefined) this.addOptSource(option,val==null?undefined:val)
-            }
+            this.setProp(optionName,val);
+            if (prog===undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
             if (quoteOOV && this.isA("Q"))return this;

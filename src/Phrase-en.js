@@ -188,16 +188,6 @@ const English_phrase = (superclass) =>
         }
 
         /**
-         * Return the appropriate interrogative pronoun for "woi"
-         *
-         * @param {*} int_
-         * @returns {("whom" | "what")}
-         */
-        interrogative_pronoun_woi(int_){
-            return int_ == "woi" ? "whom" : "what"
-        }
-
-        /**
          * Deal with a tag question, a short question added after an affirmation to ask for verification. 
          * source: https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-95625.php
          *

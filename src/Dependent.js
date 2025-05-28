@@ -530,7 +530,7 @@ class Dependent extends Constituent {// Dependent (non-terminal)
                     } else if (int=="whn" && preps["whn"].has(prep)){
                         remove=true
                     } else if (preps["all"].has(prep)){ // "woi" | "wai"
-                        prefix = prep + " " + this.interrogative_pronoun_woi(int_)
+                        prefix = prep + " " + this.interrogative_pronoun_woi(int)
                         remove=true
                     }
                     if (remove) {

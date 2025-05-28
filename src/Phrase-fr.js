@@ -359,16 +359,6 @@ const French_phrase = (superclass) =>
         }
 
         /**
-         * Return the appropriate interrogative pronoun for "woi"
-         *
-         * @param {*} int_
-         * @returns {("whom" | "what")}
-         */
-        interrogative_pronoun_woi(int_){
-            return int_ == "woi" ? "qui" : "quoi"
-        }
-
-        /**
          * Deal with a tag question, a short question added after an affirmation to ask for verification. 
          * in French really simple, add "n'est-ce pas"
          *

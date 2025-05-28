@@ -365,5 +365,14 @@ const French_non_terminal = (superclass) =>
                 cList.splice(verbPos+(cliticTable["*verbe*"]==1 ? 1 : 0),0,...pros)
             }
         }
-
+        
+        /**
+         * Return the appropriate interrogative pronoun for "woi"
+         *
+         * @param {*} int_
+         * @returns {("whom" | "what")}
+         */
+        interrogative_pronoun_woi(int_){
+            return int_ == "woi" ? "qui" : "quoi"
+        }
     }

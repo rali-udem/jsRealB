@@ -286,4 +286,14 @@ const English_non_terminal = (superclass) =>
          */
         doPronounPlacement(){}
 
+        /**
+         * Return the appropriate interrogative pronoun for "woi"
+         *
+         * @param {*} int_
+         * @returns {("whom" | "what")}
+         */
+        interrogative_pronoun_woi(int_){
+            return int_ == "woi" ? "whom" : "what"
+        }
+
     }

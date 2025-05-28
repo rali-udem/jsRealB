@@ -318,34 +318,34 @@ class UDnode {
                 break;
             case "Person":
                 const jsrPe = this.check("Person",person)
-                if (jsrPe !== undefined) constituent.pe(jsrPe);
+                if (jsrPe !== undefined && constituent.getProp("pe")!=jsrPe) constituent.pe(jsrPe);
                 break;
             case "Person_psor":
                 const jsrPe_psor = this.check("Person_psor",person)
-                if (jsrPe_psor !== undefined) constituent.pe(jsrPe_psor)
+                if (jsrPe_psor !== undefined && constituent.getProp("pe")!=jsrPe_psor) constituent.pe(jsrPe_psor)
                 break;
             case "Number":
                 const jsrN = this.check("Number",number)
-                if (jsrN !== undefined) constituent.n(jsrN);
+                if (jsrN !== undefined && constituent.getProp("n")!=jsrN) constituent.n(jsrN);
                 break;
             case "Number_psor":
                 const jsrN_psor = this.check("Number_psor",number)
-                if (jsrN_psor !== undefined) constituent.n(jsrN_psor);
+                if (jsrN_psor !== undefined && constituent.getProp("n")!=jsrN_psor) constituent.n(jsrN_psor);
                 break;
             case "Case":
                 const jsrC = this.check("Case",case_)
-                if (jsrC !== undefined) constituent.c(jsrC);
+                if (jsrC !== undefined && constituent.getProp("c")!=jsrC) constituent.c(jsrC);
                 break;
             case "Definite":
                 this.selectFeature("Definite") // ignore
                 break;
             case "Gender":
                 const jsrG = this.check("Gender",gender)
-                if (jsrG !== undefined) constituent.g(jsrG);
+                if (jsrG !== undefined && constituent.getProp("g")!=jsrG) constituent.g(jsrG);
                 break;
             case "Gender_psor":
                 const jsrG_psor = this.check("Gender_psor",gender)
-                if (jsrG_psor !== undefined) constituent.g(jsrG_psor);
+                if (jsrG_psor !== undefined && constituent.getProp("g")!=jsrG_psor) constituent.g(jsrG_psor);
                 break;
             case "Degree":
                 const jsrDeg = this.check("Degree",degree)
