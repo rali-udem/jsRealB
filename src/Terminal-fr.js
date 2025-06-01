@@ -129,7 +129,7 @@ const French_terminal = (superclass) =>
         /**
          * Returns the list of table number in rules-fr that indicates a noun that is always plural
          *
-         * @returns {[string]}
+         * @returns {string[]}
          */
         noun_always_plural(){return ['n1','n15','n21','n22','n26']}
 

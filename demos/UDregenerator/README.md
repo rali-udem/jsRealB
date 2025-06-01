@@ -61,6 +61,8 @@ Many of the programs share classes and code as shown in the `Code-organization.t
 * `drawDependencies.js` : create dependency and tree diagrams in SVG
 * `levenshtein.js` : compute edit distance between two strings; show differences in HTML and on the console using SGR 
 * `sampleConnll.js` : create the sample files (use with `node`)
+* `UDinit-en.js` : initial SUDs in English
+* `UDinit-fr.js` : initial SUDs in French 
 * `testAll.sh` : launch `UDregenerator-node.js` on all files in a given language
 * `testOne.sh` : launch `UDregenerator-node.js` on a single file in a given language
 * `text2ud.py` : Python 3 program from transforming an English or French sentence (on a single line) calling Stanza
@@ -70,14 +72,14 @@ Many of the programs share classes and code as shown in the `Code-organization.t
 * `UDgrep.html` : Search for tokens with specific properties using regular expressions
 * `UDgrep.js` : JavaScript used by `UDgrep.html`
 * `UDinit-en.js` : initial UDs in English
-* `UDinit-fr.js` : initial UDs in French (contains also UDs in SUD annotation scheme)
+* `UDinit-fr.js` : initial UDs in French
 * `UDnode-en.js` : English specific transformation 
 * `UDnode-fr.js` : French specific transformation
 * `UDnode.js` : JavaScript class for create a node of the UD tree (language independent)
-* `UDregenerator-en.html` : web page for using UDgenerator in English
-* `UDregenerator-en.js` : code for interacting with the UDgenerator in English (dictionary loading)
-* `UDregenerator-fr.html` : web page for using UDgenerator in French
-* `UDregenerator-fr.js` : code for interacting with the UDgenerator in French (dictionary loading)
+* `UDregenerator-en.html` : web page for using UDregenerator in English
+* `UDregenerator-en.js` : code for interacting with the UDregenerator in English (dictionary loading)
+* `UDregenerator-fr.html` : web page for using UDregenerator in French
+* `UDregenerator-fr.js` : code for interacting with the UDregenerator in French (dictionary loading)
 * `UDregenerator-node.js` : `node.js` module
 * `UDregenerator.css` : style file for the web page
 * `UDregenerator.js` : main file which starts the program or the web page

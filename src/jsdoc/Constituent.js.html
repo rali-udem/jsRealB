@@ -32,7 +32,7 @@
  */
 
 import {getRules, getLexicon, getLanguage, quoteOOV } from "./Lexicon.js";
-import { exceptionOnWarning, savedWarnings, Pro } from "./jsRealB.js";
+import { exceptionOnWarning, savedWarnings, Pro, fromJSON } from "./jsRealB.js";
 export {Constituent, deprels}
 
 /**
@@ -80,6 +80,14 @@ class Constituent {
             }
         }
     }
+
+    /**
+     * Creates a new copy of this instance by creating it from a JSON representation of this object
+     * @returns a deep copy of this instance
+     */
+    clone(){
+        return fromJSON(this.toJSON(), this.lang);
+    }
     
     /**
      * Raise exception for internal error that should never happen !!!
@@ -123,9 +131,22 @@ class Constituent {
     }
 
     /**
+     * Get the value of the "n" property taking into account possible local "majestic" override
+     * @returns "s" or "p"
+     */
+    getNumber(){
+        if (this.peng &amp;&amp; this.peng.n == "s" &amp;&amp; this.peng.pe&lt;3) {
+            if (this.peng.maje !== undefined &amp;&amp; this.peng.maje === false) return "s"
+            if (this.isMajestic()) return "p"
+        }
+        return this.getProp("n")
+    }
+
+    /**
      * Set the value of a property, but also possibly changing the shared properties
      * @param {string} propName name of the property to change
      * @param {any} val value to put as value of propName
+     * @returns {Constituent} the current Constituent
      */
     setProp(propName,val,inSetLemma){
         if (propName=="pe" || propName=="n" || propName=="g"){
@@ -133,10 +154,11 @@ class Constituent {
         } else if (propName=="t" || propName=="aux"){
             if (this.taux!==undefined) this.taux[propName]=val;
         }
-        // this is important for to ensure that locol options override global values
+        // this is important to ensure that local options override global values
         // but it must be "undone" in Terminal.setLemma
         if (!["pe","n","g","t","aux"].includes(propName) || inSetLemma === undefined)
             this.props[propName]=val; 
+        return this
     }
 
     /**
@@ -182,15 +204,15 @@ class Constituent {
                 if (this.tonic_forms().includes(this.lemma)){
                     // lemma is already in tonic form
                     if (case_ !== undefined)
-                        return Pro(this.lemma).c(case_)
+                        return Pro(this.lemma,this.lang).c(case_)
                 } else {
                     if (case_ !== undefined)
-                        return Pro(this.realize()).c(case_)
+                        return Pro(this.realize(),this.lang).c(case_)
                 }
                 return this
             }
         } else { // generate the string corresponding to the tonic form
-            let pro=Pro(this.tonic_pe_1())
+            let pro=Pro(this.tonic_pe_1(),this.lang)
             const g = this.getProp("g")
             if (g!==undefined)pro.g(g);
             const n = this.getProp("n");
@@ -312,7 +334,6 @@ class Constituent {
      * @returns this Constituent
      */
     nat(isNat){
-        this.addOptSource("nat",isNat);
         if (this.isA("DT","NO")){
             const options=this.props["dOpt"];
             if (isNat === undefined){
@@ -325,13 +346,33 @@ class Constituent {
         } else {
             return this.warn("bad application",".nat",["DT","NO"],this.constType)
         }
+        this.addOptSource("nat",isNat);
         return this;
+    }
+
+    /**
+     * Override the global "majestic" flog for this Pro or D
+     * HACK: this adds a flag to the peng structure so that agreements are correctly made
+     * @param {boolean} isMaje if false it will override 
+     * @returns this Constituent
+     */
+    maje(isMaje){
+        if (this.isA("Pro","D")){
+            if (typeof isMaje == "boolean"){
+                this.setProp("maje",isMaje); // useful for toJSON/used for cloning also
+                this.peng["maje"]=isMaje
+                this.addOptSource("maje",isMaje);
+                return this;
+            }
+            return this.warn("bad application",".maje","boolean",isMaje)
+        }
+        return this.warn("bad application",".maje",["Pro","D"],this.constType)
     }
 
     /**
      * Set the sentence type
      * @param {Object} types object indicating sentence modifications
-     * @returns This constituentt
+     * @returns This constituent
      */
     typ(types){
         const allowedTypes={
@@ -342,32 +383,42 @@ class Constituent {
         "perf":[false,true],
         "contr":[false,true],
         "refl" :[false,true], // reflexive
+        "maje" :[false,true], // majestative (en français: politesse, modestie, majesté...)
         "mod": [false,"poss","perm","nece","obli","will"],
         "int": [false,"yon","wos","wod","woi","was","wad","wai","whe","why","whn","how","muc","tag"]
         }
-        this.addOptSource("typ",types)
-        if (this.isA("S","SP","VP") || this.isA(deprels)){
-            // validate types and keep only ones that are valid
-            if (typeof types == "object"){
-                for (let key in types) {
-                    const val=types[key];
-                    const allowedVals=allowedTypes[key];
-                    if (allowedVals === undefined){
-                        this.warn("unknown type",key,Object.keys(allowedTypes))
-                    } else {
-                        if (key == "neg" &amp;&amp; this.validate_neg_option(val,types)){
-                        } else if (!allowedVals.includes(val)){
-                            this.warn("ignored value for option",".typ("+key+")",val)
-                            delete types[key]
+        if (this.isA("S","SP","VP","root","mod","comp")){
+            if (this.isA("root","mood","comp") &amp;&amp; ! this.terminal.isA("V")){
+                this.warn("bad application",`.typ("${types}")`,[`${this.constType}(V(..))`],
+                      `${this.constType}(${this.terminal.constType}(..))`)
+            } else {
+                // validate types and keep only ones that are valid
+                if (typeof types == "object"){
+                    for (let key in types) {
+                        const val=types[key];
+                        const allowedVals=allowedTypes[key];
+                        if (allowedVals === undefined){
+                            this.warn("unknown type",key,Object.keys(allowedTypes))
+                        } else {
+                            if (key == "neg" &amp;&amp; this.validate_neg_option(val,types)){
+                            } else if (!allowedVals.includes(val)){
+                                this.warn("ignored value for option",".typ("+key+")",val)
+                                delete types[key]
+                            }
                         }
                     }
+                    this.addOptSource("typ",types)
+                    if (this.props["typ"]===undefined){
+                        this.props["typ"]=types;  // initialise .typ
+                    } else {  // update .typ with new values
+                        Object.assign(this.props["typ"],types)
+                    }
+                } else {
+                    this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
                 }
-                this.props["typ"]=types;
-            } else {
-                this.warn("ignored value for option",".typ",typeof(types)+":"+JSON.stringify(types))
             }
         } else {
-            this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","Dependent"],this.constType);
+            this.warn("bad application",".typ("+JSON.stringify(types)+")",["S","SP","VP","root","mod","comp"],this.constType);
         }
         return this;
     }
@@ -435,12 +486,19 @@ class Constituent {
         this.doElision(cList)
         
         const cap = this.props["cap"];
-        if (cap !== undefined &amp;&amp; cap !== false){
+        if (cap !== undefined &amp;&amp; cap === true){
             const r=cList[0].realization;
             if (r.length>0){
                 cList[0].realization=r.charAt(0).toUpperCase()+r.substring(1);
             }
         }
+
+        const poss = this.props["poss"]
+        if (poss === true){
+            const last = cList.length -1
+            cList[last].realization += cList[last].realization.endsWith("s") ? "'" : "'s"
+        }
+
         const tags=this.props["tag"];
         if (tags !== undefined) {
             tags.forEach(function(tag){
@@ -468,6 +526,26 @@ class Constituent {
     }
 
     /**
+     * Apply Title case to the realization of a Terminal
+     * according to https://apastyle.apa.org/style-grammar-guidelines/capitalization/title-case
+     * Only the current terminal is taken into account, 
+     * so the "first word after a colon, em dash, or end punctuation" might not be capitalized as it should
+     * @param {Terminal} t 
+     */
+    titleCase(t){
+        let s = t.realization;
+        const m=this.sepWordRE().exec(s);
+        const word = m[2];
+        const len = word.length;  // get length of word in realization
+        if (len >= 4 || !t.isA("C","P","D")){
+            // capitalize words of 4 letters or more or short 
+            // non minor (conjunction,preposition,articles)
+            const idx=m[1].length; // get index of first letter
+            t.realization = s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
+        }
+    }
+
+    /**
      * Merge all tokens (i.e. Terminal with their realization field) into a single string, 
      * if at "top level", apply elision and default sentence formatting
      * @param {Terminal[]} terminals 
@@ -477,24 +555,32 @@ class Constituent {
         let s=""; // final realized string
         const last=terminals.length-1;
         if (last&lt;0) return s;
+        const doTitleCase =  this.isEn() &amp;&amp; this.props["cap"] == "tit";
         for (let i = 0; i &lt; last; i++) {
             const terminal=terminals[i];
+            if (doTitleCase) this.titleCase(terminal)
             if (terminal.props["lier"] === true){
-                s+=terminal.realization+"-"+this.check_for_t(terminals,i);
+                // HACK: terminal.realization might be changed in French by check_for_t
+                const liaison = "-"+this.check_for_t(terminals,i); 
+                s+=terminal.realization+liaison;
             } else if (/[- ']$/.exec(terminal.realization)){
                 s+=terminal.realization;
             } else if (terminal.realization.length>0) {
                 s+=terminal.realization+" ";
             }
         }
-        s+=terminals[last].realization;
+        const lastTerm = terminals[last];
+        if (lastTerm.realization.startsWith(" ")){
+            lastTerm.realization = lastTerm.realization.slice(1)
+        }
+        if (doTitleCase) this.titleCase(lastTerm)
+        s+=lastTerm.realization;
         
         if (this.parentConst==null){// if it is a top-level S
             if ((this.isA("S","root") || (this.isA("coord") &amp;&amp; this.dependents[0].isA("root"))) 
                 &amp;&amp; s.length>0){ 
                 // apply capitalization at the start and final full stop unless .cap(false)
-                if (this.props["cap"]!== false){
-                    // const sepWordRE=this.isEn()?Constituent.sepWordREen:Constituent.sepWordREfr;
+                if (this.props["cap"] === undefined || [true,"tit"].includes(this.props["cap"])){
                     const m=this.sepWordRE().exec(s);
                     const idx=m[1].length; // get index of first letter
                     if (idx&lt;s.length) // check if there was a letter
@@ -540,7 +626,20 @@ class Constituent {
     toString() {
         return Constituent.debug?this.toSource():this.realize();
     }
-
+    
+    /**
+     * Useful for the debug information
+     * @returns string showing the numbers of the peng and taux structure
+     */
+    getPengTauxStr(){
+        let res = ""
+        if (this.peng !== undefined){
+            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
+            if (this.taux &amp;&amp; this.taux.tauxNO !== undefined) res += "-"+this.taux.tauxNO;
+        } 
+        return res
+    }
+    
     /**
      * Compute indentation and a string to insert between each element of a list
      * useful for producing nicely indented display of expressions
@@ -550,9 +649,8 @@ class Constituent {
     indentSep (indent,debug){
         if (indent>=0){
             indent=indent+this.constType.length+1;
-            if (debug &amp;&amp; this.peng !== undefined){
-                if (this.peng.pengNO !== undefined) indent += ("#"+this.peng.pengNO).length;
-                if (this.taux &amp;&amp; this.taux.tauxNO !== undefined) indent += ("-"+this.taux.tauxNO).length;
+            if (debug){
+                indent += this.getPengTauxStr().length
             } 
             return [indent,",\n"+(" ".repeat(indent))]
         }
@@ -591,17 +689,17 @@ class Constituent {
  * Creation of the many standard options for constituents
  * HACK the following definitions modify the Constituent class
  * @param {string} option name of the option to create  
- * @param {string[]} validVals acceptable values for this option 
+ * @param {string[]} validVals array of acceptable values for this option or undefined; 
+ *        if "" is allowed, then no parameter can be used and it is considered as true, false can also be used
  * @param {string[]} allowedConsts constituents names for this option is acceptable
  * @param {string?} optionName if present, name of the internal name for this option
  */
 function genOptionFunc(option,validVals,allowedConsts,optionName){
     Constituent.prototype[option]=function(val,prog){
         if (val===undefined){
-            if (validVals !== undefined &amp;&amp; !validVals.includes("")){
+            if (!validVals.includes("")){
                 return this.warn("no value for option",option,validVals);
             }
-            // val=null;
         }
         if (optionName===undefined)optionName=option; 
         if (this.isA("CP") &amp;&amp; !["cap","lier","pos"].includes(option)){
@@ -627,20 +725,19 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
             return this;
         }
         if (allowedConsts.length==0 || this.isA(allowedConsts) || this.isA(deprels)) {
-            if (validVals !== undefined &amp;&amp; !validVals.includes(val)){
-                return this.warn("ignored value for option",option,val);
-            }
             // start of the real work...
-            if (validVals === undefined){
-                if (val === undefined) 
-                    val = true
-                else if (val !== true &amp;&amp; val !== false){
-                    this.warn("ignored value for option",option,val);
-                    val = false
+            if (val === undefined){
+                if (!validVals.includes("")){
+                    return this.warn("ignored value for option",option,val);
                 }
+                val = true
+            } else if (!validVals.includes(val)){
+                this.warn("ignored value for option",option,val);
+                if (!validVals.includes(false))return this;
+                val = false
             }
             this.setProp(optionName,val);
-            if (prog==undefined) this.addOptSource(option,val==null?undefined:val)
+            if (prog===undefined) this.addOptSource(option,val==null?undefined:val)
             return this;
         } else {
             if (quoteOOV &amp;&amp; this.isA("Q"))return this;
@@ -653,7 +750,7 @@ function genOptionFunc(option,validVals,allowedConsts,optionName){
 // shared properties 
 //   pe,n and g : can be applied to components of NP and Sentences
 genOptionFunc("pe",[1,2,3,'1','2','3'],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
-genOptionFunc("n",["s","p","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
+genOptionFunc("n",["s","p","x"],["D","Pro","N","NO","NP","A","AP","V","VP","S","SP","CP"]);
 genOptionFunc("g",["m","f","n","x"],["D","Pro","N","NP","A","AP","V","VP","S","SP","CP"]);
 //  t, aux : can be applied to VP and sentence
 genOptionFunc("t",["p", "i", "f", "ps", "c", "s", "si", "ip", "pr", "pp", "b", "b-to", // simple tenses
@@ -666,13 +763,14 @@ genOptionFunc("tn",["","refl"],["Pro"]);
 genOptionFunc("c",["nom","acc","dat","refl","gen"],["Pro"]);
 
 genOptionFunc("pos",["post","pre"],["A","Adv",...deprels]);
-genOptionFunc("pro",undefined,["NP","PP"]);
+genOptionFunc("pro",["",true,false],["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
+genOptionFunc("poss",["",true,false],["N","Q"])
 
 /// Formatting options
-genOptionFunc("cap",undefined,[]);
-genOptionFunc("lier",undefined,[]);
+genOptionFunc("cap",[true,false,"tit",""],[]);
+genOptionFunc("lier",["",true,false],[]);
 
 /**
  * Creation of list options
@@ -702,13 +800,13 @@ genOptionListFunc("en"); // "entourer": old name for before-after
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addLemma">addLemma</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#buildLemmataMap">buildLemmataMap</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_countable">check_countable</a></li><li><a href="global.html#check_determiner_cnt">check_determiner_cnt</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_majestic">check_majestic</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#choice">choice</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#expandConjugation">expandConjugation</a></li><li><a href="global.html#expandDeclension">expandDeclension</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genExp">genExp</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#jsrExpInit">jsrExpInit</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#noun_always_plural">noun_always_plural</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#relative_pronouns_propagate">relative_pronouns_propagate</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#should_try_another_subject">should_try_another_subject</a></li><li><a href="global.html#showLemmata">showLemmata</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 01 2025 13:27:10 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

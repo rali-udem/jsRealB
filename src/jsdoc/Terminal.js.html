@@ -34,10 +34,7 @@
 import { Constituent,deprels } from "./Constituent.js";
 import { getLanguage,getLexicon,getRules, quoteOOV } from "./Lexicon.js";
 import { nbDecimal,numberFormatter, enToutesLettres, ordinal, roman} from "./Number.js";
-// must import all functions because of possible eval call by clone
-import { getElems, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-    S,NP,AP,VP,AdvP,PP,CP,SP,
-    root, subj, det, mod, comp, coord } from "./jsRealB.js"
+import { NO } from "./jsRealB.js"
 
 export {Terminal}
 
@@ -117,28 +114,6 @@ class Terminal extends Constituent{
         this.warn("bad application",".add","Phrase",this.constType)
         return this;
     }
-    // global variables 
-    static defaultProps = {en:{g:"n",n:"s",pe:3,t:"p"},             // language dependent default properties
-                           fr:{g:"m",n:"s",pe:3,t:"p",aux:"av"}}; 
-
-    // initProps(){
-    //     if (this.isA("N","A","D","V","NO","Pro","Q","DT")){
-    //         // "tien" and "vôtre" are very special case of pronouns which are to the second person
-    //         this.peng={pe: Terminal.defaultProps[this.lang]["pe"],
-    //                     n: Terminal.defaultProps[this.lang]["n"],
-    //                     g: Terminal.defaultProps[this.lang]["g"],
-    //                     pengNO:Constituent.pengNO++
-    //                     };
-    //         if (this.isA("V")){
-    //             this.taux={t:Terminal.defaultProps[this.lang]["t"],
-    //                     tauxNO:Constituent.tauxNO++
-    //                     };
-    //             if (this.isFr())
-    //                 this.taux["aux"]=Terminal.defaultProps[this.lang]["aux"];
-    //         }
-    //     }
-    // }
-
 
     /**
      * Set lemma, precompute stem and store conjugation/declension table number 
@@ -220,11 +195,12 @@ class Terminal extends Constituent{
             if (lexInfo==undefined){
                 this.tab=null;
                 this.realization =`[[${lemma}]]`;
-                this.warn("not in lexicon",this.lang);
                 if (quoteOOV){
                     this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
                     this.constType="Q";
                     this.realization=this.lemma
+                } else {
+                    this.warn("not in lexicon",this.lang);                    
                 }
             } else {
                 lexInfo=lexInfo[terminalType];
@@ -232,14 +208,15 @@ class Terminal extends Constituent{
                         this.tab=null;
                         this.realization =`[[${lemma}]]`;
                         let otherPOS=Object.keys(getLexicon(this.lang)[lemma]);
-                        let idxBasic=otherPOS.indexOf("basic") // check if "basic" is a key...
-                        if (idxBasic>=0)otherPOS.splice(idxBasic,1) // remove it if is there...
-                        this.warn("not in lexicon",this.lang,otherPOS);
-                    if (quoteOOV){
-                        this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
-                        this.constType="Q";
-                        this.realization=this.lemma
-                    }
+                        let idxLdv=otherPOS.indexOf("ldv") // check if "ldv" is a key...
+                        if (idxLdv>=0)otherPOS.splice(idxLdv,1) // remove it if is there...
+                        if (quoteOOV){
+                            this.lemma=typeof lemma=="string"?lemma:JSON.stringify(lemma);
+                            this.constType="Q";
+                            this.realization=this.lemma
+                        } else {
+                            this.warn("not in lexicon",this.lang,otherPOS);                            
+                        }
                 } else {
                     const keys=Object.keys(lexInfo);
                     const rules=getRules(this.lang);
@@ -249,7 +226,6 @@ class Terminal extends Constituent{
                             var ending;
                             this.tab=lexInfo["tab"]
                             if (terminalType!="V") {// looking for a declension
-                                // this.tab=this.tab[0];
                                 const declension=rules.declension[this.tab]; // occurs for C, Adv and P
                                 if (declension !== undefined){
                                     ending = declension.ending;
@@ -262,6 +238,8 @@ class Terminal extends Constituent{
                                             while (i&lt;dd.length &amp;&amp; dd[i].pe==pe)i++;
                                             if (i==dd.length)this.setProp("pe",pe);
                                         }
+                                    } else if (terminalType=="N" &amp;&amp; this.noun_always_plural().includes(this.tab)){
+                                        this.setProp("n","p")
                                     }
                                 }
                             } else { // looking for a conjugation
@@ -282,7 +260,6 @@ class Terminal extends Constituent{
                             }
                         } else { // copy other key as property
                             let info=lexInfo[key]
-                            // if (typeof info === "object" &amp;&amp; info.length==1)info=info[0];
                             this.setProp(key,info,true);
                         }
                     }
@@ -303,17 +280,8 @@ class Terminal extends Constituent{
         if (!this.isA("NO")){
             return this.warn("bad application","grammaticalNumber","NO",this.constType);
         }
+        if (this.props["n"]) return this.props["n"] // explicit number given to NO
         if (this.props["dOpt"].ord==true)return "s"; // ordinal number are always singular
-        // const number=this.value;
-        // if (this.isFr()){
-        //     // according to http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1582
-        //     return (-2 &lt; number &amp;&amp; number &lt; 2) ? "s" : "p";
-        // } else {
-        //     // according to https://www.chicagomanualofstyle.org/book/ed17/part2/ch09/psec019.html
-        //     //   any number other than 1 is plural... 
-        //     // even 1.0 but this case is not handled here because nbDecimal(1.0)=>0
-        //     return (Math.abs(number)==1 &amp;&amp; this.nbDecimals==0)?"s":"p";
-        // }
         return null
     };
 
@@ -354,7 +322,22 @@ class Terminal extends Constituent{
         return best[1];
     }
 
-    /// 
+    /**
+     * Check if this terminal is in the context of a "maje:true" .typ option 
+     * @returns {boolean}
+     */
+    isMajestic(){
+        const maje = this.getProp("maje"); // check local value
+        if (maje !== undefined) return maje;
+        let pc = this.parentConst; // check context
+        while (pc != null){
+            const typs=pc.props["typ"]
+            if (typs !== undefined &amp;&amp; typs["maje"]===true)return true
+            pc=pc.parentConst;
+        }
+        return false;
+    }
+
     /**
      * French and English declension of this Terminal taking current properties into account
      * @param {boolean} setPerson if true, take person into account
@@ -364,95 +347,29 @@ class Terminal extends Constituent{
         const rules=getRules(this.lang);
         let declension=rules.declension[this.tab].declension;
         let stem=this.stem;
-        let res=null;
+        let g=this.getProp("g");
+        if (this.isA("D","N") &amp;&amp; g==undefined)g="m";
+        let n = this.getNumber()
+        if (this.isA("D","N") &amp;&amp; n==undefined)n="s";
         if (this.isA("A","Adv")){ 
             return this.decline_adj_adv(rules,declension,stem)
-            // // special case of French adjectives or adv, they can have more than one token
-            // if (this.isFr()){
-            //     const g=this.getProp("g");
-            //     const n=this.getProp("n");
-            //     const ending=this.bestMatch("déclinaison d'adjectif",declension,{g:g,n:n});
-            //     if (ending==null){
-            //         return [this.morphoError("decline [fr]:A",{g:g,n:n})];
-            //     }
-            //     const f = this.getProp("f");// comparatif d'adjectif
-            //     if (f !== undefined &amp;&amp; f !== false){
-            //         const specialFRcomp={"bon":"meilleur","mauvais":"pire"};
-            //         res = []
-            //         if (f == "co"){
-            //             const comp = specialFRcomp[this.lemma];
-            //             if (comp !== undefined){
-            //                 this.insertReal(res,A(comp).g(g).n(n));
-            //             } else {
-            //                 this.insertReal(res,Adv("plus"))
-            //                 this.insertReal(res,A(this.lemma).g(g).n(n)) // to avoid infinite recursion
-            //             }
-            //        } else if (f == "su"){
-            //             this.insertReal(res,D("le").g(g).n(n))
-            //             const comp = specialFRcomp[this.lemma];
-            //             if (comp !== undefined){
-            //                 this.insertReal(res,A(comp).g(g).n(n))
-            //             } else {
-            //                 this.insertReal(res,Adv("plus"))
-            //                 this.insertReal(res,A(this.lemma).g(g).n(n)) // to avoid infinite recursion
-            //             }
-            //         }
-            //         return res
-            //     } else {
-            //         this.realization = this.stem+ending
-            //         return [this]
-            //     }
-            // } else {
-            //     // English adjective/adverbs are invariable but they can have comparative, thus more than one token
-            //     this.realization = this.lemma;
-            //     const f = this.getProp("f");// usual comparative/superlative
-            //     if (f !== undefined &amp;&amp; f !== false){
-            //         if (this.tab=="a1"){
-            //             const comp = Adv(f=="co"?"more":"most")
-            //             comp.realization = comp.lemma
-            //             return [comp,this]
-            //         } else {
-            //             if (this.tab=="b1"){// this is an adverb with no comparative/superlative, try the adjective table
-            //                 const adjAdv=getLexicon(this.lang)[this.lemma]["A"]
-            //                 if (adjAdv !== undefined){
-            //                     declension=rules.declension[adjAdv["tab"]].declension;
-            //                     const ending=rules.declension[adjAdv["tab"]].ending;
-            //                     stem=stem.slice(0,stem.length-ending.length);
-            //                 } else // adverb without adjective
-            //                     return [this]
-            //             } 
-            //             // look in the adjective declension table
-            //             const ending=this.bestMatch("adjective declension",declension,{f:f})
-            //             if (ending==null){
-            //                 return [this.morphoError("decline [en]:A",{f:f})]
-            //             }
-            //             this.realization = stem + ending;
-            //             return [this]
-            //         }
-            //     }
-            // }
         } else if (declension.length==1){ // no declension
             this.realization = this.stem+declension[0]["val"]
         } else { // for N, D, Pro
-            let g=this.getProp("g");
-            if (this.isA("D","N") &amp;&amp; g==undefined)g="m";
-            let n=this.getProp("n");
-            if (this.isA("D","N") &amp;&amp; n==undefined)n="s";
             let pe=3;
             if (setPerson){
                 let p=this.getProp("pe");
                 pe = p===undefined ? 3 : +p;
             }
             let keyVals=setPerson?{pe:pe,g:g,n:n}:{g:g,n:n};
+            if (!this.isA("N") &amp;&amp; this.isMajestic()){
+                if (this.check_majestic(keyVals))
+                    declension=rules.declension[this.tab].declension;
+            }
             if (this.props["own"]!==undefined)keyVals["own"]=this.props["own"];
             if (this.isA("Pro")){// check special combinations of tn and c for pronouns
                 const c  = this.props["c"];
                 if (c!==undefined){
-                    // if (this.isFr() &amp;&amp; c=="gen"){ // genitive cannot be used in French
-                    //     this.warn("ignored value for option","c",c)
-                    // } else if (this.isEn() &amp;&amp; c=="refl"){ // reflechi cannot be used in English
-                    //     this.warn("ignored value for option","c",c)
-                    // } else
                     if (!this.check_bad_pronoun_case(c))
                         keyVals["c"]=c;
                 }
@@ -465,7 +382,6 @@ class Terminal extends Constituent{
                     }
                 }
                 if (c !== undefined || tn !== undefined){
-                    // if ((this.isFr() &amp;&amp; this.lemma=="moi") || (this.isEn() &amp;&amp; this.lemma=="me")){
                     if (this.lemma == this.tonic_pe_1()){
                     // HACK:remove defaults from pronoun such as "moi" in French and "me" in English
                         //      because their definition is special in order to try to keep some upward compatibility
@@ -479,7 +395,6 @@ class Terminal extends Constituent{
                         } 
                     } else { // set person, gender and number except when subject in an English genitive
                         const d0=declension[0];
-                        // if (this.isFr() || c != "gen"){
                         if (this.should_set_person_number(c)){
                             this.setProp("g", d0["g"] || g);
                             this.setProp("n", d0["n"] || n);
@@ -495,19 +410,15 @@ class Terminal extends Constituent{
             if (ending==null){
                 return [this.morphoError(decl,keyVals)];
             }
-            // if (this.isFr() &amp;&amp; this.isA("N")){ 
-            //     // check is French noun gender specified corresponds to the one given in the lexicon
-            //     const lexiconG=getLexicon(this.lang)[this.lemma]["N"]["g"]
-            //     if (lexiconG === undefined){
-            //         return [this.morphoError("genre absent du lexique",{g:g,n:n})];
-            //     } 
-            //     if (lexiconG != "x" &amp;&amp; lexiconG != g) {
-            //         return [this.morphoError("genre différent de celui du lexique",{g:g, lexique:lexiconG})]
-            //     }
-            // }
+            this.realization = this.stem+ending;
+        }
+        if (this.isA("N")){
             const resgl = this.check_gender_lexicon(g,n)
             if (resgl != null) return resgl;
-            this.realization = this.stem+ending;
+            if (n == "p"){
+                const rescnt = this.check_countable();
+                if (rescnt != null) return rescnt;
+            }
         }
         return [this]; 
     }
@@ -517,7 +428,7 @@ class Terminal extends Constituent{
      * used heavily in conjugate_fr and conjugate_en
      * @param {Terminal[]} terms list of Terminals in which to insert 
      * @param {Terminal} newTerminal new Terminal to which the realization 
-     * @param {number} position index in list 
+     * @param {number} position index in list, at the end when not defined 
      * @returns modified list
      */
     insertReal(terms,newTerminal,position){
@@ -567,217 +478,6 @@ class Terminal extends Constituent{
         }
         return false
     }
-
-    // /**
-    //  * French conjugation of this Terminal
-    //  * @returns list of Terminals with their realization field filled
-    //  */
-    // conjugate_fr(){
-    //     let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
-    //     let g = this.getProp("g");
-    //     let n = this.getProp("n");
-    //     const t = this.getProp("t");
-    //     let neg;
-    //     if (this.tab==null) 
-    //         return [this.morphoError("conjugate_fr:tab",{pe:pe,n:n,t:t})];
-    //     switch (t) {
-    //     case "pc":case "pq":case "cp": case "fa": case "pa": case "spa": case "spq": case "bp":// temps composés
-    //         const tempsAux={"pc":"p","pq":"i","cp":"c","fa":"f","pa":"ps","spa":"s","spq":"si", "bp":"b"}[t];
-    //         const aux =  V("avoir","fr"); // new Terminal(["avoir"],"V","fr");
-    //         aux.parentConst=this.parentConst;
-    //         aux.peng=this.peng;
-    //         aux.taux=Object.assign({},this.taux); // separate tense of the auxiliary from the original
-    //         if (this.isReflexive()){
-    //             aux.setLemma("être");          // réflexive verbs must use French "être" auxiliary
-    //             aux.setProp("pat",["réfl"]);   // set reflexive for the auxiliary
-    //         } else if (aux.taux["aux"]=="êt"){
-    //             aux.setLemma("être");
-    //         } else {   // auxiliary "avoir"
-    //             // check the gender and number of a cod appearing before the verb to do proper agreement
-    //             //   of its past participle  except when the verb is "être" which will always agree
-    //             if (this.lemma!="être"){
-    //                 g="m"
-    //                 n="s";
-    //                 var cod = this.cod;
-    //                 if (cod !== undefined){
-    //                     g=cod.getProp("g");
-    //                     n=cod.getProp("n");
-    //                 }
-    //             }
-    //         }
-    //         aux.taux["t"]=tempsAux;
-    //         aux.realization=aux.realize();  // realize the auxiliary using jsRealB!!!
-    //         const pp=V(this.lemma,"fr")
-    //         // change this verb to pp
-    //         pp.setProp("g",g);
-    //         pp.setProp("n",n);
-    //         pp.setProp("t","pp");
-    //         pp.realization=pp.realize();      // realize the pp using jsRealB without other options
-    //         this.realization=pp.realization;  // set verb realization to the pp realization
-    //         //  check special cases
-    //         if (this.neg2 !== undefined) {
-    //             aux.neg2=this.neg2;                // save this flag to put on the auxiliary, 
-    //             delete this.neg2;                  // delete it on this verb
-    //         }
-    //         if (this.props["lier"]===true){
-    //             aux.setProp("lier",true)  // put this flag on the auxiliary
-    //             delete this.props["lier"] // delete it from the verb
-    //             // HACK: check if the verb was lié to a nominative pronoun (e.g. subject inversion for a question)
-    //             const myParent=this.parentConst;
-    //             if (myParent!==null){
-    //                 if (!myParent.isA(Constituent.deprels)){
-    //                     const myself=this;
-    //                     const myParentElems=myParent.elements;
-    //                     let idxMe=myParentElems.findIndex(e => e==myself,this);
-    //                     if (idxMe>=0 &amp;&amp; idxMe&lt;myParentElems.length-1){
-    //                         const idxNext=idxMe+1;
-    //                         const next=myParentElems[idxNext]
-    //                         if (next.isA("Pro")){
-    //                             const thePro=myParentElems.splice(idxNext,1)[0]; // remove next pro from parent
-    //                             thePro.realization=thePro.realize() // insert its realization after the auxiliary and before the verb
-    //                             return [aux,thePro,this] 
-    //                         }
-    //                     }
-    //                 } else {
-    //                     // search for pronoun in parent
-    //                     const proIndex=myParent.findIndex(d=>d.terminal.isA("Pro"))
-    //                     if (proIndex>=0) {
-    //                         const thePro=myParent.removeDependent(proIndex).terminal; // remove Pro from Parent
-    //                         const thePro2=thePro.clone();   // as the original Pro is already realized in the output list, we must hack
-    //                         thePro2.realization=thePro2.realize(); // insert its realization after the auxiliary and before the verb
-    //                         thePro.realization="";          // set original Pro realization to nothing 
-    //                         return [aux,thePro2,this]
-    //                     }
-    //                 } 
-    //             }
-    //         }
-    //         return [aux,this];
-    //     default:// simple tense
-    //         var conjugation=getRules(this.lang).conjugation[this.tab].t[t];
-    //         if (conjugation!==undefined &amp;&amp; conjugation!==null){
-    //             let res,term;
-    //             switch (t) {
-    //             case "p": case "i": case "f": case "ps": case "c": case "s": case "si":
-    //                 term=conjugation[pe-1+(n=="p"?3:0)];
-    //                 if (term==null){
-    //                     return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-    //                 } else {
-    //                     this.realization=this.stem+term;
-    //                 }
-    //                 res=[this];
-    //                 if (this.isReflexive() &amp;&amp; this.parentConst==null){
-    //                     this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
-    //                 }
-    //                 return res;
-    //             case "ip":
-    //                 if ((n=="s" &amp;&amp; pe!=2)||(n=="p" &amp;&amp; pe==3)){// French imperative does not exist at all persons and numbers
-    //                     return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-    //                 }
-    //                 term=conjugation[pe-1+(n=="p"?3:0)];
-    //                 if (term==null){
-    //                     return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-    //                 } else {
-    //                     this.realization=this.stem+term;
-    //                 }
-    //                 res=[this];
-    //                 if (this.isReflexive() &amp;&amp; this.parentConst==null){
-    //                     this.lier();
-    //                     this.insertReal(res,Pro("moi","fr").tn("").pe(pe).n(n).g(g));
-    //                 }
-    //                 return res;
-    //             case "b": case "pr": case "pp":
-    //                 this.realization=this.stem+conjugation;
-    //                 res=[this];
-    //                 if ( this.isReflexive()&amp;&amp; this.parentConst==null &amp;&amp; t!="pp" ){
-    //                     this.insertReal(res,Pro("moi","fr").c("refl").pe(pe).n(n).g(g),0)
-    //                 }
-    //                 if (t=="pp" &amp;&amp; this.realization != "été"){ //HACK: peculiar frequent case of être that does not change
-    //                     let g=(this.cod ?? this).getProp("g");
-    //                     let n=(this.cod ?? this).getProp("n");
-    //                     if (g=="x" || g=="n")g="m"; // neutre peut arriver avec un sujet en anglais
-    //                     if (n=="x")n="s";
-    //                     const gn=g+n;
-    //                     if (!(gn == "mp" &amp;&amp; this.realization.endsWith("s"))){// pas de s au masculin pluriel si termine en s
-    //                         if (gn != "ms" &amp;&amp; this.realization.endsWith("û"))// changer "dû" en "du" sauf pour masc sing
-    //                             this.realization=this.realization.slice(0,-1)+"u"
-    //                         this.realization+={"ms":"","mp":"s","fs":"e","fp":"es"}[gn]
-    //                     }
-    //                 }
-    //                 return res;
-    //             default:
-    //                 return [this.morphoError("conjugate_fr",{pe:pe,n:n,t:t})];
-    //             }
-    //         }
-    //         return [this.morphoError("conjugate_fr:t",{pe:pe,n:n,t:t})];
-    //     }
-    // }
-
-    // /**
-    //  * English conjugation of this Terminal
-    //  * @returns list of Terminals with their realization field filled
-    //  */
-    // conjugate_en(){
-    //     let pe = +this.getProp("pe") || 3; // property can also be a string with a single number 
-    //     const n = this.getProp("n");
-    //     const g = this.getProp("g") || "m"; // migh be used for reflexive pronoun
-    //     const t = this.getProp("t");
-    //     if (this.tab==null)
-    //         return [this.morphoError("conjugate_en:tab",{pe:pe,n:n,t:t})];
-    //     // subjonctive present is like present except that it does not end in s at 3rd person
-    //     // subjonctive past is like simple past
-    //     const t1 = t=="s"?"p":(t=="si"?"ps":t);
-    //     const conjugation=getRules(this.lang).conjugation[this.tab].t[t1];
-    //     let res=[this];
-    //     if (conjugation!==undefined){
-    //         switch (t) {
-    //             case "p": case "ps": 
-    //             case "s": case "si": 
-    //                 if (typeof conjugation == "string"){
-    //                     this.realization=this.stem+conjugation;
-    //                 } else {
-    //                     let term=conjugation[pe-1+(n=="p"?3:0)];
-    //                     if (term==null){
-    //                         return [this.morphoError("conjugate_en:pe",{pe:pe,n:n,t:t})];
-    //                     } else {
-    //                         // remove final s at subjonctive present by taking the form at the first person
-    //                         if (t=="s" &amp;&amp; pe==3)term=conjugation[0];
-    //                         this.realization=this.stem+term;
-    //                     }
-    //                 }
-    //                 break;
-    //             case "b": case "pp": case "pr":
-    //                 this.realization=this.stem+conjugation;
-    //         }
-    //     } else if (t=="f"){
-    //         this.realization=this.lemma;
-    //         this.insertReal(res,V("will"),0);
-    //     } else if (t=="c"){
-    //         this.realization=this.lemma;
-    //         this.insertReal(res,V("will").t("ps"),0);
-    //     } else if (t=="bp" || t=="bp-to"){
-    //         const pp = getRules(this.lang).conjugation[this.tab].t["pp"];
-    //         this.realization=pp!==undefined?(this.stem+pp):this.lemma;
-    //         this.insertReal(res,V("have").t("b"),0);
-    //         if (t=="bp-to") this.insertReal(res,P("to"),0);
-    //     } else if (t=="b-to"){
-    //         this.realization=this.lemma;
-    //         this.insertReal(res,P("to"),0);
-    //     } else if (t=="ip"){
-    //         this.realization=this.lemma;
-    //         if (pe==1 &amp;&amp; n=="p")this.insertReal(res,Q("let's"),0);
-    //     } else
-    //         return [this.morphoError("conjugate_en: unrecognized tense",{pe:pe,n:n,t:t})];
-    //     return res;
-    // }
-
-    // /**
-    //  * Conjugation of this Terminal
-    //  * @returns list of Terminals with their realization field filled
-    //  */
-    // conjugate(){
-    //     if (this.isFr())return this.conjugate_fr();
-    //     else return this.conjugate_en();
-    // }
 
     /**
      * Format the date
@@ -843,8 +543,22 @@ class Terminal extends Constituent{
         } else {
             dateS = interpret(["year","month","date","day"].filter(field=> dOpts[field]==true).join("-"));
         }
-        
-        const timeS = interpret(["hour","minute","second"].filter(field=> dOpts[field]==true).join(":"));
+        let timeFields = ["hour","minute","second"].filter(field=> dOpts[field]==true).join(":")
+        if (dOpts["nat"]===true){// remove 0 min and 0 seconds in natural mode
+            const h = dateObj.getHours()
+            const m = dateObj.getMinutes()
+            const s = dateObj.getSeconds()
+            if (timeFields=="hour:minute:second"){
+                if (m==0 &amp;&amp; s==0){
+                    if (h==0) timeFields = "0h"
+                    else if (h==12) timeFields = "12h" 
+                    else timeFields="hour"
+                } else if (s==0) timeFields="hour:minute"
+            } else if (timeFields=="hour:minute"){
+                if (m==0) timeFields = "hour"
+            }
+        }
+        const timeS = interpret(timeFields);
         return [dateS,timeS].filter(s=>s.length>0).join(" ")
     }
 
@@ -907,11 +621,7 @@ class Terminal extends Constituent{
             this.warn("bad number in word",number)
             return number+"";
         }
-        const one = this.numberOne(gender,number)
-        // if (lang=="fr" &amp;&amp; gender=="f"){
-        //     if (number==1)return "une";
-        //     if (number==-1) return "moins une";
-        // } 
+        const one = this.numberOne(number,gender)
         if (one != null)return one;
         return enToutesLettres(number,lang);
     };
@@ -944,17 +654,6 @@ class Terminal extends Constituent{
         return roman(number)
     }
 
-
-    /**
-     * Creates a new copy of this instance by evaluating a string representation of this object
-     * NB: this method is identical in subclasses of Constituent and cannot be defined in Constituent 
-     * to ensure that eval has access to all symbols now that packages are used
-     * @returns a deep copy of this instance
-     */
-    clone(){
-        return eval(this.toSource());
-    }
-
     /**
      * Produce the string form of a Terminal
      * @returns string corresponding to the creation of this Terminal
@@ -972,11 +671,7 @@ class Terminal extends Constituent{
      * @returns string representation of this Terminal
      */
     toDebug(){
-        let res=this.constType+"("+quote(this.lemma)+")";
-        if (this.peng !== undefined){
-            if (this.peng.pengNO !== undefined) res += "#"+this.peng.pengNO;
-            if (this.peng.tauxNO !== undefined) res += "-"+this.peng.tauxNO;
-        } 
+        let res=this.constType+"("+quote(this.lemma)+")"+this.getPengTauxStr();
         return res+super.toDebug();
     }
 }
@@ -990,13 +685,13 @@ class Terminal extends Constituent{
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addLemma">addLemma</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#buildLemmataMap">buildLemmataMap</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_countable">check_countable</a></li><li><a href="global.html#check_determiner_cnt">check_determiner_cnt</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_majestic">check_majestic</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#choice">choice</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#expandConjugation">expandConjugation</a></li><li><a href="global.html#expandDeclension">expandDeclension</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genExp">genExp</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#jsrExpInit">jsrExpInit</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#noun_always_plural">noun_always_plural</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#relative_pronouns_propagate">relative_pronouns_propagate</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#should_try_another_subject">should_try_another_subject</a></li><li><a href="global.html#showLemmata">showLemmata</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 01 2025 13:27:10 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

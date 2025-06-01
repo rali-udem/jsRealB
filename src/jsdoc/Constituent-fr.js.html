@@ -29,14 +29,15 @@
             <pre class="prettyprint source linenums"><code>/**
    jsRealB 5.0
    Guy Lapalme, lapalme@iro.umontreal.ca, December 2023
+   
+   Mixin using the "weird trick" explained at
+       https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/
  */
 
 export {French_constituent}
 import { getLemma } from "./Lexicon.js";
 import {N,A,Pro,D,V,Adv,C,P,DT,NO,Q,S,NP,AP,VP,AdvP,PP,CP,SP} from "./jsRealB.js"
 
-// Mixin using the "weird trick" explained at
-//     https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/
 
 /**
  * French specific Constituent class
@@ -91,10 +92,31 @@ const French_constituent = (superclass) =>
             return ["toi", "lui", "nous", "vous", "eux", "elle", "elles", "on", "soi"]
         }
 
+        /**
+         * Return the first person tonic pronoun
+         *
+         * @returns {"me"}
+         */
         tonic_pe_1(){return "moi"}
 
+        /**
+         * Return a list of English relative pronouns
+         *
+         * @returns {string[]}
+         */
         relative_pronouns(){
-            return ["qui", "que", "dont", "où"]
+            return ["qui","que", "dont", "où", "lequel", "auquel", "duquel"]
+        }
+
+        /**
+         * Return a list of English relative pronouns whose number and gender 
+         * that can be propagated into the subordinate
+         *
+         * @returns {string[]}
+         */
+
+        relative_pronouns_propagate(){
+            return ["qui","lequel", "auquel", "duquel"]
         }
 
         validate_neg_option(val,types){
@@ -105,9 +127,7 @@ const French_constituent = (superclass) =>
             return true
         }
 
-        // same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
-        // HACK: referred to by "this.constructor.sepWordREfr" 
-        // according to https://stackoverflow.com/questions/69448030/javascript-refer-to-anonymous-class-static-variable
+        // Same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
         sepWordRE(){
             return /((?:[^&lt;\wàâéèêëîïôöùüç'-]*(?:&lt;[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
         }
@@ -210,14 +230,18 @@ const French_constituent = (superclass) =>
             if (terminals[i].isA("V") &amp;&amp; terminals[i+1].isA("Pro")){
                 /* According to Antidote:
                 C'est le cas, notamment, quand le verbe à la 3e personne du singulier du passé, du présent ou 
-                du futur de l'indicatif se termine par une autre lettre que d ou t et qu'ßil est suivi 
+                du futur de l'indicatif se termine par une autre lettre que d ou t et qu'il est suivi 
                 des pronoms sujets il, elle ou on. Dans ce cas, on ajoute un ‑t‑ entre le verbe 
                 et le pronom sujet inversé.*/
-                if (/[^dt]$/.test(terminals[i].realization) &amp;&amp; /^[ieo]/.test(terminals[i+1].realization)){
+                if (/[^dt]$/.test(terminals[i].realization) &amp;&amp; 
+                    // ignore final punctuation in the realization
+                    ["il","elle","on"].includes(terminals[i+1].realization.replace(/(\w+).*/,"$1"))){
                     return "t-";
+                } else if (terminals[i].realization=="peux" &amp;&amp; terminals[i+1].realization == "je"){
+                    terminals[i].realization="puis"; // HACK replace "peux-je" by "puis-je"
                 }
-                return ""
             }            
+            return ""
         }
 
         warning(args){
@@ -267,10 +291,10 @@ const French_constituent = (superclass) =>
                 "no value for option": (option, validVals)=>
                     // aucune valeur pour l'option $option, elle devrait être une parmi $validVals.
                     S(NP(D("aucun"), N("valeur"),
-                         PP(P("pour"), D("le"), N("option"), Q("A"))).a(","),
+                         PP(P("pour"), D("le"), N("option"), Q(option))).a(","),
                       SP(Pro("elle"),
                          VP(V("être").t("c"), Pro("un").g("f"),
-                            PP(P("parmi"), Q("B")))).typ({"mod": "nece"})),
+                            PP(P("parmi"), makeDisj(validVals)))).typ({"mod": "nece"})),
                 "not found": (missing, context)=>
                     // aucun $missing trouvé dans $context.
                     S(AdvP(D("aucun"), Q(missing)), VP(V("trouver").t("pp"), PP(P("dans"), Q(context)))),
@@ -299,7 +323,7 @@ const French_constituent = (superclass) =>
                     // absent du lexique $lang, mais existe comme $altPos
                     S(A("absent"),
                       PP(P("de"), D("le"), lang=="fr" ? A("français"): A("anglais"), N("lexique")),
-                      AdvP(Adv("mais"), V("exister"), Adv("comme"), altPos === undefined ? Q("") : makeDisj(altPos))),
+                      altPos !== undefined ? AdvP(Adv("mais"), V("exister"), Adv("comme"),makeDisj(altPos)):Q("")),
                 "no appropriate pronoun": ()=>
                     // un pronom adéquat ne peut pas être trouvé
                     S(VP(V("trouver"), NP(D("un"), A("approprié"), N("pronom")))).typ({"neg": true, "pas": true, "mod": "poss"}),
@@ -311,11 +335,11 @@ const French_constituent = (superclass) =>
                       Q("tn(..)"), VP(V("ignorer")).typ({"pas": true})),
                 "bad Constituent": (rank, type)=>
                     // le $rank paramètre n'est pas Constituent.
-                    S(NP(D("le"), N("paramètre"), Q(rank)),
+                    S(NP(D("le"), Q(rank), N("paramètre")),
                       VP(V("être"), Q("Constituent"), Adv("mais"), Q(type))).typ({"neg": true}),
                 "bad Dependent": (rank, type)=>
-                    // le paramètre $rank n'est pas Dependent mais $type
-                    S(NP(D("le"), N("paramètre"), Q(rank)),
+                    // le $rank paramètre n'est pas Dependent mais $type
+                    S(NP(D("le"), Q(rank), N("paramètre")),
                       VP(V("être"), Q("Dependent"), Adv("mais"), Q(type))).typ({"neg": true}),
                 "Dependent needs Terminal": (type)=>
                     // le premier paramètre du Dependent n'est pas Terminal mais $type.
@@ -367,13 +391,13 @@ const French_constituent = (superclass) =>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addLemma">addLemma</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#buildLemmataMap">buildLemmataMap</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_countable">check_countable</a></li><li><a href="global.html#check_determiner_cnt">check_determiner_cnt</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_majestic">check_majestic</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#choice">choice</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#expandConjugation">expandConjugation</a></li><li><a href="global.html#expandDeclension">expandDeclension</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genExp">genExp</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#jsrExpInit">jsrExpInit</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#noun_always_plural">noun_always_plural</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#relative_pronouns_propagate">relative_pronouns_propagate</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#should_try_another_subject">should_try_another_subject</a></li><li><a href="global.html#showLemmata">showLemmata</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 01 2025 13:27:10 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

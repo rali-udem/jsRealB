@@ -326,7 +326,7 @@ class Constituent {
      * Override the global "majestic" flog for this Pro or D
      * HACK: this adds a flag to the peng structure so that agreements are correctly made
      * @param {boolean} isMaje if false it will override 
-     * @returns 
+     * @returns this Constituent
      */
     maje(isMaje){
         if (this.isA("Pro","D")){
@@ -344,7 +344,7 @@ class Constituent {
     /**
      * Set the sentence type
      * @param {Object} types object indicating sentence modifications
-     * @returns This constituentt
+     * @returns This constituent
      */
     typ(types){
         const allowedTypes={

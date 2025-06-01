@@ -33,7 +33,7 @@ const English_terminal = (superclass) =>
         /**
          * Returns the list of table number in rules-en that indicates a noun that is always plural
          *
-         * @returns {[string]}
+         * @returns {string[]}
          */
         noun_always_plural(){return ['n6']}
 
@@ -143,8 +143,8 @@ const English_terminal = (superclass) =>
 
         /**
          * Check if this noun is uncountable, if so do not accept plural
-         *
-         * @returns {error message if uncountable and plural, null otherwise}
+         * returns error message if uncountable and plural, null otherwise
+         * @returns {Constituent[]}
          */
         check_countable(){
             // check is English noun is uncountable 

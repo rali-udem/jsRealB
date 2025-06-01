@@ -51,16 +51,18 @@ import { Dependent } from "./Dependent.js"
 import { English_dependent } from "./Dependent-en.js";
 import { French_dependent } from "./Dependent-fr.js";
 
-import {loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV} from "./Lexicon.js"
-import {fromJSON,ppJSON} from "./JSON-tools.js"
+import {loadFr, loadEn, addToLexicon, getLanguage, getLemma, getLexicon, getRules, setReorderVPcomplements, setQuoteOOV} from "./Lexicon.js"
+import {buildLemmataMap} from "./Lemmatize.js"
+import {fromJSON, ppJSON} from "./JSON-tools.js"
 
 export {Constituent, Terminal, Phrase, Dependent, 
-        loadFr,loadEn,addToLexicon,getLanguage,getLemma,getLexicon,getRules,setReorderVPcomplements,setQuoteOOV,
+        loadFr, loadEn, addToLexicon, getLanguage, getLemma, getLexicon, getRules, setReorderVPcomplements, setQuoteOOV,
+        buildLemmataMap,
         fromJSON, ppJSON,
-        getElems, exceptionOnWarning,setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
-        load, oneOf, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
-        Terminal_en, Terminal_fr, terminal, N,A,Pro,D,V,Adv,C,P,DT,NO,Q,
-        Phrase_en, Phrase_fr, phrase, S,NP,AP,VP,AdvP,PP,CP,SP,
+        getElems, exceptionOnWarning, setExceptionOnWarning, resetSavedWarnings, getSavedWarnings, savedWarnings,
+        load, oneOf, choice, mix, jsRealB_version, jsRealB_dateCreated, isRunningUnderNode,
+        Terminal_en, Terminal_fr, terminal, N, A, Pro, D, V, Adv, C, P, DT, NO, Q,
+        Phrase_en, Phrase_fr, phrase, S, NP, AP, VP, AdvP, PP, CP, SP,
         Dependent_en, Dependent_fr, dependent, root, subj, det, mod, comp, coord,
 }
 
@@ -74,7 +76,7 @@ function getElems(es){ //
     for (const e of es) {
         if (e !== null &amp;&amp; e!== undefined){
             if (Array.isArray(e)){
-                Array.prototype.push.apply(res,getElems(e)); // recursive call
+                Array.prototype.push.apply(res, getElems(e)); // recursive call
             } else
                 res.push(e);
         }
@@ -95,6 +97,15 @@ function load(lang,trace=false){
         Q(lang).warn("bad language",lang)
 }
 
+function shuffle(elems){
+    // shuffle the elements adapting the algorithm given in
+    // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
+    for (let i = elems.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [elems[i], elems[j]] = [elems[j], elems[i]];
+    }
+}
+
 let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to specific oneOf call
 /**
  * Select a random element in a list useful to have some variety in the generated text
@@ -102,42 +113,68 @@ let jsRealB_oneOf_map= new Map()  // internal Map for keeping track of calls to 
  * otherwise the selection is among the arguments
  * Implements the "mode:once" of RosaeNLG (https://rosaenlg.org/rosaenlg/4.3.0/mixins_ref/synonyms.html#_choose_randomly_but_try_not_to_repeat)
  * Select an alternative randomly, but tries not to repeat the same alternative. 
- * When all alternatives have been triggered, it will reset, but will try not run the last triggered alternative 
+ * When all alternatives have been triggered, it will reset, but will not run the last triggered alternative 
  * as the first new one, avoiding repetitions.
+ * If a &lt;i>classical&lt;/i> random selection is preferred, use: choice(elems)
  * @param {Array | any} elems 
- * @returns the selected element, if it is a function, evaluate it with no parameter
+ * @returns the selected element, if it is a function, evaluate it with no parameter, null on an empty list
  */
 function oneOf(elems){
     if (!Array.isArray(elems))
         elems=Array.from(arguments);
-    const l = elems.length;
-    const elems_key = elems.toString()  // HACK: create key from the array
     let indices, idx;
-    if (jsRealB_oneOf_map.has(elems_key)){
-        let past_indices=jsRealB_oneOf_map.get(elems_key) // a list of past indices
-        if (past_indices.length&lt;l){
-            indices=[]
-            for (let i=0;i&lt;l;i++){ 
-                if (past_indices.indexOf(i)&lt;0)
-                    indices.push(i)
+    const l = elems.length;
+    if (l == 0) return null;
+    if (l == 1) 
+        idx=0;
+    else {
+        const elems_key = elems.toString()  // HACK: create key from the array
+        if (!jsRealB_oneOf_map.has(elems_key)){ // first call
+            indices=[...Array(l).keys()] // a list of indices to return
+            shuffle(indices)
+            idx = indices.pop() // select last element as index
+            jsRealB_oneOf_map.set(elems_key,indices) // initialise Map element
+        } else {
+            indices=jsRealB_oneOf_map.get(elems_key) // get shuffled indices
+            idx = indices.pop()  // return last élement as index
+            if (indices.length==0) { // reset the shuffled list but avoid last index
+                indices=[...Array(l).keys()] // a list of indices to return
+                shuffle(indices)
+                const last = indices.length-1
+                if (indices[last]==idx){ 
+                    // swap first and last so that last will not be returned next time
+                    [indices[0],indices[last]]=[indices[last],indices[0]]
+                }
+                jsRealB_oneOf_map.set(elems_key,indices) // reset Map element
             }
-        } else { // reset the list but avoid last index
-            const last_idx = past_indices[past_indices.length-1]
-            indices=[...Array(l).keys()]
-            indices.splice(last_idx,1) // remove last index
-            past_indices.splice(0)     // clear the array
         }
-        idx = indices[Math.floor(Math.random()*indices.length)] // select index
-        past_indices.push(idx)  
-    } else { // first call
-        indices=[...Array(l).keys()]
-        idx = indices[Math.floor(Math.random()*indices.length)] // select index
-        jsRealB_oneOf_map.set(elems_key,[idx])                  // initialise Map element
     }
     const e = elems[idx]
     return typeof e=='function'?e():e;
 }
 
+/**
+ * Select a random element in a list useful to have some variety in the generated text
+ * if the first argument is a list, selection is done within the list,
+ * otherwise the selection is among the arguments
+ * @param {Array | any} elems 
+ * @returns the selected element, if it is a function, evaluate it with no parameter, null on an empty list
+ */
+function choice(elems){
+    if (!Array.isArray(elems))
+        elems=Array.from(arguments);
+    let idx;
+    const l = elems.length;
+    if (l == 0) return null;
+    if (l == 1) 
+        idx=0;
+    else {
+        idx = Math.floor(Math.random()*l)
+    }
+    const e = elems[idx]
+    return typeof e=='function'?e():e;
+}
+    
 /**
  * Mix elements of a list in a random order.
  * If the first argument is a list, mixing is done within the list,
@@ -150,19 +187,14 @@ function mix(elems){
         elems=Array.from(arguments);
     else
         elems = [...elems] // copy the original list
-    // shuffle the elements adapting the algorithm given in
-    // https://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array/6274381#6274381
-    for (let i = elems.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [elems[i], elems[j]] = [elems[j], elems[i]];
-    }
+    shuffle(elems)
     return elems.map(e=>typeof e=='function'?e():e);
 }
 
 /**
  * Version number
  */
-const jsRealB_version="5.0.0";
+const jsRealB_version="5.4";
 /**
  * Date of jsRealB "compile", it is set by webpack
  */
@@ -352,8 +384,8 @@ class Phrase_fr extends French_phrase(French_non_terminal(Phrase)){}
  * @returns {(Phrase_en | Phrase_fr)}
  */
 function phrase(phraseType,elements){
-    return getLanguage()=="en" ? new Phrase_en(elements,phraseType) 
-                               : new Phrase_fr(elements,phraseType)
+    return getLanguage()=="en" ? new Phrase_en(elements,phraseType,"en") 
+                               : new Phrase_fr(elements,phraseType,"fr")
 }
 
 /**
@@ -437,8 +469,8 @@ class Dependent_fr extends French_dependent(French_non_terminal(Dependent)){}
  * @returns {(Dependent_en | Dependent_fr)}
  */
 function dependent(deprel,dependents){
-    return getLanguage()=="en" ? new Dependent_en(dependents,deprel) 
-                               : new Dependent_fr(dependents,deprel)
+    return getLanguage()=="en" ? new Dependent_en(dependents,deprel,"en") 
+                               : new Dependent_fr(dependents,deprel,"fr")
 }
 
 /**
@@ -492,13 +524,13 @@ function coord(...dependents){return dependent("coord",dependents)}
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addLemma">addLemma</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#buildLemmataMap">buildLemmataMap</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_countable">check_countable</a></li><li><a href="global.html#check_determiner_cnt">check_determiner_cnt</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_majestic">check_majestic</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#choice">choice</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#expandConjugation">expandConjugation</a></li><li><a href="global.html#expandDeclension">expandDeclension</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genExp">genExp</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#jsrExpInit">jsrExpInit</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#noun_always_plural">noun_always_plural</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#relative_pronouns_propagate">relative_pronouns_propagate</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#should_try_another_subject">should_try_another_subject</a></li><li><a href="global.html#showLemmata">showLemmata</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Dec 03 2023 15:43:16 GMT-0500 (GMT-05:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 01 2025 13:27:10 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
