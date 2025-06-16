@@ -56,8 +56,11 @@ function insertArticle($article,infos,lang){
             if (ex[lang][0]!=''){
                 $tr.append($(`<td class="description">${ex[lang][0]}</td>`));
                 $tr.append($(`<td class="pattern">${ex["pattern"]}</td>`));
-                $tr.append($(`<td class="example-${lang}">${ex[lang][1]}</td>`));
-                $tr.append($(`<td class="realisation">${eval(ex[lang][1])}</td>`));
+                const jsrExpr = ex[lang][1];
+                $tr.append($(`<td class="example-${lang}">${jsrExpr}</td>`));
+                const jsrEval = eval(jsrExpr)
+                const jsrReal = jsrEval instanceof Constituent ? jsrEval.realize() : jsrEval 
+                $tr.append($(`<td class="realisation">${jsrReal}</td>`));
             }
         } else {
             $tr.addClass("groupe");
@@ -105,7 +108,7 @@ function makeOptions(opts){
 
 function $makeCell(Const,terminal,options){
     const exp=`${Const}("${terminal}")`+options;
-    return $("<td><span class='realisation'>"+eval(exp)+"</span><br/>"+
+    return $("<td><span class='realisation'>"+eval(exp+".realize()")+"</span><br/>"+
                  "<span class='pattern'>"+exp+"</span></td>");
 }
 
@@ -124,7 +127,7 @@ function pronomsPersonnels($t,pro,opts,tnC){
         if (i==opts.length-1)$tr.addClass("last");
         const os=opts[i];
         const exp=`Pro("${pro}")`+os;
-        const citation=pro=="on"?"on":eval(exp);
+        const citation=pro=="on"?"on":eval(exp).realize();
         $tr.append($makeCell("Pro",pro,os))
         for (var j = 1; j < tnC.length; j++) {
             let x=tnC[j];
@@ -144,7 +147,7 @@ function flexionsGenreNombre($t,Const,singPlur,gn){
             let $tr=$("<tr/>");
             if (j==3)$tr.addClass("last")
             const exp=`${Const}("${mot}").pe(${j})`
-            const citation=eval(eval(exp))
+            const citation=eval(exp).realize()
             $tr.append($makeCell(Const,mot,`.pe(${j})`))
             for (let k = 1; k < gn.length; k++) {
                 $tr.append($makeCell(Const,citation,(j==1?".pe(1)":"")+gn[k]))
