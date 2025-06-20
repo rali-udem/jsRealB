@@ -32,10 +32,10 @@ function realizeSentence(input,lang,okFunc,errFunc){
                     jsonExp["lang"]=lang;
                 }
             }
-            sentence=fromJSON(jsonExp).toString();
+            sentence=fromJSON(jsonExp).realize();
         } else {
             errorType="jsRealB expression";
-            sentence=eval(input).toString();
+            sentence=eval(input).realize();
         }
         okFunc(sentence)
     } catch (e) {

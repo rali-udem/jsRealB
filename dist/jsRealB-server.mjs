@@ -1,5 +1,5 @@
 /// Simplistic node.js jsRealBServer
-
+import {readFileSync} from "fs";
 import { createServer } from "http";
 import { parse } from 'url';
 
@@ -10,6 +10,12 @@ import jsRealB from "./jsRealB.js";
 // "evaluate" the exports (Constructors for terminals and non-terminal) in the current context
 // so that they can be used directly
 Object.assign(globalThis,jsRealB);
+
+// load a Javascript init file given as parameter
+if (process.argv.length>2 && process.argv[2].endsWith(".js")){
+    // console.log("evaluate", process.argv[2])
+    eval(readFileSync(process.argv[2],"utf-8"))
+}
 
 loadEn(true);
 
@@ -25,10 +31,10 @@ createServer(function (request, response) {
            if (exp.startsWith("{")){
                errorType="JSON";
                const jsonExp=JSON.parse(exp);
-               sentence=fromJSON(jsonExp).toString();
+               sentence=fromJSON(jsonExp).realize();
            } else {
                errorType="jsRealB expression";
-               sentence=eval(exp).toString();
+               sentence=eval(exp).realize();
            }
            response.end(sentence)
        } catch (e) {
