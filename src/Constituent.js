@@ -518,39 +518,16 @@ class Constituent {
         if (md !== undefined) {
             md.forEach(function(markup){
                 const m = Constituent.mdRE.exec(markup);
-                if (m == undefined){
-                    return error("Bad value for markup:"+markup);
-                }
-                for (let i=1;i<9;i++){
-                    if (m[i]!= null){
-                        switch (i) {
-                            case 1:   // header
-                                wrapWith(m[1]+" ","\n");
-                                return
-                            case 2:  // bold and italic
-                                wrapWith(m[2],m[2]);
-                                return
-                            case 3: // blockquote
-                                wrapWith("\n"+m[3],"\n");
-                                return
-                            case 4: case 5: // unordered and ordered lists
-                                wrapWith("\n"+m[i]+" ","\n");
-                                return
-                            case 6: // horizontal rule after
-                                wrapWith("","\n---\n");
-                                return
-                            case 7 : // link
-                                wrapWith("[",`](${m[7].slice(1)})`)
-                                return
-                            case 8 : // autolink
-                                wrapWith("<",">")
-                                return
-                            default:
-                                error("Strange md value:"+i)
-                        }
-                    }
-                }
-            }); 
+                if (m == undefined){return error("Bad value for markup:"+markup);}
+                if (m[1] != null){wrapWith(m[1]+" ","\n"); return}      // header
+                if (m[2] != null){wrapWith(m[2],m[2]); return}          // bold and italic
+                if (m[3] != null){wrapWith("\n"+m[3],"\n"); return}     // blockquote
+                if (m[4] != null){wrapWith("\n"+m[4]+" ","\n"); return} // unordered list
+                if (m[5] != null){wrapWith("\n"+m[5]+" ","\n"); return} // ordered list
+                if (m[6] != null){wrapWith("","\n---\n"); return}       // horizontal rule after
+                if (m[7] != null){wrapWith("[",`](${m[7].slice(1)})`); return} // link
+                if (m[8] != null){wrapWith("<",">"); return}            // autolink
+            })
         }
         
         const as = this.props["a"];
