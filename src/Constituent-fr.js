@@ -182,10 +182,17 @@ const French_constituent = (superclass) =>
                     // try contraction
                     // check if the next word would be elidable, so instead elide it instead of contracting
                     // except when the next word is a date which has a "strange" realization
-                    // do not elide when there are only two words, wait until at least another token is there
-                    if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") &&
-                        isElidableFr(cList[i+2].realization,cList[i+2].lemma,cList[i+2].constType)){
-                        cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
+                    // do not elide when there are only two words, wait until at least another token is there 
+                    let real_2;
+                    if (i+2<=last){                
+                        // remove possible markup from the realization 
+                        // it must be called here, because this.sepWordRE() is not callable 
+                        // from within the isElidable() function (this is undefined...)
+                        real_2 = this.sepWordRE().exec(cList[i+2].realization)[2];
+                    }
+                    if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") && 
+                        isElidableFr(real_2,cList[i+2].lemma,cList[i+2].constType)){
+                             cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
                     } else if (!(w2.startsWith("le") && cList[i+1].isA("Pro"))){ 
                         // do contraction of first word and remove second word (keeping start and end)
                         // HACK: except when le/les is a pronoun

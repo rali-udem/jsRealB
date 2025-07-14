@@ -349,6 +349,24 @@ function makeExamples(){
                         (2,"s","f").typ({"maje":true}),
           "Vous n'êtes pas contente de votre décision. "
          ],
+         [S(
+             S(P("voici"),NP(D("un"),N("titre"))).md("#"),
+             S(NP(D("un"),N("mot").md("*"),
+                  PP(P("en"),N("lien"),N("italique")).md("@http://example.com")),
+               PP(P("devant"),NP(D("un"),N("liste")))).a(".\n").cap(),
+             S(["chat","chien","poulet"].map(e=>N(e).md("+"))),
+         ).md("---"),
+          `# Voici un titre
+ Un *mot* [en lien italique](http://example.com) devant une liste.
+ 
++ chat
+ 
++ chien
+ 
++ poulet
+
+---
+`]
     ];
 
     //  exemples en anglais
@@ -1010,7 +1028,7 @@ function testToConstituent(lang,deps){
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
-// testPreviousExamples()
+testPreviousExamples()
 // testWarnings()
 // testLemmataMaps()
 // makeExamples()

@@ -228,10 +228,44 @@ class Constituent {
             this.addOptSource("tag",name)
             attrs={};
         } else {
-            this.optSource+=".tag('"+name+"',"+JSON.stringify(attrs)+")" // special case of addOptSource...
+            this.optSource+=`.tag("${name}",${JSON.stringify(attrs)})`// special case of addOptSource...
         }
         if (this.props["tag"] === undefined)this.props["tag"]=[];
         this.props["tag"].push([name,attrs]);
+        return this;
+    }
+    
+    /**
+     * Regex for valid Markdown specifications with the following groups
+     *   #{1,6}  : 1 : header              
+     *   *{1,}   : 2 : bold+italic
+     *   >+      : 3 : blockquote
+     *   \s+\+   : 4 : unordered list
+     *   \d+\.+  : 5 : ordered list
+     *   ---     : 6 : horizontal rule
+     *   @.*     : 7 : link
+     *   <       : 8 : autolink
+     * @static
+     * @type {regex}
+     */
+    static mdRE = /^(?:(#{1,6})|(\*{1,3})|(>+)|(\s*\+)|(\d+\.+)|(---)|(@.*)|(<))$/
+    
+    /**
+     * Save information for a Markdown markup in both source and props
+     * @param {string} markup matching Constituent.mdRE
+     * @returns this Contituent with md value set
+     */
+    md(markup){
+        if (typeof markup != "string"){
+            return this.warn("bad application",".md","string",typeof markup);
+        }
+        const match = Constituent.mdRE.exec(markup);
+        if (match == null){
+            return this.warn("ignored value for option",".md",markup);
+        }
+        if (this.props["md"] === undefined) this.props["md"]=[];
+        this.props["md"].push(markup);
+        this.optSource+=`.md("${markup}")`;
         return this;
     }
 
@@ -479,6 +513,46 @@ class Constituent {
                 wrapWith(startTag(attName,attVal),"</"+attName+">");
             })
         }
+        
+        const md = this.props["md"];
+        if (md !== undefined) {
+            md.forEach(function(markup){
+                const m = Constituent.mdRE.exec(markup);
+                if (m == undefined){
+                    return error("Bad value for markup:"+markup);
+                }
+                for (let i=1;i<9;i++){
+                    if (m[i]!= null){
+                        switch (i) {
+                            case 1:   // header
+                                wrapWith(m[1]+" ","\n");
+                                return
+                            case 2:  // bold and italic
+                                wrapWith(m[2],m[2]);
+                                return
+                            case 3: // blockquote
+                                wrapWith("\n"+m[3],"\n");
+                                return
+                            case 4: case 5: // unordered and ordered lists
+                                wrapWith("\n"+m[i]+" ","\n");
+                                return
+                            case 6: // horizontal rule after
+                                wrapWith("","\n---\n");
+                                return
+                            case 7 : // link
+                                wrapWith("[",`](${m[7].slice(1)})`)
+                                return
+                            case 8 : // autolink
+                                wrapWith("<",">")
+                                return
+                            default:
+                                error("Strange md value:"+i)
+                        }
+                    }
+                }
+            }); 
+        }
+        
         const as = this.props["a"];
         if (as !== undefined){
             as.forEach(function(a){wrapWith("",getBeforeAfterString(a)["b"])})
@@ -542,7 +616,7 @@ class Constituent {
             }
         }
         const lastTerm = terminals[last];
-        if (lastTerm.realization.startsWith(" ")){
+        if (lastTerm.realization.startsWith(" ") && last>0){ // do not remove leading space
             lastTerm.realization = lastTerm.realization.slice(1)
         }
         if (doTitleCase) this.titleCase(lastTerm)

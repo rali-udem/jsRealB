@@ -23,7 +23,7 @@
             "name": "Launch current HTML",
             "request": "launch",
             "webRoot": "${workspaceFolder}",
-            "url": "http://127.0.0.1:8080/${relativeFile}"
+            "url": "http://127.0.0.1:8081/${relativeFile}"
         },
         {
             "name": "Launch tests-dev.js",
@@ -94,13 +94,13 @@
             "type": "chrome",
             "name": "Tests/testAll.html",
             "request": "launch",
-            "url": "http://127.0.0.1:8080/Tests/testAll.html"
+            "url": "http://127.0.0.1:8081/Tests/testAll.html"
         },
         {
             "type": "chrome",
             "name": "web-dev.html",
             "request": "launch",
-            "url": "http://127.0.0.1:8080/web-dev.html"
+            "url": "http://127.0.0.1:8081/web-dev.html"
         },
     ]
 }
