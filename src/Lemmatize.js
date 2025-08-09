@@ -272,7 +272,7 @@ function expandDeclension(lang,lexicon,lemmata,rules,entry,pos,tab){
  * @param {String} lang
  * @returns {Map}
  */
-function buildLemmataMap(lang){
+function buildLemmataMap(lang,filter=()=>true){
     load(lang)
     let lexicon = getLexicon()
     let rules = getRules()
@@ -281,21 +281,20 @@ function buildLemmataMap(lang){
                               :"Vérification de la table des lemmes en français")
     }
     let lemmata=new Map();  // use a Map instead of an object because "constructor" is an English word...
-    let allEntries=Object.keys(lexicon);
-    for (var i = 0; i < allEntries.length; i++) {
-        var entry=allEntries[i];
-        var entryInfos=lexicon[entry];
-        var allPos=Object.keys(entryInfos);
-        // console.log(entryInfos,allPos)
-        for (var j = 0; j <  allPos.length; j++) {
-            var pos=allPos[j];
-            // console.log(entryInfos,j,pos);
-            if (pos=="ldv" || pos == "niveau" || pos=="value") continue; // ignore these properties
-            if (pos=="Pc") continue; // ignore punctuation
-            if (pos=="V"){ // conjugation
-                expandConjugation(lang,lemmata,rules,entry,entryInfos["V"]["tab"]);
-            } else {       // declension
-                expandDeclension(lang,lexicon,lemmata,rules,entry,pos,entryInfos[pos]["tab"]);
+    for (const [lemma,infos] of Object.entries(lexicon)){
+        if (filter(lemma,infos)){
+            var allPos=Object.keys(infos);
+            // console.log(entryInfos,allPos)
+            for (var j = 0; j <  allPos.length; j++) {
+                var pos=allPos[j];
+                // console.log(entryInfos,j,pos);
+                if (pos=="ldv" || pos == "niveau" || pos=="value") continue; // ignore these properties
+                if (pos=="Pc") continue; // ignore punctuation
+                if (pos=="V"){ // conjugation
+                    expandConjugation(lang,lemmata,rules,lemma,infos["V"]["tab"]);
+                } else {       // declension
+                    expandDeclension(lang,lexicon,lemmata,rules,lemma,pos,infos[pos]["tab"]);
+                }
             }
         }
     }

@@ -789,7 +789,7 @@ genOptionFunc("pos",["post","pre"],["A","Adv",...deprels]);
 genOptionFunc("pro",["",true,false],["NP","PP"]);
 // English only
 genOptionFunc("ow",["s","p","x"],["D","Pro"],"own");
-genOptionFunc("poss",["",true,false],["N","Q"])
+genOptionFunc("poss",["",true,false],["N","Q","NP"])
 
 /// Formatting options
 genOptionFunc("cap",[true,false,"tit",""],[]);

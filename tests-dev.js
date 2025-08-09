@@ -1006,6 +1006,10 @@ function testLemmataMaps(){
     showForms(lemmataFr,"ménagère")
     showForms(lemmataFr,"crus")
     showForms(lemmataFr,"crus",e=>e.isA("N"))
+    console.log("--")
+    lemmataFr = buildLemmataMap("fr",(lemma,_)=>lemma.startsWith("p"))
+    showForms(lemmataFr,"penserions")
+    showForms(lemmataFr,"crus")
 }
 
 function testToConstituent(lang,deps){
@@ -1028,7 +1032,7 @@ function testToConstituent(lang,deps){
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
-testPreviousExamples()
+// testPreviousExamples()
 // testWarnings()
 // testLemmataMaps()
 // makeExamples()

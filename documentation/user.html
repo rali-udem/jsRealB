@@ -283,9 +283,10 @@ ce qui peut simplifier les appels lors de paramètres optionnels.</p>
 <!-- *** Module  *** -->
     <h2 lang="fr" id="moduleNode">Module <code>Node.js</code></h2><h2 lang="en" id="nodeModule"><code>Node.js</code> Module</h2>
 
-    <p lang="fr"><span class="jsr">jsRealB</span> peut aussi être utilisé avec <code>Node.js</code> en important le module <code>jsRealB</code> avec  <code>import jsRealB from './jsRealB.js';</code> qui exporte le symbole <code>jsRealB</code>.  
-        On peut aussi accéder au module <em>npm</em> <code>jsrealb</code> (attention à la casse différente), avec <code>import "jsrealb"</code> si, au préalable, on l'a installé avec <code>npm install jsrealb</code>. L'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux. Il est donc plus pratique de définir les constructeurs dans le contexte global en exécutant l'expressions suivante:</p>
-    <p lang="en">The <span class="jsr">jsRealB</span> versions  can also be used with <code>Node.js</code> with an instruction such as <code>import "./dist/jsRealB.js";</code>. It is also possible to use the <em>npm</em> <code>jsrealb</code> (check for the differing capitalization), with <code>import "jsrealb"</code> if, beforehand, it has been installed on your machine with <code>npm install jsrealb</code>. Phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious. It is thus more convenient to define these constructors in the global namespace with the following expression:</p>
+    <p lang="fr"><span class="jsr">jsRealB</span> peut être utilisé avec <code>Node.js</code> en important le module <code>jsRealB</code> avec  <code>import jsRealB from './jsRealB.js';</code>  ou <code>const jsRealB = require("./jsRealB.js")</code> qui exporte le symbole <code>jsRealB</code>. On peut aussi accéder au module <em>npm</em> <code>jsrealb</code> (attention à la casse différente), avec <code>import "jsrealb"</code> si, au préalable, on l'a installé avec <code>npm install jsrealb</code>. </p> 
+    <p lang="fr">L'accès aux constructeurs de syntagmes du module Node doit se faire de la façon suivante <code>jsRealB.S(...)</code> ce qui peut s'avérer laborieux. Il est donc plus pratique de définir les constructeurs dans le contexte global en exécutant l'expressions suivante:</p>
+    <p lang="en">The <span class="jsr">jsRealB</span> versions can  be used with <code>Node.js</code> with an instruction such as <code>import "./dist/jsRealB.js";</code> or <code>const jsRealB = require("./jsRealB.js")</code>. It is also possible to use the <em>npm</em> <code>jsrealb</code> (check for the differing capitalization), with <code>import "jsrealb"</code> if, beforehand, it has been installed on your machine with <code>npm install jsrealb</code>.</p>
+    <p lang="en"> Phrase constructors from the Node module must be called as <code>jsRealB.S(...)</code> which can be tedious. It is thus more convenient to define these constructors in the global namespace with the following expression:</p>
     <code>    Object.assign(globalThis,jsRealB);</code>
     <p lang="fr">Un script JavaScript peut vérifier s'il est utilisé comme module <code>Node.js</code> en consultant la variable booléenne <code>isRunningUnderNode</code>.</p>
     <p lang="en">A JavaScript script can check if it used as <code>Node.js</code> module with the boolean variable <code>isRunningUnderNode</code>.</p>
@@ -356,18 +357,21 @@ The <a href="http://rali.iro.umontreal.ca/JSrealB/current/demos/Evaluation/index
 <p lang="fr">Lorsque cet identificateur est mis à <code>true</code>, les mots absents du lexique sont considérés comme des chaînes verbatim (i.e. <code>Q(...)</code> au lieu de susciter un avertissement et d'être affichés entre double crochets. Comme ceci empêche toute lemmatisation, accord ou transformation de phrases, il faut utiliser cet indicateur avec parcimonie.</p>
 <p lang="en">When this flag is set to <code>true</code>, words that are not in the lexicon are considered as quoted strings (i.e. <code>Q(...)</code> instead of raising an warning and be displayed between double square brackets. As this prevents any lemmatization, agreement or sentence transformations, this flag should be used sparingly.</p>
 
-<h3><code>buildLemmataMap(lang)</code></h3>
-<p lang="fr">Créer une table (une <code>Map</code> et non un objet Javascript). Chaque clé est une des formes déclinées ou conjuguées de tous les mots du lexique de la langue spécifiée. La valeur associée à une liste d'instances de <code>Terminal</code> qui sont réalisées par la clé.</p>
+<h3><code>buildLemmataMap(lang[,filter(lemma,infos)=>true])</code></h3>
+<p lang="fr">Créer une <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"><code>Map</code></a>, non un objet Javascript. Chaque clé est une des formes déclinées ou conjuguées de des mots du lexique de la langue spécifiée. La valeur associée à une liste d'instances de <code>Terminal</code> dont la réalisation est la clé.</p>
 <p lang="fr">Cette <code>Map</code> peut être utilisée pour de la génération <i>inverse</i>. Voici quelques appels suivis des résultats après &rAarr;<pre lang="fr"><code>    const lemmataFr = buildLemmataMap("fr")
     lemmataFr.get("finies").map(e=>e.toSource()) &rAarr; <i>[A('fini').g("f").n("p"), V('finir').t("pp").g("f").n("p")]</i>
     lemmataFr.get("crus").filter(e=>e.isA("N")).map(e=>e.toSource()) &rAarr; <i>[`N('cru').n("p")`]</i>
 </code></pre></p>
+<p lang="fr">Si <code>filter</code> est spécifié, ce doit être une fonction à deux arguments qui permet de tester soit le lemme ou les informations associées. Lorsque cette fonction retourne <code>false</code>, les formes générables à partir de cette entrée du lexique ne sont pas ajoutées à la <code>Map</code>.</p>
 
-<p lang="en">Build a table (a <code>Map</code>, not a Javascript object). Each key is an inflected form of all the entries in the lexicon of the specified language. The associated value is a list of <code>Terminal</code> instances that are realized by the key.</p>
+<p lang="en">Build a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"><code>Map</code></a>, not a Javascript object. Each key is an inflected form of the entries in the lexicon of the specified language. The associated value is a list of <code>Terminal</code> instances whose realization is the key.</p>
 <p lang="en">This <code>Map</code>  can be used for <i>inverse</i> generation. Here are examples of calls with the result shown after &rAarr;<pre lang="en"><code>    const lemmataEn = buildLemmataMap("en")
     lemmataEn.get("love").map(e=>e.toSource()) &rAarr; <i>[N('love'), V('love').t("b"), V('love').pe(1), V('love').pe(2), V('love').pe(1).n("p"), V('love').pe(2).n("p"), V('love').n("p")]</i>
     lemmataFr.get("love").filter(e=>e.isA("N")).map(e=>e.toSource()) &rAarr; <i>[N('love')]</i>
 </code></pre></p>
+<p lang="en">If <code>filter</code> is present, it is a function with two arguments that are used for testing either the lemma itself or the associated informations. When this function returns <code>false</code> the forms generated from this entry are not added to the <code>Map</code>.</p>
+
 
 
 <!-- *** Sélection de variantes *** -->
