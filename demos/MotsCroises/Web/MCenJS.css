@@ -1,0 +1,89 @@
+#grilleInfos{
+    float:left;
+    width:400px;
+}
+
+#horizontal,#vertical {
+    float:left;
+    width:300px;
+    margin:10px 0px 0px 10px;
+}
+
+#hDefs,#vDefs{
+    height:200px;
+    overflow:auto;
+    border: 1px solid #999;
+}
+
+#definitionCourante {
+    margin-left:5px;
+    padding:2px;    
+    height:20px;
+}
+
+#grille {
+    margin:20px;
+    border-collapse:collapse;
+}
+
+#grille td {
+    width: 25px;
+    height:25px;
+    border:1px solid black;
+    padding:0px;margin:0px;
+	text-align:center;
+}
+
+#grille td.numero{border-style:none;}
+#grille td.selection{background-color:lightgray;}
+#grille td.courante{background-color:yellow;}
+#grille td.noire.courante{background-color: #666666;}
+#grille td.noire{background-color: black;}
+#grille td.mauvaise{color:red;}
+#grille td.cheat{color:blue;}
+
+/* pour les définitions */
+
+#horizontal td:first-child, #vertical td:first-child {
+    vertical-align:top;
+}
+
+td.defNo {text-align:right}
+td.defNo:after {content:': ';}
+
+span.defCourante {
+    background-color:yellow;
+}
+
+span.motTrouve {
+    text-decoration: line-through;
+    color:gray;
+}
+
+#message{
+	font-weight: bold;
+	color:blue;
+	font-size: 125%;
+}
+
+#aide {display:none;}
+#affiche-aide {cursor: pointer;}
+#check-on-the-fly, #affiche-aide {
+    margin-left:20px;
+    padding:3px;
+    border:thin solid black;
+}
+
+/*  drag and drop of file */
+body.dragging::before {
+  content: "Glissez le fichier sur la page";
+  position: fixed;
+  left: 0; width: 100%;
+  top: 0; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  background-color: rgba(255, 255, 0, .3);
+  pointer-events: none;
+}

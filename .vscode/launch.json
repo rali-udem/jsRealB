@@ -23,7 +23,7 @@
             "name": "Launch current HTML",
             "request": "launch",
             "webRoot": "${workspaceFolder}",
-            "url": "http://127.0.0.1:8081/${relativeFile}"
+            "url": "http://127.0.0.1:8080/${relativeFile}"
         },
         {
             "name": "Launch tests-dev.js",

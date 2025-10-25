@@ -1,0 +1,769 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<meta name="author" content="Guy Lapalme">
+<meta name="description" content="Description de l'algorithme, des structures de données et des données utilisées pour la création de grilles de mots croisés">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, h5 { white-space: pre-wrap; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+thead, tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { -webkit-user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; border-color: transparent !important; padding-top: 0px !important; padding-bottom: 0px !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  #write > p:nth-child(1) { margin-top: 0px; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+  figure { overflow-x: visible; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); background-position: initial initial; background-repeat: initial initial; }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print { 
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex: 2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) { 
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) { 
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.428571429rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ''; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ''; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left-width: 28px; border-left-style: solid; border-left-color: transparent; border-right-width: 28px; border-right-style: solid; border-right-color: transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ''; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right-width: 8px; border-right-style: solid; border-right-color: transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: '−'; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right-width: 1px; border-right-style: solid; border-right-color: rgb(221, 221, 221); background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; white-space: nowrap; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; border: none !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-width: 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; word-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; background-position: 0px 0px; background-repeat: initial initial; }
+.CodeMirror-wrap pre { word-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right-width: 30px; border-right-style: solid; border-right-color: transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right-style: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right-style: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background-color: rgba(255, 255, 0, 0.4); background-position: initial initial; background-repeat: initial initial; }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
+@media print { 
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+:root {
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: #777;
+}
+
+@include-when-export url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+  /* open-sans-italic - latin-ext_latin */
+    /* open-sans-700 - latin-ext_latin */
+    /* open-sans-700italic - latin-ext_latin */
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: "Open Sans","Clear Sans", "Helvetica Neue", Helvetica, Arial, 'Segoe UI Emoji', sans-serif;
+    color: rgb(51, 51, 51);
+    line-height: 1.6;
+}
+
+#write {
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 30px;
+    padding-bottom: 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+	#write {
+		max-width: 1024px;
+	}
+}
+
+@media only screen and (min-width: 1800px) {
+	#write {
+		max-width: 1200px;
+	}
+}
+
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: text;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    text-decoration: none;
+}
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
+}
+h1 {
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+h2 {
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+/*@media print {
+    .typora-export h1,
+    .typora-export h2 {
+        border-bottom: none;
+        padding-bottom: initial;
+    }
+
+    .typora-export h1::after,
+    .typora-export h2::after {
+        content: "";
+        display: block;
+        height: 100px;
+        margin-top: -96px;
+        border-top: 1px solid #eee;
+    }
+}*/
+
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h4 {
+    font-size: 1.25em;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+    height: 2px;
+    padding: 0;
+    margin: 16px 0;
+    background-color: #e7e7e7;
+    border: 0 none;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 0 15px;
+    color: #777777;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 0;
+}
+table tr:nth-child(2n),
+thead {
+    background-color: #f8f8f8;
+}
+table th {
+    font-weight: bold;
+    border: 1px solid #dfe2e5;
+    border-bottom: 0;
+    margin: 0;
+    padding: 6px 13px;
+}
+table td {
+    border: 1px solid #dfe2e5;
+    margin: 0;
+    padding: 6px 13px;
+}
+table th:first-child,
+table td:first-child {
+    margin-top: 0;
+}
+table th:last-child,
+table td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines {
+    padding-left: 4px;
+}
+
+.code-tooltip {
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,.3);
+    border-top: 1px solid #eef2f2;
+}
+
+.md-fences,
+code,
+tt {
+    border: 1px solid #e7eaed;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0;
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+}
+
+code {
+    background-color: #f3f4f4;
+    padding: 0 2px 0 2px;
+}
+
+.md-fences {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+
+.md-task-list-item > input {
+  margin-left: -1.3em;
+}
+
+@media print {
+    html {
+        font-size: 13px;
+    }
+    pre {
+        page-break-inside: avoid;
+        word-wrap: break-word;
+    }
+}
+
+.md-fences {
+	background-color: #f8f8f8;
+}
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+.md-mathjax-midline {
+    background: #fafafa;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    /*border: 1px solid #ddd;*/
+    border-radius: 3px;
+    padding: 2px 0px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag {
+    color: #a7a7a7;
+    opacity: 1;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+    font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.mac-os #write{
+    caret-color: AccentColor;
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+/*.html-for-mac {
+    --item-hover-bg-color: #E6F0FE;
+}*/
+
+#md-notification .btn {
+    border: 0;
+}
+
+.dropdown-menu .divider {
+    border-color: #e5e5e5;
+    opacity: 0.4;
+}
+
+.ty-preferences .window-content {
+    background-color: #fafafa;
+}
+
+.ty-preferences .nav-group-item.active {
+    color: white;
+    background: #999;
+}
+
+.menu-item-container a.menu-style-btn {
+    background-color: #f5f8fa;
+    background-image: linear-gradient( 180deg , hsla(0, 0%, 100%, 0.8), hsla(0, 0%, 100%, 0)); 
+}
+
+
+/* added to get numbered headings: taken from https://gist.github.com/patik/89ee6092c72a9e39950445c01598517a */
+body { counter-reset: h1counter h2counter h3counter h4counter h5counter h6counter; }
+
+h1 { counter-reset: h2counter; break-inside: avoid;}
+h2 { counter-reset: h3counter; break-inside: avoid;}
+h3 { counter-reset: h4counter; break-inside: avoid;}
+h4 { counter-reset: h5counter; break-inside: avoid;}
+h5 { counter-reset: h6counter; break-inside: avoid;}
+h6 {}
+
+h1:before {
+    counter-increment: h1counter;
+    content: counter(h1counter) ".\0000a0\0000a0";
+}
+
+h2:before {
+    counter-increment: h2counter;
+    content: counter(h1counter) "." counter(h2counter) ".\0000a0\0000a0";
+}
+
+h3:before {
+    counter-increment: h3counter;
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+}
+
+h4:before {
+    counter-increment: h4counter;
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) "." counter(h4counter) ".\0000a0\0000a0";
+}
+
+h5:before {
+    counter-increment: h5counter;
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) ".\0000a0\0000a0";
+}
+
+h6:before {
+    counter-increment: h6counter;
+    content: counter(h1counter) "." counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) "." counter(h6counter) ".\0000a0\0000a0";
+}
+
+/* taken from: https://support.typora.io/Page-Breaks/ */
+@media print, (overflow-block: paged) or (overflow-block: optional-paged)
+{
+  /* Move top-level headings to a new page on the right-hand side: */
+  h1
+  {
+    page-break-before: right; /* CSS 2 */
+    break-before: recto;      /* CSS 3+, 
+      also works for languages written and paginated right-to-left */
+  }
+  /* Override the previous ruleset for the very first heading: */
+  h1:first-of-type,
+  section > h1:first-child
+  {
+    page-break-before: avoid; /* CSS 2 */
+    break-before: avoid;      /* CSS 3+ */
+  }
+  /* Force second-level headings to begin in a new column or
+     possiblyon a new page if it was in the last of multiple columns otherwise: */
+  h2
+  {
+    break-before: column;
+  }
+  /* Headings should not be the last paragraph on a page: */
+  h1, h2, h3, h4, h5, h6
+  {
+    page-break-after: avoid;
+  }
+  /* Consecutive headings with deepening level should not be split across pages: */
+  h1+h2, h2+h3, h3+h4, h4+h5, h5+h6
+  {
+    page-break-before: avoid;
+  }
+} @media print { @page {margin: 0 0 0 0;} body.typora-export {padding-left: 0; padding-right: 0;} #write {padding:0;}}
+</style><title>Création de grilles de Mots croisés</title>
+</head>
+<body class='typora-export typora-export-show-outline typora-export-no-collapse-outline'><div class='typora-export-content'>
+<div class="typora-export-sidebar"><div class="outline-content"><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#organisation-de-la-liste-des-mots-creermotsjs">Organisation de la liste des mots (<code>CreerMots.js</code>)</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#liste-de-dictionnaires-forme-définition-par-longueur">Liste de dictionnaires forme-définition par longueur</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#trie-des-formes">Trie des formes</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#probabilités-dapparition-dune-lettre-à-une-position">Probabilités d'apparition d'une lettre à une position</a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#remplissage-de-la-grille-motscroisesjs">Remplissage de la grille (<code>MotsCroises.js</code>)</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#création-du-pourtour">Création du pourtour</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#méthode-itérative">Méthode itérative</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#remplissage-initial">Remplissage initial</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#complétion-de-la-grille">Complétion de la grille</a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#méthode-récursive">Méthode récursive</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#ajout-des-définitions">Ajout des définitions</a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#autres-formats-de-sortie-exportgrillesjs">Autres formats de sortie (<code>exportGrilles.js</code>)</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#travaux-connexes">Travaux connexes</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#conclusion">Conclusion</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#bibliographie">Bibliographie</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#systèmes-professionnels-de-création-de-grilles">Systèmes <em>professionnels</em> de création de grilles</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#fichiers-répertoire">Fichiers (répertoire)</a></div><ul class="outline-children"></ul></li></div></div><div id='write'  class=''><center style="font-size:3em; font-family: 'Open Sans'; font-weight: bold">Création de grilles de<br/> <i>Mots croisés</i></center><center><a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a><br/>RALI-DIRO<br/>Université de Montréal<br/>Octobre 2025</center><p><a href='https://github.com/rali-udem/jsRealB/tree/master/demos/MotsCroises'><span>Ce dossier</span></a><span> renferme les fruits de mes tentatives de génératio</span><em><span>n automatisée</span></em><span> de grilles de mots croisés à l’aide des mots qui peuvent être formés avec </span><em><a href='https://github.com/rali-udem/jsRealB'><span>jsRealB</span></a></em><span>. Cette activité, qui est aussi une source de divertissement pour moi, découle de mon goût pour les mots croisés et de la création récente d’un </span><a href='http://www.iro.umontreal.ca/~lapalme/Developpement-MCWiktionnaire/Developpement-MCWiktionnaire.html'><span>outil informatique pour aider à les résoudre</span></a><span>.</span></p><p><span>Voici une grille (10 lignes par 8 colonnes) produite par le programme, ainsi que les définitions associées : une expression </span><em><span>jsRealB</span></em><span> permettant de réaliser le mot de la grille. Les </span><code>_</code><span> indiquent les cases blanches et les </span><code>█</code><span> les </span><em><span>cases noires</span></em><span>. La solution de cette grille est donnée à la fin de l&#39;explication du processus de création de la grille </span><a href='#complétion-de-la-grille'><span>en 2.3.</span></a><span> </span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="javascript" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="javascript"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 378.1640625px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>33</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-number">1</span> <span class="cm-number">2</span> <span class="cm-number">3</span> <span class="cm-number">4</span> <span class="cm-number">5</span> <span class="cm-number">6</span> <span class="cm-number">7</span> <span class="cm-number">8</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">1</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">2</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">3</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">4</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">5</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">6</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">7</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">8</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">9</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">█</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">10</span><span class="cm-operator">|</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span> <span class="cm-variable">_</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">Horizontalement</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">1</span> : <span class="cm-variable">V</span>(<span class="cm-string">'recarder'</span>).<span class="cm-property">t</span>(<span class="cm-string">'pp'</span>).<span class="cm-property">g</span>(<span class="cm-string">'f'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">2</span> : <span class="cm-variable">A</span>(<span class="cm-string">'étésien'</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">3</span> : <span class="cm-variable">V</span>(<span class="cm-string">'piper'</span>).<span class="cm-property">t</span>(<span class="cm-string">'pp'</span>).<span class="cm-property">g</span>(<span class="cm-string">'f'</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">4</span> : <span class="cm-variable">V</span>(<span class="cm-string">'être'</span>).<span class="cm-property">pe</span>(<span class="cm-number">2</span>) <span class="cm-operator">-</span> <span class="cm-variable">N</span>(<span class="cm-string">'écu'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">5</span> : <span class="cm-variable">N</span>(<span class="cm-string">'rictus'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">6</span> : <span class="cm-variable">Pro</span>(<span class="cm-string">'ce'</span>) <span class="cm-operator">-</span> <span class="cm-variable">N</span>(<span class="cm-string">'pré'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">7</span> : <span class="cm-variable">V</span>(<span class="cm-string">'être'</span>).<span class="cm-property">pe</span>(<span class="cm-number">2</span>) <span class="cm-operator">-</span> <span class="cm-variable">V</span>(<span class="cm-string">'suer'</span>).<span class="cm-property">t</span>(<span class="cm-string">'pp'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">8</span> : <span class="cm-variable">N</span>(<span class="cm-string">'perré'</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">9</span> : <span class="cm-variable">V</span>(<span class="cm-string">'égarer'</span>).<span class="cm-property">t</span>(<span class="cm-string">'pp'</span>).<span class="cm-property">g</span>(<span class="cm-string">'f'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">10</span> : <span class="cm-variable">V</span>(<span class="cm-string">'zoner'</span>).<span class="cm-property">t</span>(<span class="cm-string">'si'</span>).<span class="cm-property">pe</span>(<span class="cm-number">2</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="" cm-zwsp="">
+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">Verticalement</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">26</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">1</span> : <span class="cm-variable">V</span>(<span class="cm-string">'repercer'</span>).<span class="cm-property">t</span>(<span class="cm-string">'f'</span>).<span class="cm-property">pe</span>(<span class="cm-number">2</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">27</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">2</span> : <span class="cm-variable">N</span>(<span class="cm-string">'étisie'</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>) <span class="cm-operator">-</span> <span class="cm-variable">N</span>(<span class="cm-string">'go'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">28</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">3</span> : <span class="cm-variable">N</span>(<span class="cm-string">'cep'</span>) <span class="cm-operator">-</span> <span class="cm-variable">N</span>(<span class="cm-string">'pan'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">29</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">4</span> : <span class="cm-variable">V</span>(<span class="cm-string">'aseptiser'</span>).<span class="cm-property">t</span>(<span class="cm-string">'f'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">30</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">5</span> : <span class="cm-variable">V</span>(<span class="cm-string">'rire'</span>).<span class="cm-property">t</span>(<span class="cm-string">'s'</span>).<span class="cm-property">pe</span>(<span class="cm-number">1</span>) <span class="cm-operator">-</span> <span class="cm-variable">N</span>(<span class="cm-string">'ure'</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">31</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">6</span> : <span class="cm-variable">V</span>(<span class="cm-string">'désespérer'</span>).<span class="cm-property">t</span>(<span class="cm-string">'s'</span>).<span class="cm-property">pe</span>(<span class="cm-number">2</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">32</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">7</span> : <span class="cm-variable">Pro</span>(<span class="cm-string">'en'</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">33</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">8</span> : <span class="cm-variable">N</span>(<span class="cm-string">'essuyeur'</span>).<span class="cm-property">g</span>(<span class="cm-string">'f'</span>).<span class="cm-property">n</span>(<span class="cm-string">'p'</span>)</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 726px;"></div><div class="CodeMirror-gutters" style="height: 726px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 35px;"></div></div></div></div></pre><p><span>Le </span><em><span>défi</span></em><span> est de produire à partir d’une liste de mots une grille contenant certains de ces mots dans les deux sens, en limitant le nombre de cases noires. Comme liste de mots, j&#39;ai choisi l&#39;ensemble des formes réalisables par </span><em><span>jsRealB</span></em><span>. Ce texte illustre des exemples en français, mais l’outil peut également générer des grilles avec les mots anglais qui peuvent être créés avec </span><em><span>jsRealB</span></em><span>.</span></p><p><span>Les grilles sont conçues selon les principes des mots croisés en français : insérer un maximum de lettres en minimisant le nombre de cases vides. Les cases noires des grilles créées dans les pays anglophones sont généralement disposées de manière symétrique avant avant le choix des mots. De plus, les mots de deux lettres sont interdits. Les grilles en français permettent l’utilisation de mots de deux lettres ainsi </span><em><span>que</span></em><span> de quelques </span><em><span>chevilles</span></em><span>, c’est-à-dire de courtes suites de lettres qui ne figurent pas nécessairement dans la liste de mots.</span></p><p><span>L&#39;art d&#39;un bon verbicruciste (la personne qui construit des grilles à résoudre) réside surtout dans la qualité ou la subtilité des définitions, qui ne devraient jamais être celles d&#39;un dictionnaire de langue. Cet aspect n&#39;est pas abordé ici.</span></p><p><span>La motivation initiale de ce travail était de produire une nouvelle démo de </span><em><span>jsRealB</span></em><span>. C’est pour cette raison qu’il est programmé en Node.js. Cependant, je ne suis plus convaincu que le problème de création de grilles de mots croisés soit vraiment pertinent. En effet, il n’y a aucun défi de génération de texte et les définitions sont </span><em><span>triviales</span></em><span>. On peut tout de même envisager de l’utiliser comme un outil d’apprentissage de la notation pour la création des symboles terminaux en </span><em><span>jsRealB</span></em><span>.</span></p><p><span>La conception des grilles s’est avérée être une tâche fascinante avec plusieurs défis intéressants, d&#39;ailleurs elle m’a pris beaucoup de temps. Le processus se déroule en deux étapes : création de la liste des mots, qui n&#39;est faite qu&#39;une seule fois et la construction de grilles contenant certains de ces mots.</span></p><h1 id='organisation-de-la-liste-des-mots-creermotsjs'><span>Organisation de la liste des mots (</span><code>CreerMots.js</code><span>)</span></h1><p><span>En fonction de la taille maximale des mots désirés, on récupère toutes les flexions réalisables par </span><em><span>jsRealB</span></em><span> (via la fonction </span><code>buildLemmataMap)</code><span>en ignorant celles d&#39;une seule lettre et celles qui sont trop longues pour la grille (10 dans la version actuelle). Les accents, les espaces et les tirets sont supprimés des flexions qui sont ensuite mises en majuscule, selon les conventions habituelles des mots croisés.  Ces listes de lettres majuscules sont appelées </span><em><span>formes</span></em><span>.</span></p><p><span>Le tableau suivant donne les statistiques du nombre de formes pour chaque langue. Les flexions, beaucoup plus nombreuses en français, augmentent grandement leur nombre. </span></p><figure class='table-figure'><table><thead><tr><th style='text-align:right;' ><span># lettres</span></th><th style='text-align:right;' ><span>Français</span></th><th style='text-align:right;' ><span>Anglais</span></th></tr></thead><tbody><tr><td style='text-align:right;' ><span>2</span></td><td style='text-align:right;' ><span>57</span></td><td style='text-align:right;' ><span>52</span></td></tr><tr><td style='text-align:right;' ><span>3</span></td><td style='text-align:right;' ><span>395</span></td><td style='text-align:right;' ><span>595</span></td></tr><tr><td style='text-align:right;' ><span>4</span></td><td style='text-align:right;' ><span>1 769</span></td><td style='text-align:right;' ><span>2 366</span></td></tr><tr><td style='text-align:right;' ><span>5</span></td><td style='text-align:right;' ><span>5 950</span></td><td style='text-align:right;' ><span>4 542</span></td></tr><tr><td style='text-align:right;' ><span>6</span></td><td style='text-align:right;' ><span>14 342</span></td><td style='text-align:right;' ><span>7 190</span></td></tr><tr><td style='text-align:right;' ><span>7</span></td><td style='text-align:right;' ><span>26 590</span></td><td style='text-align:right;' ><span>9 836</span></td></tr><tr><td style='text-align:right;' ><span>8</span></td><td style='text-align:right;' ><span>40 386</span></td><td style='text-align:right;' ><span>10 353</span></td></tr><tr><td style='text-align:right;' ><span>9</span></td><td style='text-align:right;' ><span>50 612</span></td><td style='text-align:right;' ><span>9 399</span></td></tr><tr><td style='text-align:right;' ><span>10</span></td><td style='text-align:right;' ><span>53 628</span></td><td style='text-align:right;' ><span>7 631</span></td></tr><tr><td style='text-align:right;' ><span>total</span></td><td style='text-align:right;' ><span>193 729</span></td><td style='text-align:right;' ><span>51 964</span></td></tr></tbody></table></figure><h2 id='liste-de-dictionnaires-forme-définition-par-longueur'><span>Liste de dictionnaires forme-définition par longueur</span></h2><p><span>Les formes sont organisées en une liste de dictionnaires selon leur nombre de caractères, la figure suivante en montre la structure JSON (</span><code>mots-{fr,en}.json</code><span>) (certaines lignes sont </span><em><span>pliées</span></em><span>). Comme la longueur de la forme qu&#39;on cherche à placer est toujours connue, il m&#39;a semblé plus efficace de limiter les recherches à de plus petits dictionnaires.</span></p><p><img src="./images/mots-fr.jpg" referrerpolicy="no-referrer"></p><h2 id='trie-des-formes'><span>Trie des formes</span></h2><p><span>Afin de faciliter la recherche de formes avec des lettres arbitraires, par exemple une forme de 4 lettres débutant par un </span><code>A</code><span> et terminant par un </span><code>E</code><span> (soit le patron </span><code>A__E</code><span>), on crée un </span><em><span>trie</span></em><span> de toutes les formes. Ce trie est composé de dictionnaires dont la clé est une lettre et la valeur est un trie pour toutes les formes suivant ce préfixe. Un trie est également efficace pour chercher des patrons avec des possibilités plus limitées, comme </span><code>A[GM]E</code><span> correspondant à </span><code>AGE</code><span> ou </span><code>AME</code><span>.</span></p><p><span>Ce trie est conservé sous forme JSON (</span><code>trie-{fr,en}.json</code><span>), dont voici le début qui correspond aux formes suivantes : </span><code>AH</code><span>, </span><code>AHAN</code><span>, </span><code>AHANS</code><span>, </span><code>AHANE</code><span>, </span><code>AHANES</code><span>, </span><code>AHANEZ</code><span>, </span><code>AHANER</code><span>, </span><code>AHANERA</code><span>... </span></p><p><span>La présence d&#39;une clé </span><code>&quot;*&quot;</code><span> indique qu&#39;une forme se termine à cet endroit. La clé </span><code>&quot;#&quot;</code><span> est associée au nombre de formes commençant par ce préfixe, par exemple 5 pour </span><code>AHANERA</code><span> (ligne 14), incluant le préfixe lui-même s&#39;il est une forme acceptable. Ce compte est utilisé pour déterminer les préfixes les plus courants. Un seul trie contient toutes les formes, mais il aurait été imaginable d&#39;en créer un par longueur de forme; toutefois le compte du nombre de préfixes aurait été plus complexe.</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="json" style="break-inside: unset;"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="json"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 462.515625px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>14</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{<span class="cm-string cm-property">"A"</span>:{<span class="cm-string cm-property">"H"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">           <span class="cm-string cm-property">"A"</span>:{<span class="cm-string cm-property">"N"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                     <span class="cm-string cm-property">"S"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                     <span class="cm-string cm-property">"E"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                          <span class="cm-string cm-property">"S"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                          <span class="cm-string cm-property">"Z"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                          <span class="cm-string cm-property">"R"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                               <span class="cm-string cm-property">"A"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                                    <span class="cm-string cm-property">"I"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                                         <span class="cm-string cm-property">"S"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                                         <span class="cm-string cm-property">"T"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                                         <span class="cm-string cm-property">"#"</span>:<span class="cm-number">3</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                                    <span class="cm-string cm-property">"S"</span>:{<span class="cm-string cm-property">"*"</span>:<span class="cm-string">""</span>},</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">                                    <span class="cm-string cm-property">"#"</span>:<span class="cm-number">5</span>},</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 308px;"></div><div class="CodeMirror-gutters" style="height: 308px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 35px;"></div></div></div></div></pre><p><span>Une expression régulière appliquée sur les clés des dictionnaires de formes aurait aussi pu être utilisée pour chercher dans des listes de formes de même longueur, mais le trie était plus </span><em><span>élégant</span></em><span>. L&#39;efficacité relative de ces deux méthodes n&#39;a pas été étudiée, car le temps de calcul n&#39;est pas un enjeu. </span></p><p><span>J&#39;ai aussi fait quelques essais avec l&#39;automate pour la liste des formes de </span><a href='https://apps.apple.com/us/app/mcwiktionnaire/id1460386920'><span>MCWiktionnaire</span></a><span> qui permet des recherches similaires (</span><code>mots-20250124-automate.json</code><span>). Cette liste de plus de 1,6 million de formes créait des grilles que je ne trouvais pas intéressantes, car elles contenaient une multitude de formes rares. Comme la création de ce type d&#39;automate est un processus relativement complexe, j&#39;ai gardé la structure de trie qui est très simple à construire, soit une dizaine de lignes de code.</span></p><h2 id='probabilités-dapparition-dune-lettre-à-une-position'><span>Probabilités d&#39;apparition d&#39;une lettre à une position</span></h2><p><span>Afin d&#39;aider à remplir les grilles avec des formes qui risquent d&#39;avoir de bonnes chances de croisement, je me suis inspiré de Dupuis (2003) et, à partir de la liste de formes, j&#39;ai calculé, pour chaque longueur de formes, la probabilité qu&#39;une lettre se trouve à une certaine position. Par exemple, pour les formes de deux lettres, il y a deux dictionnaires (lignes 3-28 et 29-54 dans la figure ci-dessous) qui donnent les probabilités que chaque lettre apparaisse à la première et deuxième position. Il y a trois dictionnaires pour les formes de trois lettres et ainsi de suite jusqu&#39;à 10.  La figure suivante montre la structure du fichier JSON </span><code>probs-{fr,en}.json</code><span>  qui n&#39;affiche que la première et dernière lettre de chaque dictionnaire. </span></p><p><img src="./images/probs-fr.jpg" referrerpolicy="no-referrer"></p><p>&nbsp;</p><h1 id='remplissage-de-la-grille-motscroisesjs'><span>Remplissage de la grille (</span><code>MotsCroises.js</code><span>)</span></h1><p><span>La grille est créée à l’aide de la classe </span><code>Grille</code><span> (</span><code>Grille.js</code><span>), qui gère un tableau de tableau de caractères. Un </span><code>&quot;_&quot;</code><span> représente une case à remplir, et &quot;</span><code>█</code><span>&quot; une </span><em><span>case noire</span></em><span>. Lorsqu&#39;une forme est placée, on conserve</span>
+<span>sa position (no de ligne, no de colonne) et sa direction (</span><code>H</code><span> ou </span><code>V</code><span>). </span></p><h2 id='création-du-pourtour'><span>Création du pourtour</span></h2><p><span>La grille est d&#39;abord initialisée en trouvant des formes occupant toute la largeur et la longueur des lignes, en respectant les lettres déjà placées. On crée d&#39;abord la </span><em><span>potence</span></em><span>: une forme qui occupe toute la première ligne et une autre qui occupe la première colonne, débutant évidemment par la même lettre.  À la manière des grilles de </span><em><span>Robert Scipion</span></em><span>, on complète (si possible) le pourtour de la grille avec des formes qui occupent toute la longueur ou hauteur de la grille.</span></p><p><span>Le choix des formes est aléatoire, mais tient compte des probabilités d&#39;apparition d&#39;une lettre à chaque position. Pour les premières formes, qu’elles soient horizontales ou verticales, on calcule un </span><em><span>score</span></em><span> en additionnant les probabilités de chaque lettre en première position. On espère ainsi avoir plus de chances de trouver des formes dans l&#39;autre direction qui débutent par ces lettres. Les scores pour cette première forme varient entre 0.1051 pour </span><code>REPERCEE</code><span> et 0.0206 pour </span><code>LOQUIONS</code><span>. Afin de varier les grilles générées, les formes sont choisies aléatoirement parmi celles avec les 20 scores plus élevés. Évidemment, lorsqu&#39;une forme est placée sur la grille, cela limite le choix des suivantes, mais, pour le remplissage du pourtour, on ne tient compte que des lettres au début et à la fin des formes, sans avoir à tenir compte de la formation éventuelle de formes intermédiaires. Pour les dernières colonnes, on utilise les probabilités pour les dernières lettres des formes, ce qui explique le grand nombre de </span><code>S</code><span> dans ces formes.</span></p><p><span>Voici le pourtour obtenu par ce processus de bordure correspondant à la grille présentée plus haut. </span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="text"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="text"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 167.265625px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>11</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    1 2 3 4 5 6 7 8</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 1| R E C A R D E E</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 2| E _ _ _ _ _ _ S</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 3| P _ _ _ _ _ _ S</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 4| E _ _ _ _ _ _ U</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 5| R _ _ _ _ _ _ Y</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 6| C _ _ _ _ _ _ E</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 7| E _ _ _ _ _ _ U</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 8| R _ _ _ _ _ _ S</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> 9| E _ _ _ _ _ _ E</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">10| Z O N A S S E S</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 242px;"></div><div class="CodeMirror-gutters" style="height: 242px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 35px;"></div></div></div></div></pre><p><span>L&#39;ajout&#39; de lignes intermédiaires (par exemple, ligne 5 ou colonne 4) a aussi été tenté en plus du pourtour, mais le remplissage subséquent avait tendance à créer des </span><em><span>lignes de cases noires</span></em><span> </span><em><span>du plus mauvais effet</span></em><span>.</span></p><p><span>J&#39;ai testé deux méthodes de remplissage de la grille: une méthode itérative qui ne fait qu&#39;ajouter de nouvelles formes et cases noires et une méthode récursive qui implique un retour-arrière et donc d&#39;enlever certains formes déjà placées avant d&#39;en placer d&#39;autres.</span></p><h2 id='méthode-itérative'><span>Méthode itérative</span></h2><h3 id='remplissage-initial'><span>Remplissage initial</span></h3><p><span>Pour remplir les cases à l&#39;intérieur du pourtour. il faut alors trouver des formes qui respectent les lettres déjà présentes et qui forment également des formes acceptables dans l&#39;autre sens. </span></p><p><span>On va tenter de placer les formes les plus longues possibles alternativement sur les lignes et les colonnes. Par exemple, pour la ligne 2, on tente de trouver des formes de 8 lettres débutant par </span><code>E</code><span> et terminant par </span><code>S</code><span>. Dans notre liste, il y en 1495, par exemple </span><code>EUSSIONS</code><span>, </span><code>ENCRERAS</code><span> ... mais il faut que les formes verticales soient aussi acceptables.</span></p><p><span>Pour déterminer une liste de formes horizontales acceptables, on crée des patrons de formes avec des lettres qui constituent des formes verticales acceptables. Par exemple, les formes de deux lettres débutant par </span><code>E</code><span> sont </span><code>EU,EH,EN,ES,ET</code><span>, celles débutant par </span><code>C</code><span> sont </span><code>CA,CE,CI</code><span>, etc. Des patrons horizontaux  n&#39;acceptant que les lettres qui suivent le préfixe sont donc créés. En appliquant ce mécanisme pour les 6 cases libres de la deuxième ligne, on obtient le patron suivant </span><code>E[HNSTU][AEI][HINS][AEI][EOU][HNSTU]S</code><span> qui correspond à une seule forme de la liste de formes: </span><code>ETESIENS</code><span> qui apparaît à la deuxième ligne de la figure suivante.</span></p><p><span>On va ensuite tenter de remplir la deuxième colonne. il n&#39;y a qu&#39;une forme de 10 lettres débutant par </span><code>E</code><span> et terminant par </span><code>O</code><span>: </span><code>EXPRESSIVO</code><span>. Mais à la ligne 3, </span><code>PP</code><span> n&#39;est pas une forme acceptable. On va donc essayer des patrons plus courts en prenant soin de laisser de la place pour une case noire pour une lettre déjà présente sur la grille (par exemple le </span><code>O</code><span> à la fin de la colonne 2). Le prochain patron à essayer sera donc </span><code>ET[IU][HNSTU][AEI][AEI][HNSTU][AEI]</code><span>qui ne correspond à aucune forme, toutefois en ignorant le patron correspondant à la dernière lettre (soit la dernière paire de crochets), on trouve la forme </span><code>ETISIES</code><span> qu&#39;on peut placer au début de la deuxième colonne.</span></p><p><span>On essaie ensuite de remplir alternativement les autres lignes et colonnes, Il faut remarquer que lorsqu&#39;un préfixe est une case libre ou noire, cela permet d&#39;avoir n&#39;importe quelle lettre dans le patron. Pour remplir la colonne 6, on cherche avec le patron </span><code>DES_S____S</code><span> qui correspond à 11 formes dont </span><code>DESISTERAS</code><span>, </span><code>DESESPERES</code><span>, </span><code>DESSOSSIONS</code><span>, etc. Le choix entre ces formes est fait en additionnant les fréquences des préfixes qu&#39;on trouve dans le trie décrit en </span><a href='#trie-des-formes'><span>1.2</span></a><span> . Les préfixes sont les lettres de la grilles au-dessus ou à gauche des lettres de la forme candidate si on la plaçait dans la grille. On suppose que, plus on aura de formes débutant par ces préfixes, plus on aura de possibilités de croisement. </span></p><p><span>Voici le résultat du </span><em><span>remplissage</span></em><span> appliqué à toutes les lignes et colonnes.</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="swift"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="swift"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 167.275390625px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>11</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-number">1</span> <span class="cm-number">2</span> <span class="cm-number">3</span> <span class="cm-number">4</span> <span class="cm-number">5</span> <span class="cm-number">6</span> <span class="cm-number">7</span> <span class="cm-number">8</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">1</span><span class="cm-operator">|</span> <span class="cm-variable">R</span> <span class="cm-variable">E</span> <span class="cm-variable">C</span> <span class="cm-variable">A</span> <span class="cm-variable">R</span> <span class="cm-variable">D</span> <span class="cm-variable">E</span> <span class="cm-variable">E</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">2</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">T</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> <span class="cm-variable">I</span> <span class="cm-variable">E</span> <span class="cm-variable">N</span> <span class="cm-variable">S</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">3</span><span class="cm-operator">|</span> <span class="cm-variable">P</span> <span class="cm-variable">I</span> <span class="cm-variable">P</span> <span class="cm-variable">E</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> █ <span class="cm-variable">S</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">4</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> █ <span class="cm-variable">P</span> █ <span class="cm-variable">E</span> <span class="cm-atom">_</span> <span class="cm-variable">U</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">5</span><span class="cm-operator">|</span> <span class="cm-variable">R</span> <span class="cm-variable">I</span> <span class="cm-variable">C</span> <span class="cm-variable">T</span> <span class="cm-variable">U</span> <span class="cm-variable">S</span> █ <span class="cm-variable">Y</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">6</span><span class="cm-operator">|</span> <span class="cm-variable">C</span> <span class="cm-variable">E</span> █ <span class="cm-variable">I</span> <span class="cm-atom">_</span> <span class="cm-variable">P</span> <span class="cm-atom">_</span> <span class="cm-variable">E</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">7</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> █ <span class="cm-variable">S</span> <span class="cm-atom">_</span> <span class="cm-variable">E</span> <span class="cm-atom">_</span> <span class="cm-variable">U</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">8</span><span class="cm-operator">|</span> <span class="cm-variable">R</span> █ <span class="cm-atom">_</span> <span class="cm-variable">E</span> <span class="cm-atom">_</span> <span class="cm-variable">R</span> <span class="cm-atom">_</span> <span class="cm-variable">S</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">9</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-atom">_</span> <span class="cm-atom">_</span> <span class="cm-variable">R</span> <span class="cm-atom">_</span> <span class="cm-variable">E</span> <span class="cm-atom">_</span> <span class="cm-variable">E</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">10</span><span class="cm-operator">|</span> <span class="cm-variable">Z</span> <span class="cm-variable">O</span> <span class="cm-variable">N</span> <span class="cm-variable">A</span> <span class="cm-variable">S</span> <span class="cm-variable">S</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 242px;"></div><div class="CodeMirror-gutters" style="height: 242px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 35px;"></div></div></div></div></pre><p><span>Pour la détermination des patrons, j&#39;ai aussi testé une autre approche: accepter toutes les lettres qui suivent un préfixe, sans nécessairement exiger une forme acceptable. Cette approche réduisait beaucoup le nombre de cases noires, mais créait beaucoup trop de </span><em><span>chevilles</span></em><span> inintéressantes. La méthode de remplissage choisi est un compromis entre le nombre de cases noires et le nombre de chevilles.</span></p><h3 id='complétion-de-la-grille'><span>Complétion de la grille</span></h3><p><span>Pour terminer la grille, on cherche toutes les suites de cases d&#39;une même ligne ou colonne avec des cases libres délimitées par des cases noires ou le tour de la grille. Dans l&#39;exemple, il y en 21, dont la neuvième ligne avec 4 cases libres ou la colonne débutant à 5,5 avec aussi 4 cases libres. On considère ces suites aléatoirement, mais en débutant par celles avec le plus de cases libres, ici 4, mais en débutant par les suites les plus longues, ici la neuvième ligne. </span></p><p><span>En vérifiant les croisements, on cherche les formes à l&#39;horizontal possibles avec le patron </span><code>E[DGN][AEIO]R[AEILNRTU]E[ABCDEFGHILMNOPRSTUVXYZ]E</code><span>. En ignorant les deux dernières lettres, deux formes de 6 lettres sont trouvées: </span><code>EGAREE</code><span> et </span><code>EGERIE</code><span> dont les fréquences de préfixe sont 42703 et 32725, c&#39;est pourquoi </span><code>EGAREE</code><span> a été choisie. Dans ce cas particulier d&#39;une forme en bas de la grille, la fréquence des préfixes n&#39;a guère d&#39;importance, mais ce critère est quand même utilisé pour choisir la forme.</span></p><p><span>Une fois une forme placée, on détermine un nouvel ensemble de suites de cases libres et on applique le même processus. Si aucune nouvelle forme ne peut être placée et qu&#39;il reste des cases libres, on noircit une de ces cases avant la prochaine recherche de suite de cases. </span></p><p><span>La création d&#39;une grille se termine lorsqu&#39;il n&#39;y a plus de cases libres, on obtient alors un résultat comme celui-ci correspondant à la grille montrée au début. </span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang="swift"><div class="CodeMirror cm-s-inner cm-s-null-scroll" lang="swift"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 9px; left: 44px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 36px; margin-bottom: 0px; border-right-width: 0px; min-width: 167.275390625px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>11</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -36px; width: 36px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-number">1</span> <span class="cm-number">2</span> <span class="cm-number">3</span> <span class="cm-number">4</span> <span class="cm-number">5</span> <span class="cm-number">6</span> <span class="cm-number">7</span> <span class="cm-number">8</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">1</span><span class="cm-operator">|</span> <span class="cm-variable">R</span> <span class="cm-variable">E</span> <span class="cm-variable">C</span> <span class="cm-variable">A</span> <span class="cm-variable">R</span> <span class="cm-variable">D</span> <span class="cm-variable">E</span> <span class="cm-variable">E</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">2</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">T</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> <span class="cm-variable">I</span> <span class="cm-variable">E</span> <span class="cm-variable">N</span> <span class="cm-variable">S</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">3</span><span class="cm-operator">|</span> <span class="cm-variable">P</span> <span class="cm-variable">I</span> <span class="cm-variable">P</span> <span class="cm-variable">E</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> █ <span class="cm-variable">S</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">4</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> █ <span class="cm-variable">P</span> █ <span class="cm-variable">E</span> <span class="cm-variable">C</span> <span class="cm-variable">U</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">5</span><span class="cm-operator">|</span> <span class="cm-variable">R</span> <span class="cm-variable">I</span> <span class="cm-variable">C</span> <span class="cm-variable">T</span> <span class="cm-variable">U</span> <span class="cm-variable">S</span> █ <span class="cm-variable">Y</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">6</span><span class="cm-operator">|</span> <span class="cm-variable">C</span> <span class="cm-variable">E</span> █ <span class="cm-variable">I</span> █ <span class="cm-variable">P</span> <span class="cm-variable">R</span> <span class="cm-variable">E</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">7</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span> █ <span class="cm-variable">S</span> <span class="cm-variable">U</span> <span class="cm-variable">E</span> █ <span class="cm-variable">U</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 27px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">8</span><span class="cm-operator">|</span> <span class="cm-variable">R</span> █ <span class="cm-variable">P</span> <span class="cm-variable">E</span> <span class="cm-variable">R</span> <span class="cm-variable">R</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> <span class="cm-number">9</span><span class="cm-operator">|</span> <span class="cm-variable">E</span> <span class="cm-variable">G</span> <span class="cm-variable">A</span> <span class="cm-variable">R</span> <span class="cm-variable">E</span> <span class="cm-variable">E</span> █ <span class="cm-variable">E</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -36px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 27px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-number">10</span><span class="cm-operator">|</span> <span class="cm-variable">Z</span> <span class="cm-variable">O</span> <span class="cm-variable">N</span> <span class="cm-variable">A</span> <span class="cm-variable">S</span> <span class="cm-variable">S</span> <span class="cm-variable">E</span> <span class="cm-variable">S</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom-width: 0px; border-bottom-style: solid; border-bottom-color: transparent; top: 242px;"></div><div class="CodeMirror-gutters" style="height: 242px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 35px;"></div></div></div></div></pre><p><span>Une grille 10x8, telle que celle illustrée plus haut, est créée en moins de 15 millisecondes sur un portable Mac. </span></p><p><span>La </span><em><span>qualité</span></em><span> d’une grille est souvent mesurée en fonction du nombre de cases noires par rapport au total des cases : notre exemple comporte 10 cases noires sur 80 cases, soit 12 %. On génère plusieurs grilles et on arrête dès qu’une grille atteint un taux de cases noires prédéfini ou après un certain maximum de grilles générées. On retourne alors la grille qui contient le moins de cases noires.</span></p><h2 id='méthode-récursive'><span>Méthode récursive</span></h2><p><span>La méthode itérative décrite précédemment ajoute des formes parfois délimitées par des cases noires. Lorsqu&#39;il n&#39;est plus possible d&#39;ajouter une nouvelle forme, une case libre choisie aléatoirement est </span><em><span>noircie</span></em><span>. </span></p><p><span>Une autre façon d&#39;éviter ce blocage serait d&#39;enlever  des formes déjà placées et de les remplacer par d&#39;autres possibilités non considérées jusqu&#39;ici. J&#39;ai implanté cette approche avec des appels récursifs à l&#39;ajout de formes jusqu&#39;à ce qu&#39;il reste au plus une case libre. Lorsqu&#39;aucune forme n&#39;est possible, on revient sur des choix précédents conservés lors des appels antécédents et laissés en plan. </span></p><p><span>Cette méthode fonctionne, mais avec la gestion en pile des appels récursifs, on change d&#39;abord les derniers ajouts qui ne sont souvent des formes de deux ou trois lettres, il est très long avant de remettre en cause les premiers choix de formes. J&#39;ai donc développé une approche hybride qui, lors d&#39;un blocage récursif, tente un choix de premier niveau. Cette approche s&#39;est révélée particulièrement efficace, le seul défi étant de </span><em><span>dépiler</span></em><span> les appels récursifs lors d&#39;un blocage, ce qui est fait en levant une exception. Il serait plus intéressant de développer une méthode de </span><em><span>backtrack intelligent</span></em><span> pour déterminer quelles formes enlever avant de relancer la complétion de la grille.</span></p><h2 id='ajout-des-définitions'><span>Ajout des définitions</span></h2><p><span>Une fois la grille complétée avec les formes, il faut y associer des définitions. Les lignes et les colonnes sont parcourues pour déterminer les suites de plusieurs cases avec des lettres et les </span><em><span>définir</span></em><span> avec l&#39;expression </span><em><span>jsRealB</span></em><span> qui réalise cette forme. Évidemment, dans la grille à résoudre, les lettres sont remplacées par </span><code>_</code><span>. </span></p><p><span>Au cours du processus d’ajout de cases noires, il est possible que certaines séquences de lettres ne correspondent pas à des séquences réalisables. Une telle suite de lettres est une </span><em><span>cheville</span></em><span> à laquelle est associée une expression </span><em><span>jsRealB</span></em><span> de la forme </span><code><span>Q(</span><i><span>lettres</span></i><span>)</span></code><span>. En pratique, il n&#39;y a que très peu de telles chevilles, au plus une ou deux par grille.</span></p><p><span>Pour les définitions en français, au lieu de l&#39;expression </span><em><span>jsRealB</span></em><span>, j&#39;ai aussi testé avec une définition associée à la forme en utilisant la base de données </span><em><span>sqlite</span></em><span> du  </span><a href='https://apps.apple.com/us/app/mcwiktionnaire/id1460386920'><span>MCWiktionnaire</span></a><span> (</span><code>MCWikti.js</code><span> utilisant </span><code>mots-20250124.sqlite</code><span>). Lorsque plusieurs définitions sont disponibles, on ignore des définitions trop vagues (e.g. </span><em><span>Nom de famille</span></em><span>) et on choisit la définition la plus courte. Une définition de la forme </span><code><span>Pluriel de </span><em><span>forme</span></em></code><span>.  est remplacée par la définition de </span><em><span>forme</span></em><span> suivie d&#39;une indication de pluriel. Cette approche n&#39;a pas donné toutefois pas toujours des définitions intéressantes. </span></p><h1 id='autres-formats-de-sortie-exportgrillesjs'><span>Autres formats de sortie (</span><code>exportGrilles.js</code><span>)</span></h1><p><span>La grille construite s’affiche dans la console </span><em><span>Node.js</span></em><span>, mais il est également possible de l&#39;obtenir sous d’autres formats :</span></p><ul><li><p><strong><span>HTML</span></strong><span> : page web qui affiche la grille vide, les définitions ainsi que la solution. C’est une présentation alternative de ce qui apparait sur la console JavaScript.</span></p></li><li><p><strong><span>PUZ</span></strong><span>: format qui est le standard de fait pour la distribution des mots croisés sur le web. Il peut être utilisé avec diverses applications de mots croisés en ligne, </span><a href='https://communicrossings.com/files/crossword/puz/derekslager/puz.html'><span>y compris celle-ci</span></a><span>.</span></p></li><li><p><strong><span>JSON</span></strong><span>: ce format est une sérialisation de l&#39;objet grille créé par le programme. Ce format correspond à l’organisation de fichiers </span><code>.puz</code><span>. Le programme </span><code>Web/MCenJS.html</code><span> peut utiliser ce format pour qu&#39;un utilisateur remplisse interactivement la grille. C’est une variante d’un programme que j’avais donné comme </span><a href='http://rali.iro.umontreal.ca/lapalme/autres-cours/ift3225/tp2/'><span>TP à mes étudiants</span></a><span>.</span></p></li></ul><h1 id='travaux-connexes'><span>Travaux connexes</span></h1><p><span>Ce système fonctionne de façon entièrement automatique, bien qu’on puisse fixer certains mots ou certaines lettres avant le </span><em><span>remplissage</span></em><span>. La méthode de </span><a href='#méthode-itérative'><span>remplissage itérative</span></a><span>  ne remet jamais en question ses décisions une fois placé ’une forme ou une case noire. Elle est très efficace et réduit considérablement le nombre de cases noires, sans nécessairement les optimiser. La </span><a href='#méthode-récursive'><span>méthode récursive</span></a><span> permet de revenir sur certains choix, mais son implantation actuelle ne permet pas de bien contrôler son comportement.  </span></p><p><span>Ces méthodes ne seraient pas appropriées dans le cas où les cases noires seraient fixées à l’avance, par exemple en anglais, où elles sont souvent disposées de manière symétrique par rapport à certains axes. Pour arriver à ce résultat, il faudrait pouvoir </span><em><span>revenir sur</span></em><span> certains choix lorsqu’aucun mot ne peut être placé, sans ajouter de cases noires supplémentaires ni rompre la symétrie du plateau. </span></p><p><span>Gourvès et coll. (2021) ont montré que remplir une grille de mots croisés était une tâche très difficile. Diverses méthodes fondées sur le concept de programmation par contraintes ont été mises à l’essai pour l’anglais par Ginsberg et coll. (1990) ou Meehan et Gray (1997), en utilisant soit la programmation en nombres entiers (Morse, 2017), soit un résolveur SAT (King, 2017). Olivier (2023) donne les détails d&#39;une approche basée sur la programmation par contraintes (avec </span><a href='https://developers.google.com/optimization/cp'><span>CP-SAT des OR-Tools de Google</span></a><span>) : comme il définit de multiples contraintes sur les cases et sur chacun des mots de la liste, leur nombre fait en sorte que cette approche est limitée par la mémoire et le temps de calcul même pour des grilles relativement petites et une liste de quelques milliers de mots. </span></p><p><span>Dupuis (2003)  a étudié le cas des grilles parfaites en français, c’est-à-dire sans case noire, en utilisant une méthode de backtracking.  Il est rare de spécifier l’emplacement des cases noires en français, on cherche plutôt à les minimiser. Les systèmes anglais cités </span><a href='#systèmes de création de grilles'><span>dans cette section</span></a><span> s’appuyant sur des listes de mots, peuvent être adaptés au français en leur fournissant une liste de mots français.</span></p><p><span>Les  verbicrucistes </span><em><span>professionnels</span></em><span> utilisent des outils interactifs pour placer d&#39;abord certains mots et choisissent itérativement dans une liste de mots possibles qui leur sont proposés par le système. Certains de ces systèmes mettent en évidence en rouge les cases de la grille où aucun mot ne peut être inséré, laissant à l’utilisateur la possibilité de modifier certaines lettres ou d’ajouter des cases noires pour contourner ces obstacles.</span></p><p><span>Ces outils sont très pratiques pour trouver les mots qui constituent la grille, il ne reste plus qu’à leur attribuer des définitions. Là encore, ces systèmes peuvent gérer les banques de définitions et créer le format attendu pour la publication, tant sur papier qu’en ligne.</span></p><p><span>On trouve également une catégorie particulière de mots croisés, communément désignés sous le nom de </span><em><span>mots entrecroisés</span></em><span>. Dans ce cas, à partir d’une liste de mots limitée, on cherche à les disposer sur une surface plane de manière à ce qu’ils se croisent, sans nécessairement respecter une grille rectangulaire à la manière du jeu télévisé français SLAM. Ces grilles sont souvent utilisées dans un cadre éducatif pour enseigner de nouveaux mots aux enfants.  </span></p><h1 id='conclusion'><span>Conclusion</span></h1><p><span>J&#39;ai beaucoup apprécié cette expérience de création de grilles de mots croisés qui m&#39;a permis de combiner plusieurs de mes intérêts et aussi des résultats de projets en génération de texte et en organisation de dictionnaires.</span></p><h1 id='bibliographie'><span>Bibliographie</span></h1><ul><li><p><span>alacroiseedesmots.com, </span><em><span>Histoire du jeu</span></em><span>, </span><a href='https://www.alacroiseedesmots.com/mots/h'><span>URL</span></a></p></li><li><p><span>Isaac Aronow, </span><em><span>Crossword Constructor Resource Guide</span></em><span>, New York Times, 8 nov 2021. </span><a href='https://www.nytimes.com/2021/11/08/crosswords/crossword-constructor-resource-guide.html'><span>URL</span></a></p></li><li><p><span>Jacque Drillon, </span><em><span>Théorie de mots croisés</span></em><span>, Gallimard, 2015, 185p.</span></p></li><li><p><span>Étienne Dupuis, </span><em><span>De la construction de grilles de mots croisés parfaites</span></em><span>, 2003. </span><a href='http://lestourtereaux.free.fr/papers/data/grilles.pdf'><span>document Web</span></a></p></li><li><p><span>Matthew L. Ginsberg, Michael Frank, Michael P. Halpin, and Mark C. Torrance. 1990. </span><em><span>Search lessons learned from crossword puzzles.</span></em><span> In Proceedings of the eighth National conference on Artificial intelligence - Volume 1 (AAAI&#39;90). AAAI Press, 210–215.</span></p></li><li><p><span>Laurent Gourvès, Ararat Harutyunyan, Michael Lampis, Nikolaos Melissinos, </span><em><span>Filling Crosswords is Very Hard</span></em><span>, sept 2021, </span><a href='https://arxiv.org/abs/2109.11203'><span>arXiv:2109.11203</span></a></p></li><li><p><span>Yvette Graham, Carl Vogel, </span><em><span>Computer Construction of Crossword Puzzles using Horn Clauses and Constraint Programming</span></em><span>, </span><a href='https://www.google.com/url?sa=t&amp;source=web&amp;rct=j&amp;opi=89978449&amp;url=https://www.scss.tcd.ie/yvette.graham/grahamvogel05.eps&amp;ved=2ahUKEwiF6q3QzYWQAxW2rokEHXl-C2sQFnoECBkQAQ&amp;usg=AOvVaw1T9qKHmE2_UVBVVusFnFP5'><span>URL</span></a></p></li><li><p><span>Keiran King, </span><em><span>Phil, a crossword maker</span></em><span>, </span><a href='https://github.com/keiranking/Phil'><span>https://github.com/keiranking/Phil</span></a><span>, 2017.</span></p></li><li><p><span>Gary Meehan, Peter Gray, </span><em><span>Constructing Crossword Grids: Use of Heuristics vs Constraints</span></em><span>, 1997, </span><a href='https://www.gtoal.com/wordgames/meehan/cross.pdf'><span>URL</span></a></p></li><li><p><span>Steven Morse, </span><em><span>Making crossword puzzles with integer programming</span></em><span>, 2017, </span><a href='https://stmorse.github.io/journal/IP-Crossword-puzzles.html'><span>URL</span></a></p></li><li><p><span>Philippe Olivier, </span><em><span>Generating Crossword Grids Using Constraint Programming</span></em><span>, 2023, </span><a href='https://pedtsr.ca/2023/generating-crossword-grids-using-constraint-programming.html'><span>URL</span></a></p></li></ul><h1 id='systèmes-professionnels-de-création-de-grilles'><span>Systèmes </span><em><span>professionnels</span></em><span> de création de grilles</span></h1><ul><li><p><a href='https://www.crossword-compiler.com/fr/features.html'><span>Crossword compiler</span></a><span> : le standard de l&#39;industrie... ne fonctionne que sous Windows</span></p></li><li><p><a href='https://beekeeperlabs.com/crossfire/'><span>CrossFire</span></a><span> : alternative multiplateforme au précédent</span></p></li><li><p><a href='https://www.crosserville.com'><span>Crosserville</span></a><span> : système basé sur le web</span></p></li></ul><h1 id='fichiers-répertoire'><span>Fichiers (</span><a href='https://github.com/rali-udem/jsRealB/tree/master/demos/MotsCroises'><span>répertoire</span></a><span>)</span></h1><ul><li><p><code>Donnees</code><span>: fichiers de données</span></p><ul><li><p><code>mots-{en,fr}.json</code><span> :  formes avec une expression </span><em><span>jsRealB</span></em><span> les réalisant</span></p></li><li><p><code>probs-{en,fr}.json</code><span>: probabilités d&#39;occurrence d&#39;un caractère à une certaine position</span></p></li><li><p><code>trie-{en,fr}.json</code><span>: structure de trie des formes</span></p></li></ul></li><li><p><code>CreerMots.js</code><span>: création des fichiers </span><code>mots-scores.json</code><span> et </span><code>trie.json</code><span> selon la langue</span></p></li><li><p><code>Grille.js</code><span> : classe qui implante la grille et sa création</span></p></li><li><p><code>exportGrille.js</code><span> : fonctions d&#39;exportation de grilles en format HTML, JSON et PUZ </span></p></li><li><p><code>MCWikti.js</code><span>: fonctions d&#39;accès au définitions et au trie de MCWiktionnaire</span></p></li><li><p><code>MotsCroises.js</code><span> : lancement de création de grilles</span></p></li><li><p><code>README.{md,HTML,pdf}</code><span> : ce fichier</span></p></li><li><p><code>Sorties</code><span>: répertoire des fichiers de grilles crées par l&#39;application</span></p><ul><li><p><code><i><span>grille</span></i><span>.html</span></code><span> : affichage HTML</span></p></li><li><p><code><i><span>grille</span></i><span>.json</span></code><span> : format JSON</span></p></li><li><p><code><i><span>grille</span></i><span>.puz</span></code><span> : format PUZ</span></p></li></ul></li><li><p><code>Web</code><span> : répertoire avec une application web interactive </span><code>MCenJS.html</code><span> (</span><em><span>Mots Croises en JavaScript</span></em><span>) pour remplir une grille en format JSON. Le répertoire contient aussi les fichiers de feuille de style CSS et </span><em><span>JavaScript</span></em><span> pour gérer l&#39;interactio</span></p><p>&nbsp;</p></li></ul></div></div>
+
+<script>(function (){var e=document.body.parentElement,t=[],n=null,i=document.body.classList.contains("typora-export-collapse-outline"),r=function(e,t,n){document.addEventListener(e,function(e){if(!e.defaultPrevented)for(var i=e.target;i&&i!=this;i=i.parentNode)if(i.matches(t)){!1===n.call(i,e)&&(e.preventDefault(),e.stopPropagation());break}},!1)};function o(){return e.scrollTop}r("click",".outline-expander",function(e){var t=this.closest(".outline-item-wrapper").classList;return t.contains("outline-item-open")?t.remove("outline-item-open"):t.add("outline-item-open"),d(),!1}),r("click",".outline-item",function(e){var t=this.querySelector(".outline-label");if(location.hash="#"+t.getAttribute("href"),i){var n=this.closest(".outline-item-wrapper").classList;n.contains("outline-item-open")||n.add("outline-item-open"),c(),n.add("outline-item-active")}});var a,s,l=function(){var e=o();n=null;for(var i=0;i<t.length&&t[i][1]-e<60;i++)n=t[i]},c=function(){document.querySelectorAll(".outline-item-active").forEach(e=>e.classList.remove("outline-item-active")),document.querySelectorAll(".outline-item-single.outline-item-open").forEach(e=>e.classList.remove("outline-item-open"))},d=function(){if(n){c();var e=document.querySelector('.outline-label[href="#'+(CSS.escape?CSS.escape(n[0]):n[0])+'"]');if(e)if(i){var t=e.closest(".outline-item-open>ul>.outline-item-wrapper");if(t)t.classList.add("outline-item-active");else{for(var r=(e=e.closest(".outline-item-wrapper")).parentElement.closest(".outline-item-wrapper");r;)r=(e=r).parentElement.closest(".outline-item-wrapper");e.classList.add("outline-item-active")}}else e.closest(".outline-item-wrapper").classList.add("outline-item-active")}};window.addEventListener("scroll",function(e){a&&clearTimeout(a),a=setTimeout(function(){l(),d()},300)});var u=function(){s=setTimeout(function(){!function(){t=[];var e=o();document.querySelector("#write").querySelectorAll("h1, h2, h3, h4, h5, h6").forEach(n=>{var i=n.getAttribute("id");t.push([i,e+n.getBoundingClientRect().y])})}(),l(),d()},300)};window.addEventListener("resize",function(e){s&&clearTimeout(s),u()}),u()})();</script><style>
+@media print{
+   html{font-size:14px; margin:10px}
+}
+@media screen and (max-width:1200px){
+   .typora-export-sidebar {display:none}
+}
+</style></body>
+</html>

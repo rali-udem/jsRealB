@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" href="MCenJS.css" type="text/css" charset="utf-8"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!--<script type="text/javascript" src="/Applications/oxygen/frameworks/docbook/xsl/webhelp/template/common/jquery/jquery-1.7.2.min.js"></script>-->
+	<script type="text/javascript" charset="utf-8" src="MCenJS.js"></script>
+	<title>Remplir une grille de mots croisés en Javascript</title>
+</head>
+<body>
+    <h1>Résolvez une grille de mots croisés</h1>
+    <!--  Customize file button, taken from
+        https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file/47950538#47950538 -->
+	<button onclick="document.getElementById('file-input').click()">Choisissez une grille</button>
+    ou glissez un fichier JSON sur cette page.
+	<input type='file' id="file-input" style="display:none">
+    <p>
+        <span id="fileName"></span>
+        <!-- <select id="choix">
+            <option value="choisissez" selected="selected">Choisissez votre grille</option>
+            <option value="grille.json">grille</option>
+            <option value="IFT3225.json">IFT3225</option>
+            <option value="HC-0001.json">HC-0001</option>
+            <option value="HC-0002.json">HC-0002</option>
+            <option value="moyenne1.json">moyenne 1</option>
+            <option value="moyenne2.json">moyenne 2</option>
+            <option value="corsee5.json">corsée 5</option>
+            <option value="easy2.json">easy</option>
+        </select> -->
+        <span id="affiche-aide">Aide ?</span>
+        <span id="check-on-the-fly">
+            <label for="check">Vérification à la volée</label>
+            <input type="checkbox" name="check" value="" id="check">
+        </span>    
+    </p>
+    <ul id="aide">
+        <li>Cliquez sur une case pour sélectionner la case courante affichée en jaune. Le mot où la case courante se trouve est affichée en gris. La définition de ce mot s'affiche en gras.</li>
+        <li>Cliquez sur une définition pour déplacer la case courante dans la grille.</li>
+        <li>Les flèches permettent de  déplacer la case courante dans la grille.</li>
+        <li>La barre d'espacement permet de changer l'orientation actuel des mots touchant à la case courante.</li>
+        <li>On peut également changer l'orientation en sélectionnant à nouveau la cellule courante.</li>
+        <li>Taper une lettre inscrit la lettre majuscule dans la case courante et passe à la suivante dans la direction actuelle.</li>
+        <li>Taper un ? inscrit la lettre de la solution dans la case courante. La case s'affiche en bleu pour indiquer <em>la triche</em> et ce jusqu'à la fin du remplissage de la grille.</li>
+        <li>Control-Z annule la dernière action, il est possible d'annuler plusieurs actions.</li>
+        <li>Si la case de vérification à la volée est cochée, une lettre entrée qui ne correspond pas à la solution sera affichée en rouge.</li>
+    </ul>
+    <hr/>
+    <div id="definitionCourante"></div>
+    <hr/>
+    <div id="grilleInfos">
+        <table id="grille"></table>
+        <div id="puzzle"></div>
+        <div id="author"></div>
+        <div id="copyright"></div>
+        <div id="message"></div>
+    </div>
+    <div id="horizontal">
+        <h2>Horizontal</h2>
+        <div id="hDefs"></div>
+    </div>
+    <div id="vertical">
+        <h2>Vertical</h2>
+        <div id="vDefs"></div>
+    </div>
+</body>
+</html>
