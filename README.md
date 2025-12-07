@@ -56,6 +56,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     1. `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js`
     2.  `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
     
+    NB: in December 2025, we created a new type of "access token" to update to 5.4. It is not yet clear to me what that means for the future...
+    
 * [`documentation`](documentation/): in both English and French. The examples are generated on the fly by embedding `jsRealB` in the page. [*Consult the documentation*](http://rali.iro.umontreal.ca/JSrealB/current/documentation/user.html)
     * `Flexion-Tables.numbers` Spreadsheet of the French and English declension and conjugation tables (in *Numbers* format)
     * `jsRealB-jsonInput.hmtl` use of the JSON format for *jsRealB*: 
