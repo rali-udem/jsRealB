@@ -159,6 +159,8 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
 * **L'augmentation** : Generate a text in French for asking a pay raise following a flowchart as originally described by George Perec. Using menus, some elements of the text can be modified. The path in the flowchart is displayed in the web page and it is possible to highlight a step in the flowchart with the corresponding text. [L'Augmentation](demos/Augmentation) [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/Augmentation/Augmentation.html)
 
 * **Eliza** : Use *jsRealB* to program a version of the classical Eliza doctor script in French. Mainly used to show how to generate questions.
+
+* **Eliza-fr-Swift**: Show how *jsRealB* can be called from a Swift program on macOS or iOS making use of the JavaScriptCore package. 
   
 * **Universal Dependencies** structure used for generating the original sentence from its annotation:
     * in English : [*Execute*](http://rali.iro.umontreal.ca/JSrealB/current/demos/UDregenerator/UDregenerator-en.html)

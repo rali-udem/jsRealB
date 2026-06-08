@@ -8,7 +8,7 @@
         "latex",
         "plaintext"
     ],
-    "workbench.colorTheme": "Default Light Modern",
+    "workbench.colorTheme": "Light Modern",
     "python.terminal.executeInFileDir": true,
     "npm.enableRunFromFolder": true,
     "json.schemas": [
