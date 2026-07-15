@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 5.2 - December 2024*
+*Version 5.5 - July 2026*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 
@@ -53,7 +53,7 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     
     **Information for the maintainer**: When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login): 
     
-    1. `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js`
+    1. `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js` and at the top of this document.
     2.  `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
     
     NB: in December 2025, we created a new type of "access token" to update to 5.4. It is not yet clear to me what that means for the future...

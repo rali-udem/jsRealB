@@ -55,7 +55,7 @@ num = /s|p/
 
 * Dans le cas de `punct`, `compl` est le signe de ponctuation complémentaire, par exemple la parenthèse ou le crochet fermant correspondant.
 
-* `niveau` est une indication d'un mot _commun_ dans un lexique, soit au niveau d'une entrée, soit pour une partie de discours donnée.  C'est un nombre entier entre 1 et 6, correspondant au niveau scolaire tel qu'indiqué par le champ _Année scolaire_ de la [Liste orthographique du ministère de l'Éducation du Québec] (https://www.education.gouv.qc.ca/fileadmin/site_web/documents/education/jeunes/pfeq/Liste-orthographique-document-reference.pdf). Cette information peut être utile pour générer des phrases avec des mots de la vie courante.
+* `niveau` est une indication d'un mot _commun_ dans un lexique, soit au niveau d'une entrée, soit pour une partie de discours donnée.  C'est un nombre entier entre 1 et 6, correspondant au niveau scolaire tel qu'indiqué par le champ _Année scolaire_ de la [Liste orthographique du ministère de l'Éducation du Québec](https://www.education.gouv.qc.ca/fileadmin/site_web/documents/education/jeunes/pfeq/Liste-orthographique-document-reference.pdf). Cette information peut être utile pour générer des phrases avec des mots de la vie courante.
 
 Interrogation du lexique avec `jq`
 ========================

@@ -10,6 +10,18 @@ var titleConj={"fr": "Conjugaison de ","en":"Conjugation of <i>to</i> "};
 var titleDecl={"fr": "Déclinaison de ","en":"Declension of "};
 var titleCommeNom={"fr": " comme nom","en":" as noun"};
 var titleCommeAdj={"fr": " comme adjectif","en":" as adjective"};
+var defaut= {"fr":"ménager","en":"desert"}
+
+function showTyps(typs){
+    flags=[]
+    for (key of Object.keys(typs)){
+        if (typs[key]){
+            flags.push(`"${key}":${typs[key]}`)
+        }
+    }
+    if (flags.length==0)return ""
+    return `<small>.typ({${flags.join(",")}})</small>`
+}
 
 function conjuguer(verbe, lang,typs){
     function realize(t,pe,n,g){
@@ -57,11 +69,11 @@ function conjuguer(verbe, lang,typs){
             [["Participle present","pr"],["Participle past","pp"],["Infinitive","b-to"],["Infinitive past","bp-to"],]
         ]
     }
-    $("#tableau").append(`<h1>${titleConj[language]} <i>${verbe}</i></h1>`);
+    $("#tableau").append(`<h1>${titleConj[language]} <i>${verbe}</i> <code>${showTyps(typs)}</code></h1>`);
     for (tmp of temps) {
         let $row=$("<tr/>");
         for (t of tmp){
-            $row.append(`<th>${t[0]}</th>`)
+            $row.append(`<th>${t[0]} <code>.t("${t[1]}")</code></th>`)
         }
         $("#tableau").append($row)
         if (tmp[0][0].startsWith("Particip")){
@@ -160,16 +172,18 @@ function decliner(mot,lang){
     }
 }
 
+function conjugueDeclineF(val){
+    $tableau.text("");
+    if(val.length!=0){
+        conjuguer(val,language,getTyps(language));
+        decliner(val,language);
+    }    
+}
 
 function conjugueDecline(e){
     // console.log("conjugueDecline("+e+")")
     if (e.which==13){
-        $tableau.text("");
-        var val=$entree.val().trim();
-        if(val.length!=0){
-            conjuguer(val,language,getTyps(language));
-            decliner(val,language);
-        }
+        conjugueDeclineF($entree.val().trim())
     } 
 }
 
@@ -202,14 +216,17 @@ function checkLanguage() {
         $("#perfectButton").hide();
         $("#entree").prop("placeholder","verbe, nom ou adjectif");
         $("#title").text("Flexions - Verbe, Nom ou Adjectif")
+        $("#entree").val(defaut["fr"]);
     }
     else{
         loadEn();
         $("label[for=perfectButton]").show();
         $("#perfectButton").show();
         $("#entree").prop("placeholder","verb, noun or adjective");
-        $("#title").text("Inflections - Verb, Noun or Adjective")
+        $("#title").text("Inflections - Verb, Noun or Adjective");
+        $("#entree").val(defaut["en"]);
     }
+    $("#entree").trigger("focus")
 };
 
 
@@ -229,6 +246,9 @@ $(document).ready(function() {
        }
    )
    checkLanguage();
+   $("#entree").val(defaut[language])
+   $("#entree").trigger("focus")
    $("#lang-fr").click(checkLanguage);
    $("#lang-en").click(checkLanguage);
+   
 });

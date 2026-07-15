@@ -215,7 +215,6 @@ class UDnode_fr extends UDnode {
     }
 
     // generate options in the form of a list of [name of optionFunction,parameter]
-    //  not very useful in French
     getSentOptions(isSUD){
         // check for a "ne" ... "pas" in both left and right dependents 
         let advs=[], neIdx;

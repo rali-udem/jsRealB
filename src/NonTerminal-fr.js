@@ -197,8 +197,10 @@ const French_non_terminal = (superclass) =>
             let start = res.length-1
             while (start>=0 && !(res[start].isA("Pro")&&relpro.includes(res[start].lemma))) start--;
             start++;
-            // find first consecutive adverbs (ignoring "not" and "ne")
-            const advIdxes = res.map((e,i)=>(i>=start && e.isA("Adv") && !(["not","ne"].includes(e.lemma)))?i:-1).filter((e)=> e!=-1)
+            // find first consecutive adverbs (ignoring "non" and "ne"|"non")
+            const advIdxes = res.map((e,i)=>(i>=start && e.isA("Adv") && 
+                                             !(["ne","non","not"].includes(e.lemma)))?i:-1
+                                     ).filter((e)=> e!=-1)
             if (advIdxes.length==0) return;
             const advIdx = advIdxes[0]
             const advTerminal = res[advIdx]
@@ -249,9 +251,13 @@ const French_non_terminal = (superclass) =>
                 //  extraits d'une liste de types d'adverbes à https://www.scribbr.fr/elements-linguistiques/adverbe/
                 const tempsAdv = ["hier","demain","longtemps","aujourd'hui","tôt","tard","auparavant","autrefois"]
                 const lieuAdv = ["ici","là","là-bas","là-haut","ailleurs","autour","derrière","dessus","dessous","devant",
-                "dedans","dehors","loin","près","alentour","après","avant","partout",
+                "dedans","dehors","loin","près","alentour","après","auprès","avant","partout",
                 "où","partout","au-dessus","au-dessous","au-devant","nulle part","quelque part"]
                 if (tempsAdv.includes(advLemma) || lieuAdv.includes(advLemma)) return
+                if (advIdx<res.length-1 && res[advIdx+1].isA("A","P")){
+                    // do not move an adverb in front of an adjective or a préposition  ("auprès de", "tout de", "tout en")
+                    return
+                }
                 if (advLemma.length<=6 || ["toujours","souvent"].includes(advLemma))
                     // adverbe court ou commun: déjà, très, trop, toujours, souvent ... 
                     moveAfterAux(["avoir","être","vouloir","devoir","savoir"])
@@ -329,6 +335,7 @@ const French_non_terminal = (superclass) =>
                     // do not try to change position of a constituent with specified pos or with an elided realization
                     let doNotMove = c.realization.endsWith("'") || c.getProp("pos")!==undefined;
                     if (c.parentConst != null && c.parentConst.isA("subj","comp","mod") && c.parentConst.getProp("pos")!==undefined) doNotMove=true;
+                    if (["ceci","cela"].includes(c.lemma))doNotMove=true; // do not move démonstrative pronouns
                     if (!doNotMove){
                         if (["refl","acc","dat"].includes(c.getProp("c")) || c.lemma=="y" || c.lemma=="en"){
                             pros.push(cList.splice(i,1)[0]);

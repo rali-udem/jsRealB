@@ -290,7 +290,7 @@ function makeExamples(){
                     NP(D('le'),
                     N('maison'))),
                 Adv('sûrement'))).typ({"neg":true}),
-        "Il n'est pas souvent allé à la maison sûrement. "],
+        "Il n'est pas allé souvent à la maison sûrement. "],
         [S(Pro('je'),          // 63
             VP(V('aller').t("pc"),
                 Adv('souvent').pos("post"),

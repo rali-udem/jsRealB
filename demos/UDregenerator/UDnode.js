@@ -532,7 +532,7 @@ class UDnode {
             [subj]=dep1.splice(idx1,1);
             subj.addToLeftOf(newAux) // add as subject of the new auxiliary 
         }
-        // TODO: update parent of the new auxiliary
+        // update parent of the new auxiliary
         newAux.deprel="aux";
         this.deprel="xcomp"; // change this to the complement of the new auxiliary
         newAux.right.unshift(this);
@@ -573,12 +573,12 @@ class UDnode {
         if (this.left.length>1){
             const first = checkFirst(this.left,e => ["case","mark"].includes(e.deprel) && e.upos=="ADP")
             if (first !== null){
-                    const prep = first.lemma
-                    this.left.shift()
-                    let expr = this.toDependent();
-                    expr.add(mod(P(prep)).pos("pre"),0)
-                    return applyOptions(expr,sentOptions)
-                }
+                const prep = first.lemma
+                this.left.shift()
+                let expr = this.toDependent();
+                expr.add(mod(P(prep)).pos("pre"),0)
+                return applyOptions(expr,sentOptions)
+            }
         }
     }   
 }
