@@ -126,6 +126,7 @@ const French_constituent = (superclass) =>
                 "de+le":"du","de+les":"des","de+des":"de","de+autres":"d'autres",
                 "des+autres":"d'autres",
                 "en+les":"en","en+des":"en",
+                "jusqu'à+le": "jusqu'au", "jusqu'à+les": "jusqu'aux",
                 "si+il":"s'il","si+ils":"s'ils"};
     
     

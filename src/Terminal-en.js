@@ -38,6 +38,12 @@ const English_terminal = (superclass) =>
         noun_always_plural(){return ['n6']}
 
         /**
+         * Some French words, e.g. Country names, have fixed number and gender, indicated by their table numbers
+         ignored in English
+         */
+        fix_gender_number(){}
+
+        /**
          * Return the grammatical number of this terminal
          *
          * @returns {"s"|"p"}

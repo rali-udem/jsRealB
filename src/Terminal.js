@@ -210,8 +210,10 @@ class Terminal extends Constituent{
                                             while (i<dd.length && dd[i].pe==pe)i++;
                                             if (i==dd.length)this.setProp("pe",pe);
                                         }
-                                    } else if (terminalType=="N" && this.noun_always_plural().includes(this.tab)){
-                                        this.setProp("n","p")
+                                    } else if (terminalType=="N"){ 
+                                        if (this.noun_always_plural().includes(this.tab))
+                                            this.setProp("n","p")
+                                        this.fix_gender_number()
                                     }
                                 }
                             } else { // looking for a conjugation

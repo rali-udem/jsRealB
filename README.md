@@ -53,8 +53,15 @@ The _companion_ project [pyrealb](https://github.com/lapalme/pyrealb) implements
     
     **Information for the maintainer**: When a new version is to be put on `npm`, in principle, it should be enough to issue the two following commands from within the `dist` directory (after a npm login): 
     
-    1. `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js` and at the top of this document.
-    2.  `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
+    1. `npm version {major|minor|patch}`  ideally the resulting version number should the same as `jsRealB_version` in `jsRealB.js` and at the top of this document.
+    
+    2. `npm publish`  Because of the `.npmignore` hidden file in this directory, only `jsRealB.js` is published.
+    
+    3. recently we have to add the access token as follows
+    
+        `npm publish --//registry.npmjs.org/:_authToken=...`
+    
+       But we have to make sure that the access token is stil valid. Log on the npm website and check on the *User Menu*. If not then generate a new one and use this value
     
     NB: in December 2025, we created a new type of "access token" to update to 5.4. It is not yet clear to me what that means for the future...
     

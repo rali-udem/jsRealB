@@ -134,6 +134,16 @@ const French_terminal = (superclass) =>
         noun_always_plural(){return ['n1','n15','n21','n22','n26']}
 
         /**
+         * Some French words, e.g. Country names, have fixed number and gender, indicated by their table numbers
+         */
+        fix_gender_number(){
+            if (this.tab=="n1")this.setProp("g","m").setProp("n","p")
+            else if (this.tab=="n15")this.setProp("g","f").setProp("n","p")
+            else if (this.tab=="n35")this.setProp("g","m").setProp("n","s")
+            else if (this.tab=="n36")this.setProp("g","f").setProp("n","s")
+        }
+
+        /**
          * Check if the specified gender and number corresponds to what is 
          * acceptable in the lexicon. 
          *
