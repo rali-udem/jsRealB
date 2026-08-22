@@ -153,7 +153,7 @@ QUnit.test( "Dependances FR - Bonfante", function( assert ) {
                             comp(V("être").t("pc"),
                                  subj(Pro("nous").c("nom")),
                                  mod(A("sensible"),
-                                     mod(Adv("très"))),
+                                     mod(Adv("très")).pos("pre")),
                                  comp(P("à"),
                                       comp(N("évocation"),
                                            det(D("ce"))))))))),

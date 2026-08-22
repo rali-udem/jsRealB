@@ -246,7 +246,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                                NP(D('le'),
                                   N('maison'))),
                             Adv('sûrement'))).typ({"neg":true}),
-          "expected":"Il n'est pas souvent allé à la maison sûrement. ",
+          "expected":"Il n'est pas allé souvent à la maison sûrement. ",
           "message":"Position d'adverbes séparés"},
          // 39
          {"expression":S(Pro('je'),

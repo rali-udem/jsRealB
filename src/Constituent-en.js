@@ -143,6 +143,7 @@ const English_constituent = (superclass) =>
             var last=cList.length-1;
             if (last==0)return; // do not try to elide a single word
             for (var i = 0; i < last; i++) {
+                if (cList[i].isA("Q")) continue; // do not try to elide a quoted string
                 var m1=this.sepWordRE().exec(cList[i].realization)
                 if (m1 === undefined || m1[2]===undefined) continue;
                 var m2=this.sepWordRE().exec(cList[i+1].realization)

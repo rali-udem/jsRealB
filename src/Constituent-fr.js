@@ -153,6 +153,7 @@ const French_constituent = (superclass) =>
             for (var i = 0; i < last; i++) {
                 if (i>0 && cList[i-1].getProp("lier")=== true) // ignore if the preceding word is "lié" to this one
                     continue;
+                if (cList[i].isA("Q")) continue; // do not try to elide a quoted string
                 var m1=this.sepWordRE().exec(cList[i].realization)
                 if (m1 === undefined || m1[2]===undefined) continue;
                 var m2=this.sepWordRE().exec(cList[i+1].realization)
