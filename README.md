@@ -1,6 +1,6 @@
 # jsRealB - A JavaScript Bilingual Text Realizer for Web Development
 
-*Version 5.5 - July 2026*
+*Version 5.6 - August 2026*
 
 Natural Language Generation (NLG) is a field of artificial intelligence that focuses on the development of systems that produce text for different applications, for example the textual description of massive datasets or the automation of routine text creation.
 

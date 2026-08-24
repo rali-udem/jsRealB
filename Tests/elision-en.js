@@ -11,7 +11,7 @@ QUnit.test( "English elision", function( assert ) {
         [S(VP(V("eat"),NP(D("a"),N("apple").tag("a",{"href":'https:en.wikipedia.org/wiki/Apple'})))),
          "Eats an <a href=\"https:en.wikipedia.org/wiki/Apple\">apple</a>. "],
         [NP(NO(123),N("man")).tag("i").tag("p"),"<p><i>123 men</i></p>"],
-        [NP(D("a").b("@@").cap(),N("elevator").tag("p")),"@@An <p>elevator</p>"],
+        [NP(D("a").b("@@").cap(),N("elevator").tag("p")),"@@A <p>elevator</p>"],
         [CP(C("and"),NP(D("a"),N("unicorn")),
                      NP(D("a"),A("unusual"),N("exercise")),
                      NP(D("a"),A("honourable"),N("mention")),

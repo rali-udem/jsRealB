@@ -246,7 +246,85 @@ In this case realization must be obtained using .realize()
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line591">line 591</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line701">line 701</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="mdRE"><span class="type-signature"></span>mdRE<span class="type-signature"> :regex</span></h4>
+
+
+
+
+<div class="description">
+    Regex for valid Markdown specifications with the following groups
+  #{1,6}  : 1 : header              
+  *{1,}   : 2 : bold+italic
+  >+      : 3 : blockquote
+  \s+\+   : 4 : unordered list
+  \d+\.+  : 5 : ordered list
+  ---     : 6 : horizontal rule
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">regex</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line251">line 251</a>
     </li></ul></dd>
     
 
@@ -634,7 +712,7 @@ if at "top level", apply elision and default sentence formatting
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line526">line 526</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line636">line 636</a>
     </li></ul></dd>
     
 
@@ -782,7 +860,7 @@ adds either to the first or last token (which can be the same)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line404">line 404</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line438">line 438</a>
     </li></ul></dd>
     
 
@@ -929,7 +1007,7 @@ adds either to the first or last token (which can be the same)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line243">line 243</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -1515,7 +1593,7 @@ if no language is found, return current language (useful for JSON processing)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line606">line 606</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line716">line 716</a>
     </li></ul></dd>
     
 
@@ -1693,6 +1771,154 @@ and then the value of shared properties
         
 <div class="param-desc">
     the value associated with propName or undefined if propName is not defined
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getTextInTags"><span class="type-signature"></span>getTextInTags<span class="signature">(str)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Extract text from possibly nested tagged string
+This is used for the elision process in both French and English
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line577">line 577</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    [before, text, after], if no match before and after are empty strings
 </div>
 
 
@@ -1962,7 +2188,7 @@ useful for producing nicely indented display of expressions
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line621">line 621</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line731">line 731</a>
     </li></ul></dd>
     
 
@@ -2348,7 +2574,7 @@ HACK: this adds a flag to the peng structure so that agreements are correctly ma
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line331">line 331</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line365">line 365</a>
     </li></ul></dd>
     
 
@@ -2378,6 +2604,153 @@ HACK: this adds a flag to the peng structure so that agreements are correctly ma
         
 <div class="param-desc">
     this Constituent
+</div>
+
+
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="md"><span class="type-signature"></span>md<span class="signature">(markup)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Save information for a Markdown markup in both source and props
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>markup</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">matching Constituent.mdRE</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line258">line 258</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    this Contituent with md value set
 </div>
 
 
@@ -2507,7 +2880,7 @@ HACK: this adds a flag to the peng structure so that agreements are correctly ma
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line308">line 308</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line342">line 342</a>
     </li></ul></dd>
     
 
@@ -2649,7 +3022,7 @@ HACK: this adds a flag to the peng structure so that agreements are correctly ma
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line579">line 579</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line689">line 689</a>
     </li></ul></dd>
     
 
@@ -3299,7 +3672,7 @@ so the "first word after a colon, em dash, or end punctuation" might not be capi
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line507">line 507</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line558">line 558</a>
     </li></ul></dd>
     
 
@@ -3388,7 +3761,7 @@ CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource(
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line645">line 645</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line755">line 755</a>
     </li></ul></dd>
     
 
@@ -3486,7 +3859,7 @@ CAUTION: this output is NOT a legal jsRealB expression, contrarily to .toSource(
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line636">line 636</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line746">line 746</a>
     </li></ul></dd>
     
 
@@ -3585,7 +3958,7 @@ returns the realization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line598">line 598</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line708">line 708</a>
     </li></ul></dd>
     
 
@@ -3732,7 +4105,7 @@ returns the realization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line349">line 349</a>
+        <a href="Constituent.js.html">Constituent.js</a>, <a href="Constituent.js.html#line383">line 383</a>
     </li></ul></dd>
     
 
@@ -3788,13 +4161,13 @@ returns the realization
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addLemma">addLemma</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#buildLemmataMap">buildLemmataMap</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_countable">check_countable</a></li><li><a href="global.html#check_determiner_cnt">check_determiner_cnt</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_majestic">check_majestic</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#choice">choice</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#expandConjugation">expandConjugation</a></li><li><a href="global.html#expandDeclension">expandDeclension</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genExp">genExp</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#jsrExpInit">jsrExpInit</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#noun_always_plural">noun_always_plural</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#relative_pronouns_propagate">relative_pronouns_propagate</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#should_try_another_subject">should_try_another_subject</a></li><li><a href="global.html#showLemmata">showLemmata</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Constituent.html">Constituent</a></li><li><a href="Dependent.html">Dependent</a></li><li><a href="Phrase.html">Phrase</a></li><li><a href="Terminal.html">Terminal</a></li></ul><h3>Global</h3><ul><li><a href="global.html#A">A</a></li><li><a href="global.html#addLemma">addLemma</a></li><li><a href="global.html#adj_def_pos">adj_def_pos</a></li><li><a href="global.html#Adv">Adv</a></li><li><a href="global.html#AdvP">AdvP</a></li><li><a href="global.html#affixHopping">affixHopping</a></li><li><a href="global.html#and_conj">and_conj</a></li><li><a href="global.html#AP">AP</a></li><li><a href="global.html#buildLemmataMap">buildLemmataMap</a></li><li><a href="global.html#C">C</a></li><li><a href="global.html#check_bad_pronoun_case">check_bad_pronoun_case</a></li><li><a href="global.html#check_coordinated_object">check_coordinated_object</a></li><li><a href="global.html#check_countable">check_countable</a></li><li><a href="global.html#check_determiner_cnt">check_determiner_cnt</a></li><li><a href="global.html#check_for_t">check_for_t</a></li><li><a href="global.html#check_gender_lexicon">check_gender_lexicon</a></li><li><a href="global.html#check_majestic">check_majestic</a></li><li><a href="global.html#check_passive_subject_with_par">check_passive_subject_with_par</a></li><li><a href="global.html#checkAdverbPos">checkAdverbPos</a></li><li><a href="global.html#choice">choice</a></li><li><a href="global.html#comp">comp</a></li><li><a href="global.html#compareClitics">compareClitics</a></li><li><a href="global.html#conjugate">conjugate</a></li><li><a href="global.html#coord">coord</a></li><li><a href="global.html#copules">copules</a></li><li><a href="global.html#CP">CP</a></li><li><a href="global.html#D">D</a></li><li><a href="global.html#declension_word">declension_word</a></li><li><a href="global.html#decline_adj_adv">decline_adj_adv</a></li><li><a href="global.html#defaultProps">defaultProps</a></li><li><a href="global.html#dependent">dependent</a></li><li><a href="global.html#deprels">deprels</a></li><li><a href="global.html#det">det</a></li><li><a href="global.html#doElision">doElision</a></li><li><a href="global.html#doPronounPlacement">doPronounPlacement</a></li><li><a href="global.html#DT">DT</a></li><li><a href="global.html#English_constituent">English_constituent</a></li><li><a href="global.html#English_dependent">English_dependent</a></li><li><a href="global.html#English_non_terminal">English_non_terminal</a></li><li><a href="global.html#English_phrase">English_phrase</a></li><li><a href="global.html#English_terminal">English_terminal</a></li><li><a href="global.html#enToutesLettres">enToutesLettres</a></li><li><a href="global.html#exceptionOnWarning">exceptionOnWarning</a></li><li><a href="global.html#expandConjugation">expandConjugation</a></li><li><a href="global.html#expandDeclension">expandDeclension</a></li><li><a href="global.html#fix_gender_number">fix_gender_number</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#French_constituent">French_constituent</a></li><li><a href="global.html#French_dependent">French_dependent</a></li><li><a href="global.html#French_non_terminal">French_non_terminal</a></li><li><a href="global.html#French_phrase">French_phrase</a></li><li><a href="global.html#fromJSON">fromJSON</a></li><li><a href="global.html#genExp">genExp</a></li><li><a href="global.html#genOptionFunc">genOptionFunc</a></li><li><a href="global.html#genOptionListFunc">genOptionListFunc</a></li><li><a href="global.html#getElems">getElems</a></li><li><a href="global.html#getSavedWarnings">getSavedWarnings</a></li><li><a href="global.html#grammaticalNumber">grammaticalNumber</a></li><li><a href="global.html#initProps">initProps</a></li><li><a href="global.html#interrogative_pronoun_woi">interrogative_pronoun_woi</a></li><li><a href="global.html#isEn">isEn</a></li><li><a href="global.html#isFr">isFr</a></li><li><a href="global.html#isRunningUnderNode">isRunningUnderNode</a></li><li><a href="global.html#jsRealB_dateCreated">jsRealB_dateCreated</a></li><li><a href="global.html#jsRealB_version">jsRealB_version</a></li><li><a href="global.html#jsrExpInit">jsrExpInit</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#link_attributes">link_attributes</a></li><li><a href="global.html#link_DAV_properties">link_DAV_properties</a></li><li><a href="global.html#link_pp_before">link_pp_before</a></li><li><a href="global.html#link_pp_with_head">link_pp_with_head</a></li><li><a href="global.html#link_subj_obj_subordinate">link_subj_obj_subordinate</a></li><li><a href="global.html#linkAttributes">linkAttributes</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mod">mod</a></li><li><a href="global.html#move_object">move_object</a></li><li><a href="global.html#N">N</a></li><li><a href="global.html#nbDecimal">nbDecimal</a></li><li><a href="global.html#NO">NO</a></li><li><a href="global.html#noun_always_plural">noun_always_plural</a></li><li><a href="global.html#NP">NP</a></li><li><a href="global.html#numberFormatter">numberFormatter</a></li><li><a href="global.html#numberOne">numberOne</a></li><li><a href="global.html#oneOf">oneOf</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#P">P</a></li><li><a href="global.html#passive_agree_auxiliary">passive_agree_auxiliary</a></li><li><a href="global.html#passive_agree_with_auxiliary">passive_agree_with_auxiliary</a></li><li><a href="global.html#passive_context">passive_context</a></li><li><a href="global.html#passive_dummy_subject">passive_dummy_subject</a></li><li><a href="global.html#passive_human_object">passive_human_object</a></li><li><a href="global.html#passive_prep">passive_prep</a></li><li><a href="global.html#passive_pronoun_subject">passive_pronoun_subject</a></li><li><a href="global.html#passive_should_link_subject">passive_should_link_subject</a></li><li><a href="global.html#passive_subject_par">passive_subject_par</a></li><li><a href="global.html#phrase">phrase</a></li><li><a href="global.html#PP">PP</a></li><li><a href="global.html#ppJSON">ppJSON</a></li><li><a href="global.html#prepositionsList">prepositionsList</a></li><li><a href="global.html#Pro">Pro</a></li><li><a href="global.html#processTyp_verb">processTyp_verb</a></li><li><a href="global.html#proclitiqueOrdre">proclitiqueOrdre</a></li><li><a href="global.html#pronominalize">pronominalize</a></li><li><a href="global.html#Q">Q</a></li><li><a href="global.html#quote">quote</a></li><li><a href="global.html#relative_pronouns">relative_pronouns</a></li><li><a href="global.html#relative_pronouns_propagate">relative_pronouns_propagate</a></li><li><a href="global.html#resetSavedWarnings">resetSavedWarnings</a></li><li><a href="global.html#roman">roman</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#S">S</a></li><li><a href="global.html#savedWarnings">savedWarnings</a></li><li><a href="global.html#sepWordRE">sepWordRE</a></li><li><a href="global.html#setExceptionOnWarning">setExceptionOnWarning</a></li><li><a href="global.html#should_add_interrogative_prefix">should_add_interrogative_prefix</a></li><li><a href="global.html#should_set_person_number">should_set_person_number</a></li><li><a href="global.html#should_try_another_subject">should_try_another_subject</a></li><li><a href="global.html#showLemmata">showLemmata</a></li><li><a href="global.html#SP">SP</a></li><li><a href="global.html#subj">subj</a></li><li><a href="global.html#tag_question">tag_question</a></li><li><a href="global.html#terminal">terminal</a></li><li><a href="global.html#thousand_seps">thousand_seps</a></li><li><a href="global.html#tonic_forms">tonic_forms</a></li><li><a href="global.html#tonic_pe_1">tonic_pe_1</a></li><li><a href="global.html#toString">toString</a></li><li><a href="global.html#V">V</a></li><li><a href="global.html#validate_neg_option">validate_neg_option</a></li><li><a href="global.html#VP">VP</a></li><li><a href="global.html#warning">warning</a></li><li><a href="global.html#word_last">word_last</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Sun Jun 01 2025 13:27:10 GMT-0400 (Eastern Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Aug 24 2026 15:19:20 GMT-0400 (Eastern Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -98,12 +98,12 @@ const French_constituent = (superclass) =>
             }
             return true
         }
-
+        
         // Same as sepWordREen but the [\w] class is extended with French accented letters and cedilla
         sepWordRE(){
             return /((?:[^<\wàâéèêëîïôöùüç'-]*(?:<[^>]+>)?)*)([\wàâéèêëîïôöùüç'-]+)?(.*)/i
         }
-
+        
         /**
          * Process French elision by changing the realization fields of Terminals, the list
          * might be modified
@@ -154,27 +154,33 @@ const French_constituent = (superclass) =>
                 if (i>0 && cList[i-1].getProp("lier")=== true) // ignore if the preceding word is "lié" to this one
                     continue;
                 if (cList[i].isA("Q")) continue; // do not try to elide a quoted string
-                var m1=this.sepWordRE().exec(cList[i].realization)
-                if (m1 === undefined || m1[2]===undefined) continue;
-                var m2=this.sepWordRE().exec(cList[i+1].realization)
-                if (m2 === undefined || m2[2]===undefined) continue;
-                // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
+                // m1 and m2 are three element lists 
+                // with m[0] containing the possible tags before the textual content to check for elision
+                //      m[1] the text to elide
+                //      m[2] the rest of the tags
+                let m1 = this.getTextInTags(cList[i].realization)
+                let m2 = this.getTextInTags(cList[i+1].realization)
+                // HACK: DT can have a strange realization
+                if (cList[i+1].isA("DT") && cList[i+1].realization.startsWith("le ")){
+                    m2=["","le",cList[i+1].realization.slice(2)]
+                } else
+                    m2=["",cList[i+1].realization,""]
                 // for a single word 
-                var w1=m1[2];
-                var w2=m2[2];
-                var w3NoWords = ! /^\s*\w/.test(m1[3]); // check that the rest of the first word does not start with a word
+                let w1=m1[1];
+                let w2=m2[1];
+                let w3NoWords = ! /^\s*\w/.test(m1[2]); // check that the rest of the first word does not start with a word
                 let elisionFound=false;
                 if (isElidableFr(w2,cList[i+1].lemma,cList[i+1].constType)){ // is the next word elidable
                     if (elidableWordFrRE.exec(w1) && w3NoWords){
-                        cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
+                        cList[i].realization=m1[0]+w1.slice(0,-1)+"'"+m1[2];
                         elisionFound=true;
                     } else if (euphonieFrRE.exec(w1) && w3NoWords && cList[i].getProp("n")=="s"){ // euphonie
                         if (/^ce$/i.exec(w1) && /(^est$)|(^étai)|(^a$)/.exec(w2)){
                             // very special case but very frequent
-                            cList[i].realization=m1[1]+w1.slice(0,-1)+"'"+m1[3];
+                            cList[i].realization=m1[0]+w1.slice(0,-1)+"'"+m1[2];
                         } else if (!["et","ou"].includes(w2)){
                             // avoid euphonie before "et" or "or": e.g. "beau et fort" and not "bel et fort"
-                            cList[i].realization=m1[1]+euphonieFrTable[w1]+m1[3];
+                            cList[i].realization=m1[0]+euphonieFrTable[w1]+m1[2];
                         }
                         elisionFound=true;
                     }
@@ -193,14 +199,14 @@ const French_constituent = (superclass) =>
                         // from within the isElidable() function (this is undefined...)
                         real_2 = this.sepWordRE().exec(cList[i+2].realization)[2];
                     }
-                    if (elidableWordFrRE.exec(w2) && i+2<=last && !cList[i+1].isA("DT") && 
+                    if (elidableWordFrRE.exec(w2) && i+2<=last && 
                         isElidableFr(real_2,cList[i+2].lemma,cList[i+2].constType)){
-                             cList[i+1].realization=m2[1]+w2.slice(0,-1)+"'"+m2[3]
+                             cList[i+1].realization=m2[0]+w2.slice(0,-1)+"'"+m2[2]
                     } else if (!(w2.startsWith("le") && cList[i+1].isA("Pro"))){ 
                         // do contraction of first word and remove second word (keeping start and end)
                         // HACK: except when le/les is a pronoun
-                        cList[i].realization=m1[1]+contr+m1[3];
-                        cList[i+1].realization=m2[1]+m2[3].trim();
+                        cList[i].realization=m1[0]+contr+m1[2];
+                        cList[i+1].realization=m2[0]+m2[2].trim();
                     }
                     i++;
                 }

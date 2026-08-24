@@ -94,7 +94,7 @@ const English_constituent = (superclass) =>
         validate_neg_option(val, types){
             return false
         }
-   
+        
         /**
          * Regex for matching the first word in a generated string (ouch!!! it is quite subtle...) 
          *  match index:
@@ -107,7 +107,7 @@ const English_constituent = (superclass) =>
         sepWordRE(){
             return /((?:[^<\w'-]*(?:<[^>]+>)?)*)([\w'-]+)?(.*)/
         }
-    
+        
         /**
          * Process English elision by changing the realization fields of Terminals, the list
          * might be modified
@@ -144,14 +144,14 @@ const English_constituent = (superclass) =>
             if (last==0)return; // do not try to elide a single word
             for (var i = 0; i < last; i++) {
                 if (cList[i].isA("Q")) continue; // do not try to elide a quoted string
-                var m1=this.sepWordRE().exec(cList[i].realization)
-                if (m1 === undefined || m1[2]===undefined) continue;
-                var m2=this.sepWordRE().exec(cList[i+1].realization)
-                if (m2 === undefined || m2[2]===undefined) continue;
-                // HACK: m1 and m2 save the parts before and after the first word (w1 and w2) which is in m_i[2]
-                // for a single word 
-                var w1=m1[2];
-                var w2=m2[2];
+                // m1 and m2 are three element lists 
+                // with m[0] containing the possible tags before the textual content to check for elision
+                //      m[1] the text to elide
+                //      m[2] the rest of the tags
+                let m1 = this.getTextInTags(cList[i].realization)
+                let m2 = this.getTextInTags(cList[i+1].realization)
+                let w1=m1[1];
+                let w2=m2[1];
                 if ((w1=="a"||w1=="A") && cList[i].isA("D")){
                     if (/^[ai]/i.exec(w2) ||   // starts with a or i
                         (/^e/i.exec(w2) && !/^eu/i.exec(w2) || // starts with e but not eu
@@ -159,18 +159,18 @@ const English_constituent = (superclass) =>
                         /^u/i.exec(w2) && !uLikeYouRE.exec(w2)) || // u does not sound like you
                         hAnRE.exec(w2) ||       // silent h
                         acronymRE.exec(w2)) {   // is an acronym
-                            cList[i].realization=m1[1]+w1+"n"+m1[3];
+                            cList[i].realization=m1[0]+w1+"n"+m1[2];
                             i++;                     // skip next word
                         }
                 } else if (this.contraction !== undefined && this.contraction === true) {
                     if (w1=="cannot"){ // special case...
-                        cList[i].realization=m1[1]+"can't"+m1[3];
+                        cList[i].realization=m1[0]+"can't"+m1[2];
                     } else {
                         const contr=contractionEnTable[w1+"+"+w2];   
                         if (contr!=null) {
                             // do contraction of first word and remove second word (keeping start and end)
-                            cList[i].realization=m1[1]+contr+m1[3];
-                            cList[i+1].realization=m2[1]+m2[3].trim();
+                            cList[i].realization=m1[0]+contr+m1[2];
+                            cList[i+1].realization=m2[0]+m2[2].trim();
                             i++;
                         }
                     }

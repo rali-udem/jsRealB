@@ -195,7 +195,7 @@ const English_non_terminal = (superclass) =>
                     words.push(V(vAux,"en").t("b"));
                 } else if (vAux in negMod){
                     if (vAux=="can" && t=="p"){
-                        words.push(Q("cannot"))
+                        words.push(V("cannot").t("b")) // HACK: "cannot" added to the English lexicon
                     } else {
                         words.push(V(vAux,"en").t(t))
                         words.push(Adv("not","en"))

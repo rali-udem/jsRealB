@@ -567,8 +567,67 @@ class Constituent {
             t.realization = s.substring(0,idx)+s.charAt(idx).toUpperCase()+s.substring(idx+1);
         }
     }
-
+    
     /**
+     * Extract text from possibly nested tagged string
+     * This is used for the elision process in both French and English
+     * @param {string} str 
+     * @returns [before, text, after], if no match before and after are empty strings
+     */
+    getTextInTags(str){
+        const l = str.length;
+        if (l<3) return ["",str,""]; // need at least 3 chars to extract something
+        const str0 = str.charAt(0);
+        const str_1 = str.charAt(l-1)
+        if ('<*["`({ '.indexOf(str0) < 0) return ["",str,""];
+        let res=null
+        if (str0 == "<"){ // html ou autolink
+            const autolink_regex = /^<[^<]+>$/;
+            let m = autolink_regex.exec(str);
+            if (m !== null){
+                res = [str0,str.substr(1,l-2),str_1]
+            } else { 
+                const html_regex=/^(<(\w+)(.*?)>)(.*)(<\/\2>)$/
+                const m = html_regex.exec(str)
+                if (m !== null)
+                    res = [m[1],m[4],m[5]]
+            }        
+        } else if (str0 == "*") { // markdown bold / italic
+            const md_regex=/^(\*+)(.*?)(\1)$/
+            const m = md_regex.exec(str)
+            if (m!=null)
+                res=[m[1],m[2],m[3]]
+        } else if (str0 == "["){ // markdown link
+            const md_link_regex=/^\[(.*?)(\]\(.*\))$/
+            const m = md_link_regex.exec(str)
+            if (m!=null)
+                res = ["[",m[1],m[2]]
+            else if (str.endsWith("]")){
+                res = ["[",str.substr(l-2),"]"]
+            }
+        } else if (str0 == "(" && str_1 == ")"){
+            res = [str0,str.substr(1,l-2),str_1]
+        } else if (str0 == "{" && str_1 == "}"){
+            res = [str0,str.substr(1,l-2),"}"]
+        } else if (str0 == '"' && str_1 == '"'){
+            res = [str0,str.substr(1,l-2),'"']
+        } else if (str0 == '`' && str_1 == '`'){
+            res = [str0,str.substr(1,l-2),'`']
+        } else if (str.startsWith(" (") && str.endsWith(") ")){
+            res = [" (",str.substr(2,l-4),") "]
+        } else if (str.startsWith(" [") && str.endsWith("] ")){
+            res = [" [",str.substr(2,l-4),"] "]
+        }
+        if (res != null){ // recurse for possible nested tags
+            const nestedres = this.getTextInTags(res[1])
+            if (nestedres != null)
+                return [res[0]+nestedres[0],nestedres[1],nestedres[2]+res[2]]
+            return res
+        }
+        return ["",str,""]
+    }
+                             
+   /**
      * Merge all tokens (i.e. Terminal with their realization field) into a single string, 
      * if at "top level", apply elision and default sentence formatting
      * @param {Terminal[]} terminals 
@@ -589,7 +648,7 @@ class Constituent {
             } else if (/[- ']$/.exec(terminal.realization)){
                 s+=terminal.realization;
             } else if (terminal.realization.length>0) {
-                s+=terminal.realization+" ";
+                s+=terminal.realization+" "
             }
         }
         const lastTerm = terminals[last];
