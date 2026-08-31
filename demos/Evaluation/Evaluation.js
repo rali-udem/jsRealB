@@ -5,14 +5,14 @@ Object.assign(globalThis,jsRealB);
 const constituentFr= `var dest=NP(D("le"),N("monde"));
 S(Pro("je").pe(1),
   VP(V("dire"),
-     "bonjour",
+     Q("bonjour"),
      PP(P("à"),dest.tag("b"))))
 `;
 
 const dependencyFr= `var dest=comp(N("monde"),det(D("le")));
 root(V("dire"),
      subj(Pro("je").pe(1)),
-     comp("bonjour"),
+     comp(Q("bonjour")),
      comp(P("à"),
           dest.tag("b")))
 `;
@@ -24,14 +24,14 @@ const dependencyFrJSON = ppJSON(eval(dependencyFr).toJSON())
 const constituentEn=`var dest=NP(D("the"),N("world"));
 S(Pro("I").pe(1),
   VP(V("say"),
-     "hello",
+     Q("hello"),
      PP(P("to"),dest.tag("b"))))
 `;
 
 const dependencyEn=`var dest=comp(N("world"),det(D("the")));
 root(V("say"),
      subj(Pro("I").pe(1)),
-     comp("hello"),
+     comp(Q("hello")),
      comp(P("to"),
           dest.tag("b")))
 `;
@@ -45,7 +45,7 @@ var dest=NP(D("le"),N("monde"));
 loadEn();
 S(Pro("I").pe(1),
   VP(V("say"),
-     "hello",
+     Q("hello"),
      PP(P("to"),dest.tag("b"))))
 `;
 
@@ -54,7 +54,7 @@ var dest=comp(N("monde"),det(D("le")));
 loadEn();
 root(V("say"),
      subj(Pro("I").pe(1)),
-     comp("hello"),
+     comp(Q("hello")),
      comp(P("to"),
           dest.tag("b")))
 `;
