@@ -88,7 +88,7 @@ QUnit.test( "Phrase FR", function( assert ) {
                   VP(V('dévorer').t('pc'),
                      NP(D('le'),
                         N('souris'),
-                        A("gris"),"Wow!").tag("a",{"href":"http://wikipedia.org/cat","target":"_blank"}))
+                        A("gris"),Q("Wow!")).tag("a",{"href":"http://wikipedia.org/cat","target":"_blank"}))
                     ).typ({"neg":true}),
          "expected":'Les super <i><b>chattes</b></i> n\'ont pas dévoré <a href="http://wikipedia.org/cat" target="_blank">la souris grise Wow!</a>',
          "message":"Phrase avec tag HTML"},

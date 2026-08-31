@@ -21,11 +21,11 @@ var terminalsSect =
                             "en":["Date possibly with <a href='#dateEn'>options</a>",'DT()']},
         {"pattern":"NO(…)", "fr":["Nombre avec <a href='#nombres'>options</a> facultatives",'NO(2)'],
                             "en":["Number possibly with <a href='#numbers'>options</a>",'NO(2)']},
-        {"pattern":'"…"',  "fr":["Texte brut",'"Wow"'],
-                            "en":["Raw text",'"Wow"']},
-        {"pattern":"Q(…)",  "fr":["Texte brut auquel on peut ajouter des <a href='#optionsFr'>options</a>",
+      //   {"pattern":'"…"',  "fr":["Texte brut",'"Wow"'],
+      //                       "en":["Raw text",'"Wow"']},
+        {"pattern":"Q(…)",  "fr":["Texte fixe auquel on peut ajouter des <a href='#optionsFr'>options</a>",
                                   'Q("Bang !").tag("i")'],
-                            "en":["Raw text to which <a href='#optionsEn'>options</a> can be added",
+                            "en":["Canned text to which <a href='#optionsEn'>options</a> can be added",
                                   'Q("Bang !").tag("i")']}
     ]};
 

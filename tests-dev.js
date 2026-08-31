@@ -67,7 +67,7 @@ function makeExamples(){
         VP(V('dévorer').t('pc'),
             NP(D('le'),
                 N('souris'),
-                A("gris"),"Wow!").tag("a",{href:"http://wikipedia.org/cat",target:"_blank"}))
+                A("gris"),Q("Wow!")).tag("a",{href:"http://wikipedia.org/cat",target:"_blank"}))
             ).typ({neg:true}),
             'Les <i><b>chattes</b></i> blanches n\'ont pas dévoré <a href="http://wikipedia.org/cat" target="_blank">la souris grise Wow!</a>'],
         [S(NP(D('le'),
@@ -833,7 +833,7 @@ function makeExamples(){
     constituentEnFr=
         S(Pro("I").pe(1),
         VP(V("say"),
-            "hello",
+            Q("hello"),
             PP(P("to"),dest.tag("b"))));
     loadFr();
     const dest1=comp(N("monde"),
@@ -842,7 +842,7 @@ function makeExamples(){
     dependentEnFr=
         root(V("say"),
              subj(Pro("I").pe(1)),
-             comp("hello"),
+             comp(Q("hello")),
              comp(P("to"),
                   dest1.tag("b")));
 }
@@ -1032,7 +1032,7 @@ function testToConstituent(lang,deps){
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
-// testPreviousExamples()
+testPreviousExamples()
 // testWarnings()
 // testLemmataMaps()
 // makeExamples()

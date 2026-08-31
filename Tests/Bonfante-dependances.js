@@ -139,7 +139,7 @@ QUnit.test( "Dependances FR - Bonfante", function( assert ) {
     {"expression":
          S(VP(V("enlever").t("pc"),
               NP(NO(2).nat(), A("autre"), N("français").cap().n("p")),
-              PP(P("à"), "Beyrouth"))).typ({"pas": true}),
+              PP(P("à"), Q("Beyrouth")))).typ({"pas": true}),
      "expected":"Deux autres Français ont été enlevés à Beyrouth. ",
      "message":"p 59 - p 2.22 / variante sans coordination en constituants"},
     // 12

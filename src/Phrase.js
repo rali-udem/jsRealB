@@ -33,9 +33,9 @@ class Phrase extends Constituent{
             // add all elements except the last to the list of elements
             for (let i = 0; i < last; i++) {
                 let e=elements[i];
-                if (typeof e=="string"){
-                    e=Q(e);
-                }
+                // if (typeof e=="string"){
+                //     e=Q(e);
+                // }
                 if (e instanceof Terminal || e instanceof Phrase) {
                     this.addElement(e);
                 } else {
@@ -125,9 +125,9 @@ class Phrase extends Constituent{
         }
         if (constituent===null)return this;
         // create constituent
-        if (typeof constituent=="string"){
-            constituent=Q(constituent);
-        }
+        // if (typeof constituent=="string"){
+        //     constituent=Q(constituent);
+        // }
         if (!(constituent instanceof Constituent)){
             return this.warn("bad Constituent",this.word_last(),typeof constituent+":"+JSON.stringify(constituent))
         }

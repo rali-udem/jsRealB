@@ -30,7 +30,8 @@ class Dependent extends Constituent {// Dependent (non-terminal)
             return null;
         }
         if (typeof params[0]=="string"){
-            this.terminal=Q(params.shift())
+            this.warn("Dependent needs Terminal",params[0]);
+            params.shift()
         } else if (params[0] instanceof Terminal){
             this.terminal=params.shift()
         } else {

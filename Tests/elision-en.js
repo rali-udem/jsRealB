@@ -18,7 +18,7 @@ QUnit.test( "English elision", function( assert ) {
                      NP(D("a"),A("humorous"),N("guy")),),
          "a unicorn, an unusual exercise, an honourable mention and a humorous guy"],
         [S(Pro("this"),VP(V("be"),
-                          NP(D("a"),"XML",N("exercise"),
+                          NP(D("a"),Q("XML"),N("exercise"),
                              SP(Pro("that"),
                                 NP(D("a").tag("b"),N("educator")).tag("i"),
                                 VP(V("give")).typ({mod:"poss"}))))),

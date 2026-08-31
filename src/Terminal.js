@@ -437,12 +437,14 @@ class Terminal extends Constituent{
             if (pc.isA("VP","SP","S") || (pc.isA(deprels) && pc.terminal.isA("V"))){
                 const typs=pc.props["typ"];
                 if (typs!==undefined && typs["refl"]===true){
-                    if (!pat.includes("réfl")){
-                        this.ignoreRefl=true;
-                        if (!Terminal.noIgnoredReflVerbs.has(this.lemma))
-                            this.warn("ignored reflexive",pat)
-                        return false;
-                    }
+                    // This test creates too many spurious messages, we leave it to the user to check 
+                    // if a verb should be allowed to be reflexive even if the lexicon does not specify it
+                    // if (!pat.includes("réfl")){
+                    //     this.ignoreRefl=true;
+                    //     if (!Terminal.noIgnoredReflVerbs.has(this.lemma))
+                    //         this.warn("ignored reflexive",pat)
+                    //     return false;
+                    // }
                     return true
                 }
                 if (!pc.isA("VP")) // unless it is VP stop at the first sentence
