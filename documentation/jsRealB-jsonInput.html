@@ -99,7 +99,7 @@ This schema describes a valid JSON input, but it does not implement all constrai
     <pre><code>
 start = Constituent
 
-Constituent = Phrase | Terminal 
+Constituent = Phrase | Dependend | Terminal 
 
 Phrase = { 
     phrase  : /S|NP|AP|VP|AdvP|PP|CP|SP/,
@@ -113,6 +113,13 @@ Terminal = {
     lemma   : string,
     props?  : propsContent,
     lang?   : /en|fr/    
+}
+
+Dependent = {
+    dependent:/root|subj|det|comp|mod|coord/,
+    terminal:terminal,
+    dependents?:[dependent],
+    props?:{}
 }
 
 propsContent = {
@@ -206,7 +213,7 @@ echo 'NP(D("a"),N("woman").n("p"))' | node jsRealB-filter.js
 </pre>
 
 <h2>JSON output</h2>
-<p>Although our original motivation was for allowing JSON input, it is also possible to get the JSON expression corresponding to a given <span class="jsr">jsRealB</span> expression by calling <code>.toJSON()</code> on any <em>Constituent</em>. This call (similar to <code>.toSource()</code>) creates a string that corresponds to the <span class="jsr">jsRealB</span> expression to which it is applied. In fact, <code>fromJSOM(exp.toJSON())</code> creates a <em>clone</em> of the original <code>exp</code>.</p>
+<p>Although our original motivation was for allowing JSON input, it is also possible to get the JSON expression corresponding to a given <span class="jsr">jsRealB</span> expression by calling <code>.toJSON()</code> on any <em>Constituent</em>. This call (similar to <code>.toSource()</code>) creates a string that corresponds to the <span class="jsr">jsRealB</span> expression to which it is applied. In fact, <code>fromJSON(exp.toJSON())</code> creates a <em>clone</em> of the original <code>exp</code> (see below).</p>
 <p>The expression created by <code>.toJSON()</code> is a single line (<code>jsonl</code> format) which can be hard to decipher. This line  can be given to <code>ppJSON(<em>exp</em>)</code> to create an indented string such as the one shown in the right part of the above table.</p>
 
 <h2>Use for cloning</h2>
@@ -214,7 +221,7 @@ echo 'NP(D("a"),N("woman").n("p"))' | node jsRealB-filter.js
 &nbsp;&nbsp;&nbsp;<code>clone(){return fromJSON(this.toJSON(), this.lang);}</code>
 </p>
 
-<footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2020.</footer>
+<footer>Contact: <a href="mailto:lapalme@iro.umontreal.ca">Guy Lapalme</a> <a href="http://rali.iro.umontreal.ca">RALI</a>, Université de Montréal, CANADA. 2026.</footer>
 
 </body>
 </html>

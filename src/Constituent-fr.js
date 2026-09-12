@@ -241,7 +241,7 @@ const French_constituent = (superclass) =>
              */
             function makeDisj(elems){
                 if (!Array.isArray(elems))elems=[elems];
-                return CP.apply(null,[C("ou")].concat(elems.map(e=>Q(e)))).realize()
+                return CP.apply(null,[C("ou")].concat(elems.map(e=>Q(e))))
             }
     
             /**

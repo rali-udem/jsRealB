@@ -1032,7 +1032,7 @@ function testToConstituent(lang,deps){
 
 Constituent.debug = true;   // useful for tracing, but then .realize() must be called.
 //  To check a single "new" example, comment the following
-testPreviousExamples()
+// testPreviousExamples()
 // testWarnings()
 // testLemmataMaps()
 // makeExamples()

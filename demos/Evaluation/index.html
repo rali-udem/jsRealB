@@ -27,6 +27,9 @@
 
         #result {font: 14pt sans-serif;} 
         #titreResult {font-weight: bold; font-size: 14pt; margin: 15pt 0pt;} 
+        #json-result {white-space: pre; 
+                      font-family: 'Courier New', Courier, monospace;
+                      font-size:small;}
         
         .result {
             width: 45%;
@@ -113,6 +116,11 @@
         </div>
         <p><a href="../inflection/index.html" id="inflection" target="_blank">Display conjugation and declension in a new tab</a></p>
         <button id="hide_resource_query">Hide resource query</button>        
+    </div>   
+    <div style="margin:15pt 0pt; border:thin solid black; padding:5px">
+        <button id="toJSON">toJSON</button>  
+        <button id="clearJSON" style="float: right">X</button>
+        <div id="json-result"></div>
     </div>
 </body>
 </html>

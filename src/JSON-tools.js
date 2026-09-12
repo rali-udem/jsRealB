@@ -116,19 +116,18 @@ Phrase.fromJSON = function(constType,json,lang){
     if (!("terminal" in json)){
         console.log("Dependent.fromJSON: no terminal found in Dependent:"+JSON.stringify(json));
     } else {
+        const terminal = fromJSON(json["terminal"],lang);
+        let args = []
         if ("dependents" in json){
             const dependents=json["dependents"];
             if (Array.isArray(dependents)){
-                let args=dependents.map(json => fromJSON(json,lang));
-                args.unshift(fromJSON(json["terminal"],lang));
-                return (lang=="en" ? new Dependent_en(args,constType,"en")
-                                   : new Dependent_fr(args,constType,"fr")).setJSONprops(json);
+                args=dependents.map(json => fromJSON(json,lang));
             } else {
                 console.log("Dependent.fromJSON: dependents should be an array:"+JSON.stringify(json))
             }
-        } else {
-            console.log("Dependent.fromJSON: no dependents found in "+JSON.stringify(json))
         }
+        return (lang=="en" ? new Dependent_en([terminal,...args],constType,"en")
+                           : new Dependent_fr([terminal,...args],constType,"fr")).setJSONprops(json);
     }
 }
 
@@ -149,16 +148,23 @@ Terminal.fromJSON = function(constType,json,lang){
 }
 
 function addJSONprops(obj,res){
-    let props = Object.keys(obj.props)
-    if (props.length==0)return res;
-    res.props={}
-    for (let prop of props){
-        if (prop == "own"){
-            res.props["ow"]=obj.props["own"]
-        } else {
-            res.props[prop]=obj.props[prop]
+    // Simplify JSON output by ignoring properties that are not needed for storage. 
+    // They remain constant and will be restored when recreated from JSON  
+    const ignoredProps = new Set(["tab","cnt","hAn","ldv", // English
+                                  "h","niveau","pat"]) // French
+    let keys = Object.keys(obj.props)
+    if (keys.length==0)return res;
+    let props={}
+    for (let key of keys){
+        if (!ignoredProps.has(key)){
+            if (key == "own"){
+                props["ow"]=obj.props["own"]
+            } else {
+                props[key]=obj.props[key]
+            }
         }
     }
+    if (Object.keys(props).length>0)res.props=props
     return res
 }
 
@@ -168,10 +174,8 @@ function addJSONprops(obj,res){
  */
 Phrase.prototype.toJSON = function(){
     let res={phrase:this.constType, elements:this.elements.map(e=>e.toJSON())};
-    // if (Object.keys(this.props).length>0) // do not output empty props
-    //     res.props=this.props;
     res=addJSONprops(this,res)
-    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only set when language changes
         res.lang=this.lang;
     return res;
 }
@@ -183,12 +187,10 @@ Phrase.prototype.toJSON = function(){
 Dependent.prototype.toJSON = function (){
     let res={dependent:this.constType, 
                 terminal: this.terminal.toJSON()};
-    if (this.dependents)
+    if (this.dependents && this.dependents.length>0)
         res["dependents"]=this.dependents.map(e=>e.toJSON());
-    // if (Object.keys(this.props).length>0) // do not output empty props
-    //     res.props=this.props;
     res=addJSONprops(this,res)
-    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
+    if (this.parentConst==null || this.lang!=this.parentConst.lang) // only set when language changes
         res.lang=this.lang;
     return res;
 }
@@ -199,8 +201,6 @@ Dependent.prototype.toJSON = function (){
  */
 Terminal.prototype.toJSON = function(){
     let res={terminal:this.constType,lemma:this.lemma};
-    // if (Object.keys(this.props).length>0) // do not output empty props
-    //     res.props=this.props;
     res=addJSONprops(this,res)
     if (this.parentConst==null || this.lang!=this.parentConst.lang) // only indicate when language changes
         res.lang=this.lang;

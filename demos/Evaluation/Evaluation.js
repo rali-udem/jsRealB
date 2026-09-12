@@ -182,26 +182,41 @@ function changeExemple() {
     $("#result").html("")
 };
 
+function getExpr(){
+    let expr;
+    const content=editor.getValue().trim();
+    if (format=="JSON"){
+        expr = fromJSON(JSON.parse(content,lang))
+    } else {
+        expr=eval(content);            
+    }
+    const typs = checkTypsMenu();
+    if (expr.props["typ"] !== undefined){ // override type menu values with those at the top of the expression
+        Object.assign(typs,expr.props["typ"])
+        expr.props["typ"]={}
+    }
+    if (Object.keys(typs).length>0) expr.typ(typs);
+    return expr;
+}
+
 function realize(){
-    let res, expr;
+    let res;
     try {
-        const content=editor.getValue();
-        if (format=="JSON"){
-            expr = fromJSON(JSON.parse(content))
-        } else {
-            expr=eval(content);            
-        }
-        const typs = checkTypsMenu();
-        if (expr.props["typ"] !== undefined){ // override tyo menu values with thos at the top of the expression
-            Object.assign(typs,expr.props["typ"])
-            expr.props["typ"]={}
-        }
-        if (Object.keys(typs).length>0) expr.typ(typs);
-        res = expr.realize()
+        res = getExpr().realize()
     } catch (err){
         res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
     }
     $("#result").html(res);    
+}
+
+function toJSON(){
+    let res;
+    try {
+        res = getExpr().toJSON()
+    } catch (err){
+        res=(lang=='fr'?"<b>Erreur: </b>":"<b>Error: </b>")+err;
+    }
+    $("#json-result").text(ppJSON(res));        
 }
 
 function toDependent(){
@@ -364,6 +379,8 @@ $(document).ready(function(){
     setExceptionOnWarning(true);
     $("#francais,#english,#jsrealb,#json,#constituents,#dependencies").click(changeExemple);
     $("#realize").click(realize);
+    $("#toJSON").click(toJSON);
+    $("#clearJSON").click((e)=>$("#json-result").text(""))
     $("#indent").click(indent);
     $("#to-dependent").click(toDependent);
     $("#to-constituent").click(toConstituent);
